@@ -76,6 +76,7 @@ import {
   realtimeResponseStatusDetailsDeserializer,
   realtimeConversationItemUnionArraySerializer,
   realtimeConversationItemUnionArrayDeserializer,
+  RealtimeConversationItem,
   realtimeConversationItemUnionSerializer,
   realtimeConversationItemUnionDeserializer,
   RealtimeConversationItemUnion,
@@ -89,29 +90,6 @@ import {
   RealtimeReasoning,
   realtimeReasoningSerializer,
   realtimeReasoningDeserializer,
-  RealtimeClientEvent,
-  RealtimeClientEventConversationItemCreate,
-  RealtimeClientEventConversationItemDelete,
-  RealtimeClientEventConversationItemRetrieve,
-  RealtimeClientEventConversationItemTruncate,
-  RealtimeClientEventInputAudioBufferAppend,
-  RealtimeClientEventInputAudioBufferClear,
-  RealtimeClientEventOutputAudioBufferClear,
-  RealtimeClientEventInputAudioBufferCommit,
-  RealtimeClientEventResponseCancel,
-  RealtimeClientEventResponseCreate,
-  _voiceAgentResponseCreateParamsToolArraySerializer,
-  _voiceAgentResponseCreateParamsToolArrayDeserializer,
-  RealtimeFunctionTool,
-  MCPTool,
-  _voiceAgentResponseCreateParamsToolChoiceSerializer,
-  _voiceAgentResponseCreateParamsToolChoiceDeserializer,
-  ToolChoiceOptions,
-  _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
-  _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
-  realtimeResponseInputItemArraySerializer,
-  realtimeResponseInputItemArrayDeserializer,
-  RealtimeResponseInputItem,
   RealtimeServerEvent,
   RealtimeServerEventConversationItemCreated,
   RealtimeServerEventConversationItemDeleted,
@@ -154,6 +132,32 @@ import {
   RealtimeServerEventResponseMCPCallInProgress,
   RealtimeServerEventResponseMCPCallCompleted,
   RealtimeServerEventResponseMCPCallFailed,
+  RealtimeServerEventErrorError,
+  realtimeServerEventErrorErrorSerializer,
+  realtimeServerEventErrorErrorDeserializer,
+  RealtimeClientEvent,
+  RealtimeClientEventConversationItemCreate,
+  RealtimeClientEventConversationItemDelete,
+  RealtimeClientEventConversationItemRetrieve,
+  RealtimeClientEventConversationItemTruncate,
+  RealtimeClientEventInputAudioBufferAppend,
+  RealtimeClientEventInputAudioBufferClear,
+  RealtimeClientEventOutputAudioBufferClear,
+  RealtimeClientEventInputAudioBufferCommit,
+  RealtimeClientEventResponseCancel,
+  RealtimeClientEventResponseCreate,
+  _voiceAgentResponseCreateParamsToolArraySerializer,
+  _voiceAgentResponseCreateParamsToolArrayDeserializer,
+  RealtimeFunctionTool,
+  MCPTool,
+  _voiceAgentResponseCreateParamsToolChoiceSerializer,
+  _voiceAgentResponseCreateParamsToolChoiceDeserializer,
+  ToolChoiceOptions,
+  _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
+  _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
+  realtimeResponseInputItemArraySerializer,
+  realtimeResponseInputItemArrayDeserializer,
+  RealtimeResponseInputItem,
   ModelIdsLive,
   liveInitialItemUnionArrayDeserializer,
   LiveInitialItemUnion,
@@ -3009,8 +3013,8 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
   tool_choice?: VoiceAgentToolChoice;
   /** Whether the model may call multiple tools in parallel. */
   parallel_tool_calls?: boolean;
-  /** Optional configuration for sibling Foundry text agents that this voice agent may consult as background specialists. */
-  subagent_config?: VoiceAgentSubagentConfig;
+  /** Optional subagent configuration. Set `subagent_type` to `delegate` for delegated background specialists or `inline` for inline voice subagents. */
+  subagent_config?: VoiceAgentSubagentConfigUnion;
   /** Optional post-call delivery configuration. After each session ends, the service notifies the configured destinations. */
   post_call?: VoiceAgentPostCallConfig;
 }
@@ -3061,7 +3065,7 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
     parallel_tool_calls: item["parallel_tool_calls"],
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
-      : voiceAgentSubagentConfigSerializer(item["subagent_config"]),
+      : voiceAgentSubagentConfigUnionSerializer(item["subagent_config"]),
     post_call: !item["post_call"]
       ? item["post_call"]
       : voiceAgentPostCallConfigSerializer(item["post_call"]),
@@ -3116,7 +3120,7 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
     parallel_tool_calls: item["parallel_tool_calls"],
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
-      : voiceAgentSubagentConfigDeserializer(item["subagent_config"]),
+      : voiceAgentSubagentConfigUnionDeserializer(item["subagent_config"]),
     post_call: !item["post_call"]
       ? item["post_call"]
       : voiceAgentPostCallConfigDeserializer(item["post_call"]),
@@ -4049,53 +4053,18 @@ export type VoiceAgentInputTranscriptionModel =
 export type VoiceAgentProfanityFilterMode = "masked" | "unfiltered" | "removed";
 
 /**
- * Output audio configuration for a voice agent.
- * Provider-specific fields are selected by `voice_type`:
- * - `openai`: `voice` and `speed`.
- * - `azure-standard`: `voice`, `voice_locale`, `speed`, `voice_temperature`, `custom_lexicon_url`,
- *   `custom_text_normalization_url`, `prefer_locales`, `style`, `pitch`, and `volume`.
- * - `azure-custom`: all `azure-standard` fields except `style`, plus `custom_voice_endpoint_id`.
- * - `azure-personal`: all `azure-standard` fields except `style`, plus `personal_voice_model`.
- * - `avatar-voice-sync`: all `azure-standard` fields except `voice` and `style`, plus `personal_voice_model`; the voice name is derived from the avatar.
- * - `azure-realtime-native`: `voice` and `speed`.
- * `format` and `output_audio_timestamp_types` apply to every voice type.
+ * Output audio configuration for a voice agent. Extends the voice configuration with the session-level `format` and
+ * `output_audio_timestamp_types` settings, which apply to every voice type.
  */
-export interface VoiceAgentAudioOutputConfig {
+export interface VoiceAgentAudioOutputConfig extends VoiceAgentVoiceConfig {
   /** The output audio format. Applies to every `voice_type` and defaults to 24 kHz PCM. */
   format?: RealtimeAudioFormatsUnion;
-  /** The voice name or identifier. Applies to `openai`, `azure-standard`, `azure-custom`, `azure-personal`, and `azure-realtime-native`. It does not apply to `avatar-voice-sync`, which derives the voice name from the avatar. */
-  voice?: string;
-  /** The voice implementation. */
-  voice_type?: VoiceType;
-  /** The enforced BCP-47 output locale. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  voice_locale?: string;
-  /** The numeric output speed multiplier. Applies to all known `voice_type` values and defaults to 1. */
-  speed?: number;
-  /** The voice variation temperature. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  voice_temperature?: number;
-  /** The URL of a custom pronunciation lexicon. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  custom_lexicon_url?: string;
-  /** The URL of a custom text-normalization configuration. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  custom_text_normalization_url?: string;
-  /** Preferred BCP-47 locales for multilingual synthesis. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  prefer_locales?: string[];
-  /** The voice speaking style. Applies only when `voice_type` is `azure-standard`. */
-  style?: string;
-  /** The voice pitch adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  pitch?: string;
-  /** The voice volume adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
-  volume?: string;
-  /** The Azure custom-voice deployment endpoint identifier. Applies only when `voice_type` is `azure-custom`. */
-  custom_voice_endpoint_id?: string;
-  /** The Azure personal or avatar voice model. Applies only when `voice_type` is `azure-personal` or `avatar-voice-sync`. */
-  personal_voice_model?: string;
   /** Timestamp kinds to include with output audio. Applies to every `voice_type`. */
   output_audio_timestamp_types?: VoiceAgentAudioTimestampType[];
 }
 
 export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutputConfig): any {
   return {
-    format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
     voice: item["voice"],
     voice_type: item["voice_type"],
     voice_locale: item["voice_locale"],
@@ -4113,6 +4082,7 @@ export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutpu
     volume: item["volume"],
     custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
     personal_voice_model: item["personal_voice_model"],
+    format: !item["format"] ? item["format"] : realtimeAudioFormatsUnionSerializer(item["format"]),
     output_audio_timestamp_types: !item["output_audio_timestamp_types"]
       ? item["output_audio_timestamp_types"]
       : item["output_audio_timestamp_types"].map((p: any) => {
@@ -4123,9 +4093,6 @@ export function voiceAgentAudioOutputConfigSerializer(item: VoiceAgentAudioOutpu
 
 export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAudioOutputConfig {
   return {
-    format: !item["format"]
-      ? item["format"]
-      : realtimeAudioFormatsUnionDeserializer(item["format"]),
     voice: item["voice"],
     voice_type: item["voice_type"],
     voice_locale: item["voice_locale"],
@@ -4143,6 +4110,9 @@ export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAu
     volume: item["volume"],
     custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
     personal_voice_model: item["personal_voice_model"],
+    format: !item["format"]
+      ? item["format"]
+      : realtimeAudioFormatsUnionDeserializer(item["format"]),
     output_audio_timestamp_types: !item["output_audio_timestamp_types"]
       ? item["output_audio_timestamp_types"]
       : item["output_audio_timestamp_types"].map((p: any) => {
@@ -4150,15 +4120,6 @@ export function voiceAgentAudioOutputConfigDeserializer(item: any): VoiceAgentAu
         }),
   };
 }
-
-/** The voice implementation. Additional values may be added over time. */
-export type VoiceType =
-  | "openai"
-  | "azure-standard"
-  | "azure-custom"
-  | "azure-personal"
-  | "avatar-voice-sync"
-  | "azure-realtime-native";
 
 /** An output-audio timestamp kind supported by a voice agent. */
 export type VoiceAgentAudioTimestampType = "word";
@@ -4911,14 +4872,21 @@ export interface VoiceAgentSystemTool extends VoiceAgentTool {
   /** The type of the tool. Always `system`. */
   type: "system";
   /** The service-managed control action. Known values are stable; additional values may be added over time. */
-  /** The discriminator possible values: end_conversation */
+  /** The discriminator possible values: end_conversation, language_detection, digit_recognition, collect_sms, collect_dtmf, transfer, send_dtmf, send_sms */
   name: VoiceAgentSystemToolName;
   /** An optional description of the system tool. */
   description?: string;
+  /** Execution timeout, from 1 to 300 seconds. If omitted, the service defaults to 60 seconds. */
+  timeout_seconds?: number;
 }
 
 export function voiceAgentSystemToolSerializer(item: VoiceAgentSystemTool): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
 }
 
 export function voiceAgentSystemToolDeserializer(item: any): VoiceAgentSystemTool {
@@ -4926,11 +4894,21 @@ export function voiceAgentSystemToolDeserializer(item: any): VoiceAgentSystemToo
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
   };
 }
 
 /** Alias for VoiceAgentSystemToolUnion */
-export type VoiceAgentSystemToolUnion = VoiceAgentEndConversationSystemTool | VoiceAgentSystemTool;
+export type VoiceAgentSystemToolUnion =
+  | VoiceAgentEndConversationSystemTool
+  | VoiceAgentLanguageDetectionSystemTool
+  | VoiceAgentDigitRecognitionSystemTool
+  | VoiceAgentCollectSmsSystemTool
+  | VoiceAgentCollectDtmfSystemTool
+  | VoiceAgentTransferSystemTool
+  | VoiceAgentSendDtmfSystemTool
+  | VoiceAgentSendSmsSystemTool
+  | VoiceAgentSystemTool;
 
 export function voiceAgentSystemToolUnionSerializer(item: VoiceAgentSystemToolUnion): any {
   switch (item.name) {
@@ -4938,6 +4916,31 @@ export function voiceAgentSystemToolUnionSerializer(item: VoiceAgentSystemToolUn
       return voiceAgentEndConversationSystemToolSerializer(
         item as VoiceAgentEndConversationSystemTool,
       );
+
+    case "language_detection":
+      return voiceAgentLanguageDetectionSystemToolSerializer(
+        item as VoiceAgentLanguageDetectionSystemTool,
+      );
+
+    case "digit_recognition":
+      return voiceAgentDigitRecognitionSystemToolSerializer(
+        item as VoiceAgentDigitRecognitionSystemTool,
+      );
+
+    case "collect_sms":
+      return voiceAgentCollectSmsSystemToolSerializer(item as VoiceAgentCollectSmsSystemTool);
+
+    case "collect_dtmf":
+      return voiceAgentCollectDtmfSystemToolSerializer(item as VoiceAgentCollectDtmfSystemTool);
+
+    case "transfer":
+      return voiceAgentTransferSystemToolSerializer(item as VoiceAgentTransferSystemTool);
+
+    case "send_dtmf":
+      return voiceAgentSendDtmfSystemToolSerializer(item as VoiceAgentSendDtmfSystemTool);
+
+    case "send_sms":
+      return voiceAgentSendSmsSystemToolSerializer(item as VoiceAgentSendSmsSystemTool);
 
     default:
       return voiceAgentSystemToolSerializer(item);
@@ -4951,13 +4954,46 @@ export function voiceAgentSystemToolUnionDeserializer(item: any): VoiceAgentSyst
         item as VoiceAgentEndConversationSystemTool,
       );
 
+    case "language_detection":
+      return voiceAgentLanguageDetectionSystemToolDeserializer(
+        item as VoiceAgentLanguageDetectionSystemTool,
+      );
+
+    case "digit_recognition":
+      return voiceAgentDigitRecognitionSystemToolDeserializer(
+        item as VoiceAgentDigitRecognitionSystemTool,
+      );
+
+    case "collect_sms":
+      return voiceAgentCollectSmsSystemToolDeserializer(item as VoiceAgentCollectSmsSystemTool);
+
+    case "collect_dtmf":
+      return voiceAgentCollectDtmfSystemToolDeserializer(item as VoiceAgentCollectDtmfSystemTool);
+
+    case "transfer":
+      return voiceAgentTransferSystemToolDeserializer(item as VoiceAgentTransferSystemTool);
+
+    case "send_dtmf":
+      return voiceAgentSendDtmfSystemToolDeserializer(item as VoiceAgentSendDtmfSystemTool);
+
+    case "send_sms":
+      return voiceAgentSendSmsSystemToolDeserializer(item as VoiceAgentSendSmsSystemTool);
+
     default:
       return voiceAgentSystemToolDeserializer(item);
   }
 }
 
 /** A service-managed voice-session control action. Known values are stable; additional values may be added over time. */
-export type VoiceAgentSystemToolName = "end_conversation";
+export type VoiceAgentSystemToolName =
+  | "end_conversation"
+  | "language_detection"
+  | "digit_recognition"
+  | "transfer"
+  | "collect_sms"
+  | "collect_dtmf"
+  | "send_dtmf"
+  | "send_sms";
 
 /** A service-managed control that ends the active conversation. */
 export interface VoiceAgentEndConversationSystemTool extends VoiceAgentSystemTool {
@@ -4968,7 +5004,12 @@ export interface VoiceAgentEndConversationSystemTool extends VoiceAgentSystemToo
 export function voiceAgentEndConversationSystemToolSerializer(
   item: VoiceAgentEndConversationSystemTool,
 ): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
 }
 
 export function voiceAgentEndConversationSystemToolDeserializer(
@@ -4978,6 +5019,307 @@ export function voiceAgentEndConversationSystemToolDeserializer(
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Switches supported conversation language settings. */
+export interface VoiceAgentLanguageDetectionSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `language_detection`. */
+  name: "language_detection";
+}
+
+export function voiceAgentLanguageDetectionSystemToolSerializer(
+  item: VoiceAgentLanguageDetectionSystemTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentLanguageDetectionSystemToolDeserializer(
+  item: any,
+): VoiceAgentLanguageDetectionSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Retrieves the unchanged transcript of the last user audio turn. */
+export interface VoiceAgentDigitRecognitionSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `digit_recognition`. */
+  name: "digit_recognition";
+}
+
+export function voiceAgentDigitRecognitionSystemToolSerializer(
+  item: VoiceAgentDigitRecognitionSystemTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentDigitRecognitionSystemToolDeserializer(
+  item: any,
+): VoiceAgentDigitRecognitionSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Collects one complete SMS from an explicitly selected sender. */
+export interface VoiceAgentCollectSmsSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `collect_sms`. */
+  name: "collect_sms";
+}
+
+export function voiceAgentCollectSmsSystemToolSerializer(
+  item: VoiceAgentCollectSmsSystemTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentCollectSmsSystemToolDeserializer(
+  item: any,
+): VoiceAgentCollectSmsSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Collects keypad digits on the current call. */
+export interface VoiceAgentCollectDtmfSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `collect_dtmf`. */
+  name: "collect_dtmf";
+}
+
+export function voiceAgentCollectDtmfSystemToolSerializer(
+  item: VoiceAgentCollectDtmfSystemTool,
+): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentCollectDtmfSystemToolDeserializer(
+  item: any,
+): VoiceAgentCollectDtmfSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Requests a transfer to an explicitly configured logical target. */
+export interface VoiceAgentTransferSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `transfer`. */
+  name: "transfer";
+  /** Require a non-blank handoff summary in each model-generated transfer call. Defaults to false; does not guarantee delivery to the recipient. */
+  require_handoff?: boolean;
+  /** The non-empty set of logical targets that the model may select. */
+  targets: VoiceAgentTransferTarget[];
+}
+
+export function voiceAgentTransferSystemToolSerializer(item: VoiceAgentTransferSystemTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+    require_handoff: item["require_handoff"],
+    targets: voiceAgentTransferTargetArraySerializer(item["targets"]),
+  };
+}
+
+export function voiceAgentTransferSystemToolDeserializer(item: any): VoiceAgentTransferSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+    require_handoff: item["require_handoff"],
+    targets: voiceAgentTransferTargetArrayDeserializer(item["targets"]),
+  };
+}
+
+export function voiceAgentTransferTargetArraySerializer(
+  result: Array<VoiceAgentTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTransferTargetSerializer(item);
+  });
+}
+
+export function voiceAgentTransferTargetArrayDeserializer(
+  result: Array<VoiceAgentTransferTarget>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTransferTargetDeserializer(item);
+  });
+}
+
+/** A configured logical transfer target. Only its name and description are model-visible; destinations and routing are executor settings. */
+export interface VoiceAgentTransferTarget {
+  /** The non-blank logical target name. Names must be unique after trimming within the transfer tool. */
+  name: string;
+  /** A description that helps the model select this target. */
+  description?: string;
+  /** The concrete destinations for this transfer target. */
+  destinations: VoiceAgentTransferDestination[];
+  /** The trusted routing policy for this target. */
+  routing: VoiceAgentTransferRouting;
+}
+
+export function voiceAgentTransferTargetSerializer(item: VoiceAgentTransferTarget): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destinations: voiceAgentTransferDestinationArraySerializer(item["destinations"]),
+    routing: voiceAgentTransferRoutingSerializer(item["routing"]),
+  };
+}
+
+export function voiceAgentTransferTargetDeserializer(item: any): VoiceAgentTransferTarget {
+  return {
+    name: item["name"],
+    description: item["description"],
+    destinations: voiceAgentTransferDestinationArrayDeserializer(item["destinations"]),
+    routing: voiceAgentTransferRoutingDeserializer(item["routing"]),
+  };
+}
+
+export function voiceAgentTransferDestinationArraySerializer(
+  result: Array<VoiceAgentTransferDestination>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTransferDestinationSerializer(item);
+  });
+}
+
+export function voiceAgentTransferDestinationArrayDeserializer(
+  result: Array<VoiceAgentTransferDestination>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentTransferDestinationDeserializer(item);
+  });
+}
+
+/** The canonical system-tool transfer destination. */
+export interface VoiceAgentTransferDestination {
+  /** The destination format: phone_number for an E.164 number, teams for a Teams identifier, or sip for a SIP URI. */
+  type: VoiceAgentTransferDestinationType;
+  /** The concrete address. Phone numbers use E.164; Teams and SIP identifiers are validated against the selected provider's capabilities. */
+  value: string;
+}
+
+export function voiceAgentTransferDestinationSerializer(item: VoiceAgentTransferDestination): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function voiceAgentTransferDestinationDeserializer(
+  item: any,
+): VoiceAgentTransferDestination {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** The supported address formats for a system-tool transfer destination. */
+export type VoiceAgentTransferDestinationType = "phone_number" | "teams" | "sip";
+
+/** The configured transfer routing policy. The model selects a target name, not destinations or routing settings. */
+export interface VoiceAgentTransferRouting {
+  /** The routing strategy. Current native Telephony transfer supports ACS sequential and random routing only. */
+  strategy: VoiceAgentTransferStrategy;
+  /** Per-destination ring timeout in seconds, from 1 to 300. If omitted, the service defaults to 20 seconds. Must not exceed the tool's timeout_seconds. ACS allows at most 180 seconds. */
+  ring_timeout_seconds?: number;
+}
+
+export function voiceAgentTransferRoutingSerializer(item: VoiceAgentTransferRouting): any {
+  return { strategy: item["strategy"], ring_timeout_seconds: item["ring_timeout_seconds"] };
+}
+
+export function voiceAgentTransferRoutingDeserializer(item: any): VoiceAgentTransferRouting {
+  return {
+    strategy: item["strategy"],
+    ring_timeout_seconds: item["ring_timeout_seconds"],
+  };
+}
+
+/** Per-invocation transfer routing. Unsupported strategies are rejected before provider execution; schema membership does not imply support by every provider. */
+export type VoiceAgentTransferStrategy = "sequential" | "random" | "parallel";
+
+/** Sends literal or templated keypad digits. */
+export interface VoiceAgentSendDtmfSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `send_dtmf`. */
+  name: "send_dtmf";
+}
+
+export function voiceAgentSendDtmfSystemToolSerializer(item: VoiceAgentSendDtmfSystemTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentSendDtmfSystemToolDeserializer(item: any): VoiceAgentSendDtmfSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Sends a text message from the Agent's SMS-capable number. */
+export interface VoiceAgentSendSmsSystemTool extends VoiceAgentSystemTool {
+  /** The service-managed control action. Always `send_sms`. */
+  name: "send_sms";
+}
+
+export function voiceAgentSendSmsSystemToolSerializer(item: VoiceAgentSendSmsSystemTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+export function voiceAgentSendSmsSystemToolDeserializer(item: any): VoiceAgentSendSmsSystemTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    timeout_seconds: item["timeout_seconds"],
   };
 }
 
@@ -5011,18 +5353,83 @@ export function voiceAgentToolboxToolDeserializer(item: any): VoiceAgentToolboxT
   };
 }
 
-/** Configuration for sibling Foundry text agents that a voice agent may consult. */
+/**
+ * Configuration for delegated background specialists or inline voice subagents. For compatibility with existing
+ * delegate configurations, the service treats an omitted `subagent_type` as `delegate`.
+ */
 export interface VoiceAgentSubagentConfig {
-  /** The sibling Foundry text agents, in the same project, that this voice agent may consult. */
-  subagents: VoiceAgentSubagent[];
+  /** The subagent mode. */
+  /** The discriminator possible values: delegate, inline */
+  subagentType: VoiceAgentSubagentType;
 }
 
 export function voiceAgentSubagentConfigSerializer(item: VoiceAgentSubagentConfig): any {
-  return { subagents: voiceAgentSubagentArraySerializer(item["subagents"]) };
+  return { subagent_type: item["subagentType"] };
 }
 
 export function voiceAgentSubagentConfigDeserializer(item: any): VoiceAgentSubagentConfig {
   return {
+    subagentType: item["subagent_type"],
+  };
+}
+
+/** Alias for VoiceAgentSubagentConfigUnion */
+export type VoiceAgentSubagentConfigUnion =
+  VoiceAgentDelegateSubagentConfig | VoiceAgentInlineSubagentConfig | VoiceAgentSubagentConfig;
+
+export function voiceAgentSubagentConfigUnionSerializer(item: VoiceAgentSubagentConfigUnion): any {
+  switch (item.subagentType) {
+    case "delegate":
+      return voiceAgentDelegateSubagentConfigSerializer(item as VoiceAgentDelegateSubagentConfig);
+
+    case "inline":
+      return voiceAgentInlineSubagentConfigSerializer(item as VoiceAgentInlineSubagentConfig);
+
+    default:
+      return voiceAgentSubagentConfigSerializer(item);
+  }
+}
+
+export function voiceAgentSubagentConfigUnionDeserializer(
+  item: any,
+): VoiceAgentSubagentConfigUnion {
+  switch (item["subagent_type"]) {
+    case "delegate":
+      return voiceAgentDelegateSubagentConfigDeserializer(item as VoiceAgentDelegateSubagentConfig);
+
+    case "inline":
+      return voiceAgentInlineSubagentConfigDeserializer(item as VoiceAgentInlineSubagentConfig);
+
+    default:
+      return voiceAgentSubagentConfigDeserializer(item);
+  }
+}
+
+/** The subagent configuration mode. Additional modes may be added over time. */
+export type VoiceAgentSubagentType = "delegate" | "inline";
+
+/** Configuration for referenced Foundry agents invoked as delegated background specialists. */
+export interface VoiceAgentDelegateSubagentConfig extends VoiceAgentSubagentConfig {
+  /** The subagent mode for delegated background specialists. */
+  subagentType: "delegate";
+  /** The sibling Foundry text agents, in the same project, that this Voice Agent may consult. */
+  subagents: VoiceAgentSubagent[];
+}
+
+export function voiceAgentDelegateSubagentConfigSerializer(
+  item: VoiceAgentDelegateSubagentConfig,
+): any {
+  return {
+    subagent_type: item["subagentType"],
+    subagents: voiceAgentSubagentArraySerializer(item["subagents"]),
+  };
+}
+
+export function voiceAgentDelegateSubagentConfigDeserializer(
+  item: any,
+): VoiceAgentDelegateSubagentConfig {
+  return {
+    subagentType: item["subagent_type"],
     subagents: voiceAgentSubagentArrayDeserializer(item["subagents"]),
   };
 }
@@ -5120,6 +5527,380 @@ export function voiceAgentSubagentResponsePolicyDeserializer(
     enable_delta_progress: item["enable_delta_progress"],
     progress_instructions: item["progress_instructions"],
     progress_update_interval: item["progress_update_interval"],
+  };
+}
+
+/** Configuration for inline voice subagents that may become active through Handoff. */
+export interface VoiceAgentInlineSubagentConfig extends VoiceAgentSubagentConfig {
+  /** The subagent mode for inline voice subagents. */
+  subagentType: "inline";
+  /**
+   * Inline voice subagents owned and versioned with the parent Voice Agent. `$entrypoint` must be first, followed
+   * by at least one specialist and at most 31 additional subagents. Each subagent declares its outgoing
+   * `handoff_conditions`; condition identifiers and the 128-condition limit apply across the entire Agent.
+   */
+  subagents: InlineVoiceSubagent[];
+  /** Session-wide Handoff limits. Requires `$entrypoint` with at least one outgoing condition. When omitted, the service permits up to 16 completed and 16 attempted handoffs. */
+  handoff_policy?: VoiceAgentHandoffPolicy;
+}
+
+export function voiceAgentInlineSubagentConfigSerializer(
+  item: VoiceAgentInlineSubagentConfig,
+): any {
+  return {
+    subagent_type: item["subagentType"],
+    subagents: inlineVoiceSubagentArraySerializer(item["subagents"]),
+    handoff_policy: !item["handoff_policy"]
+      ? item["handoff_policy"]
+      : voiceAgentHandoffPolicySerializer(item["handoff_policy"]),
+  };
+}
+
+export function voiceAgentInlineSubagentConfigDeserializer(
+  item: any,
+): VoiceAgentInlineSubagentConfig {
+  return {
+    subagentType: item["subagent_type"],
+    subagents: inlineVoiceSubagentArrayDeserializer(item["subagents"]),
+    handoff_policy: !item["handoff_policy"]
+      ? item["handoff_policy"]
+      : voiceAgentHandoffPolicyDeserializer(item["handoff_policy"]),
+  };
+}
+
+export function inlineVoiceSubagentArraySerializer(result: Array<InlineVoiceSubagent>): any[] {
+  return result.map((item) => {
+    return inlineVoiceSubagentSerializer(item);
+  });
+}
+
+export function inlineVoiceSubagentArrayDeserializer(result: Array<InlineVoiceSubagent>): any[] {
+  return result.map((item) => {
+    return inlineVoiceSubagentDeserializer(item);
+  });
+}
+
+/** One inline voice subagent owned and versioned with its parent Voice Agent, not a separate Agent resource. */
+export interface InlineVoiceSubagent {
+  /** The subagent identifier. New Handoff authoring requires `$entrypoint` as the first subagent; other values use the normal handoff ID grammar. */
+  id: string;
+  /** The definition source. This phase supports only `inline`; referenced Agent resources are deferred. */
+  source: "inline";
+  /** The interaction interface. This phase supports only `voice`; text delegation is deferred. */
+  interface: "voice";
+  /** A non-empty display-only description of the specialist behavior. This value is not provided to the model. */
+  display_description: string;
+  /** The target model for a cascaded graph. Realtime graphs reject this property and retain the connection model. */
+  model?: string;
+  /** Subagent-specific instructions. With default inheritance, non-empty instructions follow the original top-level instructions. Omission, null, or an empty string adds nothing after that base. With inheritance disabled, only this value applies. */
+  instructions?: string;
+  /** Whether the subagent inherits the original top-level instructions before applying its own non-empty instructions. Defaults to true; set to false to opt out. */
+  inherit_base_instructions?: boolean;
+  /** Customer tools available to this subagent. Omission or null selects an empty customer tool set. */
+  tools?: VoiceAgentToolUnion[];
+  /** Tool-selection behavior for this subagent. If omitted, the service defaults to auto. Null also selects auto. */
+  tool_choice?: VoiceAgentToolChoice;
+  /** The output voice configuration activated for this subagent, using the same flat voice fields as the top-level audio output. Omission inherits the entrypoint configuration; a supplied object replaces the voice-specific settings. */
+  audio_output?: VoiceAgentVoiceConfig;
+  /** The sampling temperature for a compatible subagent model, from 0 through 2. */
+  temperature?: number;
+  /** The maximum output-token count for one response while this subagent is active. */
+  max_response_output_tokens?: VoiceAgentHandoffMaxOutputTokens;
+  /** Reasoning effort for a compatible subagent model. */
+  reasoning_effort?: VoiceAgentHandoffReasoningEffort;
+  /** Voice-optimized instruction adaptation for this subagent. Null disables adaptation. */
+  voice_adaptation?: VoiceAgentHandoffVoiceAdaptation;
+  /** Interim-response settings for this subagent. Null disables interim responses. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** Whether this subagent may call customer tools in parallel. If omitted, the service defaults to false. Subagents with outgoing handoff conditions must use `false`. */
+  parallel_tool_calls?: boolean;
+  /** Outgoing handoffs from this subagent. The containing subagent supplies each condition's source. The service permits at most 128 conditions across the entire Agent. */
+  handoff_conditions?: VoiceAgentHandoffCondition[];
+}
+
+export function inlineVoiceSubagentSerializer(item: InlineVoiceSubagent): any {
+  return {
+    id: item["id"],
+    source: item["source"],
+    interface: item["interface"],
+    description: item["display_description"],
+    model: item["model"],
+    instructions: item["instructions"],
+    inherit_base_instructions: item["inherit_base_instructions"],
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    audio_output: !item["audio_output"]
+      ? item["audio_output"]
+      : voiceAgentVoiceConfigSerializer(item["audio_output"]),
+    temperature: item["temperature"],
+    max_response_output_tokens: !item["max_response_output_tokens"]
+      ? item["max_response_output_tokens"]
+      : voiceAgentHandoffMaxOutputTokensSerializer(item["max_response_output_tokens"]),
+    reasoning_effort: item["reasoning_effort"],
+    voice_adaptation: !item["voice_adaptation"]
+      ? item["voice_adaptation"]
+      : voiceAgentHandoffVoiceAdaptationSerializer(item["voice_adaptation"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    handoff_conditions: !item["handoff_conditions"]
+      ? item["handoff_conditions"]
+      : voiceAgentHandoffConditionArraySerializer(item["handoff_conditions"]),
+  };
+}
+
+export function inlineVoiceSubagentDeserializer(item: any): InlineVoiceSubagent {
+  return {
+    id: item["id"],
+    source: item["source"],
+    interface: item["interface"],
+    display_description: item["description"],
+    model: item["model"],
+    instructions: item["instructions"],
+    inherit_base_instructions: item["inherit_base_instructions"],
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    audio_output: !item["audio_output"]
+      ? item["audio_output"]
+      : voiceAgentVoiceConfigDeserializer(item["audio_output"]),
+    temperature: item["temperature"],
+    max_response_output_tokens: !item["max_response_output_tokens"]
+      ? item["max_response_output_tokens"]
+      : voiceAgentHandoffMaxOutputTokensDeserializer(item["max_response_output_tokens"]),
+    reasoning_effort: item["reasoning_effort"],
+    voice_adaptation: !item["voice_adaptation"]
+      ? item["voice_adaptation"]
+      : voiceAgentHandoffVoiceAdaptationDeserializer(item["voice_adaptation"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    handoff_conditions: !item["handoff_conditions"]
+      ? item["handoff_conditions"]
+      : voiceAgentHandoffConditionArrayDeserializer(item["handoff_conditions"]),
+  };
+}
+
+/**
+ * Voice output configuration. Inline subagents use it directly as their voice override, and the session-level
+ * output audio configuration extends it.
+ * Provider-specific fields are selected by `voice_type`:
+ * - `openai`: `voice` and `speed`.
+ * - `azure-standard`: `voice`, `voice_locale`, `speed`, `voice_temperature`, `custom_lexicon_url`,
+ *   `custom_text_normalization_url`, `prefer_locales`, `style`, `pitch`, and `volume`.
+ * - `azure-custom`: all `azure-standard` fields except `style`, plus `custom_voice_endpoint_id`.
+ * - `azure-personal`: all `azure-standard` fields except `style`, plus `personal_voice_model`.
+ * - `avatar-voice-sync`: all `azure-standard` fields except `voice` and `style`, plus `personal_voice_model`;
+ *   the voice name is derived from the avatar.
+ * - `azure-realtime-native`: `voice` and `speed`.
+ */
+export interface VoiceAgentVoiceConfig {
+  /** The voice name or identifier. Applies to `openai`, `azure-standard`, `azure-custom`, `azure-personal`, and `azure-realtime-native`. It does not apply to `avatar-voice-sync`, which derives the voice name from the avatar. */
+  voice?: string;
+  /** The voice implementation. */
+  voice_type?: VoiceType;
+  /** The enforced BCP-47 output locale. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  voice_locale?: string;
+  /** The numeric output speed multiplier. Applies to all known `voice_type` values and defaults to 1. */
+  speed?: number;
+  /** The voice variation temperature. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  voice_temperature?: number;
+  /** The URL of a custom pronunciation lexicon. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  custom_lexicon_url?: string;
+  /** The URL of a custom text-normalization configuration. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  custom_text_normalization_url?: string;
+  /** Preferred BCP-47 locales for multilingual synthesis. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  prefer_locales?: string[];
+  /** The voice speaking style. Applies only when `voice_type` is `azure-standard`. */
+  style?: string;
+  /** The voice pitch adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  pitch?: string;
+  /** The voice volume adjustment. Applies to `azure-standard`, `azure-custom`, `azure-personal`, and `avatar-voice-sync`. */
+  volume?: string;
+  /** The Azure custom-voice deployment endpoint identifier. Applies only when `voice_type` is `azure-custom`. */
+  custom_voice_endpoint_id?: string;
+  /** The Azure personal or avatar voice model. Applies only when `voice_type` is `azure-personal` or `avatar-voice-sync`. */
+  personal_voice_model?: string;
+}
+
+export function voiceAgentVoiceConfigSerializer(item: VoiceAgentVoiceConfig): any {
+  return {
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    speed: item["speed"],
+    voice_temperature: item["voice_temperature"],
+    custom_lexicon_url: item["custom_lexicon_url"],
+    custom_text_normalization_url: item["custom_text_normalization_url"],
+    prefer_locales: !item["prefer_locales"]
+      ? item["prefer_locales"]
+      : item["prefer_locales"].map((p: any) => {
+          return p;
+        }),
+    style: item["style"],
+    pitch: item["pitch"],
+    volume: item["volume"],
+    custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
+    personal_voice_model: item["personal_voice_model"],
+  };
+}
+
+export function voiceAgentVoiceConfigDeserializer(item: any): VoiceAgentVoiceConfig {
+  return {
+    voice: item["voice"],
+    voice_type: item["voice_type"],
+    voice_locale: item["voice_locale"],
+    speed: item["speed"],
+    voice_temperature: item["voice_temperature"],
+    custom_lexicon_url: item["custom_lexicon_url"],
+    custom_text_normalization_url: item["custom_text_normalization_url"],
+    prefer_locales: !item["prefer_locales"]
+      ? item["prefer_locales"]
+      : item["prefer_locales"].map((p: any) => {
+          return p;
+        }),
+    style: item["style"],
+    pitch: item["pitch"],
+    volume: item["volume"],
+    custom_voice_endpoint_id: item["custom_voice_endpoint_id"],
+    personal_voice_model: item["personal_voice_model"],
+  };
+}
+
+/** The voice implementation. Additional values may be added over time. */
+export type VoiceType =
+  | "openai"
+  | "azure-standard"
+  | "azure-custom"
+  | "azure-personal"
+  | "avatar-voice-sync"
+  | "azure-realtime-native";
+
+/** The maximum output-token count or the literal `inf` for a handoff node. */
+export type VoiceAgentHandoffMaxOutputTokens = number | "inf";
+
+export function voiceAgentHandoffMaxOutputTokensSerializer(
+  item: VoiceAgentHandoffMaxOutputTokens,
+): any {
+  return item;
+}
+
+export function voiceAgentHandoffMaxOutputTokensDeserializer(
+  item: any,
+): VoiceAgentHandoffMaxOutputTokens {
+  return item;
+}
+
+/** Reasoning effort applied by a compatible handoff-node model. */
+export type VoiceAgentHandoffReasoningEffort =
+  "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+
+/** Voice-optimized instruction adaptation applied while a handoff node is active. */
+export interface VoiceAgentHandoffVoiceAdaptation {
+  /** The adaptation strategy. Currently only `auto` is supported. */
+  type: "auto";
+}
+
+export function voiceAgentHandoffVoiceAdaptationSerializer(
+  item: VoiceAgentHandoffVoiceAdaptation,
+): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentHandoffVoiceAdaptationDeserializer(
+  item: any,
+): VoiceAgentHandoffVoiceAdaptation {
+  return {
+    type: item["type"],
+  };
+}
+
+export function voiceAgentHandoffConditionArraySerializer(
+  result: Array<VoiceAgentHandoffCondition>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffConditionSerializer(item);
+  });
+}
+
+export function voiceAgentHandoffConditionArrayDeserializer(
+  result: Array<VoiceAgentHandoffCondition>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffConditionDeserializer(item);
+  });
+}
+
+/** One allowed outgoing handoff from an inline voice subagent. */
+export interface VoiceAgentHandoffCondition {
+  /** The handoff condition identifier. */
+  id: string;
+  /** The target subagent identifier or `$entrypoint`. The containing subagent supplies the source. */
+  target: string;
+  /** Natural-language routing guidance supplied alongside the active subagent instructions, from 1 through 500 characters. This is not an executable Boolean predicate. */
+  condition: string;
+  /** Whether user interruption before commit cancels the pending handoff. If omitted, the service defaults to false. */
+  cancel_on_interruption?: boolean;
+  /** The minimum delay before target activation, in milliseconds, from 0 through 10000. If omitted, the service defaults to 0. */
+  delay_ms?: number;
+  /**
+   * Optional deterministic source-voice announcement played before target activation. Supported by cascaded
+   * pipelines and realtime pipelines using local Azure TTS; model-native realtime voice requires omission or null.
+   * At most 500 characters. If omitted or null, no announcement is played.
+   */
+  transfer_message?: string;
+  /** Whether Voice Live automatically starts a response after target activation. If omitted, the service defaults to `auto`. */
+  target_response?: VoiceAgentHandoffTargetResponse;
+}
+
+export function voiceAgentHandoffConditionSerializer(item: VoiceAgentHandoffCondition): any {
+  return {
+    id: item["id"],
+    target: item["target"],
+    condition: item["condition"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
+  };
+}
+
+export function voiceAgentHandoffConditionDeserializer(item: any): VoiceAgentHandoffCondition {
+  return {
+    id: item["id"],
+    target: item["target"],
+    condition: item["condition"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
+  };
+}
+
+/** Whether Voice Live automatically starts a response after a handoff target becomes active. */
+export type VoiceAgentHandoffTargetResponse = "auto" | "none";
+
+/** Session-wide limits shared by all handoff conditions in one Voice Agent session. */
+export interface VoiceAgentHandoffPolicy {
+  /** The maximum number of successfully completed handoffs in one session, from 1 through 100. If omitted, the service defaults to 16. */
+  max_transfers?: number;
+  /** The maximum number of attempted handoffs, from 1 through 100. If omitted, the service uses `max_transfers`. The service requires this value to be greater than or equal to `max_transfers`. */
+  max_attempts?: number;
+}
+
+export function voiceAgentHandoffPolicySerializer(item: VoiceAgentHandoffPolicy): any {
+  return { max_transfers: item["max_transfers"], max_attempts: item["max_attempts"] };
+}
+
+export function voiceAgentHandoffPolicyDeserializer(item: any): VoiceAgentHandoffPolicy {
+  return {
+    max_transfers: item["max_transfers"],
+    max_attempts: item["max_attempts"],
   };
 }
 
@@ -17555,6 +18336,57 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
   };
 }
 
+/** Service-generated system-tool intent, not a provider result. Clients cannot create it or complete it with `function_call_output`. */
+export interface VoiceAgentSystemToolItem extends RealtimeConversationItem {
+  /** The output-item kind. Always `system_tool`. */
+  type: "system_tool";
+  /** The identifier of the generated item. */
+  id?: string;
+  /** The realtime item marker. */
+  object?: "realtime.item";
+  /** The generation status of the item, not the provider execution outcome. */
+  status: VoiceAgentSystemToolItemStatus;
+  /** The built-in capability invoked by the model. */
+  name: VoiceAgentSystemToolName;
+  /** The invocation identifier used for correlation and duplicate suppression. */
+  call_id: string;
+  /** Original JSON-encoded intent: literals remain visible and references stay unexpanded. Excludes private values, resolved arguments and executor-only settings. */
+  arguments: string;
+  /** The Unix timestamp (in seconds) for when the item was persisted. */
+  readonly created_at?: Date;
+  /** The id of the response that produced this item, when applicable. */
+  readonly response_id?: string;
+}
+
+export function voiceAgentSystemToolItemSerializer(item: VoiceAgentSystemToolItem): any {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    name: item["name"],
+    call_id: item["call_id"],
+    arguments: item["arguments"],
+  };
+}
+
+export function voiceAgentSystemToolItemDeserializer(item: any): VoiceAgentSystemToolItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    name: item["name"],
+    call_id: item["call_id"],
+    arguments: item["arguments"],
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    response_id: item["response_id"],
+  };
+}
+
+/** The generation status of a system-tool item. It does not indicate provider success. */
+export type VoiceAgentSystemToolItemStatus = "in_progress" | "completed" | "incomplete";
+
 /** Audio configuration for a response. Follows the OpenAI Realtime GA `audio` object shape. */
 export interface VoiceResponseAudio {
   /** The audio output configuration used for the response. */
@@ -18140,7 +18972,7 @@ export type VoiceAgentLiveDelegationStatus =
 /** The request to create a telephony binding. */
 export interface CreateTelephonyBindingRequest {
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extensibility, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio, sip */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -18160,6 +18992,7 @@ export function createTelephonyBindingRequestSerializer(item: CreateTelephonyBin
 export type CreateTelephonyBindingRequestUnion =
   | CreateTeamsPhoneExtensibilityTelephonyBindingRequest
   | CreateTwilioTelephonyBindingRequest
+  | CreateSipTelephonyBindingRequest
   | CreateTelephonyBindingRequest;
 
 export function createTelephonyBindingRequestUnionSerializer(
@@ -18176,13 +19009,16 @@ export function createTelephonyBindingRequestUnionSerializer(
         item as CreateTwilioTelephonyBindingRequest,
       );
 
+    case "sip":
+      return createSipTelephonyBindingRequestSerializer(item as CreateSipTelephonyBindingRequest);
+
     default:
       return createTelephonyBindingRequestSerializer(item);
   }
 }
 
 /** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
-export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
 
 /** The request to create a Microsoft Teams Phone extensibility binding. */
 export interface CreateTeamsPhoneExtensibilityTelephonyBindingRequest extends CreateTelephonyBindingRequest {
@@ -18225,12 +19061,37 @@ export function createTwilioTelephonyBindingRequestSerializer(
   };
 }
 
+/** The request to create an inbound SIP binding. */
+export interface CreateSipTelephonyBindingRequest extends CreateTelephonyBindingRequest {
+  provider: "sip";
+  /** For UI display only. */
+  phone_number?: string;
+  /** Omit or send [] to allow any caller. Entries match the entire normalized E.164 caller number. */
+  allowed_calling_numbers?: string[];
+}
+
+export function createSipTelephonyBindingRequestSerializer(
+  item: CreateSipTelephonyBindingRequest,
+): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    allowed_calling_numbers: !item["allowed_calling_numbers"]
+      ? item["allowed_calling_numbers"]
+      : item["allowed_calling_numbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** A telephony binding owned by a voice agent. */
 export interface TelephonyBinding {
   /** The service-generated binding identifier. */
   id: string;
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extensibility, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio, sip */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -18238,7 +19099,7 @@ export interface TelephonyBinding {
   label?: string;
   /** The lifecycle status. */
   status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with the telephony provider. */
+  /** The service-generated webhook URL to configure with the telephony provider. For SIP bindings, this is a SIP URI. */
   incoming_call_url: string;
 }
 
@@ -18255,7 +19116,10 @@ export function telephonyBindingDeserializer(item: any): TelephonyBinding {
 
 /** Alias for TelephonyBindingUnion */
 export type TelephonyBindingUnion =
-  TeamsPhoneExtensibilityTelephonyBinding | TwilioTelephonyBinding | TelephonyBinding;
+  | TeamsPhoneExtensibilityTelephonyBinding
+  | TwilioTelephonyBinding
+  | SipTelephonyBinding
+  | TelephonyBinding;
 
 export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
   switch (item["provider"]) {
@@ -18266,6 +19130,9 @@ export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUn
 
     case "twilio":
       return twilioTelephonyBindingDeserializer(item as TwilioTelephonyBinding);
+
+    case "sip":
+      return sipTelephonyBindingDeserializer(item as SipTelephonyBinding);
 
     default:
       return telephonyBindingDeserializer(item);
@@ -18320,6 +19187,32 @@ export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBi
   };
 }
 
+/** A SIP binding. */
+export interface SipTelephonyBinding extends TelephonyBinding {
+  provider: "sip";
+  /** For UI display only. */
+  phone_number?: string;
+  /** Omit or send [] to allow any caller. Entries match the entire normalized E.164 caller number. */
+  allowed_calling_numbers?: string[];
+}
+
+export function sipTelephonyBindingDeserializer(item: any): SipTelephonyBinding {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    phone_number: item["phone_number"],
+    allowed_calling_numbers: !item["allowed_calling_numbers"]
+      ? item["allowed_calling_numbers"]
+      : item["allowed_calling_numbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultTelephonyBindingListItem {
   /** The requested list of items. */
@@ -18356,7 +19249,7 @@ export interface TelephonyBindingListItem {
   /** The service-generated binding identifier. */
   id: string;
   /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extensibility, twilio */
+  /** The discriminator possible values: teams_phone_extensibility, twilio, sip */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -18364,7 +19257,7 @@ export interface TelephonyBindingListItem {
   label?: string;
   /** The lifecycle status. */
   status: TelephonyBindingStatus;
-  /** The service-generated webhook URL to configure with the telephony provider. */
+  /** The service-generated webhook URL to configure with the telephony provider. For SIP bindings, this is a SIP URI. */
   incoming_call_url: string;
   /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
   readonly etag: string;
@@ -18386,6 +19279,7 @@ export function telephonyBindingListItemDeserializer(item: any): TelephonyBindin
 export type TelephonyBindingListItemUnion =
   | TeamsPhoneExtensibilityTelephonyBindingListItem
   | TwilioTelephonyBindingListItem
+  | SipTelephonyBindingListItem
   | TelephonyBindingListItem;
 
 export function telephonyBindingListItemUnionDeserializer(
@@ -18399,6 +19293,9 @@ export function telephonyBindingListItemUnionDeserializer(
 
     case "twilio":
       return twilioTelephonyBindingListItemDeserializer(item as TwilioTelephonyBindingListItem);
+
+    case "sip":
+      return sipTelephonyBindingListItemDeserializer(item as SipTelephonyBindingListItem);
 
     default:
       return telephonyBindingListItemDeserializer(item);
@@ -18454,16 +19351,45 @@ export function twilioTelephonyBindingListItemDeserializer(
   };
 }
 
+/** A SIP binding returned in a list, including its entity tag. */
+export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
+  provider: "sip";
+  /** For UI display only. */
+  phone_number?: string;
+  /** Omit or send [] to allow any caller. Entries match the entire normalized E.164 caller number. */
+  allowed_calling_numbers?: string[];
+}
+
+export function sipTelephonyBindingListItemDeserializer(item: any): SipTelephonyBindingListItem {
+  return {
+    id: item["id"],
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    status: item["status"],
+    incoming_call_url: item["incoming_call_url"],
+    etag: item["etag"],
+    phone_number: item["phone_number"],
+    allowed_calling_numbers: !item["allowed_calling_numbers"]
+      ? item["allowed_calling_numbers"]
+      : item["allowed_calling_numbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
 export interface UpdateTelephonyBindingRequest {
   /** The new lifecycle status. */
   status?: TelephonyBindingStatus;
   /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
   label?: string;
-  /** The replacement Foundry connection name. This property is valid only for a Teams Phone extensibility binding; a Twilio binding's connection is immutable. */
+  /** The replacement Foundry connection name. This property is valid for Teams Phone extensibility and SIP bindings; a Twilio binding's connection is immutable. */
   connection_name?: string;
-  /** The replacement Teams Phone extensibility display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for a Teams Phone extensibility binding. */
+  /** The replacement Teams Phone extensibility or SIP display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for Teams Phone extensibility and SIP bindings. */
   phone_number?: string;
+  /** SIP only. Omit to preserve the restriction; send [] to allow any caller. */
+  allowed_calling_numbers?: string[];
 }
 
 export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
@@ -18472,6 +19398,11 @@ export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBin
     label: item["label"],
     connection_name: item["connection_name"],
     phone_number: item["phone_number"],
+    allowed_calling_numbers: !item["allowed_calling_numbers"]
+      ? item["allowed_calling_numbers"]
+      : item["allowed_calling_numbers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -19089,7 +20020,7 @@ export function sipTelephonyTransferDestinationDeserializer(
 export interface CreateTelephonyCallJobRequest {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio, Azure Communication Services / Teams Phone extensibility, or SIP. No inbound telephony binding is required. */
   connection_name: string;
   /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
   source: string;
@@ -19250,7 +20181,7 @@ export function telephonyOutboundFixedIntervalRetryPolicyDeserializer(
 export interface TelephonyCallJob {
   /** The phone destination to call. */
   destination: TelephonyOutboundDestination;
-  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
+  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio, Azure Communication Services / Teams Phone extensibility, or SIP. No inbound telephony binding is required. */
   connection_name: string;
   /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
   source: string;
@@ -19656,6 +20587,8 @@ export interface VoiceAgentSessionResponseConfig {
   interim_response?: VoiceAgentInterimResponseConfigUnion;
   /** A proactive assistant greeting started after session configuration. */
   greeting?: VoiceAgentGreetingConfigUnion;
+  /** The effective handoff topology and runtime state, when handoff is configured. */
+  handoff?: VoiceAgentHandoffState;
   /** The object type. Always `realtime.session`. */
   object: "realtime.session";
   /** The session identifier. */
@@ -19708,6 +20641,7 @@ export function voiceAgentSessionResponseConfigSerializer(
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+    handoff: !item["handoff"] ? item["handoff"] : voiceAgentHandoffStateSerializer(item["handoff"]),
     object: item["object"],
     id: item["id"],
     model: item["model"],
@@ -19761,6 +20695,9 @@ export function voiceAgentSessionResponseConfigDeserializer(
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
+    handoff: !item["handoff"]
+      ? item["handoff"]
+      : voiceAgentHandoffStateDeserializer(item["handoff"]),
     object: item["object"],
     id: item["id"],
     model: item["model"],
@@ -19768,280 +20705,253 @@ export function voiceAgentSessionResponseConfigDeserializer(
   };
 }
 
-/** The `session.avatar.connect` client event. */
-export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClientEvent {
-  /** The event type. Always `session.avatar.connect`. */
-  type: "session.avatar.connect";
-  /** An optional client-generated event identifier. */
-  event_id?: string;
-  /** The client's SDP offer for avatar media negotiation. */
-  client_sdp: string;
+/** The effective topology and runtime state of a voice-agent handoff graph. */
+export interface VoiceAgentHandoffState {
+  /** The immutable execution pipeline family. */
+  pipeline_family: VoiceAgentHandoffPipelineFamily;
+  /** The currently committed node identifier or `$entrypoint`. */
+  active_node_id: string;
+  /** The monotonically increasing generation of the committed active-node configuration. */
+  node_generation: number;
+  /** The number of successfully completed handoffs. */
+  transfer_count: number;
+  /** The number of unique reserved handoff attempts. */
+  attempt_count: number;
+  /** The edge identifiers currently available from the active node. */
+  available_edge_ids: string[];
+  /** The generated handoff function visible to the active model, or null when no route is available. */
+  transfer_tool: VoiceAgentFunctionTool | null;
+  /** The compiled handoff nodes, including the implicit or explicit `$entrypoint`. */
+  nodes: VoiceAgentHandoffNodeState[];
+  /** The compiled handoff edges. */
+  edges: VoiceAgentHandoffEdgeState[];
 }
 
-export function voiceAgentClientEventSessionAvatarConnectSerializer(
-  item: VoiceAgentClientEventSessionAvatarConnect,
-): any {
-  return { type: item["type"], event_id: item["event_id"], client_sdp: item["client_sdp"] };
-}
-
-export function voiceAgentClientEventSessionAvatarConnectDeserializer(
-  item: any,
-): VoiceAgentClientEventSessionAvatarConnect {
+export function voiceAgentHandoffStateSerializer(item: VoiceAgentHandoffState): any {
   return {
-    type: item["type"],
-    event_id: item["event_id"],
-    client_sdp: item["client_sdp"],
+    pipeline_family: item["pipeline_family"],
+    active_node_id: item["active_node_id"],
+    node_generation: item["node_generation"],
+    transfer_count: item["transfer_count"],
+    attempt_count: item["attempt_count"],
+    available_edge_ids: item["available_edge_ids"].map((p: any) => {
+      return p;
+    }),
+    transfer_tool: !item["transfer_tool"]
+      ? item["transfer_tool"]
+      : voiceAgentFunctionToolSerializer(item["transfer_tool"]),
+    nodes: voiceAgentHandoffNodeStateArraySerializer(item["nodes"]),
+    edges: voiceAgentHandoffEdgeStateArraySerializer(item["edges"]),
   };
 }
 
-/** Parameters accepted by a voice-agent `response.create` event. */
-export interface VoiceAgentResponseCreateParams {
-  /**
-   * The default system instructions (i.e. system message) prepended to model calls. This field allows the client to guide the model on desired responses. The model can be instructed on response content and format, (e.g. "be extremely succinct", "act friendly", "here are examples of good responses") and on audio behavior (e.g. "talk quickly", "inject emotion into your voice", "laugh frequently"). The instructions are not guaranteed to be followed by the model, but they provide guidance to the model on the desired behavior.
-   *   Note that the server sets default instructions which will be used if this field is not set and are visible in the `session.created` event at the start of the session.
-   */
-  instructions?: string;
-  /** Tools available to the model. */
-  tools?: (RealtimeFunctionTool | MCPTool)[];
-  /**
-   * How the model chooses tools. Provide one of the string modes or force a specific
-   *   function/MCP tool.
-   */
-  tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
-  /**
-   * Whether the model may call multiple tools in parallel. Only supported by
-   *   reasoning Realtime models such as `gpt-realtime-2`.
-   */
-  parallel_tool_calls?: boolean;
-  reasoning?: RealtimeReasoning;
-  /**
-   * Maximum number of output tokens for a single assistant response,
-   *   inclusive of tool calls. Provide an integer between 1 and 4096 to
-   *   limit output tokens, or `inf` for the maximum available tokens for a
-   *   given model. Defaults to `inf`.
-   */
-  max_output_tokens?: number | "inf";
-  /**
-   * Controls which conversation the response is added to. Currently supports
-   *   `auto` and `none`, with `auto` as the default value. The `auto` value
-   *   means that the contents of the response will be added to the default
-   *   conversation. Set this to `none` to create an out-of-band response which
-   *   will not add items to default conversation.
-   */
-  conversation?: "auto" | "none";
-  metadata?: Metadata;
-  /**
-   * Input items to include in the prompt for the model. Using this field
-   *   creates a new context for this Response instead of using the default
-   *   conversation. An empty array `[]` will clear the context for this Response.
-   *   Note that this can include references to items that previously appeared in the session
-   *   using their id.
-   */
-  input?: RealtimeResponseInputItem[];
-  /** Modalities that the response may return. */
-  output_modalities?: VoiceOutputModality[];
-  /** Response-specific audio settings. */
-  audio?: PickPropertiesVoiceAgentAudioConfig;
-  /** A pre-generated assistant message used to begin the response. */
-  pre_generated_assistant_message?: RealtimeConversationItemUnion;
-  /** Interim-response settings for this response. */
-  interim_response?: VoiceAgentInterimResponseConfigUnion;
-}
-
-export function voiceAgentResponseCreateParamsSerializer(
-  item: VoiceAgentResponseCreateParams,
-): any {
+export function voiceAgentHandoffStateDeserializer(item: any): VoiceAgentHandoffState {
   return {
-    instructions: item["instructions"],
-    tools: !item["tools"]
-      ? item["tools"]
-      : _voiceAgentResponseCreateParamsToolArraySerializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : _voiceAgentResponseCreateParamsToolChoiceSerializer(item["tool_choice"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningSerializer(item["reasoning"]),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
-    conversation: item["conversation"],
-    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
-    input: !item["input"] ? item["input"] : realtimeResponseInputItemArraySerializer(item["input"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"]
-      ? item["audio"]
-      : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
-    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
-      ? item["pre_generated_assistant_message"]
-      : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    pipeline_family: item["pipeline_family"],
+    active_node_id: item["active_node_id"],
+    node_generation: item["node_generation"],
+    transfer_count: item["transfer_count"],
+    attempt_count: item["attempt_count"],
+    available_edge_ids: item["available_edge_ids"].map((p: any) => {
+      return p;
+    }),
+    transfer_tool: !item["transfer_tool"]
+      ? item["transfer_tool"]
+      : voiceAgentFunctionToolDeserializer(item["transfer_tool"]),
+    nodes: voiceAgentHandoffNodeStateArrayDeserializer(item["nodes"]),
+    edges: voiceAgentHandoffEdgeStateArrayDeserializer(item["edges"]),
   };
 }
 
-export function voiceAgentResponseCreateParamsDeserializer(
-  item: any,
-): VoiceAgentResponseCreateParams {
+/** The immutable pipeline family selected for a voice-agent handoff graph. */
+export type VoiceAgentHandoffPipelineFamily = "cascaded" | "realtime";
+
+export function voiceAgentHandoffNodeStateArraySerializer(
+  result: Array<VoiceAgentHandoffNodeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffNodeStateSerializer(item);
+  });
+}
+
+export function voiceAgentHandoffNodeStateArrayDeserializer(
+  result: Array<VoiceAgentHandoffNodeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffNodeStateDeserializer(item);
+  });
+}
+
+/** Non-sensitive topology metadata for one compiled handoff node. */
+export interface VoiceAgentHandoffNodeState {
+  /** The node identifier or `$entrypoint`. */
+  id: string;
+  /** The display-only node description. This value is not provided to the model. */
+  display_description: string;
+  /** Whether this is the implicit `$entrypoint` node. */
+  implicit?: boolean;
+}
+
+export function voiceAgentHandoffNodeStateSerializer(item: VoiceAgentHandoffNodeState): any {
+  return { id: item["id"], description: item["display_description"], implicit: item["implicit"] };
+}
+
+export function voiceAgentHandoffNodeStateDeserializer(item: any): VoiceAgentHandoffNodeState {
   return {
-    instructions: item["instructions"],
-    tools: !item["tools"]
-      ? item["tools"]
-      : _voiceAgentResponseCreateParamsToolArrayDeserializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : _voiceAgentResponseCreateParamsToolChoiceDeserializer(item["tool_choice"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningDeserializer(item["reasoning"]),
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
-    conversation: item["conversation"],
-    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeResponseInputItemArrayDeserializer(item["input"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"]
-      ? item["audio"]
-      : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
-    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
-      ? item["pre_generated_assistant_message"]
-      : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    id: item["id"],
+    display_description: item["description"],
+    implicit: item["implicit"],
   };
 }
 
-/** The `rtc.call.sdp.create` client event: begins WebRTC signaling with an SDP offer. */
-export interface VoiceAgentClientEventRtcCallSdpCreate extends RealtimeClientEvent {
-  /** The event type. Always `rtc.call.sdp.create`. */
-  type: "rtc.call.sdp.create";
-  /** An optional client-generated event identifier. */
-  event_id?: string;
-  /** The client's SDP offer for the WebRTC connection. */
-  sdp_offer: string;
-  /** Optional session configuration. For an `/agents` endpoint the service rebuilds it authoritatively from the persisted agent definition. */
-  session?: VoiceAgentSessionUpdateConfig;
+export function voiceAgentHandoffEdgeStateArraySerializer(
+  result: Array<VoiceAgentHandoffEdgeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffEdgeStateSerializer(item);
+  });
 }
 
-export function voiceAgentClientEventRtcCallSdpCreateSerializer(
-  item: VoiceAgentClientEventRtcCallSdpCreate,
-): any {
+export function voiceAgentHandoffEdgeStateArrayDeserializer(
+  result: Array<VoiceAgentHandoffEdgeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffEdgeStateDeserializer(item);
+  });
+}
+
+/** Non-sensitive topology metadata for one compiled handoff edge. */
+export interface VoiceAgentHandoffEdgeState {
+  /** The edge identifier. */
+  id: string;
+  /** The source node identifier or `$entrypoint`. */
+  source: string;
+  /** The target node identifier or `$entrypoint`. */
+  target: string;
+  /** Whether user interruption before commit cancels the pending handoff. */
+  cancel_on_interruption?: boolean;
+  /** The minimum delay before target activation, in milliseconds. */
+  delay_ms?: number;
+  /** The deterministic source-voice announcement played before target activation. */
+  transfer_message?: string;
+  /** Whether Voice Live automatically starts a response after target activation. */
+  target_response?: VoiceAgentHandoffTargetResponse;
+}
+
+export function voiceAgentHandoffEdgeStateSerializer(item: VoiceAgentHandoffEdgeState): any {
   return {
-    type: item["type"],
-    event_id: item["event_id"],
-    sdp_offer: item["sdp_offer"],
-    session: !item["session"]
-      ? item["session"]
-      : voiceAgentSessionUpdateConfigSerializer(item["session"]),
+    id: item["id"],
+    source: item["source"],
+    target: item["target"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
   };
 }
 
-export function voiceAgentClientEventRtcCallSdpCreateDeserializer(
-  item: any,
-): VoiceAgentClientEventRtcCallSdpCreate {
+export function voiceAgentHandoffEdgeStateDeserializer(item: any): VoiceAgentHandoffEdgeState {
   return {
-    type: item["type"],
-    event_id: item["event_id"],
-    sdp_offer: item["sdp_offer"],
-    session: !item["session"]
-      ? item["session"]
-      : voiceAgentSessionUpdateConfigDeserializer(item["session"]),
+    id: item["id"],
+    source: item["source"],
+    target: item["target"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
   };
 }
 
-/** The `session.update` client event. */
-export interface VoiceAgentClientEventSessionUpdate {
-  /** Optional client-generated ID used to identify this event. This is an arbitrary string that a client may assign. It will be passed back if there is an error with the event, but the corresponding `session.updated` event will not include it. */
-  event_id?: string;
-  /** The event type, must be `session.update`. */
-  type: "session.update";
-  /** The voice-agent session settings to update. */
-  session: VoiceAgentSessionUpdate;
-}
-
-export function voiceAgentClientEventSessionUpdateSerializer(
-  item: VoiceAgentClientEventSessionUpdate,
-): any {
-  return {
-    event_id: item["event_id"],
-    type: item["type"],
-    session: voiceAgentSessionUpdateSerializer(item["session"]),
-  };
-}
-
-export function voiceAgentClientEventSessionUpdateDeserializer(
-  item: any,
-): VoiceAgentClientEventSessionUpdate {
-  return {
-    event_id: item["event_id"],
-    type: item["type"],
-    session: voiceAgentSessionUpdateDeserializer(item["session"]),
-  };
-}
-
-/** The session configuration accepted by a voice-agent session update event. */
-export type VoiceAgentSessionUpdate = VoiceAgentSessionUpdateConfig;
-
-export function voiceAgentSessionUpdateSerializer(item: VoiceAgentSessionUpdate): any {
-  return item;
-}
-
-export function voiceAgentSessionUpdateDeserializer(item: any): VoiceAgentSessionUpdate {
-  return item;
-}
-
-/** The `session.subagent.completed` server event. */
-export interface VoiceAgentServerEventSessionSubagentCompleted extends RealtimeServerEvent {
-  /** The event type. Always `session.subagent.completed`. */
-  type: "session.subagent.completed";
+/** The `session.handoff.completed` server event. */
+export interface VoiceAgentServerEventSessionHandoffCompleted extends RealtimeServerEvent {
   /** The server-generated event identifier. */
   event_id: string;
-  /** The identifier of the subagent consultation. */
-  consultation_id: string;
-  /** The identifier of the function call that initiated the consultation. */
-  call_id: string;
-  /** The name of the consulted subagent. */
-  subagent_name: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** The target-preparation duration. */
+  prepare_duration_ms: number;
+  /** The total handoff duration. */
+  duration_ms: number;
+  /** The event type. Always `session.handoff.completed`. */
+  type: "session.handoff.completed";
 }
 
-export function voiceAgentServerEventSessionSubagentCompletedSerializer(
-  item: VoiceAgentServerEventSessionSubagentCompleted,
+export function voiceAgentServerEventSessionHandoffCompletedSerializer(
+  item: VoiceAgentServerEventSessionHandoffCompleted,
 ): any {
   return {
     type: item["type"],
     event_id: item["event_id"],
-    consultation_id: item["consultation_id"],
-    call_id: item["call_id"],
-    subagent_name: item["subagent_name"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    prepare_duration_ms: item["prepare_duration_ms"],
+    duration_ms: item["duration_ms"],
   };
 }
 
-export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
+export function voiceAgentServerEventSessionHandoffCompletedDeserializer(
   item: any,
-): VoiceAgentServerEventSessionSubagentCompleted {
+): VoiceAgentServerEventSessionHandoffCompleted {
   return {
     type: item["type"],
     event_id: item["event_id"],
-    consultation_id: item["consultation_id"],
-    call_id: item["call_id"],
-    subagent_name: item["subagent_name"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    prepare_duration_ms: item["prepare_duration_ms"],
+    duration_ms: item["duration_ms"],
   };
 }
+
+/** Type of VoiceAgentServerEventTypeExtension */
+export type VoiceAgentServerEventTypeExtension =
+  | "warning"
+  | "session.subagent.started"
+  | "session.subagent.completed"
+  | "session.subagent.aborted"
+  | "session.avatar.connecting"
+  | "session.avatar.switch_to_speaking"
+  | "session.avatar.switch_to_idle"
+  | "rtc.call.sdp.created"
+  | "rtc.call.error"
+  | "response.audio_timestamp.delta"
+  | "response.audio_timestamp.done"
+  | "response.animation_blendshapes.delta"
+  | "response.animation_blendshapes.done"
+  | "response.animation_viseme.delta"
+  | "response.animation_viseme.done"
+  | "response.video.delta"
+  | "response.system_tool_arguments.delta"
+  | "response.system_tool_arguments.done"
+  | "input_collection.status"
+  | "session.handoff.started"
+  | "session.handoff.completed"
+  | "session.handoff.aborted";
 
 export function voiceAgentTranscriptionPhraseArraySerializer(
   result: Array<VoiceAgentTranscriptionPhrase>,
@@ -20255,6 +21165,312 @@ export function voiceAgentSessionResponseDeserializer(item: any): VoiceAgentSess
   return item;
 }
 
+/** The `session.handoff.started` server event. */
+export interface VoiceAgentServerEventSessionHandoffStarted extends RealtimeServerEvent {
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** The event type. Always `session.handoff.started`. */
+  type: "session.handoff.started";
+}
+
+export function voiceAgentServerEventSessionHandoffStartedSerializer(
+  item: VoiceAgentServerEventSessionHandoffStarted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffStartedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+/** The `session.handoff.aborted` server event. */
+export interface VoiceAgentServerEventSessionHandoffAborted extends RealtimeServerEvent {
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** Why the handoff ended before target commit. */
+  reason: VoiceAgentHandoffAbortReason;
+  /** The handoff failure detail when `reason` is `error`. */
+  error?: RealtimeServerEventErrorError;
+  /** The event type. Always `session.handoff.aborted`. */
+  type: "session.handoff.aborted";
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedSerializer(
+  item: VoiceAgentServerEventSessionHandoffAborted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"] ? item["error"] : realtimeServerEventErrorErrorSerializer(item["error"]),
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffAborted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"]
+      ? item["error"]
+      : realtimeServerEventErrorErrorDeserializer(item["error"]),
+  };
+}
+
+/** Why a server-managed handoff ended before target commit. */
+export type VoiceAgentHandoffAbortReason = "user_interruption" | "error";
+
+/** An incremental model-argument fragment for a service-managed system tool. */
+export interface VoiceAgentServerEventSystemToolArgumentsDelta extends RealtimeServerEvent {
+  /** The event type. Always `response.system_tool_arguments.delta`. */
+  type: "response.system_tool_arguments.delta";
+  /** The unique identifier of this server event. */
+  event_id: string;
+  /** The response containing the tool invocation. */
+  response_id: string;
+  /** The generated tool item's identifier. */
+  item_id: string;
+  /** The item's zero-based position in the response output. */
+  output_index: number;
+  /** The invocation identifier. */
+  call_id: string;
+  /** An incremental JSON fragment of the intent arguments. */
+  delta: string;
+  /** Optional padding metadata with no application semantics. */
+  obfuscation?: string;
+}
+
+export function voiceAgentServerEventSystemToolArgumentsDeltaSerializer(
+  item: VoiceAgentServerEventSystemToolArgumentsDelta,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    call_id: item["call_id"],
+    delta: item["delta"],
+    obfuscation: item["obfuscation"],
+  };
+}
+
+export function voiceAgentServerEventSystemToolArgumentsDeltaDeserializer(
+  item: any,
+): VoiceAgentServerEventSystemToolArgumentsDelta {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    call_id: item["call_id"],
+    delta: item["delta"],
+    obfuscation: item["obfuscation"],
+  };
+}
+
+/** The completed intent arguments for a system tool, not provider success or a request for a customer function result. */
+export interface VoiceAgentServerEventSystemToolArgumentsDone extends RealtimeServerEvent {
+  /** The event type. Always `response.system_tool_arguments.done`. */
+  type: "response.system_tool_arguments.done";
+  /** The unique identifier of this server event. */
+  event_id: string;
+  /** The response containing the tool invocation. */
+  response_id: string;
+  /** The generated tool item's identifier. */
+  item_id: string;
+  /** The item's zero-based position in the response output. */
+  output_index: number;
+  /** The invocation identifier. */
+  call_id: string;
+  /** The invoked built-in capability. */
+  name: VoiceAgentSystemToolName;
+  /** The complete, unexpanded model arguments as a JSON string. */
+  arguments: string;
+}
+
+export function voiceAgentServerEventSystemToolArgumentsDoneSerializer(
+  item: VoiceAgentServerEventSystemToolArgumentsDone,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    call_id: item["call_id"],
+    name: item["name"],
+    arguments: item["arguments"],
+  };
+}
+
+export function voiceAgentServerEventSystemToolArgumentsDoneDeserializer(
+  item: any,
+): VoiceAgentServerEventSystemToolArgumentsDone {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    response_id: item["response_id"],
+    item_id: item["item_id"],
+    output_index: item["output_index"],
+    call_id: item["call_id"],
+    name: item["name"],
+    arguments: item["arguments"],
+  };
+}
+
+/** Reports collection or telephony outcomes for a model call. */
+export interface VoiceAgentServerEventInputCollectionStatus extends RealtimeServerEvent {
+  /** The event type. Always `input_collection.status`. */
+  type: "input_collection.status";
+  /** An optional event identifier. */
+  event_id?: string;
+  /** The originating system-tool invocation. */
+  call_id: string;
+  /** The collection operation identifier, when this outcome concerns a collection. */
+  collection_id?: string;
+  /** The current receiver request identifier, when applicable. */
+  request_id?: string;
+  /** The collection receiver, omitted for telephony-operation feedback. */
+  channel?: VoiceAgentInputCollectionChannel;
+  /** The reported outcome. Generation completion of a system-tool item is separate. */
+  status: VoiceAgentInputCollectionStatus;
+  /** Completed ASCII digits, including leading zeros, only for `secret: false`; absent for private collection and telephony-operation feedback. */
+  value?: string;
+  /** Actual bare variable name from successful private collection, not its value. May be suffixed on collision; reference it with `{{name}}`. */
+  output_ref?: string;
+}
+
+export function voiceAgentServerEventInputCollectionStatusSerializer(
+  item: VoiceAgentServerEventInputCollectionStatus,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    call_id: item["call_id"],
+    collection_id: item["collection_id"],
+    request_id: item["request_id"],
+    channel: item["channel"],
+    status: item["status"],
+    value: item["value"],
+    output_ref: item["output_ref"],
+  };
+}
+
+export function voiceAgentServerEventInputCollectionStatusDeserializer(
+  item: any,
+): VoiceAgentServerEventInputCollectionStatus {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    call_id: item["call_id"],
+    collection_id: item["collection_id"],
+    request_id: item["request_id"],
+    channel: item["channel"],
+    status: item["status"],
+    value: item["value"],
+    output_ref: item["output_ref"],
+  };
+}
+
+/** The receiver used by an input collection. Voice collection is not supported. */
+export type VoiceAgentInputCollectionChannel = "sms" | "dtmf";
+
+/** Collection lifecycle and value-free telephony-operation outcomes. Additional outcomes may be introduced over time. */
+export type VoiceAgentInputCollectionStatus =
+  | "accepted"
+  | "listening"
+  | "completed"
+  | "expired"
+  | "cancelled"
+  | "failed"
+  | "busy"
+  | "invalid_input"
+  | "invalid_arguments"
+  | "stale_collection"
+  | "unsupported_channel"
+  | "dispatch_failed"
+  | "provider_accepted"
+  | "transfer_not_answered"
+  | "provider_failed_or_unsupported"
+  | "provider_result_uncertain"
+  | "provider_not_executed";
+
 /** The `session.subagent.started` server event. */
 export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeServerEvent {
   /** The event type. Always `session.subagent.started`. */
@@ -20284,6 +21500,44 @@ export function voiceAgentServerEventSessionSubagentStartedSerializer(
 export function voiceAgentServerEventSessionSubagentStartedDeserializer(
   item: any,
 ): VoiceAgentServerEventSessionSubagentStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+/** The `session.subagent.completed` server event. */
+export interface VoiceAgentServerEventSessionSubagentCompleted extends RealtimeServerEvent {
+  /** The event type. Always `session.subagent.completed`. */
+  type: "session.subagent.completed";
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The identifier of the subagent consultation. */
+  consultation_id: string;
+  /** The identifier of the function call that initiated the consultation. */
+  call_id: string;
+  /** The name of the consulted subagent. */
+  subagent_name: string;
+}
+
+export function voiceAgentServerEventSessionSubagentCompletedSerializer(
+  item: VoiceAgentServerEventSessionSubagentCompleted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    consultation_id: item["consultation_id"],
+    call_id: item["call_id"],
+    subagent_name: item["subagent_name"],
+  };
+}
+
+export function voiceAgentServerEventSessionSubagentCompletedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionSubagentCompleted {
   return {
     type: item["type"],
     event_id: item["event_id"],
@@ -20832,6 +22086,399 @@ export function voiceAgentServerEventResponseVideoDeltaDeserializer(
   };
 }
 
+/** The `session.avatar.connect` client event. */
+export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClientEvent {
+  /** The event type. Always `session.avatar.connect`. */
+  type: "session.avatar.connect";
+  /** An optional client-generated event identifier. */
+  event_id?: string;
+  /** The client's SDP offer for avatar media negotiation. */
+  client_sdp: string;
+}
+
+export function voiceAgentClientEventSessionAvatarConnectSerializer(
+  item: VoiceAgentClientEventSessionAvatarConnect,
+): any {
+  return { type: item["type"], event_id: item["event_id"], client_sdp: item["client_sdp"] };
+}
+
+export function voiceAgentClientEventSessionAvatarConnectDeserializer(
+  item: any,
+): VoiceAgentClientEventSessionAvatarConnect {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    client_sdp: item["client_sdp"],
+  };
+}
+
+/** Parameters accepted by a voice-agent `response.create` event. */
+export interface VoiceAgentResponseCreateParams {
+  /**
+   * The default system instructions (i.e. system message) prepended to model calls. This field allows the client to guide the model on desired responses. The model can be instructed on response content and format, (e.g. "be extremely succinct", "act friendly", "here are examples of good responses") and on audio behavior (e.g. "talk quickly", "inject emotion into your voice", "laugh frequently"). The instructions are not guaranteed to be followed by the model, but they provide guidance to the model on the desired behavior.
+   *   Note that the server sets default instructions which will be used if this field is not set and are visible in the `session.created` event at the start of the session.
+   */
+  instructions?: string;
+  /** Tools available to the model. */
+  tools?: (RealtimeFunctionTool | MCPTool)[];
+  /**
+   * How the model chooses tools. Provide one of the string modes or force a specific
+   *   function/MCP tool.
+   */
+  tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
+  /**
+   * Whether the model may call multiple tools in parallel. Only supported by
+   *   reasoning Realtime models such as `gpt-realtime-2`.
+   */
+  parallel_tool_calls?: boolean;
+  reasoning?: RealtimeReasoning;
+  /**
+   * Maximum number of output tokens for a single assistant response,
+   *   inclusive of tool calls. Provide an integer between 1 and 4096 to
+   *   limit output tokens, or `inf` for the maximum available tokens for a
+   *   given model. Defaults to `inf`.
+   */
+  max_output_tokens?: number | "inf";
+  /**
+   * Controls which conversation the response is added to. Currently supports
+   *   `auto` and `none`, with `auto` as the default value. The `auto` value
+   *   means that the contents of the response will be added to the default
+   *   conversation. Set this to `none` to create an out-of-band response which
+   *   will not add items to default conversation.
+   */
+  conversation?: "auto" | "none";
+  metadata?: Metadata;
+  /**
+   * Input items to include in the prompt for the model. Using this field
+   *   creates a new context for this Response instead of using the default
+   *   conversation. An empty array `[]` will clear the context for this Response.
+   *   Note that this can include references to items that previously appeared in the session
+   *   using their id.
+   */
+  input?: RealtimeResponseInputItem[];
+  /** Modalities that the response may return. */
+  output_modalities?: VoiceOutputModality[];
+  /** Response-specific audio settings. */
+  audio?: PickPropertiesVoiceAgentAudioConfig;
+  /** A pre-generated assistant message used to begin the response. */
+  pre_generated_assistant_message?: RealtimeConversationItemUnion;
+  /** Interim-response settings for this response. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+}
+
+export function voiceAgentResponseCreateParamsSerializer(
+  item: VoiceAgentResponseCreateParams,
+): any {
+  return {
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceSerializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    input: !item["input"] ? item["input"] : realtimeResponseInputItemArraySerializer(item["input"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigSerializer(item["audio"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionSerializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+  };
+}
+
+export function voiceAgentResponseCreateParamsDeserializer(
+  item: any,
+): VoiceAgentResponseCreateParams {
+  return {
+    instructions: item["instructions"],
+    tools: !item["tools"]
+      ? item["tools"]
+      : _voiceAgentResponseCreateParamsToolArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _voiceAgentResponseCreateParamsToolChoiceDeserializer(item["tool_choice"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    conversation: item["conversation"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    input: !item["input"]
+      ? item["input"]
+      : realtimeResponseInputItemArrayDeserializer(item["input"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"]
+      ? item["audio"]
+      : pickPropertiesVoiceAgentAudioConfigDeserializer(item["audio"]),
+    pre_generated_assistant_message: !item["pre_generated_assistant_message"]
+      ? item["pre_generated_assistant_message"]
+      : realtimeConversationItemUnionDeserializer(item["pre_generated_assistant_message"]),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+  };
+}
+
+/** The `rtc.call.sdp.create` client event: begins WebRTC signaling with an SDP offer. */
+export interface VoiceAgentClientEventRtcCallSdpCreate extends RealtimeClientEvent {
+  /** The event type. Always `rtc.call.sdp.create`. */
+  type: "rtc.call.sdp.create";
+  /** An optional client-generated event identifier. */
+  event_id?: string;
+  /** The client's SDP offer for the WebRTC connection. */
+  sdp_offer: string;
+  /** Optional session configuration. For an `/agents` endpoint the service rebuilds it authoritatively from the persisted agent definition. */
+  session?: VoiceAgentSessionUpdateConfig;
+}
+
+export function voiceAgentClientEventRtcCallSdpCreateSerializer(
+  item: VoiceAgentClientEventRtcCallSdpCreate,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    sdp_offer: item["sdp_offer"],
+    session: !item["session"]
+      ? item["session"]
+      : voiceAgentSessionUpdateConfigSerializer(item["session"]),
+  };
+}
+
+export function voiceAgentClientEventRtcCallSdpCreateDeserializer(
+  item: any,
+): VoiceAgentClientEventRtcCallSdpCreate {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    sdp_offer: item["sdp_offer"],
+    session: !item["session"]
+      ? item["session"]
+      : voiceAgentSessionUpdateConfigDeserializer(item["session"]),
+  };
+}
+
+/** The `session.update` client event. */
+export interface VoiceAgentClientEventSessionUpdate {
+  /** Optional client-generated ID used to identify this event. This is an arbitrary string that a client may assign. It will be passed back if there is an error with the event, but the corresponding `session.updated` event will not include it. */
+  event_id?: string;
+  /** The event type, must be `session.update`. */
+  type: "session.update";
+  /** The voice-agent session settings to update. */
+  session: VoiceAgentSessionUpdate;
+}
+
+export function voiceAgentClientEventSessionUpdateSerializer(
+  item: VoiceAgentClientEventSessionUpdate,
+): any {
+  return {
+    event_id: item["event_id"],
+    type: item["type"],
+    session: voiceAgentSessionUpdateSerializer(item["session"]),
+  };
+}
+
+export function voiceAgentClientEventSessionUpdateDeserializer(
+  item: any,
+): VoiceAgentClientEventSessionUpdate {
+  return {
+    event_id: item["event_id"],
+    type: item["type"],
+    session: voiceAgentSessionUpdateDeserializer(item["session"]),
+  };
+}
+
+/** The session configuration accepted by a voice-agent session update event. */
+export type VoiceAgentSessionUpdate = VoiceAgentSessionUpdateConfig;
+
+export function voiceAgentSessionUpdateSerializer(item: VoiceAgentSessionUpdate): any {
+  return item;
+}
+
+export function voiceAgentSessionUpdateDeserializer(item: any): VoiceAgentSessionUpdate {
+  return item;
+}
+
+/** Decoded model-generated language-switch arguments, not a new client ingress. Unsupported speech components do not gain language support from this tool. */
+export interface VoiceAgentLanguageDetectionArguments {
+  /** Target language in lowercase ISO 639-1 format, such as es or fr. */
+  language: string;
+  /** Non-blank reason for switching the conversation language. */
+  reason: string;
+}
+
+export function voiceAgentLanguageDetectionArgumentsDeserializer(
+  item: any,
+): VoiceAgentLanguageDetectionArguments {
+  return {
+    language: item["language"],
+    reason: item["reason"],
+  };
+}
+
+/** Arguments for starting a collection on a model call. */
+export interface VoiceAgentCollectionStartArguments {
+  /** Required; no default. True returns a private reference, false returns the value. Privacy cannot be downgraded after collection starts. */
+  secret: boolean;
+  /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
+  output_variable_name?: string;
+  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  timeout_seconds?: number;
+}
+
+export function voiceAgentCollectionStartArgumentsDeserializer(
+  item: any,
+): VoiceAgentCollectionStartArguments {
+  return {
+    secret: item["secret"],
+    output_variable_name: item["output_variable_name"],
+    timeout_seconds: item["timeout_seconds"],
+  };
+}
+
+/** Model-call SMS collection arguments, validated before receiver setup. The model supplies the sender, not the collected SMS. */
+export interface VoiceAgentCollectSmsStartArguments {
+  /** Required; no default. True returns a private reference, false returns the value. Privacy cannot be downgraded after collection starts. */
+  secret: boolean;
+  /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
+  output_variable_name?: string;
+  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  timeout_seconds?: number;
+  /** The expected SMS sender in canonical E.164 form, explicitly selected at start without Caller ID fallback. This is routing, not authenticated identity. */
+  from_phone_number: string;
+}
+
+export function voiceAgentCollectSmsStartArgumentsDeserializer(
+  item: any,
+): VoiceAgentCollectSmsStartArguments {
+  return {
+    secret: item["secret"],
+    output_variable_name: item["output_variable_name"],
+    timeout_seconds: item["timeout_seconds"],
+    from_phone_number: item["from_phone_number"],
+  };
+}
+
+/** Arguments for starting DTMF collection on a model call. */
+export interface VoiceAgentCollectDtmfStartArguments {
+  /** Required; no default. True returns a private reference, false returns the value. Privacy cannot be downgraded after collection starts. */
+  secret: boolean;
+  /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
+  output_variable_name?: string;
+  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  timeout_seconds?: number;
+  /** Required typed object selecting one completion policy and its parameters, not an array of simultaneous rules. */
+  completion_mode: VoiceAgentDtmfCompletionMode;
+  /** The maximum wait for the first digit in integer seconds, starting at receiver readiness and bounded by the remaining total deadline. Omit for fifteen seconds. */
+  first_digit_timeout_seconds?: number;
+}
+
+export function voiceAgentCollectDtmfStartArgumentsDeserializer(
+  item: any,
+): VoiceAgentCollectDtmfStartArguments {
+  return {
+    secret: item["secret"],
+    output_variable_name: item["output_variable_name"],
+    timeout_seconds: item["timeout_seconds"],
+    completion_mode: voiceAgentDtmfCompletionModeDeserializer(item["completion_mode"]),
+    first_digit_timeout_seconds: item["first_digit_timeout_seconds"],
+  };
+}
+
+/** One typed keypad completion policy. Unknown types, mixed-mode fields and legacy strings are rejected before receiver setup. */
+export type VoiceAgentDtmfCompletionMode =
+  | VoiceAgentDtmfFixedLengthCompletionMode
+  | VoiceAgentDtmfTerminatorCompletionMode
+  | VoiceAgentDtmfInterDigitSilenceCompletionMode;
+
+export function voiceAgentDtmfCompletionModeDeserializer(item: any): VoiceAgentDtmfCompletionMode {
+  return item;
+}
+
+/** Complete immediately after exactly length digits. Other modes' fields are not accepted. */
+export interface VoiceAgentDtmfFixedLengthCompletionMode {
+  /** Seconds between digits, reset after each digit; defaults to 5. */
+  inter_digit_timeout_seconds?: number;
+  /** Select fixed-length completion. */
+  type: "fixed_length";
+  /** The number of digits to collect; defaults to six. There is no terminator or separate minimum/maximum pair. */
+  length?: number;
+}
+
+export function voiceAgentDtmfFixedLengthCompletionModeDeserializer(
+  item: any,
+): VoiceAgentDtmfFixedLengthCompletionMode {
+  return {
+    inter_digit_timeout_seconds: item["inter_digit_timeout_seconds"],
+    type: item["type"],
+    length: item["length"],
+  };
+}
+
+/** Completes when the configured end key follows nonempty digits within service limits. No digit count or length bounds are configured. */
+export interface VoiceAgentDtmfTerminatorCompletionMode {
+  /** Seconds between digits, reset after each digit; defaults to 5. */
+  inter_digit_timeout_seconds?: number;
+  /** Select confirmation-key completion. */
+  type: "terminator";
+  /** Required confirmation key; excluded from the collected value. */
+  terminator: VoiceAgentDtmfTerminator;
+}
+
+export function voiceAgentDtmfTerminatorCompletionModeDeserializer(
+  item: any,
+): VoiceAgentDtmfTerminatorCompletionMode {
+  return {
+    inter_digit_timeout_seconds: item["inter_digit_timeout_seconds"],
+    type: item["type"],
+    terminator: item["terminator"],
+  };
+}
+
+/** The two non-numeric keypad keys permitted as confirmation terminators. */
+export type VoiceAgentDtmfTerminator = "#" | "*";
+
+/** Completes after nonempty input and an inter-digit pause, within service limits. No key or count is configured; total deadline expiry takes precedence. */
+export interface VoiceAgentDtmfInterDigitSilenceCompletionMode {
+  /** Seconds between digits, reset after each digit; defaults to 5. */
+  inter_digit_timeout_seconds?: number;
+  /** Select silence completion. */
+  type: "inter_digit_silence";
+}
+
+export function voiceAgentDtmfInterDigitSilenceCompletionModeDeserializer(
+  item: any,
+): VoiceAgentDtmfInterDigitSilenceCompletionMode {
+  return {
+    inter_digit_timeout_seconds: item["inter_digit_timeout_seconds"],
+    type: item["type"],
+  };
+}
+
 /** model interface UpdateToolboxRequest */
 export interface UpdateToolboxRequest {
   /** The name of the toolbox to update. */
@@ -20981,6 +22628,9 @@ export type VoiceAgentServerEvent =
   | RealtimeServerEventResponseDone
   | RealtimeServerEventResponseFunctionCallArgumentsDelta
   | RealtimeServerEventResponseFunctionCallArgumentsDone
+  | VoiceAgentServerEventSystemToolArgumentsDelta
+  | VoiceAgentServerEventSystemToolArgumentsDone
+  | VoiceAgentServerEventInputCollectionStatus
   | RealtimeServerEventResponseMCPCallArgumentsDelta
   | RealtimeServerEventResponseMCPCallArgumentsDone
   | RealtimeServerEventResponseMCPCallCompleted
@@ -21008,7 +22658,10 @@ export type VoiceAgentServerEvent =
   | VoiceAgentServerEventResponseAnimationBlendshapesDone
   | VoiceAgentServerEventResponseAnimationVisemeDelta
   | VoiceAgentServerEventResponseAnimationVisemeDone
-  | VoiceAgentServerEventResponseVideoDelta;
+  | VoiceAgentServerEventResponseVideoDelta
+  | VoiceAgentServerEventSessionHandoffStarted
+  | VoiceAgentServerEventSessionHandoffCompleted
+  | VoiceAgentServerEventSessionHandoffAborted;
 
 export function voiceAgentServerEventSerializer(item: VoiceAgentServerEvent): any {
   return item;

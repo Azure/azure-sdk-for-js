@@ -212,7 +212,7 @@ export async function _downloadAudioItemDeserialize(
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Streams captured speech as WAV. BYOS returns 409; use blob_uri. Returns 404 for missing audio, unstored conversations, or delegation items. */
+/** Streams captured speech as WAV. BYOS returns 409; use blob_uri. Returns 404 for missing audio, conversations not stored, or delegation items. */
 export async function downloadAudioItem(
   context: Client,
   foundryFeatures: "VoiceAgents=V1Preview",
@@ -281,7 +281,7 @@ export async function _getAudioItemDeserialize(
   return voiceAudioItemDeserializer(result.body);
 }
 
-/** Gets captured speech-audio metadata. BYOS uses unsigned blob_uri. Returns 404 for missing audio, unstored conversations, or delegation items. */
+/** Gets captured speech-audio metadata. BYOS uses unsigned blob_uri. Returns 404 for missing audio, conversations not stored, or delegation items. */
 export async function getAudioItem(
   context: Client,
   foundryFeatures: "VoiceAgents=V1Preview",
@@ -419,7 +419,7 @@ export async function _listItemsDeserialize(
   return _agentsPagedResultVoiceAgentLiveConversationItemDeserializer(result.body);
 }
 
-/** Lists stored speech and delegation items in order; cursors use item IDs. Returns 404 if the conversation is absent or unstored. */
+/** Lists stored speech and delegation items in order; cursors use item IDs. Returns 404 if the conversation is absent or not stored. */
 export function listItems(
   context: Client,
   foundryFeatures: "VoiceAgents=V1Preview",

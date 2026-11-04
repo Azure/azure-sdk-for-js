@@ -50,7 +50,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
     conversationId: string,
     options?: BetaVoiceAgentsLiveConversationsGetAudioOptionalParams,
   ) => Promise<VoiceRecording>;
-  /** Streams captured speech as WAV. BYOS returns 409; use blob_uri. Returns 404 for missing audio, unstored conversations, or delegation items. */
+  /** Streams captured speech as WAV. BYOS returns 409; use blob_uri. Returns 404 for missing audio, conversations not stored, or delegation items. */
   downloadAudioItem: (
     foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
@@ -58,7 +58,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
     itemId: string,
     options?: BetaVoiceAgentsLiveConversationsDownloadAudioItemOptionalParams,
   ) => Promise<BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse>;
-  /** Gets captured speech-audio metadata. BYOS uses unsigned blob_uri. Returns 404 for missing audio, unstored conversations, or delegation items. */
+  /** Gets captured speech-audio metadata. BYOS uses unsigned blob_uri. Returns 404 for missing audio, conversations not stored, or delegation items. */
   getAudioItem: (
     foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
@@ -74,7 +74,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
     itemId: string,
     options?: BetaVoiceAgentsLiveConversationsGetItemOptionalParams,
   ) => Promise<VoiceAgentLiveConversationItemUnion>;
-  /** Lists stored speech and delegation items in order; cursors use item IDs. Returns 404 if the conversation is absent or unstored. */
+  /** Lists stored speech and delegation items in order; cursors use item IDs. Returns 404 if the conversation is absent or not stored. */
   listItems: (
     foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
