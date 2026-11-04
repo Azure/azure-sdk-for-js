@@ -29,6 +29,125 @@ const documentedRenames = new Map([
   ["_FileSearchToolFiltersValue", "_ComparisonFilterValue"],
   ["_FileSearchToolFiltersFilter", "_CompoundFilterFilter"],
 ]);
+// azure-rest-api-specs#47872 restores these released identities. Source keeps
+// Tool* compatibility aliases, so structural rename discovery cannot identify them.
+const historicalToolNames = [
+  ["ToolFunctionTool", "FunctionTool", "toolFunctionTool", "functionTool"],
+  ["ToolFileSearchTool", "FileSearchTool", "toolFileSearchTool", "fileSearchTool"],
+  ["ToolComputerTool", "ComputerTool", "toolComputerTool", "computerTool"],
+  [
+    "ToolComputerUsePreviewTool",
+    "ComputerUsePreviewTool",
+    "toolComputerUsePreviewTool",
+    "computerUsePreviewTool",
+  ],
+  ["ToolWebSearchTool", "WebSearchTool", "toolWebSearchTool", "webSearchTool"],
+  ["ToolMcpTool", "MCPTool", "toolMcpTool", "mcpTool"],
+  [
+    "ToolCodeInterpreterTool",
+    "CodeInterpreterTool",
+    "toolCodeInterpreterTool",
+    "codeInterpreterTool",
+  ],
+  [
+    "ToolProgrammaticToolCallingParam",
+    "ProgrammaticToolCallingParam",
+    "toolProgrammaticToolCallingParam",
+    "programmaticToolCallingParam",
+  ],
+  ["ToolImageGenTool", "ImageGenTool", "toolImageGenTool", "imageGenTool"],
+  [
+    "ToolLocalShellToolParam",
+    "LocalShellToolParam",
+    "toolLocalShellToolParam",
+    "localShellToolParam",
+  ],
+  [
+    "ToolFunctionShellToolParam",
+    "FunctionShellToolParam",
+    "toolFunctionShellToolParam",
+    "functionShellToolParam",
+  ],
+  ["ToolCustomToolParam", "CustomToolParam", "toolCustomToolParam", "customToolParam"],
+  [
+    "ToolToolSearchToolParam",
+    "ToolSearchToolParam",
+    "toolToolSearchToolParam",
+    "toolSearchToolParam",
+  ],
+  [
+    "ToolWebSearchPreviewTool",
+    "WebSearchPreviewTool",
+    "toolWebSearchPreviewTool",
+    "webSearchPreviewTool",
+  ],
+  [
+    "ToolApplyPatchToolParam",
+    "ApplyPatchToolParam",
+    "toolApplyPatchToolParam",
+    "applyPatchToolParam",
+  ],
+  [
+    "_ToolCodeInterpreterToolContainer",
+    "_CodeInterpreterToolContainer",
+    "_toolCodeInterpreterToolContainer",
+    "_codeInterpreterToolContainer",
+  ],
+  [
+    "_ToolFileSearchToolFiltersValue",
+    "FileSearchToolFiltersValue",
+    "_toolFileSearchToolFiltersValue",
+    "_fileSearchToolFiltersValue",
+  ],
+  [
+    "_ToolFileSearchToolFiltersValue1",
+    "_FileSearchToolFiltersValue",
+    "_toolFileSearchToolFiltersValue1",
+    "_fileSearchToolFiltersValue1",
+  ],
+  [
+    "_ToolFileSearchToolFiltersFilter",
+    "_FileSearchToolFiltersFilter",
+    "_toolFileSearchToolFiltersFilter",
+    "_fileSearchToolFiltersFilter",
+  ],
+  [
+    "_ToolMcpToolAllowedTools",
+    "_MCPToolAllowedTools",
+    "_toolMcpToolAllowedTools",
+    "_mcpToolAllowedTools",
+  ],
+  [
+    "_ToolMcpToolRequireApproval",
+    "_MCPToolRequireApproval",
+    "_toolMcpToolRequireApproval",
+    "_mcpToolRequireApproval",
+  ],
+];
+const converterSuffixes = ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"];
+const historicalToolRenames = new Map([
+  ...historicalToolNames.flatMap(([original, released, oldPrefix, prefix]) => [
+    [original, released],
+    ...converterSuffixes.map((suffix) => [oldPrefix + suffix, prefix + suffix]),
+  ]),
+  ...[
+    ["_CodeInterpreterToolContainer", "_codeInterpreterToolContainer"],
+    ["_MCPToolAllowedTools", "_mcpToolAllowedTools"],
+    ["_MCPToolRequireApproval", "_mcpToolRequireApproval"],
+    ["fileSearchToolFiltersValue", "_fileSearchToolFiltersValue"],
+    ["_FileSearchToolFiltersValue", "_fileSearchToolFiltersValue1"],
+    ["_FileSearchToolFiltersFilter", "_fileSearchToolFiltersFilter"],
+  ].flatMap(([emitted, custom]) =>
+    converterSuffixes.map((suffix) => [emitted + suffix, custom + suffix]),
+  ),
+]);
+const inlineToolProperties = new Map([
+  ["CodeInterpreterTool.container", "_CodeInterpreterToolContainer"],
+  ["ComparisonFilter.value", "FileSearchToolFiltersValue"],
+  ["CompoundFilter.filters", "_FileSearchToolFiltersFilter"],
+  ["MCPTool.allowed_tools", "_MCPToolAllowedTools"],
+  ["MCPTool.require_approval", "_MCPToolRequireApproval"],
+]);
 
 function isModel(file) {
   return file.startsWith("models/") && /\.(?:ts|mts|cts)$/.test(file);
@@ -82,6 +201,33 @@ function parse(text, file, diagnostics) {
   return source;
 }
 
+function toolDefinitionKey({ node, text }) {
+  if (!ts.isInterfaceDeclaration(node)) return canonicalize(text);
+  const clauses = node.heritageClauses ?? [];
+  if (
+    clauses.some((clause) =>
+      clause.types.some(
+        (type) =>
+          clause.token !== ts.SyntaxKind.ExtendsKeyword ||
+          !ts.isIdentifier(type.expression) ||
+          type.expression.text !== "Tool" ||
+          type.typeArguments?.length,
+      ),
+    )
+  )
+    return undefined;
+  return canonicalize(
+    edit(
+      node.getText(),
+      clauses.map((clause) => ({
+        start: clause.getStart() - node.getStart(),
+        end: clause.end - node.getStart(),
+        text: "",
+      })),
+    ),
+  );
+}
+
 function inventory(tree, diagnostics, replacements = new Map()) {
   const modules = new Map();
   const declarations = new Map();
@@ -100,6 +246,18 @@ function inventory(tree, diagnostics, replacements = new Map()) {
     }
     const source = parse(original, file, diagnostics);
     if (source.parseDiagnostics.length) continue;
+    const names = new Set(source.statements.map(declarationName));
+    const coalesced = new Set();
+    // The upstream alternateType unifies only these two wrapper/definition pairs.
+    for (const [wrapper, released, oldPrefix, prefix] of historicalToolNames) {
+      if (!["ToolMcpTool", "ToolCustomToolParam"].includes(wrapper)) continue;
+      for (const [from, to] of [
+        [wrapper, released],
+        ...converterSuffixes.map((suffix) => [oldPrefix + suffix, prefix + suffix]),
+      ]) {
+        if (replacements.get(from) === to && names.has(from) && names.has(to)) coalesced.add(to);
+      }
+    }
     const scopedRenames = new Map(replacements);
     for (const item of importsOf(source)) {
       if (!internalModelImport(file, item.module) || item.sideEffect) continue;
@@ -138,7 +296,15 @@ function inventory(tree, diagnostics, replacements = new Map()) {
         });
         continue;
       }
+      const declaration = { file, node, text: sourceText(node, normalized) };
       if (declarations.has(name)) {
+        const previous = declarations.get(name);
+        const key = coalesced.has(name) && toolDefinitionKey(previous);
+        if (key && key === toolDefinitionKey(declaration)) {
+          if (ts.isInterfaceDeclaration(node) && node.heritageClauses?.length)
+            declarations.set(name, declaration);
+          continue;
+        }
         diagnostics.push({
           file,
           declaration: name,
@@ -146,7 +312,7 @@ function inventory(tree, diagnostics, replacements = new Map()) {
         });
         continue;
       }
-      declarations.set(name, { file, node, text: sourceText(node, normalized) });
+      declarations.set(name, declaration);
     }
   }
   return { modules, declarations };
@@ -164,6 +330,34 @@ function renameFingerprint(declaration) {
 
 function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
   const renames = new Map();
+  for (const [original, released] of historicalToolRenames) {
+    const generated =
+      baseGenerated.declarations.get(original) ?? incoming.declarations.get(original);
+    if (!generated || !baseSource.declarations.has(released)) continue;
+    const alias = baseSource.declarations.get(original)?.node;
+    const target =
+      alias &&
+      (ts.isTypeAliasDeclaration(alias) &&
+      ts.isTypeReferenceNode(alias.type) &&
+      !alias.type.typeArguments?.length
+        ? alias.type.typeName
+        : ts.isVariableStatement(alias)
+          ? alias.declarationList.declarations[0].initializer
+          : undefined);
+    const retainedValueUnion =
+      original === "_ToolFileSearchToolFiltersValue" &&
+      alias &&
+      ts.isTypeAliasDeclaration(alias) &&
+      ts.isTypeAliasDeclaration(generated.node) &&
+      canonicalize(`type Value = ${alias.type.getText()};`) ===
+        canonicalize(`type Value = ${generated.node.type.getText()};`);
+    if (
+      !alias ||
+      (target && ts.isIdentifier(target) && target.text === released) ||
+      retainedValueUnion
+    )
+      renames.set(original, released);
+  }
   for (const [generated, custom] of documentedRenames) {
     if (
       !baseSource.declarations.has(generated) &&
@@ -254,12 +448,38 @@ function upstreamDiscriminators(before, custom, incoming, diagnostics) {
   return new Set([name]);
 }
 
-function policyText(name, text, context, diagnostics) {
+function policyText(name, text, context, diagnostics, declarations) {
   if (text === null) return null;
   const source = parse(text, context.file, diagnostics);
   if (source.parseDiagnostics.length) return text;
   const node = source.statements[0];
   const changes = [];
+  if (ts.isInterfaceDeclaration(node)) {
+    for (const member of node.members) {
+      if (!ts.isPropertySignature(member) || !member.type) continue;
+      const helper = inlineToolProperties.get(`${name}.${member.name.getText(source)}`);
+      if (!helper) continue;
+      const alias = declarations.get(helper)?.node;
+      const array = ts.isArrayTypeNode(member.type);
+      const type = array ? member.type.elementType : member.type;
+      if (
+        ts.isTypeReferenceNode(type) &&
+        ts.isIdentifier(type.typeName) &&
+        type.typeName.text === helper &&
+        !type.typeArguments?.length &&
+        alias &&
+        ts.isTypeAliasDeclaration(alias)
+      ) {
+        // The restored helper names the same type that the released property
+        // spells inline. Merge its actual emitted variants, not a syntax change.
+        changes.push({
+          start: member.type.getStart(source),
+          end: member.type.end,
+          text: array ? `(${alias.type.getText()})[]` : alias.type.getText(),
+        });
+      }
+    }
+  }
   if (name === "RealtimeFunctionToolParameters") {
     const empty =
       (ts.isInterfaceDeclaration(node) &&
@@ -758,12 +978,14 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
       retentionBases.get(name) ?? base?.text ?? null,
       context,
       diagnostics,
+      before.declarations,
     );
     const customText = policyText(
       name,
       (adoptedDiscriminators.has(name) ? theirs?.text : ours?.text) ?? null,
       context,
       diagnostics,
+      custom.declarations,
     );
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(
@@ -771,6 +993,7 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
       theirs?.text ?? (ours ? base?.text : null) ?? null,
       context,
       diagnostics,
+      incoming.declarations,
     );
     const planned = mergeDeclaration(baseText, customText, incomingText, context);
     diagnostics.push(...planned.diagnostics);

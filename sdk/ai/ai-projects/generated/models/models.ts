@@ -19,6 +19,7 @@ import {
   ToolUnion,
   MCPToolRequireApproval,
   MCPToolFilter,
+  MCPTool,
   CallableToolAllowedCaller,
   RankingOptions,
   rankingOptionsSerializer,
@@ -32,10 +33,6 @@ import {
   WebSearchApproximateLocation,
   webSearchApproximateLocationSerializer,
   webSearchApproximateLocationDeserializer,
-  _toolMcpToolAllowedToolsSerializer,
-  _toolMcpToolAllowedToolsDeserializer,
-  _toolMcpToolRequireApprovalSerializer,
-  _toolMcpToolRequireApprovalDeserializer,
   AutoCodeInterpreterToolParam,
   ContainerMemoryLimit,
   containerSkillUnionArraySerializer,
@@ -53,6 +50,10 @@ import {
   RealtimeFunctionToolParameters,
   realtimeFunctionToolParametersSerializer,
   realtimeFunctionToolParametersDeserializer,
+  _voiceAgentMcpToolAllowedToolsSerializer,
+  _voiceAgentMcpToolAllowedToolsDeserializer,
+  _voiceAgentMcpToolRequireApprovalSerializer,
+  _voiceAgentMcpToolRequireApprovalDeserializer,
   ApiError,
   apiErrorDeserializer,
   chatCompletionToolArraySerializer,
@@ -95,7 +96,6 @@ import {
   _voiceAgentResponseCreateParamsToolArraySerializer,
   _voiceAgentResponseCreateParamsToolArrayDeserializer,
   RealtimeFunctionTool,
-  MCPTool,
   _voiceAgentResponseCreateParamsToolChoiceSerializer,
   _voiceAgentResponseCreateParamsToolChoiceDeserializer,
   ToolChoiceOptions,
@@ -2693,21 +2693,6 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
   };
 }
 
-/** Alias for _ToolCodeInterpreterToolContainer */
-export type _ToolCodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
-
-export function _toolCodeInterpreterToolContainerSerializer(
-  item: _ToolCodeInterpreterToolContainer,
-): any {
-  return item;
-}
-
-export function _toolCodeInterpreterToolContainerDeserializer(
-  item: any,
-): _ToolCodeInterpreterToolContainer {
-  return item;
-}
-
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -4764,7 +4749,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -4772,7 +4757,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -4796,7 +4781,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -4804,7 +4789,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -5149,6 +5134,7 @@ export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
 
 /** An Event Grid connection that receives post-call events. */
 export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+  /** The destination type. Always `event_grid`. */
   type: "event_grid";
   /** The name of the Event Grid connection. */
   connection_name: string;
@@ -5171,6 +5157,7 @@ export function voiceAgentEventGridPostCallDestinationDeserializer(
 
 /** A routine that is dispatched with the post-call event. */
 export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+  /** The destination type. Always `routine`. */
   type: "routine";
   /** The name of the routine. */
   name: string;
@@ -11717,7 +11704,7 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerSerializer(item["container"]),
   };
 }
 
@@ -11736,8 +11723,23 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerDeserializer(item["container"]),
   };
+}
+
+/** Alias for _CodeInterpreterToolboxToolContainer */
+export type _CodeInterpreterToolboxToolContainer = string | AutoCodeInterpreterToolParam;
+
+export function _codeInterpreterToolboxToolContainerSerializer(
+  item: _CodeInterpreterToolboxToolContainer,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolboxToolContainerDeserializer(
+  item: any,
+): _CodeInterpreterToolboxToolContainer {
+  return item;
 }
 
 /** A file search tool stored in a toolbox. */
@@ -12170,7 +12172,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -12178,7 +12180,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -12205,7 +12207,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -12213,7 +12215,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };

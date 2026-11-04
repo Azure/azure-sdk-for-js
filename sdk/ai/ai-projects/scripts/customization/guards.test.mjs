@@ -43,6 +43,29 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("historical filter aliases do not override released names retained in source", () => {
+  const customized = `
+export type _FileSearchToolFiltersValue = string | number;
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+export interface ComparisonFilter { value: string; }
+export interface CompoundFilter { filters: ComparisonFilter[]; }
+`;
+  const files = modelFixture(customized, customized, customized, customized);
+  files.generated = tree({ "models/javaScriptToolCompatibility/models.ts": customized });
+  assert.deepEqual(
+    validate({
+      ...files,
+      modelRenames: new Map([
+        ["_ToolFileSearchToolFiltersValue1", "_FileSearchToolFiltersValue"],
+        ["_ToolFileSearchToolFiltersFilter", "_FileSearchToolFiltersFilter"],
+      ]),
+    }),
+    [],
+  );
+});
+
 test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
   const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
   const files = {
