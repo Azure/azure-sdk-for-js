@@ -22,7 +22,6 @@ import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
-import { getConcatSources } from "./util/concat.js";
 import { isNodeReadableStream as isReadableStream } from "./util/typeGuards-node.js";
 import {
   addExpectContinueFraming,
@@ -101,37 +100,6 @@ interface NodeRequestResult {
   disposeRequest: () => void;
 }
 
-function createRequestCompletion(): Omit<NodeRequestResult, "response"> & {
-  track(request: http.ClientRequest): void;
-} {
-  let request: http.ClientRequest;
-  let requestDone = false;
-  let resolveRequestComplete!: () => void;
-  const requestComplete = new Promise<void>((resolve) => {
-    resolveRequestComplete = resolve;
-  });
-  const onComplete = (): void => {
-    requestDone = true;
-    request.removeListener("finish", onComplete);
-    request.removeListener("close", onComplete);
-    resolveRequestComplete();
-  };
-  return {
-    requestComplete,
-    isRequestComplete: () => requestDone,
-    disposeRequest: () => {
-      if (!requestDone) {
-        request.destroy();
-      }
-    },
-    track: (clientRequest) => {
-      request = clientRequest;
-      request.once("finish", onComplete);
-      request.once("close", onComplete);
-    },
-  };
-}
-
 function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
   if (isRestError(error)) {
     return error;
@@ -175,6 +143,34 @@ function initializeBody(body: RequestBodyType | undefined): RequestBodyType | un
     : resolvedBody;
 }
 
+function prepareRequestBody(
+  request: PipelineRequest,
+  useExpectContinue: boolean,
+): RequestBodyType | undefined {
+  const body = initializeBody(request.body);
+  if (!useExpectContinue && body && !request.headers.has("Content-Length")) {
+    const bodyLength = getBodyLength(body);
+    if (bodyLength !== null) {
+      request.headers.set("Content-Length", bodyLength);
+    }
+  }
+  if (!body || !request.onUploadProgress) {
+    return body;
+  }
+
+  const uploadReportStream = new ReportTransform(request.onUploadProgress);
+  uploadReportStream.on("error", (e) => {
+    logger.error("Error in upload progress", e);
+  });
+  if (isReadableStream(body)) {
+    pipeUploadStream(body, uploadReportStream, request);
+  } else {
+    uploadReportStream.end(body);
+  }
+
+  return uploadReportStream;
+}
+
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
@@ -189,13 +185,7 @@ class NodeHttpClient implements HttpClient {
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const requestBody = request.body;
-    const bodyStreams =
-      typeof requestBody === "function"
-        ? getConcatSources(requestBody)
-        : isReadableStream(requestBody)
-          ? [requestBody]
-          : [];
-    const stopObservingSources = observeRequestBodySources(bodyStreams);
+    const { bodyStreams, stopObservingSources } = observeRequestBodySources(requestBody);
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
     const requestAbortSignal = request.abortSignal;
@@ -242,42 +232,18 @@ class NodeHttpClient implements HttpClient {
         useExpectContinue = false;
       }
 
-      const prepareBody = (): RequestBodyType | undefined => {
-        body = initializeBody(requestBody);
-        if (!useExpectContinue && body && !request.headers.has("Content-Length")) {
-          const bodyLength = getBodyLength(body);
-          if (bodyLength !== null) {
-            request.headers.set("Content-Length", bodyLength);
-          }
-        }
-        if (!body || !request.onUploadProgress) {
-          return body;
-        }
-
-        const onUploadProgress = request.onUploadProgress;
-        const uploadReportStream = new ReportTransform(onUploadProgress);
-        uploadReportStream.on("error", (e) => {
-          logger.error("Error in upload progress", e);
-        });
-        if (isReadableStream(body)) {
-          pipeUploadStream(body, uploadReportStream, request);
-        } else {
-          uploadReportStream.end(body);
-        }
-
-        body = uploadReportStream;
-        return body;
-      };
-
       if (!useExpectContinue) {
-        prepareBody();
+        body = prepareRequestBody(request, false);
       }
 
       const result = useExpectContinue
         ? await this.makeRequestWithExpectContinue(
             request,
             abortController,
-            prepareBody,
+            () => {
+              body = prepareRequestBody(request, true);
+              return body;
+            },
             knownBodyLength,
             bodyStreams,
           )
@@ -396,33 +362,51 @@ class NodeHttpClient implements HttpClient {
     rejectRequest: (error: Error & { code?: string }) => void;
     abortRequest: (clientRequest: http.ClientRequest) => void;
   } {
+    let clientRequest: http.ClientRequest;
     let response: IncomingMessage | undefined;
-    const { track, ...completion } = createRequestCompletion();
+    let requestDone = false;
+    let resolveRequestComplete!: () => void;
+    const requestComplete = new Promise<void>((_resolve) => {
+      resolveRequestComplete = _resolve;
+    });
+    const onComplete = (): void => {
+      requestDone = true;
+      clientRequest.removeListener("finish", onComplete);
+      clientRequest.removeListener("close", onComplete);
+      resolveRequestComplete();
+    };
     const onResponse = (incomingResponse: IncomingMessage): void => {
       response = incomingResponse;
       resolve({
         response: incomingResponse,
-        ...completion,
+        requestComplete,
+        isRequestComplete: () => requestDone,
+        disposeRequest: () => {
+          if (!requestDone) {
+            clientRequest.destroy();
+          }
+        },
       });
     };
     return {
       createRequest: (onResponseCallback = onResponse) => {
-        const req = isInsecure
+        clientRequest = isInsecure
           ? http.request(options, onResponseCallback)
           : https.request(options, onResponseCallback);
-        track(req);
-        return req;
+        clientRequest.once("finish", onComplete);
+        clientRequest.once("close", onComplete);
+        return clientRequest;
       },
       onResponse,
       rejectRequest: (error) => {
         reject(toRequestSendError(error, request));
       },
-      abortRequest: (clientRequest) => {
+      abortRequest: (req) => {
         const abortError = new AbortError(
           "The operation was aborted. Rejecting from abort signal callback while making request.",
         );
         response?.destroy(abortError);
-        clientRequest.destroy(abortError);
+        req.destroy(abortError);
         reject(abortError);
       },
     };

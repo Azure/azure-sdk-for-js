@@ -45,8 +45,8 @@ function removeContinueToken(value: unknown): unknown {
   return value;
 }
 
-function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean): void {
-  const updateValue = (name: string, value: unknown): unknown => {
+function stripRequestBodyHeaders(request: PipelineRequest, removeFraming: boolean): void {
+  const stripHeaderValue = (name: string, value: unknown): unknown => {
     const lowerName = name.toLowerCase();
     if (
       removeFraming &&
@@ -58,13 +58,13 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
     }
     return lowerName === "expect" ? removeContinueToken(value) : value;
   };
-  const updatePairs = (pairs: unknown[][]): unknown[][] =>
+  const stripHeaderPairs = (pairs: unknown[][]): unknown[][] =>
     pairs.flatMap(([name, value]) => {
-      const updated = typeof name === "string" ? updateValue(name, value) : value;
+      const updated = typeof name === "string" ? stripHeaderValue(name, value) : value;
       return updated === undefined ? [] : [[name, updated]];
     });
   for (const [name, value] of request.headers) {
-    const updated = updateValue(name, value);
+    const updated = stripHeaderValue(name, value);
     if (updated === undefined) {
       request.headers.delete(name);
     } else if (typeof updated === "string" && updated !== value) {
@@ -78,7 +78,7 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
   }
   const headers = overrides.headers;
   if (Array.isArray(headers)) {
-    const updatedPairs = updatePairs(getHeaderPairs(headers));
+    const updatedPairs = stripHeaderPairs(getHeaderPairs(headers));
     request.requestOverrides = {
       ...overrides,
       headers: Array.isArray(headers[0]) ? updatedPairs : updatedPairs.flat(),
@@ -90,14 +90,12 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
       }
       return entry;
     });
-    request.requestOverrides = { ...overrides, headers: updatePairs(pairs) };
+    request.requestOverrides = { ...overrides, headers: stripHeaderPairs(pairs) };
   } else if (headers && typeof headers === "object") {
-    const updatedHeaders: Record<string, unknown> = { ...headers };
+    const updatedHeaders: Record<string, unknown> = {};
     for (const [name, value] of Object.entries(headers)) {
-      const updated = updateValue(name, value);
-      if (updated === undefined) {
-        delete updatedHeaders[name];
-      } else {
+      const updated = stripHeaderValue(name, value);
+      if (updated !== undefined) {
         updatedHeaders[name] = updated;
       }
     }
@@ -113,7 +111,7 @@ function updateRequestHeaders(request: PipelineRequest, removeFraming: boolean):
  * @param request - The request whose body is known to be empty.
  */
 export function removeExpectContinueHeader(request: PipelineRequest): void {
-  updateRequestHeaders(request, false);
+  stripRequestBodyHeaders(request, false);
 }
 
 /**
@@ -123,5 +121,5 @@ export function removeExpectContinueHeader(request: PipelineRequest): void {
  * @param request - The request whose body has been discarded.
  */
 export function removeRequestBodyHeaders(request: PipelineRequest): void {
-  updateRequestHeaders(request, true);
+  stripRequestBodyHeaders(request, true);
 }

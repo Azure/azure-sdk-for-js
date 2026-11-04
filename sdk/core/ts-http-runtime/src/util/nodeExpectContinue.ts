@@ -3,9 +3,11 @@
 
 import type http from "node:http";
 import { finished } from "node:stream";
-import type { PipelineRequest } from "../interfaces.js";
+import type { PipelineRequest, RequestBodyType } from "../interfaces.js";
 import { logger } from "../log.js";
+import { getConcatSources } from "./concat.js";
 import { getHeaderPairs } from "./requestBodyHeaders.js";
+import { isNodeReadableStream } from "./typeGuards-node.js";
 
 const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
 const unusedSourceObservers = new WeakMap<NodeJS.ReadableStream, () => void>();
@@ -34,14 +36,22 @@ function observeUnusedSource(stream: NodeJS.ReadableStream): void {
  *
  * @internal
  */
-export function observeRequestBodySources(streams: readonly NodeJS.ReadableStream[]): () => void {
-  for (const stream of streams) {
+export function observeRequestBodySources(body: RequestBodyType | undefined): {
+  bodyStreams: readonly NodeJS.ReadableStream[];
+  stopObservingSources: () => void;
+} {
+  const bodyStreams =
+    typeof body === "function" ? getConcatSources(body) : isNodeReadableStream(body) ? [body] : [];
+  for (const stream of bodyStreams) {
     observeUnusedSource(stream);
   }
-  return () => {
-    for (const stream of streams) {
-      unusedSourceObservers.get(stream)?.();
-    }
+  return {
+    bodyStreams,
+    stopObservingSources: () => {
+      for (const stream of bodyStreams) {
+        unusedSourceObservers.get(stream)?.();
+      }
+    },
   };
 }
 
@@ -142,7 +152,6 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   let waiting = true;
   let bodyStarted = false;
   let errorReported = false;
-  let abortHandled = false;
   let request: http.ClientRequest;
   let bodyError: Error | undefined;
   const bodyStreams = new Set(options.bodyStreams);
@@ -228,10 +237,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
 
   function onAbort(): void {
     stopWaiting();
-    if (!abortHandled) {
-      abortHandled = true;
-      options.onAbort(request);
-    }
+    options.onAbort(request);
   }
 
   function onSocket(): void {
@@ -275,10 +281,6 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   }
 
   request.once("error", onError);
-  options.abortSignal.addEventListener("abort", onAbort, { once: true });
-  // Request close can precede consumption of buffered response data.
-  // Keep private abort forwarding until sendRequest's outer lifecycle disconnects the caller.
-  request.once("close", () => stopWaiting());
 
   if (bodyError) {
     request.destroy(bodyError);
@@ -289,6 +291,11 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     onAbort();
     return;
   }
+
+  options.abortSignal.addEventListener("abort", onAbort, { once: true });
+  // Request close can precede consumption of buffered response data.
+  // Keep private abort forwarding until sendRequest's outer lifecycle disconnects the caller.
+  request.once("close", () => stopWaiting());
 
   if (request.destroyed || request.closed) {
     stopWaiting();

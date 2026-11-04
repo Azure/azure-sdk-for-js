@@ -127,10 +127,12 @@ export function setResponseBodyDisposer(response: object, dispose: () => void): 
 }
 
 /**
- * Destroys a Node stream, or drains it if destruction is unavailable,
- * and recursively disposes its tracked upstream sources.
+ * Disposes a raw Node stream and its tracked upstream sources without throwing.
+ *
+ * @param readableStream - The stream to destroy, or drain if destruction is unavailable.
+ * @param disposed - Streams already visited during recursive disposal.
  */
-function disposeNodeResponseBody(
+export function disposeNodeStream(
   readableStream: NodeResponseBody,
   disposed: Set<NodeResponseBody> = new Set(),
 ): void {
@@ -174,20 +176,7 @@ function disposeNodeResponseBody(
   }
 
   for (const source of sources ?? []) {
-    disposeNodeResponseBody(source, disposed);
-  }
-}
-
-/**
- * Disposes a raw Node stream and its tracked upstream sources without throwing.
- *
- * @param stream - The stream to destroy, or drain if destruction is unavailable.
- */
-export function disposeNodeStream(stream: NodeResponseBody): void {
-  try {
-    disposeNodeResponseBody(stream);
-  } catch (error) {
-    logger.warning("Error disposing Node stream", error);
+    disposeNodeStream(source, disposed);
   }
 }
 
