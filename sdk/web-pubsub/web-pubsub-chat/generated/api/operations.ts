@@ -3,7 +3,6 @@
 
 import { WebPubSubChatServiceContext as Client } from "./index.js";
 import {
-  ChatTopicUpdateCustomized,
   GenerateClientTokenResponse,
   generateClientTokenResponseDeserializer,
 } from "../models/customizations/models.js";
@@ -603,7 +602,7 @@ export function _updateTopicSend(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicUpdateCustomized,
+  resource: ChatTopic,
   options: UpdateTopicOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -629,7 +628,7 @@ export function _updateTopicSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: { title: title, state: state },
+      body: chatTopicSerializer(resource),
     });
 }
 
@@ -647,7 +646,7 @@ export async function updateTopic(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicUpdateCustomized,
+  resource: ChatTopic,
   options: UpdateTopicOptionalParams = { requestOptions: {} },
 ): Promise<ChatTopic> {
   const result = await _updateTopicSend(context, roomId, topicId, resource, options);
@@ -1211,7 +1210,7 @@ export function _updateMessageSend(
   context: Client,
   conversationId: string,
   messageId: string,
-  message: ChatMessage,
+  resource: ChatMessage,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1237,7 +1236,7 @@ export function _updateMessageSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatMessageSerializer(message),
+      body: chatMessageSerializer(resource),
     });
 }
 
@@ -1257,10 +1256,10 @@ export async function updateMessage(
   context: Client,
   conversationId: string,
   messageId: string,
-  message: ChatMessage,
+  resource: ChatMessage,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ChatMessage> {
-  const result = await _updateMessageSend(context, conversationId, messageId, message, options);
+  const result = await _updateMessageSend(context, conversationId, messageId, resource, options);
   return _updateMessageDeserialize(result);
 }
 

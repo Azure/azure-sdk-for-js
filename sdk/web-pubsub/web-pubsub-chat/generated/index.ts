@@ -30,10 +30,7 @@ export {
   KnownChatUserKind,
   KnownVersions,
 } from "./models/index.js";
-export type {
-  ChatTopicUpdateCustomized,
-  GenerateClientTokenResponse,
-} from "./models/customizations/index.js";
+export type { GenerateClientTokenResponse } from "./models/customizations/index.js";
 export type {
   GenerateClientTokenOptionalParams,
   ListRoomsForUserOptionalParams,

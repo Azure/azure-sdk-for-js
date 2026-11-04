@@ -19,7 +19,6 @@
       "@azure/web-pubsub-chat!ChatRoom:interface": "WebPubSubChat.ChatRoom",
       "@azure/web-pubsub-chat!PagedChatTopic:interface": "Azure.Core.Foundations.CustomPage",
       "@azure/web-pubsub-chat!ChatTopic:interface": "WebPubSubChat.ChatTopic",
-      "@azure/web-pubsub-chat!ChatTopicUpdateCustomized:interface": "Customizations.ChatTopicUpdateCustomized",
       "@azure/web-pubsub-chat!PagedChatRoomMember:interface": "Azure.Core.Foundations.CustomPage",
       "@azure/web-pubsub-chat!ChatRoomMember:interface": "WebPubSubChat.ChatRoomMember",
       "@azure/web-pubsub-chat!PagedChatUser:interface": "Azure.Core.Foundations.CustomPage",

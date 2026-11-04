@@ -62,10 +62,7 @@ import {
   ListMessagesOptionalParams,
   GetConversationOptionalParams,
 } from "./api/options.js";
-import {
-  ChatTopicUpdateCustomized,
-  GenerateClientTokenResponse,
-} from "./models/customizations/models.js";
+import { GenerateClientTokenResponse } from "./models/customizations/models.js";
 import {
   ChatConversation,
   ChatMessage,
@@ -184,7 +181,7 @@ export class WebPubSubChatServiceClient {
   updateTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicUpdateCustomized,
+    resource: ChatTopic,
     options: UpdateTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return updateTopic(this._client, roomId, topicId, resource, options);
@@ -285,10 +282,10 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    message: ChatMessage,
+    resource: ChatMessage,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
-    return updateMessage(this._client, conversationId, messageId, message, options);
+    return updateMessage(this._client, conversationId, messageId, resource, options);
   }
 
   /** Delete a message. */

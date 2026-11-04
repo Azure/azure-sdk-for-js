@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { ChatTopicUpdateCustomized, GenerateClientTokenResponse } from "./models.js";
+export type { GenerateClientTokenResponse } from "./models.js";
