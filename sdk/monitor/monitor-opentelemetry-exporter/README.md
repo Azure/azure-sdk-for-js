@@ -203,8 +203,10 @@ separate retry partitions, isolated from host storage, sharing a 50 MB routed-st
 under the configured `storageDirectory`. Additional destinations use short-lived senders
 without persistence. Retried envelopes retain their original keys and destinations.
 In-flight replay batches retain their storage quota until delivery or restoration completes.
-One background worker per exporter checks opened routes every 60 seconds, even without
-new telemetry. Existing partitions are not discovered at startup until their route is opened.
+One background worker per exporter checks opened routes after a randomized initial delay
+of up to 60 seconds, then every 60 seconds, even without new telemetry. This staggers replay
+across replicas that restart together. Existing partitions are not discovered at startup
+until their route is opened.
 Retryable failures pause new transmissions for that route while available offline storage
 queues the new items. Backoff honors `Retry-After`, or defaults to 60 seconds.
 Storage opt-outs and the OneSettings storage control also apply to routed retries.

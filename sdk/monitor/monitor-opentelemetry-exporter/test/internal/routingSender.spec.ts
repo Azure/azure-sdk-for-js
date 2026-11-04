@@ -56,7 +56,10 @@ describe("routed senders and persistence", () => {
     protection = FileAccessControl.OS_PROVIDES_FILE_PROTECTION;
     vi.spyOn(FileAccessControl, "checkFileProtection").mockImplementation(() => {});
     FileAccessControl.OS_PROVIDES_FILE_PROTECTION = true;
-    vi.useFakeTimers({ toFake: ["Date", "setInterval", "clearInterval"] });
+    vi.useFakeTimers({
+      toFake: ["Date", "setTimeout", "clearTimeout", "setInterval", "clearInterval"],
+    });
+    vi.spyOn(Math, "random").mockReturnValue(0);
     sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
       requests.push(request);
       return response(request);
@@ -126,6 +129,54 @@ describe("routed senders and persistence", () => {
       });
     await configuration.getConfigurationAndRefreshInterval();
   }
+
+  it.each([
+    { random: 0.25, initialDelay: 15_000 },
+    { random: 0.75, initialDelay: 45_000 },
+  ])(
+    "starts one unref'd worker after $initialDelay ms and then polls every 60 seconds",
+    async ({ random, initialDelay }) => {
+      vi.mocked(Math.random).mockReturnValue(random);
+      const retry = vi.spyOn(HttpSender.prototype, "retryPersistedEnvelopes").mockResolvedValue();
+      const sender = router();
+      await sender.export(groups());
+      await sender.export(groups("https://second.test"));
+      expect(vi.getTimerCount()).toBe(1);
+      expect(sender["retryWorker"]?.hasRef()).toBe(false);
+
+      await vi.advanceTimersByTimeAsync(initialDelay - 1);
+      expect(retry).not.toHaveBeenCalled();
+      await vi.advanceTimersByTimeAsync(1);
+      expect(retry).toHaveBeenCalledTimes(2);
+      expect(vi.getTimerCount()).toBe(1);
+      expect(sender["retryWorker"]?.hasRef()).toBe(false);
+
+      await vi.advanceTimersByTimeAsync(59_999);
+      expect(retry).toHaveBeenCalledTimes(2);
+      await vi.advanceTimersByTimeAsync(1);
+      expect(retry).toHaveBeenCalledTimes(4);
+      expect(vi.getTimerCount()).toBe(1);
+
+      await sender.shutdown();
+      expect(vi.getTimerCount()).toBe(0);
+      await vi.advanceTimersByTimeAsync(60_000);
+      expect(retry).toHaveBeenCalledTimes(4);
+    },
+  );
+
+  it("cancels the initial worker delay on shutdown without starting the polling interval", async () => {
+    vi.mocked(Math.random).mockReturnValue(0.5);
+    const retry = vi.spyOn(HttpSender.prototype, "retryPersistedEnvelopes").mockResolvedValue();
+    const sender = router();
+    await sender.export(groups());
+    expect(vi.getTimerCount()).toBe(1);
+
+    await sender.shutdown();
+    expect(vi.getTimerCount()).toBe(0);
+    await vi.advanceTimersByTimeAsync(120_000);
+    expect(retry).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
 
   it("isolates retries and backoff by endpoint and auth, preserving per-item keys", async () => {
     sendRequest.mockImplementation(async (request) => {

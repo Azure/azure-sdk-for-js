@@ -11,6 +11,7 @@ import { HttpSender } from "./httpSender.js";
 import { getStorageDirectory } from "./persist/fileSystemPersist.js";
 
 const MAX_CACHED_ROUTES = 64;
+const RETRY_POLL_INTERVAL_MS = 60_000;
 
 /** @internal */
 export class RoutingSender {
@@ -65,7 +66,7 @@ export class RoutingSender {
             if (!temporary) {
               this.senders.set(key, sender);
               if (!this.retryWorker && sender.hasOfflineStorage) {
-                this.retryWorker = setInterval(() => {
+                const retry = (): void => {
                   void context.with(suppressTracing(context.active()), async () => {
                     try {
                       await Promise.all(
@@ -75,7 +76,15 @@ export class RoutingSender {
                       diag.warn("Failed to retry routed telemetry:", error);
                     }
                   });
-                }, 60_000);
+                };
+                this.retryWorker = setTimeout(
+                  () => {
+                    this.retryWorker = setInterval(retry, RETRY_POLL_INTERVAL_MS);
+                    this.retryWorker.unref();
+                    retry();
+                  },
+                  Math.floor(Math.random() * RETRY_POLL_INTERVAL_MS),
+                );
                 this.retryWorker.unref();
               }
             }
@@ -137,7 +146,7 @@ export class RoutingSender {
 
   private async shutdownCore(): Promise<void> {
     this.isShutdown = true;
-    clearInterval(this.retryWorker);
+    clearTimeout(this.retryWorker);
     await Promise.allSettled([...this.operations]);
     await Promise.all([...this.senders.values()].map((sender) => sender.shutdown()));
     this.senders.clear();
