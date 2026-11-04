@@ -1806,12 +1806,6 @@ export interface DataShareConnection {
    * The type for data share connection
    *
    * Selects this variant. Must be "DataShare".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "DataShare";
 }
@@ -1828,12 +1822,6 @@ export interface DataShareConnectionInput extends InputOf<DataShareConnection> {
    * The type for data share connection
    *
    * Selects this variant. Must be "DataShare".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "DataShare";
 }
@@ -1864,12 +1852,6 @@ export interface DataShareSource {
    * The type for data share source
    *
    * Selects this variant. Must be "DataShare".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "DataShare";
 }
@@ -1890,12 +1872,6 @@ export interface DataShareSourceInput extends InputOf<DataShareSource> {
    * The type for data share source
    *
    * Selects this variant. Must be "DataShare".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "DataShare";
 }
@@ -4585,12 +4561,6 @@ export interface ManagedIdentityAuthProperties {
    * The type of managed identity auth
    *
    * Selects this variant. Must be "ManagedIdentity".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ManagedIdentity";
 }
@@ -4607,12 +4577,6 @@ export interface ManagedIdentityAuthPropertiesInput extends InputOf<ManagedIdent
    * The type of managed identity auth
    *
    * Selects this variant. Must be "ManagedIdentity".
-   *
-   * Use `asDiscriminator` for a value known only at deploy time:
-   *
-   * ```ts
-   * type: asDiscriminator(typeParam),
-   * ```
    */
   type: "ManagedIdentity";
 }

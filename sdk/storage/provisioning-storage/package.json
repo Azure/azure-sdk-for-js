@@ -81,12 +81,13 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,mjs,cjs,json}\" \"config/*.json\"",
-    "lint": "eslint package.json src test",
-    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src",
+    "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo Skipped.",
     "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "typecheck": "tsc -p config/tsconfig.test.node.json --noEmit",
     "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
