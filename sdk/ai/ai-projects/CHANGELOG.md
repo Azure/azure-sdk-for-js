@@ -29,6 +29,8 @@
 
 - Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Regenerate from the Foundry release-branch commit `aeb2f66c9f151690cdd01a96b7879efb3996fe98` with OpenAI TypeSpec 1.34.1 and client-generator-core 0.73.1, retaining existing native Live model names, tool contracts, and OpenAI-compatible function inputs. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/aeb2f66c9f151690cdd01a96b7879efb3996fe98)
+- Preserve the restored tool-name customization mappings from the updated feature branch, including `Tool*` compatibility aliases and converter behavior. [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
+- Include the feature branch's inline-subagent, handoff, and SIP contract refresh from azure-rest-api-specs commit `047993e651cabbd249e5cf83e2a2056b6737b388` while retaining the newer release-branch output above. [#40641](https://github.com/Azure/azure-sdk-for-js/pull/40641)
 
 ## 2.10.0 (2026-10-30)
 

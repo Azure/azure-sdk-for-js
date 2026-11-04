@@ -1911,7 +1911,17 @@ export function validateCustomization({
   )
     report("<input>", "packageVersion", "packageVersion must be a nonempty package.json version.");
   if (diagnostics.length) return diagnostics;
-  const renames = new Map([...packageRenames, ...modelRenames]);
+  const trees = {
+    base: parseTree(baseGenerated, "baseGenerated", report),
+    custom: parseTree(baseSource, "baseSource", report),
+    incoming: parseTree(generated, "generated", report),
+    output: parseTree(source, "source", report),
+  };
+  const baselineModels = inventory(trees.custom, modelFile);
+  const renames = new Map([
+    ...[...packageRenames].filter(([original]) => !baselineModels.has(original)),
+    ...modelRenames,
+  ]);
   for (const name of renames.keys()) {
     try {
       mapped(name, renames);
@@ -1920,13 +1930,6 @@ export function validateCustomization({
     }
   }
   if (diagnostics.length) return diagnostics;
-  const trees = {
-    base: parseTree(baseGenerated, "baseGenerated", report),
-    custom: parseTree(baseSource, "baseSource", report),
-    incoming: parseTree(generated, "generated", report),
-    output: parseTree(source, "source", report),
-  };
-  const baselineModels = inventory(trees.custom, modelFile);
   const previousDiagnosticCount = diagnostics.length;
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;

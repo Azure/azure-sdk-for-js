@@ -31640,6 +31640,25 @@ export const _toolFileSearchToolFiltersFilterSerializer = filtersSerializer;
 
 export const _toolFileSearchToolFiltersFilterDeserializer = filtersDeserializer;
 
+// Preserve the helper identities restored on the feature branch.
+export const _fileSearchToolFiltersValueSerializer = _toolFileSearchToolFiltersValueSerializer;
+export const _fileSearchToolFiltersValueDeserializer = _toolFileSearchToolFiltersValueDeserializer;
+export const _fileSearchToolFiltersValue1ArraySerializer =
+  _toolFileSearchToolFiltersValue1ArraySerializer;
+export const _fileSearchToolFiltersValue1ArrayDeserializer =
+  _toolFileSearchToolFiltersValue1ArrayDeserializer;
+export const _fileSearchToolFiltersValue1Serializer = _toolFileSearchToolFiltersValue1Serializer;
+export const _fileSearchToolFiltersValue1Deserializer =
+  _toolFileSearchToolFiltersValue1Deserializer;
+export const _fileSearchToolFiltersFilterArraySerializer =
+  _toolFileSearchToolFiltersFilterArraySerializer;
+export const _fileSearchToolFiltersFilterArrayDeserializer =
+  _toolFileSearchToolFiltersFilterArrayDeserializer;
+export type _FileSearchToolFiltersFilter = _ToolFileSearchToolFiltersFilter;
+export const _fileSearchToolFiltersFilterSerializer = _toolFileSearchToolFiltersFilterSerializer;
+export const _fileSearchToolFiltersFilterDeserializer =
+  _toolFileSearchToolFiltersFilterDeserializer;
+
 /** Alias for ComputerTool. */
 export type ToolComputerTool = ComputerTool;
 
@@ -31697,6 +31716,20 @@ export function _toolMcpToolRequireApprovalDeserializer(
 ): _ToolMcpToolRequireApproval {
   return typeof item === "string" ? item : mcpToolRequireApprovalDeserializer(item);
 }
+
+export type _MCPToolAllowedTools = _ToolMcpToolAllowedTools;
+export const _mcpToolAllowedToolsSerializer = _toolMcpToolAllowedToolsSerializer;
+export const _mcpToolAllowedToolsDeserializer = _toolMcpToolAllowedToolsDeserializer;
+export type _MCPToolRequireApproval = _ToolMcpToolRequireApproval;
+export const _mcpToolRequireApprovalSerializer = _toolMcpToolRequireApprovalSerializer;
+export const _mcpToolRequireApprovalDeserializer = _toolMcpToolRequireApprovalDeserializer;
+export type _VoiceAgentMcpToolAllowedTools = _ToolMcpToolAllowedTools;
+export const _voiceAgentMcpToolAllowedToolsSerializer = _toolMcpToolAllowedToolsSerializer;
+export const _voiceAgentMcpToolAllowedToolsDeserializer = _toolMcpToolAllowedToolsDeserializer;
+export type _VoiceAgentMcpToolRequireApproval = _ToolMcpToolRequireApproval;
+export const _voiceAgentMcpToolRequireApprovalSerializer = _toolMcpToolRequireApprovalSerializer;
+export const _voiceAgentMcpToolRequireApprovalDeserializer =
+  _toolMcpToolRequireApprovalDeserializer;
 
 /** Alias for CodeInterpreterTool. */
 export type ToolCodeInterpreterTool = CodeInterpreterTool;

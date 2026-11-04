@@ -120,6 +120,7 @@ export type {
   Filters,
   ComparisonFilter,
   ComparisonFilterValueItems,
+  FileSearchToolFiltersValue,
   CompoundFilter,
   ComputerUsePreviewTool,
   ComputerEnvironment,

@@ -3534,6 +3534,9 @@ export interface FileSearchToolboxTool extends ToolboxTool {
 }
 
 // @public
+export type FileSearchToolFiltersValue = string | number | boolean | _FileSearchToolFiltersValue[];
+
+// @public
 export type Filters = ComparisonFilter | CompoundFilter;
 
 // @public

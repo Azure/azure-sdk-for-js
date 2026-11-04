@@ -3,6 +3,7 @@
 
 import { describe, expect, expectTypeOf, it } from "vitest";
 import type * as Models from "../../src/index.js";
+import * as ModelConverters from "../../src/models/models.js";
 import type {
   AgentSessionResource,
   ApiErrorResponse,
@@ -122,6 +123,95 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("preserves restored feature-branch tool exports and converter aliases", () => {
+    expectTypeOf<Models.FileSearchToolFiltersValue>().toEqualTypeOf<
+      string | number | boolean | (string | number)[]
+    >();
+    const aliases = [
+      [
+        ModelConverters._fileSearchToolFiltersValueSerializer,
+        ModelConverters._toolFileSearchToolFiltersValueSerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValueDeserializer,
+        ModelConverters._toolFileSearchToolFiltersValueDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1ArraySerializer,
+        ModelConverters._toolFileSearchToolFiltersValue1ArraySerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1ArrayDeserializer,
+        ModelConverters._toolFileSearchToolFiltersValue1ArrayDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1Serializer,
+        ModelConverters._toolFileSearchToolFiltersValue1Serializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1Deserializer,
+        ModelConverters._toolFileSearchToolFiltersValue1Deserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterArraySerializer,
+        ModelConverters._toolFileSearchToolFiltersFilterArraySerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterArrayDeserializer,
+        ModelConverters._toolFileSearchToolFiltersFilterArrayDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterSerializer,
+        ModelConverters._toolFileSearchToolFiltersFilterSerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterDeserializer,
+        ModelConverters._toolFileSearchToolFiltersFilterDeserializer,
+      ],
+      [
+        ModelConverters._mcpToolAllowedToolsSerializer,
+        ModelConverters._toolMcpToolAllowedToolsSerializer,
+      ],
+      [
+        ModelConverters._mcpToolAllowedToolsDeserializer,
+        ModelConverters._toolMcpToolAllowedToolsDeserializer,
+      ],
+      [
+        ModelConverters._mcpToolRequireApprovalSerializer,
+        ModelConverters._toolMcpToolRequireApprovalSerializer,
+      ],
+      [
+        ModelConverters._mcpToolRequireApprovalDeserializer,
+        ModelConverters._toolMcpToolRequireApprovalDeserializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolAllowedToolsSerializer,
+        ModelConverters._toolMcpToolAllowedToolsSerializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolAllowedToolsDeserializer,
+        ModelConverters._toolMcpToolAllowedToolsDeserializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolRequireApprovalSerializer,
+        ModelConverters._toolMcpToolRequireApprovalSerializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolRequireApprovalDeserializer,
+        ModelConverters._toolMcpToolRequireApprovalDeserializer,
+      ],
+    ];
+    for (const [alias, converter] of aliases) expect(alias).toBe(converter);
+    expect(ModelConverters._fileSearchToolFiltersValueSerializer(["account", 7])).toEqual([
+      "account",
+      7,
+    ]);
+    expect(ModelConverters._voiceAgentMcpToolAllowedToolsSerializer(["lookup"])).toEqual([
+      "lookup",
+    ]);
+    expect(ModelConverters._voiceAgentMcpToolRequireApprovalDeserializer("never")).toBe("never");
+  });
+
   it("release branch: preserves omitted delegated-subagent selectors on legacy JavaScript inputs", () => {
     const subagents = [
       { agent_name: "specialist", agent_capabilities: "Answer account questions." },

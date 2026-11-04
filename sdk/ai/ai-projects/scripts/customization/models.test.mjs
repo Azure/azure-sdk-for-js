@@ -789,6 +789,282 @@ export function ${prefix}ArrayDeserializer(items: ${model}[]): ${model}[] {
   assert.equal(decoded.details[0].code, "inner");
 });
 
+test("historical Tool identities merge restored names without replacing compatibility aliases", () => {
+  for (const [original, released, oldPrefix, prefix] of [
+    ["ToolFunctionTool", "FunctionTool", "toolFunctionTool", "functionTool"],
+    [
+      "ToolCodeInterpreterTool",
+      "CodeInterpreterTool",
+      "toolCodeInterpreterTool",
+      "codeInterpreterTool",
+    ],
+    ["ToolWebSearchTool", "WebSearchTool", "toolWebSearchTool", "webSearchTool"],
+    ["ToolMcpTool", "MCPTool", "toolMcpTool", "mcpTool"],
+    ["ToolCustomToolParam", "CustomToolParam", "toolCustomToolParam", "customToolParam"],
+  ]) {
+    const fixture = (name, converter, { custom = false, added = false } = {}) =>
+      tree(
+        `
+export interface Tool {}
+export interface ${name} extends Tool { name${custom ? "" : "?"}: string; ${added ? "strict?: boolean;" : ""} }
+export function ${converter}Serializer(item: ${name}): any {
+  return { name: ${custom ? "item.name.toUpperCase()" : "item.name"}, ${added ? "strict: item.strict," : ""} };
+}
+export function ${converter}Deserializer(item: any): ${name} {
+  return { name: item.name, ${added ? "strict: item.strict," : ""} };
+}
+${
+  ["ToolMcpTool", "ToolCustomToolParam"].includes(name)
+    ? `
+export interface ${released} { name?: string; }
+export function ${prefix}Serializer(item: ${released}): any { return { name: item.name, }; }
+export function ${prefix}Deserializer(item: any): ${released} { return { name: item.name, }; }
+`
+    : ""
+}
+${
+  custom
+    ? `
+export type ${original} = ${released};
+export const ${oldPrefix}Serializer = ${prefix}Serializer;
+export const ${oldPrefix}Deserializer = ${prefix}Deserializer;
+`
+    : ""
+}
+`,
+        `export type { ${name}${custom ? `, ${original}` : ""} } from "./models.js";`,
+      );
+    const incoming = fixture(released, prefix, { added: true });
+    const result = succeeded(
+      fixture(original, oldPrefix),
+      fixture(released, prefix, { custom: true }),
+      incoming,
+    );
+    const output = result.files.get(modelFile);
+    assert.match(output, new RegExp(`type ${original} = ${released}`));
+    assert.match(output, /name: string/);
+    assert.ok(result.exports.some((entry) => entry.name === original));
+    const converters = evaluate(output);
+    assert.equal(converters[oldPrefix + "Serializer"], converters[prefix + "Serializer"]);
+    assert.equal(converters[oldPrefix + "Deserializer"], converters[prefix + "Deserializer"]);
+    assert.deepEqual(
+      JSON.parse(
+        JSON.stringify(converters[oldPrefix + "Serializer"]({ name: "kept", strict: true })),
+      ),
+      { name: "KEPT", strict: true },
+    );
+    const repeated = succeeded(incoming, result.files, incoming);
+    assert.equal(
+      evaluate(repeated.files.get(modelFile))[prefix + "Serializer"]({ name: "kept" }).name,
+      "KEPT",
+    );
+  }
+});
+
+test("restored filter helpers reconcile alias syntax and retain established converter names", () => {
+  const fixture = ({ old = false, custom = false, added = false } = {}) => {
+    const value = old ? "_ToolFileSearchToolFiltersValue" : "FileSearchToolFiltersValue";
+    const items = old ? "_ToolFileSearchToolFiltersValue1" : "_FileSearchToolFiltersValue";
+    const converter = old
+      ? "_toolFileSearchToolFiltersValue"
+      : custom
+        ? "_fileSearchToolFiltersValue"
+        : "fileSearchToolFiltersValue";
+    const itemConverter = old
+      ? "_toolFileSearchToolFiltersValue1"
+      : custom
+        ? "_fileSearchToolFiltersValue1"
+        : "_FileSearchToolFiltersValue";
+    const union = `string | number | boolean | ${old ? "(string | number)" : items}[]${added ? " | null" : ""}`;
+    return tree(`
+export interface ComparisonFilter { value: ${old || custom ? union : value}; }
+export type ${value} = ${union};
+export type ${items} = string | number;
+export function ${converter}Serializer(item: ${value}): any { return item; }
+export function ${converter}Deserializer(item: any): ${value} { return item; }
+export function ${itemConverter}Serializer(item: ${items}): any { return item; }
+export function ${itemConverter}Deserializer(item: any): ${items} { return item; }
+export function ${itemConverter}ArraySerializer(items: ${items}[]): any[] { return items.map(${itemConverter}Serializer); }
+export function comparisonFilterSerializer(item: ComparisonFilter): any {
+  return { value: ${converter}Serializer(item.value) };
+}
+${
+  custom
+    ? `
+export type ComparisonFilterValueItems = string | number;
+export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export const _toolFileSearchToolFiltersValueSerializer = _fileSearchToolFiltersValueSerializer;
+export const _toolFileSearchToolFiltersValueDeserializer = _fileSearchToolFiltersValueDeserializer;
+export const _toolFileSearchToolFiltersValue1Serializer = _fileSearchToolFiltersValue1Serializer;
+export const _toolFileSearchToolFiltersValue1Deserializer = _fileSearchToolFiltersValue1Deserializer;
+export const _toolFileSearchToolFiltersValue1ArraySerializer = _fileSearchToolFiltersValue1ArraySerializer;
+`
+    : ""
+}
+`);
+  };
+  const incoming = fixture({ added: true });
+  const result = succeeded(fixture({ old: true }), fixture({ custom: true }), incoming);
+  const output = result.files.get(modelFile);
+  assert.match(
+    output.replace(/\s+/g, " "),
+    /value: string \| number \| boolean \| _FileSearchToolFiltersValue\[\] \| null/,
+  );
+  assert.match(output, /export type ComparisonFilterValueItems = string \| number;/);
+  assert.ok(result.exports.some((entry) => entry.name === "ComparisonFilterValueItems"));
+  const converters = evaluate(output);
+  assert.equal(
+    converters._toolFileSearchToolFiltersValueSerializer,
+    converters._fileSearchToolFiltersValueSerializer,
+  );
+  assert.equal(
+    converters._toolFileSearchToolFiltersValue1ArraySerializer,
+    converters._fileSearchToolFiltersValue1ArraySerializer,
+  );
+  const values = ["kept", 0];
+  assert.equal(converters.comparisonFilterSerializer({ value: values }).value, values);
+  assert.equal(converters.comparisonFilterSerializer({ value: null }).value, null);
+  const repeated = succeeded(incoming, result.files, incoming);
+  assert.match(
+    repeated.files.get(modelFile),
+    /export type ComparisonFilterValueItems = string \| number;/,
+  );
+});
+
+test("restored helper references retain released inline property types and emitted variants", () => {
+  for (const [model, property, original, released, array] of [
+    [
+      "CodeInterpreterTool",
+      "container",
+      "_ToolCodeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+      false,
+    ],
+    ["MCPTool", "allowed_tools", "_ToolMcpToolAllowedTools", "_MCPToolAllowedTools", false],
+    [
+      "MCPTool",
+      "require_approval",
+      "_ToolMcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+      false,
+    ],
+    [
+      "CompoundFilter",
+      "filters",
+      "_ToolFileSearchToolFiltersFilter",
+      "_FileSearchToolFiltersFilter",
+      true,
+    ],
+  ]) {
+    const fixture = ({ old = false, custom = false, added = false } = {}) => {
+      const helper = old ? original : released;
+      const union = `string | number${added ? " | boolean" : ""}`;
+      const type = custom ? (array ? `(${union})[]` : union) : helper + (array ? "[]" : "");
+      return tree(`
+export interface ${model} { ${property}?: ${type}; ${custom ? "customized?: boolean;" : ""} }
+export type ${helper} = ${union};
+${custom ? `export type ${original} = ${released};` : ""}
+`);
+    };
+    const incoming = fixture({ added: true });
+    const result = succeeded(fixture({ old: true }), fixture({ custom: true }), incoming);
+    const output = result.files.get(modelFile);
+    assert.match(
+      output.replace(/\s+/g, " "),
+      new RegExp(
+        `${property}\\?: ${array ? "\\(" : ""}string \\| number \\| boolean${array ? "\\)\\[\\]" : ""}`,
+      ),
+    );
+    assert.match(output, /customized\?: boolean/);
+    assert.deepEqual(succeeded(incoming, result.files, incoming).diagnostics, []);
+  }
+});
+
+test("shared emitted tool helpers do not replace customized toolbox and voice converter calls", () => {
+  for (const [original, released, oldPrefix, prefix, emittedPrefix] of [
+    [
+      "_ToolCodeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+      "_toolCodeInterpreterToolContainer",
+      "_codeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+    ],
+    [
+      "_ToolMcpToolAllowedTools",
+      "_MCPToolAllowedTools",
+      "_toolMcpToolAllowedTools",
+      "_mcpToolAllowedTools",
+      "_MCPToolAllowedTools",
+    ],
+    [
+      "_ToolMcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+      "_toolMcpToolRequireApproval",
+      "_mcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+    ],
+  ]) {
+    const fixture = (name, converter, custom = false) =>
+      tree(`
+export type ${name} = string | number;
+export function ${converter}Serializer(item: ${name}): any { return item; }
+export function toolboxSerializer(item: { value: ${name} }): any {
+  return { value: ${custom ? "customToolboxSerializer" : converter + "Serializer"}(item.value) };
+}
+${
+  custom
+    ? `
+export function customToolboxSerializer(item: ${name}): any { return String(item).toUpperCase(); }
+export type ${original} = ${released};
+export const ${oldPrefix}Serializer = ${prefix}Serializer;
+`
+    : ""
+}
+`);
+    const incoming = fixture(released, emittedPrefix);
+    const result = succeeded(
+      fixture(original, oldPrefix),
+      fixture(released, prefix, true),
+      incoming,
+    );
+    assert.equal(
+      evaluate(result.files.get(modelFile)).toolboxSerializer({ value: "kept" }).value,
+      "KEPT",
+    );
+    assert.equal(
+      evaluate(succeeded(incoming, result.files, incoming).files.get(modelFile)).toolboxSerializer({
+        value: "kept",
+      }).value,
+      "KEPT",
+    );
+  }
+});
+
+test("historical tool policy does not collapse independent declarations into released identities", () => {
+  const base = tree("export interface ToolFunctionTool { name?: string; }");
+  const custom = tree(`
+export interface ToolFunctionTool { name: string; }
+export interface FunctionTool { independent: boolean; }
+`);
+  const incoming = tree("export interface FunctionTool { name?: string; strict?: boolean; }");
+  const result = plan(base, custom, incoming);
+  assert.equal(result.renames.has("ToolFunctionTool"), false);
+  assert.ok(result.diagnostics.some((entry) => entry.declaration === "FunctionTool"));
+  const conflictingDefinitions = plan(
+    tree(
+      "export interface ToolMcpTool { name: string; } export interface MCPTool { independent: boolean; }",
+    ),
+    tree("export interface MCPTool { name: string; } export type ToolMcpTool = MCPTool;"),
+    tree("export interface MCPTool { name: string; }"),
+  );
+  assert.ok(
+    conflictingDefinitions.diagnostics.some((entry) =>
+      entry.message.includes("Ambiguous model declaration"),
+    ),
+  );
+});
+
 test("arbitrary JSON Schema is preserved in types and actual converter content", () => {
   const base = tree(`
 export interface RealtimeFunctionToolParameters {}

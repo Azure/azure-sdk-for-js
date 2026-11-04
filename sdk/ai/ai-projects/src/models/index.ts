@@ -79,6 +79,7 @@ export type {
   Filters,
   ComparisonFilter,
   ComparisonFilterValueItems,
+  FileSearchToolFiltersValue,
   CompoundFilter,
   WebSearchTool,
   WebSearchToolFilters,
