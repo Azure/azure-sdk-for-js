@@ -40,6 +40,7 @@ const reservedQueryParameters = new Set([
   "store",
   "transport",
   "x-agent-version-override",
+  "agent_version_override",
   "x-ms-client-sdk",
   "authorization",
   "api-key",
@@ -744,7 +745,7 @@ function buildWebSocketUrl(
     url.searchParams.set("store", String(options.store));
   }
   if (options.agentVersionOverride) {
-    url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
+    url.searchParams.set("agent_version_override", options.agentVersionOverride);
   }
   if (options.transport) {
     url.searchParams.set("transport", options.transport);
