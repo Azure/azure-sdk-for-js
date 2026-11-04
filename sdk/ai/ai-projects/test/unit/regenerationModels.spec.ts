@@ -233,7 +233,9 @@ describe("regenerated model wire contracts", () => {
   });
 
   it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {
-    expectTypeOf<TelephonyProvider>().toEqualTypeOf<"teams_phone_extensibility" | "twilio">();
+    expectTypeOf<TelephonyProvider>().toEqualTypeOf<
+      "teams_phone_extensibility" | "twilio" | "sip"
+    >();
     expectTypeOf<
       CreateTeamsPhoneExtensibilityTelephonyBindingRequest["provider"]
     >().toEqualTypeOf<"teams_phone_extensibility">();
@@ -381,6 +383,13 @@ describe("regenerated model wire contracts", () => {
   );
 
   const bindings: CreateTelephonyBindingRequestUnion[] = [
+    {
+      provider: "sip",
+      connection_name: connectionName,
+      phone_number: "+14255550100",
+      allowed_calling_numbers: ["+14255550123", "^\\+1425[0-9]+$"],
+      label: "SIP binding",
+    },
     {
       provider: "twilio",
       connection_name: connectionName,
