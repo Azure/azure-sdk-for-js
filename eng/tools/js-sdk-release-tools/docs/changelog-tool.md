@@ -11,19 +11,6 @@ In order to compute this changelog, we do the following steps:
 5. Changelog Tool parses the typescript blocks in the api.md to ASTs, and extracts useful information from the ASTs.
 6. Changelog Tool compares extracted information and generates the changelog.
 
-## Recovering missing release files
-
-If the published npm package does not contain its API review baseline or changelog,
-the tool reads it from the SDK repository's `<package-name>_<version>` release tag.
-If that tag is unavailable locally, the tool fetches only that tag from the SDK
-repository's `origin` remote without force-updating existing tags. Git commands run
-against the supplied SDK repository root, independently of the working directory.
-
-API baseline recovery prefers `<package>-node.api.md` and falls back to
-`<package>.api.md`. If fetching fails or neither file contains a non-empty baseline,
-the operation fails instead of reporting a compatibility result based on an empty
-baseline. Missing or empty changelogs also cause recovery to fail.
-
 ## Convert the TypeScript Block in api.md to AST And Extract Useful information from the AST
 
 The data structure of the extracted information:
