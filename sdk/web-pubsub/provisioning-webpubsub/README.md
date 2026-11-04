@@ -1,6 +1,6 @@
-# Azure Signal R Service provisioning library for JavaScript
+# Azure Web PubSub provisioning library for JavaScript
 
-`@azure/provisioning-webpubsub` provides typed Azure Signal R Service resources for authoring pre-deployment infrastructure definitions.
+`@azure/provisioning-webpubsub` provides typed Azure Web PubSub resources for authoring pre-deployment infrastructure definitions.
 Creating or editing these definitions does not create or modify live Azure resources.
 
 ## Getting started
