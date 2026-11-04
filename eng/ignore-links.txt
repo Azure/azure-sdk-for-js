@@ -158,7 +158,11 @@ https://learn.microsoft.com/javascript/api/@azure/arm-privatetrafficmanager?view
 https://www.npmjs.com/package/@azure/arm-privatetrafficmanager
 https://learn.microsoft.com/javascript/api/@azure/arm-aigateway?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-aigateway
+https://learn.microsoft.com/javascript/api/@azure/provisioning-containerregistry?view=azure-node-preview
+https://www.npmjs.com/package/@azure/provisioning-containerregistry
 https://learn.microsoft.com/javascript/api/@azure/arm-aiinfraoptimization?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-aiinfraoptimization
 https://learn.microsoft.com/javascript/api/@azure/provisioning-webpubsub?view=azure-node-preview
 https://www.npmjs.com/package/@azure/provisioning-webpubsub
+https://learn.microsoft.com/javascript/api/@azure/provisioning-appinsights?view=azure-node-preview
+https://www.npmjs.com/package/@azure/provisioning-appinsights
