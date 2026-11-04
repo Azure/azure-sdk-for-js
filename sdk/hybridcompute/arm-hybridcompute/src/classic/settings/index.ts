@@ -42,6 +42,7 @@ export interface SettingsOperations {
     options?: SettingsGetOptionalParams,
   ) => Promise<Settings>;
 }
+
 function _getSettings(context: HybridComputeManagementContext) {
   return {
     patch: (
@@ -101,6 +102,7 @@ function _getSettings(context: HybridComputeManagementContext) {
       ),
   };
 }
+
 export function _getSettingsOperations(
   context: HybridComputeManagementContext,
 ): SettingsOperations {
