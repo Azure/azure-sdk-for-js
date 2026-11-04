@@ -90,57 +90,6 @@ async function beginRefresh(
   return token;
 }
 
-const MAX_CACHED_TOKEN_IDENTITIES = 100;
-
-interface CacheEntry {
-  token: AccessToken;
-  sequence: number;
-}
-
-interface DeferredToken {
-  cacheEntry: CacheEntry;
-  claimsRefreshSequence: number;
-}
-
-interface RefreshWorker {
-  promise: Promise<AccessToken>;
-  sequence: number;
-  requestIdentityKey: string;
-  baseIdentityKey: string;
-  isClaimsRefresh: boolean;
-  startedDuringClaimsRefreshSequence?: number;
-  isInvalidated: boolean;
-}
-
-interface ClaimsRefreshState {
-  sequence: number;
-  worker: RefreshWorker;
-}
-
-function getTokenBaseIdentityKey(
-  scopes: string | string[],
-  getTokenOptions: GetTokenOptions,
-): string {
-  const proofOfPossessionOptions = getTokenOptions.proofOfPossessionOptions;
-  return JSON.stringify({
-    scopes: typeof scopes === "string" ? [scopes] : [...scopes],
-    tenantId: getTokenOptions.tenantId,
-    enableCae: getTokenOptions.enableCae === true,
-    proofOfPossessionOptions: proofOfPossessionOptions && {
-      nonce: proofOfPossessionOptions.nonce,
-      resourceRequestMethod: proofOfPossessionOptions.resourceRequestMethod,
-      resourceRequestUrl: proofOfPossessionOptions.resourceRequestUrl,
-    },
-  });
-}
-
-function getTokenRequestIdentityKey(
-  baseIdentityKey: string,
-  getTokenOptions: GetTokenOptions,
-): string {
-  return JSON.stringify({ baseIdentityKey, claims: getTokenOptions.claims });
-}
-
 /**
  * Creates a token cycler from a credential, scopes, and optional settings.
  *
@@ -155,342 +104,215 @@ function getTokenRequestIdentityKey(
  *
  * @returns - a function that reliably produces a valid access token
  */
+interface RefreshWorker {
+  promise: Promise<AccessToken>;
+  sequence: number;
+  requestIdentityKey: string;
+  isClaimsRefresh: boolean;
+  startedDuringClaimsSequence?: number;
+  isInvalidated: boolean;
+}
+
+function getTokenRequestIdentityKey(
+  scopes: string | string[],
+  getTokenOptions: GetTokenOptions,
+): string {
+  const proofOfPossessionOptions = getTokenOptions.proofOfPossessionOptions;
+  return JSON.stringify({
+    scopes: typeof scopes === "string" ? [scopes] : [...scopes],
+    tenantId: getTokenOptions.tenantId,
+    claims: getTokenOptions.claims,
+    enableCae: getTokenOptions.enableCae === true,
+    proofOfPossessionOptions: proofOfPossessionOptions && {
+      nonce: proofOfPossessionOptions.nonce,
+      resourceRequestMethod: proofOfPossessionOptions.resourceRequestMethod,
+      resourceRequestUrl: proofOfPossessionOptions.resourceRequestUrl,
+    },
+  });
+}
+
 export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
-  const cachedTokens = new Map<string, CacheEntry>();
+  let token: AccessToken | null = null;
+  let tenantId: string | undefined;
+  let nextRefreshSequence = 0;
+  let latestCachedSequence = 0;
+  let latestSuccessfulClaimsSequence = 0;
   const refreshWorkers = new Map<string, RefreshWorker>();
-  const claimsRefreshStates = new Map<string, ClaimsRefreshState>();
-  const deferredOrdinaryTokens = new Map<string, DeferredToken>();
-  // A claims worker that succeeds while a newer challenge is still pending
-  // cannot write the cache yet. Keep its result as the best fallback in case
-  // the newer challenge fails.
-  const deferredClaimsTokens = new Map<string, CacheEntry>();
-  let nextWorkerSequence = 0;
+  const pendingClaims = new Map<number, RefreshWorker>();
+  const deferredClaimsTokens = new Map<number, AccessToken>();
+  const deferredOrdinaryTokens = new Map<number, AccessToken>();
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
     ...tokenCyclerOptions,
   };
 
-  function cleanUpCachedTokens(): void {
-    const now = Date.now();
-    for (const [baseIdentityKey, cacheEntry] of cachedTokens) {
-      if (cacheEntry.token.expiresOnTimestamp <= now) {
-        cachedTokens.delete(baseIdentityKey);
+  const cycler = {
+    get isRefreshing(): boolean {
+      return refreshWorkers.size > 0;
+    },
+    get shouldRefresh(): boolean {
+      if (token === null) {
+        return true;
+      }
+      if (cycler.isRefreshing) {
+        return false;
+      }
+      if (token.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
+        return true;
+      }
+      return token.expiresOnTimestamp - options.refreshWindowInMs < Date.now();
+    },
+    get mustRefresh(): boolean {
+      return (
+        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+      );
+    },
+  };
+
+  function newestToken(tokens: Map<number, AccessToken>): AccessToken | undefined {
+    let newest: AccessToken | undefined;
+    let newestSequence = -1;
+    for (const [sequence, value] of tokens) {
+      if (sequence > newestSequence) {
+        newestSequence = sequence;
+        newest = value;
       }
     }
+    return newest;
+  }
 
-    for (const [baseIdentityKey, deferredToken] of deferredOrdinaryTokens) {
-      if (deferredToken.cacheEntry.token.expiresOnTimestamp <= now) {
-        deferredOrdinaryTokens.delete(baseIdentityKey);
-      }
+  function finishClaimsBatchIfReady(): void {
+    if (pendingClaims.size !== 0) {
+      return;
     }
 
-    for (const [baseIdentityKey, cacheEntry] of deferredClaimsTokens) {
-      if (cacheEntry.token.expiresOnTimestamp <= now) {
-        deferredClaimsTokens.delete(baseIdentityKey);
-      }
+    const claimsToken = newestToken(deferredClaimsTokens);
+    const ordinaryToken = newestToken(deferredOrdinaryTokens);
+    deferredClaimsTokens.clear();
+    deferredOrdinaryTokens.clear();
+
+    if (claimsToken !== undefined) {
+      latestCachedSequence = Math.max(latestCachedSequence, latestSuccessfulClaimsSequence);
+      token = claimsToken;
+      return;
     }
 
-    while (cachedTokens.size > MAX_CACHED_TOKEN_IDENTITIES) {
-      const oldestBaseIdentityKey = cachedTokens.keys().next().value;
-      if (oldestBaseIdentityKey === undefined) {
-        return;
-      }
-      cachedTokens.delete(oldestBaseIdentityKey);
+    // If every claims refresh failed, an ordinary refresh that completed while
+    // the challenge was pending is the safe fallback.
+    if (ordinaryToken !== undefined && latestSuccessfulClaimsSequence === 0) {
+      token = ordinaryToken;
     }
   }
 
-  function retireWorker(worker: RefreshWorker): void {
-    if (refreshWorkers.get(worker.requestIdentityKey) === worker) {
-      refreshWorkers.delete(worker.requestIdentityKey);
-    }
-  }
-
-  function invalidateOrdinaryWorkersForClaimsChallenge(baseIdentityKey: string): void {
-    for (const worker of refreshWorkers.values()) {
-      if (worker.baseIdentityKey === baseIdentityKey && !worker.isClaimsRefresh) {
-        worker.isInvalidated = true;
-        refreshWorkers.delete(worker.requestIdentityKey);
-      }
-    }
-  }
-
-  function invalidateOrdinaryWorkersStartedAfterClaimsRefresh(
-    baseIdentityKey: string,
-    claimsRefreshSequence: number,
-  ): void {
-    for (const worker of refreshWorkers.values()) {
-      if (
-        worker.baseIdentityKey === baseIdentityKey &&
-        !worker.isClaimsRefresh &&
-        worker.sequence > claimsRefreshSequence
-      ) {
-        worker.isInvalidated = true;
-        refreshWorkers.delete(worker.requestIdentityKey);
-      }
-    }
-  }
-
-  function setCachedToken(baseIdentityKey: string, cacheEntry: CacheEntry): void {
-    // Moving an entry to the end lets the bounded cache evict the least
-    // recently refreshed identity first.
-    cachedTokens.delete(baseIdentityKey);
-    cachedTokens.set(baseIdentityKey, cacheEntry);
-    cleanUpCachedTokens();
-  }
-
-  function cacheToken(worker: RefreshWorker, token: AccessToken, force = false): void {
-    const currentCacheEntry = cachedTokens.get(worker.baseIdentityKey);
-    if (!currentCacheEntry || worker.sequence > currentCacheEntry.sequence || force) {
-      setCachedToken(worker.baseIdentityKey, { token, sequence: worker.sequence });
-    }
-  }
-
-  function deferToken(
-    deferredTokens: Map<string, DeferredToken>,
-    worker: RefreshWorker,
-    token: AccessToken,
-    claimsRefreshSequence: number,
-  ): void {
-    const currentDeferredToken = deferredTokens.get(worker.baseIdentityKey);
-    if (!currentDeferredToken || worker.sequence > currentDeferredToken.cacheEntry.sequence) {
-      deferredTokens.set(worker.baseIdentityKey, {
-        cacheEntry: { token, sequence: worker.sequence },
-        claimsRefreshSequence,
-      });
-    }
-  }
-
-  function deferOrdinaryToken(worker: RefreshWorker, token: AccessToken): void {
-    const claimsRefreshSequence = worker.startedDuringClaimsRefreshSequence;
-    if (claimsRefreshSequence !== undefined) {
-      deferToken(deferredOrdinaryTokens, worker, token, claimsRefreshSequence);
-    }
-  }
-
-  function deferClaimsToken(worker: RefreshWorker, token: AccessToken): void {
-    const currentDeferredToken = deferredClaimsTokens.get(worker.baseIdentityKey);
-    if (!currentDeferredToken || worker.sequence > currentDeferredToken.sequence) {
-      deferredClaimsTokens.set(worker.baseIdentityKey, { token, sequence: worker.sequence });
-    }
-  }
-
-  function cacheDeferredTokensAfterClaimsFailure(
-    baseIdentityKey: string,
-    claimsRefreshSequence: number,
-  ): void {
-    const currentCacheEntry = cachedTokens.get(baseIdentityKey);
-    const deferredOrdinaryToken = deferredOrdinaryTokens.get(baseIdentityKey);
-    const deferredClaimsToken = deferredClaimsTokens.get(baseIdentityKey);
-    // A successfully acquired claims token remains preferable to an ordinary
-    // fallback. The service has already rejected the ordinary token identity.
-    const fallbackEntry =
-      deferredClaimsToken ??
-      (deferredOrdinaryToken?.claimsRefreshSequence === claimsRefreshSequence
-        ? deferredOrdinaryToken.cacheEntry
-        : undefined);
-
-    if (
-      fallbackEntry &&
-      (!currentCacheEntry || fallbackEntry.sequence > currentCacheEntry.sequence)
-    ) {
-      if (deferredClaimsToken && fallbackEntry === deferredClaimsToken) {
-        // A promoted claims result must retain cache ownership over ordinary
-        // workers that started after it and are still in flight.
-        invalidateOrdinaryWorkersStartedAfterClaimsRefresh(
-          baseIdentityKey,
-          deferredClaimsToken.sequence,
-        );
-      }
-      setCachedToken(baseIdentityKey, fallbackEntry);
-    }
-    deferredOrdinaryTokens.delete(baseIdentityKey);
-    deferredClaimsTokens.delete(baseIdentityKey);
-  }
-
-  function invalidateSupersededClaimsWorkers(baseIdentityKey: string, sequence: number): void {
-    for (const worker of refreshWorkers.values()) {
-      if (
-        worker.baseIdentityKey === baseIdentityKey &&
-        worker.isClaimsRefresh &&
-        worker.sequence < sequence
-      ) {
-        worker.isInvalidated = true;
-        refreshWorkers.delete(worker.requestIdentityKey);
-      }
-    }
-  }
-
-  /**
-   * Starts a refresh job or returns an existing job with the same token
-   * request identity. Incompatible requests must not share credentials.
-   */
   function refresh(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
-    baseIdentityKey: string,
-    requestIdentityKey: string,
-    refreshTimeout: number,
   ): Promise<AccessToken> {
+    const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
     const existingWorker = refreshWorkers.get(requestIdentityKey);
     if (existingWorker && !existingWorker.isInvalidated) {
       return existingWorker.promise;
     }
-    if (existingWorker) {
-      refreshWorkers.delete(requestIdentityKey);
-    }
 
     const isClaimsRefresh = Boolean(getTokenOptions.claims);
-    const currentClaimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
+    const newestPendingClaims = Math.max(0, ...pendingClaims.keys());
     const worker: RefreshWorker = {
       promise: Promise.resolve(undefined as never),
-      sequence: ++nextWorkerSequence,
+      sequence: ++nextRefreshSequence,
       requestIdentityKey,
-      baseIdentityKey,
       isClaimsRefresh,
-      startedDuringClaimsRefreshSequence: isClaimsRefresh
-        ? undefined
-        : currentClaimsRefreshState?.sequence,
+      startedDuringClaimsSequence: isClaimsRefresh ? undefined : newestPendingClaims || undefined,
       isInvalidated: false,
     };
 
     if (isClaimsRefresh) {
-      // A claims challenge rejects the token used for this identity. Existing
-      // ordinary workers are invalidated so they cannot later overwrite the
-      // challenge response, but pending claims workers remain discoverable by
-      // their own request identity for A/B/A claims de-duplication.
-      invalidateOrdinaryWorkersForClaimsChallenge(baseIdentityKey);
-      deferredOrdinaryTokens.delete(baseIdentityKey);
-      claimsRefreshStates.set(baseIdentityKey, { sequence: worker.sequence, worker });
+      for (const activeWorker of refreshWorkers.values()) {
+        if (!activeWorker.isClaimsRefresh) {
+          activeWorker.isInvalidated = true;
+        }
+      }
+      pendingClaims.set(worker.sequence, worker);
     }
 
-    // We bind `scopes` here to avoid passing it around a lot.
     const tryGetAccessToken = (): Promise<AccessToken | null> =>
       credential.getToken(scopes, getTokenOptions);
-
-    const promise = beginRefresh(tryGetAccessToken, options.retryIntervalInMs, refreshTimeout)
-      .then((accessToken) => {
-        retireWorker(worker);
+    const promise = beginRefresh(
+      tryGetAccessToken,
+      options.retryIntervalInMs,
+      token?.expiresOnTimestamp ?? Date.now(),
+    )
+      .then((_token) => {
+        refreshWorkers.delete(requestIdentityKey);
 
         if (worker.isClaimsRefresh) {
-          const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
-          if (
-            !worker.isInvalidated &&
-            (!claimsRefreshState || claimsRefreshState.worker === worker)
-          ) {
-            // A successful challenge must remain the cached token. Ordinary
-            // workers which began while it was pending cannot become the next
-            // proactive refresh owner, and older claims workers must not be
-            // rejoined after this newer challenge has settled. If a newer
-            // claims worker fails, a surviving older worker may still safely
-            // cache its response; a newer successful worker invalidates it.
-            invalidateOrdinaryWorkersStartedAfterClaimsRefresh(baseIdentityKey, worker.sequence);
-            invalidateSupersededClaimsWorkers(baseIdentityKey, worker.sequence);
-            deferredOrdinaryTokens.delete(baseIdentityKey);
-            deferredClaimsTokens.delete(baseIdentityKey);
-            cacheToken(worker, accessToken, true);
-            if (claimsRefreshState?.worker === worker) {
-              claimsRefreshStates.delete(baseIdentityKey);
-            }
-          } else if (!worker.isInvalidated) {
-            // A newer challenge is still pending. Do not let this earlier
-            // challenge replace it, but preserve the successful response as
-            // the fallback if that newer challenge fails.
-            deferClaimsToken(worker, accessToken);
-          }
-        } else if (!worker.isInvalidated) {
-          const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
-          if (claimsRefreshState) {
-            // The challenge response owns the cache while pending. Retain only
-            // the newest ordinary token as a fallback if that response fails.
-            deferOrdinaryToken(worker, accessToken);
+          pendingClaims.delete(worker.sequence);
+          const newerClaimsPending = pendingClaims.size > 0;
+          if (newerClaimsPending) {
+            deferredClaimsTokens.set(worker.sequence, _token);
           } else {
-            cacheToken(worker, accessToken);
+            latestSuccessfulClaimsSequence = Math.max(
+              latestSuccessfulClaimsSequence,
+              worker.sequence,
+            );
+            token = _token;
+            tenantId = getTokenOptions.tenantId;
+            latestCachedSequence = Math.max(latestCachedSequence, worker.sequence);
+            deferredClaimsTokens.clear();
+            deferredOrdinaryTokens.clear();
+          }
+          finishClaimsBatchIfReady();
+        } else if (!worker.isInvalidated) {
+          if (pendingClaims.size > 0 && worker.startedDuringClaimsSequence !== undefined) {
+            deferredOrdinaryTokens.set(worker.sequence, _token);
+          } else if (
+            worker.sequence >= latestCachedSequence &&
+            worker.startedDuringClaimsSequence === undefined
+          ) {
+            token = _token;
+            tenantId = getTokenOptions.tenantId;
+            latestCachedSequence = worker.sequence;
           }
         }
-
-        return accessToken;
+        return _token;
       })
       .catch((reason) => {
-        retireWorker(worker);
-
+        refreshWorkers.delete(requestIdentityKey);
         if (worker.isClaimsRefresh) {
-          const claimsRefreshState = claimsRefreshStates.get(baseIdentityKey);
-          if (claimsRefreshState?.worker === worker) {
-            claimsRefreshStates.delete(baseIdentityKey);
-            cacheDeferredTokensAfterClaimsFailure(baseIdentityKey, worker.sequence);
-          }
+          pendingClaims.delete(worker.sequence);
+          finishClaimsBatchIfReady();
         }
-
         throw reason;
       });
 
-    worker.promise = promise;
-    // A proactive refresh may settle after its caller has already used the
-    // cached token. Observe its rejection while preserving the original promise
-    // for callers that are awaiting a forced refresh.
+    // A proactive refresh is intentionally not awaited by callers. Observe its
+    // rejection without changing the promise returned to forced callers.
     void promise.catch(() => {});
+    worker.promise = promise;
     refreshWorkers.set(requestIdentityKey, worker);
-
     return promise;
   }
 
   return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
-    //
-    // Simple rules:
-    // - If we MUST refresh, then return the refresh task, blocking
-    //   the pipeline until a token is available.
-    // - If we SHOULD refresh, then run refresh but don't return it
-    //   (we can still use the cached token).
-    // - Return the token, since it's fine if we didn't return in
-    //   step 1.
-    //
-
-    cleanUpCachedTokens();
-
-    const baseIdentityKey = getTokenBaseIdentityKey(scopes, tokenOptions);
-    const requestIdentityKey = getTokenRequestIdentityKey(baseIdentityKey, tokenOptions);
     const hasClaimChallenge = Boolean(tokenOptions.claims);
-    const deferredOrdinaryToken = hasClaimChallenge
-      ? undefined
-      : deferredOrdinaryTokens.get(baseIdentityKey)?.cacheEntry;
-    // An ordinary refresh which succeeds while a claims request is pending is
-    // reusable by ordinary callers, but remains provisional until that claims
-    // request settles. A successful challenge replaces it; a failed challenge
-    // promotes it into the normal cache.
-    const cacheEntry = deferredOrdinaryToken ?? cachedTokens.get(baseIdentityKey);
-    const token = cacheEntry?.token;
+    const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
-    // A cache hit is usable only for the same scopes, tenant, CAE setting, and
-    // proof-of-possession request. A claims challenge always requires a fresh
-    // token, but it does not discard a still-valid cached token before the
-    // challenge refresh settles.
-    const mustRefresh =
-      hasClaimChallenge ||
-      token === undefined ||
-      token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now();
+    if (hasClaimChallenge) {
+      token = null;
+    }
 
+    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
     if (mustRefresh) {
-      return refresh(
-        scopes,
-        tokenOptions,
-        baseIdentityKey,
-        requestIdentityKey,
-        hasClaimChallenge || token === undefined ? Date.now() : token.expiresOnTimestamp,
-      );
+      return refresh(scopes, tokenOptions);
     }
 
-    const shouldRefresh =
-      (token.refreshAfterTimestamp !== undefined && token.refreshAfterTimestamp < Date.now()) ||
-      token.expiresOnTimestamp - options.refreshWindowInMs < Date.now();
-
-    if (shouldRefresh) {
-      refresh(scopes, tokenOptions, baseIdentityKey, requestIdentityKey, token.expiresOnTimestamp);
+    if (cycler.shouldRefresh) {
+      refresh(scopes, tokenOptions);
     }
 
-    return token;
+    return token as AccessToken;
   };
 }
