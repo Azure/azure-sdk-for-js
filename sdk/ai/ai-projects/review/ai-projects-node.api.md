@@ -2258,10 +2258,8 @@ export interface ComparisonFilter {
     value: string | number | boolean | (string | number)[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "_FileSearchToolFiltersValue" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type ComparisonFilterValueItems = _FileSearchToolFiltersValue;
+export type ComparisonFilterValueItems = string | number;
 
 // @public
 export interface CompoundFilter {

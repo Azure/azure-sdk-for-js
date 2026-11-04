@@ -119,6 +119,7 @@ const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
   it("keeps emitted tool names as aliases of the customized public contracts", () => {
+    expectTypeOf<Models.ComparisonFilterValueItems>().toEqualTypeOf<string | number>();
     expectTypeOf<Models.ToolFunctionTool>().toEqualTypeOf<Models.FunctionTool>();
     expectTypeOf<Models.ToolFileSearchTool>().toEqualTypeOf<Models.FileSearchTool>();
     expectTypeOf<Models.ToolComputerTool>().toEqualTypeOf<Models.ComputerTool>();

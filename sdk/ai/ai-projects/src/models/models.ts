@@ -2628,7 +2628,7 @@ export function _fileSearchToolFiltersValue1ArrayDeserializer(
 export type _FileSearchToolFiltersValue = string | number;
 
 /** Alias for ComparisonFilterValueItems */
-export type ComparisonFilterValueItems = _FileSearchToolFiltersValue;
+export type ComparisonFilterValueItems = string | number;
 
 export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue): any {
   return item;
