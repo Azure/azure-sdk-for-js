@@ -166,5 +166,7 @@ https://learn.microsoft.com/javascript/api/@azure/provisioning-webpubsub?view=az
 https://www.npmjs.com/package/@azure/provisioning-webpubsub
 https://learn.microsoft.com/javascript/api/@azure/provisioning-appinsights?view=azure-node-preview
 https://www.npmjs.com/package/@azure/provisioning-appinsights
+https://learn.microsoft.com/javascript/api/@azure/provisioning-eventhub?view=azure-node-preview
+https://www.npmjs.com/package/@azure/provisioning-eventhub
 https://learn.microsoft.com/javascript/api/@azure/provisioning-servicebus?view=azure-node-preview
 https://www.npmjs.com/package/@azure/provisioning-servicebus
