@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { AzureKeyCredential } from "@azure/core-auth";
+import type { AzureKeyCredential } from "@azure/core-auth";
 import * as jwt from "jsonwebtoken";
 
 const WEB_PUB_SUB_CHAT_CREDENTIAL_POLICY_NAME = "webPubSubChatCredentialPolicy";
