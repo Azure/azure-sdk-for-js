@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` so it can be used without depending on `@azure/core-client`.
+- Export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` so it can be used without depending on `@azure/core-client`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)
 
 ### Bugs Fixed
 
