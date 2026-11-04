@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a firewall rule in a server.
  *
  * @summary gets information about a firewall rule in a server.
- * x-ms-original-file: 2026-07-01-preview/FirewallRulesGet.json
+ * x-ms-original-file: 2026-10-01/FirewallRulesGet.json
  */
 async function getInformationAboutAFirewallRuleInAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -12,6 +12,7 @@ trigger:
     include:
       - sdk/applicationinsights/ci.mgmt.yml
       - sdk/applicationinsights/arm-appinsights
+      - sdk/applicationinsights/provisioning-appinsights
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
     include:
       - sdk/applicationinsights/ci.mgmt.yml
       - sdk/applicationinsights/arm-appinsights
+      - sdk/applicationinsights/provisioning-appinsights
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-arm-appinsights
         safeName: azurearmappinsights
+      - name: azure-provisioning-appinsights
+        safeName: azureprovisioningappinsights
