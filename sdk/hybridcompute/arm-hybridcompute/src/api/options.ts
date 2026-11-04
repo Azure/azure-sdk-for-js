@@ -8,6 +8,7 @@ export interface SetupExtensionsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface UpgradeExtensionsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
