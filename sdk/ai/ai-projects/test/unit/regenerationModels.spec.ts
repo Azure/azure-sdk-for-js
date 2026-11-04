@@ -106,6 +106,8 @@ import {
   voiceAgentInputTranscriptionSerializer,
   voiceAgentDefinitionDeserializer,
   voiceAgentDefinitionSerializer,
+  voiceAgentSubagentConfigUnionDeserializer,
+  voiceAgentSubagentConfigUnionSerializer,
   webSearchToolboxToolDeserializer,
   webSearchToolboxToolSerializer,
   webSearchToolDeserializer,
@@ -120,6 +122,94 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("release branch: preserves omitted delegated-subagent selectors on legacy JavaScript inputs", () => {
+    const subagents = [
+      { agent_name: "specialist", agent_capabilities: "Answer account questions." },
+    ];
+    const legacy = {
+      kind: "voice" as const,
+      sub_protocol: "realtime" as const,
+      subagent_config: { subagents },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(legacy))).toEqual(legacy);
+    expect(voiceAgentSubagentConfigUnionDeserializer({ subagents })).toMatchObject({
+      subagentType: "delegate",
+      subagents,
+    });
+  });
+
+  it("release branch: round-trips explicit delegated and inline subagent modes", () => {
+    const delegated: Models.VoiceAgentDelegateSubagentConfig = {
+      subagentType: "delegate",
+      subagents: [{ agent_name: "specialist", agent_capabilities: "Answer account questions." }],
+    };
+    expect(toWire(voiceAgentSubagentConfigUnionSerializer(delegated))).toEqual({
+      subagent_type: "delegate",
+      subagents: delegated.subagents,
+    });
+    const inline: Models.VoiceAgentInlineSubagentConfig = {
+      subagentType: "inline",
+      subagents: [
+        {
+          id: "$entrypoint",
+          source: "inline",
+          interface: "voice",
+          display_description: "General assistance",
+          audio_output: { voice: "alloy", speed: 0.9 },
+        },
+        {
+          id: "accounts",
+          source: "inline",
+          interface: "voice",
+          display_description: "Account assistance",
+          inherit_base_instructions: false,
+          instructions: "Answer account questions.",
+        },
+      ],
+    };
+    const wire = toWire(voiceAgentSubagentConfigUnionSerializer(inline));
+    expect(wire).toMatchObject({
+      subagent_type: "inline",
+      subagents: [
+        {
+          id: "$entrypoint",
+          description: "General assistance",
+          audio_output: { voice: "alloy", speed: 0.9 },
+        },
+        { id: "accounts", description: "Account assistance", inherit_base_instructions: false },
+      ],
+    });
+    expect(toWire(voiceAgentSubagentConfigUnionDeserializer(wire))).toEqual(inline);
+  });
+
+  it("release branch: preserves SIP binding filters across request and response variants", () => {
+    const request: Models.CreateSipTelephonyBindingRequest = {
+      provider: "sip",
+      connection_name: connectionName,
+      phone_number: "+14255550100",
+      allowed_calling_numbers: ["^\\+1425555[0-9]{4}$"],
+    };
+    expect(toWire(createTelephonyBindingRequestUnionSerializer(request))).toEqual(request);
+    const response = {
+      ...request,
+      id: "binding-sip",
+      status: "active",
+      incoming_call_url: "sip:incoming.example.com",
+    };
+    expect(telephonyBindingUnionDeserializer(response)).toMatchObject(response);
+    expect(
+      telephonyBindingListItemUnionDeserializer({ ...response, etag: "sip-etag" }),
+    ).toMatchObject({
+      ...response,
+      etag: "sip-etag",
+    });
+    expect(
+      toWire(updateTelephonyBindingRequestSerializer({ allowed_calling_numbers: [] })),
+    ).toEqual({
+      allowed_calling_numbers: [],
+    });
+  });
+
   it("keeps emitted tool names compatible with the customized public contracts", () => {
     expectTypeOf<Models.FunctionTool>().toExtend<Models.ToolFunctionTool>();
     expectTypeOf<Models.ToolFunctionTool["parameters"]>().toEqualTypeOf<
@@ -252,7 +342,9 @@ describe("regenerated model wire contracts", () => {
   });
 
   it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {
-    expectTypeOf<TelephonyProvider>().toEqualTypeOf<"teams_phone_extensibility" | "twilio">();
+    expectTypeOf<TelephonyProvider>().toEqualTypeOf<
+      "teams_phone_extensibility" | "twilio" | "sip"
+    >();
     expectTypeOf<
       CreateTeamsPhoneExtensibilityTelephonyBindingRequest["provider"]
     >().toEqualTypeOf<"teams_phone_extensibility">();

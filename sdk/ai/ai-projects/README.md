@@ -295,6 +295,17 @@ Malformed JSON, missing or invalid discriminators, and malformed known events st
 iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
 caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
 
+Service-managed system tools report argument events through `response.system_tool_arguments.*`
+and outcomes through `input_collection.status`. These are not client function calls: do not
+submit a function result for them, and do not infer provider success from completed arguments.
+Input-collection outcomes may omit `event_id`.
+
+For typed subagent configuration, set `subagent_config.subagentType` to `"delegate"` for
+referenced background specialists or `"inline"` for inline voice subagents. The wire field is
+`subagent_type`; legacy JavaScript configurations that omit it retain delegated behavior.
+Inline Handoff progress is reported through `session.handoff.started`,
+`session.handoff.completed`, and `session.handoff.aborted`.
+
 Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
 with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
 single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
