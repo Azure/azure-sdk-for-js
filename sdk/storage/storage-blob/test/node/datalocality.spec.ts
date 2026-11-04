@@ -3,24 +3,25 @@
 
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { Readable } from "node:stream";
+import { AbortError } from "@azure/abort-controller";
+import { toHttpHeadersLike } from "@azure/core-http-compat";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse } from "@azure-rest/core-client";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { LAYOUT_ENDPOINT_HEADER } from "@azure/storage-common";
+import { LAYOUT_ENDPOINT_HEADER } from "../../src/policies/StorageDataLocalityPolicy.js";
 import { addStorageCompatResponse } from "../../src/generated/static-helpers/storageCompatResponse.js";
-import { decodeLayoutContinuationToken } from "../../src/utils/BlobLayoutSegment.js";
-import type {
-  BlobDownloadOptionalParams,
-  BlobGetLayoutOptionalParams,
-} from "../../src/generated/index.js";
+import type { BlobDownloadOptionalParams } from "../../src/generated/index.js";
 import type {
   BlobDownloadOptions,
-  BlobGetLayoutResponseModel,
   BlockBlobClient,
   ContainerClient,
+  HttpOperationResponse,
+  IHttpClient,
+  StorageRetryOptions,
+  WebResource,
 } from "../../src/index.js";
 import {
   AnonymousCredential,
@@ -29,7 +30,6 @@ import {
   newPipeline,
 } from "../../src/index.js";
 import { createAndStartRecorder, getUniqueName } from "../utils/index.js";
-import { layoutContext } from "./layoutTestUtils.js";
 
 /** Builds a Get Blob Layout page shaped the way the generated layer hands it back. */
 function layoutPage(
@@ -44,204 +44,6 @@ function layoutPage(
   } as FullOperationResponse;
   return addStorageCompatResponse(rawResponse, body, headers);
 }
-
-/** A BlobClient whose getLayout replays the given pages, throwing any RestError in sequence. */
-function clientWithLayoutPages(pages: unknown[]): {
-  client: BlobClient;
-  calls: BlobGetLayoutOptionalParams[];
-} {
-  const client = new BlobClient(
-    "https://myaccount.blob.core.windows.net/container/blob.txt",
-    new AnonymousCredential(),
-  );
-  const { context, calls } = layoutContext(pages);
-  (client as any).blobContext = context;
-  return { client, calls };
-}
-
-describe("BlobClient.getLayout", () => {
-  // adjustResponse consumes _response.rawResponse, so each test needs its own pages.
-  const pageOne = (): unknown =>
-    layoutPage(
-      {
-        nextMarker: "marker-1",
-        ranges: { range: [{ start: 0, end: 99, endpointIndex: 0 }] },
-        endpoints: { endpoint: [{ index: 0, value: "https://a:443/" }] },
-      },
-      { etag: "etag-page-1" },
-    );
-  const pageTwo = (): unknown =>
-    layoutPage(
-      {
-        nextMarker: "",
-        ranges: { range: [{ start: 100, end: 199, endpointIndex: 0 }] },
-        endpoints: { endpoint: [{ index: 0, value: "https://b:443/" }] },
-      },
-      { etag: "etag-page-2" },
-    );
-
-  // Endpoint indexes are scoped to their page, so pages are surfaced whole rather than flattened.
-  it("yields one item per service page, each carrying its own endpoints", async () => {
-    const { client } = clientWithLayoutPages([pageOne(), pageTwo()]);
-
-    const items = [];
-    for await (const page of client.getLayout()) {
-      items.push(page);
-    }
-
-    assert.lengthOf(items, 2);
-    assert.deepEqual(items[0].ranges, [{ start: 0, end: 99, endpointIndex: 0 }]);
-    assert.deepEqual(items[0].endpoints, [{ index: 0, value: "https://a:443/" }]);
-    assert.deepEqual(items[1].endpoints, [{ index: 0, value: "https://b:443/" }]);
-  });
-
-  it("returns empty ranges and endpoints, and no body, for a page without a layout", async () => {
-    const { client } = clientWithLayoutPages([layoutPage(undefined, { etag: "etag-page-1" })]);
-
-    const page: BlobGetLayoutResponseModel = (await client.getLayout().next()).value;
-
-    assert.deepEqual(page.ranges, []);
-    assert.deepEqual(page.endpoints, []);
-    assert.isUndefined(page.continuationToken);
-    assert.isUndefined(page._response.parsedBody);
-  });
-
-  it("locks pages after the first to the ETag page one reported", async () => {
-    const { client, calls } = clientWithLayoutPages([pageOne(), pageTwo()]);
-
-    for await (const _page of client.getLayout()) {
-      // drain
-    }
-
-    assert.lengthOf(calls, 2);
-    assert.isUndefined(calls[0].ifMatch);
-    assert.equal(calls[1].marker, "marker-1");
-    assert.equal(calls[1].ifMatch, "etag-page-1");
-  });
-
-  it("locks pages after the first to page one's exact ETag even under a wildcard", async () => {
-    const { client, calls } = clientWithLayoutPages([pageOne(), pageTwo()]);
-
-    const pages: BlobGetLayoutResponseModel[] = [];
-    for await (const page of client.getLayout({ conditions: { ifMatch: "*" } })) {
-      pages.push(page);
-    }
-
-    assert.equal(calls[0].ifMatch, "*");
-    assert.equal(calls[1].ifMatch, "etag-page-1");
-    assert.equal(decodeLayoutContinuationToken(pages[0].continuationToken!).etag, "etag-page-1");
-  });
-
-  it("pins every continuation and token to page one's ETag, whatever later pages report", async () => {
-    const page = (nextMarker: string, etag: string): unknown =>
-      layoutPage({ nextMarker }, { etag });
-    const { client, calls } = clientWithLayoutPages([
-      page("marker-1", "etag-a"),
-      page("marker-2", "etag-b"),
-      page("", "etag-c"),
-    ]);
-
-    const pages: BlobGetLayoutResponseModel[] = [];
-    for await (const item of client.getLayout()) {
-      pages.push(item);
-    }
-
-    assert.deepEqual(
-      calls.map((call) => call.ifMatch),
-      [undefined, "etag-a", "etag-a"],
-    );
-    assert.equal(decodeLayoutContinuationToken(pages[1].continuationToken!).etag, "etag-a");
-  });
-
-  it("holds the range identical across continuations", async () => {
-    const { client, calls } = clientWithLayoutPages([pageOne(), pageTwo()]);
-
-    for await (const _page of client.getLayout({ range: { offset: 0, count: 200 } })) {
-      // drain
-    }
-
-    assert.equal(calls[0].range, "bytes=0-199");
-    assert.equal(calls[1].range, "bytes=0-199");
-  });
-
-  it("surfaces a continuationToken that resumes with the ETag lock and drops nextMarker", async () => {
-    const first: BlobGetLayoutResponseModel = (
-      await clientWithLayoutPages([pageOne()]).client.getLayout().next()
-    ).value;
-    assert.notProperty(first, "nextMarker");
-
-    const { client, calls } = clientWithLayoutPages([pageTwo()]);
-    for await (const _page of client
-      .getLayout()
-      .byPage({ continuationToken: first.continuationToken })) {
-      // drain
-    }
-
-    assert.equal(calls[0].marker, "marker-1");
-    assert.equal(calls[0].ifMatch, "etag-page-1");
-  });
-
-  it("keeps the raw body's continuationToken in step with the page", async () => {
-    const page: BlobGetLayoutResponseModel = (
-      await clientWithLayoutPages([pageOne()]).client.getLayout().next()
-    ).value;
-
-    assert.notProperty(page._response.parsedBody, "nextMarker");
-    assert.equal(page._response.parsedBody?.continuationToken, page.continuationToken);
-    assert.deepEqual(page._response.parsedBody?.ranges, page.ranges);
-    assert.deepEqual(page._response.parsedBody?.endpoints, page.endpoints);
-  });
-
-  it("passes maxPageSize and resumes from a continuationToken through byPage", async () => {
-    const { client, calls } = clientWithLayoutPages([pageTwo()]);
-
-    for await (const _page of client
-      .getLayout()
-      .byPage({ continuationToken: "marker-1", maxPageSize: 10 })) {
-      // drain
-    }
-
-    assert.lengthOf(calls, 1);
-    assert.equal(calls[0].marker, "marker-1");
-    assert.equal(calls[0].maxPageSize, 10);
-  });
-
-  // The soft fallback exists only for the routing built into downloadToBuffer. An explicit caller
-  // must see the failure.
-  it.each([400, 403, 503])("propagates %i rather than falling back", async (statusCode) => {
-    const { client } = clientWithLayoutPages([new RestError("failed", { statusCode })]);
-
-    await expect(async () => {
-      for await (const _page of client.getLayout()) {
-        // drain
-      }
-    }).rejects.toThrow("failed");
-  });
-
-  it("refuses a customer-provided key over HTTP", () => {
-    const client = new BlobClient(
-      "http://myaccount.blob.core.windows.net/container/blob.txt",
-      new AnonymousCredential(),
-    );
-    const customerProvidedKey = { encryptionKey: "key", encryptionKeySha256: "key-sha256" };
-
-    assert.throws(
-      () => client.getLayout({ customerProvidedKey }),
-      "Customer-provided encryption key must be used over HTTPS.",
-    );
-  });
-
-  it("sends a customer-provided key with the default algorithm", async () => {
-    const { client, calls } = clientWithLayoutPages([pageTwo()]);
-    const customerProvidedKey = { encryptionKey: "key", encryptionKeySha256: "key-sha256" };
-
-    for await (const _page of client.getLayout({ customerProvidedKey })) {
-      // drain
-    }
-
-    assert.equal(calls[0].encryptionAlgorithm, "AES256");
-  });
-});
 
 describe("BlobClient.downloadToBuffer with routing, at or past the end of a blob", () => {
   const routed = { layoutAwareRouting: "enabled" } as const;
@@ -373,7 +175,8 @@ describe("BlobClient.downloadToBuffer with routing", () => {
     ) => {
       reads.push({
         ifMatch: downloadOptions.conditions?.ifMatch,
-        layoutEndpoint: downloadOptions.layoutEndpoint,
+        layoutEndpoint: (downloadOptions as BlobDownloadOptions & { layoutEndpoint?: string })
+          .layoutEndpoint,
       });
       return {
         etag: "etag-1",
@@ -422,10 +225,11 @@ describe("BlobClient.download with a layout endpoint", () => {
       },
     };
 
+    // The endpoint is the internal option a routed read of downloadToBuffer passes.
     const response = await client.download(0, 8, {
       layoutEndpoint: endpoint,
       maxRetryRequests: 1,
-    });
+    } as BlobDownloadOptions);
     const chunks: Buffer[] = [];
     for await (const chunk of response.readableStreamBody!) {
       chunks.push(chunk as Buffer);
@@ -433,6 +237,305 @@ describe("BlobClient.download with a layout endpoint", () => {
 
     assert.isTrue(Buffer.concat(chunks).equals(Buffer.from([1, 1, 1, 1, 2, 2, 2, 2])));
     assert.deepEqual(routedTo, [endpoint, endpoint]);
+  });
+});
+
+const ACCOUNT_HOST = "myaccount.blob.core.windows.net";
+const ROUTED_ENDPOINT = "https://blob.stamp.store.core.windows.net:443/";
+const ROUTED_HOST = "blob.stamp.store.core.windows.net";
+
+/** A Get Blob Layout page: `[start, end, endpointIndex]` ranges and the endpoints they index. */
+interface FakeLayoutPage {
+  ranges: Array<[number, number, number]>;
+  endpoints: string[];
+  nextMarker?: string;
+}
+
+/** How the fake service answers one Get Blob Layout request; `hang` waits until it's aborted. */
+type FakeLayoutAnswer = FakeLayoutPage | { status: number } | { error: Error } | "hang";
+
+interface FakeServiceOptions {
+  /** Whether reads carry the hint that the blob has a layout. Defaults to true. */
+  hint?: boolean;
+  /** Answers to successive layout requests. Defaults to one page routing every byte asked for. */
+  layout?: FakeLayoutAnswer[];
+  /** Makes every read sent to a routed endpoint fail the way an unreachable host does. */
+  routedReadsFail?: boolean;
+}
+
+/** A request as it reached the transport. */
+interface WireRequest {
+  host: string;
+  hostHeader?: string;
+  isLayout: boolean;
+  routingHeader?: string;
+}
+
+function requestedRange(request: WebResource, size: number): [number, number] {
+  const match = /bytes=(\d+)-(\d*)/.exec(request.headers.get("x-ms-range") ?? "");
+  const start = match ? Number(match[1]) : 0;
+  const end = match?.[2] ? Math.min(Number(match[2]), size - 1) : size - 1;
+  return [start, end];
+}
+
+function layoutXml(page: FakeLayoutPage): string {
+  const ranges = page.ranges
+    .map(([start, end, index]) => `<Range Start="${start}" End="${end}" EndpointIndex="${index}"/>`)
+    .join("");
+  const endpoints = page.endpoints
+    .map((value, index) => `<Endpoint Index="${index}" Value="${value}"/>`)
+    .join("");
+  const nextMarker = page.nextMarker
+    ? `<NextMarker>${page.nextMarker}</NextMarker>`
+    : "<NextMarker/>";
+  return `<?xml version="1.0" encoding="utf-8"?><BlobLayout><Ranges>${ranges}</Ranges><Endpoints>${endpoints}</Endpoints>${nextMarker}</BlobLayout>`;
+}
+
+/**
+ * A transport that plays the blob service, so a download runs through the real pipeline,
+ * including the data locality and retry policies, and every request it sends can be inspected.
+ */
+function createFakeService(
+  content: Buffer,
+  options: FakeServiceOptions = {},
+): { httpClient: IHttpClient; wire: WireRequest[]; layoutRequested: Promise<void> } {
+  const wire: WireRequest[] = [];
+  let layoutRequests = 0;
+  let onLayoutRequest = (): void => undefined;
+  const layoutRequested = new Promise<void>((resolve) => (onLayoutRequest = resolve));
+  const httpClient: IHttpClient = {
+    async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+      const url = new URL(request.url);
+      const isLayout = url.searchParams.get("comp") === "layout";
+      wire.push({
+        host: url.host,
+        hostHeader: request.headers.get("host"),
+        isLayout,
+        routingHeader: request.headers.get(LAYOUT_ENDPOINT_HEADER),
+      });
+      const [start, end] = requestedRange(request, content.length);
+
+      if (isLayout) {
+        onLayoutRequest();
+        const answer: FakeLayoutAnswer | undefined = options.layout
+          ? options.layout[layoutRequests++]
+          : { ranges: [[start, end, 0]], endpoints: [ROUTED_ENDPOINT] };
+        if (answer === undefined) {
+          throw new Error("Unexpected Get Blob Layout request");
+        }
+        if (answer === "hang") {
+          return new Promise((_resolve, reject) => {
+            const abort = (): void => reject(new AbortError("The operation was aborted."));
+            if (request.abortSignal?.aborted) {
+              abort();
+            }
+            request.abortSignal?.addEventListener("abort", abort, { once: true });
+          });
+        }
+        if ("error" in answer) {
+          throw answer.error;
+        }
+        if ("status" in answer) {
+          return {
+            request,
+            status: answer.status,
+            headers: toHttpHeadersLike(
+              createHttpHeaders({
+                "content-type": "application/xml",
+                "x-ms-error-code": "LayoutFailure",
+              }),
+            ),
+            bodyAsText: `<?xml version="1.0" encoding="utf-8"?><Error><Code>LayoutFailure</Code><Message>Status ${answer.status}</Message></Error>`,
+          };
+        }
+        return {
+          request,
+          status: 200,
+          headers: toHttpHeadersLike(
+            createHttpHeaders({ "content-type": "application/xml", etag: '"etag-1"' }),
+          ),
+          bodyAsText: layoutXml(answer),
+        };
+      }
+
+      if (options.routedReadsFail && url.host !== ACCOUNT_HOST) {
+        throw new RestError("connect ECONNREFUSED", { code: "REQUEST_SEND_ERROR" });
+      }
+      const body = content.subarray(start, end + 1);
+      return {
+        request,
+        status: 206,
+        headers: toHttpHeadersLike(
+          createHttpHeaders({
+            "content-range": `bytes ${start}-${end}/${content.length}`,
+            "content-length": `${body.length}`,
+            "content-type": "application/octet-stream",
+            etag: '"etag-1"',
+            ...(options.hint === false ? {} : { "x-ms-download-hint": "layout" }),
+          }),
+        ),
+        readableStreamBody: Readable.from([body]),
+      };
+    },
+  };
+  return { httpClient, wire, layoutRequested };
+}
+
+function clientOf(
+  httpClient: IHttpClient,
+  retryOptions: StorageRetryOptions = { maxTries: 1 },
+): BlobClient {
+  return new BlobClient(
+    `https://${ACCOUNT_HOST}/container/blob.bin`,
+    newPipeline(new AnonymousCredential(), { httpClient, retryOptions }),
+  );
+}
+
+describe("BlobClient.downloadToBuffer with routing, end to end", () => {
+  // Never repeats within a block, so a block written to the wrong offset cannot go unnoticed.
+  const content = Buffer.from(Array.from({ length: 4096 }, (_, i) => i % 251));
+  const routed = (): { blockSize: number; layoutAwareRouting: "enabled" } => ({
+    blockSize: 1024,
+    layoutAwareRouting: "enabled",
+  });
+  const accountRead: WireRequest = {
+    host: ACCOUNT_HOST,
+    hostHeader: undefined,
+    isLayout: false,
+    routingHeader: undefined,
+  };
+  const routedRead: WireRequest = {
+    host: ROUTED_HOST,
+    hostHeader: ACCOUNT_HOST,
+    isLayout: false,
+    routingHeader: undefined,
+  };
+  const reads = (wire: WireRequest[]): WireRequest[] => wire.filter((r) => !r.isLayout);
+  const layouts = (wire: WireRequest[]): WireRequest[] => wire.filter((r) => r.isLayout);
+
+  it.each<[string, (client: BlobClient) => Promise<Buffer>]>([
+    ["a known size", (client) => client.downloadToBuffer(0, content.length, routed())],
+    ["an unknown size", (client) => client.downloadToBuffer(0, undefined, routed())],
+    [
+      "a known size into the caller's buffer",
+      (client) =>
+        client.downloadToBuffer(Buffer.alloc(content.length), 0, content.length, routed()),
+    ],
+    [
+      "an unknown size into the caller's buffer",
+      (client) => client.downloadToBuffer(Buffer.alloc(content.length), 0, undefined, routed()),
+    ],
+  ])("reads the first block from the account and routes the rest, for %s", async (_, download) => {
+    const { httpClient, wire } = createFakeService(content);
+
+    const downloaded = await download(clientOf(httpClient));
+
+    assert.isTrue(downloaded.equals(content), "every block must land at its offset");
+    assert.deepEqual(reads(wire), [accountRead, routedRead, routedRead, routedRead]);
+    assert.lengthOf(layouts(wire), 1, "one layout must serve the whole download");
+    assert.isTrue(
+      wire.every((r) => r.routingHeader === undefined),
+      "the internal routing header must never reach the transport",
+    );
+  });
+
+  it.each<[string, FakeServiceOptions, number]>([
+    ["the service sends no layout hint", { hint: false }, 0],
+    ["the layout is empty", { layout: [{ ranges: [], endpoints: [] }] }, 1],
+    [
+      "the layout names no endpoint for the range",
+      { layout: [{ ranges: [[1024, 4095, 1]], endpoints: [ROUTED_ENDPOINT] }] },
+      1,
+    ],
+    [
+      "the layout names an endpoint that is not a URL",
+      { layout: [{ ranges: [[1024, 4095, 0]], endpoints: ["not a url"] }] },
+      1,
+    ],
+    ["Get Blob Layout answers 400", { layout: [{ status: 400 }] }, 1],
+    ["Get Blob Layout answers 503", { layout: [{ status: 503 }] }, 1],
+    [
+      "a later layout page answers 500",
+      {
+        layout: [
+          { ranges: [[1024, 2047, 0]], endpoints: [ROUTED_ENDPOINT], nextMarker: "page-2" },
+          { status: 500 },
+        ],
+      },
+      2,
+    ],
+  ])("reads every block from the account when %s", async (_, service, layoutRequests) => {
+    const { httpClient, wire } = createFakeService(content, service);
+
+    const downloaded = await clientOf(httpClient).downloadToBuffer(0, content.length, routed());
+
+    assert.isTrue(downloaded.equals(content));
+    assert.deepEqual(reads(wire), [accountRead, accountRead, accountRead, accountRead]);
+    assert.lengthOf(
+      layouts(wire),
+      layoutRequests,
+      "the layout must not be fetched for every block",
+    );
+  });
+
+  it.each([403, 404, 409, 412, 408, 429])(
+    "fails the download when Get Blob Layout answers %i",
+    async (status) => {
+      const { httpClient, wire } = createFakeService(content, { layout: [{ status }] });
+
+      await expect(
+        clientOf(httpClient).downloadToBuffer(0, content.length, routed()),
+      ).rejects.toMatchObject({ statusCode: status });
+      assert.deepEqual(reads(wire), [accountRead], "no block after the first may be read");
+      assert.lengthOf(layouts(wire), 1);
+    },
+  );
+
+  it("fails the download when Get Blob Layout fails without a status", async () => {
+    const { httpClient, wire } = createFakeService(content, {
+      layout: [{ error: new RestError("socket hang up", { code: "REQUEST_SEND_ERROR" }) }],
+    });
+
+    const error = await clientOf(httpClient)
+      .downloadToBuffer(0, content.length, routed())
+      .then(
+        () => undefined,
+        (e: RestError) => e,
+      );
+
+    assert.equal(error?.code, "REQUEST_SEND_ERROR");
+    assert.isUndefined(error?.statusCode);
+    assert.deepEqual(reads(wire), [accountRead], "no block after the first may be read");
+  });
+
+  it("fails the download when it is cancelled during Get Blob Layout", async () => {
+    const { httpClient, wire, layoutRequested } = createFakeService(content, { layout: ["hang"] });
+    const controller = new AbortController();
+
+    const downloaded = clientOf(httpClient).downloadToBuffer(0, content.length, {
+      ...routed(),
+      abortSignal: controller.signal,
+    });
+    await layoutRequested;
+    controller.abort();
+
+    await expect(downloaded).rejects.toMatchObject({ name: "AbortError" });
+    assert.deepEqual(reads(wire), [accountRead], "no block after the first may be read");
+  });
+
+  it("fails the download when a routed read keeps failing, without retrying it through the account", async () => {
+    const { httpClient, wire } = createFakeService(content, { routedReadsFail: true });
+    const client = clientOf(httpClient, { maxTries: 3, retryDelayInMs: 1, maxRetryDelayInMs: 1 });
+
+    await expect(client.downloadToBuffer(0, content.length, routed())).rejects.toMatchObject({
+      code: "REQUEST_SEND_ERROR",
+    });
+    const [first, ...rest] = reads(wire);
+    assert.deepEqual(first, accountRead);
+    assert.isAtLeast(rest.length, 3, "a routed read must be retried");
+    for (const read of rest) {
+      assert.deepEqual(read, routedRead, "every retry must stay on the routed endpoint");
+    }
   });
 });
 
@@ -468,26 +571,10 @@ function createRoutingSpy(): { policy: PipelinePolicy; sent: SentRequest[] } {
   return { policy, sent };
 }
 
-/** Asserts the pages' ranges tile [start, end] in order, each served by an endpoint of its page. */
-function assertTiles(pages: BlobGetLayoutResponseModel[], start: number, end: number): void {
-  let next = start;
-  for (const page of pages) {
-    for (const range of page.ranges) {
-      assert.equal(range.start, next, "ranges must be contiguous and in order");
-      const endpoint = page.endpoints.find((candidate) => candidate.index === range.endpointIndex);
-      assert.isDefined(endpoint, `range ${range.start}-${range.end} must resolve on its own page`);
-      assert.match(endpoint!.value, /^https:\/\//);
-      next = range.end + 1;
-    }
-  }
-  assert.equal(next, end + 1, "the ranges must cover everything asked for");
-}
-
 describe("Data locality Node.js only", () => {
   let recorder: Recorder;
   let containerClient: ContainerClient;
   let blobClient: BlockBlobClient;
-  let etag: string | undefined;
   let spy: ReturnType<typeof createRoutingSpy>;
   const blockSize = 1024;
   // Never repeats within a block, so a block written to the wrong offset cannot go unnoticed.
@@ -511,54 +598,12 @@ describe("Data locality Node.js only", () => {
     blobClient = containerClient.getBlockBlobClient(
       recorder.variable("blob", getUniqueName("blob")),
     );
-    etag = (await blobClient.upload(content, content.length)).etag;
+    await blobClient.upload(content, content.length);
   });
 
   afterEach(async () => {
     await containerClient?.delete();
     await recorder.stop();
-  });
-
-  it("reports a layout that tiles the blob, or just the range asked for", async () => {
-    const whole: BlobGetLayoutResponseModel[] = [];
-    for await (const page of blobClient.getLayout()) {
-      whole.push(page);
-    }
-    assertTiles(whole, 0, content.length - 1);
-    assert.equal(whole[0].blobContentLength, content.length);
-    assert.equal(whole[0].etag, etag);
-
-    const range = { offset: blockSize, count: 2 * blockSize };
-    const ranged: BlobGetLayoutResponseModel[] = [];
-    for await (const page of blobClient.getLayout({ range })) {
-      ranged.push(page);
-    }
-    assertTiles(ranged, range.offset, range.offset + range.count - 1);
-  });
-
-  it("reads a range from the endpoint its layout names, still addressed to the account", async () => {
-    const offset = blockSize;
-    const page: BlobGetLayoutResponseModel = (await blobClient.getLayout().next()).value;
-    const range = page.ranges.find((r) => r.start <= offset && offset <= r.end)!;
-    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex)!;
-    spy.sent.length = 0;
-
-    const response = await blobClient.download(offset, blockSize, {
-      layoutEndpoint: endpoint.value,
-    });
-    const chunks: Buffer[] = [];
-    for await (const chunk of response.readableStreamBody!) {
-      chunks.push(chunk as Buffer);
-    }
-
-    assert.isTrue(Buffer.concat(chunks).equals(content.subarray(offset, offset + blockSize)));
-    assert.deepEqual(spy.sent, [
-      {
-        host: new URL(endpoint.value).host,
-        hostHeader: new URL(blobClient.url).host,
-        isLayout: false,
-      },
-    ]);
   });
 
   it("routes every block after the first once the service hints the blob has a layout", async () => {

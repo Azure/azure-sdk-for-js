@@ -21,7 +21,9 @@ export const storageDataLocalityPolicyName = "storageDataLocalityPolicy";
  * which the policy keeps off the wire. Deliberately not prefixed with `x-ms-`, because Shared Key
  * signing canonicalizes every `x-ms-` header and would sign a header that never reaches the wire.
  *
- * Exported so the service packages that set it cannot drift from the policy that reads it.
+ * Exported so the code that sets it cannot drift from the policy that reads it.
+ * `@azure/storage-file-datalake` clients send their requests through the pipeline this package
+ * builds, so this policy routes their reads too.
  */
 export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
 
