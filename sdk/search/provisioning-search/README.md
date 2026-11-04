@@ -15,6 +15,29 @@ npm install @azure/provisioning-search @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-search` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+```ts snippet:ReadmeSampleCreateSearchService
+import { Stack } from "@azure/provisioning-core";
+import { SearchService } from "@azure/provisioning-search";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("search-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const searchService = new SearchService(stack, {
+  name: "my-unique-search-service",
+  location: "eastus",
+  sku: { name: "basic" },
+  properties: {
+    replicaCount: 1,
+    partitionCount: 1,
+    disableLocalAuth: true,
+  },
+});
+stack.outputs.add("searchServiceId", "string", searchService.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
