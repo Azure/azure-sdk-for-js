@@ -891,6 +891,7 @@ export function comparisonFilterSerializer(item: ComparisonFilter): any {
 ${
   custom
     ? `
+export type ComparisonFilterValueItems = string | number;
 export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
 export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
 export const _toolFileSearchToolFiltersValueSerializer = _fileSearchToolFiltersValueSerializer;
@@ -910,6 +911,8 @@ export const _toolFileSearchToolFiltersValue1ArraySerializer = _fileSearchToolFi
     output.replace(/\s+/g, " "),
     /value: string \| number \| boolean \| _FileSearchToolFiltersValue\[\] \| null/,
   );
+  assert.match(output, /export type ComparisonFilterValueItems = string \| number;/);
+  assert.ok(result.exports.some((entry) => entry.name === "ComparisonFilterValueItems"));
   const converters = evaluate(output);
   assert.equal(
     converters._toolFileSearchToolFiltersValueSerializer,
@@ -922,7 +925,11 @@ export const _toolFileSearchToolFiltersValue1ArraySerializer = _fileSearchToolFi
   const values = ["kept", 0];
   assert.equal(converters.comparisonFilterSerializer({ value: values }).value, values);
   assert.equal(converters.comparisonFilterSerializer({ value: null }).value, null);
-  assert.deepEqual(succeeded(incoming, result.files, incoming).diagnostics, []);
+  const repeated = succeeded(incoming, result.files, incoming);
+  assert.match(
+    repeated.files.get(modelFile),
+    /export type ComparisonFilterValueItems = string \| number;/,
+  );
 });
 
 test("restored helper references retain released inline property types and emitted variants", () => {

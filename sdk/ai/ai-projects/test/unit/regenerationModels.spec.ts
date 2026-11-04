@@ -119,6 +119,7 @@ const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
   it("keeps emitted tool names as aliases of the customized public contracts", () => {
+    expectTypeOf<Models.ComparisonFilterValueItems>().toEqualTypeOf<string | number>();
     expectTypeOf<Models.ToolFunctionTool>().toEqualTypeOf<Models.FunctionTool>();
     expectTypeOf<Models.ToolFileSearchTool>().toEqualTypeOf<Models.FileSearchTool>();
     expectTypeOf<Models.ToolComputerTool>().toEqualTypeOf<Models.ComputerTool>();
@@ -233,7 +234,9 @@ describe("regenerated model wire contracts", () => {
   });
 
   it("uses the Teams Phone extensibility discriminator on all binding shapes", () => {
-    expectTypeOf<TelephonyProvider>().toEqualTypeOf<"teams_phone_extensibility" | "twilio">();
+    expectTypeOf<TelephonyProvider>().toEqualTypeOf<
+      "teams_phone_extensibility" | "twilio" | "sip"
+    >();
     expectTypeOf<
       CreateTeamsPhoneExtensibilityTelephonyBindingRequest["provider"]
     >().toEqualTypeOf<"teams_phone_extensibility">();
@@ -381,6 +384,13 @@ describe("regenerated model wire contracts", () => {
   );
 
   const bindings: CreateTelephonyBindingRequestUnion[] = [
+    {
+      provider: "sip",
+      connection_name: connectionName,
+      phone_number: "+14255550100",
+      allowed_calling_numbers: ["+14255550123", "^\\+1425[0-9]+$"],
+      label: "SIP binding",
+    },
     {
       provider: "twilio",
       connection_name: connectionName,
