@@ -53,6 +53,12 @@ import {
   RealtimeFunctionToolParameters,
   realtimeFunctionToolParametersSerializer,
   realtimeFunctionToolParametersDeserializer,
+  LiveInitialSessionAudioParam,
+  liveInitialSessionAudioParamSerializer,
+  liveInitialSessionAudioParamDeserializer,
+  LiveResponsesDelegationSettingsInputParam,
+  liveResponsesDelegationSettingsInputParamSerializer,
+  liveResponsesDelegationSettingsInputParamDeserializer,
   ApiError,
   apiErrorDeserializer,
   chatCompletionToolArraySerializer,
@@ -78,6 +84,8 @@ import {
   metadataDeserializer,
   _voiceResponseMaxOutputTokensSerializer,
   _voiceResponseMaxOutputTokensDeserializer,
+  LiveSessionUsage,
+  liveSessionUsageDeserializer,
   RealtimeReasoning,
   realtimeReasoningSerializer,
   realtimeReasoningDeserializer,
@@ -146,6 +154,16 @@ import {
   ToolChoiceOptions,
   _voiceAgentResponseCreateParamsMaxOutputTokensSerializer,
   _voiceAgentResponseCreateParamsMaxOutputTokensDeserializer,
+  realtimeResponseInputItemArraySerializer,
+  realtimeResponseInputItemArrayDeserializer,
+  RealtimeResponseInputItem,
+  ModelIdsLive,
+  liveInitialItemUnionArrayDeserializer,
+  LiveInitialItemUnion,
+  liveDecisionTriggerInputParamArrayDeserializer,
+  LiveDecisionTriggerInputParam,
+  LiveClientConfigParam,
+  liveClientConfigParamDeserializer,
   RealtimeServerEventError,
 } from "./openAI/models.js";
 import {
@@ -327,7 +345,7 @@ export type AgentDefinitionUnion =
   | PromptAgentDefinition
   | WorkflowAgentDefinition
   | ExternalAgentDefinition
-  | VoiceAgentDefinition
+  | VoiceAgentBaseDefinitionUnion
   | AgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
@@ -345,7 +363,7 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
       return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
 
     case "voice":
-      return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
+      return voiceAgentBaseDefinitionUnionSerializer(item as VoiceAgentBaseDefinitionUnion);
 
     default:
       return agentDefinitionSerializer(item);
@@ -367,7 +385,7 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
       return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
 
     case "voice":
-      return voiceAgentDefinitionDeserializer(item as VoiceAgentDefinition);
+      return voiceAgentBaseDefinitionUnionDeserializer(item as VoiceAgentBaseDefinitionUnion);
 
     default:
       return agentDefinitionDeserializer(item);
@@ -2864,21 +2882,100 @@ export function externalAgentDefinitionDeserializer(item: any): ExternalAgentDef
 }
 
 /**
+ * Shared voice-agent settings; protocol-specific fields remain flat on each subtype.
+ * Creates and updates produce immutable versions. Each version selects its own protocol, so a new version can switch between Realtime and Live.
+ */
+export interface VoiceAgentBaseDefinition extends AgentDefinition {
+  /** Always voice. */
+  kind: "voice";
+  /** The voice protocol for this agent version. Null and unknown values are invalid. */
+  /** The discriminator possible values: realtime, live */
+  sub_protocol: VoiceAgentSubProtocol;
+  /** Frontend instructions, templated with structured_inputs. Backend instructions belong in delegation.responses. */
+  instructions?: string;
+  /** Template inputs for session instructions and supported greetings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+  /** Persists conversation content and audio in Foundry, not native Live recordings. Defaults to false. */
+  store?: boolean;
+}
+
+export function voiceAgentBaseDefinitionSerializer(item: VoiceAgentBaseDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
+  };
+}
+
+export function voiceAgentBaseDefinitionDeserializer(item: any): VoiceAgentBaseDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
+  };
+}
+
+/** Alias for VoiceAgentBaseDefinitionUnion */
+export type VoiceAgentBaseDefinitionUnion =
+  VoiceAgentDefinition | VoiceAgentLiveDefinition | VoiceAgentBaseDefinition;
+
+export function voiceAgentBaseDefinitionUnionSerializer(item: VoiceAgentBaseDefinitionUnion): any {
+  switch (item.subProtocol) {
+    case "realtime":
+      return voiceAgentDefinitionSerializer(item as VoiceAgentDefinition);
+
+    case "live":
+      return voiceAgentLiveDefinitionSerializer(item as VoiceAgentLiveDefinition);
+
+    default:
+      return voiceAgentBaseDefinitionSerializer(item);
+  }
+}
+
+export function voiceAgentBaseDefinitionUnionDeserializer(
+  item: any,
+): VoiceAgentBaseDefinitionUnion {
+  switch (item["sub_protocol"]) {
+    case "realtime":
+      return voiceAgentDefinitionDeserializer(item as VoiceAgentDefinition);
+
+    case "live":
+      return voiceAgentLiveDefinitionDeserializer(item as VoiceAgentLiveDefinition);
+
+    default:
+      return voiceAgentBaseDefinitionDeserializer(item);
+  }
+}
+
+/** Voice protocol; realtime includes cascaded models. */
+export type VoiceAgentSubProtocol = "realtime" | "live";
+
+/**
  * The voice agent definition. Its configuration (model, instructions, audio, tools, and optional avatar) drives a
  * managed speech-to-speech experience. Establish realtime voice sessions through
  * `GET /agents/{agent_name}/endpoint/protocols/voice`. Every create or update produces a new immutable version.
  */
-export interface VoiceAgentDefinition extends AgentDefinition {
-  /** The kind discriminator for a voice agent definition. Always `voice`. */
-  kind: "voice";
+export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
+  /** Selects the Realtime protocol. */
+  sub_protocol: "realtime";
   /** How the model backing this voice agent is served. Required with `model` for a model-backed voice agent and omitted when `conversation_engine` is provided. This is independent of the architecture (realtime or cascaded), which the service derives from the selected model. */
   model_type?: VoiceModelType;
   /** The model to use for this agent. Required with `model_type` for a model-backed voice agent and omitted when `conversation_engine` is provided. The model must support realtime or cascaded voice. */
   model?: string;
   /** The engine that owns conversation handling for this voice agent. Exactly one of this property and the model-backed configuration (`model_type` with `model`) must be provided. When this property is provided, `model_type`, `model`, `instructions`, `tools`, and `tool_choice` must be omitted, and `greeting.tool_choice` cannot be `required`, because the engine owns the conversation logic. The initial implementation supports a hosted-agent engine. */
   conversation_engine?: VoiceConversationEngineUnion;
-  /** A system (or developer) message inserted into the model's context. Supports template substitution via `structured_inputs`, rendered per session before the live session starts. */
-  instructions?: string;
   /** Optional session-start greeting. Template mode speaks exact rendered text; LLM-generated mode asks the session model to author the opening response and may use configured tools. */
   greeting?: VoiceAgentGreetingConfigUnion;
   /**
@@ -2915,33 +3012,27 @@ export interface VoiceAgentDefinition extends AgentDefinition {
   tool_choice?: VoiceAgentToolChoice;
   /** Whether the model may call multiple tools in parallel. */
   parallel_tool_calls?: boolean;
-  /** Set of structured inputs that participate in prompt template substitution, rendered per session before the live session starts. */
-  structured_inputs?: Record<string, StructuredInputDefinition>;
   /** Optional subagent configuration. Set `subagent_type` to `delegate` for delegated background specialists or `inline` for inline voice subagents. */
   subagent_config?: VoiceAgentSubagentConfigUnion;
   /** Optional post-call delivery configuration. After each session ends, the service notifies the configured destinations. */
   post_call?: VoiceAgentPostCallConfig;
-  /**
-   * Whether conversations with this agent are persisted. A single, all-or-nothing persistence switch that defaults to
-   * `false` (privacy-safe: off by default). When `true`, Foundry persists the full conversation — the transcript/event
-   * timeline and raw audio. When `false`, nothing is persisted and no conversation is surfaced. There is no separate
-   * audio-logging control; audio is persisted only as part of this switch. Latency/performance telemetry (e.g.
-   * time-to-first-audio, inter-token latency, interruption) is observability-only (customer trace / App Insights) and
-   * is not part of the persisted conversation content.
-   */
-  store?: boolean;
 }
 
 export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any {
   return {
     kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
     model_type: item["model_type"],
     model: item["model"],
     conversation_engine: !item["conversation_engine"]
       ? item["conversation_engine"]
       : voiceConversationEngineUnionSerializer(item["conversation_engine"]),
-    instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
@@ -2971,22 +3062,24 @@ export function voiceAgentDefinitionSerializer(item: VoiceAgentDefinition): any 
       ? item["tool_choice"]
       : voiceAgentToolChoiceSerializer(item["tool_choice"]),
     parallel_tool_calls: item["parallel_tool_calls"],
-    structured_inputs: !item["structured_inputs"]
-      ? item["structured_inputs"]
-      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigUnionSerializer(item["subagent_config"]),
     post_call: !item["post_call"]
       ? item["post_call"]
       : voiceAgentPostCallConfigSerializer(item["post_call"]),
-    store: item["store"],
   };
 }
 
 export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinition {
   return {
     kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
     rai_config: !item["rai_config"]
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
@@ -2995,7 +3088,6 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
     conversation_engine: !item["conversation_engine"]
       ? item["conversation_engine"]
       : voiceConversationEngineUnionDeserializer(item["conversation_engine"]),
-    instructions: item["instructions"],
     greeting: !item["greeting"]
       ? item["greeting"]
       : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
@@ -3025,16 +3117,12 @@ export function voiceAgentDefinitionDeserializer(item: any): VoiceAgentDefinitio
       ? item["tool_choice"]
       : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
     parallel_tool_calls: item["parallel_tool_calls"],
-    structured_inputs: !item["structured_inputs"]
-      ? item["structured_inputs"]
-      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
     subagent_config: !item["subagent_config"]
       ? item["subagent_config"]
       : voiceAgentSubagentConfigUnionDeserializer(item["subagent_config"]),
     post_call: !item["post_call"]
       ? item["post_call"]
       : voiceAgentPostCallConfigDeserializer(item["post_call"]),
-    store: item["store"],
   };
 }
 
@@ -5592,6 +5680,220 @@ export function voiceAgentRoutinePostCallDestinationDeserializer(
 
 /** Content that can be included in a post-call delivery. */
 export type VoiceAgentPostCallIncludeOption = "audio";
+
+/**
+ * The Live voice agent definition. Its configuration (model, instructions, audio, and delegation) drives a
+ * managed speech-to-speech experience using a Foundry GPT Live deployment. Establish Live voice sessions through
+ * `GET /agents/{agent_name}/endpoint/protocols/voice/live/sessions`. Every create or update produces a new immutable version.
+ */
+export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
+  /** Selects the Live protocol. */
+  sub_protocol: "live";
+  /** Uses a Foundry model deployment. */
+  model_type: "self_deployed";
+  /** The GPT Live deployment name. */
+  model: string;
+  /** Template-only startup greeting, rendered with session structured inputs. Foundry-only; not sent in native Live settings. */
+  greeting?: VoiceAgentTemplateGreetingConfig;
+  /** Startup audio formats and output voice. */
+  audio?: LiveInitialSessionAudioParam;
+  /** Delegation settings. Omit for client mode. responses.model is a backend deployment name in the Live resource, not a model catalog ID. */
+  delegation?: VoiceAgentLiveDelegationUnion;
+}
+
+export function voiceAgentLiveDefinitionSerializer(item: VoiceAgentLiveDefinition): any {
+  return {
+    kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+    store: item["store"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentTemplateGreetingConfigSerializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamSerializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationUnionSerializer(item["delegation"]),
+  };
+}
+
+export function voiceAgentLiveDefinitionDeserializer(item: any): VoiceAgentLiveDefinition {
+  return {
+    kind: item["kind"],
+    sub_protocol: item["sub_protocol"],
+    instructions: item["instructions"],
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+    store: item["store"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model_type: item["model_type"],
+    model: item["model"],
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentTemplateGreetingConfigDeserializer(item["greeting"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationUnionDeserializer(item["delegation"]),
+  };
+}
+
+/** Who handles delegated work for a Live voice agent. */
+export interface VoiceAgentLiveDelegation {
+  /** The delegation owner. */
+  /** The discriminator possible values: client, responses, foundry_managed_agent */
+  type: VoiceAgentLiveDelegationType;
+}
+
+export function voiceAgentLiveDelegationSerializer(item: VoiceAgentLiveDelegation): any {
+  return { type: item["type"] };
+}
+
+export function voiceAgentLiveDelegationDeserializer(item: any): VoiceAgentLiveDelegation {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VoiceAgentLiveDelegationUnion */
+export type VoiceAgentLiveDelegationUnion =
+  | VoiceAgentLiveClientDelegation
+  | VoiceAgentLiveResponsesDelegation
+  | VoiceAgentLiveManagedAgentDelegation
+  | VoiceAgentLiveDelegation;
+
+export function voiceAgentLiveDelegationUnionSerializer(item: VoiceAgentLiveDelegationUnion): any {
+  switch (item.type) {
+    case "client":
+      return voiceAgentLiveClientDelegationSerializer(item as VoiceAgentLiveClientDelegation);
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationSerializer(item as VoiceAgentLiveResponsesDelegation);
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveManagedAgentDelegationSerializer(
+        item as VoiceAgentLiveManagedAgentDelegation,
+      );
+
+    default:
+      return voiceAgentLiveDelegationSerializer(item);
+  }
+}
+
+export function voiceAgentLiveDelegationUnionDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationUnion {
+  switch (item["type"]) {
+    case "client":
+      return voiceAgentLiveClientDelegationDeserializer(item as VoiceAgentLiveClientDelegation);
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationDeserializer(
+        item as VoiceAgentLiveResponsesDelegation,
+      );
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveManagedAgentDelegationDeserializer(
+        item as VoiceAgentLiveManagedAgentDelegation,
+      );
+
+    default:
+      return voiceAgentLiveDelegationDeserializer(item);
+  }
+}
+
+/** Supported owners of work delegated by a Live voice agent. */
+export type VoiceAgentLiveDelegationType = "client" | "responses" | "foundry_managed_agent";
+
+/** Delegates work to the application using native client delegation. */
+export interface VoiceAgentLiveClientDelegation extends VoiceAgentLiveDelegation {
+  /** Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations. */
+  acknowledgement_delay_ms?: number;
+  type: "client";
+}
+
+export function voiceAgentLiveClientDelegationSerializer(
+  item: VoiceAgentLiveClientDelegation,
+): any {
+  return { type: item["type"], acknowledgement_delay_ms: item["acknowledgement_delay_ms"] };
+}
+
+export function voiceAgentLiveClientDelegationDeserializer(
+  item: any,
+): VoiceAgentLiveClientDelegation {
+  return {
+    type: item["type"],
+    acknowledgement_delay_ms: item["acknowledgement_delay_ms"],
+  };
+}
+
+/** Delegates work to a Responses backend using native Responses settings. */
+export interface VoiceAgentLiveResponsesDelegation extends VoiceAgentLiveDelegation {
+  /** Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations. */
+  acknowledgement_delay_ms?: number;
+  /** Backend model, prompt, and tools used when the Live session delegates a task to Responses. */
+  responses: LiveResponsesDelegationSettingsInputParam;
+  type: "responses";
+}
+
+export function voiceAgentLiveResponsesDelegationSerializer(
+  item: VoiceAgentLiveResponsesDelegation,
+): any {
+  return {
+    type: item["type"],
+    acknowledgement_delay_ms: item["acknowledgement_delay_ms"],
+    responses: liveResponsesDelegationSettingsInputParamSerializer(item["responses"]),
+  };
+}
+
+export function voiceAgentLiveResponsesDelegationDeserializer(
+  item: any,
+): VoiceAgentLiveResponsesDelegation {
+  return {
+    type: item["type"],
+    acknowledgement_delay_ms: item["acknowledgement_delay_ms"],
+    responses: liveResponsesDelegationSettingsInputParamDeserializer(item["responses"]),
+  };
+}
+
+/** Delegates to a same-project prompt agent using native client delegation. Requires [thinking] and/or [commentary] output sections. */
+export interface VoiceAgentLiveManagedAgentDelegation extends VoiceAgentLiveDelegation {
+  /** Canonical delegation type; legacy managed_prompt_agent values are returned as foundry_managed_agent. */
+  type: "foundry_managed_agent";
+  /** Name of a prompt agent in the same project. */
+  agent_name: string;
+  /** Agent version, pinned per connection. Omit to select the active version. */
+  agent_version?: string;
+}
+
+export function voiceAgentLiveManagedAgentDelegationSerializer(
+  item: VoiceAgentLiveManagedAgentDelegation,
+): any {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function voiceAgentLiveManagedAgentDelegationDeserializer(
+  item: any,
+): VoiceAgentLiveManagedAgentDelegation {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
 
 /** The provisioning status of an agent version. */
 export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
@@ -17875,6 +18177,365 @@ export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordi
   };
 }
 
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultVoiceAgentLiveConversation {
+  /** The requested list of items. */
+  data: VoiceAgentLiveConversation[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultVoiceAgentLiveConversationDeserializer(
+  item: any,
+): _AgentsPagedResultVoiceAgentLiveConversation {
+  return {
+    data: voiceAgentLiveConversationArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function voiceAgentLiveConversationArrayDeserializer(
+  result: Array<VoiceAgentLiveConversation>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveConversationDeserializer(item);
+  });
+}
+
+/** A Live session persisted when effective store is true. Uses voice-conversation lifecycle and retention; items are retrieved separately. */
+export interface VoiceAgentLiveConversation {
+  /** The unique id of the conversation. */
+  id: string;
+  /** The object type. Always `voice.conversation`. */
+  object: "voice.conversation";
+  /** The lifecycle status of the conversation. */
+  status: VoiceConversationStatus;
+  /** The Unix timestamp (in seconds) for when the conversation was created. */
+  created_at: Date;
+  /** The Unix timestamp (in seconds) for when session and persistence finalization reached the terminal `completed` or `failed` status. Absent while `status` is `in_progress`. */
+  completed_at?: Date;
+  /** A set of key-value pairs attached to the conversation. */
+  metadata?: Record<string, string>;
+  /** The terminal error that prevented persistence finalization. Present only when `status` is `failed`. */
+  last_error?: ApiError;
+  /** Cumulative Live audio usage, excluding delegated-model tokens. May be absent after abnormal close. */
+  usage?: LiveSessionUsage;
+}
+
+export function voiceAgentLiveConversationDeserializer(item: any): VoiceAgentLiveConversation {
+  return {
+    id: item["id"],
+    object: item["object"],
+    status: item["status"],
+    created_at: new Date(item["created_at"] * 1000),
+    completed_at: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    last_error: !item["last_error"] ? item["last_error"] : apiErrorDeserializer(item["last_error"]),
+    usage: !item["usage"] ? item["usage"] : liveSessionUsageDeserializer(item["usage"]),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultVoiceAgentLiveConversationItem {
+  /** The requested list of items. */
+  data: VoiceAgentLiveConversationItemUnion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultVoiceAgentLiveConversationItemDeserializer(
+  item: any,
+): _AgentsPagedResultVoiceAgentLiveConversationItem {
+  return {
+    data: voiceAgentLiveConversationItemUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function voiceAgentLiveConversationItemUnionArrayDeserializer(
+  result: Array<VoiceAgentLiveConversationItemUnion>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveConversationItemUnionDeserializer(item);
+  });
+}
+
+/** A stored speech segment or delegation. Speech segments are not native turns or proof of playback; delegation results are separate from spoken transcripts. */
+export interface VoiceAgentLiveConversationItem {
+  /** The persisted item kind. */
+  /** The discriminator possible values: input, output, delegation */
+  type: VoiceAgentLiveConversationItemType;
+  /** Item ID used for retrieval. Foundry assigns speech IDs; delegation IDs retain their native value. */
+  id: string;
+}
+
+export function voiceAgentLiveConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** Alias for VoiceAgentLiveConversationItemUnion */
+export type VoiceAgentLiveConversationItemUnion =
+  | VoiceAgentLiveInputConversationItem
+  | VoiceAgentLiveOutputConversationItem
+  | VoiceAgentLiveDelegationConversationItemUnion
+  | VoiceAgentLiveConversationItem;
+
+export function voiceAgentLiveConversationItemUnionDeserializer(
+  item: any,
+): VoiceAgentLiveConversationItemUnion {
+  switch (item["type"]) {
+    case "input":
+      return voiceAgentLiveInputConversationItemDeserializer(
+        item as VoiceAgentLiveInputConversationItem,
+      );
+
+    case "output":
+      return voiceAgentLiveOutputConversationItemDeserializer(
+        item as VoiceAgentLiveOutputConversationItem,
+      );
+
+    case "delegation":
+      return voiceAgentLiveDelegationConversationItemUnionDeserializer(
+        item as VoiceAgentLiveDelegationConversationItemUnion,
+      );
+
+    default:
+      return voiceAgentLiveConversationItemDeserializer(item);
+  }
+}
+
+/** The kind of a persisted Live conversation item. */
+export type VoiceAgentLiveConversationItemType = "input" | "output" | "delegation";
+
+/** A stored user speech segment. */
+export interface VoiceAgentLiveInputConversationItem extends VoiceAgentLiveConversationItem {
+  type: "input";
+  /** Captured user transcription, when available. */
+  transcription?: string;
+  /** Captured audio metadata; audio.item_id matches this item's id. */
+  audio?: VoiceAudioItem;
+}
+
+export function voiceAgentLiveInputConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveInputConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    transcription: item["transcription"],
+    audio: !item["audio"] ? item["audio"] : voiceAudioItemDeserializer(item["audio"]),
+  };
+}
+
+/** A stored assistant speech segment. */
+export interface VoiceAgentLiveOutputConversationItem extends VoiceAgentLiveConversationItem {
+  type: "output";
+  /** Captured assistant transcription, not backend output or commentary guidance. */
+  transcription?: string;
+  /** Captured audio metadata; audio.item_id matches this item's id. */
+  audio?: VoiceAudioItem;
+}
+
+export function voiceAgentLiveOutputConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveOutputConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    transcription: item["transcription"],
+    audio: !item["audio"] ? item["audio"] : voiceAudioItemDeserializer(item["audio"]),
+  };
+}
+
+/** A stored delegation using native fields with Foundry-specific targets. Its id is the native delegation ID. */
+export interface VoiceAgentLiveDelegationConversationItem extends VoiceAgentLiveConversationItem {
+  /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
+  response_id?: string;
+  type: "delegation";
+  /** The configured delegation owner. */
+  /** The discriminator possible values: client, responses, foundry_managed_agent */
+  target: VoiceAgentLiveDelegationTarget;
+  /** Observed delegation creation time, in Unix seconds. */
+  created_at: Date;
+}
+
+export function voiceAgentLiveDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationConversationItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    response_id: item["response_id"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+  };
+}
+
+/** Alias for VoiceAgentLiveDelegationConversationItemUnion */
+export type VoiceAgentLiveDelegationConversationItemUnion =
+  | VoiceAgentLiveClientDelegationConversationItem
+  | VoiceAgentLiveResponsesDelegationConversationItem
+  | VoiceAgentLiveFoundryManagedAgentDelegationItem
+  | VoiceAgentLiveDelegationConversationItem;
+
+export function voiceAgentLiveDelegationConversationItemUnionDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationConversationItemUnion {
+  switch (item["target"]) {
+    case "client":
+      return voiceAgentLiveClientDelegationConversationItemDeserializer(
+        item as VoiceAgentLiveClientDelegationConversationItem,
+      );
+
+    case "responses":
+      return voiceAgentLiveResponsesDelegationConversationItemDeserializer(
+        item as VoiceAgentLiveResponsesDelegationConversationItem,
+      );
+
+    case "foundry_managed_agent":
+      return voiceAgentLiveFoundryManagedAgentDelegationItemDeserializer(
+        item as VoiceAgentLiveFoundryManagedAgentDelegationItem,
+      );
+
+    default:
+      return voiceAgentLiveDelegationConversationItemDeserializer(item);
+  }
+}
+
+/** Delegation owner. Foundry agent targets use native client delegation upstream. */
+export type VoiceAgentLiveDelegationTarget = "responses" | "client" | "foundry_managed_agent";
+
+/** Results supplied by the application for client delegation. */
+export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "client";
+  /** Guidance for Live to communicate to the user, when accepted. */
+  commentary?: string;
+  /** Accepted background context, not private reasoning or a request to speak. */
+  thinking?: string;
+}
+
+export function voiceAgentLiveClientDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveClientDelegationConversationItem {
+  return {
+    response_id: item["response_id"],
+    type: item["type"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    commentary: item["commentary"],
+    thinking: item["thinking"],
+  };
+}
+
+/** Stored Responses delegation output, separate from Live speech. */
+export interface VoiceAgentLiveResponsesDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "responses";
+  /** Final backend text, omitted when unavailable; excludes raw tool output. */
+  output?: string;
+}
+
+export function voiceAgentLiveResponsesDelegationConversationItemDeserializer(
+  item: any,
+): VoiceAgentLiveResponsesDelegationConversationItem {
+  return {
+    response_id: item["response_id"],
+    type: item["type"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    output: item["output"],
+  };
+}
+
+/** Stored prompt-agent delegation state and accepted results. */
+export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {
+  target: "foundry_managed_agent";
+  /** Target agent name in the same project. */
+  agent_name: string;
+  /** Target version pinned at connection start. */
+  agent_version: string;
+  /** Native delegation offset from session start, in milliseconds. */
+  offset_ms: number;
+  /** Backend conversation ID, distinct from the voice conversation and Live session IDs. */
+  backend_conversation_id?: string;
+  /** Accepted guidance in order; empty until a result is accepted. Entries have no individual IDs, are noncumulative, and are independent of backend output_index. Partial results survive failure or cancellation. */
+  output: VoiceAgentLiveDelegationResultItem[];
+  /** Task context sent to the target agent, not the full request body. */
+  delegation_context?: string;
+  /** The persisted delegation outcome. */
+  status: VoiceAgentLiveDelegationStatus;
+}
+
+export function voiceAgentLiveFoundryManagedAgentDelegationItemDeserializer(
+  item: any,
+): VoiceAgentLiveFoundryManagedAgentDelegationItem {
+  return {
+    response_id: item["response_id"],
+    type: item["type"],
+    target: item["target"],
+    created_at: new Date(item["created_at"] * 1000),
+    id: item["id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    offset_ms: item["offset_ms"],
+    backend_conversation_id: item["backend_conversation_id"],
+    output: voiceAgentLiveDelegationResultItemArrayDeserializer(item["output"]),
+    delegation_context: item["delegation_context"],
+    status: item["status"],
+  };
+}
+
+export function voiceAgentLiveDelegationResultItemArrayDeserializer(
+  result: Array<VoiceAgentLiveDelegationResultItem>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentLiveDelegationResultItemDeserializer(item);
+  });
+}
+
+/** Persisted guidance accepted by Live. The service populates commentary, thinking, or both. Agent delegation section markers are removed before storage. */
+export interface VoiceAgentLiveDelegationResultItem {
+  /** Guidance for Live to communicate to the user. */
+  commentary?: string;
+  /** Background context, not private reasoning or a request to speak. */
+  thinking?: string;
+}
+
+export function voiceAgentLiveDelegationResultItemDeserializer(
+  item: any,
+): VoiceAgentLiveDelegationResultItem {
+  return {
+    commentary: item["commentary"],
+    thinking: item["thinking"],
+  };
+}
+
+/** Persisted delegation outcome, not speech or playback status. */
+export type VoiceAgentLiveDelegationStatus =
+  "in_progress" | "completed" | "failed" | "incomplete" | "cancelled";
+
 /** The request to create a telephony binding. */
 export interface CreateTelephonyBindingRequest {
   /** The telephony provider. */
@@ -20859,7 +21520,7 @@ export interface VoiceAgentResponseCreateParams {
    *   Note that this can include references to items that previously appeared in the session
    *   using their id.
    */
-  input?: RealtimeConversationItemUnion[];
+  input?: RealtimeResponseInputItem[];
   /** Modalities that the response may return. */
   output_modalities?: VoiceOutputModality[];
   /** Response-specific audio settings. */
@@ -20890,9 +21551,7 @@ export function voiceAgentResponseCreateParamsSerializer(
       : _voiceAgentResponseCreateParamsMaxOutputTokensSerializer(item["max_output_tokens"]),
     conversation: item["conversation"],
     metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
-    input: !item["input"]
-      ? item["input"]
-      : realtimeConversationItemUnionArraySerializer(item["input"]),
+    input: !item["input"] ? item["input"] : realtimeResponseInputItemArraySerializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -20932,7 +21591,7 @@ export function voiceAgentResponseCreateParamsDeserializer(
     metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
     input: !item["input"]
       ? item["input"]
-      : realtimeConversationItemUnionArrayDeserializer(item["input"]),
+      : realtimeResponseInputItemArrayDeserializer(item["input"]),
     output_modalities: !item["output_modalities"]
       ? item["output_modalities"]
       : item["output_modalities"].map((p: any) => {
@@ -21039,6 +21698,73 @@ export interface UpdateToolboxRequest {
 
 export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any {
   return { default_version: item["default_version"] };
+}
+
+/** Live session resource reported to Foundry clients. GPT Live runs native client delegation for foundry_managed_agent sessions; Foundry reports the effective owner. */
+export interface VoiceAgentLiveSessionResource {
+  model: ModelIdsLive;
+  instructions?: string;
+  /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default). */
+  input?: LiveInitialItemUnion[];
+  /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
+  audio?: LiveInitialSessionAudioParam;
+  /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
+  triggers?: LiveDecisionTriggerInputParam[];
+  /** Whether to store the session for later forking and recording download. Defaults to false for new sessions. */
+  store?: boolean;
+  /** Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected. */
+  client?: LiveClientConfigParam;
+  /** The unique ID of the Live session. Use this ID for sideband connections, forking, and recording download. */
+  id: string;
+  /** The Unix timestamp, in seconds, at which the Live session expires. */
+  expires_at: number;
+  /** The status of the session snapshot. Always `active`, including the final snapshot in session.closed; use the event type to determine that the session has closed. */
+  status: "active";
+  /** Delegation owner. foundry_managed_agent sessions report the pinned target, including the resolved agent_version. */
+  delegation?: VoiceAgentLiveDelegationUnion;
+}
+
+export function voiceAgentLiveSessionResourceDeserializer(
+  item: any,
+): VoiceAgentLiveSessionResource {
+  return {
+    model: item["model"],
+    instructions: item["instructions"],
+    input: !item["input"] ? item["input"] : liveInitialItemUnionArrayDeserializer(item["input"]),
+    audio: !item["audio"] ? item["audio"] : liveInitialSessionAudioParamDeserializer(item["audio"]),
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : liveDecisionTriggerInputParamArrayDeserializer(item["triggers"]),
+    store: item["store"],
+    client: !item["client"] ? item["client"] : liveClientConfigParamDeserializer(item["client"]),
+    id: item["id"],
+    expires_at: item["expires_at"],
+    status: item["status"],
+    delegation: !item["delegation"]
+      ? item["delegation"]
+      : voiceAgentLiveDelegationUnionDeserializer(item["delegation"]),
+  };
+}
+
+/** Live delegation trigger metadata reported to Foundry clients. This object contains metadata, not the task text. */
+export interface VoiceAgentLiveDelegationItem {
+  /** The unique ID of the delegation. Use this as delegation_id when replying to client-owned work or correlating backend events. */
+  id: string;
+  /** The object type, always `delegation`. */
+  type: "delegation";
+  /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
+  response_id?: string;
+  /** Where the work is handled. foundry_managed_agent sessions report foundry_managed_agent; GPT Live itself uses client. */
+  target: VoiceAgentLiveDelegationTarget;
+}
+
+export function voiceAgentLiveDelegationItemDeserializer(item: any): VoiceAgentLiveDelegationItem {
+  return {
+    id: item["id"],
+    type: item["type"],
+    response_id: item["response_id"],
+    target: item["target"],
+  };
 }
 
 /** Alias for _ListVersionsRequestType */
@@ -21313,6 +22039,40 @@ export type DownloadVersionResponse = {
 };
 
 export type BetaSkillsDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsLiveConversationsDownloadAudioResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse = {
   /**
    * BROWSER ONLY
    *
