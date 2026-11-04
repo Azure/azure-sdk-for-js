@@ -196,7 +196,11 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEv
   readonly closed: Promise<VoiceAgentCloseResult>;
   /** Sends any generated client protocol event. */
   sendEvent(event: VoiceAgentClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
-  /** Updates supported live-session settings. */
+  /**
+   * Updates supported live-session settings.
+   * To use manual audio commits, disable turn detection in the agent definition before connecting.
+   * The service does not allow disabling turn detection during an established session.
+   */
   configureSession(
     session: VoiceAgentSessionUpdateConfig,
     options?: VoiceAgentSessionUpdateOptions,
@@ -209,7 +213,10 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEv
   commitAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Clears buffered input audio. */
   clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
-  /** Clears pending output audio at the service. */
+  /**
+   * Clears pending output audio for an avatar session.
+   * For non-avatar sessions, the service sends an error event with code `avatar_not_configured`.
+   */
   clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Returns a client-executed function result to the agent. */
   sendToolOutput(
