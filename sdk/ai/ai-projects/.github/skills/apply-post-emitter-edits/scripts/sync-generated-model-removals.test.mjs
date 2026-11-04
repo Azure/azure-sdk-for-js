@@ -6,6 +6,7 @@ import test from "node:test";
 import {
   collectModelExports,
   filterModelReexports,
+  getReviewedGeneratedModelRenames,
   planModelRemovals,
   removeModelDeclarations,
 } from "./sync-generated-model-removals.mjs";
@@ -99,6 +100,40 @@ export interface Wrapper { model: OriginalModel; }
     currentGenerated: "export interface ContextualModel {}",
     previousSource,
     generatedRenames,
+  });
+
+  test("preserves native Live compatibility roots after the create/update delegation split", () => {
+    const previousGenerated = `
+  export type DelegationType = "client" | "responses" | "decisions";
+  export interface Delegation { type: DelegationType; }
+  export interface LiveClientDelegationParam extends Delegation { type: "client"; }
+  export type DelegationUnion = LiveClientDelegationParam | Delegation;
+  export type _LiveSessionUpdateParamsDelegation = DelegationUnion;
+  `;
+    const currentGenerated = `
+  export type LiveSessionCreateParamsDelegationType = "client" | "responses" | "decisions";
+  export interface LiveSessionCreateParamsDelegation { type: LiveSessionCreateParamsDelegationType; }
+  export interface LiveSessionCreateParamsDelegationLiveClientDelegationParam extends LiveSessionCreateParamsDelegation { type: "client"; }
+  export type LiveSessionCreateParamsDelegationUnion = LiveSessionCreateParamsDelegationLiveClientDelegationParam | LiveSessionCreateParamsDelegation;
+  export type LiveSessionUpdateParamsDelegationUnion = LiveSessionCreateParamsDelegationUnion;
+  `;
+    const previousSource = `
+  ${previousGenerated}
+  export interface LiveSessionResourceParam { delegation?: LiveClientDelegationParam; }
+  export function liveClientDelegationParamDeserializer(item: any): LiveClientDelegationParam { return item; }
+  export function liveSessionResourceParamDeserializer(item: any): LiveSessionResourceParam {
+    return { delegation: liveClientDelegationParamDeserializer(item.delegation) };
+  }
+  `;
+    const plan = planModelRemovals({
+      previousGenerated,
+      currentGenerated,
+      previousSource,
+      generatedRenames: getReviewedGeneratedModelRenames(),
+    });
+    assert.deepEqual([...plan.generatedRemovedNames], []);
+    assert.deepEqual(plan.sourceNames, []);
+    assert.deepEqual(plan.retainedReferenceConflicts, []);
   });
   assert.deepEqual([...renamed.generatedRemovedNames], []);
   assert.deepEqual(renamed.sourceNames, []);

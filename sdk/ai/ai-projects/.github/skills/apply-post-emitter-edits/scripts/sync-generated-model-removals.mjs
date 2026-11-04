@@ -316,7 +316,7 @@ function parseArguments(argv) {
 }
 
 export function getReviewedGeneratedModelRenames() {
-  // OpenAI 1.32 contextual names retain these existing SDK wire capabilities.
+  // Reviewed contextual names retain these existing SDK wire capabilities.
   const contextualRenames = [
     ["CodeInterpreterTool", "ToolCodeInterpreterTool"],
     ["FileSearchTool", "ToolFileSearchTool"],
@@ -334,6 +334,18 @@ export function getReviewedGeneratedModelRenames() {
     ["LiveTransportRinging", "LiveServerEventLiveTransportRinging"],
     ["LiveTransportAnswered", "LiveServerEventLiveTransportAnswered"],
     ["LiveTransportFailed", "LiveServerEventLiveTransportFailed"],
+    ["Delegation", "LiveSessionCreateParamsDelegation"],
+    ["DelegationUnion", "LiveSessionCreateParamsDelegationUnion"],
+    ["DelegationType", "LiveSessionCreateParamsDelegationType"],
+    ["LiveClientDelegationParam", "LiveSessionCreateParamsDelegationLiveClientDelegationParam"],
+    [
+      "LiveResponsesDelegationParam",
+      "LiveSessionCreateParamsDelegationLiveResponsesDelegationParam",
+    ],
+    [
+      "LiveDecisionsDelegationParam",
+      "LiveSessionCreateParamsDelegationLiveDecisionsDelegationParam",
+    ],
   ];
   const converterPrefix = (name) => name[0].toLowerCase() + name.slice(1);
   return {
@@ -351,6 +363,12 @@ export function getReviewedGeneratedModelRenames() {
     _codeInterpreterToolContainerSerializer: "_toolCodeInterpreterToolContainerSerializer",
     _codeInterpreterToolContainerDeserializer: "_toolCodeInterpreterToolContainerDeserializer",
     _FileSearchToolFiltersValue: "_ToolFileSearchToolFiltersValue",
+    _LiveSessionCreateParamsDelegation: "LiveSessionCreateParamsDelegationUnion",
+    _liveSessionCreateParamsDelegationSerializer:
+      "liveSessionCreateParamsDelegationUnionSerializer",
+    _LiveSessionUpdateParamsDelegation: "LiveSessionUpdateParamsDelegationUnion",
+    _liveSessionUpdateParamsDelegationSerializer:
+      "liveSessionUpdateParamsDelegationUnionSerializer",
   };
 }
 
