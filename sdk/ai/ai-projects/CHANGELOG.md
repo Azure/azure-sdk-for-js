@@ -4,17 +4,25 @@
 
 ### Breaking Changes
 
+- Change `VoiceAgentResponseCreateParams.input` to `RealtimeResponseInputItem[]`, matching the upstream Realtime response input contract. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
 - Replace `VoiceAgentSubagentConfig.subagents` with discriminated `VoiceAgentSubagentConfigUnion` configurations. Use `VoiceAgentDelegateSubagentConfig` with `subagentType: "delegate"` for existing background specialists, or `VoiceAgentInlineSubagentConfig` with `subagentType: "inline"` for inline voice subagents. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 
 ### Features Added
 
+- Add GPT Live voice definitions, delegation configuration, and native Live session and event models. Share settings through `VoiceAgentBaseDefinition`, retaining `VoiceAgentDefinition` for Realtime and defaulting omitted `sub_protocol` to Realtime without adding it to the wire payload. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
+- Add `project.beta.voiceAgents.liveConversations` for listing, reading, and deleting persisted Live conversations and retrieving their items and audio. Preserve preview headers and request options across cursor pages. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
 - Add inline voice subagents, handoff conditions and policy, effective handoff state, and started, completed, and aborted handoff events for `project.beta.voiceAgents`. Share voice settings through `VoiceAgentVoiceConfig` while preserving the flattened audio output wire shape. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add SIP bindings to `project.beta.voiceAgents.telephony`, including optional display phone numbers and caller-number restrictions that can be cleared with an empty list. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 - Add `review_target` to misalignment error details and `message` to realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 
+### Bugs Fixed
+
+- Send the canonical `agent_version_override` query parameter for Realtime connections and `structured_inputs` in browser and React Native handshakes, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
+
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `a868344d9bc9274f4897766b001d996f39dd4599`, preserving customized client behavior, tracing, and Realtime serialization. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a868344d9bc9274f4897766b001d996f39dd4599). [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
 - Regenerate the client from azure-rest-api-specs commit `047993e651cabbd249e5cf83e2a2056b6737b388`, preserving customized tool aliases, client behavior, and preview headers. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/047993e651cabbd249e5cf83e2a2056b6737b388). [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Regenerate from azure-rest-api-specs commit `ef1f55a194fedc8de81a785d685bd2749e6cc72c` to restore released tool names in generated output. Preserve `Tool*` compatibility aliases and customized converter behavior through explicit historical identity mappings. [Upstream change](https://github.com/Azure/azure-rest-api-specs/pull/47872). [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
 - Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`, exposing the emitted `Tool*` names as aliases while preserving existing tool shapes and serializer dispatch. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
