@@ -243,6 +243,8 @@ describe("VoiceAgentRealtimeClient query options", () => {
     "store",
     "transport",
     "x-agent-version-override",
+    "agent_version_override",
+    "AGENT_VERSION_OVERRIDE",
     "x-ms-client-sdk",
     "authorization",
     "api-key",
@@ -825,7 +827,8 @@ describe("AIProjectClient realtime", () => {
     const url = new URL(connectOptions.url);
     assert.equal(url.searchParams.get("agent_session_id"), "session-1");
     assert.equal(url.searchParams.get("store"), "false");
-    assert.equal(url.searchParams.get("x-agent-version-override"), "2");
+    assert.equal(url.searchParams.get("agent_version_override"), "2");
+    assert.equal(url.searchParams.has("x-agent-version-override"), false);
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
