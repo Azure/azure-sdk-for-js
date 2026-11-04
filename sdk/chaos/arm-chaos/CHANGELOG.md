@@ -1,5 +1,198 @@
 # Release History
 
+## 3.0.0 (2026-11-04)
+
+### Features Added
+  - Added operation group ActionsOperations
+  - Added operation group ActionVersionsOperations
+  - Added operation group ConnectionsOperations
+  - Added operation group DiscoveredResourcesOperations
+  - Added operation group ScenarioConfigurationsOperations
+  - Added operation group ScenarioRunsOperations
+  - Added operation group ScenariosOperations
+  - Added operation group ScenarioTemplatesOperations
+  - Added operation group ScenarioTemplateVersionsOperations
+  - Added operation group WorkspaceDiscoveriesOperations
+  - Added operation group WorkspaceEvaluationsOperations
+  - Added operation group WorkspacesOperations
+  - Class ChaosManagementClient has a new constructor "constructor(credential: TokenCredential, options?: ChaosManagementClientOptionalParams);"
+  - Added Interface Action
+  - Added Interface ActionDependency
+  - Added Interface ActionError
+  - Added Interface ActionErrorDetail
+  - Added Interface ActionProperties
+  - Added Interface ActionsGetOptionalParams
+  - Added Interface ActionsListOptionalParams
+  - Added Interface ActionSupportedTargetType
+  - Added Interface ActionVersion
+  - Added Interface ActionVersionsGetOptionalParams
+  - Added Interface ActionVersionsListOptionalParams
+  - Added Interface Connection
+  - Added Interface ConnectionProperties
+  - Added Interface ConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ConnectionsDeleteOptionalParams
+  - Added Interface ConnectionsGetOptionalParams
+  - Added Interface ConnectionsListAllOptionalParams
+  - Added Interface CustomerDataStorageProperties
+  - Added Interface DiscoveredResource
+  - Added Interface DiscoveredResourceProperties
+  - Added Interface DiscoveredResourcesGetOptionalParams
+  - Added Interface DiscoveredResourcesListByWorkspaceOptionalParams
+  - Added Interface EntraIdentity
+  - Added Interface ExternalResource
+  - Added Interface FixResourcePermissionsRequest
+  - Added Interface OperationError
+  - Added Interface PermissionError
+  - Added Interface PermissionsFix
+  - Added Interface PermissionsFixProperties
+  - Added Interface PermissionsFixSummary
+  - Added Interface PhysicalToLogicalZoneMapping
+  - Added Interface Recommendation
+  - Added Interface ResourceStateError
+  - Added Interface ResourceTargeting
+  - Added Interface ResourceTargetingCriteria
+  - Added Interface RoleAssignmentError
+  - Added Interface RoleAssignmentResult
+  - Added Interface RunAfter
+  - Added Interface Scenario
+  - Added Interface ScenarioAction
+  - Added Interface ScenarioActionSelector
+  - Added Interface ScenarioConfiguration
+  - Added Interface ScenarioConfigurationProperties
+  - Added Interface ScenarioConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface ScenarioConfigurationsDeleteOptionalParams
+  - Added Interface ScenarioConfigurationsExecuteOptionalParams
+  - Added Interface ScenarioConfigurationsFixResourcePermissionsOptionalParams
+  - Added Interface ScenarioConfigurationsGetOptionalParams
+  - Added Interface ScenarioConfigurationsListAllOptionalParams
+  - Added Interface ScenarioConfigurationsValidateOptionalParams
+  - Added Interface ScenarioErrors
+  - Added Interface ScenarioParameter
+  - Added Interface ScenarioParameterFormat
+  - Added Interface ScenarioProperties
+  - Added Interface ScenarioRun
+  - Added Interface ScenarioRunEffectiveTarget
+  - Added Interface ScenarioRunProperties
+  - Added Interface ScenarioRunResource
+  - Added Interface ScenarioRunsCancelOptionalParams
+  - Added Interface ScenarioRunsGetOptionalParams
+  - Added Interface ScenarioRunsListAllOptionalParams
+  - Added Interface ScenarioRunSummaryAction
+  - Added Interface ScenarioRunSummaryResource
+  - Added Interface ScenarioRunWarning
+  - Added Interface ScenarioRunWarningDetail
+  - Added Interface ScenariosCreateOrUpdateOptionalParams
+  - Added Interface ScenariosDeleteOptionalParams
+  - Added Interface ScenariosGetOptionalParams
+  - Added Interface ScenariosListAllOptionalParams
+  - Added Interface ScenarioTemplate
+  - Added Interface ScenarioTemplateProperties
+  - Added Interface ScenarioTemplatesGetOptionalParams
+  - Added Interface ScenarioTemplatesListOptionalParams
+  - Added Interface ScenarioTemplateVersion
+  - Added Interface ScenarioTemplateVersionProperties
+  - Added Interface ScenarioTemplateVersionsGetOptionalParams
+  - Added Interface ScenarioTemplateVersionsListOptionalParams
+  - Added Interface TemplateEvaluationResultItem
+  - Added Interface Validation
+  - Added Interface ValidationProperties
+  - Added Interface Workspace
+  - Added Interface WorkspaceCustomerManagedKeyEncryption
+  - Added Interface WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate
+  - Added Interface WorkspaceCustomerManagedKeyOnboarding
+  - Added Interface WorkspaceDiscoveriesGetOptionalParams
+  - Added Interface WorkspaceDiscoveriesListOptionalParams
+  - Added Interface WorkspaceDiscovery
+  - Added Interface WorkspaceDiscoveryAccessWarning
+  - Added Interface WorkspaceDiscoveryCoverageSummary
+  - Added Interface WorkspaceDiscoveryPermissionWarning
+  - Added Interface WorkspaceDiscoveryProperties
+  - Added Interface WorkspaceDiscoveryResourceCoverageSummary
+  - Added Interface WorkspaceDiscoveryResourceWarning
+  - Added Interface WorkspaceDiscoveryScopeCoverageSummary
+  - Added Interface WorkspaceDiscoveryWarning
+  - Added Interface WorkspaceEncryption
+  - Added Interface WorkspaceEncryptionPatchMergePatchUpdateOrCreate
+  - Added Interface WorkspaceEncryptionStatus
+  - Added Interface WorkspaceEvaluation
+  - Added Interface WorkspaceEvaluationProperties
+  - Added Interface WorkspaceEvaluationsGetOptionalParams
+  - Added Interface WorkspaceEvaluationsListOptionalParams
+  - Added Interface WorkspaceProperties
+  - Added Interface WorkspacesCreateOrUpdateOptionalParams
+  - Added Interface WorkspacesDeleteOptionalParams
+  - Added Interface WorkspacesDiscoverOptionalParams
+  - Added Interface WorkspacesEvaluateOptionalParams
+  - Added Interface WorkspacesGetOptionalParams
+  - Added Interface WorkspacesListAllOptionalParams
+  - Added Interface WorkspacesListOptionalParams
+  - Added Interface WorkspacesUpdateOptionalParams
+  - Added Interface WorkspaceUpdate
+  - Added Interface WorkspaceUpdateProperties
+  - Added Interface ZoneResolutionInfo
+  - Added Interface ZoneResolutionMapping
+  - Interface CapabilityProperties has a new optional parameter provisioningState
+  - Interface ChaosManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Interface ExperimentExecutionDetailsProperties has a new optional parameter provisioningState
+  - Interface ExperimentExecutionProperties has a new optional parameter provisioningState
+  - Interface ExperimentProperties has a new optional parameter customerDataStorage
+  - Added Type Alias ActionDependencyType
+  - Added Type Alias ActionKind
+  - Added Type Alias ActionLifecycle
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectionKind
+  - Added Type Alias ConnectionStatus
+  - Added Type Alias FailureBehavior
+  - Added Type Alias ParameterFormatType
+  - Added Type Alias ParameterType
+  - Added Type Alias PermissionsFixState
+  - Added Type Alias RecommendationStatus
+  - Added Type Alias RoleAssignmentStatus
+  - Added Type Alias RunAfterBehavior
+  - Added Type Alias ScenarioActionSelectorName
+  - Added Type Alias ScenarioRunState
+  - Added Type Alias ScenarioRunTargetState
+  - Added Type Alias ScenarioSummaryState
+  - Added Type Alias ScenarioValidationState
+  - Added Type Alias WorkspaceDiscoveryCompleteness
+  - Added Type Alias WorkspaceDiscoveryStatus
+  - Added Type Alias WorkspaceDiscoveryWarningReason
+  - Added Type Alias WorkspaceDiscoveryWarningUnion
+  - Added Type Alias WorkspaceEncryptionProtection
+  - Added Type Alias WorkspaceEncryptionState
+  - Added Type Alias WorkspaceEvaluationStatus
+  - Added Type Alias ZoneResolutionMode
+  - Added Enum AzureClouds
+  - Added Enum KnownActionDependencyType
+  - Added Enum KnownActionKind
+  - Added Enum KnownActionLifecycle
+  - Added Enum KnownConnectionKind
+  - Added Enum KnownConnectionStatus
+  - Added Enum KnownFailureBehavior
+  - Added Enum KnownParameterFormatType
+  - Added Enum KnownParameterType
+  - Added Enum KnownPermissionsFixState
+  - Added Enum KnownRecommendationStatus
+  - Added Enum KnownRoleAssignmentStatus
+  - Added Enum KnownRunAfterBehavior
+  - Added Enum KnownScenarioActionSelectorName
+  - Added Enum KnownScenarioRunState
+  - Added Enum KnownScenarioRunTargetState
+  - Added Enum KnownScenarioSummaryState
+  - Added Enum KnownScenarioValidationState
+  - Added Enum KnownWorkspaceDiscoveryCompleteness
+  - Added Enum KnownWorkspaceDiscoveryStatus
+  - Added Enum KnownWorkspaceDiscoveryWarningReason
+  - Added Enum KnownWorkspaceEncryptionProtection
+  - Added Enum KnownWorkspaceEncryptionState
+  - Added Enum KnownWorkspaceEvaluationStatus
+  - Added Enum KnownZoneResolutionMode
+  - Enum KnownProvisioningState has a new value Running
+  - Enum KnownVersions has a new value V20261101
+
+### Breaking Changes
+  - Type of property experiments of class ChaosManagementClient has changed
+
 ## 2.1.0-beta.2 (2026-07-28)
 Compared with version 2.0.0
 
