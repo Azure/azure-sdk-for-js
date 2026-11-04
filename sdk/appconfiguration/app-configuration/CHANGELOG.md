@@ -1,5 +1,17 @@
 # Release History
 
+## 1.13.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Removed the direct dependency on `@azure/core-client` while preserving the existing client options.
+
 ## 1.13.1 (2026-10-27)
 
 ### Bugs Fixed
