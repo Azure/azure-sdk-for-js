@@ -271,18 +271,18 @@ export type ToolUnion =
   | FabricIQPreviewTool
   | WebIQPreviewTool
   | MemorySearchPreviewTool
+  | ToolMcpTool
+  | ToolCustomToolParam
   | ToolFunctionTool
   | ToolFileSearchTool
   | ToolComputerTool
   | ToolComputerUsePreviewTool
   | ToolWebSearchTool
-  | ToolMcpTool
   | ToolCodeInterpreterTool
   | ToolProgrammaticToolCallingParam
   | ToolImageGenTool
   | ToolLocalShellToolParam
   | ToolFunctionShellToolParam
-  | ToolCustomToolParam
   | ToolToolSearchToolParam
   | ToolWebSearchPreviewTool
   | ToolApplyPatchToolParam
@@ -345,6 +345,12 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
 
+    case "mcp":
+      return toolMcpToolSerializer(item as ToolMcpTool);
+
+    case "custom":
+      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
+
     case "function":
       return toolFunctionToolSerializer(item as ToolFunctionTool);
 
@@ -360,9 +366,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "web_search":
       return toolWebSearchToolSerializer(item as ToolWebSearchTool);
 
-    case "mcp":
-      return toolMcpToolSerializer(item as ToolMcpTool);
-
     case "code_interpreter":
       return toolCodeInterpreterToolSerializer(item as ToolCodeInterpreterTool);
 
@@ -377,9 +380,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "shell":
       return toolFunctionShellToolParamSerializer(item as ToolFunctionShellToolParam);
-
-    case "custom":
-      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
 
     case "tool_search":
       return toolToolSearchToolParamSerializer(item as ToolToolSearchToolParam);
@@ -454,6 +454,12 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
+    case "mcp":
+      return toolMcpToolDeserializer(item as ToolMcpTool);
+
+    case "custom":
+      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
+
     case "function":
       return toolFunctionToolDeserializer(item as ToolFunctionTool);
 
@@ -469,9 +475,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "web_search":
       return toolWebSearchToolDeserializer(item as ToolWebSearchTool);
 
-    case "mcp":
-      return toolMcpToolDeserializer(item as ToolMcpTool);
-
     case "code_interpreter":
       return toolCodeInterpreterToolDeserializer(item as ToolCodeInterpreterTool);
 
@@ -486,9 +489,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 
     case "shell":
       return toolFunctionShellToolParamDeserializer(item as ToolFunctionShellToolParam);
-
-    case "custom":
-      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
 
     case "tool_search":
       return toolToolSearchToolParamDeserializer(item as ToolToolSearchToolParam);
@@ -599,6 +599,298 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   };
 }
 
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
+ */
+export interface ToolMcpTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function toolMcpToolSerializer(item: ToolMcpTool): any {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolMcpToolDeserializer(item: any): ToolMcpTool {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
+
+/** Alias for _ToolMcpToolAllowedTools */
+export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
+
+export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
+  return item;
+}
+
+export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
+  return item;
+}
+
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
+
+/** Alias for _ToolMcpToolRequireApproval */
+export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
+
+export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
+  return item;
+}
+
+export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
+  return item;
+}
+
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
+export interface ToolCustomToolParam extends Tool {
+  /** The type of the custom tool. Always `custom`. */
+  type: "custom";
+  /** The name of the custom tool, used to identify it in tool calls. */
+  name: string;
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
+  /** Optional description of the custom tool, used to provide more context. */
+  description?: string;
+  /** The input format for the custom tool. Default is unconstrained text. */
+  format?: CustomToolParamFormatUnion;
+  /** Whether this tool should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+}
+
+export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** The input format for the custom tool. Default is unconstrained text. */
+export interface CustomToolParamFormat {
+  type: CustomToolParamFormatType;
+}
+
+export function customToolParamFormatSerializer(item: CustomToolParamFormat): any {
+  return { type: item["type"] };
+}
+
+export function customToolParamFormatDeserializer(item: any): CustomToolParamFormat {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for CustomToolParamFormatUnion */
+export type CustomToolParamFormatUnion =
+  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
+
+export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
+  switch (item.type) {
+    case "text":
+      return customTextFormatParamSerializer(item as CustomTextFormatParam);
+
+    case "grammar":
+      return customGrammarFormatParamSerializer(item as CustomGrammarFormatParam);
+
+    default:
+      return customToolParamFormatSerializer(item);
+  }
+}
+
+export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
+  switch (item["type"]) {
+    case "text":
+      return customTextFormatParamDeserializer(item as CustomTextFormatParam);
+
+    case "grammar":
+      return customGrammarFormatParamDeserializer(item as CustomGrammarFormatParam);
+
+    default:
+      return customToolParamFormatDeserializer(item);
+  }
+}
+
+/** Type of CustomToolParamFormatType */
+export type CustomToolParamFormatType = "text" | "grammar";
+
+/** Unconstrained free-form text. */
+export interface CustomTextFormatParam extends CustomToolParamFormat {
+  /** Unconstrained text format. Always `text`. */
+  type: "text";
+}
+
+export function customTextFormatParamSerializer(item: CustomTextFormatParam): any {
+  return { type: item["type"] };
+}
+
+export function customTextFormatParamDeserializer(item: any): CustomTextFormatParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A grammar defined by the user. */
+export interface CustomGrammarFormatParam extends CustomToolParamFormat {
+  /** Grammar format. Always `grammar`. */
+  type: "grammar";
+  /** The syntax of the grammar definition. One of `lark` or `regex`. */
+  syntax: GrammarSyntax1;
+  /** The grammar definition. */
+  definition: string;
+}
+
+export function customGrammarFormatParamSerializer(item: CustomGrammarFormatParam): any {
+  return { type: item["type"], syntax: item["syntax"], definition: item["definition"] };
+}
+
+export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFormatParam {
+  return {
+    type: item["type"],
+    syntax: item["syntax"],
+    definition: item["definition"],
+  };
+}
+
+/** Type of GrammarSyntax1 */
+export type GrammarSyntax1 = "lark" | "regex";
+
 /** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
 export interface ToolFunctionTool extends Tool {
   /** The type of the function tool. Always `function`. */
@@ -658,9 +950,6 @@ export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
         }),
   };
 }
-
-/** Type of CallableToolAllowedCaller */
-export type CallableToolAllowedCaller = "direct" | "programmatic";
 
 /** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
 export interface ToolFileSearchTool extends Tool {
@@ -1090,155 +1379,6 @@ export function webSearchApproximateLocationDeserializer(item: any): WebSearchAp
     city: item["city"],
     timezone: item["timezone"],
   };
-}
-
-/**
- * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
- */
-export interface ToolMcpTool extends Tool {
-  /** The type of the MCP tool. Always `mcp`. */
-  type: "mcp";
-  /** A label for this MCP server, used to identify it in tool calls. */
-  server_label: string;
-  /**
-   * The URL for the MCP server. One of `server_url`, `connector_id`, or
-   *   `tunnel_id` must be provided.
-   */
-  server_url?: string;
-  /**
-   * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
-   *   This field is deprecated for models released after September 1, 2026.
-   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
-   *   connect through a Secure MCP Tunnel.
-   *   Currently supported `connector_id` values are:
-   *   - Dropbox: `connector_dropbox`
-   *   - Gmail: `connector_gmail`
-   *   - Google Calendar: `connector_googlecalendar`
-   *   - Google Drive: `connector_googledrive`
-   *   - Microsoft Teams: `connector_microsoftteams`
-   *   - Outlook Calendar: `connector_outlookcalendar`
-   *   - Outlook Email: `connector_outlookemail`
-   *   - SharePoint: `connector_sharepoint`
-   */
-  connector_id?:
-    | "connector_dropbox"
-    | "connector_gmail"
-    | "connector_googlecalendar"
-    | "connector_googledrive"
-    | "connector_microsoftteams"
-    | "connector_outlookcalendar"
-    | "connector_outlookemail"
-    | "connector_sharepoint";
-  /**
-   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
-   */
-  tunnel_id?: string;
-  /**
-   * An OAuth access token that can be used with a remote MCP server, either
-   *   with a custom MCP server URL or a service connector. Your application
-   *   must handle the OAuth authorization flow and provide the token here.
-   */
-  authorization?: string;
-  /** Optional description of the MCP server, used to provide more context. */
-  server_description?: string;
-  headers?: Record<string, string>;
-  allowed_tools?: string[] | MCPToolFilter;
-  allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: MCPToolRequireApproval | "always" | "never";
-  /** Whether this MCP tool is deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
-  project_connection_id?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function toolMcpToolSerializer(item: ToolMcpTool): any {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: item["headers"],
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function toolMcpToolDeserializer(item: any): ToolMcpTool {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(
-          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** Alias for _ToolMcpToolAllowedTools */
-export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
-
-export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
-  return item;
-}
-
-export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
-  return item;
-}
-
-/** Alias for _ToolMcpToolRequireApproval */
-export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
-  return item;
-}
-
-export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
-  return item;
 }
 
 /** A tool that runs Python code to help generate a response to a prompt. */
@@ -2074,146 +2214,6 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
     data: item["data"],
   };
 }
-
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface ToolCustomToolParam extends Tool {
-  /** The type of the custom tool. Always `custom`. */
-  type: "custom";
-  /** The name of the custom tool, used to identify it in tool calls. */
-  name: string;
-  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
-  async?: boolean;
-  /** Optional description of the custom tool, used to provide more context. */
-  description?: string;
-  /** The input format for the custom tool. Default is unconstrained text. */
-  format?: CustomToolParamFormatUnion;
-  /** Whether this tool should be deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"]
-      ? item["format"]
-      : customToolParamFormatUnionDeserializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The input format for the custom tool. Default is unconstrained text. */
-export interface CustomToolParamFormat {
-  type: CustomToolParamFormatType;
-}
-
-export function customToolParamFormatSerializer(item: CustomToolParamFormat): any {
-  return { type: item["type"] };
-}
-
-export function customToolParamFormatDeserializer(item: any): CustomToolParamFormat {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for CustomToolParamFormatUnion */
-export type CustomToolParamFormatUnion =
-  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
-
-export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
-  switch (item.type) {
-    case "text":
-      return customTextFormatParamSerializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamSerializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatSerializer(item);
-  }
-}
-
-export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
-  switch (item["type"]) {
-    case "text":
-      return customTextFormatParamDeserializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamDeserializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatDeserializer(item);
-  }
-}
-
-/** Type of CustomToolParamFormatType */
-export type CustomToolParamFormatType = "text" | "grammar";
-
-/** Unconstrained free-form text. */
-export interface CustomTextFormatParam extends CustomToolParamFormat {
-  /** Unconstrained text format. Always `text`. */
-  type: "text";
-}
-
-export function customTextFormatParamSerializer(item: CustomTextFormatParam): any {
-  return { type: item["type"] };
-}
-
-export function customTextFormatParamDeserializer(item: any): CustomTextFormatParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** A grammar defined by the user. */
-export interface CustomGrammarFormatParam extends CustomToolParamFormat {
-  /** Grammar format. Always `grammar`. */
-  type: "grammar";
-  /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax1;
-  /** The grammar definition. */
-  definition: string;
-}
-
-export function customGrammarFormatParamSerializer(item: CustomGrammarFormatParam): any {
-  return { type: item["type"], syntax: item["syntax"], definition: item["definition"] };
-}
-
-export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFormatParam {
-  return {
-    type: item["type"],
-    syntax: item["syntax"],
-    definition: item["definition"],
-  };
-}
-
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
 
 /** Hosted or BYOT tool search configuration for deferred tools. */
 export interface ToolToolSearchToolParam extends Tool {
