@@ -15546,7 +15546,7 @@ export interface VoiceAgentAudioInputConfig {
   /** Input noise reduction. Set to null to disable. */
   noise_reduction?: VoiceAgentNoiseReduction;
   /** Turn (end-of-speech) detection. Server-side turn detection is enabled by default; set to null to disable it, in which case the client must trigger responses manually. */
-  turn_detection?: VoiceAgentTurnDetectionConfigUnion;
+  turn_detection?: VoiceAgentTurnDetectionConfigUnion | null;
   /** Optional server-side echo cancellation settings. */
   echo_cancellation?: VoiceAgentEchoCancellation;
   /** Asynchronous input-audio transcription. Set to null to disable transcription. */

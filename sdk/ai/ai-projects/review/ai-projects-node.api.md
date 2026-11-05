@@ -8416,7 +8416,7 @@ export interface VoiceAgentAudioInputConfig {
     format?: RealtimeAudioFormatsUnion;
     noise_reduction?: VoiceAgentNoiseReduction;
     transcription?: VoiceAgentInputTranscription;
-    turn_detection?: VoiceAgentTurnDetectionConfigUnion;
+    turn_detection?: VoiceAgentTurnDetectionConfigUnion | null;
 }
 
 // @public

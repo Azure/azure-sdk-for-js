@@ -123,6 +123,32 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("allows null turn detection for initial manual-audio sessions", () => {
+    const input: Models.VoiceAgentAudioInputConfig = { turn_detection: null };
+    expectTypeOf<Models.VoiceAgentAudioInputConfig["turn_detection"]>().toEqualTypeOf<
+      Models.VoiceAgentTurnDetectionConfigUnion | null | undefined
+    >();
+    const definition: Models.VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      audio: { input },
+    };
+    const update: Models.VoiceAgentSessionUpdateConfig = {
+      type: "realtime",
+      audio: { input },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toMatchObject({
+      audio: { input: { turn_detection: null } },
+    });
+    expect(update.audio?.input).toEqual(input);
+    expect(toWire(ModelConverters.voiceAgentAudioInputConfigSerializer(input))).toEqual(input);
+    expect(
+      ModelConverters.voiceAgentAudioInputConfigDeserializer({
+        turn_detection: null,
+      }).turn_detection,
+    ).toBeNull();
+  });
+
   it("preserves restored feature-branch tool exports and converter aliases", () => {
     expectTypeOf<Models.FileSearchToolFiltersValue>().toEqualTypeOf<
       string | number | boolean | (string | number)[]

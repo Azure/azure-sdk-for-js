@@ -20,6 +20,7 @@
 
 ### Bugs Fixed
 
+- Allow `null` turn detection in typed initial audio configuration for manual audio commits, matching the documented contract and live-service behavior. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 - Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 - Use `agent_version_override` for voice WebSocket version selection and `structured_inputs` for browser prompt inputs, retaining the existing typed options. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
 - Preserve native Decision message fields and protocol-specific voice fields when converting the reviewed Live models. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
