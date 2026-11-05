@@ -16,6 +16,7 @@ export interface ServerOperationsOperations {
     options?: ServerOperationsListByServerOptionalParams,
   ) => PagedAsyncIterableIterator<ServerOperation>;
 }
+
 function _getServerOperations(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -25,6 +26,7 @@ function _getServerOperations(context: SqlManagementContext) {
     ) => listByServer(context, resourceGroupName, serverName, options),
   };
 }
+
 export function _getServerOperationsOperations(
   context: SqlManagementContext,
 ): ServerOperationsOperations {

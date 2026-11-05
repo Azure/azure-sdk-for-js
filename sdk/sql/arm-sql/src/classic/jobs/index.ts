@@ -47,6 +47,7 @@ export interface JobsOperations {
     options?: JobsGetOptionalParams,
   ) => Promise<Job>;
 }
+
 function _getJobs(context: SqlManagementContext) {
   return {
     listByAgent: (
@@ -88,6 +89,7 @@ function _getJobs(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, jobName, options),
   };
 }
+
 export function _getJobsOperations(context: SqlManagementContext): JobsOperations {
   return {
     ..._getJobs(context),
