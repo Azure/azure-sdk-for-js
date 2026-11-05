@@ -2254,47 +2254,6 @@ export interface CreatePoolOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeoutInSeconds?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  ocpDate?: Date;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000
-   * applications can be returned.
-   */
-  maxResults?: number;
-  /**
-   * The earliest time from which to include metrics. This must be at least two and
-   * a half hours before the current time. If not specified this defaults to the
-   * start time of the last aggregation interval currently available.
-   */
-  startTime?: Date;
-  /**
-   * The latest time from which to include metrics. This must be at least two hours
-   * before the current time. If not specified this defaults to the end time of the
-   * last aggregation interval currently available.
-   */
-  endTime?: Date;
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
-   */
-  filter?: string;
-}
-
-/** Optional parameters. */
 export interface GetApplicationOptionalParams extends OperationOptions {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeoutInSeconds?: number;

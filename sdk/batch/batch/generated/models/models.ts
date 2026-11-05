@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The result of listing the applications available in an Account. */
 export interface _BatchApplicationListResult {
   /** The list of applications available in the Account. */
@@ -102,55 +103,6 @@ export function batchErrorDetailDeserializer(item: any): BatchErrorDetail {
   };
 }
 
-/** The result of a listing the usage metrics for an Account. */
-export interface _BatchPoolListUsageMetricsResult {
-  /** The Pool usage metrics data. */
-  value?: BatchPoolUsageMetrics[];
-  /** The URL to get the next set of results. */
-  odataNextLink?: string;
-}
-
-export function _batchPoolListUsageMetricsResultDeserializer(
-  item: any,
-): _BatchPoolListUsageMetricsResult {
-  return {
-    value: !item["value"] ? item["value"] : batchPoolUsageMetricsArrayDeserializer(item["value"]),
-    odataNextLink: item["odata.nextLink"],
-  };
-}
-
-export function batchPoolUsageMetricsArrayDeserializer(
-  result: Array<BatchPoolUsageMetrics>,
-): any[] {
-  return result.map((item) => {
-    return batchPoolUsageMetricsDeserializer(item);
-  });
-}
-
-/** Usage metrics for a Pool across an aggregation interval. */
-export interface BatchPoolUsageMetrics {
-  /** The ID of the Pool whose metrics are aggregated in this entry. */
-  poolId: string;
-  /** The start time of the aggregation interval covered by this entry. */
-  startTime: Date;
-  /** The end time of the aggregation interval covered by this entry. */
-  endTime: Date;
-  /** The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
-  vmSize: string;
-  /** The total core hours used in the Pool during this aggregation interval. */
-  totalCoreHours: number;
-}
-
-export function batchPoolUsageMetricsDeserializer(item: any): BatchPoolUsageMetrics {
-  return {
-    poolId: item["poolId"],
-    startTime: new Date(item["startTime"]),
-    endTime: new Date(item["endTime"]),
-    vmSize: item["vmSize"],
-    totalCoreHours: item["totalCoreHours"],
-  };
-}
-
 /** Parameters for creating an Azure Batch Pool. */
 export interface BatchPoolCreateOptions {
   /** A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two Pool IDs within an Account that differ only by case). */
@@ -161,6 +113,8 @@ export interface BatchPoolCreateOptions {
   vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate Compute Nodes for an Instance Mix Pool. When specified, vmSize must be 'Mix'. This property can only be changed while the Pool has no Compute Nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile;
   /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   resizeTimeout?: string;
   /** The desired number of dedicated Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both. */
@@ -203,6 +157,9 @@ export function batchPoolCreateOptionsSerializer(item: BatchPoolCreateOptions): 
     virtualMachineConfiguration: !item["virtualMachineConfiguration"]
       ? item["virtualMachineConfiguration"]
       : virtualMachineConfigurationSerializer(item["virtualMachineConfiguration"]),
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileSerializer(item["vmSkuProfile"]),
     resizeTimeout: item["resizeTimeout"],
     targetDedicatedNodes: item["targetDedicatedNodes"],
     targetLowPriorityNodes: item["targetLowPriorityNodes"],
@@ -275,6 +232,19 @@ export interface VirtualMachineConfiguration {
   securityProfile?: SecurityProfile;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
   serviceArtifactReference?: ServiceArtifactReference;
+  /** Specifies the hardware settings for the Compute Nodes. This property is not supported for pools created via auto-pool (as part of a job or job schedule); the request will be rejected if it is specified in that context. */
+  hardwareProfile?: HardwareProfile;
+  /**
+   * The availability zone placement policy for Compute Nodes in the Pool. Set zonePlacementPolicy to Auto to delegate availability zone selection and balancing to the Virtual Machine Scale Set.
+   * On Pool creation, if placement is omitted, Batch uses nodePlacementConfiguration when it is specified; otherwise, the Pool uses Regional placement, which provides no availability zone distribution guarantee. This property cannot be combined with nodePlacementConfiguration.
+   * On PATCH, omitting placement preserves the existing placement policy, including when virtualMachineConfiguration is supplied.
+   */
+  placement?: Placement;
+  /**
+   * The resiliency policy for Compute Nodes in the Pool. This property requires placement.zonePlacementPolicy to be Auto.
+   * On PATCH, omitting resiliencyPolicy preserves the existing resiliency policy independently of whether placement is supplied.
+   */
+  resiliencyPolicy?: ResiliencyPolicy;
 }
 
 export function virtualMachineConfigurationSerializer(item: VirtualMachineConfiguration): any {
@@ -305,6 +275,13 @@ export function virtualMachineConfigurationSerializer(item: VirtualMachineConfig
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceSerializer(item["serviceArtifactReference"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileSerializer(item["hardwareProfile"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
+    resiliencyPolicy: !item["resiliencyPolicy"]
+      ? item["resiliencyPolicy"]
+      : resiliencyPolicySerializer(item["resiliencyPolicy"]),
   };
 }
 
@@ -338,6 +315,13 @@ export function virtualMachineConfigurationDeserializer(item: any): VirtualMachi
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceDeserializer(item["serviceArtifactReference"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileDeserializer(item["hardwareProfile"]),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
+    resiliencyPolicy: !item["resiliencyPolicy"]
+      ? item["resiliencyPolicy"]
+      : resiliencyPolicyDeserializer(item["resiliencyPolicy"]),
   };
 }
 
@@ -530,9 +514,7 @@ export function batchVmDiskSecurityProfileDeserializer(item: any): BatchVmDiskSe
 
 /** SecurityEncryptionTypes enums */
 export type SecurityEncryptionTypes =
-  | "DiskWithVMGuestState"
-  | "NonPersistedTPM"
-  | "VMGuestStateOnly";
+  "DiskWithVMGuestState" | "NonPersistedTPM" | "VMGuestStateOnly";
 
 /** The configuration for container-enabled Pools. */
 export interface BatchContainerConfiguration {
@@ -990,6 +972,7 @@ export function hostEndpointSettingsDeserializer(item: any): HostEndpointSetting
 
 /** HostEndpointSettingsModeTypes enums */
 export type HostEndpointSettingsModeTypes = "Audit" | "Enforce";
+
 /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
 export type SecurityTypes = "trustedLaunch" | "confidentialvm";
 
@@ -1030,6 +1013,200 @@ export function serviceArtifactReferenceDeserializer(item: any): ServiceArtifact
     id: item["id"],
   };
 }
+
+/** Specifies the hardware settings for the Compute Nodes. */
+export interface HardwareProfile {
+  /** Specifies the properties for customizing the size of the virtual machine. */
+  vmSizeProperties?: VMSizeProperties;
+}
+
+export function hardwareProfileSerializer(item: HardwareProfile): any {
+  return {
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vmSizePropertiesSerializer(item["vmSizeProperties"]),
+  };
+}
+
+export function hardwareProfileDeserializer(item: any): HardwareProfile {
+  return {
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vmSizePropertiesDeserializer(item["vmSizeProperties"]),
+  };
+}
+
+/** Specifies the properties for customizing the size of the virtual machine. */
+export interface VMSizeProperties {
+  /** Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size. */
+  vCPUsAvailable?: number;
+  /** Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size. Setting this property to 1 also means that hyper-threading is disabled. */
+  vCPUsPerCore?: number;
+}
+
+export function vmSizePropertiesSerializer(item: VMSizeProperties): any {
+  return { vCPUsAvailable: item["vCPUsAvailable"], vCPUsPerCore: item["vCPUsPerCore"] };
+}
+
+export function vmSizePropertiesDeserializer(item: any): VMSizeProperties {
+  return {
+    vCPUsAvailable: item["vCPUsAvailable"],
+    vCPUsPerCore: item["vCPUsPerCore"],
+  };
+}
+
+/** The placement policy for Compute Nodes in a Pool. */
+export interface Placement {
+  /** The zone placement policy. Auto delegates zone selection and balancing to the Virtual Machine Scale Set. */
+  zonePlacementPolicy: ZonePlacementPolicyType;
+}
+
+export function placementSerializer(item: Placement): any {
+  return { zonePlacementPolicy: item["zonePlacementPolicy"] };
+}
+
+export function placementDeserializer(item: any): Placement {
+  return {
+    zonePlacementPolicy: item["zonePlacementPolicy"],
+  };
+}
+
+/** The zone placement policy for Compute Nodes in a Pool. */
+export type ZonePlacementPolicyType = "Auto";
+
+/** The resiliency policy for Compute Nodes in a Pool. */
+export interface ResiliencyPolicy {
+  /** The policy that controls allocation across availability zones. */
+  zoneAllocationPolicy: ZoneAllocationPolicy;
+}
+
+export function resiliencyPolicySerializer(item: ResiliencyPolicy): any {
+  return { zoneAllocationPolicy: zoneAllocationPolicySerializer(item["zoneAllocationPolicy"]) };
+}
+
+export function resiliencyPolicyDeserializer(item: any): ResiliencyPolicy {
+  return {
+    zoneAllocationPolicy: zoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
+  };
+}
+
+/** The policy that controls allocation across availability zones. */
+export interface ZoneAllocationPolicy {
+  /** The maximum number of availability zones that may be used. The value cannot exceed the number of zones supported by the region. */
+  maxZoneCount?: number;
+  /** The policy that limits the percentage of Pool instances that may be allocated in a single availability zone. */
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+}
+
+export function zoneAllocationPolicySerializer(item: ZoneAllocationPolicy): any {
+  return {
+    maxZoneCount: item["maxZoneCount"],
+    maxInstancePercentPerZonePolicy: !item["maxInstancePercentPerZonePolicy"]
+      ? item["maxInstancePercentPerZonePolicy"]
+      : maxInstancePercentPerZonePolicySerializer(item["maxInstancePercentPerZonePolicy"]),
+  };
+}
+
+export function zoneAllocationPolicyDeserializer(item: any): ZoneAllocationPolicy {
+  return {
+    maxZoneCount: item["maxZoneCount"],
+    maxInstancePercentPerZonePolicy: !item["maxInstancePercentPerZonePolicy"]
+      ? item["maxInstancePercentPerZonePolicy"]
+      : maxInstancePercentPerZonePolicyDeserializer(item["maxInstancePercentPerZonePolicy"]),
+  };
+}
+
+/** The policy that limits the percentage of Pool instances that may be allocated in a single availability zone. */
+export interface MaxInstancePercentPerZonePolicy {
+  /** Whether the maximum instance percentage policy is enabled. */
+  enabled?: boolean;
+  /** The maximum percentage of Pool instances that may be allocated in a single availability zone. */
+  value: number;
+}
+
+export function maxInstancePercentPerZonePolicySerializer(
+  item: MaxInstancePercentPerZonePolicy,
+): any {
+  return { enabled: item["enabled"], value: item["value"] };
+}
+
+export function maxInstancePercentPerZonePolicyDeserializer(
+  item: any,
+): MaxInstancePercentPerZonePolicy {
+  return {
+    enabled: item["enabled"],
+    value: item["value"],
+  };
+}
+
+/** Specifies the set of VM sizes and the allocation strategy used to allocate Compute Nodes for an Instance Mix Pool. */
+export interface VirtualMachineSkuProfile {
+  /** The list of VM sizes (up to 5) that may be allocated for the Pool. VM sizes may span the supported A, B, D, E, and F VM families, but must have the same vCPU count and CPU architecture and compatible VM capabilities. This must be specified when the vmSkuProfile is provided during Pool creation. */
+  vmSizes?: VirtualMachineSkuProfileVmSize[];
+  /** The allocation strategy used to select VM sizes from vmSizes. Defaults to lowestPrice when not specified. */
+  allocationStrategy?: VirtualMachineSkuAllocationStrategy;
+}
+
+export function virtualMachineSkuProfileSerializer(item: VirtualMachineSkuProfile): any {
+  return {
+    vmSizes: !item["vmSizes"]
+      ? item["vmSizes"]
+      : virtualMachineSkuProfileVmSizeArraySerializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function virtualMachineSkuProfileDeserializer(item: any): VirtualMachineSkuProfile {
+  return {
+    vmSizes: !item["vmSizes"]
+      ? item["vmSizes"]
+      : virtualMachineSkuProfileVmSizeArrayDeserializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function virtualMachineSkuProfileVmSizeArraySerializer(
+  result: Array<VirtualMachineSkuProfileVmSize>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineSkuProfileVmSizeSerializer(item);
+  });
+}
+
+export function virtualMachineSkuProfileVmSizeArrayDeserializer(
+  result: Array<VirtualMachineSkuProfileVmSize>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineSkuProfileVmSizeDeserializer(item);
+  });
+}
+
+/** Specifies a single VM size that may be allocated for an Instance Mix Pool. */
+export interface VirtualMachineSkuProfileVmSize {
+  /** The name of the VM size (for example, 'Standard_D8s_v5'). */
+  name: string;
+  /** The 0-based rank (a.k.a. priority) associated with this VM size. Lower values indicate higher priority. Rank is required only when the allocation strategy is 'prioritized' and must be omitted otherwise. */
+  rank?: number;
+}
+
+export function virtualMachineSkuProfileVmSizeSerializer(
+  item: VirtualMachineSkuProfileVmSize,
+): any {
+  return { name: item["name"], rank: item["rank"] };
+}
+
+export function virtualMachineSkuProfileVmSizeDeserializer(
+  item: any,
+): VirtualMachineSkuProfileVmSize {
+  return {
+    name: item["name"],
+    rank: item["rank"],
+  };
+}
+
+/** Specifies the allocation strategy that the Fungible Compute Platform uses to select VM sizes from the vmSkuProfile when allocating Compute Nodes for an Instance Mix Pool. */
+export type VirtualMachineSkuAllocationStrategy =
+  "lowestPrice" | "capacityOptimized" | "prioritized";
 
 /** The network configuration for a Pool. */
 export interface NetworkConfiguration {
@@ -1265,6 +1442,7 @@ export function batchPublicIpAddressConfigurationDeserializer(
 
 /** IPAddressProvisioningType enums */
 export type IpAddressProvisioningType = "batchmanaged" | "usermanaged" | "nopublicipaddresses";
+
 /** The IP families used to specify IP versions available to the pool. */
 export type IPFamily = "IPv4" | "IPv6";
 
@@ -1457,12 +1635,7 @@ export function containerHostBatchBindMountEntryDeserializer(
 
 /** The paths which will be mounted to container task's container. */
 export type ContainerHostDataPath =
-  | "Shared"
-  | "Startup"
-  | "VfsMounts"
-  | "Task"
-  | "JobPrep"
-  | "Applications";
+  "Shared" | "Startup" | "VfsMounts" | "Task" | "JobPrep" | "Applications";
 
 export function resourceFileArraySerializer(result: Array<ResourceFile>): any[] {
   return result.map((item) => {
@@ -1600,6 +1773,7 @@ export function autoUserSpecificationDeserializer(item: any): AutoUserSpecificat
 
 /** AutoUserScope enums */
 export type AutoUserScope = "task" | "pool";
+
 /** ElevationLevel enums */
 export type ElevationLevel = "nonadmin" | "admin";
 
@@ -1663,6 +1837,7 @@ export function batchTaskSchedulingPolicyDeserializer(item: any): BatchTaskSched
 
 /** BatchJobDefaultOrder enums */
 export type BatchJobDefaultOrder = "none" | "creationtime";
+
 /** BatchNodeFillType enums */
 export type BatchNodeFillType = "spread" | "pack";
 
@@ -2069,7 +2244,7 @@ export function automaticOsUpgradePolicyDeserializer(item: any): AutomaticOsUpgr
 
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
-  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. This field can be set to true or false only when nodePlacementConfiguration.policy is Zonal or placement.zonePlacementPolicy is Auto. Auto placement is supported starting with API version 2026-10-01. */
   enableCrossZoneUpgrade?: boolean;
   /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
   maxBatchInstancePercent?: number;
@@ -2156,6 +2331,8 @@ export interface BatchPool {
   readonly vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   readonly virtualMachineConfiguration?: VirtualMachineConfiguration;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate Compute Nodes for an Instance Mix Pool. When specified, vmSize must be 'Mix'. This property can only be changed while the Pool has no Compute Nodes. */
+  readonly vmSkuProfile?: VirtualMachineSkuProfile;
   /** The timeout for allocation of Compute Nodes to the Pool. This is the timeout for the most recent resize operation. (The initial sizing when the Pool is created counts as a resize.) The default value is 15 minutes. The time duration is specified in ISO 8601 format. */
   readonly resizeTimeout?: string;
   /** A list of errors encountered while performing the last resize on the Pool. This property is set only if one or more errors occurred during the last Pool resize, and only when the Pool allocationState is Steady. */
@@ -2220,6 +2397,9 @@ export function batchPoolDeserializer(item: any): BatchPool {
     virtualMachineConfiguration: !item["virtualMachineConfiguration"]
       ? item["virtualMachineConfiguration"]
       : virtualMachineConfigurationDeserializer(item["virtualMachineConfiguration"]),
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileDeserializer(item["vmSkuProfile"]),
     resizeTimeout: item["resizeTimeout"],
     resizeErrors: !item["resizeErrors"]
       ? item["resizeErrors"]
@@ -2269,6 +2449,7 @@ export function batchPoolDeserializer(item: any): BatchPool {
 
 /** BatchPoolState enums */
 export type BatchPoolState = "active" | "deleting";
+
 /** AllocationState enums */
 export type AllocationState = "steady" | "resizing" | "stopping";
 
@@ -2361,8 +2542,6 @@ export interface BatchPoolStatistics {
   startTime: Date;
   /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
   lastUpdateTime: Date;
-  /** Statistics related to Pool usage, such as the amount of core-time used. */
-  usageStatistics?: BatchPoolUsageStatistics;
   /** Statistics related to resource consumption by Compute Nodes in the Pool. */
   resourceStatistics?: BatchPoolResourceStatistics;
 }
@@ -2372,30 +2551,9 @@ export function batchPoolStatisticsDeserializer(item: any): BatchPoolStatistics 
     url: item["url"],
     startTime: new Date(item["startTime"]),
     lastUpdateTime: new Date(item["lastUpdateTime"]),
-    usageStatistics: !item["usageStats"]
-      ? item["usageStats"]
-      : batchPoolUsageStatisticsDeserializer(item["usageStats"]),
     resourceStatistics: !item["resourceStats"]
       ? item["resourceStats"]
       : batchPoolResourceStatisticsDeserializer(item["resourceStats"]),
-  };
-}
-
-/** Statistics related to Pool usage information. */
-export interface BatchPoolUsageStatistics {
-  /** The start time of the time range covered by the statistics. */
-  startTime: Date;
-  /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
-  lastUpdateTime: Date;
-  /** The aggregated wall-clock time of the dedicated Compute Node cores being part of the Pool. The time duration is specified in ISO 8601 format. */
-  dedicatedCoreTime: string;
-}
-
-export function batchPoolUsageStatisticsDeserializer(item: any): BatchPoolUsageStatistics {
-  return {
-    startTime: new Date(item["startTime"]),
-    lastUpdateTime: new Date(item["lastUpdateTime"]),
-    dedicatedCoreTime: item["dedicatedCoreTime"],
   };
 }
 
@@ -2416,9 +2574,9 @@ export interface BatchPoolResourceStatistics {
   /** The peak used disk space in GiB across all Compute Nodes in the Pool. */
   peakDiskGiB: number;
   /** The total number of disk read operations across all Compute Nodes in the Pool. */
-  diskReadIops: string;
+  diskReadIops: number;
   /** The total number of disk write operations across all Compute Nodes in the Pool. */
-  diskWriteIops: string;
+  diskWriteIops: number;
   /** The total amount of data in GiB of disk reads across all Compute Nodes in the Pool. */
   diskReadGiB: number;
   /** The total amount of data in GiB of disk writes across all Compute Nodes in the Pool. */
@@ -2509,6 +2667,8 @@ export interface BatchPoolUpdateOptions {
   metadata?: BatchMetadataItem[];
   /** The virtual machine configuration for the Pool. This property must be specified.<br /><br />This field can be updated only when the pool is empty. */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate Compute Nodes for an Instance Mix Pool. When specified, vmSize must be 'Mix'.<br /><br />This field can be updated only when the pool is empty. */
+  vmSkuProfile?: VirtualMachineSkuProfile;
   /** The number of task slots that can be used to run concurrent tasks on a single compute node in the pool. The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.<br /><br />This field can be updated only when the pool is empty. */
   taskSlotsPerNode?: number;
   /** How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is spread.<br /><br />This field can be updated only when the pool is empty. */
@@ -2538,6 +2698,9 @@ export function batchPoolUpdateOptionsSerializer(item: BatchPoolUpdateOptions): 
     virtualMachineConfiguration: !item["virtualMachineConfiguration"]
       ? item["virtualMachineConfiguration"]
       : virtualMachineConfigurationSerializer(item["virtualMachineConfiguration"]),
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileSerializer(item["vmSkuProfile"]),
     taskSlotsPerNode: item["taskSlotsPerNode"],
     taskSchedulingPolicy: !item["taskSchedulingPolicy"]
       ? item["taskSchedulingPolicy"]
@@ -2608,11 +2771,7 @@ export function batchPoolResizeOptionsSerializer(item: BatchPoolResizeOptions): 
 }
 
 /** BatchNodeDeallocationOption enums */
-export type BatchNodeDeallocationOption =
-  | "requeue"
-  | "terminate"
-  | "taskcompletion"
-  | "retaineddata";
+export type BatchNodeDeallocationOption = "requeue" | "terminate" | "taskcompletion";
 
 /** Parameters for replacing properties on an Azure Batch Pool. */
 export interface BatchPoolReplaceOptions {
@@ -2715,6 +2874,7 @@ export function batchSupportedImageDeserializer(item: any): BatchSupportedImage 
 
 /** OSType enums */
 export type OSType = "linux" | "windows";
+
 /** ImageVerificationType enums */
 export type ImageVerificationType = "verified" | "unverified";
 
@@ -2946,13 +3106,7 @@ export function batchJobDeserializer(item: any): BatchJob {
 
 /** BatchJobState enums */
 export type BatchJobState =
-  | "active"
-  | "disabling"
-  | "disabled"
-  | "enabling"
-  | "terminating"
-  | "completed"
-  | "deleting";
+  "active" | "disabling" | "disabled" | "enabling" | "terminating" | "completed" | "deleting";
 
 /** The execution constraints for a Job. */
 export interface BatchJobConstraints {
@@ -3656,6 +3810,7 @@ export function batchPoolSpecificationDeserializer(item: any): BatchPoolSpecific
 
 /** The action the Batch service should take when all Tasks in the Job are in the completed state. */
 export type BatchAllTasksCompleteMode = "noaction" | "terminatejob";
+
 /** TaskFailure enums */
 export type BatchTaskFailureMode = "noaction" | "performexitoptionsjobaction";
 
@@ -4287,11 +4442,7 @@ export function batchJobScheduleDeserializer(item: any): BatchJobSchedule {
 
 /** BatchJobScheduleState enums */
 export type BatchJobScheduleState =
-  | "active"
-  | "completed"
-  | "disabled"
-  | "terminating"
-  | "deleting";
+  "active" | "completed" | "disabled" | "terminating" | "deleting";
 
 /**
  * The schedule according to which Jobs will be created. All times are fixed
@@ -4785,6 +4936,7 @@ export function exitOptionsDeserializer(item: any): ExitOptions {
 
 /** BatchJobAction enums */
 export type BatchJobActionKind = "none" | "disable" | "terminate";
+
 /** DependencyAction enums */
 export type DependencyAction = "satisfy" | "block";
 
@@ -5510,6 +5662,10 @@ export interface BatchNode {
   readonly ipAddress: string;
   /** The IPv6 address that other Nodes can use to communicate with this Compute Node. Every Compute Node that is added to a Pool is assigned a unique IP address. Whenever a Compute Node is removed from a Pool, all of its local files are deleted, and the IP address is reclaimed and could be reused for new Compute Nodes. This property will not be present if the Pool is not configured for IPv6. */
   readonly ipv6Address: string;
+  /** The public IPv4 address (load balancer front-end VIP) used to reach this Compute Node from outside the virtual network. For Pools that use the Batch-managed or User-managed public load balancer, this is the load balancer's front-end public IPv4 address. The value is present regardless of whether SSH or RDP remote access is enabled, so callers can perform IP-based validation even when remote login is disabled. The property is omitted when the Pool is configured with no public IP addresses (for example, private link or BYO VNet with NoPublicIPAddresses). */
+  readonly publicIpAddress?: string;
+  /** The public IPv6 address (load balancer front-end VIP) used to reach this Compute Node from outside the virtual network. Populated only when the Pool is configured for IPv6 / dual-stack public networking. The property is omitted otherwise. */
+  readonly publicIpv6Address?: string;
   /** An identifier which can be passed when adding a Task to request that the Task be scheduled on this Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere. */
   readonly affinityId: string;
   /** The size of the virtual machine hosting the Compute Node. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
@@ -5551,6 +5707,8 @@ export function batchNodeDeserializer(item: any): BatchNode {
     allocationTime: new Date(item["allocationTime"]),
     ipAddress: item["ipAddress"],
     ipv6Address: item["ipv6Address"],
+    publicIpAddress: item["publicIPAddress"],
+    publicIpv6Address: item["publicIPv6Address"],
     affinityId: item["affinityId"],
     vmSize: item["vmSize"],
     totalTasksRun: item["totalTasksRun"],
@@ -5596,6 +5754,7 @@ export type BatchNodeState =
   | "upgradingos"
   | "deallocated"
   | "deallocating";
+
 /** SchedulingState enums */
 export type SchedulingState = "enabled" | "disabled";
 
@@ -5796,7 +5955,7 @@ export function batchNodeRebootOptionsSerializer(item: BatchNodeRebootOptions): 
 }
 
 /** BatchNodeRebootKind enums */
-export type BatchNodeRebootKind = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeRebootKind = "requeue" | "terminate" | "taskcompletion";
 
 /** Parameters for reimaging an Azure Batch Compute Node. */
 export interface BatchNodeReimageOptions {
@@ -5809,7 +5968,7 @@ export function batchNodeReimageOptionsSerializer(item: BatchNodeReimageOptions)
 }
 
 /** BatchNodeReimageOption enums */
-export type BatchNodeReimageOption = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeReimageOption = "requeue" | "terminate" | "taskcompletion";
 
 /** Options for deallocating a Compute Node. */
 export interface BatchNodeDeallocateOptions {
@@ -5822,7 +5981,7 @@ export function batchNodeDeallocateOptionsSerializer(item: BatchNodeDeallocateOp
 }
 
 /** BatchNodeDeallocateOption enums */
-export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletion";
 
 /** Parameters for disabling scheduling on an Azure Batch Compute Node. */
 export interface BatchNodeDisableSchedulingOptions {
@@ -6023,4 +6182,6 @@ export function batchNodeVMExtensionArrayDeserializer(result: Array<BatchNodeVME
 export enum KnownVersions {
   /** API Version 2025-06-01 */
   V20250601 = "2025-06-01",
+  /** API Version 2026-10-01 */
+  V20261001 = "2026-10-01",
 }
