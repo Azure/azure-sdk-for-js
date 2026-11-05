@@ -85,6 +85,13 @@ regeneration script falls back to it when the strict run fails.
   the opt-in beside the forwarded `options.requestOptions.headers` return to
   the emitted poller shape, and other maintained poll headers are kept. A
   preview header the emitter never sent is a customization and stays.
+- The protected-helper policy admits only the reviewed opt-in `before`/`first_id`
+  cursor transition and the optional core-lro resource-location adapter used by
+  campaign final GETs. Declaration-scoped edits are compared as complete ASTs;
+  unrelated header, cancellation, status, literal, or statement changes still fail.
+  The campaign adapter validates the initiating operation ID, not the mutable
+  campaign's latest action ID. Only campaign and call-job lists opt into reverse
+  cursors; existing lists retain bounded-forward pagination.
 - A custom-only declaration or export may reuse a generated name the
   customization renamed away, for example a compatibility alias. It is retained
   beside the renamed declaration rather than collapsed into it, and a

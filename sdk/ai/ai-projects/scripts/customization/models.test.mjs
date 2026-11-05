@@ -323,6 +323,51 @@ test("retained legacy models keep their discriminator and dispatch registrations
   assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
 });
 
+test("unchanged discriminator aliases are not removed for retained legacy models", () => {
+  const shared = `
+export type Provider = "twilio" | "sip";
+export interface Binding { provider: Provider; }
+export type RetryType = "fixed_interval";
+export interface RetryPolicy { type: RetryType; }
+`;
+  const legacy = `
+export interface LegacyTwilio extends Binding { provider: "twilio"; phone: string; }
+export interface LegacySip extends Binding { provider: "sip"; connection: string; }
+export interface LegacyRetry extends RetryPolicy { type: "fixed_interval"; interval: number; }
+`;
+  const result = succeeded(
+    tree(shared + legacy),
+    tree(shared + legacy.replace("phone: string;", "phone: string; customized?: boolean;")),
+    tree(shared + "export interface Added { enabled: boolean; }"),
+  );
+  const text = result.files.get(modelFile);
+  assert.match(text, /type Provider = "twilio" \| "sip"/);
+  assert.match(text, /type RetryType = "fixed_interval"/);
+  for (const name of ["LegacyTwilio", "LegacySip", "LegacyRetry", "Added"])
+    assert.match(text, new RegExp(`interface ${name}\\b`));
+  assert.match(text, /customized\?: boolean/);
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+});
+
+test("replacing an entire retained discriminator alias still requires a policy", () => {
+  const base = `
+export type Kind = "legacy";
+export interface Parent { kind: Kind; }
+export interface Legacy extends Parent { kind: "legacy"; configuration: string; }
+`;
+  const incoming = `
+export type Kind = "current";
+export interface Parent { kind: Kind; }
+`;
+  const result = plan(tree(base), tree(base), tree(incoming));
+  assert.equal(result.files.size, 0);
+  assert.ok(
+    result.diagnostics.some(
+      (item) => item.declaration === "Kind" && /entire generated union/.test(item.message),
+    ),
+  );
+});
+
 test("legacy registration retention does not resurrect a model removed by customization", () => {
   const result = succeeded(
     tree(polymorphicTools({ legacy: true })),

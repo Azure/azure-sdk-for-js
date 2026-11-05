@@ -9943,26 +9943,26 @@ export function endpointBasedEvaluatorDefinitionDeserializer(
 /** Service-managed provenance artifacts produced by an evaluator generation job. Present only on EvaluatorVersion resources created via the generation pipeline. The combined-JSONL Foundry Dataset is read-only and resolves to a versioned dataset in a service-reserved namespace. */
 export interface EvaluatorGenerationArtifacts {
   /** Reference to the single Foundry Dataset (one combined JSONL file, version-aligned to `EvaluatorVersion.version`) holding all artifacts produced by the generation pipeline. Each row in the JSONL carries a `kind` field discriminating its content (e.g. `spec`, `tools`, `context`). */
-  dataset: DatasetReference;
+  dataset: VersionedDatasetReference;
   /** The kinds of rows present in `dataset`. Always contains `"spec"` (the generated evaluation specification, a Markdown document describing what the evaluator measures). May additionally contain `"tools"` (when the generation pipeline produced or inferred OpenAI tool schemas) and/or `"context"` (when supplementary materials such as file uploads or trace samples were used during generation). */
   kinds: string[];
 }
 
 export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGenerationArtifacts {
   return {
-    dataset: datasetReferenceDeserializer(item["dataset"]),
+    dataset: versionedDatasetReferenceDeserializer(item["dataset"]),
     kinds: item["kinds"].map((p: any) => {
       return p;
     }),
   };
 }
 
-/** Reference to a versioned Foundry Dataset. */
+/** Reference to a Foundry Dataset in the current project. Consuming operations define supported Dataset kinds and resolution behavior. */
 export interface DatasetReference {
   /** Dataset name. */
   name: string;
-  /** Dataset version. */
-  version: string;
+  /** Optional Dataset version. Omit to select latest when the consuming operation resolves the reference. */
+  version?: string;
 }
 
 export function datasetReferenceDeserializer(item: any): DatasetReference {
@@ -17510,7 +17510,7 @@ export function createTwilioTelephonyBindingRequestSerializer(
 /** A telephony binding owned by a voice agent. */
 export interface TelephonyBinding {
   /** The service-generated binding identifier. */
-  id: string;
+  readonly id: string;
   /** The telephony provider. */
   /** The discriminator possible values: teams_phone_extensibility, twilio */
   provider: TelephonyProvider;
@@ -17518,10 +17518,8 @@ export interface TelephonyBinding {
   connection_name: string;
   /** The optional display label for the binding. */
   label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
   /** The service-generated webhook URL to configure with the telephony provider. */
-  incoming_call_url: string;
+  readonly incoming_call_url: string;
 }
 
 export function telephonyBindingDeserializer(item: any): TelephonyBinding {
@@ -17530,7 +17528,6 @@ export function telephonyBindingDeserializer(item: any): TelephonyBinding {
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
   };
 }
@@ -17577,7 +17574,6 @@ export function twilioTelephonyBindingDeserializer(item: any): TwilioTelephonyBi
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     phone_number: item["phone_number"],
   };
@@ -17625,8 +17621,6 @@ export interface TelephonyBindingListItem {
   connection_name: string;
   /** The optional display label for the binding. */
   label?: string;
-  /** The lifecycle status. */
-  status: TelephonyBindingStatus;
   /** The service-generated webhook URL to configure with the telephony provider. */
   incoming_call_url: string;
   /** The entity tag to send in the `If-Match` header when updating or deleting this binding. */
@@ -17639,7 +17633,6 @@ export function telephonyBindingListItemDeserializer(item: any): TelephonyBindin
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
   };
@@ -17688,7 +17681,6 @@ export function twilioTelephonyBindingListItemDeserializer(
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
     phone_number: item["phone_number"],
@@ -17697,21 +17689,18 @@ export function twilioTelephonyBindingListItemDeserializer(
 
 /** The request to update an existing telephony binding. Every property is optional and the binding's provider is immutable. */
 export interface UpdateTelephonyBindingRequest {
-  /** The new lifecycle status. */
-  status?: TelephonyBindingStatus;
-  /** The replacement display label. Omit it to preserve the current value; use null to clear it. */
+  /** Replacement label: omit to preserve, null/blank to clear. Trimmed before length validation. */
   label?: string;
-  /** The replacement Foundry connection name. This property is valid for Teams Phone extensibility and SIP bindings; a Twilio binding's connection is immutable. */
+  /** Replacement same-project connection for Teams or SIP (SipInbound only); immutable for Twilio. Null/blank names are invalid. */
   connection_name?: string;
-  /** The replacement Teams Phone extensibility or SIP display phone number. Omit it to preserve the current value; use null to clear it. This property is valid only for Teams Phone extensibility and SIP bindings. */
+  /** Teams/SIP display number, not SIP routing. Omit to preserve; null/empty/blank clears. Unsupported for Twilio. */
   phone_number?: string;
-  /** SIP only. Omit to preserve the restriction; send [] to allow any caller. */
+  /** SIP caller restrictions: omit to preserve, [] to clear; null is invalid. Network restrictions belong to the connection. */
   allowed_calling_numbers?: string[];
 }
 
 export function updateTelephonyBindingRequestSerializer(item: UpdateTelephonyBindingRequest): any {
   return {
-    status: item["status"],
     label: item["label"],
     connection_name: item["connection_name"],
     phone_number: item["phone_number"],
@@ -18218,15 +18207,15 @@ export interface TelephonyTransferTarget {
   name: string;
   /** A description that helps the voice agent decide when to use this target. */
   description: string;
-  /** The provider-specific transfer destination. */
-  destination: TelephonyTransferDestinationUnion;
+  /** The shared typed address to transfer to. The selected provider validates supported destination types. */
+  destination: TelephonyAddressUnion;
 }
 
 export function telephonyTransferTargetSerializer(item: TelephonyTransferTarget): any {
   return {
     name: item["name"],
     description: item["description"],
-    destination: telephonyTransferDestinationUnionSerializer(item["destination"]),
+    destination: telephonyAddressUnionSerializer(item["destination"]),
   };
 }
 
@@ -18234,7 +18223,7 @@ export function telephonyTransferTargetDeserializer(item: any): TelephonyTransfe
   return {
     name: item["name"],
     description: item["description"],
-    destination: telephonyTransferDestinationUnionDeserializer(item["destination"]),
+    destination: telephonyAddressUnionDeserializer(item["destination"]),
   };
 }
 
@@ -20016,37 +20005,10 @@ export function voiceRecordingChannelLayoutDeserializer(item: any): VoiceRecordi
 }
 
 /** A request to create one durable direct outbound call job. */
-export interface CreateTelephonyCallJobRequest {
-  /** The phone destination to call. */
-  destination: TelephonyOutboundDestination;
-  /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
-  connection_name: string;
-  /** An optional customer-declared purpose for placing the call. */
-  purpose?: string;
-  /** Structured input values available to the agent and greeting for this call. Agent-declared inputs are validated against their schemas; omitted optional inputs may use their Agent-defined default values, while omitted required inputs are rejected. Additional inputs remain available as dynamic template variables. */
-  structured_inputs?: Record<string, any>;
-  /** The optional execution window. */
-  schedule?: TelephonyCallJobSchedule;
-  /** The provider-attempt retry policy. Omit it for one attempt with no retry delay. */
-  retry_policy?: TelephonyOutboundRetryPolicyUnion;
-  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
-  source: string;
-}
+export type CreateTelephonyCallJobRequest = TelephonyCallJobCreate;
 
 export function createTelephonyCallJobRequestSerializer(item: CreateTelephonyCallJobRequest): any {
-  return {
-    destination: telephonyOutboundDestinationSerializer(item["destination"]),
-    connection_name: item["connection_name"],
-    purpose: item["purpose"],
-    structured_inputs: item["structured_inputs"],
-    schedule: !item["schedule"]
-      ? item["schedule"]
-      : telephonyCallJobScheduleSerializer(item["schedule"]),
-    retry_policy: !item["retry_policy"]
-      ? item["retry_policy"]
-      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
-    source: item["source"],
-  };
+  return telephonyCallJobCreateSerializer(item);
 }
 
 /** The destination of an outbound call. */
@@ -20121,16 +20083,14 @@ export function telephonyOutboundRetryPolicyDeserializer(item: any): TelephonyOu
 
 /** Alias for TelephonyOutboundRetryPolicyUnion */
 export type TelephonyOutboundRetryPolicyUnion =
-  TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
+  FixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
 
 export function telephonyOutboundRetryPolicyUnionSerializer(
   item: TelephonyOutboundRetryPolicyUnion,
 ): any {
   switch (item.type) {
     case "fixed_interval":
-      return telephonyOutboundFixedIntervalRetryPolicySerializer(
-        item as TelephonyOutboundFixedIntervalRetryPolicy,
-      );
+      return fixedIntervalRetryPolicySerializer(item as FixedIntervalRetryPolicy);
 
     default:
       return telephonyOutboundRetryPolicySerializer(item);
@@ -20142,9 +20102,7 @@ export function telephonyOutboundRetryPolicyUnionDeserializer(
 ): TelephonyOutboundRetryPolicyUnion {
   switch (item["type"]) {
     case "fixed_interval":
-      return telephonyOutboundFixedIntervalRetryPolicyDeserializer(
-        item as TelephonyOutboundFixedIntervalRetryPolicy,
-      );
+      return fixedIntervalRetryPolicyDeserializer(item as FixedIntervalRetryPolicy);
 
     default:
       return telephonyOutboundRetryPolicyDeserializer(item);
@@ -20155,33 +20113,24 @@ export function telephonyOutboundRetryPolicyUnionDeserializer(
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 
 /** A retry policy with a fixed interval between outbound call attempts. */
-export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
-  /** The fixed-interval retry strategy. */
-  type: "fixed_interval";
-  /** The fixed delay in seconds between attempts. */
-  interval: number;
-}
+export type TelephonyOutboundFixedIntervalRetryPolicy = FixedIntervalRetryPolicy;
 
 export function telephonyOutboundFixedIntervalRetryPolicySerializer(
   item: TelephonyOutboundFixedIntervalRetryPolicy,
 ): any {
-  return { type: item["type"], max_attempts: item["max_attempts"], interval: item["interval"] };
+  return fixedIntervalRetryPolicySerializer(item);
 }
 
 export function telephonyOutboundFixedIntervalRetryPolicyDeserializer(
   item: any,
 ): TelephonyOutboundFixedIntervalRetryPolicy {
-  return {
-    type: item["type"],
-    max_attempts: item["max_attempts"],
-    interval: item["interval"],
-  };
+  return fixedIntervalRetryPolicyDeserializer(item);
 }
 
 /** A durable direct or campaign-created outbound call intent. */
 export interface TelephonyCallJob {
   /** The phone destination to call. */
-  destination: TelephonyOutboundDestination;
+  destination: TelephonyAddressUnion;
   /** The Foundry connection name in the current project used to originate the call. Its category selects Twilio or Azure Communication Services / Teams Phone extensibility. No inbound telephony binding is required. */
   connection_name: string;
   /** An optional customer-declared purpose for placing the call. */
@@ -20191,36 +20140,36 @@ export interface TelephonyCallJob {
   /** The optional execution window. */
   schedule?: TelephonyCallJobSchedule;
   /** The service-generated call-job identifier. */
-  id: string;
-  /** The object type. Always `telephony.call_job`. */
-  object: "telephony.call_job";
+  readonly id: string;
   /** The name of the voice agent used at execution time. */
-  agent_name: string;
+  readonly agent_name: string;
   /** The current call-job lifecycle status. */
-  status: TelephonyCallJobStatus;
+  readonly status: TelephonyCallJobStatus;
   /** The recorded cancellation request, when cancellation was requested. */
-  cancellation?: TelephonyCallJobCancellation;
+  readonly cancellation?: TelephonyCallJobCancellation;
   /** The frozen provider-attempt retry policy. */
   retry_policy: TelephonyOutboundRetryPolicyUnion;
   /** The number of provider attempts created so far. */
-  attempt_count: number;
+  readonly attempt_count: number;
   /** The Unix timestamp in seconds at which the next retry becomes eligible. */
-  next_attempt_at?: Date;
+  readonly next_attempt_at?: Date;
   /** The stable service-generated reason for the overall outbound call job, which can span multiple provider attempts, when available. Interpret this with `status`: a queued job can retain a temporary dispatch-deferral reason. Additional string codes may be returned. */
-  terminal_reason?: TelephonyCallJobTerminalReason;
+  readonly terminal_reason?: TelephonyCallJobTerminalReason;
   /** The monotonically increasing optimistic-concurrency revision. */
-  revision: number;
+  readonly revision: number;
   /** The Unix timestamp in seconds when the call job was created. */
-  created_at: Date;
+  readonly created_at: Date;
   /** The Unix timestamp in seconds when the call job was last updated. */
-  updated_at: Date;
-  /** The caller identity used to originate the call. For a Twilio connection, provide an authorized E.164 phone number. For an Azure Communication Services / Teams Phone extensibility connection, provide the Teams Resource Account object ID. The identity type is inferred from the connection category; originating does not change inbound routing. */
-  source: string;
+  readonly updated_at: Date;
+  /** Caller identity: phone_number for Twilio/SIP, or a teams resource-account GUID for ACS/Teams Phone extensibility. No sip source URI. */
+  source: TelephonyAddressUnion;
+  /** Owning Campaign, absent for direct calls. Instance-bound despite name reuse; Campaign deletion hides then removes its jobs. */
+  readonly campaign_name?: string;
 }
 
 export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
   return {
-    destination: telephonyOutboundDestinationDeserializer(item["destination"]),
+    destination: telephonyAddressUnionDeserializer(item["destination"]),
     connection_name: item["connection_name"],
     purpose: item["purpose"],
     structured_inputs: !item["structured_inputs"]
@@ -20232,7 +20181,6 @@ export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
       ? item["schedule"]
       : telephonyCallJobScheduleDeserializer(item["schedule"]),
     id: item["id"],
-    object: item["object"],
     agent_name: item["agent_name"],
     status: item["status"],
     cancellation: !item["cancellation"]
@@ -20248,7 +20196,8 @@ export function telephonyCallJobDeserializer(item: any): TelephonyCallJob {
     revision: item["revision"],
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
-    source: item["source"],
+    source: telephonyAddressUnionDeserializer(item["source"]),
+    campaign_name: item["campaign_name"],
   };
 }
 
@@ -28263,7 +28212,6 @@ export function teamsPhoneExtensibilityTelephonyBindingDeserializer(
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     phone_number: item["phone_number"],
     resource_account_object_id: item["resource_account_object_id"],
@@ -28288,7 +28236,6 @@ export function teamsPhoneExtensibilityTelephonyBindingListItemDeserializer(
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
     phone_number: item["phone_number"],
@@ -31642,20 +31589,30 @@ export const _toolFileSearchToolFiltersFilterDeserializer = filtersDeserializer;
 
 // Preserve the helper identities restored on the feature branch.
 export const _fileSearchToolFiltersValueSerializer = _toolFileSearchToolFiltersValueSerializer;
+
 export const _fileSearchToolFiltersValueDeserializer = _toolFileSearchToolFiltersValueDeserializer;
+
 export const _fileSearchToolFiltersValue1ArraySerializer =
   _toolFileSearchToolFiltersValue1ArraySerializer;
+
 export const _fileSearchToolFiltersValue1ArrayDeserializer =
   _toolFileSearchToolFiltersValue1ArrayDeserializer;
+
 export const _fileSearchToolFiltersValue1Serializer = _toolFileSearchToolFiltersValue1Serializer;
+
 export const _fileSearchToolFiltersValue1Deserializer =
   _toolFileSearchToolFiltersValue1Deserializer;
+
 export const _fileSearchToolFiltersFilterArraySerializer =
   _toolFileSearchToolFiltersFilterArraySerializer;
+
 export const _fileSearchToolFiltersFilterArrayDeserializer =
   _toolFileSearchToolFiltersFilterArrayDeserializer;
+
 export type _FileSearchToolFiltersFilter = _ToolFileSearchToolFiltersFilter;
+
 export const _fileSearchToolFiltersFilterSerializer = _toolFileSearchToolFiltersFilterSerializer;
+
 export const _fileSearchToolFiltersFilterDeserializer =
   _toolFileSearchToolFiltersFilterDeserializer;
 
@@ -31718,16 +31675,27 @@ export function _toolMcpToolRequireApprovalDeserializer(
 }
 
 export type _MCPToolAllowedTools = _ToolMcpToolAllowedTools;
+
 export const _mcpToolAllowedToolsSerializer = _toolMcpToolAllowedToolsSerializer;
+
 export const _mcpToolAllowedToolsDeserializer = _toolMcpToolAllowedToolsDeserializer;
+
 export type _MCPToolRequireApproval = _ToolMcpToolRequireApproval;
+
 export const _mcpToolRequireApprovalSerializer = _toolMcpToolRequireApprovalSerializer;
+
 export const _mcpToolRequireApprovalDeserializer = _toolMcpToolRequireApprovalDeserializer;
+
 export type _VoiceAgentMcpToolAllowedTools = _ToolMcpToolAllowedTools;
+
 export const _voiceAgentMcpToolAllowedToolsSerializer = _toolMcpToolAllowedToolsSerializer;
+
 export const _voiceAgentMcpToolAllowedToolsDeserializer = _toolMcpToolAllowedToolsDeserializer;
+
 export type _VoiceAgentMcpToolRequireApproval = _ToolMcpToolRequireApproval;
+
 export const _voiceAgentMcpToolRequireApprovalSerializer = _toolMcpToolRequireApprovalSerializer;
+
 export const _voiceAgentMcpToolRequireApprovalDeserializer =
   _toolMcpToolRequireApprovalDeserializer;
 
@@ -35832,7 +35800,6 @@ export function sipTelephonyBindingDeserializer(item: any): SipTelephonyBinding 
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     phone_number: item["phone_number"],
     allowed_calling_numbers: !item["allowed_calling_numbers"]
@@ -35858,7 +35825,6 @@ export function sipTelephonyBindingListItemDeserializer(item: any): SipTelephony
     provider: item["provider"],
     connection_name: item["connection_name"],
     label: item["label"],
-    status: item["status"],
     incoming_call_url: item["incoming_call_url"],
     etag: item["etag"],
     phone_number: item["phone_number"],
@@ -36742,4 +36708,725 @@ export function liveSessionUpdateParamsDelegationLiveClientDelegationParamSerial
   item: LiveSessionUpdateParamsDelegationLiveClientDelegationParam,
 ): any {
   return { type: item["type"], acknowledgement_delay_ms: item["acknowledgement_delay_ms"] };
+}
+
+/** Reference to a Dataset whose concrete version has already been resolved. */
+export interface VersionedDatasetReference {
+  /** Dataset name. */
+  name: string;
+  /** Concrete Dataset version. */
+  version: string;
+}
+
+export function versionedDatasetReferenceDeserializer(item: any): VersionedDatasetReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function telephonyBindingSerializer(item: TelephonyBinding): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+  };
+}
+
+export function telephonyBindingUnionSerializer(item: TelephonyBindingUnion): any {
+  switch (item.provider) {
+    case "teams_phone_extensibility":
+      return teamsPhoneExtensibilityTelephonyBindingSerializer(
+        item as TeamsPhoneExtensibilityTelephonyBinding,
+      );
+
+    case "twilio":
+      return twilioTelephonyBindingSerializer(item as TwilioTelephonyBinding);
+
+    case "sip":
+      return sipTelephonyBindingSerializer(item as SipTelephonyBinding);
+
+    default:
+      return telephonyBindingSerializer(item);
+  }
+}
+
+export function teamsPhoneExtensibilityTelephonyBindingSerializer(
+  item: TeamsPhoneExtensibilityTelephonyBinding,
+): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    resource_account_object_id: item["resource_account_object_id"],
+  };
+}
+
+export function twilioTelephonyBindingSerializer(item: TwilioTelephonyBinding): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+  };
+}
+
+export function sipTelephonyBindingSerializer(item: SipTelephonyBinding): any {
+  return {
+    provider: item["provider"],
+    connection_name: item["connection_name"],
+    label: item["label"],
+    phone_number: item["phone_number"],
+    allowed_calling_numbers: !item["allowed_calling_numbers"]
+      ? item["allowed_calling_numbers"]
+      : item["allowed_calling_numbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Shared source, recipient and transfer address. Connections validate each role before dialing; unsupported types fail. New types may be added. */
+export interface TelephonyAddress {
+  /** Endpoint address type. */
+  /** The discriminator possible values: phone_number, teams, sip */
+  type: TelephonyAddressType;
+  /** Concrete address value. Known variants apply their format constraints; unknown variants are rejected before dialing. */
+  value: string;
+}
+
+export function telephonyAddressSerializer(item: TelephonyAddress): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function telephonyAddressDeserializer(item: any): TelephonyAddress {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** Alias for TelephonyAddressUnion */
+export type TelephonyAddressUnion = PhoneNumber | TeamsAddress | SipAddress | TelephonyAddress;
+
+export function telephonyAddressUnionSerializer(item: TelephonyAddressUnion): any {
+  switch (item.type) {
+    case "phone_number":
+      return phoneNumberSerializer(item as PhoneNumber);
+
+    case "teams":
+      return teamsAddressSerializer(item as TeamsAddress);
+
+    case "sip":
+      return sipAddressSerializer(item as SipAddress);
+
+    default:
+      return telephonyAddressSerializer(item);
+  }
+}
+
+export function telephonyAddressUnionDeserializer(item: any): TelephonyAddressUnion {
+  switch (item["type"]) {
+    case "phone_number":
+      return phoneNumberDeserializer(item as PhoneNumber);
+
+    case "teams":
+      return teamsAddressDeserializer(item as TeamsAddress);
+
+    case "sip":
+      return sipAddressDeserializer(item as SipAddress);
+
+    default:
+      return telephonyAddressDeserializer(item);
+  }
+}
+
+/** Extensible endpoint address kinds. Address type describes the endpoint independently of the provider. */
+export type TelephonyAddressType = "phone_number" | "teams" | "sip";
+
+/** Phone-number address used by supported source and destination roles. */
+export interface PhoneNumber extends TelephonyAddress {
+  /** The phone-number address type. */
+  type: "phone_number";
+  /** E.164 phone number. */
+  value: string;
+}
+
+export function phoneNumberSerializer(item: PhoneNumber): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function phoneNumberDeserializer(item: any): PhoneNumber {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** Teams source/transfer identity, validated by role and provider. Not supported for outbound recipients. */
+export interface TeamsAddress extends TelephonyAddress {
+  /** The Microsoft Teams address type. */
+  type: "teams";
+  /** Source: nonempty resource-account GUID. Transfer: user/resource-account GUID or 28:orgid:{guid}. */
+  value: string;
+}
+
+export function teamsAddressSerializer(item: TeamsAddress): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function teamsAddressDeserializer(item: any): TeamsAddress {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** SIP/SIPS transfer address, subject to provider validation. SIP outbound sources and recipients use phone_number, not SIP URIs. */
+export interface SipAddress extends TelephonyAddress {
+  /** The SIP address type. */
+  type: "sip";
+  /** The SIP or SIPS URI to call. */
+  value: string;
+}
+
+export function sipAddressSerializer(item: SipAddress): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function sipAddressDeserializer(item: any): SipAddress {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** The direct outbound call to create. */
+export interface TelephonyCallJobCreate {
+  /** The phone destination to call. */
+  destination: TelephonyAddressUnion;
+  /** Same-project Twilio, ACS/Teams Phone extensibility or SipOutbound connection; no inbound binding needed. SIP requires CustomKeys and a DNS target, revalidated before dialing, not a connectivity guarantee. */
+  connection_name: string;
+  /** An optional customer-declared purpose for placing the call. */
+  purpose?: string;
+  /** Agent/greeting inputs, including nested JSON and null. Agent schemas, required fields and defaults apply. */
+  structured_inputs?: Record<string, any>;
+  /** The optional execution window. */
+  schedule?: TelephonyCallJobSchedule;
+  /** Frozen retry policy. Omission at creation returns fixed_interval with max_attempts=1 and interval=0 seconds: one initial attempt, no retry. */
+  retry_policy?: TelephonyOutboundRetryPolicyUnion;
+  /** Caller identity: phone_number for Twilio/SIP, or a teams resource-account GUID for ACS/Teams Phone extensibility. No sip source URI. */
+  source: TelephonyAddressUnion;
+}
+
+export function telephonyCallJobCreateSerializer(item: TelephonyCallJobCreate): any {
+  return {
+    destination: telephonyAddressUnionSerializer(item["destination"]),
+    connection_name: item["connection_name"],
+    purpose: item["purpose"],
+    structured_inputs: item["structured_inputs"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCallJobScheduleSerializer(item["schedule"]),
+    retry_policy: !item["retry_policy"]
+      ? item["retry_policy"]
+      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+    source: telephonyAddressUnionSerializer(item["source"]),
+  };
+}
+
+/** Shared direct-call/Campaign retry policy. Omission means one attempt; CallJobs return max_attempts=1 and interval=0 seconds. */
+export interface FixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
+  /** The fixed-interval retry strategy. */
+  type: "fixed_interval";
+  /** The nonnegative delay between attempts, from 0 to 2147483647 seconds. Zero permits an immediate retry, subject to scheduling and capacity. */
+  interval: number;
+}
+
+export function fixedIntervalRetryPolicySerializer(item: FixedIntervalRetryPolicy): any {
+  return { type: item["type"], max_attempts: item["max_attempts"], interval: item["interval"] };
+}
+
+export function fixedIntervalRetryPolicyDeserializer(item: any): FixedIntervalRetryPolicy {
+  return {
+    type: item["type"],
+    max_attempts: item["max_attempts"],
+    interval: item["interval"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultTelephonyCallJob {
+  /** The requested list of items. */
+  data: TelephonyCallJob[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultTelephonyCallJobDeserializer(
+  item: any,
+): _AgentsPagedResultTelephonyCallJob {
+  return {
+    data: telephonyCallJobArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function telephonyCallJobArrayDeserializer(result: Array<TelephonyCallJob>): any[] {
+  return result.map((item) => {
+    return telephonyCallJobDeserializer(item);
+  });
+}
+
+/** Agent-owned outbound call Campaign. Creation/replacement authorizes execution after successful preparation. */
+export interface TelephonyCampaign {
+  /** Human-readable name of the provider connection in the current project. */
+  connection_name: string;
+  /** Typed caller address shared with generated CallJobs. The connection validates source support separately from recipient support. */
+  source: TelephonyAddressUnion;
+  /** 1-100 recipients, exclusive with recipient_dataset. The whole UTF-8 request is limited to 1 MiB. Omitted from reads; retain the submission for row correlation. */
+  recipients?: TelephonyRecipient[];
+  /** Same-project CSV/JSON/JSONL uri_file, exclusive with recipients. Omitted version pins latest per preparation. Limits: 1-1,000,000 rows, 256 MiB decoded/file, 1 MiB/row. */
+  recipient_dataset?: DatasetReference;
+  /** Dispatch schedule; omission equals ImmediateSchedule. Every mode waits for successful preparation, then follows its schedule and available capacity. */
+  schedule?: TelephonyCampaignScheduleUnion;
+  /** Per-recipient retries. Omit for one attempt; generated CallJobs return fixed_interval with max_attempts=1 and interval=0 seconds. */
+  retry_policy?: TelephonyOutboundRetryPolicyUnion;
+  /** Business execution state. Each asynchronous action has its own retained operation monitor. */
+  readonly status: TelephonyCampaignStatus;
+  /** Preparation/control failure, cleared on retry. Never includes secrets or raw recipient values. */
+  readonly error?: ErrorModel;
+  /** Immutable name supplied as campaign_name in the PUT path, not the request body; echoed in responses. Unique within the project and Agent. */
+  readonly name: string;
+  /** Creation time. */
+  readonly created_at: Date;
+  /** Last observable progress update. */
+  readonly updated_at: Date;
+  /** Conditional-action token, not a cache validator. Changes with control state, not progress. */
+  readonly etag: string;
+  /** Latest accepted action, for discovery only. Poll the initiating response's Operation-Id/Operation-Location instead. */
+  readonly operation_id: string;
+  /** Time of terminal completion for the current round; cleared when failed preparation is replaced. */
+  readonly finished_at?: Date;
+  /** Latest Agent version pinned once per preparation and shared by retries/calls. Omitted until resolved; replacement clears it. Unavailable pins fail without fallback. */
+  readonly locked_agent_version?: string;
+  /** Available partial accounting even when the job fails or is cancelled. */
+  readonly progress: TelephonyCampaignProgress;
+}
+
+/** Customer-supplied campaign configuration, without service-generated state or identifiers. */
+export type TelephonyCampaignCreate = Pick<
+  TelephonyCampaign,
+  "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy"
+>;
+
+export function telephonyCampaignSerializer(item: TelephonyCampaignCreate): any {
+  return {
+    connection_name: item["connection_name"],
+    source: telephonyAddressUnionSerializer(item["source"]),
+    recipients: !item["recipients"]
+      ? item["recipients"]
+      : telephonyRecipientArraySerializer(item["recipients"]),
+    recipient_dataset: !item["recipient_dataset"]
+      ? item["recipient_dataset"]
+      : datasetReferenceSerializer(item["recipient_dataset"]),
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCampaignScheduleUnionSerializer(item["schedule"]),
+    retry_policy: !item["retry_policy"]
+      ? item["retry_policy"]
+      : telephonyOutboundRetryPolicyUnionSerializer(item["retry_policy"]),
+  };
+}
+
+export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
+  return {
+    connection_name: item["connection_name"],
+    source: telephonyAddressUnionDeserializer(item["source"]),
+    recipients: !item["recipients"]
+      ? item["recipients"]
+      : telephonyRecipientArrayDeserializer(item["recipients"]),
+    recipient_dataset: !item["recipient_dataset"]
+      ? item["recipient_dataset"]
+      : datasetReferenceDeserializer(item["recipient_dataset"]),
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : telephonyCampaignScheduleUnionDeserializer(item["schedule"]),
+    retry_policy: !item["retry_policy"]
+      ? item["retry_policy"]
+      : telephonyOutboundRetryPolicyUnionDeserializer(item["retry_policy"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    name: item["name"],
+    created_at: new Date(item["created_at"] * 1000),
+    updated_at: new Date(item["updated_at"] * 1000),
+    etag: item["etag"],
+    operation_id: item["operation_id"],
+    finished_at:
+      item["finished_at"] === undefined || item["finished_at"] === null
+        ? item["finished_at"]
+        : new Date(item["finished_at"] * 1000),
+    locked_agent_version: item["locked_agent_version"],
+    progress: telephonyCampaignProgressDeserializer(item["progress"]),
+  };
+}
+
+export function telephonyRecipientArraySerializer(result: Array<TelephonyRecipient>): any[] {
+  return result.map((item) => {
+    return telephonyRecipientSerializer(item);
+  });
+}
+
+export function telephonyRecipientArrayDeserializer(result: Array<TelephonyRecipient>): any[] {
+  return result.map((item) => {
+    return telephonyRecipientDeserializer(item);
+  });
+}
+
+/** One recipient in an inline campaign input. Each input position is a separate intended call, including repeated destinations. */
+export interface TelephonyRecipient {
+  /** Recipient address; currently phone_number only. Unsupported types fail preparation; future variants can reuse this field. */
+  destination: TelephonyAddressUnion;
+  /** Agent inputs with nested JSON/null, unique names and depth at most 16. Agent schemas/defaults apply. Replay preserves types, exact numbers, array order and null/omission, but ignores object order; use lossless numeric serialization. */
+  structured_inputs?: Record<string, any>;
+  /** Earliest dispatch time for recipient scheduling. Required only when schedule.type is recipient; forbidden for other modes. */
+  scheduled_at?: Date;
+}
+
+export function telephonyRecipientSerializer(item: TelephonyRecipient): any {
+  return {
+    destination: telephonyAddressUnionSerializer(item["destination"]),
+    structured_inputs: item["structured_inputs"],
+    scheduled_at: !item["scheduled_at"]
+      ? item["scheduled_at"]
+      : (item["scheduled_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function telephonyRecipientDeserializer(item: any): TelephonyRecipient {
+  return {
+    destination: telephonyAddressUnionDeserializer(item["destination"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : Object.fromEntries(
+          Object.entries(item["structured_inputs"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    scheduled_at:
+      item["scheduled_at"] === undefined || item["scheduled_at"] === null
+        ? item["scheduled_at"]
+        : new Date(item["scheduled_at"] * 1000),
+  };
+}
+
+export function datasetReferenceSerializer(item: DatasetReference): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+/** Creation authorizes dialing; every scheduling mode waits for successful preparation. */
+export interface TelephonyCampaignSchedule {
+  /** How each recipient's earliest dispatch time is determined. */
+  /** The discriminator possible values: immediate, scheduled, recipient */
+  type: TelephonyCampaignScheduleType;
+  /** Exclusive deadline for new attempts, including retries; active calls may finish. Must be later than every scheduled_at. */
+  expires_at?: Date;
+}
+
+export function telephonyCampaignScheduleSerializer(item: TelephonyCampaignSchedule): any {
+  return {
+    type: item["type"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function telephonyCampaignScheduleDeserializer(item: any): TelephonyCampaignSchedule {
+  return {
+    type: item["type"],
+    expires_at:
+      item["expires_at"] === undefined || item["expires_at"] === null
+        ? item["expires_at"]
+        : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** Alias for TelephonyCampaignScheduleUnion */
+export type TelephonyCampaignScheduleUnion =
+  ImmediateSchedule | AtTimeSchedule | PerRecipientSchedule | TelephonyCampaignSchedule;
+
+export function telephonyCampaignScheduleUnionSerializer(
+  item: TelephonyCampaignScheduleUnion,
+): any {
+  switch (item.type) {
+    case "immediate":
+      return immediateScheduleSerializer(item as ImmediateSchedule);
+
+    case "scheduled":
+      return atTimeScheduleSerializer(item as AtTimeSchedule);
+
+    case "recipient":
+      return perRecipientScheduleSerializer(item as PerRecipientSchedule);
+
+    default:
+      return telephonyCampaignScheduleSerializer(item);
+  }
+}
+
+export function telephonyCampaignScheduleUnionDeserializer(
+  item: any,
+): TelephonyCampaignScheduleUnion {
+  switch (item["type"]) {
+    case "immediate":
+      return immediateScheduleDeserializer(item as ImmediateSchedule);
+
+    case "scheduled":
+      return atTimeScheduleDeserializer(item as AtTimeSchedule);
+
+    case "recipient":
+      return perRecipientScheduleDeserializer(item as PerRecipientSchedule);
+
+    default:
+      return telephonyCampaignScheduleDeserializer(item);
+  }
+}
+
+/** Mutually exclusive ways to determine each recipient's earliest dispatch time. */
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled" | "recipient";
+
+/** Dispatch automatically as soon as preparation succeeds and capacity permits. */
+export interface ImmediateSchedule extends TelephonyCampaignSchedule {
+  /** Identifies immediate scheduling after successful preparation. */
+  type: "immediate";
+}
+
+export function immediateScheduleSerializer(item: ImmediateSchedule): any {
+  return {
+    type: item["type"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function immediateScheduleDeserializer(item: any): ImmediateSchedule {
+  return {
+    type: item["type"],
+    expires_at:
+      item["expires_at"] === undefined || item["expires_at"] === null
+        ? item["expires_at"]
+        : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** Uses one earliest dispatch time for all recipients. Past times are allowed; preparation must still succeed. */
+export interface AtTimeSchedule extends TelephonyCampaignSchedule {
+  /** Identifies scheduling with one common earliest dispatch time. */
+  type: "scheduled";
+  /** Common earliest dispatch time; successful preparation is required. */
+  scheduled_at: Date;
+}
+
+export function atTimeScheduleSerializer(item: AtTimeSchedule): any {
+  return {
+    type: item["type"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+    scheduled_at: (item["scheduled_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function atTimeScheduleDeserializer(item: any): AtTimeSchedule {
+  return {
+    type: item["type"],
+    expires_at:
+      item["expires_at"] === undefined || item["expires_at"] === null
+        ? item["expires_at"]
+        : new Date(item["expires_at"] * 1000),
+    scheduled_at: new Date(item["scheduled_at"] * 1000),
+  };
+}
+
+/** Uses each recipient's scheduled_at: RFC 3339 with timezone in Datasets, Unix seconds for inline recipients. */
+export interface PerRecipientSchedule extends TelephonyCampaignSchedule {
+  /** Identifies scheduling with a separate earliest dispatch time for each recipient. */
+  type: "recipient";
+}
+
+export function perRecipientScheduleSerializer(item: PerRecipientSchedule): any {
+  return {
+    type: item["type"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function perRecipientScheduleDeserializer(item: any): PerRecipientSchedule {
+  return {
+    type: item["type"],
+    expires_at:
+      item["expires_at"] === undefined || item["expires_at"] === null
+        ? item["expires_at"]
+        : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** Campaign execution state, separate from preparation/cancel/delete LROs. All recipients terminal means completed, not necessarily successful. */
+export type TelephonyCampaignStatus =
+  "validating" | "running" | "cancelling" | "completed" | "failed" | "cancelled" | "deleting";
+
+/** Recipient execution counts, zero until preparation succeeds; then mutually exclusive and summing to total_recipients. */
+export interface TelephonyCampaignProgress {
+  /** Total input rows, including invalid rows. Omitted until known; never an estimate. */
+  total_recipients?: number;
+  /** Recipients waiting for their schedule, capacity or retry after preparation has completed. */
+  pending: number;
+  /** Recipients with a durable origination reservation or unresolved provider attempt, including dispatching before a call ID is received. */
+  active: number;
+  /** Recipients whose CallJob completed; not proof of business success. */
+  completed: number;
+  /** Recipients whose CallJob exhausted retries or failed. */
+  failed: number;
+  /** Recipients cancelled before completion. Does not include dispatch-window expiry. */
+  cancelled: number;
+  /** Recipients whose dispatch deadline elapsed before a new attempt could start. */
+  expired: number;
+}
+
+export function telephonyCampaignProgressDeserializer(item: any): TelephonyCampaignProgress {
+  return {
+    total_recipients: item["total_recipients"],
+    pending: item["pending"],
+    active: item["active"],
+    completed: item["completed"],
+    failed: item["failed"],
+    cancelled: item["cancelled"],
+    expired: item["expired"],
+  };
+}
+
+/** Preparation/cancel/delete monitor bound to its original Campaign instance/round, independent of later actions. Omits result. Retained for the Campaign lifetime and at least 24 hours after both completion and deletion. */
+export interface TelephonyCampaignOperation {
+  /** Server-assigned unique identifier. */
+  readonly id: string;
+  /** Current lifecycle status. */
+  readonly status: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ErrorModel;
+  /** Work tracked by this monitor. */
+  readonly kind: TelephonyCampaignOperationKind;
+  /** Creation time of this operation. */
+  readonly created_at: Date;
+  /** When preparation, cancellation or deletion finished. */
+  readonly finished_at?: Date;
+}
+
+export function telephonyCampaignOperationDeserializer(item: any): TelephonyCampaignOperation {
+  return {
+    id: item["id"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    kind: item["kind"],
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at:
+      item["finished_at"] === undefined || item["finished_at"] === null
+        ? item["finished_at"]
+        : new Date(item["finished_at"] * 1000),
+  };
+}
+
+/** Kind of asynchronous work associated with a Campaign. */
+export type TelephonyCampaignOperationKind = "validation" | "cancel" | "delete";
+
+/** Shared Foundry page shape with opaque boundary tokens bound to the original sort position. */
+export interface _TelephonyCampaignPageTelephonyCampaign {
+  /** The requested list of items. */
+  data: TelephonyCampaign[];
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+  /** Opaque cursor for the first returned item; absent when empty. */
+  first_id?: string;
+  /** Opaque cursor for the last returned item; absent when empty. Deletion/name reuse does not move its original sort boundary. */
+  last_id?: string;
+}
+
+export function _telephonyCampaignPageTelephonyCampaignDeserializer(
+  item: any,
+): _TelephonyCampaignPageTelephonyCampaign {
+  return {
+    data: telephonyCampaignArrayDeserializer(item["data"]),
+    has_more: item["has_more"],
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+  };
+}
+
+export function telephonyCampaignArraySerializer(result: Array<TelephonyCampaign>): any[] {
+  return result.map((item) => {
+    return telephonyCampaignSerializer(item);
+  });
+}
+
+export function telephonyCampaignArrayDeserializer(result: Array<TelephonyCampaign>): any[] {
+  return result.map((item) => {
+    return telephonyCampaignDeserializer(item);
+  });
+}
+
+/** Error-only page. During validation this is a partial live view; an empty page does not establish success. */
+export interface _TelephonyCampaignValidationErrorPage {
+  /** The requested list of items. */
+  data: TelephonyCampaignValidationError[];
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+  /** Opaque cursor for the first returned item; absent when empty. */
+  first_id?: string;
+  /** Opaque cursor for the last returned item; absent when empty. Deletion/name reuse does not move its original sort boundary. */
+  last_id?: string;
+  /** Pinned Agent version used for preparation, shared by all errors on the page. */
+  agent_version?: string;
+}
+
+export function _telephonyCampaignValidationErrorPageDeserializer(
+  item: any,
+): _TelephonyCampaignValidationErrorPage {
+  return {
+    data: telephonyCampaignValidationErrorArrayDeserializer(item["data"]),
+    has_more: item["has_more"],
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function telephonyCampaignValidationErrorArrayDeserializer(
+  result: Array<TelephonyCampaignValidationError>,
+): any[] {
+  return result.map((item) => {
+    return telephonyCampaignValidationErrorDeserializer(item);
+  });
+}
+
+/** Invalid-row diagnostic for current preparation; execution errors are in CallJobs. */
+export interface TelephonyCampaignValidationError {
+  /** One-based source row or inline item position. */
+  row_number: number;
+  /** Row validation error; param identifies the field. Never includes raw values or secrets. */
+  error: ErrorModel;
+}
+
+export function telephonyCampaignValidationErrorDeserializer(
+  item: any,
+): TelephonyCampaignValidationError {
+  return {
+    row_number: item["row_number"],
+    error: apiErrorDeserializer(item["error"]),
+  };
 }

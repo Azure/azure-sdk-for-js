@@ -1263,6 +1263,12 @@ export interface ArtifactProfile {
 export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
 
 // @public
+export interface AtTimeSchedule extends TelephonyCampaignSchedule {
+    scheduled_at: Date;
+    type: "scheduled";
+}
+
+// @public
 export interface AutoCodeInterpreterToolParam {
     file_ids?: string[];
     memory_limit?: ContainerMemoryLimit;
@@ -1904,6 +1910,62 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsCreateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsGetOperationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsGetOptionalParams extends OperationOptions {
+    operationId?: string;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCampaignStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsOperations {
+    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsGetOptionalParams) => Promise<TelephonyCampaign>;
+    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
+    list: (agentName: string, options?: BetaVoiceAgentsCampaignsListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
+    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
+}
+
+// @public
 export interface BetaVoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {
 }
 
@@ -2082,6 +2144,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 // @public
 export interface BetaVoiceAgentsOperations {
+    campaigns: BetaVoiceAgentsCampaignsOperations;
     conversations: BetaVoiceAgentsConversationsOperations;
     // (undocumented)
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
@@ -2109,6 +2172,10 @@ export interface BetaVoiceAgentsTelephonyCreateCallJobOptionalParams extends Ope
 // @public
 export interface BetaVoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2144,7 +2211,16 @@ export interface BetaVoiceAgentsTelephonyListBindingsOptionalParams extends Oper
     limit?: number;
     order?: PageOrder;
     provider?: TelephonyProvider;
-    status?: TelephonyBindingStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyListCallJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    campaignName?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCallJobStatus;
 }
 
 // @public
@@ -2164,14 +2240,16 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
 export interface BetaVoiceAgentsTelephonyOperations {
     cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
     createBinding: (agentName: string, telephonyBinding: CreateTelephonyBindingRequestUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    createCallJob: (agentName: string, idempotencyKey: string, body: CreateTelephonyCallJobRequest, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    createCallJob: (agentName: string, idempotencyKey: string, body: TelephonyCallJobCreate, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
     deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
+    deleteCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
     endCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
     getBinding: (agentName: string, bindingId: string, options?: BetaVoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     getCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
     getCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
     getTransferTargets: (agentName: string, options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     listBindings: (agentName: string, options?: BetaVoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
+    listCallJobs: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallJob>;
     listCalls: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
     replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     transferCall: (agentName: string, callId: string, target: string, options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
@@ -2593,15 +2671,7 @@ export interface CreateTelephonyBindingRequest {
 export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensibilityTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateSipTelephonyBindingRequest | CreateTelephonyBindingRequest;
 
 // @public
-export interface CreateTelephonyCallJobRequest {
-    connection_name: string;
-    destination: TelephonyOutboundDestination;
-    purpose?: string;
-    retry_policy?: TelephonyOutboundRetryPolicyUnion;
-    schedule?: TelephonyCallJobSchedule;
-    source: string;
-    structured_inputs?: Record<string, any>;
-}
+export type CreateTelephonyCallJobRequest = TelephonyCallJobCreate;
 
 // @public
 export interface CreateTranscriptionResponseJsonUsage {
@@ -2801,7 +2871,7 @@ export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGeneration
 // @public
 export interface DatasetReference {
     name: string;
-    version: string;
+    version?: string;
 }
 
 // @public
@@ -3295,7 +3365,7 @@ export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBase
 
 // @public
 export interface EvaluatorGenerationArtifacts {
-    dataset: DatasetReference;
+    dataset: VersionedDatasetReference;
     kinds: string[];
 }
 
@@ -3538,6 +3608,12 @@ export type FileSearchToolFiltersValue = string | number | boolean | _FileSearch
 
 // @public
 export type Filters = ComparisonFilter | CompoundFilter;
+
+// @public
+export interface FixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
+    interval: number;
+    type: "fixed_interval";
+}
 
 // @public
 export interface FixedRatioVersionSelectionRule extends VersionSelectionRule {
@@ -3810,6 +3886,11 @@ export interface ImageGenTool extends Tool {
 export interface ImageGenToolInputImageMask {
     file_id?: string;
     image_url?: string;
+}
+
+// @public
+export interface ImmediateSchedule extends TelephonyCampaignSchedule {
+    type: "immediate";
 }
 
 // @public
@@ -5915,6 +5996,17 @@ export interface PendingUploadResponse {
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 
 // @public
+export interface PerRecipientSchedule extends TelephonyCampaignSchedule {
+    type: "recipient";
+}
+
+// @public
+export interface PhoneNumber extends TelephonyAddress {
+    type: "phone_number";
+    value: string;
+}
+
+// @public
 export interface PickPropertiesVoiceAgentAudioConfig {
     output?: VoiceAgentAudioOutputConfig;
 }
@@ -7365,6 +7457,12 @@ export interface SimulationSeedDataGenerationJobConfiguration extends DataGenera
 }
 
 // @public
+export interface SipAddress extends TelephonyAddress {
+    type: "sip";
+    value: string;
+}
+
+// @public
 export interface SipTelephonyBinding extends TelephonyBinding {
     allowed_calling_numbers?: string[];
     phone_number?: string;
@@ -7508,6 +7606,12 @@ export interface TaxonomySubCategory {
 }
 
 // @public
+export interface TeamsAddress extends TelephonyAddress {
+    type: "teams";
+    value: string;
+}
+
+// @public
 export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBinding {
     phone_number?: string;
     provider: "teams_phone_extensibility";
@@ -7568,13 +7672,24 @@ export interface TelemetryOperations {
 export type TelemetryTransportProtocol = "Http" | "Grpc";
 
 // @public
+export interface TelephonyAddress {
+    type: TelephonyAddressType;
+    value: string;
+}
+
+// @public
+export type TelephonyAddressType = "phone_number" | "teams" | "sip";
+
+// @public
+export type TelephonyAddressUnion = PhoneNumber | TeamsAddress | SipAddress | TelephonyAddress;
+
+// @public
 export interface TelephonyBinding {
     connection_name: string;
-    id: string;
-    incoming_call_url: string;
+    readonly id: string;
+    readonly incoming_call_url: string;
     label?: string;
     provider: TelephonyProvider;
-    status: TelephonyBindingStatus;
 }
 
 // @public
@@ -7585,7 +7700,6 @@ export interface TelephonyBindingListItem {
     incoming_call_url: string;
     label?: string;
     provider: TelephonyProvider;
-    status: TelephonyBindingStatus;
 }
 
 // @public
@@ -7605,24 +7719,24 @@ export type TelephonyCallEndReason = "invalid_webhook_payload" | "webhook_valida
 
 // @public
 export interface TelephonyCallJob {
-    agent_name: string;
-    attempt_count: number;
-    cancellation?: TelephonyCallJobCancellation;
+    readonly agent_name: string;
+    readonly attempt_count: number;
+    readonly campaign_name?: string;
+    readonly cancellation?: TelephonyCallJobCancellation;
     connection_name: string;
-    created_at: Date;
-    destination: TelephonyOutboundDestination;
-    id: string;
-    next_attempt_at?: Date;
-    object: "telephony.call_job";
+    readonly created_at: Date;
+    destination: TelephonyAddressUnion;
+    readonly id: string;
+    readonly next_attempt_at?: Date;
     purpose?: string;
     retry_policy: TelephonyOutboundRetryPolicyUnion;
-    revision: number;
+    readonly revision: number;
     schedule?: TelephonyCallJobSchedule;
-    source: string;
-    status: TelephonyCallJobStatus;
+    source: TelephonyAddressUnion;
+    readonly status: TelephonyCallJobStatus;
     structured_inputs?: Record<string, any>;
-    terminal_reason?: TelephonyCallJobTerminalReason;
-    updated_at: Date;
+    readonly terminal_reason?: TelephonyCallJobTerminalReason;
+    readonly updated_at: Date;
 }
 
 // @public
@@ -7631,6 +7745,17 @@ export interface TelephonyCallJobCancellation {
     requested_at: Date;
     requested_by: string;
     revision: number;
+}
+
+// @public
+export interface TelephonyCallJobCreate {
+    connection_name: string;
+    destination: TelephonyAddressUnion;
+    purpose?: string;
+    retry_policy?: TelephonyOutboundRetryPolicyUnion;
+    schedule?: TelephonyCallJobSchedule;
+    source: TelephonyAddressUnion;
+    structured_inputs?: Record<string, any>;
 }
 
 // @public
@@ -7760,6 +7885,74 @@ export type TelephonyCallTraceMode = "live" | "post_call";
 export type TelephonyCallTraceStatus = "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
 
 // @public
+export interface TelephonyCampaign {
+    connection_name: string;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly etag: string;
+    readonly finished_at?: Date;
+    readonly locked_agent_version?: string;
+    readonly name: string;
+    readonly operation_id: string;
+    readonly progress: TelephonyCampaignProgress;
+    recipient_dataset?: DatasetReference;
+    recipients?: TelephonyRecipient[];
+    retry_policy?: TelephonyOutboundRetryPolicyUnion;
+    schedule?: TelephonyCampaignScheduleUnion;
+    source: TelephonyAddressUnion;
+    readonly status: TelephonyCampaignStatus;
+    readonly updated_at: Date;
+}
+
+// @public
+export type TelephonyCampaignCreate = Pick<TelephonyCampaign, "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy">;
+
+// @public
+export interface TelephonyCampaignOperation {
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly finished_at?: Date;
+    readonly id: string;
+    readonly kind: TelephonyCampaignOperationKind;
+    readonly status: JobStatus;
+}
+
+// @public
+export type TelephonyCampaignOperationKind = "validation" | "cancel" | "delete";
+
+// @public
+export interface TelephonyCampaignProgress {
+    active: number;
+    cancelled: number;
+    completed: number;
+    expired: number;
+    failed: number;
+    pending: number;
+    total_recipients?: number;
+}
+
+// @public
+export interface TelephonyCampaignSchedule {
+    expires_at?: Date;
+    type: TelephonyCampaignScheduleType;
+}
+
+// @public
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled" | "recipient";
+
+// @public
+export type TelephonyCampaignScheduleUnion = ImmediateSchedule | AtTimeSchedule | PerRecipientSchedule | TelephonyCampaignSchedule;
+
+// @public
+export type TelephonyCampaignStatus = "validating" | "running" | "cancelling" | "completed" | "failed" | "cancelled" | "deleting";
+
+// @public
+export interface TelephonyCampaignValidationError {
+    error: ErrorModel;
+    row_number: number;
+}
+
+// @public
 export interface TelephonyOutboundDestination {
     type: TelephonyOutboundDestinationType;
     value: string;
@@ -7769,10 +7962,7 @@ export interface TelephonyOutboundDestination {
 export type TelephonyOutboundDestinationType = "phone_number";
 
 // @public
-export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
-    interval: number;
-    type: "fixed_interval";
-}
+export type TelephonyOutboundFixedIntervalRetryPolicy = FixedIntervalRetryPolicy;
 
 // @public
 export interface TelephonyOutboundRetryPolicy {
@@ -7784,10 +7974,17 @@ export interface TelephonyOutboundRetryPolicy {
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 
 // @public
-export type TelephonyOutboundRetryPolicyUnion = TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
+export type TelephonyOutboundRetryPolicyUnion = FixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
 
 // @public
 export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
+
+// @public
+export interface TelephonyRecipient {
+    destination: TelephonyAddressUnion;
+    scheduled_at?: Date;
+    structured_inputs?: Record<string, any>;
+}
 
 // @public
 export interface TelephonyTransferDestination {
@@ -7803,7 +8000,7 @@ export type TelephonyTransferDestinationUnion = PstnTelephonyTransferDestination
 // @public
 export interface TelephonyTransferTarget {
     description: string;
-    destination: TelephonyTransferDestinationUnion;
+    destination: TelephonyAddressUnion;
     name: string;
 }
 
@@ -8303,7 +8500,6 @@ export interface UpdateTelephonyBindingRequest {
     connection_name?: string;
     label?: string;
     phone_number?: string;
-    status?: TelephonyBindingStatus;
 }
 
 // @public
@@ -8359,6 +8555,12 @@ export interface UserConversationSimulationUserBehaviorConfiguration {
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface VersionedDatasetReference {
+    name: string;
+    version: string;
 }
 
 // @public

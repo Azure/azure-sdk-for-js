@@ -7,6 +7,7 @@ import { canonicalize } from "./ast-merge.mjs";
 import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
+import { isReviewedHelperUpdate } from "./reviewed-helper-updates.mjs";
 
 const protectedFiles = new Set([
   "aiProjectClient.ts",
@@ -1502,7 +1503,8 @@ function checkProtected(trees, renames, report, matches = [], packageVersion) {
         !(versionDeclaration
           ? packageVersionUpdate(file, entry.node, next.node, packageVersion)
           : additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
-            relocatedAdditive(entry.node, next.node, relocation, renames))
+            relocatedAdditive(entry.node, next.node, relocation, renames) ||
+            isReviewedHelperUpdate(file, entry.node, next.node))
       ) {
         report(
           file,

@@ -1306,6 +1306,29 @@ export type {
   LiveSessionUpdateParamsDelegationUnion,
   LiveSessionUpdateParamsDelegationType,
   LiveSessionUpdateParamsDelegationLiveClientDelegationParam,
+  VersionedDatasetReference,
+  TelephonyAddress,
+  TelephonyAddressUnion,
+  TelephonyAddressType,
+  PhoneNumber,
+  TeamsAddress,
+  SipAddress,
+  TelephonyCallJobCreate,
+  FixedIntervalRetryPolicy,
+  TelephonyCampaign,
+  TelephonyCampaignCreate,
+  TelephonyRecipient,
+  TelephonyCampaignSchedule,
+  TelephonyCampaignScheduleUnion,
+  TelephonyCampaignScheduleType,
+  ImmediateSchedule,
+  AtTimeSchedule,
+  PerRecipientSchedule,
+  TelephonyCampaignStatus,
+  TelephonyCampaignProgress,
+  TelephonyCampaignOperation,
+  TelephonyCampaignOperationKind,
+  TelephonyCampaignValidationError,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
@@ -1547,6 +1570,7 @@ export type {
   BetaVoiceAgentsTelephonyOperations,
   EvaluatorsOperations,
   BetaVoiceAgentsLiveConversationsOperations,
+  BetaVoiceAgentsCampaignsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator, NodeReadableStream };
 export type {
@@ -1590,7 +1614,9 @@ export type {
   BetaVoiceAgentsTelephonyGetBindingOptionalParams,
   BetaVoiceAgentsTelephonyListBindingsOptionalParams,
   BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
-} from "./api/beta/voiceAgents/telephony/index.js";
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+} from "./api/beta/voiceAgents/telephony/options.js";
 export type {
   BetaVoiceAgentsLiveConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsLiveConversationsGetAudioOptionalParams,
@@ -1602,3 +1628,12 @@ export type {
   BetaVoiceAgentsLiveConversationsGetOptionalParams,
   BetaVoiceAgentsLiveConversationsListOptionalParams,
 } from "./api/beta/voiceAgents/liveConversations/options.js";
+export type {
+  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
+  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
+  BetaVoiceAgentsCampaignsDeleteOptionalParams,
+  BetaVoiceAgentsCampaignsCancelOptionalParams,
+  BetaVoiceAgentsCampaignsListOptionalParams,
+  BetaVoiceAgentsCampaignsGetOptionalParams,
+  BetaVoiceAgentsCampaignsCreateOptionalParams,
+} from "./api/beta/voiceAgents/campaigns/options.js";
