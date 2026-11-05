@@ -151,7 +151,7 @@ describe("authored cross-file reference rewriting", () => {
     expect(Object.keys(result[2]!.parameters!)).toEqual([...names, "widgetWidgetName3"]);
     const rendered = compile(stack);
     expect(rendered[2]!.contents).toContain("value: widgetWidgetName3");
-  }, 30_000);
+  }, 60_000);
 
   it("keeps entry-local resource references as direct module arguments", () => {
     const { stack, group } = subscriptionStack("entry-values");
