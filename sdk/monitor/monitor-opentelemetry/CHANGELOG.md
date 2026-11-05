@@ -6,8 +6,6 @@
 
 - Added OneSettings `FEATURE_LIVE_METRICS` control of QuickPulse polling, collection, and publishing, preserving local opt-outs and the last valid state when settings are missing or invalid. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Live Metrics subscriptions and background metric collectors are now cleaned up on distro shutdown and reinitialization. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
