@@ -671,6 +671,7 @@ describe("Expect: 100-continue negotiation unit", () => {
     for (const dispatch of ["Continue", "fallback"] as const) {
       const sendFail = createOptions(false);
       const sendErr = new Error("body factory failed");
+      const destroy = vi.spyOn(sendFail.request, "destroy");
       sendFail.options.sendBody.mockImplementation(() => {
         throw sendErr;
       });
@@ -681,7 +682,13 @@ describe("Expect: 100-continue negotiation unit", () => {
         vi.advanceTimersByTime(1000);
       }
       await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(sendFail.options.onError).toHaveBeenCalledExactlyOnceWith(sendErr);
+      expect(sendFail.options.onBodyError).toHaveBeenCalledExactlyOnceWith(sendErr);
+      expect(sendFail.options.onError).not.toHaveBeenCalled();
+      expect(sendFail.request.destroyed).toBe(true);
+      expect(sendFail.options.onBodyError.mock.invocationCallOrder[0]).toBeLessThan(
+        destroy.mock.invocationCallOrder[0],
+      );
+      expect(vi.getTimerCount()).toBe(0);
     }
 
     const closedReq = createOptions();
@@ -690,6 +697,42 @@ describe("Expect: 100-continue negotiation unit", () => {
     await new Promise<void>((resolve) => setImmediate(resolve));
     closedReq.controller.abort();
     expect(closedReq.options.onAbort).toHaveBeenCalledExactlyOnceWith(closedReq.request);
+  });
+
+  it.each([
+    {
+      kind: "already-destroyed request",
+      failure: new Error("body failed after close"),
+      close: true,
+    },
+    {
+      kind: "non-Error throw",
+      failure: { message: "local failure", code: "ENOENT" },
+      close: false,
+    },
+  ])("reports a synchronous body failure unchanged for $kind", async ({ failure, close }) => {
+    const { request, options } = createOptions(false);
+    options.sendBody.mockImplementation(() => {
+      if (close) {
+        request.destroy();
+      }
+      throw failure;
+    });
+
+    try {
+      createExpectContinueRequest(options);
+      request.emit("continue");
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(options.onError).not.toHaveBeenCalled();
+      expect(request.destroyed).toBe(true);
+      expect(request.listenerCount("continue")).toBe(0);
+      expect(request.listenerCount("socket")).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      request.destroy();
+    }
   });
 });
 
@@ -1217,7 +1260,7 @@ describe("Expect: 100-continue end-to-end transport", () => {
     },
   );
 
-  it.each(["normal", "Continue"])(
+  it.each(["normal", "Continue", "fallback"])(
     "preserves local factory errors without retrying (dispatch=%s)",
     async (dispatch) => {
       const failure = Object.assign(new Error("local body file not found"), { code: "ENOENT" });
@@ -1227,7 +1270,9 @@ describe("Expect: 100-continue end-to-end transport", () => {
       const server = http.createServer();
       server.on("checkContinue", (request, response) => {
         request.resume();
-        response.writeContinue();
+        if (dispatch === "Continue") {
+          response.writeContinue();
+        }
       });
       const port = await listen(server);
       const agent = new http.Agent({ keepAlive: false });
@@ -1255,6 +1300,45 @@ describe("Expect: 100-continue end-to-end transport", () => {
       }
     },
   );
+
+  it("preserves synchronous upload-dispatch errors without retrying", async () => {
+    const failure = Object.assign(new Error("local pipe failed"), { code: "ENOENT" });
+    const body = new Readable({ read() {} });
+    const pipe = vi.spyOn(body, "pipe").mockImplementation(() => {
+      throw failure;
+    });
+    const server = http.createServer();
+    server.on("checkContinue", (request, response) => {
+      request.resume();
+      response.writeContinue();
+    });
+    const port = await listen(server);
+    const agent = new http.Agent({ keepAlive: false });
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
+
+    try {
+      await expect(
+        pipeline.sendRequest(
+          createDefaultHttpClient(),
+          createPipelineRequest({
+            url: `http://127.0.0.1:${port}`,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            body,
+            requestOverrides: { agent },
+          }),
+        ),
+      ).rejects.toBe(failure);
+
+      expect(pipe).toHaveBeenCalledOnce();
+      expect(body.destroyed).toBe(true);
+    } finally {
+      body.destroy();
+      agent.destroy();
+    }
+  });
 
   it("still retries transport failures before body preparation", async () => {
     let attempts = 0;

@@ -459,15 +459,7 @@ class NodeHttpClient implements HttpClient {
         onBodyError: reject,
         onResponse,
         sendBody: (clientRequest) => {
-          let body: RequestBodyType | undefined;
-          try {
-            body = prepareBody();
-          } catch (error: unknown) {
-            // Preserve local preparation failures before teardown reports a transport error.
-            reject(error);
-            // stops dispatch and triggers cleanup.
-            throw error;
-          }
+          const body = prepareBody();
           sendRequestBody(clientRequest, body, request, rejectRequest);
         },
       });

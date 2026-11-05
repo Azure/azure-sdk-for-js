@@ -13,7 +13,7 @@ interface ExpectContinueRequestOptions {
   createRequest: (onResponse: (response: http.IncomingMessage) => void) => http.ClientRequest;
   onAbort: (request: http.ClientRequest) => void;
   onError: (error: Error & { code?: string }) => void;
-  onBodyError: (error: Error) => void;
+  onBodyError: (error: unknown) => void;
   onResponse: (response: http.IncomingMessage) => void;
   sendBody: (request: http.ClientRequest) => void;
 }
@@ -145,15 +145,15 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     return requestError;
   }
 
-  function onBodyError(error: Error): void {
+  function onBodyError(error: unknown): void {
     if (errorReported || (!waiting && !bodyStarted)) {
       return;
     }
     errorReported = true;
-    bodyError = error;
+    bodyError = error instanceof Error ? error : new Error(String(error));
     stopWaiting();
     options.onBodyError(error);
-    request?.destroy(error);
+    request?.destroy(bodyError);
   }
 
   function sendBody(): void {
@@ -165,7 +165,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     try {
       options.sendBody(request);
     } catch (error: unknown) {
-      request.destroy(onError(error));
+      onBodyError(error);
     } finally {
       // The upload path now observes the source, including synchronous failures while piping.
       bodyStream?.removeListener("error", onBodyError);
