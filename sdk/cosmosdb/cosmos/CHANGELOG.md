@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default and query-control queries now refresh routing, retire the parent range, and continue on intersecting replacement ranges while preserving resumable continuation state. Invalid tokens and ranges that cannot be mapped to the current topology still fail explicitly.
+
+### Other Changes
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed
@@ -1537,7 +1549,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.2 (2015-05-23)
 
-- Issue [#45](https://github.com/Azure/azure-documentdb-node/issues/45) - Promises wrapper does not include header with error.
+- Issue [#45](https://github.com/Azure/azure-cosmosdb-node/issues/45) - Promises wrapper does not include headers with error.
 
 ## 1.0.1 (2015-05-15)
 
