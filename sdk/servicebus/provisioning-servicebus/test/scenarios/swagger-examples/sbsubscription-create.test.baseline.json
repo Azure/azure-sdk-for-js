@@ -1,0 +1,71 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Namespace-1349"
+              }
+            }
+          }
+        },
+        "topic": {
+          "bicepIdentifier": "topic",
+          "type": "Microsoft.ServiceBus/namespaces/topics",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Topics-8740"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              }
+            }
+          }
+        },
+        "subscription": {
+          "bicepIdentifier": "subscription",
+          "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Subscriptions-2178"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "topic"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "enableBatchedOperations": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
