@@ -992,7 +992,6 @@ export interface AgentsListTelephonyBindingsOptionalParams extends OperationOpti
     limit?: number;
     order?: PageOrder;
     provider?: TelephonyProvider;
-    status?: TelephonyBindingStatus;
 }
 
 // @public
@@ -1249,6 +1248,12 @@ export interface ArtifactProfile {
 
 // @public
 export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
+
+// @public
+export interface AtTimeSchedule extends TelephonyCampaignSchedule {
+    scheduled_at: Date;
+    type: "scheduled";
+}
 
 // @public
 export interface AutoCodeInterpreterToolParam {
@@ -1892,6 +1897,62 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsCreateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsGetOperationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsGetOptionalParams extends OperationOptions {
+    operationId?: string;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCampaignStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaVoiceAgentsCampaignsOperations {
+    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsGetOptionalParams) => Promise<TelephonyCampaign>;
+    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
+    list: (agentName: string, options?: BetaVoiceAgentsCampaignsListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
+    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
+}
+
+// @public
 export interface BetaVoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {
 }
 
@@ -2070,6 +2131,8 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 // @public
 export interface BetaVoiceAgentsOperations {
+    // (undocumented)
+    campaigns: BetaVoiceAgentsCampaignsOperations;
     conversations: BetaVoiceAgentsConversationsOperations;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
@@ -2096,6 +2159,10 @@ export interface BetaVoiceAgentsTelephonyCreateCallJobOptionalParams extends Ope
 // @public
 export interface BetaVoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2131,7 +2198,16 @@ export interface BetaVoiceAgentsTelephonyListBindingsOptionalParams extends Oper
     limit?: number;
     order?: PageOrder;
     provider?: TelephonyProvider;
-    status?: TelephonyBindingStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyListCallJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    campaignName?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCallJobStatus;
 }
 
 // @public
@@ -2150,15 +2226,17 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
 // @public
 export interface BetaVoiceAgentsTelephonyOperations {
     cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    createBinding: (agentName: string, telephonyBinding: CreateTelephonyBindingRequestUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    createCallJob: (agentName: string, idempotencyKey: string, body: CreateTelephonyCallJobRequest, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    createBinding: (agentName: string, binding: TelephonyBindingCreateUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    createCallJob: (agentName: string, idempotencyKey: string, job: TelephonyCallJobCreate, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
     deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
+    deleteCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
     endCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
     getBinding: (agentName: string, bindingId: string, options?: BetaVoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     getCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
     getCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
     getTransferTargets: (agentName: string, options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     listBindings: (agentName: string, options?: BetaVoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
+    listCallJobs: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallJob>;
     listCalls: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
     replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     transferCall: (agentName: string, callId: string, target: string, options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
@@ -2542,14 +2620,6 @@ export interface CreateAgentVersionFromCodeMetadata {
 }
 
 // @public
-export interface CreateSipTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-    allowed_calling_numbers?: string[];
-    phone_number?: string;
-    // (undocumented)
-    provider: "sip";
-}
-
-// @public
 export interface CreateSkillVersionFromFilesBody {
     default?: boolean;
     files: Array<FileContents | {
@@ -2557,34 +2627,6 @@ export interface CreateSkillVersionFromFilesBody {
         contentType?: string;
         filename?: string;
     }>;
-}
-
-// @public
-export interface CreateTeamsPhoneExtensibilityTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-    phone_number?: string;
-    provider: "teams_phone_extensibility";
-    resource_account_object_id: string;
-}
-
-// @public
-export interface CreateTelephonyBindingRequest {
-    connection_name: string;
-    label?: string;
-    provider: TelephonyProvider;
-}
-
-// @public
-export type CreateTelephonyBindingRequestUnion = CreateTeamsPhoneExtensibilityTelephonyBindingRequest | CreateTwilioTelephonyBindingRequest | CreateSipTelephonyBindingRequest | CreateTelephonyBindingRequest;
-
-// @public
-export interface CreateTelephonyCallJobRequest {
-    connection_name: string;
-    destination: TelephonyOutboundDestination;
-    purpose?: string;
-    retry_policy?: TelephonyOutboundRetryPolicyUnion;
-    schedule?: TelephonyCallJobSchedule;
-    source: string;
-    structured_inputs?: Record<string, any>;
 }
 
 // @public
@@ -2597,12 +2639,6 @@ export type CreateTranscriptionResponseJsonUsageType = "tokens" | "duration";
 
 // @public
 export type CreateTranscriptionResponseJsonUsageUnion = TranscriptTextUsageTokens | TranscriptTextUsageDuration | CreateTranscriptionResponseJsonUsage;
-
-// @public
-export interface CreateTwilioTelephonyBindingRequest extends CreateTelephonyBindingRequest {
-    phone_number: string;
-    provider: "twilio";
-}
 
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
@@ -2785,7 +2821,7 @@ export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGeneration
 // @public
 export interface DatasetReference {
     name: string;
-    version: string;
+    version?: string;
 }
 
 // @public
@@ -3267,7 +3303,7 @@ export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBase
 
 // @public
 export interface EvaluatorGenerationArtifacts {
-    dataset: DatasetReference;
+    dataset: VersionedDatasetReference;
     kinds: string[];
 }
 
@@ -3510,6 +3546,12 @@ export type FileSearchToolFiltersValue = string | number | boolean | (string | n
 
 // @public
 export type Filters = ComparisonFilter | CompoundFilter;
+
+// @public
+export interface FixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
+    interval: number;
+    type: "fixed_interval";
+}
 
 // @public
 export interface FixedRatioVersionSelectionRule extends VersionSelectionRule {
@@ -3782,6 +3824,11 @@ export interface ImageGenTool extends Tool {
 export interface ImageGenToolInputImageMask {
     file_id?: string;
     image_url?: string;
+}
+
+// @public
+export interface ImmediateSchedule extends TelephonyCampaignSchedule {
+    type: "immediate";
 }
 
 // @public
@@ -5635,6 +5682,17 @@ export interface PendingUploadResponse {
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 
 // @public
+export interface PerRecipientSchedule extends TelephonyCampaignSchedule {
+    type: "recipient";
+}
+
+// @public
+export interface PhoneNumber extends TelephonyAddress {
+    type: "phone_number";
+    value: string;
+}
+
+// @public
 export interface PickPropertiesVoiceAgentAudioConfig {
     output?: VoiceAgentAudioOutputConfig;
 }
@@ -5710,12 +5768,6 @@ export interface ProtocolConfiguration {
 export interface ProtocolVersionRecord {
     protocol: AgentProtocol;
     version: string;
-}
-
-// @public
-export interface PstnTelephonyTransferDestination extends TelephonyTransferDestination {
-    kind: "pstn";
-    value: string;
 }
 
 // @public
@@ -5990,10 +6042,10 @@ export interface RealtimeConversationItemMessageUserContent {
 }
 
 // @public
-export type RealtimeConversationItemType = "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "message";
+export type RealtimeConversationItemType = "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "message" | "system_tool";
 
 // @public
-export type RealtimeConversationItemUnion = RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | RealtimeConversationItem;
+export type RealtimeConversationItemUnion = RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | VoiceAgentSystemToolItem | RealtimeConversationItem;
 
 // @public
 export interface RealtimeFunctionTool {
@@ -6661,10 +6713,10 @@ export interface RealtimeServerEventSessionUpdated extends RealtimeServerEvent {
 }
 
 // @public
-export type RealtimeServerEventType = "conversation.created" | "conversation.item.created" | "conversation.item.deleted" | "conversation.item.input_audio_transcription.completed" | "conversation.item.input_audio_transcription.delta" | "conversation.item.input_audio_transcription.failed" | "conversation.item.retrieved" | "conversation.item.truncated" | "error" | "input_audio_buffer.cleared" | "input_audio_buffer.committed" | "input_audio_buffer.dtmf_event_received" | "input_audio_buffer.speech_started" | "input_audio_buffer.speech_stopped" | "rate_limits.updated" | "response.output_audio.delta" | "response.output_audio.done" | "response.output_audio_transcript.delta" | "response.output_audio_transcript.done" | "response.content_part.added" | "response.content_part.done" | "response.created" | "response.done" | "response.function_call_arguments.delta" | "response.function_call_arguments.done" | "response.output_item.added" | "response.output_item.done" | "response.output_text.delta" | "response.output_text.done" | "session.created" | "session.updated" | "output_audio_buffer.started" | "output_audio_buffer.stopped" | "output_audio_buffer.cleared" | "conversation.item.added" | "conversation.item.done" | "input_audio_buffer.timeout_triggered" | "conversation.item.input_audio_transcription.segment" | "mcp_list_tools.in_progress" | "mcp_list_tools.completed" | "mcp_list_tools.failed" | "response.mcp_call_arguments.delta" | "response.mcp_call_arguments.done" | "response.mcp_call.in_progress" | "response.mcp_call.completed" | "response.mcp_call.failed" | "warning" | "session.subagent.started" | "session.subagent.completed" | "session.subagent.aborted" | "session.avatar.connecting" | "session.avatar.switch_to_speaking" | "session.avatar.switch_to_idle" | "rtc.call.sdp.created" | "rtc.call.error" | "response.audio_timestamp.delta" | "response.audio_timestamp.done" | "response.animation_blendshapes.delta" | "response.animation_blendshapes.done" | "response.animation_viseme.delta" | "response.animation_viseme.done" | "response.video.delta" | "response.system_tool_arguments.delta" | "response.system_tool_arguments.done" | "input_collection.status" | "session.handoff.started" | "session.handoff.completed" | "session.handoff.aborted";
+export type RealtimeServerEventType = string | "conversation.created" | "conversation.item.created" | "conversation.item.deleted" | "conversation.item.input_audio_transcription.completed" | "conversation.item.input_audio_transcription.delta" | "conversation.item.input_audio_transcription.failed" | "conversation.item.retrieved" | "conversation.item.truncated" | "error" | "input_audio_buffer.cleared" | "input_audio_buffer.committed" | "input_audio_buffer.dtmf_event_received" | "input_audio_buffer.speech_started" | "input_audio_buffer.speech_stopped" | "rate_limits.updated" | "response.output_audio.delta" | "response.output_audio.done" | "response.output_audio_transcript.delta" | "response.output_audio_transcript.done" | "response.content_part.added" | "response.content_part.done" | "response.created" | "response.done" | "response.function_call_arguments.delta" | "response.function_call_arguments.done" | "response.output_item.added" | "response.output_item.done" | "response.output_text.delta" | "response.output_text.done" | "session.created" | "session.updated" | "output_audio_buffer.started" | "output_audio_buffer.stopped" | "output_audio_buffer.cleared" | "conversation.item.added" | "conversation.item.done" | "input_audio_buffer.timeout_triggered" | "conversation.item.input_audio_transcription.segment" | "mcp_list_tools.in_progress" | "mcp_list_tools.completed" | "mcp_list_tools.failed" | "response.mcp_call_arguments.delta" | "response.mcp_call_arguments.done" | "response.mcp_call.in_progress" | "response.mcp_call.completed" | "response.mcp_call.failed" | VoiceAgentServerEventTypeExtension;
 
 // @public
-export type RealtimeServerEventUnion = RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | RealtimeServerEventSessionUpdated | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemDone | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | RealtimeServerEvent;
+export type RealtimeServerEventUnion = RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | RealtimeServerEventSessionUpdated | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemDone | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted | VoiceAgentServerEventSystemToolArgumentsDelta | VoiceAgentServerEventSystemToolArgumentsDone | VoiceAgentServerEventInputCollectionStatus | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | RealtimeServerEvent;
 
 // @public
 export interface Reasoning {
@@ -7045,6 +7097,12 @@ export interface SimulationSeedDataGenerationJobConfiguration extends DataGenera
 }
 
 // @public
+export interface SipAddress extends TelephonyAddress {
+    type: "sip";
+    value: string;
+}
+
+// @public
 export interface SipTelephonyBinding extends TelephonyBinding {
     allowed_calling_numbers?: string[];
     phone_number?: string;
@@ -7053,17 +7111,14 @@ export interface SipTelephonyBinding extends TelephonyBinding {
 }
 
 // @public
+export type SipTelephonyBindingCreate = Omit<SipTelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
 export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
     allowed_calling_numbers?: string[];
     phone_number?: string;
     // (undocumented)
     provider: "sip";
-}
-
-// @public
-export interface SipTelephonyTransferDestination extends TelephonyTransferDestination {
-    kind: "sip";
-    value: string;
 }
 
 // @public
@@ -7188,6 +7243,12 @@ export interface TaxonomySubCategory {
 }
 
 // @public
+export interface TeamsAddress extends TelephonyAddress {
+    type: "teams";
+    value: string;
+}
+
+// @public
 export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBinding {
     phone_number?: string;
     provider: "teams_phone_extensibility";
@@ -7195,16 +7256,13 @@ export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBindin
 }
 
 // @public
+export type TeamsPhoneExtensibilityTelephonyBindingCreate = Omit<TeamsPhoneExtensibilityTelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
 export interface TeamsPhoneExtensibilityTelephonyBindingListItem extends TelephonyBindingListItem {
     phone_number?: string;
     provider: "teams_phone_extensibility";
     resource_account_object_id: string;
-}
-
-// @public
-export interface TeamsTelephonyTransferDestination extends TelephonyTransferDestination {
-    kind: "teams";
-    value: string;
 }
 
 // @public
@@ -7248,14 +7306,31 @@ export interface TelemetryOperations {
 export type TelemetryTransportProtocol = "Http" | "Grpc";
 
 // @public
+export interface TelephonyAddress {
+    type: TelephonyAddressType;
+    value: string;
+}
+
+// @public
+export type TelephonyAddressType = "phone_number" | "teams" | "sip";
+
+// @public
+export type TelephonyAddressUnion = PhoneNumber | TeamsAddress | SipAddress | TelephonyAddress;
+
+// @public
 export interface TelephonyBinding {
     connection_name: string;
-    id: string;
-    incoming_call_url: string;
+    readonly id: string;
+    readonly incoming_call_url: string;
     label?: string;
     provider: TelephonyProvider;
-    status: TelephonyBindingStatus;
 }
+
+// @public
+export type TelephonyBindingCreate = Omit<TelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
+export type TelephonyBindingCreateUnion = TeamsPhoneExtensibilityTelephonyBindingCreate | TwilioTelephonyBindingCreate | SipTelephonyBindingCreate | TelephonyBindingCreate;
 
 // @public
 export interface TelephonyBindingListItem {
@@ -7265,14 +7340,10 @@ export interface TelephonyBindingListItem {
     incoming_call_url: string;
     label?: string;
     provider: TelephonyProvider;
-    status: TelephonyBindingStatus;
 }
 
 // @public
 export type TelephonyBindingListItemUnion = TeamsPhoneExtensibilityTelephonyBindingListItem | TwilioTelephonyBindingListItem | SipTelephonyBindingListItem | TelephonyBindingListItem;
-
-// @public
-export type TelephonyBindingStatus = "active" | "suspended";
 
 // @public
 export type TelephonyBindingUnion = TeamsPhoneExtensibilityTelephonyBinding | TwilioTelephonyBinding | SipTelephonyBinding | TelephonyBinding;
@@ -7285,24 +7356,24 @@ export type TelephonyCallEndReason = "invalid_webhook_payload" | "webhook_valida
 
 // @public
 export interface TelephonyCallJob {
-    agent_name: string;
-    attempt_count: number;
-    cancellation?: TelephonyCallJobCancellation;
+    readonly agent_name: string;
+    readonly attempt_count: number;
+    readonly campaign_name?: string;
+    readonly cancellation?: TelephonyCallJobCancellation;
     connection_name: string;
-    created_at: Date;
-    destination: TelephonyOutboundDestination;
-    id: string;
-    next_attempt_at?: Date;
-    object: "telephony.call_job";
+    readonly created_at: Date;
+    destination: TelephonyAddressUnion;
+    readonly id: string;
+    readonly next_attempt_at?: Date;
     purpose?: string;
     retry_policy: TelephonyOutboundRetryPolicyUnion;
-    revision: number;
+    readonly revision: number;
     schedule?: TelephonyCallJobSchedule;
-    source: string;
-    status: TelephonyCallJobStatus;
+    source: TelephonyAddressUnion;
+    readonly status: TelephonyCallJobStatus;
     structured_inputs?: Record<string, any>;
-    terminal_reason?: TelephonyCallJobTerminalReason;
-    updated_at: Date;
+    readonly terminal_reason?: TelephonyCallJobTerminalReason;
+    readonly updated_at: Date;
 }
 
 // @public
@@ -7311,6 +7382,17 @@ export interface TelephonyCallJobCancellation {
     requested_at: Date;
     requested_by: string;
     revision: number;
+}
+
+// @public
+export interface TelephonyCallJobCreate {
+    connection_name: string;
+    destination: TelephonyAddressUnion;
+    purpose?: string;
+    retry_policy?: TelephonyOutboundRetryPolicyUnion;
+    schedule?: TelephonyCallJobSchedule;
+    source: TelephonyAddressUnion;
+    structured_inputs?: Record<string, any>;
 }
 
 // @public
@@ -7440,18 +7522,71 @@ export type TelephonyCallTraceMode = "live" | "post_call";
 export type TelephonyCallTraceStatus = "pending" | "emitting" | "available" | "not_recorded" | "not_applicable" | "failed";
 
 // @public
-export interface TelephonyOutboundDestination {
-    type: TelephonyOutboundDestinationType;
-    value: string;
+export interface TelephonyCampaign {
+    connection_name: string;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly etag: string;
+    readonly finished_at?: Date;
+    readonly locked_agent_version?: string;
+    readonly name: string;
+    readonly operation_id: string;
+    readonly progress: TelephonyCampaignProgress;
+    recipient_dataset?: DatasetReference;
+    recipients?: TelephonyRecipient[];
+    retry_policy?: TelephonyOutboundRetryPolicyUnion;
+    schedule?: TelephonyCampaignScheduleUnion;
+    source: TelephonyAddressUnion;
+    readonly status: TelephonyCampaignStatus;
+    readonly updated_at: Date;
 }
 
 // @public
-export type TelephonyOutboundDestinationType = "phone_number";
+export type TelephonyCampaignCreate = Pick<TelephonyCampaign, "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy">;
 
 // @public
-export interface TelephonyOutboundFixedIntervalRetryPolicy extends TelephonyOutboundRetryPolicy {
-    interval: number;
-    type: "fixed_interval";
+export interface TelephonyCampaignOperation {
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly finished_at?: Date;
+    readonly id: string;
+    readonly kind: TelephonyCampaignOperationKind;
+    readonly status: JobStatus;
+}
+
+// @public
+export type TelephonyCampaignOperationKind = "validation" | "cancel" | "delete";
+
+// @public
+export interface TelephonyCampaignProgress {
+    active: number;
+    cancelled: number;
+    completed: number;
+    expired: number;
+    failed: number;
+    pending: number;
+    total_recipients?: number;
+}
+
+// @public
+export interface TelephonyCampaignSchedule {
+    expires_at?: Date;
+    type: TelephonyCampaignScheduleType;
+}
+
+// @public
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled" | "recipient";
+
+// @public
+export type TelephonyCampaignScheduleUnion = ImmediateSchedule | AtTimeSchedule | PerRecipientSchedule | TelephonyCampaignSchedule;
+
+// @public
+export type TelephonyCampaignStatus = "validating" | "running" | "cancelling" | "completed" | "failed" | "cancelled" | "deleting";
+
+// @public
+export interface TelephonyCampaignValidationError {
+    error: ErrorModel;
+    row_number: number;
 }
 
 // @public
@@ -7464,26 +7599,22 @@ export interface TelephonyOutboundRetryPolicy {
 export type TelephonyOutboundRetryPolicyType = "fixed_interval";
 
 // @public
-export type TelephonyOutboundRetryPolicyUnion = TelephonyOutboundFixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
+export type TelephonyOutboundRetryPolicyUnion = FixedIntervalRetryPolicy | TelephonyOutboundRetryPolicy;
 
 // @public
 export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
 
 // @public
-export interface TelephonyTransferDestination {
-    kind: TelephonyTransferDestinationKind;
+export interface TelephonyRecipient {
+    destination: TelephonyAddressUnion;
+    scheduled_at?: Date;
+    structured_inputs?: Record<string, any>;
 }
-
-// @public
-export type TelephonyTransferDestinationKind = "pstn" | "teams" | "sip";
-
-// @public
-export type TelephonyTransferDestinationUnion = PstnTelephonyTransferDestination | TeamsTelephonyTransferDestination | SipTelephonyTransferDestination | TelephonyTransferDestination;
 
 // @public
 export interface TelephonyTransferTarget {
     description: string;
-    destination: TelephonyTransferDestinationUnion;
+    destination: TelephonyAddressUnion;
     name: string;
 }
 
@@ -7963,6 +8094,9 @@ export interface TwilioTelephonyBinding extends TelephonyBinding {
 }
 
 // @public
+export type TwilioTelephonyBindingCreate = Omit<TwilioTelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
 export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
     phone_number: string;
     provider: "twilio";
@@ -7980,7 +8114,6 @@ export interface UpdateTelephonyBindingRequest {
     connection_name?: string;
     label?: string;
     phone_number?: string;
-    status?: TelephonyBindingStatus;
 }
 
 // @public
@@ -8036,6 +8169,12 @@ export interface UserConversationSimulationUserBehaviorConfiguration {
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface VersionedDatasetReference {
+    name: string;
+    version: string;
 }
 
 // @public
@@ -8271,6 +8410,40 @@ export interface VoiceAgentCloseResult {
 }
 
 // @public
+export interface VoiceAgentCollectDtmfStartArguments {
+    completion_mode: VoiceAgentDtmfCompletionMode;
+    first_digit_timeout_seconds?: number;
+    output_variable_name?: string;
+    secret: boolean;
+    timeout_seconds?: number;
+}
+
+// @public
+export interface VoiceAgentCollectDtmfSystemTool extends VoiceAgentSystemTool {
+    name: "collect_dtmf";
+}
+
+// @public
+export interface VoiceAgentCollectionStartArguments {
+    output_variable_name?: string;
+    secret: boolean;
+    timeout_seconds?: number;
+}
+
+// @public
+export interface VoiceAgentCollectSmsStartArguments {
+    from_phone_number: string;
+    output_variable_name?: string;
+    secret: boolean;
+    timeout_seconds?: number;
+}
+
+// @public
+export interface VoiceAgentCollectSmsSystemTool extends VoiceAgentSystemTool {
+    name: "collect_sms";
+}
+
+// @public
 export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEvent> {
     cancelResponse(options?: VoiceAgentCancelResponseOptions): Promise<void>;
     clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
@@ -8328,6 +8501,37 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
 export interface VoiceAgentDelegateSubagentConfig extends VoiceAgentSubagentConfig {
     subagents: VoiceAgentSubagent[];
     subagentType: "delegate";
+}
+
+// @public
+export interface VoiceAgentDigitRecognitionSystemTool extends VoiceAgentSystemTool {
+    name: "digit_recognition";
+}
+
+// @public
+export type VoiceAgentDtmfCompletionMode = VoiceAgentDtmfFixedLengthCompletionMode | VoiceAgentDtmfTerminatorCompletionMode | VoiceAgentDtmfInterDigitSilenceCompletionMode;
+
+// @public
+export interface VoiceAgentDtmfFixedLengthCompletionMode {
+    inter_digit_timeout_seconds?: number;
+    length?: number;
+    type: "fixed_length";
+}
+
+// @public
+export interface VoiceAgentDtmfInterDigitSilenceCompletionMode {
+    inter_digit_timeout_seconds?: number;
+    type: "inter_digit_silence";
+}
+
+// @public
+export type VoiceAgentDtmfTerminator = "#" | "*";
+
+// @public
+export interface VoiceAgentDtmfTerminatorCompletionMode {
+    inter_digit_timeout_seconds?: number;
+    terminator: VoiceAgentDtmfTerminator;
+    type: "terminator";
 }
 
 // @public
@@ -8462,6 +8666,12 @@ export interface VoiceAgentInlineSubagentConfig extends VoiceAgentSubagentConfig
 }
 
 // @public
+export type VoiceAgentInputCollectionChannel = "sms" | "dtmf";
+
+// @public
+export type VoiceAgentInputCollectionStatus = "accepted" | "listening" | "completed" | "expired" | "cancelled" | "failed" | "busy" | "invalid_input" | "invalid_arguments" | "stale_collection" | "unsupported_channel" | "dispatch_failed" | "provider_accepted" | "transfer_not_answered" | "provider_failed_or_unsupported" | "provider_result_uncertain" | "provider_not_executed";
+
+// @public
 export interface VoiceAgentInputTranscription {
     custom_speech?: Record<string, string>;
     delay?: "minimal" | "low" | "medium" | "high" | "xhigh";
@@ -8489,6 +8699,17 @@ export type VoiceAgentInterimResponseConfigUnion = VoiceAgentStaticInterimRespon
 
 // @public
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
+
+// @public
+export interface VoiceAgentLanguageDetectionArguments {
+    language: string;
+    reason: string;
+}
+
+// @public
+export interface VoiceAgentLanguageDetectionSystemTool extends VoiceAgentSystemTool {
+    name: "language_detection";
+}
 
 // @public
 export interface VoiceAgentLiveClientDelegation extends VoiceAgentLiveDelegation {
@@ -8816,12 +9037,22 @@ export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetect
 }
 
 // @public
+export interface VoiceAgentSendDtmfSystemTool extends VoiceAgentSystemTool {
+    name: "send_dtmf";
+}
+
+// @public
 export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
     createResponse?: boolean;
 }
 
 // @public
 export interface VoiceAgentSendOptions extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentSendSmsSystemTool extends VoiceAgentSystemTool {
+    name: "send_sms";
 }
 
 // @public
@@ -8834,7 +9065,20 @@ export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendItemOptio
 }
 
 // @public
-export type VoiceAgentServerEvent = RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemDone | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | RealtimeServerEventSessionUpdated | RealtimeServerEventError | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted;
+export type VoiceAgentServerEvent = RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemDone | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | VoiceAgentServerEventSystemToolArgumentsDelta | VoiceAgentServerEventSystemToolArgumentsDone | VoiceAgentServerEventInputCollectionStatus | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | RealtimeServerEventSessionUpdated | RealtimeServerEventError | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted;
+
+// @public
+export interface VoiceAgentServerEventInputCollectionStatus extends RealtimeServerEvent {
+    call_id: string;
+    channel?: VoiceAgentInputCollectionChannel;
+    collection_id?: string;
+    event_id?: string;
+    output_ref?: string;
+    request_id?: string;
+    status: VoiceAgentInputCollectionStatus;
+    type: "input_collection.status";
+    value?: string;
+}
 
 // @public
 export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends RealtimeServerEvent {
@@ -9025,6 +9269,30 @@ export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeSer
 }
 
 // @public
+export interface VoiceAgentServerEventSystemToolArgumentsDelta extends RealtimeServerEvent {
+    call_id: string;
+    delta: string;
+    event_id: string;
+    item_id: string;
+    obfuscation?: string;
+    output_index: number;
+    response_id: string;
+    type: "response.system_tool_arguments.delta";
+}
+
+// @public
+export interface VoiceAgentServerEventSystemToolArgumentsDone extends RealtimeServerEvent {
+    arguments: string;
+    call_id: string;
+    event_id: string;
+    item_id: string;
+    name: VoiceAgentSystemToolName;
+    output_index: number;
+    response_id: string;
+    type: "response.system_tool_arguments.done";
+}
+
+// @public
 export type VoiceAgentServerEventTypeExtension = "warning" | "session.subagent.started" | "session.subagent.completed" | "session.subagent.aborted" | "session.avatar.connecting" | "session.avatar.switch_to_speaking" | "session.avatar.switch_to_idle" | "rtc.call.sdp.created" | "rtc.call.error" | "response.audio_timestamp.delta" | "response.audio_timestamp.done" | "response.animation_blendshapes.delta" | "response.animation_blendshapes.done" | "response.animation_viseme.delta" | "response.animation_viseme.done" | "response.video.delta" | "response.system_tool_arguments.delta" | "response.system_tool_arguments.done" | "input_collection.status" | "session.handoff.started" | "session.handoff.completed" | "session.handoff.aborted";
 
 // @public
@@ -9195,14 +9463,31 @@ export type VoiceAgentSubProtocol = "realtime" | "live";
 export interface VoiceAgentSystemTool extends VoiceAgentTool {
     description?: string;
     name: VoiceAgentSystemToolName;
+    timeout_seconds?: number;
     type: "system";
 }
 
 // @public
-export type VoiceAgentSystemToolName = "end_conversation";
+export interface VoiceAgentSystemToolItem extends RealtimeConversationItem {
+    arguments: string;
+    call_id: string;
+    readonly created_at?: Date;
+    id?: string;
+    name: VoiceAgentSystemToolName;
+    object?: "realtime.item";
+    readonly response_id?: string;
+    status: VoiceAgentSystemToolItemStatus;
+    type: "system_tool";
+}
 
 // @public
-export type VoiceAgentSystemToolUnion = VoiceAgentEndConversationSystemTool | VoiceAgentSystemTool;
+export type VoiceAgentSystemToolItemStatus = "in_progress" | "completed" | "incomplete";
+
+// @public
+export type VoiceAgentSystemToolName = "end_conversation" | "language_detection" | "digit_recognition" | "transfer" | "collect_sms" | "collect_dtmf" | "send_dtmf" | "send_sms";
+
+// @public
+export type VoiceAgentSystemToolUnion = VoiceAgentEndConversationSystemTool | VoiceAgentLanguageDetectionSystemTool | VoiceAgentDigitRecognitionSystemTool | VoiceAgentCollectSmsSystemTool | VoiceAgentCollectDtmfSystemTool | VoiceAgentTransferSystemTool | VoiceAgentSendDtmfSystemTool | VoiceAgentSendSmsSystemTool | VoiceAgentSystemTool;
 
 // @public
 export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
@@ -9247,6 +9532,39 @@ export interface VoiceAgentTranscriptionWord {
     duration_milliseconds: number;
     offset_milliseconds: number;
     text: string;
+}
+
+// @public
+export interface VoiceAgentTransferDestination {
+    type: VoiceAgentTransferDestinationType;
+    value: string;
+}
+
+// @public
+export type VoiceAgentTransferDestinationType = "phone_number" | "teams" | "sip";
+
+// @public
+export interface VoiceAgentTransferRouting {
+    ring_timeout_seconds?: number;
+    strategy: VoiceAgentTransferStrategy;
+}
+
+// @public
+export type VoiceAgentTransferStrategy = "sequential" | "random" | "parallel";
+
+// @public
+export interface VoiceAgentTransferSystemTool extends VoiceAgentSystemTool {
+    name: "transfer";
+    require_handoff?: boolean;
+    targets: VoiceAgentTransferTarget[];
+}
+
+// @public
+export interface VoiceAgentTransferTarget {
+    description?: string;
+    destinations: VoiceAgentTransferDestination[];
+    name: string;
+    routing: VoiceAgentTransferRouting;
 }
 
 // @public

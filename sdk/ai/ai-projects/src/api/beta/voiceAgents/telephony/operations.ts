@@ -2,56 +2,58 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../../index.js";
-import type {
-  CreateTelephonyCallJobRequest,
-  TelephonyCallJob,
-  CreateTelephonyBindingRequestUnion,
-  TelephonyBindingListItemUnion,
-  TelephonyBindingUnion,
-  TelephonyCallRecord,
-  TelephonyCallSummary,
-  TelephonyTransferTarget,
-  TelephonyTransferTargets,
-  UpdateTelephonyBindingRequest,
-  _AgentsPagedResultTelephonyBindingListItem,
-  _AgentsPagedResultTelephonyCallSummary,
-} from "../../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  createTelephonyCallJobRequestSerializer,
-  telephonyCallJobDeserializer,
-  _agentsPagedResultTelephonyBindingListItemDeserializer,
-  _agentsPagedResultTelephonyCallSummaryDeserializer,
-  createTelephonyBindingRequestUnionSerializer,
+  telephonyBindingUnionSerializer,
   telephonyBindingUnionDeserializer,
-  telephonyCallRecordDeserializer,
-  telephonyTransferTargetArraySerializer,
-  telephonyTransferTargetsDeserializer,
+  _agentsPagedResultTelephonyBindingListItemDeserializer,
   updateTelephonyBindingRequestSerializer,
+  _agentsPagedResultTelephonyCallSummaryDeserializer,
+  telephonyCallRecordDeserializer,
+  telephonyTransferTargetsDeserializer,
+  telephonyTransferTargetArraySerializer,
+  telephonyCallJobCreateSerializer,
+  telephonyCallJobDeserializer,
+  _agentsPagedResultTelephonyCallJobDeserializer,
 } from "../../../../models/models.js";
-
+import type {
+  TelephonyBindingUnion,
+  TelephonyBindingCreateUnion,
+  _AgentsPagedResultTelephonyBindingListItem,
+  TelephonyBindingListItemUnion,
+  UpdateTelephonyBindingRequest,
+  _AgentsPagedResultTelephonyCallSummary,
+  TelephonyCallSummary,
+  TelephonyCallRecord,
+  TelephonyTransferTargets,
+  TelephonyTransferTarget,
+  TelephonyCallJobCreate,
+  TelephonyCallJob,
+  _AgentsPagedResultTelephonyCallJob,
+} from "../../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import type {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
   BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
-  BetaVoiceAgentsTelephonyDeleteBindingOptionalParams,
-  BetaVoiceAgentsTelephonyEndCallOptionalParams,
-  BetaVoiceAgentsTelephonyGetBindingOptionalParams,
-  BetaVoiceAgentsTelephonyGetCallOptionalParams,
-  BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
-  BetaVoiceAgentsTelephonyListBindingsOptionalParams,
-  BetaVoiceAgentsTelephonyListCallsOptionalParams,
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
+  BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
+  BetaVoiceAgentsTelephonyEndCallOptionalParams,
   BetaVoiceAgentsTelephonyTransferCallOptionalParams,
+  BetaVoiceAgentsTelephonyGetCallOptionalParams,
+  BetaVoiceAgentsTelephonyListCallsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteBindingOptionalParams,
   BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
+  BetaVoiceAgentsTelephonyGetBindingOptionalParams,
+  BetaVoiceAgentsTelephonyListBindingsOptionalParams,
+  BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelpers.js";
 
 export function _cancelCallJobSend(
   context: Client,
@@ -61,11 +63,11 @@ export function _cancelCallJobSend(
   options: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}:cancel{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}:cancel{?api-version}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +102,7 @@ export async function _cancelCallJobDeserialize(
   return telephonyCallJobDeserializer(result.body);
 }
 
-/** Requests cancellation of a durable outbound call job. A connected call is allowed to finish. */
+/** Cancels future attempts using If-Match; completion may be asynchronous. New cancellation after connection returns 409 and lets the active call finish. */
 export async function cancelCallJob(
   context: Client,
   agentName: string,
@@ -119,11 +121,11 @@ export function _getCallJobSend(
   options: BetaVoiceAgentsTelephonyGetCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}{?api-version}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,18 +170,145 @@ export async function getCallJob(
   return _getCallJobDeserialize(result);
 }
 
+export function _deleteCallJobSend(
+  context: Client,
+  agentName: string,
+  callJobId: string,
+  options: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "VoiceAgents=V1Preview";
+
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}{?api-version}",
+    {
+      agent_name: agentName,
+      call_job_id: callJobId,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+  });
+}
+
+export async function _deleteCallJobDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a terminal, reconciled job (otherwise 409), without cancelling calls or removing Campaign outcomes/call history. Later GET returns 404; repeated DELETE returns 204. */
+export async function deleteCallJob(
+  context: Client,
+  agentName: string,
+  callJobId: string,
+  options: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteCallJobSend(context, agentName, callJobId, options);
+  return _deleteCallJobDeserialize(result);
+}
+
+export function _listCallJobsSend(
+  context: Client,
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListCallJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "VoiceAgents=V1Preview";
+
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_call_jobs{?after,api-version,before,campaign_name,limit,order,status}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      campaign_name: options?.campaignName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listCallJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultTelephonyCallJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultTelephonyCallJobDeserializer(result.body);
+}
+
+/** Lists current direct/Campaign jobs, excluding deleted or superseded rounds. Pages are live. Campaign cursors survive boundary deletion/cancel, not replacement/name reuse (400 invalid_cursor). */
+export function listCallJobs(
+  context: Client,
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListCallJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyCallJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listCallJobsSend(context, agentName, options),
+    _listCallJobsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: {
+          "foundry-features": "VoiceAgents=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
+      },
+    },
+  );
+}
+
 export function _createCallJobSend(
   context: Client,
   agentName: string,
   idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
+  job: TelephonyCallJobCreate,
   options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +325,7 @@ export function _createCallJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createTelephonyCallJobRequestSerializer(body),
+    body: telephonyCallJobCreateSerializer(job),
   });
 }
 
@@ -216,15 +345,15 @@ export async function _createCallJobDeserialize(
   return telephonyCallJobDeserializer(result.body);
 }
 
-/** Creates one durable direct outbound call job. The latest agent definition is resolved when each attempt executes. */
+/** Creates one durable outbound CallJob. Each attempt pins the Agent endpoint's execution version for validation and its voice session. */
 export async function createCallJob(
   context: Client,
   agentName: string,
   idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
+  job: TelephonyCallJobCreate,
   options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyCallJob> {
-  const result = await _createCallJobSend(context, agentName, idempotencyKey, body, options);
+  const result = await _createCallJobSend(context, agentName, idempotencyKey, job, options);
   return _createCallJobDeserialize(result);
 }
 
@@ -236,10 +365,10 @@ export function _replaceTransferTargetsSend(
   options: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,10 +429,10 @@ export function _getTransferTargetsSend(
   options: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/transfer_targets{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,11 +483,11 @@ export function _endCallSend(
   options: BetaVoiceAgentsTelephonyEndCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,11 +540,11 @@ export function _transferCallSend(
   options: BetaVoiceAgentsTelephonyTransferCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -470,11 +599,11 @@ export function _getCallSend(
   options: BetaVoiceAgentsTelephonyGetCallOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls/{call_id}{?api-version}",
     {
       agent_name: agentName,
       call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -525,7 +654,7 @@ export function _listCallsSend(
   options: BetaVoiceAgentsTelephonyListCallsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/calls{?after,api-version,before,limit,order,provider,started_after,started_before,status}",
     {
       agent_name: agentName,
       provider: options?.provider,
@@ -540,7 +669,7 @@ export function _listCallsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,11 +740,11 @@ export function _deleteBindingSend(
   options: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -668,11 +797,11 @@ export function _updateBindingSend(
   options: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -729,11 +858,11 @@ export function _getBindingSend(
   options: BetaVoiceAgentsTelephonyGetBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api-version}",
     {
       agent_name: agentName,
       binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -784,16 +913,15 @@ export function _listBindingsSend(
   options: BetaVoiceAgentsTelephonyListBindingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?after,api-version,before,limit,order,provider}",
     {
       agent_name: agentName,
       provider: options?.provider,
-      status: options?.status,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -859,14 +987,14 @@ export function listBindings(
 export function _createBindingSend(
   context: Client,
   agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
+  binding: TelephonyBindingCreateUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -892,7 +1020,7 @@ export function _createBindingSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createTelephonyBindingRequestUnionSerializer(telephonyBinding),
+    body: telephonyBindingUnionSerializer(binding),
   });
 }
 
@@ -916,9 +1044,9 @@ export async function _createBindingDeserialize(
 export async function createBinding(
   context: Client,
   agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
+  binding: TelephonyBindingCreateUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyBindingUnion> {
-  const result = await _createBindingSend(context, agentName, telephonyBinding, options);
+  const result = await _createBindingSend(context, agentName, binding, options);
   return _createBindingDeserialize(result);
 }

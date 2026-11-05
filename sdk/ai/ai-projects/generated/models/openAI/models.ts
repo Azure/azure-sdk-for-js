@@ -71,9 +71,13 @@ import {
   webSearchConfigurationDeserializer,
   _toolCodeInterpreterToolContainerSerializer,
   _toolCodeInterpreterToolContainerDeserializer,
+  VoiceAgentSystemToolItem,
+  voiceAgentSystemToolItemSerializer,
+  voiceAgentSystemToolItemDeserializer,
   VoiceAgentServerEventSessionHandoffCompleted,
   voiceAgentServerEventSessionHandoffCompletedSerializer,
   voiceAgentServerEventSessionHandoffCompletedDeserializer,
+  VoiceAgentServerEventTypeExtension,
   voiceAgentTranscriptionPhraseArraySerializer,
   voiceAgentTranscriptionPhraseArrayDeserializer,
   VoiceAgentTranscriptionPhrase,
@@ -89,6 +93,15 @@ import {
   VoiceAgentServerEventSessionHandoffAborted,
   voiceAgentServerEventSessionHandoffAbortedSerializer,
   voiceAgentServerEventSessionHandoffAbortedDeserializer,
+  VoiceAgentServerEventSystemToolArgumentsDelta,
+  voiceAgentServerEventSystemToolArgumentsDeltaSerializer,
+  voiceAgentServerEventSystemToolArgumentsDeltaDeserializer,
+  VoiceAgentServerEventSystemToolArgumentsDone,
+  voiceAgentServerEventSystemToolArgumentsDoneSerializer,
+  voiceAgentServerEventSystemToolArgumentsDoneDeserializer,
+  VoiceAgentServerEventInputCollectionStatus,
+  voiceAgentServerEventInputCollectionStatusSerializer,
+  voiceAgentServerEventInputCollectionStatusDeserializer,
   VoiceAgentServerEventSessionSubagentStarted,
   voiceAgentServerEventSessionSubagentStartedSerializer,
   voiceAgentServerEventSessionSubagentStartedDeserializer,
@@ -258,18 +271,18 @@ export type ToolUnion =
   | FabricIQPreviewTool
   | WebIQPreviewTool
   | MemorySearchPreviewTool
+  | ToolMcpTool
+  | ToolCustomToolParam
   | ToolFunctionTool
   | ToolFileSearchTool
   | ToolComputerTool
   | ToolComputerUsePreviewTool
   | ToolWebSearchTool
-  | ToolMcpTool
   | ToolCodeInterpreterTool
   | ToolProgrammaticToolCallingParam
   | ToolImageGenTool
   | ToolLocalShellToolParam
   | ToolFunctionShellToolParam
-  | ToolCustomToolParam
   | ToolToolSearchToolParam
   | ToolWebSearchPreviewTool
   | ToolApplyPatchToolParam
@@ -332,6 +345,12 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
 
+    case "mcp":
+      return toolMcpToolSerializer(item as ToolMcpTool);
+
+    case "custom":
+      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
+
     case "function":
       return toolFunctionToolSerializer(item as ToolFunctionTool);
 
@@ -347,9 +366,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "web_search":
       return toolWebSearchToolSerializer(item as ToolWebSearchTool);
 
-    case "mcp":
-      return toolMcpToolSerializer(item as ToolMcpTool);
-
     case "code_interpreter":
       return toolCodeInterpreterToolSerializer(item as ToolCodeInterpreterTool);
 
@@ -364,9 +380,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "shell":
       return toolFunctionShellToolParamSerializer(item as ToolFunctionShellToolParam);
-
-    case "custom":
-      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
 
     case "tool_search":
       return toolToolSearchToolParamSerializer(item as ToolToolSearchToolParam);
@@ -441,6 +454,12 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
+    case "mcp":
+      return toolMcpToolDeserializer(item as ToolMcpTool);
+
+    case "custom":
+      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
+
     case "function":
       return toolFunctionToolDeserializer(item as ToolFunctionTool);
 
@@ -456,9 +475,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "web_search":
       return toolWebSearchToolDeserializer(item as ToolWebSearchTool);
 
-    case "mcp":
-      return toolMcpToolDeserializer(item as ToolMcpTool);
-
     case "code_interpreter":
       return toolCodeInterpreterToolDeserializer(item as ToolCodeInterpreterTool);
 
@@ -473,9 +489,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 
     case "shell":
       return toolFunctionShellToolParamDeserializer(item as ToolFunctionShellToolParam);
-
-    case "custom":
-      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
 
     case "tool_search":
       return toolToolSearchToolParamDeserializer(item as ToolToolSearchToolParam);
@@ -586,6 +599,298 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   };
 }
 
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
+ */
+export interface ToolMcpTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+}
+
+export function toolMcpToolSerializer(item: ToolMcpTool): any {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolMcpToolDeserializer(item: any): ToolMcpTool {
+  return {
+    type: item["type"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
+
+/** Alias for _ToolMcpToolAllowedTools */
+export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
+
+export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
+  return item;
+}
+
+export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
+  return item;
+}
+
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
+
+/** Alias for _ToolMcpToolRequireApproval */
+export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
+
+export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
+  return item;
+}
+
+export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
+  return item;
+}
+
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
+export interface ToolCustomToolParam extends Tool {
+  /** The type of the custom tool. Always `custom`. */
+  type: "custom";
+  /** The name of the custom tool, used to identify it in tool calls. */
+  name: string;
+  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
+  async?: boolean;
+  /** Optional description of the custom tool, used to provide more context. */
+  description?: string;
+  /** The input format for the custom tool. Default is unconstrained text. */
+  format?: CustomToolParamFormatUnion;
+  /** Whether this tool should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+}
+
+export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+    async: item["async"],
+    description: item["description"],
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+  };
+}
+
+/** The input format for the custom tool. Default is unconstrained text. */
+export interface CustomToolParamFormat {
+  type: CustomToolParamFormatType;
+}
+
+export function customToolParamFormatSerializer(item: CustomToolParamFormat): any {
+  return { type: item["type"] };
+}
+
+export function customToolParamFormatDeserializer(item: any): CustomToolParamFormat {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for CustomToolParamFormatUnion */
+export type CustomToolParamFormatUnion =
+  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
+
+export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
+  switch (item.type) {
+    case "text":
+      return customTextFormatParamSerializer(item as CustomTextFormatParam);
+
+    case "grammar":
+      return customGrammarFormatParamSerializer(item as CustomGrammarFormatParam);
+
+    default:
+      return customToolParamFormatSerializer(item);
+  }
+}
+
+export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
+  switch (item["type"]) {
+    case "text":
+      return customTextFormatParamDeserializer(item as CustomTextFormatParam);
+
+    case "grammar":
+      return customGrammarFormatParamDeserializer(item as CustomGrammarFormatParam);
+
+    default:
+      return customToolParamFormatDeserializer(item);
+  }
+}
+
+/** Type of CustomToolParamFormatType */
+export type CustomToolParamFormatType = "text" | "grammar";
+
+/** Unconstrained free-form text. */
+export interface CustomTextFormatParam extends CustomToolParamFormat {
+  /** Unconstrained text format. Always `text`. */
+  type: "text";
+}
+
+export function customTextFormatParamSerializer(item: CustomTextFormatParam): any {
+  return { type: item["type"] };
+}
+
+export function customTextFormatParamDeserializer(item: any): CustomTextFormatParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A grammar defined by the user. */
+export interface CustomGrammarFormatParam extends CustomToolParamFormat {
+  /** Grammar format. Always `grammar`. */
+  type: "grammar";
+  /** The syntax of the grammar definition. One of `lark` or `regex`. */
+  syntax: GrammarSyntax1;
+  /** The grammar definition. */
+  definition: string;
+}
+
+export function customGrammarFormatParamSerializer(item: CustomGrammarFormatParam): any {
+  return { type: item["type"], syntax: item["syntax"], definition: item["definition"] };
+}
+
+export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFormatParam {
+  return {
+    type: item["type"],
+    syntax: item["syntax"],
+    definition: item["definition"],
+  };
+}
+
+/** Type of GrammarSyntax1 */
+export type GrammarSyntax1 = "lark" | "regex";
+
 /** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
 export interface ToolFunctionTool extends Tool {
   /** The type of the function tool. Always `function`. */
@@ -645,9 +950,6 @@ export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
         }),
   };
 }
-
-/** Type of CallableToolAllowedCaller */
-export type CallableToolAllowedCaller = "direct" | "programmatic";
 
 /** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
 export interface ToolFileSearchTool extends Tool {
@@ -1077,155 +1379,6 @@ export function webSearchApproximateLocationDeserializer(item: any): WebSearchAp
     city: item["city"],
     timezone: item["timezone"],
   };
-}
-
-/**
- * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
- */
-export interface ToolMcpTool extends Tool {
-  /** The type of the MCP tool. Always `mcp`. */
-  type: "mcp";
-  /** A label for this MCP server, used to identify it in tool calls. */
-  server_label: string;
-  /**
-   * The URL for the MCP server. One of `server_url`, `connector_id`, or
-   *   `tunnel_id` must be provided.
-   */
-  server_url?: string;
-  /**
-   * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
-   *   This field is deprecated for models released after September 1, 2026.
-   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
-   *   connect through a Secure MCP Tunnel.
-   *   Currently supported `connector_id` values are:
-   *   - Dropbox: `connector_dropbox`
-   *   - Gmail: `connector_gmail`
-   *   - Google Calendar: `connector_googlecalendar`
-   *   - Google Drive: `connector_googledrive`
-   *   - Microsoft Teams: `connector_microsoftteams`
-   *   - Outlook Calendar: `connector_outlookcalendar`
-   *   - Outlook Email: `connector_outlookemail`
-   *   - SharePoint: `connector_sharepoint`
-   */
-  connector_id?:
-    | "connector_dropbox"
-    | "connector_gmail"
-    | "connector_googlecalendar"
-    | "connector_googledrive"
-    | "connector_microsoftteams"
-    | "connector_outlookcalendar"
-    | "connector_outlookemail"
-    | "connector_sharepoint";
-  /**
-   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
-   */
-  tunnel_id?: string;
-  /**
-   * An OAuth access token that can be used with a remote MCP server, either
-   *   with a custom MCP server URL or a service connector. Your application
-   *   must handle the OAuth authorization flow and provide the token here.
-   */
-  authorization?: string;
-  /** Optional description of the MCP server, used to provide more context. */
-  server_description?: string;
-  headers?: Record<string, string>;
-  allowed_tools?: string[] | MCPToolFilter;
-  allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: MCPToolRequireApproval | "always" | "never";
-  /** Whether this MCP tool is deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
-  project_connection_id?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function toolMcpToolSerializer(item: ToolMcpTool): any {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: item["headers"],
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function toolMcpToolDeserializer(item: any): ToolMcpTool {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(
-          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
-  };
-}
-
-/** Alias for _ToolMcpToolAllowedTools */
-export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
-
-export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
-  return item;
-}
-
-export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
-  return item;
-}
-
-/** Alias for _ToolMcpToolRequireApproval */
-export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
-  return item;
-}
-
-export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
-  return item;
 }
 
 /** A tool that runs Python code to help generate a response to a prompt. */
@@ -2061,146 +2214,6 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
     data: item["data"],
   };
 }
-
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface ToolCustomToolParam extends Tool {
-  /** The type of the custom tool. Always `custom`. */
-  type: "custom";
-  /** The name of the custom tool, used to identify it in tool calls. */
-  name: string;
-  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
-  async?: boolean;
-  /** Optional description of the custom tool, used to provide more context. */
-  description?: string;
-  /** The input format for the custom tool. Default is unconstrained text. */
-  format?: CustomToolParamFormatUnion;
-  /** Whether this tool should be deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"]
-      ? item["format"]
-      : customToolParamFormatUnionDeserializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** The input format for the custom tool. Default is unconstrained text. */
-export interface CustomToolParamFormat {
-  type: CustomToolParamFormatType;
-}
-
-export function customToolParamFormatSerializer(item: CustomToolParamFormat): any {
-  return { type: item["type"] };
-}
-
-export function customToolParamFormatDeserializer(item: any): CustomToolParamFormat {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for CustomToolParamFormatUnion */
-export type CustomToolParamFormatUnion =
-  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
-
-export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
-  switch (item.type) {
-    case "text":
-      return customTextFormatParamSerializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamSerializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatSerializer(item);
-  }
-}
-
-export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
-  switch (item["type"]) {
-    case "text":
-      return customTextFormatParamDeserializer(item as CustomTextFormatParam);
-
-    case "grammar":
-      return customGrammarFormatParamDeserializer(item as CustomGrammarFormatParam);
-
-    default:
-      return customToolParamFormatDeserializer(item);
-  }
-}
-
-/** Type of CustomToolParamFormatType */
-export type CustomToolParamFormatType = "text" | "grammar";
-
-/** Unconstrained free-form text. */
-export interface CustomTextFormatParam extends CustomToolParamFormat {
-  /** Unconstrained text format. Always `text`. */
-  type: "text";
-}
-
-export function customTextFormatParamSerializer(item: CustomTextFormatParam): any {
-  return { type: item["type"] };
-}
-
-export function customTextFormatParamDeserializer(item: any): CustomTextFormatParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** A grammar defined by the user. */
-export interface CustomGrammarFormatParam extends CustomToolParamFormat {
-  /** Grammar format. Always `grammar`. */
-  type: "grammar";
-  /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax1;
-  /** The grammar definition. */
-  definition: string;
-}
-
-export function customGrammarFormatParamSerializer(item: CustomGrammarFormatParam): any {
-  return { type: item["type"], syntax: item["syntax"], definition: item["definition"] };
-}
-
-export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFormatParam {
-  return {
-    type: item["type"],
-    syntax: item["syntax"],
-    definition: item["definition"],
-  };
-}
-
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
 
 /** Hosted or BYOT tool search configuration for deferred tools. */
 export interface ToolToolSearchToolParam extends Tool {
@@ -3290,7 +3303,6 @@ export function liveInitialSessionAudioParamDeserializer(item: any): LiveInitial
 
 /** Audio encoding and sample rate for audio sent and received over a Live WebSocket connection. WebRTC and SIP negotiate their media format separately. */
 export interface LiveAudioFormat {
-  /** The encoding used for Live session audio. */
   type: LiveAudioFormatType;
 }
 
@@ -3524,7 +3536,6 @@ export function _liveInitialSessionAudioOutputParamVoiceDeserializer(
 
 /** model interface LiveCustomVoiceParam */
 export interface LiveCustomVoiceParam {
-  /** The identifier of the custom voice to use for generated audio. */
   id: string;
 }
 
@@ -3542,15 +3553,10 @@ export function liveCustomVoiceParamDeserializer(item: any): LiveCustomVoicePara
 export interface LiveResponsesDelegationSettingsInputParam {
   /** The model used for server-owned Responses delegations. */
   model: string;
-  /** Instructions for the Responses backend when it handles tasks delegated by the Live model. */
   instructions?: string;
-  /** The maximum number of output tokens generated by a delegated Responses request, including reasoning tokens. */
   max_output_tokens?: number;
-  /** The service tier used to process delegated Responses requests. */
   service_tier?: LiveResponsesServiceTier;
-  /** Reasoning settings for the delegated Responses model. */
   reasoning?: LiveDelegationReasoningInputParam;
-  /** Text output settings for the delegated Responses model. */
   text?: LiveDelegationTextInputParam;
   /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
   tools?: (
@@ -3584,7 +3590,6 @@ export interface LiveResponsesDelegationSettingsInputParam {
     | LiveSpecificCustomToolParam
     | LiveSpecificApplyPatchParam
     | LiveAllowedToolsChoiceParam;
-  /** Whether the delegated Responses model may issue multiple tool calls in parallel. */
   parallel_tool_calls?: boolean;
 }
 
@@ -3638,9 +3643,7 @@ export type LiveResponsesServiceTier =
 
 /** Reasoning options for Responses requests made on behalf of the Live session. */
 export interface LiveDelegationReasoningInputParam {
-  /** The reasoning effort used by the delegated Responses model. */
   effort?: LiveReasoningEffort;
-  /** The level of reasoning summary returned by the delegated Responses model. */
   summary?: LiveReasoningSummary;
 }
 
@@ -3667,7 +3670,6 @@ export type LiveReasoningSummary = "concise" | "detailed" | "auto";
 
 /** Text generation options for the Live session’s Responses backend. */
 export interface LiveDelegationTextInputParam {
-  /** The verbosity of text generated by the delegated Responses model. */
   verbosity?: LiveTextVerbosity;
 }
 
@@ -3734,11 +3736,8 @@ export interface LiveFunctionToolInputParam {
   type: "function";
   /** The name the delegated Responses model uses when calling this function. */
   name: string;
-  /** A description of the function that helps the model decide when to call it. */
   description?: string;
-  /** A JSON Schema object describing the parameters accepted by the function. */
   parameters?: Record<string, any>;
-  /** Whether to require function arguments to conform strictly to the parameter schema. */
   strict?: boolean;
 }
 
@@ -3784,7 +3783,6 @@ export function liveWebSearchToolInputParamDeserializer(item: any): LiveWebSearc
 
 /** model interface LiveFileSearchToolInputParam */
 export interface LiveFileSearchToolInputParam {
-  /** The tool type. Always `file_search`. */
   type: "file_search";
 }
 
@@ -3800,7 +3798,6 @@ export function liveFileSearchToolInputParamDeserializer(item: any): LiveFileSea
 
 /** model interface LiveCodeInterpreterToolInputParam */
 export interface LiveCodeInterpreterToolInputParam {
-  /** The tool type. Always `code_interpreter`. */
   type: "code_interpreter";
 }
 
@@ -3820,9 +3817,7 @@ export function liveCodeInterpreterToolInputParamDeserializer(
 
 /** A Responses shell tool. Use a hosted container or return local shell results with response.item.create. Domain secrets are not supported. */
 export interface LiveHostedShellToolInputParam {
-  /** The tool type. Always `shell`. */
   type: "shell";
-  /** The automatically created container, existing container, or local environment in which shell commands run. */
   environment?:
     LiveHostedShellContainerAutoParam | LiveContainerReferenceParam | LiveLocalEnvironmentParam;
 }
@@ -3867,14 +3862,10 @@ export function _liveResponsesDelegationSettingsInputParamToolEnvironmentDeseria
 export interface LiveHostedShellContainerAutoParam {
   /** Automatically creates a container for this request */
   type: "container_auto";
-  /** The identifiers of files to make available in the automatically created shell container. */
   file_ids?: string[];
-  /** The memory limit for the automatically created shell container. */
   memory_limit?: LiveContainerMemoryLimit;
-  /** The network access policy for the automatically created shell container. */
   network_policy?:
     LiveContainerNetworkPolicyDisabledParam | LiveHostedShellNetworkPolicyAllowlistParam;
-  /** The skills to make available in the automatically created shell container. */
   skills?: (LiveSkillReferenceParam | LiveInlineSkillParam)[];
 }
 
@@ -4033,7 +4024,6 @@ export interface LiveSkillReferenceParam {
   type: "skill_reference";
   /** The ID of the referenced skill. */
   skill_id: string;
-  /** The version of the referenced skill to make available. */
   version?: string;
 }
 
@@ -4124,7 +4114,6 @@ export function liveContainerReferenceParamDeserializer(item: any): LiveContaine
 export interface LiveLocalEnvironmentParam {
   /** Use a local computer environment. */
   type: "local";
-  /** The skills available in the local shell environment. */
   skills?: LiveLocalSkillParam[];
 }
 
@@ -4178,7 +4167,6 @@ export function liveLocalSkillParamDeserializer(item: any): LiveLocalSkillParam 
 
 /** model interface LiveImageGenerationToolInputParam */
 export interface LiveImageGenerationToolInputParam {
-  /** The tool type. Always `image_generation`. */
   type: "image_generation";
 }
 
@@ -4198,7 +4186,6 @@ export function liveImageGenerationToolInputParamDeserializer(
 
 /** model interface LiveMCPToolInputParam */
 export interface LiveMCPToolInputParam {
-  /** The tool type. Always `mcp`. */
   type: "mcp";
 }
 
@@ -4214,7 +4201,6 @@ export function liveMCPToolInputParamDeserializer(item: any): LiveMCPToolInputPa
 
 /** model interface LiveCustomToolInputParam */
 export interface LiveCustomToolInputParam {
-  /** The tool type. Always `custom`. */
   type: "custom";
 }
 
@@ -4230,7 +4216,6 @@ export function liveCustomToolInputParamDeserializer(item: any): LiveCustomToolI
 
 /** model interface LiveNamespaceToolInputParam */
 export interface LiveNamespaceToolInputParam {
-  /** The tool type. Always `namespace`. */
   type: "namespace";
 }
 
@@ -4246,7 +4231,6 @@ export function liveNamespaceToolInputParamDeserializer(item: any): LiveNamespac
 
 /** model interface LiveToolSearchToolInputParam */
 export interface LiveToolSearchToolInputParam {
-  /** The tool type. Always `tool_search`. */
   type: "tool_search";
 }
 
@@ -4262,7 +4246,6 @@ export function liveToolSearchToolInputParamDeserializer(item: any): LiveToolSea
 
 /** model interface LiveProgrammaticToolInputParam */
 export interface LiveProgrammaticToolInputParam {
-  /** The tool type. Always `programmatic_tool_calling`. */
   type: "programmatic_tool_calling";
 }
 
@@ -4282,7 +4265,6 @@ export function liveProgrammaticToolInputParamDeserializer(
 
 /** model interface LiveComputerToolInputParam */
 export interface LiveComputerToolInputParam {
-  /** The tool type. Always `computer`. */
   type: "computer";
 }
 
@@ -4298,7 +4280,6 @@ export function liveComputerToolInputParamDeserializer(item: any): LiveComputerT
 
 /** model interface LiveApplyPatchToolInputParam */
 export interface LiveApplyPatchToolInputParam {
-  /** The tool type. Always `apply_patch`. */
   type: "apply_patch";
 }
 
@@ -4369,7 +4350,6 @@ export interface LiveMCPToolChoiceParam {
   type: "mcp";
   /** The label of the MCP server to call. */
   server_label: string;
-  /** The name of the tool to call on the specified MCP server. */
   name?: string;
 }
 
@@ -4583,7 +4563,6 @@ export interface LiveAllowedToolsChoiceParam {
     | LiveSpecificCustomToolParam
     | LiveSpecificApplyPatchParam
   )[];
-  /** Whether the model may choose a tool automatically, must call a tool, or must not call a tool from the allowed set. */
   mode?: LiveToolChoiceValueEnum;
 }
 
@@ -5068,6 +5047,7 @@ export type RealtimeConversationItemUnion =
   | RealtimeMCPListTools
   | RealtimeMCPToolCall
   | RealtimeMCPApprovalRequest
+  | VoiceAgentSystemToolItem
   | RealtimeConversationItem;
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
@@ -5098,6 +5078,9 @@ export function realtimeConversationItemUnionSerializer(item: RealtimeConversati
 
     case "mcp_approval_request":
       return realtimeMCPApprovalRequestSerializer(item as RealtimeMCPApprovalRequest);
+
+    case "system_tool":
+      return voiceAgentSystemToolItemSerializer(item as VoiceAgentSystemToolItem);
 
     default:
       return realtimeConversationItemSerializer(item);
@@ -5135,6 +5118,9 @@ export function realtimeConversationItemUnionDeserializer(
     case "mcp_approval_request":
       return realtimeMCPApprovalRequestDeserializer(item as RealtimeMCPApprovalRequest);
 
+    case "system_tool":
+      return voiceAgentSystemToolItemDeserializer(item as VoiceAgentSystemToolItem);
+
     default:
       return realtimeConversationItemDeserializer(item);
   }
@@ -5148,7 +5134,8 @@ export type RealtimeConversationItemType =
   | "mcp_list_tools"
   | "mcp_call"
   | "mcp_approval_request"
-  | "message";
+  | "message"
+  | "system_tool";
 
 /** model interface RealtimeConversationItemMessage */
 export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
@@ -6030,12 +6017,12 @@ export interface RealtimeServerEvent {
 }
 
 export function realtimeServerEventSerializer(item: RealtimeServerEvent): any {
-  return { type: item["type"] };
+  return { type: realtimeServerEventTypeSerializer(item["type"]) };
 }
 
 export function realtimeServerEventDeserializer(item: any): RealtimeServerEvent {
   return {
-    type: item["type"],
+    type: realtimeServerEventTypeDeserializer(item["type"]),
   };
 }
 
@@ -6085,6 +6072,9 @@ export type RealtimeServerEventUnion =
   | VoiceAgentServerEventSessionHandoffStarted
   | VoiceAgentServerEventSessionHandoffCompleted
   | VoiceAgentServerEventSessionHandoffAborted
+  | VoiceAgentServerEventSystemToolArgumentsDelta
+  | VoiceAgentServerEventSystemToolArgumentsDone
+  | VoiceAgentServerEventInputCollectionStatus
   | VoiceAgentServerEventSessionSubagentStarted
   | VoiceAgentServerEventSessionSubagentCompleted
   | VoiceAgentServerEventSessionSubagentAborted
@@ -6317,6 +6307,21 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
     case "session.handoff.aborted":
       return voiceAgentServerEventSessionHandoffAbortedSerializer(
         item as VoiceAgentServerEventSessionHandoffAborted,
+      );
+
+    case "response.system_tool_arguments.delta":
+      return voiceAgentServerEventSystemToolArgumentsDeltaSerializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDelta,
+      );
+
+    case "response.system_tool_arguments.done":
+      return voiceAgentServerEventSystemToolArgumentsDoneSerializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDone,
+      );
+
+    case "input_collection.status":
+      return voiceAgentServerEventInputCollectionStatusSerializer(
+        item as VoiceAgentServerEventInputCollectionStatus,
       );
 
     case "session.subagent.started":
@@ -6620,6 +6625,21 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
         item as VoiceAgentServerEventSessionHandoffAborted,
       );
 
+    case "response.system_tool_arguments.delta":
+      return voiceAgentServerEventSystemToolArgumentsDeltaDeserializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDelta,
+      );
+
+    case "response.system_tool_arguments.done":
+      return voiceAgentServerEventSystemToolArgumentsDoneDeserializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDone,
+      );
+
+    case "input_collection.status":
+      return voiceAgentServerEventInputCollectionStatusDeserializer(
+        item as VoiceAgentServerEventInputCollectionStatus,
+      );
+
     case "session.subagent.started":
       return voiceAgentServerEventSessionSubagentStartedDeserializer(
         item as VoiceAgentServerEventSessionSubagentStarted,
@@ -6703,8 +6723,9 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
   }
 }
 
-/** Type of RealtimeServerEventType */
+/** Alias for RealtimeServerEventType */
 export type RealtimeServerEventType =
+  | string
   | "conversation.created"
   | "conversation.item.created"
   | "conversation.item.deleted"
@@ -6751,28 +6772,15 @@ export type RealtimeServerEventType =
   | "response.mcp_call.in_progress"
   | "response.mcp_call.completed"
   | "response.mcp_call.failed"
-  | "warning"
-  | "session.subagent.started"
-  | "session.subagent.completed"
-  | "session.subagent.aborted"
-  | "session.avatar.connecting"
-  | "session.avatar.switch_to_speaking"
-  | "session.avatar.switch_to_idle"
-  | "rtc.call.sdp.created"
-  | "rtc.call.error"
-  | "response.audio_timestamp.delta"
-  | "response.audio_timestamp.done"
-  | "response.animation_blendshapes.delta"
-  | "response.animation_blendshapes.done"
-  | "response.animation_viseme.delta"
-  | "response.animation_viseme.done"
-  | "response.video.delta"
-  | "response.system_tool_arguments.delta"
-  | "response.system_tool_arguments.done"
-  | "input_collection.status"
-  | "session.handoff.started"
-  | "session.handoff.completed"
-  | "session.handoff.aborted";
+  | VoiceAgentServerEventTypeExtension;
+
+export function realtimeServerEventTypeSerializer(item: RealtimeServerEventType): any {
+  return item;
+}
+
+export function realtimeServerEventTypeDeserializer(item: any): RealtimeServerEventType {
+  return item;
+}
 
 /**
  * Returned when a conversation item is created. There are several scenarios that produce this event:
@@ -9675,7 +9683,6 @@ export function realtimeResponseInputItemDeserializer(item: any): RealtimeRespon
 
 /** A message supplied as input to a Realtime response. The role determines the allowed content. */
 export interface RealtimeResponseInputMessage {
-  /** The author role of the message supplied as Realtime response input. */
   role: RealtimeResponseInputMessageType;
 }
 
@@ -9758,13 +9765,10 @@ export type RealtimeResponseInputMessageType = "system" | "developer" | "user" |
 export interface RealtimeResponseInputMessageSystem extends RealtimeResponseInputMessage {
   /** An optional client ID. The value `root` is reserved. */
   id?: string;
-  /** The item type. Always `message`. */
   type: "message";
   /** Optional input status. Omission or null defaults to completed. */
   status?: "completed" | "incomplete";
-  /** The message author role. Always `system`. */
   role: "system";
-  /** System instructions included in the response input context. */
   content: RealtimeResponseInputText[];
 }
 
@@ -9810,9 +9814,7 @@ export function realtimeResponseInputTextArrayDeserializer(
 
 /** model interface RealtimeResponseInputText */
 export interface RealtimeResponseInputText {
-  /** The item type. Always `input_text`. */
   type: "input_text";
-  /** The text supplied as Realtime response input. */
   text: string;
 }
 
@@ -9831,13 +9833,10 @@ export function realtimeResponseInputTextDeserializer(item: any): RealtimeRespon
 export interface RealtimeResponseInputMessageDeveloper extends RealtimeResponseInputMessage {
   /** An optional client ID. The value `root` is reserved. */
   id?: string;
-  /** The item type. Always `message`. */
   type: "message";
   /** Optional input status. Omission or null defaults to completed. */
   status?: "completed" | "incomplete";
-  /** The message author role. Always `developer`. */
   role: "developer";
-  /** Developer instructions included in the response input context. */
   content: RealtimeResponseInputText[];
 }
 
@@ -9869,13 +9868,10 @@ export function realtimeResponseInputMessageDeveloperDeserializer(
 export interface RealtimeResponseInputMessageUser extends RealtimeResponseInputMessage {
   /** An optional client ID. The value `root` is reserved. */
   id?: string;
-  /** The item type. Always `message`. */
   type: "message";
   /** Optional input status. Omission or null defaults to completed. */
   status?: "completed" | "incomplete";
-  /** The message author role. Always `user`. */
   role: "user";
-  /** The user's text, audio, or image content included in the response input context. */
   content: (RealtimeResponseInputText | RealtimeResponseInputAudio | RealtimeResponseInputImage)[];
 }
 
@@ -9937,7 +9933,6 @@ export function _realtimeResponseInputMessageUserContentDeserializer(
 
 /** model interface RealtimeResponseInputAudio */
 export interface RealtimeResponseInputAudio {
-  /** The item type. Always `input_audio`. */
   type: "input_audio";
   /** Base64 audio bytes in the session input audio format. */
   audio: string;
@@ -9959,11 +9954,9 @@ export function realtimeResponseInputAudioDeserializer(item: any): RealtimeRespo
 
 /** model interface RealtimeResponseInputImage */
 export interface RealtimeResponseInputImage {
-  /** The item type. Always `input_image`. */
   type: "input_image";
   /** A base64 data URL with an image MIME type; use PNG or JPEG. */
   image_url: string;
-  /** The level of image detail used when processing the image. */
   detail?: "low" | "high" | "auto";
 }
 
@@ -9983,13 +9976,10 @@ export function realtimeResponseInputImageDeserializer(item: any): RealtimeRespo
 export interface RealtimeResponseInputMessageAssistant extends RealtimeResponseInputMessage {
   /** An optional client ID. The value `root` is reserved. */
   id?: string;
-  /** The item type. Always `message`. */
   type: "message";
   /** Optional input status. Omission or null defaults to completed. */
   status?: "completed" | "incomplete";
-  /** The message author role. Always `assistant`. */
   role: "assistant";
-  /** The assistant's text output included in the response input context. */
   content: RealtimeResponseInputMessageAssistantContent[];
 }
 
@@ -10035,9 +10025,7 @@ export function realtimeResponseInputMessageAssistantContentArrayDeserializer(
 
 /** model interface RealtimeResponseInputMessageAssistantContent */
 export interface RealtimeResponseInputMessageAssistantContent {
-  /** The item type. Always `output_text`. */
   type: "output_text";
-  /** The assistant text included in the response input context. */
   text: string;
 }
 
@@ -10058,17 +10046,11 @@ export function realtimeResponseInputMessageAssistantContentDeserializer(
 
 /** A function call supplied as input to a Realtime response. */
 export interface RealtimeResponseInputFunctionCall {
-  /** An optional identifier for this function-call input item. */
   id?: string;
-  /** The item type. Always `function_call`. */
   type: "function_call";
-  /** The completion status of the function-call input item. */
   status?: "completed" | "incomplete";
-  /** The function call ID used to associate the call with its output. */
   call_id: string;
-  /** The name of the function being called. */
   name: string;
-  /** The arguments for the function call, encoded as a JSON string. */
   arguments: string;
 }
 
@@ -10100,15 +10082,10 @@ export function realtimeResponseInputFunctionCallDeserializer(
 
 /** The result of a function call supplied as input to a Realtime response. */
 export interface RealtimeResponseInputFunctionCallOutput {
-  /** An optional identifier for this function-call output item. */
   id?: string;
-  /** The item type. Always `function_call_output`. */
   type: "function_call_output";
-  /** The completion status of the function-call output item. */
   status?: "completed" | "incomplete";
-  /** The ID of the function call for which this item supplies output. */
   call_id: string;
-  /** The result returned by the function, encoded as a string. */
   output: string;
 }
 
@@ -10163,7 +10140,6 @@ export function realtimeResponseItemReferenceDeserializer(
 
 /** Client events for Live. Initialize a primary WebSocket with session.start and wait for session.started. WebRTC creation already starts the session. Audio append is primary WebSocket-only. See the [Live prompting guide](https://developers.openai.com/api/docs/guides/live-prompting) before writing frontend instructions and delegation policies. */
 export interface LiveClientEvent {
-  /** The kind of Live event sent by the client. */
   type: LiveClientEventType;
 }
 
@@ -10290,7 +10266,6 @@ export type LiveClientEventType =
 
 /** Start a Live session on a primary WebSocket. Send this event before other commands and wait for `session.started`. */
 export interface LiveSessionStartEvent extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.start`. */
   type: "session.start";
@@ -10308,15 +10283,12 @@ export function liveSessionStartEventSerializer(item: LiveSessionStartEvent): an
 
 /** Initial configuration for a Live session, including its model, conversation instructions, audio, and delegated task handling. */
 export interface LiveSessionCreateParams {
-  /** The Live model used to process audio and generate spoken responses. */
   model: ModelIdsLive;
-  /** Instructions that guide the Live model's behavior during the session. */
   instructions?: string;
   /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default). */
   input?: LiveInitialItemUnion[];
   /** Startup audio configuration. Only primary WebSockets accept audio.format; WebRTC and SIP negotiate their media format. Voice and format are immutable after startup. */
   audio?: LiveInitialSessionAudioParam;
-  /** The owner and backend settings for tasks delegated by the Live model. */
   delegation?: LiveSessionCreateParamsDelegationUnion;
   /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
   triggers?: LiveDecisionTriggerInputParam[];
@@ -10360,7 +10332,6 @@ export function liveInitialItemUnionArrayDeserializer(result: Array<LiveInitialI
 
 /** A developer, user, or assistant message supplied as text history before the Live session starts. */
 export interface LiveInitialItem {
-  /** The author role of a message in the initial Live conversation history. */
   role: LiveInitialItemType;
 }
 
@@ -10426,11 +10397,9 @@ export type LiveInitialItemType = "developer" | "user" | "assistant";
 
 /** A developer message included in the initial text history of a Live session. */
 export interface LiveInitialDeveloperMessageItemParam extends LiveInitialItem {
-  /** An optional identifier for this message in the initial conversation history. */
   id?: string;
   /** The history item type. Always `message`. */
   type?: "message";
-  /** The completion status of this initial conversation message. */
   status?: LiveInitialMessageStatus;
   /** The author of this history message. Always `developer`. */
   role: "developer";
@@ -10506,11 +10475,9 @@ export function liveInitialInputTextContentPartParamDeserializer(
 
 /** A user message included in the initial text history of a Live session. */
 export interface LiveInitialUserMessageItemParam extends LiveInitialItem {
-  /** An optional identifier for this message in the initial conversation history. */
   id?: string;
   /** The history item type. Always `message`. */
   type?: "message";
-  /** The completion status of this initial conversation message. */
   status?: LiveInitialMessageStatus;
   /** The author of this history message. Always `user`. */
   role: "user";
@@ -10544,11 +10511,9 @@ export function liveInitialUserMessageItemParamDeserializer(
 
 /** An assistant message included in the initial text history of a Live session. */
 export interface LiveInitialAssistantMessageItemParam extends LiveInitialItem {
-  /** An optional identifier for this message in the initial conversation history. */
   id?: string;
   /** The history item type. Always `message`. */
   type?: "message";
-  /** The completion status of this initial conversation message. */
   status?: LiveInitialMessageStatus;
   /** The author of this history message. Always `assistant`. */
   role: "assistant";
@@ -10660,7 +10625,6 @@ export function liveInitialOutputTextContentPartParamDeserializer(
 
 /** Who handles tasks delegated by the Live model. Omitted or null selects your application; use `responses` or `decisions` to delegate to the corresponding API. */
 export interface LiveSessionCreateParamsDelegation {
-  /** The backend that handles tasks delegated by the Live model. */
   type: LiveSessionCreateParamsDelegationType;
 }
 
@@ -10742,9 +10706,7 @@ export function liveSessionCreateParamsDelegationLiveResponsesDelegationParamSer
 export interface LiveSessionCreateParamsDelegationLiveDecisionsDelegationParam extends LiveSessionCreateParamsDelegation {
   /** Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400. Updates apply to subsequent delegations. */
   acknowledgement_delay_ms?: number;
-  /** The delegation type. Always `decisions`. */
   type: "decisions";
-  /** The model and questions used to evaluate tasks delegated to Decisions. */
   decisions: LiveDecisionsSettingsInputParam;
 }
 
@@ -10762,7 +10724,6 @@ export function liveSessionCreateParamsDelegationLiveDecisionsDelegationParamSer
 export interface LiveDecisionsSettingsInputParam {
   /** Native Decision API questions evaluated together, in order. */
   questions: LiveDecisionQuestionUnion[];
-  /** The model used to evaluate the Decision questions. */
   model: string;
 }
 
@@ -10793,7 +10754,6 @@ export function liveDecisionQuestionUnionArrayDeserializer(
 
 /** model interface LiveDecisionQuestion */
 export interface LiveDecisionQuestion {
-  /** The kind of question evaluated by the Decision model. */
   type: LiveDecisionQuestionType;
 }
 
@@ -10855,15 +10815,11 @@ export type LiveDecisionQuestionType = "choice" | "predicate" | "score";
 
 /** model interface LiveDecisionChoiceQuestionParam */
 export interface LiveDecisionChoiceQuestionParam extends LiveDecisionQuestion {
-  /** The question type. Always `choice`. */
   type: "choice";
-  /** An optional question name used to identify its answer in the Decision response. */
   name?: string;
-  /** Instructions for evaluating the question, supplied as text or as text, image, and JSON content parts. */
   instructions:
     | string
     | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
-  /** The possible answers from which the model selects a choice. */
   choices: LiveDecisionChoiceParam[];
 }
 
@@ -10940,7 +10896,6 @@ export function _liveDecisionChoiceQuestionParamInstructionDeserializer(
 
 /** model interface LiveDecisionInputTextParam */
 export interface LiveDecisionInputTextParam {
-  /** The item type. Always `input_text`. */
   type: "input_text";
   /** The text input to the model. */
   text: string;
@@ -10959,11 +10914,9 @@ export function liveDecisionInputTextParamDeserializer(item: any): LiveDecisionI
 
 /** model interface LiveDecisionInputImageParam */
 export interface LiveDecisionInputImageParam {
-  /** The item type. Always `input_image`. */
   type: "input_image";
   /** A base64-encoded image data URL or a publicly accessible HTTP(S) image URL. */
   image_url: string;
-  /** The level of image detail used when processing the image. */
   detail?: LiveDetailEnum;
 }
 
@@ -10984,9 +10937,7 @@ export type LiveDetailEnum = "low" | "high" | "auto" | "original";
 
 /** model interface LiveDecisionInputJsonParam */
 export interface LiveDecisionInputJsonParam {
-  /** The item type. Always `input_json`. */
   type: "input_json";
-  /** The JSON object or array of JSON objects supplied as Decision input. */
   data: LiveDecisionJsonObject | LiveDecisionJsonObject[];
 }
 
@@ -11070,9 +11021,7 @@ export function liveDecisionChoiceParamArrayDeserializer(
 
 /** model interface LiveDecisionChoiceParam */
 export interface LiveDecisionChoiceParam {
-  /** The string or boolean value returned when this choice is selected. */
   value: string | boolean;
-  /** A description that helps the model distinguish this choice from the other choices. */
   description?: string;
 }
 
@@ -11105,11 +11054,8 @@ export function _liveDecisionChoiceParamValueDeserializer(
 
 /** model interface LiveDecisionPredicateQuestionParam */
 export interface LiveDecisionPredicateQuestionParam extends LiveDecisionQuestion {
-  /** The question type. Always `predicate`. */
   type: "predicate";
-  /** An optional question name used to identify its answer in the Decision response. */
   name?: string;
-  /** Instructions for evaluating the question, supplied as text or as text, image, and JSON content parts. */
   instructions:
     | string
     | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
@@ -11186,15 +11132,11 @@ export function _liveDecisionPredicateQuestionParamInstructionDeserializer(
 
 /** model interface LiveDecisionScoreQuestionParam */
 export interface LiveDecisionScoreQuestionParam extends LiveDecisionQuestion {
-  /** The question type. Always `score`. */
   type: "score";
-  /** An optional question name used to identify its answer in the Decision response. */
   name?: string;
-  /** Instructions for evaluating the question, supplied as text or as text, image, and JSON content parts. */
   instructions:
     | string
     | (LiveDecisionInputTextParam | LiveDecisionInputImageParam | LiveDecisionInputJsonParam)[];
-  /** The scoring levels against which the model evaluates the question. */
   levels: LiveDecisionScoreLevelParam[];
 }
 
@@ -11287,9 +11229,7 @@ export function liveDecisionScoreLevelParamArrayDeserializer(
 
 /** model interface LiveDecisionScoreLevelParam */
 export interface LiveDecisionScoreLevelParam {
-  /** The label identifying this scoring level. */
   label: string;
-  /** A description of the criteria for assigning this scoring level. */
   description?: string;
 }
 
@@ -11322,9 +11262,7 @@ export function liveDecisionTriggerInputParamArrayDeserializer(
 
 /** model interface LiveDecisionTriggerInputParam */
 export interface LiveDecisionTriggerInputParam {
-  /** The item type. Always `decisions`. */
   type: "decisions";
-  /** The transcript event type that initiates a Decision evaluation. */
   event_type: "session.input_transcript.delta" | "session.output_transcript.delta";
   /** Questions evaluated using the current transcript and the session's shared Decision items. */
   decisions: LiveDecisionQuestionsInputParam;
@@ -11481,7 +11419,6 @@ export function liveAllowedServerEventParamDeserializer(item: any): LiveAllowedS
 
 /** Update the delegation settings or transcript triggers of an active Live session. The server acknowledges accepted changes with `session.updated`. */
 export interface LiveClientEventLiveSessionUpdateParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.update`. */
   type: "session.update";
@@ -11501,7 +11438,6 @@ export function liveClientEventLiveSessionUpdateParamSerializer(
 
 /** Changes to an active Live session's delegation settings and transcript triggers. */
 export interface LiveSessionUpdateParams {
-  /** Sparse updates to the existing delegation settings. The delegation type cannot change; omitted settings retain their values. */
   delegation?: LiveSessionUpdateParamsDelegationUnion;
   /** At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers. */
   triggers?: LiveDecisionTriggerInputParam[];
@@ -11520,7 +11456,6 @@ export function liveSessionUpdateParamsSerializer(item: LiveSessionUpdateParams)
 
 /** Delegation settings to update. The delegation type must match the current session; omitted settings retain their values. */
 export interface LiveSessionUpdateParamsDelegation {
-  /** The backend that handles tasks delegated by the Live model. */
   type: LiveSessionUpdateParamsDelegationType;
 }
 
@@ -11590,15 +11525,10 @@ export function liveResponsesDelegationUpdateParamSerializer(
 export interface LiveResponsesDelegationSettingsUpdateInputParam {
   /** The Responses backend model to use for subsequent delegated requests. Omit to keep the current backend model. */
   model?: string;
-  /** Instructions for subsequent delegated Responses requests. Omit to keep the current instructions. */
   instructions?: string;
-  /** The maximum number of output tokens for subsequent delegated Responses requests, including reasoning tokens. Omit to keep the current limit. */
   max_output_tokens?: number;
-  /** The service tier for subsequent delegated Responses requests. Omit to keep the current tier. */
   service_tier?: LiveResponsesServiceTier;
-  /** Reasoning settings for subsequent delegated Responses requests. Omit to keep the current settings. */
   reasoning?: LiveDelegationReasoningInputParam;
-  /** Text output settings for subsequent delegated Responses requests. Omit to keep the current settings. */
   text?: LiveDelegationTextInputParam;
   /** Tools available to the Responses backend while it handles tasks delegated by the Live model. */
   tools?: (
@@ -11632,7 +11562,6 @@ export interface LiveResponsesDelegationSettingsUpdateInputParam {
     | LiveSpecificCustomToolParam
     | LiveSpecificApplyPatchParam
     | LiveAllowedToolsChoiceParam;
-  /** Whether subsequent delegated Responses requests may issue multiple tool calls in parallel. Omit to keep the current setting. */
   parallel_tool_calls?: boolean;
 }
 
@@ -11715,9 +11644,7 @@ export function _liveResponsesDelegationSettingsUpdateInputParamToolChoiceSerial
 export interface LiveDecisionsDelegationUpdateParam extends LiveSessionUpdateParamsDelegation {
   /** Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations. */
   acknowledgement_delay_ms?: number;
-  /** The delegation type. Always `decisions`. */
   type: "decisions";
-  /** Updates to the Decision model and questions used for subsequent delegations. Omit to keep the current settings. */
   decisions?: LiveDecisionsSettingsUpdateParam;
 }
 
@@ -11735,7 +11662,6 @@ export function liveDecisionsDelegationUpdateParamSerializer(
 
 /** model interface LiveDecisionsSettingsUpdateParam */
 export interface LiveDecisionsSettingsUpdateParam {
-  /** The model to use for subsequent Decision evaluations. Omit to keep the current model. */
   model?: string;
   /** Native Decision API questions evaluated together, in order. */
   questions?: LiveDecisionQuestionUnion[];
@@ -11768,7 +11694,6 @@ export function liveSessionUpdateParamsDelegationLiveClientDelegationParamSerial
 
 /** Send audio to a Live session over its primary WebSocket. WebRTC and SIP sessions send audio over their media transport. */
 export interface LiveClientEventLiveInputAudioAppendEvent extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.input_audio.append`. */
   type: "session.input_audio.append";
@@ -11784,7 +11709,6 @@ export function liveClientEventLiveInputAudioAppendEventSerializer(
 
 /** Mute audio input to the Live model without closing the session. The server acknowledges with `session.input_audio.muted`. */
 export interface LiveClientEventLiveInputAudioMuteParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.input_audio.mute`. */
   type: "session.input_audio.mute";
@@ -11798,7 +11722,6 @@ export function liveClientEventLiveInputAudioMuteParamSerializer(
 
 /** Resume audio input to a Live model after muting it. The server acknowledges with `session.input_audio.unmuted`. An active audio fixture still pauses inference until playback finishes. */
 export interface LiveClientEventLiveInputAudioUnmuteParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.input_audio.unmute`. */
   type: "session.input_audio.unmute";
@@ -11812,9 +11735,7 @@ export function liveClientEventLiveInputAudioUnmuteParamSerializer(
 
 /** Play one complete audio fixture through the session output. Send this event over the primary WebSocket or a server sideband. Audio must be raw mono PCM16 little-endian at 24 kHz, regardless of the session audio format, and at most 30 seconds. The entire payload is validated before model speech is interrupted and input is muted. Only one fixture can be active. fixture.playing acknowledges acceptance and fixture.played reports server mixer drain. These notifications are not exact transport-media boundaries. Input arriving during playback is dropped and not replayed. */
 export interface LiveClientEventLiveOutputAudioFixturePlayParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
-  /** The event type. Always `session.output_audio.fixture.play`. */
   type: "session.output_audio.fixture.play";
   /** Base64-encoded raw mono PCM16 audio, little-endian, at 24 kHz. Do not include a WAV or other container header. */
   audio: string;
@@ -11828,11 +11749,9 @@ export function liveClientEventLiveOutputAudioFixturePlayParamSerializer(
 
 /** Append developer instructions to the Live conversation while it is running, optionally associating them with an existing client delegation. Rejected while an audio fixture is active. These instructions remain in conversation history through compaction and are included in future backend delegations. For external audio, describe content already delivered so the assistant does not repeat it. */
 export interface LiveClientEventLiveInstructionsAppendParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.instructions.append`. */
   type: "session.instructions.append";
-  /** The ID of the delegation associated with this content, or null when the content is not associated with a delegation. */
   delegation_id: string | null;
   /** Instruction text to append, limited to 500 tokens. This is a plain string, not an array of content parts. */
   content: string;
@@ -11851,11 +11770,9 @@ export function liveClientEventLiveInstructionsAppendParamSerializer(
 
 /** Provide silent reasoning or progress context to the Live model, optionally for an existing client delegation. Rejected while an audio fixture is active. */
 export interface LiveClientEventLiveThinkingAppendParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.thinking.append`. */
   type: "session.thinking.append";
-  /** The ID of the delegation associated with this content, or null when the content is not associated with a delegation. */
   delegation_id: string | null;
   /** Silent reasoning or progress context, limited to 500 tokens. It does not directly request speech, but can influence later speech and is not a secrecy boundary. */
   content: string;
@@ -11874,11 +11791,9 @@ export function liveClientEventLiveThinkingAppendParamSerializer(
 
 /** Provide context the Live model can communicate to the user, optionally for an existing client delegation. Rejected while an audio fixture is active. */
 export interface LiveClientEventLiveCommentaryAppendParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.commentary.append`. */
   type: "session.commentary.append";
-  /** The ID of the delegation associated with this content, or null when the content is not associated with a delegation. */
   delegation_id: string | null;
   /** Speakable context for the Live model, limited to 500 tokens. Use this for a result the model should communicate; use session.thinking.append for silent context. */
   content: string;
@@ -11897,9 +11812,7 @@ export function liveClientEventLiveCommentaryAppendParamSerializer(
 
 /** Evaluate the configured questions using the current conversation and Decision inputs. Reusing an event_id is rejected for the lifetime of the session. */
 export interface LiveClientEventLiveDecisionCreateParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id: string;
-  /** The event type. Always `decision.create`. */
   type: "decision.create";
 }
 
@@ -11911,11 +11824,8 @@ export function liveClientEventLiveDecisionCreateParamSerializer(
 
 /** Append an input item for future decisions without starting an evaluation or changing Live voice context. */
 export interface LiveClientEventLiveDecisionItemCreateParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
-  /** The event type. Always `decision.item.create`. */
   type: "decision.item.create";
-  /** The input item to append to the session's shared Decision context. */
   item: LiveDecisionInputItemParamUnion;
 }
 
@@ -11931,7 +11841,6 @@ export function liveClientEventLiveDecisionItemCreateParamSerializer(
 
 /** model interface LiveDecisionInputItemParam */
 export interface LiveDecisionInputItemParam {
-  /** The kind of input item supplied to the Decision context. */
   type: LiveDecisionInputItemParamType;
 }
 
@@ -11986,7 +11895,6 @@ export type LiveDecisionInputItemParamType =
 
 /** model interface LiveDecisionInputItemParamMessage */
 export interface LiveDecisionInputItemParamMessage extends LiveDecisionInputItemParam {
-  /** The item type. Always `message`. */
   type: "message";
 }
 
@@ -11998,17 +11906,13 @@ export function liveDecisionInputItemParamMessageSerializer(
 
 /** model interface LiveDecisionFunctionCallParam */
 export interface LiveDecisionFunctionCallParam extends LiveDecisionInputItemParam {
-  /** An optional identifier for this function-call item in the Decision context. */
   id?: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The item type. Always `function_call`. */
   type: "function_call";
-  /** The name of the function being called. */
   name: string;
-  /** The namespace that contains the called tool, when applicable. */
   namespace?: string;
   /** The function arguments as a JSON string. */
   arguments: string;
@@ -12031,15 +11935,12 @@ export type LiveFunctionCallItemStatus = "in_progress" | "completed" | "incomple
 
 /** model interface LiveDecisionFunctionCallOutputParam */
 export interface LiveDecisionFunctionCallOutputParam extends LiveDecisionInputItemParam {
-  /** An optional identifier for this function-call output item in the Decision context. */
   id?: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The type of the function tool call output. Always `function_call_output`. */
   type: "function_call_output";
-  /** The tool result, supplied as a string or as text and image content parts. */
   output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
 }
 
@@ -12085,17 +11986,14 @@ export function _liveDecisionFunctionCallOutputParamOutput1Serializer(
 
 /** model interface LiveDecisionCustomToolCallParam */
 export interface LiveDecisionCustomToolCallParam extends LiveDecisionInputItemParam {
-  /** An optional identifier for this custom-tool item in the Decision context. */
   id?: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The item type. Always `custom_tool_call`. */
   type: "custom_tool_call";
   /** The name of the custom tool to call. */
   name: string;
-  /** The namespace that contains the called tool, when applicable. */
   namespace?: string;
   /** The input to the custom tool call. */
   input: string;
@@ -12117,15 +12015,11 @@ export function liveDecisionCustomToolCallParamSerializer(
 
 /** model interface LiveDecisionCustomToolCallOutputParam */
 export interface LiveDecisionCustomToolCallOutputParam extends LiveDecisionInputItemParam {
-  /** An optional identifier for this custom-tool output item in the Decision context. */
   id?: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
-  /** The item type. Always `custom_tool_call_output`. */
   type: "custom_tool_call_output";
-  /** The tool result, supplied as a string or as text and image content parts. */
   output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
 }
 
@@ -12171,11 +12065,8 @@ export function _liveDecisionCustomToolCallOutputParamOutput1Serializer(
 
 /** Delete an input item from future decisions without starting an evaluation or changing Live voice context. */
 export interface LiveClientEventLiveDecisionItemDeleteParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
-  /** The event type. Always `decision.item.delete`. */
   type: "decision.item.delete";
-  /** The ID of the item to remove from the session's shared Decision context. */
   item_id: string;
 }
 
@@ -12187,7 +12078,6 @@ export function liveClientEventLiveDecisionItemDeleteParamSerializer(
 
 /** Add an input item to the Live session’s Responses backend. Requires Responses delegation; use `response.create` to request a response. */
 export interface LiveClientEventLiveResponseItemCreateParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `response.item.create`. */
   type: "response.item.create";
@@ -12203,7 +12093,6 @@ export function liveClientEventLiveResponseItemCreateParamSerializer(
 
 /** Request a response from the Live session’s Responses backend, or continue a delegated response waiting for tool results. Requires Responses delegation. */
 export interface LiveClientEventLiveResponseCreateParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `response.create`. */
   type: "response.create";
@@ -12217,7 +12106,6 @@ export function liveClientEventLiveResponseCreateParamSerializer(
 
 /** Request that the Live session close. The terminal `session.closed` event contains the close reason and final usage. */
 export interface LiveClientEventLiveSessionCloseParam extends LiveClientEvent {
-  /** A client-generated ID used to correlate this command with server events. */
   event_id?: string;
   /** The Live client event type. Always `session.close`. */
   type: "session.close";
@@ -12231,7 +12119,6 @@ export function liveClientEventLiveSessionCloseParamSerializer(
 
 /** An event sent by the Live API on a primary WebSocket or sideband connection. */
 export interface LiveServerEvent {
-  /** The kind of Live event sent by the server. */
   type: LiveServerEventType;
 }
 
@@ -12474,7 +12361,6 @@ export interface LiveServerEventLiveSessionStarted extends LiveServerEvent {
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The initial configuration and identifiers of the started Live session. */
   session: VoiceAgentLiveSessionResource;
   /** Stored conversation ID when effective store is true. Use protocols/voice/live/conversations; this ID differs from session.id. */
   conversation_id?: string;
@@ -12500,7 +12386,6 @@ export interface LiveServerEventLiveSessionUpdated extends LiveServerEvent {
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The current Live session snapshot after applying the update. */
   session: VoiceAgentLiveSessionResource;
 }
 
@@ -12561,7 +12446,6 @@ export interface LiveServerEventLiveOutputAudioFixturePlaying extends LiveServer
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The event type. Always `session.output_audio.fixture.playing`. */
   type: "session.output_audio.fixture.playing";
 }
 
@@ -12581,7 +12465,6 @@ export interface LiveServerEventLiveOutputAudioFixturePlayed extends LiveServerE
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The event type. Always `session.output_audio.fixture.played`. */
   type: "session.output_audio.fixture.played";
 }
 
@@ -12759,19 +12642,13 @@ export function liveServerEventLiveDelegationCreatedDeserializer(
 
 /** A Decision API event for a Live delegation or transcript trigger. For a trigger, source_event_id identifies the transcript delta that caused this evaluation. */
 export interface LiveServerEventLiveDecisionEvent extends LiveServerEvent {
-  /** The event type. Always `decision.event`. */
   type: "decision.event";
   /** The unique ID of this Live server event. */
   event_id: string;
-  /** The associated delegation ID, or null when the evaluation is not associated with a delegation. */
   delegation_id: string | null;
-  /** The ID of the trigger that initiated this evaluation, or null when no trigger applies. */
   trigger_id: string | null;
-  /** The transcript event type that triggered this evaluation, or null when no source event applies. */
   source_event_type: ("session.input_transcript.delta" | "session.output_transcript.delta") | null;
-  /** The ID of the transcript event that triggered this evaluation, or null when no source event applies. */
   source_event_id: string | null;
-  /** The completed Decision evaluation, including its response and token usage. */
   event: LiveDecisionCompleted;
 }
 
@@ -12791,7 +12668,6 @@ export function liveServerEventLiveDecisionEventDeserializer(
 
 /** model interface LiveDecisionCompleted */
 export interface LiveDecisionCompleted {
-  /** The event type. Always `decision.completed`. */
   type: "decision.completed";
   /** The native Decision API response, including its model, ordered answers, and token usage. */
   decision: DecisionResponse;
@@ -12830,7 +12706,6 @@ export function answerResourceUnionArrayDeserializer(result: Array<AnswerResourc
 
 /** A completed question always includes its name, including null when unnamed. */
 export interface AnswerResource {
-  /** The kind of answer returned for a Decision question. */
   type: AnswerResourceType;
 }
 
@@ -12874,9 +12749,7 @@ export type AnswerResourceType = "predicate" | "choice" | "score" | "refusal";
 export interface AnswerResourcePredicate extends AnswerResource {
   /** The type of the object. Always `predicate`. */
   type: "predicate";
-  /** The name of the corresponding question, or null when the question has no name. */
   name: string | null;
-  /** The predicted probability that the predicate is true. */
   probability: number;
 }
 
@@ -12892,13 +12765,9 @@ export function answerResourcePredicateDeserializer(item: any): AnswerResourcePr
 export interface AnswerResourceChoice extends AnswerResource {
   /** The type of the object. Always `choice`. */
   type: "choice";
-  /** The name of the corresponding question, or null when the question has no name. */
   name: string | null;
-  /** The selected choice value. */
   choice: ChoiceValueResource;
-  /** The predicted probability for each available choice. */
   probabilities: ChoiceProbabilityResource[];
-  /** The confidence in the selected choice. */
   confidence: number;
 }
 
@@ -12929,9 +12798,7 @@ export function choiceProbabilityResourceArrayDeserializer(
 
 /** model interface ChoiceProbabilityResource */
 export interface ChoiceProbabilityResource {
-  /** The choice value associated with this probability. */
   value: ChoiceValueResource;
-  /** The predicted probability of this choice. */
   probability: number;
 }
 
@@ -12946,13 +12813,9 @@ export function choiceProbabilityResourceDeserializer(item: any): ChoiceProbabil
 export interface AnswerResourceScore extends AnswerResource {
   /** The type of the object. Always `score`. */
   type: "score";
-  /** The name of the corresponding question, or null when the question has no name. */
   name: string | null;
-  /** The numeric score assigned to the answer. */
   score: number;
-  /** The predicted probability for each scoring level. */
   probabilities: ScoreProbabilityResource[];
-  /** The confidence in the assigned score. */
   confidence: number;
 }
 
@@ -12976,11 +12839,8 @@ export function scoreProbabilityResourceArrayDeserializer(
 
 /** model interface ScoreProbabilityResource */
 export interface ScoreProbabilityResource {
-  /** The numeric value of the scoring level. */
   value: number;
-  /** The label of the scoring level. */
   label: string;
-  /** The predicted probability of this scoring level. */
   probability: number;
 }
 
@@ -12996,7 +12856,6 @@ export function scoreProbabilityResourceDeserializer(item: any): ScoreProbabilit
 export interface AnswerResourceRefusal extends AnswerResource {
   /** The type of the object. Always `refusal`. */
   type: "refusal";
-  /** The name of the corresponding question, or null when the question has no name. */
   name: string | null;
 }
 
@@ -13009,15 +12868,10 @@ export function answerResourceRefusalDeserializer(item: any): AnswerResourceRefu
 
 /** model interface ResponseUsageResource */
 export interface ResponseUsageResource {
-  /** The number of input tokens consumed by the Decision request. */
   input_tokens: number;
-  /** A breakdown of input token usage, including prompt caching. */
   input_tokens_details: InputTokensDetailsResource;
-  /** The number of output tokens generated for the Decision request. */
   output_tokens: number;
-  /** A breakdown of output token usage, including reasoning. */
   output_tokens_details: OutputTokensDetailsResource;
-  /** The total number of input and output tokens used by the Decision request. */
   total_tokens: number;
 }
 
@@ -13033,9 +12887,7 @@ export function responseUsageResourceDeserializer(item: any): ResponseUsageResou
 
 /** model interface InputTokensDetailsResource */
 export interface InputTokensDetailsResource {
-  /** The number of input tokens read from the prompt cache. */
   cached_tokens: number;
-  /** The number of input tokens written to the prompt cache. */
   cache_write_tokens: number;
 }
 
@@ -13048,7 +12900,6 @@ export function inputTokensDetailsResourceDeserializer(item: any): InputTokensDe
 
 /** model interface OutputTokensDetailsResource */
 export interface OutputTokensDetailsResource {
-  /** The number of output tokens used for reasoning. */
   reasoning_tokens: number;
 }
 
@@ -13064,9 +12915,7 @@ export interface LiveServerEventLiveDecisionItemCreated extends LiveServerEvent 
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The event type. Always `decision.item.created`. */
   type: "decision.item.created";
-  /** The item added to the session's shared Decision context. */
   item: LiveDecisionStoredInputItemParamUnion;
 }
 
@@ -13083,7 +12932,6 @@ export function liveServerEventLiveDecisionItemCreatedDeserializer(
 
 /** model interface LiveDecisionStoredInputItemParam */
 export interface LiveDecisionStoredInputItemParam {
-  /** The kind of item stored in the session's shared Decision context. */
   type: LiveDecisionStoredInputItemParamType;
 }
 
@@ -13148,7 +12996,6 @@ export type LiveDecisionStoredInputItemParamType =
 
 /** model interface LiveDecisionStoredInputItemParamMessage */
 export interface LiveDecisionStoredInputItemParamMessage extends LiveDecisionStoredInputItemParam {
-  /** The item type. Always `message`. */
   type: "message";
 }
 
@@ -13162,17 +13009,13 @@ export function liveDecisionStoredInputItemParamMessageDeserializer(
 
 /** model interface LiveDecisionStoredFunctionCallParam */
 export interface LiveDecisionStoredFunctionCallParam extends LiveDecisionStoredInputItemParam {
-  /** The identifier for this function-call item in the Decision context. */
   id: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The item type. Always `function_call`. */
   type: "function_call";
-  /** The name of the function being called. */
   name: string;
-  /** The namespace that contains the called tool, when applicable. */
   namespace?: string;
   /** The function arguments as a JSON string. */
   arguments: string;
@@ -13194,15 +13037,12 @@ export function liveDecisionStoredFunctionCallParamDeserializer(
 
 /** model interface LiveDecisionStoredFunctionCallOutputParam */
 export interface LiveDecisionStoredFunctionCallOutputParam extends LiveDecisionStoredInputItemParam {
-  /** The identifier for this function-call output item in the Decision context. */
   id: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The type of the function tool call output. Always `function_call_output`. */
   type: "function_call_output";
-  /** The tool result, supplied as a string or as text and image content parts. */
   output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
 }
 
@@ -13248,17 +13088,14 @@ export function _liveDecisionStoredFunctionCallOutputParamOutput1Deserializer(
 
 /** model interface LiveDecisionStoredCustomToolCallParam */
 export interface LiveDecisionStoredCustomToolCallParam extends LiveDecisionStoredInputItemParam {
-  /** The identifier for this custom-tool item in the Decision context. */
   id: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
   /** The item type. Always `custom_tool_call`. */
   type: "custom_tool_call";
   /** The name of the custom tool to call. */
   name: string;
-  /** The namespace that contains the called tool, when applicable. */
   namespace?: string;
   /** The input to the custom tool call. */
   input: string;
@@ -13280,15 +13117,11 @@ export function liveDecisionStoredCustomToolCallParamDeserializer(
 
 /** model interface LiveDecisionStoredCustomToolCallOutputParam */
 export interface LiveDecisionStoredCustomToolCallOutputParam extends LiveDecisionStoredInputItemParam {
-  /** The identifier for this custom-tool output item in the Decision context. */
   id: string;
   /** The unique ID of the function tool call generated by the model. */
   call_id: string;
-  /** The completion status of this tool-call item. */
   status?: LiveFunctionCallItemStatus;
-  /** The item type. Always `custom_tool_call_output`. */
   type: "custom_tool_call_output";
-  /** The tool result, supplied as a string or as text and image content parts. */
   output: string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[];
 }
 
@@ -13338,9 +13171,7 @@ export interface LiveServerEventLiveDecisionItemDeleted extends LiveServerEvent 
   event_id: string;
   /** The event_id of the client command associated with this server event, when supplied. */
   client_event_id?: string;
-  /** The event type. Always `decision.item.deleted`. */
   type: "decision.item.deleted";
-  /** The ID of the item removed from the session's shared Decision context. */
   item_id: string;
 }
 
@@ -13363,7 +13194,6 @@ export interface LiveServerEventLiveResponseEvent extends LiveServerEvent {
   client_event_id?: string;
   /** The event type, always `response.event`. */
   type: "response.event";
-  /** The ID of the delegation associated with the nested Responses event, when available. */
   delegation_id?: string;
   /** The nested Responses streaming event. Dispatch on its type field. Response lifecycle snapshots omit input and clear instructions, tools, and output to keep messages small; consume granular output events for the generated content. */
   event: Record<string, any>;
@@ -13431,7 +13261,6 @@ export interface LiveServerEventLiveSessionClosed extends LiveServerEvent {
   type: "session.closed";
   /** Why the Live session ended: `close_requested` for an application close or hangup request, `expired` for the session duration limit, `content` for a safety filter, `remote_hangup` for a graceful remote disconnect, or `connection_lost` for an unexpected primary or upstream disconnection. */
   reason: "close_requested" | "expired" | "content" | "remote_hangup" | "connection_lost";
-  /** The final Live session snapshot. Its status remains active; the session.closed event indicates closure. */
   session: VoiceAgentLiveSessionResource;
   /** The final cumulative Live audio usage after session finalization. */
   usage: LiveSessionUsage;
@@ -13523,11 +13352,8 @@ export function liveServerEventLiveInfoEventDeserializer(item: any): LiveServerE
 
 /** A SIP DTMF keypress received from the caller. Delivered only to sideband observers. */
 export interface LiveServerEventLiveTransportDtmfReceived extends LiveServerEvent {
-  /** The event type. Always `transport.dtmf.received`. */
   type: "transport.dtmf.received";
-  /** The unique ID of this Live server event. */
   event_id: string;
-  /** The DTMF digit or signal received from the remote participant. */
   event: string;
 }
 
@@ -13543,11 +13369,8 @@ export function liveServerEventLiveTransportDtmfReceivedDeserializer(
 
 /** A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command. */
 export interface LiveServerEventLiveTransportDtmfSent extends LiveServerEvent {
-  /** The event type. Always `transport.dtmf.sent`. */
   type: "transport.dtmf.sent";
-  /** The unique ID of this Live server event. */
   event_id: string;
-  /** The DTMF digit or signal sent to the remote participant. */
   event: string;
   /** The event_id of the client command, when supplied. */
   client_event_id?: string;
@@ -13566,11 +13389,9 @@ export function liveServerEventLiveTransportDtmfSentDeserializer(
 
 /** The outbound SIP provider leg is ringing or providing early media. Delivered only to sideband observers. */
 export interface LiveServerEventLiveTransportRinging extends LiveServerEvent {
-  /** The unique ID of this Live server event. */
   event_id: string;
   /** The canonical Live session ID. */
   session_id: string;
-  /** The event type. Always `transport.ringing`. */
   type: "transport.ringing";
 }
 
@@ -13586,11 +13407,9 @@ export function liveServerEventLiveTransportRingingDeserializer(
 
 /** The outbound SIP provider leg answered and media is established. Delivered only to sideband observers. */
 export interface LiveServerEventLiveTransportAnswered extends LiveServerEvent {
-  /** The unique ID of this Live server event. */
   event_id: string;
   /** The canonical Live session ID. */
   session_id: string;
-  /** The event type. Always `transport.answered`. */
   type: "transport.answered";
 }
 
@@ -13606,13 +13425,10 @@ export function liveServerEventLiveTransportAnsweredDeserializer(
 
 /** An asynchronous outbound SIP setup failure. Delivered only to sideband observers. */
 export interface LiveServerEventLiveTransportFailed extends LiveServerEvent {
-  /** The unique ID of this Live server event. */
   event_id: string;
   /** The canonical Live session ID. */
   session_id: string;
-  /** The event type. Always `transport.failed`. */
   type: "transport.failed";
-  /** Details of the failure that prevented the transport call from being established. */
   error: LiveTransportCallError;
 }
 
@@ -13629,11 +13445,9 @@ export function liveServerEventLiveTransportFailedDeserializer(
 
 /** model interface LiveTransportCallError */
 export interface LiveTransportCallError {
-  /** The error type. Always `call_error`. */
   type: "call_error";
   /** The call setup failure code. */
   code: string;
-  /** A human-readable description of the transport call setup failure. */
   message: string;
   /** The parameter related to the error, if any. Empty when no parameter applies. */
   param?: string;

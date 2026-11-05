@@ -157,6 +157,43 @@ function assertModelTypes(files, packageRoot) {
   );
 }
 
+test("telephony resource replacement preserves only unchanged approved discriminator contracts", () => {
+  for (const [name, values] of [
+    ["TelephonyProvider", ["teams_phone_extensibility", "twilio", "sip"]],
+    ["TelephonyOutboundRetryPolicyType", ["fixed_interval"]],
+  ]) {
+    const alias = `export type ${name} = ${values.map(JSON.stringify).join(" | ")};`;
+    const baseText = `${alias}
+export interface Parent { kind: ${name}; }
+${values.map((value, index) => `export interface Legacy${index} extends Parent { kind: ${JSON.stringify(value)}; }`).join("\n")}`;
+    const base = tree(baseText);
+    const incoming = tree(`${alias}
+export interface Replacement { kind: ${name}; }`);
+    const result = succeeded(base, base, incoming);
+    assert.ok(result.files.get(modelFile).includes(alias));
+    for (const changed of [
+      `export type ${name} = "future";`,
+      alias.replace(";", ' | "future";'),
+      `export type ${name} = string;`,
+    ]) {
+      const rejected = plan(base, base, tree(changed));
+      assert.equal(rejected.files.size, 0);
+      assert.ok(
+        rejected.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+      );
+    }
+    const unrelated = baseText.replaceAll(name, "UnrelatedKind");
+    const rejected = plan(
+      tree(unrelated),
+      tree(unrelated),
+      tree(alias.replaceAll(name, "UnrelatedKind")),
+    );
+    assert.ok(
+      rejected.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+    );
+  }
+});
+
 const publicExample = 'export type { Example } from "./models.js";';
 
 test("model moves preserve customized fields and merge new converter wire mappings", () => {

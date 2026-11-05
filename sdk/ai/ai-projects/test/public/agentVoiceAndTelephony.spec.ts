@@ -69,7 +69,6 @@ const binding = {
   provider: "twilio",
   connection_name: "telephony-connection",
   phone_number: "+15555550100",
-  status: "active",
   incoming_call_url: "https://example.com/incoming",
   etag: '"binding-etag"',
 };
@@ -219,6 +218,27 @@ describe("beta agent telephony operations", () => {
     expect(result).toMatchObject(body);
   });
 
+  it("creates a SIP binding without service-generated fields or a display phone number", async () => {
+    const body = {
+      provider: "sip" as const,
+      connection_name: binding.connection_name,
+      allowed_calling_numbers: ["+15555550101"],
+    };
+    const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
+    const result = await client.beta.voiceAgents.telephony.createBinding(
+      "voice-agent",
+      body,
+      options,
+    );
+    expect(JSON.parse(requests[0].body as string)).toEqual(body);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(result).toMatchObject({
+      ...body,
+      id: binding.id,
+      incoming_call_url: binding.incoming_call_url,
+    });
+  });
+
   it("gets a Teams Phone extensibility binding without requiring a phone number", async () => {
     const teamsBinding = {
       ...binding,
@@ -242,18 +262,18 @@ describe("beta agent telephony operations", () => {
   });
 
   it("updates only supplied fields and sends the binding ETag", async () => {
-    const { client, requests } = createClient({ body: { ...binding, status: "suspended" } });
+    const { client, requests } = createClient({ body: { ...binding, label: "Updated" } });
     const result = await client.beta.voiceAgents.telephony.updateBinding(
       "voice-agent",
       binding.id,
       binding.etag,
-      { status: "suspended" },
+      { label: "Updated" },
       options,
     );
-    expect(result.status).toBe("suspended");
+    expect(result.label).toBe("Updated");
     expect(requests[0].method).toBe("PATCH");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
-    expect(JSON.parse(requests[0].body as string)).toEqual({ status: "suspended" });
+    expect(JSON.parse(requests[0].body as string)).toEqual({ label: "Updated" });
   });
 
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
@@ -288,17 +308,17 @@ describe("beta agent telephony operations", () => {
         {
           name: "support",
           description: "Support line",
-          destination: { kind: "pstn", value: "+15555550101" },
+          destination: { type: "phone_number", value: "+15555550101" },
         },
         {
           name: "sip",
           description: "SIP desk",
-          destination: { kind: "sip", value: "sip:support@example.com" },
+          destination: { type: "sip", value: "sip:support@example.com" },
         },
         {
           name: "teams",
           description: "Teams desk",
-          destination: { kind: "teams", value: "00000000-0000-0000-0000-000000000001" },
+          destination: { type: "teams", value: "00000000-0000-0000-0000-000000000001" },
         },
       ] satisfies TelephonyTransferTarget[],
     },

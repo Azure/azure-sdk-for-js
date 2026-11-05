@@ -17,6 +17,8 @@ import {
   replaceTransferTargets,
   transferCall,
   updateBinding,
+  deleteCallJob,
+  listCallJobs,
 } from "../../../../api/beta/voiceAgents/telephony/operations.js";
 import type {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
@@ -33,20 +35,21 @@ import type {
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
   BetaVoiceAgentsTelephonyTransferCallOptionalParams,
   BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
 } from "../../../../api/beta/voiceAgents/telephony/options.js";
 import type {
-  CreateTelephonyCallJobRequest,
   TelephonyCallJob,
-  CreateTelephonyBindingRequestUnion,
   TelephonyBindingListItemUnion,
   TelephonyBindingUnion,
+  TelephonyBindingCreateUnion,
   TelephonyCallRecord,
   TelephonyCallSummary,
   TelephonyTransferTarget,
   TelephonyTransferTargets,
   UpdateTelephonyBindingRequest,
+  TelephonyCallJobCreate,
 } from "../../../../models/models.js";
-
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
 import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
@@ -66,11 +69,22 @@ export interface BetaVoiceAgentsTelephonyOperations {
     callJobId: string,
     options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
   ) => Promise<TelephonyCallJob>;
-  /** Creates one durable direct outbound call job. The latest agent definition is resolved when each attempt executes. */
+  /** Deletes a terminal, reconciled job (otherwise 409), without cancelling calls or removing Campaign outcomes/call history. Later GET returns 404; repeated DELETE returns 204. */
+  deleteCallJob: (
+    agentName: string,
+    callJobId: string,
+    options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  ) => Promise<void>;
+  /** Lists current direct/Campaign jobs, excluding deleted or superseded rounds. Pages are live. Campaign cursors survive boundary deletion/cancel, not replacement/name reuse (400 invalid_cursor). */
+  listCallJobs: (
+    agentName: string,
+    options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<TelephonyCallJob>;
+  /** Creates one durable outbound CallJob. Each attempt pins the Agent endpoint's execution version for validation and its voice session. */
   createCallJob: (
     agentName: string,
     idempotencyKey: string,
-    body: CreateTelephonyCallJobRequest,
+    job: TelephonyCallJobCreate,
     options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
   ) => Promise<TelephonyCallJob>;
   /** Replaces all transfer targets configured for the voice agent named in the path. */
@@ -138,7 +152,7 @@ export interface BetaVoiceAgentsTelephonyOperations {
   /** Creates a telephony binding for the voice agent named in the path. */
   createBinding: (
     agentName: string,
-    telephonyBinding: CreateTelephonyBindingRequestUnion,
+    binding: TelephonyBindingCreateUnion,
     options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
   ) => Promise<TelephonyBindingUnion>;
 }
@@ -167,20 +181,29 @@ function _getBetaVoiceAgentsTelephony(
       callJobId: string,
       options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
     ) => getCallJob(context, agentName, callJobId, options),
+    deleteCallJob: (
+      agentName: string,
+      callJobId: string,
+      options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+    ) => deleteCallJob(context, agentName, callJobId, options),
+    listCallJobs: (
+      agentName: string,
+      options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+    ) => listCallJobs(context, agentName, options),
     createCallJob: (
       agentName: string,
       idempotencyKey: string,
-      body: CreateTelephonyCallJobRequest,
+      job: TelephonyCallJobCreate,
       options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
     ) =>
       traceVoiceAgentOperation(
         "voice_agents.telephony.create_call_job",
         context.endpoint,
         tracingConfig,
-        () => createCallJob(context, agentName, idempotencyKey, body, options),
-        (job) => ({
-          "az.ai.voice_agents.telephony.call_job.id": job.id,
-          "az.ai.voice_agents.call_job.status": job.status,
+        () => createCallJob(context, agentName, idempotencyKey, job, options),
+        (createdJob) => ({
+          "az.ai.voice_agents.telephony.call_job.id": createdJob.id,
+          "az.ai.voice_agents.call_job.status": createdJob.status,
         }),
       ),
     replaceTransferTargets: (
@@ -242,9 +265,9 @@ function _getBetaVoiceAgentsTelephony(
     ) => listBindings(context, agentName, options),
     createBinding: (
       agentName: string,
-      telephonyBinding: CreateTelephonyBindingRequestUnion,
+      binding: TelephonyBindingCreateUnion,
       options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
-    ) => run("create_binding", () => createBinding(context, agentName, telephonyBinding, options)),
+    ) => run("create_binding", () => createBinding(context, agentName, binding, options)),
   };
 }
 

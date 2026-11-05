@@ -1468,6 +1468,61 @@ function synchronizedPackageVersion(file, previous, next, packageVersion) {
   return withoutVersion(previous.node) === withoutVersion(next.node);
 }
 
+// Campaign create/cancel declare a guarded final operation, which core-lro cannot
+// infer from the HTTP verb/headers. Permit only forwarding its existing optional
+// skipFinalGet switch; every other token of this protected helper stays unchanged.
+function forwardsCoreLroSkipFinalGet(file, previous, next) {
+  if (file !== "static-helpers/pollingHelpers.ts") return false;
+  const before = previous.node;
+  const after = next.node;
+  let addition;
+  if (
+    previous.name === "GetLongRunningPollerOptions" &&
+    ts.isInterfaceDeclaration(before) &&
+    ts.isInterfaceDeclaration(after)
+  ) {
+    addition = after.members.find((member) => nameOf(member.name) === "skipFinalGet");
+    const expected = parse("interface Options { skipFinalGet?: boolean; }").statements[0]
+      .members[0];
+    if (!addition || nodeKey(addition) !== nodeKey(expected)) return false;
+  } else if (
+    previous.name === "getLongRunningPoller" &&
+    ts.isFunctionDeclaration(before) &&
+    ts.isFunctionDeclaration(after)
+  ) {
+    const candidates = [];
+    walk(after, (node) => {
+      if (
+        ts.isCallExpression(node) &&
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === "createHttpPoller" &&
+        node.arguments.length === 2 &&
+        ts.isObjectLiteralExpression(node.arguments[1])
+      ) {
+        candidates.push(
+          ...node.arguments[1].properties.filter(
+            (property) => nameOf(property.name) === "skipFinalGet",
+          ),
+        );
+      }
+    });
+    const expected = parse("const options = { skipFinalGet: options?.skipFinalGet };").statements[0]
+      .declarationList.declarations[0].initializer.properties[0];
+    if (candidates.length !== 1 || nodeKey(candidates[0]) !== nodeKey(expected)) return false;
+    addition = candidates[0];
+  } else {
+    return false;
+  }
+  const text = after.getText();
+  const start = addition.getStart() - after.getStart();
+  const end = addition.end - after.getStart();
+  const remainder = text.slice(end);
+  const withoutAddition =
+    text.slice(0, start) +
+    (ts.isPropertyAssignment(addition) ? remainder.replace(/^\s*,/, "") : remainder);
+  return canonicalize(before.getText()) === canonicalize(withoutAddition);
+}
+
 function checkProtected(trees, renames, report, matches = [], packageVersion) {
   checkProtectedAdditions(trees, renames, report);
   const relocations = relocationsInto(matches);
@@ -1489,7 +1544,8 @@ function checkProtected(trees, renames, report, matches = [], packageVersion) {
         !(
           additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
           relocatedAdditive(entry.node, next.node, relocation, renames) ||
-          synchronizedPackageVersion(file, entry, next, packageVersion)
+          synchronizedPackageVersion(file, entry, next, packageVersion) ||
+          forwardsCoreLroSkipFinalGet(file, entry, next)
         )
       ) {
         report(

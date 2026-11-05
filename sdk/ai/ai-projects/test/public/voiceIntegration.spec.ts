@@ -12,6 +12,7 @@ import type {
   VoiceAgentDefinition,
   VoiceAgentLiveDefinition,
   RealtimeServerEventResponseAudioDelta,
+  TelephonyCampaignCreate,
 } from "../../src/index.js";
 import {
   agentDefinitionUnionSerializer,
@@ -21,6 +22,23 @@ import {
 } from "../../src/models/models.js";
 
 const endpoint = "https://example.com/api/projects/test-project";
+
+const campaignInput: TelephonyCampaignCreate = {
+  connection_name: "telephony-connection",
+  source: { type: "phone_number", value: "+15555550100" },
+  recipients: [{ destination: { type: "phone_number", value: "+15555550101" } }],
+};
+
+const campaignResponse = {
+  ...campaignInput,
+  created_at: 1_700_000_000,
+  updated_at: 1_700_000_000,
+  status: "cancelled",
+  name: "campaign",
+  etag: '"campaign-etag"',
+  operation_id: "body-is-not-the-initiating-operation",
+  progress: { pending: 0, active: 0, completed: 0, failed: 0, cancelled: 0, expired: 0 },
+};
 
 interface MockResponse {
   status?: number;
@@ -68,6 +86,134 @@ function createClient(...responses: MockResponse[]): {
     getToken,
   };
 }
+
+describe("campaign final resource resolution", () => {
+  const operationId = "initiating operation/+";
+  const operationLocation =
+    `${endpoint}/agents/voice%20agent/telephony_campaigns/campaign/operations/` +
+    encodeURIComponent(operationId);
+
+  for (const action of ["create", "cancel"] as const) {
+    function start(
+      client: AIProjectClient,
+    ): ReturnType<AIProjectClient["beta"]["voiceAgents"]["campaigns"]["create"]> {
+      const options = {
+        updateIntervalInMs: 0,
+        operationId: "request-key-not-response-key",
+        requestOptions: { headers: { "x-test-header": "preserved" } },
+      };
+      return action === "create"
+        ? client.beta.voiceAgents.campaigns.create(
+            "voice agent",
+            "campaign",
+            campaignInput,
+            options,
+          )
+        : client.beta.voiceAgents.campaigns.cancel(
+            "voice agent",
+            "campaign",
+            '"campaign-etag"',
+            options,
+          );
+    }
+
+    function accepted(): MockResponse {
+      return {
+        status: action === "create" ? 201 : 202,
+        body:
+          action === "create"
+            ? campaignResponse
+            : { id: operationId, kind: "cancel", status: "in_progress", created_at: 1_700_000_000 },
+        headers: {
+          "operation-location": operationLocation,
+          "operation-id": operationId,
+          "retry-after": "0",
+          ...(action === "create" ? { location: `${endpoint}/unguarded-resource` } : {}),
+        },
+      };
+    }
+
+    const succeeded: MockResponse = {
+      body: {
+        id: operationId,
+        kind: action === "create" ? "validation" : "cancel",
+        status: "succeeded",
+        created_at: 1_700_000_000,
+        finished_at: 1_700_000_001,
+      },
+    };
+
+    it(`${action} resolves a resource-free monitor through the declared guarded GET`, async () => {
+      const { client, requests } = createClient(accepted(), succeeded, {
+        body: campaignResponse,
+      });
+      const poller = start(client);
+      const result = await poller.pollUntilDone();
+      expect(requests).toHaveLength(3);
+      expect(requests[0].method).toBe(action === "create" ? "PUT" : "POST");
+      if (action === "create") {
+        expect(JSON.parse(String(requests[0].body))).toEqual(campaignInput);
+      }
+      expect(requests[1].method).toBe("GET");
+      expect(new URL(requests[1].url).pathname).toBe(new URL(operationLocation).pathname);
+      const finalUrl = new URL(requests[2].url);
+      expect(requests[2].method).toBe("GET");
+      expect(finalUrl.pathname).toBe(
+        "/api/projects/test-project/agents/voice%20agent/telephony_campaigns/campaign",
+      );
+      expect(finalUrl.searchParams.get("operation_id")).toBe(operationId);
+      expect(finalUrl.searchParams.get("api-version")).toBe("v1");
+      for (const request of requests) {
+        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(request.headers.get("x-test-header")).toBe("preserved");
+      }
+      expect(result).toMatchObject({
+        name: "campaign",
+        status: "cancelled",
+        source: campaignInput.source,
+        progress: campaignResponse.progress,
+        created_at: new Date(1_700_000_000_000),
+      });
+      expect(poller.result).toEqual(result);
+    });
+
+    it.each([
+      { status: 409, code: "campaign_operation_mismatch" },
+      { status: 404, code: "campaign_not_found" },
+    ])(`${action} surfaces guarded final GET errors ($status)`, async ({ status, code }) => {
+      const { client, requests } = createClient(accepted(), succeeded, {
+        status,
+        body: { error: { code, message: "The original campaign is no longer available." } },
+      });
+      await expect(start(client).pollUntilDone()).rejects.toMatchObject({
+        statusCode: status,
+        details: { error: { code } },
+      });
+      expect(requests).toHaveLength(3);
+      expect(new URL(requests[2].url).searchParams.get("operation_id")).toBe(operationId);
+    });
+
+    it(`${action} does not fetch a campaign after monitor failure`, async () => {
+      const { client, requests } = createClient(accepted(), {
+        body: {
+          id: operationId,
+          status: "failed",
+          error: { code: "campaign_failed", message: "Campaign action failed." },
+        },
+      });
+      await expect(start(client).pollUntilDone()).rejects.toThrow("Campaign action failed.");
+      expect(requests).toHaveLength(2);
+    });
+
+    it(`${action} never falls back to an unguarded GET when Operation-Id is missing`, async () => {
+      const response = accepted();
+      delete response.headers?.["operation-id"];
+      const { client, requests } = createClient(response, succeeded);
+      await expect(start(client).pollUntilDone()).rejects.toThrow("Operation-Id");
+      expect(requests).toHaveLength(2);
+    });
+  }
+});
 
 describe("voice post-emitter integration", () => {
   it("sends post-call configuration and preserves preview audio rejection errors", async () => {
@@ -249,6 +395,21 @@ describe("voice post-emitter integration", () => {
         client.beta.voiceAgents.telephony.listCalls("agent", options),
     },
     {
+      name: "telephony call jobs",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listCallJobs("agent", options),
+    },
+    {
+      name: "campaigns",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.campaigns.list("agent", options),
+    },
+    {
+      name: "campaign validation errors",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.campaigns.listValidationErrors("agent", "campaign", options),
+    },
+    {
       name: "Live conversations",
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.liveConversations.list("agent", options),
@@ -296,7 +457,7 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  it("omits removed campaign operations while retaining call jobs and realtime connections", () => {
+  it("wires redesigned campaign and Live groups without restoring legacy flat campaign APIs", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",
@@ -315,6 +476,12 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.campaigns.create).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.campaigns.getOperation).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations.get).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations).not.toHaveProperty("connect");
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
     expect(requests).toHaveLength(0);
   });

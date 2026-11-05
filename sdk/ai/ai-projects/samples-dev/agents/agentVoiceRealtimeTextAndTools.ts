@@ -209,6 +209,7 @@ async function getOrCreateVoiceAgent(project: AIProjectClient): Promise<{ create
 
   const definition: VoiceAgentDefinition = {
     kind: "voice",
+    sub_protocol: "realtime",
     model_type: "managed",
     model: modelName,
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",

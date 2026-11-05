@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
       options,
     );
     // Avoid logging phone numbers, webhook URLs, or caller information.
-    console.log(`Binding provider: ${details.provider}, status: ${details.status}`);
+    console.log(`Binding provider: ${details.provider}`);
   }
 
   console.log("Reading configured transfer targets...");
