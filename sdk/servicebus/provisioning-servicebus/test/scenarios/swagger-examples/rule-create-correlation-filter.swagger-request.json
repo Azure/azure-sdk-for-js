@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "correlationFilter": {
+      "properties": {
+        "topicHint": "Crop"
+      }
+    },
+    "filterType": "CorrelationFilter"
+  }
+}
