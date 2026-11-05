@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testdb",
     location: "eastus",
   });
-  const dataWarehouseUserActivities2 = new DataWarehouseUserActivities(serverDatabase1, {
+  new DataWarehouseUserActivities(serverDatabase1, {
     name: "current",
     existing: true,
   });

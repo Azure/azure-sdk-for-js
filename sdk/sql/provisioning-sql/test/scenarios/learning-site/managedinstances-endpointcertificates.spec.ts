@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesendp",
     location: "eastus",
   });
-  const endpointCertificate1 = new EndpointCertificate(managedInstance0, {
+  new EndpointCertificate(managedInstance0, {
     existing: true,
     name: "managedinstancesendp",
   });

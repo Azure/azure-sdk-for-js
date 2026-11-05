@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasessche",
     location: "eastus",
   });
-  const serverDatabaseSchema2 = new SqlDatabaseSchema(serverDatabase1, {
+  new SqlDatabaseSchema(serverDatabase1, {
     existing: true,
     name: "serversdatabasessche",
   });

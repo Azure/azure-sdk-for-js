@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstanceskeys",
     location: "eastus",
   });
-  const managedInstanceKey1 = new ManagedInstanceKey(managedInstance0, {
+  new ManagedInstanceKey(managedInstance0, {
     name: "managedinstanceskeys",
   });
   return stack;

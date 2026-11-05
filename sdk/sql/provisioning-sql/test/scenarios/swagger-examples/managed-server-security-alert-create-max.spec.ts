@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const server0 = new Server(stack, {
+  new Server(stack, {
     name: "managedserversecurit",
     location: "eastus",
   });

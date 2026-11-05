@@ -56,13 +56,10 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqlcrudtest-7398",
     location: "eastus",
   });
-  const networkSecurityPerimeterConfiguration1 = new NetworkSecurityPerimeterConfiguration(
-    server0,
-    {
-      existing: true,
-      name: "networksecurityperim",
-    },
-  );
+  new NetworkSecurityPerimeterConfiguration(server0, {
+    existing: true,
+    name: "networksecurityperim",
+  });
   return stack;
 }
 

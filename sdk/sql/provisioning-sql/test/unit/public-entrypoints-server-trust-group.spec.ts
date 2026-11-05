@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const serverTrustGroup0 = new ServerTrustGroup(stack, {
+  new ServerTrustGroup(stack, {
     name: "eastus/publicentrypointsser",
   });
   return stack;

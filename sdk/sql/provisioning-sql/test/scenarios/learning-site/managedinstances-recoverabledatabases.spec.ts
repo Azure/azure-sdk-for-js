@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesreco",
     location: "eastus",
   });
-  const recoverableManagedDatabase1 = new RecoverableManagedDatabase(managedInstance0, {
+  new RecoverableManagedDatabase(managedInstance0, {
     existing: true,
     name: "managedinstancesreco",
   });

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancespriv",
     location: "eastus",
   });
-  const managedInstancePrivateLink1 = new ManagedInstancePrivateLink(managedInstance0, {
+  new ManagedInstancePrivateLink(managedInstance0, {
     existing: true,
     name: "managedinstancespriv",
   });

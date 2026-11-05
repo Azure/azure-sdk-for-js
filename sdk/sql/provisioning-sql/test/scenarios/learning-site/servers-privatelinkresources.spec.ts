@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversprivatelinkre",
     location: "eastus",
   });
-  const privateLinkResource1 = new PrivateLinkResource(server0, {
+  new PrivateLinkResource(server0, {
     existing: true,
     name: "serversprivatelinkre",
   });

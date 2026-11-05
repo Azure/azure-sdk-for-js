@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesexte",
     location: "eastus",
   });
-  const extension2 = new Extension(serverDatabase1, {
+  new Extension(serverDatabase1, {
     name: "serversdatabasesexte",
   });
   return stack;

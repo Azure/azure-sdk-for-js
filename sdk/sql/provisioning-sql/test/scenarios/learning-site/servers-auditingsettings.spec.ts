@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversauditingsetti",
     location: "eastus",
   });
-  const serverBlobAuditingPolicy1 = new SqlServerBlobAuditingPolicy(server0, {
+  new SqlServerBlobAuditingPolicy(server0, {
     name: "default",
   });
   return stack;

@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "test-cl",
     location: "eastus",
   });
-  const managedInstancePrivateLink1 = new ManagedInstancePrivateLink(managedInstance0, {
+  new ManagedInstancePrivateLink(managedInstance0, {
     existing: true,
     name: "managedinstancepriva",
   });

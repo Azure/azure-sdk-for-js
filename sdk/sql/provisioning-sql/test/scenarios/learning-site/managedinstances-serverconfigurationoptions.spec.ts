@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesserv",
     location: "eastus",
   });
-  const serverConfigurationOption1 = new ServerConfigurationOption(managedInstance0, {
+  new ServerConfigurationOption(managedInstance0, {
     name: "allowPolybaseExport",
   });
   return stack;

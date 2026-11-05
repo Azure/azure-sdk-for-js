@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
-  const deletedServer0 = new DeletedServer(stack, {
+  new DeletedServer(stack, {
     existing: true,
     name: "eastus/locationsdeletedserv",
   });

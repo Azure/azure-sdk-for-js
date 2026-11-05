@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesdnsa",
     location: "eastus",
   });
-  const managedInstanceDnsAlias1 = new ManagedInstanceDnsAlias(managedInstance0, {
+  new ManagedInstanceDnsAlias(managedInstance0, {
     name: "managedinstancesdnsa",
   });
   return stack;

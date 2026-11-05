@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testdb",
     location: "eastus",
   });
-  const restoreDetail2 = new RestoreDetail(managedInstanceDatabase1, {
+  new RestoreDetail(managedInstanceDatabase1, {
     name: "Default",
     existing: true,
   });

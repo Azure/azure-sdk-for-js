@@ -94,11 +94,11 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "publicentrypointsman",
     location: "eastus",
   });
-  const distributedAvailabilityGroup1 = new DistributedAvailabilityGroup(managedInstance0, {
+  new DistributedAvailabilityGroup(managedInstance0, {
     name: "publicentrypointsman",
   });
-  const dtc2 = new Dtc(managedInstance0, { name: "current" });
-  const endpointCertificate3 = new EndpointCertificate(managedInstance0, {
+  new Dtc(managedInstance0, { name: "current" });
+  new EndpointCertificate(managedInstance0, {
     existing: true,
     name: "publicentrypointsman",
   });
@@ -106,37 +106,24 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "publicentrypointsman",
     location: "eastus",
   });
-  const managedDatabaseAdvancedThreatProtection5 = new ManagedDatabaseAdvancedThreatProtection(
-    managedInstanceDatabase4,
-    {
-      name: "Default",
-    },
-  );
-  const managedInstanceAdministrator6 = new ManagedInstanceAdministrator(managedInstance0, {
+  new ManagedDatabaseAdvancedThreatProtection(managedInstanceDatabase4, {
+    name: "Default",
+  });
+  new ManagedInstanceAdministrator(managedInstance0, {
     name: "ActiveDirectory",
   });
-  const managedInstanceAdvancedThreatProtection7 = new ManagedInstanceAdvancedThreatProtection(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
-  const managedInstanceAzureAdOnlyAuthentication8 = new ManagedInstanceAzureAdOnlyAuthentication(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
-  const managedInstanceDatabaseBackupShortTermRetentionPolicy9 =
-    new ManagedBackupShortTermRetentionPolicy(managedInstanceDatabase4, {
-      name: "default",
-    });
-  const managedInstanceDatabaseLedgerDigestUpload10 = new ManagedInstanceDatabaseLedgerDigestUpload(
-    managedInstanceDatabase4,
-    {
-      name: "current",
-    },
-  );
+  new ManagedInstanceAdvancedThreatProtection(managedInstance0, {
+    name: "Default",
+  });
+  new ManagedInstanceAzureAdOnlyAuthentication(managedInstance0, {
+    name: "Default",
+  });
+  new ManagedBackupShortTermRetentionPolicy(managedInstanceDatabase4, {
+    name: "default",
+  });
+  new ManagedInstanceDatabaseLedgerDigestUpload(managedInstanceDatabase4, {
+    name: "current",
+  });
   const managedInstanceDatabaseSchema11 = new ManagedDatabaseSchema(managedInstanceDatabase4, {
     existing: true,
     name: "publicentrypointsman",
@@ -152,84 +139,64 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     managedInstanceDatabaseSchemaTable12,
     { existing: true, name: "publicentrypointsman" },
   );
-  const managedInstanceDatabaseSchemaTableColumnSensitivityLabel14 =
-    new ManagedDatabaseSensitivityLabel(managedInstanceDatabaseSchemaTableColumn13, {
-      name: "current",
-    });
-  const managedInstanceDatabaseSecurityAlertPolicy15 =
-    new ManagedInstanceDatabaseSecurityAlertPolicy(managedInstanceDatabase4, {
-      name: "Default",
-    });
-  const managedInstanceDatabaseTransparentDataEncryption16 =
-    new ManagedInstanceDatabaseTransparentDataEncryption(managedInstanceDatabase4, {
-      name: "current",
-    });
+  new ManagedDatabaseSensitivityLabel(managedInstanceDatabaseSchemaTableColumn13, {
+    name: "current",
+  });
+  new ManagedInstanceDatabaseSecurityAlertPolicy(managedInstanceDatabase4, {
+    name: "Default",
+  });
+  new ManagedInstanceDatabaseTransparentDataEncryption(managedInstanceDatabase4, {
+    name: "current",
+  });
   const managedInstanceDatabaseVulnerabilityAssessment17 =
     new ManagedDatabaseVulnerabilityAssessment(managedInstanceDatabase4, {
       name: "default",
     });
-  const managedInstanceDatabaseVulnerabilityAssessmentRuleBaseline18 =
-    new ManagedDatabaseVulnerabilityAssessmentRuleBaseline(
-      // @ts-expect-error The public constructor omits the Bicep-required rules parent.
-      stack,
-      {
-        name: "managedinstance/database/default/rule/default",
-      },
-    );
-  const managedInstanceDatabaseVulnerabilityAssessmentScan19 =
-    new ManagedDatabaseVulnerabilityAssessmentScan(
-      managedInstanceDatabaseVulnerabilityAssessment17,
-      { existing: true, name: "publicentrypointsman" },
-    );
-  const managedInstanceDnsAlias20 = new ManagedInstanceDnsAlias(managedInstance0, {
-    name: "publicentrypointsman",
-  });
-  const managedInstanceEncryptionProtector21 = new ManagedInstanceEncryptionProtector(
-    managedInstance0,
+  new ManagedDatabaseVulnerabilityAssessmentRuleBaseline(
+    // @ts-expect-error The public constructor omits the Bicep-required rules parent.
+    stack,
     {
-      name: "current",
+      name: "managedinstance/database/default/rule/default",
     },
   );
-  const managedInstanceKey22 = new ManagedInstanceKey(managedInstance0, {
-    name: "publicentrypointsman",
-  });
-  const managedInstanceLongTermRetentionPolicy23 = new ManagedInstanceLongTermRetentionPolicy(
-    managedInstanceDatabase4,
-    {
-      name: "default",
-    },
-  );
-  const managedInstanceOperation24 = new ManagedInstanceOperation(managedInstance0, {
+  new ManagedDatabaseVulnerabilityAssessmentScan(managedInstanceDatabaseVulnerabilityAssessment17, {
     existing: true,
     name: "publicentrypointsman",
   });
-  const managedInstancePrivateEndpointConnection25 = new ManagedInstancePrivateEndpointConnection(
-    managedInstance0,
-    {
-      name: "publicentrypointsman",
-    },
-  );
-  const managedInstancePrivateLink26 = new ManagedInstancePrivateLink(managedInstance0, {
+  new ManagedInstanceDnsAlias(managedInstance0, {
+    name: "publicentrypointsman",
+  });
+  new ManagedInstanceEncryptionProtector(managedInstance0, {
+    name: "current",
+  });
+  new ManagedInstanceKey(managedInstance0, {
+    name: "publicentrypointsman",
+  });
+  new ManagedInstanceLongTermRetentionPolicy(managedInstanceDatabase4, {
+    name: "default",
+  });
+  new ManagedInstanceOperation(managedInstance0, {
     existing: true,
     name: "publicentrypointsman",
   });
-  const managedInstanceSecurityAlertPolicy27 = new ManagedInstanceSecurityAlertPolicy(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
-  const managedInstanceVulnerabilityAssessment28 = new ManagedInstanceVulnerabilityAssessment(
-    managedInstance0,
-    {
-      name: "default",
-    },
-  );
-  const query29 = new Query(managedInstanceDatabase4, {
+  new ManagedInstancePrivateEndpointConnection(managedInstance0, {
+    name: "publicentrypointsman",
+  });
+  new ManagedInstancePrivateLink(managedInstance0, {
     existing: true,
     name: "publicentrypointsman",
   });
-  const recoverableManagedDatabase30 = new RecoverableManagedDatabase(managedInstance0, {
+  new ManagedInstanceSecurityAlertPolicy(managedInstance0, {
+    name: "Default",
+  });
+  new ManagedInstanceVulnerabilityAssessment(managedInstance0, {
+    name: "default",
+  });
+  new Query(managedInstanceDatabase4, {
+    existing: true,
+    name: "publicentrypointsman",
+  });
+  new RecoverableManagedDatabase(managedInstance0, {
     existing: true,
     name: "publicentrypointsman",
   });
@@ -240,26 +207,21 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       name: "publicentrypointsman",
     },
   );
-  const restorableDroppedDatabaseBackupShortTermRetentionPolicy32 =
-    new ManagedRestorableDroppedDbBackupShortTermRetentionPolicy(
-      restorableDroppedManagedDatabase31,
-      { name: "default" },
-    );
-  const restoreDetail33 = new RestoreDetail(managedInstanceDatabase4, {
+  new ManagedRestorableDroppedDbBackupShortTermRetentionPolicy(restorableDroppedManagedDatabase31, {
+    name: "default",
+  });
+  new RestoreDetail(managedInstanceDatabase4, {
     name: "Default",
     existing: true,
   });
-  const serverConfigurationOption34 = new ServerConfigurationOption(managedInstance0, {
+  new ServerConfigurationOption(managedInstance0, {
     name: "allowPolybaseExport",
   });
-  const serverTrustCertificate35 = new ManagedInstanceServerTrustCertificate(managedInstance0, {
+  new ManagedInstanceServerTrustCertificate(managedInstance0, {
     name: "publicentrypointsman",
   });
-  const sqlAgent36 = new SqlAgent(managedInstance0, {});
-  const startStopManagedInstanceSchedule37 = new StartStopManagedInstanceSchedule(
-    managedInstance0,
-    { name: "default" },
-  );
+  new SqlAgent(managedInstance0, {});
+  new StartStopManagedInstanceSchedule(managedInstance0, { name: "default" });
   return stack;
 }
 

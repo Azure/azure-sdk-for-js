@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdevopsauditin",
     location: "eastus",
   });
-  const devOpsAuditingSetting1 = new DevOpsAuditingSetting(server0, {
+  new DevOpsAuditingSetting(server0, {
     name: "Default",
   });
   return stack;

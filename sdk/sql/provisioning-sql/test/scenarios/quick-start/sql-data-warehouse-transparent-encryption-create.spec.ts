@@ -61,20 +61,17 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqldatawarehousetran",
     location: "eastus",
   });
-  const serverBlobAuditingPolicy1 = new SqlServerBlobAuditingPolicy(server0, {
+  new SqlServerBlobAuditingPolicy(server0, {
     name: "default",
   });
   const serverDatabase2 = new ServerDatabase(server0, {
     name: "sqldatawarehousetran",
     location: "eastus",
   });
-  const serverDatabaseTransparentDataEncryption3 = new ServerDatabaseTransparentDataEncryption(
-    serverDatabase2,
-    {
-      name: "current",
-    },
-  );
-  const serverSecurityAlertPolicy4 = new ServerSecurityAlertPolicy(server0, {
+  new ServerDatabaseTransparentDataEncryption(serverDatabase2, {
+    name: "current",
+  });
+  new ServerSecurityAlertPolicy(server0, {
     name: "Default",
   });
   return stack;

@@ -51,11 +51,11 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const instancePool0 = new InstancePool(stack, {
+  new InstancePool(stack, {
     name: "instancepoolsinstanc",
     location: "eastus",
   });
-  const managedInstance1 = new ManagedInstance(stack, {
+  new ManagedInstance(stack, {
     name: "instancepoolsmanaged",
     location: "eastus",
   });

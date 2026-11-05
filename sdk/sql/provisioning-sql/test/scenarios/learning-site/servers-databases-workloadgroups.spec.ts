@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabaseswork",
     location: "eastus",
   });
-  const workloadGroup2 = new WorkloadGroup(serverDatabase1, {
+  new WorkloadGroup(serverDatabase1, {
     name: "serversdatabaseswork",
   });
   return stack;

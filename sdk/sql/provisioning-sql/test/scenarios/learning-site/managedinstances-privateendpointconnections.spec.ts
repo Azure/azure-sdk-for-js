@@ -55,12 +55,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancespriv",
     location: "eastus",
   });
-  const managedInstancePrivateEndpointConnection1 = new ManagedInstancePrivateEndpointConnection(
-    managedInstance0,
-    {
-      name: "managedinstancespriv",
-    },
-  );
+  new ManagedInstancePrivateEndpointConnection(managedInstance0, {
+    name: "managedinstancespriv",
+  });
   return stack;
 }
 

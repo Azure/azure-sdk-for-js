@@ -63,12 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesdata",
     location: "eastus",
   });
-  const managedDatabaseAdvancedThreatProtection2 = new ManagedDatabaseAdvancedThreatProtection(
-    managedInstanceDatabase1,
-    {
-      name: "Default",
-    },
-  );
+  new ManagedDatabaseAdvancedThreatProtection(managedInstanceDatabase1, {
+    name: "Default",
+  });
   return stack;
 }
 

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversprivateendpoi",
     location: "eastus",
   });
-  const serverPrivateEndpointConnection1 = new ServerPrivateEndpointConnection(server0, {
+  new ServerPrivateEndpointConnection(server0, {
     name: "serversprivateendpoi",
   });
   return stack;

@@ -55,12 +55,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesadva",
     location: "eastus",
   });
-  const managedInstanceAdvancedThreatProtection1 = new ManagedInstanceAdvancedThreatProtection(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
+  new ManagedInstanceAdvancedThreatProtection(managedInstance0, {
+    name: "Default",
+  });
   return stack;
 }
 

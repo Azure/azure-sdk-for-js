@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "agent1",
     location: "eastus",
   });
-  const targetGroup2 = new TargetGroup(jobAgent1, {
+  new TargetGroup(jobAgent1, {
     name: "listjobtargetgroupst",
   });
   return stack;

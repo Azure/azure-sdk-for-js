@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversrestorabledro",
     location: "eastus",
   });
-  const restorableDroppedDatabase1 = new RestorableDroppedDatabase(server0, {
+  new RestorableDroppedDatabase(server0, {
     existing: true,
     name: "serversrestorabledro",
   });

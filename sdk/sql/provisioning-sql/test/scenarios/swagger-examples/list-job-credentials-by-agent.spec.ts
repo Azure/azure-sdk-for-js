@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "agent1",
     location: "eastus",
   });
-  const credential2 = new Credential(jobAgent1, {
+  new Credential(jobAgent1, {
     name: "listjobcredentialsby",
   });
   return stack;

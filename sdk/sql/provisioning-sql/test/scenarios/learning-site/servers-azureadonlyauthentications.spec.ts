@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversazureadonlyau",
     location: "eastus",
   });
-  const serverAzureAdOnlyAuthentication1 = new ServerAzureAdOnlyAuthentication(server0, {
+  new ServerAzureAdOnlyAuthentication(server0, {
     name: "Default",
   });
   return stack;

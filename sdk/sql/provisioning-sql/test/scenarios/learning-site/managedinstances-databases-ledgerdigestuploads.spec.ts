@@ -63,12 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesdata",
     location: "eastus",
   });
-  const managedInstanceDatabaseLedgerDigestUpload2 = new ManagedInstanceDatabaseLedgerDigestUpload(
-    managedInstanceDatabase1,
-    {
-      name: "current",
-    },
-  );
+  new ManagedInstanceDatabaseLedgerDigestUpload(managedInstanceDatabase1, {
+    name: "current",
+  });
   return stack;
 }
 

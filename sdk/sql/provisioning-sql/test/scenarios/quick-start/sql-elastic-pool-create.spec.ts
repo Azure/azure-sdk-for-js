@@ -55,14 +55,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqlelasticpoolcreate",
     location: "eastus",
   });
-  const elasticPool1 = new ElasticPool(server0, {
+  new ElasticPool(server0, {
     name: "sqlelasticpoolcreate",
     location: "eastus",
   });
-  const firewallRule2 = new FirewallRule(server0, {
+  new FirewallRule(server0, {
     name: "sqlelasticpoolcreate",
   });
-  const serverDatabase3 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "sqlelasticpoolcreate",
     location: "eastus",
   });

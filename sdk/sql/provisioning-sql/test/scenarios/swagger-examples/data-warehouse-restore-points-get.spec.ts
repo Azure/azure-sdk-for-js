@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testDatabase",
     location: "eastus",
   });
-  const restorePoint2 = new RestorePoint(serverDatabase1, {
+  new RestorePoint(serverDatabase1, {
     existing: true,
     name: "131546477590000000",
   });

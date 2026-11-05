@@ -60,13 +60,13 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqlauditingserverpol",
     location: "eastus",
   });
-  const devOpsAuditingSetting1 = new DevOpsAuditingSetting(server0, {
+  new DevOpsAuditingSetting(server0, {
     name: "Default",
   });
-  const serverBlobAuditingPolicy2 = new SqlServerBlobAuditingPolicy(server0, {
+  new SqlServerBlobAuditingPolicy(server0, {
     name: "default",
   });
-  const serverDatabase3 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "sqlauditingserverpol",
     location: "eastus",
   });

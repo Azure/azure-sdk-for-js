@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversipv6firewallr",
     location: "eastus",
   });
-  const ipv6FirewallRule1 = new IPv6FirewallRule(server0, {
+  new IPv6FirewallRule(server0, {
     name: "serversipv6firewallr",
   });
   return stack;

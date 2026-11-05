@@ -61,14 +61,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqllogicalserverserv",
     location: "eastus",
   });
-  const connectionPolicy1 = new ConnectionPolicy(server0, { name: "default" });
-  const firewallRule2 = new FirewallRule(server0, {
+  new ConnectionPolicy(server0, { name: "default" });
+  new FirewallRule(server0, {
     name: "sqllogicalserverfire",
   });
-  const serverAdvancedThreatProtection3 = new ServerAdvancedThreatProtection(server0, {
+  new ServerAdvancedThreatProtection(server0, {
     name: "Default",
   });
-  const serverSqlVulnerabilityAssessment4 = new SqlServerSqlVulnerabilityAssessment(server0, {
+  new SqlServerSqlVulnerabilityAssessment(server0, {
     name: "default",
   });
   return stack;

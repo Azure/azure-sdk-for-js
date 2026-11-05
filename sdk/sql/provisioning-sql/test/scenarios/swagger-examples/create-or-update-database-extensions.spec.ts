@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "878e303f-1ea0-4f17-aa3d-a22ac5e9da08",
     location: "eastus",
   });
-  const extension2 = new Extension(serverDatabase1, {
+  new Extension(serverDatabase1, {
     name: "polybaseimport",
     properties: {
       operationMode: "PolybaseImport",

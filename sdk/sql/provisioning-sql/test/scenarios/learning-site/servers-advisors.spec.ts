@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversadvisorsserve",
     location: "eastus",
   });
-  const serverAdvisor1 = new SqlServerAdvisor(server0, {
+  new SqlServerAdvisor(server0, {
     existing: true,
     name: "serversadvisorsserve",
   });

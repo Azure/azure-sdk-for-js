@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversextendedaudit",
     location: "eastus",
   });
-  const extendedServerBlobAuditingPolicy1 = new ExtendedServerBlobAuditingPolicy(server0, {
+  new ExtendedServerBlobAuditingPolicy(server0, {
     name: "default",
   });
   return stack;

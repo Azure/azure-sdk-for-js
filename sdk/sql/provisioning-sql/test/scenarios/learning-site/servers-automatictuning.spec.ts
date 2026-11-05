@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversautomatictuni",
     location: "eastus",
   });
-  const serverAutomaticTuning1 = new ServerAutomaticTuning(server0, {
+  new ServerAutomaticTuning(server0, {
     existing: true,
   });
   return stack;

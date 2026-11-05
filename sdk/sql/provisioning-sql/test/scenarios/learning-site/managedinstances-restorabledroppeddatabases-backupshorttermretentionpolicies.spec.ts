@@ -63,11 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "managedinstancesrest",
   });
-  const restorableDroppedDatabaseBackupShortTermRetentionPolicy2 =
-    new ManagedRestorableDroppedDbBackupShortTermRetentionPolicy(
-      restorableDroppedManagedDatabase1,
-      { name: "default" },
-    );
+  new ManagedRestorableDroppedDbBackupShortTermRetentionPolicy(restorableDroppedManagedDatabase1, {
+    name: "default",
+  });
   return stack;
 }
 

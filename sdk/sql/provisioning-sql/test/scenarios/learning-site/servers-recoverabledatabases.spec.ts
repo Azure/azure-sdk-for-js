@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversrecoverableda",
     location: "eastus",
   });
-  const recoverableDatabase1 = new RecoverableDatabase(server0, {
+  new RecoverableDatabase(server0, {
     existing: true,
     name: "serversrecoverableda",
   });

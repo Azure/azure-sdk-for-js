@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const managedDatabaseMoveOperationResult0 = new ManagedDatabaseMoveOperationResult(stack, {
+  new ManagedDatabaseMoveOperationResult(stack, {
     existing: true,
     name: "eastus/publicentrypointsman",
   });

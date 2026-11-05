@@ -62,7 +62,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   const job2 = new Job(jobAgent1, {
     name: "serversjobagentsjobs",
   });
-  const execution3 = new SqlServerJobExecution(job2, {
+  new SqlServerJobExecution(job2, {
     name: "serversjobagentsjobs",
   });
   return stack;

@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesadvi",
     location: "eastus",
   });
-  const databaseAdvisor2 = new SqlDatabaseAdvisor(serverDatabase1, {
+  new SqlDatabaseAdvisor(serverDatabase1, {
     existing: true,
     name: "serversdatabasesadvi",
   });

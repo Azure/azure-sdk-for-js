@@ -64,7 +64,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   });
   // @ts-expect-error The generated public type uses string although Bicep requires an integer version name.
   const version3 = new Version(job2, { existing: true, name: 1 });
-  const versionStep4 = new SqlServerJobVersionStep(version3, {
+  new SqlServerJobVersionStep(version3, {
     existing: true,
     name: "step1",
   });

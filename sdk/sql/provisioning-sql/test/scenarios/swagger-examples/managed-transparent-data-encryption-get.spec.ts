@@ -64,10 +64,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testdb",
     location: "eastus",
   });
-  const managedInstanceDatabaseTransparentDataEncryption2 =
-    new ManagedInstanceDatabaseTransparentDataEncryption(managedInstanceDatabase1, {
-      name: "current",
-    });
+  new ManagedInstanceDatabaseTransparentDataEncryption(managedInstanceDatabase1, {
+    name: "current",
+  });
   return stack;
 }
 

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdnsaliasesser",
     location: "eastus",
   });
-  const serverDnsAlias1 = new ServerDnsAlias(server0, {
+  new ServerDnsAlias(server0, {
     name: "serversdnsaliasesser",
   });
   return stack;

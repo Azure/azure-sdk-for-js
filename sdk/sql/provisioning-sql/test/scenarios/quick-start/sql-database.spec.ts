@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "sqldatabaseserver1",
     location: "eastus",
   });
-  const serverDatabase1 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "sqldatabaseserverdat",
     location: "eastus",
   });

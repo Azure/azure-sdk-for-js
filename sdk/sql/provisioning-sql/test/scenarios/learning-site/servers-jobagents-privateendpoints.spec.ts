@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversjobagentspriv",
     location: "eastus",
   });
-  const privateEndpoint2 = new PrivateEndpoint(jobAgent1, {
+  new PrivateEndpoint(jobAgent1, {
     name: "serversjobagentspriv",
   });
   return stack;

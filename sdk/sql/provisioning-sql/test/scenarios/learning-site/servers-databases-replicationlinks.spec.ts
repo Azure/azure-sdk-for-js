@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesrepl",
     location: "eastus",
   });
-  const replicationLink2 = new ReplicationLink(serverDatabase1, {
+  new ReplicationLink(serverDatabase1, {
     name: "serversdatabasesrepl",
   });
   return stack;

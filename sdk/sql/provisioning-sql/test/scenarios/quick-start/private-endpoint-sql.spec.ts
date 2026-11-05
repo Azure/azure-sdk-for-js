@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "privateendpointsqlse",
     location: "eastus",
   });
-  const serverDatabase1 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "privateendpointsqlse",
     location: "eastus",
   });

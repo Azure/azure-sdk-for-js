@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serverskeysserver1",
     location: "eastus",
   });
-  const serverKey1 = new ServerKey(server0, {
+  new ServerKey(server0, {
     name: "serverskeysserverkey",
   });
   return stack;

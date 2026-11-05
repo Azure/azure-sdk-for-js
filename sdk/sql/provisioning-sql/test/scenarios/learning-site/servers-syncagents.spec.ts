@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serverssyncagentsser",
     location: "eastus",
   });
-  const syncAgent1 = new SyncAgent(server0, {
+  new SyncAgent(server0, {
     name: "serverssyncagentssyn",
   });
   return stack;

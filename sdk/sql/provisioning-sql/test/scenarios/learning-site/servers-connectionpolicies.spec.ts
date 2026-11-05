@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversconnectionpol",
     location: "eastus",
   });
-  const connectionPolicy1 = new ConnectionPolicy(server0, { name: "default" });
+  new ConnectionPolicy(server0, { name: "default" });
   return stack;
 }
 

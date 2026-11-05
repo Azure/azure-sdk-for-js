@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testinstance",
     location: "eastus",
   });
-  const dtc1 = new Dtc(managedInstance0, { name: "current" });
+  new Dtc(managedInstance0, { name: "current" });
   return stack;
 }
 

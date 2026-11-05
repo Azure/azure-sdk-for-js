@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
-  const longTermRetentionBackup0 = new SubscriptionLongTermRetentionBackup(stack, {
+  new SubscriptionLongTermRetentionBackup(stack, {
     existing: true,
     name: "eastus/longtermretentionser/longtermretentiondat/publicentrypointslon",
   });

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "instancepoolsoperati",
     location: "eastus",
   });
-  const instancePoolOperation1 = new InstancePoolOperation(instancePool0, {
+  new InstancePoolOperation(instancePool0, {
     existing: true,
     name: "instancepoolsoperati",
   });

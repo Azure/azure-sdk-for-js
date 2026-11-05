@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesoper",
     location: "eastus",
   });
-  const managedInstanceOperation1 = new ManagedInstanceOperation(managedInstance0, {
+  new ManagedInstanceOperation(managedInstance0, {
     existing: true,
     name: "managedinstancesoper",
   });

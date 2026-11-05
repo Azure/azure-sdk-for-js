@@ -55,12 +55,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesencr",
     location: "eastus",
   });
-  const managedInstanceEncryptionProtector1 = new ManagedInstanceEncryptionProtector(
-    managedInstance0,
-    {
-      name: "current",
-    },
-  );
+  new ManagedInstanceEncryptionProtector(managedInstance0, {
+    name: "current",
+  });
   return stack;
 }
 

@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesauto",
     location: "eastus",
   });
-  const databaseAutomaticTuning2 = new DatabaseAutomaticTuning(serverDatabase1, { existing: true });
+  new DatabaseAutomaticTuning(serverDatabase1, { existing: true });
   return stack;
 }
 

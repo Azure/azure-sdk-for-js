@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversoutboundfirew",
     location: "eastus",
   });
-  const outboundFirewallRule1 = new OutboundFirewallRule(server0, {
+  new OutboundFirewallRule(server0, {
     name: "serversoutboundfirew",
   });
   return stack;

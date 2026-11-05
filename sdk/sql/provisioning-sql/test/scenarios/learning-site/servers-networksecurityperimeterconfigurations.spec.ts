@@ -55,13 +55,10 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversnetworksecuri",
     location: "eastus",
   });
-  const networkSecurityPerimeterConfiguration1 = new NetworkSecurityPerimeterConfiguration(
-    server0,
-    {
-      existing: true,
-      name: "serversnetworksecuri",
-    },
-  );
+  new NetworkSecurityPerimeterConfiguration(server0, {
+    existing: true,
+    name: "serversnetworksecuri",
+  });
   return stack;
 }
 

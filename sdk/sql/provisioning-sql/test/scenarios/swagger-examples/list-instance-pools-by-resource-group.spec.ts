@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const instancePool0 = new InstancePool(stack, {
+  new InstancePool(stack, {
     name: "listinstancepoolsbyr",
     location: "eastus",
   });

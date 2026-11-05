@@ -55,10 +55,10 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversfailovergroup",
     location: "eastus",
   });
-  const failoverGroup1 = new FailoverGroup(server0, {
+  new FailoverGroup(server0, {
     name: "serversfailovergroup",
   });
-  const serverDatabase2 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "serversfailovergroup",
     location: "eastus",
   });

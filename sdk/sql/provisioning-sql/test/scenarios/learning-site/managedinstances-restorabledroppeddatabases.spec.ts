@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesrest",
     location: "eastus",
   });
-  const restorableDroppedManagedDatabase1 = new RestorableDroppedManagedDatabase(managedInstance0, {
+  new RestorableDroppedManagedDatabase(managedInstance0, {
     existing: true,
     name: "managedinstancesrest",
   });

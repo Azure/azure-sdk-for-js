@@ -59,10 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasessecu",
     location: "eastus",
   });
-  const serverDatabaseSecurityAlertPolicy2 = new ServerDatabaseSecurityAlertPolicy(
-    serverDatabase1,
-    { name: "Default" },
-  );
+  new ServerDatabaseSecurityAlertPolicy(serverDatabase1, { name: "Default" });
   return stack;
 }
 

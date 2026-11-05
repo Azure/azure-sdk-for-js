@@ -59,10 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesback",
     location: "eastus",
   });
-  const serverDatabaseBackupShortTermRetentionPolicy2 = new BackupShortTermRetentionPolicy(
-    serverDatabase1,
-    { name: "default" },
-  );
+  new BackupShortTermRetentionPolicy(serverDatabase1, { name: "default" });
   return stack;
 }
 

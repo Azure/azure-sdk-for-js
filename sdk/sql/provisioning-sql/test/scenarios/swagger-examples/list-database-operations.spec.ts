@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "listdatabaseoperatio",
     location: "eastus",
   });
-  const instancePoolOperation1 = new InstancePoolOperation(instancePool0, {
+  new InstancePoolOperation(instancePool0, {
     existing: true,
     name: "listdatabaseoperatio",
   });

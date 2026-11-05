@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversadministrator",
     location: "eastus",
   });
-  const serverAdministrator1 = new ServerAdministrator(server0, {
+  new ServerAdministrator(server0, {
     name: "ActiveDirectory",
   });
   return stack;

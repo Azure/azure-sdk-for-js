@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversfirewallrules",
     location: "eastus",
   });
-  const firewallRule1 = new FirewallRule(server0, {
+  new FirewallRule(server0, {
     name: "serversfirewallrules",
   });
   return stack;

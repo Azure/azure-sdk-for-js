@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesstar",
     location: "eastus",
   });
-  const startStopManagedInstanceSchedule1 = new StartStopManagedInstanceSchedule(managedInstance0, {
+  new StartStopManagedInstanceSchedule(managedInstance0, {
     name: "default",
   });
   return stack;

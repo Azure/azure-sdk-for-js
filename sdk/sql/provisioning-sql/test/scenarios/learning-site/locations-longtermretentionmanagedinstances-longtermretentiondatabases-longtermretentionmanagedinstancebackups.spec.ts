@@ -51,11 +51,10 @@ const values = {
 
 function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
-  const managedInstanceLongTermRetentionBackup0 =
-    new ResourceGroupLongTermRetentionManagedInstanceBackup(stack, {
-      existing: true,
-      name: "eastus/longtermretentionman/longtermretentiondat/locationslongtermret",
-    });
+  new ResourceGroupLongTermRetentionManagedInstanceBackup(stack, {
+    existing: true,
+    name: "eastus/longtermretentionman/longtermretentiondat/locationslongtermret",
+  });
   return stack;
 }
 

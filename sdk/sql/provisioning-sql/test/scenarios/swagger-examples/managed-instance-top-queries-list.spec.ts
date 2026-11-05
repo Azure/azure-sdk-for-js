@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancetopqu",
     location: "eastus",
   });
-  const query2 = new Query(managedInstanceDatabase1, {
+  new Query(managedInstanceDatabase1, {
     existing: true,
     name: "managedinstancetopqu",
   });

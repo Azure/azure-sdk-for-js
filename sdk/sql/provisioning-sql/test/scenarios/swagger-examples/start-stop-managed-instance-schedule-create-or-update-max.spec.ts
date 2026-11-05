@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const managedInstance0 = new ManagedInstance(stack, {
+  new ManagedInstance(stack, {
     name: "schedulemi",
     location: "eastus",
   });

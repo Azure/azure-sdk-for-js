@@ -68,7 +68,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "serversdatabasessche",
   });
-  const serverDatabaseSchemaTable3 = new SqlDatabaseTable(serverDatabaseSchema2, {
+  new SqlDatabaseTable(serverDatabaseSchema2, {
     existing: true,
     name: "serversdatabasessche",
   });

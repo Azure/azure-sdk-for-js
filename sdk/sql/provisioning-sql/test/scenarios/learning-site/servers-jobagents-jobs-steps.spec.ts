@@ -67,20 +67,20 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversjobagentsjobs",
     location: "eastus",
   });
-  const credential2 = new Credential(jobAgent1, {
+  new Credential(jobAgent1, {
     name: "serversjobagentsjobs",
   });
   const job3 = new Job(jobAgent1, {
     name: "serversjobagentsjobs",
   });
-  const jobStep4 = new SqlServerJobStep(job3, {
+  new SqlServerJobStep(job3, {
     name: "serversjobagentsjobs",
   });
-  const serverDatabase5 = new ServerDatabase(server0, {
+  new ServerDatabase(server0, {
     name: "serversjobagentsjobs",
     location: "eastus",
   });
-  const targetGroup6 = new TargetGroup(jobAgent1, {
+  new TargetGroup(jobAgent1, {
     name: "serversjobagentsjobs",
   });
   return stack;

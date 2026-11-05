@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
-  const usage0 = new Usage(stack, {
+  new Usage(stack, {
     existing: true,
     name: "eastus/getdatabaseusagesusa",
   });

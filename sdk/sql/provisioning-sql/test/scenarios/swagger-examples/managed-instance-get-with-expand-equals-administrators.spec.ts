@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testinstance",
     location: "eastus",
   });
-  const managedInstanceAdministrator1 = new ManagedInstanceAdministrator(managedInstance0, {
+  new ManagedInstanceAdministrator(managedInstance0, {
     name: "ActiveDirectory",
   });
   return stack;

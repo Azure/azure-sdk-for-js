@@ -55,12 +55,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancessecu",
     location: "eastus",
   });
-  const managedInstanceSecurityAlertPolicy1 = new ManagedInstanceSecurityAlertPolicy(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
+  new ManagedInstanceSecurityAlertPolicy(managedInstance0, {
+    name: "Default",
+  });
   return stack;
 }
 

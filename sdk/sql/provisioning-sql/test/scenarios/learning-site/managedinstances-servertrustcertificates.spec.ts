@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesserv",
     location: "eastus",
   });
-  const serverTrustCertificate1 = new ManagedInstanceServerTrustCertificate(managedInstance0, {
+  new ManagedInstanceServerTrustCertificate(managedInstance0, {
     name: "managedinstancesserv",
   });
   return stack;

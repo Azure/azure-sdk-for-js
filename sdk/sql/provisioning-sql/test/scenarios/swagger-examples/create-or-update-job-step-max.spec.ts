@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "agent1",
     location: "eastus",
   });
-  const job2 = new Job(jobAgent1, {
+  new Job(jobAgent1, {
     name: "agent1",
   });
   return stack;

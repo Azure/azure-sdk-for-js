@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesadva",
     location: "eastus",
   });
-  const databaseAdvancedThreatProtection2 = new DatabaseAdvancedThreatProtection(serverDatabase1, {
+  new DatabaseAdvancedThreatProtection(serverDatabase1, {
     name: "Default",
   });
   return stack;

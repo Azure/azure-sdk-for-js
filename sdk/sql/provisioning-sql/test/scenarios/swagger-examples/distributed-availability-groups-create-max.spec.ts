@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testcl",
     location: "eastus",
   });
-  const distributedAvailabilityGroup1 = new DistributedAvailabilityGroup(managedInstance0, {
+  new DistributedAvailabilityGroup(managedInstance0, {
     name: "dag",
     properties: {
       databases: [

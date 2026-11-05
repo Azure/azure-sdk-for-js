@@ -55,12 +55,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesazur",
     location: "eastus",
   });
-  const managedInstanceAzureAdOnlyAuthentication1 = new ManagedInstanceAzureAdOnlyAuthentication(
-    managedInstance0,
-    {
-      name: "Default",
-    },
-  );
+  new ManagedInstanceAzureAdOnlyAuthentication(managedInstance0, {
+    name: "Default",
+  });
   return stack;
 }
 

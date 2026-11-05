@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversencryptionpro",
     location: "eastus",
   });
-  const serverEncryptionProtector1 = new ServerEncryptionProtector(server0, {
+  new ServerEncryptionProtector(server0, {
     name: "current",
   });
   return stack;

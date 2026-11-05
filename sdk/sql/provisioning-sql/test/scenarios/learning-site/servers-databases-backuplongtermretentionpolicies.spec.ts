@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesback",
     location: "eastus",
   });
-  const longTermRetentionPolicy2 = new LongTermRetentionPolicy(serverDatabase1, {
+  new LongTermRetentionPolicy(serverDatabase1, {
     name: "default",
   });
   return stack;

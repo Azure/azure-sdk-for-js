@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "createdatabasesecond",
     location: "southeastasia",
   });
-  const managedInstanceDatabase1 = new ManagedInstanceDatabase(managedInstance0, {
+  new ManagedInstanceDatabase(managedInstance0, {
     name: "testdb",
     location: "southeastasia",
     properties: {

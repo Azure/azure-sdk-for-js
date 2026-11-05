@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversadvancedthrea",
     location: "eastus",
   });
-  const serverAdvancedThreatProtection1 = new ServerAdvancedThreatProtection(server0, {
+  new ServerAdvancedThreatProtection(server0, {
     name: "Default",
   });
   return stack;

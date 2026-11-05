@@ -68,13 +68,10 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "managedinstancesdata",
   });
-  const managedInstanceDatabaseSchemaTable3 = new ManagedDatabaseTable(
-    managedInstanceDatabaseSchema2,
-    {
-      existing: true,
-      name: "managedinstancesdata",
-    },
-  );
+  new ManagedDatabaseTable(managedInstanceDatabaseSchema2, {
+    existing: true,
+    name: "managedinstancesdata",
+  });
   return stack;
 }
 

@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesgeob",
     location: "eastus",
   });
-  const geoBackupPolicy2 = new GeoBackupPolicy(serverDatabase1, {
+  new GeoBackupPolicy(serverDatabase1, {
     name: "Default",
   });
   return stack;

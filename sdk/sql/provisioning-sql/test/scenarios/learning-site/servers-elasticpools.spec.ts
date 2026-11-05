@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serverselasticpoolss",
     location: "eastus",
   });
-  const elasticPool1 = new ElasticPool(server0, {
+  new ElasticPool(server0, {
     name: "serverselasticpoolse",
     location: "eastus",
   });

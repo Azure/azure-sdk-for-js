@@ -63,12 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasestran",
     location: "eastus",
   });
-  const serverDatabaseTransparentDataEncryption2 = new ServerDatabaseTransparentDataEncryption(
-    serverDatabase1,
-    {
-      name: "current",
-    },
-  );
+  new ServerDatabaseTransparentDataEncryption(serverDatabase1, {
+    name: "current",
+  });
   return stack;
 }
 

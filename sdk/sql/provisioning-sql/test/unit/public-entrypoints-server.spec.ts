@@ -130,12 +130,12 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "publicentrypointsser",
     location: "eastus",
   });
-  const connectionPolicy1 = new ConnectionPolicy(server0, { name: "default" });
+  new ConnectionPolicy(server0, { name: "default" });
   const jobAgent2 = new JobAgent(server0, {
     name: "publicentrypointsser",
     location: "eastus",
   });
-  const credential3 = new Credential(jobAgent2, {
+  new Credential(jobAgent2, {
     name: "publicentrypointsser",
   });
   const serverDatabase4 = new ServerDatabase(server0, {
@@ -145,24 +145,24 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   const dataMaskingPolicy5 = new DataMaskingPolicy(serverDatabase4, {
     name: "Default",
   });
-  const dataMaskingPolicyRule6 = new Rule(dataMaskingPolicy5, {
+  new Rule(dataMaskingPolicy5, {
     name: "publicentrypointsser",
   });
-  const dataWarehouseUserActivities7 = new DataWarehouseUserActivities(serverDatabase4, {
+  new DataWarehouseUserActivities(serverDatabase4, {
     name: "current",
     existing: true,
   });
-  const databaseAdvancedThreatProtection8 = new DatabaseAdvancedThreatProtection(serverDatabase4, {
+  new DatabaseAdvancedThreatProtection(serverDatabase4, {
     name: "Default",
   });
   const databaseAdvisor9 = new SqlDatabaseAdvisor(serverDatabase4, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const databaseAutomaticTuning10 = new DatabaseAutomaticTuning(serverDatabase4, {
+  new DatabaseAutomaticTuning(serverDatabase4, {
     existing: true,
   });
-  const databaseBlobAuditingPolicy11 = new DatabaseBlobAuditingPolicy(serverDatabase4, {
+  new DatabaseBlobAuditingPolicy(serverDatabase4, {
     name: "default",
   });
   const databaseSqlVulnerabilityAssessment12 = new SqlDatabaseSqlVulnerabilityAssessment(
@@ -176,13 +176,12 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     new SqlDatabaseSqlVulnerabilityAssessmentBaseline(databaseSqlVulnerabilityAssessment12, {
       name: "default",
     });
-  const databaseSqlVulnerabilityAssessmentBaselineRule14 =
-    new SqlDatabaseSqlVulnerabilityAssessmentBaselineRule(
-      databaseSqlVulnerabilityAssessmentBaseline13,
-      {
-        name: "publicentrypointsser",
-      },
-    );
+  new SqlDatabaseSqlVulnerabilityAssessmentBaselineRule(
+    databaseSqlVulnerabilityAssessmentBaseline13,
+    {
+      name: "publicentrypointsser",
+    },
+  );
   const databaseSqlVulnerabilityAssessmentScan15 = new SqlDatabaseSqlVulnerabilityAssessmentScan(
     databaseSqlVulnerabilityAssessment12,
     {
@@ -190,15 +189,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       name: "publicentrypointsser",
     },
   );
-  const databaseSqlVulnerabilityAssessmentScanScanResult16 =
-    new SqlDatabaseSqlVulnerabilityAssessmentScanResult(databaseSqlVulnerabilityAssessmentScan15, {
-      existing: true,
-      name: "publicentrypointsser",
-    });
-  const devOpsAuditingSetting17 = new DevOpsAuditingSetting(server0, {
+  new SqlDatabaseSqlVulnerabilityAssessmentScanResult(databaseSqlVulnerabilityAssessmentScan15, {
+    existing: true,
+    name: "publicentrypointsser",
+  });
+  new DevOpsAuditingSetting(server0, {
     name: "Default",
   });
-  const elasticPool18 = new ElasticPool(server0, {
+  new ElasticPool(server0, {
     name: "publicentrypointsser",
     location: "eastus",
   });
@@ -212,96 +210,87 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "publicentrypointsser",
   });
-  const extendedDatabaseBlobAuditingPolicy22 = new ExtendedDatabaseBlobAuditingPolicy(
-    serverDatabase4,
-    {
-      name: "default",
-    },
-  );
-  const extendedServerBlobAuditingPolicy23 = new ExtendedServerBlobAuditingPolicy(server0, {
+  new ExtendedDatabaseBlobAuditingPolicy(serverDatabase4, {
     name: "default",
   });
-  const extension24 = new Extension(serverDatabase4, {
+  new ExtendedServerBlobAuditingPolicy(server0, {
+    name: "default",
+  });
+  new Extension(serverDatabase4, {
     name: "publicentrypointsser",
   });
-  const failoverGroup25 = new FailoverGroup(server0, {
+  new FailoverGroup(server0, {
     name: "publicentrypointsser",
   });
-  const firewallRule26 = new FirewallRule(server0, {
+  new FirewallRule(server0, {
     name: "publicentrypointsser",
   });
-  const geoBackupPolicy27 = new GeoBackupPolicy(serverDatabase4, {
+  new GeoBackupPolicy(serverDatabase4, {
     name: "Default",
   });
-  const ipv6FirewallRule28 = new IPv6FirewallRule(server0, {
+  new IPv6FirewallRule(server0, {
     name: "publicentrypointsser",
   });
-  const jobStep29 = new SqlServerJobStep(job19, {
+  new SqlServerJobStep(job19, {
     name: "publicentrypointsser",
   });
-  const longTermRetentionPolicy30 = new LongTermRetentionPolicy(serverDatabase4, {
+  new LongTermRetentionPolicy(serverDatabase4, {
     name: "default",
   });
-  const networkSecurityPerimeterConfiguration33 = new NetworkSecurityPerimeterConfiguration(
-    server0,
-    {
-      existing: true,
-      name: "publicentrypointsser",
-    },
-  );
-  const outboundFirewallRule34 = new OutboundFirewallRule(server0, {
-    name: "publicentrypointsser",
-  });
-  const privateEndpoint35 = new PrivateEndpoint(jobAgent2, {
-    name: "publicentrypointsser",
-  });
-  const privateLinkResource36 = new PrivateLinkResource(server0, {
+  new NetworkSecurityPerimeterConfiguration(server0, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const recommendedAction37 = new RecommendedAction(databaseAdvisor9, {
+  new OutboundFirewallRule(server0, {
+    name: "publicentrypointsser",
+  });
+  new PrivateEndpoint(jobAgent2, {
+    name: "publicentrypointsser",
+  });
+  new PrivateLinkResource(server0, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const recoverableDatabase38 = new RecoverableDatabase(server0, {
+  new RecommendedAction(databaseAdvisor9, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const replicationLink39 = new ReplicationLink(serverDatabase4, {
-    name: "publicentrypointsser",
-  });
-  const restorableDroppedDatabase40 = new RestorableDroppedDatabase(server0, {
+  new RecoverableDatabase(server0, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const restorePoint41 = new RestorePoint(serverDatabase4, {
+  new ReplicationLink(serverDatabase4, {
+    name: "publicentrypointsser",
+  });
+  new RestorableDroppedDatabase(server0, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const serverAdministrator42 = new ServerAdministrator(server0, {
+  new RestorePoint(serverDatabase4, {
+    existing: true,
+    name: "publicentrypointsser",
+  });
+  new ServerAdministrator(server0, {
     name: "ActiveDirectory",
   });
-  const serverAdvancedThreatProtection43 = new ServerAdvancedThreatProtection(server0, {
+  new ServerAdvancedThreatProtection(server0, {
     name: "Default",
   });
-  const serverAdvisor44 = new SqlServerAdvisor(server0, {
+  new SqlServerAdvisor(server0, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const serverAutomaticTuning45 = new ServerAutomaticTuning(server0, {
+  new ServerAutomaticTuning(server0, {
     existing: true,
   });
-  const serverAzureAdOnlyAuthentication46 = new ServerAzureAdOnlyAuthentication(server0, {
+  new ServerAzureAdOnlyAuthentication(server0, {
     name: "Default",
   });
-  const serverBlobAuditingPolicy47 = new SqlServerBlobAuditingPolicy(server0, {
+  new SqlServerBlobAuditingPolicy(server0, {
     name: "default",
   });
-  const serverDatabaseBackupShortTermRetentionPolicy48 = new BackupShortTermRetentionPolicy(
-    serverDatabase4,
-    { name: "default" },
-  );
-  const serverDatabaseLedgerDigestUpload49 = new ServerDatabaseLedgerDigestUpload(serverDatabase4, {
+  new BackupShortTermRetentionPolicy(serverDatabase4, { name: "default" });
+  new ServerDatabaseLedgerDigestUpload(serverDatabase4, {
     name: "current",
   });
   const serverDatabaseSchema50 = new SqlDatabaseSchema(serverDatabase4, {
@@ -316,90 +305,80 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "publicentrypointsser",
   });
-  const serverDatabaseSchemaTableColumnSensitivityLabel53 = new SqlDatabaseSensitivityLabel(
-    serverDatabaseSchemaTableColumn52,
-    {
-      name: "current",
-    },
-  );
-  const serverDatabaseSecurityAlertPolicy54 = new ServerDatabaseSecurityAlertPolicy(
-    serverDatabase4,
-    { name: "Default" },
-  );
-  const serverDatabaseTransparentDataEncryption55 = new ServerDatabaseTransparentDataEncryption(
-    serverDatabase4,
-    {
-      name: "current",
-    },
-  );
+  new SqlDatabaseSensitivityLabel(serverDatabaseSchemaTableColumn52, {
+    name: "current",
+  });
+  new ServerDatabaseSecurityAlertPolicy(serverDatabase4, { name: "Default" });
+  new ServerDatabaseTransparentDataEncryption(serverDatabase4, {
+    name: "current",
+  });
   const serverDatabaseVulnerabilityAssessment56 = new SqlDatabaseVulnerabilityAssessment(
     serverDatabase4,
     {
       name: "default",
     },
   );
-  const serverDatabaseVulnerabilityAssessmentRuleBaseline57 =
-    new SqlDatabaseVulnerabilityAssessmentRuleBaseline(
-      // @ts-expect-error The public constructor omits the Bicep-required rules parent.
-      stack,
-      {
-        name: "server/database/default/rule/default",
-      },
-    );
-  const serverDatabaseVulnerabilityAssessmentScan58 = new SqlDatabaseVulnerabilityAssessmentScan(
-    serverDatabaseVulnerabilityAssessment56,
-    { existing: true, name: "publicentrypointsser" },
+  new SqlDatabaseVulnerabilityAssessmentRuleBaseline(
+    // @ts-expect-error The public constructor omits the Bicep-required rules parent.
+    stack,
+    {
+      name: "server/database/default/rule/default",
+    },
   );
-  const serverDnsAlias59 = new ServerDnsAlias(server0, {
+  new SqlDatabaseVulnerabilityAssessmentScan(serverDatabaseVulnerabilityAssessment56, {
+    existing: true,
     name: "publicentrypointsser",
   });
-  const serverEncryptionProtector60 = new ServerEncryptionProtector(server0, {
+  new ServerDnsAlias(server0, {
+    name: "publicentrypointsser",
+  });
+  new ServerEncryptionProtector(server0, {
     name: "current",
   });
-  const serverKey61 = new ServerKey(server0, {
+  new ServerKey(server0, {
     name: "publicentrypointsser",
   });
-  const serverPrivateEndpointConnection62 = new ServerPrivateEndpointConnection(server0, {
+  new ServerPrivateEndpointConnection(server0, {
     name: "publicentrypointsser",
   });
-  const serverSecurityAlertPolicy63 = new ServerSecurityAlertPolicy(server0, {
+  new ServerSecurityAlertPolicy(server0, {
     name: "Default",
   });
-  const serverSqlVulnerabilityAssessment64 = new SqlServerSqlVulnerabilityAssessment(server0, {
+  new SqlServerSqlVulnerabilityAssessment(server0, {
     name: "default",
   });
-  const serverVulnerabilityAssessment69 = new ServerVulnerabilityAssessment(server0, {
+  new ServerVulnerabilityAssessment(server0, {
     name: "default",
   });
-  const syncAgent70 = new SyncAgent(server0, {
+  new SyncAgent(server0, {
     name: "publicentrypointsser",
   });
   const syncGroup71 = new SyncGroup(serverDatabase4, {
     name: "publicentrypointsser",
   });
-  const syncMember72 = new SyncMember(syncGroup71, {
+  new SyncMember(syncGroup71, {
     name: "publicentrypointsser",
   });
-  const target73 = new SqlServerJobExecutionStepTarget(executionStep21, {
+  new SqlServerJobExecutionStepTarget(executionStep21, {
     existing: true,
     name: "publicentrypointsser",
   });
-  const targetGroup74 = new TargetGroup(jobAgent2, {
+  new TargetGroup(jobAgent2, {
     name: "publicentrypointsser",
   });
   // @ts-expect-error The generated public type uses string although Bicep requires an integer version name.
   const version75 = new Version(job19, { existing: true, name: 1 });
-  const versionStep76 = new SqlServerJobVersionStep(version75, {
+  new SqlServerJobVersionStep(version75, {
     existing: true,
     name: "step1",
   });
-  const virtualNetworkRule77 = new VirtualNetworkRule(server0, {
+  new VirtualNetworkRule(server0, {
     name: "publicentrypointsser",
   });
   const workloadGroup78 = new WorkloadGroup(serverDatabase4, {
     name: "publicentrypointsser",
   });
-  const workloadClassifier79 = new WorkloadClassifier(workloadGroup78, {
+  new WorkloadClassifier(workloadGroup78, {
     name: "publicentrypointsser",
   });
   return stack;

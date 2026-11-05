@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesdata",
     location: "eastus",
   });
-  const managedInstanceDatabase1 = new ManagedInstanceDatabase(managedInstance0, {
+  new ManagedInstanceDatabase(managedInstance0, {
     name: "managedinstancesdata",
     location: "eastus",
   });

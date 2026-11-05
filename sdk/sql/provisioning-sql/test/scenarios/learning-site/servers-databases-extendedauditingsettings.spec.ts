@@ -63,12 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesexte",
     location: "eastus",
   });
-  const extendedDatabaseBlobAuditingPolicy2 = new ExtendedDatabaseBlobAuditingPolicy(
-    serverDatabase1,
-    {
-      name: "default",
-    },
-  );
+  new ExtendedDatabaseBlobAuditingPolicy(serverDatabase1, {
+    name: "default",
+  });
   return stack;
 }
 

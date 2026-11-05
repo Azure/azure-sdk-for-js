@@ -81,10 +81,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     managedInstanceDatabaseSchemaTable3,
     { existing: true, name: "managedinstancesdata" },
   );
-  const managedInstanceDatabaseSchemaTableColumnSensitivityLabel5 =
-    new ManagedDatabaseSensitivityLabel(managedInstanceDatabaseSchemaTableColumn4, {
-      name: "current",
-    });
+  new ManagedDatabaseSensitivityLabel(managedInstanceDatabaseSchemaTableColumn4, {
+    name: "current",
+  });
   return stack;
 }
 

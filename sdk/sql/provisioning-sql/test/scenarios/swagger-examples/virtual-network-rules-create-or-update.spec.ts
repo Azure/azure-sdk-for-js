@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "vnet-test-svr",
     location: "eastus",
   });
-  const virtualNetworkRule1 = new VirtualNetworkRule(server0, {
+  new VirtualNetworkRule(server0, {
     name: "vnet-firewall-rule",
     properties: {
       ignoreMissingVnetServiceEndpoint: false,

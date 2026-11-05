@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const instanceFailoverGroup0 = new InstanceFailoverGroup(stack, {
+  new InstanceFailoverGroup(stack, {
     name: "eastus/locationsinstancefai",
   });
   return stack;

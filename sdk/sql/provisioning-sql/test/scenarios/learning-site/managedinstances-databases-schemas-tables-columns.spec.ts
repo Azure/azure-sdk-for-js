@@ -76,10 +76,10 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       name: "managedinstancesdata",
     },
   );
-  const managedInstanceDatabaseSchemaTableColumn4 = new ManagedDatabaseColumn(
-    managedInstanceDatabaseSchemaTable3,
-    { existing: true, name: "managedinstancesdata" },
-  );
+  new ManagedDatabaseColumn(managedInstanceDatabaseSchemaTable3, {
+    existing: true,
+    name: "managedinstancesdata",
+  });
   return stack;
 }
 

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancessqla",
     location: "eastus",
   });
-  const sqlAgent1 = new SqlAgent(managedInstance0, {});
+  new SqlAgent(managedInstance0, {});
   return stack;
 }
 

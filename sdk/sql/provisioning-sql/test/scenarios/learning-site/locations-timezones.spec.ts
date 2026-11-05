@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
-  const timeZone0 = new TimeZone(stack, {
+  new TimeZone(stack, {
     existing: true,
     name: "eastus/locationstimezonesti",
   });

@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesdata",
     location: "eastus",
   });
-  const dataMaskingPolicy2 = new DataMaskingPolicy(serverDatabase1, {
+  new DataMaskingPolicy(serverDatabase1, {
     name: "Default",
   });
   return stack;

@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const virtualCluster0 = new VirtualCluster(stack, {
+  new VirtualCluster(stack, {
     name: "virtualclustersvirtu",
     location: "eastus",
   });

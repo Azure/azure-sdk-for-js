@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "server1",
     location: "eastus",
   });
-  const jobAgent1 = new JobAgent(server0, {
+  new JobAgent(server0, {
     name: "listjobagentsbyserve",
     location: "eastus",
   });

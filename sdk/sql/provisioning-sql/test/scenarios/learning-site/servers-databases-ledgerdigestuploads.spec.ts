@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversdatabasesledg",
     location: "eastus",
   });
-  const serverDatabaseLedgerDigestUpload2 = new ServerDatabaseLedgerDigestUpload(serverDatabase1, {
+  new ServerDatabaseLedgerDigestUpload(serverDatabase1, {
     name: "current",
   });
   return stack;

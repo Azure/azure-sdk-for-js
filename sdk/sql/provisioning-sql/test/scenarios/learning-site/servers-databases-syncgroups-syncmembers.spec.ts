@@ -62,7 +62,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   const syncGroup2 = new SyncGroup(serverDatabase1, {
     name: "serversdatabasessync",
   });
-  const syncMember3 = new SyncMember(syncGroup2, {
+  new SyncMember(syncGroup2, {
     name: "serversdatabasessync",
   });
   return stack;

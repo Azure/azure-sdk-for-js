@@ -62,7 +62,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   const workloadGroup2 = new WorkloadGroup(serverDatabase1, {
     name: "serversdatabaseswork",
   });
-  const workloadClassifier3 = new WorkloadClassifier(workloadGroup2, {
+  new WorkloadClassifier(workloadGroup2, {
     name: "serversdatabaseswork",
   });
   return stack;

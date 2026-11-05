@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "testcl",
     location: "eastus",
   });
-  const serverTrustCertificate1 = new ManagedInstanceServerTrustCertificate(managedInstance0, {
+  new ManagedInstanceServerTrustCertificate(managedInstance0, {
     name: "servertrustcertifica",
     properties: {
       publicBlob: "308203AE30820296A0030201020210",

@@ -73,7 +73,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "serversdatabasessche",
   });
-  const serverDatabaseSchemaTableColumn4 = new SqlDatabaseColumn(serverDatabaseSchemaTable3, {
+  new SqlDatabaseColumn(serverDatabaseSchemaTable3, {
     existing: true,
     name: "serversdatabasessche",
   });

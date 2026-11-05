@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "serversvirtualnetwor",
     location: "eastus",
   });
-  const virtualNetworkRule1 = new VirtualNetworkRule(server0, {
+  new VirtualNetworkRule(server0, {
     name: "serversvirtualnetwor",
   });
   return stack;

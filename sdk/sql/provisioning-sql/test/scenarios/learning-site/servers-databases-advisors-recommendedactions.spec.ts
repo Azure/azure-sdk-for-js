@@ -68,7 +68,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "serversdatabasesadvi",
   });
-  const recommendedAction3 = new RecommendedAction(databaseAdvisor2, {
+  new RecommendedAction(databaseAdvisor2, {
     existing: true,
     name: "serversdatabasesadvi",
   });

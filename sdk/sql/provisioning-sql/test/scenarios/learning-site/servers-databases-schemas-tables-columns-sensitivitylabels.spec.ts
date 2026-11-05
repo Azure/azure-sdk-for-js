@@ -78,12 +78,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "serversdatabasessche",
   });
-  const serverDatabaseSchemaTableColumnSensitivityLabel5 = new SqlDatabaseSensitivityLabel(
-    serverDatabaseSchemaTableColumn4,
-    {
-      name: "current",
-    },
-  );
+  new SqlDatabaseSensitivityLabel(serverDatabaseSchemaTableColumn4, {
+    name: "current",
+  });
   return stack;
 }
 

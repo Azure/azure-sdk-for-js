@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "getrestorabledropped",
     location: "eastus",
   });
-  const managedInstanceKey1 = new ManagedInstanceKey(managedInstance0, {
+  new ManagedInstanceKey(managedInstance0, {
     name: "getrestorabledropped",
   });
   return stack;

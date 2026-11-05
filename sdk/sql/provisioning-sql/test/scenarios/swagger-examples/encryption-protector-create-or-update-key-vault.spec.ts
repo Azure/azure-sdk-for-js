@@ -56,17 +56,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "encryptionprotectorc",
     location: "eastus",
   });
-  const managedInstanceEncryptionProtector1 = new ManagedInstanceEncryptionProtector(
-    managedInstance0,
-    {
-      name: "current",
-      properties: {
-        autoRotationEnabled: false,
-        serverKeyName: "someVault_someKey_01234567890123456789012345678901",
-        serverKeyType: "AzureKeyVault",
-      },
+  new ManagedInstanceEncryptionProtector(managedInstance0, {
+    name: "current",
+    properties: {
+      autoRotationEnabled: false,
+      serverKeyName: "someVault_someKey_01234567890123456789012345678901",
+      serverKeyType: "AzureKeyVault",
     },
-  );
+  });
   return stack;
 }
 

@@ -63,12 +63,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     name: "managedinstancesdata",
     location: "eastus",
   });
-  const managedInstanceLongTermRetentionPolicy2 = new ManagedInstanceLongTermRetentionPolicy(
-    managedInstanceDatabase1,
-    {
-      name: "default",
-    },
-  );
+  new ManagedInstanceLongTermRetentionPolicy(managedInstanceDatabase1, {
+    name: "default",
+  });
   return stack;
 }
 

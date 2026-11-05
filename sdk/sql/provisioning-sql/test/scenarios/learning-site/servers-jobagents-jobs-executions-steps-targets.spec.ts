@@ -76,7 +76,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "serversjobagentsjobs",
   });
-  const target5 = new SqlServerJobExecutionStepTarget(executionStep4, {
+  new SqlServerJobExecutionStepTarget(executionStep4, {
     existing: true,
     name: "serversjobagentsjobs",
   });
