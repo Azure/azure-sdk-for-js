@@ -205,6 +205,13 @@ const restTelemetryCases: RestTelemetryCase[] = [
     invoke: (client, options) =>
       client.beta.voiceAgents.conversations.delete("PRIVATE_AGENT", "conversation-1", options),
   },
+  {
+    name: "voice_agents.live_conversations.delete",
+    method: "DELETE",
+    status: 204,
+    invoke: (client, options) =>
+      client.beta.voiceAgents.liveConversations.delete("PRIVATE_AGENT", "conversation-1", options),
+  },
 ];
 
 describe("Voice Agents exported traces", () => {

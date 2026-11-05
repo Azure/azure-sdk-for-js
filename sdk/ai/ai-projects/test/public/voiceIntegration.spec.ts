@@ -10,6 +10,7 @@ import { AIProjectClient } from "../../src/index.js";
 import type {
   BetaVoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
+  VoiceAgentLiveDefinition,
   RealtimeServerEventResponseAudioDelta,
 } from "../../src/index.js";
 import {
@@ -136,6 +137,7 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.agents).not.toHaveProperty("createOptimizationJob");
     expect(client.beta.agents.createFromPrompt).toBeTypeOf("function");
     expect(client.beta.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations.getAudioItem).toBeTypeOf("function");
     expect(client.beta.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
     expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
     // Hand-written Voice Agents realtime WebSocket client (not part of this regen); it
@@ -246,6 +248,16 @@ describe("voice post-emitter integration", () => {
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.listCalls("agent", options),
     },
+    {
+      name: "Live conversations",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.list("agent", options),
+    },
+    {
+      name: "Live conversation items",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.listItems("agent", "conversation", options),
+    },
   ];
 
   it.each(listCases)("retains cursor paging and request options for $name", async ({ list }) => {
@@ -307,28 +319,82 @@ describe("voice post-emitter integration", () => {
     expect(requests).toHaveLength(0);
   });
 
-  it("preserves arbitrary function JSON Schema through voice union serialization", () => {
-    const parameters = {
-      type: "object",
-      properties: { city: { type: "string", description: "City to look up." } },
-      required: ["city"],
-      additionalProperties: false,
-    };
-    const definition: VoiceAgentDefinition = {
+  it.each([undefined, "realtime"] as const)(
+    "preserves Realtime fields and JSON Schema with sub_protocol=%s",
+    (subProtocol) => {
+      const parameters = {
+        type: "object",
+        properties: { city: { type: "string", description: "City to look up." } },
+        required: ["city"],
+        additionalProperties: false,
+      };
+      const definition: VoiceAgentDefinition = {
+        kind: "voice",
+        ...(subProtocol === undefined ? {} : { sub_protocol: subProtocol }),
+        model: "voice-model",
+        model_type: "managed",
+        tools: [
+          {
+            type: "function",
+            name: "lookup",
+            parameters,
+          },
+        ],
+      };
+      const wire = agentDefinitionUnionSerializer(definition);
+      expect(wire.tools[0].parameters).toEqual(parameters);
+      expect(JSON.parse(JSON.stringify(wire))).toEqual(definition);
+      expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+      expect(agentDefinitionUnionDeserializer(wire)).toHaveProperty("sub_protocol", subProtocol);
+    },
+  );
+
+  it.each([
+    { type: "client", acknowledgement_delay_ms: 400 },
+    {
+      type: "responses",
+      responses: { model: "backend-deployment", instructions: "Help the caller." },
+    },
+    { type: "foundry_managed_agent", agent_name: "helper", agent_version: "3" },
+  ] as const)("round-trips the Live $type delegation through the agent union", (delegation) => {
+    const definition: VoiceAgentLiveDefinition = {
       kind: "voice",
-      model: "voice-model",
-      model_type: "managed",
-      tools: [
-        {
-          type: "function",
-          name: "lookup",
-          parameters,
-        },
-      ],
+      sub_protocol: "live",
+      model_type: "self_deployed",
+      model: "gpt-live-deployment",
+      instructions: "Talk to {{name}}.",
+      structured_inputs: { name: { required: true, description: "Caller name." } },
+      store: true,
+      greeting: { type: "template", text: "Hello {{name}}." },
+      delegation,
     };
     const wire = agentDefinitionUnionSerializer(definition);
-    expect(wire.tools[0].parameters).toEqual(parameters);
+    expect(JSON.parse(JSON.stringify(wire))).toEqual(definition);
     expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+  });
+
+  it("routes Live persistence separately and preserves dates and error details", async () => {
+    const { client, requests } = createClient({
+      body: {
+        id: "conversation",
+        object: "voice.conversation",
+        status: "failed",
+        created_at: 1700000000,
+        completed_at: 1700000001,
+        last_error: { code: "recording_unavailable", message: "Recording failed." },
+      },
+    });
+    const conversation = await client.beta.voiceAgents.liveConversations.get(
+      "voice agent",
+      "conversation/id",
+    );
+    expect(conversation.created_at).toEqual(new Date(1700000000000));
+    expect(conversation.completed_at).toEqual(new Date(1700000001000));
+    expect(conversation.last_error).toMatchObject({ code: "recording_unavailable" });
+    expect(new URL(requests[0].url).pathname).toBe(
+      "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/live/conversations/conversation%2Fid",
+    );
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
   });
 
   it("round-trips base64 audio delta bytes", () => {
