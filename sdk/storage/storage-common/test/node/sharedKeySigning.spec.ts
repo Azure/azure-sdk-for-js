@@ -6,6 +6,7 @@ import type { HttpMethods, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildStorageSharedKeyStringToSign,
+  buildStringToSign,
   prepareSharedKeyHeaders,
 } from "../../src/policies/SharedKeySigning.js";
 
@@ -55,10 +56,10 @@ function makeRequest(options: {
 }
 
 function sign(options: Parameters<typeof makeRequest>[0], accountName = ACCOUNT): string {
-  return buildStorageSharedKeyStringToSign(makeRequest(options), accountName);
+  return buildStringToSign(makeRequest(options), accountName);
 }
 
-describe("buildStorageSharedKeyStringToSign", () => {
+describe("buildStringToSign", () => {
   it("builds the canonical form for a simple download", () => {
     assert.strictEqual(
       sign({}),
@@ -319,13 +320,25 @@ describe("prepareSharedKeyHeaders", () => {
 
     assert.isUndefined(request.headers.get("content-length"));
   });
+});
 
-  it("feeds Content-Length into the string to sign", () => {
-    const request = createPipelineRequest({ url: BLOB_URL, method: "PUT", body: "hello" });
+describe("buildStorageSharedKeyStringToSign", () => {
+  it("sets x-ms-date on the request and signs that date", () => {
+    const request = createPipelineRequest({ url: BLOB_URL, method: "GET" });
 
-    prepareSharedKeyHeaders(request);
     const result = buildStorageSharedKeyStringToSign(request, ACCOUNT);
 
+    const stamped = request.headers.get("x-ms-date");
+    assert.isDefined(stamped);
+    assert.include(result, `\nx-ms-date:${stamped}\n`);
+  });
+
+  it("sets Content-Length from the body and signs it", () => {
+    const request = createPipelineRequest({ url: BLOB_URL, method: "PUT", body: "hello" });
+
+    const result = buildStorageSharedKeyStringToSign(request, ACCOUNT);
+
+    assert.strictEqual(request.headers.get("content-length"), "5");
     assert.strictEqual(result.split("\n")[3], "5", "Content-Length is the 4th signed field");
   });
 });

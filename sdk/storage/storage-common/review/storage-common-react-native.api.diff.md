@@ -55,7 +55,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export abstract class Credential implements RequestPolicyFactory {
-@@ -72,32 +69,30 @@
+@@ -72,28 +69,29 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -86,18 +86,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
 +export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
  
--// @public
--export function prepareSharedKeyHeaders(request: PipelineRequest): void;
+-export { Readable }
 +// @public (undocumented)
 +export type Readable = never;
  
--export { Readable }
--
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -187,42 +182,35 @@
+@@ -184,42 +182,35 @@
  }
  
  // @public
@@ -151,7 +147,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -231,13 +219,8 @@
+@@ -228,13 +219,8 @@
      encodedContentLength: number;
  }>;
  
@@ -165,7 +161,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -250,10 +233,13 @@
+@@ -247,10 +233,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

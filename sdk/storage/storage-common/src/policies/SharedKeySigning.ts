@@ -118,10 +118,10 @@ function getCanonicalizedQueryValues(url: string): Map<string, string[]> {
 
 /**
  * Sets the request headers that participate in the Shared Key signature and are derived from
- * the request itself.
+ * the request itself: `x-ms-date`, and `Content-Length` for a string or Buffer body.
  *
- * Must be called before {@link buildStorageSharedKeyStringToSign}, since `Content-Length` is a
- * signed field: skipping this for a request with a body produces a signature the service rejects.
+ * `Content-Length` is a signed field: a request with a body whose `Content-Length` isn't set
+ * gets a signature the service rejects.
  */
 export function prepareSharedKeyHeaders(request: PipelineRequest): void {
   request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -138,10 +138,12 @@ export function prepareSharedKeyHeaders(request: PipelineRequest): void {
 /**
  * Builds the string to sign for the Azure Storage Shared Key authorization scheme.
  *
- * Call {@link prepareSharedKeyHeaders} first so the headers that participate in the signature
- * are in place.
+ * Before building it, sets the request headers that the signature covers and that come from
+ * the request itself: `x-ms-date`, and `Content-Length` for a string or Buffer body. Send the
+ * request with these headers, since the signature depends on them.
  *
- * @param request - The request whose headers and URL form the string to sign.
+ * @param request - The request to sign. Its `x-ms-date` header is set, and so is its
+ * `Content-Length` header when the body is a string or a Buffer.
  * @param accountName - The storage account name used to build the canonicalized resource.
  * @returns The string to sign, ready to be signed with HMAC-SHA256.
  * @see https://learn.microsoft.com/rest/api/storageservices/authorize-with-shared-key
@@ -150,6 +152,18 @@ export function buildStorageSharedKeyStringToSign(
   request: PipelineRequest,
   accountName: string,
 ): string {
+  prepareSharedKeyHeaders(request);
+  return buildStringToSign(request, accountName);
+}
+
+/**
+ * Builds the string to sign from the request as it is, without setting any header. For a caller
+ * that sets the signed headers itself on the request it sends.
+ *
+ * @param request - The request whose headers and URL form the string to sign.
+ * @param accountName - The storage account name used to build the canonicalized resource.
+ */
+export function buildStringToSign(request: PipelineRequest, accountName: string): string {
   return (
     [
       request.method.toUpperCase(),
@@ -158,7 +172,7 @@ export function buildStorageSharedKeyStringToSign(
       getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
       getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
-      // prepareSharedKeyHeaders always sends x-ms-date, which requires this slot to stay empty.
+      // Signed requests always carry x-ms-date, which requires this slot to stay empty.
       "",
       getHeaderValueToSign(request, HeaderConstants.IF_MODIFIED_SINCE),
       getHeaderValueToSign(request, HeaderConstants.IF_MATCH),
