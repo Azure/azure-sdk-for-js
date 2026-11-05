@@ -4,7 +4,15 @@
 import atob from "./atob.js";
 
 /**
- * Extracts the unsigned, little-endian document portion without losing 64-bit precision.
+ * Convert RID to BigInt for accurate comparison.
+ * Decodes base64 RID and extracts the Document ID portion (8 bytes at offset 8) as BigInt.
+ *
+ * RID Structure (from Java SDK ResourceId.java):
+ * - Bytes 0-3: Database ID (4 bytes)
+ * - Bytes 4-7: Collection ID (4 bytes)
+ * - Bytes 8-15: Document ID (8 bytes, interpreted as unsigned Little Endian)
+ * - Bytes 16-19: Attachment ID (4 bytes, optional)
+ *
  * @hidden
  */
 export function parseDocumentRid(rid: string): bigint {

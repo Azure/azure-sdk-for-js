@@ -89,8 +89,8 @@ export class RidSkipCountFilter implements FilterStrategy {
       ridOrderCompare = 0;
     } else {
       // Use BigInt comparison for accurate RID comparison
-      const continuationBigInt = this.ridToBigInt(this.filterContext.rid);
-      const docBigInt = this.ridToBigInt(docRid);
+      const continuationBigInt = parseDocumentRid(this.filterContext.rid);
+      const docBigInt = parseDocumentRid(docRid);
 
       if (continuationBigInt < docBigInt) {
         ridOrderCompare = -1;
@@ -136,20 +136,6 @@ export class RidSkipCountFilter implements FilterStrategy {
     }
 
     return true; // Include this document (skip count exhausted)
-  }
-
-  /**
-   * Convert RID to BigInt for accurate comparison.
-   * Decodes base64 RID and extracts the Document ID portion (8 bytes at offset 8) as BigInt.
-   *
-   * RID Structure (from Java SDK ResourceId.java):
-   * - Bytes 0-3: Database ID (4 bytes)
-   * - Bytes 4-7: Collection ID (4 bytes)
-   * - Bytes 8-15: Document ID (8 bytes, interpreted as unsigned Little Endian)
-   * - Bytes 16-19: Attachment ID (4 bytes, optional)
-   */
-  private ridToBigInt(rid: string): bigint {
-    return parseDocumentRid(rid);
   }
 
   /**
