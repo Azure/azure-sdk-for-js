@@ -15,7 +15,6 @@ import type {
 } from "../request/index.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { parseDocumentRid } from "../utils/documentRid.js";
-import { useCompetitionRankingFromEnv } from "../utils/envUtils.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
@@ -54,7 +53,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private hybridSearchResult: HybridSearchQueryResult[] = [];
   private uniqueItems = new Map<string, HybridSearchQueryResult>();
   private isSingleComponent: boolean = false;
-  private readonly useCompetitionRanking: boolean;
 
   constructor(
     private clientContext: ClientContext,
@@ -69,7 +67,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       QueryTypes.hybridSearch(true),
     ]);
 
-    this.useCompetitionRanking = useCompetitionRankingFromEnv();
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
@@ -375,18 +372,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         return sortOrder * (scoreComparison || ridComparison);
       });
 
-      // Ordinal ranks advance for every row. Competition ranks share ties, then skip positions.
-      let rank = 1;
+      // Every component result receives its 1-based position, including tied scores.
       for (let j = 0; j < componentResults.length; j++) {
-        if (
-          !this.useCompetitionRanking ||
-          (j > 0 &&
-            componentResults[j].item.componentScores[i] !==
-              componentResults[j - 1].item.componentScores[i])
-        ) {
-          rank = j + 1;
-        }
-        componentResults[j].ranks[i] = rank;
+        componentResults[j].ranks[i] = j + 1;
       }
     }
 

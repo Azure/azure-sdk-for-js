@@ -18,7 +18,7 @@ import { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryR
 import * as atobUtils from "../../../src/utils/atob.js";
 import * as documentRid from "../../../src/utils/documentRid.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
-import { afterEach, beforeEach, describe, it, assert, expect, vi } from "vitest";
+import { afterEach, describe, it, assert, expect, vi } from "vitest";
 
 function createRid(value: bigint, databaseId = 1): string {
   const bytes = Buffer.alloc(16);
@@ -277,14 +277,7 @@ describe("hybridQueryExecutionContext", () => {
   });
 
   describe("deterministic RRF ranking", () => {
-    const rankingEnv = "AZURE_COSMOS_HYBRID_SEARCH_USE_COMPETITION_RANKING";
-
-    beforeEach(() => {
-      vi.stubEnv(rankingEnv, undefined);
-    });
-
     afterEach(() => {
-      vi.unstubAllEnvs();
       vi.restoreAllMocks();
     });
 
@@ -314,46 +307,27 @@ describe("hybridQueryExecutionContext", () => {
       );
     }
 
-    it.each([
-      { setting: undefined, expectedRanks: [1, 2, 3, 4, 5] },
-      { setting: "false", expectedRanks: [1, 2, 3, 4, 5] },
-      { setting: "true", expectedRanks: [1, 2, 2, 2, 5] },
-      { setting: "TRUE", expectedRanks: [1, 2, 2, 2, 5] },
-    ])(
-      "assigns the expected ranks with compatibility setting $setting",
-      ({ setting, expectedRanks }) => {
-        vi.stubEnv(rankingEnv, setting);
-        const rankingContext = createContext([-1]);
-        const input = [10, 5, 5, 5, 0].map((score, index) =>
-          createResult(BigInt(5 - index), [score]),
-        );
-        const computeScore = vi.fn(rankingContext["computeRRFScore"]);
-        rankingContext["computeRRFScore"] = computeScore;
+    it("assigns unique ordinal ranks to tied component scores", () => {
+      const rankingContext = createContext([-1]);
+      const expectedRanks = [1, 2, 3, 4, 5];
+      const input = [10, 5, 5, 5, 0].map((score, index) =>
+        createResult(BigInt(5 - index), [score]),
+      );
+      const computeScore = vi.fn(rankingContext["computeRRFScore"]);
+      rankingContext["computeRRFScore"] = computeScore;
 
-        const result = rankingContext["sortHybridSearchResultByRRFScore"](
-          input,
-          rankingContext["extractComponentWeights"](),
-        );
+      const result = rankingContext["sortHybridSearchResultByRRFScore"](
+        input,
+        rankingContext["extractComponentWeights"](),
+      );
 
-        expect(result).toEqual(input);
-        expect(computeScore.mock.calls.map(([ranks]) => ranks)).toEqual(
-          expectedRanks.map((rank) => [rank]),
-        );
-        expect(computeScore.mock.results.map(({ value }) => value)).toEqual(
-          expectedRanks.map((rank) => 1 / (60 + rank)),
-        );
-      },
-    );
-
-    it("captures the compatibility setting once per query", () => {
-      const ordinalContext = createContext();
-      vi.stubEnv(rankingEnv, "true");
-      const competitionContext = createContext();
-      vi.stubEnv(rankingEnv, "false");
-
-      expect(ordinalContext["useCompetitionRanking"]).toBe(false);
-      expect(competitionContext["useCompetitionRanking"]).toBe(true);
-      expect(createContext()["useCompetitionRanking"]).toBe(false);
+      expect(result).toEqual(input);
+      expect(computeScore.mock.calls.map(([ranks]) => ranks)).toEqual(
+        expectedRanks.map((rank) => [rank]),
+      );
+      expect(computeScore.mock.results.map(({ value }) => value)).toEqual(
+        expectedRanks.map((rank) => 1 / (60 + rank)),
+      );
     });
 
     it("decodes Cosmos RIDs with the browser atob API", () => {
@@ -413,26 +387,22 @@ describe("hybridQueryExecutionContext", () => {
       expect(computeScore.mock.results[1].value).toBe(1 / 61 + 3 * (1 / 62));
     });
 
-    it.each(["false", "true"])(
-      "breaks fused ties by descending document RID in mode %s",
-      (setting) => {
-        vi.stubEnv(rankingEnv, setting);
-        const rankingContext = createContext([-1, 1]);
-        const low = createResult(9007199254740992n, [5, 5]);
-        const high = createResult(9007199254740993n, [5, 5]);
-        for (const input of [
-          [low, high],
-          [high, low],
-        ]) {
-          expect(
-            rankingContext["sortHybridSearchResultByRRFScore"](
-              input,
-              rankingContext["extractComponentWeights"](),
-            ),
-          ).toEqual([high, low]);
-        }
-      },
-    );
+    it("breaks fused ties by descending document RID", () => {
+      const rankingContext = createContext([-1, 1]);
+      const low = createResult(9007199254740992n, [5, 5]);
+      const high = createResult(9007199254740993n, [5, 5]);
+      for (const input of [
+        [low, high],
+        [high, low],
+      ]) {
+        expect(
+          rankingContext["sortHybridSearchResultByRRFScore"](
+            input,
+            rankingContext["extractComponentWeights"](),
+          ),
+        ).toEqual([high, low]);
+      }
+    });
 
     it("decodes each retained row once, not inside component or fused comparators", () => {
       const rankingContext = createContext();
