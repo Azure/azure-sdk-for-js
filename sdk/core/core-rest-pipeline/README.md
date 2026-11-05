@@ -161,29 +161,6 @@ After all other constraints have been satisfied, policies are applied in the ord
 
 ## Examples
 
-### Tenant authentication challenges
-
-Use `authorizeRequestOnTenantChallenge` with `bearerTokenAuthenticationPolicy` to handle the tenant and resource returned in an Azure Storage bearer challenge. The helper is exported directly from `@azure/core-rest-pipeline`; the existing `@azure/core-client` export remains available for backward compatibility.
-
-```ts snippet:ReadmeSampleTenantChallenge
-import { TokenCredential } from "@azure/core-auth";
-import {
-  PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
-  authorizeRequestOnTenantChallenge,
-} from "@azure/core-rest-pipeline";
-
-function createStorageAuthenticationPolicy(credential: TokenCredential): PipelinePolicy {
-  return bearerTokenAuthenticationPolicy({
-    credential,
-    scopes: ["https://storage.azure.com/.default"],
-    challengeCallbacks: {
-      authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
-    },
-  });
-}
-```
-
 Examples can be found in the `samples` folder.
 
 ## Next steps
