@@ -44,6 +44,7 @@ export async function main(): Promise<void> {
     `sample-voice-${Date.now()}`,
     {
       kind: "voice",
+      sub_protocol: "realtime",
       model_type: "self_deployed",
       model: deploymentName,
       instructions: "Help callers find public transport information. Keep answers short.",

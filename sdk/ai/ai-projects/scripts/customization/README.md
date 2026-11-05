@@ -85,6 +85,13 @@ regeneration script falls back to it when the strict run fails.
   the opt-in beside the forwarded `options.requestOptions.headers` return to
   the emitted poller shape, and other maintained poll headers are kept. A
   preview header the emitter never sent is a customization and stays.
+- The protected-helper policy admits only the reviewed opt-in `before`/`first_id`
+  cursor transition and the optional core-lro resource-location adapter used by
+  campaign final GETs. Declaration-scoped edits are compared as complete ASTs;
+  unrelated header, cancellation, status, literal, or statement changes still fail.
+  The campaign adapter validates the initiating operation ID, not the mutable
+  campaign's latest action ID. Only campaign and call-job lists opt into reverse
+  cursors; existing lists retain bounded-forward pagination.
 - A custom-only declaration or export may reuse a generated name the
   customization renamed away, for example a compatibility alias. It is retained
   beside the renamed declaration rather than collapsed into it, and a
@@ -122,6 +129,10 @@ regeneration script falls back to it when the strict run fails.
   their classic interface and factory members. Those operations pass the same
   guards as relocations into unprotected modules; every maintained declaration
   and all other factory behavior must remain unchanged.
+- `SDK_VERSION` must be a static string matching `package.json` version.
+  A coordinated version bump may change only that initializer in
+  `src/constants.ts`; its declaration and every other protected constant
+  remain unchanged.
 - Public exports are reconciled without replacing the customized import
   scaffold. Generated-backed moves are distinguished from custom-only API. An
   unmodified generated export of a group module the emitter removed, for

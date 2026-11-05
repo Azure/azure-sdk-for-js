@@ -6,6 +6,7 @@ import test from "node:test";
 import {
   collectModelExports,
   filterModelReexports,
+  getReviewedGeneratedModelRenames,
   planModelRemovals,
   removeModelDeclarations,
 } from "./sync-generated-model-removals.mjs";
@@ -34,6 +35,118 @@ export interface UnrelatedCustomModel {}
     "CustomRemovedAlias",
   ]);
   assert.equal(plan.sourceNames.includes("CustomSupport"), false);
+});
+
+test("preserves models and converters relocated into generated submodules", () => {
+  const previousGenerated = `
+export interface MovedModel {}
+export function movedModelDeserializer(item: any): MovedModel { return item; }
+export interface RemovedModel {}
+`;
+  const currentGenerated = `
+import { MovedModel, movedModelDeserializer } from "./openAI/models.js";
+`;
+  const currentGeneratedModules = [
+    `
+export interface MovedModel {}
+export function movedModelDeserializer(item: any): MovedModel { return item; }
+`,
+  ];
+  const previousSource = `
+${previousGenerated}
+export interface CustomWrapper { model: MovedModel; }
+export function customWrapperDeserializer(item: any): CustomWrapper {
+  return { model: movedModelDeserializer(item.model) };
+}
+`;
+  const plan = planModelRemovals({
+    previousGenerated,
+    currentGenerated,
+    currentGeneratedModules,
+    previousSource,
+  });
+  assert.deepEqual([...plan.generatedRemovedNames], ["RemovedModel"]);
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+  assert.deepEqual(plan.retainedReferenceConflicts, []);
+});
+
+test("detects removals and relocations from previous generated submodules", () => {
+  const previousGeneratedModules = [
+    "export interface MovedModel {} export interface RemovedModel {}",
+  ];
+  const previousSource = `
+export interface MovedModel {}
+export interface RemovedModel {}
+`;
+  const plan = planModelRemovals({
+    previousGenerated: "",
+    previousGeneratedModules,
+    currentGenerated: "export interface MovedModel {}",
+    previousSource,
+  });
+  assert.deepEqual([...plan.generatedRemovedNames], ["RemovedModel"]);
+  assert.deepEqual(plan.sourceNames, ["RemovedModel"]);
+});
+
+test("preserves reviewed contextual renames only while their replacements exist", () => {
+  const previousGenerated = "export interface OriginalModel {}";
+  const previousSource = `
+export interface OriginalModel {}
+export interface Wrapper { model: OriginalModel; }
+`;
+  const generatedRenames = { OriginalModel: "ContextualModel" };
+  const renamed = planModelRemovals({
+    previousGenerated,
+    currentGenerated: "export interface ContextualModel {}",
+    previousSource,
+    generatedRenames,
+  });
+
+  test("preserves native Live compatibility roots after the create/update delegation split", () => {
+    const previousGenerated = `
+  export type DelegationType = "client" | "responses" | "decisions";
+  export interface Delegation { type: DelegationType; }
+  export interface LiveClientDelegationParam extends Delegation { type: "client"; }
+  export type DelegationUnion = LiveClientDelegationParam | Delegation;
+  export type _LiveSessionUpdateParamsDelegation = DelegationUnion;
+  `;
+    const currentGenerated = `
+  export type LiveSessionCreateParamsDelegationType = "client" | "responses" | "decisions";
+  export interface LiveSessionCreateParamsDelegation { type: LiveSessionCreateParamsDelegationType; }
+  export interface LiveSessionCreateParamsDelegationLiveClientDelegationParam extends LiveSessionCreateParamsDelegation { type: "client"; }
+  export type LiveSessionCreateParamsDelegationUnion = LiveSessionCreateParamsDelegationLiveClientDelegationParam | LiveSessionCreateParamsDelegation;
+  export type LiveSessionUpdateParamsDelegationUnion = LiveSessionCreateParamsDelegationUnion;
+  `;
+    const previousSource = `
+  ${previousGenerated}
+  export interface LiveSessionResourceParam { delegation?: LiveClientDelegationParam; }
+  export function liveClientDelegationParamDeserializer(item: any): LiveClientDelegationParam { return item; }
+  export function liveSessionResourceParamDeserializer(item: any): LiveSessionResourceParam {
+    return { delegation: liveClientDelegationParamDeserializer(item.delegation) };
+  }
+  `;
+    const plan = planModelRemovals({
+      previousGenerated,
+      currentGenerated,
+      previousSource,
+      generatedRenames: getReviewedGeneratedModelRenames(),
+    });
+    assert.deepEqual([...plan.generatedRemovedNames], []);
+    assert.deepEqual(plan.sourceNames, []);
+    assert.deepEqual(plan.retainedReferenceConflicts, []);
+  });
+  assert.deepEqual([...renamed.generatedRemovedNames], []);
+  assert.deepEqual(renamed.sourceNames, []);
+  assert.deepEqual(renamed.retainedReferenceConflicts, []);
+
+  const removed = planModelRemovals({
+    previousGenerated,
+    currentGenerated: "",
+    previousSource,
+    generatedRenames,
+  });
+  assert.deepEqual([...removed.generatedRemovedNames], ["OriginalModel"]);
+  assert.deepEqual(removed.sourceNames, ["OriginalModel", "Wrapper"]);
 });
 
 test("ignores property-name collisions with removed models", () => {

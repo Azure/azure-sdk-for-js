@@ -82,6 +82,7 @@ describe("voice post-emitter integration", () => {
     });
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model: "voice-model",
       store: false,
       post_call: {
@@ -316,6 +317,7 @@ describe("voice post-emitter integration", () => {
     };
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       model: "voice-model",
       model_type: "managed",
       tools: [

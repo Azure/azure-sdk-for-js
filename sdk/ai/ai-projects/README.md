@@ -240,6 +240,9 @@ console.log("Agent deleted");
 
 ### Voice Agent operations (preview)
 
+When creating voice definitions directly, set `sub_protocol` to `"realtime"` or `"live"`.
+Each immutable agent version selects its own protocol.
+
 Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
 session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
 streams its response:
@@ -292,6 +295,17 @@ Malformed JSON, missing or invalid discriminators, and malformed known events st
 iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
 caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
 
+Service-managed system tools report argument events through `response.system_tool_arguments.*`
+and outcomes through `input_collection.status`. These are not client function calls: do not
+submit a function result for them, and do not infer provider success from completed arguments.
+Input-collection outcomes may omit `event_id`.
+
+For typed subagent configuration, set `subagent_config.subagentType` to `"delegate"` for
+referenced background specialists or `"inline"` for inline voice subagents. The wire field is
+`subagent_type`; legacy JavaScript configurations that omit it retain delegated behavior.
+Inline Handoff progress is reported through `session.handoff.started`,
+`session.handoff.completed`, and `session.handoff.aborted`.
+
 Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
 with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
 single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
@@ -319,12 +333,14 @@ snapshots these values when `connect()` is called and does not reuse them for la
 Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
 
 SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
-`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
+`store`, `transport`, `agent_version_override`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
 `foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
 `structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
 these names or unsupported values rejects `connect()` with `TypeError` before authentication.
 Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
 variables; custom query parameters do not automatically become prompt inputs.
+The SDK sends `agentVersionOverride` as `agent_version_override` and browser
+`structuredInputs` as `structured_inputs`.
 
 ### Using Agent tools
 

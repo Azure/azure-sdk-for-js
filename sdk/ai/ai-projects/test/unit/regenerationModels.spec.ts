@@ -3,6 +3,7 @@
 
 import { describe, expect, expectTypeOf, it } from "vitest";
 import type * as Models from "../../src/index.js";
+import * as ModelConverters from "../../src/models/models.js";
 import type {
   AgentSessionResource,
   ApiErrorResponse,
@@ -19,6 +20,7 @@ import type {
   DataGenerationJobType,
   EvaluationDataGenerationJobOutputConfiguration,
   ErrorModel,
+  FixedIntervalRetryPolicy,
   FunctionTool,
   HostedAgentDefinition,
   MisalignmentErrorDetailsResource,
@@ -29,13 +31,17 @@ import type {
   RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
   ReinforcementFineTuningDataGenerationJobOutputConfiguration,
   SupervisedFineTuningDataGenerationJobOutputConfiguration,
+  TelephonyCampaign,
+  TelephonyCampaignCreate,
   TelephonyCallEndReason,
   TelephonyCallJob,
+  TelephonyCallJobCreate,
   TelephonyCallJobTerminalReason,
   TelephonyCallLifecycleEventReason,
   TelephonyOutboundFixedIntervalRetryPolicy,
   TelephonyOutboundRetryPolicy,
   TelephonyOutboundRetryPolicyUnion,
+  TelephonyAddressUnion,
   UpdateTelephonyBindingRequest,
   VoiceAgentInputTranscription,
   VoiceAgentDefinition,
@@ -59,6 +65,8 @@ import type {
   VoiceAgentTransport,
 } from "../../src/index.js";
 import {
+  agentDefinitionUnionDeserializer,
+  agentDefinitionUnionSerializer,
   agentSessionResourceDeserializer,
   apiErrorDeserializer,
   apiErrorResponseDeserializer,
@@ -88,6 +96,7 @@ import {
   realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer,
   telephonyBindingListItemUnionDeserializer,
   telephonyBindingUnionDeserializer,
+  telephonyCampaignSerializer,
   telephonyCallJobDeserializer,
   telephonyCallLifecycleEventDeserializer,
   telephonyCallSummaryDeserializer,
@@ -104,6 +113,8 @@ import {
   voiceAgentInputTranscriptionSerializer,
   voiceAgentDefinitionDeserializer,
   voiceAgentDefinitionSerializer,
+  voiceAgentSubagentConfigUnionDeserializer,
+  voiceAgentSubagentConfigUnionSerializer,
   webSearchToolboxToolDeserializer,
   webSearchToolboxToolSerializer,
   webSearchToolDeserializer,
@@ -118,9 +129,214 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
-  it("keeps emitted tool names as aliases of the customized public contracts", () => {
-    expectTypeOf<Models.ComparisonFilterValueItems>().toEqualTypeOf<string | number>();
-    expectTypeOf<Models.ToolFunctionTool>().toEqualTypeOf<Models.FunctionTool>();
+  it("allows null turn detection for initial manual-audio sessions", () => {
+    const input: Models.VoiceAgentAudioInputConfig = { turn_detection: null };
+    expectTypeOf<Models.VoiceAgentAudioInputConfig["turn_detection"]>().toEqualTypeOf<
+      Models.VoiceAgentTurnDetectionConfigUnion | null | undefined
+    >();
+    const definition: Models.VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      audio: { input },
+    };
+    const update: Models.VoiceAgentSessionUpdateConfig = {
+      type: "realtime",
+      audio: { input },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toMatchObject({
+      audio: { input: { turn_detection: null } },
+    });
+    expect(update.audio?.input).toEqual(input);
+    expect(toWire(ModelConverters.voiceAgentAudioInputConfigSerializer(input))).toEqual(input);
+    expect(
+      ModelConverters.voiceAgentAudioInputConfigDeserializer({
+        turn_detection: null,
+      }).turn_detection,
+    ).toBeNull();
+  });
+
+  it("preserves restored feature-branch tool exports and converter aliases", () => {
+    expectTypeOf<Models.FileSearchToolFiltersValue>().toEqualTypeOf<
+      string | number | boolean | (string | number)[]
+    >();
+    const aliases = [
+      [
+        ModelConverters._fileSearchToolFiltersValueSerializer,
+        ModelConverters._toolFileSearchToolFiltersValueSerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValueDeserializer,
+        ModelConverters._toolFileSearchToolFiltersValueDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1ArraySerializer,
+        ModelConverters._toolFileSearchToolFiltersValue1ArraySerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1ArrayDeserializer,
+        ModelConverters._toolFileSearchToolFiltersValue1ArrayDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1Serializer,
+        ModelConverters._toolFileSearchToolFiltersValue1Serializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersValue1Deserializer,
+        ModelConverters._toolFileSearchToolFiltersValue1Deserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterArraySerializer,
+        ModelConverters._toolFileSearchToolFiltersFilterArraySerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterArrayDeserializer,
+        ModelConverters._toolFileSearchToolFiltersFilterArrayDeserializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterSerializer,
+        ModelConverters._toolFileSearchToolFiltersFilterSerializer,
+      ],
+      [
+        ModelConverters._fileSearchToolFiltersFilterDeserializer,
+        ModelConverters._toolFileSearchToolFiltersFilterDeserializer,
+      ],
+      [
+        ModelConverters._mcpToolAllowedToolsSerializer,
+        ModelConverters._toolMcpToolAllowedToolsSerializer,
+      ],
+      [
+        ModelConverters._mcpToolAllowedToolsDeserializer,
+        ModelConverters._toolMcpToolAllowedToolsDeserializer,
+      ],
+      [
+        ModelConverters._mcpToolRequireApprovalSerializer,
+        ModelConverters._toolMcpToolRequireApprovalSerializer,
+      ],
+      [
+        ModelConverters._mcpToolRequireApprovalDeserializer,
+        ModelConverters._toolMcpToolRequireApprovalDeserializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolAllowedToolsSerializer,
+        ModelConverters._toolMcpToolAllowedToolsSerializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolAllowedToolsDeserializer,
+        ModelConverters._toolMcpToolAllowedToolsDeserializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolRequireApprovalSerializer,
+        ModelConverters._toolMcpToolRequireApprovalSerializer,
+      ],
+      [
+        ModelConverters._voiceAgentMcpToolRequireApprovalDeserializer,
+        ModelConverters._toolMcpToolRequireApprovalDeserializer,
+      ],
+    ];
+    for (const [alias, converter] of aliases) expect(alias).toBe(converter);
+    expect(ModelConverters._fileSearchToolFiltersValueSerializer(["account", 7])).toEqual([
+      "account",
+      7,
+    ]);
+    expect(ModelConverters._voiceAgentMcpToolAllowedToolsSerializer(["lookup"])).toEqual([
+      "lookup",
+    ]);
+    expect(ModelConverters._voiceAgentMcpToolRequireApprovalDeserializer("never")).toBe("never");
+  });
+
+  it("release branch: preserves omitted delegated-subagent selectors on legacy JavaScript inputs", () => {
+    const subagents = [
+      { agent_name: "specialist", agent_capabilities: "Answer account questions." },
+    ];
+    const legacy = {
+      kind: "voice" as const,
+      sub_protocol: "realtime" as const,
+      subagent_config: { subagents },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(legacy))).toEqual(legacy);
+    expect(voiceAgentSubagentConfigUnionDeserializer({ subagents })).toMatchObject({
+      subagentType: "delegate",
+      subagents,
+    });
+  });
+
+  it("release branch: round-trips explicit delegated and inline subagent modes", () => {
+    const delegated: Models.VoiceAgentDelegateSubagentConfig = {
+      subagentType: "delegate",
+      subagents: [{ agent_name: "specialist", agent_capabilities: "Answer account questions." }],
+    };
+    expect(toWire(voiceAgentSubagentConfigUnionSerializer(delegated))).toEqual({
+      subagent_type: "delegate",
+      subagents: delegated.subagents,
+    });
+    const inline: Models.VoiceAgentInlineSubagentConfig = {
+      subagentType: "inline",
+      subagents: [
+        {
+          id: "$entrypoint",
+          source: "inline",
+          interface: "voice",
+          display_description: "General assistance",
+          audio_output: { voice: "alloy", speed: 0.9 },
+        },
+        {
+          id: "accounts",
+          source: "inline",
+          interface: "voice",
+          display_description: "Account assistance",
+          inherit_base_instructions: false,
+          instructions: "Answer account questions.",
+        },
+      ],
+    };
+    const wire = toWire(voiceAgentSubagentConfigUnionSerializer(inline));
+    expect(wire).toMatchObject({
+      subagent_type: "inline",
+      subagents: [
+        {
+          id: "$entrypoint",
+          description: "General assistance",
+          audio_output: { voice: "alloy", speed: 0.9 },
+        },
+        { id: "accounts", description: "Account assistance", inherit_base_instructions: false },
+      ],
+    });
+    expect(toWire(voiceAgentSubagentConfigUnionDeserializer(wire))).toEqual(inline);
+  });
+
+  it("release branch: preserves SIP binding filters across request and response variants", () => {
+    const request: Models.CreateSipTelephonyBindingRequest = {
+      provider: "sip",
+      connection_name: connectionName,
+      phone_number: "+14255550100",
+      allowed_calling_numbers: ["^\\+1425555[0-9]{4}$"],
+    };
+    expect(toWire(createTelephonyBindingRequestUnionSerializer(request))).toEqual(request);
+    const response = {
+      ...request,
+      id: "binding-sip",
+      incoming_call_url: "sip:incoming.example.com",
+    };
+    expect(telephonyBindingUnionDeserializer(response)).toMatchObject(response);
+    expect(
+      telephonyBindingListItemUnionDeserializer({ ...response, etag: "sip-etag" }),
+    ).toMatchObject({
+      ...response,
+      etag: "sip-etag",
+    });
+    expect(
+      toWire(updateTelephonyBindingRequestSerializer({ allowed_calling_numbers: [] })),
+    ).toEqual({
+      allowed_calling_numbers: [],
+    });
+  });
+
+  it("keeps emitted tool names compatible with the customized public contracts", () => {
+    expectTypeOf<Models.FunctionTool>().toExtend<Models.ToolFunctionTool>();
+    expectTypeOf<Models.ToolFunctionTool["parameters"]>().toEqualTypeOf<
+      Record<string, unknown> | null | undefined
+    >();
+    expectTypeOf<Models.ToolFunctionTool["strict"]>().toEqualTypeOf<boolean | null | undefined>();
     expectTypeOf<Models.ToolFileSearchTool>().toEqualTypeOf<Models.FileSearchTool>();
     expectTypeOf<Models.ToolComputerTool>().toEqualTypeOf<Models.ComputerTool>();
     expectTypeOf<Models.ToolComputerUsePreviewTool>().toEqualTypeOf<Models.ComputerUsePreviewTool>();
@@ -140,6 +356,14 @@ describe("regenerated model wire contracts", () => {
     expect(toolFunctionToolDeserializer).toBe(functionToolDeserializer);
     expect(toWire(toolUnionSerializer(tool))).toEqual(tool);
     expect(toolUnionDeserializer(tool)).toMatchObject(tool);
+    const native: Models.ToolFunctionTool = {
+      type: "function",
+      name: "lookup",
+      parameters: null,
+      strict: null,
+    };
+    expect(toWire(toolFunctionToolSerializer(native))).toEqual(native);
+    expect(toWire(toolFunctionToolDeserializer(native))).toEqual(native);
   });
 
   it.each([{ include: undefined }, { include: [] }, { include: ["audio"] }] as const)(
@@ -155,6 +379,7 @@ describe("regenerated model wire contracts", () => {
       };
       const definition: VoiceAgentDefinition = {
         kind: "voice",
+        sub_protocol: "realtime",
         store: false,
         post_call: postCall,
       };
@@ -164,7 +389,11 @@ describe("regenerated model wire contracts", () => {
   );
 
   it("omits unconfigured post-call delivery without changing storage", () => {
-    const definition: VoiceAgentDefinition = { kind: "voice", store: false };
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      store: false,
+    };
     expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
     expect(toWire(voiceAgentDefinitionDeserializer(definition))).toEqual(definition);
   });
@@ -385,13 +614,6 @@ describe("regenerated model wire contracts", () => {
 
   const bindings: CreateTelephonyBindingRequestUnion[] = [
     {
-      provider: "sip",
-      connection_name: connectionName,
-      phone_number: "+14255550100",
-      allowed_calling_numbers: ["+14255550123", "^\\+1425[0-9]+$"],
-      label: "SIP binding",
-    },
-    {
       provider: "twilio",
       connection_name: connectionName,
       phone_number: "+14255550100",
@@ -410,7 +632,6 @@ describe("regenerated model wire contracts", () => {
     const response = {
       ...binding,
       id: "binding-test",
-      status: "active",
       incoming_call_url: "https://example.com/incoming-call",
       etag: "binding-revision",
     };
@@ -432,8 +653,9 @@ describe("regenerated model wire contracts", () => {
     expect(toWire(updateTelephonyBindingRequestSerializer({}))).toEqual({});
   });
 
-  it("requires connection_name and scalar source on call-job requests and responses", () => {
-    type Connection = { connection_name: string; source: string };
+  it("keeps the legacy call-job request name aligned with typed call-job creation", () => {
+    type Connection = { connection_name: string; source: TelephonyAddressUnion };
+    expectTypeOf<CreateTelephonyCallJobRequest>().toEqualTypeOf<TelephonyCallJobCreate>();
     expectTypeOf<
       Pick<CreateTelephonyCallJobRequest, "connection_name" | "source">
     >().toEqualTypeOf<Connection>();
@@ -446,13 +668,44 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<Pick<TelephonyOutboundFixedIntervalRetryPolicy, "interval">>().toEqualTypeOf<{
       interval: number;
     }>();
+    expectTypeOf<TelephonyOutboundFixedIntervalRetryPolicy>().toEqualTypeOf<FixedIntervalRetryPolicy>();
     expectTypeOf<TelephonyOutboundRetryPolicy["max_attempts"]>().toEqualTypeOf<
       number | undefined
     >();
   });
 
-  it.each(["+14255550100", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"])(
-    "preserves scalar outbound source %s in call jobs",
+  it("uses only customer-supplied fields when serializing campaign creation", () => {
+    type CampaignInput = Pick<
+      TelephonyCampaign,
+      | "connection_name"
+      | "source"
+      | "recipients"
+      | "recipient_dataset"
+      | "schedule"
+      | "retry_policy"
+    >;
+    expectTypeOf<TelephonyCampaignCreate>().toEqualTypeOf<CampaignInput>();
+    const campaign: TelephonyCampaignCreate = {
+      connection_name: connectionName,
+      source: { type: "phone_number", value: "+14255550100" },
+      recipients: [
+        {
+          destination: { type: "phone_number", value: "+14255550123" },
+          structured_inputs: { customer: { name: "Ada" }, notify: false },
+        },
+      ],
+      retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
+    };
+
+    expect(toWire(telephonyCampaignSerializer(campaign))).toEqual(campaign);
+    expect(toWire(telephonyCampaignSerializer(campaign))).not.toHaveProperty("status");
+  });
+
+  it.each([
+    { type: "phone_number", value: "+14255550100" },
+    { type: "teams", value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" },
+  ] satisfies TelephonyAddressUnion[])(
+    "preserves typed outbound source $type in call jobs",
     (source) => {
       const call: CreateTelephonyCallJobRequest = {
         destination: { type: "phone_number", value: "+14255550123" },
@@ -484,6 +737,7 @@ describe("regenerated model wire contracts", () => {
     (interval) => {
       const policy: TelephonyOutboundFixedIntervalRetryPolicy = {
         type: "fixed_interval",
+        max_attempts: 1,
         interval,
       };
       expect(toWire(telephonyOutboundRetryPolicyUnionSerializer(policy))).toEqual(policy);
@@ -492,7 +746,7 @@ describe("regenerated model wire contracts", () => {
       const request: CreateTelephonyCallJobRequest = {
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         retry_policy: policy,
       };
       expect(toWire(createTelephonyCallJobRequestSerializer(request))).toEqual(request);
@@ -542,7 +796,7 @@ describe("regenerated model wire contracts", () => {
       telephonyCallJobDeserializer({
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         id: "call-job-test",
         object: "telephony.call_job",
         agent_name: "voice-agent",
@@ -639,6 +893,7 @@ describe("regenerated model wire contracts", () => {
   it("round-trips all soundscape tracks without dropping zero gain or delay", () => {
     const definition: VoiceAgentDefinition = {
       kind: "voice",
+      sub_protocol: "realtime",
       soundscape: {
         background: { source: { type: "built_in", name: "office" }, gain: 0 },
         working: {
@@ -654,8 +909,35 @@ describe("regenerated model wire contracts", () => {
     };
     expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
     expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
-    const withoutSoundscape: VoiceAgentDefinition = { kind: "voice" };
+    const withoutSoundscape: VoiceAgentDefinition = { kind: "voice", sub_protocol: "realtime" };
     expect(toWire(voiceAgentDefinitionSerializer(withoutSoundscape))).toEqual(withoutSoundscape);
+  });
+
+  it("preserves both post-call destination types through the agent union", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      post_call: {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "post-call-routine" },
+        ],
+      },
+    };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(definition);
+    expect(agentDefinitionUnionDeserializer(definition)).toMatchObject(definition);
+  });
+
+  it("preserves an empty post-call include list", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      post_call: { destinations: [], include: [] },
+    };
+    expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
+    expect(voiceAgentDefinitionDeserializer(definition)).toMatchObject(definition);
   });
 
   it.each([false, true])("preserves hosted memory snapshot opt-in %s", (enabled) => {

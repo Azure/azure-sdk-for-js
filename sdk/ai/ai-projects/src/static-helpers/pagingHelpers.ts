@@ -54,6 +54,8 @@ export interface BuildPagedAsyncIteratorOptions {
   apiVersion?: KnownApiVersions;
   nextPageRequestOptions?: Record<string, unknown>;
   cursorFieldName?: string;
+  /** Opts into reverse `before` pagination. Omit for APIs that use `before` as a forward-page bound. */
+  firstCursorFieldName?: string;
   hasMoreFieldName?: string;
 }
 
@@ -104,8 +106,18 @@ export function buildPagedAsyncIterator<
       let resolvedNextLink = nextLink;
       if (!resolvedNextLink && cursorFieldName && hasMoreFieldName && initialRequestUrl) {
         const body = results as Record<string, unknown>;
-        if (body[hasMoreFieldName] === true && body[cursorFieldName]) {
-          initialRequestUrl.searchParams.set("after", body[cursorFieldName] as string);
+        const backwardsCursor = options.firstCursorFieldName;
+        const backwards =
+          backwardsCursor !== undefined && initialRequestUrl.searchParams.has("before");
+        const cursor = backwards ? backwardsCursor : cursorFieldName;
+        if (body[hasMoreFieldName] === true && cursor && body[cursor]) {
+          if (backwardsCursor !== undefined) {
+            initialRequestUrl.searchParams.delete(backwards ? "after" : "before");
+          }
+          initialRequestUrl.searchParams.set(
+            backwards ? "before" : "after",
+            body[cursor] as string,
+          );
           resolvedNextLink = initialRequestUrl.toString();
         }
       }

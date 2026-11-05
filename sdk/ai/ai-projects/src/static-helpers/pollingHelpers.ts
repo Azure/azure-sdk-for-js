@@ -54,6 +54,11 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * The function to get the initial response
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
+  /**
+   * Derives the final business-resource URL from a status response. The URL is passed through
+   * core-lro's resource-location metadata so polling, final retrieval and serialization stay shared.
+   */
+  getResourceLocation?: (response: TResponse, initialResponse?: TResponse) => string | undefined;
 }
 
 /**
@@ -233,8 +238,14 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
   expectedStatuses: string[],
   options: GetLongRunningPollerOptions<TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
-  const { restoreFrom, getInitialResponse, apiVersion, pollHeaders, statusNormalizations } =
-    options;
+  const {
+    restoreFrom,
+    getInitialResponse,
+    apiVersion,
+    pollHeaders,
+    statusNormalizations,
+    getResourceLocation,
+  } = options;
   if (!restoreFrom && !getInitialResponse) {
     throw new Error("Either restoreFrom or getInitialResponse must be specified");
   }
@@ -246,7 +257,13 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
         throw new Error("getInitialResponse is required when initializing a new poller");
       }
       initialResponse = await getInitialResponse();
-      return getLroResponse(initialResponse, expectedStatuses, statusNormalizations);
+      return getLroResponse(
+        initialResponse,
+        expectedStatuses,
+        statusNormalizations,
+        getResourceLocation,
+        initialResponse,
+      );
     },
     sendPollRequest: async (
       path: string,
@@ -282,7 +299,13 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);
       }
 
-      return getLroResponse(response as TResponse, expectedStatuses, statusNormalizations);
+      return getLroResponse(
+        response as TResponse,
+        expectedStatuses,
+        statusNormalizations,
+        getResourceLocation,
+        initialResponse,
+      );
     },
   };
   return createHttpPoller(poller, {
@@ -304,6 +327,8 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
   response: TResponse,
   expectedStatuses: string[],
   statusNormalizations?: Record<string, OperationStatus>,
+  getResourceLocation?: GetLongRunningPollerOptions<TResponse>["getResourceLocation"],
+  initialResponse?: TResponse,
 ): OperationResponse<TResponse> {
   if (!expectedStatuses.includes(response.status)) {
     throw createRestError(response);
@@ -315,13 +340,15 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
     statusNormalizations && typeof rawStatus === "string" && rawStatus in statusNormalizations
       ? { ...body, status: statusNormalizations[rawStatus] }
       : body;
+  const resourceLocation = getResourceLocation?.(response, initialResponse);
 
   return {
     flatResponse: response,
     rawResponse: {
       ...response,
       statusCode: Number.parseInt(response.status),
-      body: normalizedBody,
+      body:
+        resourceLocation === undefined ? normalizedBody : { ...normalizedBody, resourceLocation },
     },
   };
 }

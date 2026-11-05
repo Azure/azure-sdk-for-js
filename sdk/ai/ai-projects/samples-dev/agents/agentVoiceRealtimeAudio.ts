@@ -246,6 +246,7 @@ async function getOrCreateVoiceAgent(
 
   const definition: VoiceAgentDefinition = {
     kind: "voice",
+    sub_protocol: "realtime",
     model_type: "managed",
     model: modelName,
     instructions: "Listen carefully and answer the user's request.",
@@ -264,8 +265,13 @@ function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
 }
 
 function withTurnDetectionOverrides(
-  turnDetection: VoiceAgentTurnDetectionConfigUnion | undefined,
+  turnDetection: VoiceAgentTurnDetectionConfigUnion | null | undefined,
 ): VoiceAgentTurnDetectionConfigUnion {
+  if (turnDetection === null) {
+    throw new Error(
+      "This sample requires automatic turn detection configured on the agent. Use commitAudio() and requestResponse() for manual audio input.",
+    );
+  }
   // Turn-detection type is a session default set when the agent was configured and cannot change
   // at connect time, so the agent's own type and fields are preserved here; only this sample's
   // chosen overrides are layered on top.

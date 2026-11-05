@@ -4,20 +4,43 @@
 
 ### Breaking Changes
 
-- Replace `VoiceAgentSubagentConfig.subagents` with discriminated `VoiceAgentSubagentConfigUnion` configurations. Use `VoiceAgentDelegateSubagentConfig` with `subagentType: "delegate"` for existing background specialists, or `VoiceAgentInlineSubagentConfig` with `subagentType: "inline"` for inline voice subagents. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
+- Use typed telephony addresses for outbound call sources and transfer destinations. Transfer destination discriminators now use `type` instead of `kind`. [Azure/azure-rest-api-specs#46465](https://github.com/Azure/azure-rest-api-specs/pull/46465)
+- Remove binding `status` from telephony binding responses, updates, and list filters. Require the normalized `retry_policy` on returned call jobs. [Azure/azure-rest-api-specs#46465](https://github.com/Azure/azure-rest-api-specs/pull/46465)
+- Require `sub_protocol` on typed voice agent definitions and adopt the native voice and delegation discriminator hierarchies. Existing JavaScript definitions and stored Realtime definitions without a selector retain their legacy behavior. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Replace superseded native Live model aliases with the reviewed discriminator-based models. Use `transport.dtmf.sent` for a server DTMF acknowledgement; `transport.dtmf.send` remains a client command. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Select delegated or inline subagent configuration with `subagentType` in typed authoring. Legacy JavaScript configurations that omit the selector continue to use delegated subagents. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/46672)
 
 ### Features Added
 
-- Add inline voice subagents, handoff conditions and policy, effective handoff state, and started, completed, and aborted handoff events for `project.beta.voiceAgents`. Share voice settings through `VoiceAgentVoiceConfig` while preserving the flattened audio output wire shape. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
-- Add SIP bindings to `project.beta.voiceAgents.telephony`, including optional display phone numbers and caller-number restrictions that can be cleared with an empty list. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
-- Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
-- Add `review_target` to misalignment error details and `message` to realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+- Add `project.beta.voiceAgents.campaigns` for campaign preparation, status, validation-error paging, cancellation, and deletion with long-running operation monitors. Campaign creation authorizes dialing after validation and can start calls before its poller completes. [Azure/azure-rest-api-specs#46465](https://github.com/Azure/azure-rest-api-specs/pull/46465)
+- Add telephony `listCallJobs` and `deleteCallJob`, and adopt the Agent-scoped `telephony_call_jobs` routes. [Azure/azure-rest-api-specs#46465](https://github.com/Azure/azure-rest-api-specs/pull/46465)
+- Add GPT Live agent definitions, lifecycle/delegation events with effective Foundry ownership, and `project.beta.voiceAgents.liveConversations` for persisted Live conversations and audio. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Expand native GPT Live models for additional delegation tools, decisions, and prerecorded audio playback. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `post_call` voice-agent configuration for Event Grid and routine destinations. Post-call audio delivery is not supported in this preview. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Add `review_target` to misalignment error details and `message` to Realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+- Add inline voice subagents, Handoff conditions and policy, effective session state, and Handoff lifecycle events. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/46672)
+- Add service-managed SMS and DTMF tools, private-input references, and typed system-tool argument and input-collection outcomes. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47288)
+- Support SIP telephony bindings and caller-number filters. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/46816)
+
+### Bugs Fixed
+
+- Guard campaign create and cancellation pollers' final resource reads with the initiating operation ID, rather than a later campaign action. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Advance backward cursor pagination for campaign and call-job lists with `before` and `first_id`, preserving filters and continuation tokens without mixing `after`. Keep existing Foundry lists' bounded-forward behavior unchanged. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Keep binding and campaign creation inputs free of service-generated response fields while retaining the existing tracing wrappers. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Preserve unchanged discriminator aliases during customization recovery without bypassing the policy for real union replacements. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Allow `null` turn detection in typed initial audio configuration for manual audio commits, matching the documented contract and live-service behavior. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Keep Voice Agent instructions optional and non-nullable, and support nullable names in native Live MCP tool choices. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Use `agent_version_override` for voice WebSocket version selection and `structured_inputs` for browser prompt inputs, retaining the existing typed options. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Preserve native Decision message fields and protocol-specific voice fields when converting the reviewed Live models. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
+- Decode system-tool and Handoff server events, including input-collection outcomes without an event identifier. Reject unsupported Realtime commands consistently before sending them. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 
 ### Other Changes
 
-- Regenerate the client from azure-rest-api-specs commit `047993e651cabbd249e5cf83e2a2056b6737b388`, preserving customized tool aliases, client behavior, and preview headers. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/047993e651cabbd249e5cf83e2a2056b6737b388). [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
-- Regenerate from azure-rest-api-specs commit `ef1f55a194fedc8de81a785d685bd2749e6cc72c` to restore released tool names in generated output. Preserve `Tool*` compatibility aliases and customized converter behavior through explicit historical identity mappings. [Upstream change](https://github.com/Azure/azure-rest-api-specs/pull/47872). [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
-- Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`, exposing the emitted `Tool*` names as aliases while preserving existing tool shapes and serializer dispatch. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+- Deprecate `BrowserAutomationPreviewTool` and `BrowserAutomationPreviewToolboxTool` in favor of their non-preview replacements. [TypeSpec PR](https://github.com/Azure/azure-rest-api-specs/pull/47196)
+- Regenerate from the Foundry release-branch commit `57834b966f8efbe7486fd7ca32898f8983907249` with OpenAI TypeSpec 1.34.1 and client-generator-core 0.73.1, retaining existing native Live model names, tool contracts, and OpenAI-compatible function inputs. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/57834b966f8efbe7486fd7ca32898f8983907249)
+- Preserve the restored tool-name customization mappings from the updated feature branch, including `Tool*` compatibility aliases and converter behavior. [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
+- Include the feature branch's inline-subagent, handoff, and SIP contract refresh from azure-rest-api-specs commit `047993e651cabbd249e5cf83e2a2056b6737b388` while retaining the newer release-branch output above. [#40641](https://github.com/Azure/azure-sdk-for-js/pull/40641)
+- Clarify that manual audio mode must be configured before connecting and that clearing output audio requires avatar mode, as verified against the live service. [#40418](https://github.com/Azure/azure-sdk-for-js/pull/40418)
 
 ## 2.10.0 (2026-10-30)
 

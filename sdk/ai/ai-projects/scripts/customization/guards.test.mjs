@@ -94,6 +94,61 @@ test("protected SDK_VERSION may only synchronize its literal to the package vers
   }
 });
 
+test("OpenAI tool aliases retain maintained function-input compatibility", () => {
+  const generated = `export interface ToolFunctionTool {
+    parameters: Record<string, any> | null; strict: boolean | null;
+  }`;
+  const maintained = `export interface FunctionTool {
+    parameters?: Record<string, unknown>; strict?: boolean;
+  }
+  export type ToolFunctionTool = FunctionTool;`;
+  assert.deepEqual(validate(modelFixture(generated, maintained, generated, maintained)), []);
+  const nullable = maintained
+    .replace("Record<string, unknown>", "Record<string, unknown> | null")
+    .replace("strict?: boolean", "strict?: boolean | null");
+  for (const member of ["parameters", "strict"]) {
+    has(
+      validate(modelFixture(generated, maintained, generated, nullable)),
+      "FunctionTool",
+      member,
+      "Changed custom-only",
+    );
+  }
+});
+
+test("rejects invalid nullable tool alias changes and unrelated member changes", () => {
+  const generated = `export interface ToolFunctionTool {
+    parameters: Record<string, any> | null; strict: boolean | null;
+  }`;
+  const maintained = `export interface FunctionTool {
+    parameters?: Record<string, unknown>; strict?: boolean;
+  }
+  export type ToolFunctionTool = FunctionTool;`;
+  const nullable = maintained.replace("Record<string, unknown>", "Record<string, unknown> | null");
+  for (const [incoming, output, member] of [
+    [generated.replace(" | null", ""), nullable, "parameters"],
+    [generated.replace("Record<string, any>", "number"), nullable, "parameters"],
+    [generated, nullable.replace("parameters?:", "parameters:"), "parameters"],
+    [generated, nullable.replace("parameters?:", "readonly parameters?:"), "parameters"],
+    [generated, nullable.replace("Record<string, unknown> | null", "unknown | null"), "parameters"],
+    [generated, nullable.replace("strict?: boolean", "strict?: string | null"), "strict"],
+  ]) {
+    has(
+      validate(modelFixture(generated, maintained, incoming, output)),
+      "FunctionTool",
+      member,
+      "Changed custom-only",
+    );
+  }
+  const other = (text) => text.replaceAll("FunctionTool", "OtherTool");
+  has(
+    validate(modelFixture(other(generated), other(maintained), other(generated), other(nullable))),
+    "OtherTool",
+    "parameters",
+    "Changed custom-only",
+  );
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
@@ -804,6 +859,90 @@ test("rejects broad protected-file overwrites, including auth/tracing and static
     ),
   );
 });
+
+const versionConstants =
+  'export const SDK_VERSION = `2.10.0`; export const PACKAGE_NAME = "@azure/ai-projects";';
+
+function versionFixture(source, packageVersion = "2.11.0") {
+  return {
+    baseSource: tree({ "constants.ts": versionConstants }),
+    source: tree({ "constants.ts": source }),
+    packageVersion,
+  };
+}
+
+for (const version of ["2.11.0", "2.11.0-beta.1"]) {
+  test(`allows only a package-synchronized SDK version update to ${version}`, () => {
+    assert.deepEqual(
+      validate(versionFixture(versionConstants.replace("2.10.0", version), version)),
+      [],
+    );
+  });
+}
+
+test("accepts an unchanged SDK version only when it matches package metadata", () => {
+  assert.deepEqual(validate(versionFixture(versionConstants, "2.10.0")), []);
+  has(validate(versionFixture(versionConstants)), "SDK_VERSION", undefined, "package.json");
+});
+
+test("SDK version updates still require package metadata", () => {
+  const files = versionFixture(versionConstants.replace("2.10.0", "2.11.0"));
+  delete files.packageVersion;
+  has(validate(files), "SDK_VERSION", undefined, "Protected customization");
+});
+
+for (const source of [
+  versionConstants.replace("2.10.0", "2.12.0"),
+  versionConstants.replace("`2.10.0`", 'getVersion("2.11.0")'),
+  versionConstants.replace("`2.10.0`", "`2.11.${patch}`"),
+  versionConstants.replace("export const SDK_VERSION = `2.10.0`;", ""),
+]) {
+  test(`rejects missing, dynamic or mismatched SDK version: ${source}`, () => {
+    has(validate(versionFixture(source)), "SDK_VERSION", undefined, "package.json");
+  });
+}
+
+for (const source of [
+  versionConstants.replace("export const SDK_VERSION", "const SDK_VERSION"),
+  versionConstants.replace("const SDK_VERSION", "let SDK_VERSION"),
+  versionConstants.replace("SDK_VERSION =", "SDK_VERSION: string ="),
+  versionConstants.replace("@azure/ai-projects", "@azure/other"),
+  versionConstants + ' export const UNRELATED = "added";',
+]) {
+  for (const version of ["2.10.0", "2.11.0"]) {
+    test(`SDK version ${version} does not waive other protected changes: ${source}`, () => {
+      const diagnostics = validate(versionFixture(source.replace("2.10.0", version), version));
+      assert.ok(
+        diagnostics.some(
+          (diagnostic) =>
+            diagnostic.file === "constants.ts" &&
+            /Protected customization|Unproven addition/.test(diagnostic.message),
+        ),
+        JSON.stringify(diagnostics, null, 2),
+      );
+    });
+  }
+}
+
+test("the SDK version policy cannot be reused in another protected module", () => {
+  const before = "export const SDK_VERSION = `2.10.0`;";
+  const source = before.replace("2.10.0", "2.11.0");
+  const files = versionFixture(versionConstants.replace("2.10.0", "2.11.0"));
+  files.baseSource.set("util.ts", before);
+  files.source.set("util.ts", source);
+  has(validate(files), "SDK_VERSION", undefined, "Protected customization");
+});
+
+for (const packageVersion of ["", null, 211]) {
+  test(`rejects invalid package version metadata: ${JSON.stringify(packageVersion)}`, () => {
+    has(
+      validate(versionFixture(versionConstants, packageVersion)),
+      "packageVersion",
+      undefined,
+      "nonempty",
+    );
+  });
+}
 
 for (const { file, declaration, token, before } of [
   {

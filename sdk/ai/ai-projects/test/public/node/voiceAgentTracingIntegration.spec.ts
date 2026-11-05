@@ -30,9 +30,9 @@ const callJob = {
   agent_name: "PRIVATE_AGENT",
   connection_name: "PRIVATE_CONNECTION",
   status: "accepted",
-  source: "+15555550200",
+  source: { type: "phone_number", value: "+15555550200" },
   destination: { type: "phone_number", value: "+15555550100" },
-  retry_policy: { type: "none" },
+  retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
   attempt_count: 0,
   revision: 1,
   created_at: 1,
@@ -44,7 +44,7 @@ const binding = {
   connection_name: "PRIVATE_CONNECTION",
   phone_number: "+15555550100",
   label: "PRIVATE_LABEL",
-  status: "active",
+  incoming_call_url: "https://example.test/incoming",
 };
 const call = {
   id: "call-1",
@@ -63,6 +63,7 @@ interface RestTelemetryCase {
   name: string;
   method: string;
   status: number;
+  path?: string;
   body?: Record<string, unknown>;
   invoke: (client: AIProjectClient, options: OperationOptions) => Promise<unknown>;
 }
@@ -96,6 +97,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     name: "voice_agents.telephony.create_call_job",
     method: "POST",
     status: 202,
+    path: "/api/projects/test/agents/PRIVATE_AGENT/telephony_call_jobs",
     body: callJob,
     invoke: (client, options) =>
       client.beta.voiceAgents.telephony.createCallJob(
@@ -103,7 +105,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_IDEMPOTENCY",
         {
           connection_name: "PRIVATE_CONNECTION",
-          source: "+15555550200",
+          source: { type: "phone_number", value: "+15555550200" },
           destination: { type: "phone_number", value: "+15555550100" },
         },
         options,
@@ -113,6 +115,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     name: "voice_agents.telephony.cancel_call_job",
     method: "POST",
     status: 202,
+    path: "/api/projects/test/agents/PRIVATE_AGENT/telephony_call_jobs/job-1:cancel",
     body: callJob,
     invoke: (client, options) =>
       client.beta.voiceAgents.telephony.cancelCallJob(
@@ -282,6 +285,7 @@ describe("Voice Agents exported traces", () => {
       await provider.forceFlush();
       expect(requests).toHaveLength(1);
       expect(requests[0].method).toBe(testCase.method);
+      if (testCase.path) expect(new URL(requests[0].url).pathname).toBe(testCase.path);
       expect(requests[0].abortSignal).toBe(controller.signal);
       expect(requests[0].headers.get("x-test-correlation")).toBe("PRIVATE_HEADER");
       expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");

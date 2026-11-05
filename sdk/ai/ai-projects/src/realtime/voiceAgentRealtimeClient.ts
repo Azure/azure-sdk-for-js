@@ -39,6 +39,7 @@ const reservedQueryParameters = new Set([
   "agent_session_id",
   "store",
   "transport",
+  "agent_version_override",
   "x-agent-version-override",
   "x-ms-client-sdk",
   "authorization",
@@ -94,7 +95,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
   store?: boolean;
-  /** Selects a specific immutable agent version. */
+  /** Selects a specific immutable agent version using the agent_version_override query parameter. */
   agentVersionOverride?: string;
   /**
    * Selects the transport used for the realtime connection. Defaults to `"websocket"`. Set to
@@ -195,7 +196,11 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEv
   readonly closed: Promise<VoiceAgentCloseResult>;
   /** Sends any generated client protocol event. */
   sendEvent(event: VoiceAgentClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
-  /** Updates supported live-session settings. */
+  /**
+   * Updates supported live-session settings.
+   * To use manual audio commits, disable turn detection in the agent definition before connecting.
+   * The service does not allow disabling turn detection during an established session.
+   */
   configureSession(
     session: VoiceAgentSessionUpdateConfig,
     options?: VoiceAgentSessionUpdateOptions,
@@ -208,7 +213,10 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentRealtimeEv
   commitAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Clears buffered input audio. */
   clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
-  /** Clears pending output audio at the service. */
+  /**
+   * Clears pending output audio for an avatar session.
+   * For non-avatar sessions, the service sends an error event with code `avatar_not_configured`.
+   */
   clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Returns a client-executed function result to the agent. */
   sendToolOutput(
@@ -744,7 +752,8 @@ function buildWebSocketUrl(
     url.searchParams.set("store", String(options.store));
   }
   if (options.agentVersionOverride) {
-    url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
+    url.searchParams.delete("x-agent-version-override");
+    url.searchParams.set("agent_version_override", options.agentVersionOverride);
   }
   if (options.transport) {
     url.searchParams.set("transport", options.transport);

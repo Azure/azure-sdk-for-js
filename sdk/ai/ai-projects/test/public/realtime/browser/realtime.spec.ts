@@ -81,6 +81,7 @@ describe("AIProjectClient browser realtime", () => {
   it("sends bearer auth as a WebSocket subprotocol and supported connection query parameters", async () => {
     const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
       agentSessionId: "session-1",
+      agentVersionOverride: "2",
       store: false,
       structuredInputs: { customer: "Ada" },
     });
@@ -93,6 +94,8 @@ describe("AIProjectClient browser realtime", () => {
     );
     expect(url.searchParams.get("api-version")).toBe("v1");
     expect(url.searchParams.get("agent_session_id")).toBe("session-1");
+    expect(url.searchParams.get("agent_version_override")).toBe("2");
+    expect(url.searchParams.has("x-agent-version-override")).toBe(false);
     expect(url.searchParams.get("store")).toBe("false");
     expect(url.searchParams.has("authorization")).toBe(false);
     expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
@@ -101,11 +104,11 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
     expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
     expect(url.searchParams.get("client-request-id")).toBeTruthy();
-    expect(url.searchParams.getAll("structured_input")).toEqual([
+    expect(url.searchParams.getAll("structured_inputs")).toEqual([
       JSON.stringify({ customer: "Ada" }),
     ]);
     expect(url.searchParams.has("h-x-ms-voice-structured-inputs")).toBe(false);
-    expect(url.searchParams.has("structured_inputs")).toBe(false);
+    expect(url.searchParams.has("structured_input")).toBe(false);
     expect(url.searchParams.has("user-agent")).toBe(false);
     expect(url.searchParams.has("h-user-agent")).toBe(false);
     expect(url.searchParams.has("h-x-ms-client-sdk")).toBe(false);
@@ -134,7 +137,7 @@ describe("AIProjectClient browser realtime", () => {
       "x-ms-client-sdk": "sdk-version",
       foundry_features: "VoiceAgents=V1Preview",
       "client-request-id": "request-1",
-      structured_input: structuredInputs,
+      structured_inputs: structuredInputs,
     });
   });
 
@@ -144,6 +147,7 @@ describe("AIProjectClient browser realtime", () => {
       structuredInputs: { customer: "Ada" },
       store: false,
     });
+
     try {
       const socket = getSocket();
       const url = new URL(socket.url);
@@ -152,14 +156,24 @@ describe("AIProjectClient browser realtime", () => {
       expect(url.searchParams.get("count")).toBe("0");
       expect(url.searchParams.has("omitted")).toBe(false);
       expect(url.searchParams.get("store")).toBe("false");
-      expect(url.searchParams.getAll("structured_input")).toEqual(['{"customer":"Ada"}']);
-      expect(url.searchParams.has("structured_inputs")).toBe(false);
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada"}']);
+      expect(url.searchParams.has("structured_input")).toBe(false);
       expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
       expect(url.searchParams.has("authorization")).toBe(false);
       expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
     } finally {
       await connection.close();
     }
+  });
+
+  it("replaces a legacy structured-input selector with the canonical query parameter", () => {
+    const url = new URL(
+      addHeadersToUrl("wss://example.test/voice?structured_input=legacy", {
+        "x-ms-voice-structured-inputs": '{"customer":"Ada"}',
+      }),
+    );
+    expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada"}']);
+    expect(url.searchParams.has("structured_input")).toBe(false);
   });
 
   it("snapshots structured inputs before loading the browser transport and acquiring a token", async () => {
@@ -175,8 +189,8 @@ describe("AIProjectClient browser realtime", () => {
     const connection = await pendingConnection;
     try {
       const url = new URL(getSocket().url);
-      expect(url.searchParams.getAll("structured_input")).toEqual(['{"customer":{"name":"Ada"}}']);
-      expect(url.searchParams.has("structured_inputs")).toBe(false);
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":{"name":"Ada"}}']);
+      expect(url.searchParams.has("structured_input")).toBe(false);
     } finally {
       await connection.close();
     }

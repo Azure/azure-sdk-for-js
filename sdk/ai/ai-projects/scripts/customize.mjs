@@ -39,6 +39,11 @@ function argumentsFor(args, environment = process.env) {
 
 function main() {
   const options = argumentsFor(process.argv.slice(2));
+  const { version: packageVersion } = JSON.parse(
+    readFileSync(path.join(options.packageRoot, "package.json"), "utf8"),
+  );
+  if (typeof packageVersion !== "string" || !packageVersion.length)
+    throw new Error("package.json must declare the SDK version.");
   const baseline = readBaseline(options.packageRoot, options.baseRef);
   const generated = readTree(options.generatedRoot);
   const sourceRoot = path.join(options.packageRoot, "src");
@@ -59,9 +64,7 @@ function main() {
         source: proposed,
         matches: plan.matches,
         modelRenames: plan.modelRenames,
-        packageVersion: JSON.parse(
-          readFileSync(path.join(options.packageRoot, "package.json"), "utf8"),
-        ).version,
+        packageVersion,
         ...(options.recover ? { retained: new Set(retained.map(key)), unapplied } : {}),
       });
   if (diagnostics.length) {

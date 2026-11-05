@@ -4,6 +4,8 @@
 import ts from "typescript";
 import { edit, nameOf, parse } from "./modules.mjs";
 
+const typePrinter = ts.createPrinter({ removeComments: true });
+
 function alternatives(type) {
   return ts.isUnionTypeNode(type) ? [...type.types] : [type];
 }
@@ -129,6 +131,17 @@ export function retainedModelBases(
     const source = parse(entry.text);
     const node = source.statements[0];
     if (!ts.isTypeAliasDeclaration(node)) continue;
+    const incomingNode = incoming.get(name).node;
+    if (
+      ts.isTypeAliasDeclaration(incomingNode) &&
+      typePrinter.printNode(ts.EmitHint.Unspecified, node.type, source) ===
+        typePrinter.printNode(
+          ts.EmitHint.Unspecified,
+          incomingNode.type,
+          incomingNode.getSourceFile(),
+        )
+    )
+      continue;
     const types = alternatives(node.type);
     const kept = types.filter((type) => {
       if (ts.isTypeReferenceNode(type) && typeMembers.get(name)?.has(nameOf(type.typeName)))
