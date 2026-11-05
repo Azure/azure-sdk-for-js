@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const accountConnection = new CognitiveServicesConnection(account, {
+  new CognitiveServicesConnection(account, {
     existing: true,
     name: "connection",
   });

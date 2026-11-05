@@ -66,7 +66,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       hostingModel: "ConnectedContainer",
     },
   });
-  const accountAssociation = new AccountAssociation(commitmentPlan, {
+  new AccountAssociation(commitmentPlan, {
     name: "commitment-plan",
     properties: {
       accountId:

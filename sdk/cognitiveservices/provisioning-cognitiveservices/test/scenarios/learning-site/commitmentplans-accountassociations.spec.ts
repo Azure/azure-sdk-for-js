@@ -58,7 +58,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "commitment-plan",
   });
-  const accountAssociation = new AccountAssociation(commitmentPlan, {
+  new AccountAssociation(commitmentPlan, {
     name: "commitmentplans-accountassociations",
     properties: {
       accountId:

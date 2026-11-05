@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const privateEndpointConnection = new PrivateEndpointConnection(account, {
+  new PrivateEndpointConnection(account, {
     name: "accounts-privateendpointconnections",
     properties: {
       privateLinkServiceConnectionState: {

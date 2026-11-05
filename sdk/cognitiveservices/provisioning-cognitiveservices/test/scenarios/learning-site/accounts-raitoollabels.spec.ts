@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const raiToolLabel = new RaiToolLabel(account, {
+  new RaiToolLabel(account, {
     name: "accounts-raitoollabels",
     properties: {
       toolConnectionName: "Web_Search",

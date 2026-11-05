@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const deletedAccount = new CognitiveServicesDeletedAccount(stack, {
+  new CognitiveServicesDeletedAccount(stack, {
     existing: true,
     name: "eastus/rg-cdk-package-test/deleted-account",
   });

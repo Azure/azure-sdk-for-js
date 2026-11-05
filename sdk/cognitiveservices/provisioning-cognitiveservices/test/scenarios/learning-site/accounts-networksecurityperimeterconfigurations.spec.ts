@@ -58,7 +58,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const networkSecurityPerimeterConfiguration = new NetworkSecurityPerimeterConfiguration(account, {
+  new NetworkSecurityPerimeterConfiguration(account, {
     existing: true,
     name: "accounts-networksecurityperimeterconfigurations",
   });

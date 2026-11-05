@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const accountCommitmentPlan = new CommitmentPlan(account, {
+  new CommitmentPlan(account, {
     existing: true,
     name: "commitmentPlan",
   });

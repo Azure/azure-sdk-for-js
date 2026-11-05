@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const raiContentFilter = new RaiContentFilter(stack, {
+  new RaiContentFilter(stack, {
     existing: true,
     name: "eastus/default",
   });

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const project = new Project(account, {
+  new Project(account, {
     name: "accounts-projects",
     location: "eastus",
     identity: {

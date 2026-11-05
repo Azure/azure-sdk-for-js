@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const account = new Account(stack, {
+  new Account(stack, {
     existing: true,
     name: "myAccount",
   });

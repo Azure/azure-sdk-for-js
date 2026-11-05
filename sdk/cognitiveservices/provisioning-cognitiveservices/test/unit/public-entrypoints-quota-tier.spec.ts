@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const quotaTier = new QuotaTier(stack, {
+  new QuotaTier(stack, {
     name: "default",
     properties: {
       tierUpgradePolicy: "OnceUpgradeIsAvailable",

@@ -51,7 +51,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const commitmentPlan = new CognitiveServicesCommitmentPlan(stack, {
+  new CognitiveServicesCommitmentPlan(stack, {
     name: "commitmentplans",
     kind: "AIServices",
     location: "eastus",

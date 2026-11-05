@@ -60,7 +60,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "default",
   });
-  const outboundRule = new OutboundRule(managedNetwork, {
+  new OutboundRule(managedNetwork, {
     name: "rule_name_1",
     properties: {
       type: "FQDN",

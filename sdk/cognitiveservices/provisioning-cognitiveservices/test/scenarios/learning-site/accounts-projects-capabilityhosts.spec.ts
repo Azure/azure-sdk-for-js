@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-project",
   });
-  const projectCapabilityHost = new ProjectCapabilityHost(project, {
+  new ProjectCapabilityHost(project, {
     name: "accounts-projects-capabilityhosts",
     properties: {
       aiServicesConnections: [],

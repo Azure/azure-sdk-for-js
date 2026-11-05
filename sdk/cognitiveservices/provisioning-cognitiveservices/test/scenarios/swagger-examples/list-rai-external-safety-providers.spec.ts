@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const raiExternalSafetyProvider = new RaiExternalSafetyProvider(stack, {
+  new RaiExternalSafetyProvider(stack, {
     existing: true,
     name: "safetyProvider",
   });

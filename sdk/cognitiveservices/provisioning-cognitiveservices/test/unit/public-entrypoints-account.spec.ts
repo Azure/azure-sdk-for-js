@@ -85,14 +85,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       publicNetworkAccess: "Enabled",
     },
   });
-  const accountCapabilityHost = new AccountCapabilityHost(account, {
+  new AccountCapabilityHost(account, {
     name: "account",
     properties: {
       capabilityHostKind: "Agents",
       enablePublicHostingEnvironment: true,
     },
   });
-  const accountCommitmentPlan = new CommitmentPlan(account, {
+  new CommitmentPlan(account, {
     name: "account",
     kind: "AIServices",
     location: "eastus",
@@ -104,7 +104,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       hostingModel: "ConnectedContainer",
     },
   });
-  const accountConnection = new CognitiveServicesConnection(account, {
+  new CognitiveServicesConnection(account, {
     name: "account",
     properties: {
       authType: "None",
@@ -112,7 +112,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       target: "https://example.invalid",
     },
   });
-  const accountRaiPolicy = new AccountRaiPolicy(account, {
+  new AccountRaiPolicy(account, {
     name: "account",
     properties: {
       basePolicyName: "Microsoft.Default",
@@ -137,7 +137,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       description: "Cognitive Services application",
     },
   });
-  const agentDeployment = new CognitiveServicesAgentDeployment(application, {
+  new CognitiveServicesAgentDeployment(application, {
     name: "account",
     properties: {
       deploymentType: "Hosted",
@@ -146,13 +146,13 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       minReplicas: 1,
     },
   });
-  const defenderForAiSetting = new DefenderForAiSetting(account, {
+  new DefenderForAiSetting(account, {
     name: "account",
     properties: {
       state: "Enabled",
     },
   });
-  const deployment = new Deployment(account, {
+  new Deployment(account, {
     name: "account",
     sku: {
       name: "Standard",
@@ -167,7 +167,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       versionUpgradeOption: "OnceNewDefaultVersionAvailable",
     },
   });
-  const encryptionScope = new EncryptionScope(account, {
+  new EncryptionScope(account, {
     name: "account",
     properties: {
       state: "Enabled",
@@ -184,11 +184,11 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       },
     },
   });
-  const networkSecurityPerimeterConfiguration = new NetworkSecurityPerimeterConfiguration(account, {
+  new NetworkSecurityPerimeterConfiguration(account, {
     existing: true,
     name: "account",
   });
-  const outboundRule = new OutboundRule(managedNetwork, {
+  new OutboundRule(managedNetwork, {
     name: "account",
     properties: {
       type: "FQDN",
@@ -196,7 +196,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       destination: "destination.example.com",
     },
   });
-  const privateEndpointConnection = new PrivateEndpointConnection(account, {
+  new PrivateEndpointConnection(account, {
     name: "account",
     properties: {
       privateLinkServiceConnectionState: {
@@ -205,14 +205,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       },
     },
   });
-  const projectCapabilityHost = new ProjectCapabilityHost(project, {
+  new ProjectCapabilityHost(project, {
     name: "account",
     properties: {
       aiServicesConnections: [],
       storageConnections: [],
     },
   });
-  const projectConnection = new CognitiveServicesProjectConnection(project, {
+  new CognitiveServicesProjectConnection(project, {
     name: "account",
     properties: {
       authType: "None",
@@ -226,14 +226,14 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       description: "Source-backed blocklist coverage",
     },
   });
-  const raiBlocklistItem = new RaiBlocklistItem(raiBlocklist, {
+  new RaiBlocklistItem(raiBlocklist, {
     name: "account",
     properties: {
       isRegex: true,
       pattern: "^[a-z0-9_-]{2,16}$",
     },
   });
-  const raiExternalSafetyProviderSchema = new RaiExternalSafetyProviderSchema(account, {
+  new RaiExternalSafetyProviderSchema(account, {
     name: "account",
     properties: {
       keyVaultUri: "https://contoso-vault.vault.azure.net/",
@@ -245,13 +245,13 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       url: "https://example-safety-provider.contoso.com/webhook",
     },
   });
-  const raiToolLabel = new RaiToolLabel(account, {
+  new RaiToolLabel(account, {
     name: "account",
     properties: {
       toolConnectionName: "Web_Search",
     },
   });
-  const raiTopic = new RaiTopic(account, {
+  new RaiTopic(account, {
     name: "account",
     properties: {
       description: "Cognitive Services RAI topic",

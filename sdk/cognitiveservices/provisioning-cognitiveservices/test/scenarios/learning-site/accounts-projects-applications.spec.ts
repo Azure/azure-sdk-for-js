@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-project",
   });
-  const application = new Application(project, {
+  new Application(project, {
     name: "accounts-projects-applications",
     properties: {
       displayName: "sample application",

@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const accountCapabilityHost = new AccountCapabilityHost(account, {
+  new AccountCapabilityHost(account, {
     name: "accounts-capabilityhosts",
     properties: {
       capabilityHostKind: "Agents",

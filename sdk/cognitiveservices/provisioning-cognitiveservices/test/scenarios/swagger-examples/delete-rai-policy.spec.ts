@@ -52,7 +52,7 @@ const values = {
 
 function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
-  const raiPolicy = new RaiPolicy(stack, {
+  new RaiPolicy(stack, {
     existing: true,
     name: "raiPolicyName",
   });

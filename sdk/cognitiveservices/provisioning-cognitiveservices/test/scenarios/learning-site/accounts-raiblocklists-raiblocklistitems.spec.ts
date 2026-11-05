@@ -59,7 +59,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "myblocklist",
   });
-  const raiBlocklistItem = new RaiBlocklistItem(raiBlocklist, {
+  new RaiBlocklistItem(raiBlocklist, {
     name: "accounts-raiblocklists-raiblocklistitems",
     properties: {
       isRegex: true,

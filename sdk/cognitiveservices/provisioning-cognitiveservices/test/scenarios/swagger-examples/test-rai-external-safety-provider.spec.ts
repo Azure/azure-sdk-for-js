@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const raiExternalSafetyProviderSchema = new RaiExternalSafetyProviderSchema(account, {
+  new RaiExternalSafetyProviderSchema(account, {
     name: "mySafetyProvider",
     properties: {
       keyVaultUri: "https://contoso-vault.vault.azure.net/",

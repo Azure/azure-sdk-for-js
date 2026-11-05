@@ -63,7 +63,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-project",
   });
-  const projectConnection = new CognitiveServicesProjectConnection(project, {
+  new CognitiveServicesProjectConnection(project, {
     name: "accounts-projects-connections",
     properties: {
       authType: "None",

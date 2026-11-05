@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const defenderForAiSetting = new DefenderForAiSetting(account, {
+  new DefenderForAiSetting(account, {
     name: "Default",
     properties: {
       state: "Enabled",

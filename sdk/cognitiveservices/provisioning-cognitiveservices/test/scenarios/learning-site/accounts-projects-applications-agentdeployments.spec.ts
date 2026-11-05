@@ -68,7 +68,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "agent-application",
   });
-  const agentDeployment = new CognitiveServicesAgentDeployment(application, {
+  new CognitiveServicesAgentDeployment(application, {
     name: "accounts-projects-applications-agentdeployments",
     properties: {
       deploymentType: "Hosted",

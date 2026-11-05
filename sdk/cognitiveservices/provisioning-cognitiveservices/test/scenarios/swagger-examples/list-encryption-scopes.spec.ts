@@ -56,7 +56,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const encryptionScope = new EncryptionScope(account, {
+  new EncryptionScope(account, {
     existing: true,
     name: "encryptionScope",
   });

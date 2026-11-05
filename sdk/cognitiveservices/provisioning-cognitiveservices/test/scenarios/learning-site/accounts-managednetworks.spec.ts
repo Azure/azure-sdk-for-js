@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const managedNetwork = new ManagedNetwork(account, {
+  new ManagedNetwork(account, {
     name: "default",
     properties: {
       managedNetwork: {

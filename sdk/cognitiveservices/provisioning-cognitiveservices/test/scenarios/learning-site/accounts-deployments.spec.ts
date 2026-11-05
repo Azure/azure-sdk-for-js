@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const deployment = new Deployment(account, {
+  new Deployment(account, {
     name: "accounts-deployments",
     sku: {
       name: "Standard",

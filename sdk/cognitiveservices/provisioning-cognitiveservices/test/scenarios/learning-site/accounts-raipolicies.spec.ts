@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const accountRaiPolicy = new AccountRaiPolicy(account, {
+  new AccountRaiPolicy(account, {
     name: "accounts-raipolicies",
     properties: {
       basePolicyName: "Microsoft.Default",

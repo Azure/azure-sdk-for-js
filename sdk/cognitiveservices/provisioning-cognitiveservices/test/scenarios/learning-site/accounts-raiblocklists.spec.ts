@@ -55,7 +55,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  const raiBlocklist = new RaiBlocklist(account, {
+  new RaiBlocklist(account, {
     name: "accounts-raiblocklists",
     properties: {
       description: "Source-backed blocklist coverage",
