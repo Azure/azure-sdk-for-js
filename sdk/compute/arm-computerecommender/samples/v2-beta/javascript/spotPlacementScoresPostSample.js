@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates placement scores for Spot VM skus.
  *
  * @summary generates placement scores for Spot VM skus.
- * x-ms-original-file: 2026-09-05-preview/GenerateSpotPlacementScores.json
+ * x-ms-original-file: 2026-10-05-preview/GenerateSpotPlacementScores.json
  */
 async function returnsSpotVMPlacementScoresForGivenConfigurations() {
   const credential = new DefaultAzureCredential();
@@ -23,8 +23,27 @@ async function returnsSpotVMPlacementScoresForGivenConfigurations() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to generates placement scores for Spot VM skus.
+ *
+ * @summary generates placement scores for Spot VM skus.
+ * x-ms-original-file: 2026-10-05-preview/GenerateSpotPlacementScoresWithoutDesiredLocation.json
+ */
+async function returnsSpotVMPlacementScoresUsingTheRequestURILocationAsTheDesiredLocationWhenDesiredLocationsIsNotSpecified() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
+  const result = await client.spotPlacementScores.post("eastus", {
+    availabilityZones: true,
+    desiredCount: 1,
+    desiredSizes: [{ sku: "Standard_D2_v2" }],
+  });
+  console.log(result);
+}
+
 async function main() {
   await returnsSpotVMPlacementScoresForGivenConfigurations();
+  await returnsSpotVMPlacementScoresUsingTheRequestURILocationAsTheDesiredLocationWhenDesiredLocationsIsNotSpecified();
 }
 
 main().catch(console.error);

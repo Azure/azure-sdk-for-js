@@ -5,21 +5,21 @@ import { ComputeRecommenderManagementClient } from "@azure/arm-computerecommende
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets SkuMixPlacement scoring metadata.
+ * This sample demonstrates how to gets Compute Placement Scores metadata.
  *
- * @summary gets SkuMixPlacement scoring metadata.
- * x-ms-original-file: 2026-09-05-preview/GetSkuMixPlacementScores.json
+ * @summary gets Compute Placement Scores metadata.
+ * x-ms-original-file: 2026-10-05-preview/GetComputePlacementScores.json
  */
-async function getsTheMetadataOfSkuMixPlacementScores(): Promise<void> {
+async function getsTheMetadataOfComputePlacementScores(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
-  const result = await client.skuMixPlacementScores.get("eastus");
+  const result = await client.computePlacementScores.get("eastus");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsTheMetadataOfSkuMixPlacementScores();
+  await getsTheMetadataOfComputePlacementScores();
 }
 
 main().catch(console.error);

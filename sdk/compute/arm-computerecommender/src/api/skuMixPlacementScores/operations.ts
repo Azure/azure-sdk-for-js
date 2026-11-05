@@ -32,7 +32,7 @@ export function _postSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
