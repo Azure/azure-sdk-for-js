@@ -124,11 +124,7 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   const resource2 = new SqlRoleAssignment(resource0, {
     name: v_roleAssignmentId,
     properties: {
-      roleDefinitionId: fn.resourceId(
-        "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
-        p_accountName,
-        v_roleDefinitionId,
-      ),
+      roleDefinitionId: resource1.id,
       principalId: p_principalId,
       scope: fn.resourceId("Microsoft.DocumentDB/databaseAccounts", p_accountName),
     },

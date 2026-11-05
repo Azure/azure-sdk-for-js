@@ -66,7 +66,7 @@ resource sqlRoleAssignment 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignm
   name: roleAssignmentId
   parent: databaseAccount
   properties: {
-    roleDefinitionId: resourceId('Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions', accountName, roleDefinitionId)
+    roleDefinitionId: sqlRoleDefinition.id
     principalId: principalId
     scope: resourceId('Microsoft.DocumentDB/databaseAccounts', accountName)
   }

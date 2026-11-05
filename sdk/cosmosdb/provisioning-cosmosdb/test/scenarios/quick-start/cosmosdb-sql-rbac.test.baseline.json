@@ -341,22 +341,13 @@
                 "kind": "object",
                 "value": {
                   "roleDefinitionId": {
-                    "kind": "function-call",
-                    "target": "resourceId",
-                    "args": [
-                      {
-                        "kind": "string",
-                        "value": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions"
-                      },
-                      {
-                        "kind": "identifier",
-                        "id": "accountName"
-                      },
-                      {
-                        "kind": "identifier",
-                        "id": "roleDefinitionId"
-                      }
-                    ]
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "sqlRoleDefinition"
+                    },
+                    "property": "id",
+                    "nullish": false
                   },
                   "principalId": {
                     "kind": "identifier",
