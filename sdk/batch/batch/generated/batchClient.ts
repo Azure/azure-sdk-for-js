@@ -72,7 +72,6 @@ import {
   deletePool,
   listPools,
   createPool,
-  listPoolUsageMetrics,
   getApplication,
   listApplications,
 } from "./api/operations.js";
@@ -146,13 +145,11 @@ import {
   DeletePoolOptionalParams,
   ListPoolsOptionalParams,
   CreatePoolOptionalParams,
-  ListPoolUsageMetricsOptionalParams,
   GetApplicationOptionalParams,
   ListApplicationsOptionalParams,
 } from "./api/options.js";
 import {
   BatchApplication,
-  BatchPoolUsageMetrics,
   BatchPoolCreateOptions,
   BatchPool,
   AutoScaleRun,
@@ -203,14 +200,7 @@ export class BatchClient {
     credential: TokenCredential,
     options: BatchClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createBatch(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createBatch(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
@@ -1023,20 +1013,6 @@ export class BatchClient {
     options: CreatePoolOptionalParams = { requestOptions: {} },
   ): Promise<void> {
     return createPool(this._client, pool, options);
-  }
-
-  /**
-   * If you do not specify a $filter clause including a poolId, the response
-   * includes all Pools that existed in the Account in the time range of the
-   * returned aggregation intervals. If you do not specify a $filter clause
-   * including a startTime or endTime these filters default to the start and end
-   * times of the last aggregation interval currently available; that is, only the
-   * last aggregation interval is returned.
-   */
-  listPoolUsageMetrics(
-    options: ListPoolUsageMetricsOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<BatchPoolUsageMetrics> {
-    return listPoolUsageMetrics(this._client, options);
   }
 
   /**
