@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of the server trust certificates used to secure communication between SQL Server and the specified SQL Managed Instance
  *
  * @summary gets a list of the server trust certificates used to secure communication between SQL Server and the specified SQL Managed Instance
- * x-ms-original-file: 2025-08-01-preview/ServerTrustCertificatesListByInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ServerTrustCertificatesListByInstance.json
  */
 async function getsAListOfServerTrustCertificatesOnAGivenServer() {
   const credential = new DefaultAzureCredential();

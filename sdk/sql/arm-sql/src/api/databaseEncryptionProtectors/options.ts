@@ -8,6 +8,7 @@ export interface DatabaseEncryptionProtectorsRevertOptionalParams extends Operat
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface DatabaseEncryptionProtectorsRevalidateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

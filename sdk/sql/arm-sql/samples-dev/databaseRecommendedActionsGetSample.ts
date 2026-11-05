@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a database recommended action.
  *
  * @summary gets a database recommended action.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRecommendedActionGet.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRecommendedActionGet.json
  */
 async function getDatabaseRecommendedAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

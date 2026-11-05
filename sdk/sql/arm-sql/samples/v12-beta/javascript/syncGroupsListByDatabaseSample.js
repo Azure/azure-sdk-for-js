@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists sync groups under a hub database.
  *
  * @summary lists sync groups under a hub database.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupListByDatabase.json
  */
 async function listSyncGroupsUnderAGivenDatabase() {
   const credential = new DefaultAzureCredential();

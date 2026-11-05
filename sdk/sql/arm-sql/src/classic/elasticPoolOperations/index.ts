@@ -28,6 +28,7 @@ export interface ElasticPoolOperationsOperations {
     options?: ElasticPoolOperationsListByElasticPoolOptionalParams,
   ) => PagedAsyncIterableIterator<ElasticPoolOperation>;
 }
+
 function _getElasticPoolOperations(context: SqlManagementContext) {
   return {
     cancel: (
@@ -45,6 +46,7 @@ function _getElasticPoolOperations(context: SqlManagementContext) {
     ) => listByElasticPool(context, resourceGroupName, serverName, elasticPoolName, options),
   };
 }
+
 export function _getElasticPoolOperationsOperations(
   context: SqlManagementContext,
 ): ElasticPoolOperationsOperations {

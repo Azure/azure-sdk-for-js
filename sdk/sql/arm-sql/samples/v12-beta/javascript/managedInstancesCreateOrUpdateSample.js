@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a managed instance.
  *
  * @summary creates or updates a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceCreateMax.json
  */
 async function createManagedInstanceWithAllProperties() {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function createManagedInstanceWithAllProperties() {
  * This sample demonstrates how to creates or updates a managed instance.
  *
  * @summary creates or updates a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceCreateMin.json
  */
 async function createManagedInstanceWithMinimalProperties() {
   const credential = new DefaultAzureCredential();

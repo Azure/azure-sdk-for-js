@@ -35,7 +35,7 @@ export function _listByAgentSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       jobAgentName: jobAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,6 +62,7 @@ export async function _listByAgentDeserialize(
 
   return _jobCredentialListResultDeserializer(result.body);
 }
+
 /** Gets a list of jobs credentials. */
 export function listByAgent(
   context: Client,
@@ -78,7 +79,7 @@ export function listByAgent(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -99,7 +100,7 @@ export function _$deleteSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       credentialName: credentialName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,6 +122,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a job credential. */
 export async function $delete(
   context: Client,
@@ -158,7 +160,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       credentialName: credentialName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,6 +189,7 @@ export async function _createOrUpdateDeserialize(
 
   return jobCredentialDeserializer(result.body);
 }
+
 /** Creates or updates a job credential. */
 export async function createOrUpdate(
   context: Client,
@@ -225,7 +228,7 @@ export function _getSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       credentialName: credentialName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,6 +253,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobCredentialDeserializer(result.body);
 }
+
 /** Gets a jobs credential. */
 export async function get(
   context: Client,
