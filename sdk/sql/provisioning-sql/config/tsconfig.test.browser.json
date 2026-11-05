@@ -10,5 +10,6 @@
         "../../../core/provisioning-core/src/serialization/index.ts"
       ]
     }
-  }
+  },
+  "include": ["../test/generated/**/*.spec.ts", "../test/unit/schema-contract.source.ts"]
 }
