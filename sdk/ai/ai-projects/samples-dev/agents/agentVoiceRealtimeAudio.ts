@@ -45,6 +45,7 @@ export async function main(): Promise<void> {
     if (!isVoiceAgentDefinition(definition)) {
       throw new Error(`Agent ${agentName} is not a model-backed Realtime voice agent.`);
     }
+    const turnDetection = withTurnDetectionOverrides(definition.audio?.input?.turn_detection);
     const output = await open(outputPath, "w");
     try {
       const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
@@ -61,7 +62,8 @@ export async function main(): Promise<void> {
           audio: {
             input: {
               format: pcmFormat,
-              turn_detection: withTurnDetectionOverrides(definition.audio?.input?.turn_detection),
+              // Manual mode is inherited from the agent; updates only carry VAD overrides.
+              turn_detection: turnDetection ?? undefined,
             },
             output: { format: pcmFormat },
           },
@@ -120,6 +122,10 @@ export async function main(): Promise<void> {
             await delay(100);
           }
           inputComplete = true;
+          if (turnDetection === null) {
+            await connection.commitAudio();
+            await connection.requestResponse();
+          }
           if (responseComplete) await connection.close();
         })();
         await Promise.all([receiveEvents, sendAudio]);
@@ -177,14 +183,14 @@ function isVoiceAgentDefinition(
     "model_type" in definition &&
     (definition.model_type === "managed" || definition.model_type === "self_deployed") &&
     "model" in definition &&
-    typeof definition.model === "string" &&
-    (!("sub_protocol" in definition) || definition.sub_protocol !== "live")
+    typeof definition.model === "string"
   );
 }
 
 function withTurnDetectionOverrides(
-  turnDetection: VoiceAgentTurnDetectionConfigUnion = { type: "server_vad" },
-): VoiceAgentTurnDetectionConfigUnion {
+  turnDetection: VoiceAgentTurnDetectionConfigUnion | null = { type: "server_vad" },
+): VoiceAgentTurnDetectionConfigUnion | null {
+  if (turnDetection === null) return null;
   // Preserve the agent's VAD type. semantic_vad does not support silence_duration_ms.
   const overrides = { create_response: true, interrupt_response: true };
   return turnDetection.type === "semantic_vad"

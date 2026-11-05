@@ -44,15 +44,35 @@ import type {
 } from "../realtime/webSocketTransport.js";
 import type { VoiceAgentUnknownEvent } from "../realtime/events.js";
 
+/** A user message added to a GPT Live Decision context. */
+export interface VoiceAgentLiveDecisionMessage {
+  /** The native message discriminator. */
+  type: "message";
+  /** Optional identifier assigned to the input message. */
+  id?: string;
+  /** The author of the Decision input message. */
+  role: "user";
+  /** Text or structured content supplied to the Decision backend. */
+  content: string | Record<string, unknown>[];
+}
+
 /** Commands you can send after the service starts a GPT Live session. */
 export type VoiceAgentLiveClientEvent = {
-  [K in Exclude<LiveClientEventType, "session.start">]: Extract<LiveClientEventUnion, { type: K }>;
+  [K in Exclude<LiveClientEventType, "session.start">]: K extends "decision.item.create"
+    ? Omit<Extract<LiveClientEventUnion, { type: K }>, "item"> & {
+        item: VoiceAgentLiveDecisionMessage;
+      }
+    : Extract<LiveClientEventUnion, { type: K }>;
 }[Exclude<LiveClientEventType, "session.start">];
 
 /** Events received from GPT Live, including unrecognized service events. */
 export type VoiceAgentLiveEvent =
   | {
-      [K in LiveServerEventType]: Extract<LiveServerEventUnion, { type: K }>;
+      [K in LiveServerEventType]: K extends "decision.item.created"
+        ? Omit<Extract<LiveServerEventUnion, { type: K }>, "item"> & {
+            item: VoiceAgentLiveDecisionMessage & { id: string };
+          }
+        : Extract<LiveServerEventUnion, { type: K }>;
     }[LiveServerEventType]
   | VoiceAgentUnknownEvent;
 
@@ -62,6 +82,9 @@ export type VoiceAgentLiveEventHandler<K extends VoiceAgentLiveEvent["type"]> = 
 ) => void;
 
 type KnownLiveServerEvent = Exclude<VoiceAgentLiveEvent, VoiceAgentUnknownEvent>;
+type KnownNativeLiveServerEvent = {
+  [K in LiveServerEventType]: Extract<LiveServerEventUnion, { type: K }>;
+}[LiveServerEventType];
 
 /** Default settings for GPT Live connections. */
 export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOptions {
@@ -781,7 +804,7 @@ const requiredFields: {
   error: ["error"],
   info: ["code", "message"],
   "transport.dtmf.received": ["event"],
-  "transport.dtmf.send": ["event"],
+  "transport.dtmf.sent": ["event"],
   "transport.ringing": ["session_id"],
   "transport.answered": ["session_id"],
   "transport.failed": ["session_id", "error"],
@@ -829,11 +852,7 @@ export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): 
       }
       break;
     case "decision.item.create":
-      if (
-        !isRecord(event.item) ||
-        event.item.role !== "user" ||
-        (typeof event.item.content !== "string" && !Array.isArray(event.item.content))
-      ) {
+      if (!isDecisionMessage(event.item)) {
         throw new VoiceAgentProtocolError("Live decision items require user content.");
       }
       break;
@@ -844,7 +863,10 @@ export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): 
       break;
   }
   try {
-    return JSON.stringify(liveClientEventUnionSerializer(event));
+    // The generated Decision message model omits the native user content fields.
+    return JSON.stringify(
+      event.type === "decision.item.create" ? event : liveClientEventUnionSerializer(event),
+    );
   } catch (cause) {
     throw new VoiceAgentProtocolError("Failed to serialize a Live event.", { cause });
   }
@@ -908,15 +930,12 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
       }
     }
   }
-  if (
-    type === "decision.item.created" &&
-    (!isRecord(raw.item) ||
-      typeof raw.item.id !== "string" ||
-      !raw.item.id ||
-      raw.item.role !== "user" ||
-      (typeof raw.item.content !== "string" && !Array.isArray(raw.item.content)))
-  ) {
-    throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
+  let decisionItem: (VoiceAgentLiveDecisionMessage & { id: string }) | undefined;
+  if (type === "decision.item.created") {
+    if (!isDecisionMessage(raw.item) || typeof raw.item.id !== "string" || !raw.item.id) {
+      throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
+    }
+    decisionItem = { ...raw.item, id: raw.item.id };
   }
   if (type === "decision.item.deleted" && (typeof raw.item_id !== "string" || !raw.item_id)) {
     throw new VoiceAgentProtocolError("The service returned an invalid Live decision item id.");
@@ -938,7 +957,14 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
   }
   try {
     // Validate the envelope before invoking the generated converter.
-    return liveServerEventUnionDeserializer(raw) as KnownLiveServerEvent;
+    const event = liveServerEventUnionDeserializer(raw) as KnownNativeLiveServerEvent;
+    if (event.type === "decision.item.created") {
+      if (!decisionItem) {
+        throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
+      }
+      return { ...event, item: decisionItem };
+    }
+    return event;
   } catch (cause) {
     throw new VoiceAgentProtocolError(`Failed to deserialize Live event "${type}".`, { cause });
   }
@@ -946,4 +972,15 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isDecisionMessage(value: unknown): value is VoiceAgentLiveDecisionMessage {
+  return (
+    isRecord(value) &&
+    value.type === "message" &&
+    (value.id === undefined || typeof value.id === "string") &&
+    value.role === "user" &&
+    (typeof value.content === "string" ||
+      (Array.isArray(value.content) && value.content.every(isRecord)))
+  );
 }

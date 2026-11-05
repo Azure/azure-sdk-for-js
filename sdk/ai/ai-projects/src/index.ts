@@ -18,6 +18,7 @@ export type {
   VoiceAgentLiveClientEvent,
   VoiceAgentLiveEvent,
   VoiceAgentLiveEventHandler,
+  VoiceAgentLiveDecisionMessage,
 } from "./live/voiceAgentLiveClient.js";
 export {
   VoiceAgentRealtimeClient,

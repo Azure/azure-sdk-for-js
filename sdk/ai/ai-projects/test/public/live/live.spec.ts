@@ -16,6 +16,7 @@ import type {
   VoiceAgentConnectionState,
   VoiceAgentLiveClientEvent,
   VoiceAgentLiveConnection,
+  VoiceAgentLiveDecisionMessage,
   VoiceAgentLiveSessionResource,
 } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
@@ -203,7 +204,7 @@ describe("VoiceAgentLiveClient connection", () => {
     expect(url.searchParams.get("enabled")).toBe("false");
     expect(url.searchParams.get("count")).toBe("0");
     expect(url.searchParams.get("store")).toBe("false");
-    expect(url.searchParams.get("x-agent-version-override")).toBe("version + /&=");
+    expect(url.searchParams.get("agent_version_override")).toBe("version + /&=");
     expect(url.searchParams.getAll("structured_inputs")).toEqual([
       JSON.stringify(structuredInputs),
     ]);
@@ -550,7 +551,12 @@ describe("VoiceAgentLiveClient native commands", () => {
       {
         type: "decision.item.create",
         event_id: "item-request",
-        item: { id: "input-test", role: "user", content: "Remember the number seven." },
+        item: {
+          type: "message",
+          id: "input-test",
+          role: "user",
+          content: "Remember the number seven.",
+        },
       },
       { type: "decision.item.delete", event_id: "delete-request", item_id: "input-test" },
       {
@@ -584,6 +590,36 @@ describe("VoiceAgentLiveClient native commands", () => {
       event_id: "trigger-update",
       session,
     });
+    await connection.close();
+  });
+
+  it("preserves structured user content in Decision commands and received items", async () => {
+    const factory = createFactory();
+    const connection = await connect(factory);
+    const item: VoiceAgentLiveDecisionMessage = {
+      type: "message",
+      id: "structured-input",
+      role: "user",
+      content: [{ type: "input_text", text: "Remember the number seven." }],
+    };
+    const command: VoiceAgentLiveClientEvent = {
+      type: "decision.item.create",
+      event_id: "structured-request",
+      item,
+    };
+    await connection.send(command);
+    expect(JSON.parse(factory.transport.sentMessages[0])).toEqual(command);
+    const iterator = connection[Symbol.asyncIterator]();
+    await iterator.next();
+    const received = iterator.next();
+    const created = {
+      type: "decision.item.created",
+      event_id: "structured-created",
+      client_event_id: command.event_id,
+      item,
+    };
+    factory.transport.receive(created);
+    expect((await received).value).toEqual(created);
     await connection.close();
   });
 
@@ -857,6 +893,12 @@ describe("VoiceAgentLiveClient native protocol", () => {
       client_event_id: "delete-request",
       item_id: "input-test",
     },
+    {
+      type: "transport.dtmf.sent",
+      event_id: "dtmf-sent",
+      client_event_id: "dtmf-request",
+      event: "7",
+    },
   ])("recognizes the generated $type event and preserves its fields", (event) => {
     expect(deserializeVoiceAgentLiveEvent(JSON.stringify(event))).toEqual(event);
   });
@@ -959,8 +1001,15 @@ describe("VoiceAgentLiveClient native protocol", () => {
     { type: "session.output_audio.fixture.play", audio: new Uint8Array([1, 2]) },
     { type: "decision.create" },
     { type: "decision.create", event_id: "" },
-    { type: "decision.item.create", item: { role: "assistant", content: "text" } },
-    { type: "decision.item.create", item: { role: "user", content: 42 } },
+    {
+      type: "decision.item.create",
+      item: { type: "message", role: "assistant", content: "text" },
+    },
+    { type: "decision.item.create", item: { type: "message", role: "user", content: 42 } },
+    {
+      type: "decision.item.create",
+      item: { type: "message", role: "user", content: [42] },
+    },
     { type: "decision.item.delete", item_id: "" },
   ])("rejects malformed outbound $type", (event) => {
     expect(() =>

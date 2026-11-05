@@ -6,6 +6,7 @@ import {
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
 } from "@azure/ai-projects";
+import type { VoiceAgentLiveDecisionMessage } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -131,7 +132,7 @@ describe("AIProjectClient browser native Live transport", () => {
     expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
     expect(url.searchParams.get("client-request-id")).toBeTruthy();
     expect(url.searchParams.get("store")).toBe("false");
-    expect(url.searchParams.get("x-agent-version-override")).toBe("version + /&=");
+    expect(url.searchParams.get("agent_version_override")).toBe("version + /&=");
     expect(url.searchParams.getAll("structured_inputs")).toEqual([
       '{"customer":"Ada & Bob","nested":{"values":[null,0]}}',
     ]);
@@ -315,6 +316,33 @@ describe("AIProjectClient browser native Live transport", () => {
       error: expect.any(VoiceAgentProtocolError),
     });
     await connection.dispose();
+  });
+
+  it("preserves native Decision content and decodes DTMF acknowledgements from browser Blobs", async () => {
+    const connection = await createClient().beta.voiceAgents.live.connect("browser-agent");
+    const item: VoiceAgentLiveDecisionMessage = {
+      type: "message",
+      id: "browser-decision-input",
+      role: "user",
+      content: [{ type: "input_text", text: "Remember seven." }],
+    };
+    await connection.send({ type: "decision.item.create", item });
+    expect(JSON.parse(getSocket().sentMessages[0])).toEqual({
+      type: "decision.item.create",
+      item,
+    });
+    const iterator = connection[Symbol.asyncIterator]();
+    await iterator.next();
+    const events = [
+      { type: "decision.item.created", event_id: "browser-item-created", item },
+      { type: "transport.dtmf.sent", event_id: "browser-dtmf-sent", event: "7" },
+    ];
+    for (const event of events) {
+      const received = iterator.next();
+      getSocket().receive(new Blob([JSON.stringify(event)]));
+      expect((await received).value).toEqual(event);
+    }
+    await connection.close();
   });
 
   it("waits for a native terminal Blob and the actual socket close notification", async () => {
