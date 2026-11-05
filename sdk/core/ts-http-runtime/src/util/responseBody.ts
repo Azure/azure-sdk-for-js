@@ -20,7 +20,7 @@ interface BrowserResponseBody {
   cancel: () => Promise<void>;
 }
 
-const responseBodySources = new WeakMap<NodeResponseBody, readonly NodeResponseBody[]>();
+const responseBodySources = new WeakMap<NodeResponseBody, NodeResponseBody>();
 const responseBodyDisposers = new WeakMap<object, () => void>();
 const requestCompletions = new WeakMap<object, Promise<void>>();
 const responseBodyCompletions = new WeakMap<object, Promise<void>>();
@@ -102,18 +102,7 @@ function isBrowserResponseBody(value: unknown): value is BrowserResponseBody {
 
 export function setResponseBodySource(body: unknown, source: unknown): void {
   if (isNodeResponseBody(body) && isNodeResponseBody(source)) {
-    responseBodySources.set(body, [source]);
-  }
-}
-
-/**
- * Tracks all sources of a composite Node body so disposal can release each one.
- *
- * @internal
- */
-export function setResponseBodySources(body: unknown, sources: readonly unknown[]): void {
-  if (isNodeResponseBody(body)) {
-    responseBodySources.set(body, sources.filter(isNodeResponseBody));
+    responseBodySources.set(body, source);
   }
 }
 
@@ -127,12 +116,10 @@ export function setResponseBodyDisposer(response: object, dispose: () => void): 
 }
 
 /**
- * Disposes a raw Node stream and its tracked upstream sources without throwing.
- *
- * @param readableStream - The stream to destroy, or drain if destruction is unavailable.
- * @param disposed - Streams already visited during recursive disposal.
+ * Destroys a Node stream, or drains it if destruction is unavailable,
+ * and recursively disposes its tracked upstream sources.
  */
-export function disposeNodeStream(
+function disposeNodeResponseBody(
   readableStream: NodeResponseBody,
   disposed: Set<NodeResponseBody> = new Set(),
 ): void {
@@ -142,41 +129,50 @@ export function disposeNodeStream(
   }
   disposed.add(readableStream);
 
-  const sources = responseBodySources.get(readableStream);
+  const source = responseBodySources.get(readableStream);
   responseBodySources.delete(readableStream);
 
-  try {
-    if (readableStream.closed !== true) {
-      if (readableStream.destroy) {
-        if (isNodeEventEmitterBody(readableStream)) {
-          const onError = (error: unknown): void => {
-            logger.warning("Error disposing Node stream", error);
-          };
-          const onClose = (): void => {
-            readableStream.removeListener("error", onError);
-          };
-          readableStream.on("error", onError);
-          readableStream.once("close", onClose);
-          try {
-            readableStream.destroy();
-          } catch (error) {
-            readableStream.removeListener("error", onError);
-            readableStream.removeListener("close", onClose);
-            throw error;
-          }
-        } else {
+  if (readableStream.closed !== true) {
+    if (readableStream.destroy) {
+      if (isNodeEventEmitterBody(readableStream)) {
+        const onError = (error: unknown): void => {
+          logger.warning("Error disposing Node stream", error);
+        };
+        const onClose = (): void => {
+          readableStream.removeListener("error", onError);
+        };
+        readableStream.on("error", onError);
+        readableStream.once("close", onClose);
+        try {
           readableStream.destroy();
+        } catch (error) {
+          readableStream.removeListener("error", onError);
+          readableStream.removeListener("close", onClose);
+          throw error;
         }
       } else {
-        readableStream.resume();
+        readableStream.destroy();
       }
+    } else {
+      readableStream.resume();
     }
-  } catch (error) {
-    logger.warning("Error disposing Node stream", error);
   }
 
-  for (const source of sources ?? []) {
-    disposeNodeStream(source, disposed);
+  if (source) {
+    disposeNodeResponseBody(source, disposed);
+  }
+}
+
+/**
+ * Disposes a raw Node stream and its tracked upstream sources without throwing.
+ *
+ * @param stream - The stream to destroy, or drain if destruction is unavailable.
+ */
+export function disposeNodeStream(stream: NodeResponseBody): void {
+  try {
+    disposeNodeResponseBody(stream);
+  } catch (error) {
+    logger.warning("Error disposing Node stream", error);
   }
 }
 

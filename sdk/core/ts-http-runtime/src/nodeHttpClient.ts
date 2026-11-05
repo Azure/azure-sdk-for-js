@@ -27,7 +27,6 @@ import {
   addExpectContinueFraming,
   createExpectContinueRequest,
   hasExpectContinue,
-  observeRequestBodySources,
 } from "./util/nodeExpectContinue.js";
 import {
   disposeNodeStream,
@@ -185,7 +184,6 @@ class NodeHttpClient implements HttpClient {
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const requestBody = request.body;
-    const { bodyStreams, stopObservingSources } = observeRequestBodySources(requestBody);
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
     const requestAbortSignal = request.abortSignal;
@@ -245,9 +243,8 @@ class NodeHttpClient implements HttpClient {
               return body;
             },
             knownBodyLength,
-            bodyStreams,
           )
-        : await this.makeRequest(request, abortController, body, stopObservingSources);
+        : await this.makeRequest(request, abortController, body);
 
       requestComplete = result.requestComplete;
       const res = result.response;
@@ -416,7 +413,6 @@ class NodeHttpClient implements HttpClient {
     request: PipelineRequest,
     abortController: AbortController,
     body: RequestBodyType | undefined,
-    stopObservingSources: () => void,
   ): Promise<NodeRequestResult> {
     const { options, isInsecure } = this.getRequestOptions(request);
 
@@ -432,7 +428,6 @@ class NodeHttpClient implements HttpClient {
       req.once("error", rejectRequest);
       abortController.signal.addEventListener("abort", () => abortRequest(req));
       sendRequestBody(req, body, request, rejectRequest);
-      stopObservingSources();
     });
   }
 
@@ -441,7 +436,6 @@ class NodeHttpClient implements HttpClient {
     abortController: AbortController,
     prepareBody: () => RequestBodyType | undefined,
     knownBodyLength: number | null,
-    bodyStreams: readonly NodeJS.ReadableStream[],
   ): Promise<NodeRequestResult> {
     const { options, isInsecure } = this.getRequestOptions(request);
 
@@ -453,7 +447,7 @@ class NodeHttpClient implements HttpClient {
 
       createExpectContinueRequest({
         abortSignal: abortController.signal,
-        bodyStreams,
+        bodyStream: isReadableStream(request.body) ? request.body : undefined,
         createRequest,
         onAbort: abortRequest,
         onError: rejectRequest,

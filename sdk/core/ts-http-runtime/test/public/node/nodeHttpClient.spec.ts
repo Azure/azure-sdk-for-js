@@ -1253,11 +1253,6 @@ describe("NodeHttpClient", function () {
         expect(read).not.toHaveBeenCalled();
         expect(body.destroyed).toBe(false);
         expect(body.listenerCount("data")).toBe(0);
-        expect(body.listenerCount("error")).toBe(1);
-        await new Promise<void>((resolve) => {
-          body.once("close", resolve);
-          body.destroy();
-        });
         expect(body.listenerCount("end")).toBe(0);
         expect(body.listenerCount("close")).toBe(0);
         expect(body.listenerCount("error")).toBe(0);

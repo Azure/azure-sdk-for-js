@@ -1,21 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { finished, Readable } from "stream";
+import { Readable } from "stream";
 import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
-import { isBlob, isNodeReadableStream } from "./typeGuards.js";
-import { disposeNodeStream, setResponseBodySources } from "./responseBody.js";
-
-const concatSources = new WeakMap<object, readonly NodeJS.ReadableStream[]>();
-
-/**
- * Returns existing Node sources without invoking a concatenated body's factory.
- *
- * @internal
- */
-export function getConcatSources(body: () => unknown): readonly NodeJS.ReadableStream[] {
-  return concatSources.get(body) ?? [];
-}
+import { isBlob } from "./typeGuards.js";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>,
@@ -88,33 +76,17 @@ export type ConcatSource =
 export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
-  const createBody = (): NodeJS.ReadableStream => {
+  return function () {
     const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
 
-    const body = Readable.from(readParts());
-    async function* readParts(): AsyncIterableIterator<unknown> {
-      for (const stream of streams) {
-        if (body.destroyed) {
-          return;
+    return Readable.from(
+      (async function* () {
+        for (const stream of streams) {
+          for await (const chunk of stream) {
+            yield chunk;
+          }
         }
-        for await (const chunk of stream) {
-          yield chunk;
-        }
-      }
-    }
-    setResponseBodySources(body, streams);
-    for (const stream of streams) {
-      // Later parts can fail before the iterator reaches them.
-      const cleanup = finished(stream, { writable: false }, (error) => {
-        cleanup();
-        if (error && !body.destroyed) {
-          body.destroy(error);
-          disposeNodeStream(body);
-        }
-      });
-    }
-    return body;
+      })(),
+    );
   };
-  concatSources.set(createBody, sources.filter(isNodeReadableStream));
-  return createBody;
 }

@@ -12,7 +12,6 @@ import {
   disposeResponseBody,
   setResponseBodyDisposer,
   setResponseBodySource,
-  setResponseBodySources,
 } from "../../../src/util/responseBody.js";
 import { createNodeHttpClient } from "../../../src/nodeHttpClient.js";
 import { createPipelineRequest } from "../../../src/pipelineRequest.js";
@@ -91,21 +90,6 @@ describe("disposeResponseBody in Node", () => {
       expect(stream.resume).toHaveBeenCalledOnce();
     });
 
-    it("disposes all composite sources once, including shared sources and cycles", () => {
-      const body = { resume: vi.fn(), destroy: vi.fn() };
-      const first = { resume: vi.fn(), destroy: vi.fn() };
-      const second = { resume: vi.fn(), destroy: vi.fn() };
-      setResponseBodySources(body, [first, second, first]);
-      setResponseBodySource(first, body);
-      setResponseBodySource(second, first);
-
-      disposeNodeStream(body);
-
-      expect(body.destroy).toHaveBeenCalledOnce();
-      expect(first.destroy).toHaveBeenCalledOnce();
-      expect(second.destroy).toHaveBeenCalledOnce();
-    });
-
     it("logs synchronous destruction errors without throwing", () => {
       const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
       const failure = new Error("destroy failed");
@@ -119,31 +103,6 @@ describe("disposeResponseBody in Node", () => {
       expect(() => disposeNodeStream(stream)).not.toThrow();
       expect(warning).toHaveBeenCalledExactlyOnceWith("Error disposing Node stream", failure);
     });
-
-    it.each(["body", "part"])(
-      "disposes every composite source even if the %s throws during destruction",
-      (failingNode) => {
-        const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
-        const failure = new Error("composite destruction failed");
-        const body = { resume: vi.fn(), destroy: vi.fn() };
-        const first = { resume: vi.fn(), destroy: vi.fn() };
-        const nested = { resume: vi.fn(), destroy: vi.fn() };
-        const last = { resume: vi.fn(), destroy: vi.fn() };
-        const failing = failingNode === "body" ? body : first;
-        failing.destroy.mockImplementation(() => {
-          throw failure;
-        });
-        setResponseBodySources(body, [first, last, first]);
-        setResponseBodySources(first, [nested, body]);
-
-        expect(() => disposeNodeStream(body)).not.toThrow();
-
-        for (const stream of [body, first, nested, last]) {
-          expect(stream.destroy).toHaveBeenCalledOnce();
-        }
-        expect(warning).toHaveBeenCalledExactlyOnceWith("Error disposing Node stream", failure);
-      },
-    );
   });
 
   it("runs the transport disposer once even when destroying the response body throws", async () => {

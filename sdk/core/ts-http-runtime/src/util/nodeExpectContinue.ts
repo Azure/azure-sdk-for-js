@@ -2,62 +2,14 @@
 // Licensed under the MIT License.
 
 import type http from "node:http";
-import { finished } from "node:stream";
-import type { PipelineRequest, RequestBodyType } from "../interfaces.js";
-import { logger } from "../log.js";
-import { getConcatSources } from "./concat.js";
+import type { PipelineRequest } from "../interfaces.js";
 import { getHeaderPairs } from "./requestBodyHeaders.js";
-import { isNodeReadableStream } from "./typeGuards-node.js";
 
 const EXPECT_CONTINUE_TIMEOUT_IN_MS = 1000;
-const unusedSourceObservers = new WeakMap<NodeJS.ReadableStream, () => void>();
-
-function observeUnusedSource(stream: NodeJS.ReadableStream): void {
-  if (unusedSourceObservers.has(stream)) {
-    return;
-  }
-  // Pending opens and destroy(error) calls can settle after the request has stopped.
-  // This callback retains only the source, not the retired request or its callbacks.
-  const cleanup = finished(stream, { writable: false }, (error) => {
-    stopObserving();
-    if (error) {
-      logger.warning("Error in unused upload source", error);
-    }
-  });
-  function stopObserving(): void {
-    cleanup();
-    unusedSourceObservers.delete(stream);
-  }
-  unusedSourceObservers.set(stream, stopObserving);
-}
-
-/**
- * Protects existing sources through validation until transport listeners take ownership.
- *
- * @internal
- */
-export function observeRequestBodySources(body: RequestBodyType | undefined): {
-  bodyStreams: readonly NodeJS.ReadableStream[];
-  stopObservingSources: () => void;
-} {
-  const bodyStreams =
-    typeof body === "function" ? getConcatSources(body) : isNodeReadableStream(body) ? [body] : [];
-  for (const stream of bodyStreams) {
-    observeUnusedSource(stream);
-  }
-  return {
-    bodyStreams,
-    stopObservingSources: () => {
-      for (const stream of bodyStreams) {
-        unusedSourceObservers.get(stream)?.();
-      }
-    },
-  };
-}
 
 interface ExpectContinueRequestOptions {
   abortSignal: AbortSignal;
-  bodyStreams?: readonly NodeJS.ReadableStream[];
+  bodyStream?: NodeJS.ReadableStream;
   createRequest: (onResponse: (response: http.IncomingMessage) => void) => http.ClientRequest;
   onAbort: (request: http.ClientRequest) => void;
   onError: (error: Error & { code?: string }) => void;
@@ -154,18 +106,13 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
   let errorReported = false;
   let request: http.ClientRequest;
   let bodyError: Error | undefined;
-  const bodyStreams = new Set(options.bodyStreams);
+  const bodyStream = options.bodyStream;
   // Error observation must not consume a caller-owned source before upload permission.
-  for (const stream of bodyStreams) {
-    stream.on("error", onBodyError);
-    unusedSourceObservers.get(stream)?.();
-  }
-  for (const stream of bodyStreams) {
-    if ("errored" in stream && stream.errored instanceof Error) {
-      // destroy(error) may still have its error event queued on the next tick.
-      process.nextTick(onBodyError, stream.errored);
-      return;
-    }
+  bodyStream?.once("error", onBodyError);
+  if (bodyStream && "errored" in bodyStream && bodyStream.errored instanceof Error) {
+    // destroy(error) may still have its error event queued on the next tick.
+    process.nextTick(onBodyError, bodyStream.errored);
+    return;
   }
   try {
     request = options.createRequest(onResponse);
@@ -183,7 +130,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
     request?.removeListener("continue", sendBody);
     request?.removeListener("socket", onSocket);
     if (!keepBodyObserved) {
-      stopObservingBody();
+      bodyStream?.removeListener("error", onBodyError);
     }
   }
 
@@ -196,16 +143,6 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       options.onError(requestError);
     }
     return requestError;
-  }
-
-  function stopObservingBody(handedOff = false): void {
-    for (const stream of bodyStreams) {
-      if (!handedOff) {
-        observeUnusedSource(stream);
-      }
-      stream.removeListener("error", onBodyError);
-    }
-    bodyStreams.clear();
   }
 
   function onBodyError(error: Error): void {
@@ -231,7 +168,7 @@ export function createExpectContinueRequest(options: ExpectContinueRequestOption
       request.destroy(onError(error));
     } finally {
       // The upload path now observes the source, including synchronous failures while piping.
-      stopObservingBody(true);
+      bodyStream?.removeListener("error", onBodyError);
     }
   }
 
