@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Socket } from "node:net";
-import { PassThrough, Readable, Stream, Writable } from "node:stream";
+import { PassThrough, Readable, Writable } from "node:stream";
 import { finished } from "node:stream/promises";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock, type Mocked } from "vitest";
 import {
@@ -16,6 +16,9 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
+  type PipelinePolicy,
+  type PipelineRequestOptions,
+  type PipelineResponse,
 } from "../../../src/index.js";
 import { getRequestBody, sendRequest } from "../../../src/client/sendRequest.js";
 import { buildBodyPart } from "../../../src/client/multipart.js";
@@ -29,7 +32,6 @@ import {
   getEffectiveHeaderValues,
   hasExpectContinue,
 } from "../../../src/util/nodeExpectContinue.js";
-import { isNodeReadableStream } from "../../../src/util/typeGuards-node.js";
 
 function createOptions(suppressDestroyError = true): {
   request: Writable & {
@@ -77,14 +79,14 @@ function createOptions(suppressDestroyError = true): {
 }
 
 describe("Expect header detection and framing", () => {
-  it("recognizes native Readable instances through body normalization", () => {
-    const source = new Readable({ read() {} });
-
-    expect(isNodeReadableStream(source)).toBe(true);
-    expect(isNodeReadableStream(new Stream())).toBe(false);
-    expect(getRequestBody(source, "application/json").body).toBe(source);
-    expect(buildBodyPart({ body: source }).body).toBe(source);
-    source.destroy();
+  it.each([
+    { value: 1, pipe() {} },
+    { value: 1, pipe() {}, on() {} },
+  ])("keeps pipe-shaped JSON objects on the serialization path", (body) => {
+    expect(getRequestBody(body, "application/json").body).toBe('{"value":1}');
+    const part = buildBodyPart({ body });
+    expect(part.headers.get("content-type")).toBe("application/json");
+    expect(part.body).toEqual(Buffer.from('{"value":1}'));
   });
 
   it("detects 100-continue case-insensitively and honors replacement overrides", () => {
@@ -176,9 +178,148 @@ describe("Expect: 100-continue negotiation unit", () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.useRealTimers();
   });
 
+  it.each(["response", "abort", "close", "error", "continue"])(
+    "ignores queued callbacks after %s stops waiting",
+    (event) => {
+      for (const stage of ["socket", "flush", "write"] as const) {
+        const { request, controller, options } = createOptions();
+        const response = new PassThrough();
+        let writeComplete: ((error?: Error | null) => void) | undefined;
+        const trigger = (): void => {
+          if (event === "response") {
+            options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+          } else if (event === "abort") {
+            controller.abort();
+          } else {
+            request.emit(event, new Error("transport failed"));
+          }
+        };
+        request.socket = stage === "socket" ? null : request.socket;
+        request.write.mockImplementation((_chunk, callback) => {
+          writeComplete = callback;
+          return true;
+        });
+        if (stage === "flush") {
+          request.flushHeaders.mockImplementation(trigger);
+        }
+        try {
+          createExpectContinueRequest(options);
+          const [queuedSocket] = request.listeners("socket");
+          const [queuedContinue] = request.listeners("continue");
+          if (stage !== "flush") trigger();
+          queuedSocket?.(request.socket);
+          writeComplete?.();
+          queuedContinue?.();
+          vi.advanceTimersByTime(2000);
+
+          expect(request.listenerCount("socket")).toBe(0);
+          expect(vi.getTimerCount()).toBe(0);
+          expect(options.sendBody).toHaveBeenCalledTimes(event === "continue" ? 1 : 0);
+        } finally {
+          request.destroy();
+          response.destroy();
+        }
+      }
+    },
+  );
+
+  it("retires an early response without consuming it and keeps abort forwarding after close", async () => {
+    const { request, controller, options } = createOptions();
+    const response = new PassThrough();
+    try {
+      createExpectContinueRequest(options);
+      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
+      expect(request.shouldKeepAlive).toBe(false);
+      expect(request.destroyed).toBe(false);
+      expect(response.readableFlowing).toBe(null);
+      response.resume();
+      response.end();
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      expect(request.destroyed).toBe(true);
+      controller.abort();
+      expect(options.onAbort).toHaveBeenCalledExactlyOnceWith(request);
+    } finally {
+      response.destroy();
+      request.destroy();
+    }
+  });
+
+  it.each(["construction", "flush", "destroyed response", "destroyed request"])(
+    "handles %s during request setup",
+    (stage) => {
+      const { request, options } = createOptions();
+      const failure = new Error("setup failed");
+      const response = new PassThrough();
+      if (stage === "construction") {
+        options.createRequest.mockImplementation(() => {
+          throw failure;
+        });
+      }
+      if (stage === "flush") {
+        request.flushHeaders.mockImplementation(() => {
+          throw failure;
+        });
+      }
+      if (stage === "destroyed request") request.destroy();
+      try {
+        createExpectContinueRequest(options);
+        if (stage === "destroyed response") {
+          response.destroy();
+          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
+        }
+        expect(options.sendBody).not.toHaveBeenCalled();
+        if (stage === "construction" || stage === "flush") {
+          expect(options.onError).toHaveBeenCalledExactlyOnceWith(failure);
+          expect(options.onBodyError).not.toHaveBeenCalled();
+        } else {
+          expect(request.destroyed).toBe(true);
+          expect(vi.getTimerCount()).toBe(0);
+        }
+      } finally {
+        request.destroy();
+        response.destroy();
+      }
+    },
+  );
+
+  it.each([
+    { dispatch: "Continue", closed: false, failure: new Error("body preparation failed") },
+    { dispatch: "fallback", closed: false, failure: new Error("body preparation failed") },
+    { dispatch: "Continue", closed: true, failure: new Error("body failed after close") },
+    { dispatch: "Continue", closed: false, failure: { code: "ENOENT" } },
+  ])(
+    "reports a local error once (dispatch=$dispatch, closed=$closed)",
+    async ({ dispatch, closed, failure }) => {
+      const { request, options } = createOptions(false);
+      const destroy = vi.spyOn(request, "destroy");
+      options.sendBody.mockImplementation(() => {
+        if (closed) request.destroy();
+        throw failure;
+      });
+      try {
+        createExpectContinueRequest(options);
+        if (dispatch === "Continue") request.emit("continue");
+        else vi.advanceTimersByTime(1000);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(options.onError).not.toHaveBeenCalled();
+        expect(request.destroyed).toBe(true);
+        if (!closed) {
+          expect(options.onBodyError.mock.invocationCallOrder[0]).toBeLessThan(
+            destroy.mock.invocationCallOrder[0],
+          );
+        }
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        request.destroy();
+      }
+    },
+  );
   it("observes direct-source failures before Continue, during construction, and while write is pending", async () => {
     for (const timing of ["before socket", "construction", "write pending"] as const) {
       const { request, options } = createOptions(false);
@@ -349,46 +490,6 @@ describe("Expect: 100-continue negotiation unit", () => {
     },
   );
 
-  it("leaves no listeners after aborted attempts so callers can reuse the direct source", async () => {
-    const source = new Readable({ read() {} });
-    const activeError = vi.fn();
-    const { request, options } = createOptions();
-    options.sendBody.mockImplementation(() => source.on("error", activeError));
-
-    try {
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const pending = createOptions();
-        createExpectContinueRequest({ ...pending.options, bodyStream: source });
-        expect(source.listenerCount("error")).toBe(1);
-        pending.controller.abort();
-        expect(source.listenerCount("error")).toBe(0);
-        const laterError = new Error("caller-owned failure after abort");
-        expect(() => source.emit("error", laterError)).toThrow(laterError);
-        pending.request.destroy();
-      }
-      createExpectContinueRequest({ ...options, bodyStream: source });
-      request.emit("continue");
-      expect(source.listeners("error")).toEqual([activeError]);
-
-      const reusable = new Readable({ read() {} });
-      const stopped = createOptions();
-      createExpectContinueRequest({ ...stopped.options, bodyStream: reusable });
-      stopped.controller.abort();
-      expect(reusable.listenerCount("error")).toBe(0);
-      const ended = new Promise<void>((resolve) => reusable.once("end", resolve));
-      reusable.push("still caller-owned");
-      reusable.push(null);
-      reusable.resume();
-      await ended;
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(reusable.listenerCount("error")).toBe(0);
-      stopped.request.destroy();
-    } finally {
-      source.destroy();
-      request.destroy();
-    }
-  });
-
   it.each([false, true])(
     "starts the fallback only after socket assignment and ordered write completion (socketAssigned=%s)",
     (socketAssigned) => {
@@ -430,83 +531,6 @@ describe("Expect: 100-continue negotiation unit", () => {
     },
   );
 
-  it.each(["response", "abort", "close", "error", "continue"])(
-    "stops socket/write/continue progression when %s ends negotiation",
-    (event) => {
-      const { request, controller, options } = createOptions();
-      const response = new PassThrough();
-      request.socket = null;
-      try {
-        createExpectContinueRequest(options);
-        const [onSocket] = request.listeners("socket");
-        const [sendBody] = request.listeners("continue");
-        if (event === "response") {
-          options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
-        } else if (event === "abort") {
-          controller.abort();
-        } else if (event === "error") {
-          request.emit("error", new Error("connection failed"));
-        } else {
-          request.emit(event);
-        }
-        expect(request.listenerCount("socket")).toBe(0);
-        onSocket?.(new Socket());
-        sendBody?.();
-        vi.advanceTimersByTime(2000);
-
-        expect(request.flushHeaders).not.toHaveBeenCalled();
-        expect(vi.getTimerCount()).toBe(0);
-        expect(options.sendBody).toHaveBeenCalledTimes(event === "continue" ? 1 : 0);
-      } finally {
-        request.destroy();
-        response.destroy();
-      }
-    },
-  );
-
-  it.each(["response", "abort", "close", "error", "continue"])(
-    "does not arm the fallback when %s arrives during header flush or before write callback",
-    (event) => {
-      for (const stage of ["flush", "write"] as const) {
-        const { request, controller, options } = createOptions();
-        const response = new PassThrough();
-        let writeComplete: ((error?: Error | null) => void) | undefined;
-        const trigger = (): void => {
-          if (event === "response") {
-            options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
-          } else if (event === "abort") {
-            controller.abort();
-          } else if (event === "error") {
-            request.emit("error", new Error("connection failed"));
-          } else {
-            request.emit(event);
-          }
-        };
-        if (stage === "flush") {
-          request.flushHeaders.mockImplementation(trigger);
-        } else {
-          request.write.mockImplementation((_chunk, callback) => {
-            writeComplete = callback;
-            return true;
-          });
-        }
-        try {
-          createExpectContinueRequest(options);
-          if (stage === "write") {
-            trigger();
-            writeComplete?.();
-          }
-          expect(vi.getTimerCount()).toBe(0);
-          vi.advanceTimersByTime(2000);
-          expect(options.sendBody).toHaveBeenCalledTimes(event === "continue" ? 1 : 0);
-        } finally {
-          request.destroy();
-          response.destroy();
-        }
-      }
-    },
-  );
-
   it.each(["throw", "callback"])(
     "reports an ordered write %s failure exactly once",
     async (failureType) => {
@@ -528,54 +552,6 @@ describe("Expect: 100-continue negotiation unit", () => {
       expect(options.sendBody).not.toHaveBeenCalled();
     },
   );
-
-  it("handles early responses, destroyed requests, and response-triggered aborts", async () => {
-    const { request, options } = createOptions();
-    const response = new PassThrough();
-    const destroy = vi.spyOn(request, "destroy");
-
-    try {
-      createExpectContinueRequest(options);
-      options.createRequest.mock.calls[0][0](response as unknown as IncomingMessage);
-      expect(options.onResponse).toHaveBeenCalledExactlyOnceWith(response);
-      expect(request.shouldKeepAlive).toBe(false);
-      expect(destroy).not.toHaveBeenCalled();
-
-      response.resume();
-      response.end("rejected");
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(destroy).toHaveBeenCalledOnce();
-    } finally {
-      request.destroy();
-      response.destroy();
-    }
-
-    const destroyedResp = createOptions();
-    const preDestroyed = new PassThrough();
-    preDestroyed.destroy();
-    createExpectContinueRequest(destroyedResp.options);
-    destroyedResp.options.createRequest.mock.calls[0][0](
-      preDestroyed as unknown as IncomingMessage,
-    );
-    expect(destroyedResp.request.destroyed).toBe(true);
-
-    const destroyedReq = createOptions();
-    destroyedReq.options.createRequest.mockImplementation(() => {
-      destroyedReq.request.destroy();
-      return destroyedReq.request as unknown as ClientRequest;
-    });
-    createExpectContinueRequest(destroyedReq.options);
-    expect(destroyedReq.request.flushHeaders).not.toHaveBeenCalled();
-
-    const abortOnResp = createOptions();
-    const resp = new PassThrough();
-    abortOnResp.options.onResponse.mockImplementation(() => abortOnResp.controller.abort());
-    createExpectContinueRequest(abortOnResp.options);
-    abortOnResp.options.createRequest.mock.calls[0][0](resp as unknown as IncomingMessage);
-    expect(abortOnResp.options.onAbort).toHaveBeenCalledExactlyOnceWith(abortOnResp.request);
-    abortOnResp.request.destroy();
-    resp.destroy();
-  });
 
   it.each(["Continue", "fallback"])(
     "dispatches the factory and upload once when %s wins at the fallback deadline",
@@ -645,990 +621,446 @@ describe("Expect: 100-continue negotiation unit", () => {
       response.destroy();
     }
   });
-
-  it("reports construction, header-flush, and sendBody failures once and preserves abort after close", async () => {
-    const constructionFail = createOptions();
-    const createErr = new Error("request creation failed");
-    constructionFail.options.createRequest.mockImplementation(() => {
-      throw createErr;
-    });
-    createExpectContinueRequest(constructionFail.options);
-    expect(constructionFail.options.onError).toHaveBeenCalledExactlyOnceWith(createErr);
-    constructionFail.request.destroy();
-
-    const flushFail = createOptions();
-    const flushErr = new Error("header flush failed");
-    const destroySpy = vi.spyOn(flushFail.request, "destroy");
-    flushFail.request.flushHeaders.mockImplementation(() => {
-      throw flushErr;
-    });
-    createExpectContinueRequest(flushFail.options);
-    expect(flushFail.options.onError).toHaveBeenCalledExactlyOnceWith(flushErr);
-    expect(flushFail.options.onError.mock.invocationCallOrder[0]).toBeLessThan(
-      destroySpy.mock.invocationCallOrder[0],
-    );
-
-    for (const dispatch of ["Continue", "fallback"] as const) {
-      const sendFail = createOptions(false);
-      const sendErr = new Error("body factory failed");
-      const destroy = vi.spyOn(sendFail.request, "destroy");
-      sendFail.options.sendBody.mockImplementation(() => {
-        throw sendErr;
-      });
-      createExpectContinueRequest(sendFail.options);
-      if (dispatch === "Continue") {
-        sendFail.request.emit("continue");
-      } else {
-        vi.advanceTimersByTime(1000);
-      }
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(sendFail.options.onBodyError).toHaveBeenCalledExactlyOnceWith(sendErr);
-      expect(sendFail.options.onError).not.toHaveBeenCalled();
-      expect(sendFail.request.destroyed).toBe(true);
-      expect(sendFail.options.onBodyError.mock.invocationCallOrder[0]).toBeLessThan(
-        destroy.mock.invocationCallOrder[0],
-      );
-      expect(vi.getTimerCount()).toBe(0);
-    }
-
-    const closedReq = createOptions();
-    createExpectContinueRequest(closedReq.options);
-    closedReq.request.destroy();
-    await new Promise<void>((resolve) => setImmediate(resolve));
-    closedReq.controller.abort();
-    expect(closedReq.options.onAbort).toHaveBeenCalledExactlyOnceWith(closedReq.request);
-  });
-
-  it.each([
-    {
-      kind: "already-destroyed request",
-      failure: new Error("body failed after close"),
-      close: true,
-    },
-    {
-      kind: "non-Error throw",
-      failure: { message: "local failure", code: "ENOENT" },
-      close: false,
-    },
-  ])("reports a synchronous body failure unchanged for $kind", async ({ failure, close }) => {
-    const { request, options } = createOptions(false);
-    options.sendBody.mockImplementation(() => {
-      if (close) {
-        request.destroy();
-      }
-      throw failure;
-    });
-
-    try {
-      createExpectContinueRequest(options);
-      request.emit("continue");
-      await new Promise<void>((resolve) => setImmediate(resolve));
-
-      expect(options.onBodyError).toHaveBeenCalledExactlyOnceWith(failure);
-      expect(options.onError).not.toHaveBeenCalled();
-      expect(request.destroyed).toBe(true);
-      expect(request.listenerCount("continue")).toBe(0);
-      expect(request.listenerCount("socket")).toBe(0);
-      expect(vi.getTimerCount()).toBe(0);
-    } finally {
-      request.destroy();
-    }
-  });
 });
 
-describe("Expect: 100-continue end-to-end transport", () => {
-  const servers: http.Server[] = [];
+describe("Expect: 100-continue loopback transport", () => {
+  const resources: { server: http.Server; agent: http.Agent }[] = [];
+  const client = createDefaultHttpClient();
+  const acceptUpload: http.RequestListener = (request, response) => {
+    request.resume();
+    request.once("end", () => response.end("accepted"));
+  };
 
-  async function listen(server: http.Server): Promise<number> {
-    servers.push(server);
+  async function loopback(
+    onContinue: http.RequestListener,
+    onRequest?: http.RequestListener,
+    agentOptions: http.AgentOptions = {},
+  ): Promise<{
+    url: string;
+    agent: http.Agent;
+    send(
+      options?: Partial<PipelineRequestOptions>,
+      policies?: PipelinePolicy[],
+    ): Promise<PipelineResponse>;
+  }> {
+    const server = http.createServer(onRequest);
+    server.on("checkContinue", onContinue);
+    const agent = new http.Agent({ keepAlive: false, ...agentOptions });
+    resources.push({ server, agent });
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const address = server.address();
-    if (!address || typeof address === "string") {
-      throw new Error("Expected a TCP address");
-    }
-    return address.port;
+    if (!address || typeof address === "string") throw new Error("Expected a TCP address");
+    const url = `http://127.0.0.1:${address.port}`;
+    return {
+      url,
+      agent,
+      send(options: Partial<PipelineRequestOptions> = {}, policies: PipelinePolicy[] = []) {
+        const pipeline = createEmptyPipeline();
+        for (const policy of policies) pipeline.addPolicy(policy);
+        return pipeline.sendRequest(
+          client,
+          createPipelineRequest({
+            url,
+            method: "POST",
+            allowInsecureConnection: true,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
+            ...options,
+            requestOverrides: { agent, ...options.requestOverrides },
+          }),
+        );
+      },
+    };
   }
 
   afterEach(async () => {
-    await Promise.all(
-      servers.splice(0).map(
-        (server) =>
-          new Promise<void>((resolve, reject) => {
-            server.close((error) => (error ? reject(error) : resolve()));
-          }),
-      ),
-    );
+    const finishedServers = resources.splice(0).map(({ server, agent }) => {
+      agent.destroy();
+      return new Promise<void>((resolve, reject) =>
+        server.close((error) => (error ? reject(error) : resolve())),
+      );
+    });
+    await Promise.all(finishedServers);
+    vi.restoreAllMocks();
   });
 
-  it.each([
-    { multipart: false, setup: "insecure" },
-    { multipart: true, setup: "insecure" },
-    { multipart: false, setup: "invalid URL" },
-    { multipart: true, setup: "invalid URL" },
-    { multipart: false, setup: "overrides" },
-    { multipart: true, setup: "overrides" },
-    { multipart: false, setup: "preaborted" },
-    { multipart: true, setup: "preaborted" },
-  ])(
-    "leaves source listeners unchanged after $setup setup fails (multipart=$multipart)",
-    async ({ multipart, setup }) => {
-      const source = new Readable({ read: vi.fn() });
-      const callerError = vi.fn();
-      source.on("error", callerError);
-      const controller = new AbortController();
-      if (setup === "preaborted") {
-        controller.abort();
-      }
-      const failure = new Error("override setup failed");
-      const factory = vi.fn(() => Readable.from(["unused"]));
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(multipartPolicy());
-      const request = createPipelineRequest({
-        url: setup === "invalid URL" ? "invalid-url" : "http://127.0.0.1",
-        allowInsecureConnection: setup !== "insecure",
-        abortSignal: controller.signal,
-        headers: createHttpHeaders({ Expect: "100-continue" }),
-        ...(multipart
-          ? {
-              multipartBody: {
-                parts: [
-                  { headers: createHttpHeaders(), body: source },
-                  { headers: createHttpHeaders(), body: factory },
-                ],
-              },
-            }
-          : { body: source }),
-        requestOverrides:
-          setup === "overrides"
-            ? {
-                get agent() {
-                  throw failure;
-                },
-              }
-            : undefined,
-      });
-
-      try {
-        const result = pipeline.sendRequest(createDefaultHttpClient(), request);
-        if (setup === "overrides") {
-          await expect(result).rejects.toBe(failure);
-        } else {
-          await expect(result).rejects.toMatchObject({
-            name:
-              setup === "preaborted"
-                ? "AbortError"
-                : setup === "invalid URL"
-                  ? "TypeError"
-                  : "Error",
-          });
-        }
-        expect(source.destroyed).toBe(false);
-        expect(source.readableFlowing).toBe(null);
-        expect(source.listeners("error")).toEqual([callerError]);
-        expect(source.listenerCount("end")).toBe(0);
-        expect(source.listenerCount("close")).toBe(0);
-        expect(factory).not.toHaveBeenCalled();
-        const sourceFailure = new Error("source failed after validation rejection");
-        source.destroy(sourceFailure);
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        expect(callerError).toHaveBeenCalledExactlyOnceWith(sourceFailure);
-        expect(source.listeners("error")).toEqual([callerError]);
-      } finally {
-        source.destroy();
-      }
-    },
-  );
-
-  it("does not observe an ordinary direct body when the request is already aborted", async () => {
+  it("does not observe an unused direct source if request validation fails", async () => {
     const body = new Readable({ read: vi.fn() });
     const callerError = vi.fn();
     body.on("error", callerError);
-    const controller = new AbortController();
-    controller.abort();
-
     try {
       await expect(
-        createDefaultHttpClient().sendRequest(
+        client.sendRequest(
           createPipelineRequest({
             url: "http://127.0.0.1",
-            method: "POST",
-            abortSignal: controller.signal,
+            headers: createHttpHeaders({ Expect: "100-continue" }),
             body,
           }),
         ),
-      ).rejects.toMatchObject({ name: "AbortError" });
-
+      ).rejects.toThrow("allowInsecureConnection is false");
       expect(body.destroyed).toBe(false);
       expect(body.readableFlowing).toBe(null);
       expect(body.listeners("error")).toEqual([callerError]);
-      expect(body.listenerCount("end")).toBe(0);
-      expect(body.listenerCount("close")).toBe(0);
-      const failure = new Error("caller-owned failure after validation");
-      body.emit("error", failure);
-      expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
+      expect(body.listenerCount("end") + body.listenerCount("close")).toBe(0);
     } finally {
       body.destroy();
     }
+  });
+
+  it("negotiates an array-valued raw Expect header without eager factory or progress calls", async () => {
+    const body = vi.fn(() => Readable.from(["payload"]));
+    const progress = vi.fn();
+    let callsBeforeContinue: number[] = [];
+    const fixture = await loopback((request, response) => {
+      callsBeforeContinue = [body.mock.calls.length, progress.mock.calls.length];
+      acceptUpload(request, response);
+      response.writeContinue();
+    });
+    const { host } = new URL(fixture.url);
+    const response = await fixture.send({
+      body,
+      onUploadProgress: progress,
+      requestOverrides: {
+        headers: [
+          ["Host", host],
+          ["Expect", ["100-continue"]],
+        ],
+      },
+    });
+    expect(response.status).toBe(200);
+    expect(callsBeforeContinue).toEqual([0, 0]);
+    expect(body).toHaveBeenCalledOnce();
+    expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+  });
+
+  it("reports both download and upload progress when reusing a streamed response", async () => {
+    const downloadProgress = vi.fn();
+    const uploadProgress = vi.fn();
+    const fixture = await loopback(
+      (request, response) => {
+        acceptUpload(request, response);
+        response.writeContinue();
+      },
+      (_request, response) => response.end("payload"),
+    );
+    const download = await fixture.send({
+      method: "GET",
+      headers: createHttpHeaders(),
+      streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress: downloadProgress,
+    });
+    const upload = await fixture.send({
+      body: download.readableStreamBody,
+      onUploadProgress: uploadProgress,
+    });
+    expect(upload.status).toBe(200);
+    expect(downloadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
+    expect(uploadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
   });
 
   it.each([
-    { withOn: false, multipart: false },
-    { withOn: true, multipart: false },
-    { withOn: false, multipart: true },
-    { withOn: true, multipart: true },
+    { multipart: false, abort: false },
+    { multipart: false, abort: true },
+    { multipart: true, abort: false },
+    { multipart: true, abort: true },
   ])(
-    "sends pipe-shaped objects as JSON without Expect (withOn=$withOn, multipart=$multipart)",
-    async ({ withOn, multipart }) => {
-      const pipe = vi.fn();
-      const on = vi.fn();
-      const body = withOn ? { value: 1, pipe, on } : { value: 1, pipe };
-      const chunks: Buffer[] = [];
-      const server = http.createServer((request, response) => {
-        request.on("data", (chunk: Buffer) => chunks.push(chunk));
-        request.once("end", () => response.end("accepted"));
-      });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(multipartPolicy());
-      const requestOptions = {
-        body: multipart ? [{ name: "payload", body }] : body,
-        contentType: multipart ? "multipart/form-data" : "application/json",
-        allowInsecureConnection: true,
-        requestOverrides: { agent },
-      };
-
-      try {
-        const response = await sendRequest(
-          "POST",
-          `http://127.0.0.1:${port}`,
-          pipeline,
-          requestOptions,
-          createDefaultHttpClient(),
-        );
-        const receivedBody = Buffer.concat(chunks).toString();
-
-        expect(response.status).toBe("200");
-        if (multipart) {
-          expect(receivedBody).toContain("content-type: application/json\r\n");
-          expect(receivedBody).toContain('\r\n\r\n{"value":1}\r\n');
-        } else {
-          expect(receivedBody).toBe('{"value":1}');
-        }
-        expect(pipe).not.toHaveBeenCalled();
-        expect(on).not.toHaveBeenCalled();
-      } finally {
-        agent.destroy();
-      }
-    },
-  );
-
-  it.each(["flat", "paired"])(
-    "negotiates array-valued Expect headers from %s overrides",
-    async (format) => {
-      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-      const progress = vi.fn();
-      let factoriesBeforeContinue: number | undefined;
-      let progressBeforeContinue: number | undefined;
-      const server = http.createServer();
-      server.on("checkContinue", (request, response) => {
-        factoriesBeforeContinue = bodyFactory.mock.calls.length;
-        progressBeforeContinue = progress.mock.calls.length;
-        request.resume();
-        request.once("end", () => response.end("accepted"));
-        response.writeContinue();
-      });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-
-      try {
-        const response = await createDefaultHttpClient().sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            requestOverrides: {
-              agent,
-              headers:
-                format === "flat"
-                  ? ["Host", `127.0.0.1:${port}`, "Expect", ["100-continue"]]
-                  : [
-                      ["Host", `127.0.0.1:${port}`],
-                      ["Expect", ["100-continue"]],
-                    ],
-            },
-            body: bodyFactory,
-            onUploadProgress: progress,
-          }),
-        );
-        expect(response.status).toBe(200);
-        expect(factoriesBeforeContinue).toBe(0);
-        expect(progressBeforeContinue).toBe(0);
-        expect(bodyFactory).toHaveBeenCalledOnce();
-        expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
-      } finally {
-        agent.destroy();
-      }
-    },
-  );
-
-  it.each([false, true])(
-    "reports upload progress for a reused download-progress stream (negotiated=%s)",
-    async (negotiated) => {
-      const downloadProgress = vi.fn();
-      const uploadProgress = vi.fn();
-      const chunks: Buffer[] = [];
-      const acceptUpload = (request: http.IncomingMessage, response: http.ServerResponse): void => {
-        request.on("data", (chunk: Buffer) => chunks.push(chunk));
-        request.once("end", () => response.end("accepted"));
-      };
-      const server = http.createServer((request, response) => {
-        if (request.method === "GET") {
-          response.end("payload");
-        } else {
-          acceptUpload(request, response);
-        }
-      });
-      server.on("checkContinue", (request, response) => {
-        acceptUpload(request, response);
-        response.writeContinue();
-      });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-      const client = createDefaultHttpClient();
-      let source: NodeJS.ReadableStream | undefined;
-
-      try {
-        const download = await client.sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            allowInsecureConnection: true,
-            streamResponseStatusCodes: new Set([200]),
-            onDownloadProgress: downloadProgress,
-            requestOverrides: { agent },
-          }),
-        );
-        source = download.readableStreamBody;
-        const upload = await client.sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders(negotiated ? { Expect: "100-continue" } : {}),
-            body: source,
-            onUploadProgress: uploadProgress,
-            requestOverrides: { agent },
-          }),
-        );
-        expect(upload.status).toBe(200);
-        expect(Buffer.concat(chunks).toString()).toBe("payload");
-        expect(downloadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
-        expect(uploadProgress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
-      } finally {
-        source?.resume();
-        agent.destroy();
-      }
-    },
-  );
-
-  it("returns direct-stream ownership to the caller after abort", async () => {
-    const body = new Readable({ read: vi.fn() });
-    const callerError = vi.fn();
-    body.on("error", callerError);
-    const failure = new Error("queued failure before abort");
-    const controller = new AbortController();
-    const server = http.createServer();
-    server.on("checkContinue", () => {
-      body.destroy(failure);
-      controller.abort();
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-
-    try {
-      await expect(
-        createDefaultHttpClient().sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body,
-            abortSignal: controller.signal,
-            requestOverrides: { agent },
-          }),
-        ),
-      ).rejects.toMatchObject({ name: "AbortError" });
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(body.listeners("error")).toEqual([callerError]);
-      expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
-    } finally {
-      body.destroy();
-      agent.destroy();
-    }
-  });
-
-  it("rejects a pending direct-source error without consuming or retrying", async () => {
-    const read = vi.fn();
-    const body = new Readable({ read });
-    const failure = Object.assign(new Error("pending direct-source failure"), { code: "ENOENT" });
-    const controller = new AbortController();
-    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
-    const server = http.createServer();
-    server.on("checkContinue", () => {
-      body.emit("error", failure);
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-    const httpRequest = vi.spyOn(http, "request");
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
-
-    try {
-      await expect(
-        pipeline.sendRequest(
-          createDefaultHttpClient(),
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body,
-            abortSignal: controller.signal,
-            requestOverrides: { agent },
-          }),
-        ),
-      ).rejects.toBe(failure);
-
-      expect(httpRequest).toHaveBeenCalledOnce();
-      expect(read).not.toHaveBeenCalled();
-      expect(body.destroyed).toBe(false);
-      expect(body.listenerCount("error")).toBe(0);
-      body.destroy();
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      expect(body.listenerCount("error")).toBe(0);
-      await expect.poll(() => removeEventListener.mock.calls.length).toBe(1);
-    } finally {
-      body.destroy();
-      agent.destroy();
-      httpRequest.mockRestore();
-    }
-  });
-
-  it("handles a direct fs.createReadStream ENOENT before Continue without a caller error listener", async () => {
-    const server = http.createServer();
-    server.on("checkContinue", () => {});
-    const port = await listen(server);
-    const filePath = join(tmpdir(), `azsdk-missing-upload-${randomUUID()}`);
-    const body = createReadStream(filePath);
-    const agent = new http.Agent({ keepAlive: false });
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(multipartPolicy());
-    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
-
-    try {
-      await expect(
-        pipeline.sendRequest(
-          createDefaultHttpClient(),
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body,
-            requestOverrides: { agent },
-          }),
-        ),
-      ).rejects.toMatchObject({ name: "Error", code: "ENOENT", syscall: "open", path: filePath });
-
-      expect(body.bytesRead).toBe(0);
-      await expect.poll(() => body.listenerCount("error")).toBe(0);
-    } finally {
-      body.destroy();
-      agent.destroy();
-    }
-  });
-
-  it("keeps multipart factories lazy and sends all parts after Continue", async () => {
-    const source = Readable.from(["direct part"]);
-    const factory = vi.fn(() => Readable.from(["factory part"]));
-    const server = http.createServer();
-    const chunks: Buffer[] = [];
-    let factoryCallsBeforePermission: number | undefined;
-    server.on("checkContinue", (request, response) => {
-      factoryCallsBeforePermission = factory.mock.calls.length;
-      request.on("data", (chunk: Buffer) => chunks.push(chunk));
-      request.on("end", () => response.end("accepted"));
-      response.writeContinue();
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(multipartPolicy());
-
-    try {
-      const response = await pipeline.sendRequest(
-        createDefaultHttpClient(),
-        createPipelineRequest({
-          url: `http://127.0.0.1:${port}`,
-          method: "POST",
-          allowInsecureConnection: true,
-          headers: createHttpHeaders({ Expect: "100-continue" }),
-          multipartBody: {
-            boundary: "test",
-            parts: [
-              { headers: createHttpHeaders(), body: source },
-              { headers: createHttpHeaders(), body: factory },
-            ],
-          },
-          requestOverrides: { agent },
-        }),
-      );
-
-      expect(response.status).toBe(200);
-      expect(factoryCallsBeforePermission).toBe(0);
-      expect(factory).toHaveBeenCalledOnce();
-      expect(Buffer.concat(chunks).toString()).toBe(
-        "--test\r\n\r\ndirect part\r\n--test\r\n\r\nfactory part\r\n--test--\r\n\r\n",
-      );
-    } finally {
-      source.destroy();
-      agent.destroy();
-    }
-  });
-
-  it.each(["response", "abort"])(
-    "leaves pending multipart sources and factories untouched after %s",
-    async (event) => {
+    "leaves unused inputs caller-owned (multipart=$multipart, abort=$abort)",
+    async ({ multipart, abort }) => {
       const read = vi.fn();
-      const source = new Readable({ read });
-      const callerError = vi.fn();
-      source.on("error", callerError);
+      const body = new Readable({ read });
       const factory = vi.fn(() => Readable.from(["deferred part"]));
+      const callerError = vi.fn();
+      body.on("error", callerError);
       const controller = new AbortController();
-      const server = http.createServer();
-      server.on("checkContinue", (_request, response) => {
-        if (event === "abort") {
-          controller.abort();
-        } else {
+      const fixture = await loopback((_request, response) => {
+        if (abort) controller.abort();
+        else {
           response.writeHead(417);
           response.end("rejected");
         }
       });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(multipartPolicy());
-
       try {
-        const result = pipeline.sendRequest(
-          createDefaultHttpClient(),
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            multipartBody: {
-              parts: [
-                { headers: createHttpHeaders(), body: source },
-                { headers: createHttpHeaders(), body: factory },
-              ],
-            },
+        const result = fixture.send(
+          {
             abortSignal: controller.signal,
-            requestOverrides: { agent },
-          }),
+            ...(multipart
+              ? {
+                  multipartBody: {
+                    parts: [
+                      { headers: createHttpHeaders(), body },
+                      { headers: createHttpHeaders(), body: factory },
+                    ],
+                  },
+                }
+              : { body }),
+          },
+          [multipartPolicy()],
         );
-        if (event === "abort") {
-          await expect(result).rejects.toMatchObject({ name: "AbortError" });
-        } else {
-          expect((await result).status).toBe(417);
-        }
+        if (abort) await expect(result).rejects.toMatchObject({ name: "AbortError" });
+        else expect((await result).status).toBe(417);
         expect(read).not.toHaveBeenCalled();
         expect(factory).not.toHaveBeenCalled();
-        expect(source.destroyed).toBe(false);
-        expect(source.listeners("error")).toEqual([callerError]);
-        expect(source.listenerCount("end")).toBe(0);
-        expect(source.listenerCount("close")).toBe(0);
-        const laterError = new Error("caller-owned source failed after the attempt");
-        source.emit("error", laterError);
-        expect(callerError).toHaveBeenCalledExactlyOnceWith(laterError);
-        expect(source.listeners("error")).toEqual([callerError]);
+        expect(body.destroyed).toBe(false);
+        expect(body.listeners("error")).toEqual([callerError]);
+        expect(body.listenerCount("end") + body.listenerCount("close")).toBe(0);
+        const failure = new Error("caller-owned failure");
+        body.emit("error", failure);
+        expect(callerError).toHaveBeenCalledExactlyOnceWith(failure);
       } finally {
-        source.destroy();
-        agent.destroy();
+        body.destroy();
       }
     },
   );
 
-  it.each(["normal", "Continue", "fallback"])(
-    "preserves local factory errors without retrying (dispatch=%s)",
+  it("handles a direct missing-file error without a caller error listener", async () => {
+    const fixture = await loopback(() => {});
+    const path = join(tmpdir(), `azsdk-missing-upload-${randomUUID()}`);
+    const body = createReadStream(path);
+    const outgoing = vi.spyOn(http, "request");
+    try {
+      await expect(
+        fixture.send({ body }, [systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 })]),
+      ).rejects.toMatchObject({
+        name: "Error",
+        code: "ENOENT",
+        syscall: "open",
+        path,
+      });
+      expect(outgoing).toHaveBeenCalledOnce();
+      expect(body.bytesRead).toBe(0);
+      expect(body.listenerCount("error")).toBe(0);
+    } finally {
+      body.destroy();
+    }
+  });
+
+  it("keeps multipart factories lazy and sends the expected bytes after Continue", async () => {
+    const factory = vi.fn(() => Readable.from(["factory part"]));
+    const chunks: Buffer[] = [];
+    let callsBeforeContinue = -1;
+    const fixture = await loopback((request, response) => {
+      callsBeforeContinue = factory.mock.calls.length;
+      request.on("data", (chunk: Buffer) => chunks.push(chunk));
+      request.once("end", () => response.end());
+      response.writeContinue();
+    });
+    const response = await fixture.send(
+      {
+        multipartBody: {
+          boundary: "test",
+          parts: [
+            { headers: createHttpHeaders(), body: Readable.from(["direct part"]) },
+            { headers: createHttpHeaders(), body: factory },
+          ],
+        },
+      },
+      [multipartPolicy()],
+    );
+    expect(response.status).toBe(200);
+    expect(callsBeforeContinue).toBe(0);
+    expect(factory).toHaveBeenCalledOnce();
+    expect(Buffer.concat(chunks).toString()).toBe(
+      "--test\r\n\r\ndirect part\r\n--test\r\n\r\nfactory part\r\n--test--\r\n\r\n",
+    );
+  });
+
+  it.each(["Continue", "fallback"])(
+    "does not retry local factory failures after %s",
     async (dispatch) => {
-      const failure = Object.assign(new Error("local body file not found"), { code: "ENOENT" });
-      const bodyFactory = vi.fn(() => {
+      const failure = Object.assign(new Error("local file not found"), { code: "ENOENT" });
+      const body = vi.fn(() => {
         throw failure;
       });
-      const server = http.createServer();
-      server.on("checkContinue", (request, response) => {
+      const fixture = await loopback((request, response) => {
         request.resume();
-        if (dispatch === "Continue") {
-          response.writeContinue();
-        }
+        if (dispatch === "Continue") response.writeContinue();
       });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
-
-      try {
-        await expect(
-          pipeline.sendRequest(
-            createDefaultHttpClient(),
-            createPipelineRequest({
-              url: `http://127.0.0.1:${port}`,
-              method: "POST",
-              allowInsecureConnection: true,
-              headers: createHttpHeaders(dispatch === "normal" ? {} : { Expect: "100-continue" }),
-              body: bodyFactory,
-              requestOverrides: { agent },
-            }),
-          ),
-        ).rejects.toBe(failure);
-
-        expect(bodyFactory).toHaveBeenCalledOnce();
-      } finally {
-        agent.destroy();
-      }
+      await expect(
+        fixture.send({ body }, [systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 })]),
+      ).rejects.toBe(failure);
+      expect(body).toHaveBeenCalledOnce();
     },
   );
 
-  it("preserves synchronous upload-dispatch errors without retrying", async () => {
+  it("does not retry synchronous upload-dispatch failures", async () => {
     const failure = Object.assign(new Error("local pipe failed"), { code: "ENOENT" });
     const body = new Readable({ read() {} });
     const pipe = vi.spyOn(body, "pipe").mockImplementation(() => {
       throw failure;
     });
-    const server = http.createServer();
-    server.on("checkContinue", (request, response) => {
+    const fixture = await loopback((request, response) => {
       request.resume();
       response.writeContinue();
     });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 }));
-
     try {
       await expect(
-        pipeline.sendRequest(
-          createDefaultHttpClient(),
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body,
-            requestOverrides: { agent },
-          }),
-        ),
+        fixture.send({ body }, [systemErrorRetryPolicy({ maxRetries: 2, retryDelayInMs: 0 })]),
       ).rejects.toBe(failure);
-
       expect(pipe).toHaveBeenCalledOnce();
       expect(body.destroyed).toBe(true);
     } finally {
       body.destroy();
-      agent.destroy();
     }
   });
 
-  it("still retries transport failures before body preparation", async () => {
+  it("retries transport failures without preparing the body on the failed attempt", async () => {
     let attempts = 0;
-    let receivedBody = "";
-    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-    const server = http.createServer();
-    server.on("checkContinue", (request, response) => {
-      attempts++;
-      if (attempts === 1) {
-        request.socket.destroy();
-        return;
+    const body = vi.fn(() => Readable.from(["payload"]));
+    const fixture = await loopback((request, response) => {
+      if (++attempts === 1) request.socket.destroy();
+      else {
+        acceptUpload(request, response);
+        response.writeContinue();
       }
-      request.setEncoding("utf8");
-      request.on("data", (chunk: string) => {
-        receivedBody += chunk;
-      });
-      request.on("end", () => response.end("accepted"));
-      response.writeContinue();
     });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(systemErrorRetryPolicy({ maxRetries: 1, retryDelayInMs: 0 }));
+    const response = await fixture.send({ body }, [
+      systemErrorRetryPolicy({ maxRetries: 1, retryDelayInMs: 0 }),
+    ]);
+    expect(response.bodyAsText).toBe("accepted");
+    expect(attempts).toBe(2);
+    expect(body).toHaveBeenCalledOnce();
+  });
 
-    try {
-      const response = await pipeline.sendRequest(
-        createDefaultHttpClient(),
-        createPipelineRequest({
-          url: `http://127.0.0.1:${port}`,
-          method: "POST",
-          allowInsecureConnection: true,
-          headers: createHttpHeaders({ Expect: "100-continue" }),
-          body: bodyFactory,
-          requestOverrides: { agent },
-        }),
+  it.each([undefined, null, "", Buffer.alloc(0), new Uint8Array(0)])(
+    "removes the expectation from a known-empty body (%s)",
+    async (body) => {
+      let received: http.IncomingHttpHeaders | undefined;
+      const fixture = await loopback(
+        (_request, response) => {
+          response.writeHead(417);
+          response.end();
+        },
+        (request, response) => {
+          received = request.headers;
+          response.end();
+        },
       );
+      expect(
+        (
+          await fixture.send({
+            body,
+            headers: createHttpHeaders({ Expect: "100-continue", "X-Test": "preserved" }),
+          })
+        ).status,
+      ).toBe(200);
+      expect(received?.expect).toBeUndefined();
+      expect(received?.["x-test"]).toBe("preserved");
+    },
+  );
 
-      expect(response.bodyAsText).toBe("accepted");
-      expect(attempts).toBe(2);
-      expect(bodyFactory).toHaveBeenCalledOnce();
-      expect(receivedBody).toBe("payload");
-    } finally {
-      agent.destroy();
-    }
-  });
-
-  it.each([
-    { kind: "undefined", body: undefined },
-    { kind: "null", body: null },
-    { kind: "empty string", body: "" },
-    { kind: "empty Buffer", body: Buffer.alloc(0) },
-    { kind: "empty typed array", body: new Uint8Array(0) },
-  ])("omits 100-continue for a known-empty $kind body", async ({ body }) => {
-    let receivedHeaders: http.IncomingHttpHeaders | undefined;
-    const server = http.createServer((request, response) => {
-      receivedHeaders = request.headers;
-      response.end("accepted");
-    });
-    server.on("checkContinue", (_request, response) => {
-      response.writeHead(417);
-      response.end("unexpected expectation");
-    });
-    const port = await listen(server);
-
-    const response = await createDefaultHttpClient().sendRequest(
-      createPipelineRequest({
-        url: `http://127.0.0.1:${port}`,
-        method: "POST",
-        allowInsecureConnection: true,
-        body,
-        headers: createHttpHeaders({ Expect: "100-continue", "X-Test": "preserved" }),
-      }),
-    );
-
-    expect(response.status).toBe(200);
-    expect(receivedHeaders?.expect).toBeUndefined();
-    expect(receivedHeaders?.["x-test"]).toBe("preserved");
-  });
-
-  it("removes body expectations, framing, and Trailer when a chunked POST redirects via 303 to GET", async () => {
-    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-    let redirectedHeaders: http.IncomingHttpHeaders | undefined;
-    let redirectedMethod: string | undefined;
-    const server = http.createServer((request, response) => {
-      redirectedHeaders = request.headers;
-      redirectedMethod = request.method;
-      response.end("redirected");
-    });
-    server.on("checkContinue", (request, response) => {
-      if (request.url === "/upload") {
+  it("drops body-only headers before following a 303 without invoking the factory", async () => {
+    const body = vi.fn(() => Readable.from(["payload"]));
+    let redirected: http.IncomingMessage | undefined;
+    const fixture = await loopback(
+      (_request, response) => {
         response.writeHead(303, { Location: "/redirected" });
         response.end();
-      } else {
-        response.writeHead(417);
-        response.end("unexpected expectation");
-      }
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({ keepAlive: false });
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(redirectPolicy());
-
-    try {
-      const response = await pipeline.sendRequest(
-        createDefaultHttpClient(),
-        createPipelineRequest({
-          url: `http://127.0.0.1:${port}/upload`,
-          method: "POST",
-          allowInsecureConnection: true,
-          body: bodyFactory,
-          headers: createHttpHeaders({
-            Expect: "100-continue",
-            "Transfer-Encoding": "chunked",
-            Trailer: "Digest",
-            "X-Test": "preserved",
-          }),
-          requestOverrides: { agent },
-        }),
-      );
-
-      expect(response.status).toBe(200);
-      expect(response.bodyAsText).toBe("redirected");
-      expect(redirectedMethod).toBe("GET");
-      expect(redirectedHeaders?.trailer).toBeUndefined();
-      expect(redirectedHeaders?.["transfer-encoding"]).toBeUndefined();
-      expect(redirectedHeaders?.["content-length"]).toBeUndefined();
-      expect(redirectedHeaders?.expect).toBeUndefined();
-      expect(redirectedHeaders?.["x-test"]).toBe("preserved");
-      expect(bodyFactory).not.toHaveBeenCalled();
-    } finally {
-      agent.destroy();
+      },
+      (request, response) => {
+        redirected = request;
+        response.end("redirected");
+      },
+    );
+    expect(
+      (
+        await fixture.send(
+          {
+            body,
+            headers: createHttpHeaders({
+              Expect: "100-continue",
+              "Transfer-Encoding": "chunked",
+              Trailer: "Digest",
+              "X-Test": "preserved",
+            }),
+          },
+          [redirectPolicy()],
+        )
+      ).bodyAsText,
+    ).toBe("redirected");
+    expect(redirected?.method).toBe("GET");
+    for (const name of ["expect", "transfer-encoding", "content-length", "trailer"]) {
+      expect(redirected?.headers[name]).toBeUndefined();
     }
+    expect(redirected?.headers["x-test"]).toBe("preserved");
+    expect(body).not.toHaveBeenCalled();
   });
 
   it.each([
-    {
-      kind: "Uint8Array window",
-      body: Uint8Array.from([0, 1, 2, 3, 4]).subarray(1, 4),
-      expected: Buffer.from([1, 2, 3]),
-    },
-    {
-      kind: "DataView window",
-      body: new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3),
-      expected: Buffer.from([1, 2, 3]),
-    },
-    {
-      kind: "ArrayBuffer",
-      body: Uint8Array.from([1, 2, 3]).buffer,
-      expected: Buffer.from([1, 2, 3]),
-    },
-    {
-      kind: "Buffer",
-      body: Buffer.from([1, 2, 3]),
-      expected: Buffer.from([1, 2, 3]),
-    },
-  ])(
-    "normalizes a $kind returned by a negotiated client body factory with progress",
-    async ({ body, expected }) => {
-      const bodyFactory = vi.fn(() => body);
-      const onUploadProgress = vi.fn();
-      const chunks: Buffer[] = [];
-      let receivedHeaders: http.IncomingHttpHeaders | undefined;
-      const server = http.createServer();
-      server.on("checkContinue", (request, response) => {
-        expect(bodyFactory).not.toHaveBeenCalled();
-        expect(onUploadProgress).not.toHaveBeenCalled();
-        receivedHeaders = request.headers;
-        request.on("data", (chunk: Buffer) => chunks.push(chunk));
-        request.on("end", () => response.end("accepted"));
-        response.writeContinue();
-        response.writeContinue();
-      });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
+    { kind: "Uint8Array window", value: Uint8Array.from([0, 1, 2, 3, 4]).subarray(1, 4) },
+    { kind: "DataView window", value: new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3) },
+    { kind: "ArrayBuffer", value: Uint8Array.from([1, 2, 3]).buffer },
+    { kind: "Buffer", value: Buffer.from([1, 2, 3]) },
+  ])("normalizes $kind factories before reporting upload progress", async ({ value }) => {
+    const body = vi.fn(() => value);
+    const progress = vi.fn();
+    const chunks: Buffer[] = [];
+    let received: http.IncomingHttpHeaders | undefined;
+    const fixture = await loopback((request, response) => {
+      expect(body).not.toHaveBeenCalled();
+      expect(progress).not.toHaveBeenCalled();
+      received = request.headers;
+      request.on("data", (chunk: Buffer) => chunks.push(chunk));
+      request.once("end", () => response.end());
+      response.writeContinue();
+    });
+    const options = {
+      body,
+      contentType: "application/octet-stream",
+      allowInsecureConnection: true,
+      headers: { Expect: "100-continue" },
+      onUploadProgress: progress,
+      requestOverrides: { agent: fixture.agent },
+    };
+    const response = await sendRequest("POST", fixture.url, createEmptyPipeline(), options, client);
+    expect(response.status).toBe("200");
+    expect(Buffer.concat(chunks)).toEqual(Buffer.from([1, 2, 3]));
+    expect(body).toHaveBeenCalledOnce();
+    expect(progress).toHaveBeenCalledExactlyOnceWith({ loadedBytes: 3 });
+    expect(received?.["transfer-encoding"]).toBe("chunked");
+    expect(received?.["content-length"]).toBeUndefined();
+  });
 
-      const requestOptions = {
-        body: bodyFactory,
-        contentType: "application/octet-stream",
-        allowInsecureConnection: true,
-        headers: { Expect: "100-continue" },
-        onUploadProgress,
-        requestOverrides: { agent },
-      };
-
-      try {
-        const response = await sendRequest(
-          "POST",
-          `http://127.0.0.1:${port}`,
-          createEmptyPipeline(),
-          requestOptions,
-          createDefaultHttpClient(),
-        );
-
-        expect(response.status).toBe("200");
-        expect(bodyFactory).toHaveBeenCalledOnce();
-        expect(Buffer.concat(chunks)).toEqual(expected);
-        expect(onUploadProgress).toHaveBeenCalledExactlyOnceWith({
-          loadedBytes: expected.byteLength,
-        });
-        expect(receivedHeaders?.["content-length"]).toBeUndefined();
-        expect(receivedHeaders?.["transfer-encoding"]).toBe("chunked");
-      } finally {
-        agent.destroy();
-      }
-    },
-  );
+  it("sets Content-Length for a direct binary body", async () => {
+    let received: http.IncomingHttpHeaders | undefined;
+    const fixture = await loopback((request, response) => {
+      received = request.headers;
+      acceptUpload(request, response);
+      response.writeContinue();
+    });
+    await fixture.send({ body: new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3) });
+    expect(received?.["content-length"]).toBe("3");
+    expect(received?.["transfer-encoding"]).toBeUndefined();
+  });
 
   it.each([false, true])(
-    "uses Content-Length for direct bodies and chunked framing for factories (factory=%s)",
-    async (factory) => {
-      const body = new DataView(Uint8Array.from([0, 1, 2, 3, 4]).buffer, 1, 3);
-      const bodyFactory = vi.fn(() =>
-        Readable.from([Buffer.from(body.buffer, body.byteOffset, body.byteLength)]),
-      );
-      let receivedHeaders: http.IncomingHttpHeaders | undefined;
-      const server = http.createServer();
-      server.on("checkContinue", (request, response) => {
-        receivedHeaders = request.headers;
-        request.resume();
-        request.on("end", () => response.end("accepted"));
-        response.writeContinue();
-      });
-      const port = await listen(server);
-
-      const response = await createDefaultHttpClient().sendRequest(
-        createPipelineRequest({
-          url: `http://127.0.0.1:${port}`,
-          method: "POST",
-          allowInsecureConnection: true,
-          headers: createHttpHeaders({ Expect: "100-continue" }),
-          body: factory ? bodyFactory : body,
-        }),
-      );
-
-      expect(response.bodyAsText).toBe("accepted");
-      if (factory) {
-        expect(receivedHeaders?.["content-length"]).toBeUndefined();
-        expect(receivedHeaders?.["transfer-encoding"]).toBe("chunked");
-      } else {
-        expect(receivedHeaders?.["content-length"]).toBe("3");
-        expect(receivedHeaders?.["transfer-encoding"]).toBeUndefined();
-      }
-    },
-  );
-
-  it.each([false, true])(
-    "releases the abort listener without waiting for an untouched body after 417 rejection (streamedResponse=%s)",
-    async (streamedResponse) => {
+    "releases abort forwarding after an unused body and response finish (streamed=%s)",
+    async (streamed) => {
       const read = vi.fn();
       const body = new Readable({ read });
       const controller = new AbortController();
-      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
-      const server = http.createServer();
-      server.on("checkContinue", (_request, response) => {
+      const removeAbort = vi.spyOn(controller.signal, "removeEventListener");
+      const fixture = await loopback((_request, response) => {
         response.writeHead(417);
         response.end("rejected");
       });
-      const port = await listen(server);
-
       try {
-        const response = await createDefaultHttpClient().sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body,
-            abortSignal: controller.signal,
-            streamResponseStatusCodes: streamedResponse ? new Set([417]) : undefined,
-          }),
-        );
-
-        expect(response.status).toBe(417);
-        if (streamedResponse) {
-          await new Promise<void>((resolve) => setImmediate(resolve));
-          expect(removeEventListener).not.toHaveBeenCalled();
-          const responseStream = response.readableStreamBody!;
-          const responseComplete = finished(responseStream, { writable: false });
-          responseStream.resume();
-          await responseComplete;
-        } else {
-          expect(response.bodyAsText).toBe("rejected");
-        }
+        const response = await fixture.send({
+          body,
+          abortSignal: controller.signal,
+          streamResponseStatusCodes: streamed ? new Set([417]) : undefined,
+        });
+        if (streamed) {
+          expect(removeAbort).not.toHaveBeenCalled();
+          const stream = response.readableStreamBody;
+          if (!(stream instanceof Readable)) throw new Error("Expected a native response stream");
+          const completed = finished(stream, { cleanup: true });
+          stream.resume();
+          await completed;
+        } else expect(response.bodyAsText).toBe("rejected");
         await getRequestCompletion(response);
-        await new Promise<void>((resolve) => setImmediate(resolve));
-
-        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+        await expect.poll(() => removeAbort.mock.calls.length).toBe(1);
         expect(read).not.toHaveBeenCalled();
         expect(body.destroyed).toBe(false);
-        body.destroy();
+        expect(body.listenerCount("error")).toBe(0);
       } finally {
         body.destroy();
       }
@@ -1636,229 +1068,150 @@ describe("Expect: 100-continue end-to-end transport", () => {
   );
 
   it.each([
-    { statusCode: 417, cancel: true },
-    { statusCode: 200, cancel: true },
-    { statusCode: 200, cancel: false },
+    { status: 417, cancel: true },
+    { status: 200, cancel: true },
+    { status: 200, cancel: false },
   ])(
-    "preserves response cancellation after Connection: close (status=$statusCode, cancel=$cancel)",
-    async ({ statusCode, cancel }) => {
+    "preserves unread response cancellation after request close (status=$status, cancel=$cancel)",
+    async ({ status, cancel }) => {
       const controller = new AbortController();
-      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
-      const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-      const server = http.createServer();
-      server.on("checkContinue", (request, response) => {
-        const sendResponse = (): void => {
-          response.writeHead(statusCode, { Connection: "close", "Content-Length": "8" });
+      const removeAbort = vi.spyOn(controller.signal, "removeEventListener");
+      const outgoing = vi.spyOn(http, "request");
+      const fixture = await loopback((request, response) => {
+        const reply = (): void => {
+          response.writeHead(status, { Connection: "close", "Content-Length": "8" });
           response.end("response");
         };
-        if (statusCode === 417) {
-          sendResponse();
-        } else {
+        if (status === 417) reply();
+        else {
           request.resume();
-          request.once("end", sendResponse);
+          request.once("end", reply);
           response.writeContinue();
         }
       });
-      const port = await listen(server);
-      const agent = new http.Agent({ keepAlive: false });
-      const httpRequest = vi.spyOn(http, "request");
-      let responseStream: http.IncomingMessage | undefined;
-
+      const response = await fixture.send({
+        body: () => Readable.from(["payload"]),
+        abortSignal: controller.signal,
+        streamResponseStatusCodes: new Set([status]),
+      });
+      const stream = response.readableStreamBody;
+      if (!(stream instanceof Readable)) throw new Error("Expected a native response stream");
       try {
-        const responsePromise = createDefaultHttpClient().sendRequest(
-          createPipelineRequest({
-            url: `http://127.0.0.1:${port}`,
-            method: "POST",
-            allowInsecureConnection: true,
-            headers: createHttpHeaders({ Expect: "100-continue" }),
-            body: bodyFactory,
-            abortSignal: controller.signal,
-            streamResponseStatusCodes: new Set([statusCode]),
-            requestOverrides: { agent },
-          }),
-        );
-        const clientRequest = httpRequest.mock.results[0]?.value as ClientRequest;
-        const response = await responsePromise;
-        responseStream = response.readableStreamBody as http.IncomingMessage;
-        await expect.poll(() => clientRequest.closed).toBe(true);
-
-        const responseComplete = finished(responseStream, { writable: false, cleanup: true });
+        await expect.poll(() => outgoing.mock.results[0].value.closed).toBe(true);
+        const completed = finished(stream, { cleanup: true });
         if (cancel) {
-          const rejection = expect(responseComplete).rejects.toMatchObject({ name: "AbortError" });
+          const rejection = expect(completed).rejects.toMatchObject({ name: "AbortError" });
           controller.abort();
           await rejection;
-          expect(responseStream.destroyed).toBe(true);
         } else {
-          responseStream.resume();
-          await responseComplete;
-          await new Promise<void>((resolve) => setImmediate(resolve));
-          const destroy = vi.spyOn(responseStream, "destroy");
+          stream.resume();
+          await completed;
+          await expect.poll(() => removeAbort.mock.calls.length).toBe(1);
+          const destroy = vi.spyOn(stream, "destroy");
           controller.abort();
           expect(destroy).not.toHaveBeenCalled();
         }
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith("abort", expect.any(Function));
+        await expect.poll(() => removeAbort.mock.calls.length).toBe(1);
       } finally {
-        responseStream?.destroy();
-        agent.destroy();
-        httpRequest.mockRestore();
+        stream.destroy();
       }
     },
   );
 
-  it("sends the body after the fixed fallback when no Continue response arrives", async () => {
-    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-    let headersReceivedAt = 0;
-    let bodyReceivedAt = 0;
-    const server = http.createServer();
-    server.on("checkContinue", (request, response) => {
-      headersReceivedAt = Date.now();
+  it("uses the fallback when the server does not send Continue", async () => {
+    let headersAt = 0;
+    let bodyAt = 0;
+    const body = vi.fn(() => Readable.from(["payload"]));
+    const fixture = await loopback((request, response) => {
+      headersAt = Date.now();
       request.once("data", () => {
-        bodyReceivedAt = Date.now();
+        bodyAt = Date.now();
       });
-      request.resume();
-      request.on("end", () => response.end());
+      acceptUpload(request, response);
     });
-    const port = await listen(server);
-
-    const response = await createDefaultHttpClient().sendRequest(
-      createPipelineRequest({
-        url: `http://127.0.0.1:${port}`,
-        method: "POST",
-        allowInsecureConnection: true,
-        headers: createHttpHeaders({ Expect: "100-continue" }),
-        body: bodyFactory,
-      }),
-    );
-
-    expect(response.status).toBe(200);
-    expect(bodyFactory).toHaveBeenCalledOnce();
-    expect(bodyReceivedAt - headersReceivedAt).toBeGreaterThanOrEqual(900);
+    expect((await fixture.send({ body })).status).toBe(200);
+    expect(body).toHaveBeenCalledOnce();
+    expect(bodyAt - headersAt).toBeGreaterThanOrEqual(900);
   });
 
-  it("keeps factories and progress deferred through slow DNS on a fresh socket", async () => {
-    let finishLookup!: () => void;
+  it("excludes slow DNS on a fresh socket from the fallback", async () => {
+    let releaseLookup!: () => void;
     let lookupStarted!: () => void;
     const lookupPending = new Promise<void>((resolve) => {
       lookupStarted = resolve;
     });
-    const bodyFactory = vi.fn(() => Readable.from(["payload"]));
-    const progress = vi.fn();
     let releaseContinue!: () => void;
     let headersReceived!: () => void;
     const headersPending = new Promise<void>((resolve) => {
       headersReceived = resolve;
     });
-    const server = http.createServer();
-    server.on("checkContinue", (request, response) => {
-      request.resume();
-      request.on("end", () => response.end("accepted"));
-      releaseContinue = () => response.writeContinue();
-      headersReceived();
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({
-      keepAlive: false,
-      lookup(_hostname, options, callback) {
-        finishLookup = () => lookup("127.0.0.1", options, callback);
-        lookupStarted();
+    const body = vi.fn(() => Readable.from(["payload"]));
+    const progress = vi.fn();
+    const fixture = await loopback(
+      (request, response) => {
+        acceptUpload(request, response);
+        releaseContinue = () => response.writeContinue();
+        headersReceived();
       },
+      undefined,
+      {
+        lookup(_hostname, options, callback) {
+          releaseLookup = () => lookup("127.0.0.1", options, callback);
+          lookupStarted();
+        },
+      },
+    );
+    const response = fixture.send({
+      url: fixture.url.replace("127.0.0.1", "slow-lookup.test"),
+      body,
+      onUploadProgress: progress,
     });
-
-    try {
-      const responsePending = createDefaultHttpClient().sendRequest(
-        createPipelineRequest({
-          url: `http://slow-lookup.test:${port}`,
-          method: "POST",
-          allowInsecureConnection: true,
-          headers: createHttpHeaders({ Expect: "100-continue" }),
-          body: bodyFactory,
-          onUploadProgress: progress,
-          requestOverrides: { agent },
-        }),
-      );
-      await lookupPending;
-      await new Promise<void>((resolve) => setTimeout(resolve, 1200));
-      expect(bodyFactory).not.toHaveBeenCalled();
-      expect(progress).not.toHaveBeenCalled();
-      finishLookup();
-      await headersPending;
-      expect(bodyFactory).not.toHaveBeenCalled();
-      expect(progress).not.toHaveBeenCalled();
-      releaseContinue();
-      expect((await responsePending).bodyAsText).toBe("accepted");
-      expect(bodyFactory).toHaveBeenCalledOnce();
-      expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
-    } finally {
-      agent.destroy();
-    }
+    await lookupPending;
+    await new Promise<void>((resolve) => setTimeout(resolve, 1200));
+    expect(body).not.toHaveBeenCalled();
+    expect(progress).not.toHaveBeenCalled();
+    releaseLookup();
+    await headersPending;
+    expect(body).not.toHaveBeenCalled();
+    expect(progress).not.toHaveBeenCalled();
+    releaseContinue();
+    expect((await response).status).toBe(200);
+    expect(body).toHaveBeenCalledOnce();
+    expect(progress).toHaveBeenLastCalledWith({ loadedBytes: 7 });
   });
 
-  it("excludes agent socket queueing from the fallback timer", async () => {
-    let releaseFirstResponse: (() => void) | undefined;
-    let firstRequestArrived!: () => void;
-    const firstRequest = new Promise<void>((resolve) => {
-      firstRequestArrived = resolve;
+  it("excludes agent socket queueing from the fallback", async () => {
+    let releaseFirst!: () => void;
+    let firstArrived!: () => void;
+    const firstPending = new Promise<void>((resolve) => {
+      firstArrived = resolve;
     });
-    const server = http.createServer((_request, response) => {
-      releaseFirstResponse = () => response.end("first");
-      firstRequestArrived();
-    });
-    let continueSentAt = 0;
-    let bodyCreatedAt = 0;
-    const bodyFactory = vi.fn(() => {
-      bodyCreatedAt = Date.now();
-      return Readable.from(["payload"]);
-    });
-    server.on("checkContinue", (request, response) => {
-      request.resume();
-      request.on("end", () => response.end("second"));
-      setTimeout(() => {
-        continueSentAt = Date.now();
+    const body = vi.fn(() => Readable.from(["payload"]));
+    let callsBeforeContinue = -1;
+    const fixture = await loopback(
+      (request, response) => {
+        callsBeforeContinue = body.mock.calls.length;
+        acceptUpload(request, response);
         response.writeContinue();
-      }, 50);
-    });
-    const port = await listen(server);
-    const agent = new http.Agent({
-      keepAlive: true,
-      maxSockets: 1,
-      lookup(_hostname, options, callback) {
-        lookup("127.0.0.1", options, callback);
       },
-    });
-    const client = createDefaultHttpClient();
-    const first = client.sendRequest(
-      createPipelineRequest({
-        url: `http://127.0.0.1:${port}`,
-        allowInsecureConnection: true,
-        requestOverrides: { agent },
-      }),
+      (_request, response) => {
+        releaseFirst = () => response.end("first");
+        firstArrived();
+      },
+      { keepAlive: true, maxSockets: 1 },
     );
     try {
-      await firstRequest;
-      const second = client.sendRequest(
-        createPipelineRequest({
-          url: `http://127.0.0.1:${port}`,
-          method: "POST",
-          allowInsecureConnection: true,
-          requestOverrides: { agent },
-          headers: createHttpHeaders({ Expect: "100-continue" }),
-          body: bodyFactory,
-        }),
-      );
+      const first = fixture.send({ method: "GET", headers: createHttpHeaders() });
+      await firstPending;
+      const second = fixture.send({ body });
       await new Promise<void>((resolve) => setTimeout(resolve, 1200));
-      const bodyCreatedWhileQueued = bodyFactory.mock.calls.length > 0;
-      releaseFirstResponse?.();
-      const [, response] = await Promise.all([first, second]);
-
-      expect(bodyCreatedWhileQueued).toBe(false);
-      expect(response.bodyAsText).toBe("second");
-      expect(bodyFactory).toHaveBeenCalledOnce();
-      expect(continueSentAt).toBeGreaterThan(0);
-      expect(bodyCreatedAt).toBeGreaterThanOrEqual(continueSentAt);
+      expect(body).not.toHaveBeenCalled();
+      releaseFirst();
+      expect((await Promise.all([first, second]))[1].status).toBe(200);
+      expect(callsBeforeContinue).toBe(0);
+      expect(body).toHaveBeenCalledOnce();
     } finally {
-      releaseFirstResponse?.();
-      agent.destroy();
+      releaseFirst?.();
     }
   });
 });
