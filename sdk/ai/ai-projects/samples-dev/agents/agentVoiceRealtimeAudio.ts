@@ -259,7 +259,7 @@ async function getOrCreateVoiceAgent(
 function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {
   const definition = agent.versions.latest.definition;
   if (!isVoiceAgentDefinition(definition)) {
-    throw new Error(`Agent ${agent.name} is not a voice agent.`);
+    throw new Error(`Agent ${agent.name} is not a Realtime voice agent.`);
   }
   return definition;
 }
@@ -295,7 +295,9 @@ function isVoiceAgentDefinition(
 ): definition is VoiceAgentDefinition {
   return (
     definition.kind === "voice" &&
-    (!("sub_protocol" in definition) || definition.sub_protocol !== "live") &&
+    (!("sub_protocol" in definition) ||
+      definition.sub_protocol === undefined ||
+      definition.sub_protocol === "realtime") &&
     "model_type" in definition &&
     (definition.model_type === "managed" || definition.model_type === "self_deployed") &&
     "model" in definition &&

@@ -33,8 +33,10 @@ import {
   get,
   list,
 } from "../../../../api/beta/voiceAgents/liveConversations/operations.js";
+import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
+import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
 
-/** Operations for BetaVoiceAgentsLiveConversationsOperations. */
+/** Operations for managing persisted Live voice conversations. */
 export interface BetaVoiceAgentsLiveConversationsOperations {
   /** Streams the merged stereo WAV. BYOS returns 409; use blob_uri. Returns 404 for no audio, or 409 recording_not_ready/recording_unavailable for pending/failed finalization. */
   downloadAudio: (
@@ -96,6 +98,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 export function _getBetaVoiceAgentsLiveConversationsOperations(
   context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsLiveConversationsOperations {
   return {
     downloadAudio: (
@@ -135,7 +138,13 @@ export function _getBetaVoiceAgentsLiveConversationsOperations(
       agentName: string,
       conversationId: string,
       options?: BetaVoiceAgentsLiveConversationsDeleteOptionalParams,
-    ) => $delete(context, agentName, conversationId, options),
+    ) =>
+      traceVoiceAgentOperation(
+        "voice_agents.live_conversations.delete",
+        context.endpoint,
+        tracingConfig,
+        () => $delete(context, agentName, conversationId, options),
+      ),
     get: (
       agentName: string,
       conversationId: string,

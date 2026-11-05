@@ -23,6 +23,7 @@ export interface BetaVoiceAgentsOperations {
   campaigns: BetaVoiceAgentsCampaignsOperations;
   /** Operations for managing telephony bindings and calls. */
   telephony: BetaVoiceAgentsTelephonyOperations;
+  /** Operations for reading persisted Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
   /** Operations for reading persisted voice conversations and audio. */
   conversations: BetaVoiceAgentsConversationsOperations;
@@ -40,7 +41,7 @@ export function _getBetaVoiceAgentsOperations(
   return {
     campaigns: _getBetaVoiceAgentsCampaignsOperations(context),
     telephony: _getBetaVoiceAgentsTelephonyOperations(context, tracingConfig),
-    liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context),
+    liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context, tracingConfig),
     conversations: _getBetaVoiceAgentsConversationsOperations(context, tracingConfig),
     // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
