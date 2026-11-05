@@ -62,7 +62,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;
     this.fetchFunctions = Array.isArray(fetchFunctions) ? fetchFunctions : [fetchFunctions];
-    this.options = options || {};
+    this.options = { ...options };
     this.continuationToken =
       this.options.continuationToken || this.options.continuation || undefined;
     this.state = DefaultQueryExecutionContext.STATES.start;

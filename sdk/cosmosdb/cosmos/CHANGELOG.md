@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed concurrent query iterators mutating caller-provided `FeedOptions` continuation state.
+
+### Other Changes
+
 ## 4.10.1 (2026-09-14)
 
 ### Bugs Fixed

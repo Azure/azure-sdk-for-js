@@ -21,7 +21,6 @@ import { withDiagnostics } from "../utils/diagnostics.js";
 export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
   private container: Container;
   private encryptionClientContext: ClientContext;
-  private encryptionOptions: FeedOptions;
 
   constructor(
     clientContext: ClientContext,
@@ -33,7 +32,6 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     super(clientContext, query, options, fetchFunctions, container.url, ResourceType.item);
     this.container = container;
     this.encryptionClientContext = clientContext;
-    this.encryptionOptions = options;
   }
 
   /**
@@ -131,7 +129,8 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
   public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // Ensure encryption is initialized and set rid in options
     await this.container.checkAndInitializeEncryption();
-    this.encryptionOptions.containerRid = this.container._rid;
+    this.updateQueryOptions({ containerRid: this.container._rid });
+    this.createDefaultQueryExecutionContext();
     await QueryIterator.prototype.init.call(this, diagnosticNode);
   }
 }
