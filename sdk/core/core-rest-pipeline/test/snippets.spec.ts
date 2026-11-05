@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { TokenCredential } from "@azure/core-auth";
 import {
   AddPipelineOptions,
   HttpClient,
@@ -11,23 +10,9 @@ import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-  authorizeRequestOnTenantChallenge,
-  bearerTokenAuthenticationPolicy,
 } from "../src/index.js";
 
 describe("snippets", () => {
-  it("ReadmeSampleTenantChallenge", () => {
-    function createStorageAuthenticationPolicy(credential: TokenCredential): PipelinePolicy {
-      return bearerTokenAuthenticationPolicy({
-        credential,
-        scopes: ["https://storage.azure.com/.default"],
-        challengeCallbacks: {
-          authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
-        },
-      });
-    }
-  });
-
   it("ReadmeSampleSendRequest", () => {
     type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });
