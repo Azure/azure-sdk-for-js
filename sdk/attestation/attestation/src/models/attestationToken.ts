@@ -52,7 +52,8 @@ const DEFAULT_VALIDATION_OPTIONS: AttestationTokenValidationOptions = {
  */
 export interface AttestationTokenValidationOptions {
   /**
-   * If true, validate the attestation token, if false, skip validation.
+   * If true, validate the attestation token, if false, skip validation,
+   * including `validateAttestationToken`. Defaults to true.
    */
   validateToken?: boolean;
   /**

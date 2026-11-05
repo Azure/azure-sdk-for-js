@@ -51,7 +51,8 @@ export interface AttestationClientOptions extends CommonClientOptions {
 export interface AttestationClientOperationOptions extends OperationOptions {
   /**
    * Validation options to be used to validate attestation tokens received
-   * from the attestation service for the individual operation.
+   * from the attestation service for the individual operation. Options set here
+   * override the same options set on the client; other client options still apply.
    */
   validationOptions?: AttestationTokenValidationOptions;
 }
