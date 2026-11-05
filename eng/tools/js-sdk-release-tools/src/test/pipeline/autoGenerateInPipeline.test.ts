@@ -44,9 +44,6 @@ vi.mock("../../utils/backupNodeModules.js", () => ({
   restoreNodeModules: vi.fn(),
 }));
 vi.mock("../../hlc/generateMgmt.js", () => ({ generateMgmt: vi.fn() }));
-vi.mock("../../llc/generateRLCInPipeline/generateRLCInPipeline.js", () => ({
-  generateRLCInPipeline: vi.fn(),
-}));
 vi.mock("../../utils/logger.js", () => ({ logger: { error: vi.fn(), info: vi.fn() } }));
 
 describe("autoGenerateInPipeline package routing", () => {
