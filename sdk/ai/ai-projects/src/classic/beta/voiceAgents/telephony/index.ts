@@ -42,6 +42,7 @@ import type {
   TelephonyCallJob,
   TelephonyBindingListItemUnion,
   TelephonyBindingUnion,
+  TelephonyBindingCreateUnion,
   TelephonyCallRecord,
   TelephonyCallSummary,
   TelephonyTransferTarget,
@@ -151,7 +152,7 @@ export interface BetaVoiceAgentsTelephonyOperations {
   /** Creates a telephony binding for the voice agent named in the path. */
   createBinding: (
     agentName: string,
-    binding: TelephonyBindingUnion,
+    binding: TelephonyBindingCreateUnion,
     options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
   ) => Promise<TelephonyBindingUnion>;
 }
@@ -264,7 +265,7 @@ function _getBetaVoiceAgentsTelephony(
     ) => listBindings(context, agentName, options),
     createBinding: (
       agentName: string,
-      binding: TelephonyBindingUnion,
+      binding: TelephonyBindingCreateUnion,
       options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
     ) => run("create_binding", () => createBinding(context, agentName, binding, options)),
   };

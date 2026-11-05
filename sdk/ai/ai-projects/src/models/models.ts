@@ -17530,6 +17530,28 @@ export type TelephonyBindingUnion =
   | SipTelephonyBinding
   | TelephonyBinding;
 
+/** Telephony binding configuration supplied at creation, without service-generated fields. */
+export type TelephonyBindingCreate = Omit<TelephonyBinding, "id" | "incoming_call_url">;
+
+/** Microsoft Teams Phone extensibility binding configuration supplied at creation. */
+export type TeamsPhoneExtensibilityTelephonyBindingCreate = Omit<
+  TeamsPhoneExtensibilityTelephonyBinding,
+  "id" | "incoming_call_url"
+>;
+
+/** Twilio binding configuration supplied at creation. */
+export type TwilioTelephonyBindingCreate = Omit<TwilioTelephonyBinding, "id" | "incoming_call_url">;
+
+/** SIP binding configuration supplied at creation. */
+export type SipTelephonyBindingCreate = Omit<SipTelephonyBinding, "id" | "incoming_call_url">;
+
+/** Provider-specific binding creation inputs. */
+export type TelephonyBindingCreateUnion =
+  | TeamsPhoneExtensibilityTelephonyBindingCreate
+  | TwilioTelephonyBindingCreate
+  | SipTelephonyBindingCreate
+  | TelephonyBindingCreate;
+
 export function telephonyBindingUnionDeserializer(item: any): TelephonyBindingUnion {
   switch (item["provider"]) {
     case "teams_phone_extensibility":
@@ -30534,7 +30556,7 @@ export function voiceAgentLiveDelegationResultItemDeserializer(
 export type VoiceAgentLiveDelegationStatus =
   "in_progress" | "completed" | "failed" | "incomplete" | "cancelled";
 
-export function telephonyBindingSerializer(item: TelephonyBinding): any {
+export function telephonyBindingSerializer(item: TelephonyBindingCreate): any {
   return {
     provider: item["provider"],
     connection_name: item["connection_name"],
@@ -30542,18 +30564,18 @@ export function telephonyBindingSerializer(item: TelephonyBinding): any {
   };
 }
 
-export function telephonyBindingUnionSerializer(item: TelephonyBindingUnion): any {
+export function telephonyBindingUnionSerializer(item: TelephonyBindingCreateUnion): any {
   switch (item.provider) {
     case "teams_phone_extensibility":
       return teamsPhoneExtensibilityTelephonyBindingSerializer(
-        item as TeamsPhoneExtensibilityTelephonyBinding,
+        item as TeamsPhoneExtensibilityTelephonyBindingCreate,
       );
 
     case "twilio":
-      return twilioTelephonyBindingSerializer(item as TwilioTelephonyBinding);
+      return twilioTelephonyBindingSerializer(item as TwilioTelephonyBindingCreate);
 
     case "sip":
-      return sipTelephonyBindingSerializer(item as SipTelephonyBinding);
+      return sipTelephonyBindingSerializer(item as SipTelephonyBindingCreate);
 
     default:
       return telephonyBindingSerializer(item);
@@ -30561,7 +30583,7 @@ export function telephonyBindingUnionSerializer(item: TelephonyBindingUnion): an
 }
 
 export function teamsPhoneExtensibilityTelephonyBindingSerializer(
-  item: TeamsPhoneExtensibilityTelephonyBinding,
+  item: TeamsPhoneExtensibilityTelephonyBindingCreate,
 ): any {
   return {
     provider: item["provider"],
@@ -30572,7 +30594,7 @@ export function teamsPhoneExtensibilityTelephonyBindingSerializer(
   };
 }
 
-export function twilioTelephonyBindingSerializer(item: TwilioTelephonyBinding): any {
+export function twilioTelephonyBindingSerializer(item: TwilioTelephonyBindingCreate): any {
   return {
     provider: item["provider"],
     connection_name: item["connection_name"],
@@ -30581,7 +30603,7 @@ export function twilioTelephonyBindingSerializer(item: TwilioTelephonyBinding): 
   };
 }
 
-export function sipTelephonyBindingSerializer(item: SipTelephonyBinding): any {
+export function sipTelephonyBindingSerializer(item: SipTelephonyBindingCreate): any {
   return {
     provider: item["provider"],
     connection_name: item["connection_name"],
@@ -30829,7 +30851,13 @@ export interface TelephonyCampaign {
   readonly progress: TelephonyCampaignProgress;
 }
 
-export function telephonyCampaignSerializer(item: TelephonyCampaign): any {
+/** Campaign creation/replacement inputs. Service-managed state is returned only in responses. */
+export type TelephonyCampaignCreate = Pick<
+  TelephonyCampaign,
+  "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy"
+>;
+
+export function telephonyCampaignSerializer(item: TelephonyCampaignCreate): any {
   return {
     connection_name: item["connection_name"],
     source: telephonyAddressUnionSerializer(item["source"]),

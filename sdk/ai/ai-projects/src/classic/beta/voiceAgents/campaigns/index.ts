@@ -4,6 +4,7 @@
 import type { AIProjectContext } from "../../../../api/aiProjectContext.js";
 import type {
   TelephonyCampaign,
+  TelephonyCampaignCreate,
   TelephonyCampaignOperation,
   TelephonyCampaignValidationError,
 } from "../../../../models/models.js";
@@ -72,7 +73,7 @@ export interface BetaVoiceAgentsCampaignsOperations {
   create: (
     agentName: string,
     campaignName: string,
-    campaign: TelephonyCampaign,
+    campaign: TelephonyCampaignCreate,
     options?: BetaVoiceAgentsCampaignsCreateOptionalParams,
   ) => PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
 }
@@ -114,7 +115,7 @@ export function _getBetaVoiceAgentsCampaignsOperations(
     create: (
       agentName: string,
       campaignName: string,
-      campaign: TelephonyCampaign,
+      campaign: TelephonyCampaignCreate,
       options?: BetaVoiceAgentsCampaignsCreateOptionalParams,
     ) => create(context, agentName, campaignName, campaign, options),
   };

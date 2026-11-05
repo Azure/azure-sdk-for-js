@@ -12,6 +12,7 @@ import {
 } from "../../../../models/models.js";
 import type {
   TelephonyCampaign,
+  TelephonyCampaignCreate,
   TelephonyCampaignOperation,
   _TelephonyCampaignPageTelephonyCampaign,
   _TelephonyCampaignValidationErrorPage,
@@ -295,19 +296,30 @@ export function cancel(
   ifMatch: string,
   options: BetaVoiceAgentsCampaignsCancelOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
-  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _cancelSend(context, agentName, campaignName, ifMatch, options),
-    apiVersion: context.apiVersion ?? "v1",
-    pollHeaders: {
-      "foundry-features": "VoiceAgents=V1Preview",
-      "if-match": ifMatch,
-      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+  let initiatingOperationId: string | undefined;
+  return getLongRunningPoller(
+    context,
+    () => getCampaignResult(context, agentName, campaignName, initiatingOperationId, options),
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: async () => {
+        const response = await _cancelSend(context, agentName, campaignName, ifMatch, options);
+        initiatingOperationId = response.headers["operation-id"];
+        return response;
+      },
+      skipFinalGet: true,
+      apiVersion: context.apiVersion ?? "v1",
+      pollHeaders: {
+        "foundry-features": "VoiceAgents=V1Preview",
+        "if-match": ifMatch,
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
     },
-  }) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
+  ) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
 }
 
 export function _listSend(
@@ -445,7 +457,7 @@ export function _createSend(
   context: Client,
   agentName: string,
   campaignName: string,
-  campaign: TelephonyCampaign,
+  campaign: TelephonyCampaignCreate,
   options: BetaVoiceAgentsCampaignsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
@@ -496,21 +508,50 @@ export function create(
   context: Client,
   agentName: string,
   campaignName: string,
-  campaign: TelephonyCampaign,
+  campaign: TelephonyCampaignCreate,
   options: BetaVoiceAgentsCampaignsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
-  return getLongRunningPoller(context, _createDeserialize, ["201", "200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createSend(context, agentName, campaignName, campaign, options),
-    resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "v1",
-    pollHeaders: {
-      "foundry-features": "VoiceAgents=V1Preview",
-      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+  let initiatingOperationId: string | undefined;
+  return getLongRunningPoller(
+    context,
+    () => getCampaignResult(context, agentName, campaignName, initiatingOperationId, options),
+    ["201", "200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: async () => {
+        const response = await _createSend(context, agentName, campaignName, campaign, options);
+        initiatingOperationId = response.headers["operation-id"];
+        return response;
+      },
+      skipFinalGet: true,
+      apiVersion: context.apiVersion ?? "v1",
+      pollHeaders: {
+        "foundry-features": "VoiceAgents=V1Preview",
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
     },
-  }) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
+  ) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
+}
+
+/**
+ * The declared final operation is a Campaign GET guarded by the initiating response's
+ * Operation-Id, not the latest action in the resource body or the caller's retry key.
+ * Core-lro's inferred PUT GET is unguarded, while POST would return the resource-free
+ * monitor, so both pollers skip that inference and resolve through this operation.
+ */
+function getCampaignResult(
+  context: Client,
+  agentName: string,
+  campaignName: string,
+  operationId: string | undefined,
+  options: BetaVoiceAgentsCampaignsGetOptionalParams,
+): Promise<TelephonyCampaign> {
+  if (!operationId) {
+    throw new Error("Campaign response is missing the required Operation-Id header.");
+  }
+  return get(context, agentName, campaignName, { ...options, operationId });
 }

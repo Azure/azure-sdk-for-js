@@ -18,6 +18,7 @@ import {
 } from "../../../../models/models.js";
 import type {
   TelephonyBindingUnion,
+  TelephonyBindingCreateUnion,
   _AgentsPagedResultTelephonyBindingListItem,
   TelephonyBindingListItemUnion,
   UpdateTelephonyBindingRequest,
@@ -986,7 +987,7 @@ export function listBindings(
 export function _createBindingSend(
   context: Client,
   agentName: string,
-  binding: TelephonyBindingUnion,
+  binding: TelephonyBindingCreateUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1043,7 +1044,7 @@ export async function _createBindingDeserialize(
 export async function createBinding(
   context: Client,
   agentName: string,
-  binding: TelephonyBindingUnion,
+  binding: TelephonyBindingCreateUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyBindingUnion> {
   const result = await _createBindingSend(context, agentName, binding, options);

@@ -27,6 +27,8 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
    */
   resourceLocationConfig?: ResourceLocationConfig;
+  /** Skip core-lro's inferred final GET when the operation supplies its own final result lookup. */
+  skipFinalGet?: boolean;
   /**
    * The original url of the LRO
    * Should not be null when restoreFrom is set
@@ -288,6 +290,7 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
   return createHttpPoller(poller, {
     intervalInMs: options?.updateIntervalInMs,
     resourceLocationConfig: options?.resourceLocationConfig,
+    skipFinalGet: options?.skipFinalGet,
     restoreFrom: options?.restoreFrom,
     processResult: (result: unknown) => {
       return processResponseBody(result as TResponse);

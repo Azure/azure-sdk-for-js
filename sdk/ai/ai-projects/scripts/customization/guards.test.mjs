@@ -94,6 +94,50 @@ test("protected SDK_VERSION may only synchronize its literal to the package vers
   }
 });
 
+test("protected polling helper admits only the optional core-lro skipFinalGet forwarding", () => {
+  const file = "static-helpers/pollingHelpers.ts";
+  const emitted = `
+export interface GetLongRunningPollerOptions<T> { getInitialResponse?: () => PromiseLike<T>; }
+export function getLongRunningPoller(client, processResult, expectedStatuses, options) {
+  return createHttpPoller(client, { processResult });
+}`;
+  const customized = emitted.replace(
+    "{ processResult }",
+    "{ processResult, intervalInMs: options?.updateIntervalInMs }",
+  );
+  const resolved = customized
+    .replace("getInitialResponse?:", "skipFinalGet?: boolean; getInitialResponse?:")
+    .replace("{ processResult,", "{ skipFinalGet: options?.skipFinalGet, processResult,");
+  const fixture = {
+    baseGenerated: tree({ [file]: emitted }),
+    baseSource: tree({ [file]: customized }),
+    generated: tree({ [file]: emitted }),
+  };
+  assert.deepEqual(validate({ ...fixture, source: tree({ [file]: resolved }) }), []);
+  for (const unsafe of [
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet: boolean"),
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet?: string"),
+    resolved.replace("skipFinalGet: options?.skipFinalGet", "skipFinalGet: true"),
+    resolved.replace("options?.updateIntervalInMs", "0"),
+    resolved.replace("createHttpPoller(client,", "differentPoller(client,"),
+    resolved.replace("getInitialResponse?:", "pollHeaders?: string; getInitialResponse?:"),
+  ]) {
+    assert.ok(
+      validate({ ...fixture, source: tree({ [file]: unsafe }) }).some((diagnostic) =>
+        diagnostic.message.includes("Protected customization"),
+      ),
+      unsafe,
+    );
+  }
+  const otherFile = "static-helpers/other.ts";
+  assert.ok(
+    validate({
+      baseSource: tree({ [otherFile]: customized }),
+      source: tree({ [otherFile]: resolved }),
+    }).some((diagnostic) => diagnostic.message.includes("Protected customization")),
+  );
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';

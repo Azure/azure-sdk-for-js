@@ -1956,7 +1956,7 @@ export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams exte
 // @public
 export interface BetaVoiceAgentsCampaignsOperations {
     cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    create: (agentName: string, campaignName: string, campaign: TelephonyCampaign, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
     deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsGetOptionalParams) => Promise<TelephonyCampaign>;
     getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
@@ -2239,7 +2239,7 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
 // @public
 export interface BetaVoiceAgentsTelephonyOperations {
     cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    createBinding: (agentName: string, binding: TelephonyBindingUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    createBinding: (agentName: string, binding: TelephonyBindingCreateUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     createCallJob: (agentName: string, idempotencyKey: string, job: TelephonyCallJobCreate, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
     deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
     deleteCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
@@ -7340,6 +7340,9 @@ export interface SipTelephonyBinding extends TelephonyBinding {
 }
 
 // @public
+export type SipTelephonyBindingCreate = Omit<SipTelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
 export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
     allowed_calling_numbers?: string[];
     phone_number?: string;
@@ -7482,6 +7485,9 @@ export interface TeamsPhoneExtensibilityTelephonyBinding extends TelephonyBindin
 }
 
 // @public
+export type TeamsPhoneExtensibilityTelephonyBindingCreate = Omit<TeamsPhoneExtensibilityTelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
 export interface TeamsPhoneExtensibilityTelephonyBindingListItem extends TelephonyBindingListItem {
     phone_number?: string;
     provider: "teams_phone_extensibility";
@@ -7548,6 +7554,12 @@ export interface TelephonyBinding {
     label?: string;
     provider: TelephonyProvider;
 }
+
+// @public
+export type TelephonyBindingCreate = Omit<TelephonyBinding, "id" | "incoming_call_url">;
+
+// @public
+export type TelephonyBindingCreateUnion = TeamsPhoneExtensibilityTelephonyBindingCreate | TwilioTelephonyBindingCreate | SipTelephonyBindingCreate | TelephonyBindingCreate;
 
 // @public
 export interface TelephonyBindingListItem {
@@ -7757,6 +7769,9 @@ export interface TelephonyCampaign {
     readonly status: TelephonyCampaignStatus;
     readonly updated_at: Date;
 }
+
+// @public
+export type TelephonyCampaignCreate = Pick<TelephonyCampaign, "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy">;
 
 // @public
 export interface TelephonyCampaignOperation {
@@ -8306,6 +8321,9 @@ export interface TwilioTelephonyBinding extends TelephonyBinding {
     phone_number: string;
     provider: "twilio";
 }
+
+// @public
+export type TwilioTelephonyBindingCreate = Omit<TwilioTelephonyBinding, "id" | "incoming_call_url">;
 
 // @public
 export interface TwilioTelephonyBindingListItem extends TelephonyBindingListItem {
