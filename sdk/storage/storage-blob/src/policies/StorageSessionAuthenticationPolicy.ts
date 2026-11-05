@@ -10,7 +10,6 @@ import type {
 import {
   StorageSharedKeyCredential,
   buildStorageSharedKeyStringToSign,
-  prepareSharedKeyHeaders,
 } from "@azure/storage-common";
 import {
   ContainerSessionProvider,
@@ -119,7 +118,6 @@ function signRequest(
     );
   }
 
-  prepareSharedKeyHeaders(request);
   const stringToSign = buildStorageSharedKeyStringToSign(request, accountName);
   const signature = new StorageSharedKeyCredential(
     accountName,
