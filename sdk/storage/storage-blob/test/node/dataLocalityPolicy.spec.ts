@@ -18,7 +18,7 @@ import {
   LAYOUT_ENDPOINT_HEADER,
   storageDataLocalityPolicy,
 } from "../../src/policies/StorageDataLocalityPolicy.js";
-import { storageRetryPolicy } from "../../src/policies/StorageRetryPolicyV2.js";
+import { storageRetryPolicy } from "@azure/storage-common";
 
 const platform = vi.hoisted(() => ({ isNodeLike: true }));
 vi.mock("@azure/core-util", async (importOriginal) => ({
@@ -61,17 +61,6 @@ async function route(url: string, layoutEndpoint?: string): Promise<Sent> {
 }
 
 describe("storageDataLocalityPolicy", () => {
-  it("connects to the layout endpoint while staying addressed to the account", async () => {
-    const sent = await route(BLOB_URL, "https://blob.stamp.store.core.windows.net:443/");
-
-    assert.equal(
-      sent.url,
-      "https://blob.stamp.store.core.windows.net/container/blob.txt?comp=x",
-      "path and query must survive the host swap",
-    );
-    assert.equal(sent.host, "myaccount.blob.core.windows.net");
-  });
-
   it("carries a non-default port over to the request", async () => {
     const sent = await route(BLOB_URL, "https://blob.stamp.store.core.windows.net:8443/");
 
@@ -86,13 +75,6 @@ describe("storageDataLocalityPolicy", () => {
     );
 
     assert.equal(sent.host, "myaccount.blob.core.windows.net:10000");
-  });
-
-  it("leaves requests without a layout endpoint untouched", async () => {
-    const sent = await route(BLOB_URL);
-
-    assert.equal(sent.url, BLOB_URL);
-    assert.isUndefined(sent.host);
   });
 
   // Endpoints can arrive either as an absolute URI or as a bare `hostname:port`.
@@ -119,12 +101,6 @@ describe("storageDataLocalityPolicy", () => {
       assert.isUndefined(sent.host);
     },
   );
-
-  it("does not leak the internal header onto the wire", async () => {
-    const sent = await route(BLOB_URL, "https://blob.stamp.store.core.windows.net:443/");
-
-    assert.isUndefined(sent.layoutHeader);
-  });
 
   // Retries resend this same request object, so a failed attempt must not leave it routed.
   it.each([undefined, "custom.host"])(

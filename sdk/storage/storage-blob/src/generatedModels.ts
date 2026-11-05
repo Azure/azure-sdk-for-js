@@ -53,9 +53,6 @@ import type {
   PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseInternal,
   PageBlobGetPageRangesHeaders,
-  BlobGetLayoutResponse as BlobGetLayoutResponseInternal,
-  BlobGetLayoutHeaders,
-  BlobLayout,
   PageBlobResizeHeaders,
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
@@ -309,9 +306,6 @@ export type PageBlobGetPageRangesResponseModel = WithResponse<
   PageBlobGetPageRangesHeaders,
   PageList
 >;
-/** Contains response data for the getLayout operation. A 204 response has no body. */
-export type BlobGetLayoutResponseModel = BlobGetLayoutResponseInternal &
-  ResponseWithBody<BlobGetLayoutHeaders, BlobLayout | undefined>;
 /** Contains response data for the resize operation. */
 export type PageBlobResizeResponse = WithResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>;
 /** Contains response data for the updateSequenceNumber operation. */
@@ -371,8 +365,6 @@ export type {
   BlobDeleteImmutabilityPolicyHeaders,
   BlobDownloadHeaders,
   BlobGetAccountInfoHeaders,
-  BlobGetLayoutHeaders,
-  BlobGetLayoutResponseInternal,
   BlobGetPropertiesHeaders,
   BlobGetTagsHeaders,
   BlobTags,
@@ -462,11 +454,6 @@ export type {
   ClearRange,
   CpkInfo,
   DeleteSnapshotsOptionType,
-  DownloadHint,
-  BlobLayout,
-  BlobLayoutRange,
-  BlobLayoutEndpoint,
-  LayoutEndpoint,
   EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,

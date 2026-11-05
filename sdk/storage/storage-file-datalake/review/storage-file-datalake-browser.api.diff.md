@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -20,26 +20,24 @@
+@@ -16,25 +16,23 @@
  import type { ContainerRenameResponse } from '@azure/storage-blob';
  import type { ContainerUndeleteResponse } from '@azure/storage-blob';
  import { Credential as Credential_2 } from '@azure/storage-common';
@@ -23,7 +23,6 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { isRestError } from '@azure/core-rest-pipeline';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import { LayoutAwareRouting } from '@azure/storage-blob';
- import { LayoutEndpoint } from '@azure/storage-blob';
  import { Lease } from '@azure/storage-blob';
  import { LeaseAccessConditions } from '@azure/storage-blob';
  import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -35,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import { OperationOptions } from '@azure-rest/core-client';
  import type { OperationTracingOptions } from '@azure/core-tracing';
  import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-@@ -68,10 +66,9 @@
+@@ -61,10 +59,9 @@
  import { StorageRetryOptions } from '@azure/storage-common';
  import { StorageRetryPolicy } from '@azure/storage-common';
  import { StorageRetryPolicyFactory } from '@azure/storage-common';
@@ -47,7 +46,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-@@ -114,54 +111,8 @@
+@@ -107,54 +104,8 @@
      // (undocumented)
      startsOn?: Date;
  }
@@ -102,7 +101,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -267,9 +218,11 @@
+@@ -260,9 +211,11 @@
      contentType?: string;
      encryptionScope?: string;
      expiresOn?: Date;
@@ -114,7 +113,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      requestHeaders?: RequestHeaders;
      requestQueryParameters?: RequestQueryParameters;
      startsOn?: Date;
-@@ -295,10 +248,8 @@
+@@ -288,10 +241,8 @@
  export { Credential_2 as Credential }
  
  export { CredentialPolicy }
@@ -125,7 +124,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class DataLakeAclChangeFailedError extends Error {
      constructor(error: RestError | Error, continuationToken?: string);
      continuationToken?: string;
-@@ -326,8 +277,9 @@
+@@ -319,8 +270,9 @@
  }
  
  // @public
@@ -135,7 +134,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -448,56 +400,13 @@
+@@ -440,56 +392,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -193,7 +192,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -553,28 +462,13 @@
+@@ -545,28 +454,13 @@
  }
  
  // @public
@@ -223,7 +222,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -639,8 +533,9 @@
+@@ -631,8 +525,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -233,7 +232,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -939,8 +834,9 @@
+@@ -902,8 +797,9 @@
  }
  
  // @public
@@ -243,7 +242,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -1087,25 +983,8 @@
+@@ -1050,25 +946,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -269,7 +268,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1176,17 +1055,8 @@
+@@ -1139,17 +1018,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -287,7 +286,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1195,10 +1065,8 @@
+@@ -1158,10 +1028,8 @@
  export { HttpRequestBody }
  
  export { isPipelineLike }
@@ -296,9 +295,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
  export { LayoutAwareRouting }
  
- export { LayoutEndpoint }
+ export { Lease }
  
-@@ -1301,10 +1169,8 @@
+@@ -1262,10 +1130,8 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -309,7 +308,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Path {
      // (undocumented)
      contentLength?: number;
-@@ -2056,78 +1922,8 @@
+@@ -2017,78 +1883,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -388,7 +387,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2240,12 +2036,8 @@
+@@ -2201,12 +1997,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

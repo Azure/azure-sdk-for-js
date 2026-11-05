@@ -510,15 +510,12 @@ if (downloadResponse.readableStreamBody) {
 
 ### Read files from the endpoints that store them (Node.js)
 
-File reads can use the layout-aware routing provided by `@azure/storage-blob`. When the first chunk that `readToBuffer` reads comes back with a hint that the file has a layout, the remaining chunks can be read directly from the storage endpoints that hold them, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in.
+File reads can use the layout-aware routing provided by `@azure/storage-blob`. When the first chunk that `readToBuffer` reads comes back with a hint that the file has a layout, the remaining chunks can be read directly from the storage endpoints that hold them, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in. When the account doesn't support it, the file is read from the account endpoint as usual.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
-
-To route your own reads, `getLayout` returns the file's layout and `read` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
 
 ```ts snippet:ReadmeSampleLayoutAwareRouting
 import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import { DefaultAzureCredential } from "@azure/identity";
-import { buffer } from "node:stream/consumers";
 
 const account = "<account>";
 const datalakeServiceClient = new DataLakeServiceClient(
@@ -533,20 +530,6 @@ const downloaded = await fileClient.readToBuffer(0, undefined, {
   layoutAwareRouting: "enabled",
 });
 console.log(`Downloaded ${downloaded.length} bytes`);
-
-// To route reads yourself, read each range of the layout from the endpoint that serves it.
-for await (const page of fileClient.getLayout()) {
-  for (const range of page.ranges) {
-    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
-    const response = await fileClient.read(range.start, range.end - range.start + 1, {
-      layoutEndpoint: endpoint?.value,
-    });
-    if (response.readableStreamBody) {
-      const bytes = await buffer(response.readableStreamBody);
-      console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
-    }
-  }
-}
 ```
 
 ## Troubleshooting

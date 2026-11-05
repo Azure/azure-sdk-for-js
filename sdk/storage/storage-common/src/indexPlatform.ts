@@ -28,7 +28,6 @@ export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
 export { buildStorageSharedKeyStringToSign } from "./policies/SharedKeySigning.js";
 export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
-export * from "./policies/StorageDataLocalityPolicy.js";
 export * from "#platform/credentials/UserDelegationKeyCredential";
 export type { UserDelegationKey } from "./credentials/UserDelegationKey.js";
 
