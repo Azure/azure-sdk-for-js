@@ -1,13 +1,11 @@
 # Release History
 
-## 1.0.0-beta.47 (Unreleased)
+## 1.0.0-beta.47 (2026-11-05)
 
 ### Features Added
 
 - Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
 - Added an opt-in 4 MiB limit for `gen_ai.input.messages` and `gen_ai.output.messages` through `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=gen_ai_input_output_limit_increase`. Default GenAI limits remain at 256 KiB, and all other custom dimensions remain limited to 8 KiB. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
-
-### Breaking Changes
 
 ### Bugs Fixed
 
