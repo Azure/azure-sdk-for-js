@@ -32,8 +32,8 @@ export function createNetworkSecurityManagement(
   subscriptionId: string,
   options: NetworkSecurityManagementClientOptionalParams = {},
 ): NetworkSecurityManagementContext {
-  const armEndpoint = getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
-  const endpointUrl = options.endpoint ?? armEndpoint;
+  const endpointUrl =
+    options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-networksecurity/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
@@ -47,7 +47,7 @@ export function createNetworkSecurityManagement(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [`${armEndpoint.replace(/\/$/, "")}/.default`],
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
