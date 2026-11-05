@@ -55,11 +55,7 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({
-  createResourceGroupStack,
-  createSubscriptionStack,
-  values,
-}: BuildScenarioHelpers) {
+function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
   const p_accountName = stack.parameters.add("accountName", "string", {
     defaultValue: fn.format("cassandra-{0}", fn.uniqueString(fn.resourceGroup().id)),
@@ -105,7 +101,7 @@ function buildScenarioStack({
   const p_tableName = stack.parameters.add("tableName", "string", {
     description: "The name for the Cassandra table",
   });
-  const p_throughput = stack.parameters.add("throughput", "int", {
+  stack.parameters.add("throughput", "int", {
     defaultValue: 400,
     minValue: 400,
     maxValue: 1e6,

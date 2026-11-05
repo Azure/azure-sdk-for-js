@@ -51,11 +51,7 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({
-  createResourceGroupStack,
-  createSubscriptionStack,
-  values,
-}: BuildScenarioHelpers) {
+function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
   const p_accountName = stack.parameters.add("accountName", "string", {
     defaultValue: fn.format("gremlin-{0}", fn.uniqueString(fn.resourceGroup().id)),

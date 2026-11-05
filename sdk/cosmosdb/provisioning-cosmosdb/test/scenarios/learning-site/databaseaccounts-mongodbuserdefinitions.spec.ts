@@ -54,11 +54,7 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({
-  createResourceGroupStack,
-  createSubscriptionStack,
-  values,
-}: BuildScenarioHelpers) {
+function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
   const p_resourceName = stack.parameters.add("resourceName", "string", {
     defaultValue: "acctest0001",

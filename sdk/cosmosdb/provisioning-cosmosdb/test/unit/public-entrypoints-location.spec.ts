@@ -49,11 +49,7 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({
-  createResourceGroupStack,
-  createSubscriptionStack,
-  values,
-}: BuildScenarioHelpers) {
+function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
   const stack = createSubscriptionStack();
   const resource0 = new Location(stack, {
     name: "location-test",

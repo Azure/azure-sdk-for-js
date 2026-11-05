@@ -52,11 +52,7 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({
-  createResourceGroupStack,
-  createSubscriptionStack,
-  values,
-}: BuildScenarioHelpers) {
+function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
   const stack = createResourceGroupStack();
   const resource0 = new DatabaseAccount(stack, {
     name: "databaseaccount-test",
