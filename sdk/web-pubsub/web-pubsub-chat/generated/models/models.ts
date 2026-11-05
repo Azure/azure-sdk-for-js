@@ -543,6 +543,108 @@ export function chatUserRoomDeserializer(item: any): ChatUserRoom {
   };
 }
 
+/** Represents a chat message. */
+export interface ChatMessageUpdate {
+  /** User who created the message. */
+  createdBy: string;
+  /** Message content. */
+  content: MessageContent;
+}
+
+export function chatMessageUpdateSerializer(item: ChatMessageUpdate): any {
+  return { createdBy: item["createdBy"], content: messageContentSerializer(item["content"]) };
+}
+
+/**
+ * Represents a chat role.
+ * A role name must start with 'user.' or 'room.' prefix.
+ * A role must contain either user permissions or room permissions, but not both.
+ */
+export interface ChatRoleCreateOrUpdate {
+  /** Permissions associated with the role. Do not mix user permissions and room permissions in one role. */
+  permissions: ChatPermission[];
+}
+
+export function chatRoleCreateOrUpdateSerializer(item: ChatRoleCreateOrUpdate): any {
+  return {
+    permissions: item["permissions"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Represents a chat room. */
+export interface ChatRoomCreateOrUpdate {
+  /** Room title. */
+  title: string;
+}
+
+export function chatRoomCreateOrUpdateSerializer(item: ChatRoomCreateOrUpdate): any {
+  return { title: item["title"] };
+}
+
+/** Represents a chat topic in a room. */
+export interface ChatTopicCreateOrUpdate {
+  /** Topic title. */
+  title: string;
+  /** Current lifecycle state of the topic. */
+  state: ChatTopicState;
+}
+
+export function chatTopicCreateOrUpdateSerializer(item: ChatTopicCreateOrUpdate): any {
+  return { title: item["title"], state: item["state"] };
+}
+
+/** Represents a room member. */
+export interface ChatRoomMemberCreateOrUpdate {
+  /** Room role assigned to the user within this room. */
+  roleName: string;
+}
+
+export function chatRoomMemberCreateOrUpdateSerializer(item: ChatRoomMemberCreateOrUpdate): any {
+  return { roleName: item["roleName"] };
+}
+
+/**
+ * Represents a user profile in the chat system. This is a discriminated base type;
+ * concrete payloads are selected by the `kind` field (e.g. `HumanChatUser`).
+ */
+export interface ChatUserCreateOrUpdate {
+  /** The kind of user. */
+  /** The discriminator possible values: Human */
+  kind: ChatUserKind;
+  /** User's display nickname. */
+  nickname: string;
+}
+
+export function chatUserCreateOrUpdateSerializer(item: ChatUserCreateOrUpdate): any {
+  return { kind: item["kind"], nickname: item["nickname"] };
+}
+
+/** Alias for ChatUserCreateOrUpdateUnion */
+export type ChatUserCreateOrUpdateUnion = HumanChatUserCreateOrUpdate | ChatUserCreateOrUpdate;
+
+export function chatUserCreateOrUpdateUnionSerializer(item: ChatUserCreateOrUpdateUnion): any {
+  switch (item.kind) {
+    case "Human":
+      return humanChatUserCreateOrUpdateSerializer(item as HumanChatUserCreateOrUpdate);
+
+    default:
+      return chatUserCreateOrUpdateSerializer(item);
+  }
+}
+
+/** A human end-user, identified by a user role. */
+export interface HumanChatUserCreateOrUpdate extends ChatUserCreateOrUpdate {
+  kind: "Human";
+  /** Global user role assigned to the user. Must start with `user.`. */
+  roleName: string;
+}
+
+export function humanChatUserCreateOrUpdateSerializer(item: HumanChatUserCreateOrUpdate): any {
+  return { kind: item["kind"], nickname: item["nickname"], roleName: item["roleName"] };
+}
+
 /** Service API versions. */
 export enum KnownVersions {
   /** The 2026-02-01-preview API version. */

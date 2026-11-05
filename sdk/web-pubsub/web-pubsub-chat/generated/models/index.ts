@@ -16,6 +16,14 @@ export type {
   ChatUserKind,
   HumanChatUser,
   ChatUserRoom,
+  ChatMessageUpdate,
+  ChatRoleCreateOrUpdate,
+  ChatRoomCreateOrUpdate,
+  ChatTopicCreateOrUpdate,
+  ChatRoomMemberCreateOrUpdate,
+  ChatUserCreateOrUpdate,
+  ChatUserCreateOrUpdateUnion,
+  HumanChatUserCreateOrUpdate,
 } from "./models.js";
 export {
   KnownChatPermission,

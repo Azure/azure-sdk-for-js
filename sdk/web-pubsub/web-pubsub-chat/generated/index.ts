@@ -23,6 +23,14 @@ export type {
   ChatUserKind,
   HumanChatUser,
   ChatUserRoom,
+  ChatMessageUpdate,
+  ChatRoleCreateOrUpdate,
+  ChatRoomCreateOrUpdate,
+  ChatTopicCreateOrUpdate,
+  ChatRoomMemberCreateOrUpdate,
+  ChatUserCreateOrUpdate,
+  ChatUserCreateOrUpdateUnion,
+  HumanChatUserCreateOrUpdate,
 } from "./models/index.js";
 export {
   KnownChatPermission,
@@ -30,7 +38,11 @@ export {
   KnownChatUserKind,
   KnownVersions,
 } from "./models/index.js";
-export type { GenerateClientTokenResponse } from "./models/customizations/index.js";
+export type {
+  ChatTopicUpdateCustomized,
+  GenerateClientTokenResponse,
+  ChatTopicUpdateCustomizedUpdate,
+} from "./models/customizations/index.js";
 export type {
   GenerateClientTokenOptionalParams,
   ListRoomsForUserOptionalParams,
