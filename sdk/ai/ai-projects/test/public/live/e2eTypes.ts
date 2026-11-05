@@ -22,6 +22,7 @@ export interface LiveE2EObservedEvent {
   elapsedMs: number;
   type: string;
   eventId?: string;
+  clientEventId?: string;
   sessionId?: string;
   delegationId?: string;
   responseId?: string;
@@ -82,6 +83,12 @@ export interface LiveE2EObservation {
     browserHandshakeStatus?: number;
     toolResultsSent: number;
     continuationRequested: boolean;
+    audioListenerCalls: number;
+    onceListenerCalls: number;
+    removedListenerCalls: number;
+    directCommandsAcknowledged?: number;
+    closeMethod?: "close" | "dispose";
+    inputSpeechRepresentation?: "ArrayBuffer" | "Uint8Array";
   };
 }
 
@@ -129,6 +136,9 @@ export function createLiveE2EObservation(
       failures: [],
       toolResultsSent: 0,
       continuationRequested: false,
+      audioListenerCalls: 0,
+      onceListenerCalls: 0,
+      removedListenerCalls: 0,
     },
   };
 }
@@ -236,8 +246,19 @@ export async function exerciseLiveE2E(
   let commentaryAcknowledged = false;
   let sending = true;
   let socketClosed = false;
-  let lastOutputTranscriptAt = 0;
   const seenEvents = new Set<string>();
+  const speech = new LiveSpeechActivity();
+  const directCommands = new Map([
+    ["e2e-direct-send", "session.input_audio.muted"],
+    ["e2e-alias-send", "session.input_audio.unmuted"],
+  ]);
+  const acknowledgedDirectCommands = new Set<string>();
+  const audioListener = (): void => {
+    observation.diagnostics.audioListenerCalls++;
+  };
+  const removedListener = (): void => {
+    observation.diagnostics.removedListenerCalls++;
+  };
 
   const observe = (event: VoiceAgentLiveEvent): void => {
     if ("event_id" in event && seenEvents.has(event.event_id)) return;
@@ -247,11 +268,17 @@ export async function exerciseLiveE2E(
       elapsedMs: Date.now() - started,
       type: event.type === "unknown" ? (safeLabel(event.eventType) ?? "unknown") : event.type,
       eventId: "event_id" in event ? safeIdentifier(event.event_id) : undefined,
+      clientEventId: "client_event_id" in event ? safeIdentifier(event.client_event_id) : undefined,
       startMs: "start_ms" in event ? event.start_ms : undefined,
       endMs: "end_ms" in event ? event.end_ms : undefined,
       offsetMs: "offset_ms" in event ? event.offset_ms : undefined,
     };
     observation.nativeEvents.push(metadata);
+    speech.observe(event);
+    if (metadata.clientEventId && directCommands.get(metadata.clientEventId) === event.type) {
+      acknowledgedDirectCommands.add(metadata.clientEventId);
+      observation.diagnostics.directCommandsAcknowledged = acknowledgedDirectCommands.size;
+    }
     switch (event.type) {
       case "session.started":
       case "session.updated":
@@ -294,7 +321,6 @@ export async function exerciseLiveE2E(
       case "session.output_transcript.delta":
         metadata.transcriptDelta = event.delta;
         observation.outputTranscript += event.delta;
-        lastOutputTranscriptAt = Date.now();
         break;
       case "session.delegation.created":
         metadata.delegationId = safeIdentifier(event.delegation.id);
@@ -390,6 +416,12 @@ export async function exerciseLiveE2E(
   const receive = (async () => {
     for await (const event of connection) observe(event);
   })().catch((error: unknown) => recordLiveE2EFailure(observation, error, "receive"));
+  connection.on("session.output_audio.delta", audioListener);
+  connection.on("session.output_audio.delta", removedListener);
+  connection.off("session.output_audio.delta", removedListener);
+  connection.once("session.output_audio.delta", () => {
+    observation.diagnostics.onceListenerCalls++;
+  });
   void connection.closed.then(() => {
     socketClosed = true;
     return undefined;
@@ -398,9 +430,10 @@ export async function exerciseLiveE2E(
     // Live advances on a continuous audio clock, including for appended text and Responses.
     if (flow === "audio") {
       requireLiveE2E(pcm.length > 0 && pcm.length % 2 === 0, "invalid_pcm_fixture", "input-audio");
+      observation.diagnostics.inputSpeechRepresentation = "ArrayBuffer";
       for (let offset = 0; sending && offset < pcm.length; offset += 4800) {
         const chunk = pcm.subarray(offset, offset + 4800);
-        await connection.sendAudio(chunk);
+        await connection.sendAudio(new Uint8Array(chunk).buffer);
         observation.inputAudioBytes += chunk.length;
         observation.inputSpeechBytes += chunk.length;
         await delay((chunk.length / 48_000) * 1000);
@@ -430,6 +463,14 @@ export async function exerciseLiveE2E(
     requireLiveE2E(connection.session.store !== true, "unexpected_native_persistence", "session");
     if (flow === "text") {
       observation.diagnostics.stage = "append-text";
+      await connection.send({
+        type: "session.input_audio.mute",
+        event_id: "e2e-direct-send",
+      });
+      await connection.sendEvent({
+        type: "session.input_audio.unmute",
+        event_id: "e2e-alias-send",
+      });
       await connection.appendInstructions(
         "Speak the next commentary now, in one sentence. Include the words amber lighthouse, then listen silently.",
       );
@@ -438,6 +479,7 @@ export async function exerciseLiveE2E(
         () =>
           instructionsAcknowledged &&
           commentaryAcknowledged &&
+          acknowledgedDirectCommands.size === directCommands.size &&
           /amber lighthouse.*ready/i.test(observation.outputTranscript) &&
           observation.outputAudioBytes >= 4800,
         "text-output",
@@ -514,8 +556,36 @@ export async function exerciseLiveE2E(
       );
       requireLiveE2E(tools.size === 1, "repeated_function_call", "tool-continuation");
     }
-    // Live has no transcript/audio done event. Let the last spoken fragment settle before closing.
-    await until(() => Date.now() - lastOutputTranscriptAt >= 750, "settle-output");
+    // Audio continues through silence; wait for speech activity, not total clock bytes, to settle.
+    observation.diagnostics.stage = "settle-output";
+    await speech.waitForSpeech(AbortSignal.timeout(10_000));
+    if (flow === "audio") {
+      requireLiveE2E(
+        /capital[\s\S]*france/i.test(observation.inputTranscript),
+        "unexpected_audio_transcription",
+        "assertions",
+      );
+      requireLiveE2E(
+        /paris/i.test(observation.outputTranscript),
+        "unexpected_spoken_answer",
+        "assertions",
+      );
+    }
+    requireLiveE2E(
+      observation.diagnostics.audioListenerCalls > 1,
+      "audio_listener_not_called",
+      "assertions",
+    );
+    requireLiveE2E(
+      observation.diagnostics.onceListenerCalls === 1,
+      "once_listener_repeated",
+      "assertions",
+    );
+    requireLiveE2E(
+      observation.diagnostics.removedListenerCalls === 0,
+      "removed_listener_called",
+      "assertions",
+    );
     requireLiveE2E(observation.inputAudioBytes > 0, "no_input_audio", "assertions");
     requireLiveE2E(observation.outputAudioBytes > 0, "no_output_audio", "assertions");
     requireLiveE2E(observation.outputNonSilentSamples > 200, "no_audible_output", "assertions");
@@ -526,12 +596,15 @@ export async function exerciseLiveE2E(
     await send;
     observation.diagnostics.stage = "close-session";
     try {
-      await connection.close();
+      observation.diagnostics.closeMethod = flow === "text" ? "dispose" : "close";
+      if (flow === "text") await connection.dispose();
+      else await connection.close();
     } catch (error) {
       recordLiveE2EFailure(observation, error);
     }
     const closed = await connection.closed;
     await receive;
+    connection.off("session.output_audio.delta", audioListener);
     if (closed.error) recordLiveE2EFailure(observation, closed.error, "socket-close");
     if (closed.sessionClosed) {
       try {

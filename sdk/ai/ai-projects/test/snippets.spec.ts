@@ -12,6 +12,8 @@ import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
+  LiveServerEventLiveErrorEvent,
+  LiveServerEventLiveInstructionsAppended,
   MCPTool,
   ModelDeployment,
   ToolUnion,
@@ -45,9 +47,39 @@ describe("snippets", function () {
     const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
       store: false,
     });
+    const eventId = "brief-instructions";
+    // Requires an agent configured for mono PCM16LE at 24 kHz.
+    const silence = new Uint8Array(4_800); // 100 ms of audio.
+    let correlatedAck = false;
+    let serviceError: Error | undefined;
+    const onAppended = (event: LiveServerEventLiveInstructionsAppended): void => {
+      if (event.client_event_id === eventId) correlatedAck = true;
+    };
+    const onError = (event: LiveServerEventLiveErrorEvent): void => {
+      serviceError = new Error(event.error.message);
+    };
+    connection.on("session.instructions.appended", onAppended);
+    connection.on("error", onError);
     try {
-      await connection.appendInstructions("Keep your answers brief.");
+      await connection.appendInstructions("Keep your answers brief.", { eventId });
+      const deadline = Date.now() + 10_000;
+      while (!correlatedAck) {
+        if (serviceError) throw serviceError;
+        if (connection.state !== "connected") {
+          throw new Error(
+            `Live connection became ${connection.state} before the instructions ACK.`,
+          );
+        }
+        if (Date.now() >= deadline) {
+          throw new Error("Timed out waiting for the correlated instructions ACK.");
+        }
+        await connection.sendAudio(silence);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      if (serviceError) throw serviceError;
     } finally {
+      connection.off("session.instructions.appended", onAppended);
+      connection.off("error", onError);
       await connection.close();
     }
   });

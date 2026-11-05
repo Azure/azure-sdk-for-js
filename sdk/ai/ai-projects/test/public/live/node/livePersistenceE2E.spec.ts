@@ -939,7 +939,7 @@ async function deleteConversation(
     `${id} deleted is absent`,
     (options) => collect(conversations.list(run.agentName, { ...options, limit: 1, order: "asc" })),
     {
-      timeoutMs: 5000,
+      timeoutMs: 15_000,
       verify: (values) => expect(values.map((value) => value.id)).not.toContain(id),
     },
   );

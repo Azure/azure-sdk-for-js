@@ -3,8 +3,9 @@
 
 import "dotenv/config";
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
@@ -43,6 +44,7 @@ describe.runIf(isLiveMode())("GPT Live native E2E", () => {
     let browser: Browser | undefined;
     let server: ViteDevServer | undefined;
     let browserUrl: string | undefined;
+    let browserCacheDirectory: string | undefined;
 
     beforeAll(async () => {
       if (runtime !== "chromium") return;
@@ -51,10 +53,12 @@ describe.runIf(isLiveMode())("GPT Live native E2E", () => {
         setup.diagnostics.stage = "browser-server";
         const root = fileURLToPath(new URL("../../../../", import.meta.url));
         const browserEntry = fileURLToPath(new URL("../browser/liveE2EClient.ts", import.meta.url));
+        browserCacheDirectory = await mkdtemp(join(tmpdir(), "ai-projects-live-e2e-"));
         server = await createServer({
           configFile: false,
           envFile: false,
           root,
+          cacheDir: browserCacheDirectory,
           publicDir: false,
           logLevel: "silent",
           envPrefix: "__GPT_LIVE_E2E_NO_PUBLIC_ENV__",
@@ -137,6 +141,13 @@ describe.runIf(isLiveMode())("GPT Live native E2E", () => {
         await server?.close();
       } catch (error) {
         recordLiveE2EFailure(cleanup, error, "vite-cleanup");
+      }
+      try {
+        if (browserCacheDirectory) {
+          await rm(browserCacheDirectory, { recursive: true, force: true });
+        }
+      } catch (error) {
+        recordLiveE2EFailure(cleanup, error, "vite-cache-cleanup");
       }
       expect(cleanup.diagnostics.failures).toEqual([]);
     }, 20_000);

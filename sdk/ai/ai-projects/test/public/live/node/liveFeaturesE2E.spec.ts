@@ -304,7 +304,7 @@ async function create(
   report.agentNames.push(name);
   await project.agents.create(name, config, {
     foundryFeatures: preview,
-    abortSignal: AbortSignal.timeout(30_000),
+    abortSignal: AbortSignal.timeout(60_000),
   });
   return name;
 }
