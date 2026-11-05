@@ -1,29 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Readable } from "stream";
+
 /**
- * Checks for the readable-stream and event methods needed for Node uploads.
- * Supports structural streams without requiring a native Readable instance.
+ * Checks if the given value is a Node.js readable stream.
  *
  * @internal
  */
 export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return (
-    typeof x === "object" &&
-    x !== null &&
-    "readable" in x &&
-    typeof x.readable === "boolean" &&
-    "pipe" in x &&
-    typeof x.pipe === "function" &&
-    "unpipe" in x &&
-    typeof x.unpipe === "function" &&
-    "on" in x &&
-    typeof x.on === "function" &&
-    "once" in x &&
-    typeof x.once === "function" &&
-    "removeListener" in x &&
-    typeof x.removeListener === "function"
-  );
+  return x instanceof Readable;
 }
 
 /**

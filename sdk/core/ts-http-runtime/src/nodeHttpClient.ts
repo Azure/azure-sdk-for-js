@@ -22,7 +22,6 @@ import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
 import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
-import { isNodeReadableStream as isReadableStream } from "./util/typeGuards-node.js";
 import {
   addExpectContinueFraming,
   createExpectContinueRequest,
@@ -36,6 +35,12 @@ import {
 } from "./util/responseBody.js";
 
 const DEFAULT_TLS_SETTINGS = {};
+
+function isReadableStream(body: unknown): body is NodeJS.ReadableStream {
+  return (
+    typeof body === "object" && body !== null && "pipe" in body && typeof body.pipe === "function"
+  );
+}
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   if (stream.readable === false) {

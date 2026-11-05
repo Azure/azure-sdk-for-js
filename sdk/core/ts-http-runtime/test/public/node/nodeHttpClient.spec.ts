@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { PassThrough, Readable, Writable } from "node:stream";
+import { PassThrough, Readable, Stream, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import {
   createDefaultHttpClient,
@@ -627,6 +627,46 @@ describe("NodeHttpClient", function () {
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
   });
+
+  it.each([false, true])(
+    "accepts a legacy pipe-capable body without modern Readable properties (negotiated=%s)",
+    async (negotiated) => {
+      const source = new Stream();
+      const chunks: Buffer[] = [];
+      const writable = new Writable({
+        write(chunk: Buffer, _encoding, callback) {
+          chunks.push(chunk);
+          callback();
+        },
+        final(callback) {
+          callback();
+          yieldHttpsResponse(createResponse(200));
+        },
+      });
+      vi.mocked(https.request).mockReturnValueOnce(writable as unknown as ClientRequest);
+
+      expect(source).not.toBeInstanceOf(Readable);
+      expect("readable" in source).toBe(false);
+      expect("unpipe" in source).toBe(false);
+      const result = createDefaultHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://example.com",
+          method: "POST",
+          headers: createHttpHeaders(negotiated ? { Expect: "100-continue" } : {}),
+          // Legacy Stream exposes pipe/events without the full modern Readable interface.
+          body: source as unknown as NodeJS.ReadableStream,
+        }),
+      );
+      if (negotiated) {
+        writable.emit("continue");
+      }
+      source.emit("data", Buffer.from("legacy payload"));
+      source.emit("end");
+
+      expect((await result).status).toBe(200);
+      expect(Buffer.concat(chunks).toString()).toBe("legacy payload");
+    },
+  );
 
   it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";

@@ -31,33 +31,6 @@ import {
 } from "../../../src/util/nodeExpectContinue.js";
 import { isNodeReadableStream } from "../../../src/util/typeGuards-node.js";
 
-class StructuralReadable extends Stream implements NodeJS.ReadableStream {
-  public readable = true;
-  public read = vi.fn(() => Buffer.from("unused"));
-  public setEncoding(): this {
-    return this;
-  }
-  public pause(): this {
-    return this;
-  }
-  public resume(): this {
-    return this;
-  }
-  public isPaused(): boolean {
-    return true;
-  }
-  public unpipe(): this {
-    return this;
-  }
-  public unshift(): void {}
-  public wrap(): this {
-    return this;
-  }
-  public async *[Symbol.asyncIterator](): AsyncIterableIterator<Buffer> {
-    yield this.read();
-  }
-}
-
 function createOptions(suppressDestroyError = true): {
   request: Writable & {
     flushHeaders: Mock<() => void>;
@@ -104,23 +77,15 @@ function createOptions(suppressDestroyError = true): {
 }
 
 describe("Expect header detection and framing", () => {
-  it("recognizes native and structural readable streams through body normalization", () => {
-    for (const source of [new Readable({ read() {} }), new StructuralReadable()]) {
-      expect(isNodeReadableStream(source)).toBe(true);
-      expect(getRequestBody(source, "application/json").body).toBe(source);
-      expect(buildBodyPart({ body: source }).body).toBe(source);
-    }
+  it("recognizes native Readable instances through body normalization", () => {
+    const source = new Readable({ read() {} });
+
+    expect(isNodeReadableStream(source)).toBe(true);
+    expect(isNodeReadableStream(new Stream())).toBe(false);
+    expect(getRequestBody(source, "application/json").body).toBe(source);
+    expect(buildBodyPart({ body: source }).body).toBe(source);
+    source.destroy();
   });
-
-  it.each(["readable", "pipe", "unpipe", "on", "once", "removeListener"])(
-    "does not recognize an incomplete stream without %s",
-    (property) => {
-      const source = new StructuralReadable();
-      Object.defineProperty(source, property, { value: undefined });
-
-      expect(isNodeReadableStream(source)).toBe(false);
-    },
-  );
 
   it("detects 100-continue case-insensitively and honors replacement overrides", () => {
     expect(
