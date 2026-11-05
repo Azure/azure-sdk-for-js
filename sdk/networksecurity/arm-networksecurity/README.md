@@ -34,8 +34,7 @@ npm install @azure/arm-networksecurity
 
 ### Create and authenticate a `NetworkSecurityManagementClient`
 
-To create a client object to access the Azure NetworkSecurityManagement API, you will need the `endpoint` of your Azure NetworkSecurityManagement resource and a `credential`. The Azure NetworkSecurityManagement client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure NetworkSecurityManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure NetworkSecurityManagement API, you will need your Azure subscription ID and a `credential`. The client uses the Azure Resource Manager endpoint by default, not a resource-specific endpoint. You can select an Azure cloud with the optional `cloudSetting` option or override the ARM endpoint with the optional `endpoint` option. The client can use Microsoft Entra credentials to authenticate.
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 

@@ -493,21 +493,11 @@ export interface NeuroShieldPatch {
 
 export function neuroShieldPatchSerializer(item: NeuroShieldPatch): any {
   return {
-    tags: !item["tags"] ? item["tags"] : _neuroShieldPatchTagsSerializer(item["tags"]),
+    tags: !item["tags"] ? item["tags"] : serializeRecord(item["tags"]),
     properties: !item["properties"]
       ? item["properties"]
       : neuroShieldPatchPropertiesSerializer(item["properties"]),
   };
-}
-
-/** model interface _NeuroShieldPatchTags */
-export interface _NeuroShieldPatchTags {
-  /** Additional properties */
-  additionalProperties?: Record<string, string>;
-}
-
-export function _neuroShieldPatchTagsSerializer(item: _NeuroShieldPatchTags): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
 
 /** Properties to patch on a NeuroShield resource. */
@@ -807,8 +797,10 @@ export function neuroShieldProtectedResourceIdentitySerializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : _neuroShieldProtectedResourceIdentityUserAssignedIdentitiesSerializer(
+      : serializeRecord(
           item["userAssignedIdentities"],
+          undefined,
+          neuroShieldProtectedResourceUserAssignedIdentitySerializer,
         ),
   };
 }
@@ -822,8 +814,10 @@ export function neuroShieldProtectedResourceIdentityDeserializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : _neuroShieldProtectedResourceIdentityUserAssignedIdentitiesDeserializer(
+      : serializeRecord(
           item["userAssignedIdentities"],
+          [],
+          neuroShieldProtectedResourceUserAssignedIdentityDeserializer,
         ),
   };
 }
@@ -851,36 +845,6 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
-
-/** model interface _NeuroShieldProtectedResourceIdentityUserAssignedIdentities */
-export interface _NeuroShieldProtectedResourceIdentityUserAssignedIdentities {
-  /** Additional properties */
-  additionalProperties?: Record<string, NeuroShieldProtectedResourceUserAssignedIdentity>;
-}
-
-export function _neuroShieldProtectedResourceIdentityUserAssignedIdentitiesSerializer(
-  item: _NeuroShieldProtectedResourceIdentityUserAssignedIdentities,
-): any {
-  return {
-    ...serializeRecord(
-      item.additionalProperties ?? {},
-      undefined,
-      neuroShieldProtectedResourceUserAssignedIdentitySerializer,
-    ),
-  };
-}
-
-export function _neuroShieldProtectedResourceIdentityUserAssignedIdentitiesDeserializer(
-  item: any,
-): _NeuroShieldProtectedResourceIdentityUserAssignedIdentities {
-  return {
-    additionalProperties: serializeRecord(
-      item,
-      [],
-      neuroShieldProtectedResourceUserAssignedIdentityDeserializer,
-    ),
-  };
-}
 
 /** Caller-supplied identifiers of a user-assigned identity associated with the target. */
 export interface NeuroShieldProtectedResourceUserAssignedIdentity {
