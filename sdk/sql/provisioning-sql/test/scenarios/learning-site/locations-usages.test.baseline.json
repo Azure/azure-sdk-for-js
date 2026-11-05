@@ -1,0 +1,25 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "usage": {
+          "bicepIdentifier": "usage",
+          "type": "Microsoft.Sql/locations/usages",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/locationsusagesusage"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

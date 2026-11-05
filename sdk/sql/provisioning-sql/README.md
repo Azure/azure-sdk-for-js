@@ -15,6 +15,43 @@ npm install @azure/provisioning-sql @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-sql` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+```ts snippet:ReadmeSampleCreateDatabase
+import { Stack } from "@azure/provisioning-core";
+import { Server, ServerDatabase } from "@azure/provisioning-sql";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("sql-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const administratorLogin = stack.parameters.add("administratorLogin", "string");
+const administratorObjectId = stack.parameters.add("administratorObjectId", "string");
+const administratorTenantId = stack.parameters.add("administratorTenantId", "string");
+const server = new Server(stack, {
+  name: "my-unique-sql-server",
+  location: "eastus",
+  properties: {
+    version: "12.0",
+    minimalTlsVersion: "1.2",
+    administrators: {
+      administratorType: "ActiveDirectory",
+      principalType: "Group",
+      login: administratorLogin,
+      sid: administratorObjectId,
+      tenantId: administratorTenantId,
+      azureAdOnlyAuthentication: true,
+    },
+  },
+});
+const database = new ServerDatabase(server, {
+  name: "my-database",
+  location: "eastus",
+  sku: { name: "Basic", tier: "Basic" },
+});
+stack.outputs.add("databaseId", "string", database.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types
