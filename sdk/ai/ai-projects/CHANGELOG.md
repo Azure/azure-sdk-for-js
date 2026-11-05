@@ -4,10 +4,15 @@
 
 ### Breaking Changes
 
+- Replace telephony create-request models with `TelephonyBindingUnion` and `TelephonyCallJobCreate`, and rename `TelephonyOutboundFixedIntervalRetryPolicy` to `FixedIntervalRetryPolicy`. Use typed `TelephonyAddressUnion` objects for call-job sources, destinations, and transfer targets instead of scalar sources or `kind`-discriminated transfer destinations. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Remove telephony binding lifecycle `status` properties, the binding-list `status` filter, and `TelephonyBindingStatus`. Use the remaining binding configuration fields for updates. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Replace `VoiceAgentSubagentConfig.subagents` with discriminated `VoiceAgentSubagentConfigUnion` configurations. Use `VoiceAgentDelegateSubagentConfig` with `subagentType: "delegate"` for existing background specialists, or `VoiceAgentInlineSubagentConfig` with `subagentType: "inline"` for inline voice subagents. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 
 ### Features Added
 
+- Add `project.beta.voiceAgents.campaigns` for outbound campaign creation, validation errors, scheduling, cancellation, deletion, and operation tracking. Add `listCallJobs` and `deleteCallJob` to `project.beta.voiceAgents.telephony`, including campaign-filtered job listing. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Add GPT Live voice definitions and `project.beta.voiceAgents.liveConversations` for persisted conversations, items, and audio. Keep the existing Realtime voice definition and its omitted-protocol default. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Add voice system tools for language detection, digit recognition, SMS/DTMF collection and sending, and transfers, including private parameter binding and typed system-tool output. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add inline voice subagents, handoff conditions and policy, effective handoff state, and started, completed, and aborted handoff events for `project.beta.voiceAgents`. Share voice settings through `VoiceAgentVoiceConfig` while preserving the flattened audio output wire shape. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add SIP bindings to `project.beta.voiceAgents.telephony`, including optional display phone numbers and caller-number restrictions that can be cleared with an empty list. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
@@ -15,6 +20,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `8d46b0a57a38e80d47535db5705c1f9154722e9b`, retaining customized tracing, preview headers, cursor paging, and public tool aliases. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/8d46b0a57a38e80d47535db5705c1f9154722e9b). [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Regenerate the client from azure-rest-api-specs commit `047993e651cabbd249e5cf83e2a2056b6737b388`, preserving customized tool aliases, client behavior, and preview headers. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/047993e651cabbd249e5cf83e2a2056b6737b388). [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Regenerate from azure-rest-api-specs commit `ef1f55a194fedc8de81a785d685bd2749e6cc72c` to restore released tool names in generated output. Preserve `Tool*` compatibility aliases and customized converter behavior through explicit historical identity mappings. [Upstream change](https://github.com/Azure/azure-rest-api-specs/pull/47872). [#40636](https://github.com/Azure/azure-sdk-for-js/pull/40636)
 - Regenerate the client from azure-rest-api-specs commit `f5ead4e289e118a0037dabc893316670e5435850`, exposing the emitted `Tool*` names as aliases while preserving existing tool shapes and serializer dispatch. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/f5ead4e289e118a0037dabc893316670e5435850). [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
