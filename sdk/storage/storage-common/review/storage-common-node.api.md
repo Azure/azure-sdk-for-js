@@ -95,9 +95,6 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 
-// @public
-export function prepareSharedKeyHeaders(request: PipelineRequest): void;
-
 export { Readable }
 
 // @public

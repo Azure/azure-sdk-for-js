@@ -9,7 +9,7 @@ import type {
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "../utils/constants.js";
-import { buildStorageSharedKeyStringToSign, prepareSharedKeyHeaders } from "./SharedKeySigning.js";
+import { buildStorageSharedKeyStringToSign } from "./SharedKeySigning.js";
 
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.
@@ -31,8 +31,6 @@ export function storageSharedKeyCredentialPolicy(
   options: StorageSharedKeyCredentialPolicyOptions,
 ): PipelinePolicy {
   function signRequest(request: PipelineRequest): void {
-    prepareSharedKeyHeaders(request);
-
     const stringToSign: string = buildStorageSharedKeyStringToSign(request, options.accountName);
 
     const signature: string = createHmac("sha256", options.accountKey)
