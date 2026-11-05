@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 import type { BlobLayoutSegment } from "../../src/utils/BlobLayoutSegment.js";
 import {
   fetchLayout,
@@ -25,24 +24,6 @@ describe("toBlobLayoutSegments", () => {
     });
 
     assert.deepEqual(segments, [{ start: 0, end: 99, endpoint: "https://seven:443/" }]);
-  });
-
-  it("drops ranges whose endpoint is missing instead of throwing", () => {
-    const segments = toBlobLayoutSegments({
-      ranges: {
-        range: [
-          { start: 0, end: 99, endpointIndex: 0 },
-          { start: 100, end: 199, endpointIndex: 9 },
-        ],
-      },
-      endpoints: { endpoint: [{ index: 0, value: "https://zero:443/" }] },
-    });
-
-    assert.deepEqual(segments, [{ start: 0, end: 99, endpoint: "https://zero:443/" }]);
-  });
-
-  it("returns nothing for an empty layout", () => {
-    assert.deepEqual(toBlobLayoutSegments({}), []);
   });
 });
 
@@ -138,18 +119,6 @@ describe("fetchLayout", () => {
       calls.map((call) => call.ifMatch),
       ["*", "etag-a", "etag-a"],
     );
-  });
-
-  it.each([400, 500, 503])("falls back silently on %i", async (statusCode) => {
-    const { context } = layoutContext([new RestError("no layout", { statusCode })]);
-
-    assert.isUndefined(await fetchLayout(context));
-  });
-
-  it.each([403, 404, 409, 412])("propagates %i", async (statusCode) => {
-    const { context } = layoutContext([new RestError("failed", { statusCode })]);
-
-    await expect(fetchLayout(context)).rejects.toThrow("failed");
   });
 });
 

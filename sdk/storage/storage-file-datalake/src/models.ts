@@ -1664,6 +1664,13 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * the same either way.
    *
    * Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
+   *
+   * With routing enabled, the first chunk is read from the account endpoint, and the rest are
+   * routed only if the service hints that the file has a layout. If the service answers the
+   * layout request with 400 or a 5xx status, the rest is read from the account endpoint too. Any
+   * other failure fails the read as it would without routing, including a layout request that is
+   * cancelled or times out, and a routed read that still fails after the pipeline's retries, which
+   * is not retried through the account endpoint.
    */
   layoutAwareRouting?: LayoutAwareRouting;
 }

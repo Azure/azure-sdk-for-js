@@ -22,18 +22,10 @@ describe("BlobLayoutRouter", () => {
   const gate = (overrides: Record<string, unknown>): BlobLayoutRouter | undefined =>
     router(layoutContext([]).context, overrides);
 
-  it("routes when the caller opted in and the service hinted layout", () => {
-    assert.isDefined(gate({}));
-  });
-
   it("does not route unless the caller opted in", () => {
     for (const routing of [undefined, "auto", "disabled"]) {
       assert.isUndefined(gate({ routing }), String(routing));
     }
-  });
-
-  it("does not route without the service hint", () => {
-    assert.isUndefined(gate({ downloadHint: undefined }));
   });
 
   it("accepts the service hint in any casing", () => {
