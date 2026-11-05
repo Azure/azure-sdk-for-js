@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2026-11-04)
+## 2.1.0 (2026-11-04)
 
 ### Features Added
   - Added operation group ActionsOperations
@@ -190,8 +190,6 @@
   - Enum KnownProvisioningState has a new value Running
   - Enum KnownVersions has a new value V20261101
 
-### Breaking Changes
-  - Type of property experiments of class ChaosManagementClient has changed
 
 ## 2.1.0-beta.2 (2026-07-28)
 Compared with version 2.0.0
