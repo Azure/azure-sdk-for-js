@@ -4,8 +4,7 @@
 import { AIProjectContext as Client } from "../../../index.js";
 import {
   apiErrorResponseDeserializer,
-  createTelephonyBindingRequestUnionSerializer,
-  CreateTelephonyBindingRequestUnion,
+  telephonyBindingUnionSerializer,
   telephonyBindingUnionDeserializer,
   TelephonyBindingUnion,
   _AgentsPagedResultTelephonyBindingListItem,
@@ -22,10 +21,12 @@ import {
   telephonyTransferTargetsDeserializer,
   telephonyTransferTargetArraySerializer,
   TelephonyTransferTarget,
-  CreateTelephonyCallJobRequest,
-  createTelephonyCallJobRequestSerializer,
+  TelephonyCallJobCreate,
+  telephonyCallJobCreateSerializer,
   TelephonyCallJob,
   telephonyCallJobDeserializer,
+  _AgentsPagedResultTelephonyCallJob,
+  _agentsPagedResultTelephonyCallJobDeserializer,
 } from "../../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -35,6 +36,8 @@ import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import {
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
   BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
   BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
@@ -63,7 +66,7 @@ export function _cancelCallJobSend(
   options: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}:cancel{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}:cancel{?api%2Dversion}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
@@ -104,7 +107,7 @@ export async function _cancelCallJobDeserialize(
   return telephonyCallJobDeserializer(result.body);
 }
 
-/** Requests cancellation of a durable outbound call job. A connected call is allowed to finish. */
+/** Cancels future attempts using If-Match; completion may be asynchronous. New cancellation after connection returns 409 and lets the active call finish. */
 export async function cancelCallJob(
   context: Client,
   agentName: string,
@@ -123,7 +126,7 @@ export function _getCallJobSend(
   options: BetaVoiceAgentsTelephonyGetCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}{?api%2Dversion}",
     {
       agent_name: agentName,
       call_job_id: callJobId,
@@ -174,15 +177,133 @@ export async function getCallJob(
   return _getCallJobDeserialize(result);
 }
 
+export function _deleteCallJobSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  callJobId: string,
+  options: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_call_jobs/{call_job_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      call_job_id: callJobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    });
+}
+
+export async function _deleteCallJobDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a terminal, reconciled job (otherwise 409), without cancelling calls or removing Campaign outcomes/call history. Later GET returns 404; repeated DELETE returns 204. */
+export async function deleteCallJob(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  callJobId: string,
+  options: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteCallJobSend(context, foundryFeatures, agentName, callJobId, options);
+  return _deleteCallJobDeserialize(result);
+}
+
+export function _listCallJobsSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListCallJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_call_jobs{?limit,order,after,before,status,campaign_name,api%2Dversion}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      campaign_name: options?.campaignName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listCallJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultTelephonyCallJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultTelephonyCallJobDeserializer(result.body);
+}
+
+/** Lists current direct/Campaign jobs, excluding deleted or superseded rounds. Pages are live. Campaign cursors survive boundary deletion/cancel, not replacement/name reuse (400 invalid_cursor). */
+export function listCallJobs(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListCallJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyCallJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listCallJobsSend(context, foundryFeatures, agentName, options),
+    _listCallJobsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
 export function _createCallJobSend(
   context: Client,
   agentName: string,
   idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
+  job: TelephonyCallJobCreate,
   options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_call_jobs{?api%2Dversion}",
     {
       agent_name: agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -204,7 +325,7 @@ export function _createCallJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: createTelephonyCallJobRequestSerializer(body),
+      body: telephonyCallJobCreateSerializer(job),
     });
 }
 
@@ -224,15 +345,15 @@ export async function _createCallJobDeserialize(
   return telephonyCallJobDeserializer(result.body);
 }
 
-/** Creates one durable direct outbound call job. The latest agent definition is resolved when each attempt executes. */
+/** Creates one durable outbound CallJob. Each attempt pins the Agent endpoint's execution version for validation and its voice session. */
 export async function createCallJob(
   context: Client,
   agentName: string,
   idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
+  job: TelephonyCallJobCreate,
   options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyCallJob> {
-  const result = await _createCallJobSend(context, agentName, idempotencyKey, body, options);
+  const result = await _createCallJobSend(context, agentName, idempotencyKey, job, options);
   return _createCallJobDeserialize(result);
 }
 
@@ -796,11 +917,10 @@ export function _listBindingsSend(
   options: BetaVoiceAgentsTelephonyListBindingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/telephony/bindings{?provider,limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       provider: options?.provider,
-      status: options?.status,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -859,7 +979,7 @@ export function listBindings(
 export function _createBindingSend(
   context: Client,
   agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
+  binding: TelephonyBindingUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -894,7 +1014,7 @@ export function _createBindingSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: createTelephonyBindingRequestUnionSerializer(telephonyBinding),
+      body: telephonyBindingUnionSerializer(binding),
     });
 }
 
@@ -918,9 +1038,9 @@ export async function _createBindingDeserialize(
 export async function createBinding(
   context: Client,
   agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
+  binding: TelephonyBindingUnion,
   options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyBindingUnion> {
-  const result = await _createBindingSend(context, agentName, telephonyBinding, options);
+  const result = await _createBindingSend(context, agentName, binding, options);
   return _createBindingDeserialize(result);
 }
