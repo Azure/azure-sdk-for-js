@@ -19,9 +19,7 @@ async function updateNeuroShieldResource(): Promise<void> {
     "myNeuroShield",
     {
       tags: {
-        additionalProperties: {
-          env: "production",
-        },
+        env: "production",
       },
       properties: {
         responseMode: "Auto",

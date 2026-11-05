@@ -19,9 +19,7 @@ async function updateNeuroShieldResource() {
     "myNeuroShield",
     {
       tags: {
-        additionalProperties: {
-          env: "production",
-        },
+        env: "production",
       },
       properties: {
         responseMode: "Auto",
