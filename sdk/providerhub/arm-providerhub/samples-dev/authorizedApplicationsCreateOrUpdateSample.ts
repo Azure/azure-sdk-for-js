@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the authorized application.
  *
  * @summary creates or updates the authorized application.
- * x-ms-original-file: 2024-09-01/AuthorizedApplications_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/AuthorizedApplications_CreateOrUpdate.json
  */
 async function authorizedApplicationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,11 +19,11 @@ async function authorizedApplicationsCreateOrUpdate(): Promise<void> {
     "760505bf-dcfa-4311-b890-18da392a00b2",
     {
       properties: {
-        dataAuthorizations: [{ resourceTypes: ["*"], role: "ServiceOwner" }],
         providerAuthorization: {
-          managedByRoleDefinitionId: "1a3b5c7d-8e9f-10g1-1h12-i13j14k1",
           roleDefinitionId: "123456bf-gkur-2098-b890-98da392a00b2",
+          managedByRoleDefinitionId: "1a3b5c7d-8e9f-10g1-1h12-i13j14k1",
         },
+        dataAuthorizations: [{ role: "ServiceOwner", resourceTypes: ["*"] }],
       },
     },
   );

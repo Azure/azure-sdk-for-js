@@ -4,6 +4,7 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
+  "./api/customAIModels": "./src/api/customAIModels/index.ts"
   "./api/modelDeployments": "./src/api/modelDeployments/index.ts"
   "./api/modelSources": "./src/api/modelSources/index.ts"
   "./api/aiModels": "./src/api/aiModels/index.ts"

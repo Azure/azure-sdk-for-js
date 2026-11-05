@@ -24,8 +24,8 @@ import type {
 } from "../../api/bulkCreateCustom/options.js";
 import type {
   ResourceOperation,
-  OperationStatusResult,
   LocationBasedBulkCreateCustom,
+  OperationStatusResult,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

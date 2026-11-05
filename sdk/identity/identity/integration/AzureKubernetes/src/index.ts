@@ -18,12 +18,15 @@ const storageAccountUserAssigned = requireEnvVar("IDENTITY_STORAGE_NAME_USER_ASS
 const userAssignedClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
 
 // Test storage access with a credential
-async function testStorageAccess(credential: TokenCredential, storageAccount: string): Promise<void> {
+async function testStorageAccess(
+  credential: TokenCredential,
+  storageAccount: string,
+): Promise<void> {
   try {
     // Create blob service client
     const blobServiceClient = new BlobServiceClient(
       `https://${storageAccount}.blob.core.windows.net`,
-      credential
+      credential,
     );
 
     // List containers to test authentication
@@ -56,7 +59,7 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
       details: {
         name: error.name,
         code: error.code,
-        stack: error.stack
+        stack: error.stack,
       },
     });
   }
@@ -89,7 +92,7 @@ app.get(
 app.get("/workload-identity", async (req: express.Request, res: express.Response) => {
   try {
     const credential = new WorkloadIdentityCredential({
-      clientId: userAssignedClientId
+      clientId: userAssignedClientId,
     });
 
     await testStorageAccess(credential, storageAccountUserAssigned);
@@ -102,11 +105,37 @@ app.get("/workload-identity", async (req: express.Request, res: express.Response
       details: {
         name: error.name,
         code: error.code,
-        stack: error.stack
+        stack: error.stack,
       },
     });
   }
 });
+
+app.get(
+  "/workload-identity/identity-binding",
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const credential = new WorkloadIdentityCredential({
+        clientId: userAssignedClientId,
+        enableAzureProxy: true,
+      });
+
+      await testStorageAccess(credential, storageAccountUserAssigned);
+
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message || "Unknown error occurred",
+        details: {
+          name: error.name,
+          code: error.code,
+          stack: error.stack,
+        },
+      });
+    }
+  },
+);
 
 function requireEnvVar(name: string): string {
   const value = process.env[name];

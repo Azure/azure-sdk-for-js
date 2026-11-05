@@ -336,7 +336,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
       });
     });
 
-    describe.sequential("create and run function scenario for assistant", async () => {
+    describe("create and run function scenario for assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         apiVersion,

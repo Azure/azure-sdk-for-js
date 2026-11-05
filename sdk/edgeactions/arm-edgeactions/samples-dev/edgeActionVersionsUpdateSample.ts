@@ -5,23 +5,24 @@ import { EdgeActionsManagementClient } from "@azure/arm-edgeactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a EdgeActionVersion
+ * This sample demonstrates how to updates the tags of an Edge Action version. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Version properties are not changed. If deploymentType or isDefaultVersion is supplied, it must match the existing value; use swapDefault to change the default version.
  *
- * @summary update a EdgeActionVersion
- * x-ms-original-file: 2025-12-01-preview/EdgeActionVersions_Update.json
+ * @summary updates the tags of an Edge Action version. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Version properties are not changed. If deploymentType or isDefaultVersion is supplied, it must match the existing value; use swapDefault to change the default version.
+ * x-ms-original-file: 2026-10-01/EdgeActionVersions_Update.json
  */
-async function updateEdgeActionVersion(): Promise<void> {
+async function updateEdgeActionVersionTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new EdgeActionsManagementClient(credential, subscriptionId);
   const result = await client.edgeActionVersions.update("testrg", "edgeAction1", "version1", {
-    properties: { deploymentType: "others" },
+    tags: { environment: "production" },
+    properties: { deploymentType: "zip", isDefaultVersion: "True" },
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateEdgeActionVersion();
+  await updateEdgeActionVersionTags();
 }
 
 main().catch(console.error);

@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/serviceTagInformationOperations/operations.js";
 import type { ServiceTagInformationOperationsListOptionalParams } from "../../api/serviceTagInformationOperations/options.js";
-import type { ServiceTagInformation } from "../../models/microsoft/network/models.js";
+import type { ServiceTagInformation } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ServiceTagInformationOperations operations. */

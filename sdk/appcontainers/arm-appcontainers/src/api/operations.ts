@@ -1,24 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "./index.js";
-import {
-  defaultErrorResponseDeserializer,
-  JobExecution,
-  jobExecutionDeserializer,
-  GetCustomDomainVerificationIdResponse,
-} from "../models/models.js";
+import type { ContainerAppsAPIContext as Client } from "./index.js";
+import type { JobExecution, GetCustomDomainVerificationIdResponse } from "../models/models.js";
+import { defaultErrorResponseDeserializer, jobExecutionDeserializer } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   JobExecutionOptionalParams,
   GetCustomDomainVerificationIdOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _jobExecutionSend(
   context: Client,
@@ -34,7 +26,7 @@ export function _jobExecutionSend(
       resourceGroupName: resourceGroupName,
       jobName: jobName,
       jobExecutionName: jobExecutionName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +44,9 @@ export async function _jobExecutionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -86,7 +80,7 @@ export function _getCustomDomainVerificationIdSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.App/getCustomDomainVerificationId{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,7 +88,7 @@ export function _getCustomDomainVerificationIdSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "text/plain", ...options.requestOptions?.headers },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -104,7 +98,9 @@ export async function _getCustomDomainVerificationIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

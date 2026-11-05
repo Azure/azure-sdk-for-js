@@ -51,7 +51,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +91,7 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -109,7 +109,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,7 +159,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,7 +221,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,9 +233,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<WcfRelay | undefined> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<WcfRelay | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -246,7 +244,11 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? wcfRelayDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return wcfRelayDeserializer(result.body);
 }
 
 /** Returns the description for the specified WCF relay. */
@@ -256,7 +258,7 @@ export async function get(
   namespaceName: string,
   relayName: string,
   options: wCFRelaysGetOptionalParams = { requestOptions: {} },
-): Promise<WcfRelay | undefined> {
+): Promise<WcfRelay | void> {
   const result = await _getSend(context, resourceGroupName, namespaceName, relayName, options);
   return _getDeserialize(result);
 }
@@ -278,7 +280,7 @@ export function _regenerateKeysSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +348,7 @@ export function _listKeysSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +408,7 @@ export function _listAuthorizationRulesSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -448,7 +450,7 @@ export function listAuthorizationRules(
       _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, relayName, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -468,7 +470,7 @@ export function _deleteAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -530,7 +532,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -598,7 +600,7 @@ export function _getAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

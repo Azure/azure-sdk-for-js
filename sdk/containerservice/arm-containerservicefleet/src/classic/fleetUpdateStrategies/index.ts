@@ -49,6 +49,7 @@ export interface FleetUpdateStrategiesOperations {
     options?: FleetUpdateStrategiesGetOptionalParams,
   ) => Promise<FleetUpdateStrategy>;
 }
+
 function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -78,6 +79,7 @@ function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, updateStrategyName, options),
   };
 }
+
 export function _getFleetUpdateStrategiesOperations(
   context: ContainerServiceFleetContext,
 ): FleetUpdateStrategiesOperations {

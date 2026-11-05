@@ -11,6 +11,7 @@
     "../src/api/privateEndpointConnectionOperations/index.ts",
     "../src/api/protectionIntentOperations/index.ts",
     "../src/api/bMSPrepareDataMoveOperationResult/index.ts",
+    "../src/api/protectionContainerRefreshOperationStatuses/index.ts",
     "../src/api/tieringCostOperationStatus/index.ts",
     "../src/api/getTieringCostOperationResult/index.ts",
     "../src/api/fetchTieringCost/index.ts",

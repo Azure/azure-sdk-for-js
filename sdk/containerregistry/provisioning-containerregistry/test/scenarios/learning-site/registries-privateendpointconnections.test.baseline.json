@@ -1,0 +1,87 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest04"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.ContainerRegistry/registries/privateEndpointConnections",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "pec01"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateEndpoint": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Network/privateEndpoints/pe01"
+                      }
+                    }
+                  },
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "actionsRequired": {
+                        "kind": "string",
+                        "value": "None"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved for CDK package test."
+                      },
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

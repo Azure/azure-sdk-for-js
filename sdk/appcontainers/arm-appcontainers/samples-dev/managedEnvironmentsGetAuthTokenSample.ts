@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks if resource name is available.
  *
  * @summary checks if resource name is available.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_GetAuthToken.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_GetAuthToken.json
  */
 async function getManagedEnvironmentAuthToken(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Logic App extension resource
  *
  * @summary create or update a Logic App extension resource
- * x-ms-original-file: 2025-10-02-preview/LogicApps_Create.json
+ * x-ms-original-file: 2026-07-01/LogicApps_Create.json
  */
 async function createLogicAppExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function createLogicAppExtension(): Promise<void> {
     "examplerg",
     "testcontainerApp0",
     "testcontainerApp0",
-    {},
+    { resource: {} },
   );
   console.log(result);
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all connectedEnvironments for a subscription.
  *
  * @summary get all connectedEnvironments for a subscription.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironments_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironments_ListBySubscription.json
  */
 async function listConnectedEnvironmentsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a EdgeActionVersion
  *
  * @summary delete a EdgeActionVersion
- * x-ms-original-file: 2025-12-01-preview/EdgeActionVersions_Delete.json
+ * x-ms-original-file: 2026-10-01/EdgeActionVersions_Delete.json
  */
 async function deleteEdgeActionVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

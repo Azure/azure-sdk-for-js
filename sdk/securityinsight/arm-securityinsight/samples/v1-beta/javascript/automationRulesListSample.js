@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all automation rules.
  *
  * @summary gets all automation rules.
- * x-ms-original-file: 2025-07-01-preview/automationRules/AutomationRules_List.json
+ * x-ms-original-file: 2025-10-01-preview/automationRules/AutomationRules_List.json
  */
 async function automationRulesList() {
   const credential = new DefaultAzureCredential();

@@ -8,6 +8,7 @@ export interface SharedGalleryInvitesGallerySharingRejectOptionalParams extends 
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface SharedGalleryInvitesGallerySharingAcceptOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

@@ -5,44 +5,74 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to bulkAcknowledgeOperationErrors: Acknowledge bulk operation errors for a resource group
+ * This sample demonstrates how to acknowledge errors for specified operations in a resource group.
  *
- * @summary bulkAcknowledgeOperationErrors: Acknowledge bulk operation errors for a resource group
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkAcknowledgeOperationErrors_MaximumSet_Gen.json
+ * @summary acknowledge errors for specified operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkAcknowledgeOperationErrors_BasicSuccess.json
  */
-async function virtualMachineBulkOperationsBulkAcknowledgeOperationErrorsExample(): Promise<void> {
+async function _01AcknowledgeMultipleOperationErrors(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkAcknowledgeOperationErrors(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["af449548-8e1a-4079-874e-2caa4ff783cc"] },
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      ],
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to bulkAcknowledgeOperationErrors: Acknowledge bulk operation errors for a resource group
+ * This sample demonstrates how to acknowledge errors for specified operations in a resource group.
  *
- * @summary bulkAcknowledgeOperationErrors: Acknowledge bulk operation errors for a resource group
- * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkAcknowledgeOperationErrors_MinimumSet_Gen.json
+ * @summary acknowledge errors for specified operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkAcknowledgeOperationErrors_MixedResults.json
  */
-async function virtualMachineBulkOperationsBulkAcknowledgeOperationErrorsMinimumSetGen(): Promise<void> {
+async function _02AcknowledgeOperationErrorsWithMixedResults(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkAcknowledgeOperationErrors(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["af449548-8e1a-4079-874e-2caa4ff783cc"] },
+    "example-rg",
+    "eastus",
+    {
+      operationIds: [
+        "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+        "cccccccc-cccc-cccc-cccc-cccccccccccc",
+      ],
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to acknowledge errors for specified operations in a resource group.
+ *
+ * @summary acknowledge errors for specified operations in a resource group.
+ * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkAcknowledgeOperationErrors_OperationNotFoundError.json
+ */
+async function _03AcknowledgeOperationErrorsWithAnUnknownOperationIdResultingInNotFound(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineBulkOperations.bulkAcknowledgeOperationErrors(
+    "example-rg",
+    "eastus",
+    { operationIds: ["dddddddd-dddd-dddd-dddd-dddddddddddd"] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkAcknowledgeOperationErrorsExample();
-  await virtualMachineBulkOperationsBulkAcknowledgeOperationErrorsMinimumSetGen();
+  await _01AcknowledgeMultipleOperationErrors();
+  await _02AcknowledgeOperationErrorsWithMixedResults();
+  await _03AcknowledgeOperationErrorsWithAnUnknownOperationIdResultingInNotFound();
 }
 
 main().catch(console.error);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EffectiveRoutesParameters } from "../../models/microsoft/network/models.js";
+import type { EffectiveRoutesParameters } from "../../models/network/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ModelDeployment resources by AIManagerNamespace
  *
  * @summary list ModelDeployment resources by AIManagerNamespace
- * x-ms-original-file: 2026-05-02-preview/ModelDeployments_ListByAIManagerNamespace.json
+ * x-ms-original-file: 2026-09-02-preview/ModelDeployments_ListByAIManagerNamespace.json
  */
 async function modelDeploymentsListByAIManagerNamespaceMaximumSet() {
   const credential = new DefaultAzureCredential();

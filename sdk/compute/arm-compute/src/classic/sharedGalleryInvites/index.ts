@@ -59,6 +59,7 @@ export interface SharedGalleryInvitesOperations {
     options?: SharedGalleryInvitesGallerySharingAcceptOptionalParams,
   ) => Promise<void>;
 }
+
 function _getSharedGalleryInvites(context: ComputeManagementContext) {
   return {
     gallerySharingReject: (
@@ -149,6 +150,7 @@ function _getSharedGalleryInvites(context: ComputeManagementContext) {
     },
   };
 }
+
 export function _getSharedGalleryInvitesOperations(
   context: ComputeManagementContext,
 ): SharedGalleryInvitesOperations {

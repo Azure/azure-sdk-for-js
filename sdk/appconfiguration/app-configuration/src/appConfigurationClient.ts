@@ -237,8 +237,9 @@ export class AppConfigurationClient {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (...args) => {
+            status = args[0].status;
+            updatedOptions.onResponse?.(...args);
           },
           requestOptions: {
             ...updatedOptions.requestOptions,
@@ -281,6 +282,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         let rawResponse: any;
+        let callbackThrew = false;
         logger.info("[getConfigurationSetting] Getting key value pair");
         try {
           const originalResponse = await this.client.getKeyValue(encodePathParameter(id.key), {
@@ -289,9 +291,15 @@ export class AppConfigurationClient {
             select: formatFieldsForSelect(options.fields),
             ...formatAcceptDateTime(options),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-            onResponse: (response) => {
-              status = response.status;
-              rawResponse = response;
+            onResponse: (...args) => {
+              status = args[0].status;
+              rawResponse = args[0];
+              try {
+                updatedOptions.onResponse?.(...args);
+              } catch (error) {
+                callbackThrew = true;
+                throw error;
+              }
             },
             requestOptions: {
               ...updatedOptions.requestOptions,
@@ -303,6 +311,9 @@ export class AppConfigurationClient {
           assertResponse(response);
           return response;
         } catch (error) {
+          if (callbackThrew) {
+            throw error;
+          }
           const err = error as RestError;
           // 304 only comes back if the user has passed a conditional option in their
           // request _and_ the remote object has the same etag as what the user passed.

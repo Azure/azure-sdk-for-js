@@ -36,6 +36,7 @@ export interface GatesOperations {
     options?: GatesGetOptionalParams,
   ) => Promise<Gate>;
 }
+
 function _getGates(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -58,6 +59,7 @@ function _getGates(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, gateName, options),
   };
 }
+
 export function _getGatesOperations(context: ContainerServiceFleetContext): GatesOperations {
   return {
     ..._getGates(context),

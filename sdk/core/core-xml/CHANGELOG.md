@@ -1,5 +1,17 @@
 # Release History
 
+## 1.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Strip leading byte order marks before parsing XML in browsers. [PR #40032](https://github.com/Azure/azure-sdk-for-js/pull/40032)
+
+### Other Changes
+
 ## 1.6.0 (2026-07-13)
 
 ### Other Changes

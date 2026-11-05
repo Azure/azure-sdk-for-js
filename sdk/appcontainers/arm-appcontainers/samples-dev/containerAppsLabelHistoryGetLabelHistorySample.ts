@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get the history of a label.
+ * This sample demonstrates how to gets the revision history associated with a Container App label.
  *
- * @summary get the history of a label.
- * x-ms-original-file: 2025-10-02-preview/LabelHistory_Get.json
+ * @summary gets the revision history associated with a Container App label.
+ * x-ms-original-file: 2026-07-01/LabelHistory_Get.json
  */
 async function getContainerAppSingleLabelHistory(): Promise<void> {
   const credential = new DefaultAzureCredential();

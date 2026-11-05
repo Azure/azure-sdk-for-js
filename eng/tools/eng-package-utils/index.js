@@ -9,6 +9,11 @@ import json5 from "json5";
 import { findPackages } from "@pnpm/fs.find-packages";
 
 /**
+ * @typedef {Awaited<ReturnType<typeof findPackages>>[number]["manifest"]} PackageManifest
+ * @typedef {{src: string, json: PackageManifest, versionPolicy: string, projectFolder: string, newVer: string | undefined}} RepoPackage
+ */
+
+/**
  * @param {string} filename - file to read from
  */
 export async function readFileJson(filename) {
@@ -33,9 +38,16 @@ export async function readFileJson(filename) {
   }
 }
 
+/**
+ * @param {Awaited<ReturnType<typeof findPackages>>[number]} project
+ */
 function getVersionPolicyName(project) {
   const packageName = project.manifest.name;
   const packageDir = project.rootDirRealPath;
+  if (!packageName) {
+    throw new Error(`Package at ${packageDir} does not have a name`);
+  }
+
   if (packageName.startsWith("@azure-tests/")) {
     return "test";
   } else if (
@@ -62,12 +74,10 @@ function getVersionPolicyName(project) {
  * This is specifically used in set-dev-dependencies script.
  *
  * @param {string} repoRoot - path to the root of the repo
- * @returns {Promise<Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>>}
+ * @returns {Promise<Record<string, RepoPackage>>}
  */
 export async function getPackageJsons(repoRoot) {
-  /**
-   * @type {Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>}
-   */
+  /** @type {Record<string, RepoPackage>} */
   const packageData = {};
   const pkgs = await findPackages(repoRoot, {
     patterns: ["sdk/*/*", "common/tools/*"],
@@ -75,7 +85,12 @@ export async function getPackageJsons(repoRoot) {
   });
 
   for (const proj of pkgs) {
-    packageData[proj.manifest.name] = {
+    const packageName = proj.manifest.name;
+    if (!packageName) {
+      throw new Error(`Package at ${proj.rootDirRealPath} does not have a name`);
+    }
+
+    packageData[packageName] = {
       src: path.join(proj.rootDirRealPath, "package.json"),
       json: proj.manifest,
       versionPolicy: getVersionPolicyName(proj),
@@ -109,7 +124,3 @@ export async function getPackageSpec(repoRoot) {
 
   return { projects };
 }
-
-// This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-// and adapted to exclude beginning of line (^) and end of line ($) anchors.
-const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;

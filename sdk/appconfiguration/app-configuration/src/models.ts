@@ -3,7 +3,8 @@
 
 import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { HttpClient, PipelineOptions } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig, OperationOptions } from "@azure-rest/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 
@@ -89,7 +90,20 @@ export interface SettingLabel {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {
+export interface AppConfigurationClientOptions extends PipelineOptions {
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS.
+   */
+  allowInsecureConnection?: boolean;
+  /**
+   * Additional policies to include in the HTTP pipeline.
+   */
+  additionalPolicies?: AdditionalPolicyConfig[];
+
   /**
    * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
    * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
@@ -100,7 +114,9 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
    * The audience to use for authentication with Microsoft Entra ID.
    * {@link KnownAppConfigAudience} can be used interchangeably with audience.
-   * If not specified, the default audience will be set to Azure Public Cloud.
+   * If not specified, the audience is inferred from the App Configuration endpoint. If the
+   * endpoint does not contain a recognizable App Configuration domain, the audience defaults to
+   * Azure Public Cloud.
    */
   audience?: string;
 }

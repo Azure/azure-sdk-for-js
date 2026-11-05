@@ -45,7 +45,7 @@ describe("apiKeyAuthenticationPolicy", () => {
     next.mockResolvedValue(successResponse);
 
     const policy = createApiKeyPolicy(apiKey, "query");
-    expect(policy.sendRequest(request, next)).rejects.toThrowError(
+    await expect(policy.sendRequest(request, next)).rejects.toThrowError(
       "Unsupported API key location: query",
     );
   });

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FabricCapacity
  *
  * @summary get a FabricCapacity
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Get.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_Get.json
  */
 async function getACapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/PrivateClouds_CreateOrUpdate.json
  */
 async function privateCloudsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function privateCloudsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_FleetNative.json
+ * x-ms-original-file: 2026-03-01/PrivateClouds_CreateOrUpdate_FleetNative.json
  */
 async function privateCloudsCreateOrUpdateFleetNative(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function privateCloudsCreateOrUpdateFleetNative(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_Stretched.json
+ * x-ms-original-file: 2026-03-01/PrivateClouds_CreateOrUpdate_Stretched.json
  */
 async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -103,7 +103,7 @@ async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_StretchedZones.json
+ * x-ms-original-file: 2026-03-01/PrivateClouds_CreateOrUpdate_StretchedZones.json
  */
 async function privateCloudsCreateOrUpdateStretchedZones(): Promise<void> {
   const credential = new DefaultAzureCredential();

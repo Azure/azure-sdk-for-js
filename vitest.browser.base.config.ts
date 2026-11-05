@@ -34,8 +34,8 @@ export default defineConfig({
       "dist-test/integration/**/*.spec.js",
       "dist-test/stress/**/*.js",
     ],
+    api: 43315,
     browser: {
-      api: 43315,
       instances: [
         {
           browser: "chromium",

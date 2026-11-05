@@ -7,7 +7,7 @@ import type { NetworkManagerDeploymentStatusOperationsListOptionalParams } from 
 import type {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListResult,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 
 /** Interface representing a NetworkManagerDeploymentStatusOperations operations. */
 export interface NetworkManagerDeploymentStatusOperationsOperations {

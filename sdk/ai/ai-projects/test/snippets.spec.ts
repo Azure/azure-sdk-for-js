@@ -40,6 +40,25 @@ describe("snippets", function () {
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("ReadmeSampleVoiceAgentTracing", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+      },
+    });
+
+    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    try {
+      await connection.sendText("Hello.");
+      for await (const event of connection) {
+        if (event.type === "response.done") break;
+      }
+    } finally {
+      await connection.close();
+    }
+  });
+
   it("previewflag", async function () {
     await project.agents.createVersion(
       "preview-agent",
@@ -51,6 +70,12 @@ describe("snippets", function () {
 
     for await (const rule of project.evaluationRules.list()) {
       console.log(rule.id);
+    }
+  });
+
+  it("agent-insight-monitors", async function () {
+    for await (const monitor of project.beta.agentInsightMonitors.list()) {
+      console.log(`${monitor.id}: ${monitor.agent_name}`);
     }
   });
 
@@ -123,6 +148,53 @@ describe("snippets", function () {
 
     await project.agents.deleteVersion(agent.name, agent.version);
     console.log("Agent deleted");
+  });
+
+  it("voiceAgent", async function () {
+    const voiceAgentName = `voice-agent-${Date.now()}`;
+    const voiceAgent = await project.beta.agents.createFromPrompt({
+      kind: "voice",
+      name: voiceAgentName,
+    });
+    try {
+      const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
+      try {
+        await connection.sendText("Hello. Please introduce yourself briefly.");
+        for await (const event of connection) {
+          // Voice agents speak their reply, so the text form of it streams as an audio transcript
+          // rather than as `response.output_text.delta`.
+          if (
+            event.type === "response.output_text.delta" ||
+            event.type === "response.output_audio_transcript.delta"
+          ) {
+            process.stdout.write(event.delta);
+          } else if (event.type === "unknown") {
+            // event.rawEvent preserves all wire fields; validate them before using them.
+            console.log(`Unrecognized server event: ${event.eventType}`);
+          } else if (event.type === "response.done") {
+            await connection.close();
+          }
+        }
+      } finally {
+        await connection.dispose();
+      }
+    } finally {
+      await project.agents.delete(voiceAgent.name, {
+        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+      });
+    }
+  });
+
+  it("ReadmeSampleVoiceAgentQuery", async function () {
+    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+      agentSessionId: "session-123",
+      store: false,
+      query: {
+        custom_key: "custom value",
+        custom_flag: true,
+      },
+    });
+    await connection.close();
   });
 
   it("agent-code-interpreter", async function () {
@@ -549,7 +621,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("agent-browser-automation", async function () {
     const browserAutomationProjectConnectionId =
-      process.env["BROWSER_AUTOMATION_CONNECTION_ID"] || "";
+      process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] || "";
     const agent = await project.agents.createVersion("MyAgent", {
       kind: "prompt",
       model: deploymentName,
@@ -559,8 +631,8 @@ Be direct and efficient. When you reach the search results page, read and descri
       // Define Browser Automation tool
       tools: [
         {
-          type: "browser_automation_preview",
-          browser_automation_preview: {
+          type: "browser_automation",
+          browser_automation: {
             connection: {
               project_connection_id: browserAutomationProjectConnectionId,
             },

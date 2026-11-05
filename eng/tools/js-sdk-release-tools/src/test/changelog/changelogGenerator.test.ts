@@ -818,6 +818,70 @@ export interface DataProduct {
       );
     });
 
+    test.each([
+      ["getter", "get value(): string;", "get value(): number;", "string", "number"],
+      [
+        "setter",
+        "set value(input: string | number);",
+        "set value(input: string);",
+        "string | number",
+        "string",
+      ],
+    ])("Model %s accessor type changed", async (_kind, baseline, current, oldType, newType) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        getItemsByCategory(
+          changelog.changelogItems,
+          ChangelogItemCategory.ModelPropertyTypeChanged,
+        ),
+      ).toEqual([
+        `Type of parameter value of interface DataProduct is changed from ${oldType} to ${newType}`,
+      ]);
+    });
+
+    test.each([
+      ["setter removed", "get value(): string; set value(input: string);", "get value(): string;"],
+      [
+        "setter narrowed",
+        "get value(): string; set value(input: string | number);",
+        "get value(): string; set value(input: string);",
+      ],
+    ])("Model interface %s is breaking", async (_kind, baseline, current) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport interface DataProduct { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        getItemsByCategory(
+          changelog.changelogItems,
+          ChangelogItemCategory.ModelPropertyTypeChanged,
+        ),
+      ).toEqual(["Property value of interface DataProduct has changed"]);
+    });
+
     test("Model Property Type Changed From TS Record to JS Dictionary Type", async () => {
       const baselineApiView = `
 \`\`\`ts
@@ -1139,6 +1203,145 @@ export class DataProductClient {
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassPropertyRemoved);
       expect(items).toHaveLength(1);
       expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
+    });
+
+    test("accessor type change is a breaking class property change", async () => {
+      const baselineApiView = `
+\`\`\`ts
+export class KeyVault {
+    get name(): string;
+    set name(value: string);
+}
+\`\`\`
+`;
+      const currentApiView = `
+\`\`\`ts
+export class KeyVault {
+    get name(): number;
+    set name(value: number);
+}
+\`\`\`
+`;
+      const detector = new DifferenceDetector(
+        { apiView: baselineApiView, sdkType: SDKType.ModularClient },
+        { apiView: currentApiView, sdkType: SDKType.ModularClient },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(["Type of property name of class KeyVault has changed"]);
+      expect(changelog.content).toContain("Type of property name of class KeyVault has changed");
+    });
+
+    test.each([
+      ["setter removed", "get name(): string; set name(value: string);", "get name(): string;"],
+      [
+        "setter narrowed",
+        "get name(): string; set name(value: string | number);",
+        "get name(): string; set name(value: string);",
+      ],
+      ["setter-only narrowed", "set name(value: string | number);", "set name(value: string);"],
+      [
+        "getter removed",
+        "get name(): string; set name(value: string);",
+        "set name(value: string);",
+      ],
+    ])("%s is a breaking accessor change", async (_description, baseline, current) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(["Type of property name of class KeyVault has changed"]);
+    });
+
+    test("widening only a setter input is not breaking", async () => {
+      const detector = new DifferenceDetector(
+        {
+          apiView:
+            "```ts\nexport class KeyVault { get name(): string; set name(value: string); }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView:
+            "```ts\nexport class KeyVault { get name(): string; set name(value: string | number); }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(false);
+    });
+
+    test("changing a property to an incompatible getter remains breaking", async () => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: "```ts\nexport class KeyVault { name: string; }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: "```ts\nexport class KeyVault { get name(): number; }\n```",
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(true);
+    });
+
+    test.each([
+      ["property to setter-only loses reading", "name: string;", "set name(value: string);", true],
+      ["property to narrower setter", "name: string | number;", "set name(value: string);", true],
+      ["setter-only to property adds reading", "set name(value: string);", "name: string;", false],
+      [
+        "setter-only to narrower property",
+        "set name(value: string | number);",
+        "name: string;",
+        true,
+      ],
+      ["property to getter loses writing", "name: string;", "get name(): string;", true],
+      ["getter to property adds writing", "get name(): string;", "name: string;", false],
+      ["readonly property to getter", "readonly name: string;", "get name(): string;", false],
+    ])("%s", async (_description, baseline, current, breaking) => {
+      const detector = new DifferenceDetector(
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${baseline} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+        {
+          apiView: `\`\`\`ts\nexport class KeyVault { ${current} }\n\`\`\``,
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(breaking);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(breaking ? ["Type of property name of class KeyVault has changed"] : undefined);
     });
 
     test("Class Property Removed should still be detected when $host is ignored", async () => {

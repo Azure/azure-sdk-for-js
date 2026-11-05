@@ -9,7 +9,7 @@ import type {
   ReachabilityAnalysisIntentsCreateOptionalParams,
   ReachabilityAnalysisIntentsGetOptionalParams,
 } from "../../api/reachabilityAnalysisIntents/options.js";
-import type { ReachabilityAnalysisIntent } from "../../models/microsoft/network/models.js";
+import type { ReachabilityAnalysisIntent } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReachabilityAnalysisIntents operations. */

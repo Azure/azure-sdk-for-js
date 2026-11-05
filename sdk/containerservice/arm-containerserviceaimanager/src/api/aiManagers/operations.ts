@@ -45,7 +45,7 @@ export function _listCredentialSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,6 +72,7 @@ export async function _listCredentialDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the credentials of an AI Manager. */
 export async function listCredential(
   context: Client,
@@ -91,7 +92,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/aiManagers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,6 +119,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _aiManagerListResultDeserializer(result.body);
 }
+
 /** List AIManager resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -131,7 +133,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -146,7 +148,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,6 +175,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _aiManagerListResultDeserializer(result.body);
 }
+
 /** List AIManager resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -187,7 +190,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -204,7 +207,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,6 +235,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a AIManager */
 export function $delete(
   context: Client,
@@ -244,7 +248,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, aiManagerName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -261,7 +265,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,6 +296,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return aiManagerDeserializer(result.body);
 }
+
 /** Update a AIManager */
 export async function update(
   context: Client,
@@ -317,7 +322,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -351,6 +356,7 @@ export async function _createOrUpdateDeserialize(
 
   return aiManagerDeserializer(result.body);
 }
+
 /** Create a AIManager */
 export function createOrUpdate(
   context: Client,
@@ -365,7 +371,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, aiManagerName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<AIManager>, AIManager>;
 }
 
@@ -381,7 +387,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,6 +412,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<AI
 
   return aiManagerDeserializer(result.body);
 }
+
 /** Get a AIManager */
 export async function get(
   context: Client,

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   $delete,
   createOrUpdate,
   listByProviderRegistration,
   list,
 } from "../../api/operations/operations.js";
-import {
+import type {
   OperationsDeleteOptionalParams,
   OperationsCreateOrUpdateOptionalParams,
   OperationsListByProviderRegistrationOptionalParams,
   OperationsListOptionalParams,
 } from "../../api/operations/options.js";
-import { OperationsDefinition, OperationsPutContent } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationsDefinition, OperationsPutContent } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -31,7 +31,7 @@ export interface OperationsOperations {
   listByProviderRegistration: (
     providerNamespace: string,
     options?: OperationsListByProviderRegistrationOptionalParams,
-  ) => Promise<OperationsDefinition[]>;
+  ) => Promise<OperationsPutContent>;
   /** List the operations for the provider */
   list: (
     options?: OperationsListOptionalParams,

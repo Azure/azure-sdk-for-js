@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a workspace manager group
  *
  * @summary deletes a workspace manager group
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerGroups/DeleteWorkspaceManagerGroup.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerGroups/DeleteWorkspaceManagerGroup.json
  */
 async function deleteAWorkspaceManagerGroup() {
   const credential = new DefaultAzureCredential();

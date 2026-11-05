@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AIManager resources by resource group
  *
  * @summary list AIManager resources by resource group
- * x-ms-original-file: 2026-05-02-preview/AIManagers_ListByResourceGroup.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagers_ListByResourceGroup.json
  */
 async function listsAIManagerResourcesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

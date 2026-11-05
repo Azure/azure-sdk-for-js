@@ -2,6 +2,7 @@ export enum SDKType {
   HighLevelClient = "HighLevelClient",
   RestLevelClient = "RestLevelClient",
   ModularClient = "ModularClient",
+  Provisioning = "Provisioning",
 }
 
 export enum ApiVersionType {
@@ -49,12 +50,14 @@ export interface GenerationOutputInfo {
 }
 
 export type VersionPolicyName = "management" | "client";
-export type EmitterName = "@azure-tools/typespec-ts" | "";
+export type EmitterName = "@azure-tools/typespec-ts" | "@azure-tools/typespec-ts-provisioning";
 
 export interface ModularClientPackageOptions {
   sdkRepoRoot: string;
   specRepoRoot: string;
   typeSpecDirectory: string;
+  emitterName: EmitterName;
+  emitterPackageJsonPath?: string;
   gitCommitId: string;
   skip: boolean;
   repoUrl: string;

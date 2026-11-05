@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type NetworkSecurityGroupsListAllOptionalParams,
-  type NetworkSecurityGroupsListByResourceGroupOptionalParams,
-  type NetworkSecurityGroupsDeleteOptionalParams,
-  type NetworkSecurityGroupsUpdateTagsOptionalParams,
-  type NetworkSecurityGroupsCreateOrUpdateOptionalParams,
-  type NetworkSecurityGroupsGetOptionalParams,
+export type {
+  NetworkSecurityGroupsListAllOptionalParams,
+  NetworkSecurityGroupsListByResourceGroupOptionalParams,
+  NetworkSecurityGroupsDeleteOptionalParams,
+  NetworkSecurityGroupsUpdateTagsOptionalParams,
+  NetworkSecurityGroupsCreateOrUpdateOptionalParams,
+  NetworkSecurityGroupsGetOptionalParams,
 } from "./options.js";

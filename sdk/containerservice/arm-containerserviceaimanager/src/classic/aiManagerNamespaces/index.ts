@@ -80,6 +80,7 @@ export interface AIManagerNamespacesOperations {
     options?: AIManagerNamespacesGetOptionalParams,
   ) => Promise<AIManagerNamespace>;
 }
+
 function _getAIManagerNamespaces(context: ContainerServiceContext) {
   return {
     rotateKeys: (
@@ -127,6 +128,7 @@ function _getAIManagerNamespaces(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, aiManagerName, namespaceName, options),
   };
 }
+
 export function _getAIManagerNamespacesOperations(
   context: ContainerServiceContext,
 ): AIManagerNamespacesOperations {

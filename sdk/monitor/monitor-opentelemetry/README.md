@@ -231,6 +231,13 @@ useAzureMonitor(options);
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances.
 
+Live Metrics also honors the Azure Monitor OneSettings `FEATURE_LIVE_METRICS` setting.
+Remote disablement stops QuickPulse polling, collection, and publishing without stopping
+ordinary traces, logs, or other metrics. Remote re-enablement resumes subscription polling.
+Setting `enableLiveMetrics` to `false` in the local configuration always disables Live Metrics,
+regardless of the remote setting. Missing or invalid remote settings preserve the last valid
+state; before the first valid setting, the local configuration applies.
+
 ```json
 {
     "samplingRatio": 0.8,

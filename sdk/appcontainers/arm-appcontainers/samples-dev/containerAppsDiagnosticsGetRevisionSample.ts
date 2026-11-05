@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a revision of a Container App.
  *
  * @summary get a revision of a Container App.
- * x-ms-original-file: 2025-10-02-preview/Revisions_Get1.json
+ * x-ms-original-file: 2026-07-01/Revisions_Get1.json
  */
 async function getContainerAppRevision(): Promise<void> {
   const credential = new DefaultAzureCredential();

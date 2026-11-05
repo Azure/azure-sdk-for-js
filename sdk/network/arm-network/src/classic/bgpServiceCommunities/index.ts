@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/bgpServiceCommunities/operations.js";
 import type { BgpServiceCommunitiesListOptionalParams } from "../../api/bgpServiceCommunities/options.js";
-import type { BgpServiceCommunity } from "../../models/microsoft/network/models.js";
+import type { BgpServiceCommunity } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BgpServiceCommunities operations. */

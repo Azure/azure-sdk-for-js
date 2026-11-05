@@ -8,43 +8,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to vM actions on DbNode of ExadbVmCluster by the provided filter
  *
  * @summary vM actions on DbNode of ExadbVmCluster by the provided filter
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_Action_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/ExascaleDbNodes_Action_MaximumSet_Gen.json
  */
-async function exascaleDbNodesActionMaximumSet(): Promise<void> {
+async function exascaleDbNodesActionMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbNodes.action(
-    "rgopenapi",
-    "exadbvmcluster1",
-    "exascaledbnode1",
-    { action: "Start" },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to vM actions on DbNode of ExadbVmCluster by the provided filter
- *
- * @summary vM actions on DbNode of ExadbVmCluster by the provided filter
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_Action_MinimumSet_Gen.json
- */
-async function exascaleDbNodesActionMinimumSet(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbNodes.action(
-    "rgopenapi",
-    "exadbvmcluster1",
-    "exascaledbnode1",
-    { action: "Start" },
-  );
+  const result = await client.exascaleDbNodes.action("rgopenapi", "resource1", "resource1", {
+    action: "Start",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await exascaleDbNodesActionMaximumSet();
-  await exascaleDbNodesActionMinimumSet();
+  await exascaleDbNodesActionMaximumSetGenGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

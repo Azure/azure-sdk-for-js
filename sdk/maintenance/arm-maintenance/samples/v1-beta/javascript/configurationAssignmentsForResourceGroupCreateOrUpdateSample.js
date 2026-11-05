@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to register configuration for resource.
  *
  * @summary register configuration for resource.
- * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignmentsForResourceGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01-preview/ConfigurationAssignmentsForResourceGroup_CreateOrUpdate.json
  */
 async function configurationAssignmentsForResourceGroupCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

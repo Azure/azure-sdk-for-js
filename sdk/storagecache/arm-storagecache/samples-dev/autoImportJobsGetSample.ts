@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns an auto import job.
  *
  * @summary returns an auto import job.
- * x-ms-original-file: 2026-01-01/autoImportJobs_Get.json
+ * x-ms-original-file: 2026-08-01/autoImportJobs_Get.json
  */
 async function autoImportJobsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

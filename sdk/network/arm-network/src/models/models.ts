@@ -58,6 +58,7 @@ import {
 import type {
   ApplicationGateway,
   ApplicationGatewayPrivateEndpointConnection,
+  AuthenticationPolicy,
   AzureFirewall,
   BastionHost,
   DdosCustomPolicy,
@@ -102,6 +103,8 @@ import type {
   VirtualRouter,
   VirtualRouterPeering,
   VirtualNetworkAppliance,
+  VirtualNetworkApplianceCapabilityUnion,
+  VirtualNetworkApplianceCapabilityProperties,
   ServiceGateway,
   InterconnectGroup,
   Subgroup,
@@ -119,10 +122,11 @@ import type {
   AzureFirewallFqdnTag,
   ExpressRouteServiceProvider,
   BgpServiceCommunity,
-} from "./microsoft/network/models.js";
+} from "./network/models.js";
 import {
   applicationGatewayPrivateEndpointConnectionArrayDeserializer,
   applicationGatewayArrayDeserializer,
+  authenticationPolicyArrayDeserializer,
   azureFirewallArrayDeserializer,
   bastionHostArrayDeserializer,
   ddosCustomPolicyArrayDeserializer,
@@ -167,6 +171,9 @@ import {
   virtualRouterArrayDeserializer,
   virtualRouterPeeringArrayDeserializer,
   virtualNetworkApplianceArrayDeserializer,
+  virtualNetworkApplianceCapabilityPropertiesSerializer,
+  virtualNetworkApplianceCapabilityPropertiesDeserializer,
+  virtualNetworkApplianceCapabilityUnionArrayDeserializer,
   serviceGatewayArrayDeserializer,
   subgroupArrayDeserializer,
   interconnectGroupArrayDeserializer,
@@ -184,7 +191,7 @@ import {
   azureFirewallFqdnTagArrayDeserializer,
   expressRouteServiceProviderArrayDeserializer,
   bgpServiceCommunityArrayDeserializer,
-} from "./microsoft/network/models.js";
+} from "./network/models.js";
 
 /** The error detail. */
 export interface ErrorDetail {
@@ -286,6 +293,76 @@ export function _applicationSecurityGroupListResultDeserializer(
 ): _ApplicationSecurityGroupListResult {
   return {
     value: applicationSecurityGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** The response of a AuthenticationPolicy list operation. */
+export interface _AuthenticationPolicyListResult {
+  /** The AuthenticationPolicy items on this page */
+  value: AuthenticationPolicy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _authenticationPolicyListResultDeserializer(
+  item: any,
+): _AuthenticationPolicyListResult {
+  return {
+    value: authenticationPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -532,59 +609,6 @@ export function _firewallPolicyKubeSelectorGroupListResultDeserializer(
     nextLink: item["nextLink"],
   };
 }
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
 
 /** The response of a NetworkManager list operation. */
 export interface _NetworkManagerListResult {
@@ -1382,6 +1406,100 @@ export function _virtualNetworkApplianceListResultDeserializer(
 ): _VirtualNetworkApplianceListResult {
   return {
     value: virtualNetworkApplianceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface ProxyResourceVirtualNetworkApplianceCapabilityProperties extends ArmProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VirtualNetworkApplianceCapabilityProperties;
+}
+
+export function proxyResourceVirtualNetworkApplianceCapabilityPropertiesSerializer(
+  item: ProxyResourceVirtualNetworkApplianceCapabilityProperties,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function proxyResourceVirtualNetworkApplianceCapabilityPropertiesDeserializer(
+  item: any,
+): ProxyResourceVirtualNetworkApplianceCapabilityProperties {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkApplianceCapabilityPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ArmProxyResource extends ArmResource {}
+
+export function armProxyResourceSerializer(_item: ArmProxyResource): any {
+  return {};
+}
+
+export function armProxyResourceDeserializer(item: any): ArmProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ArmResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function armResourceSerializer(_item: ArmResource): any {
+  return {};
+}
+
+export function armResourceDeserializer(item: any): ArmResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a VirtualNetworkApplianceCapability list operation. */
+export interface _VirtualNetworkApplianceCapabilityListResult {
+  /** The VirtualNetworkApplianceCapability items on this page */
+  value: VirtualNetworkApplianceCapabilityUnion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _virtualNetworkApplianceCapabilityListResultDeserializer(
+  item: any,
+): _VirtualNetworkApplianceCapabilityListResult {
+  return {
+    value: virtualNetworkApplianceCapabilityUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }

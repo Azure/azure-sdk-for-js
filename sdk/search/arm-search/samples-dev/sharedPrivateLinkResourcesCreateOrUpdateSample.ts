@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
  *
  * @summary initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/CreateOrUpdateSharedPrivateLinkResource.json
+ * x-ms-original-file: 2026-11-01/CreateOrUpdateSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,10 +20,10 @@ async function sharedPrivateLinkResourceCreateOrUpdate(): Promise<void> {
     "testResource",
     {
       properties: {
-        requestMessage: "please approve",
         groupId: "blob",
         privateLinkResourceId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+        requestMessage: "please approve",
       },
     },
   );

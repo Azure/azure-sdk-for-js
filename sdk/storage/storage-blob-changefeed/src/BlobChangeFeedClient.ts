@@ -5,8 +5,9 @@ import type {
   StoragePipelineOptions,
   StorageSharedKeyCredential,
   AnonymousCredential,
+  Pipeline,
 } from "@azure/storage-blob";
-import { BlobServiceClient, Pipeline } from "@azure/storage-blob";
+import { BlobServiceClient, isPipelineLike } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
 import { ChangeFeedFactory } from "./ChangeFeedFactory.js";
@@ -195,7 +196,7 @@ export class BlobChangeFeedClient {
       this.changeFeedClientOptions.maximumTransferSize,
     );
 
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       this.blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
     } else {
       this.blobServiceClient = new BlobServiceClient(

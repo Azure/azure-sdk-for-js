@@ -28,6 +28,21 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAccounts,
 } from "./api/accounts/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeExternalCacheConnections,
+  _updateDeserialize as _updateDeserializeExternalCacheConnections,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeExternalCacheConnections,
+} from "./api/externalCacheConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeExternalSvms,
+  _updateDeserialize as _updateDeserializeExternalSvms,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeExternalSvms,
+} from "./api/externalSvms/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeExternalClusters,
+  _updateDeserialize as _updateDeserializeExternalClusters,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeExternalClusters,
+} from "./api/externalClusters/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeActiveDirectoryConfigs,
   _updateDeserialize as _updateDeserializeActiveDirectoryConfigs,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeActiveDirectoryConfigs,
@@ -262,6 +277,39 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeAccounts, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}":
     { deserializer: _createOrUpdateDeserializeAccounts, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalCacheConnections/{externalCacheConnectionName}":
+    {
+      deserializer: _$deleteDeserializeExternalCacheConnections,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalCacheConnections/{externalCacheConnectionName}":
+    {
+      deserializer: _updateDeserializeExternalCacheConnections,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalCacheConnections/{externalCacheConnectionName}":
+    {
+      deserializer: _createOrUpdateDeserializeExternalCacheConnections,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}/externalSvms/{externalSvmName}":
+    { deserializer: _$deleteDeserializeExternalSvms, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}/externalSvms/{externalSvmName}":
+    { deserializer: _updateDeserializeExternalSvms, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}/externalSvms/{externalSvmName}":
+    {
+      deserializer: _createOrUpdateDeserializeExternalSvms,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}":
+    { deserializer: _$deleteDeserializeExternalClusters, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}":
+    { deserializer: _updateDeserializeExternalClusters, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/externalClusters/{externalClusterName}":
+    {
+      deserializer: _createOrUpdateDeserializeExternalClusters,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/activeDirectoryConfigs/{activeDirectoryConfigName}":
     {
       deserializer: _$deleteDeserializeActiveDirectoryConfigs,

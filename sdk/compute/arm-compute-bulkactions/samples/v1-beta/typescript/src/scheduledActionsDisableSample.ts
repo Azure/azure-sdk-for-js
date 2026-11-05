@@ -5,20 +5,20 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to disables the specified scheduled action so future occurrences do not run.
+ * This sample demonstrates how to disables the specified recurring bulk action so future occurrences do not run.
  *
- * @summary disables the specified scheduled action so future occurrences do not run.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Disable_MaximumSet_Gen.json
+ * @summary disables the specified recurring bulk action so future occurrences do not run.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_Disable_BasicSuccess.json
  */
-async function disableAScheduledAction(): Promise<void> {
+async function disableARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  await client.scheduledActions.disable("rgcompute", "myScheduledAction");
+  await client.scheduledActions.disable("example-rg", "weekday-start");
 }
 
 async function main(): Promise<void> {
-  await disableAScheduledAction();
+  await disableARecurringBulkAction();
 }
 
 main().catch(console.error);

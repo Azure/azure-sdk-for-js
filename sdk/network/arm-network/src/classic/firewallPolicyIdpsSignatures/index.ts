@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/firewallPolicyIdpsSignatures/operations.js";
 import type { FirewallPolicyIdpsSignaturesListOptionalParams } from "../../api/firewallPolicyIdpsSignatures/options.js";
-import type { IdpsQueryObject, QueryResults } from "../../models/microsoft/network/models.js";
+import type { IdpsQueryObject, QueryResults } from "../../models/network/models.js";
 
 /** Interface representing a FirewallPolicyIdpsSignatures operations. */
 export interface FirewallPolicyIdpsSignaturesOperations {

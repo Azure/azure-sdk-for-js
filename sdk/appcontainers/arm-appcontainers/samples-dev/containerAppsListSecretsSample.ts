@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list secrets for a container app
  *
  * @summary list secrets for a container app
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_ListSecrets.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_ListSecrets.json
  */
 async function listContainerAppsSecrets(): Promise<void> {
   const credential = new DefaultAzureCredential();

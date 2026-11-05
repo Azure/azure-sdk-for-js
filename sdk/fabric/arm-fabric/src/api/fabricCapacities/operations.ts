@@ -59,7 +59,7 @@ export function _listUsagesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,6 +84,7 @@ export async function _listUsagesDeserialize(result: PathUncheckedResponse): Pro
 
   return _pagedQuotaDeserializer(result.body);
 }
+
 /** List the current consumption and limit in this location for the provided subscription */
 export function listUsages(
   context: Client,
@@ -98,7 +99,7 @@ export function listUsages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -111,7 +112,7 @@ export function _listSkusSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,6 +139,7 @@ export async function _listSkusDeserialize(
 
   return _rpSkuEnumerationForNewResourceResultDeserializer(result.body);
 }
+
 /** List eligible SKUs for Microsoft Fabric resource provider */
 export function listSkus(
   context: Client,
@@ -151,7 +153,7 @@ export function listSkus(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -168,7 +170,7 @@ export function _listSkusForCapacitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,6 +197,7 @@ export async function _listSkusForCapacityDeserialize(
 
   return _rpSkuEnumerationForExistingResourceResultDeserializer(result.body);
 }
+
 /** List eligible SKUs for a Microsoft Fabric resource */
 export function listSkusForCapacity(
   context: Client,
@@ -210,7 +213,7 @@ export function listSkusForCapacity(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -226,7 +229,7 @@ export function _checkNameAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +258,7 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
+
 /** Implements local CheckNameAvailability operations */
 export async function checkNameAvailability(
   context: Client,
@@ -278,7 +282,7 @@ export function _suspendSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,6 +304,7 @@ export async function _suspendDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Suspend operation of the specified Fabric capacity instance. */
 export function suspend(
   context: Client,
@@ -312,7 +317,7 @@ export function suspend(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _suspendSend(context, resourceGroupName, capacityName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -328,7 +333,7 @@ export function _resumeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,6 +355,7 @@ export async function _resumeDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Resume operation of the specified Fabric capacity instance. */
 export function resume(
   context: Client,
@@ -362,7 +368,7 @@ export function resume(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resumeSend(context, resourceGroupName, capacityName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -374,7 +380,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,6 +407,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _fabricCapacityListResultDeserializer(result.body);
 }
+
 /** List FabricCapacity resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -414,7 +421,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -429,7 +436,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,6 +463,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _fabricCapacityListResultDeserializer(result.body);
 }
+
 /** List FabricCapacity resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -470,7 +478,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -487,7 +495,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,6 +517,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a FabricCapacity */
 export function $delete(
   context: Client,
@@ -521,7 +530,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, capacityName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -538,7 +547,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -565,6 +574,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return fabricCapacityDeserializer(result.body);
 }
+
 /** Update a FabricCapacity */
 export function update(
   context: Client,
@@ -579,7 +589,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, capacityName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
@@ -596,7 +606,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -625,6 +635,7 @@ export async function _createOrUpdateDeserialize(
 
   return fabricCapacityDeserializer(result.body);
 }
+
 /** Create a FabricCapacity */
 export function createOrUpdate(
   context: Client,
@@ -639,7 +650,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, capacityName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
@@ -655,7 +666,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityName: capacityName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -680,6 +691,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fa
 
   return fabricCapacityDeserializer(result.body);
 }
+
 /** Get a FabricCapacity */
 export async function get(
   context: Client,

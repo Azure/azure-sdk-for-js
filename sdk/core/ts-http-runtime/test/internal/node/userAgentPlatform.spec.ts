@@ -6,27 +6,27 @@ import { setPlatformSpecificData } from "../../../src/util/userAgent.js";
 import process from "node:process";
 import os from "node:os";
 
+vi.mock("node:process", async () => {
+  const actual = await vi.importActual("node:process");
+  return {
+    default: {
+      ...(actual as any).default,
+      versions: {},
+    },
+  };
+});
+
+vi.mock("node:os", async () => {
+  const actual = await vi.importActual("node:os");
+  return {
+    default: {
+      ...(actual as any).default,
+      versions: {},
+    },
+  };
+});
+
 describe("userAgentPlatform", () => {
-  vi.mock("node:process", async () => {
-    const actual = await vi.importActual("node:process");
-    return {
-      default: {
-        ...(actual as any).default,
-        versions: {},
-      },
-    };
-  });
-
-  vi.mock("node:os", async () => {
-    const actual = await vi.importActual("node:os");
-    return {
-      default: {
-        ...(actual as any).default,
-        versions: {},
-      },
-    };
-  });
-
   beforeEach(() => {
     (vi.mocked(os) as any).type = () => "Linux";
     (vi.mocked(os) as any).release = () => "6.13.8";

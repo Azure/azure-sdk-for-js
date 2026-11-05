@@ -12,6 +12,12 @@ import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 
 import { getPackageJsons, writePackageJson } from "@azure-tools/eng-package-utils";
 
+/**
+ * @typedef {Awaited<ReturnType<typeof getPackageJsons>>} RepoPackages
+ * @typedef {Parameters<typeof resolveFromCatalog>[0]} Catalogs
+ * @typedef {Record<string, string> | undefined} DependencySection
+ */
+
 const argv = yargs(hideBin(process.argv))
   .options({
     "build-id": {
@@ -31,8 +37,13 @@ const argv = yargs(hideBin(process.argv))
         "service directory whose packages should be updated (if not set updates all directories)",
     },
   })
-  .help().parseSync();
+  .help()
+  .parseSync();
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {string} pkg
+ */
 async function commitChanges(repoPackages, pkg) {
   // Commit the new version to the JSON document
   if (repoPackages[pkg].newVer) {
@@ -47,9 +58,22 @@ async function commitChanges(repoPackages, pkg) {
   }
 }
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {string} pkg
+ * @param {string} buildId
+ * @param {Catalogs} catalogs
+ * @returns {RepoPackages}
+ */
 function updatePackageVersion(repoPackages, pkg, buildId, catalogs) {
   const currentVersion = repoPackages[pkg].json.version;
+  if (!currentVersion) {
+    throw new Error(`Package ${pkg} does not have a version`);
+  }
   const parsedVersion = semver.parse(currentVersion);
+  if (!parsedVersion) {
+    throw new Error(`Invalid version format: ${currentVersion}`);
+  }
   repoPackages[pkg].newVer =
     `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}-alpha.${buildId}`;
   console.log(`version updated: from ${currentVersion} to ${repoPackages[pkg].newVer}`);
@@ -61,6 +85,13 @@ function updatePackageVersion(repoPackages, pkg, buildId, catalogs) {
   return repoPackages;
 }
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {DependencySection} dependencySection
+ * @param {string} buildId
+ * @param {Catalogs} catalogs
+ * @returns {RepoPackages}
+ */
 function updateDependencySection(repoPackages, dependencySection, buildId, catalogs) {
   if (dependencySection) {
     for (const [depName, depVersionRange] of Object.entries(dependencySection)) {
@@ -73,6 +104,9 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
 
       // Compare the dependency version range with the package's current version
       const packageVersion = repoPackages[depName].json.version;
+      if (!packageVersion) {
+        throw new Error(`Package ${depName} does not have a version`);
+      }
 
       console.log(`version in package's dep = ${depVersionRange}`); //^1.0.0
       console.log(`dep's version = ${packageVersion}`); //1.0.0
@@ -104,6 +138,13 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
   return repoPackages;
 }
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {string} pkg
+ * @param {string} buildId
+ * @param {Catalogs} catalogs
+ * @returns {RepoPackages}
+ */
 function updateInternalDependencyVersions(repoPackages, pkg, buildId, catalogs) {
   console.log(`update internal dependencies for package "${pkg}"`);
   console.group(`checking dependencies ..`);
@@ -136,6 +177,13 @@ function updateInternalDependencyVersions(repoPackages, pkg, buildId, catalogs) 
   return repoPackages;
 }
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {DependencySection} dependencySection
+ * @param {string} depName
+ * @param {Catalogs} catalogs
+ * @returns {RepoPackages}
+ */
 function makeDependencySectionConsistentForPackage(
   repoPackages,
   dependencySection,
@@ -154,6 +202,9 @@ function makeDependencySectionConsistentForPackage(
 
     // Compare the dependency version range with the package's current version
     const packageVersion = repoPackages[depName].json.version;
+    if (!packageVersion) {
+      throw new Error(`Package ${depName} does not have a version`);
+    }
 
     console.log(`consistency: version in package's dep = ${depVersionRange}`);
     console.log(`consistency: dep's version = ${packageVersion}`);
@@ -193,6 +244,13 @@ function makeDependencySectionConsistentForPackage(
   return repoPackages;
 }
 
+/**
+ * @param {RepoPackages} repoPackages
+ * @param {string} pkg
+ * @param {string} depName
+ * @param {Catalogs} catalogs
+ * @returns {RepoPackages}
+ */
 function updateOtherProjectDependencySections(repoPackages, pkg, depName, catalogs) {
   console.group(`checking dependencies...`);
   repoPackages = makeDependencySectionConsistentForPackage(
@@ -223,6 +281,9 @@ function updateOtherProjectDependencySections(repoPackages, pkg, depName, catalo
   return repoPackages;
 }
 
+/**
+ * @param {typeof argv} argv
+ */
 async function main(argv) {
   const buildId = argv["build-id"];
   const repoRoot = argv["repo-root"];
@@ -236,6 +297,10 @@ async function main(argv) {
     },
     workspaceDir: repoRoot,
   });
+  if (!config.catalogs) {
+    throw new Error(`No pnpm catalogs found for workspace ${repoRoot}`);
+  }
+  const catalogs = config.catalogs;
 
   let repoPackages = await getPackageJsons(repoRoot);
 
@@ -261,8 +326,8 @@ async function main(argv) {
   console.dir(targetPackages);
   for (const pkg of targetPackages) {
     console.log(`package updated = ${pkg}`);
-    repoPackages = updatePackageVersion(repoPackages, pkg, buildId, config.catalogs);
-    repoPackages = updateInternalDependencyVersions(repoPackages, pkg, buildId, config.catalogs);
+    repoPackages = updatePackageVersion(repoPackages, pkg, buildId, catalogs);
+    repoPackages = updateInternalDependencyVersions(repoPackages, pkg, buildId, catalogs);
     console.log(`newer version: ${repoPackages[pkg].newVer}`);
   }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update cache space allocation.
  *
  * @summary update cache space allocation.
- * x-ms-original-file: 2026-01-01/SpaceAllocation_Post.json
+ * x-ms-original-file: 2026-08-01/SpaceAllocation_Post.json
  */
 async function spaceAllocationPost(): Promise<void> {
   const credential = new DefaultAzureCredential();

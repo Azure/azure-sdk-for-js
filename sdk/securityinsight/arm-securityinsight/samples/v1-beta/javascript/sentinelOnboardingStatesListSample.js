@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all Sentinel onboarding states
  *
  * @summary gets all Sentinel onboarding states
- * x-ms-original-file: 2025-07-01-preview/onboardingStates/GetAllSentinelOnboardingStates.json
+ * x-ms-original-file: 2025-10-01-preview/onboardingStates/GetAllSentinelOnboardingStates.json
  */
 async function getAllSentinelOnboardingStates() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentAtScope.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentAtScope.json
  */
 async function createDeploymentAtAGivenScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

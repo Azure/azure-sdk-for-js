@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update Rule Collection Group Draft.
  *
  * @summary create or Update Rule Collection Group Draft.
- * x-ms-original-file: 2025-09-01/FirewallPolicyRuleCollectionGroupDraftPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupDraftPut.json
  */
 async function createOrUpdateRuleCollectionGroupDraft(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,6 +34,8 @@ async function createOrUpdateRuleCollectionGroupDraft(): Promise<void> {
               ipProtocols: ["TCP"],
               ruleType: "NetworkRule",
               sourceAddresses: ["10.1.25.0/24"],
+              sourceGeoLocations: ["CA", "US"],
+              destinationGeoLocations: ["US"],
             },
           ],
         },

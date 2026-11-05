@@ -4,9 +4,7 @@
 export {
   listWorkflows,
   getWorkflow,
-  invoke,
   listWorkflowsConnections,
-  deployWorkflowArtifacts,
   $delete,
   createOrUpdate,
   get,
@@ -14,9 +12,7 @@ export {
 export type {
   LogicAppsListWorkflowsOptionalParams,
   LogicAppsGetWorkflowOptionalParams,
-  LogicAppsInvokeOptionalParams,
   LogicAppsListWorkflowsConnectionsOptionalParams,
-  LogicAppsDeployWorkflowArtifactsOptionalParams,
   LogicAppsDeleteOptionalParams,
   LogicAppsCreateOrUpdateOptionalParams,
   LogicAppsGetOptionalParams,

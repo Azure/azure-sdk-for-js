@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/availableEndpointServices/operations.js";
 import type { AvailableEndpointServicesListOptionalParams } from "../../api/availableEndpointServices/options.js";
-import type { EndpointServiceResult } from "../../models/microsoft/network/models.js";
+import type { EndpointServiceResult } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AvailableEndpointServices operations. */

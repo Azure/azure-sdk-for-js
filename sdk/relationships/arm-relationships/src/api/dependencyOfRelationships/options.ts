@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface DependencyOfRelationshipsListByParentOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface DependencyOfRelationshipsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

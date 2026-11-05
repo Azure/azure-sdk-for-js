@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a managed certificate. Oly patching of tags is supported
  *
  * @summary patches a managed certificate. Oly patching of tags is supported
- * x-ms-original-file: 2025-10-02-preview/ManagedCertificates_Patch.json
+ * x-ms-original-file: 2026-07-01/ManagedCertificates_Patch.json
  */
 async function patchManagedCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

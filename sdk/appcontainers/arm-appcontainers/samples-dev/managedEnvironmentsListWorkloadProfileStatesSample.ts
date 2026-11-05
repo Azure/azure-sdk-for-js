@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all workload Profile States for a Managed Environment.
  *
  * @summary get all workload Profile States for a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_ListWorkloadProfileStates.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_ListWorkloadProfileStates.json
  */
 async function listEnvironmentsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

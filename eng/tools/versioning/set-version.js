@@ -45,8 +45,12 @@ const argv = yargs(hideBin(process.argv))
       type: "boolean",
     },
   })
-  .help().parseSync();
+  .help()
+  .parseSync();
 
+/**
+ * @param {typeof argv} argv
+ */
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const newVersion = argv["new-version"];
@@ -60,6 +64,9 @@ async function main(argv) {
   const targetPackage = rushSpec.projects.find(
     (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName,
   );
+  if (!targetPackage) {
+    throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
+  }
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");

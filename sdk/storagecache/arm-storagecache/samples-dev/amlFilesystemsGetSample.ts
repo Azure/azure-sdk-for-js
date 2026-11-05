@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns an AML file system.
  *
  * @summary returns an AML file system.
- * x-ms-original-file: 2026-01-01/amlFilesystems_Get.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_Get.json
  */
 async function amlFilesystemsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

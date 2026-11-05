@@ -99,6 +99,7 @@ export interface AFDDomain extends ProxyResource {
     readonly domainValidationState?: DomainValidationState;
     extendedProperties?: Record<string, string>;
     hostName?: string;
+    mtlsSettings?: AFDDomainMtlsParametersUnion;
     preValidatedCustomDomainResourceId?: ResourceReference;
     readonly profileName?: string;
     readonly provisioningState?: AfdProvisioningState;
@@ -119,7 +120,17 @@ export interface AFDDomainHttpsParameters {
     customizedCipherSuiteSet?: AFDDomainHttpsCustomizedCipherSuiteSet;
     minimumTlsVersion?: AfdMinimumTlsVersion;
     secret?: ResourceReference;
+    serverTlsGroupPolicy?: AfdServerTlsGroupPolicy;
+    serverTlsGroups?: AfdServerTlsGroup[];
 }
+
+// @public
+export interface AFDDomainMtlsParameters {
+    scenario: MtlsScenarioType;
+}
+
+// @public
+export type AFDDomainMtlsParametersUnion = ClientCertificateRequiredAndValidatedAdvancedSettings | ClientCertificateRequiredAndOriginValidatesAdvancedSettings | ClientCertificateValidatedIfPresentedAdvancedSettings | CompleteMtlsPassthroughToOriginAdvancedSettings | AFDDomainMtlsParameters;
 
 // @public
 export interface AFDDomainProperties {
@@ -129,6 +140,7 @@ export interface AFDDomainProperties {
     readonly domainValidationState?: DomainValidationState;
     extendedProperties?: Record<string, string>;
     hostName: string;
+    mtlsSettings?: AFDDomainMtlsParametersUnion;
     preValidatedCustomDomainResourceId?: ResourceReference;
     readonly profileName?: string;
     readonly provisioningState?: AfdProvisioningState;
@@ -139,6 +151,7 @@ export interface AFDDomainProperties {
 // @public
 export interface AFDDomainUpdateParameters {
     azureDnsZone?: ResourceReference;
+    mtlsSettings?: AFDDomainMtlsParametersUnion;
     preValidatedCustomDomainResourceId?: ResourceReference;
     readonly profileName?: string;
     tlsSettings?: AFDDomainHttpsParameters;
@@ -147,6 +160,7 @@ export interface AFDDomainUpdateParameters {
 // @public
 export interface AFDDomainUpdatePropertiesParameters {
     azureDnsZone?: ResourceReference;
+    mtlsSettings?: AFDDomainMtlsParametersUnion;
     preValidatedCustomDomainResourceId?: ResourceReference;
     readonly profileName?: string;
     tlsSettings?: AFDDomainHttpsParameters;
@@ -158,6 +172,7 @@ export interface AFDEndpoint extends TrackedResource {
     // (undocumented)
     readonly deploymentStatus?: DeploymentStatus;
     enabledState?: EnabledState;
+    enforceMtls?: EnforceMtlsEnabledState;
     readonly hostName?: string;
     readonly profileName?: string;
     readonly provisioningState?: AfdProvisioningState;
@@ -169,6 +184,7 @@ export interface AFDEndpointProperties {
     // (undocumented)
     readonly deploymentStatus?: DeploymentStatus;
     enabledState?: EnabledState;
+    enforceMtls?: EnforceMtlsEnabledState;
     readonly hostName?: string;
     readonly profileName?: string;
     readonly provisioningState?: AfdProvisioningState;
@@ -177,6 +193,7 @@ export interface AFDEndpointProperties {
 // @public
 export interface AFDEndpointPropertiesUpdateParameters {
     enabledState?: EnabledState;
+    enforceMtls?: EnforceMtlsEnabledState;
     readonly profileName?: string;
 }
 
@@ -250,6 +267,7 @@ export interface AFDEndpointsValidateCustomDomainOptionalParams extends Operatio
 // @public
 export interface AFDEndpointUpdateParameters {
     enabledState?: EnabledState;
+    enforceMtls?: EnforceMtlsEnabledState;
     readonly profileName?: string;
     tags?: Record<string, string>;
 }
@@ -260,6 +278,8 @@ export type AfdMinimumTlsVersion = "TLS10" | "TLS12" | "TLS13";
 // @public
 export interface AFDOrigin extends ProxyResource {
     azureOrigin?: ResourceReference;
+    certificateNameCheckValidationMode?: CertificateNameCheckValidationMode;
+    customCertificateSubjects?: string[];
     // (undocumented)
     readonly deploymentStatus?: DeploymentStatus;
     enabledState?: EnabledState;
@@ -373,6 +393,8 @@ export interface AFDOriginGroupUpdatePropertiesParameters {
 // @public
 export interface AFDOriginProperties {
     azureOrigin?: ResourceReference;
+    certificateNameCheckValidationMode?: CertificateNameCheckValidationMode;
+    customCertificateSubjects?: string[];
     // (undocumented)
     readonly deploymentStatus?: DeploymentStatus;
     enabledState?: EnabledState;
@@ -435,6 +457,8 @@ export interface AFDOriginsUpdateOptionalParams extends OperationOptions {
 // @public
 export interface AFDOriginUpdateParameters {
     azureOrigin?: ResourceReference;
+    certificateNameCheckValidationMode?: CertificateNameCheckValidationMode;
+    customCertificateSubjects?: string[];
     enabledState?: EnabledState;
     enforceCertificateNameCheck?: boolean;
     hostName?: string;
@@ -450,6 +474,8 @@ export interface AFDOriginUpdateParameters {
 // @public
 export interface AFDOriginUpdatePropertiesParameters {
     azureOrigin?: ResourceReference;
+    certificateNameCheckValidationMode?: CertificateNameCheckValidationMode;
+    customCertificateSubjects?: string[];
     enabledState?: EnabledState;
     enforceCertificateNameCheck?: boolean;
     hostName?: string;
@@ -514,6 +540,20 @@ export interface AfdRouteCacheConfiguration {
     queryParameters?: string;
     queryStringCachingBehavior?: AfdQueryStringCachingBehavior;
 }
+
+// @public
+export interface AfdSecretMtlsCertificateChain extends SecretParameters {
+    readonly expirationDate?: Date;
+    secretSource: ResourceReference;
+    secretVersion: string;
+    type: "MtlsCertificateChain";
+}
+
+// @public
+export type AfdServerTlsGroup = string;
+
+// @public
+export type AfdServerTlsGroupPolicy = string;
 
 // @public
 export interface AFDStateProperties {
@@ -711,6 +751,12 @@ export interface CdnWebApplicationFirewallPolicyProperties {
 }
 
 // @public
+export type CertificateNameCheckValidationMode = string;
+
+// @public
+export type CertificateRevocationCheckEnabledState = string;
+
+// @public
 export type CertificateSource = string;
 
 // @public
@@ -780,6 +826,27 @@ export interface CidrIpAddress {
 }
 
 // @public
+export interface ClientCertificateRequiredAndOriginValidatesAdvancedSettings extends AFDDomainMtlsParameters {
+    scenario: "ClientCertificateRequiredAndOriginValidates";
+}
+
+// @public
+export interface ClientCertificateRequiredAndValidatedAdvancedSettings extends AFDDomainMtlsParameters {
+    allowedFqdns?: string[];
+    certificateRevocationCheck?: CertificateRevocationCheckEnabledState;
+    scenario: "ClientCertificateRequiredAndValidated";
+    secrets: ResourceReference[];
+}
+
+// @public
+export interface ClientCertificateValidatedIfPresentedAdvancedSettings extends AFDDomainMtlsParameters {
+    allowedFqdns?: string[];
+    certificateRevocationCheck?: CertificateRevocationCheckEnabledState;
+    scenario: "ClientCertificateValidatedIfPresented";
+    secrets: ResourceReference[];
+}
+
+// @public
 export interface ClientPortMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
@@ -791,6 +858,11 @@ export interface ClientPortMatchConditionParameters extends DeliveryRuleConditio
 
 // @public
 export type ClientPortOperator = string;
+
+// @public
+export interface CompleteMtlsPassthroughToOriginAdvancedSettings extends AFDDomainMtlsParameters {
+    scenario: "CompleteMtlsPassthroughToOrigin";
+}
 
 // @public
 export interface Components18OrqelSchemasWafmetricsresponsePropertiesSeriesItemsPropertiesDataItems {
@@ -1096,10 +1168,10 @@ export interface DeliveryRuleActionParameters {
 export type DeliveryRuleActionParametersType = string;
 
 // @public
-export type DeliveryRuleActionParametersUnion = UrlRedirectActionParameters | UrlSigningActionParameters | OriginGroupOverrideActionParameters | UrlRewriteActionParameters | HeaderActionParameters | CacheExpirationActionParameters | CacheKeyQueryStringActionParameters | RouteConfigurationOverrideActionParameters | DeliveryRuleActionParameters;
+export type DeliveryRuleActionParametersUnion = UrlRedirectActionParameters | UrlSigningActionParameters | OriginGroupOverrideActionParameters | DeliveryRuleEdgeActionParameters | UrlRewriteActionParameters | HeaderActionParameters | CacheExpirationActionParameters | CacheKeyQueryStringActionParameters | RouteConfigurationOverrideActionParameters | DeliveryRuleActionParameters;
 
 // @public
-export type DeliveryRuleActionUnion = UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction | DeliveryRuleAction;
+export type DeliveryRuleActionUnion = UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | EdgeAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction | DeliveryRuleAction;
 
 // @public
 export interface DeliveryRuleCacheExpirationAction extends DeliveryRuleAction {
@@ -1143,6 +1215,14 @@ export type DeliveryRuleConditionUnion = DeliveryRuleRemoteAddressCondition | De
 export interface DeliveryRuleCookiesCondition extends DeliveryRuleCondition {
     name: "Cookies";
     parameters: CookiesMatchConditionParameters;
+}
+
+// @public
+export interface DeliveryRuleEdgeActionParameters extends DeliveryRuleActionParameters {
+    edgeActionReference: ResourceReference;
+    invocationPoint: InvocationPoint;
+    // (undocumented)
+    typeName: "DeliveryRuleEdgeActionParameters";
 }
 
 // @public
@@ -1286,6 +1366,12 @@ export interface DomainValidationProperties {
 
 // @public
 export type DomainValidationState = string;
+
+// @public
+export interface EdgeAction extends DeliveryRuleAction {
+    name: "EdgeAction";
+    parameters: DeliveryRuleEdgeActionParameters;
+}
 
 // @public
 export interface EdgeNode extends ProxyResource {
@@ -1492,6 +1578,9 @@ export interface EndpointUpdateParameters {
 }
 
 // @public
+export type EnforceMtlsEnabledState = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -1581,6 +1670,9 @@ export interface HttpVersionMatchConditionParameters extends DeliveryRuleConditi
 
 // @public
 export type HttpVersionOperator = string;
+
+// @public
+export type InvocationPoint = string;
 
 // @public
 export interface IpAddressGroup {
@@ -1697,6 +1789,24 @@ export enum KnownAfdQueryStringCachingBehavior {
 }
 
 // @public
+export enum KnownAfdServerTlsGroup {
+    Prime256V1 = "prime256v1",
+    SecP256R1Mlkem768 = "SecP256r1MLKEM768",
+    Secp384R1 = "secp384r1",
+    SecP384R1Mlkem1024 = "SecP384r1MLKEM1024",
+    Secp521R1 = "secp521r1",
+    X25519 = "X25519",
+    X25519Mlkem768 = "X25519MLKEM768"
+}
+
+// @public
+export enum KnownAfdServerTlsGroupPolicy {
+    Custom = "Custom",
+    Enhanced = "Enhanced",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownAlgorithm {
     SHA256 = "SHA256"
 }
@@ -1725,6 +1835,19 @@ export enum KnownCacheType {
 export enum KnownCanMigrateDefaultSku {
     PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
     StandardAzureFrontDoor = "Standard_AzureFrontDoor"
+}
+
+// @public
+export enum KnownCertificateNameCheckValidationMode {
+    CustomCertificateSubject = "CustomCertificateSubject",
+    IncomingHostHeader = "IncomingHostHeader",
+    OriginHostname = "OriginHostname"
+}
+
+// @public
+export enum KnownCertificateRevocationCheckEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1826,6 +1949,7 @@ export enum KnownDeleteRule {
 export enum KnownDeliveryRuleActionName {
     CacheExpiration = "CacheExpiration",
     CacheKeyQueryString = "CacheKeyQueryString",
+    EdgeAction = "EdgeAction",
     ModifyRequestHeader = "ModifyRequestHeader",
     ModifyResponseHeader = "ModifyResponseHeader",
     OriginGroupOverride = "OriginGroupOverride",
@@ -1839,6 +1963,7 @@ export enum KnownDeliveryRuleActionName {
 export enum KnownDeliveryRuleActionParametersType {
     DeliveryRuleCacheExpirationActionParameters = "DeliveryRuleCacheExpirationActionParameters",
     DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters",
+    DeliveryRuleEdgeActionParameters = "DeliveryRuleEdgeActionParameters",
     DeliveryRuleHeaderActionParameters = "DeliveryRuleHeaderActionParameters",
     DeliveryRuleOriginGroupOverrideActionParameters = "DeliveryRuleOriginGroupOverrideActionParameters",
     DeliveryRuleRouteConfigurationOverrideActionParameters = "DeliveryRuleRouteConfigurationOverrideActionParameters",
@@ -1924,6 +2049,12 @@ export enum KnownEndpointResourceState {
 }
 
 // @public
+export enum KnownEnforceMtlsEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownForwardingProtocol {
     HttpOnly = "HttpOnly",
     HttpsOnly = "HttpsOnly",
@@ -1960,6 +2091,13 @@ export enum KnownHttpsRedirect {
 // @public
 export enum KnownHttpVersionOperator {
     Equal = "Equal"
+}
+
+// @public
+export enum KnownInvocationPoint {
+    ClientRequest = "ClientRequest",
+    ClientResponse = "ClientResponse",
+    OriginRequest = "OriginRequest"
 }
 
 // @public
@@ -2088,6 +2226,14 @@ export enum KnownMetricsSeriesUnit {
 }
 
 // @public
+export enum KnownMtlsScenarioType {
+    ClientCertificateRequiredAndOriginValidates = "ClientCertificateRequiredAndOriginValidates",
+    ClientCertificateRequiredAndValidated = "ClientCertificateRequiredAndValidated",
+    ClientCertificateValidatedIfPresented = "ClientCertificateValidatedIfPresented",
+    CompleteMtlsPassthroughToOrigin = "CompleteMtlsPassthroughToOrigin"
+}
+
+// @public
 export enum KnownOperator {
     Any = "Any",
     BeginsWith = "BeginsWith",
@@ -2110,6 +2256,12 @@ export enum KnownOptimizationType {
     GeneralWebDelivery = "GeneralWebDelivery",
     LargeFileDownload = "LargeFileDownload",
     VideoOnDemandMediaStreaming = "VideoOnDemandMediaStreaming"
+}
+
+// @public
+export enum KnownOriginAuthenticationTokenDestinationHeader {
+    Authorization = "Authorization",
+    XAzureAuthorization = "X-Azure-Authorization"
 }
 
 // @public
@@ -2413,6 +2565,7 @@ export enum KnownSecretType {
     AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate",
     CustomerCertificate = "CustomerCertificate",
     ManagedCertificate = "ManagedCertificate",
+    MtlsCertificateChain = "MtlsCertificateChain",
     UrlSigningKey = "UrlSigningKey"
 }
 
@@ -2554,7 +2707,9 @@ export enum KnownUsageUnit {
 // @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20251201 = "2025-12-01"
+    V20251201 = "2025-12-01",
+    V20260701 = "2026-07-01",
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -2924,6 +3079,9 @@ export interface MigrationWebApplicationFirewallMapping {
 export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 
 // @public
+export type MtlsScenarioType = string;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -2981,9 +3139,13 @@ export interface Origin extends ProxyResource {
 // @public
 export interface OriginAuthenticationProperties {
     scope?: string;
+    tokenDestinationHeader?: OriginAuthenticationTokenDestinationHeader;
     type?: OriginAuthenticationType;
     userAssignedIdentity?: ResourceReference;
 }
+
+// @public
+export type OriginAuthenticationTokenDestinationHeader = string;
 
 // @public
 export type OriginAuthenticationType = string;
@@ -4036,7 +4198,7 @@ export interface SecretParameters {
 }
 
 // @public
-export type SecretParametersUnion = UrlSigningKeyParameters | ManagedCertificateParameters | CustomerCertificateParameters | AzureFirstPartyManagedCertificateParameters | SecretParameters;
+export type SecretParametersUnion = UrlSigningKeyParameters | ManagedCertificateParameters | CustomerCertificateParameters | AzureFirstPartyManagedCertificateParameters | AfdSecretMtlsCertificateChain | SecretParameters;
 
 // @public
 export interface SecretProperties extends AFDStateProperties {
@@ -4165,11 +4327,13 @@ export interface SecurityPolicyUpdateProperties {
 export interface SecurityPolicyWebApplicationFirewallAssociation {
     domains?: ActivatedResourceReference[];
     patternsToMatch?: string[];
+    routes?: ResourceReference[];
 }
 
 // @public
 export interface SecurityPolicyWebApplicationFirewallParameters extends SecurityPolicyPropertiesParameters {
     associations?: SecurityPolicyWebApplicationFirewallAssociation[];
+    isProfileLevel?: boolean;
     type: "WebApplicationFirewall";
     wafPolicy?: ResourceReference;
 }

@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.RedHatOpenShift": "2026-09-01-preview"
+    "Microsoft.RedHatOpenShift": "2026-10-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RedHatOpenShift",
     "CrossLanguageDefinitionId": {
@@ -23,6 +23,7 @@
       "@azure/arm-redhatopenshifthcp!PlatformProfile:interface": "Microsoft.RedHatOpenShift.PlatformProfile",
       "@azure/arm-redhatopenshifthcp!OperatorsAuthenticationProfile:interface": "Microsoft.RedHatOpenShift.OperatorsAuthenticationProfile",
       "@azure/arm-redhatopenshifthcp!UserAssignedIdentitiesProfile:interface": "Microsoft.RedHatOpenShift.UserAssignedIdentitiesProfile",
+      "@azure/arm-redhatopenshifthcp!ContainerRegistryProfile:interface": "Microsoft.RedHatOpenShift.ContainerRegistryProfile",
       "@azure/arm-redhatopenshifthcp!ClusterAutoscalingProfile:interface": "Microsoft.RedHatOpenShift.ClusterAutoscalingProfile",
       "@azure/arm-redhatopenshifthcp!EtcdProfile:interface": "Microsoft.RedHatOpenShift.EtcdProfile",
       "@azure/arm-redhatopenshifthcp!EtcdDataEncryptionProfile:interface": "Microsoft.RedHatOpenShift.EtcdDataEncryptionProfile",
@@ -31,8 +32,9 @@
       "@azure/arm-redhatopenshifthcp!KmsKey:interface": "Microsoft.RedHatOpenShift.KmsKey",
       "@azure/arm-redhatopenshifthcp!ImageDigestMirror:interface": "Microsoft.RedHatOpenShift.ImageDigestMirror",
       "@azure/arm-redhatopenshifthcp!ClusterImageRegistryProfile:interface": "Microsoft.RedHatOpenShift.ClusterImageRegistryProfile",
-      "@azure/arm-redhatopenshifthcp!ResourceStatus:interface": "Microsoft.RedHatOpenShift.ResourceStatus",
+      "@azure/arm-redhatopenshifthcp!ClusterResourceStatus:interface": "Microsoft.RedHatOpenShift.ClusterResourceStatus",
       "@azure/arm-redhatopenshifthcp!Condition:interface": "Microsoft.RedHatOpenShift.Condition",
+      "@azure/arm-redhatopenshifthcp!ClusterActiveVersion:interface": "Microsoft.RedHatOpenShift.ClusterActiveVersion",
       "@azure/arm-redhatopenshifthcp!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
       "@azure/arm-redhatopenshifthcp!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-redhatopenshifthcp!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
@@ -55,10 +57,13 @@
       "@azure/arm-redhatopenshifthcp!NodePoolAutoScaling:interface": "Microsoft.RedHatOpenShift.NodePoolAutoScaling",
       "@azure/arm-redhatopenshifthcp!Label:interface": "Microsoft.RedHatOpenShift.Label",
       "@azure/arm-redhatopenshifthcp!Taint:interface": "Microsoft.RedHatOpenShift.Taint",
+      "@azure/arm-redhatopenshifthcp!NodePoolResourceStatus:interface": "Microsoft.RedHatOpenShift.NodePoolResourceStatus",
+      "@azure/arm-redhatopenshifthcp!NodePoolActiveVersion:interface": "Microsoft.RedHatOpenShift.NodePoolActiveVersion",
       "@azure/arm-redhatopenshifthcp!UpdateablePropertiesNodePoolProperties:interface": "TypeSpec.UpdateableProperties",
       "@azure/arm-redhatopenshifthcp!NodePoolListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-redhatopenshifthcp!ExternalAuth:interface": "Microsoft.RedHatOpenShift.ExternalAuth",
       "@azure/arm-redhatopenshifthcp!ExternalAuthProperties:interface": "Microsoft.RedHatOpenShift.ExternalAuthProperties",
+      "@azure/arm-redhatopenshifthcp!ExternalAuthResourceStatus:interface": "Microsoft.RedHatOpenShift.ExternalAuthResourceStatus",
       "@azure/arm-redhatopenshifthcp!TokenIssuerProfile:interface": "Microsoft.RedHatOpenShift.TokenIssuerProfile",
       "@azure/arm-redhatopenshifthcp!ExternalAuthClientProfile:interface": "Microsoft.RedHatOpenShift.ExternalAuthClientProfile",
       "@azure/arm-redhatopenshifthcp!ExternalAuthClientComponentProfile:interface": "Microsoft.RedHatOpenShift.ExternalAuthClientComponentProfile",
@@ -88,6 +93,7 @@
       "@azure/arm-redhatopenshifthcp!KnownEtcdDataEncryptionKeyManagementModeType:enum": "Microsoft.RedHatOpenShift.EtcdDataEncryptionKeyManagementModeType",
       "@azure/arm-redhatopenshifthcp!KnownCustomerManagedEncryptionType:enum": "Microsoft.RedHatOpenShift.CustomerManagedEncryptionType",
       "@azure/arm-redhatopenshifthcp!KnownKeyVaultVisibility:enum": "Microsoft.RedHatOpenShift.KeyVaultVisibility",
+      "@azure/arm-redhatopenshifthcp!KnownKmsKeyVaultType:enum": "Microsoft.RedHatOpenShift.KmsKeyVaultType",
       "@azure/arm-redhatopenshifthcp!KnownClusterImageRegistryState:enum": "Microsoft.RedHatOpenShift.ClusterImageRegistryState",
       "@azure/arm-redhatopenshifthcp!KnownConditionType:enum": "Microsoft.RedHatOpenShift.ConditionType",
       "@azure/arm-redhatopenshifthcp!KnownStatusType:enum": "Microsoft.RedHatOpenShift.StatusType",

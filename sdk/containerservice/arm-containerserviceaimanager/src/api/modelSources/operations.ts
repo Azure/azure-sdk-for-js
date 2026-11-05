@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,6 +62,7 @@ export async function _listDeserialize(
 
   return _modelSourceListResultDeserializer(result.body);
 }
+
 /** List ModelSource resources by AIManager */
 export function list(
   context: Client,
@@ -77,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -96,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       modelSourceName: modelSourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,6 +125,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a ModelSource */
 export function $delete(
   context: Client,
@@ -138,7 +140,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, aiManagerName, modelSourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +159,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       modelSourceName: modelSourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,6 +193,7 @@ export async function _createOrUpdateDeserialize(
 
   return modelSourceDeserializer(result.body);
 }
+
 /** Create or update a `ModelSource`. This is a full-replace operation: any optional property omitted from the request body is reset to its default value, or cleared if it has no default. To safely modify a subset of fields, perform a GET, modify the returned resource, and PUT it back using the returned ETag via the `If-Match` header to avoid concurrent overwrites. */
 export function createOrUpdate(
   context: Client,
@@ -213,7 +216,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<ModelSource>, ModelSource>;
 }
 
@@ -231,7 +234,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       aiManagerName: aiManagerName,
       modelSourceName: modelSourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,6 +259,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 
   return modelSourceDeserializer(result.body);
 }
+
 /** Get a ModelSource */
 export async function get(
   context: Client,

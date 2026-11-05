@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the automation rule.
  *
  * @summary delete the automation rule.
- * x-ms-original-file: 2025-07-01-preview/automationRules/AutomationRules_Delete.json
+ * x-ms-original-file: 2025-10-01-preview/automationRules/AutomationRules_Delete.json
  */
 async function automationRulesDelete() {
   const credential = new DefaultAzureCredential();

@@ -137,6 +137,7 @@ export interface GalleryInVMAccessControlProfileVersionsOperations {
     options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams,
   ) => Promise<GalleryInVMAccessControlProfileVersion>;
 }
+
 function _getGalleryInVMAccessControlProfileVersions(context: ComputeManagementContext) {
   return {
     listByGalleryInVMAccessControlProfile: (
@@ -328,6 +329,7 @@ function _getGalleryInVMAccessControlProfileVersions(context: ComputeManagementC
       ),
   };
 }
+
 export function _getGalleryInVMAccessControlProfileVersionsOperations(
   context: ComputeManagementContext,
 ): GalleryInVMAccessControlProfileVersionsOperations {

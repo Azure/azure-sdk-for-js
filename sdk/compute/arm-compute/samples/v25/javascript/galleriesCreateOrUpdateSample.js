@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Shared Image Gallery.
  *
  * @summary create or update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/CommunityGallery_Create.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function createACommunityGallery() {
  * This sample demonstrates how to create or update a Shared Image Gallery.
  *
  * @summary create or update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Create.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function createOrUpdateASimpleGallery() {
  * This sample demonstrates how to create or update a Shared Image Gallery.
  *
  * @summary create or update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,11 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const result = await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     description: "This is the gallery description.",
-    softDeletePolicy: { isSoftDeleteEnabled: true },
+    softDeletePolicy: {
+      isSoftDeleteEnabled: true,
+      retentionPeriodInDays: 7,
+      gracePeriodInDays: 30,
+    },
   });
   console.log(result);
 }
@@ -69,7 +73,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * This sample demonstrates how to create or update a Shared Image Gallery.
  *
  * @summary create or update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Create_WithManagedIdentity.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Create_WithManagedIdentity.json
  */
 async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
   const credential = new DefaultAzureCredential();
@@ -93,7 +97,7 @@ async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedMana
  * This sample demonstrates how to create or update a Shared Image Gallery.
  *
  * @summary create or update a Shared Image Gallery.
- * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_Create_WithSharingProfile.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const credential = new DefaultAzureCredential();

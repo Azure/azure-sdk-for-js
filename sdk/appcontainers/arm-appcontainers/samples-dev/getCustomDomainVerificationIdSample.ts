@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the verification id of a subscription used for verifying custom domains
  *
  * @summary get the verification id of a subscription used for verifying custom domains
- * x-ms-original-file: 2025-10-02-preview/Subscriptions_GetCustomDomainVerificationId.json
+ * x-ms-original-file: 2026-07-01/Subscriptions_GetCustomDomainVerificationId.json
  */
 async function listAllOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();

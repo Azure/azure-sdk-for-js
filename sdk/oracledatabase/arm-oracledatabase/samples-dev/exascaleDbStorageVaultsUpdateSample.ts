@@ -8,35 +8,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a ExascaleDbStorageVault
  *
  * @summary update a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/ExascaleDbStorageVaults_Update_MaximumSet_Gen.json
  */
-async function exascaleDbStorageVaultsUpdateMaximumSet(): Promise<void> {
+async function exascaleDbStorageVaultsUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbStorageVaults.update("rgopenapi", "storagevault1", {
-    tags: { key6486: "fxbuboilsiapodppdtfls" },
+  const result = await client.exascaleDbStorageVaults.update("rgopenapi", "resource1", {
+    tags: { key4191: "dwwnuodzbkj" },
   });
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to update a ExascaleDbStorageVault
- *
- * @summary update a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Update_MinimumSet_Gen.json
- */
-async function exascaleDbStorageVaultsUpdateMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbStorageVaults.update("rgopenapi", "storagevault1", {});
-  console.log(result);
-}
-
 async function main(): Promise<void> {
-  await exascaleDbStorageVaultsUpdateMaximumSet();
-  await exascaleDbStorageVaultsUpdateMaximumSetGeneratedByMinimumSetRule();
+  await exascaleDbStorageVaultsUpdateMaximumSetGenGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

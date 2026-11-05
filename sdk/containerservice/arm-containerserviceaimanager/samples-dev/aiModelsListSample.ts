@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AIModel resources by SubscriptionLocationResource
  *
  * @summary list AIModel resources by SubscriptionLocationResource
- * x-ms-original-file: 2026-05-02-preview/AIModels_List.json
+ * x-ms-original-file: 2026-09-02-preview/AIModels_List.json
  */
 async function aiModelsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,10 +5,13 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AIManagersListCredentialOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AIManagersListBySubscriptionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AIManagersListByResourceGroupOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AIManagersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -16,11 +19,13 @@ export interface AIManagersDeleteOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
+
 /** Optional parameters. */
 export interface AIManagersUpdateOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
 }
+
 /** Optional parameters. */
 export interface AIManagersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -30,5 +35,6 @@ export interface AIManagersCreateOrUpdateOptionalParams extends OperationOptions
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface AIManagersGetOptionalParams extends OperationOptions {}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Managed Certificates in a given managed environment.
  *
  * @summary get the Managed Certificates in a given managed environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedCertificates_ListByManagedEnvironment.json
+ * x-ms-original-file: 2026-07-01/ManagedCertificates_ListByManagedEnvironment.json
  */
 async function listManagedCertificatesByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

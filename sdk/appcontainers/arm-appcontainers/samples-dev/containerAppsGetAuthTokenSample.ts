@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get auth token for a container app
  *
  * @summary get auth token for a container app
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_GetAuthToken.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_GetAuthToken.json
  */
 async function getContainerAppAuthToken(): Promise<void> {
   const credential = new DefaultAzureCredential();

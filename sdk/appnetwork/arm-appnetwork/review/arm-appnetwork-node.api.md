@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -94,9 +96,8 @@ export interface AppLinkMemberUpdate {
 
 // @public
 export interface AppLinkMemberUpdateProperties {
-    connectivityProfile?: ConnectivityProfile;
-    observabilityProfile?: ObservabilityProfile;
-    upgradeProfile?: UpgradeProfile;
+    connectivityProfile?: ConnectivityProfileUpdate;
+    upgradeProfile?: UpgradeProfileUpdate;
 }
 
 // @public
@@ -143,6 +144,7 @@ export interface AppLinksUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface AppLinkUpdate {
+    identity?: ManagedServiceIdentityUpdate;
     tags?: Record<string, string>;
 }
 
@@ -185,7 +187,14 @@ export type ClusterType = string;
 // @public
 export interface ConnectivityProfile {
     eastWestGateway?: EastWestGatewayProfile;
+    network?: string;
     privateConnect?: PrivateConnectProfile;
+}
+
+// @public
+export interface ConnectivityProfileUpdate {
+    eastWestGateway?: EastWestGatewayProfileUpdate;
+    network?: string;
 }
 
 // @public
@@ -199,6 +208,11 @@ export type CreatedByType = string;
 // @public
 export interface EastWestGatewayProfile {
     visibility: EastWestGatewayVisibility;
+}
+
+// @public
+export interface EastWestGatewayProfileUpdate {
+    visibility?: EastWestGatewayVisibility;
 }
 
 // @public
@@ -230,9 +244,16 @@ export interface FullyManagedUpgradeProfile {
 }
 
 // @public
+export interface FullyManagedUpgradeProfileUpdate {
+    releaseChannel?: UpgradeReleaseChannel;
+}
+
+// @public
 export interface FullyManagedVersions {
     releaseChannels: ReleaseChannelInfo[];
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -298,7 +319,8 @@ export enum KnownUpgradeReleaseChannel {
 
 // @public
 export enum KnownVersions {
-    V20250801Preview = "2025-08-01-preview"
+    V20250801Preview = "2025-08-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -311,6 +333,12 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface ManagedServiceIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
 
 // @public
 export interface Metadata {
@@ -394,6 +422,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AppLinkClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -407,6 +437,11 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 // @public
 export interface SelfManagedUpgradeProfile {
     version: string;
+}
+
+// @public
+export interface SelfManagedUpgradeProfileUpdate {
+    version?: string;
 }
 
 // @public
@@ -462,6 +497,13 @@ export interface UpgradeProfile {
     fullyManagedUpgradeProfile?: FullyManagedUpgradeProfile;
     mode: UpgradeMode;
     selfManagedUpgradeProfile?: SelfManagedUpgradeProfile;
+}
+
+// @public
+export interface UpgradeProfileUpdate {
+    fullyManagedUpgradeProfile?: FullyManagedUpgradeProfileUpdate;
+    mode?: UpgradeMode;
+    selfManagedUpgradeProfile?: SelfManagedUpgradeProfileUpdate;
 }
 
 // @public

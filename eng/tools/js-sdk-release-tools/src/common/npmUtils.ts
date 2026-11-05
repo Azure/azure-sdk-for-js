@@ -23,10 +23,12 @@ export function configureNpmFromRepo(sdkRepoPath: string): void {
     process.platform === "win32" ? ["/d", "/s", "/c", "npm", ...npmArgs] : npmArgs;
   const npmEnvironment = { ...process.env };
   for (const variableName of Object.keys(npmEnvironment)) {
-    if (variableName.toLowerCase() === "npm_config_registry") {
+    const normalizedName = variableName.toLowerCase();
+    if (normalizedName === "npm_config_registry" || normalizedName === "npm_config_userconfig") {
       delete npmEnvironment[variableName];
     }
   }
+  npmEnvironment.npm_config_userconfig = npmConfigPath;
   const result = spawnSync(command, commandArgs, {
     cwd: sdkRepoPath,
     encoding: "utf8",
@@ -150,61 +152,60 @@ export function checkGitTagExists(tag: string): boolean {
   return result.code === 0 && result.stdout.trim().length > 0;
 }
 
-// TODO: refactor this function to support praparing files from github in general way
 export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmViewParameters) {
   const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } =
     NpmViewParameters;
-  let sdkFilePath = "";
   const targetFilePath =
     file === "CHANGELOG.md" ? path.join(npmPackagePath, file) : getApiReviewPath(npmPackagePath);
   const tag = `${packageName}_${version}`;
-  const defaultContent = "```ts\n```";
-  logger.info(`Start to get and clone ${npmPackagePath} from latest ${packageName} release tag.`);
+  const tagRef = `refs/tags/${tag}`;
+  const runGit = (args: string[]) =>
+    spawnSync("git", ["-C", sdkRootPath, "--no-pager", ...args], {
+      encoding: "utf8",
+      maxBuffer: 20 * 1024 * 1024,
+    });
+  logger.info(`Start to read ${file} for ${packageName} from release tag ${tag}.`);
 
   try {
-    if (file === "CHANGELOG.md") {
-      sdkFilePath = relative(sdkRootPath, path.join(packageFolderPath, file)).replace(/\\/g, "/");
-      // For CHANGELOG.md, use sdkFilePath directly
-      const gitCommand = `git --no-pager show ${tag}:${sdkFilePath}`;
-      const changelogContent = executeCommand(gitCommand)?.stdout || "";
-      if (!changelogContent.trim()) {
-        logger.warn(
-          `Warning: CHANGELOG.md content is empty for tag ${tag} at path ${sdkFilePath}.`,
+    const tagResult = runGit(["rev-parse", "--verify", "--quiet", `${tagRef}^{commit}`]);
+    if (tagResult.status !== 0) {
+      logger.info(`Release tag ${tag} is unavailable locally; fetching it from origin.`);
+      const fetchResult = runGit(["fetch", "--no-tags", "origin", `${tagRef}:${tagRef}`]);
+      if (fetchResult.status !== 0) {
+        throw new Error(
+          `Failed to fetch release tag ${tag} from origin in ${sdkRootPath}: ${fetchResult.error?.message ?? fetchResult.stderr}`,
         );
       }
-      fs.writeFileSync(targetFilePath, changelogContent, { encoding: "utf-8" });
-    } else {
-      sdkFilePath = relative(sdkRootPath, getApiReviewBasePath(packageFolderPath)).replace(
-        /\\/g,
-        "/",
-      );
-      // For API review files, generate two file paths with different suffixes
-      const nodeApiFilePath = `${sdkFilePath}-node.api.md`;
-      const standardApiFilePath = `${sdkFilePath}.api.md`;
-
-      // Generate two git commands
-      const nodeApiGitCommand = `git --no-pager show ${tag}:${nodeApiFilePath}`;
-      const standardApiGitCommand = `git --no-pager show ${tag}:${standardApiFilePath}`;
-
-      // Execute both git commands
-      const nodeApiExecResult = executeCommand(nodeApiGitCommand)?.stdout || "";
-      const standardApiExecResult = executeCommand(standardApiGitCommand)?.stdout || "";
-
-      // Use nodeApi result if it has content, otherwise use standardApi result
-      let apiViewContent = nodeApiExecResult.trim() ? nodeApiExecResult : standardApiExecResult;
-      if (!apiViewContent.trim()) {
-        logger.warn(
-          `Warning: No API view content found for either ${nodeApiFilePath} or ${standardApiFilePath}. Using default content.`,
-        );
-        apiViewContent = defaultContent;
-      }
-      fs.writeFileSync(targetFilePath, apiViewContent, { encoding: "utf-8" });
     }
-    logger.info(`Create ${packageFolderPath} from the tag ${tag} successfully`);
-  } catch (error) {
-    logger.error(
-      `Failed to read ${packageFolderPath} in ${sdkFilePath} from the tag ${tag}.\n Error details: ${error}`,
+
+    const sdkFilePath = relative(
+      sdkRootPath,
+      file === "CHANGELOG.md"
+        ? path.join(packageFolderPath, file)
+        : getApiReviewBasePath(packageFolderPath),
+    ).replace(/\\/g, "/");
+    const candidatePaths =
+      file === "CHANGELOG.md"
+        ? [sdkFilePath]
+        : [`${sdkFilePath}-node.api.md`, `${sdkFilePath}.api.md`];
+    const failures: string[] = [];
+    for (const candidatePath of candidatePaths) {
+      const result = runGit(["show", `${tagRef}:${candidatePath}`]);
+      if (result.status === 0 && result.stdout.trim()) {
+        fs.writeFileSync(targetFilePath, result.stdout, { encoding: "utf-8" });
+        logger.info(`Created ${targetFilePath} from release tag ${tag} successfully.`);
+        return;
+      }
+      failures.push(
+        `${candidatePath}: ${result.error?.message ?? (result.stderr?.trim() || "File content is empty")}`,
+      );
+    }
+    throw new Error(
+      `Failed to read ${file} for ${packageName} from release tag ${tag} in ${sdkRootPath}:\n${failures.join("\n")}`,
     );
+  } catch (error) {
+    logger.error(`Failed to restore ${targetFilePath} from release tag ${tag}: ${error}`);
+    throw error;
   }
 }
 

@@ -330,14 +330,7 @@ export class SqlManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSqlManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSqlManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.capabilities = _getCapabilitiesOperations(this._client);
     this.transparentDataEncryptions = _getTransparentDataEncryptionsOperations(this._client);

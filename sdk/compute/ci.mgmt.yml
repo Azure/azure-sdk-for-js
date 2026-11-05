@@ -16,6 +16,7 @@ trigger:
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
       - sdk/compute/arm-compute-bulkactions
+      - sdk/compute/arm-computeworkloadmanager
 pr:
   branches:
     include:
@@ -33,6 +34,7 @@ pr:
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
       - sdk/compute/arm-compute-bulkactions
+      - sdk/compute/arm-computeworkloadmanager
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -48,3 +50,5 @@ extends:
         safeName: azurearmcomputerecommender
       - name: azure-arm-compute-bulkactions
         safeName: azurearmcomputebulkactions
+      - name: azure-arm-computeworkloadmanager
+        safeName: azurearmcomputeworkloadmanager

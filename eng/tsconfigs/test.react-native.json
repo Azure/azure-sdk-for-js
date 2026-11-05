@@ -2,6 +2,7 @@
   "extends": "./base.test.json",
   "compilerOptions": {
     "types": ["react-native"],
+    "skipLibCheck": true,
     "customConditions": ["react-native"]
   },
   "exclude": [

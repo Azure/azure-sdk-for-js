@@ -28,12 +28,14 @@ export function _listByServerSend(
   options: RestorableDroppedDatabasesListByServerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases{?api%2Dversion,%24skiptoken,%24top}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "%24skiptoken": options?.skiptoken,
+      "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +75,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }
 
@@ -91,7 +97,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
       "%24filter": options?.filter,
     },

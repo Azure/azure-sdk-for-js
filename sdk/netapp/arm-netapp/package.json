@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-netapp",
-  "version": "25.0.0-beta.3",
+  "version": "25.1.0-beta.1",
   "description": "A generated SDK for NetAppManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -88,7 +88,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-netapp",
@@ -266,6 +267,90 @@
       "require": {
         "types": "./dist/commonjs/api/netAppResourceQuotaLimits/index.d.ts",
         "default": "./dist/commonjs/api/netAppResourceQuotaLimits/index.js"
+      }
+    },
+    "./api/externalCacheConnections": {
+      "browser": {
+        "types": "./dist/browser/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/browser/api/externalCacheConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/esm/api/externalCacheConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalCacheConnections/index.d.ts",
+        "default": "./dist/commonjs/api/externalCacheConnections/index.js"
+      }
+    },
+    "./api/externalCaches": {
+      "browser": {
+        "types": "./dist/browser/api/externalCaches/index.d.ts",
+        "default": "./dist/browser/api/externalCaches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalCaches/index.d.ts",
+        "default": "./dist/esm/api/externalCaches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalCaches/index.d.ts",
+        "default": "./dist/commonjs/api/externalCaches/index.js"
+      }
+    },
+    "./api/svmPeers": {
+      "browser": {
+        "types": "./dist/browser/api/svmPeers/index.d.ts",
+        "default": "./dist/browser/api/svmPeers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/svmPeers/index.d.ts",
+        "default": "./dist/esm/api/svmPeers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/svmPeers/index.d.ts",
+        "default": "./dist/commonjs/api/svmPeers/index.js"
+      }
+    },
+    "./api/externalSvms": {
+      "browser": {
+        "types": "./dist/browser/api/externalSvms/index.d.ts",
+        "default": "./dist/browser/api/externalSvms/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalSvms/index.d.ts",
+        "default": "./dist/esm/api/externalSvms/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalSvms/index.d.ts",
+        "default": "./dist/commonjs/api/externalSvms/index.js"
+      }
+    },
+    "./api/clusterPeers": {
+      "browser": {
+        "types": "./dist/browser/api/clusterPeers/index.d.ts",
+        "default": "./dist/browser/api/clusterPeers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterPeers/index.d.ts",
+        "default": "./dist/esm/api/clusterPeers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterPeers/index.d.ts",
+        "default": "./dist/commonjs/api/clusterPeers/index.js"
+      }
+    },
+    "./api/externalClusters": {
+      "browser": {
+        "types": "./dist/browser/api/externalClusters/index.d.ts",
+        "default": "./dist/browser/api/externalClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalClusters/index.d.ts",
+        "default": "./dist/esm/api/externalClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalClusters/index.d.ts",
+        "default": "./dist/commonjs/api/externalClusters/index.js"
       }
     },
     "./api/activeDirectoryConfigs": {

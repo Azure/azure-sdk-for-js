@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/applicationGatewayPrivateLinkResources/operations.js";
 import type { ApplicationGatewayPrivateLinkResourcesListOptionalParams } from "../../api/applicationGatewayPrivateLinkResources/options.js";
-import type { ApplicationGatewayPrivateLinkResource } from "../../models/microsoft/network/models.js";
+import type { ApplicationGatewayPrivateLinkResource } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplicationGatewayPrivateLinkResources operations. */

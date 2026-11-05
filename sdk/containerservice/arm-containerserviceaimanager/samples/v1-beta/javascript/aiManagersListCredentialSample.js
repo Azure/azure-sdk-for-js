@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the credentials of an AI Manager.
  *
  * @summary lists the credentials of an AI Manager.
- * x-ms-original-file: 2026-05-02-preview/AIManagers_ListCredential.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagers_ListCredential.json
  */
 async function listsTheCredentialsOfAnAIManager() {
   const credential = new DefaultAzureCredential();

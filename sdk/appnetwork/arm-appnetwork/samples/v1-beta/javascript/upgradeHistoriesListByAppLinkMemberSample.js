@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list UpgradeHistory resources by AppLinkMember.
+ * This sample demonstrates how to list the upgrade history of an Azure Kubernetes Application Network member.
  *
- * @summary list UpgradeHistory resources by AppLinkMember.
- * x-ms-original-file: 2025-08-01-preview/UpgradeHistories_ListByAppLinkMember.json
+ * @summary list the upgrade history of an Azure Kubernetes Application Network member.
+ * x-ms-original-file: 2026-08-01-preview/UpgradeHistories_ListByAppLinkMember.json
  */
 async function upgradeHistoriesListByAppLinkMember() {
   const credential = new DefaultAzureCredential();

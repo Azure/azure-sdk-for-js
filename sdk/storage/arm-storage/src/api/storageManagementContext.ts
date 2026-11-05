@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/arm-storage/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
 import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
@@ -36,14 +37,17 @@ export function createStorageManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-storage/20.1.1`;
+  const userAgentInfo = `azsdk-js-arm-storage/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },

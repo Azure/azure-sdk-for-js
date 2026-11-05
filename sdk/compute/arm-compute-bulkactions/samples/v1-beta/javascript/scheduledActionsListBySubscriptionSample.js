@@ -5,14 +5,14 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists scheduled actions in the specified subscription.
+ * This sample demonstrates how to lists recurring bulk actions in the specified subscription.
  *
- * @summary lists scheduled actions in the specified subscription.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActions_ListBySubscription_MaximumSet_Gen.json
+ * @summary lists recurring bulk actions in the specified subscription.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_ListBySubscription_PagedSuccess.json
  */
-async function listScheduledActionsInASubscription() {
+async function listRecurringBulkActionsInASubscription() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.scheduledActions.listBySubscription()) {
@@ -23,7 +23,7 @@ async function listScheduledActionsInASubscription() {
 }
 
 async function main() {
-  await listScheduledActionsInASubscription();
+  await listRecurringBulkActionsInASubscription();
 }
 
 main().catch(console.error);

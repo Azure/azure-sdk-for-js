@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Container Apps Job.
  *
  * @summary create or Update a Container Apps Job.
- * x-ms-original-file: 2025-10-02-preview/Job_CreateorUpdate.json
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate.json
  */
 async function createOrUpdateContainerAppsJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,7 +68,7 @@ async function createOrUpdateContainerAppsJob(): Promise<void> {
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
           image: "repo/testcontainerAppsJob0:v4",
-          resources: { cpu: 0.2, gpu: 1, memory: "100Mi" },
+          resources: { cpu: 0.2, memory: "100Mi" },
         },
       ],
     },
@@ -80,17 +80,13 @@ async function createOrUpdateContainerAppsJob(): Promise<void> {
  * This sample demonstrates how to create or Update a Container Apps Job.
  *
  * @summary create or Update a Container Apps Job.
- * x-ms-original-file: 2025-10-02-preview/Job_CreateorUpdate_ConnectedEnvironment.json
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate_ConnectedEnvironment.json
  */
 async function createOrUpdateContainerAppsJobOnAConnectedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.createOrUpdate("rg", "testcontainerAppsJob0", {
-    extendedLocation: {
-      name: "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.ExtendedLocation/customLocations/testcustomlocation",
-      type: "CustomLocation",
-    },
     location: "East US",
     configuration: {
       manualTriggerConfig: { parallelism: 4, replicaCompletionCount: 1 },
@@ -137,7 +133,7 @@ async function createOrUpdateContainerAppsJobOnAConnectedEnvironment(): Promise<
  * This sample demonstrates how to create or Update a Container Apps Job.
  *
  * @summary create or Update a Container Apps Job.
- * x-ms-original-file: 2025-10-02-preview/Job_CreateorUpdate_EventTrigger.json
+ * x-ms-original-file: 2026-07-01/Job_CreateorUpdate_EventTrigger.json
  */
 async function createOrUpdateContainerAppsJobWithEventDrivenTrigger(): Promise<void> {
   const credential = new DefaultAzureCredential();

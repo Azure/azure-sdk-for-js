@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a provider monitor setting.
  *
  * @summary deletes a provider monitor setting.
- * x-ms-original-file: 2024-09-01/ProviderMonitorSettings_Delete.json
+ * x-ms-original-file: 2025-10-01/ProviderMonitorSettings_Delete.json
  */
 async function providerMonitorSettingsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a Container App using JSON Merge Patch
  *
  * @summary patches a Container App using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_Patch.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_Patch.json
  */
 async function patchContainerApp(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,20 +66,10 @@ async function patchContainerApp(): Promise<void> {
         ],
         stickySessions: { affinity: "sticky" },
         targetPort: 3000,
-        traffic: [{ label: "production", revisionName: "testcontainerApp0-ab1234", weight: 100 }],
+        traffic: [{ label: "production", revisionName: "testcontainerApp0-ab1234" }],
       },
       maxInactiveRevisions: 10,
-      revisionTransitionThreshold: 100,
-      runtime: {
-        dotnet: { autoConfigureDataProtection: true },
-        java: {
-          enableMetrics: true,
-          javaAgent: {
-            enabled: true,
-            logging: { loggerSettings: [{ level: "debug", logger: "org.springframework.boot" }] },
-          },
-        },
-      },
+      runtime: { java: { enableMetrics: true } },
       service: { type: "redis" },
     },
     template: {
@@ -123,8 +113,6 @@ async function patchContainerApp(): Promise<void> {
       serviceBinds: [
         {
           name: "service",
-          clientType: "dotnet",
-          customizedKeys: { DesiredKey: "defaultKey" },
           serviceId:
             "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/service",
         },

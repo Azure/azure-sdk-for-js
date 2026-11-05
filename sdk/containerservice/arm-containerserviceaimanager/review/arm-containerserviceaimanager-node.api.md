@@ -93,6 +93,7 @@ export interface AIManagerPatch {
 
 // @public
 export interface AIManagerProperties {
+    clusterResourceId?: string;
     deletePolicy?: DeletePolicy;
     readonly managedResourceGroupName?: string;
     readonly provisioningState?: AIManagerProvisioningState;
@@ -172,7 +173,7 @@ export interface AIModelsListOptionalParams extends OperationOptions {
 
 // @public
 export interface AIModelsOperations {
-    calculateCost: (location: string, aiModelName: string, body: CalculateCostRequest, options?: AIModelsCalculateCostOptionalParams) => Promise<CalculateCostResponse>;
+    calculateCost: (location: string, aiModelName: string, options?: AIModelsCalculateCostOptionalParams) => Promise<CalculateCostResponse>;
     get: (location: string, aiModelName: string, options?: AIModelsGetOptionalParams) => Promise<AIModel>;
     list: (location: string, options?: AIModelsListOptionalParams) => PagedAsyncIterableIterator<AIModel>;
 }
@@ -194,6 +195,13 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BaseModelReference {
+    config?: Record<string, any>;
+    id: string;
+    totalWeightSizeBytes?: number;
+}
+
+// @public
 export interface CalculateCostPlan {
     readonly feasible: boolean;
     readonly infeasibilityReason?: InfeasibilityReason;
@@ -208,10 +216,6 @@ export interface CalculateCostPlan {
 }
 
 // @public
-export interface CalculateCostRequest {
-}
-
-// @public
 export interface CalculateCostResponse {
     readonly currency: string;
     readonly plans: CalculateCostPlan[];
@@ -223,6 +227,7 @@ export class ContainerServiceClient {
     readonly aiManagerNamespaces: AIManagerNamespacesOperations;
     readonly aiManagers: AIManagersOperations;
     readonly aiModels: AIModelsOperations;
+    readonly customAIModels: CustomAIModelsOperations;
     readonly modelDeployments: ModelDeploymentsOperations;
     readonly modelSources: ModelSourcesOperations;
     readonly operations: OperationsOperations;
@@ -257,6 +262,67 @@ export interface CredentialResults {
 // @public
 export interface CredentialValue {
     inline?: InlineCredential;
+    managedIdentity?: ManagedIdentityCredential;
+}
+
+// @public
+export interface CustomAIModel extends ProxyResource {
+    readonly eTag?: string;
+    properties?: CustomAIModelProperties;
+}
+
+// @public
+export interface CustomAIModelProperties {
+    baseModel: BaseModelReference;
+    description?: string;
+    modelId: string;
+    modelSourceResourceId: string;
+    readonly provisioningState?: CustomAIModelProvisioningState;
+    readonly spec?: CustomAIModelSpec;
+}
+
+// @public
+export type CustomAIModelProvisioningState = string;
+
+// @public
+export interface CustomAIModelsCalculateCostOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CustomAIModelsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CustomAIModelsDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CustomAIModelsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CustomAIModelsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CustomAIModelsOperations {
+    calculateCost: (resourceGroupName: string, aiManagerName: string, customAIModelName: string, options?: CustomAIModelsCalculateCostOptionalParams) => Promise<CalculateCostResponse>;
+    createOrUpdate: (resourceGroupName: string, aiManagerName: string, customAIModelName: string, resource: CustomAIModel, options?: CustomAIModelsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomAIModel>, CustomAIModel>;
+    delete: (resourceGroupName: string, aiManagerName: string, customAIModelName: string, options?: CustomAIModelsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, aiManagerName: string, customAIModelName: string, options?: CustomAIModelsGetOptionalParams) => Promise<CustomAIModel>;
+    list: (resourceGroupName: string, aiManagerName: string, options?: CustomAIModelsListOptionalParams) => PagedAsyncIterableIterator<CustomAIModel>;
+}
+
+// @public
+export interface CustomAIModelSpec {
+    readonly isRestricted: boolean;
+    readonly license?: string;
+    readonly maxContextLength: number;
 }
 
 // @public
@@ -332,6 +398,16 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCustomAIModelProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownDeletePolicy {
     Delete = "Delete",
     Keep = "Keep"
@@ -371,7 +447,8 @@ export enum KnownModelDeploymentProvisioningState {
 
 // @public
 export enum KnownModelSourceType {
-    HuggingFace = "HuggingFace"
+    HuggingFace = "HuggingFace",
+    MicrosoftFoundry = "MicrosoftFoundry"
 }
 
 // @public
@@ -390,8 +467,12 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20260402Preview = "2026-04-02-preview",
-    V20260502Preview = "2026-05-02-preview"
+    V20260902Preview = "2026-09-02-preview"
+}
+
+// @public
+export interface ManagedIdentityCredential {
+    resourceId: string;
 }
 
 // @public
@@ -408,6 +489,11 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManualScalingProfile {
     replicas: number;
+}
+
+// @public
+export interface MicrosoftFoundrySource {
+    projectResourceId: string;
 }
 
 // @public
@@ -491,6 +577,7 @@ export interface ModelSource extends ProxyResource {
 export interface ModelSourceProperties {
     credential?: CredentialValue;
     description?: string;
+    microsoftFoundry?: MicrosoftFoundrySource;
     readonly provisioningState?: ResourceProvisioningState;
     sourceType: ModelSourceType;
 }

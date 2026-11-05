@@ -323,30 +323,6 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 /**
- * Options to configure messages deletion.
- */
-export interface DeleteMessagesOptions extends OperationOptionsBase {
-  /**
-   * If specified, only messages enqueued before this time are deleted.
-   */
-  beforeEnqueueTime?: Date;
-  /**
-   * Up to `maxMessageCount` messages will be deleted.
-   */
-  maxMessageCount: number;
-}
-
-/**
- * Options to configure deletion of all messages in an entity.
- */
-export interface PurgeMessagesOptions extends OperationOptionsBase {
-  /**
-   * If specified, only messages enqueued before this time are deleted.
-   */
-  beforeEnqueueTime?: Date;
-}
-
-/**
  * Options to configure the `listMessageSessions` method on the `ServiceBusClient`.
  */
 export interface ListMessageSessionsOptions extends OperationOptionsBase {

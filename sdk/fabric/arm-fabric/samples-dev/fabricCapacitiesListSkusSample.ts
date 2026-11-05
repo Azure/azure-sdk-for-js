@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list eligible SKUs for Microsoft Fabric resource provider
  *
  * @summary list eligible SKUs for Microsoft Fabric resource provider
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListSkus.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_ListSkus.json
  */
 async function listEligibleSKUsForANewCapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();

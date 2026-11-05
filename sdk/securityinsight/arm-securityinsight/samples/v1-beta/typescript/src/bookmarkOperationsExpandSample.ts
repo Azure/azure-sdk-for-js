@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to expand an bookmark
  *
  * @summary expand an bookmark
- * x-ms-original-file: 2025-07-01-preview/bookmarks/expand/PostExpandBookmark.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/expand/PostExpandBookmark.json
  */
 async function expandAnBookmark(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateService.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateService.json
  */
 async function searchCreateOrUpdateService(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,12 +16,12 @@ async function searchCreateOrUpdateService(): Promise<void> {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
     computeType: "Default",
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -30,7 +30,7 @@ async function searchCreateOrUpdateService(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceAuthOptions.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceAuthOptions.json
  */
 async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,13 +38,13 @@ async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
-    computeType: "Default",
     authOptions: { aadOrApiKey: { aadAuthFailureMode: "http401WithBearerChallenge" } },
+    computeType: "Default",
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceDisableLocalAuth.json
  */
 async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,13 +61,13 @@ async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
     computeType: "Default",
     disableLocalAuth: true,
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -76,7 +76,7 @@ async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -84,13 +84,13 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): P
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
+    computeType: "Default",
+    hostingMode: "Default",
     partitionCount: 1,
     publicNetworkAccess: "Disabled",
-    hostingMode: "Default",
-    computeType: "Default",
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -99,7 +99,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): P
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -107,13 +107,13 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Pr
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 1,
-    partitionCount: 1,
-    networkRuleSet: { ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }] },
-    hostingMode: "Default",
     computeType: "Default",
+    hostingMode: "Default",
+    networkRuleSet: { ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }] },
+    partitionCount: 1,
+    replicaCount: 1,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -122,7 +122,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Pr
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
 async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -130,16 +130,16 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndByp
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 1,
-    partitionCount: 1,
-    networkRuleSet: {
-      ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
-      bypass: "AzurePortal",
-    },
-    hostingMode: "Default",
     computeType: "Default",
+    hostingMode: "Default",
+    networkRuleSet: {
+      bypass: "AzureServices",
+      ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
+    },
+    partitionCount: 1,
+    replicaCount: 1,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -148,7 +148,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndByp
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceWithCmkEnforcement.json
  */
 async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -156,13 +156,13 @@ async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
     computeType: "Default",
     encryptionWithCmk: { enforcement: "Enabled" },
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -171,7 +171,7 @@ async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithDataExfiltration.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceWithDataExfiltration.json
  */
 async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -179,13 +179,13 @@ async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> 
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
     computeType: "Default",
     dataExfiltrationProtections: ["BlockAll"],
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -194,20 +194,13 @@ async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> 
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithIdentity.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceWithIdentity.json
  */
 async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
-    location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
-    computeType: "Default",
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
@@ -215,6 +208,13 @@ async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
           {},
       },
     },
+    location: "westus",
+    computeType: "Default",
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -223,7 +223,7 @@ async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithServerless.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateServiceWithServerless.json
  */
 async function searchCreateOrUpdateServiceWithServerless(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -242,50 +242,7 @@ async function searchCreateOrUpdateServiceWithServerless(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity.json
- */
-async function searchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
-    location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
-    computeType: "Default",
-    encryptionWithCmk: {
-      enforcement: "Enabled",
-      serviceLevelEncryptionKey: {
-        keyName: "myUserManagedEncryptionKey-createdinAzureKeyVault",
-        keyVersion: "myKeyVersion-32charAlphaNumericString",
-        vaultUri: "https://myKeyVault.vault.azure.net",
-        identity: {
-          odataType: "#Microsoft.Azure.Search.DataUserAssignedIdentity",
-          userAssignedIdentity:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-mi",
-          federatedIdentityClientId: "f83c6b1b-4d34-47e4-bb34-9d83df58b540",
-        },
-      },
-    },
-    identity: {
-      type: "SystemAssigned, UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-mi":
-          {},
-      },
-    },
-  });
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- *
- * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateWithKnowledgeRetrieval.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateWithKnowledgeRetrieval.json
  */
 async function searchCreateOrUpdateWithKnowledgeRetrieval(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -308,7 +265,7 @@ async function searchCreateOrUpdateWithKnowledgeRetrieval(): Promise<void> {
  * This sample demonstrates how to creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
- * x-ms-original-file: 2026-03-01-preview/SearchCreateOrUpdateWithSemanticSearch.json
+ * x-ms-original-file: 2026-11-01/SearchCreateOrUpdateWithSemanticSearch.json
  */
 async function searchCreateOrUpdateWithSemanticSearch(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -316,13 +273,13 @@ async function searchCreateOrUpdateWithSemanticSearch(): Promise<void> {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.createOrUpdate("rg1", "mysearchservice", {
     location: "westus",
-    tags: { "app-name": "My e-commerce app" },
-    sku: { name: "standard" },
-    replicaCount: 3,
-    partitionCount: 1,
-    hostingMode: "Default",
     computeType: "Default",
+    hostingMode: "Default",
+    partitionCount: 1,
+    replicaCount: 3,
     semanticSearch: "free",
+    sku: { name: "standard" },
+    tags: { "app-name": "My e-commerce app" },
   });
   console.log(result);
 }
@@ -338,7 +295,6 @@ async function main(): Promise<void> {
   await searchCreateOrUpdateServiceWithDataExfiltration();
   await searchCreateOrUpdateServiceWithIdentity();
   await searchCreateOrUpdateServiceWithServerless();
-  await searchCreateOrUpdateServiceWithServiceLevelCmkMultiTenantFederatedIdentity();
   await searchCreateOrUpdateWithKnowledgeRetrieval();
   await searchCreateOrUpdateWithSemanticSearch();
 }

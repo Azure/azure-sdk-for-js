@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DependencyOfRelationship
  *
  * @summary get a DependencyOfRelationship
- * x-ms-original-file: 2023-09-01-preview/DependencyOfRelationships_Get.json
+ * x-ms-original-file: 2026-08-01/DependencyOfRelationships_Get.json
  */
 async function dependencyOfRelationshipsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

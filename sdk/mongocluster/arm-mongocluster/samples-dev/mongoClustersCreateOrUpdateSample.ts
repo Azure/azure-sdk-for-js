@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_Create.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create.json
  */
 async function createsANewMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createsANewMongoClusterResource(): Promise<void> {
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_CreateGeoReplica.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreateGeoReplica.json
  */
 async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_CreateGeoReplica_CMK.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreateGeoReplica_CMK.json
  */
 async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -107,7 +107,7 @@ async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncrypti
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_CreatePITR.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR.json
  */
 async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -132,7 +132,7 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<vo
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_CreatePITR_CMK.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR_CMK.json
  */
 async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromA
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_CreatePITR_EntraAuth.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR_EntraAuth.json
  */
 async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -198,7 +198,7 @@ async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftE
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_Create_CMK.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create_CMK.json
  */
 async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -238,7 +238,7 @@ async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption()
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-01/MongoClusters_Create_SSDv2.json
+ * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create_SSDv2.json
  */
 async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
   const credential = new DefaultAzureCredential();

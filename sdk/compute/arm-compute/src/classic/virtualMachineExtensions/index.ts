@@ -110,6 +110,7 @@ export interface VirtualMachineExtensionsOperations {
     options?: VirtualMachineExtensionsGetOptionalParams,
   ) => Promise<VirtualMachineExtension>;
 }
+
 function _getVirtualMachineExtensions(context: ComputeManagementContext) {
   return {
     list: (
@@ -239,6 +240,7 @@ function _getVirtualMachineExtensions(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, vmName, vmExtensionName, options),
   };
 }
+
 export function _getVirtualMachineExtensionsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineExtensionsOperations {

@@ -5,7 +5,9 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetLifeCycleHookEventsListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetLifeCycleHookEventsUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetLifeCycleHookEventsGetOptionalParams extends OperationOptions {}

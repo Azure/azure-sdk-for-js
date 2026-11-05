@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the file import.
  *
  * @summary delete the file import.
- * x-ms-original-file: 2025-07-01-preview/fileImports/DeleteFileImport.json
+ * x-ms-original-file: 2025-10-01-preview/fileImports/DeleteFileImport.json
  */
 async function deleteAFileImport() {
   const credential = new DefaultAzureCredential();

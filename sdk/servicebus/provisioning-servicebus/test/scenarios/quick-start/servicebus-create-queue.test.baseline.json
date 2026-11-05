@@ -1,0 +1,109 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickstart-servicebus"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "queue": {
+          "bicepIdentifier": "queue",
+          "type": "Microsoft.ServiceBus/namespaces/queues",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickstart-queue"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "lockDuration": {
+                    "kind": "string",
+                    "value": "PT5M"
+                  },
+                  "maxSizeInMegabytes": {
+                    "kind": "integer",
+                    "value": "1024"
+                  },
+                  "requiresDuplicateDetection": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "requiresSession": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "defaultMessageTimeToLive": {
+                    "kind": "string",
+                    "value": "P10675199DT2H48M5.4775807S"
+                  },
+                  "deadLetteringOnMessageExpiration": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "duplicateDetectionHistoryTimeWindow": {
+                    "kind": "string",
+                    "value": "PT10M"
+                  },
+                  "maxDeliveryCount": {
+                    "kind": "integer",
+                    "value": "10"
+                  },
+                  "autoDeleteOnIdle": {
+                    "kind": "string",
+                    "value": "P10675199DT2H48M5.4775807S"
+                  },
+                  "enablePartitioning": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableExpress": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

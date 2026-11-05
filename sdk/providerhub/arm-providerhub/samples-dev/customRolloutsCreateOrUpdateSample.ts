@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the rollout details.
  *
  * @summary creates or updates the rollout details.
- * x-ms-original-file: 2024-09-01/CustomRollouts_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/CustomRollouts_CreateOrUpdate.json
  */
 async function customRolloutsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,9 +20,17 @@ async function customRolloutsCreateOrUpdate(): Promise<void> {
     {
       properties: {
         specification: {
-          autoProvisionConfig: { resourceGraph: true, storage: true },
+          autoProvisionConfig: { storage: true, resourceGraph: true },
           canary: { regions: ["brazilus"] },
+          manifestCheckinSpecification: {
+            manifestCheckinOption: "AttemptAutomaticManifestCheckin",
+            manifestCheckinParams: {
+              baselineArmManifestLocation: "EastUS2EUAP",
+              environment: "Prod",
+            },
+          },
           refreshSubscriptionRegistration: true,
+          rolloutId: "RolloutIdGuid",
         },
       },
     },

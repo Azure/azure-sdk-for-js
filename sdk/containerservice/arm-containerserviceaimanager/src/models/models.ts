@@ -229,10 +229,12 @@ export interface AIManagerProperties {
   deletePolicy?: DeletePolicy;
   /** The name of the managed resource group created by the AI Manager to hold underlying infrastructure resources. */
   readonly managedResourceGroupName?: string;
+  /** The Azure resource ID of an existing AKS cluster to attach (bring-your-own). When omitted, AI Manager provisions and manages its own underlying cluster. The referenced cluster must be in the same region as this AI Manager, but may reside in a different subscription within the same Microsoft Entra tenant. This property is immutable after creation. */
+  clusterResourceId?: string;
 }
 
 export function aiManagerPropertiesSerializer(item: AIManagerProperties): any {
-  return { deletePolicy: item["deletePolicy"] };
+  return { deletePolicy: item["deletePolicy"], clusterResourceId: item["clusterResourceId"] };
 }
 
 export function aiManagerPropertiesDeserializer(item: any): AIManagerProperties {
@@ -240,6 +242,7 @@ export function aiManagerPropertiesDeserializer(item: any): AIManagerProperties 
     provisioningState: item["provisioningState"],
     deletePolicy: item["deletePolicy"],
     managedResourceGroupName: item["managedResourceGroupName"],
+    clusterResourceId: item["clusterResourceId"],
   };
 }
 
@@ -811,13 +814,6 @@ export function aiModelArrayDeserializer(result: Array<AIModel>): any[] {
   });
 }
 
-/** Request body for the AI model `calculateCost` action. */
-export interface CalculateCostRequest {}
-
-export function calculateCostRequestSerializer(_item: CalculateCostRequest): any {
-  return {};
-}
-
 /** Response body for the AI model `calculateCost` action. */
 export interface CalculateCostResponse {
   /** ISO 4217 currency code, e.g. "USD". */
@@ -901,7 +897,7 @@ export function servingPerformanceEstimationDeserializer(item: any): ServingPerf
   };
 }
 
-/** Reason explaining why a `CalculateCostPlan` is not deployable. This is a per-plan annotation surfaced inside a successful `calculateCost` response, not an ARM error envelope. */
+/** Reason explaining why a `CalculateCostPlan` is not deployable. This is a per-plan annotation surfaced inside a successful `calculateCost` response, not an Azure Resource Manager error envelope. */
 export interface InfeasibilityReason {
   /** Machine-readable reason code. */
   readonly code: InfeasibleCode;
@@ -978,6 +974,8 @@ export interface ModelSourceProperties {
   description?: string;
   /** Credential the platform uses to authenticate to the source. Optional for public sources (e.g. ungated Hugging Face models). */
   credential?: CredentialValue;
+  /** Microsoft Foundry project reference. Required when `sourceType` is `MicrosoftFoundry`; must be omitted otherwise. Immutable after creation. */
+  microsoftFoundry?: MicrosoftFoundrySource;
 }
 
 export function modelSourcePropertiesSerializer(item: ModelSourceProperties): any {
@@ -987,6 +985,9 @@ export function modelSourcePropertiesSerializer(item: ModelSourceProperties): an
     credential: !item["credential"]
       ? item["credential"]
       : credentialValueSerializer(item["credential"]),
+    microsoftFoundry: !item["microsoftFoundry"]
+      ? item["microsoftFoundry"]
+      : microsoftFoundrySourceSerializer(item["microsoftFoundry"]),
   };
 }
 
@@ -998,6 +999,9 @@ export function modelSourcePropertiesDeserializer(item: any): ModelSourcePropert
     credential: !item["credential"]
       ? item["credential"]
       : credentialValueDeserializer(item["credential"]),
+    microsoftFoundry: !item["microsoftFoundry"]
+      ? item["microsoftFoundry"]
+      : microsoftFoundrySourceDeserializer(item["microsoftFoundry"]),
   };
 }
 
@@ -1005,6 +1009,8 @@ export function modelSourcePropertiesDeserializer(item: any): ModelSourcePropert
 export enum KnownModelSourceType {
   /** A Hugging Face model registry. */
   HuggingFace = "HuggingFace",
+  /** A Microsoft Foundry project. Tenant-private models produced by internal training pipelines. Authenticated via a user-assigned managed identity (referenced in the credential and granted the `Foundry User` role on the project). */
+  MicrosoftFoundry = "MicrosoftFoundry",
 }
 
 /**
@@ -1012,30 +1018,39 @@ export enum KnownModelSourceType {
  * {@link KnownModelSourceType} can be used interchangeably with ModelSourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **HuggingFace**: A Hugging Face model registry.
+ * **HuggingFace**: A Hugging Face model registry. \
+ * **MicrosoftFoundry**: A Microsoft Foundry project. Tenant-private models produced by internal training pipelines. Authenticated via a user-assigned managed identity (referenced in the credential and granted the `Foundry User` role on the project).
  */
 export type ModelSourceType = string;
 
-/**
- * A credential value. Exactly one variant must be set.
- *
- * In the current API version, only the `inline` variant is supported. Future
- * API versions are expected to add additional credential kinds (for example,
- * managed identity and Key Vault secret references) as sibling variants on
- * this model.
- */
+/** A credential value used for accessing gated or private models. */
 export interface CredentialValue {
   /** An inline credential containing a secret value supplied in the request payload. */
   inline?: InlineCredential;
+  /**
+   *   A user-assigned managed identity the platform authenticates as. Required for `MicrosoftFoundry` sources and
+   *   the user must grant the `Foundry User` role (role definition id 53ca6127-db72-4b80-b1b0-d745d6d5456d) on the Foundry project.
+   *   See https://aka.ms/aks/aim-modelsource for more details.
+   *   The platform federates this identity to an in-cluster puller ServiceAccount (Workload Identity) at deployment time.
+   */
+  managedIdentity?: ManagedIdentityCredential;
 }
 
 export function credentialValueSerializer(item: CredentialValue): any {
-  return { inline: !item["inline"] ? item["inline"] : inlineCredentialSerializer(item["inline"]) };
+  return {
+    inline: !item["inline"] ? item["inline"] : inlineCredentialSerializer(item["inline"]),
+    managedIdentity: !item["managedIdentity"]
+      ? item["managedIdentity"]
+      : managedIdentityCredentialSerializer(item["managedIdentity"]),
+  };
 }
 
 export function credentialValueDeserializer(item: any): CredentialValue {
   return {
     inline: !item["inline"] ? item["inline"] : inlineCredentialDeserializer(item["inline"]),
+    managedIdentity: !item["managedIdentity"]
+      ? item["managedIdentity"]
+      : managedIdentityCredentialDeserializer(item["managedIdentity"]),
   };
 }
 
@@ -1052,6 +1067,48 @@ export function inlineCredentialSerializer(item: InlineCredential): any {
 export function inlineCredentialDeserializer(item: any): InlineCredential {
   return {
     value: item["value"],
+  };
+}
+
+/** A credential backed by a user-owned user-assigned managed identity. The platform authenticates to the model source as this identity via Workload Identity; no secret is stored. */
+export interface ManagedIdentityCredential {
+  /** The Azure resource id of the user-assigned managed identity to authenticate with. Only user-assigned identities are supported. */
+  resourceId: string;
+}
+
+export function managedIdentityCredentialSerializer(item: ManagedIdentityCredential): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function managedIdentityCredentialDeserializer(item: any): ManagedIdentityCredential {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+/**
+ * Reference to a Microsoft Foundry project that backs a `MicrosoftFoundry`
+ * ModelSource. Only the project Azure id is required; the Foundry account and its
+ * data-plane endpoint (`*.services.ai.azure.com`) are resolved by the platform
+ * from the project (the account is the project's parent resource).
+ *
+ * Authentication uses the user-assigned managed identity referenced in the
+ * ModelSource `credential.managedIdentity`, which the user must grant the
+ * `Foundry User` role (role definition id 53ca6127-db72-4b80-b1b0-d745d6d5456d)
+ * on this project. See https://aka.ms/aks/aim-modelsource for more details.
+ */
+export interface MicrosoftFoundrySource {
+  /** The ARM resource id of the Foundry project. The scope on which the referenced managed identity must hold the `Foundry User` role. The account and endpoint host are derived from this id. */
+  projectResourceId: string;
+}
+
+export function microsoftFoundrySourceSerializer(item: MicrosoftFoundrySource): any {
+  return { projectResourceId: item["projectResourceId"] };
+}
+
+export function microsoftFoundrySourceDeserializer(item: any): MicrosoftFoundrySource {
+  return {
+    projectResourceId: item["projectResourceId"],
   };
 }
 
@@ -1124,9 +1181,9 @@ export function modelDeploymentDeserializer(item: any): ModelDeployment {
 export interface ModelDeploymentProperties {
   /** The status of the last reconciliation. */
   readonly provisioningState?: ModelDeploymentProvisioningState;
-  /** Full ARM resource id of the model to deploy. Phase 1 accepts an `AIModel` resource id only. Immutable after creation. */
+  /** Full Azure resource ID of the model to deploy. Immutable after creation. */
   modelResourceId: string;
-  /** Full ARM resource id of a `ModelSource` to use when pulling artifacts for this deployment. Immutable after creation. */
+  /** Full Azure resource ID of a `ModelSource` to use when pulling artifacts for this deployment. Immutable after creation. */
   modelSourceResourceId?: string;
   /** Runtime performance mode. */
   performanceMode?: ModelDeploymentPerformanceMode;
@@ -1385,10 +1442,186 @@ export function modelDeploymentArrayDeserializer(result: Array<ModelDeployment>)
   });
 }
 
+/**
+ * A custom AI model registered by the user and scoped to a specific
+ * AIManager.
+ */
+export interface CustomAIModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CustomAIModelProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function customAIModelSerializer(item: CustomAIModel): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : customAIModelPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function customAIModelDeserializer(item: any): CustomAIModel {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : customAIModelPropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** Custom AI model properties. */
+export interface CustomAIModelProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: CustomAIModelProvisioningState;
+  /**
+   * The model identifier, interpreted per the referenced ModelSource type.
+   * For `HuggingFace` sources this is the upstream `<org>/<repo>` id, e.g.
+   * `meta-llama/Llama-2-7b-chat`. For `MicrosoftFoundry` sources this is
+   * `modelName/version`, e.g. `private-llama/1`. Immutable after creation.
+   */
+  modelId: string;
+  /** The base model this custom model was trained from (id + config.json). Immutable after creation. */
+  baseModel: BaseModelReference;
+  /** Azure resource id of the ModelSource to use when pulling artifacts. Used to determine model location and access. Immutable after creation. */
+  modelSourceResourceId: string;
+  /** Optional. Free-form description of the model. Mutable. */
+  description?: string;
+  /** Read-only. Platform-resolved specification of the model. */
+  readonly spec?: CustomAIModelSpec;
+}
+
+export function customAIModelPropertiesSerializer(item: CustomAIModelProperties): any {
+  return {
+    modelId: item["modelId"],
+    baseModel: baseModelReferenceSerializer(item["baseModel"]),
+    modelSourceResourceId: item["modelSourceResourceId"],
+    description: item["description"],
+  };
+}
+
+export function customAIModelPropertiesDeserializer(item: any): CustomAIModelProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    modelId: item["modelId"],
+    baseModel: baseModelReferenceDeserializer(item["baseModel"]),
+    modelSourceResourceId: item["modelSourceResourceId"],
+    description: item["description"],
+    spec: !item["spec"] ? item["spec"] : customAIModelSpecDeserializer(item["spec"]),
+  };
+}
+
+/** Provisioning state of a CustomAIModel resource. */
+export enum KnownCustomAIModelProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being created. */
+  Creating = "Creating",
+  /** Resource is updating. */
+  Updating = "Updating",
+  /** Resource is deleting. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Provisioning state of a CustomAIModel resource. \
+ * {@link KnownCustomAIModelProvisioningState} can be used interchangeably with CustomAIModelProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: Resource is being created. \
+ * **Updating**: Resource is updating. \
+ * **Deleting**: Resource is deleting.
+ */
+export type CustomAIModelProvisioningState = string;
+
+/** The base model a custom model was trained from. A HuggingFace repository supplied by the user because the platform may lack access to private source repositories. */
+export interface BaseModelReference {
+  /** The HuggingFace `<org>/<repo>` id of the base model, e.g. `meta-llama/Llama-2-7b-chat`. Immutable after creation. */
+  id: string;
+  /** The total size of the model weights in bytes. eg `28000000000`. Required if the base model is not publicly accessible on HuggingFace. */
+  totalWeightSizeBytes?: number;
+  /** The verbatim `config.json` of the base model, supplied by the user. Required if the base model is not publicly accessible on HuggingFace.  For more information on CustomAIModel configuration see https://aka.ms/aks/aim-customaimodel. */
+  config?: Record<string, any>;
+}
+
+export function baseModelReferenceSerializer(item: BaseModelReference): any {
+  return {
+    id: item["id"],
+    totalWeightSizeBytes: item["totalWeightSizeBytes"],
+    config: item["config"],
+  };
+}
+
+export function baseModelReferenceDeserializer(item: any): BaseModelReference {
+  return {
+    id: item["id"],
+    totalWeightSizeBytes: item["totalWeightSizeBytes"],
+    config: !item["config"]
+      ? item["config"]
+      : Object.fromEntries(Object.entries(item["config"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Platform-resolved specification of a custom model. Extends `ModelSpec` with custom model-specific metadata. All fields are read-only. Reserved so custom-model-specific fields can be added without changing the SDK surface. */
+export interface CustomAIModelSpec {
+  /** The license of the model, when known. SPDX license identifier, e.g. `mit`, `apache-2.0`. */
+  readonly license?: string;
+  /** Whether access to the model is restricted and requires credential. */
+  readonly isRestricted: boolean;
+  /** The maximum context length supported by the model, in tokens. */
+  readonly maxContextLength: number;
+}
+
+export function customAIModelSpecDeserializer(item: any): CustomAIModelSpec {
+  return {
+    license: item["license"],
+    isRestricted: item["isRestricted"],
+    maxContextLength: item["maxContextLength"],
+  };
+}
+
+/** The response of a CustomAIModel list operation. */
+export interface _CustomAIModelListResult {
+  /** The CustomAIModel items on this page */
+  value: CustomAIModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _customAIModelListResultDeserializer(item: any): _CustomAIModelListResult {
+  return {
+    value: customAIModelArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function customAIModelArraySerializer(result: Array<CustomAIModel>): any[] {
+  return result.map((item) => {
+    return customAIModelSerializer(item);
+  });
+}
+
+export function customAIModelArrayDeserializer(result: Array<CustomAIModel>): any[] {
+  return result.map((item) => {
+    return customAIModelDeserializer(item);
+  });
+}
+
 /** Azure Kubernetes AI Manager api versions. */
 export enum KnownVersions {
-  /** Azure Kubernetes AI Manager api version 2026-04-02-preview. */
-  V20260402Preview = "2026-04-02-preview",
-  /** Azure Kubernetes AI Manager api version 2026-05-02-preview. */
-  V20260502Preview = "2026-05-02-preview",
+  /** Azure Kubernetes AI Manager api version 2026-09-02-preview. */
+  V20260902Preview = "2026-09-02-preview",
 }

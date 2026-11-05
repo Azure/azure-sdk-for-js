@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets logic app's connections.
  *
  * @summary gets logic app's connections.
- * x-ms-original-file: 2025-10-02-preview/LogicApps_ListConnections.json
+ * x-ms-original-file: 2026-07-01/LogicApps_ListConnections.json
  */
 async function listTheWorkflowsConfigurationConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();

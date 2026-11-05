@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a source control.
  *
  * @summary delete a source control.
- * x-ms-original-file: 2025-07-01-preview/sourcecontrols/DeleteSourceControl.json
+ * x-ms-original-file: 2025-10-01-preview/sourcecontrols/DeleteSourceControl.json
  */
 async function deleteASourceControl(): Promise<void> {
   const credential = new DefaultAzureCredential();

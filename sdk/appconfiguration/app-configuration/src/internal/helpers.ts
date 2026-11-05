@@ -43,8 +43,7 @@ import type { SnapshotReferenceValue } from "../snapshotReference.js";
 import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapshotReference.js";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
-import type { OperationOptions } from "@azure/core-client";
-import type { FullOperationResponse } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { toCompatResponse, type CompatResponse } from "@azure/core-http-compat";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { SyncTokenHeaderField } from "../models.js";
@@ -519,6 +518,7 @@ export function formatFeatureFlagFieldsForSelect(
 export function toAppConfigurationCompatResponse(
   response: unknown,
 ): CompatResponse & { parsedHeaders: SyncTokenHeaderField; bodyAsText: string } {
+  type FullOperationResponse = Parameters<typeof toCompatResponse>[0];
   const rawResponse = response as FullOperationResponse & {
     body?: unknown;
     headers: FullOperationResponse["headers"] | Record<string, string>;
@@ -575,26 +575,30 @@ export function hasUnderscoreResponse<T extends object>(
 /**
  * Get the scope for the App Configuration service based on the endpoint and audience.
  * If the audience is provided, it will be used as the scope.
- * If not, the scope is defaulted to Azure Public Cloud when not specified.
+ * If not, the scope is inferred from the endpoint.
  *
  * @internal
  */
 export function getScope(appConfigEndpoint: string, appConfigAudience?: string): string {
   if (appConfigAudience) {
     return `${appConfigAudience}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.us") ||
-    appConfigEndpoint.endsWith("appconfig.azure.us")
-  ) {
-    return `${KnownAppConfigAudience.AzureGovernment}/.default`;
-  } else if (
-    appConfigEndpoint.endsWith("azconfig.azure.cn") ||
-    appConfigEndpoint.endsWith("appconfig.azure.cn")
-  ) {
-    return `${KnownAppConfigAudience.AzureChina}/.default`;
-  } else {
-    return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
   }
+
+  const hostname = new URL(appConfigEndpoint).hostname;
+  const stagingDomain = "appconfig-staging.azure.com";
+  if (hostname.endsWith(`.${stagingDomain}`)) {
+    return `https://${stagingDomain}/.default`;
+  }
+
+  const labels = hostname.split(".");
+  for (let index = labels.length - 1; index >= 0; index--) {
+    const label = labels[index].toLowerCase();
+    if (label === "appconfig" || label === "azconfig") {
+      return `https://${labels.slice(index).join(".")}/.default`;
+    }
+  }
+
+  return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
 }
 
 /**

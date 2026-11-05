@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/provisioning-core": ["../src/index.ts"],
+      "@azure/provisioning-core/*": ["../src/*"]
+    }
+  }
+}

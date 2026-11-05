@@ -27,7 +27,7 @@ export interface FirewallRulesOperations {
     serverName: string,
     parameters: FirewallRuleList,
     options?: FirewallRulesReplaceOptionalParams,
-  ) => Promise<FirewallRule | undefined>;
+  ) => Promise<FirewallRule | void>;
   /** Gets a list of firewall rules. */
   listByServer: (
     resourceGroupName: string,

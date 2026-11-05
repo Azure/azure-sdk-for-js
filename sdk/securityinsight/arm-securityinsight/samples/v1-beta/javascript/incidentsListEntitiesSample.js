@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all entities for an incident.
  *
  * @summary gets all entities for an incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentEntities/Incidents_ListEntities.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentEntities/Incidents_ListEntities.json
  */
 async function incidentsListEntities() {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Removed the dependency on `@azure/web-pubsub` by implementing client access token generation directly. [#39855](https://github.com/Azure/azure-sdk-for-js/pull/39855)
+
 ## 1.0.0-beta.1 (2026-09-03)
 
 ### Features Added

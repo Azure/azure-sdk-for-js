@@ -29,7 +29,7 @@ declare global {
   interface PackageJson {
     name: string;
     version: string;
-    "sdk-type"?: "client" | "mgmt" | "perf-test" | "utility";
+    "sdk-type"?: "client" | "mgmt" | "provisioning" | "perf-test" | "utility";
     description: string;
     main?: string;
     types: string;

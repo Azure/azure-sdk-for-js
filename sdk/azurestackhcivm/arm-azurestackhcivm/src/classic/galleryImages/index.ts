@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/galleryImages/operations.js";
-import {
+import type {
   GalleryImagesListAllOptionalParams,
   GalleryImagesListByResourceGroupOptionalParams,
   GalleryImagesDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesGetOptionalParams,
 } from "../../api/galleryImages/options.js";
-import { GalleryImage, GalleryImageTagsUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GalleryImage, GalleryImageTagsUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GalleryImages operations. */
 export interface GalleryImagesOperations {
@@ -34,11 +34,6 @@ export interface GalleryImagesOperations {
     options?: GalleryImagesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryImage>;
   /** The operation to delete a gallery image. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryImageName: string,

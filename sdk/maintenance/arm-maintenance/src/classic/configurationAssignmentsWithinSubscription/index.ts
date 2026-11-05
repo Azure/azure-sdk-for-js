@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
+import type { MaintenanceManagementContext } from "../../api/maintenanceManagementContext.js";
 import { list } from "../../api/configurationAssignmentsWithinSubscription/operations.js";
-import { ConfigurationAssignmentsWithinSubscriptionListOptionalParams } from "../../api/configurationAssignmentsWithinSubscription/options.js";
-import { ConfigurationAssignment } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ConfigurationAssignmentsWithinSubscriptionListOptionalParams } from "../../api/configurationAssignmentsWithinSubscription/options.js";
+import type { ConfigurationAssignment } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ConfigurationAssignmentsWithinSubscription operations. */
 export interface ConfigurationAssignmentsWithinSubscriptionOperations {
