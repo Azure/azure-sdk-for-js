@@ -246,6 +246,31 @@ describe("voice post-emitter integration", () => {
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.listCalls("agent", options),
     },
+    {
+      name: "telephony call jobs",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listCallJobs("agent", options),
+    },
+    {
+      name: "campaigns",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.campaigns.list("agent", options),
+    },
+    {
+      name: "campaign validation errors",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.campaigns.listValidationErrors("agent", "campaign", options),
+    },
+    {
+      name: "Live conversations",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.list("agent", options),
+    },
+    {
+      name: "Live conversation items",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.listItems("agent", "conversation", options),
+    },
   ];
 
   it.each(listCases)("retains cursor paging and request options for $name", async ({ list }) => {
@@ -284,7 +309,7 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  it("omits removed campaign operations while retaining call jobs and realtime connections", () => {
+  it("wires redesigned campaign and Live groups without restoring legacy flat campaign APIs", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",
@@ -303,6 +328,12 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.campaigns.create).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.campaigns.getOperation).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations.get).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations).not.toHaveProperty("connect");
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
     expect(requests).toHaveLength(0);
   });

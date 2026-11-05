@@ -69,7 +69,6 @@ const binding = {
   provider: "twilio",
   connection_name: "telephony-connection",
   phone_number: "+15555550100",
-  status: "active",
   incoming_call_url: "https://example.com/incoming",
   etag: '"binding-etag"',
 };
@@ -190,7 +189,7 @@ describe("beta agent telephony operations", () => {
     };
     const result = await client.beta.voiceAgents.telephony.createBinding(
       "voice agent",
-      body,
+      { ...body, id: binding.id, incoming_call_url: binding.incoming_call_url },
       options,
     );
     expect(result).toMatchObject({ provider: "twilio", phone_number: binding.phone_number });
@@ -211,7 +210,7 @@ describe("beta agent telephony operations", () => {
     const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
     const result = await client.beta.voiceAgents.telephony.createBinding(
       "voice-agent",
-      body,
+      { ...body, id: binding.id, incoming_call_url: binding.incoming_call_url },
       options,
     );
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
@@ -242,18 +241,18 @@ describe("beta agent telephony operations", () => {
   });
 
   it("updates only supplied fields and sends the binding ETag", async () => {
-    const { client, requests } = createClient({ body: { ...binding, status: "suspended" } });
+    const { client, requests } = createClient({ body: { ...binding, label: "Updated" } });
     const result = await client.beta.voiceAgents.telephony.updateBinding(
       "voice-agent",
       binding.id,
       binding.etag,
-      { status: "suspended" },
+      { label: "Updated" },
       options,
     );
-    expect(result.status).toBe("suspended");
+    expect(result.label).toBe("Updated");
     expect(requests[0].method).toBe("PATCH");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
-    expect(JSON.parse(requests[0].body as string)).toEqual({ status: "suspended" });
+    expect(JSON.parse(requests[0].body as string)).toEqual({ label: "Updated" });
   });
 
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
@@ -288,17 +287,17 @@ describe("beta agent telephony operations", () => {
         {
           name: "support",
           description: "Support line",
-          destination: { kind: "pstn", value: "+15555550101" },
+          destination: { type: "phone_number", value: "+15555550101" },
         },
         {
           name: "sip",
           description: "SIP desk",
-          destination: { kind: "sip", value: "sip:support@example.com" },
+          destination: { type: "sip", value: "sip:support@example.com" },
         },
         {
           name: "teams",
           description: "Teams desk",
-          destination: { kind: "teams", value: "00000000-0000-0000-0000-000000000001" },
+          destination: { type: "teams", value: "00000000-0000-0000-0000-000000000001" },
         },
       ] satisfies TelephonyTransferTarget[],
     },

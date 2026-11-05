@@ -10,10 +10,10 @@ import type {
   BrowserAutomationTool,
   BrowserAutomationToolboxTool,
   ConnectionType,
-  CreateTelephonyBindingRequest,
-  CreateTelephonyBindingRequestUnion,
-  CreateTeamsPhoneExtensibilityTelephonyBindingRequest,
-  CreateTelephonyCallJobRequest,
+  TelephonyBinding,
+  TelephonyBindingUnion,
+  TelephonyCallJobCreate,
+  TelephonyAddressUnion,
   DataGenerationJobConfigurationUnion,
   DataGenerationJobInputsUnion,
   DataGenerationJobType,
@@ -33,7 +33,7 @@ import type {
   TelephonyCallJob,
   TelephonyCallJobTerminalReason,
   TelephonyCallLifecycleEventReason,
-  TelephonyOutboundFixedIntervalRetryPolicy,
+  FixedIntervalRetryPolicy,
   TelephonyOutboundRetryPolicy,
   TelephonyOutboundRetryPolicyUnion,
   UpdateTelephonyBindingRequest,
@@ -62,8 +62,8 @@ import {
   agentSessionResourceDeserializer,
   apiErrorDeserializer,
   apiErrorResponseDeserializer,
-  createTelephonyBindingRequestUnionSerializer,
-  createTelephonyCallJobRequestSerializer,
+  telephonyBindingUnionSerializer,
+  telephonyCallJobCreateSerializer,
   customToolParamDeserializer,
   customToolParamSerializer,
   dataGenerationJobConfigurationUnionDeserializer,
@@ -104,6 +104,8 @@ import {
   voiceAgentInputTranscriptionSerializer,
   voiceAgentDefinitionDeserializer,
   voiceAgentDefinitionSerializer,
+  agentDefinitionUnionDeserializer,
+  agentDefinitionUnionSerializer,
   webSearchToolboxToolDeserializer,
   webSearchToolboxToolSerializer,
   webSearchToolDeserializer,
@@ -167,6 +169,35 @@ describe("regenerated model wire contracts", () => {
     const definition: VoiceAgentDefinition = { kind: "voice", store: false };
     expect(toWire(voiceAgentDefinitionSerializer(definition))).toEqual(definition);
     expect(toWire(voiceAgentDefinitionDeserializer(definition))).toEqual(definition);
+  });
+
+  it.each([undefined, "realtime"] as const)(
+    "dispatches Realtime voice definitions with sub_protocol %s without losing fields",
+    (subProtocol) => {
+      const definition: VoiceAgentDefinition = {
+        kind: "voice",
+        sub_protocol: subProtocol,
+        model_type: "managed",
+        model: "voice-deployment",
+        output_modalities: ["text"],
+        store: false,
+      };
+      expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(toWire(definition));
+      expect(agentDefinitionUnionDeserializer(toWire(definition))).toMatchObject(definition);
+    },
+  );
+
+  it("dispatches Live voice definitions through their protocol and delegation serializers", () => {
+    const definition: Models.VoiceAgentLiveDefinition = {
+      kind: "voice",
+      sub_protocol: "live",
+      model_type: "self_deployed",
+      model: "live-deployment",
+      store: false,
+      delegation: { type: "foundry_managed_agent", agent_name: "backend", agent_version: "1" },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(definition);
+    expect(agentDefinitionUnionDeserializer(definition)).toMatchObject(definition);
   });
 
   it("preserves error review targets and realtime failure messages", () => {
@@ -237,9 +268,6 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<TelephonyProvider>().toEqualTypeOf<
       "teams_phone_extensibility" | "twilio" | "sip"
     >();
-    expectTypeOf<
-      CreateTeamsPhoneExtensibilityTelephonyBindingRequest["provider"]
-    >().toEqualTypeOf<"teams_phone_extensibility">();
     expectTypeOf<
       TeamsPhoneExtensibilityTelephonyBinding["provider"]
     >().toEqualTypeOf<"teams_phone_extensibility">();
@@ -383,9 +411,11 @@ describe("regenerated model wire contracts", () => {
     },
   );
 
-  const bindings: CreateTelephonyBindingRequestUnion[] = [
+  const bindings: TelephonyBindingUnion[] = [
     {
       provider: "sip",
+      id: "binding-test",
+      incoming_call_url: "https://example.com/incoming-call",
       connection_name: connectionName,
       phone_number: "+14255550100",
       allowed_calling_numbers: ["+14255550123", "^\\+1425[0-9]+$"],
@@ -393,12 +423,16 @@ describe("regenerated model wire contracts", () => {
     },
     {
       provider: "twilio",
+      id: "binding-test",
+      incoming_call_url: "https://example.com/incoming-call",
       connection_name: connectionName,
       phone_number: "+14255550100",
       label: "Twilio binding",
     },
     {
       provider: "teams_phone_extensibility",
+      id: "binding-test",
+      incoming_call_url: "https://example.com/incoming-call",
       connection_name: connectionName,
       resource_account_object_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       label: "Teams binding",
@@ -406,12 +440,12 @@ describe("regenerated model wire contracts", () => {
   ];
 
   it.each(bindings)("uses connection_name throughout $provider binding models", (binding) => {
-    expect(toWire(createTelephonyBindingRequestUnionSerializer(binding))).toEqual(binding);
+    const { id, incoming_call_url: incomingCallUrl, ...input } = binding;
+    expect(toWire(telephonyBindingUnionSerializer(binding))).toEqual(input);
     const response = {
       ...binding,
-      id: "binding-test",
-      status: "active",
-      incoming_call_url: "https://example.com/incoming-call",
+      id,
+      incoming_call_url: incomingCallUrl,
       etag: "binding-revision",
     };
 
@@ -422,7 +456,7 @@ describe("regenerated model wire contracts", () => {
   });
 
   it("keeps a binding connection optional only for updates", () => {
-    expectTypeOf<CreateTelephonyBindingRequest["connection_name"]>().toEqualTypeOf<string>();
+    expectTypeOf<TelephonyBinding["connection_name"]>().toEqualTypeOf<string>();
     expectTypeOf<UpdateTelephonyBindingRequest["connection_name"]>().toEqualTypeOf<
       string | undefined
     >();
@@ -432,10 +466,10 @@ describe("regenerated model wire contracts", () => {
     expect(toWire(updateTelephonyBindingRequestSerializer({}))).toEqual({});
   });
 
-  it("requires connection_name and scalar source on call-job requests and responses", () => {
-    type Connection = { connection_name: string; source: string };
+  it("requires connection_name and typed source on call-job requests and responses", () => {
+    type Connection = { connection_name: string; source: TelephonyAddressUnion };
     expectTypeOf<
-      Pick<CreateTelephonyCallJobRequest, "connection_name" | "source">
+      Pick<TelephonyCallJobCreate, "connection_name" | "source">
     >().toEqualTypeOf<Connection>();
     expectTypeOf<
       Pick<TelephonyCallJob, "connection_name" | "source">
@@ -443,7 +477,7 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<
       TelephonyCallJob["retry_policy"]
     >().toEqualTypeOf<TelephonyOutboundRetryPolicyUnion>();
-    expectTypeOf<Pick<TelephonyOutboundFixedIntervalRetryPolicy, "interval">>().toEqualTypeOf<{
+    expectTypeOf<Pick<FixedIntervalRetryPolicy, "interval">>().toEqualTypeOf<{
       interval: number;
     }>();
     expectTypeOf<TelephonyOutboundRetryPolicy["max_attempts"]>().toEqualTypeOf<
@@ -451,16 +485,19 @@ describe("regenerated model wire contracts", () => {
     >();
   });
 
-  it.each(["+14255550100", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"])(
-    "preserves scalar outbound source %s in call jobs",
+  it.each([
+    { type: "phone_number", value: "+14255550100" },
+    { type: "teams", value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" },
+  ] satisfies TelephonyAddressUnion[])(
+    "preserves typed outbound source $type in call jobs",
     (source) => {
-      const call: CreateTelephonyCallJobRequest = {
+      const call: TelephonyCallJobCreate = {
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
         source,
         structured_inputs: { customer: { name: "Ada" }, notify: false },
       };
-      expect(toWire(createTelephonyCallJobRequestSerializer(call))).toEqual(call);
+      expect(toWire(telephonyCallJobCreateSerializer(call))).toEqual(call);
       const job = telephonyCallJobDeserializer({
         ...call,
         id: "call-job-test",
@@ -482,20 +519,20 @@ describe("regenerated model wire contracts", () => {
   it.each([0, 60])(
     "uses the unified retry policy with interval %s in requests and responses",
     (interval) => {
-      const policy: TelephonyOutboundFixedIntervalRetryPolicy = {
+      const policy: FixedIntervalRetryPolicy = {
         type: "fixed_interval",
         interval,
       };
       expect(toWire(telephonyOutboundRetryPolicyUnionSerializer(policy))).toEqual(policy);
       expect(telephonyOutboundRetryPolicyUnionDeserializer(policy)).toMatchObject(policy);
 
-      const request: CreateTelephonyCallJobRequest = {
+      const request: TelephonyCallJobCreate = {
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         retry_policy: policy,
       };
-      expect(toWire(createTelephonyCallJobRequestSerializer(request))).toEqual(request);
+      expect(toWire(telephonyCallJobCreateSerializer(request))).toEqual(request);
       expect(
         telephonyCallJobDeserializer({
           ...request,
@@ -542,7 +579,7 @@ describe("regenerated model wire contracts", () => {
       telephonyCallJobDeserializer({
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         id: "call-job-test",
         object: "telephony.call_job",
         agent_name: "voice-agent",

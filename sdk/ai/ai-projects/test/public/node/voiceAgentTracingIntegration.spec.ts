@@ -30,7 +30,7 @@ const callJob = {
   agent_name: "PRIVATE_AGENT",
   connection_name: "PRIVATE_CONNECTION",
   status: "accepted",
-  source: "+15555550200",
+  source: { type: "phone_number", value: "+15555550200" },
   destination: { type: "phone_number", value: "+15555550100" },
   retry_policy: { type: "none" },
   attempt_count: 0,
@@ -41,6 +41,7 @@ const callJob = {
 const binding = {
   id: "binding-1",
   provider: "twilio",
+  incoming_call_url: "https://example.com/incoming",
   connection_name: "PRIVATE_CONNECTION",
   phone_number: "+15555550100",
   label: "PRIVATE_LABEL",
@@ -103,7 +104,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_IDEMPOTENCY",
         {
           connection_name: "PRIVATE_CONNECTION",
-          source: "+15555550200",
+          source: { type: "phone_number", value: "+15555550200" },
           destination: { type: "phone_number", value: "+15555550100" },
         },
         options,
@@ -153,6 +154,8 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_AGENT",
         {
           provider: "twilio",
+          id: binding.id,
+          incoming_call_url: binding.incoming_call_url,
           connection_name: "PRIVATE_CONNECTION",
           phone_number: "+15555550100",
         },
