@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, expect, it } from "vitest";
 import type { TokenCredential } from "@azure/core-auth";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 import type { PipelinePolicy, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
@@ -100,6 +101,115 @@ describe("ServiceBusAtomAdminClient", () => {
     const connectionString = "Endpoint=sb://192.168.y.z;UseDevelopmentEmulator=true;";
     const adminClient = new ServiceBusAdministrationClient(connectionString);
     assert.equal(adminClient["useTls"], false);
+  });
+
+  describe("emulator transport through public operations", () => {
+    const endpoint = "localhost:5300";
+    const base =
+      `Endpoint=sb://${endpoint};` + "SharedAccessKeyName=test;SharedAccessKey=test-key;";
+    const operations: Array<
+      [string, (client: ServiceBusAdministrationClient) => Promise<unknown>]
+    > = [
+      ["put", (client) => client.createQueue("my-queue")],
+      ["get", (client) => client.getQueue("my-queue")],
+      ["list", (client) => client.listQueues().next()],
+      ["delete", (client) => client.deleteQueue("my-queue")],
+    ];
+
+    async function assertTransport(
+      client: ServiceBusAdministrationClient,
+      operation: (client: ServiceBusAdministrationClient) => Promise<unknown>,
+      useHttp: boolean,
+      useSas: boolean,
+    ): Promise<void> {
+      const requests: PipelineRequest[] = [];
+      const stopped = new Error("Stopped before the network");
+      client.pipeline.addPolicy(
+        {
+          name: "observeTransport",
+          async sendRequest(request) {
+            requests.push(request);
+            throw stopped;
+          },
+        },
+        { afterPhase: "Sign" },
+      );
+
+      await expect(operation(client)).rejects.toBe(stopped);
+
+      assert.lengthOf(requests, 1);
+      const request = requests[0];
+      const url = new URL(request.url);
+      assert.equal(url.protocol, useHttp ? "http:" : "https:");
+      assert.equal(url.host, endpoint);
+      assert.equal(url.searchParams.get("api-version"), "2024-05");
+      assert.equal(request.allowInsecureConnection, useHttp);
+      if (useSas) {
+        const authorization = request.headers.get("authorization");
+        assert.isDefined(authorization);
+        const fields = new URLSearchParams(authorization!.replace(/^SharedAccessSignature /, ""));
+        assert.equal(fields.get("sr"), request.url.toLowerCase());
+      }
+    }
+
+    for (const [label, flag, useHttp] of [
+      ["absent", "", false],
+      ["true", "UseDevelopmentEmulator=true;", true],
+      ["false", "UseDevelopmentEmulator=false;", false],
+      ["trimmed true", "UseDevelopmentEmulator= true ;", true],
+      ["True", "UseDevelopmentEmulator=True;", false],
+      ["TRUE", "UseDevelopmentEmulator=TRUE;", false],
+      ["FALSE", "UseDevelopmentEmulator=FALSE;", false],
+      ["invalid value", "UseDevelopmentEmulator=invalid;", false],
+      ["numeric value", "UseDevelopmentEmulator=1;", false],
+      ["empty", "UseDevelopmentEmulator=;", false],
+      ["different key casing", "usedevelopmentemulator=true;", false],
+      ["last value false", "UseDevelopmentEmulator=true;UseDevelopmentEmulator=false;", false],
+      ["last value true", "UseDevelopmentEmulator=false;UseDevelopmentEmulator=true;", true],
+    ] as const) {
+      for (const [name, operation] of operations) {
+        it(`${name} uses ${useHttp ? "HTTP" : "HTTPS"} for ${label}`, async () => {
+          await assertTransport(
+            new ServiceBusAdministrationClient(base + flag, {
+              retryOptions: { maxRetries: 0 },
+            }),
+            operation,
+            useHttp,
+            true,
+          );
+        });
+      }
+    }
+
+    for (const [name, operation] of operations) {
+      it(`${name} keeps HTTPS with a named key credential`, async () => {
+        await assertTransport(
+          new ServiceBusAdministrationClient(
+            endpoint,
+            new AzureNamedKeyCredential("test", "test-key"),
+          ),
+          operation,
+          false,
+          true,
+        );
+      });
+
+      it(`${name} keeps HTTPS with a token credential`, async () => {
+        await assertTransport(
+          new ServiceBusAdministrationClient(endpoint, fakeCredential),
+          operation,
+          false,
+          false,
+        );
+      });
+    }
+
+    it("rejects a flag without an assignment", () => {
+      assert.throws(
+        () => new ServiceBusAdministrationClient(base + "UseDevelopmentEmulator;"),
+        /Connection string malformed: each part.*assignment/,
+      );
+    });
   });
 
   describe("topic runtime properties over a fake transport", () => {

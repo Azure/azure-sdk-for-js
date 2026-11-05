@@ -244,7 +244,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       } catch {
         throw new Error("Endpoint in the connection string is not valid.");
       }
-      if (connectionStringObj.UseDevelopmentEmulator) {
+      if (connectionStringObj.UseDevelopmentEmulator === "true") {
         useTls = false;
       }
       credentials = new SasServiceClientCredentials({

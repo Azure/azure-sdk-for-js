@@ -144,4 +144,46 @@ describe("Connection String", () => {
     const parsed = parseServiceBusConnectionString(connectionString);
     assert.equal(parsed.useDevelopmentEmulator, false);
   });
+
+  for (const [flag, expected] of [
+    ["false", false],
+    [" true ", true],
+    ["True", false],
+    ["TRUE", false],
+    ["FALSE", false],
+    ["invalid", false],
+    ["1", false],
+    ["", false],
+  ] as const) {
+    it(`parses UseDevelopmentEmulator=${JSON.stringify(flag)} as ${expected}`, () => {
+      const parsed = parseServiceBusConnectionString(
+        `Endpoint=${expectedEndpoint};UseDevelopmentEmulator=${flag};`,
+      );
+      assert.equal(parsed.useDevelopmentEmulator, expected);
+    });
+  }
+
+  it("preserves case-sensitive connection string keys", () => {
+    const parsed = parseServiceBusConnectionString(
+      `Endpoint=${expectedEndpoint};usedevelopmentemulator=true;`,
+    );
+    assert.equal(parsed.useDevelopmentEmulator, false);
+  });
+
+  it("uses the last value for duplicate emulator flags", () => {
+    for (const [flags, expected] of [
+      ["UseDevelopmentEmulator=true;UseDevelopmentEmulator=false;", false],
+      ["UseDevelopmentEmulator=false;UseDevelopmentEmulator=true;", true],
+    ] as const) {
+      const parsed = parseServiceBusConnectionString(`Endpoint=${expectedEndpoint};${flags}`);
+      assert.equal(parsed.useDevelopmentEmulator, expected);
+    }
+  });
+
+  it("rejects a flag without an assignment", () => {
+    assert.throws(
+      () => parseServiceBusConnectionString(`Endpoint=${expectedEndpoint};UseDevelopmentEmulator;`),
+      /Connection string malformed: each part.*assignment/,
+    );
+  });
 });
