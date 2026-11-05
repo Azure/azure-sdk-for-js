@@ -15,6 +15,27 @@ npm install @azure/provisioning-operationalinsights @azure/provisioning-core
 2. Import resource classes from `@azure/provisioning-operationalinsights` and add them to your definition with their required properties.
 3. Serialize the definition using `@azure/provisioning-core/serialization`.
 
+```ts snippet:ReadmeSampleCreateWorkspace
+import { Stack } from "@azure/provisioning-core";
+import { Workspace } from "@azure/provisioning-operationalinsights";
+import { serialize } from "@azure/provisioning-core/serialization";
+
+const stack = new Stack("log-analytics-deployment", {
+  targetScope: "resourceGroup",
+  location: "eastus",
+});
+const workspace = new Workspace(stack, {
+  name: "my-log-analytics-workspace",
+  location: "eastus",
+  properties: {
+    sku: { name: "PerGB2018" },
+    retentionInDays: 30,
+  },
+});
+stack.outputs.add("workspaceId", "string", workspace.id);
+console.log(JSON.stringify(serialize(stack), null, 2));
+```
+
 See the [core library documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/provisioning-core/README.md) for the authoring model and serialization APIs.
 
 ## Resource types

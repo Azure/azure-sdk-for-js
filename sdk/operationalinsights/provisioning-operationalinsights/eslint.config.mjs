@@ -6,6 +6,7 @@ export default [
       rules: {
         "@typescript-eslint/no-use-before-define": "warn",
         "tsdoc/syntax": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "warn",
       },
     },
   ]),
