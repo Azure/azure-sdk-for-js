@@ -246,6 +246,7 @@ async function getOrCreateVoiceAgent(
 
   const definition: VoiceAgentDefinition = {
     kind: "voice",
+    sub_protocol: "realtime",
     model_type: "managed",
     model: modelName,
     instructions: "Listen carefully and answer the user's request.",
@@ -294,6 +295,7 @@ function isVoiceAgentDefinition(
 ): definition is VoiceAgentDefinition {
   return (
     definition.kind === "voice" &&
+    (!("sub_protocol" in definition) || definition.sub_protocol !== "live") &&
     "model_type" in definition &&
     (definition.model_type === "managed" || definition.model_type === "self_deployed") &&
     "model" in definition &&

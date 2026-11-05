@@ -49,7 +49,7 @@ export async function main(): Promise<void> {
           randomUUID(),
           {
             connection_name: required("FOUNDRY_TELEPHONY_CONNECTION"),
-            source: required("FOUNDRY_TELEPHONY_SOURCE"),
+            source: { type: "phone_number", value: required("FOUNDRY_TELEPHONY_SOURCE") },
             destination: { type: "phone_number", value: required("FOUNDRY_TELEPHONY_DESTINATION") },
           },
           { foundryFeatures: "VoiceAgents=V1Preview" },
