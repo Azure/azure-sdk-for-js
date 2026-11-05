@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `VectorIndexQuantizationType` and the optional `quantizerType` property for `diskANN` and `quantizedFlat` vector indexes. Supported values are `"product"` (the service default) and `"spherical"`. The `quantizationByteSize` option is supported only with product quantization.
+- Added `VectorIndexQuantizationType` and the optional `quantizerType` property for `diskANN` and `quantizedFlat` vector indexes. Supported values are `"product"` (the service default) and `"spherical"`. The `quantizationByteSize` option is supported only with product quantization. [#36871](https://github.com/Azure/azure-sdk-for-js/pull/36871)
 
 ## 4.10.1 (2026-09-14)
 

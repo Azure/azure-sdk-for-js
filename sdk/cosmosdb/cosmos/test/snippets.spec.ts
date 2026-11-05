@@ -32,6 +32,10 @@ import {
   UserDefinedFunctionDefinition,
   StoredProcedureDefinition,
   ItemDefinition,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorIndexQuantizationType,
+  VectorIndexType,
 } from "@azure/cosmos";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
@@ -61,6 +65,44 @@ describe("snippets", () => {
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-ignore
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+  });
+
+  it("ReadmeSampleVectorIndexQuantization", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    await client.database("existing-database").containers.create({
+      id: "vector-container",
+      partitionKey: { paths: ["/category"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        excludedPaths: [{ path: "/productVector/*" }, { path: "/sphericalVector/*" }],
+        vectorIndexes: [
+          {
+            path: "/productVector",
+            type: VectorIndexType.QuantizedFlat,
+            quantizerType: VectorIndexQuantizationType.Product,
+            // quantizationByteSize is supported only with product quantization.
+            quantizationByteSize: 8,
+          },
+          {
+            path: "/sphericalVector",
+            type: VectorIndexType.DiskANN,
+            quantizerType: VectorIndexQuantizationType.Spherical,
+            // Do not specify quantizationByteSize for spherical quantization.
+          },
+        ],
+      },
+      vectorEmbeddingPolicy: {
+        vectorEmbeddings: ["/productVector", "/sphericalVector"].map((path) => ({
+          path,
+          dataType: VectorEmbeddingDataType.Float32,
+          dimensions: 32,
+          distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+        })),
+      },
+    });
   });
 
   it("ReadmeSampleCreateContainerWithPartitionKey", async () => {

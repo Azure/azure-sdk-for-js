@@ -89,6 +89,7 @@ The following sections provide several code snippets covering some of the most c
 
 - [Create a database](#create-a-database)
 - [Create a container](#create-a-container)
+- [Configure vector index quantization](#configure-vector-index-quantization)
 - [Using Partition Keys](#using-partition-keys)
 - [Insert items](#insert-items)
 - [Query documents](#query-the-database)
@@ -124,6 +125,58 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+```
+
+### Configure vector index quantization
+
+For accounts with vector search enabled, create a container in an existing database with product or spherical quantization on `quantizedFlat` and `diskANN` vector indexes. If `quantizerType` is omitted, the service uses product quantization.
+
+The `quantizationByteSize` option is supported only with product quantization, including when `quantizerType` is omitted. Do not specify it with spherical quantization. For product quantization, the allowed byte size is between 1 and the smaller of the vector's dimensions and 512.
+
+```ts snippet:ReadmeSampleVectorIndexQuantization
+import {
+  CosmosClient,
+  VectorIndexType,
+  VectorIndexQuantizationType,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+} from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+await client.database("existing-database").containers.create({
+  id: "vector-container",
+  partitionKey: { paths: ["/category"] },
+  indexingPolicy: {
+    includedPaths: [{ path: "/*" }],
+    excludedPaths: [{ path: "/productVector/*" }, { path: "/sphericalVector/*" }],
+    vectorIndexes: [
+      {
+        path: "/productVector",
+        type: VectorIndexType.QuantizedFlat,
+        quantizerType: VectorIndexQuantizationType.Product,
+        // quantizationByteSize is supported only with product quantization.
+        quantizationByteSize: 8,
+      },
+      {
+        path: "/sphericalVector",
+        type: VectorIndexType.DiskANN,
+        quantizerType: VectorIndexQuantizationType.Spherical,
+        // Do not specify quantizationByteSize for spherical quantization.
+      },
+    ],
+  },
+  vectorEmbeddingPolicy: {
+    vectorEmbeddings: ["/productVector", "/sphericalVector"].map((path) => ({
+      path,
+      dataType: VectorEmbeddingDataType.Float32,
+      dimensions: 32,
+      distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+    })),
+  },
+});
 ```
 
 ### Using Partition Keys
