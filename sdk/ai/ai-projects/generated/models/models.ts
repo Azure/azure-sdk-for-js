@@ -5818,6 +5818,7 @@ export type VoiceAgentLiveDelegationType = "client" | "responses" | "foundry_man
 export interface VoiceAgentLiveClientDelegation extends VoiceAgentLiveDelegation {
   /** Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations. */
   acknowledgement_delay_ms?: number;
+  /** The delegation type. Always `client`. */
   type: "client";
 }
 
@@ -5842,6 +5843,7 @@ export interface VoiceAgentLiveResponsesDelegation extends VoiceAgentLiveDelegat
   acknowledgement_delay_ms?: number;
   /** Backend model, prompt, and tools used when the Live session delegates a task to Responses. */
   responses: LiveResponsesDelegationSettingsInputParam;
+  /** The delegation type. Always `responses`. */
   type: "responses";
 }
 
@@ -18330,6 +18332,7 @@ export type VoiceAgentLiveConversationItemType = "input" | "output" | "delegatio
 
 /** A stored user speech segment. */
 export interface VoiceAgentLiveInputConversationItem extends VoiceAgentLiveConversationItem {
+  /** The item type. Always `input`. */
   type: "input";
   /** Captured user transcription, when available. */
   transcription?: string;
@@ -18350,6 +18353,7 @@ export function voiceAgentLiveInputConversationItemDeserializer(
 
 /** A stored assistant speech segment. */
 export interface VoiceAgentLiveOutputConversationItem extends VoiceAgentLiveConversationItem {
+  /** The item type. Always `output`. */
   type: "output";
   /** Captured assistant transcription, not backend output or commentary guidance. */
   transcription?: string;
@@ -18372,6 +18376,7 @@ export function voiceAgentLiveOutputConversationItemDeserializer(
 export interface VoiceAgentLiveDelegationConversationItem extends VoiceAgentLiveConversationItem {
   /** The ID of the Responses API response associated with a Responses delegation. Omitted for client delegations. */
   response_id?: string;
+  /** The delegation type. Always `delegation`. */
   type: "delegation";
   /** The configured delegation owner. */
   /** The discriminator possible values: client, responses, foundry_managed_agent */
@@ -18428,6 +18433,7 @@ export type VoiceAgentLiveDelegationTarget = "responses" | "client" | "foundry_m
 
 /** Results supplied by the application for client delegation. */
 export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  /** The delegation owner. Always `client`. */
   target: "client";
   /** Guidance for Live to communicate to the user, when accepted. */
   commentary?: string;
@@ -18451,6 +18457,7 @@ export function voiceAgentLiveClientDelegationConversationItemDeserializer(
 
 /** Stored Responses delegation output, separate from Live speech. */
 export interface VoiceAgentLiveResponsesDelegationConversationItem extends VoiceAgentLiveDelegationConversationItem {
+  /** The delegation owner. Always `responses`. */
   target: "responses";
   /** Final backend text, omitted when unavailable; excludes raw tool output. */
   output?: string;
@@ -18471,6 +18478,7 @@ export function voiceAgentLiveResponsesDelegationConversationItemDeserializer(
 
 /** Stored prompt-agent delegation state and accepted results. */
 export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {
+  /** The delegation owner. Always `foundry_managed_agent`. */
   target: "foundry_managed_agent";
   /** Target agent name in the same project. */
   agent_name: string;
@@ -21702,7 +21710,9 @@ export function updateToolboxRequestSerializer(item: UpdateToolboxRequest): any 
 
 /** Live session resource reported to Foundry clients. GPT Live runs native client delegation for foundry_managed_agent sessions; Foundry reports the effective owner. */
 export interface VoiceAgentLiveSessionResource {
+  /** The Live model used to process audio and generate spoken responses. */
   model: ModelIdsLive;
+  /** Instructions that guide the Live model's behavior during the session. */
   instructions?: string;
   /** Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default). */
   input?: LiveInitialItemUnion[];
@@ -22055,6 +22065,7 @@ export type BetaSkillsDownloadResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/** The merged stereo audio for a stored Live conversation, returned as a WAV byte stream. */
 export type BetaVoiceAgentsLiveConversationsDownloadAudioResponse = {
   /**
    * BROWSER ONLY
@@ -22072,6 +22083,7 @@ export type BetaVoiceAgentsLiveConversationsDownloadAudioResponse = {
   readableStreamBody?: NodeReadableStream;
 };
 
+/** The captured speech audio for a single item in a stored Live conversation, returned as a WAV byte stream. */
 export type BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse = {
   /**
    * BROWSER ONLY
