@@ -154,8 +154,6 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_AGENT",
         {
           provider: "twilio",
-          id: binding.id,
-          incoming_call_url: binding.incoming_call_url,
           connection_name: "PRIVATE_CONNECTION",
           phone_number: "+15555550100",
         },

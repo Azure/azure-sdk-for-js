@@ -189,7 +189,7 @@ describe("beta agent telephony operations", () => {
     };
     const result = await client.beta.voiceAgents.telephony.createBinding(
       "voice agent",
-      { ...body, id: binding.id, incoming_call_url: binding.incoming_call_url },
+      body,
       options,
     );
     expect(result).toMatchObject({ provider: "twilio", phone_number: binding.phone_number });
@@ -210,12 +210,33 @@ describe("beta agent telephony operations", () => {
     const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
     const result = await client.beta.voiceAgents.telephony.createBinding(
       "voice-agent",
-      { ...body, id: binding.id, incoming_call_url: binding.incoming_call_url },
+      body,
       options,
     );
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
     expect(result).toMatchObject(body);
+  });
+
+  it("creates a SIP binding without service-generated fields or a display phone number", async () => {
+    const body = {
+      provider: "sip" as const,
+      connection_name: binding.connection_name,
+      allowed_calling_numbers: ["+15555550101"],
+    };
+    const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
+    const result = await client.beta.voiceAgents.telephony.createBinding(
+      "voice-agent",
+      body,
+      options,
+    );
+    expect(JSON.parse(requests[0].body as string)).toEqual(body);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(result).toMatchObject({
+      ...body,
+      id: binding.id,
+      incoming_call_url: binding.incoming_call_url,
+    });
   });
 
   it("gets a Teams Phone extensibility binding without requiring a phone number", async () => {

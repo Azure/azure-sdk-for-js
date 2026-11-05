@@ -12,6 +12,13 @@ import type {
   ConnectionType,
   TelephonyBinding,
   TelephonyBindingUnion,
+  TelephonyBindingCreate,
+  TelephonyBindingCreateUnion,
+  TeamsPhoneExtensibilityTelephonyBindingCreate,
+  TwilioTelephonyBindingCreate,
+  SipTelephonyBindingCreate,
+  TelephonyCampaign,
+  TelephonyCampaignCreate,
   TelephonyCallJobCreate,
   TelephonyAddressUnion,
   DataGenerationJobConfigurationUnion,
@@ -441,6 +448,7 @@ describe("regenerated model wire contracts", () => {
 
   it.each(bindings)("uses connection_name throughout $provider binding models", (binding) => {
     const { id, incoming_call_url: incomingCallUrl, ...input } = binding;
+    expect(toWire(telephonyBindingUnionSerializer(input))).toEqual(input);
     expect(toWire(telephonyBindingUnionSerializer(binding))).toEqual(input);
     const response = {
       ...binding,
@@ -464,6 +472,49 @@ describe("regenerated model wire contracts", () => {
       toWire(updateTelephonyBindingRequestSerializer({ connection_name: connectionName })),
     ).toEqual({ connection_name: connectionName });
     expect(toWire(updateTelephonyBindingRequestSerializer({}))).toEqual({});
+  });
+
+  it("separates creation inputs from required service response fields", () => {
+    expectTypeOf<
+      Parameters<Models.BetaVoiceAgentsCampaignsOperations["create"]>[2]
+    >().toEqualTypeOf<TelephonyCampaignCreate>();
+    expectTypeOf<
+      Parameters<Models.BetaVoiceAgentsTelephonyOperations["createBinding"]>[1]
+    >().toEqualTypeOf<TelephonyBindingCreateUnion>();
+    expectTypeOf<keyof TelephonyCampaignCreate>().toEqualTypeOf<
+      | "connection_name"
+      | "source"
+      | "recipients"
+      | "recipient_dataset"
+      | "schedule"
+      | "retry_policy"
+    >();
+    expectTypeOf<keyof TelephonyBindingCreate>().toEqualTypeOf<
+      "provider" | "connection_name" | "label"
+    >();
+    expectTypeOf<TwilioTelephonyBindingCreate["phone_number"]>().toEqualTypeOf<string>();
+    expectTypeOf<
+      TeamsPhoneExtensibilityTelephonyBindingCreate["resource_account_object_id"]
+    >().toEqualTypeOf<string>();
+    expectTypeOf<SipTelephonyBindingCreate["phone_number"]>().toEqualTypeOf<string | undefined>();
+    expectTypeOf<Pick<TelephonyBinding, "id" | "incoming_call_url">>().toEqualTypeOf<{
+      readonly id: string;
+      readonly incoming_call_url: string;
+    }>();
+    expectTypeOf<
+      Pick<
+        TelephonyCampaign,
+        "name" | "status" | "created_at" | "updated_at" | "etag" | "operation_id" | "progress"
+      >
+    >().toEqualTypeOf<{
+      readonly name: string;
+      readonly status: Models.TelephonyCampaignStatus;
+      readonly created_at: Date;
+      readonly updated_at: Date;
+      readonly etag: string;
+      readonly operation_id: string;
+      readonly progress: Models.TelephonyCampaignProgress;
+    }>();
   });
 
   it("requires connection_name and typed source on call-job requests and responses", () => {
