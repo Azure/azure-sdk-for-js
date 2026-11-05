@@ -7,7 +7,7 @@ import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
 import { LogsIngestionClient } from "../../../src/index.js";
 import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
-import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { AdditionalPolicyConfig } from "@azure-rest/core-client";
 export const loggerForTest = createClientLogger("test");
 
 const envSetupForPlayback: Record<string, string> = {
