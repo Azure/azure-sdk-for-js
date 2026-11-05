@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.47 (2026-11-05)
+## 1.0.0-beta.47 (Unreleased)
 
 ### Features Added
 
@@ -13,6 +13,7 @@
 
 ### Other Changes
 
+- Removed the direct `@azure/core-client` dependency while preserving the existing exporter client options.
 - Added an internal `_configuration` subscription entry point so the Azure Monitor distro can reuse the existing OneSettings polling worker and boolean feature evaluation. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
 
 ## 1.0.0-beta.46 (2026-10-05)
