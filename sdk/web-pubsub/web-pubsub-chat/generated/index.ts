@@ -26,7 +26,6 @@ export type {
   ChatMessageUpdate,
   ChatRoleCreateOrUpdate,
   ChatRoomCreateOrUpdate,
-  ChatTopicCreateOrUpdate,
   ChatRoomMemberCreateOrUpdate,
   ChatUserCreateOrUpdate,
   ChatUserCreateOrUpdateUnion,
@@ -39,8 +38,10 @@ export {
   KnownVersions,
 } from "./models/index.js";
 export type {
+  ChatTopicCreateCustomized,
   ChatTopicUpdateCustomized,
   GenerateClientTokenResponse,
+  ChatTopicCreateCustomizedCreateOrUpdate,
   ChatTopicUpdateCustomizedUpdate,
 } from "./models/customizations/index.js";
 export type {

@@ -64,6 +64,7 @@ import {
 } from "./api/options.js";
 import {
   GenerateClientTokenResponse,
+  ChatTopicCreateCustomizedCreateOrUpdate,
   ChatTopicUpdateCustomizedUpdate,
 } from "./models/customizations/models.js";
 import {
@@ -78,7 +79,6 @@ import {
   ChatMessageUpdate,
   ChatRoleCreateOrUpdate,
   ChatRoomCreateOrUpdate,
-  ChatTopicCreateOrUpdate,
   ChatRoomMemberCreateOrUpdate,
   ChatUserCreateOrUpdateUnion,
 } from "./models/models.js";
@@ -209,7 +209,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceTopic(
     roomId: string,
     topicId: string,
-    resource: ChatTopicCreateOrUpdate,
+    resource: ChatTopicCreateCustomizedCreateOrUpdate,
     options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
   ): Promise<ChatTopic> {
     return createOrReplaceTopic(this._client, roomId, topicId, resource, options);

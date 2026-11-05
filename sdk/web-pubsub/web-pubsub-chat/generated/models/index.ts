@@ -19,7 +19,6 @@ export type {
   ChatMessageUpdate,
   ChatRoleCreateOrUpdate,
   ChatRoomCreateOrUpdate,
-  ChatTopicCreateOrUpdate,
   ChatRoomMemberCreateOrUpdate,
   ChatUserCreateOrUpdate,
   ChatUserCreateOrUpdateUnion,

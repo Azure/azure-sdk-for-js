@@ -5,6 +5,7 @@ import { WebPubSubChatServiceContext as Client } from "./index.js";
 import {
   GenerateClientTokenResponse,
   generateClientTokenResponseDeserializer,
+  ChatTopicCreateCustomizedCreateOrUpdate,
   ChatTopicUpdateCustomizedUpdate,
 } from "../models/customizations/models.js";
 import {
@@ -43,8 +44,6 @@ import {
   chatRoleCreateOrUpdateSerializer,
   ChatRoomCreateOrUpdate,
   chatRoomCreateOrUpdateSerializer,
-  ChatTopicCreateOrUpdate,
-  chatTopicCreateOrUpdateSerializer,
   ChatRoomMemberCreateOrUpdate,
   chatRoomMemberCreateOrUpdateSerializer,
   chatUserCreateOrUpdateUnionSerializer,
@@ -710,7 +709,7 @@ export function _createOrReplaceTopicSend(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicCreateOrUpdate,
+  resource: ChatTopicCreateCustomizedCreateOrUpdate,
   options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -736,7 +735,7 @@ export function _createOrReplaceTopicSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatTopicCreateOrUpdateSerializer(resource),
+      body: { title: title, state: state },
     });
 }
 
@@ -756,7 +755,7 @@ export async function createOrReplaceTopic(
   context: Client,
   roomId: string,
   topicId: string,
-  resource: ChatTopicCreateOrUpdate,
+  resource: ChatTopicCreateCustomizedCreateOrUpdate,
   options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
 ): Promise<ChatTopic> {
   const result = await _createOrReplaceTopicSend(context, roomId, topicId, resource, options);

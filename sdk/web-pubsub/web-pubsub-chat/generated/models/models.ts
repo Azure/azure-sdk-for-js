@@ -583,18 +583,6 @@ export function chatRoomCreateOrUpdateSerializer(item: ChatRoomCreateOrUpdate): 
   return { title: item["title"] };
 }
 
-/** Represents a chat topic in a room. */
-export interface ChatTopicCreateOrUpdate {
-  /** Topic title. */
-  title: string;
-  /** Current lifecycle state of the topic. */
-  state: ChatTopicState;
-}
-
-export function chatTopicCreateOrUpdateSerializer(item: ChatTopicCreateOrUpdate): any {
-  return { title: item["title"], state: item["state"] };
-}
-
 /** Represents a room member. */
 export interface ChatRoomMemberCreateOrUpdate {
   /** Room role assigned to the user within this room. */
