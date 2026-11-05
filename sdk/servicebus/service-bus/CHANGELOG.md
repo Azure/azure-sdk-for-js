@@ -1,5 +1,17 @@
 # Release History
 
+## 7.10.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed an abort-listener leak after `receiveMessages()` drains unused credits, preventing listeners from accumulating on a reused `AbortSignal`. ([#40407](https://github.com/Azure/azure-sdk-for-js/issues/40407))
+
+### Other Changes
+
 ## 7.10.0 (2026-10-06)
 
 ### Features Added

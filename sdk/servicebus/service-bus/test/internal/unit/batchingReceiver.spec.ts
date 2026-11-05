@@ -534,6 +534,111 @@ describe("BatchingReceiver unit tests", () => {
   });
 
   describe("BatchingReceiverLite", () => {
+    for (const receiveMode of ["peekLock", "receiveAndDelete"] as const) {
+      it(`removes abort listeners after repeated empty receives in ${receiveMode} mode`, async () => {
+        const receiver = createFakeReceiver();
+        const controller = new AbortController();
+        const applicationAbortHandler = vi.fn();
+        controller.signal.addEventListener("abort", applicationAbortHandler);
+        const addListener = vi.spyOn(controller.signal, "addEventListener");
+        const removeListener = vi.spyOn(controller.signal, "removeEventListener");
+        const lite = new BatchingReceiverLite(
+          createConnectionContextForTests(),
+          "fakeEntityPath",
+          async () => receiver,
+          receiveMode,
+          false,
+          false,
+        );
+
+        try {
+          for (let i = 0; i < 10; i++) {
+            const receiveIsReady = getReceiveIsReadyPromise(lite);
+            const received = lite.receiveMessages({
+              maxMessageCount: 1,
+              maxWaitTimeInMs: 10,
+              maxTimeAfterFirstMessageInMs: 10,
+              abortSignal: controller.signal,
+            });
+            await receiveIsReady;
+            vi.advanceTimersByTime(10);
+            assert.isEmpty(await received);
+
+            assert.isNotEmpty(addListener.mock.calls);
+            for (const [event, listener] of addListener.mock.calls) {
+              expect(removeListener).toHaveBeenCalledWith(event, listener);
+            }
+            assert.equal(removeListener.mock.calls.length, addListener.mock.calls.length);
+            assertListenersRemoved(receiver);
+            addListener.mockClear();
+            removeListener.mockClear();
+          }
+        } finally {
+          controller.abort();
+        }
+        expect(applicationAbortHandler).toHaveBeenCalledOnce();
+      });
+
+      for (const outcome of ["drained", "aborted", "timeout", "no credit", "closed"] as const) {
+        it(`cleans up ${receiveMode} drain listeners when ${outcome}`, async () => {
+          const receiver = createFakeReceiver();
+          receiver.addCredit(outcome === "no credit" ? 0 : 1);
+          receiver.isOpen = () => outcome !== "closed";
+          receiver.drainCredit = () => {
+            receiver.drain = true;
+          };
+          const close = vi.spyOn(receiver, "close");
+          const controller = new AbortController();
+          const addListener = vi.spyOn(controller.signal, "addEventListener");
+          const removeListener = vi.spyOn(controller.signal, "removeEventListener");
+          const lite = new BatchingReceiverLite(
+            createConnectionContextForTests(),
+            "fakeEntityPath",
+            async () => receiver,
+            receiveMode,
+            false,
+            false,
+          );
+          lite["_drainTimeoutInMs"] = 100;
+          const timersBeforeDrain = vi.getTimerCount();
+
+          try {
+            const drained = lite["tryDrainReceiver"](
+              receiver,
+              "[test|r:receiver]",
+              0,
+              controller.signal,
+            );
+            if (outcome === "drained") {
+              receiver.emit(ReceiverEvents.receiverDrained);
+            } else if (outcome === "aborted") {
+              controller.abort();
+            } else if (outcome === "timeout") {
+              vi.advanceTimersByTime(100);
+            }
+            await drained;
+
+            const skipped = outcome === "no credit" || outcome === "closed";
+            assert.lengthOf(addListener.mock.calls, skipped ? 0 : 1);
+            assert.lengthOf(removeListener.mock.calls, skipped ? 0 : 1);
+            for (const [event, listener] of addListener.mock.calls) {
+              expect(removeListener).toHaveBeenCalledWith(event, listener);
+            }
+            assert.isFalse(receiver.drain);
+            assertListenersRemoved(receiver);
+            assert.equal(vi.getTimerCount(), timersBeforeDrain);
+            if (outcome === "timeout") {
+              expect(close).toHaveBeenCalledOnce();
+            } else {
+              expect(close).not.toHaveBeenCalled();
+            }
+          } finally {
+            controller.abort();
+          }
+        });
+      }
+    }
+
     it("isReceivingMessages is properly set and unset when receiving operations run", async () => {
       const fakeRheaReceiver = createFakeReceiver();
 
