@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- Replace telephony create-request models with `TelephonyBindingUnion` and `TelephonyCallJobCreate`, and rename `TelephonyOutboundFixedIntervalRetryPolicy` to `FixedIntervalRetryPolicy`. Use typed `TelephonyAddressUnion` objects for call-job sources, destinations, and transfer targets instead of scalar sources or `kind`-discriminated transfer destinations. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Replace telephony create-request models with `TelephonyBindingCreateUnion` and `TelephonyCallJobCreate`, and rename `TelephonyOutboundFixedIntervalRetryPolicy` to `FixedIntervalRetryPolicy`. Use typed `TelephonyAddressUnion` objects for call-job sources, destinations, and transfer targets instead of scalar sources or `kind`-discriminated transfer destinations. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Remove telephony binding lifecycle `status` properties, the binding-list `status` filter, and `TelephonyBindingStatus`. Use the remaining binding configuration fields for updates. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Replace `VoiceAgentSubagentConfig.subagents` with discriminated `VoiceAgentSubagentConfigUnion` configurations. Use `VoiceAgentDelegateSubagentConfig` with `subagentType: "delegate"` for existing background specialists, or `VoiceAgentInlineSubagentConfig` with `subagentType: "inline"` for inline voice subagents. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 
@@ -17,6 +17,11 @@
 - Add SIP bindings to `project.beta.voiceAgents.telephony`, including optional display phone numbers and caller-number restrictions that can be cleared with an empty list. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 - Add `review_target` to misalignment error details and `message` to realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+
+### Bugs Fixed
+
+- Resolve campaign creation and cancellation pollers through a final Campaign GET guarded by the initiating response's `Operation-Id`, preventing monitor deserialization failures and results from a reused campaign name. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Accept campaign and telephony binding creation inputs without requiring service-generated response fields, while retaining complete response models. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 
 ### Other Changes
 
