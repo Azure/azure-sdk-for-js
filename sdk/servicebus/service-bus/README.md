@@ -273,6 +273,48 @@ for (let i = 0; i < messages.length; i++) {
 await sender.sendMessages(batch);
 ```
 
+### Preserve AMQP application property types
+
+Use explicit AMQP scalar wrappers when an application property must use a
+specific wire type. Received messages expose `applicationPropertiesWithAmqpTypes`
+for inspection and preserve unchanged types when you forward the received
+message. Use `applicationProperties` for outgoing keys and changes, not the
+read-only typed view.
+
+```ts snippet:ReadmeSampleAmqpApplicationPropertyTypes
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+const inputSender = serviceBusClient.createSender("input-queue");
+const outputSender = serviceBusClient.createSender("output-queue");
+const receiver = serviceBusClient.createReceiver("input-queue");
+
+const message: ServiceBusMessage = {
+  body: "Order received",
+  applicationProperties: {
+    priority: { type: "ubyte", value: 1 },
+    category: { type: "symbol", value: "orders" },
+  },
+};
+await inputSender.sendMessages(message);
+
+const [receivedMessage] = await receiver.receiveMessages(1);
+if (receivedMessage) {
+  // Inspect the AMQP types without changing the outgoing property set.
+  console.log(receivedMessage.applicationPropertiesWithAmqpTypes);
+
+  // Add, edit, or remove outgoing properties through applicationProperties.
+  receivedMessage.applicationProperties!.priority = 2;
+
+  // Unchanged properties retain their AMQP types when forwarding the received message.
+  await outputSender.sendMessages(receivedMessage);
+}
+```
+
 ### Receive messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `ServiceBusReceiver`

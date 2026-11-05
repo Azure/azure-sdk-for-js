@@ -6,14 +6,17 @@ import type {
   ServiceBusReceivedMessage,
 } from "../../../src/serviceBusMessage.js";
 import {
+  fromRheaMessage,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
 } from "../../../src/serviceBusMessage.js";
-import type { Delivery, Message } from "rhea-promise";
+import type { Delivery, Message, Typed } from "rhea-promise";
+import { message as rheaMessageUtil, types as rheaTypes } from "rhea-promise";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants } from "@azure/core-amqp";
+import { Buffer } from "buffer";
 import {
   dataSectionTypeCode,
   defaultDataTransformer,
@@ -97,6 +100,13 @@ describe("AMQP message encoding", () => {
     );
   });
 
+  it("keeps received application properties assignable to the legacy type", () => {
+    const receivedProperties: Record<string, number | boolean | string | Date | null> | undefined =
+      exampleReceivedMessage().applicationProperties;
+
+    assert.isUndefined(receivedProperties);
+  });
+
   describe("toRheaMessage", () => {
     it("AmqpAnnotatedMessage (explicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
@@ -140,6 +150,142 @@ describe("AMQP message encoding", () => {
       }
 
       assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
+    });
+
+    it("encodes explicitly typed application properties", () => {
+      const rheaMessage = toRheaMessage(
+        {
+          body: "hello",
+          applicationProperties: {
+            priority: { type: "ubyte", value: 200 },
+            category: { type: "symbol", value: "orders" },
+            binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+            decimal128: {
+              type: "decimal128",
+              value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            },
+            uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+            long: { type: "long", value: -9223372036854775808n },
+            ulong: { type: "ulong", value: 18446744073709551615n },
+          },
+        },
+        defaultDataTransformer,
+      );
+
+      assert.equal((rheaMessage.application_properties?.priority as Typed).type.name, "Ubyte");
+      assert.equal((rheaMessage.application_properties?.category as Typed).type.name, "Sym8");
+    });
+
+    it("exposes and resends received application property types", () => {
+      const encoded = rheaMessageUtil.encode(
+        toRheaMessage(
+          {
+            body: "hello",
+            applicationProperties: {
+              priority: { type: "ubyte", value: 200 },
+              category: { type: "symbol", value: "orders" },
+              binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+              decimal128: {
+                type: "decimal128",
+                value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+              },
+              uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+              long: { type: "long", value: -9223372036854775808n },
+              ulong: { type: "ulong", value: 18446744073709551615n },
+            },
+          },
+          defaultDataTransformer,
+        ),
+      );
+      const received = fromRheaMessage(rheaMessageUtil.decode(encoded) as unknown as Message, {
+        skipParsingBodyAsJson: false,
+      });
+
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes, {
+        priority: { type: "ubyte", value: 200 },
+        category: { type: "symbol", value: "orders" },
+        binary: { type: "binary", value: Uint8Array.of(1, 2, 3) },
+        decimal128: {
+          type: "decimal128",
+          value: Uint8Array.of(0x22, 0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        },
+        uuid: { type: "uuid", value: "00112233-4455-6677-8899-aabbccddeeff" },
+        long: { type: "long", value: -9223372036854775808n },
+        ulong: { type: "ulong", value: 18446744073709551615n },
+      });
+
+      const resent = toRheaMessage(received, defaultDataTransformer);
+      assert.equal((resent.application_properties?.priority as Typed).type.name, "Ubyte");
+      assert.equal((resent.application_properties?.category as Typed).type.name, "Sym8");
+      assert.equal((resent.application_properties?.binary as Typed).type.name, "Vbin8");
+      assert.equal((resent.application_properties?.decimal128 as Typed).type.name, "Decimal128");
+      assert.equal((resent.application_properties?.uuid as Typed).type.name, "Uuid");
+      assert.equal((resent.application_properties?.long as Typed).type.name, "Long");
+      assert.equal((resent.application_properties?.ulong as Typed).type.name, "Ulong");
+    });
+
+    it("keeps preserved application property types out of JSON serialization", () => {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const encoded = rheaMessageUtil.encode(
+        toRheaMessage(
+          {
+            body: "hello",
+            applicationProperties: {
+              long: { type: "long", value: longValue },
+            },
+          },
+          defaultDataTransformer,
+        ),
+      );
+      const rheaMessage = rheaMessageUtil.decode(encoded) as unknown as Message;
+      const received = new ServiceBusMessageImpl(
+        rheaMessage,
+        {} as Delivery,
+        false,
+        "receiveAndDelete",
+        false,
+        false,
+      );
+
+      assert.equal(received.applicationPropertiesWithAmqpTypes?.long.value, longValue);
+      assert.doesNotThrow(() => JSON.stringify(received));
+      assert.notInclude(JSON.stringify(received), "applicationPropertiesWithAmqpTypes");
+      const resentLong = toRheaMessage(received, defaultDataTransformer).application_properties
+        ?.long as Typed;
+      assert.equal(resentLong.type.name, "Long");
+      assert.equal(Buffer.from(resentLong.value).readBigInt64BE(), longValue);
+    });
+
+    it("forwards unknown described application property values unchanged", () => {
+      const describedLongValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const rheaMessage = toRheaMessage(
+        {
+          body: "hello",
+          applicationProperties: {
+            describedLong: { type: "long", value: describedLongValue },
+          },
+        },
+        defaultDataTransformer,
+      );
+      const describedLong = rheaMessage.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
+      describedLong.descriptor = rheaTypes.wrap_symbol("example:described-long");
+      const received = fromRheaMessage(
+        rheaMessageUtil.decode(rheaMessageUtil.encode(rheaMessage)) as unknown as Message,
+        { skipParsingBodyAsJson: false },
+      );
+
+      assert.notProperty(received.applicationPropertiesWithAmqpTypes, "describedLong");
+      const resent = rheaMessageUtil.decode(
+        rheaMessageUtil.encode(toRheaMessage(received, defaultDataTransformer)),
+      ) as unknown as Message;
+      const resentValue = resent.application_properties?.describedLong as Typed & {
+        descriptor?: Typed;
+      };
+      assert.equal(resentValue.type.name, "Long");
+      assert.equal(Buffer.from(resentValue.value).readBigInt64BE(), describedLongValue);
+      assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 
     it("ServiceBusReceivedMessage", () => {

@@ -1,5 +1,17 @@
 # Release History
 
+## 4.6.0 (Unreleased)
+
+### Features Added
+
+- Added `AmqpApplicationProperty` and preserved the AMQP scalar types of decoded application properties so they can be inspected and encoded again without changing their wire types. [#25014](https://github.com/Azure/azure-sdk-for-js/issues/25014) - Support allowed primitive types in AMQP application properties
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.5.1 (2026-09-03)
 
 ### Other Changes

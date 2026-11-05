@@ -5,8 +5,11 @@ import { ManagementClient } from "../../../src/core/managementClient.js";
 import { translateServiceBusError } from "../../../src/serviceBusError.js";
 import { createConnectionContextForTests } from "./unittestUtils.js";
 import Long from "long";
+import { message as RheaMessageUtil } from "rhea-promise";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
+import { toRheaMessage } from "../../../src/serviceBusMessage.js";
+import { defaultDataTransformer } from "../../../src/dataTransformer.js";
 
 describe("ManagementClient peek", () => {
   it("returns an empty list (does not throw) on a MessageNotFound rejection", async () => {
@@ -52,5 +55,33 @@ describe("ManagementClient peek", () => {
       assert.equal(e.code, "ServiceBusy");
     }
     assert.isTrue(threw, "peek must re-throw a non-message-not-found error");
+  });
+
+  it("preserves AMQP application property types when decoding peeked messages", async () => {
+    const connectionContext = createConnectionContextForTests();
+    const mgmtClient = new ManagementClient(connectionContext, "entityPath");
+    (mgmtClient as any).initWithUniqueReplyTo = async (options: any) => options ?? {};
+    const encodedMessage = RheaMessageUtil.encode(
+      toRheaMessage(
+        {
+          body: "body",
+          applicationProperties: {
+            priority: { type: "ubyte", value: 200 },
+          },
+        },
+        defaultDataTransformer,
+      ),
+    );
+    (mgmtClient as any)._makeManagementRequest = async () => ({
+      application_properties: { statusCode: 200 },
+      body: { messages: [{ message: encodedMessage }] },
+    });
+
+    const [message] = await mgmtClient.peekBySequenceNumber(Long.fromNumber(1), 1);
+
+    assert.deepEqual(message.applicationPropertiesWithAmqpTypes?.priority, {
+      type: "ubyte",
+      value: 200,
+    });
   });
 });

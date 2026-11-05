@@ -22,7 +22,12 @@ import type {
   RetryOptions,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { Constants, defaultCancellableLock, RequestResponseLink } from "@azure/core-amqp";
+import {
+  _decodeRheaMessage,
+  Constants,
+  defaultCancellableLock,
+  RequestResponseLink,
+} from "@azure/core-amqp";
 import type { ConnectionContext } from "../connectionContext.js";
 import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../serviceBusMessage.js";
 import {
@@ -596,7 +601,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (result.application_properties!.statusCode !== 204) {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
-          const decodedMessage = RheaMessageUtil.decode(msg.message);
+          const decodedMessage = _decodeRheaMessage(msg.message);
           const message = fromRheaMessage(decodedMessage as any, {
             skipParsingBodyAsJson: updatedOptions?.skipParsingBodyAsJson ?? false,
             skipConvertingDate: updatedOptions?.skipConvertingDate ?? false,
@@ -919,7 +924,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         "lock-token": Buffer;
       }[];
       for (const msg of messages) {
-        const decodedMessage = RheaMessageUtil.decode(msg.message);
+        const decodedMessage = _decodeRheaMessage(msg.message);
         const message = new ServiceBusMessageImpl(
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
