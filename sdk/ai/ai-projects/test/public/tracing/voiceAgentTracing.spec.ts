@@ -1582,11 +1582,14 @@ describe("Voice Agents tracing", () => {
                   object: "telephony.call_job",
                   status: "accepted",
                   destination: { type: "phone_number", value: "+15555550100" },
-                  source: "+15555550200",
+                  source: { type: "phone_number", value: "+15555550200" },
                   agent_name: "voice",
+                  connection_name: "PRIVATE_CONNECTION",
                   created_at: 1,
                   updated_at: 1,
-                  retry_policy: { type: "none" },
+                  retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
+                  attempt_count: 0,
+                  revision: 1,
                 },
           ),
         };
@@ -1604,7 +1607,7 @@ describe("Voice Agents tracing", () => {
     });
     await project.beta.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
       connection_name: "PRIVATE_CONNECTION",
-      source: "+15555550200",
+      source: { type: "phone_number", value: "+15555550200" },
       destination: { type: "phone_number", value: "+15555550100" },
     });
     expect(span("create_agent").attributes["gen_ai.operation.name"]).toBe("create_agent");

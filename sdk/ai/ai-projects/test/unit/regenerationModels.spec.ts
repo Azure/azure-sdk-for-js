@@ -20,6 +20,7 @@ import type {
   DataGenerationJobType,
   EvaluationDataGenerationJobOutputConfiguration,
   ErrorModel,
+  FixedIntervalRetryPolicy,
   FunctionTool,
   HostedAgentDefinition,
   MisalignmentErrorDetailsResource,
@@ -30,13 +31,17 @@ import type {
   RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
   ReinforcementFineTuningDataGenerationJobOutputConfiguration,
   SupervisedFineTuningDataGenerationJobOutputConfiguration,
+  TelephonyCampaign,
+  TelephonyCampaignCreate,
   TelephonyCallEndReason,
   TelephonyCallJob,
+  TelephonyCallJobCreate,
   TelephonyCallJobTerminalReason,
   TelephonyCallLifecycleEventReason,
   TelephonyOutboundFixedIntervalRetryPolicy,
   TelephonyOutboundRetryPolicy,
   TelephonyOutboundRetryPolicyUnion,
+  TelephonyAddressUnion,
   UpdateTelephonyBindingRequest,
   VoiceAgentInputTranscription,
   VoiceAgentDefinition,
@@ -91,6 +96,7 @@ import {
   realtimeServerEventConversationItemInputAudioTranscriptionCompletedSerializer,
   telephonyBindingListItemUnionDeserializer,
   telephonyBindingUnionDeserializer,
+  telephonyCampaignSerializer,
   telephonyCallJobDeserializer,
   telephonyCallLifecycleEventDeserializer,
   telephonyCallSummaryDeserializer,
@@ -309,7 +315,6 @@ describe("regenerated model wire contracts", () => {
     const response = {
       ...request,
       id: "binding-sip",
-      status: "active",
       incoming_call_url: "sip:incoming.example.com",
     };
     expect(telephonyBindingUnionDeserializer(response)).toMatchObject(response);
@@ -627,7 +632,6 @@ describe("regenerated model wire contracts", () => {
     const response = {
       ...binding,
       id: "binding-test",
-      status: "active",
       incoming_call_url: "https://example.com/incoming-call",
       etag: "binding-revision",
     };
@@ -649,8 +653,9 @@ describe("regenerated model wire contracts", () => {
     expect(toWire(updateTelephonyBindingRequestSerializer({}))).toEqual({});
   });
 
-  it("requires connection_name and scalar source on call-job requests and responses", () => {
-    type Connection = { connection_name: string; source: string };
+  it("keeps the legacy call-job request name aligned with typed call-job creation", () => {
+    type Connection = { connection_name: string; source: TelephonyAddressUnion };
+    expectTypeOf<CreateTelephonyCallJobRequest>().toEqualTypeOf<TelephonyCallJobCreate>();
     expectTypeOf<
       Pick<CreateTelephonyCallJobRequest, "connection_name" | "source">
     >().toEqualTypeOf<Connection>();
@@ -663,13 +668,44 @@ describe("regenerated model wire contracts", () => {
     expectTypeOf<Pick<TelephonyOutboundFixedIntervalRetryPolicy, "interval">>().toEqualTypeOf<{
       interval: number;
     }>();
+    expectTypeOf<TelephonyOutboundFixedIntervalRetryPolicy>().toEqualTypeOf<FixedIntervalRetryPolicy>();
     expectTypeOf<TelephonyOutboundRetryPolicy["max_attempts"]>().toEqualTypeOf<
       number | undefined
     >();
   });
 
-  it.each(["+14255550100", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"])(
-    "preserves scalar outbound source %s in call jobs",
+  it("uses only customer-supplied fields when serializing campaign creation", () => {
+    type CampaignInput = Pick<
+      TelephonyCampaign,
+      | "connection_name"
+      | "source"
+      | "recipients"
+      | "recipient_dataset"
+      | "schedule"
+      | "retry_policy"
+    >;
+    expectTypeOf<TelephonyCampaignCreate>().toEqualTypeOf<CampaignInput>();
+    const campaign: TelephonyCampaignCreate = {
+      connection_name: connectionName,
+      source: { type: "phone_number", value: "+14255550100" },
+      recipients: [
+        {
+          destination: { type: "phone_number", value: "+14255550123" },
+          structured_inputs: { customer: { name: "Ada" }, notify: false },
+        },
+      ],
+      retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
+    };
+
+    expect(toWire(telephonyCampaignSerializer(campaign))).toEqual(campaign);
+    expect(toWire(telephonyCampaignSerializer(campaign))).not.toHaveProperty("status");
+  });
+
+  it.each([
+    { type: "phone_number", value: "+14255550100" },
+    { type: "teams", value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" },
+  ] satisfies TelephonyAddressUnion[])(
+    "preserves typed outbound source $type in call jobs",
     (source) => {
       const call: CreateTelephonyCallJobRequest = {
         destination: { type: "phone_number", value: "+14255550123" },
@@ -701,6 +737,7 @@ describe("regenerated model wire contracts", () => {
     (interval) => {
       const policy: TelephonyOutboundFixedIntervalRetryPolicy = {
         type: "fixed_interval",
+        max_attempts: 1,
         interval,
       };
       expect(toWire(telephonyOutboundRetryPolicyUnionSerializer(policy))).toEqual(policy);
@@ -709,7 +746,7 @@ describe("regenerated model wire contracts", () => {
       const request: CreateTelephonyCallJobRequest = {
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         retry_policy: policy,
       };
       expect(toWire(createTelephonyCallJobRequestSerializer(request))).toEqual(request);
@@ -759,7 +796,7 @@ describe("regenerated model wire contracts", () => {
       telephonyCallJobDeserializer({
         destination: { type: "phone_number", value: "+14255550123" },
         connection_name: connectionName,
-        source: "+14255550100",
+        source: { type: "phone_number", value: "+14255550100" },
         id: "call-job-test",
         object: "telephony.call_job",
         agent_name: "voice-agent",
