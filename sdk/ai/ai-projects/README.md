@@ -292,6 +292,47 @@ Choose a complete sample for the task you want:
 | Send speech and save the audio reply                    | [Realtime audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeAudio.ts)                 |
 | Send text and handle a function call                    | [Realtime text and tools](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeTextAndTools.ts) |
 | Inspect bindings and call history without placing calls | [Telephony](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentTelephony.ts)                               |
+| Route a turn to an inline specialist                    | [Inline handoff](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)                       |
+| Inspect stored conversations and download WAV audio     | [Conversation recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)       |
+| Inspect campaigns and outbound call-job status          | [Read-only campaigns](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceCampaigns.ts)                   |
+
+The handoff sample creates two inline Realtime specialists, observes the correlated
+handoff events and the target's completed response, then deletes its sample agent.
+If creation is interrupted, an aborted HTTP request does not cancel server-side
+creation: use the logged unique agent name to check for a resource that finishes later.
+The [tracing samples](#voice-agents-tracing) are separate instrumentation walkthroughs;
+the basic generation, Realtime, and GPT Live examples do not require tracing setup.
+
+#### Stored conversations and recordings
+
+The conversation-recordings sample is read-only and supports both persisted API
+families. Set `FOUNDRY_AGENT_NAME` and choose `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=realtime`
+or `live`. It reads one page and can select an exact conversation or item using the
+variables documented in [sample.env](./sample.env). Use IDs returned by the REST
+collections, not the native Realtime WebSocket item or response IDs. Create the
+recording first by connecting with
+`store: true` and finalize the session before downloading audio. The sample never
+deletes a stored conversation or prints its caller transcripts.
+
+Set `FOUNDRY_VOICE_RECORDING_OUTPUT_FILE` to opt into downloading a WAV file. With
+`FOUNDRY_VOICE_AUDIO_ITEM_ID`, this downloads that item's heard audio; otherwise it
+downloads the merged stereo recording. These WAV files are different from the raw
+PCM files written by the streaming samples. Keep downloaded caller media private.
+Bring-your-own-storage recordings must be read from `blob_uri` with your own storage
+credentials; this sample does not fetch arbitrary storage URLs.
+
+Realtime additionally exposes response inspection and generated-but-unheard item
+audio. The generated-audio variables require an interrupted or truncated item where
+the service produced audio beyond the heard segment; cancellation alone does not
+guarantee that artifact exists. Missing audio returns `404`. An unfinished merged
+recording can return `409 recording_not_ready`; follow its `Retry-After` guidance
+instead of treating that response as an empty recording.
+
+The campaign sample only reads campaign preparation, validation errors, operation
+monitors, and call jobs. It requires a deployment with those preview routes enabled.
+It never creates or cancels a call: campaign creation can authorize dialing before
+its preparation poller returns. An empty validation-error page during preparation
+does not establish that the campaign is valid or ready.
 
 #### Custom query parameters
 
@@ -433,6 +474,8 @@ connection or send operation, not speech already being generated. To store Live
 conversations, enable `store` and use `project.beta.voiceAgents.liveConversations`;
 the service deployment must support persistence. Set `liveOptions` on `AIProjectClient`
 to change connection, session-start, and close timeouts.
+Use the [stored-conversation sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)
+with `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=live` to inspect persisted items or download their WAV audio.
 
 #### Browser authentication
 

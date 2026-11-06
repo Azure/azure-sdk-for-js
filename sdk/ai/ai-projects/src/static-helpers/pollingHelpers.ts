@@ -309,7 +309,9 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
   statusNormalizations?: Record<string, OperationStatus>,
 ): OperationResponse<TResponse> {
   if (!expectedStatuses.includes(response.status)) {
-    throw createRestError(response);
+    const error = createRestError(response);
+    error.details = response.body;
+    throw error;
   }
 
   const body = response.body as Record<string, unknown> | undefined;
