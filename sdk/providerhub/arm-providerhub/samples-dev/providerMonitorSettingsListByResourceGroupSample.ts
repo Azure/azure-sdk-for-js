@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of the provider monitor settings in the resource group.
  *
  * @summary gets the list of the provider monitor settings in the resource group.
- * x-ms-original-file: 2025-10-01/ProviderMonitorSettings_ListByResourceGroup.json
+ * x-ms-original-file: 2026-10-01/ProviderMonitorSettings_ListByResourceGroup.json
  */
 async function providerMonitorSettingsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

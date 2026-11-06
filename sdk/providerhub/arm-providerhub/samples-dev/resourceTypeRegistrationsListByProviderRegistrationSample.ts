@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of the resource types for the given provider.
  *
  * @summary gets the list of the resource types for the given provider.
- * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_ListByProviderRegistration.json
+ * x-ms-original-file: 2026-10-01/ResourceTypeRegistrations_ListByProviderRegistration.json
  */
 async function resourceTypeRegistrationsListByProviderRegistration(): Promise<void> {
   const credential = new DefaultAzureCredential();

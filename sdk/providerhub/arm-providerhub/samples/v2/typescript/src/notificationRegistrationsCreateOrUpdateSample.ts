@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a notification registration.
  *
  * @summary creates or updates a notification registration.
- * x-ms-original-file: 2025-10-01/NotificationRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/NotificationRegistrations_CreateOrUpdate.json
  */
 async function notificationRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

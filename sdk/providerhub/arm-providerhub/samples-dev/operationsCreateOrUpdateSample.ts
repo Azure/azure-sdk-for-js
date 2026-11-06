@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the operation supported by the given provider.
  *
  * @summary creates or updates the operation supported by the given provider.
- * x-ms-original-file: 2025-10-01/Operations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/Operations_CreateOrUpdate.json
  */
 async function operationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

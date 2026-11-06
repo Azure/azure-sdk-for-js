@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates the operations api for the given provider.
  *
  * @summary generates the operations api for the given provider.
- * x-ms-original-file: 2025-10-01/ProviderRegistrations_GenerateOperations.json
+ * x-ms-original-file: 2026-10-01/ProviderRegistrations_GenerateOperations.json
  */
 async function providerRegistrationsGenerateOperations() {
   const credential = new DefaultAzureCredential();

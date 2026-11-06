@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops or cancels the rollout, if in progress.
  *
  * @summary stops or cancels the rollout, if in progress.
- * x-ms-original-file: 2025-10-01/DefaultRollouts_Stop.json
+ * x-ms-original-file: 2026-10-01/DefaultRollouts_Stop.json
  */
 async function defaultRolloutsStop() {
   const credential = new DefaultAzureCredential();

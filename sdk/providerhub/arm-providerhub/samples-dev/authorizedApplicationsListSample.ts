@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of the authorized applications in the provider namespace.
  *
  * @summary gets the list of the authorized applications in the provider namespace.
- * x-ms-original-file: 2025-10-01/AuthorizedApplications_List.json
+ * x-ms-original-file: 2026-10-01/AuthorizedApplications_List.json
  */
 async function authorizedApplicationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

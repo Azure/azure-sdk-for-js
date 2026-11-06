@@ -1,5 +1,59 @@
 # Release History
 
+## 2.1.0 (2026-10-22)
+
+### Features Added
+  - Added operation group EndpointRegistrationsOperations
+  - Added operation ResourceTypeRegistrationsOperations.createOrUpdateNestedResourceTypeFirst
+  - Added operation ResourceTypeRegistrationsOperations.deleteNestedResourceTypeFirst
+  - Added operation ResourceTypeRegistrationsOperations.getNestedResourceTypeFirst
+  - Added Interface EndpointRegistration
+  - Added Interface EndpointRegistrationProperties
+  - Added Interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams
+  - Added Interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondOptionalParams
+  - Added Interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdOptionalParams
+  - Added Interface EndpointRegistrationsCreateOrUpdateOptionalParams
+  - Added Interface EndpointRegistrationsDeleteNestedResourceTypeFirstOptionalParams
+  - Added Interface EndpointRegistrationsDeleteNestedResourceTypeSecondOptionalParams
+  - Added Interface EndpointRegistrationsDeleteNestedResourceTypeThirdOptionalParams
+  - Added Interface EndpointRegistrationsDeleteOptionalParams
+  - Added Interface EndpointRegistrationsGetNestedResourceTypeFirstOptionalParams
+  - Added Interface EndpointRegistrationsGetNestedResourceTypeSecondOptionalParams
+  - Added Interface EndpointRegistrationsGetNestedResourceTypeThirdOptionalParams
+  - Added Interface EndpointRegistrationsGetOptionalParams
+  - Added Interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeFirstOptionalParams
+  - Added Interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeSecondOptionalParams
+  - Added Interface EndpointRegistrationsListByResourceTypeRegistrationNestedResourceTypeThirdOptionalParams
+  - Added Interface EndpointRegistrationsListByResourceTypeRegistrationOptionalParams
+  - Added Interface ResourceProviderLifecycleInfo
+  - Added Interface ResourceTypeLifecycleInfo
+  - Added Interface ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams
+  - Added Interface ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams
+  - Added Interface ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams
+  - Added Interface RolloutOrchestrationMetadata
+  - Added Interface SwaggerSpecificationLifecycleInfo
+  - Interface AppliedManifestInfo has a new optional parameter rootProviderNamespace
+  - Interface CheckinManifestParams has a new optional parameter checkinComment
+  - Interface CheckinManifestParams has a new optional parameter swaggerUri
+  - Interface CustomRolloutPropertiesSpecification has a new optional parameter rolloutOrchestrationMetadata
+  - Interface CustomRolloutSpecification has a new optional parameter rolloutOrchestrationMetadata
+  - Interface ProviderRegistrationProperties has a new optional parameter lifecycleInfo
+  - Interface ResourceProviderManagement has a new optional parameter featureApprovalClaims
+  - Interface ResourceProviderManifestManagement has a new optional parameter featureApprovalClaims
+  - Interface ResourceProviderManifestPropertiesManagement has a new optional parameter featureApprovalClaims
+  - Interface ResourceTypeRegistrationProperties has a new optional parameter lifecycleInfo
+  - Interface ResourceTypeRegistrationPropertiesManagement has a new optional parameter featureApprovalClaims
+  - Interface SwaggerSpecification has a new optional parameter lifecycleInfo
+  - Added Type Alias IsolationType
+  - Added Type Alias LifecycleStage
+  - Added Type Alias PartnerCategory
+  - Added Enum KnownIsolationType
+  - Added Enum KnownLifecycleStage
+  - Added Enum KnownPartnerCategory
+  - Enum KnownOptInHeaderType has a new value AuxiliaryUserContext
+  - Enum KnownOptInHeaderType has a new value UserContext
+  - Enum KnownVersions has a new value V20261001
+
 ## 2.0.0 (2026-09-02)
 
 ### Features Added
