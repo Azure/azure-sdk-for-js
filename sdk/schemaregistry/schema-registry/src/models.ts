@@ -62,7 +62,10 @@ export type RawResponseCallback = (
  * Options used when creating and sending HTTP requests for an operation.
  */
 export interface OperationRequestOptions {
-  /** User-defined custom request headers. */
+  /**
+   * User-defined custom request headers.
+   * @deprecated This is a legacy option. No replacement is currently exposed.
+   */
   customHeaders?: { [key: string]: string };
   /** The number of milliseconds before a request is automatically terminated. */
   timeout?: number;
@@ -70,7 +73,10 @@ export interface OperationRequestOptions {
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
-  /** Whether to deserialize the response. Defaults to true. */
+  /**
+   * Whether to deserialize the response. Defaults to true.
+   * @deprecated This is a legacy option with no replacement.
+   */
   shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
   /** Set to true if the request is sent over HTTP instead of HTTPS. */
   allowInsecureConnection?: boolean;
@@ -86,7 +92,10 @@ export interface OperationOptions {
   requestOptions?: OperationRequestOptions;
   /** Options used when tracing is enabled. */
   tracingOptions?: OperationTracingOptions;
-  /** Options to override serialization and deserialization behavior. */
+  /**
+   * Options to override serialization and deserialization behavior.
+   * @deprecated This is a legacy option with no replacement.
+   */
   serializerOptions?: SerializerOptions;
   /** Callback invoked each time a response is received from the server. */
   onResponse?: RawResponseCallback;

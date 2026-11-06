@@ -46,6 +46,7 @@ export interface OperationOptions {
     abortSignal?: NonNullable<PipelineRequest["abortSignal"]>;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
+    // @deprecated
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
 }
@@ -53,11 +54,13 @@ export interface OperationOptions {
 // @public
 export interface OperationRequestOptions {
     allowInsecureConnection?: boolean;
+    // @deprecated
     customHeaders?: {
         [key: string]: string;
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    // @deprecated
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
 }
