@@ -9,7 +9,9 @@ import { AzureMonitorBaseExporter } from "./base.js";
 import type { TelemetryItem as Envelope } from "../generated/index.js";
 import { resourceMetricsToEnvelope } from "../utils/metricUtils.js";
 import type { AzureMonitorExporterOptions } from "../config.js";
-import { HttpSender } from "../platform/index.js";
+import { HttpSender } from "../platform/nodejs/httpSender.js";
+import type { RoutingGroups } from "../utils/routing.js";
+import { RoutingSender } from "../platform/nodejs/routingSender.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.
@@ -23,6 +25,7 @@ export class AzureMonitorMetricExporter
    */
   private _isShutdown = false;
   private _sender: HttpSender;
+  private readonly routingSender?: RoutingSender;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -31,11 +34,14 @@ export class AzureMonitorMetricExporter
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
+    if (this.multiEndpointRouting) {
+      this.routingSender = new RoutingSender(options, this.instrumentationKey, this.aadAudience);
+    }
     this._sender = new HttpSender({
       endpointUrl: this.endpointUrl,
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
-      exporterOptions: options,
+      exporterOptions: this.routingSender ? { ...options, disableOfflineStorage: true } : options,
       aadAudience: this.aadAudience,
     });
     diag.debug("AzureMonitorMetricExporter was successfully setup");
@@ -57,15 +63,21 @@ export class AzureMonitorMetricExporter
     }
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
+    const groups: RoutingGroups | undefined = this.routingSender ? new Map() : undefined;
     const envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
       this.instrumentationKey,
       false,
       this._increaseGenAiMessageLimit,
+      groups,
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
-      resultCallback(await this._sender.exportEnvelopes(envelopes));
+      resultCallback(
+        await (this.routingSender && groups
+          ? this.routingSender.export(groups)
+          : this._sender.exportEnvelopes(envelopes)),
+      );
     });
   }
 
@@ -75,6 +87,7 @@ export class AzureMonitorMetricExporter
   public async shutdown(): Promise<void> {
     this._isShutdown = true;
     diag.info("AzureMonitorMetricExporter shutting down");
+    await this.routingSender?.shutdown();
     return this._sender.shutdown();
   }
 

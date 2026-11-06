@@ -140,6 +140,84 @@ Availability records use the same correlation context as other OpenTelemetry log
 
 If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
+### Multi-endpoint routing (preview)
+
+Set `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=multi_endpoint_routing` before constructing
+any exporter to route logs, spans, and metric data points to different Application Insights
+resources. Feature names are comma-separated, case-insensitive, and trimmed. Unknown names
+are ignored. The selection is shared by the exporters and fixed when the first exporter
+is constructed. Routing is disabled by default.
+
+Each item must supply both `microsoft.instrumentation_key` and `microsoft.ingestion_endpoint`.
+Keys must be nonempty strings of at most 200 characters. Endpoints must be absolute HTTPS
+URLs of at most 2048 characters, without credentials, query strings, or fragments.
+**Use trusted, server-owned destination configuration, not request headers or baggage.**
+Missing or invalid destinations are dropped, never sent to the host connection string.
+
+With routing enabled, the exporter connection string is optional. If supplied explicitly
+or through `APPLICATIONINSIGHTS_CONNECTION_STRING`, it is still validated normally.
+Without a host connection string, host retry storage, Statsbeat, and customer SDK statistics
+are not initialized. Routed retry storage remains available.
+
+```ts snippet:ReadmeSampleMultiEndpointRouting
+import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
+
+process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "multi_endpoint_routing";
+
+const provider = new LoggerProvider({
+  processors: [
+    new BatchLogRecordProcessor({
+      exporter: new AzureMonitorLogExporter(),
+    }),
+  ],
+});
+
+provider.getLogger("routed-logs").emit({
+  body: "Order completed",
+  attributes: {
+    "microsoft.instrumentation_key": "<destination instrumentation key>",
+    "microsoft.ingestion_endpoint": "https://<region>.in.applicationinsights.azure.com",
+    "microsoft.multi_endpoint_cloud_role": "orders",
+  },
+});
+```
+
+Set the same attributes on spans or individual metric data points to route those signals.
+Span events inherit their parent span's destination, key, authentication mode, and cloud role.
+Metric routing does not read resource or instrumentation-scope attributes. The host resource
+metric is not emitted in routing mode.
+
+Items are grouped by normalized endpoint and authentication mode, not by instrumentation key.
+Set `microsoft.ingestion_auth` to `"aad"` to use the exporter's `credential`. The value is
+trimmed and case-insensitive. Other values select key-only authentication, even when a
+credential is configured. An AAD route without a credential fails without preventing other
+destinations from sending.
+
+Cloud roles come from `microsoft.multi_endpoint_cloud_role`. Missing, blank, or non-string
+values use `unknown_service`. Role instances remain resource-derived. The four routing
+attributes are excluded from exported custom properties and the source telemetry is not mutated.
+
+Each exporter caches up to 64 endpoint/authentication pairs. Cached destinations have
+separate retry partitions, isolated from host storage, sharing a 50 MB routed-storage quota
+under the configured `storageDirectory`. Additional destinations use short-lived senders
+without persistence. Retried envelopes retain their original keys and destinations.
+In-flight replay batches retain their storage quota until delivery or restoration completes.
+One background worker per exporter checks opened routes after a randomized initial delay
+of up to 60 seconds, then every 60 seconds, even without new telemetry. This staggers replay
+across replicas that restart together. Existing partitions are not discovered at startup
+until their route is opened.
+Retryable failures pause new transmissions for that route while available offline storage
+queues the new items. Backoff honors `Retry-After`, or defaults to 60 seconds.
+Storage opt-outs and the OneSettings storage control also apply to routed retries.
+Shutdown stops the worker and waits for active exports and retries.
+
+The existing JS export result convention is preserved for stored batches. Successfully
+queued batches return success. Routed failures that cannot be persisted return failure.
+Custom `httpClient` transports and `retryOptions` remain supported. Custom `pipeline` and
+`additionalPolicies` are rejected in routing mode because destination-specific authentication
+and redirect state must not be shared between policy chains.
+
 ### Sampling
 
 You can enable sampling to limit the amount of telemetry records you receive. In order to enable correct sampling in Application Insights, use the `ApplicationInsightsSampler` as shown below.

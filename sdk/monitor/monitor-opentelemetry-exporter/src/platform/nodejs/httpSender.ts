@@ -9,7 +9,7 @@ import {
   redirectPolicyName,
 } from "@azure/core-rest-pipeline";
 import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
-import type { SenderResult } from "../../types.js";
+import type { SenderResult, StoragePartition } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
@@ -37,6 +37,8 @@ export class HttpSender extends BaseSender {
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
     isStatsbeatSender?: boolean;
+    isRouted?: boolean;
+    storagePartition?: StoragePartition;
   }) {
     super(options);
     // Build endpoint using provided configuration or default values

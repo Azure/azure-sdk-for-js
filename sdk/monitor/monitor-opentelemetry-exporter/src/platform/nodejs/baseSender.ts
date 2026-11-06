@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import type { PersistentStorage, SenderResult } from "../../types.js";
+import type { PersistentStorage, SenderResult, StoragePartition } from "../../types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -71,6 +71,8 @@ export abstract class BaseSender {
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
+  private readonly isRouted: boolean;
+  private routeBackoffUntil = 0;
   private disableOfflineStorage: boolean;
   private remoteStorageEnabled = true;
   private storageGeneration = 0;
@@ -104,6 +106,18 @@ export abstract class BaseSender {
     return !this.disableOfflineStorage && this.remoteStorageEnabled;
   }
 
+  public get isStorageEnabled(): boolean {
+    return this.hasOfflineStorage && this.remoteStorageEnabled;
+  }
+
+  public get hasOfflineStorage(): boolean {
+    return !this.disableOfflineStorage && this.persister.isEnabled;
+  }
+
+  private get collectStats(): boolean {
+    return !this.isStatsbeatSender && !this.isRouted;
+  }
+
   private get customerSDKStatsMetrics(): CustomerSDKStatsMetrics | undefined {
     return this.customerSDKStatsManager?.customerSDKStatsMetrics;
   }
@@ -115,7 +129,10 @@ export abstract class BaseSender {
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
     isStatsbeatSender?: boolean;
+    isRouted?: boolean;
+    storagePartition?: StoragePartition;
   }) {
+    this.isRouted = options.isRouted ?? false;
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.statsbeatManager = StatsbeatManager.getInstance();
     if (options.trackStatsbeat) {
@@ -155,6 +172,7 @@ export abstract class BaseSender {
       options.exporterOptions,
       () => this.customerSDKStatsMetrics,
       () => this.remoteStorageEnabled,
+      options.storagePartition,
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
@@ -173,6 +191,18 @@ export abstract class BaseSender {
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
   abstract handlePermanentRedirect(location: string | undefined): boolean;
+
+  public async retryPersistedEnvelopes(): Promise<void> {
+    if (
+      this.isShutdown ||
+      !this.isStorageEnabled ||
+      this.replayOperations.size > 0 ||
+      Date.now() < Math.max(this.retryTimerDeadlineMs, this.routeBackoffUntil)
+    ) {
+      return;
+    }
+    await this.sendAllPersistedFiles();
+  }
 
   public async shutdown(): Promise<void> {
     if (this.isShutdown) {
@@ -219,6 +249,9 @@ export abstract class BaseSender {
     if (envelopes.length < 1) {
       return { code: ExportResultCode.SUCCESS };
     }
+    if (this.isRouted && this.isStorageEnabled && Date.now() < this.routeBackoffUntil) {
+      return this.persist(envelopes, isReplay);
+    }
 
     try {
       const startTime = new Date().getTime();
@@ -229,7 +262,7 @@ export abstract class BaseSender {
         // Success -- start retry timer to send persisted files
         this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
-        if (!this.isStatsbeatSender) {
+        if (this.collectStats) {
           this.statsbeatManager.countSuccess(duration);
           this.customerSDKStatsMetrics?.countSuccessfulItems(envelopes);
         }
@@ -237,11 +270,11 @@ export abstract class BaseSender {
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429) {
-          if (!this.isStatsbeatSender) {
+          if (this.collectStats) {
             this.statsbeatManager.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          this.scheduleRetryTimer(retryAfterMs);
+          this.scheduleRetryTimer(retryAfterMs, true);
           return await this.persist(envelopes, isReplay);
         }
         if (result) {
@@ -252,7 +285,7 @@ export abstract class BaseSender {
           const successfulEnvelopes: Envelope[] = [...envelopes];
 
           // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && this.collectStats) {
             this.statsbeatManager.countSuccess(duration);
           }
           // Mark errored envelopes so they are excluded from successful counts
@@ -265,22 +298,22 @@ export abstract class BaseSender {
           // If we have a partial success, count the succeeded envelopes
           if (breezeResponse.itemsAccepted > 0) {
             // Count only the successful envelopes (non-undefined)
-            if (!this.isStatsbeatSender) {
+            if (this.collectStats) {
               this.statsbeatManager.countSuccess(duration);
               this.customerSDKStatsMetrics?.countSuccessfulItems(envelopes);
             }
           }
           if (filteredEnvelopes.length > 0) {
-            if (!this.isStatsbeatSender) {
+            if (this.collectStats) {
               this.statsbeatManager.countRetry(statusCode);
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
-            this.scheduleRetryTimer(retryAfterMs);
-            return await this.persist(filteredEnvelopes, isReplay);
+            this.scheduleRetryTimer(retryAfterMs, true);
+            return await this.persist(filteredEnvelopes, isReplay, envelopes);
           }
           // Failed -- not retriable
-          if (!this.isStatsbeatSender) {
+          if (this.collectStats) {
             this.statsbeatManager.countFailure(duration, statusCode);
             // Count dropped items for customer SDK Stats for non-retriable status codes
             const filteredSuccessfulEnvelopes = successfulEnvelopes.filter(Boolean);
@@ -294,21 +327,21 @@ export abstract class BaseSender {
           });
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          if (!this.isStatsbeatSender) {
+          if (this.collectStats) {
             this.statsbeatManager.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          this.scheduleRetryTimer(retryAfterMs);
+          this.scheduleRetryTimer(retryAfterMs, true);
           return await this.persist(envelopes, isReplay);
         }
       } else {
         // Failed -- not retriable
-        if (!this.isStatsbeatSender) {
+        if (this.collectStats) {
           if (statusCode) {
             this.statsbeatManager.countFailure(duration, statusCode);
             this.customerSDKStatsMetrics?.countDroppedItems(envelopes, statusCode);
           }
-        } else {
+        } else if (this.isStatsbeatSender) {
           // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
           this.customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
@@ -350,7 +383,7 @@ export abstract class BaseSender {
           }
         } else {
           const redirectError = new Error("Circular redirect");
-          if (!this.isStatsbeatSender) {
+          if (this.collectStats) {
             this.statsbeatManager.countException(redirectError);
             this.customerSDKStatsMetrics?.countDroppedItems(
               envelopes,
@@ -366,13 +399,16 @@ export abstract class BaseSender {
         isRetriable(restError.statusCode) &&
         !this.isStatsbeatSender
       ) {
-        this.statsbeatManager.countRetry(restError.statusCode);
+        if (this.collectStats) {
+          this.statsbeatManager.countRetry(restError.statusCode);
+        }
         this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
         // Honor a server-requested Retry-After so persisted telemetry isn't replayed too early.
         const retryAfterMs = parseRetryAfterHeader(restError.response?.headers.get("retry-after"));
-        this.scheduleRetryTimer(retryAfterMs);
+        this.scheduleRetryTimer(retryAfterMs, true);
         return this.persist(envelopes, isReplay);
       } else if (
+        !this.isRouted &&
         restError.statusCode === 400 &&
         restError.message.includes("Invalid instrumentation key")
       ) {
@@ -391,7 +427,9 @@ export abstract class BaseSender {
 
       // Persist transport failures where no HTTP response was received.
       if (this.isRetriableNoResponseError(error) && !this.isStatsbeatSender) {
-        this.statsbeatManager.countException(restError);
+        if (this.collectStats) {
+          this.statsbeatManager.countException(restError);
+        }
         // A status-less AbortError is the transport's real timeout signal, but its message
         // ("The operation was aborted...") isn't recognized by isTimeoutError. Treat it as a
         // timeout explicitly so it's classified as CLIENT_TIMEOUT rather than CLIENT_EXCEPTION.
@@ -418,12 +456,14 @@ export abstract class BaseSender {
           "Retrying due to transient client side error. Error message:",
           restError.message,
         );
-        this.scheduleRetryTimer();
+        this.scheduleRetryTimer(undefined, true);
         return this.persist(envelopes, isReplay);
       }
       // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
-        this.statsbeatManager.countException(restError);
+        if (this.collectStats) {
+          this.statsbeatManager.countException(restError);
+        }
         this.customerSDKStatsMetrics?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_EXCEPTION,
@@ -441,10 +481,21 @@ export abstract class BaseSender {
   /**
    * Persist envelopes to disk
    */
-  private async persist(envelopes: unknown[], isReplay = false): Promise<ExportResult> {
+  private async persist(
+    envelopes: unknown[],
+    isReplay = false,
+    originalEnvelopes = envelopes,
+  ): Promise<ExportResult> {
+    if (this.isRouted && !this.isStorageEnabled && !isReplay) {
+      const error = new Error(
+        "Cannot persist routed telemetry because offline storage is unavailable.",
+      );
+      diag.warn(error.message);
+      return { code: ExportResultCode.FAILED, error };
+    }
     try {
       const success = isReplay
-        ? await this.persister.restore(envelopes)
+        ? await this.persister.restore(envelopes, originalEnvelopes)
         : await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
@@ -453,7 +504,7 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           });
     } catch (ex: any) {
-      if (!this.isStatsbeatSender) {
+      if (this.collectStats) {
         this.statsbeatManager.countWriteFailure();
         if (this.disableOfflineStorage && envelopes) {
           this.customerSDKStatsMetrics?.countDroppedItems(
@@ -519,10 +570,14 @@ export abstract class BaseSender {
       if (envelopes && this.isShutdown) {
         await this.restoreShiftedEnvelopes(envelopes);
       }
-      if (!this.isStatsbeatSender) {
+      if (this.collectStats) {
         this.statsbeatManager.countReadFailure();
       }
       diag.warn(`Failed to fetch persisted file`, err);
+    } finally {
+      if (envelopes) {
+        this.persister.release(envelopes);
+      }
     }
   }
 
@@ -535,6 +590,7 @@ export abstract class BaseSender {
       return;
     }
     const generation = this.storageGeneration;
+    let envelopes: Envelope[] | null = null;
     try {
       // Clean outdated telemetry from disk before attempting to send
       await this.persister.cleanExpiredFiles();
@@ -542,7 +598,7 @@ export abstract class BaseSender {
         return;
       }
 
-      let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      envelopes = (await this.persister.shift()) as Envelope[] | null;
       let isFirstBatch = true;
       let replayedBatchCount = 0;
       while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
@@ -570,12 +626,19 @@ export abstract class BaseSender {
           await this.restoreShiftedEnvelopes(envelopes);
           return;
         }
+        this.persister.release(envelopes);
         if (this.isShutdown || !this.storageEnabled || generation !== this.storageGeneration) {
           return;
         }
         if (result.code === ExportResultCode.FAILED) {
           // Stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`);
+          break;
+        }
+        if (
+          this.isRouted &&
+          Date.now() < Math.max(this.retryTimerDeadlineMs, this.routeBackoffUntil)
+        ) {
           break;
         }
 
@@ -586,6 +649,10 @@ export abstract class BaseSender {
       }
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
+    } finally {
+      if (envelopes) {
+        this.persister.release(envelopes);
+      }
     }
   }
 
@@ -623,6 +690,10 @@ export abstract class BaseSender {
       return;
     }
     const delay = Math.max(this.getStartupReplayDelayMs(), this.retryTimerDeadlineMs - Date.now());
+    if (this.isRouted) {
+      this.retryTimerDeadlineMs = Date.now() + delay;
+      return;
+    }
     this.startupReplayTimer = setTimeout(() => {
       this.startupReplayTimer = null;
       if (!this.isShutdown) {
@@ -669,12 +740,21 @@ export abstract class BaseSender {
     return { breezeResponse, retriableEnvelopes };
   }
 
-  private scheduleRetryTimer(retryAfterMs?: number): void {
+  private scheduleRetryTimer(retryAfterMs?: number, failed = false): void {
     if (this.isShutdown || this.disableOfflineStorage) {
       return;
     }
     const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
     const newDeadline = Math.max(Date.now() + delay, this.retryTimerDeadlineMs);
+    if (this.isRouted) {
+      if (failed || retryAfterMs !== undefined) {
+        this.retryTimerDeadlineMs = newDeadline;
+      }
+      if (failed) {
+        this.routeBackoffUntil = Math.max(this.routeBackoffUntil, Date.now() + delay);
+      }
+      return;
+    }
     if (!this.remoteStorageEnabled) {
       this.retryTimerDeadlineMs = Math.max(this.retryTimerDeadlineMs, newDeadline);
       return;
@@ -743,7 +823,7 @@ export abstract class BaseSender {
       }
       if (!this.handlePermanentRedirect(location)) {
         const refusalError = new Error("Refused cross-origin redirect");
-        if (!this.isStatsbeatSender) {
+        if (this.collectStats) {
           this.statsbeatManager.countException(refusalError);
           this.customerSDKStatsMetrics?.countDroppedItems(
             envelopes,
@@ -754,13 +834,13 @@ export abstract class BaseSender {
         }
         return this.buildExportResult({ code: ExportResultCode.FAILED, error: refusalError });
       }
-      if (!this.isStatsbeatSender) {
+      if (this.collectStats) {
         await this.statsbeatManager.updateEndpoint(location);
       }
       return this.exportEnvelopes(envelopes, true, redirectCount, isReplay);
     };
 
-    if (redirectIsSerialized || this.isStatsbeatSender) {
+    if (redirectIsSerialized || this.isStatsbeatSender || this.isRouted) {
       return operation();
     }
     const update = BaseSender.redirectRouteUpdate.then(operation);

@@ -74,6 +74,27 @@ describe("snippets", () => {
     logs.setGlobalLoggerProvider(loggerProvider);
   });
 
+  it("ReadmeSampleMultiEndpointRouting", async () => {
+    process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "multi_endpoint_routing";
+    // @ts-preserve-whitespace
+    const provider = new LoggerProvider({
+      processors: [
+        new BatchLogRecordProcessor({
+          exporter: new AzureMonitorLogExporter(),
+        }),
+      ],
+    });
+    // @ts-preserve-whitespace
+    provider.getLogger("routed-logs").emit({
+      body: "Order completed",
+      attributes: {
+        "microsoft.instrumentation_key": "<destination instrumentation key>",
+        "microsoft.ingestion_endpoint": "https://<region>.in.applicationinsights.azure.com",
+        "microsoft.multi_endpoint_cloud_role": "orders",
+      },
+    });
+  });
+
   it("ReadmeSampleAvailability", async () => {
     const logger = logs.getLogger("availability");
 
