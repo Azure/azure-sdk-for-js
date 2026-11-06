@@ -4714,7 +4714,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteSourceControl: SiteSourceControl,
       options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
     ) => {
-      return createOrUpdateSourceControl(
+      return await createOrUpdateSourceControl(
         context,
         resourceGroupName,
         name,
@@ -4781,7 +4781,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteSourceControl: SiteSourceControl,
       options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
     ) => {
-      return createOrUpdateSourceControlSlot(
+      return await createOrUpdateSourceControlSlot(
         context,
         resourceGroupName,
         name,
@@ -4841,7 +4841,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsInstallSiteExtensionSlotOptionalParams,
     ) => {
-      return installSiteExtensionSlot(
+      return await installSiteExtensionSlot(
         context,
         resourceGroupName,
         name,
@@ -4896,7 +4896,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteExtensionId: string,
       options?: WebAppsInstallSiteExtensionOptionalParams,
     ) => {
-      return installSiteExtension(context, resourceGroupName, name, siteExtensionId, options);
+      return await installSiteExtension(context, resourceGroupName, name, siteExtensionId, options);
     },
     getSiteExtension: (
       resourceGroupName: string,
@@ -5814,7 +5814,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       functionEnvelope: FunctionEnvelope,
       options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
     ) => {
-      return createInstanceFunctionSlot(
+      return await createInstanceFunctionSlot(
         context,
         resourceGroupName,
         name,
@@ -5910,7 +5910,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       functionEnvelope: FunctionEnvelope,
       options?: WebAppsCreateFunctionOptionalParams,
     ) => {
-      return createFunction(
+      return await createFunction(
         context,
         resourceGroupName,
         name,
@@ -5977,7 +5977,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
     ) => {
-      return createInstanceMSDeployOperationSlot(
+      return await createInstanceMSDeployOperationSlot(
         context,
         resourceGroupName,
         name,
@@ -6032,7 +6032,14 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
     ) => {
-      return createMSDeployOperationSlot(context, resourceGroupName, name, slot, msDeploy, options);
+      return await createMSDeployOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        msDeploy,
+        options,
+      );
     },
     getMSDeployStatusSlot: (
       resourceGroupName: string,
@@ -6086,7 +6093,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
     ) => {
-      return createInstanceMSDeployOperation(
+      return await createInstanceMSDeployOperation(
         context,
         resourceGroupName,
         name,
@@ -6128,7 +6135,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateMSDeployOperationOptionalParams,
     ) => {
-      return createMSDeployOperation(context, resourceGroupName, name, msDeploy, options);
+      return await createMSDeployOperation(context, resourceGroupName, name, msDeploy, options);
     },
     getMSDeployStatus: (
       resourceGroupName: string,
@@ -6377,7 +6384,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       deploymentStatusId: string,
       options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
     ) => {
-      return getSlotSiteDeploymentStatusSlot(
+      return await getSlotSiteDeploymentStatusSlot(
         context,
         resourceGroupName,
         name,
@@ -6426,7 +6433,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       deploymentStatusId: string,
       options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
     ) => {
-      return getProductionSiteDeploymentStatus(
+      return await getProductionSiteDeploymentStatus(
         context,
         resourceGroupName,
         name,
@@ -6874,7 +6881,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreSlotOptionalParams,
     ) => {
-      return restoreSlot(context, resourceGroupName, name, backupId, slot, request, options);
+      return await restoreSlot(context, resourceGroupName, name, backupId, slot, request, options);
     },
     listBackupStatusSecretsSlot: (
       resourceGroupName: string,
@@ -6938,7 +6945,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreOptionalParams,
     ) => {
-      return restore(context, resourceGroupName, name, backupId, request, options);
+      return await restore(context, resourceGroupName, name, backupId, request, options);
     },
     listBackupStatusSecrets: (
       resourceGroupName: string,
@@ -7015,7 +7022,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsStartNetworkTraceOptionalParams,
     ) => {
-      return startNetworkTrace(context, resourceGroupName, name, options);
+      return await startNetworkTrace(context, resourceGroupName, name, options);
     },
     start: (resourceGroupName: string, name: string, options?: WebAppsStartOptionalParams) =>
       start(context, resourceGroupName, name, options),
@@ -7057,7 +7064,13 @@ function _getWebApps(context: WebSiteManagementContext) {
       slotSwapEntity: CsmSlotEntity,
       options?: WebAppsSwapSlotWithProductionOptionalParams,
     ) => {
-      return swapSlotWithProduction(context, resourceGroupName, name, slotSwapEntity, options);
+      return await swapSlotWithProduction(
+        context,
+        resourceGroupName,
+        name,
+        slotSwapEntity,
+        options,
+      );
     },
     listSlotDifferencesFromProduction: (
       resourceGroupName: string,
@@ -7088,7 +7101,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: SnapshotRestoreRequest,
       options?: WebAppsRestoreSnapshotOptionalParams,
     ) => {
-      return restoreSnapshot(context, resourceGroupName, name, restoreRequest, options);
+      return await restoreSnapshot(context, resourceGroupName, name, restoreRequest, options);
     },
     restoreFromDeletedApp: (
       resourceGroupName: string,
@@ -7118,7 +7131,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: DeletedAppRestoreRequest,
       options?: WebAppsRestoreFromDeletedAppOptionalParams,
     ) => {
-      return restoreFromDeletedApp(context, resourceGroupName, name, restoreRequest, options);
+      return await restoreFromDeletedApp(context, resourceGroupName, name, restoreRequest, options);
     },
     restoreFromBackupBlob: (
       resourceGroupName: string,
@@ -7142,7 +7155,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreFromBackupBlobOptionalParams,
     ) => {
-      return restoreFromBackupBlob(context, resourceGroupName, name, request, options);
+      return await restoreFromBackupBlob(context, resourceGroupName, name, request, options);
     },
     restart: (resourceGroupName: string, name: string, options?: WebAppsRestartOptionalParams) =>
       restart(context, resourceGroupName, name, options),
@@ -7231,7 +7244,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
     ) => {
-      return startWebSiteNetworkTraceOperation(context, resourceGroupName, name, options);
+      return await startWebSiteNetworkTraceOperation(context, resourceGroupName, name, options);
     },
     startWebSiteNetworkTrace: (
       resourceGroupName: string,
@@ -7272,7 +7285,13 @@ function _getWebApps(context: WebSiteManagementContext) {
       migrationRequestEnvelope: MigrateMySqlRequest,
       options?: WebAppsMigrateMySqlOptionalParams,
     ) => {
-      return migrateMySql(context, resourceGroupName, name, migrationRequestEnvelope, options);
+      return await migrateMySql(
+        context,
+        resourceGroupName,
+        name,
+        migrationRequestEnvelope,
+        options,
+      );
     },
     migrateStorage: (
       subscriptionName: string,
@@ -7307,7 +7326,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       migrationOptions: StorageMigrationOptions,
       options?: WebAppsMigrateStorageOptionalParams,
     ) => {
-      return migrateStorage(
+      return await migrateStorage(
         context,
         subscriptionName,
         resourceGroupName,
@@ -7437,7 +7456,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsListPublishingCredentialsOptionalParams,
     ) => {
-      return listPublishingCredentials(context, resourceGroupName, name, options);
+      return await listPublishingCredentials(context, resourceGroupName, name, options);
     },
     listMetadata: (
       resourceGroupName: string,
@@ -7559,7 +7578,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteEnvelope: Site,
       options?: WebAppsCreateOrUpdateOptionalParams,
     ) => {
-      return createOrUpdate(context, resourceGroupName, name, siteEnvelope, options);
+      return await createOrUpdate(context, resourceGroupName, name, siteEnvelope, options);
     },
     get: (resourceGroupName: string, name: string, options?: WebAppsGetOptionalParams) =>
       get(context, resourceGroupName, name, options),
@@ -7920,7 +7939,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
     ) => {
-      return deletePrivateEndpointConnectionSlot(
+      return await deletePrivateEndpointConnectionSlot(
         context,
         resourceGroupName,
         name,
@@ -7974,7 +7993,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
       options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
     ) => {
-      return approveOrRejectPrivateEndpointConnectionSlot(
+      return await approveOrRejectPrivateEndpointConnectionSlot(
         context,
         resourceGroupName,
         name,
@@ -8039,7 +8058,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       privateEndpointConnectionName: string,
       options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
     ) => {
-      return deletePrivateEndpointConnection(
+      return await deletePrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -8087,7 +8106,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
       options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
     ) => {
-      return approveOrRejectPrivateEndpointConnection(
+      return await approveOrRejectPrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -8173,7 +8192,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsStartNetworkTraceSlotOptionalParams,
     ) => {
-      return startNetworkTraceSlot(context, resourceGroupName, name, slot, options);
+      return await startNetworkTraceSlot(context, resourceGroupName, name, slot, options);
     },
     startSlot: (
       resourceGroupName: string,
@@ -8218,7 +8237,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       slotSwapEntity: CsmSlotEntity,
       options?: WebAppsSwapSlotOptionalParams,
     ) => {
-      return swapSlot(context, resourceGroupName, name, slot, slotSwapEntity, options);
+      return await swapSlot(context, resourceGroupName, name, slot, slotSwapEntity, options);
     },
     listSlotDifferencesSlot: (
       resourceGroupName: string,
@@ -8259,7 +8278,14 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: SnapshotRestoreRequest,
       options?: WebAppsRestoreSnapshotSlotOptionalParams,
     ) => {
-      return restoreSnapshotSlot(context, resourceGroupName, name, slot, restoreRequest, options);
+      return await restoreSnapshotSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        restoreRequest,
+        options,
+      );
     },
     restoreFromDeletedAppSlot: (
       resourceGroupName: string,
@@ -8293,7 +8319,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: DeletedAppRestoreRequest,
       options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
     ) => {
-      return restoreFromDeletedAppSlot(
+      return await restoreFromDeletedAppSlot(
         context,
         resourceGroupName,
         name,
@@ -8334,7 +8360,14 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
     ) => {
-      return restoreFromBackupBlobSlot(context, resourceGroupName, name, slot, request, options);
+      return await restoreFromBackupBlobSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        request,
+        options,
+      );
     },
     restartSlot: (
       resourceGroupName: string,
@@ -8449,7 +8482,13 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
     ) => {
-      return startWebSiteNetworkTraceOperationSlot(context, resourceGroupName, name, slot, options);
+      return await startWebSiteNetworkTraceOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        options,
+      );
     },
     startWebSiteNetworkTraceSlot: (
       resourceGroupName: string,
@@ -8599,7 +8638,7 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsListPublishingCredentialsSlotOptionalParams,
     ) => {
-      return listPublishingCredentialsSlot(context, resourceGroupName, name, slot, options);
+      return await listPublishingCredentialsSlot(context, resourceGroupName, name, slot, options);
     },
     listMetadataSlot: (
       resourceGroupName: string,
@@ -8772,7 +8811,14 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteEnvelope: Site,
       options?: WebAppsCreateOrUpdateSlotOptionalParams,
     ) => {
-      return createOrUpdateSlot(context, resourceGroupName, name, slot, siteEnvelope, options);
+      return await createOrUpdateSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        siteEnvelope,
+        options,
+      );
     },
     getSlot: (
       resourceGroupName: string,

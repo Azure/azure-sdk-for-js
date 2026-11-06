@@ -68,6 +68,12 @@ export interface AppServicePlansListWebAppsOptionalParams extends OperationOptio
 }
 
 /** Optional parameters. */
+export interface AppServicePlansStopWebAppsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AppServicePlansStartWebAppsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AppServicePlansRestartWebAppsOptionalParams extends OperationOptions {
   /** Specify <code>true</code> to perform a soft restart, applies the configuration settings and restarts the apps if necessary. The default is <code>false</code>, which always restarts and reprovisions the apps */
   softRestart?: boolean;

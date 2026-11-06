@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Object with a list of the resources that need to be moved and the resource group they should be moved to. */
 export interface CsmMoveResourceEnvelope {
   targetResourceGroup?: string;
@@ -326,6 +326,7 @@ export function appServiceEnvironmentDeserializer(item: any): AppServiceEnvironm
 
 /** Provisioning state of the App Service Plan. */
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
+
 /** Current status of the App Service Environment. */
 export type HostingEnvironmentStatus = "Preparing" | "Ready" | "Scaling" | "Deleting";
 
@@ -2072,6 +2073,59 @@ export function skuDescriptionDeserializer(item: any): SkuDescription {
   };
 }
 
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, unknown>;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
 /** Collection of worker pools. */
 export interface _WorkerPoolCollection {
   /** The WorkerPoolResource items on this page */
@@ -2688,6 +2742,8 @@ export interface Site extends TrackedResource {
   readonly usageState?: UsageState;
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
+  /** <code>true</code> if site scoped certificates are enabled; otherwise, <code>false</code>. */
+  siteScopedCertificatesEnabled?: boolean;
   /**
    * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
    * the app is not served on those hostnames.
@@ -2717,6 +2773,8 @@ export interface Site extends TrackedResource {
   functionAppConfig?: FunctionAppConfig;
   /** Dapr configuration of the app. */
   daprConfig?: DaprConfig;
+  /** AI integration configuration for the app. */
+  aiIntegration?: AiIntegration;
   /** Workload profile name for function app to execute on. */
   workloadProfileName?: string;
   /** Function app resource requirements. */
@@ -2810,6 +2868,10 @@ export interface Site extends TrackedResource {
   managedEnvironmentId?: string;
   /** Current SKU of application based on associated App Service Plan. Some valid SKU values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2 */
   readonly sku?: string;
+  /** The platform release channel for the site. Latest receives updates earliest, followed by Standard, then Extended. */
+  platformReleaseChannel?: PlatformReleaseChannel;
+  /** <code>true</code> if the app is in maintenance mode; otherwise, <code>false</code>. Setting this value to true puts the app in maintenance mode, making it return the maintenance custom error page. The maintenance custom error page is required to set the site to maintenance. Default value is <code>false</code>. */
+  maintenanceEnabled?: boolean;
 }
 
 export function siteSerializer(item: Site): any {
@@ -2818,6 +2880,7 @@ export function siteSerializer(item: Site): any {
     location: item["location"],
     properties: areAllPropsUndefined(item, [
       "enabled",
+      "siteScopedCertificatesEnabled",
       "hostNameSslStates",
       "serverFarmId",
       "reserved",
@@ -2828,6 +2891,7 @@ export function siteSerializer(item: Site): any {
       "siteConfig",
       "functionAppConfig",
       "daprConfig",
+      "aiIntegration",
       "workloadProfileName",
       "resourceConfig",
       "scmSiteAlsoStopped",
@@ -2854,6 +2918,8 @@ export function siteSerializer(item: Site): any {
       "autoGeneratedDomainNameLabelScope",
       "virtualNetworkSubnetId",
       "managedEnvironmentId",
+      "platformReleaseChannel",
+      "maintenanceEnabled",
     ])
       ? undefined
       : _sitePropertiesSerializer(item),
@@ -2902,6 +2968,8 @@ export interface SiteProperties {
   readonly usageState?: UsageState;
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
+  /** <code>true</code> if site scoped certificates are enabled; otherwise, <code>false</code>. */
+  siteScopedCertificatesEnabled?: boolean;
   /**
    * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
    * the app is not served on those hostnames.
@@ -2931,6 +2999,8 @@ export interface SiteProperties {
   functionAppConfig?: FunctionAppConfig;
   /** Dapr configuration of the app. */
   daprConfig?: DaprConfig;
+  /** AI integration configuration for the app. */
+  aiIntegration?: AiIntegration;
   /** Workload profile name for function app to execute on. */
   workloadProfileName?: string;
   /** Function app resource requirements. */
@@ -3024,11 +3094,16 @@ export interface SiteProperties {
   managedEnvironmentId?: string;
   /** Current SKU of application based on associated App Service Plan. Some valid SKU values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2 */
   readonly sku?: string;
+  /** The platform release channel for the site. Latest receives updates earliest, followed by Standard, then Extended. */
+  platformReleaseChannel?: PlatformReleaseChannel;
+  /** <code>true</code> if the app is in maintenance mode; otherwise, <code>false</code>. Setting this value to true puts the app in maintenance mode, making it return the maintenance custom error page. The maintenance custom error page is required to set the site to maintenance. Default value is <code>false</code>. */
+  maintenanceEnabled?: boolean;
 }
 
 export function sitePropertiesSerializer(item: SiteProperties): any {
   return {
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     hostNameSslStates: !item["hostNameSslStates"]
       ? item["hostNameSslStates"]
       : hostNameSslStateArraySerializer(item["hostNameSslStates"]),
@@ -3047,6 +3122,9 @@ export function sitePropertiesSerializer(item: SiteProperties): any {
       ? item["functionAppConfig"]
       : functionAppConfigSerializer(item["functionAppConfig"]),
     daprConfig: !item["daprConfig"] ? item["daprConfig"] : daprConfigSerializer(item["daprConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationSerializer(item["aiIntegration"]),
     workloadProfileName: item["workloadProfileName"],
     resourceConfig: !item["resourceConfig"]
       ? item["resourceConfig"]
@@ -3079,6 +3157,8 @@ export function sitePropertiesSerializer(item: SiteProperties): any {
     autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     virtualNetworkSubnetId: item["virtualNetworkSubnetId"],
     managedEnvironmentId: item["managedEnvironmentId"],
+    platformReleaseChannel: item["platformReleaseChannel"],
+    maintenanceEnabled: item["maintenanceEnabled"],
   };
 }
 
@@ -3093,6 +3173,7 @@ export function sitePropertiesDeserializer(item: any): SiteProperties {
     repositorySiteName: item["repositorySiteName"],
     usageState: item["usageState"],
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     enabledHostNames: !item["enabledHostNames"]
       ? item["enabledHostNames"]
       : item["enabledHostNames"].map((p: any) => {
@@ -3124,6 +3205,9 @@ export function sitePropertiesDeserializer(item: any): SiteProperties {
     daprConfig: !item["daprConfig"]
       ? item["daprConfig"]
       : daprConfigDeserializer(item["daprConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationDeserializer(item["aiIntegration"]),
     workloadProfileName: item["workloadProfileName"],
     resourceConfig: !item["resourceConfig"]
       ? item["resourceConfig"]
@@ -3174,11 +3258,14 @@ export function sitePropertiesDeserializer(item: any): SiteProperties {
     virtualNetworkSubnetId: item["virtualNetworkSubnetId"],
     managedEnvironmentId: item["managedEnvironmentId"],
     sku: item["sku"],
+    platformReleaseChannel: item["platformReleaseChannel"],
+    maintenanceEnabled: item["maintenanceEnabled"],
   };
 }
 
 /** State indicating whether the app has exceeded its quota usage. Read-only. */
 export type UsageState = "Normal" | "Exceeded";
+
 /** Management information availability state for the app. */
 export type SiteAvailabilityState = "Normal" | "Limited" | "DisasterRecoveryMode";
 
@@ -3234,6 +3321,7 @@ export function hostNameSslStateDeserializer(item: any): HostNameSslState {
 
 /** SSL type */
 export type SslState = "Disabled" | "SniEnabled" | "IpBasedEnabled";
+
 /** Indicates whether the hostname is a standard or repository hostname. */
 export type HostType = "Standard" | "Repository";
 
@@ -3294,6 +3382,8 @@ export interface OutboundVnetRouting {
   imagePullTraffic?: boolean;
   /** Enables Backup and Restore operations over virtual network. Previously called VnetBackupRestoreEnabled */
   backupRestoreTraffic?: boolean;
+  /** Enables Managed Identity operations over virtual network. */
+  managedIdentityTraffic?: boolean;
 }
 
 export function outboundVnetRoutingSerializer(item: OutboundVnetRouting): any {
@@ -3303,6 +3393,7 @@ export function outboundVnetRoutingSerializer(item: OutboundVnetRouting): any {
     contentShareTraffic: item["contentShareTraffic"],
     imagePullTraffic: item["imagePullTraffic"],
     backupRestoreTraffic: item["backupRestoreTraffic"],
+    managedIdentityTraffic: item["managedIdentityTraffic"],
   };
 }
 
@@ -3313,6 +3404,7 @@ export function outboundVnetRoutingDeserializer(item: any): OutboundVnetRouting 
     contentShareTraffic: item["contentShareTraffic"],
     imagePullTraffic: item["imagePullTraffic"],
     backupRestoreTraffic: item["backupRestoreTraffic"],
+    managedIdentityTraffic: item["managedIdentityTraffic"],
   };
 }
 
@@ -3860,6 +3952,7 @@ export enum KnownScmType {
  * **VSTSRM**
  */
 export type ScmType = string;
+
 /** Managed pipeline mode. */
 export type ManagedPipelineMode = "Integrated" | "Classic";
 
@@ -4822,6 +4915,7 @@ export function azureStorageInfoValueDeserializer(item: any): AzureStorageInfoVa
 
 /** Type of storage. */
 export type AzureStorageType = "AzureFiles" | "AzureBlob";
+
 /** State of the storage account. */
 export type AzureStorageState = "Ok" | "InvalidCredentials" | "InvalidShare" | "NotValidated";
 
@@ -5037,6 +5131,8 @@ export enum KnownRuntimeName {
   Powershell = "powershell",
   /** python */
   Python = "python",
+  /** go */
+  Go = "go",
   /** custom */
   Custom = "custom",
 }
@@ -5051,6 +5147,7 @@ export enum KnownRuntimeName {
  * **java** \
  * **powershell** \
  * **python** \
+ * **go** \
  * **custom**
  */
 export type RuntimeName = string;
@@ -5059,7 +5156,7 @@ export type RuntimeName = string;
 export interface FunctionsScaleAndConcurrency {
   /** 'Always Ready' configuration for the function app. */
   alwaysReady?: FunctionsAlwaysReadyConfig[];
-  /** The maximum number of instances for the function app. */
+  /** The maximum number of on demand instances per function group. */
   maximumInstanceCount?: number;
   /** Set the amount of memory allocated to each instance of the function app in MB. CPU and network bandwidth are allocated proportionally. */
   instanceMemoryMB?: number;
@@ -5282,6 +5379,149 @@ export enum KnownDaprLogLevel {
  */
 export type DaprLogLevel = string;
 
+/** AI integration configuration for the app. */
+export interface AiIntegration {
+  /** Relative path to the API specification file from /home in site files. */
+  apiSpecPath?: string;
+  /** MCP configuration. */
+  mcp?: McpSettings;
+  /** External auth configuration for the MCP endpoint (used when EasyAuth is not enabled). */
+  siteAuth?: SiteAuthInfo;
+}
+
+export function aiIntegrationSerializer(item: AiIntegration): any {
+  return {
+    apiSpecPath: item["apiSpecPath"],
+    mcp: !item["mcp"] ? item["mcp"] : mcpSettingsSerializer(item["mcp"]),
+    siteAuth: !item["siteAuth"] ? item["siteAuth"] : siteAuthInfoSerializer(item["siteAuth"]),
+  };
+}
+
+export function aiIntegrationDeserializer(item: any): AiIntegration {
+  return {
+    apiSpecPath: item["apiSpecPath"],
+    mcp: !item["mcp"] ? item["mcp"] : mcpSettingsDeserializer(item["mcp"]),
+    siteAuth: !item["siteAuth"] ? item["siteAuth"] : siteAuthInfoDeserializer(item["siteAuth"]),
+  };
+}
+
+/** MCP configuration settings. */
+export interface McpSettings {
+  /** Array of MCP server configurations. This array is replaced in its entirety on update; individual servers cannot be patched independently. An empty array signals that MCP should be disabled/deleted. */
+  servers?: McpServerConfig[];
+}
+
+export function mcpSettingsSerializer(item: McpSettings): any {
+  return {
+    servers: !item["servers"] ? item["servers"] : mcpServerConfigArraySerializer(item["servers"]),
+  };
+}
+
+export function mcpSettingsDeserializer(item: any): McpSettings {
+  return {
+    servers: !item["servers"] ? item["servers"] : mcpServerConfigArrayDeserializer(item["servers"]),
+  };
+}
+
+export function mcpServerConfigArraySerializer(result: Array<McpServerConfig>): any[] {
+  return result.map((item) => {
+    return mcpServerConfigSerializer(item);
+  });
+}
+
+export function mcpServerConfigArrayDeserializer(result: Array<McpServerConfig>): any[] {
+  return result.map((item) => {
+    return mcpServerConfigDeserializer(item);
+  });
+}
+
+/** Configuration for an individual MCP server. */
+export interface McpServerConfig {
+  /** The name of the MCP server. */
+  name?: string;
+  /** The description of the MCP server. */
+  description?: string;
+  /** Whether the MCP server is enabled. Defaults to true when not specified on creation. */
+  enabled?: boolean;
+  /** The endpoint path for the MCP server. */
+  endpoint?: string;
+  /** The list of tools exposed by this MCP server. */
+  toolList?: string[];
+}
+
+export function mcpServerConfigSerializer(item: McpServerConfig): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    enabled: item["enabled"],
+    endpoint: item["endpoint"],
+    toolList: !item["toolList"]
+      ? item["toolList"]
+      : item["toolList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function mcpServerConfigDeserializer(item: any): McpServerConfig {
+  return {
+    name: item["name"],
+    description: item["description"],
+    enabled: item["enabled"],
+    endpoint: item["endpoint"],
+    toolList: !item["toolList"]
+      ? item["toolList"]
+      : item["toolList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * External auth configuration for the MCP endpoint (used when EasyAuth is not enabled).
+ * At minimum, `scopes` and either `wellKnownOpenIdConfiguration` or `issuer` must be provided.
+ */
+export interface SiteAuthInfo {
+  /** JWKS URL for verifying JWT signatures. */
+  jwksUri?: string;
+  /** Expected 'iss' claim. Required for custom site authentication if `wellKnownOpenIdConfiguration` is not provided. */
+  issuer?: string;
+  /** Expected 'aud' claim. */
+  audience?: string;
+  /** OIDC metadata URL. Required for custom site authentication if `issuer` is not provided. */
+  wellKnownOpenIdConfiguration?: string;
+  /** OAuth scopes for Protected Resource Metadata (PRM). Required for custom site authentication. */
+  scopes?: string[];
+}
+
+export function siteAuthInfoSerializer(item: SiteAuthInfo): any {
+  return {
+    jwksUri: item["jwksUri"],
+    issuer: item["issuer"],
+    audience: item["audience"],
+    wellKnownOpenIdConfiguration: item["wellKnownOpenIdConfiguration"],
+    scopes: !item["scopes"]
+      ? item["scopes"]
+      : item["scopes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function siteAuthInfoDeserializer(item: any): SiteAuthInfo {
+  return {
+    jwksUri: item["jwksUri"],
+    issuer: item["issuer"],
+    audience: item["audience"],
+    wellKnownOpenIdConfiguration: item["wellKnownOpenIdConfiguration"],
+    scopes: !item["scopes"]
+      ? item["scopes"]
+      : item["scopes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Function app resource requirements. */
 export interface ResourceConfig {
   /** Required CPU in cores, e.g. 0.5 */
@@ -5330,6 +5570,7 @@ export function hostingEnvironmentProfileDeserializer(item: any): HostingEnviron
  * - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
  */
 export type ClientCertMode = "Required" | "Optional" | "OptionalInteractiveUser";
+
 /** Specifies the IP mode of the app. */
 export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 
@@ -5428,9 +5669,31 @@ export function slotSwapStatusDeserializer(item: any): SlotSwapStatus {
 
 /** Site redundancy mode */
 export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
+
 /** Specifies the scope of uniqueness for the default hostname during resource creation */
 export type AutoGeneratedDomainNameLabelScope =
   "TenantReuse" | "SubscriptionReuse" | "ResourceGroupReuse" | "NoReuse";
+
+/** The platform release channel for the site. */
+export enum KnownPlatformReleaseChannel {
+  /** Latest receives updates earliest. */
+  Latest = "Latest",
+  /** Standard receives updates after Latest. */
+  Standard = "Standard",
+  /** Extended receives updates last with extended support. */
+  Extended = "Extended",
+}
+
+/**
+ * The platform release channel for the site. \
+ * {@link KnownPlatformReleaseChannel} can be used interchangeably with PlatformReleaseChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Latest**: Latest receives updates earliest. \
+ * **Standard**: Standard receives updates after Latest. \
+ * **Extended**: Extended receives updates last with extended support.
+ */
+export type PlatformReleaseChannel = string;
 
 /** Managed service identity. */
 export interface ManagedServiceIdentity {
@@ -6906,6 +7169,7 @@ export function recommendationRulePropertiesDeserializer(item: any): Recommendat
 
 /** Level indicating how critical this recommendation can impact. */
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
+
 /** List of channels that this recommendation can apply. */
 export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 
@@ -9080,6 +9344,8 @@ export interface SitePatchResource extends ProxyOnlyResource {
   readonly usageState?: UsageState;
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
+  /** <code>true</code> if site scoped certificates are enabled; otherwise, <code>false</code>. */
+  siteScopedCertificatesEnabled?: boolean;
   /**
    * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
    * the app is not served on those hostnames.
@@ -9103,6 +9369,8 @@ export interface SitePatchResource extends ProxyOnlyResource {
   dnsConfiguration?: SiteDnsConfig;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
+  /** AI integration configuration for the app. */
+  aiIntegration?: AiIntegration;
   /** Azure Traffic Manager hostnames associated with the app. Read-only. */
   readonly trafficManagerHostNames?: string[];
   /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
@@ -9182,6 +9450,7 @@ export function sitePatchResourceSerializer(item: SitePatchResource): any {
     kind: item["kind"],
     properties: areAllPropsUndefined(item, [
       "enabled",
+      "siteScopedCertificatesEnabled",
       "hostNameSslStates",
       "serverFarmId",
       "reserved",
@@ -9189,6 +9458,7 @@ export function sitePatchResourceSerializer(item: SitePatchResource): any {
       "hyperV",
       "dnsConfiguration",
       "siteConfig",
+      "aiIntegration",
       "scmSiteAlsoStopped",
       "hostingEnvironmentProfile",
       "clientAffinityEnabled",
@@ -9228,6 +9498,8 @@ export interface SitePatchResourceProperties {
   readonly usageState?: UsageState;
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
+  /** <code>true</code> if site scoped certificates are enabled; otherwise, <code>false</code>. */
+  siteScopedCertificatesEnabled?: boolean;
   /**
    * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
    * the app is not served on those hostnames.
@@ -9251,6 +9523,8 @@ export interface SitePatchResourceProperties {
   dnsConfiguration?: SiteDnsConfig;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
+  /** AI integration configuration for the app. */
+  aiIntegration?: AiIntegration;
   /** Azure Traffic Manager hostnames associated with the app. Read-only. */
   readonly trafficManagerHostNames?: string[];
   /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
@@ -9328,6 +9602,7 @@ export interface SitePatchResourceProperties {
 export function sitePatchResourcePropertiesSerializer(item: SitePatchResourceProperties): any {
   return {
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     hostNameSslStates: !item["hostNameSslStates"]
       ? item["hostNameSslStates"]
       : hostNameSslStateArraySerializer(item["hostNameSslStates"]),
@@ -9339,6 +9614,9 @@ export function sitePatchResourcePropertiesSerializer(item: SitePatchResourcePro
       ? item["dnsConfiguration"]
       : siteDnsConfigSerializer(item["dnsConfiguration"]),
     siteConfig: !item["siteConfig"] ? item["siteConfig"] : siteConfigSerializer(item["siteConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationSerializer(item["aiIntegration"]),
     scmSiteAlsoStopped: item["scmSiteAlsoStopped"],
     hostingEnvironmentProfile: !item["hostingEnvironmentProfile"]
       ? item["hostingEnvironmentProfile"]
@@ -10393,6 +10671,7 @@ export function siteAuthSettingsPropertiesDeserializer(item: any): SiteAuthSetti
 
 /** The action to take when an unauthenticated client attempts to access the app. */
 export type UnauthenticatedClientAction = "RedirectToLoginPage" | "AllowAnonymous";
+
 /**
  * The default authentication provider to use when multiple providers are configured.
  * This setting is only needed if multiple providers are configured and the unauthenticated client
@@ -14396,6 +14675,7 @@ export function continuousWebJobPropertiesDeserializer(item: any): ContinuousWeb
 /** Job status. */
 export type ContinuousWebJobStatus =
   "Initializing" | "Starting" | "Running" | "PendingRestart" | "Stopped";
+
 /** Job type. */
 export type WebJobType = "Continuous" | "Triggered";
 
@@ -15202,8 +15482,10 @@ export function hostNameBindingPropertiesDeserializer(item: any): HostNameBindin
 
 /** Azure resource type. */
 export type AzureResourceType = "Website" | "TrafficManager";
+
 /** Custom DNS record type. */
 export type CustomHostNameDnsRecordType = "CName" | "A";
+
 /** Hostname type. */
 export type HostNameType = "Verified" | "Managed";
 
@@ -16694,7 +16976,7 @@ export interface SiteExtensionInfo extends ProxyResource {
   /** Installed timestamp. */
   installedDateTime?: Date;
   /** Provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Site Extension comment. */
   comment?: string;
 }
@@ -16752,7 +17034,7 @@ export interface SiteExtensionInfoProperties {
   /** Installed timestamp. */
   installedDateTime?: Date;
   /** Provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Site Extension comment. */
   comment?: string;
 }
@@ -19540,6 +19822,522 @@ export function kubeEnvironmentArrayDeserializer(result: Array<KubeEnvironment>)
   });
 }
 
+/** Collection of Network Security Perimeter Configurations */
+export interface _NetworkSecurityPerimeterConfigurationCollection {
+  /** The NetworkSecurityPerimeterConfiguration items on this page */
+  value: NetworkSecurityPerimeterConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _networkSecurityPerimeterConfigurationCollectionDeserializer(
+  item: any,
+): _NetworkSecurityPerimeterConfigurationCollection {
+  return {
+    value: networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function networkSecurityPerimeterConfigurationArrayDeserializer(
+  result: Array<NetworkSecurityPerimeterConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterConfigurationDeserializer(item);
+  });
+}
+
+/** Detailed view of a Network Security Perimeter Configured for the site. */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyOnlyResource {
+  /** Name of the Network Security Perimeter Profile Access Rule. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+export function networkSecurityPerimeterConfigurationDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    kind: item["kind"],
+    type: item["type"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkSecurityPerimeterConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network Security Perimeter Configuration Properties */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Reflects state of association persistence and configuration propagation to App Service Data Plane. */
+  readonly provisioningState?: string;
+  /** Reflects any misconfigurations and failures detected while provisioning the association or while processing configuration changes. */
+  provisioningIssues?: NspProvisioningIssue[];
+  /** Associated Network Security Perimeter resource. */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Representation of Network Security Perimeter Association. */
+  resourceAssociations?: NspResourceAssociation;
+  /** Associated Network Security Perimeter Profile. */
+  profile?: NspProfile;
+}
+
+export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfigurationProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    provisioningIssues: !item["provisioningIssues"]
+      ? item["provisioningIssues"]
+      : nspProvisioningIssueArrayDeserializer(item["provisioningIssues"]),
+    networkSecurityPerimeter: !item["networkSecurityPerimeter"]
+      ? item["networkSecurityPerimeter"]
+      : networkSecurityPerimeterDeserializer(item["networkSecurityPerimeter"]),
+    resourceAssociations: !item["resourceAssociations"]
+      ? item["resourceAssociations"]
+      : nspResourceAssociationDeserializer(item["resourceAssociations"]),
+    profile: !item["profile"] ? item["profile"] : nspProfileDeserializer(item["profile"]),
+  };
+}
+
+export function nspProvisioningIssueArrayDeserializer(result: Array<NspProvisioningIssue>): any[] {
+  return result.map((item) => {
+    return nspProvisioningIssueDeserializer(item);
+  });
+}
+
+/** Network Security Perimeter Association Provisioning Issue */
+export interface NspProvisioningIssue {
+  /** Provisioning Issue Name */
+  name?: string;
+  /** Provisioning Issue Properties */
+  properties?: NspProvisioningIssueProperties;
+}
+
+export function nspProvisioningIssueDeserializer(item: any): NspProvisioningIssue {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : nspProvisioningIssuePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network Security Perimeter Association Provisioning Issue Properties */
+export interface NspProvisioningIssueProperties {
+  /** Provisioning Issue Type */
+  issueType?: string;
+  /** Provisioning Issue Severity */
+  severity?: string;
+  /** Provisioning Issue Description */
+  description?: string;
+  /** Recommended ARM Ids to resolve the issue */
+  suggestedResourceIds?: string[];
+  /** Recommended access rules to resolve the issue */
+  suggestedAccessRules?: string[];
+}
+
+export function nspProvisioningIssuePropertiesDeserializer(
+  item: any,
+): NspProvisioningIssueProperties {
+  return {
+    issueType: item["issueType"],
+    severity: item["severity"],
+    description: item["description"],
+    suggestedResourceIds: !item["suggestedResourceIds"]
+      ? item["suggestedResourceIds"]
+      : item["suggestedResourceIds"].map((p: any) => {
+          return p;
+        }),
+    suggestedAccessRules: !item["suggestedAccessRules"]
+      ? item["suggestedAccessRules"]
+      : item["suggestedAccessRules"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Network Security Perimeter */
+export interface NetworkSecurityPerimeter {
+  /** ARM URI of the Network Security Perimeter resource. */
+  id?: string;
+  /** GUID of the Network Security Perimeter resource. */
+  perimeterGuid?: string;
+  /** Location where the Network Security Perimeter resource. */
+  location?: string;
+}
+
+export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurityPerimeter {
+  return {
+    id: item["id"],
+    perimeterGuid: item["perimeterGuid"],
+    location: item["location"],
+  };
+}
+
+/** Network Security Perimeter Resource Association */
+export interface NspResourceAssociation {
+  /** Network Security Perimeter Resource Association Name */
+  name?: string;
+  /** Network Security Perimeter Association Access Mode (Learning/Enforced) */
+  accessMode?: string;
+}
+
+export function nspResourceAssociationDeserializer(item: any): NspResourceAssociation {
+  return {
+    name: item["name"],
+    accessMode: item["accessMode"],
+  };
+}
+
+/** Network Security Perimeter Profile */
+export interface NspProfile {
+  /** Name of the Network Security Perimeter Profile. */
+  name?: string;
+  /** Access Rules Version for the Network Security Perimeter Profile. */
+  accessRulesVersion?: string;
+  /** Access Rules for the Network Security Perimeter Profile. */
+  accessRules?: NspProfileAccessRule[];
+  /** Diagnostic Settings Version for the Network Security Perimeter Profile. */
+  diagnosticSettingsVersion?: string;
+  /** Enabled Log Categories for the Network Security Perimeter Profile. */
+  enabledLogCategories?: string[];
+}
+
+export function nspProfileDeserializer(item: any): NspProfile {
+  return {
+    name: item["name"],
+    accessRulesVersion: item["accessRulesVersion"],
+    accessRules: !item["accessRules"]
+      ? item["accessRules"]
+      : nspProfileAccessRuleArrayDeserializer(item["accessRules"]),
+    diagnosticSettingsVersion: item["diagnosticSettingsVersion"],
+    enabledLogCategories: !item["enabledLogCategories"]
+      ? item["enabledLogCategories"]
+      : item["enabledLogCategories"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function nspProfileAccessRuleArrayDeserializer(result: Array<NspProfileAccessRule>): any[] {
+  return result.map((item) => {
+    return nspProfileAccessRuleDeserializer(item);
+  });
+}
+
+/** Network Security Perimeter Profile Access Rule */
+export interface NspProfileAccessRule {
+  /** Name of the Network Security Perimeter Profile Access Rule. */
+  name?: string;
+  /** Name of the Network Security Perimeter Profile Access Rule. */
+  properties?: NspProfileAccessRuleProperties;
+}
+
+export function nspProfileAccessRuleDeserializer(item: any): NspProfileAccessRule {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : nspProfileAccessRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network Security Perimeter Profile Access Rule Properties */
+export interface NspProfileAccessRuleProperties {
+  /** Direction of Access Rule (Inbound/Outbound). */
+  direction?: string;
+  /** IP Address Ranges of Access Rule */
+  addressPrefixes?: string[];
+  /** Service Tags of Access Rule */
+  serviceTags?: string[];
+  /** Granular Features of Access Rule */
+  appliesTo?: NspProfileAccessRuleGranularFeature[];
+  /** Subscriptions of Access Rule. Not supported by App Service. */
+  subscriptions?: NspSubscription[];
+  /** NetworkSecurityPerimeter of Access Rule. Not supported by App Service. */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully Qualified Domain Names of Access Rule. Not supported by App Service. */
+  fullyQualifiedDomainNames?: string[];
+  /** Email Addresses of Access Rule. Not supported by App Service. */
+  emailAddresses?: string[];
+  /** Phone Numbers of Access Rule. Not supported by App Service. */
+  phoneNumbers?: string[];
+}
+
+export function nspProfileAccessRulePropertiesDeserializer(
+  item: any,
+): NspProfileAccessRuleProperties {
+  return {
+    direction: item["direction"],
+    addressPrefixes: !item["addressPrefixes"]
+      ? item["addressPrefixes"]
+      : item["addressPrefixes"].map((p: any) => {
+          return p;
+        }),
+    serviceTags: !item["serviceTags"]
+      ? item["serviceTags"]
+      : item["serviceTags"].map((p: any) => {
+          return p;
+        }),
+    appliesTo: !item["appliesTo"]
+      ? item["appliesTo"]
+      : nspProfileAccessRuleGranularFeatureArrayDeserializer(item["appliesTo"]),
+    subscriptions: !item["subscriptions"]
+      ? item["subscriptions"]
+      : nspSubscriptionArrayDeserializer(item["subscriptions"]),
+    networkSecurityPerimeters: !item["networkSecurityPerimeters"]
+      ? item["networkSecurityPerimeters"]
+      : networkSecurityPerimeterArrayDeserializer(item["networkSecurityPerimeters"]),
+    fullyQualifiedDomainNames: !item["fullyQualifiedDomainNames"]
+      ? item["fullyQualifiedDomainNames"]
+      : item["fullyQualifiedDomainNames"].map((p: any) => {
+          return p;
+        }),
+    emailAddresses: !item["emailAddresses"]
+      ? item["emailAddresses"]
+      : item["emailAddresses"].map((p: any) => {
+          return p;
+        }),
+    phoneNumbers: !item["phoneNumbers"]
+      ? item["phoneNumbers"]
+      : item["phoneNumbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function nspProfileAccessRuleGranularFeatureArrayDeserializer(
+  result: Array<NspProfileAccessRuleGranularFeature>,
+): any[] {
+  return result.map((item) => {
+    return nspProfileAccessRuleGranularFeatureDeserializer(item);
+  });
+}
+
+/** Network Security Perimeter Profile Access Rule Granular Feature */
+export interface NspProfileAccessRuleGranularFeature {
+  /** Resource Type of Granular Feature. */
+  resourceType?: string;
+  /** Names of applied Granular Features. */
+  features?: string[];
+}
+
+export function nspProfileAccessRuleGranularFeatureDeserializer(
+  item: any,
+): NspProfileAccessRuleGranularFeature {
+  return {
+    resourceType: item["resourceType"],
+    features: !item["features"]
+      ? item["features"]
+      : item["features"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function nspSubscriptionArrayDeserializer(result: Array<NspSubscription>): any[] {
+  return result.map((item) => {
+    return nspSubscriptionDeserializer(item);
+  });
+}
+
+/** Network Security Perimeter Subscription */
+export interface NspSubscription {
+  /** Network Security Perimeter Subscription Id */
+  id?: string;
+}
+
+export function nspSubscriptionDeserializer(item: any): NspSubscription {
+  return {
+    id: item["id"],
+  };
+}
+
+export function networkSecurityPerimeterArrayDeserializer(
+  result: Array<NetworkSecurityPerimeter>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterDeserializer(item);
+  });
+}
+
+/** Status object for a static sites asynchronous operation. */
+export interface StaticSitesOperationStatus {
+  /** The fully qualified ID for the staticSitesOperationStatus.  For example, /subscriptions/{subscriptionId}/providers/Microsoft.Web/staticSitesOperationStatuses/{operationId} */
+  readonly id?: string;
+  /** The type of the resource.  For example, Microsoft.Web/staticSitesOperationStatuses */
+  readonly type?: string;
+  /** The name of the staticSitesOperationStatus. For example, a1f6e015-a5de-468f-ad54-9c75638d7134 */
+  readonly name?: string;
+  /** Properties of the async operation status. */
+  properties?: StaticSitesOperationStatusProperties;
+}
+
+export function staticSitesOperationStatusDeserializer(item: any): StaticSitesOperationStatus {
+  return {
+    id: item["id"],
+    type: item["type"],
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : staticSitesOperationStatusPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a static sites asynchronous operation status. */
+export interface StaticSitesOperationStatusProperties {
+  /** The current status of the asynchronous operation performed. For example, Running, Succeeded, Failed */
+  readonly status?: string;
+  /** The start time of the asynchronous operation. */
+  startTime?: string;
+  /** The end time of the asynchronous operation. */
+  endTime?: string;
+  /** The generic properties of a staticSite. */
+  staticSiteProperties?: StaticSite;
+  /** Error details for the asynchronous operation, if any. */
+  error?: ErrorResponse;
+}
+
+export function staticSitesOperationStatusPropertiesDeserializer(
+  item: any,
+): StaticSitesOperationStatusProperties {
+  return {
+    status: item["status"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    staticSiteProperties: !item["staticSiteProperties"]
+      ? item["staticSiteProperties"]
+      : staticSiteDeserializer(item["staticSiteProperties"]),
+    error: !item["error"] ? item["error"] : errorResponseDeserializer(item["error"]),
+  };
+}
+
+/** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
+export interface ErrorResponse {
+  /** The error properties. */
+  error?: ErrorProperties;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorPropertiesDeserializer(item["error"]),
+  };
+}
+
+/** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
+export interface ErrorProperties {
+  /** Error code. */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+export function errorPropertiesDeserializer(item: any): ErrorProperties {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** An AI gateway resource. */
+export interface AiGateway extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AiGatewayProperties;
+}
+
+export function aiGatewaySerializer(item: AiGateway): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : aiGatewayPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function aiGatewayDeserializer(item: any): AiGateway {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : aiGatewayPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of an AI gateway. */
+export interface AiGatewayProperties {
+  /** The description of the resource. */
+  readonly aiGatewayId?: string;
+}
+
+export function aiGatewayPropertiesSerializer(_item: AiGatewayProperties): any {
+  return {};
+}
+
+export function aiGatewayPropertiesDeserializer(item: any): AiGatewayProperties {
+  return {
+    aiGatewayId: item["aiGatewayId"],
+  };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse_1 {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer_1(item: any): ErrorResponse_1 {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The type used for updating tags in AiGateway resources. */
+export interface AiGatewayTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function aiGatewayTagsUpdateSerializer(item: AiGatewayTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a AiGateway list operation. */
+export interface _AiGatewayListResult {
+  /** The AiGateway items on this page */
+  value: AiGateway[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _aiGatewayListResultDeserializer(item: any): _AiGatewayListResult {
+  return {
+    value: aiGatewayArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function aiGatewayArraySerializer(result: Array<AiGateway>): any[] {
+  return result.map((item) => {
+    return aiGatewaySerializer(item);
+  });
+}
+
+export function aiGatewayArrayDeserializer(result: Array<AiGateway>): any[] {
+  return result.map((item) => {
+    return aiGatewayDeserializer(item);
+  });
+}
+
 /** The workflow run. */
 export interface WorkflowRun extends ProxyResource {
   /** Gets the wait end time. */
@@ -19912,33 +20710,6 @@ export enum KnownParameterType {
  * **SecureObject**
  */
 export type ParameterType = string;
-
-/** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
-export interface ErrorResponse {
-  /** The error properties. */
-  error?: ErrorProperties;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorPropertiesDeserializer(item["error"]),
-  };
-}
-
-/** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorProperties {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function errorPropertiesDeserializer(item: any): ErrorProperties {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
 
 /** The response of a WorkflowRun list operation. */
 export interface _WorkflowRunListResult {
@@ -21543,6 +22314,692 @@ export function workflowVersionArrayDeserializer(result: Array<WorkflowVersion>)
   });
 }
 
+/** Collection of site silos. */
+export interface _SiteSiloCollection {
+  /** The SiteSilo items on this page */
+  value: SiteSilo[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _siteSiloCollectionDeserializer(item: any): _SiteSiloCollection {
+  return {
+    value: siteSiloArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function siteSiloArraySerializer(result: Array<SiteSilo>): any[] {
+  return result.map((item) => {
+    return siteSiloSerializer(item);
+  });
+}
+
+export function siteSiloArrayDeserializer(result: Array<SiteSilo>): any[] {
+  return result.map((item) => {
+    return siteSiloDeserializer(item);
+  });
+}
+
+/** A silo of a Web App resource. */
+export interface SiteSilo extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SiteSiloProperties;
+}
+
+export function siteSiloSerializer(item: SiteSilo): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : siteSiloPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function siteSiloDeserializer(item: any): SiteSilo {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : siteSiloPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Site silo resource specific properties. */
+export interface SiteSiloProperties {
+  /** Azure region of the site silo, retained for compatibility. When supplied, it must identify the same region as the required root location. */
+  siloLocation?: string;
+  /** Name of the primary site. */
+  primarySiteName?: string;
+  /** Region of the primary site. */
+  primaryLocation: string;
+  /** Status of the silo traffic endpoint. */
+  endpointStatus?: string;
+  /** Traffic mode for the site silo's Traffic Manager profile. */
+  trafficMode?: SiloFailOverMode;
+  /** Networking overrides for the silo. */
+  networkingOverride?: SiloNetworkingOverride;
+  /** Provisioning state of the silo. */
+  readonly provisioningState?: SiloProvisioningState;
+  /** Customer-facing, translated detail describing why the silo is Failed or Degraded. Null when the silo is healthy. */
+  readonly provisioningDetails?: string;
+  /** Stable machine-readable error code paired with provisioningDetails. Null when the silo is healthy. */
+  readonly errorCode?: string;
+  /** Whether the silo should follow the last known good revision. */
+  followLastKnownGood?: boolean;
+  /** Monotonic revision number currently applied to this silo. */
+  readonly revisionNumber?: number;
+  /** Default host name of the silo site. */
+  readonly defaultHostName?: string;
+  /** Global host name for the site group. */
+  readonly globalHostName?: string;
+  /** Health monitoring status of the silo endpoint. */
+  readonly monitorStatus?: string;
+  /** Time when the silo was created. */
+  readonly createdTime?: Date;
+  /** Time when the silo was last modified. */
+  readonly lastModifiedTime?: Date;
+  /** Inbound IPv4 address used by the silo. */
+  readonly inboundIpAddress?: string;
+  /** All possible inbound IPv4 addresses for the silo. */
+  readonly possibleInboundIpAddresses?: string;
+  /** Inbound IPv6 address used by the silo. */
+  readonly inboundIpv6Address?: string;
+  /** All possible inbound IPv6 addresses for the silo. */
+  readonly possibleInboundIpv6Addresses?: string;
+  /** Outbound IPv4 addresses used by the silo. */
+  readonly outboundIpAddresses?: string;
+  /** All possible outbound IPv4 addresses for the silo stamp. */
+  readonly possibleOutboundIpAddresses?: string;
+  /** Outbound IPv6 addresses used by the silo. */
+  readonly outboundIpv6Addresses?: string;
+  /** All possible outbound IPv6 addresses for the silo stamp. */
+  readonly possibleOutboundIpv6Addresses?: string;
+}
+
+export function siteSiloPropertiesSerializer(item: SiteSiloProperties): any {
+  return {
+    siloLocation: item["siloLocation"],
+    primarySiteName: item["primarySiteName"],
+    primaryLocation: item["primaryLocation"],
+    endpointStatus: item["endpointStatus"],
+    trafficMode: item["trafficMode"],
+    networkingOverride: !item["networkingOverride"]
+      ? item["networkingOverride"]
+      : siloNetworkingOverrideSerializer(item["networkingOverride"]),
+    followLastKnownGood: item["followLastKnownGood"],
+  };
+}
+
+export function siteSiloPropertiesDeserializer(item: any): SiteSiloProperties {
+  return {
+    siloLocation: item["siloLocation"],
+    primarySiteName: item["primarySiteName"],
+    primaryLocation: item["primaryLocation"],
+    endpointStatus: item["endpointStatus"],
+    trafficMode: item["trafficMode"],
+    networkingOverride: !item["networkingOverride"]
+      ? item["networkingOverride"]
+      : siloNetworkingOverrideDeserializer(item["networkingOverride"]),
+    provisioningState: item["provisioningState"],
+    provisioningDetails: item["provisioningDetails"],
+    errorCode: item["errorCode"],
+    followLastKnownGood: item["followLastKnownGood"],
+    revisionNumber: item["revisionNumber"],
+    defaultHostName: item["defaultHostName"],
+    globalHostName: item["globalHostName"],
+    monitorStatus: item["monitorStatus"],
+    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+    inboundIpAddress: item["inboundIpAddress"],
+    possibleInboundIpAddresses: item["possibleInboundIpAddresses"],
+    inboundIpv6Address: item["inboundIpv6Address"],
+    possibleInboundIpv6Addresses: item["possibleInboundIpv6Addresses"],
+    outboundIpAddresses: item["outboundIpAddresses"],
+    possibleOutboundIpAddresses: item["possibleOutboundIpAddresses"],
+    outboundIpv6Addresses: item["outboundIpv6Addresses"],
+    possibleOutboundIpv6Addresses: item["possibleOutboundIpv6Addresses"],
+  };
+}
+
+/** Traffic routing mode for silo failover. */
+export enum KnownSiloFailOverMode {
+  /** Silo is in active mode. */
+  Active = "Active",
+  /** Silo is in passive mode. */
+  Passive = "Passive",
+  /** Silo failover mode is unknown. */
+  Unknown = "Unknown",
+}
+
+/**
+ * Traffic routing mode for silo failover. \
+ * {@link KnownSiloFailOverMode} can be used interchangeably with SiloFailOverMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Silo is in active mode. \
+ * **Passive**: Silo is in passive mode. \
+ * **Unknown**: Silo failover mode is unknown.
+ */
+export type SiloFailOverMode = string;
+
+/** Networking override configuration for a site silo. */
+export interface SiloNetworkingOverride {
+  /** Virtual network subnet resource ID override for the silo. */
+  vnetIntegrationOverride?: string;
+}
+
+export function siloNetworkingOverrideSerializer(item: SiloNetworkingOverride): any {
+  return { vnetIntegrationOverride: item["vnetIntegrationOverride"] };
+}
+
+export function siloNetworkingOverrideDeserializer(item: any): SiloNetworkingOverride {
+  return {
+    vnetIntegrationOverride: item["vnetIntegrationOverride"],
+  };
+}
+
+/** Defines provisioning states for silo resources. */
+export enum KnownSiloProvisioningState {
+  /** Provisioning is in progress. */
+  InProgress = "InProgress",
+  /** Provisioning succeeded. */
+  Succeeded = "Succeeded",
+  /** Provisioning failed. */
+  Failed = "Failed",
+  /** Provisioning was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being deleted asynchronously. */
+  Deleting = "Deleting",
+  /** Silo is routable and serving its previous revision, but the last background sync failed to converge. Distinct from Failed, which means there is no usable silo. */
+  Degraded = "Degraded",
+}
+
+/**
+ * Defines provisioning states for silo resources. \
+ * {@link KnownSiloProvisioningState} can be used interchangeably with SiloProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: Provisioning is in progress. \
+ * **Succeeded**: Provisioning succeeded. \
+ * **Failed**: Provisioning failed. \
+ * **Canceled**: Provisioning was canceled. \
+ * **Deleting**: Resource is being deleted asynchronously. \
+ * **Degraded**: Silo is routable and serving its previous revision, but the last background sync failed to converge. Distinct from Failed, which means there is no usable silo.
+ */
+export type SiloProvisioningState = string;
+
+/** The type used for updating tags in SiteSilo resources. */
+export interface SiteSiloTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function siteSiloTagsUpdateSerializer(item: SiteSiloTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** Collection of virtual network connections for a Web App silo. */
+export interface _SiteSiloVirtualNetworkConnectionCollection {
+  /** The SwiftVirtualNetwork items on this page */
+  value: SwiftVirtualNetwork[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _siteSiloVirtualNetworkConnectionCollectionDeserializer(
+  item: any,
+): _SiteSiloVirtualNetworkConnectionCollection {
+  return {
+    value: swiftVirtualNetworkArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function swiftVirtualNetworkArraySerializer(result: Array<SwiftVirtualNetwork>): any[] {
+  return result.map((item) => {
+    return swiftVirtualNetworkSerializer(item);
+  });
+}
+
+export function swiftVirtualNetworkArrayDeserializer(result: Array<SwiftVirtualNetwork>): any[] {
+  return result.map((item) => {
+    return swiftVirtualNetworkDeserializer(item);
+  });
+}
+
+/** Collection of App Service plan silos. */
+export interface _ServerFarmSiloCollection {
+  /** The ServerFarmSilo items on this page */
+  value: ServerFarmSilo[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _serverFarmSiloCollectionDeserializer(item: any): _ServerFarmSiloCollection {
+  return {
+    value: serverFarmSiloArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function serverFarmSiloArraySerializer(result: Array<ServerFarmSilo>): any[] {
+  return result.map((item) => {
+    return serverFarmSiloSerializer(item);
+  });
+}
+
+export function serverFarmSiloArrayDeserializer(result: Array<ServerFarmSilo>): any[] {
+  return result.map((item) => {
+    return serverFarmSiloDeserializer(item);
+  });
+}
+
+/** A silo of an App Service plan resource. */
+export interface ServerFarmSilo extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ServerFarmSiloProperties;
+}
+
+export function serverFarmSiloSerializer(item: ServerFarmSilo): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : serverFarmSiloPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function serverFarmSiloDeserializer(item: any): ServerFarmSilo {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : serverFarmSiloPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** App Service plan silo resource specific properties. */
+export interface ServerFarmSiloProperties {
+  /** Azure region of the App Service plan silo, retained for compatibility. When supplied, it must identify the same region as the required root location. */
+  siloLocation?: string;
+  /** Name of the primary App Service plan. */
+  primaryServerFarmName?: string;
+  /** Region of the primary App Service plan. */
+  primaryLocation: string;
+  /** Instance number override for the silo. */
+  instanceNumberOverride?: number;
+  /** Zone redundancy override for the silo. */
+  zoneRedundantOverride?: boolean;
+  /** Provisioning state of the silo. */
+  readonly provisioningState?: SiloProvisioningState;
+  /** Customer-facing, translated detail describing why the silo is Failed or Degraded. Null when the silo is healthy. */
+  readonly provisioningDetails?: string;
+  /** Stable machine-readable error code paired with provisioningDetails. Null when the silo is healthy. */
+  readonly errorCode?: string;
+  /** Time when the silo was created. */
+  readonly createdTime?: Date;
+  /** Time when the silo was last modified. */
+  readonly lastModifiedTime?: Date;
+}
+
+export function serverFarmSiloPropertiesSerializer(item: ServerFarmSiloProperties): any {
+  return {
+    siloLocation: item["siloLocation"],
+    primaryServerFarmName: item["primaryServerFarmName"],
+    primaryLocation: item["primaryLocation"],
+    instanceNumberOverride: item["instanceNumberOverride"],
+    zoneRedundantOverride: item["zoneRedundantOverride"],
+  };
+}
+
+export function serverFarmSiloPropertiesDeserializer(item: any): ServerFarmSiloProperties {
+  return {
+    siloLocation: item["siloLocation"],
+    primaryServerFarmName: item["primaryServerFarmName"],
+    primaryLocation: item["primaryLocation"],
+    instanceNumberOverride: item["instanceNumberOverride"],
+    zoneRedundantOverride: item["zoneRedundantOverride"],
+    provisioningState: item["provisioningState"],
+    provisioningDetails: item["provisioningDetails"],
+    errorCode: item["errorCode"],
+    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+  };
+}
+
+/** The type used for updating tags in ServerFarmSilo resources. */
+export interface ServerFarmSiloTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function serverFarmSiloTagsUpdateSerializer(item: ServerFarmSiloTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** Nonpaged virtual network inspection response for an App Service plan silo. */
+export interface ServerFarmSiloVnetIntegrationsResult {
+  /** Identifier returned by the service for the backing plan's virtual network integrations, not the customer-facing silo. */
+  readonly id?: string;
+  /** Name of the inspection response, when one is available. */
+  readonly name?: string;
+  /** Resource type returned by the service for the backing plan's virtual network integrations. */
+  readonly type?: string;
+  /** Azure region returned by the service for the backing plan. */
+  readonly location?: string;
+  /** Subnet integrations and their allocation metadata. An empty array indicates no integrations. */
+  readonly properties?: ServerFarmSiloVnetIntegration[];
+}
+
+export function serverFarmSiloVnetIntegrationsResultDeserializer(
+  item: any,
+): ServerFarmSiloVnetIntegrationsResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : serverFarmSiloVnetIntegrationArrayDeserializer(item["properties"]),
+  };
+}
+
+export function serverFarmSiloVnetIntegrationArrayDeserializer(
+  result: Array<ServerFarmSiloVnetIntegration>,
+): any[] {
+  return result.map((item) => {
+    return serverFarmSiloVnetIntegrationDeserializer(item);
+  });
+}
+
+/** Subnet integration and allocation information for an App Service plan silo. */
+export interface ServerFarmSiloVnetIntegration {
+  /** Resource ID of the integration subnet. */
+  readonly subnetResourceId?: string;
+  /** IP address allocation counts for the subnet. */
+  readonly subnetIpAllocation?: ServerFarmSiloSubnetIpAllocation;
+  /** Resources connected to the subnet. */
+  readonly resourceAllocation?: ServerFarmSiloResourceAllocation;
+}
+
+export function serverFarmSiloVnetIntegrationDeserializer(
+  item: any,
+): ServerFarmSiloVnetIntegration {
+  return {
+    subnetResourceId: item["subnetResourceId"],
+    subnetIpAllocation: !item["subnetIpAllocation"]
+      ? item["subnetIpAllocation"]
+      : serverFarmSiloSubnetIpAllocationDeserializer(item["subnetIpAllocation"]),
+    resourceAllocation: !item["resourceAllocation"]
+      ? item["resourceAllocation"]
+      : serverFarmSiloResourceAllocationDeserializer(item["resourceAllocation"]),
+  };
+}
+
+/** IP address allocation counts for an integration subnet. */
+export interface ServerFarmSiloSubnetIpAllocation {
+  /** Number of subnet IP addresses available. */
+  readonly subnetIpAddressesAvailable?: number;
+  /** Number of subnet IP addresses in use. */
+  readonly subnetIpAddressesUsed?: number;
+}
+
+export function serverFarmSiloSubnetIpAllocationDeserializer(
+  item: any,
+): ServerFarmSiloSubnetIpAllocation {
+  return {
+    subnetIpAddressesAvailable: item["subnetIpAddressesAvailable"],
+    subnetIpAddressesUsed: item["subnetIpAddressesUsed"],
+  };
+}
+
+/** Resource IDs reported by the service for resources connected to an integration subnet. */
+export interface ServerFarmSiloResourceAllocation {
+  /** Resource IDs of the connected App Service plans, including backing replica plans. */
+  readonly connectedServerFarmsId?: string[];
+  /** Resource IDs of the connected apps, including backing replica apps. */
+  readonly connectedSitesId?: string[];
+}
+
+export function serverFarmSiloResourceAllocationDeserializer(
+  item: any,
+): ServerFarmSiloResourceAllocation {
+  return {
+    connectedServerFarmsId: !item["connectedServerFarmsId"]
+      ? item["connectedServerFarmsId"]
+      : item["connectedServerFarmsId"].map((p: any) => {
+          return p;
+        }),
+    connectedSitesId: !item["connectedSitesId"]
+      ? item["connectedSitesId"]
+      : item["connectedSitesId"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Collection of managed traffic configurations. */
+export interface _ManagedTrafficConfigCollection {
+  /** The ManagedTrafficConfigResource items on this page */
+  value: ManagedTrafficConfigResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _managedTrafficConfigCollectionDeserializer(
+  item: any,
+): _ManagedTrafficConfigCollection {
+  return {
+    value: managedTrafficConfigResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function managedTrafficConfigResourceArraySerializer(
+  result: Array<ManagedTrafficConfigResource>,
+): any[] {
+  return result.map((item) => {
+    return managedTrafficConfigResourceSerializer(item);
+  });
+}
+
+export function managedTrafficConfigResourceArrayDeserializer(
+  result: Array<ManagedTrafficConfigResource>,
+): any[] {
+  return result.map((item) => {
+    return managedTrafficConfigResourceDeserializer(item);
+  });
+}
+
+/** Managed traffic configuration singleton resource. */
+export interface ManagedTrafficConfigResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ManagedTrafficConfigProperties;
+}
+
+export function managedTrafficConfigResourceSerializer(item: ManagedTrafficConfigResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : managedTrafficConfigPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function managedTrafficConfigResourceDeserializer(item: any): ManagedTrafficConfigResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : managedTrafficConfigPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Managed traffic configuration resource specific properties. */
+export interface ManagedTrafficConfigProperties {
+  /** Traffic routing mode: Active (weighted) or Passive (priority-based failover). */
+  trafficMode?: SiloFailOverMode;
+  /** Per-region endpoint configurations controlling weight and priority. */
+  endpoints?: EndpointTrafficConfig[];
+}
+
+export function managedTrafficConfigPropertiesSerializer(
+  item: ManagedTrafficConfigProperties,
+): any {
+  return {
+    trafficMode: item["trafficMode"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointTrafficConfigArraySerializer(item["endpoints"]),
+  };
+}
+
+export function managedTrafficConfigPropertiesDeserializer(
+  item: any,
+): ManagedTrafficConfigProperties {
+  return {
+    trafficMode: item["trafficMode"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointTrafficConfigArrayDeserializer(item["endpoints"]),
+  };
+}
+
+export function endpointTrafficConfigArraySerializer(result: Array<EndpointTrafficConfig>): any[] {
+  return result.map((item) => {
+    return endpointTrafficConfigSerializer(item);
+  });
+}
+
+export function endpointTrafficConfigArrayDeserializer(
+  result: Array<EndpointTrafficConfig>,
+): any[] {
+  return result.map((item) => {
+    return endpointTrafficConfigDeserializer(item);
+  });
+}
+
+/** Represents traffic configuration for a single endpoint (region). */
+export interface EndpointTrafficConfig {
+  /** Normalized Azure region name (for example, eastus, westus). */
+  region: string;
+  /** Priority of the endpoint (1-1000). Lower values receive traffic first in priority routing. */
+  priority?: number;
+  /** Weight of the endpoint (1-1000). Higher values receive proportionally more traffic in weighted routing. */
+  weight?: number;
+  /** Whether the weight was auto-computed from the silo's worker count. */
+  isWeightAutoComputed?: boolean;
+}
+
+export function endpointTrafficConfigSerializer(item: EndpointTrafficConfig): any {
+  return {
+    region: item["region"],
+    priority: item["priority"],
+    weight: item["weight"],
+    isWeightAutoComputed: item["isWeightAutoComputed"],
+  };
+}
+
+export function endpointTrafficConfigDeserializer(item: any): EndpointTrafficConfig {
+  return {
+    region: item["region"],
+    priority: item["priority"],
+    weight: item["weight"],
+    isWeightAutoComputed: item["isWeightAutoComputed"],
+  };
+}
+
+/** Collection of last known good resources. */
+export interface _LastKnownGoodCollection {
+  /** The LastKnownGoodResource items on this page */
+  value: LastKnownGoodResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _lastKnownGoodCollectionDeserializer(item: any): _LastKnownGoodCollection {
+  return {
+    value: lastKnownGoodResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function lastKnownGoodResourceArrayDeserializer(
+  result: Array<LastKnownGoodResource>,
+): any[] {
+  return result.map((item) => {
+    return lastKnownGoodResourceDeserializer(item);
+  });
+}
+
+/** Last known good singleton resource. */
+export interface LastKnownGoodResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: LastKnownGoodProperties;
+}
+
+export function lastKnownGoodResourceDeserializer(item: any): LastKnownGoodResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : lastKnownGoodPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Last known good resource specific properties. */
+export interface LastKnownGoodProperties {
+  /** Name of the primary site. */
+  readonly siteName?: string;
+  /** Time when the last known good revision was created. */
+  readonly createdTime?: Date;
+  /** Monotonic revision number that was marked as last known good. */
+  readonly revisionNumber?: number;
+}
+
+export function lastKnownGoodPropertiesDeserializer(item: any): LastKnownGoodProperties {
+  return {
+    siteName: item["siteName"],
+    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
+    revisionNumber: item["revisionNumber"],
+  };
+}
+
 /** Collection of Azure resource manager operation metadata. */
 export interface _CsmOperationCollection {
   /** Collection of resources. */
@@ -22924,6 +24381,12 @@ export enum KnownVersions {
   V20250301 = "2025-03-01",
   /** The 2025-05-01 API version. */
   V20250501 = "2025-05-01",
+  /** The 2026-03-15 API version. */
+  V20260315 = "2026-03-15",
+  /** The 2026-07-15 API version. */
+  V20260715 = "2026-07-15",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
 }
 
 export function vnetInfoResourceArraySerializer(result: Array<VnetInfoResource>): any[] {
@@ -23395,6 +24858,7 @@ export function _pushSettingsPropertiesDeserializer(item: any) {
 export function _sitePropertiesSerializer(item: Site): any {
   return {
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     hostNameSslStates: !item["hostNameSslStates"]
       ? item["hostNameSslStates"]
       : hostNameSslStateArraySerializer(item["hostNameSslStates"]),
@@ -23413,6 +24877,9 @@ export function _sitePropertiesSerializer(item: Site): any {
       ? item["functionAppConfig"]
       : functionAppConfigSerializer(item["functionAppConfig"]),
     daprConfig: !item["daprConfig"] ? item["daprConfig"] : daprConfigSerializer(item["daprConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationSerializer(item["aiIntegration"]),
     workloadProfileName: item["workloadProfileName"],
     resourceConfig: !item["resourceConfig"]
       ? item["resourceConfig"]
@@ -23445,6 +24912,8 @@ export function _sitePropertiesSerializer(item: Site): any {
     autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     virtualNetworkSubnetId: item["virtualNetworkSubnetId"],
     managedEnvironmentId: item["managedEnvironmentId"],
+    platformReleaseChannel: item["platformReleaseChannel"],
+    maintenanceEnabled: item["maintenanceEnabled"],
   };
 }
 
@@ -23459,6 +24928,7 @@ export function _sitePropertiesDeserializer(item: any) {
     repositorySiteName: item["repositorySiteName"],
     usageState: item["usageState"],
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     enabledHostNames: !item["enabledHostNames"]
       ? item["enabledHostNames"]
       : item["enabledHostNames"].map((p: any) => {
@@ -23490,6 +24960,9 @@ export function _sitePropertiesDeserializer(item: any) {
     daprConfig: !item["daprConfig"]
       ? item["daprConfig"]
       : daprConfigDeserializer(item["daprConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationDeserializer(item["aiIntegration"]),
     workloadProfileName: item["workloadProfileName"],
     resourceConfig: !item["resourceConfig"]
       ? item["resourceConfig"]
@@ -23540,6 +25013,8 @@ export function _sitePropertiesDeserializer(item: any) {
     virtualNetworkSubnetId: item["virtualNetworkSubnetId"],
     managedEnvironmentId: item["managedEnvironmentId"],
     sku: item["sku"],
+    platformReleaseChannel: item["platformReleaseChannel"],
+    maintenanceEnabled: item["maintenanceEnabled"],
   };
 }
 
@@ -24118,6 +25593,7 @@ export function _staticSitesWorkflowPreviewPropertiesDeserializer(item: any) {
 export function _sitePatchResourcePropertiesSerializer(item: SitePatchResource): any {
   return {
     enabled: item["enabled"],
+    siteScopedCertificatesEnabled: item["siteScopedCertificatesEnabled"],
     hostNameSslStates: !item["hostNameSslStates"]
       ? item["hostNameSslStates"]
       : hostNameSslStateArraySerializer(item["hostNameSslStates"]),
@@ -24129,6 +25605,9 @@ export function _sitePatchResourcePropertiesSerializer(item: SitePatchResource):
       ? item["dnsConfiguration"]
       : siteDnsConfigSerializer(item["dnsConfiguration"]),
     siteConfig: !item["siteConfig"] ? item["siteConfig"] : siteConfigSerializer(item["siteConfig"]),
+    aiIntegration: !item["aiIntegration"]
+      ? item["aiIntegration"]
+      : aiIntegrationSerializer(item["aiIntegration"]),
     scmSiteAlsoStopped: item["scmSiteAlsoStopped"],
     hostingEnvironmentProfile: !item["hostingEnvironmentProfile"]
       ? item["hostingEnvironmentProfile"]
