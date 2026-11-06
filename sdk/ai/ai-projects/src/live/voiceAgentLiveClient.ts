@@ -47,6 +47,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
 } from "../realtime/webSocketTransport.js";
+import { isCleanCloseCode } from "../realtime/webSocketTransport.js";
 import type { VoiceAgentUnknownEvent } from "../realtime/events.js";
 
 /** A user message added to a GPT Live Decision context. */
@@ -115,7 +116,11 @@ export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOpt
   closeTimeoutInMs?: number;
 }
 
-/** Settings for one GPT Live connection. Live does not use transport or agentSessionId. */
+/**
+ * Settings for one GPT Live connection. Live does not use transport or agentSessionId.
+ * The complete structuredInputs value is sent in the WebSocket URL query in every environment,
+ * including Node.js. Do not include sensitive values: proxy and server access logs can retain URLs.
+ */
 export interface VoiceAgentLiveClientConnectOptions extends Omit<
   VoiceAgentRealtimeClientConnectOptions,
   "transport" | "agentSessionId"
@@ -309,21 +314,23 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     this.transport = factory.create();
     this.transport.setHandlers({
       onMessage: (data) => this.handleMessage(data),
-      onClose: (code, reason, wasClean) =>
+      onClose: (code, reason, wasClean) => {
+        const clean = wasClean && isCleanCloseCode(code);
         this.finish(
           code,
           reason,
-          wasClean,
-          wasClean && (!this.snapshot || this.finalEvent)
+          clean,
+          clean && (!this.snapshot || this.finalEvent)
             ? undefined
             : new VoiceAgentConnectionError(
-                wasClean
+                clean
                   ? "Live socket closed without session.closed."
                   : "Live socket closed unexpectedly.",
                 "connectionClosed",
                 { closeCode: code },
               ),
-        ),
+        );
+      },
       onError: (cause) =>
         this.finish(1006, "Live transport failed.", false, connectionError(cause)),
     });
@@ -372,7 +379,15 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       }
       if (signal?.aborted) throw cancelled();
       let timeout: ReturnType<typeof setTimeout> | undefined;
-      const abort = (): void => this.started?.reject(cancelled());
+      let rejectCancellation!: (error: Error) => void;
+      const cancellation = new Promise<never>((_resolve, reject) => {
+        rejectCancellation = reject;
+      });
+      const abort = (): void => {
+        const error = cancelled();
+        this.started?.reject(error);
+        rejectCancellation(error);
+      };
       const ready = new Promise<void>((resolve, reject) => {
         this.started = { resolve, reject };
         timeout = setTimeout(
@@ -388,20 +403,24 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
         signal?.addEventListener("abort", abort, { once: true });
       });
       try {
-        await Promise.all([
-          ready,
-          this.transport.connect({
-            url: this.url,
-            // Browser upgrades require Live plus the bearer credential subprotocol.
-            protocols: isNodeLike ? [] : ["live"],
-            headers: buildHeaders(token, this.clientOptions),
-            connectionTimeoutInMs:
-              this.connectOptions.connectionTimeoutInMs ??
-              this.clientOptions.connectionTimeoutInMs ??
-              30_000,
-            abortSignal: signal,
-          }),
+        await Promise.race([
+          Promise.all([
+            ready,
+            this.transport.connect({
+              url: this.url,
+              // Browser upgrades require Live plus the bearer credential subprotocol.
+              protocols: isNodeLike ? [] : ["live"],
+              headers: buildHeaders(token, this.clientOptions),
+              connectionTimeoutInMs:
+                this.connectOptions.connectionTimeoutInMs ??
+                this.clientOptions.connectionTimeoutInMs ??
+                30_000,
+              abortSignal: signal,
+            }),
+          ]),
+          cancellation,
         ]);
+        if (signal?.aborted) throw cancelled();
         if (this.finished || this.finalEvent) {
           throw new VoiceAgentConnectionError(
             "Live session closed during startup.",
@@ -409,6 +428,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           );
         }
         this.setState(KnownVoiceAgentConnectionState.Connected);
+        if (signal?.aborted) throw cancelled();
       } finally {
         clearTimeout(timeout);
         signal?.removeEventListener("abort", abort);

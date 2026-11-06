@@ -107,13 +107,9 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
    */
   structuredInputs?: Record<string, unknown>;
   /**
-   * Custom URL query parameters for this connection only. Use a plain object;
-   * null-prototype objects are also supported. Strings, finite numbers, and booleans
-   * are URL-encoded. Values replace matching endpoint parameters; undefined removes them.
-   * SDK and authentication parameters, structured_input, structured_inputs, and h-* names
-   * are reserved, regardless of case, and throw TypeError before authentication.
-   * Use the typed options for session, storage, version, transport, and prompt inputs.
-   * Never include secrets: URLs can appear in server or proxy logs.
+   * Custom URL query parameters. Values are URL-encoded; undefined removes a parameter.
+   * Reserved SDK/authentication, structured-input, and h-* keys are rejected regardless of case.
+   * Never include sensitive values; URLs may be logged.
    */
   query?: Readonly<Record<string, string | number | boolean | undefined>>;
   /** Overrides the client connection timeout in milliseconds. */

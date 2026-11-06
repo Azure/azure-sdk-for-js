@@ -522,6 +522,14 @@ put tokens in URLs, or embed API keys, client secrets, or long-lived tokens in b
 If direct browser authentication is unavailable, supply an authenticated backend relay
 through `webSocketFactory`.
 
+For Live connections, the complete `structuredInputs` value is JSON-encoded in the
+`structured_inputs` WebSocket URL query parameter in **all environments, including
+Node.js, browsers, and Workers**. This includes prompt-variable values, not just
+custom query parameters. Proxy and server access logs can retain URLs: do not put
+credentials, personal data, or other sensitive information in these inputs.
+The current Live service contract requires the query parameter; the SDK does not
+provide a header-based alternative.
+
 ### Using Agent tools
 
 Agents can be enhanced with specialized tools for various capabilities. Tools are organized by their connection requirements:

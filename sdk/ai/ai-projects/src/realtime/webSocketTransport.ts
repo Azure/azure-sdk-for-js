@@ -47,3 +47,25 @@ export interface VoiceAgentWebSocketFactory {
   /** Creates a new transport instance for a single connection attempt. */
   create(): VoiceAgentWebSocketTransport;
 }
+
+/** Whether the close code represents a non-error closure. @internal */
+export function isCleanCloseCode(code: number): boolean {
+  switch (code) {
+    case 1002:
+    case 1003:
+    case 1005:
+    case 1006:
+    case 1007:
+    case 1008:
+    case 1009:
+    case 1010:
+    case 1011:
+    case 1012:
+    case 1013:
+    case 1014:
+    case 1015:
+      return false;
+    default:
+      return true;
+  }
+}

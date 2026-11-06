@@ -69,9 +69,13 @@ class MockNativeLiveWebSocket extends EventTarget {
     }
   }
 
-  public finishClose(code = 1000, reason = "Offline browser closed."): void {
+  public finishClose(
+    code = 1000,
+    reason = "Offline browser closed.",
+    wasClean = code === 1000,
+  ): void {
     this.readyState = MockNativeLiveWebSocket.CLOSED;
-    this.dispatchEvent(new CloseEvent("close", { code, reason, wasClean: code === 1000 }));
+    this.dispatchEvent(new CloseEvent("close", { code, reason, wasClean }));
   }
 
   public receive(data: string | ArrayBuffer | Blob): void {
@@ -177,6 +181,25 @@ describe("AIProjectClient browser native Live transport", () => {
     expect(connection.state).toBe("connected");
     expect(socket.sentMessages).toEqual([]);
     await connection.close();
+  });
+
+  it("honors an abort from a native startup event callback", async () => {
+    const abort = new AbortController();
+    const states: string[] = [];
+    const callback = vi.fn((event: VoiceAgentLiveEvent) => {
+      if (event.type === "session.started") abort.abort();
+    });
+    await expect(
+      createClient().beta.voiceAgents.live.connect("browser-agent", {
+        abortSignal: abort.signal,
+        onEvent: callback,
+        onConnectionStateChange: (state) => states.push(state),
+      }),
+    ).rejects.toMatchObject({ code: "operationCancelled" });
+    expect(callback).toHaveBeenCalledWith(expect.objectContaining({ type: "session.started" }));
+    expect(states).not.toContain("connected");
+    expect(states.at(-1)).toBe("disconnected");
+    await vi.waitFor(() => expect(getSocket().readyState).toBe(MockNativeLiveWebSocket.CLOSED));
   });
 
   it("delivers startup Blobs and initial audio to a callback and retains conversation metadata", async () => {
@@ -425,6 +448,31 @@ describe("AIProjectClient browser native Live transport", () => {
     expect(result.error).toBeInstanceOf(VoiceAgentConnectionError);
     await expect(connection.dispose()).rejects.toBe(result.error);
     expect(getSocket().sentMessages).toEqual([]);
+  });
+
+  it("rejects a native error close even when the handshake and finalization are clean", async () => {
+    MockNativeLiveWebSocket.autoFinalize = false;
+    MockNativeLiveWebSocket.suppressCloseEvent = true;
+    const connection = await createClient().beta.voiceAgents.live.connect("browser-agent");
+    const socket = getSocket();
+    const pending = connection.close();
+    const rejected = expect(pending).rejects.toMatchObject({
+      code: "connectionClosed",
+      closeCode: 1011,
+    });
+    const terminal = { ...sessionClosed(), reason: "connection_lost" as const };
+    socket.receive(new Blob([JSON.stringify(terminal)]));
+    await socket.closing.promise;
+    socket.finishClose(1011, "Server failure.", true);
+    await rejected;
+    const result = await connection.closed;
+    expect(result).toMatchObject({
+      code: 1011,
+      wasClean: false,
+      sessionClosed: terminal,
+      error: expect.objectContaining({ closeCode: 1011 }),
+    });
+    await expect(connection.dispose()).rejects.toBe(result.error);
   });
 
   it("times out gracefully when Foundry never finalizes the browser session", async () => {

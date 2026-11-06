@@ -74,6 +74,83 @@ afterEach(() => {
 
 describe("VoiceAgentLiveClient connection", () => {
   it.each(["project", "standalone"])(
+    "honors an abort from the startup event callback with the %s client",
+    async (kind) => {
+      const factory = createFactory();
+      const abort = new AbortController();
+      const states: VoiceAgentConnectionState[] = [];
+      const callback = vi.fn((event: VoiceAgentLiveEvent) => {
+        if (event.type === "session.started") abort.abort();
+      });
+      const client =
+        kind === "standalone"
+          ? new VoiceAgentLiveClient(endpoint, new TestCredential(), {
+              webSocketFactory: factory,
+            })
+          : createClient(factory).beta.voiceAgents.live;
+      await expect(
+        client.connect("live-agent", {
+          abortSignal: abort.signal,
+          onEvent: callback,
+          onConnectionStateChange: (state) => states.push(state),
+        }),
+      ).rejects.toMatchObject({ name: "VoiceAgentConnectionError", code: "operationCancelled" });
+      expect(callback).toHaveBeenCalledWith(expect.objectContaining({ type: "session.started" }));
+      expect(states).not.toContain("connected");
+      expect(states.at(-1)).toBe("disconnected");
+      expect(factory.transport.closeCalls).toHaveLength(1);
+    },
+  );
+
+  it("honors an abort from the connected-state callback before returning", async () => {
+    const factory = createFactory();
+    const abort = new AbortController();
+    const states: VoiceAgentConnectionState[] = [];
+    await expect(
+      createClient(factory).beta.voiceAgents.live.connect("live-agent", {
+        abortSignal: abort.signal,
+        onConnectionStateChange: (state) => {
+          states.push(state);
+          if (state === "connected") abort.abort();
+        },
+      }),
+    ).rejects.toMatchObject({ code: "operationCancelled" });
+    expect(states.at(-1)).toBe("disconnected");
+    expect(factory.transport.closeCalls).toHaveLength(1);
+  });
+
+  it("cancels startup while a custom transport connect promise remains pending", async () => {
+    const factory = createFactory();
+    const handshake = deferred<void>();
+    factory.transport.connectResult = handshake.promise;
+    const abort = new AbortController();
+    let failure: unknown;
+    const settled = createClient(factory)
+      .beta.voiceAgents.live.connect("live-agent", {
+        abortSignal: abort.signal,
+        onEvent: (event) => {
+          if (event.type === "session.started") abort.abort();
+        },
+      })
+      .then(
+        () => undefined,
+        (error: unknown) => {
+          failure = error;
+          return undefined;
+        },
+      );
+    try {
+      await vi.waitFor(() => expect(failure).toMatchObject({ code: "operationCancelled" }), {
+        timeout: 200,
+      });
+      expect(factory.transport.closeCalls).toHaveLength(1);
+    } finally {
+      handshake.resolve();
+      await settled;
+    }
+  });
+
+  it.each(["project", "standalone"])(
     "delivers startup events to callbacks with the %s client and retains startup metadata",
     async (kind) => {
       const factory = createFactory();
@@ -1454,6 +1531,34 @@ describe("VoiceAgentLiveClient event consumers", () => {
 });
 
 describe("VoiceAgentLiveClient finalization", () => {
+  it.each([1002, 1003, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015])(
+    "rejects error close code %i despite a clean handshake and service finalization",
+    async (code) => {
+      const factory = createFactory();
+      factory.transport.autoFinalize = false;
+      factory.transport.autoClose = false;
+      const connection = await connect(factory);
+      const pending = connection.close();
+      const rejected = expect(pending).rejects.toMatchObject({
+        name: "VoiceAgentConnectionError",
+        code: "connectionClosed",
+        closeCode: code,
+      });
+      const terminal = { ...sessionClosed(), reason: "connection_lost" as const };
+      factory.transport.receive(terminal);
+      factory.transport.disconnect(code, "Server failure.", true);
+      await rejected;
+      const result = await connection.closed;
+      expect(result).toMatchObject({
+        code,
+        wasClean: false,
+        sessionClosed: terminal,
+        error: expect.objectContaining({ closeCode: code }),
+      });
+      await expect(connection.dispose()).rejects.toBe(result.error);
+    },
+  );
+
   it("waits for both session.closed and socket closure and rejects sends while closing", async () => {
     const factory = createFactory();
     factory.transport.autoFinalize = false;
