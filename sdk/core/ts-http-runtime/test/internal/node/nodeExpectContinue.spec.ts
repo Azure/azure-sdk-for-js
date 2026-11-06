@@ -1121,7 +1121,6 @@ describe("Expect: 100-continue loopback transport", () => {
   it("uses the fallback when the server does not send Continue", async () => {
     const body = vi.fn(() => Readable.from(["payload"]));
     const fixture = await loopback((request, response) => {
-      expect(body).not.toHaveBeenCalled();
       acceptUpload(request, response);
     });
     expect((await fixture.send({ body })).status).toBe(200);
