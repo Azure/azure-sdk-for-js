@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased
+
+### Bugs Fixed
+
+- Fixed hybrid search reciprocal rank fusion (RRF) results being ranked incorrectly when component scores are tied. Each result now receives a unique ordinal rank, with deterministic tie-breaking based on the decoded document ID portion of `_rid`. [#40450](https://github.com/Azure/azure-sdk-for-js/pull/40450)
+
 ## 4.10.2 (2026-11-05)
 
 ### Bugs Fixed
