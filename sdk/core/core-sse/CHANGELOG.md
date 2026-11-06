@@ -1,6 +1,6 @@
 # Release History
 
-## 2.5.0 (Unreleased)
+## 2.5.0 (2026-11-06)
 
 ### Features Added
 
@@ -8,8 +8,6 @@
   `Last-Event-ID`, server-provided retry delays, default HTTP response validation,
   cancellation, optional retry limits, and service-defined terminal events.
   `createSseStream` also supports terminal events. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
-
-### Breaking Changes
 
 ### Bugs Fixed
 
@@ -19,8 +17,6 @@
 - Reject server-provided `retry:` values outside the safe integer range instead
   of reporting imprecise values; honor longer safe delays in full.
   [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
-
-### Other Changes
 
 ## 2.4.0 (2026-07-13)
 
