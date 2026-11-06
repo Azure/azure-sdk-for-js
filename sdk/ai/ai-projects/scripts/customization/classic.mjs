@@ -304,7 +304,7 @@ function typeKey(node) {
 function parameterKeys(parameters) {
   return parameters.map((parameter) =>
     JSON.stringify([
-      ts.isIdentifier(parameter.name) ? parameter.name.text : null,
+      ts.isIdentifier(parameter.name) ? "<parameter>" : null,
       Boolean(parameter.questionToken || parameter.initializer),
       typeKey(parameter.type),
     ]),
@@ -345,7 +345,34 @@ function mirrorsOperation(members, properties, contextName, api, callee) {
   if (!api || !callee || !isSimpleMember(members, properties, contextName)) return false;
   const [member] = members;
   const arrow = properties[0].initializer;
-  if (arrow.body.expression.text !== callee) return false;
+  const local = arrow.body.expression.text;
+  const source = member.getSourceFile();
+  if (
+    !importsOf(source).some(
+      (item) =>
+        item.local === local &&
+        item.imported === callee &&
+        resolveImport(source.fileName, item.module) ===
+          classicApiFile(source.fileName).replace(/\.ts$/, ".js"),
+    )
+  )
+    return false;
+  let shadowed = false;
+  function visit(node) {
+    if (
+      ts.isIdentifier(node) &&
+      node.text === local &&
+      node.parent?.name === node &&
+      !ts.isImportSpecifier(node.parent) &&
+      !ts.isPropertyAssignment(node.parent) &&
+      !ts.isPropertySignature(node.parent) &&
+      !ts.isPropertyAccessExpression(node.parent)
+    )
+      shadowed = true;
+    ts.forEachChild(node, visit);
+  }
+  visit(source);
+  if (shadowed) return false;
   const node = api.get(callee);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type) return false;
   const expected = parameterKeys(node.parameters.slice(1));
