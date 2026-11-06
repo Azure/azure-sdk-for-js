@@ -331,6 +331,38 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         expect(sendRequestSpy).toHaveBeenCalled();
       });
 
+      it("reports the status code when the response body is not the JSON its content type claims", async function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "Imds",
+        );
+        acquireTokenStub.mockRestore();
+
+        // The deserialization policy of @azure/core-client throws this error for such a response.
+        vi.spyOn(IdentityClient.prototype, "sendRequest").mockImplementation(
+          async (request: any) => {
+            const response = {
+              request,
+              status: 502,
+              bodyAsText: "<html>Bad Gateway</html>",
+              headers: createHttpHeaders({ "content-type": "application/json" }),
+            };
+            throw new RestError("Error occurred while parsing the response body", {
+              code: RestError.PARSE_ERROR,
+              statusCode: response.status,
+              request,
+              response,
+            });
+          },
+        );
+
+        const credential = new ManagedIdentityCredential();
+        const error = await credential.getToken("scope").catch((e: unknown) => e);
+        assert.instanceOf(error, CredentialUnavailableError);
+        assert.notMatch((error as Error).message, /Network unreachable/);
+        assert.match((error as Error).message, /A server error occured/);
+        assert.match((error as Error).message, /Http status code: 502/);
+      });
+
       it("rethrows AuthenticationRequiredError", async function () {
         acquireTokenStub.mockRejectedValue(new AuthenticationRequiredError({ scopes: ["scope"] }));
         const credential = new ManagedIdentityCredential();

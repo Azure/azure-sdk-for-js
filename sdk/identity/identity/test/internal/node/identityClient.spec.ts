@@ -178,6 +178,26 @@ describe("IdentityClient", function () {
     return;
   });
 
+  it("returns the status of a response whose JSON body does not parse", async () => {
+    const httpClient: HttpClient = {
+      sendRequest: async (request) => ({
+        request,
+        status: 502,
+        bodyAsText: "Bad Gateway",
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+      }),
+    };
+    const client = new IdentityClient({ httpClient, retryOptions: { maxRetries: 0 } });
+
+    const response = await client.sendGetRequestAsync<{ error: string; error_description: string }>(
+      "https://managed-identity.example/token",
+    );
+
+    assert.equal(response.status, 502);
+    assert.equal(response.body.error, "server_error");
+    assert.match(response.body.error_description, /Http status code: 502/);
+  });
+
   it("returns null when the token refresh request returns an 'interaction_required' error", async function () {
     const mockHttpClient = createDefaultHttpClient();
     vi.spyOn(mockHttpClient, "sendRequest").mockImplementation((request) =>
