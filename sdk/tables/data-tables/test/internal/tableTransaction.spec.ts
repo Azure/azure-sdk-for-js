@@ -8,6 +8,59 @@ import { TableClient } from "../../src/TableClient.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
 describe("TableTransaction", () => {
+  it.each(["https://example.org", "https://example.table.cosmos.azure.com"])(
+    "should assemble serialized entity requests for %s",
+    async (endpoint) => {
+      const entity = {
+        partitionKey: "partition",
+        rowKey: "row",
+        value: 'quoted "value"',
+        count: BigInt("9007199254740993"),
+        date: new Date("2026-01-01T00:00:00.000Z"),
+      };
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
+        assert.isString(request.body);
+        const body = request.body as string;
+        const entityBodies = body.split("\r\n").filter((line) => line.startsWith("{"));
+        assert.lengthOf(entityBodies, 5);
+        for (const entityBody of entityBodies) {
+          assert.deepEqual(JSON.parse(entityBody), {
+            PartitionKey: entity.partitionKey,
+            RowKey: entity.rowKey,
+            value: entity.value,
+            count: "9007199254740993",
+            "count@odata.type": "Edm.Int64",
+            date: "2026-01-01T00:00:00.000Z",
+            "date@odata.type": "Edm.DateTime",
+          });
+        }
+        assert.notInclude(body.toLowerCase(), "x-ms-version:");
+        const methods = body.match(/^(POST|PATCH|PUT|DELETE) /gm);
+        const isCosmos = endpoint.includes(".table.cosmos.");
+        assert.deepEqual(methods, [
+          "POST ",
+          isCosmos ? "POST " : "PATCH ",
+          "PUT ",
+          isCosmos ? "POST " : "PATCH ",
+          "PUT ",
+          "DELETE ",
+        ]);
+        assert.equal((body.match(/x-http-method: MERGE/gi) ?? []).length, isCosmos ? 2 : 0);
+        return { status: 202, headers: createHttpHeaders(), request };
+      });
+      const client = new TableClient(endpoint, "TestTable", { httpClient: { sendRequest } });
+      await client.submitTransaction([
+        ["create", entity],
+        ["update", entity, "Merge"],
+        ["update", entity, "Replace"],
+        ["upsert", entity, "Merge"],
+        ["upsert", entity, "Replace"],
+        ["delete", { partitionKey: entity.partitionKey, rowKey: entity.rowKey }],
+      ]);
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+    },
+  );
+
   describe("submitTransaction options", () => {
     const actions: TableTransaction["actions"] = [
       ["create", { partitionKey: "partition", rowKey: "row" }],
