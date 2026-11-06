@@ -7,9 +7,11 @@ import {
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } from "../../../src/documents/index.js";
-import { getTestDatabase } from "../common/TestHelpers.js";
+import { getDefaultComputeGatewayClient, getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
+import { ConnectionMode, Constants } from "../../../src/index.js";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("Vector search feature", async () => {
@@ -57,11 +59,9 @@ describe("Vector search feature", async () => {
       });
 
       assert(containerdef.indexingPolicy !== undefined);
-      assert(containerdef.vectorEmbeddingPolicy !== undefined);
-      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings.length === 3);
-      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
-      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
-      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+      assert.deepEqual(containerdef.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
+      const { resource: readContainer } = await database.container(containerName).read();
+      assert.deepEqual(readContainer?.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
       try {
         await database.container(containerName).delete();
       } catch {
@@ -139,44 +139,246 @@ describe("Vector search feature", async () => {
       assert(containerdef.indexingPolicy.vectorIndexes[1].vectorIndexShardKey[0] === "/Country");
       assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
     });
-    it.skip("validate VectorEmbeddingPolicy with Float16 data type", async () => {
-      const indexingPolicy: IndexingPolicy = {
-        vectorIndexes: [{ path: "/vector1", type: VectorIndexType.QuantizedFlat }],
-      };
-      const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
-        vectorEmbeddings: [
-          {
-            path: "/vector1",
-            dataType: VectorEmbeddingDataType.Float16,
-            dimensions: 500,
-            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
-          },
+    for (const { dataType, vectors } of [
+      {
+        dataType: VectorEmbeddingDataType.Float16,
+        vectors: [
+          [-0.5, 0.25],
+          [0.5, 0.25],
+          [1.5, 0.25],
         ],
-      };
-      const containerName = "JSApp-vector embedding container float16";
-      try {
-        const { resource: containerdef } = await database.containers.createIfNotExists({
-          id: containerName,
-          vectorEmbeddingPolicy: vectorEmbeddingPolicy,
-          indexingPolicy: indexingPolicy,
+      },
+      {
+        dataType: VectorEmbeddingDataType.Int8,
+        vectors: [
+          [-8, 12],
+          [-7, 12],
+          [-6, 12],
+        ],
+      },
+      {
+        dataType: VectorEmbeddingDataType.UInt8,
+        vectors: [
+          [200, 150],
+          [201, 150],
+          [202, 150],
+        ],
+      },
+    ]) {
+      // Float32 queries are covered below. Float16 needs a feature-capable live account;
+      // keep Int8 and UInt8 in the existing emulator integration suite.
+      it.skipIf(
+        dataType === VectorEmbeddingDataType.Float16 &&
+          !(process.env.ACCOUNT_HOST && process.env.ACCOUNT_KEY),
+      )(`validate VectorEmbeddingPolicy with ${dataType} data type and queries`, async () => {
+        const indexingPolicy: IndexingPolicy = {
+          vectorIndexes: [{ path: "/vector1", type: VectorIndexType.QuantizedFlat }],
+        };
+        const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+          vectorEmbeddings: [
+            {
+              path: "/vector1",
+              dataType,
+              dimensions: 2,
+              distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+            },
+          ],
+        };
+        const { container, resource: containerdef } = await database.containers.create({
+          id: `JSApp-vector embedding container ${dataType}`,
+          vectorEmbeddingPolicy,
+          indexingPolicy,
+        });
+        try {
+          assert.deepEqual(containerdef?.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
+          const { resource: readContainer } = await container.read();
+          assert.deepEqual(readContainer?.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
+
+          // Insert out of distance order so the assertions cannot pass on insertion order.
+          for (const index of [2, 0, 1]) {
+            await container.items.create({ id: String(index + 1), vector1: vectors[index] });
+          }
+
+          const distance = "VectorDistance(c.vector1, @vector)";
+          for (const { filter, expectedIds } of [
+            { filter: "", expectedIds: ["1", "2", "3"] },
+            { filter: "WHERE c.id != '2'", expectedIds: ["1", "3"] },
+          ]) {
+            const { resources } = await container.items
+              .query<{ id: string; distance: number }>({
+                query:
+                  `SELECT TOP 3 c.id, ${distance} AS distance FROM c ${filter} ` +
+                  `ORDER BY ${distance}`,
+                parameters: [{ name: "@vector", value: vectors[0] }],
+              })
+              .fetchAll();
+
+            assert.deepEqual(
+              resources.map(({ id }) => id),
+              expectedIds,
+            );
+            assert.closeTo(resources[0].distance, 0, 0.0001);
+            for (let index = 0; index < resources.length; index++) {
+              assert.isTrue(Number.isFinite(resources[index].distance));
+              if (index > 0) {
+                assert.isAbove(resources[index].distance, resources[index - 1].distance);
+              }
+            }
+          }
+        } finally {
+          await container.delete();
+        }
+      });
+    }
+    const computeGatewayEndpoint = process.env.COMPUTE_GATEWAY_HOST ?? "";
+    it.skipIf(!computeGatewayEndpoint)(
+      "should fuse all four vector embedding types through Compute Gateway",
+      async () => {
+        const expectedOrigin = new URL(computeGatewayEndpoint).origin;
+        const requestOrigins = new Set<string>();
+        let documentCreates = 0;
+        let queryRequests = 0;
+        const httpClient = createDefaultHttpClient();
+        const client = getDefaultComputeGatewayClient({
+          endpoint: computeGatewayEndpoint,
+          connectionPolicy: {
+            connectionMode: ConnectionMode.Gateway,
+            enableEndpointDiscovery: false,
+          },
+          httpClient: {
+            async sendRequest(request) {
+              const url = new URL(request.url);
+              requestOrigins.add(url.origin);
+              assert.equal(
+                url.origin,
+                expectedOrigin,
+                "Requests must not fall back from Compute Gateway",
+              );
+              const response = await httpClient.sendRequest(request);
+              if (url.pathname.endsWith("/docs")) {
+                if (request.headers.get(Constants.HttpHeaders.IsQuery) === "true") {
+                  queryRequests++;
+                } else if (request.method === "POST" && response.status === 201) {
+                  documentCreates++;
+                }
+              }
+              return response;
+            },
+          },
         });
 
-        assert(containerdef.vectorEmbeddingPolicy !== undefined);
-        assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings.length === 1);
-        assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
-        assert(
-          containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].dataType ===
-            VectorEmbeddingDataType.Float16,
+        const vectorFields = [
+          { name: "vectorFloat32", dataType: VectorEmbeddingDataType.Float32 },
+          { name: "vectorFloat16", dataType: VectorEmbeddingDataType.Float16 },
+          { name: "vectorInt8", dataType: VectorEmbeddingDataType.Int8 },
+          { name: "vectorUint8", dataType: VectorEmbeddingDataType.UInt8 },
+        ];
+        const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+          vectorEmbeddings: vectorFields.map(({ name, dataType }) => ({
+            path: `/${name}`,
+            dataType,
+            dimensions: 2,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          })),
+        };
+        const indexingPolicy: IndexingPolicy = {
+          includedPaths: [{ path: "/*" }],
+          excludedPaths: vectorFields.map(({ name }) => ({ path: `/${name}/*` })),
+          vectorIndexes: vectorFields.map(({ name }) => ({
+            path: `/${name}`,
+            type: VectorIndexType.DiskANN,
+          })),
+        };
+
+        // Columns are 1-based Euclidean ranks for Float32, Float16, Int8, UInt8.
+        // RRF (k=60) gives H,A,G,C,B; omitting any column changes top-five membership.
+        const rankedDocuments = [
+          { id: "A", ranks: [6, 5, 1, 1] },
+          { id: "B", ranks: [8, 8, 2, 2] },
+          { id: "C", ranks: [2, 2, 6, 8] },
+          { id: "D", ranks: [7, 1, 8, 6] },
+          { id: "E", ranks: [5, 6, 5, 7] },
+          { id: "F", ranks: [3, 7, 7, 5] },
+          { id: "G", ranks: [4, 4, 4, 3] },
+          { id: "H", ranks: [1, 3, 3, 4] },
+        ].map(({ id, ranks }) => ({
+          id,
+          pk: "vectors",
+          vectorFloat32: [ranks[0], 0],
+          vectorFloat16: [ranks[1], 0],
+          vectorInt8: [ranks[2], 0],
+          vectorUint8: [ranks[3], 0],
+        }));
+        // DiskANN needs >=1,000 vectors. These distinct, distant vectors fit Int8/UInt8
+        // and cannot enter the top five for any component or the fused ranking.
+        const documents = rankedDocuments.concat(
+          Array.from({ length: 1024 }, (_, index) => {
+            const vector = [96 + (index % 32), 96 + Math.floor(index / 32)];
+            return {
+              id: `background-${index}`,
+              pk: "vectors",
+              vectorFloat32: vector,
+              vectorFloat16: vector,
+              vectorInt8: vector,
+              vectorUint8: vector,
+            };
+          }),
         );
-      } catch (e) {
-        assert.fail(`Container creation failed for Float16 data type with error: ${e}`);
-      }
-      try {
-        await database.container(containerName).delete();
-      } catch {
-        // Ignore if container is not found
-      }
-    });
+
+        let setupContainer: Container | undefined;
+        try {
+          const created = await database.containers.create({
+            id: "four-vector-types-compute-gateway",
+            partitionKey: { paths: ["/pk"] },
+            vectorEmbeddingPolicy,
+            indexingPolicy,
+            throughput: 1000,
+          });
+          setupContainer = created.container;
+          assert.deepEqual(created.resource?.vectorEmbeddingPolicy, vectorEmbeddingPolicy);
+          for (const { name } of vectorFields) {
+            const index = created.resource?.indexingPolicy?.vectorIndexes?.find(
+              ({ path }) => path === `/${name}`,
+            );
+            assert.equal(index?.type, VectorIndexType.DiskANN);
+          }
+
+          const container = client.database(database.id).container(setupContainer.id);
+          for (let offset = 0; offset < documents.length; offset += 50) {
+            await Promise.all(
+              documents.slice(offset, offset + 50).map(async (document) => {
+                const response = await container.items.create(document);
+                assert.equal(response.statusCode, 201);
+              }),
+            );
+          }
+
+          const { resources } = await container.items
+            .query<string>({
+              query: `SELECT TOP 5 VALUE c.id
+                FROM c
+                ORDER BY RANK RRF(
+                  VectorDistance(c.vectorFloat32, @queryVector),
+                  VectorDistance(c.vectorFloat16, @queryVector),
+                  VectorDistance(c.vectorInt8, @queryVector),
+                  VectorDistance(c.vectorUint8, @queryVector)
+                )`,
+              parameters: [{ name: "@queryVector", value: [0, 0] }],
+            })
+            .fetchAll();
+
+          assert.deepEqual(resources, ["H", "A", "G", "C", "B"]);
+          assert.equal(documentCreates, documents.length);
+          assert.isAbove(queryRequests, 0);
+          assert.deepEqual([...requestOrigins], [expectedOrigin]);
+        } finally {
+          client.dispose();
+          await setupContainer?.delete();
+        }
+      },
+      180000,
+    );
+
     it("should fail to create vector indexing policy", async () => {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
