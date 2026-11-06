@@ -8,9 +8,14 @@ import type {
   LiveClientEventUnion,
   LiveServerEventType,
   LiveServerEventUnion,
+  LiveDecisionInputItemParamUnion,
+  LiveDecisionStoredInputItemParamUnion,
+  LiveDecisionInputTextParam,
+  LiveDecisionInputImageParam,
   VoiceAgentLiveSessionResource,
   LiveSessionUpdateParams,
   LiveServerEventLiveSessionClosed,
+  LiveServerEventLiveSessionStarted,
 } from "../models/models.js";
 import {
   liveClientEventUnionSerializer,
@@ -56,11 +61,27 @@ export interface VoiceAgentLiveDecisionMessage {
   content: string | Record<string, unknown>[];
 }
 
+/** A user message, function call, custom tool call, or tool result added to a Decision context. */
+export type VoiceAgentLiveDecisionItem =
+  | VoiceAgentLiveDecisionMessage
+  | Extract<
+      LiveDecisionInputItemParamUnion,
+      { type: Exclude<LiveDecisionInputItemParamUnion["type"], "message"> }
+    >;
+
+/** A stored Decision item, including its service-assigned identifier. */
+export type VoiceAgentLiveDecisionStoredItem =
+  | (VoiceAgentLiveDecisionMessage & { id: string })
+  | Extract<
+      LiveDecisionStoredInputItemParamUnion,
+      { type: Exclude<LiveDecisionStoredInputItemParamUnion["type"], "message"> }
+    >;
+
 /** Commands you can send after the service starts a GPT Live session. */
 export type VoiceAgentLiveClientEvent = {
   [K in Exclude<LiveClientEventType, "session.start">]: K extends "decision.item.create"
     ? Omit<Extract<LiveClientEventUnion, { type: K }>, "item"> & {
-        item: VoiceAgentLiveDecisionMessage;
+        item: VoiceAgentLiveDecisionItem;
       }
     : Extract<LiveClientEventUnion, { type: K }>;
 }[Exclude<LiveClientEventType, "session.start">];
@@ -70,7 +91,7 @@ export type VoiceAgentLiveEvent =
   | {
       [K in LiveServerEventType]: K extends "decision.item.created"
         ? Omit<Extract<LiveServerEventUnion, { type: K }>, "item"> & {
-            item: VoiceAgentLiveDecisionMessage & { id: string };
+            item: VoiceAgentLiveDecisionStoredItem;
           }
         : Extract<LiveServerEventUnion, { type: K }>;
     }[LiveServerEventType]
@@ -101,6 +122,8 @@ export interface VoiceAgentLiveClientConnectOptions extends Omit<
 > {
   /** Overrides the timeout for the service's session.started event, in milliseconds. */
   sessionTimeoutInMs?: number;
+  /** Receives events from startup onward, before connect() returns. An iterator started later receives subsequent events. Synchronous callback exceptions are logged without interrupting the connection. */
+  onEvent?: (event: VoiceAgentLiveEvent) => void;
 }
 
 /** Options for adding text context to a GPT Live session. */
@@ -126,13 +149,15 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
   readonly state: VoiceAgentConnectionState;
   /** Latest session settings. Available as soon as connect() returns. */
   readonly session: VoiceAgentLiveSessionResource;
+  /** Original startup event, including the persisted conversation ID when supplied by the service. */
+  readonly sessionStarted: LiveServerEventLiveSessionStarted;
   /** Resolves when the connection closes, with service confirmation and error details if available. */
   readonly closed: Promise<VoiceAgentLiveCloseResult>;
   /** Sends a Live command. Do not send session.start; the service starts the session. */
   send(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
   /** Alias for send(). */
   sendEvent(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
-  /** Adds an event listener. Read session for settings received before connect() returned. */
+  /** Adds a listener for subsequent events. Use the connect option onEvent for startup events, or read sessionStarted for startup metadata. */
   on<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
   /** Removes a previously registered listener. */
   off<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
@@ -168,7 +193,7 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
   ): Promise<void>;
   /** Asks the Responses backend to respond. Requires Responses delegation. */
   requestResponse(options?: VoiceAgentEventOptions): Promise<void>;
-  /** Closes the session and waits for service confirmation. Rejects if confirmation times out. */
+  /** Closes the session and waits for service confirmation. Rejects if the connection failed or finalization was not confirmed, including when the socket has already closed. */
   close(code?: number, reason?: string): Promise<void>;
   /** Closes the session. Equivalent to close(). */
   dispose(): Promise<void>;
@@ -255,6 +280,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
   private readonly listeners: Listener[] = [];
   private currentState: VoiceAgentConnectionState = KnownVoiceAgentConnectionState.Disconnected;
   private snapshot?: VoiceAgentLiveSessionResource;
+  private startupEvent?: LiveServerEventLiveSessionStarted;
   private finalEvent?: LiveServerEventLiveSessionClosed;
   private finished = false;
   private iteratorStarted = false;
@@ -288,10 +314,12 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
           code,
           reason,
           wasClean,
-          wasClean
+          wasClean && (!this.snapshot || this.finalEvent)
             ? undefined
             : new VoiceAgentConnectionError(
-                "Live socket closed unexpectedly.",
+                wasClean
+                  ? "Live socket closed without session.closed."
+                  : "Live socket closed unexpectedly.",
                 "connectionClosed",
                 { closeCode: code },
               ),
@@ -309,6 +337,12 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       throw new VoiceAgentConnectionError("Live session has not started.", "invalidState");
     }
     return this.snapshot;
+  }
+  public get sessionStarted(): LiveServerEventLiveSessionStarted {
+    if (!this.startupEvent) {
+      throw new VoiceAgentConnectionError("Live session has not started.", "invalidState");
+    }
+    return this.startupEvent;
   }
   public get closed(): Promise<VoiceAgentLiveCloseResult> {
     return this.closePromise;
@@ -559,7 +593,19 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
   }
 
   public close(code = 1000, reason = "Client closed the Live session."): Promise<void> {
-    if (this.finished) return this.closed.then(() => undefined);
+    if (this.finished) {
+      this.closing ??= this.closed.then((result) => {
+        if (result.error) throw result.error;
+        if (!result.sessionClosed) {
+          throw new VoiceAgentConnectionError(
+            "Live socket closed without session.closed.",
+            "connectionClosed",
+          );
+        }
+        return undefined;
+      });
+      return this.closing;
+    }
     if (!this.closing) {
       let resolveClose!: () => void;
       let rejectClose!: (reason: unknown) => void;
@@ -663,7 +709,10 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     }
     if (event.type === "session.started" || event.type === "session.updated") {
       this.snapshot = event.session;
-      if (event.type === "session.started") this.started?.resolve();
+      if (event.type === "session.started") {
+        this.startupEvent ??= event;
+        this.started?.resolve();
+      }
     } else if (event.type === "error" && !this.snapshot) {
       this.started?.reject(
         new VoiceAgentConnectionError(event.error.message, "connectionFailed", { cause: event }),
@@ -689,7 +738,14 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
       const close = this.requestedClose ?? { code: 1000, reason: "Live session finalized." };
       void this.closeTransport(close.code, close.reason);
     }
-    if (this.iteratorStarted || this.listeners.length === 0) this.events.enqueue(event);
+    if (this.iteratorStarted || (!this.connectOptions.onEvent && this.listeners.length === 0)) {
+      this.events.enqueue(event);
+    }
+    try {
+      this.connectOptions.onEvent?.(event);
+    } catch (error) {
+      logger.warning("Voice-agent Live onEvent callback threw an error.", { error });
+    }
     for (const listener of [...this.listeners]) {
       if (listener.type !== event.type) continue;
       try {
@@ -852,8 +908,10 @@ export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): 
       }
       break;
     case "decision.item.create":
-      if (!isDecisionMessage(event.item)) {
-        throw new VoiceAgentProtocolError("Live decision items require user content.");
+      if (!isDecisionItem(event.item)) {
+        throw new VoiceAgentProtocolError(
+          "Live decision items must be valid messages or tool items.",
+        );
       }
       break;
     case "decision.item.delete":
@@ -865,7 +923,9 @@ export function serializeVoiceAgentLiveEvent(event: VoiceAgentLiveClientEvent): 
   try {
     // The generated Decision message model omits the native user content fields.
     return JSON.stringify(
-      event.type === "decision.item.create" ? event : liveClientEventUnionSerializer(event),
+      event.type === "decision.item.create" && event.item.type === "message"
+        ? event
+        : liveClientEventUnionSerializer(event),
     );
   } catch (cause) {
     throw new VoiceAgentProtocolError("Failed to serialize a Live event.", { cause });
@@ -930,9 +990,9 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
       }
     }
   }
-  let decisionItem: (VoiceAgentLiveDecisionMessage & { id: string }) | undefined;
+  let decisionItem: VoiceAgentLiveDecisionStoredItem | undefined;
   if (type === "decision.item.created") {
-    if (!isDecisionMessage(raw.item) || typeof raw.item.id !== "string" || !raw.item.id) {
+    if (!isDecisionStoredItem(raw.item)) {
       throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
     }
     decisionItem = { ...raw.item, id: raw.item.id };
@@ -962,7 +1022,11 @@ export function deserializeVoiceAgentLiveEvent(data: string | ArrayBuffer): Voic
       if (!decisionItem) {
         throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
       }
-      return { ...event, item: decisionItem };
+      const item = decisionItem.type === "message" ? decisionItem : event.item;
+      if (!isDecisionStoredItem(item)) {
+        throw new VoiceAgentProtocolError("The service returned an invalid Live decision item.");
+      }
+      return { ...event, item };
     }
     return event;
   } catch (cause) {
@@ -982,5 +1046,64 @@ function isDecisionMessage(value: unknown): value is VoiceAgentLiveDecisionMessa
     value.role === "user" &&
     (typeof value.content === "string" ||
       (Array.isArray(value.content) && value.content.every(isRecord)))
+  );
+}
+
+function isDecisionItem(value: unknown): value is VoiceAgentLiveDecisionItem {
+  if (isDecisionMessage(value)) return true;
+  if (
+    !isRecord(value) ||
+    (value.id !== undefined && typeof value.id !== "string") ||
+    typeof value.call_id !== "string" ||
+    (value.status !== undefined &&
+      value.status !== "in_progress" &&
+      value.status !== "completed" &&
+      value.status !== "incomplete")
+  ) {
+    return false;
+  }
+  switch (value.type) {
+    case "function_call":
+      return (
+        typeof value.name === "string" &&
+        typeof value.arguments === "string" &&
+        (value.namespace === undefined || typeof value.namespace === "string")
+      );
+    case "custom_tool_call":
+      return (
+        typeof value.name === "string" &&
+        typeof value.input === "string" &&
+        (value.namespace === undefined || typeof value.namespace === "string")
+      );
+    case "function_call_output":
+    case "custom_tool_call_output":
+      return isDecisionToolOutput(value.output);
+    default:
+      return false;
+  }
+}
+
+function isDecisionStoredItem(value: unknown): value is VoiceAgentLiveDecisionStoredItem {
+  return isDecisionItem(value) && typeof value.id === "string" && value.id.length > 0;
+}
+
+function isDecisionToolOutput(
+  value: unknown,
+): value is string | (LiveDecisionInputTextParam | LiveDecisionInputImageParam)[] {
+  return (
+    typeof value === "string" ||
+    (Array.isArray(value) &&
+      value.every(
+        (part) =>
+          isRecord(part) &&
+          ((part.type === "input_text" && typeof part.text === "string") ||
+            (part.type === "input_image" &&
+              typeof part.image_url === "string" &&
+              (part.detail === undefined ||
+                part.detail === "low" ||
+                part.detail === "high" ||
+                part.detail === "auto" ||
+                part.detail === "original"))),
+      ))
   );
 }

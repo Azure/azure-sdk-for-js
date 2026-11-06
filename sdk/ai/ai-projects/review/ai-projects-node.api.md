@@ -8738,6 +8738,7 @@ export class VoiceAgentLiveClient {
 
 // @public
 export interface VoiceAgentLiveClientConnectOptions extends Omit<VoiceAgentRealtimeClientConnectOptions, "transport" | "agentSessionId"> {
+    onEvent?: (event: VoiceAgentLiveEvent) => void;
     sessionTimeoutInMs?: number;
 }
 
@@ -8759,7 +8760,7 @@ export type VoiceAgentLiveClientEvent = {
     [K in Exclude<LiveClientEventType, "session.start">]: K extends "decision.item.create" ? Omit<Extract<LiveClientEventUnion, {
         type: K;
     }>, "item"> & {
-        item: VoiceAgentLiveDecisionMessage;
+        item: VoiceAgentLiveDecisionItem;
     } : Extract<LiveClientEventUnion, {
         type: K;
     }>;
@@ -8796,6 +8797,7 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
     sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
     sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
     readonly session: VoiceAgentLiveSessionResource;
+    readonly sessionStarted: LiveServerEventLiveSessionStarted;
     readonly state: VoiceAgentConnectionState;
     unmuteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
 }
@@ -8825,12 +8827,24 @@ export type VoiceAgentLiveConversationItemType = "input" | "output" | "delegatio
 export type VoiceAgentLiveConversationItemUnion = VoiceAgentLiveInputConversationItem | VoiceAgentLiveOutputConversationItem | VoiceAgentLiveDelegationConversationItemUnion | VoiceAgentLiveConversationItem;
 
 // @public
+export type VoiceAgentLiveDecisionItem = VoiceAgentLiveDecisionMessage | Extract<LiveDecisionInputItemParamUnion, {
+    type: Exclude<LiveDecisionInputItemParamUnion["type"], "message">;
+}>;
+
+// @public
 export interface VoiceAgentLiveDecisionMessage {
     content: string | Record<string, unknown>[];
     id?: string;
     role: "user";
     type: "message";
 }
+
+// @public
+export type VoiceAgentLiveDecisionStoredItem = (VoiceAgentLiveDecisionMessage & {
+    id: string;
+}) | Extract<LiveDecisionStoredInputItemParamUnion, {
+    type: Exclude<LiveDecisionStoredInputItemParamUnion["type"], "message">;
+}>;
 
 // @public
 export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
@@ -8889,9 +8903,7 @@ export type VoiceAgentLiveEvent = {
     [K in LiveServerEventType]: K extends "decision.item.created" ? Omit<Extract<LiveServerEventUnion, {
         type: K;
     }>, "item"> & {
-        item: VoiceAgentLiveDecisionMessage & {
-            id: string;
-        };
+        item: VoiceAgentLiveDecisionStoredItem;
     } : Extract<LiveServerEventUnion, {
         type: K;
     }>;

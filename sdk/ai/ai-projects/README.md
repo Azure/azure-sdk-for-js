@@ -450,7 +450,34 @@ response does not mean the agent has finished speaking.
 
 `connect()` waits for `session.started`. Read the current settings from `connection.session`,
 including the selected managed agent and version when applicable. Read events with one
-`for await` loop or use `on`, `off`, and `once` listeners.
+`for await` loop or use `on`, `off`, and `once` listeners for subsequent events.
+For listener-only consumption, supply `onEvent` when connecting to receive startup
+events and initial audio without waiting for `connect()` to return. The original
+startup event, including the persisted conversation ID when provided by the service,
+remains available through `connection.sessionStarted`. An iterator started after
+an `onEvent` callback was configured receives subsequent events, not past events.
+
+```ts snippet:ReadmeSampleVoiceAgentLiveCallbacks
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: true,
+  onEvent: (event) => {
+    if (event.type === "session.started") {
+      console.log("Conversation:", event.conversation_id);
+    } else if (event.type === "session.output_audio.delta") {
+      console.log("Received an audio chunk.");
+    }
+  },
+});
+try {
+  console.log("Session:", connection.sessionStarted.session.id);
+} finally {
+  await connection.close();
+}
+```
 
 | Task                                            | API or event                                                                              |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -462,12 +489,21 @@ including the selected managed agent and version when applicable. Read events wi
 | Update backend settings and transcript triggers | `configureSession()`; the initial model, audio format, and delegation owner cannot change |
 | Close the session                               | `close()`; waits for `session.closed` and rejects if finalization is not confirmed        |
 
+`close()` and `dispose()` also reject an unconfirmed shutdown when the socket has
+already disconnected. Inspect `connection.closed` for the service's finalization
+event and any connection error.
+
 With Responses delegation, backend events arrive inside `response.event`. Use
 `sendResponseItem()` to add a user message and `requestResponse()` to ask for a reply.
 For a function call, wait for the calling backend response to finish, then use
 `sendToolOutput()` to return the result and request continuation. These methods require
 Responses delegation. For client-handled delegation, use `appendThinking()` or
 `appendCommentary()` and pass the delegation ID as `delegationId`.
+
+Decision context items support user messages, function calls and results, and
+custom tool calls and results. Send them with `decision.item.create`; received
+`decision.item.created` events retain the corresponding item fields and stored ID.
+Decision commands require support from the service deployment.
 
 Live does not support Realtime's `response.cancel`. An abort signal cancels an SDK
 connection or send operation, not speech already being generated. To store Live

@@ -11,12 +11,14 @@ import {
 import type {
   AIProjectClientOptionalParams,
   KnownApiVersions,
+  LiveDecisionInputItemParamUnion,
   LiveServerEventLiveErrorEvent,
   LiveSessionUpdateParams,
   VoiceAgentConnectionState,
   VoiceAgentLiveClientEvent,
   VoiceAgentLiveConnection,
   VoiceAgentLiveDecisionMessage,
+  VoiceAgentLiveEvent,
   VoiceAgentLiveSessionResource,
 } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
@@ -71,6 +73,81 @@ afterEach(() => {
 });
 
 describe("VoiceAgentLiveClient connection", () => {
+  it.each(["project", "standalone"])(
+    "delivers startup events to callbacks with the %s client and retains startup metadata",
+    async (kind) => {
+      const factory = createFactory();
+      factory.transport.autoStart = false;
+      const received: VoiceAgentLiveEvent[] = [];
+      const client =
+        kind === "standalone"
+          ? new VoiceAgentLiveClient(endpoint, new TestCredential(), {
+              webSocketFactory: factory,
+            })
+          : createClient(factory).beta.voiceAgents.live;
+      const pending = client.connect("live-agent", {
+        onEvent: (event) => received.push(event),
+      });
+      await factory.transport.connecting.promise;
+      const started = sessionStarted();
+      const audio = { type: "session.output_audio.delta", delta: "AQID" };
+      factory.transport.receive(started);
+      factory.transport.receive(audio);
+      const connection = await pending;
+      try {
+        expect(received).toEqual([started, audio]);
+        expect(connection.sessionStarted).toEqual(started);
+        expect(connection.sessionStarted.conversation_id).toBe("live-conversation-1");
+        const updated = createSession({ instructions: "Updated instructions." });
+        factory.transport.receive({
+          type: "session.updated",
+          event_id: "updated-after-startup",
+          session: updated,
+        });
+        expect(connection.session).toEqual(updated);
+        expect(connection.sessionStarted).toEqual(started);
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
+  it("isolates startup callback exceptions and bounds callback-only event consumption", async () => {
+    const factory = createFactory();
+    const received = vi.fn((event: VoiceAgentLiveEvent) => {
+      if (event.type === "session.started") throw new Error("Offline startup callback failure.");
+    });
+    const connection = await createClient(factory).beta.voiceAgents.live.connect("live-agent", {
+      onEvent: received,
+    });
+    try {
+      for (let index = 0; index < 10_050; index++) {
+        factory.transport.receive({ type: "session.output_audio.delta", delta: "AQID" });
+      }
+      expect(received).toHaveBeenCalledTimes(10_051);
+      expect(connection.state).toBe("connected");
+      expect(factory.transport.closeCalls).toEqual([]);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("delivers subsequent events to both a startup callback and a later iterator", async () => {
+    const factory = createFactory();
+    const callback = vi.fn();
+    const connection = await createClient(factory).beta.voiceAgents.live.connect("live-agent", {
+      onEvent: callback,
+    });
+    const iterator = connection[Symbol.asyncIterator]();
+    const pending = iterator.next();
+    const event = { type: "session.output_audio.delta", delta: "AQID" };
+    factory.transport.receive(event);
+    expect((await pending).value).toEqual(event);
+    expect(callback).toHaveBeenCalledWith(event);
+    await connection.close();
+    await iterator.return?.();
+  });
+
   it.each([
     { store: false, transport: "webrtc" },
     { store: false, agentSessionId: "realtime-session-id" },
@@ -543,6 +620,82 @@ describe("VoiceAgentLiveClient connection", () => {
 });
 
 describe("VoiceAgentLiveClient native commands", () => {
+  const toolItems = [
+    {
+      type: "function_call",
+      call_id: "decision-function",
+      name: "lookup",
+      namespace: "weather",
+      arguments: '{"city":"Paris"}',
+      status: "completed",
+    },
+    {
+      type: "function_call_output",
+      call_id: "decision-function",
+      output: "Sunny.",
+    },
+    {
+      type: "custom_tool_call",
+      call_id: "decision-custom",
+      name: "lookup_custom",
+      namespace: "weather",
+      input: "Paris",
+      status: "completed",
+    },
+    {
+      type: "custom_tool_call_output",
+      call_id: "decision-custom",
+      output: [
+        { type: "input_text", text: "Sunny." },
+        { type: "input_image", image_url: "https://example.test/weather.png", detail: "auto" },
+      ],
+    },
+    {
+      type: "function_call_output",
+      call_id: "decision-function",
+      output: [
+        { type: "input_text", text: "Sunny." },
+        { type: "input_image", image_url: "https://example.test/weather.png" },
+      ],
+    },
+    {
+      type: "custom_tool_call_output",
+      call_id: "decision-custom",
+      output: "Sunny.",
+    },
+  ] satisfies LiveDecisionInputItemParamUnion[];
+
+  it.each(toolItems)(
+    "preserves supported Decision $type commands and stored events",
+    async (item) => {
+      const factory = createFactory();
+      const connection = await connect(factory);
+      try {
+        const command: VoiceAgentLiveClientEvent = {
+          type: "decision.item.create",
+          event_id: `create-${item.type}`,
+          item,
+        };
+        await connection.send(command);
+        expect(JSON.parse(factory.transport.sentMessages[0])).toEqual(command);
+        const created: Extract<VoiceAgentLiveEvent, { type: "decision.item.created" }> = {
+          type: "decision.item.created",
+          event_id: `created-${item.type}`,
+          client_event_id: command.event_id,
+          item: { ...item, id: `stored-${item.type}` },
+        };
+        const listener = vi.fn();
+        connection.on("decision.item.created", listener);
+        factory.transport.receive(created);
+        expect(listener).toHaveBeenCalledWith(created);
+        expect(connection.state).toBe("connected");
+        expect(deserializeVoiceAgentLiveEvent(JSON.stringify(created))).toEqual(created);
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
   it("sends typed Decision and audio-fixture commands without Realtime conversions", async () => {
     const factory = createFactory();
     const connection = await connect(factory);
@@ -846,6 +999,47 @@ describe("VoiceAgentLiveClient native commands", () => {
 });
 
 describe("VoiceAgentLiveClient native protocol", () => {
+  it.each([
+    { type: "function_call", id: "item", call_id: "call", name: "lookup", arguments: 42 },
+    { type: "function_call", id: "", call_id: "call", name: "lookup", arguments: "{}" },
+    { type: "custom_tool_call", id: "item", call_id: "call", name: "lookup", input: {} },
+    {
+      type: "custom_tool_call",
+      id: "item",
+      call_id: "call",
+      name: "lookup",
+      input: "",
+      status: "invalid",
+    },
+    { type: "function_call_output", id: "item", call_id: "call", output: {} },
+    {
+      type: "function_call_output",
+      id: "item",
+      call_id: "call",
+      output: [{ type: "input_text", text: 42 }],
+    },
+    {
+      type: "custom_tool_call_output",
+      id: "item",
+      call_id: "call",
+      output: [{ type: "input_image", image_url: 42 }],
+    },
+    {
+      type: "custom_tool_call_output",
+      id: "item",
+      call_id: "call",
+      output: [
+        { type: "input_image", image_url: "https://example.test/image.png", detail: "invalid" },
+      ],
+    },
+  ])("rejects malformed Decision tool item $type", (item) => {
+    expect(() =>
+      deserializeVoiceAgentLiveEvent(
+        JSON.stringify({ type: "decision.item.created", event_id: "created", item }),
+      ),
+    ).toThrow(VoiceAgentProtocolError);
+  });
+
   const decisionEvent = {
     type: "decision.event",
     event_id: "decision-event",
@@ -1567,6 +1761,27 @@ describe("VoiceAgentLiveClient finalization", () => {
     await expect(connection.closed).resolves.toMatchObject({ sessionClosed: undefined });
   });
 
+  it.each(["close", "dispose"])(
+    "rejects %s after a clean socket already closed without session.closed",
+    async (method) => {
+      const factory = createFactory();
+      const connection = await connect(factory);
+      factory.transport.disconnect(1000, "Peer closed before finalization.", true);
+      expect(connection.state).toBe("disconnected");
+      await expect(
+        method === "dispose" ? connection.dispose() : connection.close(),
+      ).rejects.toThrow("without session.closed");
+      const result = await connection.closed;
+      expect(result.wasClean).toBe(true);
+      expect(result.sessionClosed).toBeUndefined();
+      expect(result.error).toBeInstanceOf(VoiceAgentConnectionError);
+      await expect(method === "dispose" ? connection.dispose() : connection.close()).rejects.toBe(
+        result.error,
+      );
+      expect(factory.transport.sentMessages).toEqual([]);
+    },
+  );
+
   it.each([false, true])(
     "times out an incomplete close (received session.closed: %s)",
     async (finalized) => {
@@ -1613,7 +1828,7 @@ describe("VoiceAgentLiveClient finalization", () => {
       code: 1002,
       reason: "Invalid Live event.",
     });
-    await connection.close();
+    await expect(connection.close()).rejects.toBe((await connection.closed).error);
   });
 
   it("preserves unexpected close details and fails outstanding event reads", async () => {
@@ -1646,7 +1861,7 @@ describe("VoiceAgentLiveClient finalization", () => {
       code: 1006,
       error: expect.objectContaining({ name: "VoiceAgentConnectionError", cause }),
     });
-    await connection.dispose();
+    await expect(connection.dispose()).rejects.toMatchObject({ cause });
 
     const closingFactory = createFactory();
     const closing = await connect(closingFactory);

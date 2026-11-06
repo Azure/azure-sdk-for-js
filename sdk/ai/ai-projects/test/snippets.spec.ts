@@ -84,6 +84,25 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleVoiceAgentLiveCallbacks", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+    const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+      store: true,
+      onEvent: (event) => {
+        if (event.type === "session.started") {
+          console.log("Conversation:", event.conversation_id);
+        } else if (event.type === "session.output_audio.delta") {
+          console.log("Received an audio chunk.");
+        }
+      },
+    });
+    try {
+      console.log("Session:", connection.sessionStarted.session.id);
+    } finally {
+      await connection.close();
+    }
+  });
+
   it("ReadmeSampleVoiceAgentTracing", async function () {
     const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
       tracingOptions: {

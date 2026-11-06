@@ -6,7 +6,7 @@ import {
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
 } from "@azure/ai-projects";
-import type { VoiceAgentLiveDecisionMessage } from "@azure/ai-projects";
+import type { VoiceAgentLiveDecisionMessage, VoiceAgentLiveEvent } from "@azure/ai-projects";
 import { SDK_VERSION } from "$internal/constants.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -179,6 +179,25 @@ describe("AIProjectClient browser native Live transport", () => {
     await connection.close();
   });
 
+  it("delivers startup Blobs and initial audio to a callback and retains conversation metadata", async () => {
+    MockNativeLiveWebSocket.autoStart = false;
+    const received: VoiceAgentLiveEvent[] = [];
+    const pending = createClient().beta.voiceAgents.live.connect("browser-agent", {
+      store: true,
+      onEvent: (event) => received.push(event),
+    });
+    const socket = await MockNativeLiveWebSocket.created.promise;
+    const started = sessionStarted();
+    const audio = { type: "session.output_audio.delta", delta: "AQID" };
+    socket.receive(new Blob([JSON.stringify(started)]));
+    socket.receive(new Blob([JSON.stringify(audio)]));
+    const connection = await pending;
+    await vi.waitFor(() => expect(received).toEqual([started, audio]));
+    expect(connection.sessionStarted).toEqual(started);
+    expect(connection.sessionStarted.conversation_id).toBe("live-conversation-1");
+    await connection.close();
+  });
+
   it("snapshots nested structured inputs and query values before loading the transport or authenticating", async () => {
     const credential = new TestCredential();
     const token = deferred<typeof accessToken>();
@@ -315,7 +334,33 @@ describe("AIProjectClient browser native Live transport", () => {
       wasClean: false,
       error: expect.any(VoiceAgentProtocolError),
     });
-    await connection.dispose();
+    await expect(connection.dispose()).rejects.toBe((await connection.closed).error);
+  });
+
+  it("preserves Decision function items through the native browser transport", async () => {
+    const connection = await createClient().beta.voiceAgents.live.connect("browser-agent");
+    const item = {
+      type: "function_call" as const,
+      call_id: "browser-decision-call",
+      name: "lookup",
+      arguments: '{"city":"Paris"}',
+    };
+    await connection.send({ type: "decision.item.create", item });
+    expect(JSON.parse(getSocket().sentMessages[0])).toEqual({
+      type: "decision.item.create",
+      item,
+    });
+    const received = vi.fn();
+    connection.on("decision.item.created", received);
+    const created = {
+      type: "decision.item.created",
+      event_id: "browser-function-created",
+      item: { ...item, id: "browser-stored-function" },
+    };
+    getSocket().receive(new Blob([JSON.stringify(created)]));
+    await vi.waitFor(() => expect(received).toHaveBeenCalledWith(created));
+    expect(connection.state).toBe("connected");
+    await connection.close();
   });
 
   it("preserves native Decision content and decodes DTMF acknowledgements from browser Blobs", async () => {
@@ -368,6 +413,18 @@ describe("AIProjectClient browser native Live transport", () => {
       wasClean: true,
       sessionClosed: sessionClosed(),
     });
+  });
+
+  it("rejects close after a clean native socket close without session.closed", async () => {
+    const connection = await createClient().beta.voiceAgents.live.connect("browser-agent");
+    getSocket().finishClose(1000, "Missing service finalization.");
+    const result = await connection.closed;
+    await expect(connection.close()).rejects.toThrow("without session.closed");
+    expect(result.wasClean).toBe(true);
+    expect(result.sessionClosed).toBeUndefined();
+    expect(result.error).toBeInstanceOf(VoiceAgentConnectionError);
+    await expect(connection.dispose()).rejects.toBe(result.error);
+    expect(getSocket().sentMessages).toEqual([]);
   });
 
   it("times out gracefully when Foundry never finalizes the browser session", async () => {
