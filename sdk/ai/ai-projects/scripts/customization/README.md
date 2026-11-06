@@ -61,6 +61,13 @@ regeneration script falls back to it when the strict run fails.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
   Ambiguous matches are errors.
+  When an operation module disappears, a private function helper and its
+  private function dependencies can follow the relocated operations only
+  when symbol references establish one destination, all local dependencies
+  remain available there, and no destination declaration collides. Public,
+  unused, and shared-across-destination helpers still require an explicit policy.
+  The old module is removed only after every custom-only declaration has a
+  verified destination; recovery does not bypass this check.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not

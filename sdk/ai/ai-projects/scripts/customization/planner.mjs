@@ -502,7 +502,9 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     if (!baseSource.has(file)) continue;
     const customized = declarations(parse(baseSource.get(file), file));
     const previous = declarations(parse(baseText, file));
-    const sourceOnly = [...customized.keys()].filter((name) => !previous.has(name));
+    const sourceOnly = [...customized.keys()].filter(
+      (name) => !previous.has(name) && !operations.relocatedHelpers.has(`${file}::${name}`),
+    );
     if (sourceOnly.length) {
       diagnostics.push({
         file,
