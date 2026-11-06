@@ -2456,7 +2456,7 @@ export interface CodeInterpreterToolboxTool extends ToolboxTool {
 export interface ComparisonFilter {
     key: string;
     type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
-    value: string | number | boolean | (string | number)[];
+    value: string | number | boolean | ComparisonFilterValueItems[];
 }
 
 // @public
@@ -3544,7 +3544,7 @@ export interface FileSearchToolboxTool extends ToolboxTool {
 }
 
 // @public
-export type FileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+export type FileSearchToolFiltersValue = string | number | boolean | ComparisonFilterValueItems[];
 
 // @public
 export type Filters = ComparisonFilter | CompoundFilter;
@@ -5935,7 +5935,7 @@ export interface RealtimeClientEventResponseCreate extends RealtimeClientEvent {
 }
 
 // @public
-export type RealtimeClientEventType = "conversation.item.create" | "conversation.item.delete" | "conversation.item.retrieve" | "conversation.item.truncate" | "input_audio_buffer.append" | "input_audio_buffer.clear" | "output_audio_buffer.clear" | "input_audio_buffer.commit" | "response.cancel" | "response.create" | "session.update" | "session.avatar.connect" | "rtc.call.sdp.create";
+export type RealtimeClientEventType = string | "conversation.item.create" | "conversation.item.delete" | "conversation.item.retrieve" | "conversation.item.truncate" | "input_audio_buffer.append" | "input_audio_buffer.clear" | "output_audio_buffer.clear" | "input_audio_buffer.commit" | "response.cancel" | "response.create" | "session.update" | VoiceAgentClientEventTypeExtension;
 
 // @public
 export type RealtimeClientEventUnion = RealtimeClientEventConversationItemCreate | RealtimeClientEventConversationItemDelete | RealtimeClientEventConversationItemRetrieve | RealtimeClientEventConversationItemTruncate | RealtimeClientEventInputAudioBufferAppend | RealtimeClientEventInputAudioBufferClear | RealtimeClientEventOutputAudioBufferClear | RealtimeClientEventInputAudioBufferCommit | RealtimeClientEventResponseCancel | RealtimeClientEventResponseCreate | VoiceAgentClientEventSessionAvatarConnect | VoiceAgentClientEventRtcCallSdpCreate | RealtimeClientEvent;
@@ -6044,7 +6044,7 @@ export interface RealtimeConversationItemMessageUserContent {
 }
 
 // @public
-export type RealtimeConversationItemType = "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "message" | "system_tool";
+export type RealtimeConversationItemType = string | "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "message" | VoiceAgentConversationItemTypeExtension;
 
 // @public
 export type RealtimeConversationItemUnion = RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | VoiceAgentSystemToolItem | RealtimeConversationItem;
@@ -8404,6 +8404,9 @@ export interface VoiceAgentClientEventSessionUpdate {
 }
 
 // @public
+export type VoiceAgentClientEventTypeExtension = "session.avatar.connect" | "rtc.call.sdp.create";
+
+// @public
 export interface VoiceAgentCloseResult {
     code: number;
     error?: Error;
@@ -8477,6 +8480,9 @@ export type VoiceAgentConnectionState = (typeof KnownVoiceAgentConnectionState)[
 
 // @public
 export type VoiceAgentConnectionStateChangedHandler = (state: VoiceAgentConnectionState, previousState: VoiceAgentConnectionState) => void;
+
+// @public
+export type VoiceAgentConversationItemTypeExtension = "system_tool";
 
 // @public
 export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
@@ -8586,11 +8592,14 @@ export interface VoiceAgentFunctionTool extends VoiceAgentTool {
 
 // @public
 export interface VoiceAgentGreetingConfig {
-    type: string;
+    type: VoiceAgentGreetingMode;
 }
 
 // @public
 export type VoiceAgentGreetingConfigUnion = VoiceAgentTemplateGreetingConfig | VoiceAgentLlmGeneratedGreetingConfig | VoiceAgentGreetingConfig;
+
+// @public
+export type VoiceAgentGreetingMode = "template" | "llm_generated";
 
 // @public
 export type VoiceAgentHandoffAbortReason = "user_interruption" | "error";
@@ -8693,7 +8702,7 @@ export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whis
 export interface VoiceAgentInterimResponseConfig {
     latency_threshold_ms?: number;
     triggers?: VoiceAgentInterimResponseTrigger[];
-    type: string;
+    type: VoiceAgentInterimResponseType;
 }
 
 // @public
@@ -8701,6 +8710,9 @@ export type VoiceAgentInterimResponseConfigUnion = VoiceAgentStaticInterimRespon
 
 // @public
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
+
+// @public
+export type VoiceAgentInterimResponseType = "static_interim_response" | "llm_interim_response";
 
 // @public
 export interface VoiceAgentLanguageDetectionArguments {
@@ -9115,8 +9127,11 @@ export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCall
 export interface VoiceAgentRtcCallErrorDetails {
     code?: string;
     message: string;
-    type: string;
+    type: VoiceAgentRtcCallErrorType;
 }
+
+// @public
+export type VoiceAgentRtcCallErrorType = "invalid_request_error" | "server_error";
 
 // @public
 export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
@@ -9587,7 +9602,7 @@ export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConf
 
 // @public
 export interface VoiceAgentTool {
-    type: string;
+    type: VoiceAgentToolType;
 }
 
 // @public
@@ -9603,6 +9618,9 @@ export type VoiceAgentToolChoice = "none" | "auto" | "required" | ToolChoiceFunc
 
 // @public
 export type VoiceAgentToolResponseScheduling = "silent" | "when_idle" | "interrupt" | "skip_if_busy";
+
+// @public
+export type VoiceAgentToolType = "function" | "mcp" | "system" | "toolbox";
 
 // @public
 export type VoiceAgentToolUnion = VoiceAgentFunctionTool | VoiceAgentMcpTool | VoiceAgentSystemToolUnion | VoiceAgentToolboxTool | VoiceAgentTool;
@@ -9768,8 +9786,11 @@ export interface VoiceConversation {
 
 // @public
 export interface VoiceConversationEngine {
-    type: string;
+    type: VoiceConversationEngineType;
 }
+
+// @public
+export type VoiceConversationEngineType = "hosted_agent";
 
 // @public
 export type VoiceConversationEngineUnion = VoiceHostedAgentConversationEngine | VoiceConversationEngine;

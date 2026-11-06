@@ -19,11 +19,8 @@ import {
   ToolUnion,
   MCPToolRequireApproval,
   MCPToolFilter,
-  _toolMcpToolAllowedToolsSerializer,
-  _toolMcpToolAllowedToolsDeserializer,
+  MCPTool,
   CallableToolAllowedCaller,
-  _toolMcpToolRequireApprovalSerializer,
-  _toolMcpToolRequireApprovalDeserializer,
   RankingOptions,
   rankingOptionsSerializer,
   rankingOptionsDeserializer,
@@ -53,6 +50,10 @@ import {
   RealtimeFunctionToolParameters,
   realtimeFunctionToolParametersSerializer,
   realtimeFunctionToolParametersDeserializer,
+  _voiceAgentMcpToolAllowedToolsSerializer,
+  _voiceAgentMcpToolAllowedToolsDeserializer,
+  _voiceAgentMcpToolRequireApprovalSerializer,
+  _voiceAgentMcpToolRequireApprovalDeserializer,
   LiveInitialSessionAudioParam,
   liveInitialSessionAudioParamSerializer,
   liveInitialSessionAudioParamDeserializer,
@@ -149,7 +150,6 @@ import {
   _voiceAgentResponseCreateParamsToolArraySerializer,
   _voiceAgentResponseCreateParamsToolArrayDeserializer,
   RealtimeFunctionTool,
-  MCPTool,
   _voiceAgentResponseCreateParamsToolChoiceSerializer,
   _voiceAgentResponseCreateParamsToolChoiceDeserializer,
   ToolChoiceOptions,
@@ -2715,21 +2715,6 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
   };
 }
 
-/** Alias for _ToolCodeInterpreterToolContainer */
-export type _ToolCodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
-
-export function _toolCodeInterpreterToolContainerSerializer(
-  item: _ToolCodeInterpreterToolContainer,
-): any {
-  return item;
-}
-
-export function _toolCodeInterpreterToolContainerDeserializer(
-  item: any,
-): _ToolCodeInterpreterToolContainer {
-  return item;
-}
-
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -3137,7 +3122,7 @@ export type VoiceModelType = "managed" | "self_deployed";
 export interface VoiceConversationEngine {
   /** The conversation engine type. */
   /** The discriminator possible values: hosted_agent */
-  type: string;
+  type: VoiceConversationEngineType;
 }
 
 export function voiceConversationEngineSerializer(item: VoiceConversationEngine): any {
@@ -3178,6 +3163,9 @@ export function voiceConversationEngineUnionDeserializer(item: any): VoiceConver
   }
 }
 
+/** The conversation engine types supported by a voice agent. */
+export type VoiceConversationEngineType = "hosted_agent";
+
 /** A closed reference to the hosted text agent that owns conversation handling for a voice agent. The hosted agent is resolved within the same project and must declare `voice_conversation_engine` version `1.0.0`. Voice Live connects through the dedicated voice-conversation-engine endpoint using the existing Bridge Protocol 1.0 wire semantics; the Bridge message version is independent of the container protocol version and the Hosted Agents API version `v1`. Declaring `invocations_ws` is optional and does not substitute for `voice_conversation_engine`. */
 export interface VoiceHostedAgentConversationEngine extends VoiceConversationEngine {
   /** Selects a hosted Foundry agent as the conversation engine. */
@@ -3216,7 +3204,7 @@ export function voiceHostedAgentConversationEngineDeserializer(
 export interface VoiceAgentGreetingConfig {
   /** The greeting mode. */
   /** The discriminator possible values: template, llm_generated */
-  type: string;
+  type: VoiceAgentGreetingMode;
 }
 
 export function voiceAgentGreetingConfigSerializer(item: VoiceAgentGreetingConfig): any {
@@ -3266,6 +3254,9 @@ export function voiceAgentGreetingConfigUnionDeserializer(
       return voiceAgentGreetingConfigDeserializer(item);
   }
 }
+
+/** The greeting modes supported by a voice agent. */
+export type VoiceAgentGreetingMode = "template" | "llm_generated";
 
 /** A deterministic greeting rendered with the voice agent's structured inputs and synthesized without model-authored generation. */
 export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
@@ -4288,7 +4279,7 @@ export type VoiceAgentSessionIncludeOption =
 export interface VoiceAgentInterimResponseConfig {
   /** The interim-response implementation. */
   /** The discriminator possible values: static_interim_response, llm_interim_response */
-  type: string;
+  type: VoiceAgentInterimResponseType;
   /** Conditions that may trigger one interim response. */
   triggers?: VoiceAgentInterimResponseTrigger[];
   /** The latency threshold in milliseconds. */
@@ -4366,6 +4357,9 @@ export function voiceAgentInterimResponseConfigUnionDeserializer(
       return voiceAgentInterimResponseConfigDeserializer(item);
   }
 }
+
+/** The interim-response implementations supported by a voice agent. */
+export type VoiceAgentInterimResponseType = "static_interim_response" | "llm_interim_response";
 
 /** A condition that may trigger an interim response. */
 export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
@@ -4675,7 +4669,7 @@ export function voiceAgentToolUnionArrayDeserializer(result: Array<VoiceAgentToo
 export interface VoiceAgentTool {
   /** The tool kind. */
   /** The discriminator possible values: function, mcp, system, toolbox */
-  type: string;
+  type: VoiceAgentToolType;
 }
 
 export function voiceAgentToolSerializer(item: VoiceAgentTool): any {
@@ -4733,6 +4727,9 @@ export function voiceAgentToolUnionDeserializer(item: any): VoiceAgentToolUnion 
       return voiceAgentToolDeserializer(item);
   }
 }
+
+/** The tool kinds supported by a voice agent. */
+export type VoiceAgentToolType = "function" | "mcp" | "system" | "toolbox";
 
 /** A native function tool executed by the client. */
 export interface VoiceAgentFunctionTool extends VoiceAgentTool {
@@ -4813,7 +4810,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -4821,7 +4818,7 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -4845,7 +4842,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -4853,7 +4850,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -6018,6 +6015,7 @@ export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
 
 /** An Event Grid connection that receives post-call events. */
 export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+  /** The destination type. Always `event_grid`. */
   type: "event_grid";
   /** The name of the Event Grid connection. */
   connection_name: string;
@@ -6040,6 +6038,7 @@ export function voiceAgentEventGridPostCallDestinationDeserializer(
 
 /** A routine that is dispatched with the post-call event. */
 export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+  /** The destination type. Always `routine`. */
   type: "routine";
   /** The name of the routine. */
   name: string;
@@ -12800,7 +12799,7 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerSerializer(item["container"]),
   };
 }
 
@@ -12819,8 +12818,23 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
+      : _codeInterpreterToolboxToolContainerDeserializer(item["container"]),
   };
+}
+
+/** Alias for _CodeInterpreterToolboxToolContainer */
+export type _CodeInterpreterToolboxToolContainer = string | AutoCodeInterpreterToolParam;
+
+export function _codeInterpreterToolboxToolContainerSerializer(
+  item: _CodeInterpreterToolboxToolContainer,
+): any {
+  return item;
+}
+
+export function _codeInterpreterToolboxToolContainerDeserializer(
+  item: any,
+): _CodeInterpreterToolboxToolContainer {
+  return item;
 }
 
 /** A file search tool stored in a toolbox. */
@@ -13253,7 +13267,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -13261,7 +13275,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -13288,7 +13302,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _voiceAgentMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -13296,7 +13310,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
@@ -18336,6 +18350,9 @@ export function voiceResponseDeserializer(item: any): VoiceResponse {
   };
 }
 
+/** Additional item kinds used by the Voice Agent service. */
+export type VoiceAgentConversationItemTypeExtension = "system_tool";
+
 /** Service-generated system-tool intent, not a provider result. Clients cannot create it or complete it with `function_call_output`. */
 export interface VoiceAgentSystemToolItem extends RealtimeConversationItem {
   /** The output-item kind. Always `system_tool`. */
@@ -22086,7 +22103,7 @@ export function voiceAgentServerEventRtcCallErrorDeserializer(
 /** Details of a WebRTC signaling error. */
 export interface VoiceAgentRtcCallErrorDetails {
   /** The error category, following the VoiceLive wire contract: `invalid_request_error` for a client-side signaling fault (for example, a malformed SDP offer) or `server_error` for a service-side failure. Additional categories may be added over time. */
-  type: string;
+  type: VoiceAgentRtcCallErrorType;
   /** A machine-readable error code, when available. */
   code?: string;
   /** A human-readable error message. */
@@ -22106,6 +22123,9 @@ export function voiceAgentRtcCallErrorDetailsDeserializer(
     message: item["message"],
   };
 }
+
+/** The error categories reported for WebRTC signaling failures. */
+export type VoiceAgentRtcCallErrorType = "invalid_request_error" | "server_error";
 
 /** The `session.avatar.switch_to_speaking` server event. */
 export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends RealtimeServerEvent {
@@ -22459,6 +22479,9 @@ export function voiceAgentClientEventSessionAvatarConnectDeserializer(
     client_sdp: item["client_sdp"],
   };
 }
+
+/** Type of VoiceAgentClientEventTypeExtension */
+export type VoiceAgentClientEventTypeExtension = "session.avatar.connect" | "rtc.call.sdp.create";
 
 /** Parameters accepted by a voice-agent `response.create` event. */
 export interface VoiceAgentResponseCreateParams {
