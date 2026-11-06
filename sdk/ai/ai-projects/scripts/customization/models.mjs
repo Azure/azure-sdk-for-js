@@ -172,6 +172,32 @@ function renameFingerprint(declaration) {
   );
 }
 
+function emittedRenamePairs(before, after) {
+  const oldPrefix = before[0].toLowerCase() + before.slice(1);
+  const newPrefix = after[0].toLowerCase() + after.slice(1);
+  return [
+    [before, after],
+    [`${oldPrefix}Serializer`, `${newPrefix}Serializer`],
+    [`${oldPrefix}Deserializer`, `${newPrefix}Deserializer`],
+    [`${oldPrefix}ArraySerializer`, `${newPrefix}ArraySerializer`],
+    [`${oldPrefix}ArrayDeserializer`, `${newPrefix}ArrayDeserializer`],
+  ];
+}
+
+export function verifiedEmittedRenames({ baseGenerated, baseSource, generated }) {
+  const diagnostics = [];
+  const indexes = [baseGenerated, baseSource, generated].map((tree) =>
+    inventory(tree, diagnostics),
+  );
+  const renames = discoverRenames(...indexes, diagnostics);
+  const approved = new Map(
+    [...emittedModelRenames].flatMap(([before, after]) => emittedRenamePairs(before, after)),
+  );
+  return diagnostics.length
+    ? new Map()
+    : new Map([...renames].filter(([before, after]) => approved.get(before) === after));
+}
+
 function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
   const renames = new Map();
   for (const [generated, custom] of documentedRenames) {
@@ -193,17 +219,14 @@ function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
     )
       renames.set(generated, custom);
   }
-  const approvedRenames = [...emittedModelRenames].flatMap(([before, after]) => {
-    const oldPrefix = before[0].toLowerCase() + before.slice(1);
-    const newPrefix = after[0].toLowerCase() + after.slice(1);
-    return [
-      [before, after],
-      [`${oldPrefix}Serializer`, `${newPrefix}Serializer`],
-      [`${oldPrefix}Deserializer`, `${newPrefix}Deserializer`],
-      [`${oldPrefix}ArraySerializer`, `${newPrefix}ArraySerializer`],
-      [`${oldPrefix}ArrayDeserializer`, `${newPrefix}ArrayDeserializer`],
-    ];
-  });
+  const approvedRenames = [...emittedModelRenames].flatMap(([before, after]) =>
+    emittedRenamePairs(before, after).map(([oldName, newName]) => [
+      oldName,
+      newName,
+      before,
+      after,
+    ]),
+  );
   let renamed = true;
   while (renamed) {
     renamed = false;
@@ -217,11 +240,14 @@ function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
       diagnostics,
       renames,
     );
-    for (const [oldName, newName] of approvedRenames) {
+    for (const [oldName, newName, oldModel, newModel] of approvedRenames) {
       if (
+        (oldName !== oldModel && renames.get(oldModel) !== newModel) ||
         renames.has(oldName) ||
         !baseSource.declarations.has(oldName) ||
         baseSource.declarations.has(newName) ||
+        baseGenerated.declarations.has(newName) ||
+        incoming.declarations.has(oldName) ||
         !before.declarations.has(oldName) ||
         !next.declarations.has(newName) ||
         before.declarations.get(oldName).node.kind !== next.declarations.get(newName).node.kind ||
@@ -231,6 +257,20 @@ function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
         continue;
       renames.set(oldName, newName);
       renamed = true;
+    }
+  }
+  for (const [oldName, newName, oldModel, newModel] of approvedRenames) {
+    if (
+      oldName !== oldModel &&
+      renames.get(oldModel) === newModel &&
+      baseSource.declarations.has(oldName) &&
+      renames.get(oldName) !== newName
+    ) {
+      diagnostics.push({
+        file: baseSource.declarations.get(oldName).file,
+        declaration: oldName,
+        message: `Emitted model rename from '${oldModel}' to '${newModel}' cannot preserve converter '${oldName}' as '${newName}'; explicit reconciliation is required.`,
+      });
     }
   }
   const used = new Set(

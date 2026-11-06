@@ -636,7 +636,7 @@ export function _getItemsOperations(context: AIProjectContext): ItemsOperations 
   assert.doesNotMatch(result.text, /Promise<"a b">/);
 });
 
-test("ports emitted classic parameter changes through a customized tracing wrapper", () => {
+test("ports emitted classic parameter changes through a customized tracing wrapper", async (t) => {
   const baseText = classic(2, "Items", "items", [getItem]);
   const customText = baseText.replace(
     "getItem(context, id, options)",
@@ -648,7 +648,7 @@ test("ports emitted classic parameter changes through a customized tracing wrapp
   const incomingApi = operations(1, [getItem])
     .replaceAll("id: string", "itemId: string")
     .replaceAll("context, id, options", "context, itemId, options");
-  const merge = (text) =>
+  const merge = (text, overrides = {}) =>
     mergeCustomizedClassic({
       file: "classic/items/index.ts",
       baseText,
@@ -663,6 +663,7 @@ test("ports emitted classic parameter changes through a customized tracing wrapp
       resolvedText: incomingApi,
       resolvedOptionsText: options([getItem[3]]),
       customApiText: operations(1, [getItem]),
+      ...overrides,
     });
   const result = merge(customText);
   assert.deepEqual(result.diagnostics, []);
@@ -676,6 +677,43 @@ test("ports emitted classic parameter changes through a customized tracing wrapp
     customText.replace("getItem(context, id, options)", "getItem(context, options, id)"),
   );
   assert.ok(unsafe.diagnostics.length > 0);
+
+  for (const body of [
+    '{ const itemId = "maintained"; return getItem(context, id, options); }',
+    "(itemId: string) => getItem(context, id, options)",
+    "({ nested: { itemId } }) => getItem(context, id, options)",
+  ]) {
+    await t.test(`rejects a rename target collision in ${body}`, () => {
+      const colliding = customText.replace("() => getItem(context, id, options)", `() => ${body}`);
+      const result = merge(colliding);
+      assert.ok(result.diagnostics.length > 0);
+    });
+  }
+
+  for (const [kind, parameter] of [
+    ["default", "options: ItemsGetItemOptionalParams = { requestOptions: { timeout: 5 } }"],
+    ["rest", "...options: [ItemsGetItemOptionalParams?]"],
+  ]) {
+    for (const side of ["before", "custom", "after", "before and custom"]) {
+      await t.test(`does not fast-path a ${kind} parameter in ${side}`, () => {
+        const change = (text) =>
+          text
+            .replace(
+              "options?: ItemsGetItemOptionalParams) => getItem(",
+              `${parameter}) => getItem(`,
+            )
+            .replace(
+              "options?: ItemsGetItemOptionalParams) => traceOperation(",
+              `${parameter}) => traceOperation(`,
+            );
+        const result = merge(side.includes("custom") ? change(customText) : customText, {
+          baseText: side.includes("before") ? change(baseText) : baseText,
+          incomingText: side === "after" ? change(incomingText) : incomingText,
+        });
+        assert.ok(result.diagnostics.length > 0);
+      });
+    }
+  }
 });
 
 test("reports a customized classic member whose operation moves to another group", () => {

@@ -469,8 +469,9 @@ function mergeWrappedProperty(file, base, custom, incoming, callee) {
   if (
     !parameterEqual(before.parameters, current.parameters) ||
     before.parameters.length !== after.parameters.length ||
-    [...before.parameters, ...after.parameters].some(
-      (parameter) => !ts.isIdentifier(parameter.name),
+    [...before.parameters, ...current.parameters, ...after.parameters].some(
+      (parameter) =>
+        !ts.isIdentifier(parameter.name) || parameter.initializer || parameter.dotDotDotToken,
     )
   )
     return undefined;
@@ -480,6 +481,23 @@ function mergeWrappedProperty(file, base, custom, incoming, callee) {
     const newName = after.parameters[index].name.text;
     if (oldName !== newName) renames.set(oldName, newName);
   }
+  const targets = new Set(renames.values());
+  let collision = false;
+  function checkCollision(node) {
+    if (
+      ts.isIdentifier(node) &&
+      targets.has(node.text) &&
+      !(
+        (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+        ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+          node.parent.name === node)
+      )
+    )
+      collision = true;
+    ts.forEachChild(node, checkCollision);
+  }
+  checkCollision(current);
+  if (collision) return undefined;
   const normalized = renameSymbols(
     wrap("property", textOf(custom[0], custom[0].getSourceFile())),
     renames,

@@ -9,6 +9,8 @@ import test from "node:test";
 import ts from "typescript";
 import { mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
+import { planCustomization } from "./planner.mjs";
+import { validateCustomization } from "./guards.mjs";
 import { readBaseline, readTree } from "./trees.mjs";
 
 const modelFile = "models/models.ts";
@@ -422,7 +424,8 @@ export type TelephonyCampaignScheduleUnion =
         "return { type: item.type, value: item.value, custom: item.custom };",
       ),
   );
-  const result = succeeded(base, custom, tree(telephonyModels(true)));
+  const generated = tree(telephonyModels(true));
+  const result = succeeded(base, custom, generated);
   const text = result.files.get(modelFile);
   for (const [before, after] of [
     ["PhoneNumber", "TelephonyPhoneNumber"],
@@ -438,7 +441,74 @@ export type TelephonyCampaignScheduleUnion =
   }
   assert.match(text, /custom\?: boolean/);
   assert.match(text, /custom: item.custom/);
+  const planned = planCustomization({ baseGenerated: base, baseSource: custom, generated });
+  assert.deepEqual(planned.diagnostics, []);
+  const guardInputs = {
+    baseGenerated: base,
+    baseSource: custom,
+    generated,
+    source: planned.source,
+    matches: planned.matches,
+    modelRenames: planned.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  const tampered = new Map(planned.source);
+  tampered.set(modelFile, text.replace(", custom: item.custom", ""));
+  assert.ok(validateCustomization({ ...guardInputs, source: tampered }).length > 0);
 });
+
+for (const suffix of ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"]) {
+  test(`rejects an emitted model rename when its customized ${suffix} cannot follow`, () => {
+    const baseText = `
+export interface PhoneNumber { value: string; }
+export function phoneNumber${suffix}(item: PhoneNumber): any {
+  return { value: item.value };
+}`;
+    const customText = baseText.replace(
+      "return { value: item.value };",
+      "return { value: item.value, custom: true };",
+    );
+    const incomingText = baseText
+      .replaceAll("PhoneNumber", "TelephonyPhoneNumber")
+      .replaceAll("phoneNumber", "telephonyPhoneNumber");
+    for (const generated of [
+      tree(incomingText.replace("value: item.value", "value: String(item.value)")),
+      tree(incomingText.slice(0, incomingText.indexOf("export function"))),
+      tree(incomingText),
+    ]) {
+      const base = tree(baseText);
+      const custom = tree(
+        customText +
+          (generated.get(modelFile) === incomingText
+            ? `\nexport function telephonyPhoneNumber${suffix}(): any { return {}; }`
+            : ""),
+      );
+      const result = plan(base, custom, generated);
+      assert.equal(result.files.size, 0);
+      assert.ok(
+        result.diagnostics.some(
+          (item) =>
+            item.declaration === `phoneNumber${suffix}` &&
+            /cannot preserve converter/.test(item.message),
+        ),
+      );
+      if (generated.get(modelFile) !== incomingText)
+        assert.ok(
+          validateCustomization({
+            baseGenerated: base,
+            baseSource: custom,
+            generated,
+            source: generated,
+            matches: [],
+            modelRenames: new Map([
+              ["PhoneNumber", "TelephonyPhoneNumber"],
+              [`phoneNumber${suffix}`, `telephonyPhoneNumber${suffix}`],
+            ]),
+          }).length > 0,
+        );
+    }
+  });
+}
 
 test("legacy registration retention does not resurrect a model removed by customization", () => {
   const result = succeeded(
