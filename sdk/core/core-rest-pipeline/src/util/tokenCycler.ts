@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AccessToken,
-  GetTokenOptions,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { delay } from "@azure/core-util";
 
 /**
@@ -118,7 +114,8 @@ interface ClaimsEpoch {
   pending: number;
   latestSuccessfulSequence: number;
   hasSuccessfulClaims: boolean;
-  ordinaryResults: Map<number, CachedToken>;
+  successfulResult?: CachedToken;
+  ordinaryResult?: CachedToken;
   finalized: boolean;
 }
 
@@ -172,8 +169,14 @@ export function createTokenCycler(
           return worker.claimsEpoch!.latestSuccessfulSequence < worker.sequence;
         }
         // Ordinary workers associated with a claims epoch cannot update the
-        // cache until every challenge in that epoch has settled.
-        return worker.claimsEpoch === undefined;
+        // cache until every challenge in that epoch has settled. An ordinary
+        // worker that is older than the current cache owner is also obsolete
+        // and must not suppress proactive renewal.
+        return (
+          worker.claimsEpoch === undefined &&
+          worker.canJoin &&
+          worker.sequence >= latestCachedSequence
+        );
       });
     },
     get shouldRefresh(): boolean {
@@ -183,18 +186,14 @@ export function createTokenCycler(
       if (cycler.isRefreshing) {
         return false;
       }
-      if (
-        token.refreshAfterTimestamp &&
-        token.refreshAfterTimestamp < Date.now()
-      ) {
+      if (token.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
         return true;
       }
       return token.expiresOnTimestamp - options.refreshWindowInMs < Date.now();
     },
     get mustRefresh(): boolean {
       return (
-        token === null ||
-        token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
     },
   };
@@ -208,28 +207,17 @@ export function createTokenCycler(
     latestCachedSequence = value.sequence;
   }
 
-  function newestToken(
-    tokens: Map<number, CachedToken>,
-  ): CachedToken | undefined {
-    let newest: CachedToken | undefined;
-    for (const value of tokens.values()) {
-      if (newest === undefined || value.sequence > newest.sequence) {
-        newest = value;
-      }
-    }
-    return newest;
-  }
-
   function finalizeClaimsEpoch(epoch: ClaimsEpoch): void {
     if (epoch.pending !== 0 || epoch.finalized) {
       return;
     }
     epoch.finalized = true;
-    if (!epoch.hasSuccessfulClaims) {
-      const fallback = newestToken(epoch.ordinaryResults);
-      if (fallback !== undefined) {
-        cacheToken(fallback);
+    if (epoch.hasSuccessfulClaims) {
+      if (epoch.successfulResult !== undefined) {
+        cacheToken(epoch.successfulResult);
       }
+    } else if (epoch.ordinaryResult !== undefined) {
+      cacheToken(epoch.ordinaryResult);
     }
     if (activeClaimsEpoch === epoch) {
       activeClaimsEpoch = undefined;
@@ -241,7 +229,7 @@ export function createTokenCycler(
       pending: 0,
       latestSuccessfulSequence: 0,
       hasSuccessfulClaims: false,
-      ordinaryResults: new Map(),
+
       finalized: false,
     };
     activeClaimsEpoch = epoch;
@@ -252,27 +240,50 @@ export function createTokenCycler(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
-    const requestIdentityKey = getTokenRequestIdentityKey(
-      scopes,
-      getTokenOptions,
-    );
+    const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
     const isClaimsRefresh = Boolean(getTokenOptions.claims);
     const existingWorker = refreshWorkers.get(requestIdentityKey);
+    if (
+      existingWorker !== undefined &&
+      !existingWorker.isClaimsRefresh &&
+      existingWorker.sequence < latestCachedSequence
+    ) {
+      existingWorker.canJoin = false;
+    }
     if (existingWorker?.canJoin) {
       // A new claims challenge can rejoin a still-pending claims worker after
       // another challenge has completed. Treat that rejoin as the current
       // cache owner so the shared worker's eventual result is not discarded as
-      // stale.
+      // stale, and invalidate ordinary workers that could otherwise replace
+      // the challenged token.
       if (isClaimsRefresh && existingWorker.isClaimsRefresh) {
+        let epoch = existingWorker.claimsEpoch!;
+        if (epoch.hasSuccessfulClaims) {
+          // This is a new challenge after an earlier challenge in the epoch
+          // succeeded. Move the still-pending worker into a new epoch so
+          // ordinary workers remain deferred until the rejoined challenge
+          // settles.
+          epoch.pending--;
+          finalizeClaimsEpoch(epoch);
+          epoch = startClaimsEpoch();
+          epoch.pending++;
+          existingWorker.claimsEpoch = epoch;
+        }
         existingWorker.sequence = ++nextRefreshSequence;
+        for (const activeWorker of refreshWorkers.values()) {
+          if (!activeWorker.isClaimsRefresh) {
+            activeWorker.claimsEpoch = epoch;
+            activeWorker.canJoin = false;
+          }
+        }
       }
       return existingWorker.promise;
     }
     const claimsEpoch = isClaimsRefresh
-      ? (activeClaimsEpoch ?? startClaimsEpoch())
-      : activeClaimsEpoch?.hasSuccessfulClaims
-        ? undefined
-        : activeClaimsEpoch;
+      ? activeClaimsEpoch?.hasSuccessfulClaims
+        ? startClaimsEpoch()
+        : (activeClaimsEpoch ?? startClaimsEpoch())
+      : activeClaimsEpoch;
     const worker: RefreshWorker = {
       promise: Promise.resolve(undefined as never),
       sequence: ++nextRefreshSequence,
@@ -312,15 +323,13 @@ export function createTokenCycler(
         if (worker.isClaimsRefresh) {
           const epoch = worker.claimsEpoch!;
           epoch.pending--;
-          epoch.hasSuccessfulClaims = true;
-          if (worker.sequence > epoch.latestSuccessfulSequence) {
+          if (!epoch.hasSuccessfulClaims || worker.sequence > epoch.latestSuccessfulSequence) {
+            epoch.hasSuccessfulClaims = true;
             epoch.latestSuccessfulSequence = worker.sequence;
+            epoch.successfulResult = result;
             cacheToken(result);
             for (const activeWorker of refreshWorkers.values()) {
-              if (
-                activeWorker.claimsEpoch === epoch &&
-                !activeWorker.isClaimsRefresh
-              ) {
+              if (activeWorker.claimsEpoch === epoch && !activeWorker.isClaimsRefresh) {
                 activeWorker.canJoin = false;
               }
             }
@@ -332,8 +341,13 @@ export function createTokenCycler(
             if (!epoch.hasSuccessfulClaims) {
               cacheToken(result);
             }
-          } else {
-            epoch.ordinaryResults.set(worker.sequence, result);
+          } else if (!epoch.hasSuccessfulClaims) {
+            if (
+              epoch.ordinaryResult === undefined ||
+              result.sequence > epoch.ordinaryResult.sequence
+            ) {
+              epoch.ordinaryResult = result;
+            }
           }
         } else {
           cacheToken(result);
@@ -360,10 +374,7 @@ export function createTokenCycler(
     return promise;
   }
 
-  return async (
-    scopes: string | string[],
-    tokenOptions: GetTokenOptions,
-  ): Promise<AccessToken> => {
+  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
     const hasClaimChallenge = Boolean(tokenOptions.claims);
     const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
@@ -371,8 +382,7 @@ export function createTokenCycler(
       token = null;
     }
 
-    const mustRefresh =
-      tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
+    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
     if (mustRefresh) {
       return refresh(scopes, tokenOptions);
     }

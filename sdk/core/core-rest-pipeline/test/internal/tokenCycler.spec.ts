@@ -2,19 +2,8 @@
 // Licensed under the MIT License.
 
 import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import {
-  describe,
-  it,
-  assert,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vitest";
-import {
-  createTokenCycler,
-  DEFAULT_CYCLER_OPTIONS,
-} from "../../src/util/tokenCycler.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { createTokenCycler, DEFAULT_CYCLER_OPTIONS } from "../../src/util/tokenCycler.js";
 
 describe("tokenCycler", function () {
   beforeEach(() => {
@@ -39,9 +28,7 @@ describe("tokenCycler", function () {
 
     // token is null, so mustRefresh is true. beginRefresh gets refreshTimeout = Date.now().
     // Since Date.now() >= refreshTimeout, it goes to else branch, calls getToken which returns null, throws.
-    await expect(getAccessToken(["scope"], {})).rejects.toThrow(
-      "Failed to refresh access token.",
-    );
+    await expect(getAccessToken(["scope"], {})).rejects.toThrow("Failed to refresh access token.");
   });
 
   const requestIdentityCases: Array<{
@@ -102,23 +89,17 @@ describe("tokenCycler", function () {
 
   for (const testCase of requestIdentityCases) {
     it(`isolates overlapping refreshes with different ${testCase.name} values`, async function () {
-      const resolvers: Array<
-        (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
-      > = [];
+      const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> =
+        [];
       const getToken = vi.fn<TokenCredential["getToken"]>(
         () =>
-          new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-            (resolve) => {
-              resolvers.push(resolve);
-            },
-          ),
+          new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+            resolvers.push(resolve);
+          }),
       );
       const getAccessToken = createTokenCycler({ getToken });
       const first = getAccessToken(testCase.firstScopes, testCase.firstOptions);
-      const second = getAccessToken(
-        testCase.secondScopes,
-        testCase.secondOptions,
-      );
+      const second = getAccessToken(testCase.secondScopes, testCase.secondOptions);
       expect(getToken).toHaveBeenCalledTimes(2);
       resolvers[1]!({
         token: "second",
@@ -133,21 +114,14 @@ describe("tokenCycler", function () {
     });
 
     it(`deduplicates matching ${testCase.name} values`, async function () {
-      let resolveToken!: (
-        token: Awaited<ReturnType<TokenCredential["getToken"]>>,
-      ) => void;
-      const token = new Promise<
-        Awaited<ReturnType<TokenCredential["getToken"]>>
-      >((resolve) => {
+      let resolveToken!: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+      const token = new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
         resolveToken = resolve;
       });
       const getToken = vi.fn<TokenCredential["getToken"]>(() => token);
       const getAccessToken = createTokenCycler({ getToken });
       const first = getAccessToken(testCase.firstScopes, testCase.firstOptions);
-      const matching = getAccessToken(
-        testCase.firstScopes,
-        testCase.firstOptions,
-      );
+      const matching = getAccessToken(testCase.firstScopes, testCase.firstOptions);
       expect(getToken).toHaveBeenCalledOnce();
       resolveToken!({
         token: "shared",
@@ -159,16 +133,12 @@ describe("tokenCycler", function () {
   }
 
   it("prefers the newest claims token when an older worker completes last", async function () {
-    const resolvers: Array<
-      (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
-    > = [];
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
       () =>
-        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-          (resolve) => {
-            resolvers.push(resolve);
-          },
-        ),
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
     );
     const getAccessToken = createTokenCycler({ getToken });
     const older = getAccessToken(["scope"], {
@@ -190,20 +160,45 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
-  it("uses an ordinary result as fallback when all claims refreshes fail", async function () {
+  it("retains a successful claims token when a newer claims refresh fails", async function () {
     const resolvers: Array<{
-      resolve: (
-        token: Awaited<ReturnType<TokenCredential["getToken"]>>,
-      ) => void;
+      resolve: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
       reject: (reason?: unknown) => void;
     }> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
       () =>
-        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-          (resolve, reject) => {
-            resolvers.push({ resolve, reject });
-          },
-        ),
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve, reject) => {
+          resolvers.push({ resolve, reject });
+        }),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+    const firstClaims = getAccessToken(["scope"], { claims: "claims-a" });
+    const newerClaims = getAccessToken(["scope"], { claims: "claims-b" });
+
+    resolvers[0]!.resolve({
+      token: "claims-a",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(firstClaims).resolves.toMatchObject({ token: "claims-a" });
+    resolvers[1]!.reject(new Error("newer claims failed"));
+    await expect(newerClaims).rejects.toThrow("newer claims failed");
+
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({
+      token: "claims-a",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
+  it("uses an ordinary result as fallback when all claims refreshes fail", async function () {
+    const resolvers: Array<{
+      resolve: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+      reject: (reason?: unknown) => void;
+    }> = [];
+    const getToken = vi.fn<TokenCredential["getToken"]>(
+      () =>
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve, reject) => {
+          resolvers.push({ resolve, reject });
+        }),
     );
     const getAccessToken = createTokenCycler({ getToken });
     const claims = getAccessToken(["scope"], { claims: "claims" });
@@ -223,16 +218,12 @@ describe("tokenCycler", function () {
   });
 
   it("does not let an old worker remove a replacement worker", async function () {
-    const resolvers: Array<
-      (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
-    > = [];
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
       () =>
-        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-          (resolve) => {
-            resolvers.push(resolve);
-          },
-        ),
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
     );
     const getAccessToken = createTokenCycler({ getToken });
     const oldWorker = getAccessToken(["scope"], {});
@@ -258,16 +249,12 @@ describe("tokenCycler", function () {
   });
 
   it("restores cache ownership when a claims worker is rejoined", async function () {
-    const resolvers: Array<
-      (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
-    > = [];
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
       () =>
-        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-          (resolve) => {
-            resolvers.push(resolve);
-          },
-        ),
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
     );
     const getAccessToken = createTokenCycler({ getToken });
     const firstClaims = getAccessToken(["scope"], { claims: "claims-a" });
@@ -288,16 +275,12 @@ describe("tokenCycler", function () {
   });
 
   it("does not let invalidated workers suppress proactive renewal", async function () {
-    const resolvers: Array<
-      (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
-    > = [];
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
       () =>
-        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
-          (resolve) => {
-            resolvers.push(resolve);
-          },
-        ),
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
     );
     const getAccessToken = createTokenCycler({ getToken });
     const oldWorker = getAccessToken(["scope"], {});
@@ -323,6 +306,77 @@ describe("tokenCycler", function () {
       });
     });
     await expect(oldWorker).resolves.toMatchObject({ token: "old" });
+  });
+
+  it("does not let a stale ordinary worker suppress another tenant's proactive refresh", async function () {
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
+    const getToken = vi.fn<TokenCredential["getToken"]>(
+      () =>
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const tenantA = getAccessToken(["scope"], { tenantId: "tenant-a" });
+    const tenantB = getAccessToken(["scope"], { tenantId: "tenant-b" });
+    resolvers[1]!({
+      token: "tenant-b",
+      expiresOnTimestamp: Date.now() + 300_000,
+      refreshAfterTimestamp: Date.now() - 1,
+    });
+    await expect(tenantB).resolves.toMatchObject({ token: "tenant-b" });
+
+    const proactive = getAccessToken(["scope"], { tenantId: "tenant-b" });
+    expect(getToken).toHaveBeenCalledTimes(3);
+    await expect(proactive).resolves.toMatchObject({ token: "tenant-b" });
+    resolvers[2]!({
+      token: "tenant-b-renewed",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    resolvers[0]!({
+      token: "tenant-a",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(tenantA).resolves.toMatchObject({ token: "tenant-a" });
+
+    await expect(getAccessToken(["scope"], { tenantId: "tenant-b" })).resolves.toMatchObject({
+      token: "tenant-b-renewed",
+    });
+  });
+
+  it("associates ordinary refreshes with a newer claims challenge", async function () {
+    const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
+    const getToken = vi.fn<TokenCredential["getToken"]>(
+      () =>
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve) => {
+          resolvers.push(resolve);
+        }),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimsA = getAccessToken(["scope"], { claims: "claims-a" });
+    const claimsB = getAccessToken(["scope"], { claims: "claims-b" });
+    resolvers[1]!({ token: "claims-b", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsB).resolves.toMatchObject({ token: "claims-b" });
+
+    const claimsC = getAccessToken(["scope"], { claims: "claims-c" });
+    const ordinary = getAccessToken(["scope"], {});
+    expect(getToken).toHaveBeenCalledTimes(4);
+
+    resolvers[3]!({
+      token: "ordinary",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(ordinary).resolves.toMatchObject({ token: "ordinary" });
+    resolvers[2]!({ token: "claims-c", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsC).resolves.toMatchObject({ token: "claims-c" });
+    resolvers[0]!({ token: "claims-a", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(claimsA).resolves.toMatchObject({ token: "claims-a" });
+
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({
+      token: "claims-c",
+    });
   });
 
   it("retries in the while loop when getToken throws before timeout, then succeeds", async function () {
