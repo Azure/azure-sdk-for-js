@@ -1268,4 +1268,11 @@ export type {
   LiveServerEventLiveTransportAnswered,
   LiveServerEventLiveTransportFailed,
   LiveTransportCallError,
+  VoiceConversationEngineType,
+  VoiceAgentGreetingMode,
+  VoiceAgentInterimResponseType,
+  VoiceAgentToolType,
+  VoiceAgentConversationItemTypeExtension,
+  VoiceAgentRtcCallErrorType,
+  VoiceAgentClientEventTypeExtension,
 } from "./models.js";
