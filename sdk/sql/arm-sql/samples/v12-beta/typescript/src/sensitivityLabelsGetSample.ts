@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the sensitivity label of a given column
  *
  * @summary gets the sensitivity label of a given column
- * x-ms-original-file: 2025-08-01-preview/ColumnSensitivityLabelGet.json
+ * x-ms-original-file: 2026-08-01-preview/ColumnSensitivityLabelGet.json
  */
 async function getsTheSensitivityLabelOfAGivenColumn(): Promise<void> {
   const credential = new DefaultAzureCredential();

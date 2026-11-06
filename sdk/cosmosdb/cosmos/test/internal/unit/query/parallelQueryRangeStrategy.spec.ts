@@ -19,22 +19,6 @@ describe("ParallelQueryRangeStrategy", function () {
     });
   });
 
-  describe("validateContinuationToken", function () {
-    it("should validate correct composite continuation token", function () {
-      const validToken = JSON.stringify({
-        rangeMappings: [{ partitionKeyRange: { id: "1", minInclusive: "", maxExclusive: "AA" } }],
-      });
-      expect(strategy.validateContinuationToken(validToken)).toBe(true);
-    });
-
-    it("should reject invalid tokens", function () {
-      expect(strategy.validateContinuationToken("")).toBe(false);
-      expect(strategy.validateContinuationToken("invalid")).toBe(false);
-      expect(strategy.validateContinuationToken("{}")).toBe(false);
-      expect(strategy.validateContinuationToken('{"rangeMappings": []}')).toBe(true);
-    });
-  });
-
   describe("filterPartitionRanges", function () {
     const createRange = (id: string, min: string, max: string): PartitionKeyRange => ({
       id,

@@ -33,6 +33,7 @@ export interface TdeCertificatesOperations {
     options?: TdeCertificatesCreateOptionalParams,
   ) => Promise<void>;
 }
+
 function _getTdeCertificates(context: SqlManagementContext) {
   return {
     create: (
@@ -61,6 +62,7 @@ function _getTdeCertificates(context: SqlManagementContext) {
     },
   };
 }
+
 export function _getTdeCertificatesOperations(
   context: SqlManagementContext,
 ): TdeCertificatesOperations {

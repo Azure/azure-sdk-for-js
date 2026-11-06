@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
  * @summary creates or updates a database's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAzureMonitorAuditingCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAzureMonitorAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParam
  * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
  * @summary creates or updates a database's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseBlobAuditingCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseBlobAuditingCreateMax.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,7 +61,7 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters(): Pro
  * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
  * @summary creates or updates a database's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseBlobAuditingCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseBlobAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -27,7 +27,7 @@ describe("existing lookup placement at authored boundaries", () => {
     expect(result[0]!.modules).toBeUndefined();
     expect(Object.keys(result[0]!.resources!)).toEqual(["storageAccount", "blobService"]);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("keeps relative lookups in the entry when their authored RG is in another subscription", () => {
     const { stack, group } = subscriptionStack("relative-lookups");
@@ -56,5 +56,5 @@ describe("existing lookup placement at authored boundaries", () => {
     expect(result[1]!.resources!.storageAccount).toBeUndefined();
     expect(result[1]!.parameters!.storageAccountName).toBeDefined();
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 });

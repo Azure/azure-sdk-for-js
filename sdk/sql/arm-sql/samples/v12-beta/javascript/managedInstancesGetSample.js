@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGet.json
  */
 async function getManagedInstance() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getManagedInstance() {
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGetWhileUpdating.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGetWhileUpdating.json
  */
 async function getManagedInstanceWhileResourceIsUpdating() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getManagedInstanceWhileResourceIsUpdating() {
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGetWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGetWithExpandEqualsAdministrators.json
  */
 async function getManagedInstanceWithExpandAdministratorsOrActivedirectory() {
   const credential = new DefaultAzureCredential();
