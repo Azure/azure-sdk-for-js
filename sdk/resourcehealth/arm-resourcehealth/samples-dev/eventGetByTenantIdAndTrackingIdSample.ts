@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to service health event in the tenant by event tracking id
  *
  * @summary service health event in the tenant by event tracking id
- * x-ms-original-file: 2025-05-01/Event_GetByTenantIdAndTrackingId.json
+ * x-ms-original-file: 2026-07-01/Event_GetByTenantIdAndTrackingId.json
  */
 async function eventByTenantIdAndTrackingId(): Promise<void> {
   const credential = new DefaultAzureCredential();

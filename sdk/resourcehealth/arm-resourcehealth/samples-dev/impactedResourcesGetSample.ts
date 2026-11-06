@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specific impacted resource in the subscription by an event.
  *
  * @summary gets the specific impacted resource in the subscription by an event.
- * x-ms-original-file: 2025-05-01/ImpactedResources_Get.json
+ * x-ms-original-file: 2026-07-01/ImpactedResources_Get.json
  */
 async function impactedResourcesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

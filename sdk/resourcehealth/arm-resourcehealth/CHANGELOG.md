@@ -1,5 +1,13 @@
 # Release History
 
+## 5.1.0 (2026-10-27)
+
+### Features Added
+  - Added Interface ApiOperationLink
+  - Interface Event_2 has a new optional parameter advisorRecommendations
+  - Interface EventProperties has a new optional parameter advisorRecommendations
+  - Enum KnownVersions has a new value V20260701
+
 ## 5.0.0 (2026-07-16)
 
 ### Features Added
