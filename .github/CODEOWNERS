@@ -997,7 +997,7 @@
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
 /.github/skills/                         @Azure/azsdk-cli @Azure/azure-sdk-for-js-core
 
-/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng @j7nw4r
 /.github/copilot-instructions.md         @praveenkuttappan
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @Azure/azure-sdk-eng
 
