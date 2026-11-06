@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided cluster manager.
  *
  * @summary delete the provided cluster manager.
- * x-ms-original-file: 2026-07-01/ClusterManagers_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/ClusterManagers_Delete.json
  */
 async function deleteClusterManager(): Promise<void> {
   const credential = new DefaultAzureCredential();

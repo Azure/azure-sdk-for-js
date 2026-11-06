@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new layer 3 (L3) network or update the properties of the existing network.
  *
  * @summary create a new layer 3 (L3) network or update the properties of the existing network.
- * x-ms-original-file: 2026-07-01/L3Networks_Create.json
+ * x-ms-original-file: 2026-08-01-preview/L3Networks_Create.json
  */
 async function createOrUpdateL3Network(): Promise<void> {
   const credential = new DefaultAzureCredential();

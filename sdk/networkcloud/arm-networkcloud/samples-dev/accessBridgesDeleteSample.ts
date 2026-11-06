@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified access bridge.
  *
  * @summary delete the specified access bridge.
- * x-ms-original-file: 2026-07-01/AccessBridges_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/AccessBridges_Delete.json
  */
 async function deleteAccessBridge(): Promise<void> {
   const credential = new DefaultAzureCredential();

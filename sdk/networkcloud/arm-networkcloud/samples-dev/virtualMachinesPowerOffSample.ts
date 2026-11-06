@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to power off the provided virtual machine.
  *
  * @summary power off the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_PowerOff.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_PowerOff.json
  */
 async function powerOffVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

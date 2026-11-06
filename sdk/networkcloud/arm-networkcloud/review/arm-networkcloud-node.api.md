@@ -1154,6 +1154,7 @@ export interface Cluster extends TrackedResource {
     computeRackDefinitions?: RackDefinition[];
     readonly detailedStatus?: ClusterDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly edgeManagementServiceCaCertificate?: CertificateInfo;
     readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksExtendedLocation?: ExtendedLocation;
@@ -1249,6 +1250,7 @@ export interface ClusterManager extends TrackedResource {
     readonly managerExtendedLocation?: ExtendedLocation;
     readonly provisioningState?: ClusterManagerProvisioningState;
     readonly relayConfiguration?: ClusterManagerRelayConfiguration;
+    rolloutRing?: number;
     vmSize?: string;
 }
 
@@ -1261,7 +1263,13 @@ export type ClusterManagerDetailedStatus = string;
 // @public
 export interface ClusterManagerPatchParameters {
     identity?: ManagedServiceIdentity;
+    properties?: ClusterManagerPatchProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ClusterManagerPatchProperties {
+    rolloutRing?: number;
 }
 
 // @public
@@ -1276,6 +1284,7 @@ export interface ClusterManagerProperties {
     readonly managerExtendedLocation?: ExtendedLocation;
     readonly provisioningState?: ClusterManagerProvisioningState;
     readonly relayConfiguration?: ClusterManagerRelayConfiguration;
+    rolloutRing?: number;
     vmSize?: string;
 }
 
@@ -1456,6 +1465,7 @@ export interface ClusterProperties {
     computeRackDefinitions?: RackDefinition[];
     readonly detailedStatus?: ClusterDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly edgeManagementServiceCaCertificate?: CertificateInfo;
     readonly hybridAksExtendedLocation?: ExtendedLocation;
     readonly lastSuccessfulVersionUpdateTime?: Date;
     readonly managedCredentials?: string[];
@@ -1806,6 +1816,15 @@ export interface ControlPlaneNodePatchConfiguration {
 export type CreatedByType = string;
 
 // @public
+export interface CyberArkSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+    applicationId: string;
+    folderName?: string;
+    objectNameTemplate?: string;
+    provider: "CyberArk";
+    safeName: string;
+}
+
+// @public
 export type DefaultGateway = string;
 
 // @public
@@ -1900,6 +1919,18 @@ export interface HardwareValidationStatus {
 }
 
 // @public
+export interface HashiCorpVaultSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+    applicationRoleId?: string;
+    authenticationMethod: VaultAuthenticationMethod;
+    authenticationMountPath?: string;
+    keyValueVersion?: KeyValueVersion;
+    mountPath?: string;
+    namespace?: string;
+    pathTemplate?: string;
+    provider: "HashiCorpVault";
+}
+
+// @public
 export type HugepagesSize = string;
 
 // @public
@@ -1972,8 +2003,12 @@ export interface KeySetUserStatus {
 }
 
 // @public
+export type KeyValueVersion = string;
+
+// @public
 export enum KnownAccessBridgeAllowedName {
     Bastion = "Bastion",
+    EdgeManagement = "EdgeManagement",
     PrivateVault = "PrivateVault",
     StorageDashboard = "StorageDashboard"
 }
@@ -2469,6 +2504,12 @@ export enum KnownIpAllocationType {
 }
 
 // @public
+export enum KnownKeyValueVersion {
+    V1 = "V1",
+    V2 = "V2"
+}
+
+// @public
 export enum KnownKubernetesClusterDetailedStatus {
     Available = "Available",
     Error = "Error",
@@ -2719,6 +2760,13 @@ export enum KnownRuntimeProtectionEnforcementLevel {
 }
 
 // @public
+export enum KnownSecretArchiveProviderType {
+    CyberArk = "CyberArk",
+    HashiCorpVault = "HashiCorpVault",
+    OpenBao = "OpenBao"
+}
+
+// @public
 export enum KnownSecurityRuleDirection {
     Inbound = "Inbound",
     Outbound = "Outbound"
@@ -2802,9 +2850,18 @@ export enum KnownValidationThresholdType {
 }
 
 // @public
+export enum KnownVaultAuthenticationMethod {
+    AppRole = "AppRole",
+    ClientCertificate = "ClientCertificate"
+}
+
+// @public
 export enum KnownVersions {
     V20250901 = "2025-09-01",
-    V20260701 = "2026-07-01"
+    V20260101Preview = "2026-01-01-preview",
+    V20260501Preview = "2026-05-01-preview",
+    V20260701 = "2026-07-01",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
@@ -3706,6 +3763,18 @@ export interface NodePoolAdministratorConfigurationPatch {
 }
 
 // @public
+export interface OpenBaoSecretArchiveProviderConfiguration extends SecretArchiveProviderConfiguration {
+    applicationRoleId?: string;
+    authenticationMethod: VaultAuthenticationMethod;
+    authenticationMountPath?: string;
+    keyValueVersion?: KeyValueVersion;
+    mountPath?: string;
+    namespace?: string;
+    pathTemplate?: string;
+    provider: "OpenBao";
+}
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -4032,7 +4101,19 @@ export interface RuntimeProtectionStatus {
 }
 
 // @public
+export interface SecretArchiveProviderConfiguration {
+    provider: SecretArchiveProviderType;
+}
+
+// @public
+export type SecretArchiveProviderConfigurationUnion = CyberArkSecretArchiveProviderConfiguration | HashiCorpVaultSecretArchiveProviderConfiguration | OpenBaoSecretArchiveProviderConfiguration | SecretArchiveProviderConfiguration;
+
+// @public
+export type SecretArchiveProviderType = string;
+
+// @public
 export interface SecretArchiveReference {
+    readonly encryptionPublicKey?: string;
     readonly keyVaultId?: string;
     readonly keyVaultUri?: string;
     readonly secretName?: string;
@@ -4042,6 +4123,8 @@ export interface SecretArchiveReference {
 // @public
 export interface SecretArchiveSettings {
     associatedIdentity?: IdentitySelector;
+    encryptionPublicKey?: string;
+    providerConfiguration?: SecretArchiveProviderConfigurationUnion;
     vaultUri?: string;
 }
 
@@ -4518,6 +4601,9 @@ export interface ValidationThresholdPatch {
 
 // @public
 export type ValidationThresholdType = string;
+
+// @public
+export type VaultAuthenticationMethod = string;
 
 // @public
 export interface VirtualMachine extends TrackedResource {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of agent pools for the provided Kubernetes cluster.
  *
  * @summary get a list of agent pools for the provided Kubernetes cluster.
- * x-ms-original-file: 2026-07-01/AgentPools_ListByKubernetesCluster.json
+ * x-ms-original-file: 2026-08-01-preview/AgentPools_ListByKubernetesCluster.json
  */
 async function listAgentPoolsOfTheKubernetesCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

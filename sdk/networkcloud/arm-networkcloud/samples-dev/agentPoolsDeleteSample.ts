@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided Kubernetes cluster agent pool.
  *
  * @summary delete the provided Kubernetes cluster agent pool.
- * x-ms-original-file: 2026-07-01/AgentPools_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/AgentPools_Delete.json
  */
 async function deleteKubernetesClusterAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

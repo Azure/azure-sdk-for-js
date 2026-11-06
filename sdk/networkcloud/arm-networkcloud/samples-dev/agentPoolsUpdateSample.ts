@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the properties of the provided Kubernetes cluster agent pool, or update the tags associated with the Kubernetes cluster agent pool. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided Kubernetes cluster agent pool, or update the tags associated with the Kubernetes cluster agent pool. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/AgentPools_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/AgentPools_Patch.json
  */
 async function patchKubernetesClusterAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of layer 3 (L3) networks in the provided resource group.
  *
  * @summary get a list of layer 3 (L3) networks in the provided resource group.
- * x-ms-original-file: 2026-07-01/L3Networks_ListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/L3Networks_ListByResourceGroup.json
  */
 async function listL3NetworksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

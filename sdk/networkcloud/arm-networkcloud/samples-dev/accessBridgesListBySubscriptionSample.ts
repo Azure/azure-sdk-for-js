@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of access bridges in the provided subscription.
  *
  * @summary get a list of access bridges in the provided subscription.
- * x-ms-original-file: 2026-07-01/AccessBridges_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/AccessBridges_ListBySubscription.json
  */
 async function listAccessBridgesForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

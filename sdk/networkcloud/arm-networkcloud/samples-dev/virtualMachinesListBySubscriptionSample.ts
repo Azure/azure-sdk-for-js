@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of virtual machines in the provided subscription.
  *
  * @summary get a list of virtual machines in the provided subscription.
- * x-ms-original-file: 2026-07-01/VirtualMachines_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_ListBySubscription.json
  */
 async function listVirtualMachinesForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

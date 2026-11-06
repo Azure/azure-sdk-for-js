@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of layer 2 (L2) networks in the provided subscription.
  *
  * @summary get a list of layer 2 (L2) networks in the provided subscription.
- * x-ms-original-file: 2026-07-01/L2Networks_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/L2Networks_ListBySubscription.json
  */
 async function listL2NetworksForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

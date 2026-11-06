@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of the provided access bridge.
  *
  * @summary get the properties of the provided access bridge.
- * x-ms-original-file: 2026-07-01/AccessBridges_Get.json
+ * x-ms-original-file: 2026-08-01-preview/AccessBridges_Get.json
  */
 async function getAccessBridge(): Promise<void> {
   const credential = new DefaultAzureCredential();

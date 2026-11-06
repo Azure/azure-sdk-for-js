@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update properties of the provided access bridge, or update tags associated with the access bridge. Properties and tag updates can be done independently.
  *
  * @summary update properties of the provided access bridge, or update tags associated with the access bridge. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/AccessBridges_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/AccessBridges_Patch.json
  */
 async function patchAccessBridge(): Promise<void> {
   const credential = new DefaultAzureCredential();

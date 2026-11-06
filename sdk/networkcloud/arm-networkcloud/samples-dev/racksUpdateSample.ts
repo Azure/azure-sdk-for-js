@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
  *
  * @summary patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/Racks_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/Racks_Patch.json
  */
 async function patchRack(): Promise<void> {
   const credential = new DefaultAzureCredential();

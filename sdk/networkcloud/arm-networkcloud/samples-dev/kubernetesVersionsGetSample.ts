@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve the Kubernetes version resource that describes the available Kubernetes versions for deployment.
  *
  * @summary retrieve the Kubernetes version resource that describes the available Kubernetes versions for deployment.
- * x-ms-original-file: 2026-07-01/KubernetesVersions_Get.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesVersions_Get.json
  */
 async function getKubernetesVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new trunked network or update the properties of the existing trunked network.
  *
  * @summary create a new trunked network or update the properties of the existing trunked network.
- * x-ms-original-file: 2026-07-01/TrunkedNetworks_Create.json
+ * x-ms-original-file: 2026-08-01-preview/TrunkedNetworks_Create.json
  */
 async function createOrUpdateTrunkedNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
