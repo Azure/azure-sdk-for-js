@@ -152,21 +152,3 @@ export function marketplaceDetailsCreateOrUpdateSerializer(
     offerDetails: offerDetailsSerializer(item["offerDetails"]),
   };
 }
-
-/** Marketplace details for an organization */
-export interface MarketplaceDetailsUpdate {
-  /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId?: string;
-  /** Marketplace SaaS Resource Id */
-  saasResourceId?: string;
-  /** Offer details for the marketplace that is selected by the user */
-  offerDetails: OfferDetails;
-}
-
-export function marketplaceDetailsUpdateSerializer(item: MarketplaceDetailsUpdate): any {
-  return {
-    subscriptionId: item["subscriptionId"],
-    saasResourceId: item["saasResourceId"],
-    offerDetails: offerDetailsSerializer(item["offerDetails"]),
-  };
-}

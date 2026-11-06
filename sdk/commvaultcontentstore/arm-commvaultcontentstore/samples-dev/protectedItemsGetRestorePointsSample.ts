@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to limits used for creation of resources.
  *
  * @summary limits used for creation of resources.
- * x-ms-original-file: 2026-09-30/ProtectedItems_GetRestorePoints_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/ProtectedItems_GetRestorePoints_MaximumSet_Gen.json
  */
 async function protectedItemsGetRestorePointsMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
