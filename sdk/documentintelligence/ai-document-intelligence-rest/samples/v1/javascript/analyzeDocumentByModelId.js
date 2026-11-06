@@ -37,16 +37,16 @@ async function main() {
   const documents = analyzeResult?.documents;
 
   const document = documents && documents[0];
-  if (!document) {
+  if (document) {
+    console.log(
+      "Extracted document:",
+      document.docType,
+      `(confidence: ${document.confidence || "<undefined>"})`,
+    );
+    console.log("Fields:", document.fields);
+  } else {
     throw new Error("Expected at least one document in the result.");
   }
-
-  console.log(
-    "Extracted document:",
-    document.docType,
-    `(confidence: ${document.confidence || "<undefined>"})`,
-  );
-  console.log("Fields:", document.fields);
 }
 
 main().catch((error) => {
