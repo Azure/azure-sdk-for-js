@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-datatransfer": ["../src/index.ts"],
+      "@azure/arm-datatransfer/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
