@@ -242,14 +242,14 @@ export interface HcpOpenShiftClusterProperties {
    * Valid values are in minutes and from 0 to 10080 minutes (1 week).
    * 0 means that the MachinePool can be drained without any time limitation.
    *
-   * This is the value is used a default for all NodePools. It can be overridden
+   * This value is used as a default for all NodePools. It can be overridden
    * by specifying nodeDrainTimeoutMinutes for a given NodePool
    */
   nodeDrainTimeoutMinutes?: number;
   /** OpenShift internal image registry */
   clusterImageRegistry?: ClusterImageRegistryProfile;
   /** Status of the cluster resource */
-  readonly status?: ResourceStatus;
+  readonly status?: ClusterResourceStatus;
   /** Cryptographic restrictions for kernel and userspace libraries */
   cryptoRestrictions?: CryptoRestrictions;
 }
@@ -300,7 +300,7 @@ export function hcpOpenShiftClusterPropertiesDeserializer(
     clusterImageRegistry: !item["clusterImageRegistry"]
       ? item["clusterImageRegistry"]
       : clusterImageRegistryProfileDeserializer(item["clusterImageRegistry"]),
-    status: !item["status"] ? item["status"] : resourceStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : clusterResourceStatusDeserializer(item["status"]),
     cryptoRestrictions: item["cryptoRestrictions"],
   };
 }
@@ -347,6 +347,9 @@ export interface VersionProfile {
    * Each version belongs to only a single set.
    *
    * If not specified, the default value is 'stable'.
+   *
+   * This property is intended to be updateable, but that support is not yet
+   * complete. Until then, changing this value after cluster creation is rejected.
    */
   channelGroup?: string;
 }
@@ -367,8 +370,8 @@ export interface DnsProfile {
   /** BaseDomain is the base DNS domain of the cluster. */
   readonly baseDomain?: string;
   /**
-   * BaseDomainPrefix is the unique name of the cluster representing the OpenShift's cluster name.
-   * BaseDomainPrefix is the name that will appear in the cluster's DNS, provisioned cloud providers resources
+   * BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to
+   * configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain".
    */
   baseDomainPrefix?: string;
 }
@@ -539,7 +542,7 @@ export type IngressType = string;
 /** Azure specific configuration */
 export interface PlatformProfile {
   /**
-   * Resource group name to put cluster resources
+   * The name of the resource group to put cluster resources in.
    *
    * If not specified then a unique name is generated from the
    * following pattern
@@ -552,7 +555,7 @@ export interface PlatformProfile {
    */
   managedResourceGroup?: string;
   /**
-   * The Azure resource ID of the worker subnet
+   * The Azure resource ID of the worker subnet.
    * Note that a subnet cannot be reused between ARO-HCP Clusters.
    */
   subnetId: string;
@@ -574,6 +577,11 @@ export interface PlatformProfile {
   /** The configuration that the operators of the cluster have to authenticate to Azure */
   operatorsAuthentication: OperatorsAuthenticationProfile;
   /**
+   * Azure Container Registry configuration for authenticating image pulls
+   * on the cluster's worker nodes.
+   */
+  containerRegistry?: ContainerRegistryProfile;
+  /**
    * URL for the OIDC provider to be used for authentication
    * to authenticate against user Azure cloud account
    */
@@ -590,6 +598,9 @@ export function platformProfileSerializer(item: PlatformProfile): any {
     operatorsAuthentication: operatorsAuthenticationProfileSerializer(
       item["operatorsAuthentication"],
     ),
+    containerRegistry: !item["containerRegistry"]
+      ? item["containerRegistry"]
+      : containerRegistryProfileSerializer(item["containerRegistry"]),
   };
 }
 
@@ -603,6 +614,9 @@ export function platformProfileDeserializer(item: any): PlatformProfile {
     operatorsAuthentication: operatorsAuthenticationProfileDeserializer(
       item["operatorsAuthentication"],
     ),
+    containerRegistry: !item["containerRegistry"]
+      ? item["containerRegistry"]
+      : containerRegistryProfileDeserializer(item["containerRegistry"]),
     issuerUrl: item["issuerUrl"],
   };
 }
@@ -696,17 +710,37 @@ export function userAssignedIdentitiesProfileDeserializer(
 }
 
 /**
+ * Azure Container Registry configuration for a cluster.
+ * Configures how worker nodes authenticate container image pulls
+ * from Azure Container Registry (ACR).
+ */
+export interface ContainerRegistryProfile {
+  /** The user-assigned managed identity used for container registry image pulls. */
+  managedIdentity?: string;
+}
+
+export function containerRegistryProfileSerializer(item: ContainerRegistryProfile): any {
+  return { managedIdentity: item["managedIdentity"] };
+}
+
+export function containerRegistryProfileDeserializer(item: any): ContainerRegistryProfile {
+  return {
+    managedIdentity: item["managedIdentity"],
+  };
+}
+
+/**
  * ClusterAutoscaling specifies auto-scaling behavior that
  * applies to all NodePools associated with a control plane.
  */
 export interface ClusterAutoscalingProfile {
   /**
-   * maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational.
-   * The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.
+   * maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond this number.
+   * If omitted, the autoscaler will not have a maximum limit.
    */
   maxNodesTotal?: number;
   /**
-   * maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling down a NodePool.
+   * maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod termination before scaling down a NodePool.
    * The default is 600 seconds.
    */
   maxPodGracePeriodSeconds?: number;
@@ -871,6 +905,8 @@ export interface KmsEncryptionProfile {
   visibility: KeyVaultVisibility;
   /** The details of the active key. */
   activeKey: KmsKey;
+  /** The type of keyvault used for KMS encryption. Defaults to KeyVault when absent. */
+  keyVaultType?: KmsKeyVaultType;
 }
 
 export function kmsEncryptionProfileSerializer(item: KmsEncryptionProfile): any {
@@ -878,6 +914,7 @@ export function kmsEncryptionProfileSerializer(item: KmsEncryptionProfile): any 
     vaultName: item["vaultName"],
     visibility: item["visibility"],
     activeKey: kmsKeySerializer(item["activeKey"]),
+    keyVaultType: item["keyVaultType"],
   };
 }
 
@@ -886,6 +923,7 @@ export function kmsEncryptionProfileDeserializer(item: any): KmsEncryptionProfil
     vaultName: item["vaultName"],
     visibility: item["visibility"],
     activeKey: kmsKeyDeserializer(item["activeKey"]),
+    keyVaultType: item["keyVaultType"],
   };
 }
 
@@ -925,6 +963,24 @@ export function kmsKeyDeserializer(item: any): KmsKey {
     version: item["version"],
   };
 }
+
+/** The type of keyvault used for KMS encryption. */
+export enum KnownKmsKeyVaultType {
+  /** Standard Azure Key Vault. */
+  KeyVault = "KeyVault",
+  /** Azure Managed Hardware Security Module. */
+  ManagedHSM = "ManagedHSM",
+}
+
+/**
+ * The type of keyvault used for KMS encryption. \
+ * {@link KnownKmsKeyVaultType} can be used interchangeably with KmsKeyVaultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KeyVault**: Standard Azure Key Vault. \
+ * **ManagedHSM**: Azure Managed Hardware Security Module.
+ */
+export type KmsKeyVaultType = string;
 
 export function imageDigestMirrorArraySerializer(result: Array<ImageDigestMirror>): any[] {
   return result.map((item) => {
@@ -1046,17 +1102,28 @@ export enum KnownClusterImageRegistryState {
  */
 export type ClusterImageRegistryState = string;
 
-/** ResourceStatus represents the observed status of the resource. */
-export interface ResourceStatus {
+/** ClusterResourceStatus represents the observed status of the cluster resource. */
+export interface ClusterResourceStatus {
   /** The conditions on the resource */
   readonly conditions?: Condition[];
+  /**
+   * The observed active versions of the cluster.
+   * During upgrades, both the previous and target versions may be
+   * active simultaneously until the rollout completes, so this
+   * array can contain more than one entry. The ordering of entries
+   * has no meaning.
+   */
+  readonly activeVersions?: ClusterActiveVersion[];
 }
 
-export function resourceStatusDeserializer(item: any): ResourceStatus {
+export function clusterResourceStatusDeserializer(item: any): ClusterResourceStatus {
   return {
     conditions: !item["conditions"]
       ? item["conditions"]
       : conditionArrayDeserializer(item["conditions"]),
+    activeVersions: !item["activeVersions"]
+      ? item["activeVersions"]
+      : clusterActiveVersionArrayDeserializer(item["activeVersions"]),
   };
 }
 
@@ -1140,6 +1207,24 @@ export enum KnownStatusType {
  * **Unknown**: Indicates that the condition status is unknown.
  */
 export type StatusType = string;
+
+export function clusterActiveVersionArrayDeserializer(result: Array<ClusterActiveVersion>): any[] {
+  return result.map((item) => {
+    return clusterActiveVersionDeserializer(item);
+  });
+}
+
+/** ClusterActiveVersion represents a version of a resource. */
+export interface ClusterActiveVersion {
+  /** The version of the resource. Specified in major.minor, same as the input */
+  readonly version: string;
+}
+
+export function clusterActiveVersionDeserializer(item: any): ClusterActiveVersion {
+  return {
+    version: item["version"],
+  };
+}
 
 /** Cryptographic restrictions for kernel and userspace libraries */
 export enum KnownCryptoRestrictions {
@@ -1450,6 +1535,8 @@ export interface PlatformProfileCreate {
   networkSecurityGroupId: string;
   /** The configuration for operator authentication to Azure. */
   operatorsAuthentication: OperatorsAuthenticationProfile;
+  /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
+  containerRegistry?: ContainerRegistryProfile;
 }
 
 export function platformProfileCreateSerializer(item: PlatformProfileCreate): any {
@@ -1462,6 +1549,9 @@ export function platformProfileCreateSerializer(item: PlatformProfileCreate): an
     operatorsAuthentication: operatorsAuthenticationProfileSerializer(
       item["operatorsAuthentication"],
     ),
+    containerRegistry: !item["containerRegistry"]
+      ? item["containerRegistry"]
+      : containerRegistryProfileSerializer(item["containerRegistry"]),
   };
 }
 
@@ -1597,17 +1687,25 @@ export interface NodePoolProperties {
    * - No maximum when availabilityZone is specified
    */
   replicas?: number;
-  /** Auto-repair */
+  /**
+   * autoRepair specifies whether health checks should be enabled for machines
+   * in the NodePool. Enabling this feature will cause the controller to
+   * automatically delete unhealthy machines. The unhealthy criteria are
+   * determined by checking the Node Ready condition and a timeout that might
+   * vary depending on the platform provider. autoRepair will not take action
+   * when more than 2 Nodes are unhealthy at the same time, giving time for
+   * the cluster to stabilize or for the user to manually intervene.
+   */
   autoRepair?: boolean;
   /** Representation of a autoscaling in a node pool. */
   autoScaling?: NodePoolAutoScaling;
   /**
-   * Kubernetes labels to propagate to the NodePool Nodes
+   * Kubernetes labels to propagate to the NodePool Nodes.
    * Note that when the labels are updated this is only applied to newly
-   * create nodes in the Nodepool, existing node labels remain unchanged.
+   * created nodes in the NodePool, existing node labels remain unchanged.
    */
   labels?: Label[];
-  /** Taints for the nodes */
+  /** Taints for the nodes. */
   taints?: Taint[];
   /**
    * nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be
@@ -1622,7 +1720,7 @@ export interface NodePoolProperties {
    */
   nodeDrainTimeoutMinutes?: number;
   /** Status of the node pool resource */
-  readonly status?: ResourceStatus;
+  readonly status?: NodePoolResourceStatus;
 }
 
 export function nodePoolPropertiesSerializer(item: NodePoolProperties): any {
@@ -1655,7 +1753,7 @@ export function nodePoolPropertiesDeserializer(item: any): NodePoolProperties {
     labels: !item["labels"] ? item["labels"] : labelArrayDeserializer(item["labels"]),
     taints: !item["taints"] ? item["taints"] : taintArrayDeserializer(item["taints"]),
     nodeDrainTimeoutMinutes: item["nodeDrainTimeoutMinutes"],
-    status: !item["status"] ? item["status"] : resourceStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : nodePoolResourceStatusDeserializer(item["status"]),
   };
 }
 
@@ -1668,6 +1766,9 @@ export interface NodePoolVersionProfile {
    * Each version belongs to only a single set.
    *
    * If not specified, the default value is 'stable'.
+   *
+   * This property is intended to be updateable, but that support is not yet
+   * complete. Until then, changing this value after node pool creation is rejected.
    */
   channelGroup?: string;
 }
@@ -1686,7 +1787,7 @@ export function nodePoolVersionProfileDeserializer(item: any): NodePoolVersionPr
 /** Azure node pool platform configuration */
 export interface NodePoolPlatformProfile {
   /**
-   * The Azure resource ID of the worker subnet
+   * The Azure resource ID of the worker subnet.
    * Note that a subnet cannot be reused between ARO-HCP Clusters, however the
    * same subnet can be used for NodePools of the same cluster.
    */
@@ -1953,54 +2054,46 @@ export enum KnownEffect {
  */
 export type Effect = string;
 
-/** The template for adding updateable properties. */
-export interface UpdateablePropertiesNodePoolProperties {
-  /** OpenShift version for the nodepool */
-  version?: NodePoolVersionProfile;
+/** NodePoolResourceStatus represents the observed status of the nodepool resource. */
+export interface NodePoolResourceStatus {
+  /** The conditions on the resource */
+  readonly conditions?: Condition[];
   /**
-   * The number of worker nodes, it cannot be used together with autoscaling.
-   * Validation:
-   * - Minimum: 0
-   * - Maximum: 200 (only when availabilityZone is not specified)
-   * - No maximum when availabilityZone is specified
+   * The observed active versions of the node pool.
+   * During upgrades, it is common for multiple versions to be active at the same time
+   * while old nodes are drained and replaced. The ordering of entries has no meaning.
    */
-  replicas?: number;
-  /** Representation of a autoscaling in a node pool. */
-  autoScaling?: NodePoolAutoScaling;
-  /**
-   * Kubernetes labels to propagate to the NodePool Nodes
-   * Note that when the labels are updated this is only applied to newly
-   * create nodes in the Nodepool, existing node labels remain unchanged.
-   */
-  labels?: Label[];
-  /** Taints for the nodes */
-  taints?: Taint[];
-  /**
-   * nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be
-   * respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption
-   * Budgets that have not been successfully drained from a node will be forcibly evicted. This is
-   * especially relevant to cluster upgrades.
-   *
-   * Valid values are from 0 to 10080 minutes (1 week) .
-   * 0 means that the NodePool can be drained without any time limitation.
-   *
-   * If unset the cluster nodeDrainTimeoutMinutes value is used as a default.
-   */
-  nodeDrainTimeoutMinutes?: number;
+  readonly activeVersions?: NodePoolActiveVersion[];
 }
 
-export function updateablePropertiesNodePoolPropertiesSerializer(
-  item: UpdateablePropertiesNodePoolProperties,
-): any {
+export function nodePoolResourceStatusDeserializer(item: any): NodePoolResourceStatus {
   return {
-    version: !item["version"] ? item["version"] : nodePoolVersionProfileSerializer(item["version"]),
-    replicas: item["replicas"],
-    autoScaling: !item["autoScaling"]
-      ? item["autoScaling"]
-      : nodePoolAutoScalingSerializer(item["autoScaling"]),
-    labels: !item["labels"] ? item["labels"] : labelArraySerializer(item["labels"]),
-    taints: !item["taints"] ? item["taints"] : taintArraySerializer(item["taints"]),
-    nodeDrainTimeoutMinutes: item["nodeDrainTimeoutMinutes"],
+    conditions: !item["conditions"]
+      ? item["conditions"]
+      : conditionArrayDeserializer(item["conditions"]),
+    activeVersions: !item["activeVersions"]
+      ? item["activeVersions"]
+      : nodePoolActiveVersionArrayDeserializer(item["activeVersions"]),
+  };
+}
+
+export function nodePoolActiveVersionArrayDeserializer(
+  result: Array<NodePoolActiveVersion>,
+): any[] {
+  return result.map((item) => {
+    return nodePoolActiveVersionDeserializer(item);
+  });
+}
+
+/** NodePoolActiveVersion represents a version of a resource. */
+export interface NodePoolActiveVersion {
+  /** The version of the resource. Specified in major.minor.patch, same as the input */
+  readonly version: string;
+}
+
+export function nodePoolActiveVersionDeserializer(item: any): NodePoolActiveVersion {
+  return {
+    version: item["version"],
   };
 }
 
@@ -2064,7 +2157,7 @@ export interface ExternalAuthProperties {
   /** Provisioning state */
   readonly provisioningState?: ExternalAuthProvisioningState;
   /** Status of the external auth resource */
-  readonly status?: ResourceStatus;
+  readonly status?: ExternalAuthResourceStatus;
   /** Token Issuer profile */
   issuer: TokenIssuerProfile;
   /**
@@ -2092,7 +2185,9 @@ export function externalAuthPropertiesSerializer(item: ExternalAuthProperties): 
 export function externalAuthPropertiesDeserializer(item: any): ExternalAuthProperties {
   return {
     provisioningState: item["provisioningState"],
-    status: !item["status"] ? item["status"] : resourceStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : externalAuthResourceStatusDeserializer(item["status"]),
     issuer: tokenIssuerProfileDeserializer(item["issuer"]),
     clients: !item["clients"]
       ? item["clients"]
@@ -2137,6 +2232,20 @@ export enum KnownExternalAuthProvisioningState {
  */
 export type ExternalAuthProvisioningState = string;
 
+/** ExternalAuthResourceStatus represents the observed status of the external auth resource. */
+export interface ExternalAuthResourceStatus {
+  /** The conditions on the resource */
+  readonly conditions?: Condition[];
+}
+
+export function externalAuthResourceStatusDeserializer(item: any): ExternalAuthResourceStatus {
+  return {
+    conditions: !item["conditions"]
+      ? item["conditions"]
+      : conditionArrayDeserializer(item["conditions"]),
+  };
+}
+
 /**
  * Token issuer profile
  * This configures how the platform interacts with the identity provider and
@@ -2152,15 +2261,14 @@ export interface TokenIssuerProfile {
    */
   url: string;
   /**
-   * This configures the acceptable audiences the JWT token, issued by the identity
-   * provider, must be issued to. At least one of the entries must match the
-   * 'aud' claim in the JWT token.
+   * This configures the acceptable audiences for JWT tokens issued by the identity provider.
+   * At least one of the entries must match the 'aud' claim in the JWT token.
    *
-   * audiences must contain at least one entry and must not exceed ten entries.
+   * Audiences must contain at least one entry and must not exceed ten entries.
    */
   audiences: string[];
   /**
-   * The issuer of the token
+   * The issuer of the token.
    *
    * Certificate bundle to use to validate server certificates for the configured URL.
    * It must be PEM encoded and when not specified, the system trust is used.
@@ -2322,9 +2430,9 @@ export type ExternalAuthClientType = string;
 
 /** External Auth claim profile */
 export interface ExternalAuthClaimProfile {
-  /** The claim mappings */
+  /** The claim mappings. */
   mappings: TokenClaimMappingsProfile;
-  /** The claim validation rules */
+  /** The claim validation rules. */
   validationRules?: TokenClaimValidationRule[];
 }
 
@@ -2380,7 +2488,7 @@ export interface UsernameClaimProfile {
   /** Claim name of the external profile */
   claim: string;
   /**
-   * Prefix for the claim external profile
+   * Prefix for the claim external profile.
    * Must be set when the prefixPolicy field is set to 'Prefix' and must be unset
    * otherwise.
    */
@@ -2456,8 +2564,8 @@ export interface GroupClaimProfile {
   /** Claim name of the external profile */
   claim: string;
   /**
-   * Prefix for the claim external profile
-   * If this is specified prefixPolicy will be set to "Prefix" by default
+   * Prefix for the claim external profile.
+   * If this is specified, prefixPolicy will be set to "Prefix" by default.
    */
   prefix?: string;
 }
@@ -2816,12 +2924,6 @@ export function roleDefinitionDeserializer(item: any): RoleDefinition {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2024-06-10-preview version */
-  V20240610Preview = "2024-06-10-preview",
-  /** 2025-12-23-preview version */
-  V20251223Preview = "2025-12-23-preview",
-  /** 2026-06-30-preview version */
-  V20260630Preview = "2026-06-30-preview",
-  /** 2026-09-01-preview version */
-  V20260901Preview = "2026-09-01-preview",
+  /** 2026-10-01 version */
+  V20261001 = "2026-10-01",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list database columns
  *
  * @summary list database columns
- * x-ms-original-file: 2025-08-01-preview/ColumnsListByDatabaseMax.json
+ * x-ms-original-file: 2026-08-01-preview/ColumnsListByDatabaseMax.json
  */
 async function filterDatabaseColumns() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function filterDatabaseColumns() {
  * This sample demonstrates how to list database columns
  *
  * @summary list database columns
- * x-ms-original-file: 2025-08-01-preview/ColumnsListByDatabaseMin.json
+ * x-ms-original-file: 2026-08-01-preview/ColumnsListByDatabaseMin.json
  */
 async function listDatabaseColumns() {
   const credential = new DefaultAzureCredential();

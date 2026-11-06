@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all managed instances in an instance pool.
  *
  * @summary gets a list of all managed instances in an instance pool.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceListByInstancePool.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceListByInstancePool.json
  */
 async function listManagedInstancesByInstancePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listManagedInstancesByInstancePool(): Promise<void> {
  * This sample demonstrates how to gets a list of all managed instances in an instance pool.
  *
  * @summary gets a list of all managed instances in an instance pool.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceListByInstancePoolWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceListByInstancePoolWithExpandEqualsAdministrators.json
  */
 async function listManagedInstancesByInstancePoolWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

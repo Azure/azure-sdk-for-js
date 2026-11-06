@@ -1,5 +1,8 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",

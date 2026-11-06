@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-edgeoperator": ["../src/index.ts"],
+      "@azure/arm-edgeoperator/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

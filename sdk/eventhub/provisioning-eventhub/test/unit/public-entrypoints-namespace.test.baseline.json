@@ -1,0 +1,416 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.EventHub/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicnamespace"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "isAutoInflateEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "maximumThroughputUnits": {
+                    "kind": "integer",
+                    "value": "4"
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "coverage": {
+                    "kind": "string",
+                    "value": "public-entrypoints"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "applicationGroup": {
+          "bicepIdentifier": "applicationGroup",
+          "type": "Microsoft.EventHub/namespaces/applicationGroups",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-app-group"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "clientAppGroupIdentifier": {
+                    "kind": "string",
+                    "value": "AADAppID=44444444-4444-4444-4444-444444444444"
+                  },
+                  "isEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "authorizationRule": {
+          "bicepIdentifier": "authorizationRule",
+          "type": "Microsoft.EventHub/namespaces/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-ns-rule"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "rights": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Listen"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "Send"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "Manage"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "disasterRecoveryConfig": {
+          "bicepIdentifier": "disasterRecoveryConfig",
+          "type": "Microsoft.EventHub/namespaces/disasterRecoveryConfigs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-dr"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "alternateName": {
+                    "kind": "string",
+                    "value": "public-dr-alternate"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "authorizationRule2": {
+          "bicepIdentifier": "authorizationRule2",
+          "type": "Microsoft.EventHub/namespaces/disasterRecoveryConfigs/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-dr-rule"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "disasterRecoveryConfig"
+              }
+            }
+          }
+        },
+        "eventhub": {
+          "bicepIdentifier": "eventhub",
+          "type": "Microsoft.EventHub/namespaces/eventhubs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-eventhub"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "messageRetentionInDays": {
+                    "kind": "integer",
+                    "value": "7"
+                  },
+                  "partitionCount": {
+                    "kind": "integer",
+                    "value": "2"
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "Active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "authorizationRule3": {
+          "bicepIdentifier": "authorizationRule3",
+          "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-eventhub-rule"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "eventhub"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "rights": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Send"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "consumergroup": {
+          "bicepIdentifier": "consumergroup",
+          "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-consumer"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "eventhub"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "userMetadata": {
+                    "kind": "string",
+                    "value": "public entrypoint coverage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "networkRuleSet": {
+          "bicepIdentifier": "networkRuleSet",
+          "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "defaultAction": {
+                    "kind": "string",
+                    "value": "Allow"
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "trustedServiceAccessEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "networkSecurityPerimeterConfiguration": {
+          "bicepIdentifier": "networkSecurityPerimeterConfiguration",
+          "type": "Microsoft.EventHub/namespaces/networkSecurityPerimeterConfigurations",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-perimeter"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.EventHub/namespaces/privateEndpointConnections",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-pec"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved for public entrypoint coverage"
+                      },
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "schemagroup": {
+          "bicepIdentifier": "schemagroup",
+          "type": "Microsoft.EventHub/namespaces/schemagroups",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-schema-group"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "schemaCompatibility": {
+                    "kind": "string",
+                    "value": "Forward"
+                  },
+                  "schemaType": {
+                    "kind": "string",
+                    "value": "Avro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -59,7 +59,7 @@ export function edit(text, edits) {
   return text;
 }
 
-export function renameSymbols(text, replacements, file = "module.ts") {
+export function renameSymbols(text, replacements, file = "module.ts", bindingFilter = () => true) {
   if (!replacements.size) return text;
   const source = parse(text, file);
   const options = { noLib: true, target: ts.ScriptTarget.Latest };
@@ -76,7 +76,8 @@ export function renameSymbols(text, replacements, file = "module.ts") {
       node.parent?.name === node &&
       !ts.isPropertyAssignment(node.parent) &&
       !ts.isPropertySignature(node.parent) &&
-      !ts.isPropertyAccessExpression(node.parent)
+      !ts.isPropertyAccessExpression(node.parent) &&
+      bindingFilter(node)
     ) {
       const symbol = checker.getSymbolAtLocation(node);
       if (symbol) symbols.set(symbol, replacements.get(node.text));

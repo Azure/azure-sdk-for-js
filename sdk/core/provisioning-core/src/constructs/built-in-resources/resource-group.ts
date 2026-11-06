@@ -10,20 +10,22 @@ import {
 } from "../../expression/expressions.js";
 import type { ResourceNamingRules } from "../../naming/naming-rules.js";
 import { deref } from "../resource/resource-proxy.js";
-import type { ExistingResourceProps } from "../resource/resource.js";
+import type {
+  ExistingResourceProps,
+  ResourceOptions,
+  ResourceProps,
+} from "../resource/resource.js";
 import { Resource } from "../resource/resource.js";
+import { isResourceDeclaration } from "../resource/resource-utils.js";
+import { Stack } from "../stack.js";
 import { createFlatModelShape, createRecordShape, createStringShape } from "../../shape/shape.js";
 
 const resourceGroupNamingRules: ResourceNamingRules = {
   abbreviation: "rg",
   minLength: 1,
   maxLength: 90,
-  validCharacters: {
-    uppercase: true,
-    hyphens: true,
-    underscores: true,
-    periods: true,
-  },
+  // ARM CommonTypes.ResourceGroupNameParameter.
+  pattern: { regex: "^[-\\w\\._\\(\\)]+$" },
   scope: "subscription",
 };
 
@@ -41,6 +43,11 @@ export interface ResourceGroupProps {
  * Resources created with a `ResourceGroup` as their parent inherit its
  * location, tags, and naming policy, and deploy at resource-group scope
  * in the generated Bicep.
+ *
+ * The parent may be a Stack or an ordinary component, with no resource
+ * declarations in its ancestry. New groups require a subscription-scoped Stack.
+ * Existing groups may be referenced from other Stack scopes with an appropriate
+ * lookup scope.
  *
  * @example
  * ```typescript snippet:ignore
@@ -73,6 +80,35 @@ export class ResourceGroup extends Resource<"Microsoft.Resources/resourceGroups"
       }),
     );
     this.register();
+  }
+
+  protected static override validate(
+    context: ProvisioningComponent,
+    props: ResourceProps<string> & Record<string, unknown>,
+    _options?: ResourceOptions,
+    _namingRules?: ResourceNamingRules,
+  ): void {
+    let ancestor: ProvisioningComponent | undefined = context;
+    while (ancestor !== undefined && !(ancestor instanceof Stack)) {
+      if (isResourceDeclaration(ancestor)) {
+        throw new Error(
+          "ResourceGroup cannot be nested beneath a resource declaration, directly or through components.",
+        );
+      }
+      ancestor = ancestor.parent;
+    }
+    if (props.existing !== true) {
+      if (!(ancestor instanceof Stack)) {
+        throw new Error(
+          'A new ResourceGroup requires a containing Stack with targetScope "subscription".',
+        );
+      }
+      if (ancestor.targetScope !== "subscription") {
+        throw new Error(
+          `A new ResourceGroup requires Stack targetScope "subscription", but Stack "${ancestor.name}" targets "${ancestor.targetScope}".`,
+        );
+      }
+    }
   }
 
   constructor(

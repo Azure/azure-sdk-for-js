@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing sync member.
  *
  * @summary updates an existing sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberPatch.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberPatch.json
  */
 async function updateAnExistingSyncMember() {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function updateAnExistingSyncMember() {
  * This sample demonstrates how to updates an existing sync member.
  *
  * @summary updates an existing sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberPatchAddAndRemoveIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberPatchAddAndRemoveIdentity.json
  */
 async function updateAnExistingSyncMemberWithNewUserAssignedIdentityAndRemovingOlderUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function updateAnExistingSyncMemberWithNewUserAssignedIdentityAndRemovingO
  * This sample demonstrates how to updates an existing sync member.
  *
  * @summary updates an existing sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberPatchWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberPatchWithIdentity.json
  */
 async function updateAnExistingSyncMemberWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();

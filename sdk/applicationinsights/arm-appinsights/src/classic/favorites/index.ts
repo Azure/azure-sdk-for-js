@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { $delete, update, add, get, list } from "../../api/favorites/operations.js";
-import {
+import type {
   FavoritesDeleteOptionalParams,
   FavoritesUpdateOptionalParams,
   FavoritesAddOptionalParams,
   FavoritesGetOptionalParams,
   FavoritesListOptionalParams,
 } from "../../api/favorites/options.js";
-import { ApplicationInsightsComponentFavorite } from "../../models/favorites/models.js";
+import type { ApplicationInsightsComponentFavorite } from "../../models/favorites/models.js";
 
 /** Interface representing a Favorites operations. */
 export interface FavoritesOperations {

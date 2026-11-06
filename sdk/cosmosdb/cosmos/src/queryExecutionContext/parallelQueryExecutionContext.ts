@@ -12,6 +12,7 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { ParallelQueryProcessingStrategy } from "./queryProcessingStrategy/ParallelQueryProcessingStrategy.js";
+import type { BaseContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -29,6 +30,7 @@ export class ParallelQueryExecutionContext
     options: FeedOptions,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
+    parsedContinuationToken?: BaseContinuationToken,
   ) {
     const rangeManager = TargetPartitionRangeManager.createForParallelQuery({
       queryInfo: partitionedQueryExecutionInfo,
@@ -51,6 +53,7 @@ export class ParallelQueryExecutionContext
       rangeManager,
       processingStrategy,
       comparator,
+      parsedContinuationToken,
     );
   }
 
@@ -89,7 +92,7 @@ export class ParallelQueryExecutionContext
         // If minInclusive values are the same, check minEPK ranges if they exist
         const aMinEpk = docProd1.startEpk;
         const bMinEpk = docProd2.startEpk;
-        if (aMinEpk && bMinEpk) {
+        if (aMinEpk !== undefined && bMinEpk !== undefined) {
           return aMinEpk < bMinEpk ? -1 : 1;
         }
         return 0;

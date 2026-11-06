@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all endpoints and custom domains available for AFD log report
  *
  * @summary get all endpoints and custom domains available for AFD log report
- * x-ms-original-file: 2025-12-01/LogAnalytics_GetLogAnalyticsResources.json
+ * x-ms-original-file: 2026-10-01/LogAnalytics_GetLogAnalyticsResources.json
  */
 async function logAnalyticsGetLogAnalyticsResources(): Promise<void> {
   const credential = new DefaultAzureCredential();

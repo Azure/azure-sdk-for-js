@@ -44,11 +44,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
 
     if (!response) {
-      // If there are any groupings, consolidate and return them
-      if (this.groupings.size > 0) {
-        return this.consolidateGroupResults(aggregateHeaders);
-      }
-      return { result: undefined, headers: aggregateHeaders };
+      return this.handleEmptyResponse(aggregateHeaders);
     }
 
     mergeHeaders(aggregateHeaders, response.headers);
@@ -58,11 +54,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      // If there are any groupings, consolidate and return them
-      if (this.groupings.size > 0) {
-        return this.consolidateGroupResults(aggregateHeaders);
-      }
-      return { result: undefined, headers: aggregateHeaders };
+      return this.handleEmptyResponse(aggregateHeaders);
     }
 
     const parallelResult = response.result as ParallelQueryResult;
@@ -117,6 +109,19 @@ export class GroupByEndpointComponent implements ExecutionContext {
     } else {
       return this.consolidateGroupResults(aggregateHeaders);
     }
+  }
+
+  private handleEmptyResponse(aggregateHeaders: CosmosHeaders): Response<any> {
+    if (this.executionContext.hasMoreResults()) {
+      return {
+        result: createParallelQueryResult([], new Map()),
+        headers: aggregateHeaders,
+      };
+    }
+    if (this.groupings.size > 0) {
+      return this.consolidateGroupResults(aggregateHeaders);
+    }
+    return { result: undefined, headers: aggregateHeaders };
   }
 
   private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<any> {

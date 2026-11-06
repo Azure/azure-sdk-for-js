@@ -1,30 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update the endpoint to the target resource.
  *
  * @summary update the endpoint to the target resource.
- * x-ms-original-file: 2024-12-01/EndpointsPatchDefault.json
+ * x-ms-original-file: 2027-01-01/Endpoints_Update_MaximumSet_Gen.json
  */
-
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function hybridConnectivityEndpointsPatchDefault(): Promise<void> {
+async function hybridConnectivityEndpointsPatchDefaultGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const client = new HybridConnectivityManagementAPI(credential);
   const result = await client.endpoints.update(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
-    "default",
-    { properties: { type: "default" } },
+    "rukckncxq",
+    {
+      properties: {
+        type: "custom",
+        resourceId:
+          "/subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.Relay/namespaces/custom-relay-namespace",
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update the endpoint to the target resource.
+ *
+ * @summary update the endpoint to the target resource.
+ * x-ms-original-file: 2027-01-01/Endpoints_Update_MinimumSet_Gen.json
+ */
+async function hybridConnectivityEndpointsPatchDefaultGeneratedByMinimumSetRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new HybridConnectivityManagementAPI(credential);
+  const result = await client.endpoints.update(
+    "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
+    "xmbtuwprx",
+    {},
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await hybridConnectivityEndpointsPatchDefault();
+  await hybridConnectivityEndpointsPatchDefaultGeneratedByMaximumSetRule();
+  await hybridConnectivityEndpointsPatchDefaultGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

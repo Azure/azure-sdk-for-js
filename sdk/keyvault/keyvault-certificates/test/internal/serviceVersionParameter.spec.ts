@@ -42,6 +42,7 @@ describe("The Certificates client should set the serviceVersion", () => {
   });
 
   it("it should default to the latest API version", async () => {
+    expect(LATEST_API_VERSION).toBe("2026-04-01");
     const client = new CertificateClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
@@ -55,7 +56,7 @@ describe("The Certificates client should set the serviceVersion", () => {
 
   // Adding this to the source would change the public API.
   type ApiVersions =
-    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-03-01-preview";
+    "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-04-01";
 
   it("it should allow us to specify an API version from a specific set of versions", async () => {
     const versions: ApiVersions[] = [
@@ -67,7 +68,7 @@ describe("The Certificates client should set the serviceVersion", () => {
       "7.5",
       "7.6",
       "2025-07-01",
-      "2026-03-01-preview",
+      "2026-04-01",
     ];
     for (const serviceVersion of versions) {
       const client = new CertificateClient(keyVaultUrl, credential, {
