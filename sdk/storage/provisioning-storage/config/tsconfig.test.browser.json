@@ -11,5 +11,5 @@
       ]
     }
   },
-  "include": ["../test/unit/schema-contract.source.ts"]
+  "include": ["../test/generated/**/*.spec.ts", "../test/unit/schema-contract.source.ts"]
 }
