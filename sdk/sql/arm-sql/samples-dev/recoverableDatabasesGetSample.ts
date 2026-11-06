@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a recoverable database.
  *
  * @summary gets a recoverable database.
- * x-ms-original-file: 2025-08-01-preview/RecoverableDatabaseGet.json
+ * x-ms-original-file: 2026-08-01-preview/RecoverableDatabaseGet.json
  */
 async function getARecoverableDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getARecoverableDatabase(): Promise<void> {
  * This sample demonstrates how to gets a recoverable database.
  *
  * @summary gets a recoverable database.
- * x-ms-original-file: 2025-08-01-preview/RecoverableDatabaseGetWithExpandEqualsKeys.json
+ * x-ms-original-file: 2026-08-01-preview/RecoverableDatabaseGetWithExpandEqualsKeys.json
  */
 async function getsARecoverableDatabaseWithExpandEqualsKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
