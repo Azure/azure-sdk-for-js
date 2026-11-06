@@ -164,18 +164,27 @@ export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmVi
       encoding: "utf8",
       maxBuffer: 20 * 1024 * 1024,
     });
+  const fetchTagFromRepository = (repositories: string[]): void => {
+    for (let index = 0; index < repositories.length; index++) {
+      const repository = repositories[index];
+      const result = runGit(["fetch", "--no-tags", repository, `${tagRef}:${tagRef}`]);
+      if (result.status === 0) {
+        return;
+      }
+      const nextRepository = repositories[index + 1];
+      logger.warn(
+        `Failed to fetch release tag ${tag} from ${repository} in ${sdkRootPath}: ${result.error?.message ?? result.stderr}.${nextRepository ? ` Retrying from ${nextRepository}.` : " All release repositories failed."}`,
+      );
+    }
+  };
   logger.info(`Start to read ${file} for ${packageName} from release tag ${tag}.`);
 
   try {
     const tagResult = runGit(["rev-parse", "--verify", "--quiet", `${tagRef}^{commit}`]);
     if (tagResult.status !== 0) {
       logger.info(`Release tag ${tag} is unavailable locally; fetching it from origin.`);
-      const fetchResult = runGit(["fetch", "--no-tags", "origin", `${tagRef}:${tagRef}`]);
-      if (fetchResult.status !== 0) {
-        throw new Error(
-          `Failed to fetch release tag ${tag} from origin in ${sdkRootPath}: ${fetchResult.error?.message ?? fetchResult.stderr}`,
-        );
-      }
+      const upstreamRepository = "https://github.com/Azure/azure-sdk-for-js.git";
+      fetchTagFromRepository(["origin", upstreamRepository]);
     }
 
     const sdkFilePath = relative(

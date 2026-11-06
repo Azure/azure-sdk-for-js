@@ -1,8 +1,10 @@
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { execFileSync } from "child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
+import { pathToFileURL } from "url";
+import { logger } from "../../utils/logger.js";
 import {
   NpmViewParameters,
   tryCreateLastestStableNpmViewFromGithub,
@@ -43,6 +45,12 @@ describe("release tag baseline retrieval", () => {
     git(sourcePath, "tag", "unrelated-release");
     git(tempPath, "clone", "--bare", sourcePath, remotePath);
     git(tempPath, "clone", "--no-local", "--depth=1", "--no-tags", remotePath, sdkRootPath);
+    git(
+      sdkRootPath,
+      "config",
+      `url.${pathToFileURL(remotePath).href}.insteadOf`,
+      "https://github.com/Azure/azure-sdk-for-js.git",
+    );
 
     const npmPackagePath = join(tempPath, "npm package");
     mkdirSync(join(npmPackagePath, "review"), { recursive: true });
@@ -70,6 +78,7 @@ describe("release tag baseline retrieval", () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     rmSync(tempPath, { recursive: true, force: true });
   });
 
@@ -97,6 +106,32 @@ describe("release tag baseline retrieval", () => {
 
     expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
     expect(git(sdkRootPath, "rev-parse", `refs/tags/${tag}`)).toBe(originalTag);
+  });
+
+  test("retrieves the release tag from upstream when origin is a sync repository without tags", () => {
+    prepareCheckout({ "review/arm-test.api.md": baseline });
+    const syncRepository = join(tempPath, "azure-sdk-for-js-pr.git");
+    git(tempPath, "init", "--bare", syncRepository);
+    git(sdkRootPath, "remote", "set-url", "origin", syncRepository);
+    const warn = vi.spyOn(logger, "warn");
+
+    tryCreateLastestStableNpmViewFromGithub(parameters);
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("Retrying from https://github.com/Azure/azure-sdk-for-js.git"),
+    );
+    expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
+    expect(git(sdkRootPath, "remote", "get-url", "origin").trim()).toBe(syncRepository);
+    expect(git(sdkRootPath, "tag", "--list").trim()).toBe(tag);
+  });
+
+  test("retrieves the release tag from upstream when origin is unavailable", () => {
+    prepareCheckout({ "review/arm-test.api.md": baseline });
+    git(sdkRootPath, "remote", "remove", "origin");
+
+    tryCreateLastestStableNpmViewFromGithub(parameters);
+
+    expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
   });
 
   test("restores API baselines larger than the default process buffer", () => {
@@ -133,10 +168,13 @@ describe("release tag baseline retrieval", () => {
   test("throws without creating a baseline when fetching fails", () => {
     prepareCheckout({ "review/arm-test.api.md": baseline });
     git(sdkRootPath, "remote", "remove", "origin");
+    git(tempPath, "--git-dir", remotePath, "tag", "--delete", tag);
+    const warn = vi.spyOn(logger, "warn");
 
     expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).toThrow(
-      `Failed to fetch release tag ${tag}`,
+      `Failed to read ApiView for ${packageName} from release tag ${tag}`,
     );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("All release repositories failed."));
     expect(existsSync(targetPath())).toBe(false);
   });
 
