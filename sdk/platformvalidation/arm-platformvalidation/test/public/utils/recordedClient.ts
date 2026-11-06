@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import type {
+  RecorderStartOptions,
+  SanitizerOptions,
+  VitestTestContext,
+} from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { PlatformValidationClient } from "../../../src/index.js";
@@ -20,6 +24,7 @@ const recorderEnvSetup: RecorderStartOptions = {
   // ARM identities and polling routes must survive sanitization for subsequent SDK calls.
   removeCentralSanitizers: ["AZSDK3430", "AZSDK3493", "AZSDK2030"],
   sanitizerOptions: {
+    headerSanitizers: [{ key: "x-ms-operation-identifier", value: "Sanitized" }],
     generalSanitizers: [
       {
         regex: true,
@@ -36,36 +41,54 @@ const recorderEnvSetup: RecorderStartOptions = {
         regex: 'https://[^"\\s]+?\\.vhd(?:\\?[^"\\s]*)?',
         value: "https://example.invalid/image.vhd",
       })),
-      {
-        jsonPath: "$.value[?(@.type =~ /cloudvalidations$/i && @.name =~ /^(?!jscv).*/)].tags.*",
-        value: "Sanitized",
-      },
-      {
-        jsonPath:
-          "$.value[?(@.type =~ /cloudvalidations$/i && @.name =~ /^(?!jscv).*/)].properties.description",
-        value: "Sanitized",
-      },
-      {
-        jsonPath: "$.value[?(@.type =~ /cloudvalidations$/i && @.name =~ /^(?!jscv).*/)].name",
-        value: "other-cloud-validation",
-      },
+    ],
+  },
+};
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\//g, "\\/");
+}
+
+export function ownedCloudValidationSanitizers(ownedId: string): SanitizerOptions {
+  const group =
+    /^\/subscriptions\/[^/]+\/resourceGroups\/([^/]+)\/providers\/Microsoft\.PlatformValidation\/cloudValidations\/[^/]+$/i.exec(
+      ownedId,
+    )?.[1];
+  if (!group) {
+    throw new Error("An owned cloud validation resource ID is required");
+  }
+  const sanitizedId = ownedId
+    .replace(
+      /^\/subscriptions\/[^/]+/i,
+      `/subscriptions/${replaceableVariables.AZURE_SUBSCRIPTION_ID}`,
+    )
+    .replace(
+      /\/resourceGroups\/[^/]+/i,
+      `/resourceGroups/${replaceableVariables.PLATFORMVALIDATION_RESOURCE_GROUP}`,
+    );
+  const identities = `(?:${escapeRegex(ownedId)}|${escapeRegex(sanitizedId)})`;
+  const listedValidations = "$.value[?(@.type =~ /cloudvalidations$/i)]";
+  return {
+    bodyKeySanitizers: [
+      { jsonPath: `${listedValidations}.tags.*`, value: "Sanitized" },
+      { jsonPath: `${listedValidations}.properties.description`, value: "Sanitized" },
+      { jsonPath: `${listedValidations}.name`, value: "other-cloud-validation" },
     ],
     bodySanitizers: [
       {
         regex: true,
-        target: '/resourceGroups/(?!(?:rg-platformvalidation-test|rg-pv-js-))[^/"\\\\]+',
-        value: "/resourceGroups/other-group",
-      },
-      {
-        regex: true,
-        target:
-          '(?i)/subscriptions/[^/"\\\\]+/resourceGroups/[^/"\\\\]+/providers/Microsoft\\.PlatformValidation/cloudValidations/(?<name>(?!jscv)[^/"\\\\?]+)',
+        target: `(?i)(?!${identities}(?=[/"\\\\?]|$))/subscriptions/[^/"\\\\]+/resourceGroups/[^/"\\\\]+/providers/Microsoft\\.PlatformValidation/cloudValidations/(?<name>[^/"\\\\?]+)`,
         groupForReplace: "name",
         value: "other-cloud-validation",
       },
+      {
+        regex: true,
+        target: `(?i)/resourceGroups/(?!(?:${escapeRegex(group)}|${replaceableVariables.PLATFORMVALIDATION_RESOURCE_GROUP})(?=[/"\\\\?]|$))[^/"\\\\?]+`,
+        value: "/resourceGroups/other-group",
+      },
     ],
-  },
-};
+  };
+}
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.

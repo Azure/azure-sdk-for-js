@@ -4,11 +4,21 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { PollerLike, OperationState } from "@azure/core-lro";
-import { delay } from "@azure/core-util";
+import { delay, randomUUID } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { assert, expect, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlatformValidationClient } from "../../src/index.js";
-import { createClient, createRecorder } from "./utils/recordedClient.js";
+import {
+  createClient,
+  createRecorder,
+  ownedCloudValidationSanitizers,
+} from "./utils/recordedClient.js";
+import {
+  completeMutation,
+  deleteIfPresent,
+  requireCredentialFreeVhd,
+  waitForTerminalTestRun,
+} from "./utils/lifecycle.js";
 
 const bootTestName = "compute-vmimagevalidation-vm-boot-test";
 const bootTestId = `/providers/Microsoft.PlatformValidation/validationTests/${bootTestName}`;
@@ -101,12 +111,21 @@ describe("PlatformValidation", () => {
     async (scenario) => {
       const group = assertEnvironmentVariable("PLATFORMVALIDATION_RESOURCE_GROUP");
       const location = assertEnvironmentVariable("PLATFORMVALIDATION_LOCATION");
-      const source = assertEnvironmentVariable("PLATFORMVALIDATION_SOURCE_VHD_URI");
-      assert.isTrue(source.startsWith("https://"), "An approved HTTPS VHD is required");
-      const cvName = recorder.variable("cloudValidationName", `jscv${Date.now().toString(36)}`);
+      const source =
+        scenario === "cloud validation lifecycle"
+          ? undefined
+          : requireCredentialFreeVhd(
+              assertEnvironmentVariable("PLATFORMVALIDATION_SOURCE_VHD_URI"),
+            );
+      const cvName = recorder.variable(
+        "cloudValidationName",
+        `jscv${randomUUID().replace(/-/g, "").slice(0, 20)}`,
+      );
       const planName = "js-boot-plan";
       const runName = "js-boot-run";
       const cvId = `/subscriptions/${assertEnvironmentVariable("AZURE_SUBSCRIPTION_ID")}/resourceGroups/${group}/providers/Microsoft.PlatformValidation/cloudValidations/${cvName}`;
+      const scopedBootTestId = `/subscriptions/${assertEnvironmentVariable("AZURE_SUBSCRIPTION_ID")}${bootTestId}`;
+      await recorder.addSanitizers(ownedCloudValidationSanitizers(cvId));
       const configuration = JSON.stringify({
         apiVersion: "microsoft.validate/executionPlan.v0",
         kind: "ExecutionPlan",
@@ -121,13 +140,13 @@ describe("PlatformValidation", () => {
             additionalProperties: {},
           },
         },
-        authoring: { steps: [{ name: "vm-boot-test", type: "test", testRef: bootTestId }] },
+        authoring: { steps: [{ name: "vm-boot-test", type: "test", testRef: scopedBootTestId }] },
       });
       const options = {
         abortSignal: AbortSignal.timeout(30 * 60 * 1000),
         updateIntervalInMs: isPlaybackMode() ? 0 : 1000,
       };
-      let mutationInProgress = false;
+      const mutation = { inProgress: false };
       let cvAttempted = false;
       let planAttempted = false;
       let runAttempted = false;
@@ -137,14 +156,7 @@ describe("PlatformValidation", () => {
         poller: PollerLike<OperationState<T>, T>,
         timeoutMinutes = 15,
       ): Promise<T> {
-        mutationInProgress = true;
-        try {
-          return await poller.pollUntilDone({
-            abortSignal: AbortSignal.timeout(timeoutMinutes * 60 * 1000),
-          });
-        } finally {
-          mutationInProgress = !poller.isDone;
-        }
+        return completeMutation(mutation, poller, timeoutMinutes);
       }
 
       await assertNotFound(() => client.cloudValidations.get(group, cvName, options));
@@ -241,7 +253,7 @@ describe("PlatformValidation", () => {
           );
           assert.deepEqual(patched.tags, { "sdk-test": cvName, phase: "updated" });
           assert.equal(patched.properties?.description, "JS SDK boot plan");
-          // Avoid assertion diagnostics containing signed image URLs.
+          // Keep the image configuration out of assertion diagnostics.
           assert.isTrue(
             JSON.stringify(JSON.parse(patched.properties?.planConfigurationJson ?? "{}")) ===
               JSON.stringify(JSON.parse(configuration)),
@@ -262,6 +274,8 @@ describe("PlatformValidation", () => {
           ),
           20,
         );
+        // Aggregate completion can precede the child result's provisioning completion.
+        mutation.inProgress = true;
         for (let attempt = 0; attempt < 180; attempt++) {
           runTerminal = ["Completed", "Succeeded", "Failed", "TimedOut", "Canceled"].includes(
             run.properties?.status ?? "",
@@ -307,24 +321,29 @@ describe("PlatformValidation", () => {
           ),
         );
         assert.lengthOf(results, 1);
-        const result = await client.validationTestRuns.get(
-          group,
-          cvName,
-          planName,
-          runName,
-          results[0].name!,
-          options,
+        const result = await waitForTerminalTestRun(
+          mutation,
+          () =>
+            client.validationTestRuns.get(
+              group,
+              cvName,
+              planName,
+              runName,
+              results[0].name!,
+              options,
+            ),
+          () => delay(isPlaybackMode() ? 0 : 1000, { abortSignal: options.abortSignal }),
         );
         assert.equal(result.id, results[0].id);
         assert.equal(result.properties?.status, "Completed");
         assert.equal(result.properties?.provisioningState, "Succeeded");
-        assert.equal(result.properties?.testId, bootTestId);
+        assert.equal(result.properties?.testId?.toLowerCase(), scopedBootTestId.toLowerCase());
         assert.isNotEmpty(result.properties?.passDetails);
         assert.isEmpty(result.properties?.failureDetails ?? []);
         assert.isUndefined(result.properties?.error);
       } finally {
         // Never cascade-delete resources underneath an uncertain mutation or active workload.
-        if (mutationInProgress || (runAttempted && !runTerminal)) {
+        if (mutation.inProgress || (runAttempted && !runTerminal)) {
           console.error(`Retained owned resources for inspection: ${cvId}`);
         } else {
           const cleanup = {
@@ -332,9 +351,11 @@ describe("PlatformValidation", () => {
             updateIntervalInMs: isPlaybackMode() ? 0 : 1000,
           };
           if (runAttempted) {
-            await client.executionPlanRuns
-              .delete(group, cvName, planName, runName, cleanup)
-              .pollUntilDone();
+            await deleteIfPresent(() =>
+              client.executionPlanRuns
+                .delete(group, cvName, planName, runName, cleanup)
+                .pollUntilDone(),
+            );
             await assertNotFound(() =>
               client.executionPlanRuns.get(group, cvName, planName, runName, cleanup),
             );
@@ -345,9 +366,11 @@ describe("PlatformValidation", () => {
             );
           }
           if (planAttempted) {
-            await client.validationExecutionPlans
-              .delete(group, cvName, planName, cleanup)
-              .pollUntilDone();
+            await deleteIfPresent(() =>
+              client.validationExecutionPlans
+                .delete(group, cvName, planName, cleanup)
+                .pollUntilDone(),
+            );
             await assertNotFound(() =>
               client.validationExecutionPlans.get(group, cvName, planName, cleanup),
             );
@@ -366,7 +389,9 @@ describe("PlatformValidation", () => {
                 "Refusing parent deletion while child plans remain",
               );
               try {
-                await client.cloudValidations.delete(group, cvName, cleanup).pollUntilDone();
+                await deleteIfPresent(() =>
+                  client.cloudValidations.delete(group, cvName, cleanup).pollUntilDone(),
+                );
                 break;
               } catch (error) {
                 // ARM can retain a deleted child briefly after GET and LIST confirm its removal.
@@ -384,7 +409,7 @@ describe("PlatformValidation", () => {
             await assertNotFound(() => client.cloudValidations.get(group, cvName, cleanup));
             assert.isFalse(
               (await collect(client.cloudValidations.listByResourceGroup(group, cleanup))).some(
-                (entry) => entry.name === cvName,
+                (entry) => entry.id?.toLowerCase() === cvId.toLowerCase(),
               ),
             );
           }
