@@ -263,6 +263,15 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private processUniqueItems(): void {
     this.uniqueItems.forEach((item) => this.hybridSearchResult.push(item));
     if (this.hybridSearchResult.length === 0 || this.hybridSearchResult.length === 1) {
+      const componentCount =
+        this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos.length;
+      if (
+        this.hybridSearchResult.length === 1 &&
+        this.hybridSearchResult[0].componentScores.length > componentCount
+      ) {
+        throw new Error("Component scores exceed the query plan component count");
+      }
+
       // return the result as no or one element is present
       this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
       this.state = HybridQueryExecutionContextBaseStates.draining;

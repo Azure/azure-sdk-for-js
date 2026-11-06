@@ -438,6 +438,52 @@ describe("hybridQueryExecutionContext", () => {
       ).toThrow("Component scores exceed the query plan component count");
     });
 
+    describe.each([false, true])(
+      "singleton validation with query control %s",
+      (enableQueryControl) => {
+        function createResultContext(scores?: number[]): HybridQueryExecutionContext {
+          const rankingContext = createContext([-1, -1], undefined, { enableQueryControl });
+          rankingContext["componentsExecutionContext"] = [
+            {
+              hasMoreResults: vi.fn().mockReturnValueOnce(true).mockReturnValue(false),
+              fetchMore: vi.fn().mockResolvedValue({
+                result:
+                  scores === undefined
+                    ? []
+                    : [{ _rid: createRid(1n), payload: { id: "1" }, componentScores: scores }],
+                headers: {},
+              }),
+              nextItem: vi.fn(),
+            },
+          ];
+          rankingContext["state"] = HybridQueryExecutionContextBaseStates.initialized;
+          return rankingContext;
+        }
+
+        it("rejects a singleton with surplus component scores through fetchMore", async () => {
+          const rankingContext = createResultContext([10, 5, 3]);
+
+          await expect(rankingContext.fetchMore()).rejects.toThrow(
+            "Component scores exceed the query plan component count",
+          );
+          expect(rankingContext.hasMoreResults()).toBe(false);
+        });
+
+        it.each([{ scores: undefined }, { scores: [] }, { scores: [10] }, { scores: [10, 5] }])(
+          "preserves empty results and valid singleton scores $scores",
+          async ({ scores }) => {
+            const rankingContext = createResultContext(scores);
+
+            await rankingContext.fetchMore();
+            expect((await rankingContext.fetchMore()).result).toEqual(
+              scores === undefined ? undefined : [{ id: "1" }],
+            );
+            expect(rankingContext.hasMoreResults()).toBe(false);
+          },
+        );
+      },
+    );
+
     it.each([false, true])(
       "preserves payloads, full RID deduplication and paging with query control %s",
       async (enableQueryControl) => {
