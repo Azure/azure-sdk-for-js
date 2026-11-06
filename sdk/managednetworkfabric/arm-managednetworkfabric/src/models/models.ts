@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1089,6 +1089,8 @@ export enum KnownDeviceRole {
   NPB = "NPB",
   /** Device Role Management Switch */
   ManagementSwitch = "ManagementSwitch",
+  /** Device Role Terminal Server (NetworkBootstrapDevice) */
+  TerminalServer = "TerminalServer",
 }
 
 /**
@@ -1099,7 +1101,8 @@ export enum KnownDeviceRole {
  * **CE**: DeviceRole - Customer Edge (CE) \
  * **ToR**: DeviceRole - Top of Rack (ToR) \
  * **NPB**: DeviceRole - Network Packet Broker (NPB) \
- * **ManagementSwitch**: Device Role Management Switch
+ * **ManagementSwitch**: Device Role Management Switch \
+ * **TerminalServer**: Device Role Terminal Server (NetworkBootstrapDevice)
  */
 export type DeviceRole = string;
 
@@ -1545,6 +1548,12 @@ export enum KnownConfigurationState {
   PendingCommit = "PendingCommit",
   /** PendingAdministrativeUpdate State */
   PendingAdministrativeUpdate = "PendingAdministrativeUpdate",
+  /** Updated configuration is pushed to the selected CE device during staged commit operation */
+  CommitStaged = "CommitStaged",
+  /** Pushing the updated configuration to the selected CE device failed during staged commit operation */
+  CommitStageFailed = "CommitStageFailed",
+  /** Rollback of configuration failed during staged commit rollback operation */
+  CommitRollbackFailed = "CommitRollbackFailed",
 }
 
 /**
@@ -1564,7 +1573,10 @@ export enum KnownConfigurationState {
  * **DeferredControl**: DeferredControl Configuration State \
  * **Provisioning**: Provisioning Configuration State \
  * **PendingCommit**: PendingCommit Configuration State \
- * **PendingAdministrativeUpdate**: PendingAdministrativeUpdate State
+ * **PendingAdministrativeUpdate**: PendingAdministrativeUpdate State \
+ * **CommitStaged**: Updated configuration is pushed to the selected CE device during staged commit operation \
+ * **CommitStageFailed**: Pushing the updated configuration to the selected CE device failed during staged commit operation \
+ * **CommitRollbackFailed**: Rollback of configuration failed during staged commit rollback operation
  */
 export type ConfigurationState = string;
 
@@ -2942,18 +2954,62 @@ export function commonErrorResponseDeserializer(item: any): CommonErrorResponse 
 }
 
 /** The response of the action validate configuration. */
-export interface ValidateConfigurationResponse extends CommonErrorResponse {
+export interface ValidateConfigurationResponseV2 {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+  /** Network Device Run Rw Command Response properties. */
+  properties?: ValidateConfigurationResponseProperties;
+}
+
+export function validateConfigurationResponseV2Deserializer(
+  item: any,
+): ValidateConfigurationResponseV2 {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : validateConfigurationResponsePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of the action validate configuration. */
+export interface ValidateConfigurationResponseProperties {
   /** Gets the configuration state. */
   readonly configurationState?: ConfigurationState;
   /** URL for the details of the response. */
   url?: string;
 }
 
-export function validateConfigurationResponseDeserializer(
+export function validateConfigurationResponsePropertiesDeserializer(
   item: any,
-): ValidateConfigurationResponse {
+): ValidateConfigurationResponseProperties {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     configurationState: item["configurationState"],
     url: item["url"],
   };
@@ -4788,8 +4844,8 @@ export function l3IsolationDomainPatchSerializer(item: L3IsolationDomainPatch): 
       "aggregateRouteConfiguration",
       "connectedSubnetRoutePolicy",
       "staticRouteRoutePolicy",
-      "v4routePrefixLimit",
-      "v6routePrefixLimit",
+      "v4RoutePrefixLimit",
+      "v6RoutePrefixLimit",
       "exportPolicyConfiguration",
     ])
       ? undefined
@@ -7235,6 +7291,8 @@ export interface NeighborGroup extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Administrative state of the resource. */
+  readonly administrativeState?: AdministrativeState;
 }
 
 export function neighborGroupSerializer(item: NeighborGroup): any {
@@ -7285,6 +7343,8 @@ export interface NeighborGroupProperties {
   readonly provisioningState?: ProvisioningState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Administrative state of the resource. */
+  readonly administrativeState?: AdministrativeState;
 }
 
 export function neighborGroupPropertiesSerializer(item: NeighborGroupProperties): any {
@@ -7318,6 +7378,7 @@ export function neighborGroupPropertiesDeserializer(item: any): NeighborGroupPro
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
     configurationState: item["configurationState"],
+    administrativeState: item["administrativeState"],
   };
 }
 
@@ -7711,6 +7772,8 @@ export interface NetworkDevice extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
+  /** Operational state of networkDevice indicating if the device is reachable and services are available. */
+  readonly operationalState?: OperationalState;
   /** Secret rotation status for the device's secrets. */
   readonly secretRotationStatus?: SecretRotationStatus[];
   /** Certificate rotation status for the device's certificates. */
@@ -7781,6 +7844,8 @@ export interface NetworkDeviceProperties {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
+  /** Operational state of networkDevice indicating if the device is reachable and services are available. */
+  readonly operationalState?: OperationalState;
   /** Secret rotation status for the device's secrets. */
   readonly secretRotationStatus?: SecretRotationStatus[];
   /** Certificate rotation status for the device's certificates. */
@@ -7822,6 +7887,7 @@ export function networkDevicePropertiesDeserializer(item: any): NetworkDevicePro
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
+    operationalState: item["operationalState"],
     secretRotationStatus: !item["secretRotationStatus"]
       ? item["secretRotationStatus"]
       : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
@@ -7898,6 +7964,30 @@ export enum KnownNetworkDeviceRole {
  * **Management**: NetworkDeviceRole-Management
  */
 export type NetworkDeviceRole = string;
+
+/** Operational State represents the current runtime condition of a networking resource. It reflects the actual health, reachability, and availability of the resource at a given point in time. */
+export enum KnownOperationalState {
+  /** Operational State Unknown indicates the state of the resource cannot be determined. */
+  Unknown = "Unknown",
+  /** Operational State Up indicates the resource is operational and functioning normally and all required control-plane and (where applicable) data-plane operations are healthy. */
+  Up = "Up",
+  /** Operational State Down indicates the resource is not functioning or not reachable and no meaningful operations can be performed. */
+  Down = "Down",
+  /** Operational State Degraded indicates the resource is partially functional, some capabilities may be impaired, but the resource is still operational. */
+  Degraded = "Degraded",
+}
+
+/**
+ * Operational State represents the current runtime condition of a networking resource. It reflects the actual health, reachability, and availability of the resource at a given point in time. \
+ * {@link KnownOperationalState} can be used interchangeably with OperationalState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Operational State Unknown indicates the state of the resource cannot be determined. \
+ * **Up**: Operational State Up indicates the resource is operational and functioning normally and all required control-plane and (where applicable) data-plane operations are healthy. \
+ * **Down**: Operational State Down indicates the resource is not functioning or not reachable and no meaningful operations can be performed. \
+ * **Degraded**: Operational State Degraded indicates the resource is partially functional, some capabilities may be impaired, but the resource is still operational.
+ */
+export type OperationalState = string;
 
 export function secretRotationStatusArrayDeserializer(result: Array<SecretRotationStatus>): any[] {
   return result.map((item) => {
@@ -8604,6 +8694,8 @@ export interface NetworkInterface extends ProxyResource {
   readonly administrativeState?: AdministrativeState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Operational state of networkInterface indicating if the interface is reachable */
+  readonly operationalState?: OperationalState;
 }
 
 export function networkInterfaceSerializer(item: NetworkInterface): any {
@@ -8656,6 +8748,8 @@ export interface NetworkInterfaceProperties extends AnnotationResource {
   readonly administrativeState?: AdministrativeState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Operational state of networkInterface indicating if the interface is reachable */
+  readonly operationalState?: OperationalState;
 }
 
 export function networkInterfacePropertiesSerializer(item: NetworkInterfaceProperties): any {
@@ -8679,6 +8773,7 @@ export function networkInterfacePropertiesDeserializer(item: any): NetworkInterf
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
     configurationState: item["configurationState"],
+    operationalState: item["operationalState"],
   };
 }
 
@@ -8792,6 +8887,10 @@ export interface NetworkFabricController extends TrackedResource {
   readonly lastOperation?: LastOperationProperties;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
   readonly provisioningState?: ProvisioningState;
+  /** Operational state of networkFabricController indicating if the resources of the controller are reachable and services are available. */
+  readonly operationalState?: OperationalState;
+  /** The VM profile configuration for the NFC's associated compute (VM) resources. */
+  vmProfile?: VmProfile;
 }
 
 export function networkFabricControllerSerializer(item: NetworkFabricController): any {
@@ -8854,6 +8953,10 @@ export interface NetworkFabricControllerProperties {
   readonly lastOperation?: LastOperationProperties;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
   readonly provisioningState?: ProvisioningState;
+  /** Operational state of networkFabricController indicating if the resources of the controller are reachable and services are available. */
+  readonly operationalState?: OperationalState;
+  /** The VM profile configuration for the NFC's associated compute (VM) resources. */
+  vmProfile?: VmProfile;
 }
 
 export function networkFabricControllerPropertiesSerializer(
@@ -8876,6 +8979,7 @@ export function networkFabricControllerPropertiesSerializer(
     ipv4AddressSpace: item["ipv4AddressSpace"],
     ipv6AddressSpace: item["ipv6AddressSpace"],
     nfcSku: item["nfcSku"],
+    vmProfile: !item["vmProfile"] ? item["vmProfile"] : vmProfileSerializer(item["vmProfile"]),
   };
 }
 
@@ -8919,6 +9023,8 @@ export function networkFabricControllerPropertiesDeserializer(
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
+    operationalState: item["operationalState"],
+    vmProfile: !item["vmProfile"] ? item["vmProfile"] : vmProfileDeserializer(item["vmProfile"]),
   };
 }
 
@@ -9048,6 +9154,22 @@ export enum KnownNfcSku {
  * **HighPerformance**: NfcSku-HighPerformance
  */
 export type NfcSku = string;
+
+/** The VM profile configuration for the NFC's associated compute (VM) resources. */
+export interface VmProfile {
+  /** The SKU that will be used for creating the VMS for AKS cluster. */
+  vmSkuName: string;
+}
+
+export function vmProfileSerializer(item: VmProfile): any {
+  return { vmSkuName: item["vmSkuName"] };
+}
+
+export function vmProfileDeserializer(item: any): VmProfile {
+  return {
+    vmSkuName: item["vmSkuName"],
+  };
+}
 
 /** The Network Fabric Controller Patch payload definition. */
 export interface NetworkFabricControllerPatch extends TagsUpdate {
@@ -9256,6 +9378,8 @@ export interface NetworkFabric extends TrackedResource {
   ipv6Prefix?: string;
   /** ASN of CE devices for CE/PE connectivity. */
   fabricASN: number;
+  /** Azure resource ID for the NetworkBootstrapDevice belonging to this Network Fabric. */
+  readonly networkBootstrapDeviceId?: string;
   /** Network and credentials configuration currently applied to terminal server. */
   terminalServerConfiguration: TerminalServerConfiguration;
   /** Configuration to be used to setup the management network. */
@@ -9292,8 +9416,14 @@ export interface NetworkFabric extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
+  /** Operational state of networkFabric indicating if the resources of the fabric are reachable and services are available. */
+  readonly operationalState?: OperationalState;
   /** NetworkFabric QoS Configuration */
   qosConfiguration?: QosProperties;
+  /** The settings for a customer secret archive that may be used to hold copies of credentials for the Network Fabric. */
+  secretArchiveSettings?: SecretArchiveSettings;
+  /** The upgrade profile to be used by devices in the network fabric during device operations */
+  upgradeProfile?: UpgradeProfileProperties[];
 }
 
 export function networkFabricSerializer(item: NetworkFabric): any {
@@ -9350,6 +9480,8 @@ export interface NetworkFabricProperties extends AnnotationResource {
   ipv6Prefix?: string;
   /** ASN of CE devices for CE/PE connectivity. */
   fabricASN: number;
+  /** Azure resource ID for the NetworkBootstrapDevice belonging to this Network Fabric. */
+  readonly networkBootstrapDeviceId?: string;
   /** Network and credentials configuration currently applied to terminal server. */
   terminalServerConfiguration: TerminalServerConfiguration;
   /** Configuration to be used to setup the management network. */
@@ -9386,8 +9518,14 @@ export interface NetworkFabricProperties extends AnnotationResource {
   readonly provisioningState?: ProvisioningState;
   /** Administrative state of the resource. */
   readonly administrativeState?: AdministrativeState;
+  /** Operational state of networkFabric indicating if the resources of the fabric are reachable and services are available. */
+  readonly operationalState?: OperationalState;
   /** NetworkFabric QoS Configuration */
   qosConfiguration?: QosProperties;
+  /** The settings for a customer secret archive that may be used to hold copies of credentials for the Network Fabric. */
+  secretArchiveSettings?: SecretArchiveSettings;
+  /** The upgrade profile to be used by devices in the network fabric during device operations */
+  upgradeProfile?: UpgradeProfileProperties[];
 }
 
 export function networkFabricPropertiesSerializer(item: NetworkFabricProperties): any {
@@ -9434,6 +9572,12 @@ export function networkFabricPropertiesSerializer(item: NetworkFabricProperties)
     qosConfiguration: !item["qosConfiguration"]
       ? item["qosConfiguration"]
       : qosPropertiesSerializer(item["qosConfiguration"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchiveSettingsSerializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesArraySerializer(item["upgradeProfile"]),
   };
 }
 
@@ -9459,6 +9603,7 @@ export function networkFabricPropertiesDeserializer(item: any): NetworkFabricPro
     ipv4Prefix: item["ipv4Prefix"],
     ipv6Prefix: item["ipv6Prefix"],
     fabricASN: item["fabricASN"],
+    networkBootstrapDeviceId: item["networkBootstrapDeviceId"],
     terminalServerConfiguration: terminalServerConfigurationDeserializer(
       item["terminalServerConfiguration"],
     ),
@@ -9515,9 +9660,16 @@ export function networkFabricPropertiesDeserializer(item: any): NetworkFabricPro
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
+    operationalState: item["operationalState"],
     qosConfiguration: !item["qosConfiguration"]
       ? item["qosConfiguration"]
       : qosPropertiesDeserializer(item["qosConfiguration"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchiveSettingsDeserializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesArrayDeserializer(item["upgradeProfile"]),
   };
 }
 
@@ -9988,6 +10140,112 @@ export enum KnownQosConfigurationState {
  */
 export type QosConfigurationState = string;
 
+/** Represents the settings for a secret archive used to hold credentials for the Network Fabric. */
+export interface SecretArchiveSettings {
+  /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
+  associatedIdentity: IdentitySelector;
+  /** The URI for the key vault used as the secret archive. */
+  vaultUri: string;
+}
+
+export function secretArchiveSettingsSerializer(item: SecretArchiveSettings): any {
+  return {
+    associatedIdentity: identitySelectorSerializer(item["associatedIdentity"]),
+    vaultUri: item["vaultUri"],
+  };
+}
+
+export function secretArchiveSettingsDeserializer(item: any): SecretArchiveSettings {
+  return {
+    associatedIdentity: identitySelectorDeserializer(item["associatedIdentity"]),
+    vaultUri: item["vaultUri"],
+  };
+}
+
+export function upgradeProfilePropertiesArraySerializer(
+  result: Array<UpgradeProfileProperties>,
+): any[] {
+  return result.map((item) => {
+    return upgradeProfilePropertiesSerializer(item);
+  });
+}
+
+export function upgradeProfilePropertiesArrayDeserializer(
+  result: Array<UpgradeProfileProperties>,
+): any[] {
+  return result.map((item) => {
+    return upgradeProfilePropertiesDeserializer(item);
+  });
+}
+
+/** The upgrade profile to be used by devices in the network fabric during device upgrade operations */
+export interface UpgradeProfileProperties {
+  /** The pre-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+  preUpgradeProfile?: PreUpgradeProfileProperties;
+  /** The post-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+  postUpgradeProfile?: PostUpgradeProfileProperties;
+}
+
+export function upgradeProfilePropertiesSerializer(item: UpgradeProfileProperties): any {
+  return {
+    preUpgradeProfile: !item["preUpgradeProfile"]
+      ? item["preUpgradeProfile"]
+      : preUpgradeProfilePropertiesSerializer(item["preUpgradeProfile"]),
+    postUpgradeProfile: !item["postUpgradeProfile"]
+      ? item["postUpgradeProfile"]
+      : postUpgradeProfilePropertiesSerializer(item["postUpgradeProfile"]),
+  };
+}
+
+export function upgradeProfilePropertiesDeserializer(item: any): UpgradeProfileProperties {
+  return {
+    preUpgradeProfile: !item["preUpgradeProfile"]
+      ? item["preUpgradeProfile"]
+      : preUpgradeProfilePropertiesDeserializer(item["preUpgradeProfile"]),
+    postUpgradeProfile: !item["postUpgradeProfile"]
+      ? item["postUpgradeProfile"]
+      : postUpgradeProfilePropertiesDeserializer(item["postUpgradeProfile"]),
+  };
+}
+
+/** The pre-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+export interface PreUpgradeProfileProperties {
+  /** Maximum wait time in seconds for during the pre-upgrade process for devices in the network fabric to successfully move into maintenance mode. */
+  maxEnteringMaintenanceTimeoutInSeconds?: number;
+}
+
+export function preUpgradeProfilePropertiesSerializer(item: PreUpgradeProfileProperties): any {
+  return { maxEnteringMaintenanceTimeoutInSeconds: item["maxEnteringMaintenanceTimeoutInSeconds"] };
+}
+
+export function preUpgradeProfilePropertiesDeserializer(item: any): PreUpgradeProfileProperties {
+  return {
+    maxEnteringMaintenanceTimeoutInSeconds: item["maxEnteringMaintenanceTimeoutInSeconds"],
+  };
+}
+
+/** The post-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+export interface PostUpgradeProfileProperties {
+  /** Maximum wait time in seconds for during the post-upgrade process for devices in the network fabric to successfully move out of maintenance mode. */
+  maxExitingMaintenanceTimeoutInSeconds?: number;
+  /** Maximum time in seconds to wait for MLAG reload delay on devices in the network fabric. */
+  mlagReloadDelayTimeoutInSeconds?: number;
+}
+
+export function postUpgradeProfilePropertiesSerializer(item: PostUpgradeProfileProperties): any {
+  return {
+    maxExitingMaintenanceTimeoutInSeconds: item["maxExitingMaintenanceTimeoutInSeconds"],
+    mlagReloadDelayTimeoutInSeconds: item["mlagReloadDelayTimeoutInSeconds"],
+  };
+}
+
+export function postUpgradeProfilePropertiesDeserializer(item: any): PostUpgradeProfileProperties {
+  return {
+    maxExitingMaintenanceTimeoutInSeconds: item["maxExitingMaintenanceTimeoutInSeconds"],
+    mlagReloadDelayTimeoutInSeconds: item["mlagReloadDelayTimeoutInSeconds"],
+  };
+}
+
 /** Layer 3 primary and secondary IP Address prefixes. */
 export interface Layer3IpPrefixProperties {
   /** IPv4 Address Prefix. */
@@ -10054,6 +10312,10 @@ export interface NetworkFabricPatch extends TagsUpdate {
   featureFlags?: FeatureFlagProperties[];
   /** Authorized transciever configuration for NetworkFabric. */
   authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
+  /** The settings for a customer secret archive that may be used to hold copies of credentials for the Network Fabric. */
+  secretArchiveSettings?: SecretArchivePatchSettings;
+  /** The upgrade profile to be used by devices in the network fabric during device operations */
+  upgradeProfile?: UpgradeProfilePropertiesPatchProperties[];
 }
 
 export function networkFabricPatchSerializer(item: NetworkFabricPatch): any {
@@ -10076,6 +10338,8 @@ export function networkFabricPatchSerializer(item: NetworkFabricPatch): any {
       "qosConfiguration",
       "featureFlags",
       "authorizedTransceiver",
+      "secretArchiveSettings",
+      "upgradeProfile",
     ])
       ? undefined
       : _networkFabricPatchPropertiesSerializer(item),
@@ -10119,6 +10383,10 @@ export interface NetworkFabricPatchProperties {
   featureFlags?: FeatureFlagProperties[];
   /** Authorized transciever configuration for NetworkFabric. */
   authorizedTransceiver?: AuthorizedTransceiverPatchProperties;
+  /** The settings for a customer secret archive that may be used to hold copies of credentials for the Network Fabric. */
+  secretArchiveSettings?: SecretArchivePatchSettings;
+  /** The upgrade profile to be used by devices in the network fabric during device operations */
+  upgradeProfile?: UpgradeProfilePropertiesPatchProperties[];
 }
 
 export function networkFabricPatchPropertiesSerializer(item: NetworkFabricPatchProperties): any {
@@ -10161,6 +10429,12 @@ export function networkFabricPatchPropertiesSerializer(item: NetworkFabricPatchP
     authorizedTransceiver: !item["authorizedTransceiver"]
       ? item["authorizedTransceiver"]
       : authorizedTransceiverPatchPropertiesSerializer(item["authorizedTransceiver"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchivePatchSettingsSerializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesPatchPropertiesArraySerializer(item["upgradeProfile"]),
   };
 }
 
@@ -10359,6 +10633,81 @@ export function authorizedTransceiverPatchPropertiesSerializer(
   return { vendor: item["vendor"], key: item["key"] };
 }
 
+/** Represents the settings for a secret archive used to hold credentials for the Network Fabric. */
+export interface SecretArchivePatchSettings {
+  /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
+  associatedIdentity?: IdentitySelectorPatch;
+  /** The URI for the key vault used as the secret archive. */
+  vaultUri?: string;
+}
+
+export function secretArchivePatchSettingsSerializer(item: SecretArchivePatchSettings): any {
+  return {
+    associatedIdentity: !item["associatedIdentity"]
+      ? item["associatedIdentity"]
+      : identitySelectorPatchSerializer(item["associatedIdentity"]),
+    vaultUri: item["vaultUri"],
+  };
+}
+
+export function upgradeProfilePropertiesPatchPropertiesArraySerializer(
+  result: Array<UpgradeProfilePropertiesPatchProperties>,
+): any[] {
+  return result.map((item) => {
+    return upgradeProfilePropertiesPatchPropertiesSerializer(item);
+  });
+}
+
+/** The upgrade profile patch parameters that can be patched which are used by devices in the network fabric during device upgrade operations */
+export interface UpgradeProfilePropertiesPatchProperties {
+  /** The pre-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+  preUpgradeProfile?: PreUpgradeProfilePatchProperties;
+  /** The post-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+  postUpgradeProfile?: PostUpgradeProfilePatchProperties;
+}
+
+export function upgradeProfilePropertiesPatchPropertiesSerializer(
+  item: UpgradeProfilePropertiesPatchProperties,
+): any {
+  return {
+    preUpgradeProfile: !item["preUpgradeProfile"]
+      ? item["preUpgradeProfile"]
+      : preUpgradeProfilePatchPropertiesSerializer(item["preUpgradeProfile"]),
+    postUpgradeProfile: !item["postUpgradeProfile"]
+      ? item["postUpgradeProfile"]
+      : postUpgradeProfilePatchPropertiesSerializer(item["postUpgradeProfile"]),
+  };
+}
+
+/** The pre-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+export interface PreUpgradeProfilePatchProperties {
+  /** Maximum wait time in seconds for during the pre-upgrade process for devices in the network fabric to successfully move into maintenance mode. */
+  maxEnteringMaintenanceTimeoutInSeconds?: number;
+}
+
+export function preUpgradeProfilePatchPropertiesSerializer(
+  item: PreUpgradeProfilePatchProperties,
+): any {
+  return { maxEnteringMaintenanceTimeoutInSeconds: item["maxEnteringMaintenanceTimeoutInSeconds"] };
+}
+
+/** The post-upgrade configuration parameters to be used by devices in the network fabric during device upgrade operations */
+export interface PostUpgradeProfilePatchProperties {
+  /** Maximum wait time in seconds for during the post-upgrade process for devices in the network fabric to successfully move out of maintenance mode. */
+  maxExitingMaintenanceTimeoutInSeconds?: number;
+  /** Maximum time in seconds to wait for MLAG reload delay on devices in the network fabric. */
+  mlagReloadDelayTimeoutInSeconds?: number;
+}
+
+export function postUpgradeProfilePatchPropertiesSerializer(
+  item: PostUpgradeProfilePatchProperties,
+): any {
+  return {
+    maxExitingMaintenanceTimeoutInSeconds: item["maxExitingMaintenanceTimeoutInSeconds"],
+    mlagReloadDelayTimeoutInSeconds: item["mlagReloadDelayTimeoutInSeconds"],
+  };
+}
+
 /** Layer 3 primary and secondary IP Address prefixes. */
 export interface Layer3IpPrefixPatchProperties {
   /** IPv4 Address Prefix. */
@@ -10446,6 +10795,87 @@ export interface UpdateVersion {
 export function updateVersionSerializer(item: UpdateVersion): any {
   return { version: item["version"] };
 }
+
+/** Refresh configuration request properties. */
+export interface RefreshConfigurationRequestProperties {
+  /** Indicates if base configuration needs to be generated afresh. */
+  generateBaseConfiguration: GenerateBaseConfiguration;
+  /** Type of configuration regeneration to be performed. */
+  configurationRegenerationType: ConfigurationRegenerationType;
+  /** The types of devices for which the configuration needs to be refreshed. If not provided, configuration will be refreshed for all device types. */
+  deviceTypes?: NetworkFabricRefreshDeviceTypes[];
+}
+
+export function refreshConfigurationRequestPropertiesSerializer(
+  item: RefreshConfigurationRequestProperties,
+): any {
+  return {
+    generateBaseConfiguration: item["generateBaseConfiguration"],
+    configurationRegenerationType: item["configurationRegenerationType"],
+    deviceTypes: !item["deviceTypes"]
+      ? item["deviceTypes"]
+      : item["deviceTypes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Allowed types for generate base configuration during network fabric refresh */
+export enum KnownGenerateBaseConfiguration {
+  /** Disabled indicates that base configuration should not be generated during network fabric refresh */
+  Disabled = "Disabled",
+  /** Enabled indicates that base configuration should be generated during network fabric refresh */
+  Enabled = "Enabled",
+}
+
+/**
+ * Allowed types for generate base configuration during network fabric refresh \
+ * {@link KnownGenerateBaseConfiguration} can be used interchangeably with GenerateBaseConfiguration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Disabled indicates that base configuration should not be generated during network fabric refresh \
+ * **Enabled**: Enabled indicates that base configuration should be generated during network fabric refresh
+ */
+export type GenerateBaseConfiguration = string;
+
+/** Configuration Regeneration Type used for refresh configuration */
+export enum KnownConfigurationRegenerationType {
+  /** Partial configuration regeneration indicates that the last known good configuration will be reapplied. */
+  Partial = "Partial",
+}
+
+/**
+ * Configuration Regeneration Type used for refresh configuration \
+ * {@link KnownConfigurationRegenerationType} can be used interchangeably with ConfigurationRegenerationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Partial**: Partial configuration regeneration indicates that the last known good configuration will be reapplied.
+ */
+export type ConfigurationRegenerationType = string;
+
+/** Device types for which the refresh configuration action will be applied: Example: CE | ToR | NPB | ManagementSwitch. */
+export enum KnownNetworkFabricRefreshDeviceTypes {
+  /** DeviceType-CE(Customer Edge) */
+  CE = "CE",
+  /** DeviceType-ToR(top of rack) */
+  ToR = "ToR",
+  /** DeviceType-NPB(Network Packet Broker) */
+  NPB = "NPB",
+  /** DeviceType-ManagementSwitch */
+  ManagementSwitch = "ManagementSwitch",
+}
+
+/**
+ * Device types for which the refresh configuration action will be applied: Example: CE | ToR | NPB | ManagementSwitch. \
+ * {@link KnownNetworkFabricRefreshDeviceTypes} can be used interchangeably with NetworkFabricRefreshDeviceTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CE**: DeviceType-CE(Customer Edge) \
+ * **ToR**: DeviceType-ToR(top of rack) \
+ * **NPB**: DeviceType-NPB(Network Packet Broker) \
+ * **ManagementSwitch**: DeviceType-ManagementSwitch
+ */
+export type NetworkFabricRefreshDeviceTypes = string;
 
 /** Validation configuration properties. */
 export interface ValidateConfigurationProperties {
@@ -12023,6 +12453,8 @@ export interface NetworkPacketBroker extends TrackedResource {
   readonly networkTapIds?: string[];
   /** List of neighbor group IDs configured on NPB. */
   readonly neighborGroupIds?: string[];
+  /** ARM resource ID of the source Network Tap Rule. */
+  sourceNetworkTapRuleId?: string;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
@@ -12073,6 +12505,8 @@ export interface NetworkPacketBrokerProperties {
   readonly networkTapIds?: string[];
   /** List of neighbor group IDs configured on NPB. */
   readonly neighborGroupIds?: string[];
+  /** ARM resource ID of the source Network Tap Rule. */
+  sourceNetworkTapRuleId?: string;
   /** Details of the last operation performed on the resource */
   readonly lastOperation?: LastOperationProperties;
   /** Provisioning state of the resource. */
@@ -12082,7 +12516,10 @@ export interface NetworkPacketBrokerProperties {
 }
 
 export function networkPacketBrokerPropertiesSerializer(item: NetworkPacketBrokerProperties): any {
-  return { networkFabricId: item["networkFabricId"] };
+  return {
+    networkFabricId: item["networkFabricId"],
+    sourceNetworkTapRuleId: item["sourceNetworkTapRuleId"],
+  };
 }
 
 export function networkPacketBrokerPropertiesDeserializer(
@@ -12110,6 +12547,7 @@ export function networkPacketBrokerPropertiesDeserializer(
       : item["neighborGroupIds"].map((p: any) => {
           return p;
         }),
+    sourceNetworkTapRuleId: item["sourceNetworkTapRuleId"],
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
@@ -12120,6 +12558,8 @@ export function networkPacketBrokerPropertiesDeserializer(
 
 /** The NetworkPacketBroker patch resource definition. */
 export interface NetworkPacketBrokerPatch extends TagsUpdate {
+  /** NetworkPacketBroker patch properties. */
+  properties?: NetworkPacketBrokerPatchProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentityPatch;
 }
@@ -12127,10 +12567,25 @@ export interface NetworkPacketBrokerPatch extends TagsUpdate {
 export function networkPacketBrokerPatchSerializer(item: NetworkPacketBrokerPatch): any {
   return {
     tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkPacketBrokerPatchPropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityPatchSerializer(item["identity"]),
   };
+}
+
+/** The NetworkPacketBroker patch properties. */
+export interface NetworkPacketBrokerPatchProperties {
+  /** ARM resource ID of the source Network Tap Rule. */
+  sourceNetworkTapRuleId?: string;
+}
+
+export function networkPacketBrokerPatchPropertiesSerializer(
+  item: NetworkPacketBrokerPatchProperties,
+): any {
+  return { sourceNetworkTapRuleId: item["sourceNetworkTapRuleId"] };
 }
 
 /** Paged collection of NetworkPacketBroker items */
@@ -14397,6 +14852,8 @@ export interface NetworkBootstrapDevice extends TrackedResource {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Control Plane Access Control List ARM resource IDs. */
+  controlPlaneAcls?: string[];
   /** Current version of the device as defined in SKU. */
   readonly version?: string;
   /** Network Bootstrap Device SKU name. */
@@ -14419,6 +14876,10 @@ export interface NetworkBootstrapDevice extends TrackedResource {
   readonly administrativeState?: AdministrativeState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Operational state of networkBootstrapDevice indicating if the device is reachable and services are available. */
+  readonly operationalState?: OperationalState;
+  /** Secret rotation status for the terminal server's secrets. */
+  readonly secretRotationStatus?: SecretRotationStatus[];
 }
 
 export function networkBootstrapDeviceSerializer(item: NetworkBootstrapDevice): any {
@@ -14459,6 +14920,8 @@ export interface NetworkBootstrapDeviceProperties {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Control Plane Access Control List ARM resource IDs. */
+  controlPlaneAcls?: string[];
   /** Current version of the device as defined in SKU. */
   readonly version?: string;
   /** Network Bootstrap Device SKU name. */
@@ -14481,6 +14944,10 @@ export interface NetworkBootstrapDeviceProperties {
   readonly administrativeState?: AdministrativeState;
   /** Configuration state of the resource. */
   readonly configurationState?: ConfigurationState;
+  /** Operational state of networkBootstrapDevice indicating if the device is reachable and services are available. */
+  readonly operationalState?: OperationalState;
+  /** Secret rotation status for the terminal server's secrets. */
+  readonly secretRotationStatus?: SecretRotationStatus[];
 }
 
 export function networkBootstrapDevicePropertiesSerializer(
@@ -14490,6 +14957,11 @@ export function networkBootstrapDevicePropertiesSerializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
     networkDeviceSku: item["networkDeviceSku"],
   };
 }
@@ -14501,6 +14973,11 @@ export function networkBootstrapDevicePropertiesDeserializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
     version: item["version"],
     networkDeviceSku: item["networkDeviceSku"],
     networkFabricId: item["networkFabricId"],
@@ -14512,6 +14989,10 @@ export function networkBootstrapDevicePropertiesDeserializer(
     primaryManagementIpv4Address: item["primaryManagementIpv4Address"],
     administrativeState: item["administrativeState"],
     configurationState: item["configurationState"],
+    operationalState: item["operationalState"],
+    secretRotationStatus: !item["secretRotationStatus"]
+      ? item["secretRotationStatus"]
+      : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
   };
 }
 
@@ -14525,12 +15006,19 @@ export interface NetworkBootstrapDevicePatch extends TagsUpdate {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Control Plane Access Control List ARM resource IDs. */
+  controlPlaneAcls?: string[];
 }
 
 export function networkBootstrapDevicePatchSerializer(item: NetworkBootstrapDevicePatch): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["annotation", "hostName", "serialNumber"])
+    properties: areAllPropsUndefined(item, [
+      "annotation",
+      "hostName",
+      "serialNumber",
+      "controlPlaneAcls",
+    ])
       ? undefined
       : _networkBootstrapDevicePatchPropertiesSerializer(item),
     identity: !item["identity"]
@@ -14547,6 +15035,8 @@ export interface NetworkBootstrapDevicePatchProperties {
   hostName?: string;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Control Plane Access Control List ARM resource IDs. */
+  controlPlaneAcls?: string[];
 }
 
 export function networkBootstrapDevicePatchPropertiesSerializer(
@@ -14556,6 +15046,11 @@ export function networkBootstrapDevicePatchPropertiesSerializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -14818,6 +15313,8 @@ export interface NetworkBootstrapInterface extends ProxyResource {
   readonly ipv6Address?: string;
   /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Operational state of networkBootstrapInterface indicating if the interface is reachable */
+  readonly operationalState?: OperationalState;
 }
 
 export function networkBootstrapInterfaceSerializer(item: NetworkBootstrapInterface): any {
@@ -14860,6 +15357,8 @@ export interface NetworkBootstrapInterfaceProperties extends AnnotationResource 
   readonly ipv6Address?: string;
   /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber?: string;
+  /** Operational state of networkBootstrapInterface indicating if the interface is reachable */
+  readonly operationalState?: OperationalState;
 }
 
 export function networkBootstrapInterfacePropertiesSerializer(
@@ -14888,6 +15387,7 @@ export function networkBootstrapInterfacePropertiesDeserializer(
     ipv4Address: item["ipv4Address"],
     ipv6Address: item["ipv6Address"],
     serialNumber: item["serialNumber"],
+    operationalState: item["operationalState"],
   };
 }
 
@@ -14962,10 +15462,679 @@ export function networkBootstrapInterfaceArrayDeserializer(
   });
 }
 
+/** EdgeConnector represents the mechanism by which a collection of on-prem infrastructure (Fabric) is connected to Azure. */
+export interface EdgeConnector extends TrackedResource {
+  /** EdgeConnector properties. */
+  properties: EdgeConnectorProperties;
+}
+
+export function edgeConnectorSerializer(item: EdgeConnector): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: edgeConnectorPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function edgeConnectorDeserializer(item: any): EdgeConnector {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: edgeConnectorPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** EdgeConnectorProperties defines the resource properties. */
+export interface EdgeConnectorProperties {
+  /** How the EdgeConnector establishes connectivity to on-prem infrastructure. */
+  connectivityModel?: ConnectivityModel;
+  /** Software version of the control plane. */
+  version?: string;
+  /** ARM resource IDs of Fabric resources managed by this EdgeConnector. */
+  readonly managedFabricIds?: string[];
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function edgeConnectorPropertiesSerializer(item: EdgeConnectorProperties): any {
+  return { connectivityModel: item["connectivityModel"], version: item["version"] };
+}
+
+export function edgeConnectorPropertiesDeserializer(item: any): EdgeConnectorProperties {
+  return {
+    connectivityModel: item["connectivityModel"],
+    version: item["version"],
+    managedFabricIds: !item["managedFabricIds"]
+      ? item["managedFabricIds"]
+      : item["managedFabricIds"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Connectivity model for EdgeConnector. */
+export enum KnownConnectivityModel {
+  /** No connectivity. */
+  None = "none",
+  /** Direct IP reachability. */
+  Direct = "direct",
+  /** Arc Proxy tunnel. */
+  ArcProxy = "arcProxy",
+  /** ExpressRoute private peering. */
+  ExpressRoute = "expressRoute",
+}
+
+/**
+ * Connectivity model for EdgeConnector. \
+ * {@link KnownConnectivityModel} can be used interchangeably with ConnectivityModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: No connectivity. \
+ * **direct**: Direct IP reachability. \
+ * **arcProxy**: Arc Proxy tunnel. \
+ * **expressRoute**: ExpressRoute private peering.
+ */
+export type ConnectivityModel = string;
+
+/** EdgeConnector patch body. */
+export interface EdgeConnectorPatch {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Resource properties. */
+  properties?: EdgeConnectorPatchableProperties;
+}
+
+export function edgeConnectorPatchSerializer(item: EdgeConnectorPatch): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : edgeConnectorPatchablePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** EdgeConnector patchable properties. */
+export interface EdgeConnectorPatchableProperties {
+  /** How the EdgeConnector establishes connectivity to on-prem infrastructure. */
+  connectivityModel?: ConnectivityModel;
+  /** Software version of the control plane. */
+  version?: string;
+}
+
+export function edgeConnectorPatchablePropertiesSerializer(
+  item: EdgeConnectorPatchableProperties,
+): any {
+  return { connectivityModel: item["connectivityModel"], version: item["version"] };
+}
+
+/** The response of a EdgeConnector list operation. */
+export interface _EdgeConnectorListResult {
+  /** The EdgeConnector items on this page */
+  value: EdgeConnector[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _edgeConnectorListResultDeserializer(item: any): _EdgeConnectorListResult {
+  return {
+    value: edgeConnectorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function edgeConnectorArraySerializer(result: Array<EdgeConnector>): any[] {
+  return result.map((item) => {
+    return edgeConnectorSerializer(item);
+  });
+}
+
+export function edgeConnectorArrayDeserializer(result: Array<EdgeConnector>): any[] {
+  return result.map((item) => {
+    return edgeConnectorDeserializer(item);
+  });
+}
+
+/** Represents a physical network deployment hosting infrastructure network configuration. */
+export interface Fabric extends TrackedResource {
+  /** Fabric properties. */
+  properties: FabricProperties;
+}
+
+export function fabricSerializer(item: Fabric): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: fabricPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function fabricDeserializer(item: any): Fabric {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: fabricPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** FabricProperties defines the resource properties. */
+export interface FabricProperties {
+  /** Infrastructure network definitions. */
+  infrastructureNetworks?: InfrastructureNetworks;
+  /** Infrastructure service endpoints. */
+  infrastructureServices?: InfrastructureServices;
+  /** Operation policy for device interaction. */
+  operationPolicy?: OperationPolicy;
+  /** URL of the SDN controller API endpoint. */
+  controllerEndpoint?: string;
+  /** ARM resource ID of the Key Vault secret for controller credentials. */
+  controllerCredentialRef?: string;
+  /** ARM resource ID of the EdgeConnector. */
+  edgeConnectorId?: string;
+  /** Management mode. */
+  managementMode: ManagementMode;
+  /** Controller type for device interaction. */
+  controllerType?: ControllerType;
+  /** Number of physical racks. */
+  rackCount?: number;
+  /** Predefined topology identifier. */
+  fabricSku?: string;
+  /** ARM ID of the customer's Azure VNet. */
+  customerVnetId?: string;
+  /** ARM ID of the customer's subnet. */
+  customerSubnetId?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function fabricPropertiesSerializer(item: FabricProperties): any {
+  return {
+    infrastructureNetworks: !item["infrastructureNetworks"]
+      ? item["infrastructureNetworks"]
+      : infrastructureNetworksSerializer(item["infrastructureNetworks"]),
+    infrastructureServices: !item["infrastructureServices"]
+      ? item["infrastructureServices"]
+      : infrastructureServicesSerializer(item["infrastructureServices"]),
+    operationPolicy: item["operationPolicy"],
+    controllerEndpoint: item["controllerEndpoint"],
+    controllerCredentialRef: item["controllerCredentialRef"],
+    edgeConnectorId: item["edgeConnectorId"],
+    managementMode: item["managementMode"],
+    controllerType: item["controllerType"],
+    rackCount: item["rackCount"],
+    fabricSku: item["fabricSku"],
+    customerVnetId: item["customerVnetId"],
+    customerSubnetId: item["customerSubnetId"],
+  };
+}
+
+export function fabricPropertiesDeserializer(item: any): FabricProperties {
+  return {
+    infrastructureNetworks: !item["infrastructureNetworks"]
+      ? item["infrastructureNetworks"]
+      : infrastructureNetworksDeserializer(item["infrastructureNetworks"]),
+    infrastructureServices: !item["infrastructureServices"]
+      ? item["infrastructureServices"]
+      : infrastructureServicesDeserializer(item["infrastructureServices"]),
+    operationPolicy: item["operationPolicy"],
+    controllerEndpoint: item["controllerEndpoint"],
+    controllerCredentialRef: item["controllerCredentialRef"],
+    edgeConnectorId: item["edgeConnectorId"],
+    managementMode: item["managementMode"],
+    controllerType: item["controllerType"],
+    rackCount: item["rackCount"],
+    fabricSku: item["fabricSku"],
+    customerVnetId: item["customerVnetId"],
+    customerSubnetId: item["customerSubnetId"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Named infrastructure network definitions. */
+export interface InfrastructureNetworks {
+  /** OAM management network. Typical VLAN: 39. */
+  management: InfraNetwork;
+  /** PXE boot network. Typical VLAN: 40. */
+  pxe: InfraNetwork;
+  /** BMC/iDRAC network. Typical VLAN: 41. */
+  bmc: InfraNetwork;
+  /** Storage data plane network. Typical VLAN: 42. */
+  storage: InfraNetwork;
+  /** Storage management plane network. Typical VLAN: 37. */
+  storageMgmt?: InfraNetworkOptionalIp;
+  /** PDU management network. Typical VLAN: 43. */
+  pdu?: InfraNetwork;
+}
+
+export function infrastructureNetworksSerializer(item: InfrastructureNetworks): any {
+  return {
+    management: infraNetworkSerializer(item["management"]),
+    pxe: infraNetworkSerializer(item["pxe"]),
+    bmc: infraNetworkSerializer(item["bmc"]),
+    storage: infraNetworkSerializer(item["storage"]),
+    storageMgmt: !item["storageMgmt"]
+      ? item["storageMgmt"]
+      : infraNetworkOptionalIpSerializer(item["storageMgmt"]),
+    pdu: !item["pdu"] ? item["pdu"] : infraNetworkSerializer(item["pdu"]),
+  };
+}
+
+export function infrastructureNetworksDeserializer(item: any): InfrastructureNetworks {
+  return {
+    management: infraNetworkDeserializer(item["management"]),
+    pxe: infraNetworkDeserializer(item["pxe"]),
+    bmc: infraNetworkDeserializer(item["bmc"]),
+    storage: infraNetworkDeserializer(item["storage"]),
+    storageMgmt: !item["storageMgmt"]
+      ? item["storageMgmt"]
+      : infraNetworkOptionalIpDeserializer(item["storageMgmt"]),
+    pdu: !item["pdu"] ? item["pdu"] : infraNetworkDeserializer(item["pdu"]),
+  };
+}
+
+/** Infrastructure network definition. */
+export interface InfraNetwork {
+  /** 802.1Q VLAN ID. */
+  vlanId: number;
+  /** IPv4 subnet in CIDR notation. */
+  ipv4Subnet: string;
+  /** Default gateway IP. */
+  ipv4Gateway: string;
+  /** Start of allocatable IP range. */
+  ipv4StartAddr: string;
+  /** End of allocatable IP range. */
+  ipv4EndAddr: string;
+  /** Maximum Transmission Unit. */
+  mtu?: number;
+}
+
+export function infraNetworkSerializer(item: InfraNetwork): any {
+  return {
+    vlanId: item["vlanId"],
+    ipv4Subnet: item["ipv4Subnet"],
+    ipv4Gateway: item["ipv4Gateway"],
+    ipv4StartAddr: item["ipv4StartAddr"],
+    ipv4EndAddr: item["ipv4EndAddr"],
+    mtu: item["mtu"],
+  };
+}
+
+export function infraNetworkDeserializer(item: any): InfraNetwork {
+  return {
+    vlanId: item["vlanId"],
+    ipv4Subnet: item["ipv4Subnet"],
+    ipv4Gateway: item["ipv4Gateway"],
+    ipv4StartAddr: item["ipv4StartAddr"],
+    ipv4EndAddr: item["ipv4EndAddr"],
+    mtu: item["mtu"],
+  };
+}
+
+/** Infrastructure network with optional IP fields. */
+export interface InfraNetworkOptionalIp {
+  /** 802.1Q VLAN ID. */
+  vlanId: number;
+  /** IPv4 subnet in CIDR notation. */
+  ipv4Subnet?: string;
+  /** Default gateway IP. */
+  ipv4Gateway?: string;
+  /** Start of allocatable IP range. */
+  ipv4StartAddr?: string;
+  /** End of allocatable IP range. */
+  ipv4EndAddr?: string;
+  /** Maximum Transmission Unit. */
+  mtu?: number;
+}
+
+export function infraNetworkOptionalIpSerializer(item: InfraNetworkOptionalIp): any {
+  return {
+    vlanId: item["vlanId"],
+    ipv4Subnet: item["ipv4Subnet"],
+    ipv4Gateway: item["ipv4Gateway"],
+    ipv4StartAddr: item["ipv4StartAddr"],
+    ipv4EndAddr: item["ipv4EndAddr"],
+    mtu: item["mtu"],
+  };
+}
+
+export function infraNetworkOptionalIpDeserializer(item: any): InfraNetworkOptionalIp {
+  return {
+    vlanId: item["vlanId"],
+    ipv4Subnet: item["ipv4Subnet"],
+    ipv4Gateway: item["ipv4Gateway"],
+    ipv4StartAddr: item["ipv4StartAddr"],
+    ipv4EndAddr: item["ipv4EndAddr"],
+    mtu: item["mtu"],
+  };
+}
+
+/** Infrastructure service endpoints. */
+export interface InfrastructureServices {
+  /** Platform proxy configuration. */
+  platformProxy: PlatformProxy;
+  /** NTP server IPs or hostnames. */
+  ntpServers: string[];
+  /** DNS server IPs. */
+  dnsServers: string[];
+}
+
+export function infrastructureServicesSerializer(item: InfrastructureServices): any {
+  return {
+    platformProxy: platformProxySerializer(item["platformProxy"]),
+    ntpServers: item["ntpServers"].map((p: any) => {
+      return p;
+    }),
+    dnsServers: item["dnsServers"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function infrastructureServicesDeserializer(item: any): InfrastructureServices {
+  return {
+    platformProxy: platformProxyDeserializer(item["platformProxy"]),
+    ntpServers: item["ntpServers"].map((p: any) => {
+      return p;
+    }),
+    dnsServers: item["dnsServers"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Platform proxy configuration. */
+export interface PlatformProxy {
+  /** HTTP proxy endpoint URL, or proxy bare host:port */
+  httpProxy: string;
+  /** HTTPS proxy endpoint URL, or proxy bare host:port for 443 */
+  httpsProxy: string;
+  /** CIDRs, hostnames, and domain suffixes that bypass the proxy. */
+  noProxy: string[];
+}
+
+export function platformProxySerializer(item: PlatformProxy): any {
+  return {
+    httpProxy: item["httpProxy"],
+    httpsProxy: item["httpsProxy"],
+    noProxy: item["noProxy"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function platformProxyDeserializer(item: any): PlatformProxy {
+  return {
+    httpProxy: item["httpProxy"],
+    httpsProxy: item["httpsProxy"],
+    noProxy: item["noProxy"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Operation policy for device interaction. */
+export enum KnownOperationPolicy {
+  /** Read device state and report drift. */
+  ValidateOnly = "validateOnly",
+  /** Read, write, and remediate drift. */
+  FullControl = "fullControl",
+}
+
+/**
+ * Operation policy for device interaction. \
+ * {@link KnownOperationPolicy} can be used interchangeably with OperationPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **validateOnly**: Read device state and report drift. \
+ * **fullControl**: Read, write, and remediate drift.
+ */
+export type OperationPolicy = string;
+
+/** Management mode for the Fabric. */
+export enum KnownManagementMode {
+  /** Customer manages devices. */
+  Unmanaged = "unmanaged",
+  /** RP manages devices. */
+  Managed = "managed",
+}
+
+/**
+ * Management mode for the Fabric. \
+ * {@link KnownManagementMode} can be used interchangeably with ManagementMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unmanaged**: Customer manages devices. \
+ * **managed**: RP manages devices.
+ */
+export type ManagementMode = string;
+
+/** Controller type for device interaction. */
+export enum KnownControllerType {
+  /** Cisco ACI APIC REST API. */
+  CiscoAci = "ciscoAci",
+  /** Arista CloudVision API. */
+  AristaCloudVision = "aristaCloudVision",
+  /** Direct gNMI/SSH. */
+  Direct = "direct",
+}
+
+/**
+ * Controller type for device interaction. \
+ * {@link KnownControllerType} can be used interchangeably with ControllerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ciscoAci**: Cisco ACI APIC REST API. \
+ * **aristaCloudVision**: Arista CloudVision API. \
+ * **direct**: Direct gNMI\/SSH.
+ */
+export type ControllerType = string;
+
+/** Fabric patch body. */
+export interface FabricPatch {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Resource properties. */
+  properties?: FabricPatchableProperties;
+}
+
+export function fabricPatchSerializer(item: FabricPatch): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : fabricPatchablePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Fabric patchable properties. */
+export interface FabricPatchableProperties {
+  /** Infrastructure network definitions. */
+  infrastructureNetworks?: PatchInfrastructureNetworks;
+  /** Infrastructure service endpoints. */
+  infrastructureServices?: PatchInfrastructureServices;
+  /** Operation policy for device interaction. */
+  operationPolicy?: OperationPolicy;
+  /** URL of the SDN controller API endpoint. */
+  controllerEndpoint?: string;
+  /** ARM resource ID of the Key Vault secret for controller credentials. */
+  controllerCredentialRef?: string;
+}
+
+export function fabricPatchablePropertiesSerializer(item: FabricPatchableProperties): any {
+  return {
+    infrastructureNetworks: !item["infrastructureNetworks"]
+      ? item["infrastructureNetworks"]
+      : patchInfrastructureNetworksSerializer(item["infrastructureNetworks"]),
+    infrastructureServices: !item["infrastructureServices"]
+      ? item["infrastructureServices"]
+      : patchInfrastructureServicesSerializer(item["infrastructureServices"]),
+    operationPolicy: item["operationPolicy"],
+    controllerEndpoint: item["controllerEndpoint"],
+    controllerCredentialRef: item["controllerCredentialRef"],
+  };
+}
+
+/** Infrastructure network definitions for PATCH. No networks required. */
+export interface PatchInfrastructureNetworks {
+  /** OAM management network. */
+  management?: PatchInfraNetwork;
+  /** PXE boot network. */
+  pxe?: PatchInfraNetwork;
+  /** BMC/iDRAC network. */
+  bmc?: PatchInfraNetwork;
+  /** Storage data plane network. */
+  storage?: PatchInfraNetwork;
+  /** Storage management plane network. */
+  storageMgmt?: PatchInfraNetwork;
+  /** PDU management network. */
+  pdu?: PatchInfraNetwork;
+}
+
+export function patchInfrastructureNetworksSerializer(item: PatchInfrastructureNetworks): any {
+  return {
+    management: !item["management"]
+      ? item["management"]
+      : patchInfraNetworkSerializer(item["management"]),
+    pxe: !item["pxe"] ? item["pxe"] : patchInfraNetworkSerializer(item["pxe"]),
+    bmc: !item["bmc"] ? item["bmc"] : patchInfraNetworkSerializer(item["bmc"]),
+    storage: !item["storage"] ? item["storage"] : patchInfraNetworkSerializer(item["storage"]),
+    storageMgmt: !item["storageMgmt"]
+      ? item["storageMgmt"]
+      : patchInfraNetworkSerializer(item["storageMgmt"]),
+    pdu: !item["pdu"] ? item["pdu"] : patchInfraNetworkSerializer(item["pdu"]),
+  };
+}
+
+/** Infrastructure network definition for PATCH. All fields optional. */
+export interface PatchInfraNetwork {
+  /** 802.1Q VLAN ID. */
+  vlanId?: number;
+  /** IPv4 subnet in CIDR notation. */
+  ipv4Subnet?: string;
+  /** Default gateway IP. */
+  ipv4Gateway?: string;
+  /** Start of allocatable IP range. */
+  ipv4StartAddr?: string;
+  /** End of allocatable IP range. */
+  ipv4EndAddr?: string;
+  /** Maximum Transmission Unit. */
+  mtu?: number;
+}
+
+export function patchInfraNetworkSerializer(item: PatchInfraNetwork): any {
+  return {
+    vlanId: item["vlanId"],
+    ipv4Subnet: item["ipv4Subnet"],
+    ipv4Gateway: item["ipv4Gateway"],
+    ipv4StartAddr: item["ipv4StartAddr"],
+    ipv4EndAddr: item["ipv4EndAddr"],
+    mtu: item["mtu"],
+  };
+}
+
+/** Infrastructure service endpoints for PATCH. All fields optional. */
+export interface PatchInfrastructureServices {
+  /** Platform proxy configuration. */
+  platformProxy?: PatchPlatformProxy;
+  /** NTP server IPs or hostnames. */
+  ntpServers?: string[];
+  /** DNS server IPs. */
+  dnsServers?: string[];
+}
+
+export function patchInfrastructureServicesSerializer(item: PatchInfrastructureServices): any {
+  return {
+    platformProxy: !item["platformProxy"]
+      ? item["platformProxy"]
+      : patchPlatformProxySerializer(item["platformProxy"]),
+    ntpServers: !item["ntpServers"]
+      ? item["ntpServers"]
+      : item["ntpServers"].map((p: any) => {
+          return p;
+        }),
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Platform proxy configuration for PATCH. All fields optional. */
+export interface PatchPlatformProxy {
+  /** HTTP proxy endpoint URL, or proxy bare host:port */
+  httpProxy?: string;
+  /** HTTPS proxy endpoint URL, or proxy bare host:port for 443 */
+  httpsProxy?: string;
+  /** CIDRs, hostnames, and domain suffixes that bypass the proxy. */
+  noProxy?: string[];
+}
+
+export function patchPlatformProxySerializer(item: PatchPlatformProxy): any {
+  return {
+    httpProxy: item["httpProxy"],
+    httpsProxy: item["httpsProxy"],
+    noProxy: !item["noProxy"]
+      ? item["noProxy"]
+      : item["noProxy"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a Fabric list operation. */
+export interface _FabricListResult {
+  /** The Fabric items on this page */
+  value: Fabric[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _fabricListResultDeserializer(item: any): _FabricListResult {
+  return {
+    value: fabricArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function fabricArraySerializer(result: Array<Fabric>): any[] {
+  return result.map((item) => {
+    return fabricSerializer(item);
+  });
+}
+
+export function fabricArrayDeserializer(result: Array<Fabric>): any[] {
+  return result.map((item) => {
+    return fabricDeserializer(item);
+  });
+}
+
 /** API Versions */
 export enum KnownVersions {
+  /** 2024-02-15-preview */
+  V20240215Preview = "2024-02-15-preview",
+  /** 2024-06-15-preview */
+  V20240615Preview = "2024-06-15-preview",
   /** 2025-07-15 */
   V20250715 = "2025-07-15",
+  /** 2026-01-15-preview */
+  V20260115Preview = "2026-01-15-preview",
 }
 
 export function _accessControlListPropertiesSerializer(item: AccessControlList): any {
@@ -15548,6 +16717,7 @@ export function _neighborGroupPropertiesDeserializer(item: any) {
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
     configurationState: item["configurationState"],
+    administrativeState: item["administrativeState"],
   };
 }
 
@@ -15612,6 +16782,7 @@ export function _networkDevicePropertiesDeserializer(item: any) {
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
+    operationalState: item["operationalState"],
     secretRotationStatus: !item["secretRotationStatus"]
       ? item["secretRotationStatus"]
       : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
@@ -15656,6 +16827,7 @@ export function _networkInterfacePropertiesDeserializer(item: any) {
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
     configurationState: item["configurationState"],
+    operationalState: item["operationalState"],
   };
 }
 
@@ -15681,6 +16853,7 @@ export function _networkFabricControllerPropertiesSerializer(item: NetworkFabric
     ipv4AddressSpace: item["ipv4AddressSpace"],
     ipv6AddressSpace: item["ipv6AddressSpace"],
     nfcSku: item["nfcSku"],
+    vmProfile: !item["vmProfile"] ? item["vmProfile"] : vmProfileSerializer(item["vmProfile"]),
   };
 }
 
@@ -15722,6 +16895,8 @@ export function _networkFabricControllerPropertiesDeserializer(item: any) {
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
     provisioningState: item["provisioningState"],
+    operationalState: item["operationalState"],
+    vmProfile: !item["vmProfile"] ? item["vmProfile"] : vmProfileDeserializer(item["vmProfile"]),
   };
 }
 
@@ -15799,6 +16974,12 @@ export function _networkFabricPropertiesSerializer(item: NetworkFabric): any {
     qosConfiguration: !item["qosConfiguration"]
       ? item["qosConfiguration"]
       : qosPropertiesSerializer(item["qosConfiguration"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchiveSettingsSerializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesArraySerializer(item["upgradeProfile"]),
   };
 }
 
@@ -15824,6 +17005,7 @@ export function _networkFabricPropertiesDeserializer(item: any) {
     ipv4Prefix: item["ipv4Prefix"],
     ipv6Prefix: item["ipv6Prefix"],
     fabricASN: item["fabricASN"],
+    networkBootstrapDeviceId: item["networkBootstrapDeviceId"],
     terminalServerConfiguration: terminalServerConfigurationDeserializer(
       item["terminalServerConfiguration"],
     ),
@@ -15880,9 +17062,16 @@ export function _networkFabricPropertiesDeserializer(item: any) {
     configurationState: item["configurationState"],
     provisioningState: item["provisioningState"],
     administrativeState: item["administrativeState"],
+    operationalState: item["operationalState"],
     qosConfiguration: !item["qosConfiguration"]
       ? item["qosConfiguration"]
       : qosPropertiesDeserializer(item["qosConfiguration"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchiveSettingsDeserializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesArrayDeserializer(item["upgradeProfile"]),
   };
 }
 
@@ -15926,6 +17115,12 @@ export function _networkFabricPatchPropertiesSerializer(item: NetworkFabricPatch
     authorizedTransceiver: !item["authorizedTransceiver"]
       ? item["authorizedTransceiver"]
       : authorizedTransceiverPatchPropertiesSerializer(item["authorizedTransceiver"]),
+    secretArchiveSettings: !item["secretArchiveSettings"]
+      ? item["secretArchiveSettings"]
+      : secretArchivePatchSettingsSerializer(item["secretArchiveSettings"]),
+    upgradeProfile: !item["upgradeProfile"]
+      ? item["upgradeProfile"]
+      : upgradeProfilePropertiesPatchPropertiesArraySerializer(item["upgradeProfile"]),
   };
 }
 
@@ -16030,7 +17225,10 @@ export function _networkToNetworkInterconnectPatchPropertiesSerializer(
 }
 
 export function _networkPacketBrokerPropertiesSerializer(item: NetworkPacketBroker): any {
-  return { networkFabricId: item["networkFabricId"] };
+  return {
+    networkFabricId: item["networkFabricId"],
+    sourceNetworkTapRuleId: item["sourceNetworkTapRuleId"],
+  };
 }
 
 export function _networkPacketBrokerPropertiesDeserializer(item: any) {
@@ -16056,6 +17254,7 @@ export function _networkPacketBrokerPropertiesDeserializer(item: any) {
       : item["neighborGroupIds"].map((p: any) => {
           return p;
         }),
+    sourceNetworkTapRuleId: item["sourceNetworkTapRuleId"],
     lastOperation: !item["lastOperation"]
       ? item["lastOperation"]
       : lastOperationPropertiesDeserializer(item["lastOperation"]),
@@ -16284,6 +17483,11 @@ export function _networkBootstrapDevicePropertiesSerializer(item: NetworkBootstr
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
     networkDeviceSku: item["networkDeviceSku"],
   };
 }
@@ -16293,6 +17497,11 @@ export function _networkBootstrapDevicePropertiesDeserializer(item: any) {
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
     version: item["version"],
     networkDeviceSku: item["networkDeviceSku"],
     networkFabricId: item["networkFabricId"],
@@ -16304,6 +17513,10 @@ export function _networkBootstrapDevicePropertiesDeserializer(item: any) {
     primaryManagementIpv4Address: item["primaryManagementIpv4Address"],
     administrativeState: item["administrativeState"],
     configurationState: item["configurationState"],
+    operationalState: item["operationalState"],
+    secretRotationStatus: !item["secretRotationStatus"]
+      ? item["secretRotationStatus"]
+      : secretRotationStatusArrayDeserializer(item["secretRotationStatus"]),
   };
 }
 
@@ -16314,6 +17527,11 @@ export function _networkBootstrapDevicePatchPropertiesSerializer(
     annotation: item["annotation"],
     hostName: item["hostName"],
     serialNumber: item["serialNumber"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -16341,6 +17559,7 @@ export function _networkBootstrapInterfacePropertiesDeserializer(item: any) {
     ipv4Address: item["ipv4Address"],
     ipv6Address: item["ipv6Address"],
     serialNumber: item["serialNumber"],
+    operationalState: item["operationalState"],
   };
 }
 

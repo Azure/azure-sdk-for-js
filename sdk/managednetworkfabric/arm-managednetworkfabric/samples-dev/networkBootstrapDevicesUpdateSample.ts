@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Bootstrap Device resource.
  *
  * @summary update certain properties of the Network Bootstrap Device resource.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_Update.json
  */
 async function networkBootstrapDevicesUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,6 +20,9 @@ async function networkBootstrapDevicesUpdateMaximumSetGeneratedByMaximumSetRuleG
     annotation: "annotation",
     hostName: "NFA-Device",
     serialNumber: "Vendor;DCS-7280XXX-24;12.05;JPE2111XXXX",
+    controlPlaneAcls: [
+      "/subscriptions/xxxxxx/resourceGroups/resourcegroupname/providers/Microsoft.ManagedNetworkFabric/accessControlLists/example-acl",
+    ],
   });
   console.log(result);
 }

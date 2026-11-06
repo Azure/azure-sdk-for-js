@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Network Bootstrap Interface resource.
  *
  * @summary create a Network Bootstrap Interface resource.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapInterfaces_Create.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapInterfaces_Create.json
  */
 async function networkBootstrapInterfacesCreateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,11 +18,7 @@ async function networkBootstrapInterfacesCreateMaximumSetGeneratedByMaximumSetRu
     "example-rg",
     "example-device",
     "example-interface",
-    {
-      annotation: "annotation",
-      additionalDescription: "additionalDescription",
-      serialNumber: "Vendor;DCS-7280XXX-24;12.05;JPE2111XXXX",
-    },
+    { annotation: "annotation", additionalDescription: "additionalDescription" },
   );
   console.log(result);
 }

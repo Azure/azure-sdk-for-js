@@ -6,7 +6,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   OperationStatusResult,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   NetworkFabricResyncCertificatesResponse,
   NetworkFabric,
   NetworkFabricPatch,
@@ -31,13 +31,14 @@ import {
   updateAdministrativeStateSerializer,
   updateAdministrativeStateResponseDeserializer,
   operationStatusResultDeserializer,
-  validateConfigurationResponseDeserializer,
+  validateConfigurationResponseV2Deserializer,
   networkFabricResyncCertificatesResponseDeserializer,
   networkFabricSerializer,
   networkFabricDeserializer,
   networkFabricPatchSerializer,
   _networkFabricsListResultDeserializer,
   upgradeNetworkFabricPropertiesSerializer,
+  refreshConfigurationRequestPropertiesSerializer,
   validateConfigurationPropertiesSerializer,
   getTopologyResponseDeserializer,
   commitConfigurationRequestSerializer,
@@ -99,7 +100,7 @@ export function _resyncCertificatesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +144,7 @@ export function resyncCertificates(
     getInitialResponse: () =>
       _resyncCertificatesSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<NetworkFabricResyncCertificatesResponse>,
     NetworkFabricResyncCertificatesResponse
@@ -162,7 +163,7 @@ export function _rotateCertificatesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +207,7 @@ export function rotateCertificates(
     getInitialResponse: () =>
       _rotateCertificatesSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<NetworkFabricRotateCertificatesResponse>,
     NetworkFabricRotateCertificatesResponse
@@ -225,7 +226,7 @@ export function _resyncPasswordsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +274,7 @@ export function resyncPasswords(
     getInitialResponse: () =>
       _resyncPasswordsSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<NetworkFabricResyncPasswordsResponse>,
     NetworkFabricResyncPasswordsResponse
@@ -292,7 +293,7 @@ export function _rotatePasswordsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -343,7 +344,7 @@ export function rotatePasswords(
     getInitialResponse: () =>
       _rotatePasswordsSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<NetworkFabricRotatePasswordsResponse>,
     NetworkFabricRotatePasswordsResponse
@@ -362,7 +363,7 @@ export function _armConfigurationDiffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,7 +407,7 @@ export function armConfigurationDiff(
     getInitialResponse: () =>
       _armConfigurationDiffSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<ArmConfigurationDiffOperationResponse>,
     ArmConfigurationDiffOperationResponse
@@ -425,7 +426,7 @@ export function _viewDeviceConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -469,7 +470,7 @@ export function viewDeviceConfiguration(
     getInitialResponse: () =>
       _viewDeviceConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<ViewDeviceConfigurationOperationResponse>,
     ViewDeviceConfigurationOperationResponse
@@ -489,7 +490,7 @@ export function _lockFabricSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -533,7 +534,7 @@ export function lockFabric(
     getInitialResponse: () =>
       _lockFabricSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -550,7 +551,7 @@ export function _discardCommitBatchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -597,7 +598,7 @@ export function discardCommitBatch(
     getInitialResponse: () =>
       _discardCommitBatchSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<DiscardCommitBatchOperationResponse>,
     DiscardCommitBatchOperationResponse
@@ -617,7 +618,7 @@ export function _commitBatchStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -664,7 +665,7 @@ export function commitBatchStatus(
     getInitialResponse: () =>
       _commitBatchStatusSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<
     OperationState<CommitBatchStatusOperationResponse>,
     CommitBatchStatusOperationResponse
@@ -683,7 +684,7 @@ export function _commitConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -726,7 +727,7 @@ export function commitConfiguration(
     getInitialResponse: () =>
       _commitConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>;
 }
 
@@ -742,7 +743,7 @@ export function _getTopologySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -783,7 +784,7 @@ export function getTopology(
     getInitialResponse: () =>
       _getTopologySend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>;
 }
 
@@ -800,7 +801,7 @@ export function _validateConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -816,7 +817,7 @@ export function _validateConfigurationSend(
 
 export async function _validateConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<ValidateConfigurationResponse> {
+): Promise<ValidateConfigurationResponseV2> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -827,7 +828,7 @@ export async function _validateConfigurationDeserialize(
     throw error;
   }
 
-  return validateConfigurationResponseDeserializer(result.body);
+  return validateConfigurationResponseV2Deserializer(result.body);
 }
 
 /** Validates the configuration of the underlying resources in the given Network Fabric instance. */
@@ -837,15 +838,18 @@ export function validateConfiguration(
   networkFabricName: string,
   body: ValidateConfigurationProperties,
   options: NetworkFabricsValidateConfigurationOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse> {
+): PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2> {
   return getLongRunningPoller(context, _validateConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _validateConfigurationSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
-  }) as PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+  }) as PollerLike<
+    OperationState<ValidateConfigurationResponseV2>,
+    ValidateConfigurationResponseV2
+  >;
 }
 
 export function _updateInfraManagementBfdConfigurationSend(
@@ -863,7 +867,7 @@ export function _updateInfraManagementBfdConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -922,7 +926,7 @@ export function updateInfraManagementBfdConfiguration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -945,7 +949,7 @@ export function _updateWorkloadManagementBfdConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1004,7 +1008,7 @@ export function updateWorkloadManagementBfdConfiguration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -1024,7 +1028,7 @@ export function _refreshConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1032,7 +1036,11 @@ export function _refreshConfigurationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.body
+      ? options?.body
+      : refreshConfigurationRequestPropertiesSerializer(options?.body),
   });
 }
 
@@ -1065,7 +1073,7 @@ export function refreshConfiguration(
     getInitialResponse: () =>
       _refreshConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -1082,7 +1090,7 @@ export function _upgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1126,7 +1134,7 @@ export function upgrade(
     getInitialResponse: () =>
       _upgradeSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -1142,7 +1150,7 @@ export function _deprovisionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1183,7 +1191,7 @@ export function deprovision(
     getInitialResponse: () =>
       _deprovisionSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -1199,7 +1207,7 @@ export function _provisionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1240,7 +1248,7 @@ export function provision(
     getInitialResponse: () =>
       _provisionSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -1252,7 +1260,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabrics{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1290,7 +1298,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -1304,7 +1316,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1343,7 +1355,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -1359,7 +1375,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1394,7 +1410,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1411,7 +1427,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1453,7 +1469,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
 }
 
@@ -1470,7 +1486,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1512,7 +1528,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
 }
 
@@ -1528,7 +1544,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

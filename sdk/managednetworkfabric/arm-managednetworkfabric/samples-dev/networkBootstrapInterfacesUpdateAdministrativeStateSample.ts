@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the admin state of the Network Interface.
  *
  * @summary update the admin state of the Network Interface.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapInterfaces_UpdateAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapInterfaces_UpdateAdministrativeState.json
  */
-async function networkBootstrapInterfacesUpdateAdministrativeStateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
+async function networkBootstrapInterfacesUpdateAdministrativeStateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function networkBootstrapInterfacesUpdateAdministrativeStateMaximumSetGene
 }
 
 async function main(): Promise<void> {
-  await networkBootstrapInterfacesUpdateAdministrativeStateMaximumSetGeneratedByMaximumSetRule();
+  await networkBootstrapInterfacesUpdateAdministrativeStateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

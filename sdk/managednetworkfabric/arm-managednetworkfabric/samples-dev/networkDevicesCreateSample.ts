@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Network Device resource
  *
  * @summary create a Network Device resource
- * x-ms-original-file: 2025-07-15/NetworkDevices_Create.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_Create.json
  */
 async function networkDevicesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

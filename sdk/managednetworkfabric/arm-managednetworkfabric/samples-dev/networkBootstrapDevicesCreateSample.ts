@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a Network Bootstrap Device resource
  *
  * @summary creates a Network Bootstrap Device resource
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_Create.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_Create.json
  */
 async function networkBootstrapDevicesCreateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,6 +19,9 @@ async function networkBootstrapDevicesCreateMaximumSetGeneratedByMaximumSetRuleG
     hostName: "NFA-Device",
     serialNumber: "Vendor;DCS-7280XXX-24;12.05;JPE2111XXXX",
     networkDeviceSku: "DeviceSku",
+    controlPlaneAcls: [
+      "/subscriptions/xxxxxx/resourceGroups/resourcegroupname/providers/Microsoft.ManagedNetworkFabric/accessControlLists/example-acl",
+    ],
     identity: { type: "None", userAssignedIdentities: { key3673: {} } },
     tags: {},
     location: "eastuseuap",

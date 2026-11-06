@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
  *
  * @summary updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
- * x-ms-original-file: 2025-07-15/NetworkDevices_ResyncCertificates.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_ResyncCertificates.json
  */
 async function successfulCertificateResync(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function successfulCertificateResync(): Promise<void> {
  * This sample demonstrates how to updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
  *
  * @summary updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
- * x-ms-original-file: 2025-07-15/NetworkDevices_ResyncCertificates_Error.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_ResyncCertificates_Error.json
  */
 async function errorWhilePerformingCertificateResync(): Promise<void> {
   const credential = new DefaultAzureCredential();

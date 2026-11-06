@@ -27,7 +27,7 @@ import type {
 import type {
   UpdateAdministrativeState,
   CommonPostActionResponseForStateUpdate,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   NetworkTapRule,
   NetworkTapRulePatch,
   NetworkTapRuleResyncResponse,
@@ -44,21 +44,24 @@ export interface NetworkTapRulesOperations {
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
     resourceGroupName: string,
     networkTapRuleName: string,
     options?: NetworkTapRulesValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Implements the operation to the underlying resources. */
   resync: (
     resourceGroupName: string,

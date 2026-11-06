@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
  *
  * @summary create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled.
- * x-ms-original-file: 2025-07-15/L3IsolationDomains_Create.json
+ * x-ms-original-file: 2026-01-15-preview/L3IsolationDomains_Create.json
  */
 async function l3IsolationDomainsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

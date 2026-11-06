@@ -49,7 +49,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,7 +108,7 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<UpdateAdministrativeStateResponse>,
@@ -128,7 +128,7 @@ export function _listByNetworkDeviceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +168,11 @@ export function listByNetworkDevice(
     () => _listByNetworkDeviceSend(context, resourceGroupName, networkDeviceName, options),
     _listByNetworkDeviceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -186,7 +190,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +227,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkDeviceName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -242,7 +246,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,7 +296,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -311,7 +315,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +365,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -379,7 +383,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

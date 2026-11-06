@@ -4,6 +4,8 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
+  "./api/fabrics": "./src/api/fabrics/index.ts"
+  "./api/edgeConnectors": "./src/api/edgeConnectors/index.ts"
   "./api/networkBootstrapInterfaces": "./src/api/networkBootstrapInterfaces/index.ts"
   "./api/networkBootstrapDevices": "./src/api/networkBootstrapDevices/index.ts"
   "./api/networkMonitors": "./src/api/networkMonitors/index.ts"

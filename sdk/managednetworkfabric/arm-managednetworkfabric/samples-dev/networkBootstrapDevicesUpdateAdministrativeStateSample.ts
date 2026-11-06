@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Administrative state of the Network Bootstrap Device.
  *
  * @summary updates the Administrative state of the Network Bootstrap Device.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_UpdateAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_UpdateAdministrativeState.json
  */
 async function networkBootstrapDevicesUpdateAdministrativeStateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

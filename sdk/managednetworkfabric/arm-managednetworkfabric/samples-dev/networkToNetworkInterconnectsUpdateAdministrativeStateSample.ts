@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Admin State.
  *
  * @summary updates the Admin State.
- * x-ms-original-file: 2025-07-15/NetworkToNetworkInterconnects_UpdateAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkToNetworkInterconnects_UpdateAdministrativeState.json
  */
 async function networkToNetworkInterconnectsUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,12 +18,7 @@ async function networkToNetworkInterconnectsUpdateAdministrativeStateMaximumSetG
     "example-rg",
     "example-nf",
     "example-nni",
-    {
-      resourceIds: [
-        "/subscriptions/0000ABCD-0A0B-0000-0000-000000ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkFabrics/example-nf/networkToNetworkInterconnects/example-nni",
-      ],
-      state: "Enable",
-    },
+    { resourceIds: [""], state: "Enable" },
   );
   console.log(result);
 }

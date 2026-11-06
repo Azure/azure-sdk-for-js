@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the version of the Network Device.
  *
  * @summary upgrades the version of the Network Device.
- * x-ms-original-file: 2025-07-15/NetworkDevices_Upgrade.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_Upgrade.json
  */
 async function networkDevicesUpgradeMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

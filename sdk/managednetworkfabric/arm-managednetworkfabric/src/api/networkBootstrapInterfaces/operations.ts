@@ -51,7 +51,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
       networkBootstrapInterfaceName: networkBootstrapInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +112,7 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-07-15",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
     },
   ) as PollerLike<
     OperationState<CommonPostActionResponseForStateUpdate>,
@@ -134,7 +134,7 @@ export function _listByNetworkBootstrapDeviceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +182,11 @@ export function listByNetworkBootstrapDevice(
       ),
     _listByNetworkBootstrapDeviceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
   );
 }
 
@@ -200,7 +204,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
       networkBootstrapInterfaceName: networkBootstrapInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +247,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -262,7 +266,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
       networkBootstrapInterfaceName: networkBootstrapInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +318,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>;
 }
 
@@ -333,7 +337,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
       networkBootstrapInterfaceName: networkBootstrapInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,7 +389,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-07-15",
+    apiVersion: context.apiVersion ?? "2026-01-15-preview",
   }) as PollerLike<OperationState<NetworkBootstrapInterface>, NetworkBootstrapInterface>;
 }
 
@@ -403,7 +407,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkBootstrapDeviceName: networkBootstrapDeviceName,
       networkBootstrapInterfaceName: networkBootstrapInterfaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
