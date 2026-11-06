@@ -1,16 +1,10 @@
 # Release History
 
-## 1.11.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.11.2 (2026-11-06)
 
 ### Bugs Fixed
 
 - Preserve dictionary entries such as `__proto__` as own data properties during serialization and deserialization. [#40495](https://github.com/Azure/azure-sdk-for-js/issues/40495)
-
-### Other Changes
 
 ## 1.11.1 (2026-09-03)
 
