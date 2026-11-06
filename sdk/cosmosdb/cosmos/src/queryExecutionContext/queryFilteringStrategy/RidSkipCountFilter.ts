@@ -3,7 +3,7 @@
 
 import type { FilterContext, FilterStrategy } from "../index.js";
 import { compareOrderByItems } from "../orderByComparator.js";
-import { parseDocumentRid } from "../../utils/documentRid.js";
+import { ridToBigInt } from "../../utils/documentRid.js";
 
 /**
  * Implements post-fetch filtering for ORDER BY queries to handle continuation tokens correctly.
@@ -89,8 +89,8 @@ export class RidSkipCountFilter implements FilterStrategy {
       ridOrderCompare = 0;
     } else {
       // Use BigInt comparison for accurate RID comparison
-      const continuationBigInt = parseDocumentRid(this.filterContext.rid);
-      const docBigInt = parseDocumentRid(docRid);
+      const continuationBigInt = ridToBigInt(this.filterContext.rid);
+      const docBigInt = ridToBigInt(docRid);
 
       if (continuationBigInt < docBigInt) {
         ridOrderCompare = -1;

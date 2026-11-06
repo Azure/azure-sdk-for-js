@@ -14,7 +14,7 @@ import type {
   Response,
 } from "../request/index.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
-import { parseDocumentRid } from "../utils/documentRid.js";
+import { ridToBigInt } from "../utils/documentRid.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
@@ -354,7 +354,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
       return {
         item,
-        documentRid: parseDocumentRid(item.rid),
+        documentRid: ridToBigInt(item.rid),
         ranks: new Array<number>(componentWeights.length).fill(0),
         rrfScore: 0,
       };

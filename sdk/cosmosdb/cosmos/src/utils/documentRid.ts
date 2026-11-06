@@ -13,7 +13,7 @@
  *
  * @hidden
  */
-export function parseDocumentRid(rid: string): bigint {
+export function ridToBigInt(rid: string): bigint {
   // Validate input RID
   if (rid === null || rid === undefined) {
     throw new Error(`RID is null or undefined`);

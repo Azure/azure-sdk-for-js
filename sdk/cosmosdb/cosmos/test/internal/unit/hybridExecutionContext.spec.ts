@@ -349,7 +349,7 @@ describe("hybridQueryExecutionContext", () => {
       const max = createResult(0xffffffffffffffffn, [5]);
       expect(Number(9007199254740992n)).toBe(Number(9007199254740993n));
       expect(max.rid).toContain("-");
-      expect(documentRid.parseDocumentRid(max.rid)).toBe(0xffffffffffffffffn);
+      expect(documentRid.ridToBigInt(max.rid)).toBe(0xffffffffffffffffn);
 
       const result = rankingContext["sortHybridSearchResultByRRFScore"](
         [low, max, high],
@@ -401,7 +401,7 @@ describe("hybridQueryExecutionContext", () => {
       const input = Array.from({ length: 20 }, (_, index) =>
         createResult(BigInt(index + 1), [index % 3, index % 2]),
       );
-      const decode = vi.spyOn(documentRid, "parseDocumentRid");
+      const decode = vi.spyOn(documentRid, "ridToBigInt");
       rankingContext["sortHybridSearchResultByRRFScore"](
         input,
         rankingContext["extractComponentWeights"](),
@@ -494,7 +494,7 @@ describe("hybridQueryExecutionContext", () => {
       expect(() =>
         HybridSearchQueryResult.create({ _rid: createRid(1n), payload: { id: "1" } }),
       ).toThrow("componentScores must exist.");
-      expect(() => documentRid.parseDocumentRid("AQ==")).toThrow("RID too short");
+      expect(() => documentRid.ridToBigInt("AQ==")).toThrow("RID too short");
     });
   });
 });
