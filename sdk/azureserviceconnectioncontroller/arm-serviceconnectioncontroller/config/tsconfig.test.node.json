@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-serviceconnectioncontroller": ["../src/index.ts"],
+      "@azure/arm-serviceconnectioncontroller/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
