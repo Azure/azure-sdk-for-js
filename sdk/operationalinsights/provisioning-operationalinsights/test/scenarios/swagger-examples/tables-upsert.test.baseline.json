@@ -1,0 +1,87 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "tables-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.OperationalInsights/workspaces/tables",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "AzureNetworkFlow"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "schema": {
+                    "kind": "object",
+                    "value": {
+                      "columns": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "name": {
+                                "kind": "string",
+                                "value": "MyNewColumn"
+                              },
+                              "type": {
+                                "kind": "string",
+                                "value": "guid"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "name": {
+                        "kind": "string",
+                        "value": "AzureNetworkFlow"
+                      }
+                    }
+                  },
+                  "retentionInDays": {
+                    "kind": "integer",
+                    "value": "45"
+                  },
+                  "totalRetentionInDays": {
+                    "kind": "integer",
+                    "value": "70"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

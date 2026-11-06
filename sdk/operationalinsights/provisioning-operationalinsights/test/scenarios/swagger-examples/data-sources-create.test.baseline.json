@@ -1,0 +1,60 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "datasource-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "dataSource": {
+          "bicepIdentifier": "dataSource",
+          "type": "Microsoft.OperationalInsights/workspaces/dataSources",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "AzTestDS774"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AzureActivityLog"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "LinkedResourceId": {
+                    "kind": "string",
+                    "value": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/microsoft.insights/eventtypes/management"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the server's threat detection policies.
  *
  * @summary get the server's threat detection policies.
- * x-ms-original-file: 2025-08-01-preview/ServerSecurityAlertsListByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ServerSecurityAlertsListByServer.json
  */
 async function listTheServerThreatDetectionPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -30,7 +30,7 @@ export function _revertSend(
       serverName: serverName,
       databaseName: databaseName,
       encryptionProtectorName: encryptionProtectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,6 +52,7 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Reverts an existing encryption protector for a particular database. */
 export function revert(
   context: Client,
@@ -74,7 +75,7 @@ export function revert(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -94,7 +95,7 @@ export function _revalidateSend(
       serverName: serverName,
       databaseName: databaseName,
       encryptionProtectorName: encryptionProtectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +117,7 @@ export async function _revalidateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Revalidates an existing encryption protector for a particular database. */
 export function revalidate(
   context: Client,
@@ -138,6 +140,6 @@ export function revalidate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
