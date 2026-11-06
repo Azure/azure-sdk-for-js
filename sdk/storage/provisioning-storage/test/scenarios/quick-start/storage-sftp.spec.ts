@@ -58,15 +58,34 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       name: "Standard_LRS",
     },
     kind: "StorageV2",
+    properties: {
+      isHnsEnabled: true,
+      isLocalUserEnabled: true,
+      isSftpEnabled: true,
+    },
   });
   const blobService = new BlobService(storageAccount, {
     existing: true,
   });
   new Container(blobService, {
     name: "container1",
+    properties: {
+      publicAccess: "None",
+    },
   });
   new LocalUser(storageAccount, {
     name: "localuser1",
+    properties: {
+      hasSharedKey: false,
+      homeDirectory: "container1",
+      permissionScopes: [
+        {
+          permissions: "rcwdl",
+          resourceName: "container1",
+          service: "blob",
+        },
+      ],
+    },
   });
   return stack;
 }

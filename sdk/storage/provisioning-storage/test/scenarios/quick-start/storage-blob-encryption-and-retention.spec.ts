@@ -58,8 +58,26 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
       name: "Standard_LRS",
     },
     kind: "StorageV2",
+    properties: {
+      accessTier: "Hot",
+      encryption: {
+        keySource: "Microsoft.Storage",
+        services: {
+          blob: {
+            enabled: true,
+          },
+        },
+      },
+    },
   });
-  new BlobService(storageAccount, {});
+  new BlobService(storageAccount, {
+    properties: {
+      deleteRetentionPolicy: {
+        enabled: true,
+        days: 7,
+      },
+    },
+  });
   return stack;
 }
 

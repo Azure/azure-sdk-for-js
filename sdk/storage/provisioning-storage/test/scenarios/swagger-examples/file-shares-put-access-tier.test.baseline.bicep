@@ -12,4 +12,7 @@ resource fileService 'Microsoft.Storage/storageAccounts/fileServices@2026-04-01'
 resource share 'Microsoft.Storage/storageAccounts/fileServices/shares@2026-04-01' = {
   name: 'share1'
   parent: fileService
+  properties: {
+    accessTier: 'Hot'
+  }
 }

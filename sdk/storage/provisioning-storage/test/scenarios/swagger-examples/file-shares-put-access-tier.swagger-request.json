@@ -1,3 +1,6 @@
 {
-  "name": "share1"
+  "name": "share1",
+  "properties": {
+    "accessTier": "Hot"
+  }
 }

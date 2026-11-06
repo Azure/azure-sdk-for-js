@@ -52,6 +52,15 @@
               "parent": {
                 "kind": "identifier",
                 "id": "fileService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "accessTier": {
+                    "kind": "string",
+                    "value": "Hot"
+                  }
+                }
               }
             }
           }

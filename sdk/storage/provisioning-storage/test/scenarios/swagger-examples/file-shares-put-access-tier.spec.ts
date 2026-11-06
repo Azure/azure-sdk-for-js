@@ -61,6 +61,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
   });
   new Share(fileService, {
     name: "share1",
+    properties: {
+      accessTier: "Hot",
+    },
   });
   return stack;
 }

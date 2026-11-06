@@ -23,6 +23,23 @@
                 "kind": "string",
                 "value": "eastus"
               },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isHnsEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "isLocalUserEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "isSftpEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              },
               "sku": {
                 "kind": "object",
                 "value": {
@@ -69,6 +86,15 @@
               "parent": {
                 "kind": "identifier",
                 "id": "blobService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "publicAccess": {
+                    "kind": "string",
+                    "value": "None"
+                  }
+                }
               }
             }
           }
@@ -88,6 +114,41 @@
               "parent": {
                 "kind": "identifier",
                 "id": "storageAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "hasSharedKey": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "homeDirectory": {
+                    "kind": "string",
+                    "value": "container1"
+                  },
+                  "permissionScopes": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "permissions": {
+                            "kind": "string",
+                            "value": "rcwdl"
+                          },
+                          "resourceName": {
+                            "kind": "string",
+                            "value": "container1"
+                          },
+                          "service": {
+                            "kind": "string",
+                            "value": "blob"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
