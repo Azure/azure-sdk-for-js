@@ -470,19 +470,20 @@ export class AttestationTokenImpl implements AttestationToken {
     }
 
     const candidateSigners = new Array<AttestationSigner>();
+    const embeddedSigner = this.certificateChain;
     if (desiredKeyId !== undefined && possibleSigners !== undefined) {
       possibleSigners.forEach((possibleSigner) => {
         if (possibleSigner.keyId === desiredKeyId) {
           candidateSigners.push(possibleSigner);
         }
       });
-      if (candidateSigners.length === 0 && this.certificateChain) {
-        candidateSigners.push(this.certificateChain);
+      if (candidateSigners.length === 0 && embeddedSigner) {
+        candidateSigners.push(embeddedSigner);
       }
     } else {
       possibleSigners?.forEach((value) => candidateSigners.push(value));
-      if (this.certificateChain !== undefined) {
-        candidateSigners.push(this.certificateChain);
+      if (embeddedSigner) {
+        candidateSigners.push(embeddedSigner);
       }
     }
     return candidateSigners;

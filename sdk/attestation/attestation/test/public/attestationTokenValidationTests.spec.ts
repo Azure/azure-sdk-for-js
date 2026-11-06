@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect } from "vitest";
+import * as jsrsasign from "jsrsasign";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { AttestationClient } from "../../src/index.js";
@@ -76,6 +77,55 @@ describe("AttestationTokenValidation", () => {
 
     assert.deepEqual(
       token._getServiceTokenProblems([{ certificates: [trusted.cert] }], {}, false),
+      [],
+    );
+  });
+
+  it("uses only the trusted signer whose key ID matches the token's kid", () => {
+    const first = createSigner("first");
+    const second = createSigner("second");
+    const token = new AttestationTokenImpl(
+      jsrsasign.KJUR.jws.JWS.sign(
+        "RS256",
+        { alg: "RS256", kid: "second" },
+        claims(60),
+        second.privKey,
+      ),
+    );
+
+    assert.deepEqual(
+      token._getServiceTokenProblems([{ keyId: "first", certificates: [second.cert] }], {}, false),
+      ["Attestation Token is not properly signed."],
+    );
+    assert.deepEqual(
+      token._getServiceTokenProblems(
+        [
+          { keyId: "first", certificates: [first.cert] },
+          { keyId: "second", certificates: [second.cert] },
+        ],
+        {},
+        false,
+      ),
+      [],
+    );
+  });
+
+  it("tries every trusted signer when the token has no kid", () => {
+    const first = createSigner("first");
+    const second = createSigner("second");
+    const token = new AttestationTokenImpl(
+      jsrsasign.KJUR.jws.JWS.sign("RS256", { alg: "RS256" }, claims(60), second.privKey),
+    );
+
+    assert.deepEqual(
+      token._getServiceTokenProblems(
+        [
+          { keyId: "first", certificates: [first.cert] },
+          { keyId: "second", certificates: [second.cert] },
+        ],
+        {},
+        false,
+      ),
       [],
     );
   });
