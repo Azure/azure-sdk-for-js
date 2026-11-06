@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** File share resource */
 export interface FileShare extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: FileShareProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
 }
 
 export function fileShareSerializer(item: FileShare): any {
@@ -20,6 +23,9 @@ export function fileShareSerializer(item: FileShare): any {
     properties: !item["properties"]
       ? item["properties"]
       : fileSharePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -38,6 +44,9 @@ export function fileShareDeserializer(item: any): FileShare {
     properties: !item["properties"]
       ? item["properties"]
       : fileSharePropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -53,6 +62,8 @@ export interface FileShareProperties {
   redundancy?: Redundancy;
   /** The file sharing protocol for this file share. */
   protocol?: Protocol;
+  /** The scale mode selected when the file share is created. */
+  scaleMode?: ScaleMode;
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
   provisionedStorageGiB?: number;
   /** A date/time value that specifies when the provisioned storage for the file share is permitted to be reduced. */
@@ -79,6 +90,10 @@ export interface FileShareProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of associated private endpoint connections. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The current migration state of the file share. */
+  readonly migrationState?: MigrationState;
+  /** Encryption settings for the file share. */
+  encryption?: FileShareEncryption;
 }
 
 export function fileSharePropertiesSerializer(item: FileShareProperties): any {
@@ -87,6 +102,7 @@ export function fileSharePropertiesSerializer(item: FileShareProperties): any {
     mediaTier: item["mediaTier"],
     redundancy: item["redundancy"],
     protocol: item["protocol"],
+    scaleMode: item["scaleMode"],
     provisionedStorageGiB: item["provisionedStorageGiB"],
     provisionedIOPerSec: item["provisionedIOPerSec"],
     provisionedThroughputMiBPerSec: item["provisionedThroughputMiBPerSec"],
@@ -97,6 +113,9 @@ export function fileSharePropertiesSerializer(item: FileShareProperties): any {
       ? item["publicAccessProperties"]
       : publicAccessPropertiesSerializer(item["publicAccessProperties"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : fileShareEncryptionSerializer(item["encryption"]),
   };
 }
 
@@ -107,6 +126,7 @@ export function fileSharePropertiesDeserializer(item: any): FileShareProperties 
     mediaTier: item["mediaTier"],
     redundancy: item["redundancy"],
     protocol: item["protocol"],
+    scaleMode: item["scaleMode"],
     provisionedStorageGiB: item["provisionedStorageGiB"],
     provisionedStorageNextAllowedDowngrade: !item["provisionedStorageNextAllowedDowngrade"]
       ? item["provisionedStorageNextAllowedDowngrade"]
@@ -132,6 +152,12 @@ export function fileSharePropertiesDeserializer(item: any): FileShareProperties 
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
+    migrationState: !item["migrationState"]
+      ? item["migrationState"]
+      : migrationStateDeserializer(item["migrationState"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : fileShareEncryptionDeserializer(item["encryption"]),
   };
 }
 
@@ -139,6 +165,8 @@ export function fileSharePropertiesDeserializer(item: any): FileShareProperties 
 export enum KnownMediaTier {
   /** SSD media tier. */
   SSD = "SSD",
+  /** HDD media tier. */
+  HDD = "HDD",
 }
 
 /**
@@ -146,7 +174,8 @@ export enum KnownMediaTier {
  * {@link KnownMediaTier} can be used interchangeably with MediaTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SSD**: SSD media tier.
+ * **SSD**: SSD media tier. \
+ * **HDD**: HDD media tier.
  */
 export type MediaTier = string;
 
@@ -182,6 +211,24 @@ export enum KnownProtocol {
  * **NFS**: NFS protocol.
  */
 export type Protocol = string;
+
+/** Scale mode for a file share. */
+export enum KnownScaleMode {
+  /** Compatibility scale mode. */
+  Compatibility = "Compatibility",
+  /** Scale mode. */
+  Scale = "Scale",
+}
+
+/**
+ * Scale mode for a file share. \
+ * {@link KnownScaleMode} can be used interchangeably with ScaleMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Compatibility**: Compatibility scale mode. \
+ * **Scale**: Scale mode.
+ */
+export type ScaleMode = string;
 
 /** Properties specific to the NFS protocol. */
 export interface NfsProtocolProperties {
@@ -515,6 +562,280 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Summary of the current migration state for the file share. */
+export interface MigrationState {
+  /** Indicates whether a redundancy conversion is in progress for the file share. */
+  readonly redundancyConversionInProgress: boolean;
+}
+
+export function migrationStateDeserializer(item: any): MigrationState {
+  return {
+    redundancyConversionInProgress: item["redundancyConversionInProgress"],
+  };
+}
+
+/** Encryption settings for the file share. Composes the standard common encryption type with read-only customer-managed key rotation status owned by the file share resource provider. Automatic key rotation follows the Azure Storage account model and is derived from the key URL shape: an unversioned customerManagedKeyEncryption.keyEncryptionKeyUrl opts into automatic rotation to the latest key version, while a versioned URL pins a specific version. */
+export interface FileShareEncryption {
+  /** Values are enabled and disabled. */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+  /** The versioned key encryption key URL currently applied to the file share by the service. When an unversioned keyEncryptionKeyUrl is supplied, this reflects the resolved latest key version currently in use. */
+  readonly currentKeyEncryptionKeyUrl?: string;
+  /** The UTC timestamp when the service last successfully rotated the active customer-managed key version. */
+  readonly lastKeyRotationTimestamp?: Date;
+  /** The last customer-actionable error encountered while automatically rotating to the latest key version. */
+  readonly autoKeyRotationError?: ErrorDetail;
+}
+
+export function fileShareEncryptionSerializer(item: FileShareEncryption): any {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionSerializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+export function fileShareEncryptionDeserializer(item: any): FileShareEncryption {
+  return {
+    infrastructureEncryption: item["infrastructureEncryption"],
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionDeserializer(item["customerManagedKeyEncryption"]),
+    currentKeyEncryptionKeyUrl: item["currentKeyEncryptionKeyUrl"],
+    lastKeyRotationTimestamp: !item["lastKeyRotationTimestamp"]
+      ? item["lastKeyRotationTimestamp"]
+      : new Date(item["lastKeyRotationTimestamp"]),
+    autoKeyRotationError: !item["autoKeyRotationError"]
+      ? item["autoKeyRotationError"]
+      : errorDetailDeserializer(item["autoKeyRotationError"]),
+  };
+}
+
+/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+export enum KnownInfrastructureEncryption {
+  /** Encryption is enabled */
+  Enabled = "enabled",
+  /** Encryption is disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Encryption is enabled \
+ * **disabled**: Encryption is disabled
+ */
+export type InfrastructureEncryption = string;
+
+/** Customer-managed key encryption properties for the resource. */
+export interface CustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+}
+
+export function customerManagedKeyEncryptionSerializer(item: CustomerManagedKeyEncryption): any {
+  return {
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+export function customerManagedKeyEncryptionDeserializer(item: any): CustomerManagedKeyEncryption {
+  return {
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface KeyEncryptionKeyIdentity {
+  /** The type of identity to use. Values can be systemAssignedIdentity, userAssignedIdentity, or delegatedResourceIdentity. */
+  identityType?: KeyEncryptionKeyIdentityType;
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
+  userAssignedIdentityResourceId?: string;
+  /** application client identity to use for accessing key encryption key Url in a different tenant. Ex: f83c6b1b-4d34-47e4-bb34-9d83df58b540 */
+  federatedClientId?: string;
+  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
+  delegatedIdentityClientId?: string;
+}
+
+export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+    federatedClientId: item["federatedClientId"],
+    delegatedIdentityClientId: item["delegatedIdentityClientId"],
+  };
+}
+
+export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKeyIdentity {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+    federatedClientId: item["federatedClientId"],
+    delegatedIdentityClientId: item["delegatedIdentityClientId"],
+  };
+}
+
+/** The type of identity to use. */
+export enum KnownKeyEncryptionKeyIdentityType {
+  /** System assigned identity */
+  SystemAssignedIdentity = "systemAssignedIdentity",
+  /** User assigned identity */
+  UserAssignedIdentity = "userAssignedIdentity",
+  /** Delegated identity */
+  DelegatedResourceIdentity = "delegatedResourceIdentity",
+}
+
+/**
+ * The type of identity to use. \
+ * {@link KnownKeyEncryptionKeyIdentityType} can be used interchangeably with KeyEncryptionKeyIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **systemAssignedIdentity**: System assigned identity \
+ * **userAssignedIdentity**: User assigned identity \
+ * **delegatedResourceIdentity**: Delegated identity
+ */
+export type KeyEncryptionKeyIdentityType = string;
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -634,61 +955,10 @@ export function errorResponseDeserializer(item: any): ErrorResponse {
   };
 }
 
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
-
 /** The type used for update operations of the FileShare. */
 export interface FileShareUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
@@ -697,6 +967,9 @@ export interface FileShareUpdate {
 
 export function fileShareUpdateSerializer(item: FileShareUpdate): any {
   return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -718,6 +991,8 @@ export interface FileShareUpdateProperties {
   publicAccessProperties?: PublicAccessProperties;
   /** Gets or sets allow or disallow public network access to azure managed file share */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Encryption settings for the file share. */
+  encryption?: FileShareEncryption;
 }
 
 export function fileShareUpdatePropertiesSerializer(item: FileShareUpdateProperties): any {
@@ -732,6 +1007,9 @@ export function fileShareUpdatePropertiesSerializer(item: FileShareUpdatePropert
       ? item["publicAccessProperties"]
       : publicAccessPropertiesSerializer(item["publicAccessProperties"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : fileShareEncryptionSerializer(item["encryption"]),
   };
 }
 
@@ -811,6 +1089,91 @@ export enum KnownCheckNameAvailabilityReason {
  * **AlreadyExists**: Name already exists.
  */
 export type CheckNameAvailabilityReason = string;
+
+/** Parameters for starting a redundancy conversion. */
+export interface StartRedundancyConversionRequest {
+  /** Properties containing the redundancy conversion input. */
+  properties: StartRedundancyConversionInput;
+}
+
+export function startRedundancyConversionRequestSerializer(
+  item: StartRedundancyConversionRequest,
+): any {
+  return { properties: startRedundancyConversionInputSerializer(item["properties"]) };
+}
+
+/** Input for starting a redundancy conversion. */
+export interface StartRedundancyConversionInput {
+  /** The requested target redundancy for the conversion. */
+  targetRedundancy: Redundancy;
+}
+
+export function startRedundancyConversionInputSerializer(
+  item: StartRedundancyConversionInput,
+): any {
+  return { targetRedundancy: item["targetRedundancy"] };
+}
+
+/** Response containing the status and details of the current or most recent redundancy conversion. */
+export interface RedundancyConversionStatusResponse {
+  /** Properties containing the redundancy conversion status output. */
+  properties: RedundancyConversionStatusOutput;
+}
+
+export function redundancyConversionStatusResponseDeserializer(
+  item: any,
+): RedundancyConversionStatusResponse {
+  return {
+    properties: redundancyConversionStatusOutputDeserializer(item["properties"]),
+  };
+}
+
+/** The status and details of the current or most recent redundancy conversion. */
+export interface RedundancyConversionStatusOutput {
+  /** The target redundancy requested for the redundancy conversion. */
+  readonly targetRedundancy: Redundancy;
+  /** The current status of the redundancy conversion. */
+  readonly conversionStatus: RedundancyConversionStatus;
+  /** The reason the redundancy conversion failed. */
+  readonly conversionFailedReason?: string;
+  /** Detailed information about why the redundancy conversion failed. */
+  readonly conversionFailedDetailedReason?: string;
+}
+
+export function redundancyConversionStatusOutputDeserializer(
+  item: any,
+): RedundancyConversionStatusOutput {
+  return {
+    targetRedundancy: item["targetRedundancy"],
+    conversionStatus: item["conversionStatus"],
+    conversionFailedReason: item["conversionFailedReason"],
+    conversionFailedDetailedReason: item["conversionFailedDetailedReason"],
+  };
+}
+
+/** Status of the redundancy conversion. */
+export enum KnownRedundancyConversionStatus {
+  /** The redundancy conversion has been submitted. */
+  SubmittedForConversion = "SubmittedForConversion",
+  /** The redundancy conversion is in progress. */
+  InProgress = "InProgress",
+  /** The redundancy conversion has completed. */
+  Complete = "Complete",
+  /** The redundancy conversion has failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Status of the redundancy conversion. \
+ * {@link KnownRedundancyConversionStatus} can be used interchangeably with RedundancyConversionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SubmittedForConversion**: The redundancy conversion has been submitted. \
+ * **InProgress**: The redundancy conversion is in progress. \
+ * **Complete**: The redundancy conversion has completed. \
+ * **Failed**: The redundancy conversion has failed.
+ */
+export type RedundancyConversionStatus = string;
 
 /** FileShareSnapshot resource */
 export interface FileShareSnapshot extends ProxyResource {
@@ -1073,6 +1436,30 @@ export function liveSharesUsageDataDeserializer(item: any): LiveSharesUsageData 
   };
 }
 
+/** Request structure for the file share limits API. */
+export interface FileShareLimitsRequest {
+  /** Properties used to select the file share offer. */
+  properties: FileShareOfferInput;
+}
+
+export function fileShareLimitsRequestSerializer(item: FileShareLimitsRequest): any {
+  return { properties: fileShareOfferInputSerializer(item["properties"]) };
+}
+
+/** File share offer dimensions. */
+export interface FileShareOfferInput {
+  /** The file sharing protocol. Defaults to NFS. */
+  protocol?: Protocol;
+  /** The storage media tier. Defaults to SSD. */
+  mediaTier?: MediaTier;
+  /** The scale mode. Defaults to Compatibility. */
+  scaleMode?: ScaleMode;
+}
+
+export function fileShareOfferInputSerializer(item: FileShareOfferInput): any {
+  return { protocol: item["protocol"], mediaTier: item["mediaTier"], scaleMode: item["scaleMode"] };
+}
+
 /** Response structure for file share limits API. */
 export interface FileShareLimitsResponse {
   /** The properties of the file share limits. */
@@ -1186,12 +1573,23 @@ export function fileShareProvisioningRecommendationRequestSerializer(
 export interface FileShareProvisioningRecommendationInput {
   /** The desired provisioned storage size of the share in GiB. Will be use to calculate the values of remaining provisioning parameters. */
   provisionedStorageGiB: number;
+  /** The file sharing protocol. Defaults to NFS. */
+  protocol?: Protocol;
+  /** The storage media tier. Defaults to SSD. */
+  mediaTier?: MediaTier;
+  /** The scale mode. Defaults to Compatibility. */
+  scaleMode?: ScaleMode;
 }
 
 export function fileShareProvisioningRecommendationInputSerializer(
   item: FileShareProvisioningRecommendationInput,
 ): any {
-  return { provisionedStorageGiB: item["provisionedStorageGiB"] };
+  return {
+    provisionedStorageGiB: item["provisionedStorageGiB"],
+    protocol: item["protocol"],
+    mediaTier: item["mediaTier"],
+    scaleMode: item["scaleMode"],
+  };
 }
 
 /** Response structure for file share provisioning parameters recommendation API. */
@@ -1322,4 +1720,6 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 export enum KnownVersions {
   /** Version 2026-06-01 */
   V20260601 = "2026-06-01",
+  /** Version 2026-09-01 */
+  V20260901 = "2026-09-01",
 }

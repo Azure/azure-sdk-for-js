@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileSharesContext } from "../../api/fileSharesContext.js";
+import type { FileSharesContext } from "../../api/fileSharesContext.js";
 import {
+  getRedundancyConversionStatus,
+  startRedundancyConversion,
   checkNameAvailability,
   listByParent,
   listBySubscription,
@@ -11,7 +13,9 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fileShares/operations.js";
-import {
+import type {
+  FileSharesGetRedundancyConversionStatusOptionalParams,
+  FileSharesStartRedundancyConversionOptionalParams,
   FileSharesCheckNameAvailabilityOptionalParams,
   FileSharesListByParentOptionalParams,
   FileSharesListBySubscriptionOptionalParams,
@@ -20,17 +24,32 @@ import {
   FileSharesCreateOrUpdateOptionalParams,
   FileSharesGetOptionalParams,
 } from "../../api/fileShares/options.js";
-import {
+import type {
   FileShare,
   FileShareUpdate,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  StartRedundancyConversionRequest,
+  RedundancyConversionStatusResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FileShares operations. */
 export interface FileSharesOperations {
+  /** Gets the status and details of the current or most recent redundancy conversion for the file share. */
+  getRedundancyConversionStatus: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: FileSharesGetRedundancyConversionStatusOptionalParams,
+  ) => Promise<RedundancyConversionStatusResponse>;
+  /** Starts a redundancy conversion for the file share. */
+  startRedundancyConversion: (
+    resourceGroupName: string,
+    resourceName: string,
+    body: StartRedundancyConversionRequest,
+    options?: FileSharesStartRedundancyConversionOptionalParams,
+  ) => Promise<void>;
   /** Implements local CheckNameAvailability operations */
   checkNameAvailability: (
     location: string,
@@ -76,6 +95,17 @@ export interface FileSharesOperations {
 
 function _getFileShares(context: FileSharesContext) {
   return {
+    getRedundancyConversionStatus: (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: FileSharesGetRedundancyConversionStatusOptionalParams,
+    ) => getRedundancyConversionStatus(context, resourceGroupName, resourceName, options),
+    startRedundancyConversion: (
+      resourceGroupName: string,
+      resourceName: string,
+      body: StartRedundancyConversionRequest,
+      options?: FileSharesStartRedundancyConversionOptionalParams,
+    ) => startRedundancyConversion(context, resourceGroupName, resourceName, body, options),
     checkNameAvailability: (
       location: string,
       body: CheckNameAvailabilityRequest,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileSharesContext } from "../../api/fileSharesContext.js";
+import type { FileSharesContext } from "../../api/fileSharesContext.js";
 import {
   listByFileShare,
   deleteFileShareSnapshot,
@@ -9,16 +9,16 @@ import {
   createOrUpdateFileShareSnapshot,
   getFileShareSnapshot,
 } from "../../api/fileShareSnapshots/operations.js";
-import {
+import type {
   FileShareSnapshotsListByFileShareOptionalParams,
   FileShareSnapshotsDeleteFileShareSnapshotOptionalParams,
   FileShareSnapshotsUpdateFileShareSnapshotOptionalParams,
   FileShareSnapshotsCreateOrUpdateFileShareSnapshotOptionalParams,
   FileShareSnapshotsGetFileShareSnapshotOptionalParams,
 } from "../../api/fileShareSnapshots/options.js";
-import { FileShareSnapshot, FileShareSnapshotUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { FileShareSnapshot, FileShareSnapshotUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FileShareSnapshots operations. */
 export interface FileShareSnapshotsOperations {
