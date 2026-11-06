@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { execFileSync } from "child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { pathToFileURL } from "url";
@@ -90,15 +90,16 @@ describe("release tag baseline retrieval", () => {
     tryCreateLastestStableNpmViewFromGithub(parameters);
 
     expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
-    expect(git(sdkRootPath, "rev-parse", `refs/tags/${tag}`)).toBe(
+    expect(git(sdkRootPath, "rev-parse", "FETCH_HEAD")).toBe(
       git(sourcePath, "rev-parse", `refs/tags/${tag}`),
     );
-    expect(git(sdkRootPath, "tag", "--list").trim()).toBe(tag);
+    expect(git(sdkRootPath, "tag", "--list")).toBe("");
   });
 
-  test("uses an existing local tag without fetching or replacing it", () => {
+  test("reads upstream even when a different local release tag exists, without replacing it", () => {
     prepareCheckout({ "review/arm-test.api.md": baseline });
     git(sdkRootPath, "fetch", "--no-tags", "origin", `refs/tags/${tag}:refs/tags/${tag}`);
+    git(sdkRootPath, "tag", "--force", tag, "HEAD");
     const originalTag = git(sdkRootPath, "rev-parse", `refs/tags/${tag}`);
     git(sdkRootPath, "remote", "remove", "origin");
 
@@ -117,12 +118,10 @@ describe("release tag baseline retrieval", () => {
 
     tryCreateLastestStableNpmViewFromGithub(parameters);
 
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining("Retrying from https://github.com/Azure/azure-sdk-for-js.git"),
-    );
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("Failed to fetch release tag"));
     expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
     expect(git(sdkRootPath, "remote", "get-url", "origin").trim()).toBe(syncRepository);
-    expect(git(sdkRootPath, "tag", "--list").trim()).toBe(tag);
+    expect(git(sdkRootPath, "tag", "--list")).toBe("");
   });
 
   test("retrieves the release tag from upstream when origin is unavailable", () => {
@@ -165,29 +164,29 @@ describe("release tag baseline retrieval", () => {
     expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
   });
 
-  test("throws without creating a baseline when fetching fails", () => {
+  test("warns and preserves the default baseline when fetching fails, ignoring stale FETCH_HEAD", () => {
     prepareCheckout({ "review/arm-test.api.md": baseline });
+    git(sdkRootPath, "fetch", "--no-tags", "origin", `refs/tags/${tag}`);
     git(sdkRootPath, "remote", "remove", "origin");
     git(tempPath, "--git-dir", remotePath, "tag", "--delete", tag);
     const warn = vi.spyOn(logger, "warn");
-
-    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).toThrow(
-      `Failed to read ApiView for ${packageName} from release tag ${tag}`,
+    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).not.toThrow();
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining(`Failed to fetch release tag ${tag}`),
     );
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining("All release repositories failed."));
-    expect(existsSync(targetPath())).toBe(false);
+    expect(readFileSync(targetPath(), "utf8")).toBe("```ts\n```");
   });
 
   test.each<Record<string, string>>([
     {},
     { "review/arm-test-node.api.md": " \n", "review/arm-test.api.md": "\n" },
-  ])("throws without creating a baseline when no usable API file exists: %j", (files) => {
+  ])("preserves the default baseline when no usable API file exists: %j", (files) => {
     prepareCheckout(files);
 
-    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).toThrow(
-      `Failed to read ApiView for ${packageName} from release tag ${tag}`,
-    );
-    expect(existsSync(targetPath())).toBe(false);
+    const warn = vi.spyOn(logger, "warn");
+    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).not.toThrow();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("Using default content."));
+    expect(readFileSync(targetPath(), "utf8")).toBe("```ts\n```");
   });
 
   test("restores the changelog from a missing release tag", () => {
@@ -200,13 +199,11 @@ describe("release tag baseline retrieval", () => {
     expect(readFileSync(join(parameters.npmPackagePath, "CHANGELOG.md"), "utf8")).toBe(changelog);
   });
 
-  test("throws without writing an empty changelog when it is missing", () => {
+  test("preserves the empty changelog fallback when it is missing", () => {
     prepareCheckout({});
     parameters.file = "CHANGELOG.md";
 
-    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).toThrow(
-      `Failed to read CHANGELOG.md for ${packageName}`,
-    );
-    expect(existsSync(join(parameters.npmPackagePath, "CHANGELOG.md"))).toBe(false);
+    expect(() => tryCreateLastestStableNpmViewFromGithub(parameters)).not.toThrow();
+    expect(readFileSync(join(parameters.npmPackagePath, "CHANGELOG.md"), "utf8")).toBe("");
   });
 });
