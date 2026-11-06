@@ -4,11 +4,25 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
+import type { AdditionalPolicyConfig } from '@azure-rest/core-client';
+import type { HttpClient } from '@azure/core-rest-pipeline';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure/core-client';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PipelineOptions } from '@azure/core-rest-pipeline';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
+import type { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
+
+// @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: any;
+    parsedHeaders?: {
+        [key: string]: unknown;
+    };
+    request: PipelineRequest;
+}
 
 // @public
 export interface GetSchemaOptions extends OperationOptions {
@@ -26,6 +40,30 @@ export enum KnownSchemaFormats {
     Custom = "Custom",
     Json = "Json"
 }
+
+// @public
+export interface OperationOptions {
+    abortSignal?: NonNullable<PipelineRequest["abortSignal"]>;
+    onResponse?: RawResponseCallback;
+    requestOptions?: OperationRequestOptions;
+    serializerOptions?: SerializerOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
+    customHeaders?: {
+        [key: string]: string;
+    };
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+    timeout?: number;
+}
+
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
 
 // @public
 export interface RegisterSchemaOptions extends OperationOptions {
@@ -74,8 +112,24 @@ export class SchemaRegistryClient implements SchemaRegistry {
 }
 
 // @public
-export interface SchemaRegistryClientOptions extends CommonClientOptions {
+export interface SchemaRegistryClientOptions extends PipelineOptions {
+    additionalPolicies?: AdditionalPolicyConfig[];
+    allowInsecureConnection?: boolean;
     apiVersion?: string;
+    httpClient?: HttpClient;
+}
+
+// @public
+export interface SerializerOptions {
+    ignoreUnknownProperties?: boolean;
+    xml: XmlOptions;
+}
+
+// @public
+export interface XmlOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
 }
 
 // (No @packageDocumentation comment for this package)
