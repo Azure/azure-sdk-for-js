@@ -22,6 +22,7 @@
   - Removed Interface TrackedResourceUpdate
   - Type of parameter identity of interface CloudAccountUpdate is changed from ManagedServiceIdentityUpdate to CloudAccountIdentityUpdate
   - Type of parameter properties of interface CloudAccountUpdate is changed from CloudAccountPropertiesUpdate to CloudAccountUpdateProperties
+  - Enum KnownStorageClassType member Cool now has the value "COOL" (previously "COLD"); the new member Cold carries "COLD". Callers that relied on Cool sending "COLD" must use Cold
 
     
 ## 1.0.0 (2026-10-09)
