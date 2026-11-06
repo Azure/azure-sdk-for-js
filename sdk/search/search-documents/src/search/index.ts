@@ -12,6 +12,7 @@ export type {
   SearchPostOptionalParams,
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
+  GraphOptionalParams,
   SearchContext,
   SearchClientOptionalParams,
 } from "./api/index.js";

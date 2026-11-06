@@ -28,5 +28,20 @@ export async function getSseStream(
     throw createSseError(response);
   }
 
+  if (
+    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
+  ) {
+    const body: unknown = response.body;
+    if (
+      typeof body === "object" &&
+      body !== null &&
+      "cancel" in body &&
+      typeof body.cancel === "function"
+    ) {
+      await body.cancel();
+    }
+    throw createSseError(response);
+  }
+
   return createSseStream(response.body);
 }

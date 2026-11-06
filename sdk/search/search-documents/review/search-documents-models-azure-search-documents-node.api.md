@@ -5,6 +5,33 @@
 ```ts
 
 // @public
+export interface AgenticSearchDebugInfo {
+    readonly subQueries?: AgenticSearchSubQuery[];
+    readonly terminationReason?: AgenticSearchTerminationReason;
+    readonly usage?: AgenticSearchUsage;
+}
+
+// @public
+export interface AgenticSearchOptions {
+    maxRuntimeInSeconds?: number;
+}
+
+// @public
+export interface AgenticSearchSubQuery {
+    readonly iteration: number;
+    readonly search: string;
+}
+
+// @public
+export type AgenticSearchTerminationReason = string;
+
+// @public
+export interface AgenticSearchUsage {
+    readonly agenticPlanningTokens: number;
+    readonly reasoningTokens: number;
+}
+
+// @public
 export interface AutocompleteItem {
     readonly queryPlusText: string;
     readonly text: string;
@@ -20,8 +47,22 @@ export interface AutocompleteResult {
 }
 
 // @public
+export interface BalancedVectorQueryTopicGraph extends VectorQueryTopicGraph {
+    kind: "balanced";
+    minDiversityPoolSize?: number;
+}
+
+// @public
 export interface DebugInfo {
+    readonly agentic?: AgenticSearchDebugInfo;
     readonly queryRewrites?: QueryRewritesDebugInfo;
+}
+
+// @public
+export interface DiverseVectorQueryTopicGraph extends VectorQueryTopicGraph {
+    diversityFactor?: number;
+    kind: "diverse";
+    minDiversityPoolSize?: number;
 }
 
 // @public
@@ -64,6 +105,128 @@ export interface FacetResult {
 }
 
 // @public
+export interface GraphQueryDiagnostic {
+    code?: string;
+    message?: string;
+    phase?: GraphQueryDiagnosticPhase;
+    severity?: GraphQueryDiagnosticSeverity;
+    span?: string;
+    suggestions?: string[];
+}
+
+// @public
+export type GraphQueryDiagnosticPhase = string;
+
+// @public
+export type GraphQueryDiagnosticSeverity = string;
+
+// @public
+export interface GraphQueryError {
+    readonly count?: number;
+    readonly diagnostics?: GraphQueryDiagnostic[];
+    error: ErrorDetail;
+    readonly explain?: GraphQueryExplain;
+    readonly provenanceDocuments?: GraphQueryProvenanceDocuments;
+    readonly statistics?: GraphQueryStatistics;
+    readonly value?: GraphQueryRow[];
+}
+
+// @public
+export interface GraphQueryEvidence {
+    chunkId?: string;
+    confidence?: GraphQueryEvidenceConfidence;
+    edgeId?: string;
+    parentId?: string;
+}
+
+// @public
+export interface GraphQueryEvidenceConfidence {
+    edge?: number;
+    object?: number;
+    predicate?: number;
+    subject?: number;
+}
+
+// @public
+export interface GraphQueryEvidenceCount {
+    relation?: GraphQueryEvidenceCountRelation;
+    value?: number;
+}
+
+// @public
+export type GraphQueryEvidenceCountRelation = string;
+
+// @public
+export type GraphQueryExecutionMode = string;
+
+// @public
+export interface GraphQueryExplain {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
+export type GraphQueryExplainStage = string;
+
+// @public
+export interface GraphQueryProvenanceDocument {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
+export interface GraphQueryProvenanceDocuments {
+    additionalProperties?: Record<string, GraphQueryProvenanceDocument>;
+}
+
+// @public
+export interface GraphQueryProvenanceHydrateDocumentsParameters {
+    select?: string;
+}
+
+// @public
+export type GraphQueryProvenanceKind = string;
+
+// @public
+export interface GraphQueryProvenanceParameters {
+    hydrateDocuments?: GraphQueryProvenanceHydrateDocumentsParameters;
+    kind: GraphQueryProvenanceKind;
+    maxEvidencePerRow?: number;
+}
+
+// @public
+export interface GraphQueryResult {
+    readonly count?: number;
+    readonly diagnostics?: GraphQueryDiagnostic[];
+    readonly explain?: GraphQueryExplain;
+    readonly provenanceDocuments?: GraphQueryProvenanceDocuments;
+    readonly statistics?: GraphQueryStatistics;
+    readonly value: GraphQueryRow[];
+}
+
+// @public
+export interface GraphQueryRow {
+    additionalProperties?: Record<string, any>;
+    readonly provenance?: GraphQueryRowProvenance;
+}
+
+// @public
+export interface GraphQueryRowProvenance {
+    evidence?: GraphQueryEvidence[];
+    evidenceCount?: GraphQueryEvidenceCount;
+    kind?: GraphQueryProvenanceKind;
+}
+
+// @public
+export interface GraphQueryStatistics {
+    documentsFetched?: number;
+    executionMode?: GraphQueryExecutionMode;
+    isEstimated?: boolean;
+    planningMs?: number;
+    queryCount?: number;
+    searchMs?: number;
+    totalMs?: number;
+}
+
+// @public
 export type HybridCountAndFacetMode = string;
 
 // @public
@@ -100,6 +263,58 @@ export interface IndexingResult {
 }
 
 // @public
+export enum KnownAgenticSearchTerminationReason {
+    MaxRuntimeExceeded = "maxRuntimeExceeded",
+    ModelFailed = "modelFailed",
+    ModelStopped = "modelStopped"
+}
+
+// @public
+export enum KnownGraphQueryDiagnosticPhase {
+    Bind = "bind",
+    Execution = "execution",
+    Parse = "parse",
+    Planning = "planning",
+    Validation = "validation"
+}
+
+// @public
+export enum KnownGraphQueryDiagnosticSeverity {
+    Error = "error",
+    Info = "info",
+    Warning = "warning"
+}
+
+// @public
+export enum KnownGraphQueryEvidenceCountRelation {
+    Exact = "exact",
+    LowerBound = "lowerBound"
+}
+
+// @public
+export enum KnownGraphQueryExecutionMode {
+    Execute = "execute",
+    PlanOnly = "planOnly"
+}
+
+// @public
+export enum KnownGraphQueryExplainStage {
+    Full = "full",
+    LogicalPlan = "logicalPlan",
+    OptimizedLogicalPlan = "optimizedLogicalPlan",
+    PhysicalPlan = "physicalPlan",
+    RequestAttributions = "requestAttributions",
+    SemanticIr = "semanticIr",
+    Syntax = "syntax"
+}
+
+// @public
+export enum KnownGraphQueryProvenanceKind {
+    Hydrate = "hydrate",
+    Ids = "ids"
+}
+
+// @public
 export enum KnownHybridCountAndFacetMode {
     CountAllResults = "countAllResults",
     CountRetrievableResults = "countRetrievableResults"
@@ -119,6 +334,7 @@ export enum KnownQueryCaptionType {
 
 // @public
 export enum KnownQueryDebugMode {
+    Agentic = "agentic",
     All = "all",
     Disabled = "disabled",
     InnerHits = "innerHits",
@@ -217,6 +433,7 @@ export enum KnownQuerySpellerType {
 
 // @public
 export enum KnownQueryType {
+    Agentic = "agentic",
     Full = "full",
     Semantic = "semantic",
     Simple = "simple"
@@ -269,6 +486,13 @@ export enum KnownVectorQueryKind {
 }
 
 // @public
+export enum KnownVectorSearchTopicGraphKind {
+    Balanced = "balanced",
+    Diverse = "diverse",
+    None = "none"
+}
+
+// @public
 export enum KnownVectorThresholdKind {
     SearchScore = "searchScore",
     VectorSimilarity = "vectorSimilarity"
@@ -277,6 +501,11 @@ export enum KnownVectorThresholdKind {
 // @public
 export interface LookupDocument {
     additionalProperties?: Record<string, any>;
+}
+
+// @public
+export interface NoneVectorQueryTopicGraph extends VectorQueryTopicGraph {
+    kind: "none";
 }
 
 // @public
@@ -377,6 +606,7 @@ export type SearchMode = "any" | "all";
 
 // @public
 export interface SearchRequest {
+    agenticOptions?: AgenticSearchOptions;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     debug?: QueryDebugMode;
@@ -388,6 +618,7 @@ export interface SearchRequest {
     hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
+    moreLikeThis?: string;
     orderBy?: string;
     queryLanguage?: QueryLanguage;
     queryRewrites?: QueryRewritesType;
@@ -513,11 +744,20 @@ export interface VectorQuery {
     oversampling?: number;
     perDocumentVectorLimit?: number;
     threshold?: VectorThresholdUnion;
+    topicGraph?: VectorQueryTopicGraphUnion;
     weight?: number;
 }
 
 // @public
 export type VectorQueryKind = string;
+
+// @public
+export interface VectorQueryTopicGraph {
+    kind: VectorSearchTopicGraphKind;
+}
+
+// @public
+export type VectorQueryTopicGraphUnion = NoneVectorQueryTopicGraph | DiverseVectorQueryTopicGraph | BalancedVectorQueryTopicGraph | VectorQueryTopicGraph;
 
 // @public
 export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | VectorizableImageUrlQuery | VectorizableImageBinaryQuery | VectorQuery;
@@ -526,6 +766,9 @@ export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | Vectori
 export interface VectorsDebugInfo {
     readonly subscores?: QueryResultDocumentSubscores;
 }
+
+// @public
+export type VectorSearchTopicGraphKind = string;
 
 // @public
 export interface VectorSimilarityThreshold extends VectorThreshold {

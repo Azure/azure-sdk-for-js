@@ -21,11 +21,11 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexClient } = require("@azure/search-documents/searchIndex");
 const {
   KnowledgeRetrievalClient,
   KnownKnowledgeSourceResultsProcessing,
   KnownMcpServerOutputParsingKind,
-  SearchIndexClient,
 } = require("@azure/search-documents");
 
 require("dotenv").config();
@@ -52,7 +52,7 @@ async function main() {
     kind: "mcpServer",
     description: "MCP server knowledge source delegating retrieval to a remote MCP endpoint.",
     mcpServerParameters: {
-      serverUrl: mcpServerUrl || "https://contoso.example.com/mcp",
+      serverURL: mcpServerUrl || "https://contoso.example.com/mcp",
       authentication: {
         kind: "storedHeaders",
         storedHeadersParameters: {

@@ -6,6 +6,7 @@ import type {
   CorsOptions,
   KnowledgeSourceReference,
   KnowledgeBaseRetrieveDefaults,
+  KnowledgeBaseTool,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeBaseActivityRecordUnion,
@@ -105,6 +106,8 @@ export type KnowledgeBaseRetrievalStreamEvent =
 
 /** Defines a knowledge base and its stored retrieval configuration. */
 export interface KnowledgeBase {
+  /** Tools exposed by this knowledge base for scoped retrieval. */
+  tools?: KnowledgeBaseTool[];
   /**
    * The name of the knowledge base.
    */

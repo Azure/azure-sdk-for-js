@@ -15,8 +15,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { FabricDataAgentKnowledgeSource, KnowledgeBase } from "@azure/search-documents";
-import { KnowledgeRetrievalClient, SearchIndexClient } from "@azure/search-documents";
+import type {
+  FabricDataAgentKnowledgeSource,
+  KnowledgeBase,
+} from "@azure/search-documents/models/azure/search/documents/indexes";
+import { KnowledgeRetrievalClient } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents/searchIndex";
 
 import * as dotenv from "dotenv";
 dotenv.config();

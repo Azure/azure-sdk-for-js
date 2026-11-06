@@ -111,7 +111,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.equal(searchResults.count, 1);
     });
 
-    it("search with answers", async () => {
+    // Temporarily skipped: PPE returns semantic fallback results. Restore after the backend fix and re-record.
+    it.skip("search with answers", async () => {
       const baseOptions = baseSemanticOptions();
       const options = {
         ...baseOptions,
