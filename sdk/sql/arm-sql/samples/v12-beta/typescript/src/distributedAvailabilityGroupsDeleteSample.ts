@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
  *
  * @summary drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsDelete.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsDelete.json
  */
 async function initiateADistributedAvailabilityGroupDrop(): Promise<void> {
   const credential = new DefaultAzureCredential();

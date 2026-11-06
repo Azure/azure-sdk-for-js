@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "databases": [
+      {
+        "databaseName": "testdb"
+      }
+    ],
+    "failoverMode": "None",
+    "instanceAvailabilityGroupName": "testcl",
+    "instanceLinkRole": "Primary",
+    "partnerAvailabilityGroupName": "BoxLocalAg1",
+    "partnerEndpoint": "TCP://SERVER:7022",
+    "seedingMode": "Automatic"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "managedNetwork": {
+          "bicepIdentifier": "managedNetwork",
+          "type": "Microsoft.CognitiveServices/accounts/managedNetworks",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              }
+            }
+          }
+        },
+        "outboundRule": {
+          "bicepIdentifier": "outboundRule",
+          "type": "Microsoft.CognitiveServices/accounts/managedNetworks/outboundRules",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "outbound-rule-example"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedNetwork"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "FQDN"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "UserDefined"
+                  },
+                  "destination": {
+                    "kind": "string",
+                    "value": "destination.example.com"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

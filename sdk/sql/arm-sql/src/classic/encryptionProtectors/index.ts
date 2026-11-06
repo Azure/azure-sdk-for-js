@@ -81,6 +81,7 @@ export interface EncryptionProtectorsOperations {
     options?: EncryptionProtectorsGetOptionalParams,
   ) => Promise<EncryptionProtector>;
 }
+
 function _getEncryptionProtectors(context: SqlManagementContext) {
   return {
     revalidate: (
@@ -181,6 +182,7 @@ function _getEncryptionProtectors(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, encryptionProtectorName, options),
   };
 }
+
 export function _getEncryptionProtectorsOperations(
   context: SqlManagementContext,
 ): EncryptionProtectorsOperations {

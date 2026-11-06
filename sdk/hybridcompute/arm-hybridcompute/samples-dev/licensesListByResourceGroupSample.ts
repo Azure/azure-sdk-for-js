@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get all licenses of a non-Azure machine
  *
  * @summary the operation to get all licenses of a non-Azure machine
- * x-ms-original-file: 2026-07-15/license/License_ListByResourceGroup.json
+ * x-ms-original-file: 2026-09-01/license/License_ListByResourceGroup.json
  */
 async function getAllMachineExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();

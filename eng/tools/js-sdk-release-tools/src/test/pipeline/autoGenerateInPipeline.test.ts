@@ -17,8 +17,6 @@ vi.mock("command-line-args", () => ({
     inputJsonPath: mocks.inputJsonPath,
     outputJsonPath: mocks.outputJsonPath,
     local: true,
-    typespecEmitter:
-      mocks.sdkType === "Provisioning" ? "@azure-tools/typespec-ts-provisioning" : undefined,
   }),
 }));
 vi.mock("../../utils/generateInputUtils.js", () => ({

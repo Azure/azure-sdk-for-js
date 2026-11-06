@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets managed instance server configuration option.
  *
  * @summary gets managed instance server configuration option.
- * x-ms-original-file: 2025-08-01-preview/ServerConfigurationOptionGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerConfigurationOptionGet.json
  */
 async function getsManagedInstanceServerConfigurationOption(): Promise<void> {
   const credential = new DefaultAzureCredential();

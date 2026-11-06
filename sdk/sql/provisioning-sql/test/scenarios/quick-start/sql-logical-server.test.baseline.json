@@ -1,0 +1,104 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqllogicalserverserv"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "connectionPolicy": {
+          "bicepIdentifier": "connectionPolicy",
+          "type": "Microsoft.Sql/servers/connectionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "firewallRule": {
+          "bicepIdentifier": "firewallRule",
+          "type": "Microsoft.Sql/servers/firewallRules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqllogicalserverfire"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "advancedThreatProtectionSetting": {
+          "bicepIdentifier": "advancedThreatProtectionSetting",
+          "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "sqlVulnerabilityAssessment": {
+          "bicepIdentifier": "sqlVulnerabilityAssessment",
+          "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an IPv6 firewall rule.
  *
  * @summary deletes an IPv6 firewall rule.
- * x-ms-original-file: 2025-08-01-preview/IPv6FirewallRuleDelete.json
+ * x-ms-original-file: 2026-08-01-preview/IPv6FirewallRuleDelete.json
  */
 async function deleteAnIPv6FirewallRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

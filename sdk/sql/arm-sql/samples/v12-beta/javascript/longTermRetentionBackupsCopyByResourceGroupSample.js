@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to copy an existing long term retention backup to a different server.
  *
  * @summary copy an existing long term retention backup to a different server.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupCopy.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupCopy.json
  */
 async function copyTheLongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();
