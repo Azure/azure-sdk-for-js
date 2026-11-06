@@ -636,6 +636,48 @@ export function _getItemsOperations(context: AIProjectContext): ItemsOperations 
   assert.doesNotMatch(result.text, /Promise<"a b">/);
 });
 
+test("ports emitted classic parameter changes through a customized tracing wrapper", () => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const customText = baseText.replace(
+    "getItem(context, id, options)",
+    'traceOperation("get_item", () => getItem(context, id, options))',
+  );
+  const incomingText = baseText
+    .replaceAll("id: string", "itemId: string")
+    .replace("getItem(context, id, options)", "getItem(context, itemId, options)");
+  const incomingApi = operations(1, [getItem])
+    .replaceAll("id: string", "itemId: string")
+    .replaceAll("context, id, options", "context, itemId, options");
+  const merge = (text) =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText: text,
+      incomingText,
+      matches: [
+        {
+          incoming: { file: "api/items/operations.ts", name: "getItem" },
+          names: { publicNode: "getItem" },
+        },
+      ],
+      resolvedText: incomingApi,
+      resolvedOptionsText: options([getItem[3]]),
+      customApiText: operations(1, [getItem]),
+    });
+  const result = merge(customText);
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /traceOperation\("get_item", \(\) => getItem\(context, itemId, options\)\)/,
+  );
+  assert.match(result.text, /itemId: string/);
+  assert.doesNotMatch(result.text, /id: string/);
+  const unsafe = merge(
+    customText.replace("getItem(context, id, options)", "getItem(context, options, id)"),
+  );
+  assert.ok(unsafe.diagnostics.length > 0);
+});
+
 test("reports a customized classic member whose operation moves to another group", () => {
   const baseText = classic(3, "BetaItems", "beta/items", [betaArchive, restore]);
   const matches = [
