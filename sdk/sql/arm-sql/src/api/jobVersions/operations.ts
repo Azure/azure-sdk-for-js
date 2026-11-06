@@ -34,7 +34,7 @@ export function _listByJobSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +61,7 @@ export async function _listByJobDeserialize(
 
   return _jobVersionListResultDeserializer(result.body);
 }
+
 /** Gets all versions of a job. */
 export function listByJob(
   context: Client,
@@ -78,7 +79,7 @@ export function listByJob(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -101,7 +102,7 @@ export function _getSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobVersion: jobVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobVersionDeserializer(result.body);
 }
+
 /** Gets a job version. */
 export async function get(
   context: Client,

@@ -631,7 +631,7 @@ export function _getItemsOperations(context: AIProjectContext): ItemsOperations 
   assert.deepEqual(result.diagnostics, []);
   assert.match(
     result.text,
-    /getItem: \(\s*id: string,\s*options\?: ItemsGetItemOptionalParams,\s*\) => Promise<"ab">;/,
+    /getItem: \(\s*id: string,\s*options\?: ItemsGetItemOptionalParams,?\s*\) => Promise<"ab">;/,
   );
   assert.doesNotMatch(result.text, /Promise<"a b">/);
 });
@@ -711,6 +711,182 @@ export async function archiveItemWithAudit(context: Client, id: string, options:
       1,
     );
   }
+});
+
+test("relocates alpha-renamed delegates and aliases only from their own operation module", () => {
+  const file = "classic/beta/items/index.ts";
+  const base = classic(3, "BetaItems", "beta/items", [betaArchive]);
+  const custom = base
+    .replace("import { archiveItem }", "import { archiveItem as archive }")
+    .replaceAll("archiveItem: (id: string", "archiveItem: (itemId: string")
+    .replace("=> archiveItem(context, id, options)", "=> archive(context, itemId, options)");
+  const matches = [
+    {
+      base: { name: "archiveItem", file: "api/beta/items/operations.ts" },
+      customized: { name: "archiveItem" },
+      incoming: { name: "archiveItem", file: "api/items/operations.ts" },
+    },
+  ];
+  const api = operations(2, [betaArchive]);
+  assert.deepEqual(relocatedMemberDiagnostics(file, custom, base, matches, api), []);
+  for (const unsafe of [
+    custom.replace("api/beta/items/operations.js", "api/beta/other/operations.js"),
+    custom.replace("archiveItem as archive", "archiveItemWithAudit as archive"),
+    custom.replace(
+      "function _getBetaItems(context: AIProjectContext) {",
+      "function _getBetaItems(context: AIProjectContext) { const archive = audit;",
+    ),
+    custom.replace("archive(context, itemId, options)", "archive(context, options, itemId)"),
+  ])
+    assert.equal(relocatedMemberDiagnostics(file, unsafe, base, matches, api).length, 1);
+});
+
+test("a removed beta module carries renamed operation helpers but rejects unknown custom declarations", () => {
+  const oldFile = "api/beta/items/operations.ts";
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      [oldFile]: operations(2, [betaArchive]),
+      "api/beta/items/options.ts": options([betaArchive[3]]),
+      "classic/beta/items/index.ts": classic(3, "BetaItems", "beta/items", [betaArchive]),
+    }),
+  );
+  const baseSource = new Map(baseGenerated);
+  baseSource.set(
+    oldFile,
+    baseSource.get(oldFile).replaceAll("archiveItem", "deleteAgentInsightMonitor"),
+  );
+  baseSource.set(
+    "classic/beta/items/index.ts",
+    baseSource
+      .get("classic/beta/items/index.ts")
+      .replace("import { archiveItem }", "import { deleteAgentInsightMonitor as archiveItem }"),
+  );
+  const generated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/operations.ts": operations(1, [archive]),
+      "api/items/options.ts": options([archive[3]]),
+      "api/items/index.ts": 'export { archiveItem } from "./operations.js";',
+      "classic/items/index.ts": classic(2, "Items", "items", [archive]),
+    }),
+  );
+  const inputs = { baseGenerated, baseSource, generated };
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const resolved = plan.source.get("api/items/operations.ts");
+  for (const name of [
+    "deleteAgentInsightMonitor",
+    "_deleteAgentInsightMonitorSend",
+    "_deleteAgentInsightMonitorDeserialize",
+  ])
+    assert.match(resolved, new RegExp(`function ${name}\\(`));
+  assert.match(
+    plan.source.get("classic/items/index.ts"),
+    /deleteAgentInsightMonitor\(context, id, options\)/,
+  );
+  assert.equal(plan.source.has(oldFile), false);
+  assert.match(plan.source.get("api/items/index.ts"), /export \{ deleteAgentInsightMonitor \}/);
+  baseSource.set(
+    oldFile,
+    `${baseSource.get(oldFile)}\nexport function customDeleteAudit() { return "audit"; }`,
+  );
+  const unsafe = planCustomization(inputs);
+  assert.ok(
+    unsafe.diagnostics.some((d) => d.file === oldFile && d.declaration === "customDeleteAudit"),
+  );
+});
+
+test("promoted monitor wiring preserves the customized beta authentication context", () => {
+  const oldApi = "api/beta/agentInsightMonitors/operations.ts";
+  const rootApi = "api/agentInsightMonitors/operations.ts";
+  const beta = `export interface BetaOperations {
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+}
+export function _getBetaOperations(context: Client): BetaOperations {
+  return { agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context) };
+}`;
+  const client = `export class AIProjectClient {
+  constructor() {
+    this.beta = _getBetaOperations(this._client);
+    this.telemetry = customTelemetry();
+  }
+}`;
+  const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      [oldApi]: operations(2, [betaArchive]),
+      "api/beta/agentInsightMonitors/options.ts": options([betaArchive[3]]),
+      "classic/beta/agentInsightMonitors/index.ts": classic(
+        3,
+        "BetaAgentInsightMonitors",
+        "beta/agentInsightMonitors",
+        [betaArchive],
+      ),
+      "classic/beta/index.ts": beta,
+      "aiProjectClient.ts": client,
+    }),
+  );
+  const baseSource = new Map(baseGenerated);
+  baseSource.set("aiProjectClient.ts", customClient);
+  const generated = new Map(
+    Object.entries({
+      ...models(),
+      [rootApi]: operations(1, [archive]),
+      "api/agentInsightMonitors/options.ts": options([archive[3]]),
+      "classic/agentInsightMonitors/index.ts": classic(
+        2,
+        "AgentInsightMonitors",
+        "agentInsightMonitors",
+        [archive],
+      ),
+      "classic/beta/index.ts":
+        "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
+      "aiProjectClient.ts": `import { AgentInsightMonitorsOperations, _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+${client
+  .replace(
+    "constructor()",
+    "public readonly agentInsightMonitors: AgentInsightMonitorsOperations;\nconstructor()",
+  )
+  .replace(
+    "this.telemetry",
+    "this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._client);\nthis.telemetry",
+  )}`,
+    }),
+  );
+  const inputs = { baseGenerated, baseSource, generated };
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const resolved = plan.source.get("aiProjectClient.ts");
+  assert.match(
+    resolved,
+    /this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)/,
+  );
+  assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
+  const guardInputs = {
+    ...inputs,
+    source: plan.source,
+    matches: plan.matches,
+    modelRenames: plan.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  const wrongContext = new Map(plan.source);
+  wrongContext.set(
+    "aiProjectClient.ts",
+    resolved.replace(
+      "_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)",
+      "_getAgentInsightMonitorsOperations(this._azureScopeClient)",
+    ),
+  );
+  assert.ok(
+    validateCustomization({ ...guardInputs, source: wrongContext }).some(
+      (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
+    ),
+  );
+  generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
+  const unrelated = planCustomization(inputs);
+  assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
 });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {

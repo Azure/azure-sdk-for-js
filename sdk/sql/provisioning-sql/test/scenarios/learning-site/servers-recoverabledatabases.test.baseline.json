@@ -1,0 +1,47 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversrecoverableda"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "recoverableDatabase": {
+          "bicepIdentifier": "recoverableDatabase",
+          "type": "Microsoft.Sql/servers/recoverableDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversrecoverableda"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

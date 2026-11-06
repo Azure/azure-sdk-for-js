@@ -33,6 +33,7 @@ export interface ManagedInstanceTdeCertificatesOperations {
     options?: ManagedInstanceTdeCertificatesCreateOptionalParams,
   ) => Promise<void>;
 }
+
 function _getManagedInstanceTdeCertificates(context: SqlManagementContext) {
   return {
     create: (
@@ -61,6 +62,7 @@ function _getManagedInstanceTdeCertificates(context: SqlManagementContext) {
     },
   };
 }
+
 export function _getManagedInstanceTdeCertificatesOperations(
   context: SqlManagementContext,
 ): ManagedInstanceTdeCertificatesOperations {
