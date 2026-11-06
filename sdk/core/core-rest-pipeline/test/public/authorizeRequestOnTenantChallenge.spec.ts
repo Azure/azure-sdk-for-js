@@ -3,15 +3,15 @@
 
 import { describe, it, assert, expect, vi, beforeEach, type Mock } from "vitest";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "../../src/index.js";
 import {
+  authorizeRequestOnTenantChallenge,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { authorizeRequestOnTenantChallenge } from "../../src/index.js";
+} from "../../src/index.js";
 
-describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
+describe("authorizeRequestOnTenantChallenge", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
   let getTokenStub: Mock<
     (scopes: string | string[], options: GetTokenOptions | undefined) => Promise<AccessToken | null>
@@ -26,6 +26,108 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       >()
       .mockResolvedValue({ expiresOnTimestamp: 1, token: "originalToken" });
   });
+
+  it("should forward abort, timeout, and tracing options to token retrieval", async () => {
+    const abortSignal = new AbortController().signal;
+    const tracingOptions = { tracingContext: undefined };
+    const request = createPipelineRequest({
+      url: "https://example.org",
+      abortSignal,
+      timeout: 1234,
+    });
+    request.tracingOptions = tracingOptions;
+
+    const authorized = await authorizeRequestOnTenantChallenge({
+      request,
+      response: {
+        request,
+        status: 401,
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com/container`,
+        }),
+      },
+      getAccessToken: getTokenStub,
+      scopes: ["https://example.org/.default"],
+    });
+
+    assert.isTrue(authorized);
+    expect(getTokenStub).toHaveBeenCalledExactlyOnceWith(["https://storage.azure.com/.default"], {
+      abortSignal,
+      requestOptions: { timeout: 1234 },
+      tracingOptions,
+      tenantId: fakeGuid,
+    });
+  });
+
+  it.each([undefined, "Bearer", "pop"] as const)(
+    "should honor token type %s when setting the authorization header",
+    async (tokenType) => {
+      getTokenStub.mockResolvedValue({ expiresOnTimestamp: 1, token: "challengeToken", tokenType });
+      const request = createPipelineRequest({ url: "https://example.org" });
+
+      const authorized = await authorizeRequestOnTenantChallenge({
+        request,
+        response: {
+          request,
+          status: 401,
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize`,
+          }),
+        },
+        getAccessToken: getTokenStub,
+        scopes: ["https://example.org/.default"],
+      });
+
+      assert.isTrue(authorized);
+      assert.equal(request.headers.get("authorization"), `${tokenType ?? "Bearer"} challengeToken`);
+    },
+  );
+
+  it("should leave the authorization header unchanged when no token is returned", async () => {
+    getTokenStub.mockResolvedValue(null);
+    const request = createPipelineRequest({
+      url: "https://example.org",
+      headers: createHttpHeaders({ authorization: "Bearer originalToken" }),
+    });
+
+    const authorized = await authorizeRequestOnTenantChallenge({
+      request,
+      response: {
+        request,
+        status: 401,
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize`,
+        }),
+      },
+      getAccessToken: getTokenStub,
+      scopes: ["https://example.org/.default"],
+    });
+
+    assert.isFalse(authorized);
+    assert.equal(request.headers.get("authorization"), "Bearer originalToken");
+  });
+
+  it.each(["common", "", `${fakeGuid}suffix`, fakeGuid.replaceAll("-", "")])(
+    "should reject a tenant that is not a UUID: %s",
+    async (tenantId) => {
+      const request = createPipelineRequest({ url: "https://example.org" });
+      const authorized = await authorizeRequestOnTenantChallenge({
+        request,
+        response: {
+          request,
+          status: 401,
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${tenantId}/oauth2/authorize`,
+          }),
+        },
+        getAccessToken: getTokenStub,
+        scopes: [],
+      });
+
+      assert.isFalse(authorized);
+      expect(getTokenStub).not.toHaveBeenCalled();
+    },
+  );
 
   it("should not try to get challenge info if request succeeded initially", async () => {
     const policy = bearerTokenAuthenticationPolicy({
