@@ -256,12 +256,18 @@ export function createTokenCycler(
       scopes,
       getTokenOptions,
     );
+    const isClaimsRefresh = Boolean(getTokenOptions.claims);
     const existingWorker = refreshWorkers.get(requestIdentityKey);
     if (existingWorker?.canJoin) {
+      // A new claims challenge can rejoin a still-pending claims worker after
+      // another challenge has completed. Treat that rejoin as the current
+      // cache owner so the shared worker's eventual result is not discarded as
+      // stale.
+      if (isClaimsRefresh && existingWorker.isClaimsRefresh) {
+        existingWorker.sequence = ++nextRefreshSequence;
+      }
       return existingWorker.promise;
     }
-
-    const isClaimsRefresh = Boolean(getTokenOptions.claims);
     const claimsEpoch = isClaimsRefresh
       ? (activeClaimsEpoch ?? startClaimsEpoch())
       : activeClaimsEpoch?.hasSuccessfulClaims
