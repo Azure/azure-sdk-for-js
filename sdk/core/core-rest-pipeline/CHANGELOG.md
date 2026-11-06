@@ -2,6 +2,10 @@
 
 ## 1.25.1 (Unreleased)
 
+### Features Added
+
+- Added the opt-in `externalEvaluationPolicy` prototype for subscription-scoped ARM operations to acquire a policy token after an actionable policy denial and replay the exact serialized request once. See [Azure/azure-sdk#10081](https://github.com/Azure/azure-sdk/issues/10081).
+
 ### Bugs Fixed
 
 - Restore original abort signals after wrapping, keep legacy signals connected through streamed request and response completion, and dispose streamed authentication challenge bodies before resending requests. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)

@@ -10,9 +10,20 @@ import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
+  Pipeline,
+  externalEvaluationPolicy,
+  bearerTokenAuthenticationPolicyName,
 } from "../src/index.js";
 
 describe("snippets", () => {
+  it("ReadmeSampleExternalEvaluation", () => {
+    function enableExternalEvaluation(client: { pipeline: Pipeline }): void {
+      client.pipeline.addPolicy(externalEvaluationPolicy(), {
+        beforePolicies: [bearerTokenAuthenticationPolicyName],
+      });
+    }
+  });
+
   it("ReadmeSampleSendRequest", () => {
     type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });
