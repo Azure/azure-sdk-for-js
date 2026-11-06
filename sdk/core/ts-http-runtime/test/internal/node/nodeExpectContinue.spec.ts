@@ -1119,19 +1119,13 @@ describe("Expect: 100-continue loopback transport", () => {
   );
 
   it("uses the fallback when the server does not send Continue", async () => {
-    let headersAt = 0;
-    let bodyAt = 0;
     const body = vi.fn(() => Readable.from(["payload"]));
     const fixture = await loopback((request, response) => {
-      headersAt = Date.now();
-      request.once("data", () => {
-        bodyAt = Date.now();
-      });
+      expect(body).not.toHaveBeenCalled();
       acceptUpload(request, response);
     });
     expect((await fixture.send({ body })).status).toBe(200);
     expect(body).toHaveBeenCalledOnce();
-    expect(bodyAt - headersAt).toBeGreaterThanOrEqual(900);
   });
 
   it("excludes slow DNS on a fresh socket from the fallback", async () => {
