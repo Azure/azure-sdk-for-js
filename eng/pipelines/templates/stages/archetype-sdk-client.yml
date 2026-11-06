@@ -8,6 +8,9 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: not-specified
+  - name: ReleasePlanId
+    type: string
+    default: '0'
   - name: TestProxy
     type: boolean
     default: true
@@ -110,5 +113,6 @@ extends:
               Artifacts: ${{ parameters.Artifacts }}
               ${{ if eq(parameters.ServiceDirectory, 'template') }}:
                 TestPipeline: true
+                ReleasePlanId: ${{ parameters.ReleasePlanId }}
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
