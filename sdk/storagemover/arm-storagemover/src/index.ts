@@ -51,12 +51,14 @@ export type {
   AzureStorageBlobContainerEndpointProperties,
   NfsMountEndpointProperties,
   NfsVersion,
+  NfsMountSourceType,
   S3WithHmacEndpointProperties,
   AzureKeyVaultS3WithHmacCredentials,
   S3WithHmacSourceType,
   AzureStorageSmbFileShareEndpointProperties,
   SmbMountEndpointProperties,
   AzureKeyVaultSmbCredentials,
+  SmbMountSourceType,
   AzureStorageNfsFileShareEndpointProperties,
   AzureMultiCloudConnectorEndpointProperties,
   ManagedServiceIdentity,
@@ -116,7 +118,9 @@ export {
   KnownEndpointType,
   KnownEndpointKind,
   KnownNfsVersion,
+  KnownNfsMountSourceType,
   KnownS3WithHmacSourceType,
+  KnownSmbMountSourceType,
   KnownManagedServiceIdentityType,
   KnownCredentialType,
   KnownJobType,
@@ -151,6 +155,7 @@ export type {
   EndpointsGetOptionalParams,
 } from "./api/endpoints/index.js";
 export type {
+  JobDefinitionsReconcileJobOptionalParams,
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -189,3 +194,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -33387,7 +33387,7 @@ importers:
   sdk/storagemover/arm-storagemover:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -43228,7 +43228,7 @@ packages:
     resolution: {integrity: sha1-ryT7t7kfzKlFOZoE+pAKEPlQYkI=}
 
   sort-package-json@3.7.1:
-    resolution: {integrity: sha512-ssk1HG7whF8N/T1IsNAQrtHG5Cbdi0rAgRJZXYBr9hF5xaHnBNzUx/W6LcthEW7FhOwvZssbESZuO+GxssqAyA==}
+    resolution: {integrity: sha1-fy6YFf4lp031sOpyXk2MnLQ7Nvw=}
     engines: {node: '>=20'}
     hasBin: true
 
