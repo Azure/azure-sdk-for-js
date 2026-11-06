@@ -18,9 +18,9 @@
             }
           }
         },
-        "connection": {
-          "bicepIdentifier": "connection",
-          "type": "Microsoft.CognitiveServices/accounts/connections",
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.CognitiveServices/accounts/privateEndpointConnections",
           "apiVersion": "2026-07-01",
           "existing": true,
           "value": {
@@ -28,7 +28,7 @@
             "value": {
               "name": {
                 "kind": "string",
-                "value": "connection"
+                "value": "privateEndpointConnection"
               },
               "parent": {
                 "kind": "identifier",

@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 /*
- * Primary resource type: Microsoft.CognitiveServices/accounts/connections
- * Primary schema key: Microsoft.CognitiveServices/accounts/connections
+ * Primary resource type: Microsoft.CognitiveServices/accounts/privateEndpointConnections
+ * Primary schema key: Microsoft.CognitiveServices/accounts/privateEndpointConnections
  * Also covers: none
  * Scenario: swagger-examples/list-private-endpoint-connections
- * provisioning API: CognitiveServicesConnection
+ * provisioning API: PrivateEndpointConnection
  * Source: https://github.com/Azure/azure-rest-api-specs/blob/09685799a1c25766ba250f5cd6051659be8a4e50/specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/CognitiveServices/examples/2026-07-01/ListPrivateEndpointConnections.json
  * Operation: n/a
  * Runtime baseline: list-private-endpoint-connections.test.baseline.bicep and list-private-endpoint-connections.test.baseline.json
  * Gap/reduction: Path and query parameters and response payloads were omitted from the request-body contract.
  */
 
-import { Account, CognitiveServicesConnection } from "@azure/provisioning-cognitiveservices";
+import { Account, PrivateEndpointConnection } from "@azure/provisioning-cognitiveservices";
 import { describe, it } from "vitest";
 
 import {
@@ -56,9 +56,9 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "cognitive-account",
   });
-  new CognitiveServicesConnection(account, {
+  new PrivateEndpointConnection(account, {
     existing: true,
-    name: "connection",
+    name: "privateEndpointConnection",
   });
   return stack;
 }
@@ -73,7 +73,7 @@ describe("swagger-examples/list-private-endpoint-connections", () => {
     const rendered = renderStackArtifacts(stack);
 
     expectRenderedResourceToMatchSwaggerRequest(import.meta.url, rendered.outputs, {
-      resourceType: "Microsoft.CognitiveServices/accounts/connections",
+      resourceType: "Microsoft.CognitiveServices/accounts/privateEndpointConnections",
       apiVersion: "2026-07-01",
     });
     expectRenderedOutputsToMatchBaselines(import.meta.url, rendered.outputs);
