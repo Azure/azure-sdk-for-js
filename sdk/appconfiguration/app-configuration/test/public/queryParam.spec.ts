@@ -15,10 +15,12 @@ import { createAppConfigurationClientForTests, startRecorder } from "./utils/tes
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("request url query parameters", () => {
-  it("encodes reserved characters in key path parameters", async () => {
+  it.each([
+    { key: "key?/#%=!'()*", encodedKey: "key%3F%2F%23%25%3D%21%27%28%29%2A" },
+    { key: "key%3F", encodedKey: "key%253F" },
+  ])("encodes key $key and its label exactly once", async ({ key, encodedKey }) => {
     const requests: PipelineRequest[] = [];
-    const key = "key?/#%=!'()*";
-    const encodedKey = "key%3F%2F%23%25%3D%21%27%28%29%2A";
+    const label = "label?/#%&=+value";
     const mockHttpClient: HttpClient = {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
         requests.push(request);
@@ -26,7 +28,7 @@ describe("request url query parameters", () => {
           request,
           status: 200,
           headers: createHttpHeaders(),
-          bodyAsText: JSON.stringify({ key, value: "value" }),
+          bodyAsText: JSON.stringify({ key, label, value: "value" }),
         };
       },
     };
@@ -35,18 +37,177 @@ describe("request url query parameters", () => {
       { httpClient: mockHttpClient },
     );
 
-    await client.addConfigurationSetting({ key, value: "value" });
-    await client.setConfigurationSetting({ key, value: "value" });
-    await client.getConfigurationSetting({ key });
-    await client.deleteConfigurationSetting({ key });
-    await client.setReadOnly({ key }, true);
-    await client.setReadOnly({ key }, false);
+    const options = { requestOptions: { headers: { "x-test-header": "encoding" } } };
+    await client.addConfigurationSetting({ key, label, value: "value" }, options);
+    await client.setConfigurationSetting({ key, label, value: "value" }, options);
+    await client.getConfigurationSetting({ key, label }, { ...options, fields: ["key", "value"] });
+    await client.deleteConfigurationSetting({ key, label }, options);
+    await client.setReadOnly({ key, label }, true, options);
+    await client.setReadOnly({ key, label }, false, options);
 
     assert.lengthOf(requests, 6);
     for (const request of requests) {
       const url = new URL(request.url);
       assert.match(url.pathname, new RegExp(`^/(?:kv|locks)/${encodedKey}$`));
-      assert.notInclude(url.search, "/#%");
+      assert.equal(url.hash, "");
+      assert.equal(url.searchParams.get("label"), label);
+      assert.equal(url.searchParams.get("api-version"), "2026-05-01-preview");
+      assert.equal(request.headers.get("x-test-header"), "encoding");
+      assert.notInclude(url.search, "%2524");
+    }
+    assert.equal(new URL(requests[2].url).searchParams.get("$select"), "key,value");
+  });
+
+  it.each([
+    "listConfigurationSettings",
+    "listRevisions",
+    "listConfigurationSettingsForSnapshot",
+    "checkConfigurationSettings",
+  ] as const)("encodes filters and continuation tokens for %s", async (method) => {
+    const requests: PipelineRequest[] = [];
+    const keyFilter = "key?/#%=!'()*";
+    const labelFilter = "label &+?/#%=";
+    const tagsFilter = ["tier=beta & canary", "literal=%2F"];
+    const continuationToken = "next/+==";
+    const snapshotName = "snapshot?/#%";
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        const nextLink =
+          requests.length === 1
+            ? "/kv?api-version=2026-05-01-preview&after=next%2F%2B%3D%3D"
+            : undefined;
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(nextLink ? { link: `<${nextLink}>; rel="next"` } : {}),
+          bodyAsText:
+            request.method === "HEAD"
+              ? undefined
+              : JSON.stringify({ items: [], "@nextLink": nextLink }),
+        };
+      },
+    };
+    const client = new AppConfigurationClient(
+      "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD",
+      { httpClient: mockHttpClient },
+    );
+    const options = {
+      keyFilter,
+      labelFilter,
+      tagsFilter,
+      fields: ["key", "isReadOnly"] as const,
+    };
+    const listOptions = { ...options, fields: [...options.fields] };
+    const iterator = (
+      method === "listConfigurationSettingsForSnapshot"
+        ? client[method](snapshotName, listOptions)
+        : client[method](listOptions)
+    ).byPage();
+    let pageCount = 0;
+    for await (const _page of iterator) {
+      pageCount++;
+    }
+
+    assert.equal(pageCount, 2);
+    assert.lengthOf(requests, 2);
+    for (const [index, request] of requests.entries()) {
+      const url = new URL(request.url);
+      assert.equal(url.pathname, method === "listRevisions" ? "/revisions" : "/kv");
+      assert.equal(url.hash, "");
+      assert.equal(url.searchParams.get("key"), keyFilter);
+      assert.equal(url.searchParams.get("label"), labelFilter);
+      assert.deepEqual(url.searchParams.getAll("tags"), tagsFilter);
+      assert.equal(url.searchParams.get("$select"), "key,locked");
+      assert.equal(url.searchParams.get("after"), index === 0 ? null : continuationToken);
+      assert.equal(
+        url.searchParams.get("snapshot"),
+        method === "listConfigurationSettingsForSnapshot" ? snapshotName : null,
+      );
+      assert.notInclude(url.search, "%2524");
+    }
+    assert.deepEqual(tagsFilter, ["tier=beta & canary", "literal=%2F"]);
+  });
+
+  it.each(["listLabels", "listSnapshots"] as const)(
+    "encodes name filters and fields for %s",
+    async (method) => {
+      const requests: PipelineRequest[] = [];
+      const nameFilter = "name?/#%&=+*";
+      const mockHttpClient: HttpClient = {
+        sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+          requests.push(request);
+          return {
+            request,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: JSON.stringify({
+              items: [],
+              "@nextLink":
+                requests.length === 1
+                  ? "/labels?api-version=2026-05-01-preview&after=next%3D"
+                  : undefined,
+            }),
+          };
+        },
+      };
+      const client = new AppConfigurationClient(
+        "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD",
+        { httpClient: mockHttpClient },
+      );
+      const iterator = client[method]({ nameFilter, fields: ["name"] }).byPage();
+      for await (const _page of iterator) {
+        // Iterate to send both page requests.
+      }
+
+      assert.lengthOf(requests, 2);
+      for (const [index, request] of requests.entries()) {
+        const url = new URL(request.url);
+        assert.equal(url.pathname, method === "listLabels" ? "/labels" : "/snapshots");
+        assert.equal(url.hash, "");
+        assert.equal(url.searchParams.get("name"), nameFilter);
+        assert.equal(url.searchParams.get("$select"), "name");
+        assert.equal(url.searchParams.get("after"), index === 0 ? null : "next=");
+        assert.notInclude(url.search, "%2524");
+        if (method === "listLabels") {
+          assert.equal(url.searchParams.get("resourcetype"), "kv");
+        }
+      }
+    },
+  );
+
+  it("encodes snapshot names for create, get, archive, and recover", async () => {
+    const requests: PipelineRequest[] = [];
+    const name = "snapshot?/#%";
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: JSON.stringify({ name, status: "ready", filters: [] }),
+        };
+      },
+    };
+    const client = new AppConfigurationClient(
+      "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD",
+      { httpClient: mockHttpClient },
+    );
+
+    const poller = await client.beginCreateSnapshot({ name, filters: [] });
+    await poller.pollUntilDone();
+    await client.beginCreateSnapshotAndWait({ name, filters: [] });
+    await client.getSnapshot(name);
+    await client.archiveSnapshot(name);
+    await client.recoverSnapshot(name);
+
+    assert.lengthOf(requests, 5);
+    for (const request of requests) {
+      const url = new URL(request.url);
+      assert.equal(url.pathname, "/snapshots/snapshot%3F%2F%23%25");
+      assert.equal(url.hash, "");
+      assert.equal(url.searchParams.get("api-version"), "2026-05-01-preview");
     }
   });
 
@@ -105,7 +266,7 @@ describe("request url query parameters", () => {
       }
 
       // Regex enforces exact ordering of query params: api-version, key, label
-      queryOrderRegex = /\?api-version=[^&]+&key=\*&label=dev$/;
+      queryOrderRegex = /\?api-version=[^&]+&key=(?:\*|%2A)&label=dev$/;
       assert.match(
         getCapturedUrl()!,
         queryOrderRegex,
@@ -124,7 +285,7 @@ describe("request url query parameters", () => {
 
       // Regex enforces exact ordering of query params: api-version, key, label, tags
       queryOrderRegex =
-        /\?api-version=[^&]+&key=\*&label=dev&tags=tag2%3Dvalue2&tags=tag1%3Dvalue1&tags=tag3%3Dvalue3$/;
+        /\?api-version=[^&]+&key=(?:\*|%2A)&label=dev&tags=tag2%3Dvalue2&tags=tag1%3Dvalue1&tags=tag3%3Dvalue3$/;
       assert.match(
         getCapturedUrl()!,
         queryOrderRegex,

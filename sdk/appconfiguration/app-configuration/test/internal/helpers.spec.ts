@@ -134,6 +134,14 @@ describe("helper methods", () => {
 
       assert.deepEqual(result.select, ["locked", "value"]);
     });
+
+    it("leaves tag filters unencoded for the generated URL builder", () => {
+      const tagsFilter = ["tier=beta & canary", "literal=%2F"];
+      const result = formatFiltersAndSelect({ tagsFilter });
+
+      assert.deepEqual(result.tags, tagsFilter);
+      assert.deepEqual(tagsFilter, ["tier=beta & canary", "literal=%2F"]);
+    });
   });
 
   it("maps feature flag filters", () => {

@@ -7,6 +7,51 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, it } from "vitest";
 
 describe("FeatureFlagClient", () => {
+  it("encodes reserved characters in names without double-encoding query parameters", async () => {
+    const requests: PipelineRequest[] = [];
+    const name = "flag?/#%=!'()*";
+    const encodedName = "flag%3F%2F%23%25%3D%21%27%28%29%2A";
+    const label = "label?/#%&=value";
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        return {
+          request,
+          status: request.method === "DELETE" ? 204 : 200,
+          headers: createHttpHeaders(),
+          bodyAsText:
+            request.method === "DELETE"
+              ? undefined
+              : JSON.stringify({ name, enabled: true, label }),
+        };
+      },
+    };
+    const client = new FeatureFlagClient(
+      "https://example.azconfig.io",
+      {
+        getToken: async () => ({ token: "token", expiresOnTimestamp: Date.now() + 60_000 }),
+      },
+      { httpClient: mockHttpClient },
+    );
+
+    await client.addFeatureFlag({ name, enabled: true, label });
+    await client.setFeatureFlag({ name, enabled: true, label });
+    await client.getFeatureFlag({ name, label }, { fields: ["name", "enabled", "lastModified"] });
+    await client.deleteFeatureFlag({ name, label });
+
+    assert.lengthOf(requests, 4);
+    for (const request of requests) {
+      const url = new URL(request.url);
+      assert.equal(url.pathname, `/ff/${encodedName}`);
+      assert.equal(url.hash, "");
+      assert.equal(url.searchParams.get("label"), label);
+      assert.equal(url.searchParams.get("api-version"), "2026-05-01-preview");
+      assert.notInclude(url.search, "%2524");
+    }
+    const getUrl = new URL(requests[2].url);
+    assert.equal(getUrl.searchParams.get("$select"), "name,enabled,last_modified");
+  });
+
   it("uses the feature flag identity for get and delete requests", async () => {
     const requests: PipelineRequest[] = [];
     const mockHttpClient: HttpClient = {
