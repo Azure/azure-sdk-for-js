@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { DataProtectionContext as Client } from "../index.js";
-import type { AzureBackupJobResource, _AzureBackupJobResourceList } from "../../models/models.js";
+import type { _AzureBackupJobResourceList, AzureBackupJobResource } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  azureBackupJobResourceDeserializer,
   _azureBackupJobResourceListDeserializer,
+  azureBackupJobResourceDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -27,7 +27,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,11 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    },
   );
 }
 
@@ -85,7 +89,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-dataprotection",
-  "version": "5.1.0-beta.1",
+  "version": "5.1.0-beta.2",
   "description": "A generated SDK for DataProtectionClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -379,6 +379,188 @@
       "require": {
         "types": "./dist/commonjs/api/backupVaults/index.d.ts",
         "default": "./dist/commonjs/api/backupVaults/index.js"
+      }
+    },
+    "./api/backupInstanceOperationResultFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/backupInstanceOperationResultFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/backupInstanceOperationResultFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupInstanceOperationResultFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/backupInstanceOperationResultFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupInstanceOperationResultFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/backupInstanceOperationResultFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/backupInstanceOperationStatusFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/backupInstanceOperationStatusFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/jobFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/jobFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/jobFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/jobFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/jobFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/backupJobsFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/backupJobsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/backupJobsFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupJobsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/backupJobsFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupJobsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/backupJobsFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/recoveryPointFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/recoveryPointFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/recoveryPointFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recoveryPointFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/recoveryPointFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recoveryPointFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/recoveryPointFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/recoveryPointsFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/recoveryPointsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/recoveryPointsFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recoveryPointsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/recoveryPointsFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recoveryPointsFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/recoveryPointsFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/restorableTimeRangesFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/restorableTimeRangesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/restorableTimeRangesFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorableTimeRangesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/restorableTimeRangesFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorableTimeRangesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/restorableTimeRangesFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/validateRestoreFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/validateRestoreFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/validateRestoreFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/validateRestoreFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/validateRestoreFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/validateRestoreFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/validateRestoreFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/restoresFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/restoresFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/restoresFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restoresFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/restoresFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restoresFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/restoresFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/backupInstanceFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/backupInstanceFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/backupInstanceFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupInstanceFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/backupInstanceFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupInstanceFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/backupInstanceFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/backupInstancesFromDppCrossTenantVault": {
+      "browser": {
+        "types": "./dist/browser/api/backupInstancesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/browser/api/backupInstancesFromDppCrossTenantVault/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupInstancesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/esm/api/backupInstancesFromDppCrossTenantVault/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupInstancesFromDppCrossTenantVault/index.d.ts",
+        "default": "./dist/commonjs/api/backupInstancesFromDppCrossTenantVault/index.js"
+      }
+    },
+    "./api/dppCrossTenantVaultMappingStatus": {
+      "browser": {
+        "types": "./dist/browser/api/dppCrossTenantVaultMappingStatus/index.d.ts",
+        "default": "./dist/browser/api/dppCrossTenantVaultMappingStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dppCrossTenantVaultMappingStatus/index.d.ts",
+        "default": "./dist/esm/api/dppCrossTenantVaultMappingStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dppCrossTenantVaultMappingStatus/index.d.ts",
+        "default": "./dist/commonjs/api/dppCrossTenantVaultMappingStatus/index.js"
+      }
+    },
+    "./api/dppCrossTenantVaultMappings": {
+      "browser": {
+        "types": "./dist/browser/api/dppCrossTenantVaultMappings/index.d.ts",
+        "default": "./dist/browser/api/dppCrossTenantVaultMappings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dppCrossTenantVaultMappings/index.d.ts",
+        "default": "./dist/esm/api/dppCrossTenantVaultMappings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dppCrossTenantVaultMappings/index.d.ts",
+        "default": "./dist/commonjs/api/dppCrossTenantVaultMappings/index.js"
       }
     },
     "./api/resourceGuards": {
