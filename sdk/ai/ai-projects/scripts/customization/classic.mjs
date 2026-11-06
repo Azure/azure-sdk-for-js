@@ -475,6 +475,16 @@ function mergeWrappedProperty(file, base, custom, incoming, callee) {
     )
   )
     return undefined;
+  const signature = (arrow) =>
+    JSON.stringify([
+      arrow.modifiers?.map((modifier) => modifier.kind) ?? [],
+      arrow.typeParameters?.map((parameter) =>
+        layoutless(parameter.getText(parameter.getSourceFile())),
+      ) ?? [],
+      arrow.type ? layoutless(arrow.type.getText(arrow.getSourceFile())) : null,
+    ]);
+  const baselineSignature = signature(before);
+  if ([current, after].some((arrow) => signature(arrow) !== baselineSignature)) return undefined;
   const renames = new Map();
   for (let index = 0; index < before.parameters.length; index++) {
     const oldName = before.parameters[index].name.text;

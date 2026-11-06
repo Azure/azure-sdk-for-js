@@ -124,30 +124,52 @@ export type BindingUnion = SipBinding | Binding;
   assert.match(text, /type TelephonyProvider =[\s\S]*"sip"/);
   assert.match(text, /interface TwilioRequest[\s\S]*custom\?: boolean/);
   assert.match(text, /BindingUnion =[\s\S]*SipBinding/);
-  const unsafe = plan(
-    base,
-    custom,
-    tree(
-      incoming.get(modelFile).replace('"teams_phone_extensibility" | "twilio" | "sip"', '"sip"'),
-    ),
-  );
-  assert.ok(unsafe.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
+  for (const providers of [
+    '"sip"',
+    '"twilio" | "twilio" | "sip"',
+    '"teams_phone_extensibility" | "twilio" | boolean | "sip"',
+  ]) {
+    const unsafe = plan(
+      base,
+      custom,
+      tree(
+        incoming
+          .get(modelFile)
+          .replace(
+            'type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";',
+            `type TelephonyProvider = ${providers};`,
+          ),
+      ),
+    );
+    assert.ok(
+      unsafe.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+    );
+  }
 });
 
 test("uses the emitted snake-case voice discriminator in the union serializer", () => {
   const incoming = tree(`
 export interface VoiceAgentBaseDefinition { sub_protocol: "realtime" | "live"; }
+export interface Other { subProtocol: string; }
 export function voiceAgentBaseDefinitionUnionSerializer(
   item: VoiceAgentBaseDefinition,
 ): VoiceAgentBaseDefinition {
+  const byOptions = (options: Other) => {
+    switch (options.subProtocol) { default: return item; }
+  };
+  const nested = (item: Other) => {
+    switch (item.subProtocol) { default: return item; }
+  };
   switch (item.subProtocol) {
     default: return item;
   }
 }
 `);
   const result = succeeded(new Map(), new Map(), incoming);
-  assert.match(result.files.get(modelFile), /switch \(item\.sub_protocol\)/);
-  assert.doesNotMatch(result.files.get(modelFile), /item\.subProtocol/);
+  const text = result.files.get(modelFile);
+  assert.match(text, /switch \(item\.sub_protocol\)/);
+  assert.match(text, /switch \(options\.subProtocol\)/);
+  assert.equal((text.match(/switch \(item\.subProtocol\)/g) ?? []).length, 1);
 });
 
 function assertModelTypes(files, packageRoot) {

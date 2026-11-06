@@ -714,6 +714,36 @@ test("ports emitted classic parameter changes through a customized tracing wrapp
       });
     }
   }
+
+  for (const [kind, updated, preserved] of [
+    [
+      "async modifier",
+      "getItem: async (itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+      /getItem: async \(itemId: string/,
+    ],
+    [
+      "type parameters",
+      "getItem: <T>(itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+      /getItem: <T>\(itemId: string/,
+    ],
+    [
+      "return annotation",
+      "getItem: (itemId: string, options?: ItemsGetItemOptionalParams): Promise<string> => getItem(context, itemId, options)",
+      /getItem: \(itemId: string,[\s\S]*\): Promise<string> =>/,
+    ],
+  ]) {
+    await t.test(`does not fast-path an emitted ${kind} change`, () => {
+      const changed = incomingText.replace(
+        "getItem: (itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+        updated,
+      );
+      const result = merge(customText, { incomingText: changed });
+      assert.ok(
+        result.diagnostics.length > 0 || preserved.test(result.text),
+        `the emitted ${kind} change was dropped`,
+      );
+    });
+  }
 });
 
 test("reports a customized classic member whose operation moves to another group", () => {

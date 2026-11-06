@@ -347,22 +347,22 @@ function upstreamDiscriminators(before, custom, incoming, diagnostics) {
 function retainedTelephonyProvider(before, custom, incoming) {
   const values = (entry) => {
     if (!entry?.node || !ts.isTypeAliasDeclaration(entry.node)) return undefined;
-    return ts.isUnionTypeNode(entry.node.type)
-      ? entry.node.type.types
-          .map((type) =>
-            ts.isLiteralTypeNode(type) && ts.isStringLiteral(type.literal)
-              ? type.literal.text
-              : undefined,
-          )
-          .filter(Boolean)
-      : undefined;
+    if (!ts.isUnionTypeNode(entry.node.type)) return undefined;
+    const literals = entry.node.type.types.map((type) =>
+      ts.isLiteralTypeNode(type) && ts.isStringLiteral(type.literal)
+        ? type.literal.text
+        : undefined,
+    );
+    return literals.every((value) => value !== undefined) ? literals : undefined;
   };
   const expected = new Set(["teams_phone_extensibility", "twilio"]);
   const oldValues = values(before);
   const customValues = values(custom);
   const newValues = values(incoming);
   const equal = (left, target) =>
-    left?.length === target.size && left.every((value) => target.has(value));
+    left?.length === target.size &&
+    new Set(left).size === target.size &&
+    left.every((value) => target.has(value));
   return (
     equal(oldValues, expected) &&
     equal(customValues, expected) &&
@@ -430,10 +430,22 @@ function policyText(name, text, context, diagnostics) {
   const node = source.statements[0];
   const changes = [];
   if (name === "voiceAgentBaseDefinitionUnionSerializer" && ts.isFunctionDeclaration(node)) {
+    const parameter = node.parameters.find(
+      (item) =>
+        ts.isIdentifier(item.name) &&
+        item.type &&
+        ts.isTypeReferenceNode(item.type) &&
+        ts.isIdentifier(item.type.typeName) &&
+        item.type.typeName.text === "VoiceAgentBaseDefinition",
+    );
     function visit(child) {
+      if (child !== node && ts.isFunctionLike(child)) return;
       if (
+        parameter &&
         ts.isSwitchStatement(child) &&
         ts.isPropertyAccessExpression(child.expression) &&
+        ts.isIdentifier(child.expression.expression) &&
+        child.expression.expression.text === parameter.name.text &&
         child.expression.name.text === "subProtocol"
       ) {
         changes.push({
