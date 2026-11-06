@@ -35,7 +35,7 @@ export function _listSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listDeserialize(
 
   return _prefixListGlobalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List PrefixListGlobalRulestackResource resources by Tenant */
 export function list(
   context: Client,
@@ -77,7 +76,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -93,7 +92,7 @@ export function _$deleteSend(
     {
       globalRulestackName: globalRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PrefixListGlobalRulestackResource */
 export function $delete(
   context: Client,
@@ -128,7 +126,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, globalRulestackName, name, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -144,7 +142,7 @@ export function _createOrUpdateSend(
     {
       globalRulestackName: globalRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +171,6 @@ export async function _createOrUpdateDeserialize(
 
   return prefixListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a PrefixListGlobalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -191,7 +188,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, globalRulestackName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<
     OperationState<PrefixListGlobalRulestackResource>,
     PrefixListGlobalRulestackResource
@@ -209,7 +206,7 @@ export function _getSend(
     {
       globalRulestackName: globalRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +233,6 @@ export async function _getDeserialize(
 
   return prefixListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a PrefixListGlobalRulestackResource */
 export async function get(
   context: Client,

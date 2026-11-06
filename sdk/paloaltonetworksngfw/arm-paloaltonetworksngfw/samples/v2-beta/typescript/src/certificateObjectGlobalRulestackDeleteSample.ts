@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a CertificateObjectGlobalRulestackResource
  *
  * @summary delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function certificateObjectGlobalRulestackDeleteMaximumSetGen(): Promise<vo
  * This sample demonstrates how to delete a CertificateObjectGlobalRulestackResource
  *
  * @summary delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

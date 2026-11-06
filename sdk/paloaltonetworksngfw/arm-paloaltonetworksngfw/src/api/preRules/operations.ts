@@ -44,7 +44,7 @@ export function _resetCountersSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       firewallName: options?.firewallName,
     },
     {
@@ -72,7 +72,6 @@ export async function _resetCountersDeserialize(
 
   return ruleCounterResetDeserializer(result.body);
 }
-
 /** Reset counters */
 export async function resetCounters(
   context: Client,
@@ -95,7 +94,7 @@ export function _refreshCountersSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       firewallName: options?.firewallName,
     },
     {
@@ -118,7 +117,6 @@ export async function _refreshCountersDeserialize(result: PathUncheckedResponse)
 
   return;
 }
-
 /** Refresh counters */
 export async function refreshCounters(
   context: Client,
@@ -141,7 +139,7 @@ export function _getCountersSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       firewallName: options?.firewallName,
     },
     {
@@ -167,7 +165,6 @@ export async function _getCountersDeserialize(result: PathUncheckedResponse): Pr
 
   return ruleCounterDeserializer(result.body);
 }
-
 /** Get counters */
 export async function getCounters(
   context: Client,
@@ -188,7 +185,7 @@ export function _listSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +212,6 @@ export async function _listDeserialize(
 
   return _preRulesResourceListResultDeserializer(result.body);
 }
-
 /** List PreRulesResource resources by Tenant */
 export function list(
   context: Client,
@@ -230,7 +226,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -246,7 +242,7 @@ export function _$deleteSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +264,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PreRulesResource */
 export function $delete(
   context: Client,
@@ -281,7 +276,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, globalRulestackName, priority, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -297,7 +292,7 @@ export function _createOrUpdateSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,7 +321,6 @@ export async function _createOrUpdateDeserialize(
 
   return preRulesResourceDeserializer(result.body);
 }
-
 /** Create a PreRulesResource */
 export function createOrUpdate(
   context: Client,
@@ -341,7 +335,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, globalRulestackName, priority, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<PreRulesResource>, PreRulesResource>;
 }
 
@@ -356,7 +350,7 @@ export function _getSend(
     {
       globalRulestackName: globalRulestackName,
       priority: priority,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -381,7 +375,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return preRulesResourceDeserializer(result.body);
 }
-
 /** Get a PreRulesResource */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get changelog
  *
  * @summary get changelog
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_getChangeLog_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_getChangeLog_MaximumSet_Gen.json
  */
 async function globalRulestackGetChangeLogMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function globalRulestackGetChangeLogMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to get changelog
  *
  * @summary get changelog
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_getChangeLog_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_getChangeLog_MinimumSet_Gen.json
  */
 async function globalRulestackGetChangeLogMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list PostRulesResource resources by Tenant
  *
  * @summary list PostRulesResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/PostRules_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_List_MaximumSet_Gen.json
  */
 async function postRulesListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function postRulesListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list PostRulesResource resources by Tenant
  *
  * @summary list PostRulesResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/PostRules_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_List_MinimumSet_Gen.json
  */
 async function postRulesListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

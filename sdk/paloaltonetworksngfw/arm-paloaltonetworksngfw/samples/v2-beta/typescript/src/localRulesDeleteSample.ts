@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a LocalRulesResource
  *
  * @summary delete a LocalRulesResource
- * x-ms-original-file: 2026-05-11-preview/LocalRules_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_Delete_MaximumSet_Gen.json
  */
 async function localRulesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function localRulesDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete a LocalRulesResource
  *
  * @summary delete a LocalRulesResource
- * x-ms-original-file: 2026-05-11-preview/LocalRules_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_Delete_MinimumSet_Gen.json
  */
 async function localRulesDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

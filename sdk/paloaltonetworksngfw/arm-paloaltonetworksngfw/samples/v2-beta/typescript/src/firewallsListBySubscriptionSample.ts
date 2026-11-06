@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FirewallResource resources by subscription ID
  *
  * @summary list FirewallResource resources by subscription ID
- * x-ms-original-file: 2026-05-11-preview/Firewalls_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_ListBySubscription_MaximumSet_Gen.json
  */
 async function firewallsListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function firewallsListBySubscriptionMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list FirewallResource resources by subscription ID
  *
  * @summary list FirewallResource resources by subscription ID
- * x-ms-original-file: 2026-05-11-preview/Firewalls_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_ListBySubscription_MinimumSet_Gen.json
  */
 async function firewallsListBySubscriptionMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

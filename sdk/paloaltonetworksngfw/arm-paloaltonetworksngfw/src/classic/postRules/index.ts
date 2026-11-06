@@ -97,7 +97,6 @@ export interface PostRulesOperations {
     options?: PostRulesGetOptionalParams,
   ) => Promise<PostRulesResource>;
 }
-
 function _getPostRules(context: PaloAltoNetworksCloudngfwContext) {
   return {
     resetCounters: (
@@ -166,7 +165,6 @@ function _getPostRules(context: PaloAltoNetworksCloudngfwContext) {
       get(context, globalRulestackName, priority, options),
   };
 }
-
 export function _getPostRulesOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): PostRulesOperations {
