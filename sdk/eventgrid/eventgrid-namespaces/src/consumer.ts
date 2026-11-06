@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createSerializer } from "@azure/core-client";
+import { stringToUint8Array } from "@azure/core-util";
 import type { CloudEvent } from "./models.js";
 import { cloudEventReservedPropertyNames } from "./models.js";
-import { CloudEvent as CloudEventMapper, parseAndWrap, validateCloudEventEvent } from "./util.js";
-
-const serializer = createSerializer();
+import { parseAndWrap, validateCloudEventEvent } from "./util.js";
 
 /**
  * EventGridDeserializer is used to aid in processing events delivered by EventGrid. It can deserialize a JSON encoded payload
@@ -46,63 +44,74 @@ export class EventGridDeserializer {
     for (const o of decodedArray) {
       validateCloudEventEvent(o);
 
-      // Check that the required fields are present and of the correct type and the optional fields are missing
-      // or of the correct type.
-
-      const deserialized = serializer.deserialize(CloudEventMapper, o, "");
-      const modelEvent: Record<string, any> = {
-        specversion: deserialized.specversion,
-        id: deserialized.id,
-        source: deserialized.source,
-        type: deserialized.type,
+      const modelEvent: CloudEvent<unknown> & Record<string, unknown> = {
+        specversion: o.specversion,
+        id: o.id,
+        source: o.source,
+        type: o.type,
       };
 
-      if (deserialized.datacontenttype !== undefined) {
-        modelEvent.datacontenttype = deserialized.datacontenttype;
+      if (o.datacontenttype !== undefined) {
+        modelEvent.datacontenttype = o.datacontenttype;
       }
 
-      if (deserialized.dataschema !== undefined) {
-        modelEvent.dataschema = deserialized.dataschema;
+      if (o.dataschema !== undefined) {
+        modelEvent.dataschema = o.dataschema;
       }
 
-      if (deserialized.subject !== undefined) {
-        modelEvent.subject = deserialized.subject;
+      if (o.subject !== undefined) {
+        modelEvent.subject = o.subject;
       }
 
-      if (deserialized.time !== undefined) {
-        modelEvent.time = deserialized.time;
+      if (o.time !== undefined) {
+        modelEvent.time = new Date(o.time);
       }
 
-      if (deserialized.data !== undefined) {
-        modelEvent.data = deserialized.data;
+      if (o.data !== undefined) {
+        modelEvent.data = o.data;
       }
 
       // If the data the event represents binary, it is encoded as base64 text in a different property on the event and we need to transform it.
-      if (deserialized.dataBase64 !== undefined) {
-        if (deserialized.data !== undefined) {
+      const decodedData =
+        o.data_base64 === undefined || o.data_base64 === null
+          ? o.data_base64
+          : stringToUint8Array(o.data_base64, "base64");
+      // The mapper allowed an own dataBase64 attribute to override the decoded wire value.
+      const binaryData = Object.hasOwn(o, "dataBase64") ? o.dataBase64 : decodedData;
+      if (binaryData !== undefined) {
+        if (o.data !== undefined) {
           throw new TypeError("event contains both a data and data_base64 field");
         }
 
-        if (!(deserialized.dataBase64 instanceof Uint8Array)) {
+        if (!(binaryData instanceof Uint8Array)) {
           throw new TypeError("event data_base64 property is not an instance of Uint8Array");
         }
 
-        modelEvent.data = deserialized.dataBase64;
+        modelEvent.data = binaryData;
       }
 
       // Build the "extensionsAttributes" property bag by removing all known top level properties.
-      const extensionAttributes = { ...deserialized };
+      const extensionAttributes = Object.fromEntries(Object.entries(o));
+      // Preserve the mapper's wire-cased metadata, including inherited values but not undefined ones.
+      for (const propName of ["specversion", "dataschema", "datacontenttype"]) {
+        if (o[propName] !== undefined) {
+          extensionAttributes[propName] = o[propName];
+        } else {
+          delete extensionAttributes[propName];
+        }
+      }
       for (const propName of cloudEventReservedPropertyNames) {
         delete extensionAttributes[propName];
       }
       delete extensionAttributes.dataBase64;
+      delete extensionAttributes.data_base64;
 
       // If any properties remain, copy them to the model.
       if (Object.keys(extensionAttributes).length > 0) {
         modelEvent.extensionAttributes = extensionAttributes;
       }
 
-      events.push(modelEvent as CloudEvent<unknown>);
+      events.push(modelEvent);
     }
 
     return events;
