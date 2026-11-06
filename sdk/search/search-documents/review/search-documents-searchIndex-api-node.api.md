@@ -8,11 +8,11 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import { NodeReadableStream } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function analyzeText(context: SearchIndexContext, name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
+export function analyzeText(context: SearchIndexContext, request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
@@ -57,7 +57,7 @@ export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateAlias(context: SearchIndexContext, name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+export function createOrUpdateAlias(context: SearchIndexContext, alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
 
 // @public
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
@@ -68,7 +68,7 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateIndex(context: SearchIndexContext, name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
@@ -80,7 +80,7 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateKnowledgeBase(context: SearchIndexContext, name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+export function createOrUpdateKnowledgeBase(context: SearchIndexContext, knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
 
 // @public
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
@@ -91,7 +91,7 @@ export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOpti
 }
 
 // @public
-export function createOrUpdateKnowledgeSource(context: SearchIndexContext, name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+export function createOrUpdateKnowledgeSource(context: SearchIndexContext, knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
 
 // @public
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
@@ -102,7 +102,7 @@ export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOp
 }
 
 // @public
-export function createOrUpdateSynonymMap(context: SearchIndexContext, name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
+export function createOrUpdateSynonymMap(context: SearchIndexContext, synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
 
 // @public
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
@@ -258,6 +258,19 @@ export function getSynonymMap(context: SearchIndexContext, name: string, options
 export interface GetSynonymMapOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+}
+
+// @public
+export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
+
+// @public
+export interface GetSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public

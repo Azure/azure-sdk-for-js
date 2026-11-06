@@ -240,14 +240,14 @@ export function searchIndexerDataUserAssignedIdentityDeserializer(
 }
 
 /** Response from a List SynonymMaps request. If successful, it includes the full definitions of all synonym maps. */
-export interface _ListSynonymMapsResult {
+export interface ListSynonymMapsResult {
   /** The synonym maps in the Search service. */
   readonly synonymMaps: SynonymMap[];
   /** The URL that can be used to fetch the next set of results. */
   readonly odataNextLink?: string;
 }
 
-export function _listSynonymMapsResultDeserializer(item: any): _ListSynonymMapsResult {
+export function listSynonymMapsResultDeserializer(item: any): ListSynonymMapsResult {
   return {
     synonymMaps: synonymMapArrayDeserializer(item["value"]),
     odataNextLink: item["@odata.nextLink"],
@@ -7235,14 +7235,14 @@ export function nativeBlobSoftDeleteDeletionDetectionPolicyDeserializer(
 }
 
 /** Response from a List Datasources request. If successful, it includes the full definitions of all datasources. */
-export interface _ListDataSourcesResult {
+export interface ListDataSourcesResult {
   /** The datasources in the Search service. */
   readonly dataSources: SearchIndexerDataSourceConnection[];
   /** The URL that can be used to fetch the next set of results. */
   readonly odataNextLink?: string;
 }
 
-export function _listDataSourcesResultDeserializer(item: any): _ListDataSourcesResult {
+export function listDataSourcesResultDeserializer(item: any): ListDataSourcesResult {
   return {
     dataSources: searchIndexerDataSourceConnectionArrayDeserializer(item["value"]),
     odataNextLink: item["@odata.nextLink"],
@@ -7720,14 +7720,14 @@ export function fieldMappingFunctionDeserializer(item: any): FieldMappingFunctio
 }
 
 /** Response from a List Indexers request. If successful, it includes the full definitions of all indexers. */
-export interface _ListIndexersResult {
+export interface ListIndexersResult {
   /** The indexers in the Search service. */
   readonly indexers: SearchIndexer[];
   /** The URL that can be used to fetch the next set of results. */
   readonly odataNextLink?: string;
 }
 
-export function _listIndexersResultDeserializer(item: any): _ListIndexersResult {
+export function listIndexersResultDeserializer(item: any): ListIndexersResult {
   return {
     indexers: searchIndexerArrayDeserializer(item["value"]),
     odataNextLink: item["@odata.nextLink"],
@@ -11810,14 +11810,14 @@ export function searchIndexerKnowledgeStoreBlobProjectionSelectorDeserializer(
 }
 
 /** Response from a list skillset request. If successful, it includes the full definitions of all skillsets. */
-export interface _ListSkillsetsResult {
+export interface ListSkillsetsResult {
   /** The skillsets defined in the Search service. */
   readonly skillsets: SearchIndexerSkillset[];
   /** The URL that can be used to fetch the next set of results. */
   readonly odataNextLink?: string;
 }
 
-export function _listSkillsetsResultDeserializer(item: any): _ListSkillsetsResult {
+export function listSkillsetsResultDeserializer(item: any): ListSkillsetsResult {
   return {
     skillsets: searchIndexerSkillsetArrayDeserializer(item["value"]),
     odataNextLink: item["@odata.nextLink"],

@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  SearchIndexContext,
-  SearchIndexClientOptionalParams,
-  createSearchIndex,
-} from "./api/index.js";
-import {
+import type { SearchIndexContext, SearchIndexClientOptionalParams } from "./api/index.js";
+import { createSearchIndex } from "./api/index.js";
+import type {
   SynonymMap,
+  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -22,9 +20,10 @@ import {
   SearchServiceStatistics,
   IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
-import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
   updateKnowledgeSourceFile,
@@ -61,7 +60,8 @@ import {
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
-import {
+import type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
@@ -98,8 +98,8 @@ import {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
 
@@ -115,6 +115,13 @@ export class SearchIndexClient {
   ) {
     this._client = createSearchIndex(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Lists all synonym maps available for a search service. */
+  getSynonymMaps(
+    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSynonymMapsResult> {
+    return getSynonymMaps(this._client, options);
   }
 
   /** Retrieves a summary of statistics for all indexes in the search service. */
@@ -208,11 +215,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge source or updates an knowledge source if it already exists. */
   createOrUpdateKnowledgeSource(
-    name: string,
     knowledgeSource: KnowledgeSourceUnion,
+    name: string,
     options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceUnion> {
-    return createOrUpdateKnowledgeSource(this._client, name, knowledgeSource, options);
+    return createOrUpdateKnowledgeSource(this._client, knowledgeSource, name, options);
   }
 
   /** Creates a new knowledge base. */
@@ -248,11 +255,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge base or updates a knowledge base if it already exists. */
   createOrUpdateKnowledgeBase(
-    name: string,
     knowledgeBase: KnowledgeBase,
+    name: string,
     options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBase> {
-    return createOrUpdateKnowledgeBase(this._client, name, knowledgeBase, options);
+    return createOrUpdateKnowledgeBase(this._client, knowledgeBase, name, options);
   }
 
   /** Creates a new search alias. */
@@ -288,11 +295,11 @@ export class SearchIndexClient {
 
   /** Creates a new search alias or updates an alias if it already exists. */
   createOrUpdateAlias(
-    name: string,
     alias: SearchAlias,
+    name: string,
     options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
   ): Promise<SearchAlias> {
-    return createOrUpdateAlias(this._client, name, alias, options);
+    return createOrUpdateAlias(this._client, alias, name, options);
   }
 
   /**
@@ -320,7 +327,7 @@ export class SearchIndexClient {
     const name = typeof nameOrRequest === "string" ? nameOrRequest : (requestOrName as string);
     const request =
       typeof nameOrRequest === "string" ? (requestOrName as AnalyzeTextOptions) : nameOrRequest;
-    return analyzeText(this._client, name, request, options);
+    return analyzeText(this._client, request, name, options);
   }
 
   /** Returns statistics for the given index, including a document count and storage usage. */
@@ -393,7 +400,7 @@ export class SearchIndexClient {
   ): Promise<SearchIndex> {
     const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
     const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
-    return createOrUpdateIndex(this._client, name, index, options);
+    return createOrUpdateIndex(this._client, index, name, options);
   }
 
   /** Creates a new synonym map. */
@@ -429,10 +436,10 @@ export class SearchIndexClient {
 
   /** Creates a new synonym map or updates a synonym map if it already exists. */
   createOrUpdateSynonymMap(
-    name: string,
     synonymMap: SynonymMap,
+    name: string,
     options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
   ): Promise<SynonymMap> {
-    return createOrUpdateSynonymMap(this._client, name, synonymMap, options);
+    return createOrUpdateSynonymMap(this._client, synonymMap, name, options);
   }
 }

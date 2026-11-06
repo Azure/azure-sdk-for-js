@@ -6,11 +6,11 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
 import { NodeReadableStream } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
@@ -184,6 +184,16 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
 export interface ListAliasesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -267,12 +277,12 @@ export class SearchIndexClient {
     createIndex(index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, options?: CreateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
-    createOrUpdateAlias(name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+    createOrUpdateAlias(alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
     createOrUpdateIndex(index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
     createOrUpdateIndex(name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
-    createOrUpdateKnowledgeBase(name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
-    createOrUpdateKnowledgeSource(name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
-    createOrUpdateSynonymMap(name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
+    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+    createOrUpdateSynonymMap(synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptionalParams): Promise<SynonymMap>;
     deleteAlias(name: string, options?: DeleteAliasOptionalParams): Promise<void>;
     deleteIndex(name: string, options?: DeleteIndexOptionalParams): Promise<void>;
@@ -288,6 +298,7 @@ export class SearchIndexClient {
     getKnowledgeSourceStatus(name: string, options?: GetKnowledgeSourceStatusOptionalParams): Promise<KnowledgeSourceStatus>;
     getServiceStatistics(options?: GetServiceStatisticsOptionalParams): Promise<SearchServiceStatistics>;
     getSynonymMap(name: string, options?: GetSynonymMapOptionalParams): Promise<SynonymMap>;
+    getSynonymMaps(options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;

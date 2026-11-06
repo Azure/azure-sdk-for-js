@@ -16,7 +16,6 @@ import {
   KnowledgeBaseErrorStreamEvent,
   KnowledgeBaseResponseCompletedStreamEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /**
  * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
@@ -46,22 +45,3 @@ export enum KnownVersions {
   /** The 2026-10-01 API version. */
   V20261001 = "2026-10-01",
 }
-
-export type GetDocumentCountResponse = { body: number };
-
-export type RetrieveStreamResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};

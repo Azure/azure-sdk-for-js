@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 export {
+  getDataSourceConnections,
+  getSkillsets,
+  getIndexers,
   createSkillset,
   listSkillsets,
   getSkillset,
@@ -23,6 +26,9 @@ export {
   createOrUpdateDataSourceConnection,
 } from "./operations.js";
 export type {
+  GetDataSourceConnectionsOptionalParams,
+  GetSkillsetsOptionalParams,
+  GetIndexersOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,

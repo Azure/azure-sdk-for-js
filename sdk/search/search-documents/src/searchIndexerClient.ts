@@ -436,8 +436,8 @@ export class SearchIndexerClient {
         const { onlyIfUnchanged, ...restOptions } = updatedOptions;
         const etag = onlyIfUnchanged ? indexer.etag : undefined;
         const result = await this.client.createOrUpdateIndexer(
-          indexer.name,
           utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
+          indexer.name,
           {
             ...restOptions,
             ifMatch: etag,
@@ -463,8 +463,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
         const result = await this.client.createOrUpdateDataSourceConnection(
-          dataSourceConnection.name,
           utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
+          dataSourceConnection.name,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -490,8 +490,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
         const result = await this.client.createOrUpdateSkillset(
-          skillset.name,
           utils.publicSkillsetToGeneratedSkillset(skillset),
+          skillset.name,
           {
             ...updatedOptions,
             ifMatch: etag,

@@ -4,12 +4,7 @@
 
 ```ts
 
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
-
-// @public (undocumented)
-export type GetDocumentCountResponse = {
-    body: number;
-};
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {

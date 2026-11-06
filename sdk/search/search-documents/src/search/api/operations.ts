@@ -20,7 +20,6 @@ import {
   indexDocumentsResultDeserializer,
   autocompleteResultDeserializer,
 } from "../../models/azure/search/documents/models.js";
-import { GetDocumentCountResponse } from "../../models/models.js";
 import { buildCsvCollection } from "../../static-helpers/serialization/build-csv-collection.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -676,9 +675,7 @@ export function _getDocumentCountSend(
   });
 }
 
-export async function _getDocumentCountDeserialize(
-  result: PathUncheckedResponse,
-): Promise<GetDocumentCountResponse> {
+export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -689,14 +686,14 @@ export async function _getDocumentCountDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return Number(result.body);
 }
 
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,
   options: GetDocumentCountOptionalParams = { requestOptions: {} },
-): Promise<GetDocumentCountResponse> {
+): Promise<number> {
   const result = await _getDocumentCountSend(context, options);
   return _getDocumentCountDeserialize(result);
 }

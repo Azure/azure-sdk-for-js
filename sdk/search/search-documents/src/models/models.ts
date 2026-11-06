@@ -7,7 +7,8 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
+import type {
   KnowledgeBaseRetrievalStartedStreamEvent,
   KnowledgeBaseActivityStartedStreamEvent,
   KnowledgeBaseActivityCompletedStreamEvent,
@@ -16,7 +17,6 @@ import {
   KnowledgeBaseErrorStreamEvent,
   KnowledgeBaseResponseCompletedStreamEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /**
  * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
@@ -46,7 +46,6 @@ export enum KnownVersions {
   /** The 2026-10-01 API version. */
   V20261001 = "2026-10-01",
 }
-export type GetDocumentCountResponse = { body: number };
 
 export type RetrieveStreamResponse = {
   /**

@@ -10,11 +10,7 @@ import {
 import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 export { SearchClient } from "./search/searchClient.js";
-export type {
-  KnowledgeBaseRetrievalStreamEvents,
-  GetDocumentCountResponse,
-  RetrieveStreamResponse,
-} from "./models/index.js";
+export type { KnowledgeBaseRetrievalStreamEvents } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -77,6 +73,7 @@ export type {
   SearchIndexerDataIdentityUnion,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
+  ListSynonymMapsResult,
   SearchIndex,
   SearchField,
   SearchFieldDataType,
@@ -271,6 +268,7 @@ export type {
   DataDeletionDetectionPolicyUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   NativeBlobSoftDeleteDeletionDetectionPolicy,
+  ListDataSourcesResult,
   IndexerResyncBody,
   IndexerResyncOption,
   SearchIndexer,
@@ -284,6 +282,7 @@ export type {
   IndexerExecutionEnvironment,
   FieldMapping,
   FieldMappingFunction,
+  ListIndexersResult,
   SearchIndexerStatus,
   IndexerStatus,
   IndexerRuntime,
@@ -367,6 +366,7 @@ export type {
   IndexProjectionMode,
   SearchIndexerKnowledgeStoreProjectionSelector,
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
+  ListSkillsetsResult,
   DocumentKeysOrIds,
   SkillNames,
   ListingSearchType,
@@ -551,6 +551,7 @@ export type { FileContents, NodeReadableStream };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { SearchIndexClient } from "./searchIndex/searchIndexClient.js";
 export type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
@@ -590,6 +591,9 @@ export type {
 } from "./searchIndex/api/index.js";
 export { SearchIndexerClient } from "./searchIndexer/searchIndexerClient.js";
 export type {
+  GetDataSourceConnectionsOptionalParams,
+  GetSkillsetsOptionalParams,
+  GetIndexersOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,

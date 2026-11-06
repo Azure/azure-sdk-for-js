@@ -10,7 +10,6 @@ import {
   IndexDocumentsResult,
   AutocompleteResult,
 } from "../models/azure/search/documents/models.js";
-import { GetDocumentCountResponse } from "../models/models.js";
 import {
   autocompletePost,
   autocompleteGet,
@@ -122,7 +121,7 @@ export class SearchClient {
   /** Queries the number of documents in the index. */
   getDocumentCount(
     options: GetDocumentCountOptionalParams = { requestOptions: {} },
-  ): Promise<GetDocumentCountResponse> {
+  ): Promise<number> {
     return getDocumentCount(this._client, options);
   }
 }

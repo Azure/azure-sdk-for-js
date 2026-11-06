@@ -6,22 +6,22 @@ import {
   SearchIndexerDataSourceConnection,
   searchIndexerDataSourceConnectionSerializer,
   searchIndexerDataSourceConnectionDeserializer,
-  _ListDataSourcesResult,
-  _listDataSourcesResultDeserializer,
+  ListDataSourcesResult,
+  listDataSourcesResultDeserializer,
   IndexerResyncBody,
   indexerResyncBodySerializer,
   SearchIndexer,
   searchIndexerSerializer,
   searchIndexerDeserializer,
-  _ListIndexersResult,
-  _listIndexersResultDeserializer,
+  ListIndexersResult,
+  listIndexersResultDeserializer,
   SearchIndexerStatus,
   searchIndexerStatusDeserializer,
   SearchIndexerSkillset,
   searchIndexerSkillsetSerializer,
   searchIndexerSkillsetDeserializer,
-  _ListSkillsetsResult,
-  _listSkillsetsResultDeserializer,
+  ListSkillsetsResult,
+  listSkillsetsResultDeserializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import {
@@ -30,6 +30,9 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  GetDataSourceConnectionsOptionalParams,
+  GetSkillsetsOptionalParams,
+  GetIndexersOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -56,6 +59,180 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _getDataSourceConnectionsSend(
+  context: Client,
+  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/datasources{?api%2Dversion,%24select,search,pageSize,searchType}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDataSourceConnectionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListDataSourcesResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return listDataSourcesResultDeserializer(result.body);
+}
+
+/** Lists all datasources available for a search service. */
+export async function getDataSourceConnections(
+  context: Client,
+  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+): Promise<ListDataSourcesResult> {
+  const result = await _getDataSourceConnectionsSend(context, options);
+  return _getDataSourceConnectionsDeserialize(result);
+}
+
+export function _getSkillsetsSend(
+  context: Client,
+  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/skillsets{?api%2Dversion,%24select,search,pageSize,searchType}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getSkillsetsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListSkillsetsResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return listSkillsetsResultDeserializer(result.body);
+}
+
+/** List all skillsets in a search service. */
+export async function getSkillsets(
+  context: Client,
+  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+): Promise<ListSkillsetsResult> {
+  const result = await _getSkillsetsSend(context, options);
+  return _getSkillsetsDeserialize(result);
+}
+
+export function _getIndexersSend(
+  context: Client,
+  options: GetIndexersOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/indexers{?api%2Dversion,%24select,search,pageSize,searchType}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getIndexersDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListIndexersResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return listIndexersResultDeserializer(result.body);
+}
+
+/** Lists all indexers available for a search service. */
+export async function getIndexers(
+  context: Client,
+  options: GetIndexersOptionalParams = { requestOptions: {} },
+): Promise<ListIndexersResult> {
+  const result = await _getIndexersSend(context, options);
+  return _getIndexersDeserialize(result);
+}
 
 export function _createSkillsetSend(
   context: Client,
@@ -150,7 +327,7 @@ export function _listSkillsetsSend(
 
 export async function _listSkillsetsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListSkillsetsResult> {
+): Promise<ListSkillsetsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -161,7 +338,7 @@ export async function _listSkillsetsDeserialize(
     throw error;
   }
 
-  return _listSkillsetsResultDeserializer(result.body);
+  return listSkillsetsResultDeserializer(result.body);
 }
 
 /** List all skillsets in a search service. */
@@ -298,8 +475,8 @@ export async function deleteSkillset(
 
 export function _createOrUpdateSkillsetSend(
   context: Client,
-  name: string,
   skillset: SearchIndexerSkillset,
+  name: string,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -352,11 +529,11 @@ export async function _createOrUpdateSkillsetDeserialize(
 /** Creates a new skillset in a search service or updates the skillset if it already exists. */
 export async function createOrUpdateSkillset(
   context: Client,
-  name: string,
   skillset: SearchIndexerSkillset,
+  name: string,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerSkillset> {
-  const result = await _createOrUpdateSkillsetSend(context, name, skillset, options);
+  const result = await _createOrUpdateSkillsetSend(context, skillset, name, options);
   return _createOrUpdateSkillsetDeserialize(result);
 }
 
@@ -510,7 +687,7 @@ export function _listIndexersSend(
 
 export async function _listIndexersDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListIndexersResult> {
+): Promise<ListIndexersResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -521,7 +698,7 @@ export async function _listIndexersDeserialize(
     throw error;
   }
 
-  return _listIndexersResultDeserializer(result.body);
+  return listIndexersResultDeserializer(result.body);
 }
 
 /** Lists all indexers available for a search service. */
@@ -658,8 +835,8 @@ export async function deleteIndexer(
 
 export function _createOrUpdateIndexerSend(
   context: Client,
-  name: string,
   indexer: SearchIndexer,
+  name: string,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -712,11 +889,11 @@ export async function _createOrUpdateIndexerDeserialize(
 /** Creates a new indexer or updates an indexer if it already exists. */
 export async function createOrUpdateIndexer(
   context: Client,
-  name: string,
   indexer: SearchIndexer,
+  name: string,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexer> {
-  const result = await _createOrUpdateIndexerSend(context, name, indexer, options);
+  const result = await _createOrUpdateIndexerSend(context, indexer, name, options);
   return _createOrUpdateIndexerDeserialize(result);
 }
 
@@ -982,7 +1159,7 @@ export function _listDataSourceConnectionsSend(
 
 export async function _listDataSourceConnectionsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListDataSourcesResult> {
+): Promise<ListDataSourcesResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -993,7 +1170,7 @@ export async function _listDataSourceConnectionsDeserialize(
     throw error;
   }
 
-  return _listDataSourcesResultDeserializer(result.body);
+  return listDataSourcesResultDeserializer(result.body);
 }
 
 /** Lists all datasources available for a search service. */
@@ -1132,8 +1309,8 @@ export async function deleteDataSourceConnection(
 
 export function _createOrUpdateDataSourceConnectionSend(
   context: Client,
-  name: string,
   dataSource: SearchIndexerDataSourceConnection,
+  name: string,
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1186,10 +1363,10 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
 /** Creates a new datasource or updates a datasource if it already exists. */
 export async function createOrUpdateDataSourceConnection(
   context: Client,
-  name: string,
   dataSource: SearchIndexerDataSourceConnection,
+  name: string,
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerDataSourceConnection> {
-  const result = await _createOrUpdateDataSourceConnectionSend(context, name, dataSource, options);
+  const result = await _createOrUpdateDataSourceConnectionSend(context, dataSource, name, options);
   return _createOrUpdateDataSourceConnectionDeserialize(result);
 }

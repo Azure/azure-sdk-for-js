@@ -3,6 +3,7 @@
 
 export { SearchIndexClient } from "./searchIndexClient.js";
 export type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,

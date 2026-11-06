@@ -8,6 +8,7 @@ import {
 } from "./api/index.js";
 import {
   SynonymMap,
+  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -25,6 +26,7 @@ import {
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
   updateKnowledgeSourceFile,
@@ -62,6 +64,7 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
@@ -115,6 +118,13 @@ export class SearchIndexClient {
   ) {
     this._client = createSearchIndex(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Lists all synonym maps available for a search service. */
+  getSynonymMaps(
+    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSynonymMapsResult> {
+    return getSynonymMaps(this._client, options);
   }
 
   /** Retrieves a summary of statistics for all indexes in the search service. */
@@ -208,11 +218,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge source or updates an knowledge source if it already exists. */
   createOrUpdateKnowledgeSource(
-    name: string,
     knowledgeSource: KnowledgeSourceUnion,
+    name: string,
     options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceUnion> {
-    return createOrUpdateKnowledgeSource(this._client, name, knowledgeSource, options);
+    return createOrUpdateKnowledgeSource(this._client, knowledgeSource, name, options);
   }
 
   /** Creates a new knowledge base. */
@@ -248,11 +258,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge base or updates a knowledge base if it already exists. */
   createOrUpdateKnowledgeBase(
-    name: string,
     knowledgeBase: KnowledgeBase,
+    name: string,
     options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBase> {
-    return createOrUpdateKnowledgeBase(this._client, name, knowledgeBase, options);
+    return createOrUpdateKnowledgeBase(this._client, knowledgeBase, name, options);
   }
 
   /** Creates a new search alias. */
@@ -288,20 +298,20 @@ export class SearchIndexClient {
 
   /** Creates a new search alias or updates an alias if it already exists. */
   createOrUpdateAlias(
-    name: string,
     alias: SearchAlias,
+    name: string,
     options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
   ): Promise<SearchAlias> {
-    return createOrUpdateAlias(this._client, name, alias, options);
+    return createOrUpdateAlias(this._client, alias, name, options);
   }
 
   /** Shows how an analyzer breaks text into tokens. */
   analyzeText(
-    name: string,
     request: AnalyzeTextOptions,
+    name: string,
     options: AnalyzeTextOptionalParams = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
-    return analyzeText(this._client, name, request, options);
+    return analyzeText(this._client, request, name, options);
   }
 
   /** Returns statistics for the given index, including a document count and storage usage. */
@@ -352,11 +362,11 @@ export class SearchIndexClient {
 
   /** Creates a new search index or updates an index if it already exists. */
   createOrUpdateIndex(
-    name: string,
     index: SearchIndex,
+    name: string,
     options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
-    return createOrUpdateIndex(this._client, name, index, options);
+    return createOrUpdateIndex(this._client, index, name, options);
   }
 
   /** Creates a new synonym map. */
@@ -392,10 +402,10 @@ export class SearchIndexClient {
 
   /** Creates a new synonym map or updates a synonym map if it already exists. */
   createOrUpdateSynonymMap(
-    name: string,
     synonymMap: SynonymMap,
+    name: string,
     options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
   ): Promise<SynonymMap> {
-    return createOrUpdateSynonymMap(this._client, name, synonymMap, options);
+    return createOrUpdateSynonymMap(this._client, synonymMap, name, options);
   }
 }

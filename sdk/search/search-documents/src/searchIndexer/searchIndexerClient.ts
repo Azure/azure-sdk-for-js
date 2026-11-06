@@ -5,13 +5,19 @@ import type { SearchIndexerContext, SearchIndexerClientOptionalParams } from "./
 import { createSearchIndexer } from "./api/index.js";
 import type {
   SearchIndexerDataSourceConnection,
+  ListDataSourcesResult,
   IndexerResyncBody,
   SearchIndexer,
+  ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
+  ListSkillsetsResult,
 } from "../models/azure/search/documents/indexes/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getDataSourceConnections,
+  getSkillsets,
+  getIndexers,
   createSkillset,
   listSkillsets,
   getSkillset,
@@ -33,6 +39,9 @@ import {
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import type {
+  GetDataSourceConnectionsOptionalParams,
+  GetSkillsetsOptionalParams,
+  GetIndexersOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -72,6 +81,27 @@ export class SearchIndexerClient {
     this.pipeline = this._client.pipeline;
   }
 
+  /** Lists all datasources available for a search service. */
+  getDataSourceConnections(
+    options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  ): Promise<ListDataSourcesResult> {
+    return getDataSourceConnections(this._client, options);
+  }
+
+  /** List all skillsets in a search service. */
+  getSkillsets(
+    options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSkillsetsResult> {
+    return getSkillsets(this._client, options);
+  }
+
+  /** Lists all indexers available for a search service. */
+  getIndexers(
+    options: GetIndexersOptionalParams = { requestOptions: {} },
+  ): Promise<ListIndexersResult> {
+    return getIndexers(this._client, options);
+  }
+
   /** Creates a new skillset in a search service. */
   createSkillset(
     skillset: SearchIndexerSkillset,
@@ -105,11 +135,11 @@ export class SearchIndexerClient {
 
   /** Creates a new skillset in a search service or updates the skillset if it already exists. */
   createOrUpdateSkillset(
-    name: string,
     skillset: SearchIndexerSkillset,
+    name: string,
     options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerSkillset> {
-    return createOrUpdateSkillset(this._client, name, skillset, options);
+    return createOrUpdateSkillset(this._client, skillset, name, options);
   }
 
   /** Returns the current status and execution history of an indexer. */
@@ -153,11 +183,11 @@ export class SearchIndexerClient {
 
   /** Creates a new indexer or updates an indexer if it already exists. */
   createOrUpdateIndexer(
-    name: string,
     indexer: SearchIndexer,
+    name: string,
     options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexer> {
-    return createOrUpdateIndexer(this._client, name, indexer, options);
+    return createOrUpdateIndexer(this._client, indexer, name, options);
   }
 
   /** Runs an indexer on-demand. */
@@ -218,10 +248,10 @@ export class SearchIndexerClient {
 
   /** Creates a new datasource or updates a datasource if it already exists. */
   createOrUpdateDataSourceConnection(
-    name: string,
     dataSource: SearchIndexerDataSourceConnection,
+    name: string,
     options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerDataSourceConnection> {
-    return createOrUpdateDataSourceConnection(this._client, name, dataSource, options);
+    return createOrUpdateDataSourceConnection(this._client, dataSource, name, options);
   }
 }

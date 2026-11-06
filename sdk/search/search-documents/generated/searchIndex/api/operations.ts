@@ -6,8 +6,8 @@ import {
   SynonymMap,
   synonymMapSerializer,
   synonymMapDeserializer,
-  _ListSynonymMapsResult,
-  _listSynonymMapsResultDeserializer,
+  ListSynonymMapsResult,
+  listSynonymMapsResultDeserializer,
   SearchIndex,
   searchIndexSerializer,
   searchIndexDeserializer,
@@ -62,6 +62,7 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
@@ -104,6 +105,64 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _getSynonymMapsSend(
+  context: Client,
+  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/synonymmaps{?api%2Dversion,%24select,search,pageSize,searchType}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getSynonymMapsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListSynonymMapsResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return listSynonymMapsResultDeserializer(result.body);
+}
+
+/** Lists all synonym maps available for a search service. */
+export async function getSynonymMaps(
+  context: Client,
+  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+): Promise<ListSynonymMapsResult> {
+  const result = await _getSynonymMapsSend(context, options);
+  return _getSynonymMapsDeserialize(result);
+}
 
 export function _listIndexStatsSummarySend(
   context: Client,
@@ -771,8 +830,8 @@ export async function deleteKnowledgeSource(
 
 export function _createOrUpdateKnowledgeSourceSend(
   context: Client,
-  name: string,
   knowledgeSource: KnowledgeSourceUnion,
+  name: string,
   options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -825,11 +884,11 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
 /** Creates a new knowledge source or updates an knowledge source if it already exists. */
 export async function createOrUpdateKnowledgeSource(
   context: Client,
-  name: string,
   knowledgeSource: KnowledgeSourceUnion,
+  name: string,
   options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeSourceUnion> {
-  const result = await _createOrUpdateKnowledgeSourceSend(context, name, knowledgeSource, options);
+  const result = await _createOrUpdateKnowledgeSourceSend(context, knowledgeSource, name, options);
   return _createOrUpdateKnowledgeSourceDeserialize(result);
 }
 
@@ -1075,8 +1134,8 @@ export async function deleteKnowledgeBase(
 
 export function _createOrUpdateKnowledgeBaseSend(
   context: Client,
-  name: string,
   knowledgeBase: KnowledgeBase,
+  name: string,
   options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1129,11 +1188,11 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
 /** Creates a new knowledge base or updates a knowledge base if it already exists. */
 export async function createOrUpdateKnowledgeBase(
   context: Client,
-  name: string,
   knowledgeBase: KnowledgeBase,
+  name: string,
   options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBase> {
-  const result = await _createOrUpdateKnowledgeBaseSend(context, name, knowledgeBase, options);
+  const result = await _createOrUpdateKnowledgeBaseSend(context, knowledgeBase, name, options);
   return _createOrUpdateKnowledgeBaseDeserialize(result);
 }
 
@@ -1373,8 +1432,8 @@ export async function deleteAlias(
 
 export function _createOrUpdateAliasSend(
   context: Client,
-  name: string,
   alias: SearchAlias,
+  name: string,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1427,18 +1486,18 @@ export async function _createOrUpdateAliasDeserialize(
 /** Creates a new search alias or updates an alias if it already exists. */
 export async function createOrUpdateAlias(
   context: Client,
-  name: string,
   alias: SearchAlias,
+  name: string,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): Promise<SearchAlias> {
-  const result = await _createOrUpdateAliasSend(context, name, alias, options);
+  const result = await _createOrUpdateAliasSend(context, alias, name, options);
   return _createOrUpdateAliasDeserialize(result);
 }
 
 export function _analyzeTextSend(
   context: Client,
-  name: string,
   request: AnalyzeTextOptions,
+  name: string,
   options: AnalyzeTextOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1488,11 +1547,11 @@ export async function _analyzeTextDeserialize(
 /** Shows how an analyzer breaks text into tokens. */
 export async function analyzeText(
   context: Client,
-  name: string,
   request: AnalyzeTextOptions,
+  name: string,
   options: AnalyzeTextOptionalParams = { requestOptions: {} },
 ): Promise<AnalyzeResult> {
-  const result = await _analyzeTextSend(context, name, request, options);
+  const result = await _analyzeTextSend(context, request, name, options);
   return _analyzeTextDeserialize(result);
 }
 
@@ -1852,8 +1911,8 @@ export async function deleteIndex(
 
 export function _createOrUpdateIndexSend(
   context: Client,
-  name: string,
   index: SearchIndex,
+  name: string,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1907,11 +1966,11 @@ export async function _createOrUpdateIndexDeserialize(
 /** Creates a new search index or updates an index if it already exists. */
 export async function createOrUpdateIndex(
   context: Client,
-  name: string,
   index: SearchIndex,
+  name: string,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
-  const result = await _createOrUpdateIndexSend(context, name, index, options);
+  const result = await _createOrUpdateIndexSend(context, index, name, options);
   return _createOrUpdateIndexDeserialize(result);
 }
 
@@ -2008,7 +2067,7 @@ export function _listSynonymMapsSend(
 
 export async function _listSynonymMapsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListSynonymMapsResult> {
+): Promise<ListSynonymMapsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -2019,7 +2078,7 @@ export async function _listSynonymMapsDeserialize(
     throw error;
   }
 
-  return _listSynonymMapsResultDeserializer(result.body);
+  return listSynonymMapsResultDeserializer(result.body);
 }
 
 /** Lists all synonym maps available for a search service. */
@@ -2156,8 +2215,8 @@ export async function deleteSynonymMap(
 
 export function _createOrUpdateSynonymMapSend(
   context: Client,
-  name: string,
   synonymMap: SynonymMap,
+  name: string,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2210,10 +2269,10 @@ export async function _createOrUpdateSynonymMapDeserialize(
 /** Creates a new synonym map or updates a synonym map if it already exists. */
 export async function createOrUpdateSynonymMap(
   context: Client,
-  name: string,
   synonymMap: SynonymMap,
+  name: string,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): Promise<SynonymMap> {
-  const result = await _createOrUpdateSynonymMapSend(context, name, synonymMap, options);
+  const result = await _createOrUpdateSynonymMapSend(context, synonymMap, name, options);
   return _createOrUpdateSynonymMapDeserialize(result);
 }

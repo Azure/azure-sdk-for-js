@@ -387,8 +387,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? index.etag : undefined;
         const result = await this.client.createOrUpdateIndex(
-          index.name,
           utils.publicIndexToGeneratedIndex(index),
+          index.name,
           { ...updatedOptions, ifMatch: etag },
         );
         return utils.generatedIndexToPublicIndex(result);
@@ -412,8 +412,8 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
 
         const result = await this.client.createOrUpdateSynonymMap(
-          synonymMap.name,
           utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+          synonymMap.name,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -501,7 +501,7 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-        return this.client.createOrUpdateAlias(alias.name, alias, {
+        return this.client.createOrUpdateAlias(alias, alias.name, {
           ...updatedOptions,
           ifMatch: etag,
         });
@@ -614,7 +614,7 @@ export class SearchIndexClient {
       "SearchIndexClient-analyzeText",
       operationOptions,
       async (updatedOptions) => {
-        return this.client.analyzeText(indexName, { ...restOptions }, updatedOptions);
+        return this.client.analyzeText({ ...restOptions }, indexName, updatedOptions);
       },
     );
   }
@@ -697,8 +697,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
-          knowledgeBaseName,
           utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
+          knowledgeBaseName,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -791,8 +791,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
-          knowledgeSource.name,
           utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+          knowledgeSource.name,
           {
             ...updatedOptions,
             ifMatch: etag,
