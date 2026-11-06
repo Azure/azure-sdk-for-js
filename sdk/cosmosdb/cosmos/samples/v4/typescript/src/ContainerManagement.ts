@@ -13,6 +13,7 @@ import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
+  VectorIndexQuantizationType,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -161,13 +162,14 @@ async function run(): Promise<void> {
       {
         path: "/vector2",
         type: VectorIndexType.QuantizedFlat,
+        quantizerType: VectorIndexQuantizationType.Product,
         quantizationByteSize: 2,
         vectorIndexShardKey: ["/Country"],
       },
       {
         path: "/vector3",
         type: VectorIndexType.DiskANN,
-        quantizationByteSize: 2,
+        quantizerType: VectorIndexQuantizationType.Spherical,
         indexingSearchListSize: 50,
         vectorIndexShardKey: ["/ZipCode"],
       },
