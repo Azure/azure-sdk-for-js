@@ -2578,7 +2578,7 @@ export interface ComparisonFilter {
   /** The key to compare against the value. */
   key: string;
   /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | _FileSearchToolFiltersValue[];
+  value: string | number | boolean | ComparisonFilterValueItems[];
 }
 
 export function comparisonFilterSerializer(item: ComparisonFilter): any {
@@ -2598,7 +2598,7 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
 }
 
 /** Alias for FileSearchToolFiltersValue */
-export type FileSearchToolFiltersValue = string | number | boolean | _FileSearchToolFiltersValue[];
+export type FileSearchToolFiltersValue = string | number | boolean | ComparisonFilterValueItems[];
 
 export function _fileSearchToolFiltersValueSerializer(item: FileSearchToolFiltersValue): any {
   return item;

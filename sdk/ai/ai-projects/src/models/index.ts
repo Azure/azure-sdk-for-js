@@ -967,7 +967,6 @@ export type {
   ToolWebSearchPreviewTool,
   ToolApplyPatchToolParam,
   FileSearchToolFiltersValue,
-  _FileSearchToolFiltersValue,
   VoiceAgentSubagentConfigUnion,
   VoiceAgentSubagentType,
   VoiceAgentDelegateSubagentConfig,

@@ -2454,7 +2454,7 @@ export interface CodeInterpreterToolboxTool extends ToolboxTool {
 export interface ComparisonFilter {
     key: string;
     type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
-    value: string | number | boolean | _FileSearchToolFiltersValue[];
+    value: string | number | boolean | ComparisonFilterValueItems[];
 }
 
 // @public
@@ -3542,10 +3542,7 @@ export interface FileSearchToolboxTool extends ToolboxTool {
 }
 
 // @public
-export type FileSearchToolFiltersValue = string | number | boolean | _FileSearchToolFiltersValue[];
-
-// @public
-export type _FileSearchToolFiltersValue = string | number;
+export type FileSearchToolFiltersValue = string | number | boolean | ComparisonFilterValueItems[];
 
 // @public
 export type Filters = ComparisonFilter | CompoundFilter;
