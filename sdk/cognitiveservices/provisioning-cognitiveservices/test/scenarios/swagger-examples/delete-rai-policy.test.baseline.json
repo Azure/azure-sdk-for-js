@@ -1,6 +1,7 @@
 {
   "infras": [
     {
+      "targetScope": "subscription",
       "fileName": "infra.bicep",
       "resources": {
         "raiPolicy": {

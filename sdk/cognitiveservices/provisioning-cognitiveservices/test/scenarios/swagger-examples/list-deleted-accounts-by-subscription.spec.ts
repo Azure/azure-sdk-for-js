@@ -50,8 +50,8 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
-  const stack = createResourceGroupStack();
+function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
+  const stack = createSubscriptionStack();
   new CognitiveServicesDeletedAccount(stack, {
     existing: true,
     name: "eastus/rg-cdk-package-test/deleted-account",

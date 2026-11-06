@@ -49,8 +49,8 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
-  const stack = createResourceGroupStack();
+function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
+  const stack = createSubscriptionStack();
   new RaiPolicy(stack, {
     name: "rai-policy",
     properties: {

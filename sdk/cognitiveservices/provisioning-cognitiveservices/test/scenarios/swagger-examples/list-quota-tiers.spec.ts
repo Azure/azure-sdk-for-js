@@ -50,8 +50,8 @@ const values = {
   secondaryLocation: "westus",
 };
 
-function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) {
-  const stack = createResourceGroupStack();
+function buildScenarioStack({ createSubscriptionStack }: BuildScenarioHelpers) {
+  const stack = createSubscriptionStack();
   new QuotaTier(stack, {
     existing: true,
     name: "default",
