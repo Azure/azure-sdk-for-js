@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-carbonoptimization-ts",
+  "name": "@azure-samples/arm-carbonoptimization-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-carbonoptimization client library samples for TypeScript",
+  "description": "@azure/arm-carbonoptimization client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -30,13 +30,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization",
   "dependencies": {
-    "@azure/arm-carbonoptimization": "latest",
+    "@azure/arm-carbonoptimization": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.0"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }
