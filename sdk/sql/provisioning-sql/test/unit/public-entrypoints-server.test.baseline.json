@@ -1,0 +1,1423 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "connectionPolicy": {
+          "bicepIdentifier": "connectionPolicy",
+          "type": "Microsoft.Sql/servers/connectionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "jobAgent": {
+          "bicepIdentifier": "jobAgent",
+          "type": "Microsoft.Sql/servers/jobAgents",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "credential": {
+          "bicepIdentifier": "credential",
+          "type": "Microsoft.Sql/servers/jobAgents/credentials",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "jobAgent"
+              }
+            }
+          }
+        },
+        "job": {
+          "bicepIdentifier": "job",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "jobAgent"
+              }
+            }
+          }
+        },
+        "execution": {
+          "bicepIdentifier": "execution",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "job"
+              }
+            }
+          }
+        },
+        "step": {
+          "bicepIdentifier": "step",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions/steps",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "execution"
+              }
+            }
+          }
+        },
+        "target": {
+          "bicepIdentifier": "target",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions/steps/targets",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "step"
+              }
+            }
+          }
+        },
+        "step2": {
+          "bicepIdentifier": "step2",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/steps",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "job"
+              }
+            }
+          }
+        },
+        "version": {
+          "bicepIdentifier": "version",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/versions",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "integer",
+                "value": "1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "job"
+              }
+            }
+          }
+        },
+        "step3": {
+          "bicepIdentifier": "step3",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/versions/steps",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "step1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "version"
+              }
+            }
+          }
+        },
+        "privateEndpoint": {
+          "bicepIdentifier": "privateEndpoint",
+          "type": "Microsoft.Sql/servers/jobAgents/privateEndpoints",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "jobAgent"
+              }
+            }
+          }
+        },
+        "targetGroup": {
+          "bicepIdentifier": "targetGroup",
+          "type": "Microsoft.Sql/servers/jobAgents/targetGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "jobAgent"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/servers/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "dataMaskingPolicy": {
+          "bicepIdentifier": "dataMaskingPolicy",
+          "type": "Microsoft.Sql/servers/databases/dataMaskingPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "rule": {
+          "bicepIdentifier": "rule",
+          "type": "Microsoft.Sql/servers/databases/dataMaskingPolicies/rules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "dataMaskingPolicy"
+              }
+            }
+          }
+        },
+        "dataWarehouseUserActivity": {
+          "bicepIdentifier": "dataWarehouseUserActivity",
+          "type": "Microsoft.Sql/servers/databases/dataWarehouseUserActivities",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "advancedThreatProtectionSetting": {
+          "bicepIdentifier": "advancedThreatProtectionSetting",
+          "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "advisor": {
+          "bicepIdentifier": "advisor",
+          "type": "Microsoft.Sql/servers/databases/advisors",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "recommendedAction": {
+          "bicepIdentifier": "recommendedAction",
+          "type": "Microsoft.Sql/servers/databases/advisors/recommendedActions",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "advisor"
+              }
+            }
+          }
+        },
+        "automaticTuning": {
+          "bicepIdentifier": "automaticTuning",
+          "type": "Microsoft.Sql/servers/databases/automaticTuning",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "auditingSetting": {
+          "bicepIdentifier": "auditingSetting",
+          "type": "Microsoft.Sql/servers/databases/auditingSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "sqlVulnerabilityAssessment": {
+          "bicepIdentifier": "sqlVulnerabilityAssessment",
+          "type": "Microsoft.Sql/servers/databases/sqlVulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "baseline": {
+          "bicepIdentifier": "baseline",
+          "type": "Microsoft.Sql/servers/databases/sqlVulnerabilityAssessments/baselines",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlVulnerabilityAssessment"
+              }
+            }
+          }
+        },
+        "rule2": {
+          "bicepIdentifier": "rule2",
+          "type": "Microsoft.Sql/servers/databases/sqlVulnerabilityAssessments/baselines/rules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "baseline"
+              }
+            }
+          }
+        },
+        "scan": {
+          "bicepIdentifier": "scan",
+          "type": "Microsoft.Sql/servers/databases/sqlVulnerabilityAssessments/scans",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlVulnerabilityAssessment"
+              }
+            }
+          }
+        },
+        "scanResult": {
+          "bicepIdentifier": "scanResult",
+          "type": "Microsoft.Sql/servers/databases/sqlVulnerabilityAssessments/scans/scanResults",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "scan"
+              }
+            }
+          }
+        },
+        "extendedAuditingSetting": {
+          "bicepIdentifier": "extendedAuditingSetting",
+          "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "extension": {
+          "bicepIdentifier": "extension",
+          "type": "Microsoft.Sql/servers/databases/extensions",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "geoBackupPolicy": {
+          "bicepIdentifier": "geoBackupPolicy",
+          "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "backupLongTermRetentionPolicy": {
+          "bicepIdentifier": "backupLongTermRetentionPolicy",
+          "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "replicationLink": {
+          "bicepIdentifier": "replicationLink",
+          "type": "Microsoft.Sql/servers/databases/replicationLinks",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "restorePoint": {
+          "bicepIdentifier": "restorePoint",
+          "type": "Microsoft.Sql/servers/databases/restorePoints",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "backupShortTermRetentionPolicy": {
+          "bicepIdentifier": "backupShortTermRetentionPolicy",
+          "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "ledgerDigestUpload": {
+          "bicepIdentifier": "ledgerDigestUpload",
+          "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "schema": {
+          "bicepIdentifier": "schema",
+          "type": "Microsoft.Sql/servers/databases/schemas",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.Sql/servers/databases/schemas/tables",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "schema"
+              }
+            }
+          }
+        },
+        "column": {
+          "bicepIdentifier": "column",
+          "type": "Microsoft.Sql/servers/databases/schemas/tables/columns",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table"
+              }
+            }
+          }
+        },
+        "sensitivityLabel": {
+          "bicepIdentifier": "sensitivityLabel",
+          "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "column"
+              }
+            }
+          }
+        },
+        "securityAlertPolicy": {
+          "bicepIdentifier": "securityAlertPolicy",
+          "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "transparentDataEncryption": {
+          "bicepIdentifier": "transparentDataEncryption",
+          "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "vulnerabilityAssessment": {
+          "bicepIdentifier": "vulnerabilityAssessment",
+          "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "scan2": {
+          "bicepIdentifier": "scan2",
+          "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments/scans",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "vulnerabilityAssessment"
+              }
+            }
+          }
+        },
+        "syncGroup": {
+          "bicepIdentifier": "syncGroup",
+          "type": "Microsoft.Sql/servers/databases/syncGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "syncMember": {
+          "bicepIdentifier": "syncMember",
+          "type": "Microsoft.Sql/servers/databases/syncGroups/syncMembers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "syncGroup"
+              }
+            }
+          }
+        },
+        "workloadGroup": {
+          "bicepIdentifier": "workloadGroup",
+          "type": "Microsoft.Sql/servers/databases/workloadGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "workloadClassifier": {
+          "bicepIdentifier": "workloadClassifier",
+          "type": "Microsoft.Sql/servers/databases/workloadGroups/workloadClassifiers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workloadGroup"
+              }
+            }
+          }
+        },
+        "devOpsAuditingSetting": {
+          "bicepIdentifier": "devOpsAuditingSetting",
+          "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "elasticPool": {
+          "bicepIdentifier": "elasticPool",
+          "type": "Microsoft.Sql/servers/elasticPools",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "extendedAuditingSetting2": {
+          "bicepIdentifier": "extendedAuditingSetting2",
+          "type": "Microsoft.Sql/servers/extendedAuditingSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "failoverGroup": {
+          "bicepIdentifier": "failoverGroup",
+          "type": "Microsoft.Sql/servers/failoverGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "firewallRule": {
+          "bicepIdentifier": "firewallRule",
+          "type": "Microsoft.Sql/servers/firewallRules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "ipv6FirewallRule": {
+          "bicepIdentifier": "ipv6FirewallRule",
+          "type": "Microsoft.Sql/servers/ipv6FirewallRules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "networkSecurityPerimeterConfiguration": {
+          "bicepIdentifier": "networkSecurityPerimeterConfiguration",
+          "type": "Microsoft.Sql/servers/networkSecurityPerimeterConfigurations",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "outboundFirewallRule": {
+          "bicepIdentifier": "outboundFirewallRule",
+          "type": "Microsoft.Sql/servers/outboundFirewallRules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "privateLinkResource": {
+          "bicepIdentifier": "privateLinkResource",
+          "type": "Microsoft.Sql/servers/privateLinkResources",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "recoverableDatabase": {
+          "bicepIdentifier": "recoverableDatabase",
+          "type": "Microsoft.Sql/servers/recoverableDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "restorableDroppedDatabase": {
+          "bicepIdentifier": "restorableDroppedDatabase",
+          "type": "Microsoft.Sql/servers/restorableDroppedDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "administrator": {
+          "bicepIdentifier": "administrator",
+          "type": "Microsoft.Sql/servers/administrators",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "ActiveDirectory"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "advancedThreatProtectionSetting2": {
+          "bicepIdentifier": "advancedThreatProtectionSetting2",
+          "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "advisor2": {
+          "bicepIdentifier": "advisor2",
+          "type": "Microsoft.Sql/servers/advisors",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "automaticTuning2": {
+          "bicepIdentifier": "automaticTuning2",
+          "type": "Microsoft.Sql/servers/automaticTuning",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "azureADOnlyAuthentication": {
+          "bicepIdentifier": "azureADOnlyAuthentication",
+          "type": "Microsoft.Sql/servers/azureADOnlyAuthentications",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "auditingSetting2": {
+          "bicepIdentifier": "auditingSetting2",
+          "type": "Microsoft.Sql/servers/auditingSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "dnsAlias": {
+          "bicepIdentifier": "dnsAlias",
+          "type": "Microsoft.Sql/servers/dnsAliases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "encryptionProtector": {
+          "bicepIdentifier": "encryptionProtector",
+          "type": "Microsoft.Sql/servers/encryptionProtector",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "key": {
+          "bicepIdentifier": "key",
+          "type": "Microsoft.Sql/servers/keys",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.Sql/servers/privateEndpointConnections",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "securityAlertPolicy2": {
+          "bicepIdentifier": "securityAlertPolicy2",
+          "type": "Microsoft.Sql/servers/securityAlertPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "sqlVulnerabilityAssessment2": {
+          "bicepIdentifier": "sqlVulnerabilityAssessment2",
+          "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "vulnerabilityAssessment2": {
+          "bicepIdentifier": "vulnerabilityAssessment2",
+          "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "syncAgent": {
+          "bicepIdentifier": "syncAgent",
+          "type": "Microsoft.Sql/servers/syncAgents",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "virtualNetworkRule": {
+          "bicepIdentifier": "virtualNetworkRule",
+          "type": "Microsoft.Sql/servers/virtualNetworkRules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsser"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        },
+        "baseline2": {
+          "bicepIdentifier": "baseline2",
+          "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments/rules/baselines",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "server/database/default/rule/default"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
