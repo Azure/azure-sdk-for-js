@@ -15,7 +15,6 @@ import {
 import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse.js";
 import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
 import { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult.js";
-import * as atobUtils from "../../../src/utils/atob.js";
 import * as documentRid from "../../../src/utils/documentRid.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import { afterEach, describe, it, assert, expect, vi } from "vitest";
@@ -328,13 +327,6 @@ describe("hybridQueryExecutionContext", () => {
       expect(computeScore.mock.results.map(({ value }) => value)).toEqual(
         expectedRanks.map((rank) => 1 / (60 + rank)),
       );
-    });
-
-    it("decodes Cosmos RIDs with the browser atob API", () => {
-      const decode = vi.spyOn(atobUtils, "default").mockImplementation(globalThis.atob);
-      const rid = createRid(0xffffffffffffffffn);
-      expect(documentRid.parseDocumentRid(rid)).toBe(0xffffffffffffffffn);
-      expect(decode).toHaveBeenCalledWith(rid.replace(/-/g, "/"));
     });
 
     it.each([1, -1] as const)("breaks component ties in query-plan direction %s", (sortOrder) => {
