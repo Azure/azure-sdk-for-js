@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "fleetspaceApiKind": "NoSQL",
+    "serviceTier": "GeneralPurpose",
+    "dataRegions": ["westus2"],
+    "throughputPoolConfiguration": {
+      "minThroughput": 100000,
+      "maxThroughput": 500000
+    }
+  }
+}

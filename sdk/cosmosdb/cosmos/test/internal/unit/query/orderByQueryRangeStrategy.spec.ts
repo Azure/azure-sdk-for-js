@@ -203,8 +203,9 @@ describe("OrderByQueryRangeStrategy", function () {
         };
         const result = strategy.filterPartitionRanges([range1, range2], [contRange], queryInfo);
 
-        // When ranges have overlapping boundaries, some may be filtered out
-        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs).toHaveLength(2);
+        expect(result.rangeTokenPairs[1].epkMin).toBe("AA");
+        expect(result.rangeTokenPairs[1].epkMax).toBe("BB");
       });
 
       it("should handle adjacent ranges", function () {
@@ -248,8 +249,9 @@ describe("OrderByQueryRangeStrategy", function () {
         };
         const result = strategy.filterPartitionRanges([range1, range2], [contRange], queryInfo);
 
-        // When ranges have overlapping boundaries, filtering logic may exclude some ranges
-        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs).toHaveLength(2);
+        expect(result.rangeTokenPairs[1].epkMin).toBe("BB");
+        expect(result.rangeTokenPairs[1].epkMax).toBe("CC");
       });
 
       it("should handle FF (maximum) boundary", function () {

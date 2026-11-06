@@ -1,0 +1,375 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "resourceName": {
+          "bicepIdentifier": "resourceName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "acctest0001"
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "westus"
+          }
+        },
+        "mongodbUserPassword": {
+          "bicepIdentifier": "mongodbUserPassword",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The password for the MongoDB user",
+            "secure": true
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "format",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "{0}-acct"
+                  },
+                  {
+                    "kind": "identifier",
+                    "id": "resourceName"
+                  }
+                ]
+              },
+              "kind": {
+                "kind": "string",
+                "value": "MongoDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilities": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "EnableMongoRoleBasedAccessControl"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "EnableMongo"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "consistencyPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "defaultConsistencyLevel": {
+                        "kind": "string",
+                        "value": "Strong"
+                      },
+                      "maxIntervalInSeconds": {
+                        "kind": "integer",
+                        "value": "5"
+                      },
+                      "maxStalenessPrefix": {
+                        "kind": "integer",
+                        "value": "100"
+                      }
+                    }
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "disableKeyBasedMetadataWriteAccess": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableAnalyticalStorage": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableAutomaticFailover": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableBurstCapacity": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableFreeTier": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableMultipleWriteLocations": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enablePartitionMerge": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "ipRules": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "isVirtualNetworkFilterEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "failoverPriority": {
+                            "kind": "integer",
+                            "value": "0"
+                          },
+                          "isZoneRedundant": {
+                            "kind": "boolean",
+                            "value": false
+                          },
+                          "locationName": {
+                            "kind": "identifier",
+                            "id": "location"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "minimalTlsVersion": {
+                    "kind": "string",
+                    "value": "Tls12"
+                  },
+                  "networkAclBypass": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "networkAclBypassResourceIds": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "virtualNetworkRules": {
+                    "kind": "array",
+                    "items": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mongodbDatabase": {
+          "bicepIdentifier": "mongodbDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "format",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "{0}-mongodb"
+                  },
+                  {
+                    "kind": "identifier",
+                    "id": "resourceName"
+                  }
+                ]
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "options": {
+                    "kind": "object",
+                    "value": {}
+                  },
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "function-call",
+                        "target": "format",
+                        "args": [
+                          {
+                            "kind": "string",
+                            "value": "{0}-mongodb"
+                          },
+                          {
+                            "kind": "identifier",
+                            "id": "resourceName"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mongodbUserDefinition": {
+          "bicepIdentifier": "mongodbUserDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbUserDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "format",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "{0}.myUserName"
+                  },
+                  {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "mongodbDatabase"
+                    },
+                    "property": "name",
+                    "nullish": false
+                  }
+                ]
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "databaseName": {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "mongodbDatabase"
+                    },
+                    "property": "name",
+                    "nullish": false
+                  },
+                  "mechanisms": {
+                    "kind": "string",
+                    "value": "SCRAM-SHA-256"
+                  },
+                  "password": {
+                    "kind": "identifier",
+                    "id": "mongodbUserPassword"
+                  },
+                  "userName": {
+                    "kind": "string",
+                    "value": "myUserName"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbUserDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

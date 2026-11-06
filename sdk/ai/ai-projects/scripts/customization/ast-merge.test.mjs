@@ -68,6 +68,28 @@ test("obvious three-way cases keep the changed side and custom formatting on agr
   );
 });
 
+test("trailing commas are presentation, but array holes and comma operators are semantic", () => {
+  for (const [left, right] of [
+    ["const x = { a: 1 };", "const x = { a: 1, };"],
+    ["const x = [a];", "const x = [a,];"],
+    ["f(a);", "f(a,);"],
+    ["function f(a: string) {}", "function f(a: string,) {}"],
+  ])
+    assert.equal(canonicalize(left), canonicalize(right));
+  for (const [left, right] of [
+    ["const x = [];", "const x = [,];"],
+    ["const x = [a,];", "const x = [a,,];"],
+    ["const x = (a, b);", "const x = b;"],
+  ])
+    assert.notEqual(canonicalize(left), canonicalize(right));
+  merged(
+    "function send() { return post({ headers: { ...headers } }); }",
+    "function send() { return post({ headers: { ...headers, }, }); }",
+    "function send() { return post({}); }",
+    "function send() { return post({}); }",
+  );
+});
+
 test("absence supports genuine additions and deletions, but not ambiguous replacements", () => {
   const base = "interface Example { x: string; }";
   const changed = "interface Example { x: number; }";
