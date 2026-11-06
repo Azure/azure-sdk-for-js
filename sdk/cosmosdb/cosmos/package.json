@@ -41,6 +41,7 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
+    "build:rust-prototype": "node rust-prototype/build.cjs",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -51,6 +52,10 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
+    "test:rust-prototype": "node --test rust-prototype/probe.spec.cjs",
+    "test:rust-prototype:live": "node --test rust-prototype/client.live.cjs",
+    "test:rust-prototype:read": "node --test rust-prototype/read.live.cjs",
+    "test:rust-prototype:public-read": "node --test rust-prototype/public-read.live.cjs",
     "test:node": "npm run test:node:unit",
     "test:node:integration": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
     "test:node:unit": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",

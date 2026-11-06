@@ -31,6 +31,8 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 | TypeSpec / codegen workflow                                             | `documentation/Generate-code-from-TypeSpec.md`                                |
 | Linting rules and troubleshooting                                       | `documentation/linting.md`                                                    |
 | Dependency management                                                   | `documentation/dependency-management.md`                                      |
+| Cosmos Rust prototype architecture, foundations, and read-item workload | `documentation/cosmos-rust-prototype/architecture.md`, `foundations.md`, `read_item.md` |
+| Cosmos JS client-side encryption, public APIs, and authenticated-value proposal | `documentation/cosmos-rust-prototype/encryption.md` |
 | Authoritative API design guidelines                                     | https://azure.github.io/azure-sdk/typescript_design.html                      |
 | Other deep dives                                                        | `documentation/` (browse the directory)                                       |
 

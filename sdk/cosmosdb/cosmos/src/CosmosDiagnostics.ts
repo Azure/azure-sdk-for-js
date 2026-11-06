@@ -5,6 +5,7 @@ import type { OperationType, ResourceType } from "./common/index.js";
 import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import type { ConsistencyLevel } from "./documents/index.js";
+import type { NativeReadDiagnostics } from "./rust/NativeReadClient.js";
 
 /**
  *  * This is a Cosmos Diagnostic type that holds collected diagnostic information during a client operations. ie. Item.read(), Container.create().
@@ -28,6 +29,11 @@ import type { ConsistencyLevel } from "./documents/index.js";
  * 3. clientConfig - Captures information related to how client was configured during initialization.
  */
 export class CosmosDiagnostics {
+  /** @internal */
+  public experimentalRustRead?: {
+    coverage: "partial";
+    requests?: NativeReadDiagnostics;
+  };
   public readonly clientSideRequestStatistics: ClientSideRequestStatistics;
   public readonly diagnosticNode: DiagnosticNode;
   public readonly clientConfig?: ClientConfigDiagnostic;

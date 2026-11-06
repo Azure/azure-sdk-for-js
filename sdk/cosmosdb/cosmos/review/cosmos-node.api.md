@@ -189,7 +189,7 @@ export type ClientConfigDiagnostic = {
 // @public (undocumented)
 export class ClientContext {
     // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager);
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager, experimentalReadImplementation?: "javascript" | "rust");
     // (undocumented)
     batch<T>(input: {
         body: T;
@@ -246,6 +246,8 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T>>;
+    // (undocumented)
+    readonly experimentalReadImplementation: "javascript" | "rust";
     // (undocumented)
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;

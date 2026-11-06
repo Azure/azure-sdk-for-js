@@ -54,6 +54,7 @@ import {
 import { InferenceService } from "./inference/InferenceService.js";
 import type { SemanticRerankOptions } from "./inference/SemanticRerankOptions.js";
 import type { SemanticRerankResult } from "./inference/SemanticRerankResult.js";
+import type { RustReadAdapter } from "./rust/RustReadAdapter.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -74,6 +75,8 @@ export class ClientContext {
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
   private inferenceService: InferenceService | null = null;
+  /** @internal */
+  public rustReadAdapter?: RustReadAdapter;
 
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
@@ -81,6 +84,7 @@ export class ClientContext {
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
     private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
+    public readonly experimentalReadImplementation: "javascript" | "rust" = "javascript",
   ) {
     if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;

@@ -19,6 +19,7 @@ import type { OperationType, ResourceType } from "../common/index.js";
 import { Constants, prepareURL } from "../common/index.js";
 import { allowTracing } from "./diagnosticLevelComparator.js";
 import { randomUUID } from "@azure/core-util";
+import type { NativeReadDiagnostics } from "../rust/NativeReadClient.js";
 
 /**
  * @hidden
@@ -37,6 +38,12 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public diagnosticLevel: CosmosDbDiagnosticLevel;
   private diagnosticCtx: CosmosDiagnosticContext;
   private encryptionDiagnostics: EncryptionDiagnostics;
+  private experimentalRustRead?: CosmosDiagnostics["experimentalRustRead"];
+
+  /** @internal */
+  public markRustRead(requests?: NativeReadDiagnostics): void {
+    this.experimentalRustRead = { coverage: "partial", requests };
+  }
 
   /**
    * @internal
@@ -376,6 +383,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
       diagnostiNode,
       clientConfig,
     );
+    if (this.experimentalRustRead) {
+      cosmosDiagnostic.experimentalRustRead = this.experimentalRustRead;
+    }
     return cosmosDiagnostic;
   }
 }

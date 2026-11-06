@@ -23,6 +23,8 @@ import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import { getExperimentalReadImplementation } from "./utils/envUtils.js";
+import { RustReadAdapter } from "./rust/RustReadAdapter.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -106,6 +108,7 @@ export class CosmosClient {
    */
   constructor(options: CosmosClientOptions);
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
+    const experimentalReadImplementation = getExperimentalReadImplementation();
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
     } else if (optionsOrConnectionString.connectionString) {
@@ -118,6 +121,10 @@ export class CosmosClient {
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
     }
+    const rustReadAdapter =
+      experimentalReadImplementation === "rust"
+        ? new RustReadAdapter(optionsOrConnectionString)
+        : undefined;
 
     if (optionsOrConnectionString.clientEncryptionOptions) {
       if (!optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver) {
@@ -199,7 +206,9 @@ export class CosmosClient {
         getDiagnosticLevelFromEnvironment(),
       ),
       this.globalPartitionEndpointManager,
+      experimentalReadImplementation,
     );
+    this.clientContext.rustReadAdapter = rustReadAdapter;
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -348,6 +357,7 @@ export class CosmosClient {
    */
   public dispose(): void {
     clearTimeout(this.endpointRefresher);
+    this.clientContext.rustReadAdapter?.dispose();
     if (this.clientContext.enableEncryption) {
       clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
       clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);

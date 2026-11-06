@@ -93,6 +93,26 @@ export class Item {
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.clientContext.experimentalReadImplementation === "rust") {
+        const adapter = this.clientContext.rustReadAdapter;
+        if (!adapter) throw new Error("The experimental Rust read adapter is unavailable.");
+        const response = await adapter.read<T & Resource>(
+          this.container.database.id,
+          this.container.id,
+          this.id,
+          this.partitionKey,
+          options,
+          diagnosticNode,
+        );
+        return new ItemResponse(
+          response.result,
+          response.headers,
+          response.code,
+          response.substatus,
+          this,
+          getEmptyCosmosDiagnostics(),
+        );
+      }
       this.partitionKey = await setPartitionKeyIfUndefined(
         diagnosticNode,
         this.container,
