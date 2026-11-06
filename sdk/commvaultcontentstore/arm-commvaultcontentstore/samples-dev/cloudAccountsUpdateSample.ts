@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a CloudAccount
  *
  * @summary update a CloudAccount
- * x-ms-original-file: 2026-09-30/CloudAccounts_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/CloudAccounts_Update_MaximumSet_Gen.json
  */
 async function cloudAccountsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

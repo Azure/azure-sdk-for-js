@@ -11,7 +11,6 @@ import type {
   MarketplaceDetails,
   UserDetails,
   MarketplaceDetailsCreateOrUpdate,
-  MarketplaceDetailsUpdate,
 } from "./liftrBase/models.js";
 import {
   marketplaceDetailsSerializer,
@@ -19,7 +18,6 @@ import {
   userDetailsSerializer,
   userDetailsDeserializer,
   marketplaceDetailsCreateOrUpdateSerializer,
-  marketplaceDetailsUpdateSerializer,
 } from "./liftrBase/models.js";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -610,6 +608,133 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** The type used for update operations of the CloudAccount. */
+export interface CloudAccountUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountUpdateProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: CloudAccountIdentityUpdate;
+}
+
+export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : cloudAccountIdentityUpdateSerializer(item["identity"]),
+  };
+}
+
+/** The updatable properties of the CloudAccount. */
+export interface CloudAccountUpdateProperties {
+  /** Optional company details for the cloud account */
+  company?: CompanyProfile;
+  /** Marketplace details of the resource. */
+  marketplace?: CloudAccountMarketplaceUpdate;
+  /** Details of the user. */
+  user?: CloudAccountUserUpdate;
+}
+
+export function cloudAccountUpdatePropertiesSerializer(item: CloudAccountUpdateProperties): any {
+  return {
+    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+    marketplace: !item["marketplace"]
+      ? item["marketplace"]
+      : cloudAccountMarketplaceUpdateSerializer(item["marketplace"]),
+    user: !item["user"] ? item["user"] : cloudAccountUserUpdateSerializer(item["user"]),
+  };
+}
+
+/** Marketplace details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountMarketplaceUpdate {
+  /** Marketplace SaaS Resource Id */
+  saasResourceId?: string;
+  /** Azure subscription id for the the marketplace offer is purchased from */
+  subscriptionId?: string;
+  /** Offer details for the marketplace that is selected by the user */
+  offerDetails?: CloudAccountOfferDetailsUpdate;
+}
+
+export function cloudAccountMarketplaceUpdateSerializer(item: CloudAccountMarketplaceUpdate): any {
+  return {
+    saasResourceId: item["saasResourceId"],
+    subscriptionId: item["subscriptionId"],
+    offerDetails: !item["offerDetails"]
+      ? item["offerDetails"]
+      : cloudAccountOfferDetailsUpdateSerializer(item["offerDetails"]),
+  };
+}
+
+/** Marketplace offer details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountOfferDetailsUpdate {
+  /** Publisher Id for the marketplace offer */
+  publisherId?: string;
+  /** Offer Id for the marketplace offer */
+  offerId?: string;
+  /** Plan Name for the marketplace offer */
+  planName?: string;
+  /** Plan Display Name for the marketplace offer */
+  termUnit?: string;
+  /** Plan Display Name for the marketplace offer */
+  termId?: string;
+  /** Plan Id for the marketplace offer */
+  planId?: string;
+}
+
+export function cloudAccountOfferDetailsUpdateSerializer(
+  item: CloudAccountOfferDetailsUpdate,
+): any {
+  return {
+    publisherId: item["publisherId"],
+    offerId: item["offerId"],
+    planName: item["planName"],
+    termUnit: item["termUnit"],
+    termId: item["termId"],
+    planId: item["planId"],
+  };
+}
+
+/** User details that can be updated on a Commvault Cloud Account. */
+export interface CloudAccountUserUpdate {
+  /** User's principal name */
+  upn?: string;
+  /** User's phone number */
+  phoneNumber?: string;
+  /** First name of the user */
+  firstName?: string;
+  /** Last name of the user */
+  lastName?: string;
+  /** Email address of the user */
+  emailAddress?: string;
+}
+
+export function cloudAccountUserUpdateSerializer(item: CloudAccountUserUpdate): any {
+  return {
+    upn: item["upn"],
+    phoneNumber: item["phoneNumber"],
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    emailAddress: item["emailAddress"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface CloudAccountIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function cloudAccountIdentityUpdateSerializer(item: CloudAccountIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
 /** The response of a CloudAccount list operation. */
 export interface _CloudAccountListResult {
   /** The CloudAccount items on this page */
@@ -832,8 +957,10 @@ export type Vendor = string;
 
 /** Class of Commvault Storage */
 export enum KnownStorageClassType {
-  /** Cold storage class */
-  Cool = "COLD",
+  /** Cold storage class. Requests that use COLD are rejected during validation; use COOL for the infrequent-access tier. */
+  Cold = "COLD",
+  /** Cool (infrequent-access) storage class */
+  Cool = "COOL",
   /** Hot storage class */
   Hot = "HOT",
 }
@@ -843,7 +970,8 @@ export enum KnownStorageClassType {
  * {@link KnownStorageClassType} can be used interchangeably with StorageClassType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **COLD**: Cold storage class \
+ * **COLD**: Cold storage class. Requests that use COLD are rejected during validation; use COOL for the infrequent-access tier. \
+ * **COOL**: Cool (infrequent-access) storage class \
  * **HOT**: Hot storage class
  */
 export type StorageClassType = string;
@@ -2398,53 +2526,39 @@ export function trackedResourceCreateOrUpdateSerializer(item: TrackedResourceCre
   return { tags: item["tags"], location: item["location"] };
 }
 
-/** A Commvault Cloud Account Resource */
-export interface CloudAccountUpdate extends TrackedResourceUpdate {
+/** The type used for update operations of the CloudAccount. */
+export interface CloudAccountUpdateUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
-  properties?: CloudAccountPropertiesUpdate;
+  properties?: CloudAccountUpdateProperties;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityUpdate;
+  identity?: CloudAccountIdentityUpdateUpdate;
 }
 
-export function cloudAccountUpdateSerializer(item: CloudAccountUpdate): any {
+export function cloudAccountUpdateUpdateSerializer(item: CloudAccountUpdateUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : cloudAccountPropertiesUpdateSerializer(item["properties"]),
+      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityUpdateSerializer(item["identity"]),
-  };
-}
-
-/** Properties specific to Commvault Cloud Account resource */
-export interface CloudAccountPropertiesUpdate {
-  /** Marketplace details of the resource. */
-  marketplace: MarketplaceDetailsUpdate;
-  /** Details of the user. */
-  user: UserDetails;
-  /** Optional company details for the cloud account */
-  company?: CompanyProfile;
-}
-
-export function cloudAccountPropertiesUpdateSerializer(item: CloudAccountPropertiesUpdate): any {
-  return {
-    marketplace: marketplaceDetailsUpdateSerializer(item["marketplace"]),
-    user: userDetailsSerializer(item["user"]),
-    company: !item["company"] ? item["company"] : companyProfileSerializer(item["company"]),
+      : cloudAccountIdentityUpdateUpdateSerializer(item["identity"]),
   };
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentityUpdate {
+export interface CloudAccountIdentityUpdateUpdate {
   /** The type of managed identity assigned to this resource. */
-  type: ManagedServiceIdentityType;
+  type?: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
   userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
 }
 
-export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+export function cloudAccountIdentityUpdateUpdateSerializer(
+  item: CloudAccountIdentityUpdateUpdate,
+): any {
   return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
@@ -2455,25 +2569,10 @@ export function userAssignedIdentityUpdateSerializer(_item: UserAssignedIdentity
   return {};
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResourceUpdate extends ResourceUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function trackedResourceUpdateSerializer(item: TrackedResourceUpdate): any {
-  return { tags: item["tags"] };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceUpdate {}
-
-export function resourceUpdateSerializer(_item: ResourceUpdate): any {
-  return {};
-}
-
 /** Supported API versions for the Commvault.ContentStore resource provider. */
 export enum KnownVersions {
   /** The 2026-09-30 stable API version, dependent on LiftrBase.Versions.v3_preview. */
   V20260930 = "2026-09-30",
+  /** The 2026-11-03 stable API version, dependent on LiftrBase.Versions.v3_preview. */
+  V20261103 = "2026-11-03",
 }

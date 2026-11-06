@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ProtectedItem resources by ProtectionGroup
  *
  * @summary list ProtectedItem resources by ProtectionGroup
- * x-ms-original-file: 2026-09-30/ProtectedItems_ListByProtectionGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/ProtectedItems_ListByProtectionGroup_MaximumSet_Gen.json
  */
 async function protectedItemsListByProtectionGroupMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
