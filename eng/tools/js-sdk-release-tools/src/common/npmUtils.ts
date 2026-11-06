@@ -152,7 +152,6 @@ export function checkGitTagExists(tag: string): boolean {
   return result.code === 0 && result.stdout.trim().length > 0;
 }
 
-// TODO: refactor this function to support praparing files from github in general way
 export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmViewParameters) {
   const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } =
     NpmViewParameters;
