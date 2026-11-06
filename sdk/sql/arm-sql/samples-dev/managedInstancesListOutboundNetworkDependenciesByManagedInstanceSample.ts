@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the collection of outbound network dependencies for the given managed instance.
  *
  * @summary gets the collection of outbound network dependencies for the given managed instance.
- * x-ms-original-file: 2025-08-01-preview/ListOutboundNetworkDependenciesByManagedInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ListOutboundNetworkDependenciesByManagedInstance.json
  */
 async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

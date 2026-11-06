@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGet.json
  */
 async function getManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getManagedInstance(): Promise<void> {
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGetWhileUpdating.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGetWhileUpdating.json
  */
 async function getManagedInstanceWhileResourceIsUpdating(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getManagedInstanceWhileResourceIsUpdating(): Promise<void> {
  * This sample demonstrates how to gets a managed instance.
  *
  * @summary gets a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceGetWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceGetWithExpandEqualsAdministrators.json
  */
 async function getManagedInstanceWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const credential = new DefaultAzureCredential();

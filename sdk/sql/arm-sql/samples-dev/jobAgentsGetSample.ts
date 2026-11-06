@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a job agent.
  *
  * @summary gets a job agent.
- * x-ms-original-file: 2025-08-01-preview/GetJobAgent.json
+ * x-ms-original-file: 2026-08-01-preview/GetJobAgent.json
  */
 async function getAJobAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();

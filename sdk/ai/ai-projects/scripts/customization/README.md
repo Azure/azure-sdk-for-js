@@ -35,7 +35,8 @@ regeneration script falls back to it when the strict run fails.
 
 - Changes to uncustomized declarations and members follow the emitter.
   Independent generated and customized changes are combined. Incompatible
-  concurrent changes require review.
+  concurrent changes require review. Trailing commas are formatting, not
+  customization; array holes and comma operators remain semantic.
 - Interface and type-literal members with unique, stable identities have
   presentation-only order. Contradictory customized and emitted orders keep the
   customized order and append emitted-only members after merging their content
@@ -44,6 +45,11 @@ regeneration script falls back to it when the strict run fails.
 - Type unions and unique literal switch cases that terminate without fallthrough
   merge by identity even when their display order changes. Conflicting bodies,
   dynamic cases, and order-sensitive runtime lists still require resolution.
+- When a feature flag advances, post-emitter review must apply the
+  [schema replacement rule](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/scripts/post-emitter-workarounds.md#feature-flag-version-increments)
+  rather than accepting an additive union with the previous version's schema.
+  A strict or recovery merge that retained old-version-only fields or literals
+  is a starting point for reconciliation, not a completed migration.
 - An object literal whose members are all emitter-generated converter mappings
   (plain data reads plus generated `*Serializer`/`*Deserializer` calls, the
   conversions the emitter wraps around them, and no spreads, methods, or
@@ -55,7 +61,19 @@ regeneration script falls back to it when the strict run fails.
   sides replaced, keeps the strict ordering rule and still requires resolution.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
-  Ambiguous matches are errors.
+  Ambiguous matches are errors. Parameter-only binding renames with otherwise
+  identical baseline signatures are aligned before merging, including when
+  an emitted body parameter moves into options. Binding-aware alignment keeps
+  wire keys, literals, and nested bindings intact and refuses name capture.
+  Renamed public/send/deserialize declarations covered by a verified operation
+  match follow that operation when its old module disappears; they are not
+  custom-only methods. Unaccounted custom-only declarations in a removed
+  module still require an explicit relocation policy. Incoming API barrel
+  exports also follow the resolved operation names.
+- Verified Agent Insight Monitor beta-to-root promotion adds only the new root
+  client's field, imports, and factory initialization. The initialization uses
+  the maintained beta group's authentication context, not the emitter's single
+  `_client`; all other constructor customizations remain protected.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not
@@ -65,8 +83,12 @@ regeneration script falls back to it when the strict run fails.
   and removals; customized members the emitter changes are merged by identity
   or reported. A member is uncustomized only when it is unchanged from the
   emitted baseline or is exactly the delegation rendered from its own
-  operation's customized signature: the same callee, parameter names and types,
-  plain optional parameters, and return type. Relocating a customized member
+  operation's customized signature: the same imported operation from its own
+  API module (including an import alias), parameter types and order, plain
+  optional parameters, exact argument forwarding, and return type. Delegate
+  parameter names may differ from the API's names. Defaults, shadowed or
+  rerouted callees, and modified forwarding remain customizations.
+  Relocating a customized member
   out of its classic module requires review. A module whose API operations or
   options have unresolved changes is not rendered; the unresolved change is
   reported rather than a secondary `missing resolved operation` error from the

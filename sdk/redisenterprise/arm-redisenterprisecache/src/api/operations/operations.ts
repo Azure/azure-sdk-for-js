@@ -21,7 +21,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Cache/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,6 +48,7 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
+
 /** Lists all of the available REST API operations of the Microsoft.Cache provider. */
 export function list(
   context: Client,
@@ -61,7 +62,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
     },
   );
 }

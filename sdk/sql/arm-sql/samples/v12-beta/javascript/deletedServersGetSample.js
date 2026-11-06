@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a deleted server.
  *
  * @summary gets a deleted server.
- * x-ms-original-file: 2025-08-01-preview/DeletedServerGet.json
+ * x-ms-original-file: 2026-08-01-preview/DeletedServerGet.json
  */
 async function getDeletedServer() {
   const credential = new DefaultAzureCredential();
