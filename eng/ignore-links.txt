@@ -174,6 +174,8 @@ https://learn.microsoft.com/javascript/api/@azure/provisioning-appinsights?view=
 https://www.npmjs.com/package/@azure/provisioning-appinsights
 https://learn.microsoft.com/javascript/api/@azure/provisioning-storage?view=azure-node-preview
 https://www.npmjs.com/package/@azure/provisioning-storage
+https://learn.microsoft.com/javascript/api/@azure/provisioning-cognitiveservices?view=azure-node-preview
+https://www.npmjs.com/package/@azure/provisioning-cognitiveservices
 https://learn.microsoft.com/javascript/api/@azure/provisioning-cosmosdb?view=azure-node-preview
 https://www.npmjs.com/package/@azure/provisioning-cosmosdb
 https://learn.microsoft.com/javascript/api/@azure/provisioning-eventhub?view=azure-node-preview
