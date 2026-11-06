@@ -40,7 +40,7 @@ export function _listByResourceGroupSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       brokerName: brokerName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _brokerAuthenticationResourceListResultDeserializer(result.body);
 }
+
 /** List BrokerAuthenticationResource resources by BrokerResource */
 export function listByResourceGroup(
   context: Client,
@@ -80,7 +81,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, instanceName, brokerName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -100,7 +101,7 @@ export function _$deleteSend(
       instanceName: instanceName,
       brokerName: brokerName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a BrokerAuthenticationResource */
 export function $delete(
   context: Client,
@@ -144,7 +146,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -165,7 +167,7 @@ export function _createOrUpdateSend(
       instanceName: instanceName,
       brokerName: brokerName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,6 +196,7 @@ export async function _createOrUpdateDeserialize(
 
   return brokerAuthenticationResourceDeserializer(result.body);
 }
+
 /** Create a BrokerAuthenticationResource */
 export function createOrUpdate(
   context: Client,
@@ -218,7 +221,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
 }
 
@@ -238,7 +241,7 @@ export function _getSend(
       instanceName: instanceName,
       brokerName: brokerName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,6 +268,7 @@ export async function _getDeserialize(
 
   return brokerAuthenticationResourceDeserializer(result.body);
 }
+
 /** Get a BrokerAuthenticationResource */
 export async function get(
   context: Client,

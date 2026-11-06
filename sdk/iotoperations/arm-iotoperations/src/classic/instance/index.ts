@@ -60,6 +60,7 @@ export interface InstanceOperations {
     options?: InstanceGetOptionalParams,
   ) => Promise<InstanceResource>;
 }
+
 function _getInstance(context: IoTOperationsContext) {
   return {
     listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
@@ -89,6 +90,7 @@ function _getInstance(context: IoTOperationsContext) {
       get(context, resourceGroupName, instanceName, options),
   };
 }
+
 export function _getInstanceOperations(context: IoTOperationsContext): InstanceOperations {
   return {
     ..._getInstance(context),

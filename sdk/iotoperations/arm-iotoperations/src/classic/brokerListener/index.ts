@@ -53,6 +53,7 @@ export interface BrokerListenerOperations {
     options?: BrokerListenerGetOptionalParams,
   ) => Promise<BrokerListenerResource>;
 }
+
 function _getBrokerListener(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -94,6 +95,7 @@ function _getBrokerListener(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, listenerName, options),
   };
 }
+
 export function _getBrokerListenerOperations(
   context: IoTOperationsContext,
 ): BrokerListenerOperations {

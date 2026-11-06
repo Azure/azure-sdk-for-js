@@ -1,6 +1,25 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/akriService/index.ts",
+    "../src/api/akriConnector/index.ts",
+    "../src/api/akriConnectorTemplate/index.ts",
+    "../src/api/registryEndpoint/index.ts",
+    "../src/api/dataflowGraph/index.ts",
+    "../src/api/dataflowEndpoint/index.ts",
+    "../src/api/dataflow/index.ts",
+    "../src/api/dataflowProfile/index.ts",
+    "../src/api/brokerAuthorization/index.ts",
+    "../src/api/brokerAuthentication/index.ts",
+    "../src/api/brokerListener/index.ts",
+    "../src/api/broker/index.ts",
+    "../src/api/instance/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }
