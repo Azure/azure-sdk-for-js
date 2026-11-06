@@ -96,12 +96,12 @@ describe("release tag baseline retrieval", () => {
     expect(git(sdkRootPath, "tag", "--list")).toBe("");
   });
 
-  test("reads upstream even when a different local release tag exists, without replacing it", () => {
+  test("uses an existing local release tag without fetching or replacing it", () => {
     prepareCheckout({ "review/arm-test.api.md": baseline });
     git(sdkRootPath, "fetch", "--no-tags", "origin", `refs/tags/${tag}:refs/tags/${tag}`);
-    git(sdkRootPath, "tag", "--force", tag, "HEAD");
     const originalTag = git(sdkRootPath, "rev-parse", `refs/tags/${tag}`);
     git(sdkRootPath, "remote", "remove", "origin");
+    git(tempPath, "--git-dir", remotePath, "tag", "--delete", tag);
 
     tryCreateLastestStableNpmViewFromGithub(parameters);
 
@@ -131,6 +131,17 @@ describe("release tag baseline retrieval", () => {
     tryCreateLastestStableNpmViewFromGithub(parameters);
 
     expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
+  });
+
+  test("fetches upstream when the local tag cannot provide API content without replacing it", () => {
+    prepareCheckout({ "review/arm-test.api.md": baseline });
+    git(sdkRootPath, "tag", tag, "HEAD:sdk/test/arm-test/package.json");
+    const originalTag = git(sdkRootPath, "rev-parse", `refs/tags/${tag}`);
+
+    tryCreateLastestStableNpmViewFromGithub(parameters);
+
+    expect(readFileSync(targetPath(), "utf8")).toBe(baseline);
+    expect(git(sdkRootPath, "rev-parse", `refs/tags/${tag}`)).toBe(originalTag);
   });
 
   test("restores API baselines larger than the default process buffer", () => {
