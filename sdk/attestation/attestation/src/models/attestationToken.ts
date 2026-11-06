@@ -695,19 +695,36 @@ export class AttestationTokenImpl implements AttestationToken {
  *
  * Combines the client's validation options with the options of an individual operation. Options
  * set on the operation take precedence; options it leaves undefined keep the client's values.
- * Returns undefined when neither provides options, so the default validation options apply.
+ * If only one of them is provided, it is returned unchanged; if neither is, returns undefined so
+ * the default validation options apply. Options are read by property access, so inherited
+ * properties (for example a class method) are kept, and the callback is called on its own object.
  */
 export function _combineValidationOptions(
   clientOptions?: AttestationTokenValidationOptions,
   operationOptions?: AttestationTokenValidationOptions,
 ): AttestationTokenValidationOptions | undefined {
-  if (clientOptions === undefined && operationOptions === undefined) {
-    return undefined;
+  if (operationOptions === undefined) {
+    return clientOptions;
   }
-  const definedOperationOptions = Object.fromEntries(
-    Object.entries(operationOptions ?? {}).filter(([, value]) => value !== undefined),
-  );
-  return { ...clientOptions, ...definedOperationOptions };
+  if (clientOptions === undefined) {
+    return operationOptions;
+  }
+  const callbackOwner =
+    operationOptions.validateAttestationToken !== undefined ? operationOptions : clientOptions;
+  return {
+    validateToken: operationOptions.validateToken ?? clientOptions.validateToken,
+    validateExpirationTime:
+      operationOptions.validateExpirationTime ?? clientOptions.validateExpirationTime,
+    validateNotBeforeTime:
+      operationOptions.validateNotBeforeTime ?? clientOptions.validateNotBeforeTime,
+    validateIssuer: operationOptions.validateIssuer ?? clientOptions.validateIssuer,
+    expectedIssuer: operationOptions.expectedIssuer ?? clientOptions.expectedIssuer,
+    timeValidationSlack: operationOptions.timeValidationSlack ?? clientOptions.timeValidationSlack,
+    validateAttestationToken:
+      callbackOwner.validateAttestationToken === undefined
+        ? undefined
+        : (token, signer) => callbackOwner.validateAttestationToken?.(token, signer),
+  };
 }
 
 function isObject(thing: any): boolean {

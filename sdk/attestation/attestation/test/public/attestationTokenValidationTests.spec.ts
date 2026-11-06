@@ -192,4 +192,32 @@ describe("AttestationTokenValidation", () => {
       }),
     ).rejects.toThrow("rejected by policy");
   });
+
+  it("runs a validation callback defined as a class method", async () => {
+    const service = createSigner("service");
+    const signedToken = AttestationTokenImpl.create({
+      body: claims(60),
+      privateKey: service.privKey,
+      certificate: service.cert,
+    }).serialize();
+    class Policy {
+      reason = "rejected by class policy";
+      validateAttestationToken(): string[] {
+        return [this.reason];
+      }
+    }
+    const client = new AttestationClient("https://attestation.test", {
+      httpClient: fakeService(service.cert, signedToken),
+      validationOptions: new Policy(),
+    });
+
+    await expect(client.attestSgxEnclave(new Uint8Array([1]))).rejects.toThrow(
+      "rejected by class policy",
+    );
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), {
+        validationOptions: { timeValidationSlack: 30 },
+      }),
+    ).rejects.toThrow("rejected by class policy");
+  });
 });
