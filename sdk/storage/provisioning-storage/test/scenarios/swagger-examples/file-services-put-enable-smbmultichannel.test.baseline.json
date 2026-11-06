@@ -33,6 +33,30 @@
               "parent": {
                 "kind": "identifier",
                 "id": "storageAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "protocolSettings": {
+                    "kind": "object",
+                    "value": {
+                      "smb": {
+                        "kind": "object",
+                        "value": {
+                          "multichannel": {
+                            "kind": "object",
+                            "value": {
+                              "enabled": {
+                                "kind": "boolean",
+                                "value": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }

@@ -56,7 +56,17 @@ function buildScenarioStack({ createResourceGroupStack }: BuildScenarioHelpers) 
     existing: true,
     name: "sttest01",
   });
-  new FileService(storageAccount, {});
+  new FileService(storageAccount, {
+    properties: {
+      protocolSettings: {
+        smb: {
+          multichannel: {
+            enabled: true,
+          },
+        },
+      },
+    },
+  });
   return stack;
 }
 
