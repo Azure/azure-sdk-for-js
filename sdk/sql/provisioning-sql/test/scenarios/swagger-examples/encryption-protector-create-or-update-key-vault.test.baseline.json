@@ -1,0 +1,64 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "encryptionprotectorc"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "encryptionProtector": {
+          "bicepIdentifier": "encryptionProtector",
+          "type": "Microsoft.Sql/managedInstances/encryptionProtector",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "autoRotationEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "serverKeyName": {
+                    "kind": "string",
+                    "value": "someVault_someKey_01234567890123456789012345678901"
+                  },
+                  "serverKeyType": {
+                    "kind": "string",
+                    "value": "AzureKeyVault"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
