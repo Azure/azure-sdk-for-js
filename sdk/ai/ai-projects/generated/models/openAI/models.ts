@@ -9,6 +9,23 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
 import {
+  _MCPToolAllowedTools,
+  _MCPToolAllowedToolsSerializer,
+  _MCPToolAllowedToolsDeserializer,
+  _MCPToolRequireApproval,
+  _MCPToolRequireApprovalSerializer,
+  _MCPToolRequireApprovalDeserializer,
+  FileSearchToolFiltersValue,
+  fileSearchToolFiltersValueSerializer,
+  fileSearchToolFiltersValueDeserializer,
+  _FileSearchToolFiltersFilterArraySerializer,
+  _FileSearchToolFiltersFilterArrayDeserializer,
+  _FileSearchToolFiltersFilter,
+  _CodeInterpreterToolContainer,
+  _CodeInterpreterToolContainerSerializer,
+  _CodeInterpreterToolContainerDeserializer,
+} from "../javaScriptToolCompatibility/models.js";
+import {
   MicrosoftCopilotToolsetPreview,
   microsoftCopilotToolsetPreviewSerializer,
   microsoftCopilotToolsetPreviewDeserializer,
@@ -69,8 +86,7 @@ import {
   WebSearchConfiguration,
   webSearchConfigurationSerializer,
   webSearchConfigurationDeserializer,
-  _toolCodeInterpreterToolContainerSerializer,
-  _toolCodeInterpreterToolContainerDeserializer,
+  VoiceAgentConversationItemTypeExtension,
   VoiceAgentSystemToolItem,
   voiceAgentSystemToolItemSerializer,
   voiceAgentSystemToolItemDeserializer,
@@ -153,6 +169,7 @@ import {
   VoiceAgentClientEventSessionAvatarConnect,
   voiceAgentClientEventSessionAvatarConnectSerializer,
   voiceAgentClientEventSessionAvatarConnectDeserializer,
+  VoiceAgentClientEventTypeExtension,
   VoiceAgentResponseCreateParams,
   voiceAgentResponseCreateParamsSerializer,
   voiceAgentResponseCreateParamsDeserializer,
@@ -271,21 +288,21 @@ export type ToolUnion =
   | FabricIQPreviewTool
   | WebIQPreviewTool
   | MemorySearchPreviewTool
-  | ToolMcpTool
-  | ToolCustomToolParam
-  | ToolFunctionTool
-  | ToolFileSearchTool
-  | ToolComputerTool
-  | ToolComputerUsePreviewTool
-  | ToolWebSearchTool
-  | ToolCodeInterpreterTool
-  | ToolProgrammaticToolCallingParam
-  | ToolImageGenTool
-  | ToolLocalShellToolParam
-  | ToolFunctionShellToolParam
-  | ToolToolSearchToolParam
-  | ToolWebSearchPreviewTool
-  | ToolApplyPatchToolParam
+  | MCPTool
+  | CustomToolParam
+  | FunctionTool
+  | FileSearchTool
+  | ComputerTool
+  | ComputerUsePreviewTool
+  | WebSearchTool
+  | CodeInterpreterTool
+  | ProgrammaticToolCallingParam
+  | ImageGenTool
+  | LocalShellToolParam
+  | FunctionShellToolParam
+  | ToolSearchToolParam
+  | WebSearchPreviewTool
+  | ApplyPatchToolParam
   | NamespaceToolParam
   | Tool;
 
@@ -346,49 +363,49 @@ export function toolUnionSerializer(item: ToolUnion): any {
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
 
     case "mcp":
-      return toolMcpToolSerializer(item as ToolMcpTool);
+      return mcpToolSerializer(item as MCPTool);
 
     case "custom":
-      return toolCustomToolParamSerializer(item as ToolCustomToolParam);
+      return customToolParamSerializer(item as CustomToolParam);
 
     case "function":
-      return toolFunctionToolSerializer(item as ToolFunctionTool);
+      return functionToolSerializer(item as FunctionTool);
 
     case "file_search":
-      return toolFileSearchToolSerializer(item as ToolFileSearchTool);
+      return fileSearchToolSerializer(item as FileSearchTool);
 
     case "computer":
-      return toolComputerToolSerializer(item as ToolComputerTool);
+      return computerToolSerializer(item as ComputerTool);
 
     case "computer_use_preview":
-      return toolComputerUsePreviewToolSerializer(item as ToolComputerUsePreviewTool);
+      return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
 
     case "web_search":
-      return toolWebSearchToolSerializer(item as ToolWebSearchTool);
+      return webSearchToolSerializer(item as WebSearchTool);
 
     case "code_interpreter":
-      return toolCodeInterpreterToolSerializer(item as ToolCodeInterpreterTool);
+      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
 
     case "programmatic_tool_calling":
-      return toolProgrammaticToolCallingParamSerializer(item as ToolProgrammaticToolCallingParam);
+      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
-      return toolImageGenToolSerializer(item as ToolImageGenTool);
+      return imageGenToolSerializer(item as ImageGenTool);
 
     case "local_shell":
-      return toolLocalShellToolParamSerializer(item as ToolLocalShellToolParam);
+      return localShellToolParamSerializer(item as LocalShellToolParam);
 
     case "shell":
-      return toolFunctionShellToolParamSerializer(item as ToolFunctionShellToolParam);
+      return functionShellToolParamSerializer(item as FunctionShellToolParam);
 
     case "tool_search":
-      return toolToolSearchToolParamSerializer(item as ToolToolSearchToolParam);
+      return toolSearchToolParamSerializer(item as ToolSearchToolParam);
 
     case "web_search_preview":
-      return toolWebSearchPreviewToolSerializer(item as ToolWebSearchPreviewTool);
+      return webSearchPreviewToolSerializer(item as WebSearchPreviewTool);
 
     case "apply_patch":
-      return toolApplyPatchToolParamSerializer(item as ToolApplyPatchToolParam);
+      return applyPatchToolParamSerializer(item as ApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamSerializer(item as NamespaceToolParam);
@@ -455,49 +472,49 @@ export function toolUnionDeserializer(item: any): ToolUnion {
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
     case "mcp":
-      return toolMcpToolDeserializer(item as ToolMcpTool);
+      return mcpToolDeserializer(item as MCPTool);
 
     case "custom":
-      return toolCustomToolParamDeserializer(item as ToolCustomToolParam);
+      return customToolParamDeserializer(item as CustomToolParam);
 
     case "function":
-      return toolFunctionToolDeserializer(item as ToolFunctionTool);
+      return functionToolDeserializer(item as FunctionTool);
 
     case "file_search":
-      return toolFileSearchToolDeserializer(item as ToolFileSearchTool);
+      return fileSearchToolDeserializer(item as FileSearchTool);
 
     case "computer":
-      return toolComputerToolDeserializer(item as ToolComputerTool);
+      return computerToolDeserializer(item as ComputerTool);
 
     case "computer_use_preview":
-      return toolComputerUsePreviewToolDeserializer(item as ToolComputerUsePreviewTool);
+      return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
 
     case "web_search":
-      return toolWebSearchToolDeserializer(item as ToolWebSearchTool);
+      return webSearchToolDeserializer(item as WebSearchTool);
 
     case "code_interpreter":
-      return toolCodeInterpreterToolDeserializer(item as ToolCodeInterpreterTool);
+      return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
 
     case "programmatic_tool_calling":
-      return toolProgrammaticToolCallingParamDeserializer(item as ToolProgrammaticToolCallingParam);
+      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
-      return toolImageGenToolDeserializer(item as ToolImageGenTool);
+      return imageGenToolDeserializer(item as ImageGenTool);
 
     case "local_shell":
-      return toolLocalShellToolParamDeserializer(item as ToolLocalShellToolParam);
+      return localShellToolParamDeserializer(item as LocalShellToolParam);
 
     case "shell":
-      return toolFunctionShellToolParamDeserializer(item as ToolFunctionShellToolParam);
+      return functionShellToolParamDeserializer(item as FunctionShellToolParam);
 
     case "tool_search":
-      return toolToolSearchToolParamDeserializer(item as ToolToolSearchToolParam);
+      return toolSearchToolParamDeserializer(item as ToolSearchToolParam);
 
     case "web_search_preview":
-      return toolWebSearchPreviewToolDeserializer(item as ToolWebSearchPreviewTool);
+      return webSearchPreviewToolDeserializer(item as WebSearchPreviewTool);
 
     case "apply_patch":
-      return toolApplyPatchToolParamDeserializer(item as ToolApplyPatchToolParam);
+      return applyPatchToolParamDeserializer(item as ApplyPatchToolParam);
 
     case "namespace":
       return namespaceToolParamDeserializer(item as NamespaceToolParam);
@@ -603,7 +620,7 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
  * Give the model access to additional tools via remote Model Context Protocol
  * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
  */
-export interface ToolMcpTool extends Tool {
+export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
   type: "mcp";
   /** A label for this MCP server, used to identify it in tool calls. */
@@ -653,9 +670,9 @@ export interface ToolMcpTool extends Tool {
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
   headers?: Record<string, string>;
-  allowed_tools?: string[] | MCPToolFilter;
+  allowed_tools?: _MCPToolAllowedTools;
   allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: MCPToolRequireApproval | "always" | "never";
+  require_approval?: _MCPToolRequireApproval;
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
@@ -664,7 +681,7 @@ export interface ToolMcpTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolMcpToolSerializer(item: ToolMcpTool): any {
+export function mcpToolSerializer(item: MCPTool): any {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -676,7 +693,7 @@ export function toolMcpToolSerializer(item: ToolMcpTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
+      : _MCPToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -684,7 +701,7 @@ export function toolMcpToolSerializer(item: ToolMcpTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
+      : _MCPToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -693,7 +710,7 @@ export function toolMcpToolSerializer(item: ToolMcpTool): any {
   };
 }
 
-export function toolMcpToolDeserializer(item: any): ToolMcpTool {
+export function mcpToolDeserializer(item: any): MCPTool {
   return {
     type: item["type"],
     server_label: item["server_label"],
@@ -709,7 +726,7 @@ export function toolMcpToolDeserializer(item: any): ToolMcpTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : _MCPToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -717,7 +734,7 @@ export function toolMcpToolDeserializer(item: any): ToolMcpTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
+      : _MCPToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -726,33 +743,11 @@ export function toolMcpToolDeserializer(item: any): ToolMcpTool {
   };
 }
 
-/** Alias for _ToolMcpToolAllowedTools */
-export type _ToolMcpToolAllowedTools = string[] | MCPToolFilter;
-
-export function _toolMcpToolAllowedToolsSerializer(item: _ToolMcpToolAllowedTools): any {
-  return item;
-}
-
-export function _toolMcpToolAllowedToolsDeserializer(item: any): _ToolMcpToolAllowedTools {
-  return item;
-}
-
 /** Type of CallableToolAllowedCaller */
 export type CallableToolAllowedCaller = "direct" | "programmatic";
 
-/** Alias for _ToolMcpToolRequireApproval */
-export type _ToolMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
-
-export function _toolMcpToolRequireApprovalSerializer(item: _ToolMcpToolRequireApproval): any {
-  return item;
-}
-
-export function _toolMcpToolRequireApprovalDeserializer(item: any): _ToolMcpToolRequireApproval {
-  return item;
-}
-
 /** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface ToolCustomToolParam extends Tool {
+export interface CustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
   /** The name of the custom tool, used to identify it in tool calls. */
@@ -768,7 +763,7 @@ export interface ToolCustomToolParam extends Tool {
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
+export function customToolParamSerializer(item: CustomToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -784,7 +779,7 @@ export function toolCustomToolParamSerializer(item: ToolCustomToolParam): any {
   };
 }
 
-export function toolCustomToolParamDeserializer(item: any): ToolCustomToolParam {
+export function customToolParamDeserializer(item: any): CustomToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -892,7 +887,7 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
 export type GrammarSyntax1 = "lark" | "regex";
 
 /** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
-export interface ToolFunctionTool extends Tool {
+export interface FunctionTool extends Tool {
   /** The type of the function tool. Always `function`. */
   type: "function";
   /** The name of the function to call. */
@@ -907,7 +902,7 @@ export interface ToolFunctionTool extends Tool {
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function toolFunctionToolSerializer(item: ToolFunctionTool): any {
+export function functionToolSerializer(item: FunctionTool): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -925,7 +920,7 @@ export function toolFunctionToolSerializer(item: ToolFunctionTool): any {
   };
 }
 
-export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
+export function functionToolDeserializer(item: any): FunctionTool {
   return {
     type: item["type"],
     name: item["name"],
@@ -952,7 +947,7 @@ export function toolFunctionToolDeserializer(item: any): ToolFunctionTool {
 }
 
 /** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
-export interface ToolFileSearchTool extends Tool {
+export interface FileSearchTool extends Tool {
   /** The type of the file search tool. Always `file_search`. */
   type: "file_search";
   /** The IDs of the vector stores to search. */
@@ -970,7 +965,7 @@ export interface ToolFileSearchTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolFileSearchToolSerializer(item: ToolFileSearchTool): any {
+export function fileSearchToolSerializer(item: FileSearchTool): any {
   return {
     type: item["type"],
     vector_store_ids: item["vector_store_ids"].map((p: any) => {
@@ -989,7 +984,7 @@ export function toolFileSearchToolSerializer(item: ToolFileSearchTool): any {
   };
 }
 
-export function toolFileSearchToolDeserializer(item: any): ToolFileSearchTool {
+export function fileSearchToolDeserializer(item: any): FileSearchTool {
   return {
     type: item["type"],
     vector_store_ids: item["vector_store_ids"].map((p: any) => {
@@ -1088,14 +1083,14 @@ export interface ComparisonFilter {
   /** The key to compare against the value. */
   key: string;
   /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | (string | number)[];
+  value: FileSearchToolFiltersValue;
 }
 
 export function comparisonFilterSerializer(item: ComparisonFilter): any {
   return {
     type: item["type"],
     key: item["key"],
-    value: _toolFileSearchToolFiltersValueSerializer(item["value"]),
+    value: fileSearchToolFiltersValueSerializer(item["value"]),
   };
 }
 
@@ -1103,54 +1098,8 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
   return {
     type: item["type"],
     key: item["key"],
-    value: _toolFileSearchToolFiltersValueDeserializer(item["value"]),
+    value: fileSearchToolFiltersValueDeserializer(item["value"]),
   };
-}
-
-/** Alias for _ToolFileSearchToolFiltersValue */
-export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
-
-export function _toolFileSearchToolFiltersValueSerializer(
-  item: _ToolFileSearchToolFiltersValue,
-): any {
-  return item;
-}
-
-export function _toolFileSearchToolFiltersValueDeserializer(
-  item: any,
-): _ToolFileSearchToolFiltersValue {
-  return item;
-}
-
-export function _toolFileSearchToolFiltersValue1ArraySerializer(
-  result: Array<_ToolFileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _toolFileSearchToolFiltersValue1Serializer(item);
-  });
-}
-
-export function _toolFileSearchToolFiltersValue1ArrayDeserializer(
-  result: Array<_ToolFileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _toolFileSearchToolFiltersValue1Deserializer(item);
-  });
-}
-
-/** Alias for _ToolFileSearchToolFiltersValue1 */
-export type _ToolFileSearchToolFiltersValue1 = string | number;
-
-export function _toolFileSearchToolFiltersValue1Serializer(
-  item: _ToolFileSearchToolFiltersValue1,
-): any {
-  return item;
-}
-
-export function _toolFileSearchToolFiltersValue1Deserializer(
-  item: any,
-): _ToolFileSearchToolFiltersValue1 {
-  return item;
 }
 
 /** Combine multiple filters using `and` or `or`. */
@@ -1158,72 +1107,41 @@ export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
   /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | CompoundFilter)[];
+  filters: _FileSearchToolFiltersFilter[];
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
   return {
     type: item["type"],
-    filters: _toolFileSearchToolFiltersFilterArraySerializer(item["filters"]),
+    filters: _FileSearchToolFiltersFilterArraySerializer(item["filters"]),
   };
 }
 
 export function compoundFilterDeserializer(item: any): CompoundFilter {
   return {
     type: item["type"],
-    filters: _toolFileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
+    filters: _FileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
   };
 }
 
-export function _toolFileSearchToolFiltersFilterArraySerializer(
-  result: Array<_ToolFileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _toolFileSearchToolFiltersFilterSerializer(item);
-  });
-}
-
-export function _toolFileSearchToolFiltersFilterArrayDeserializer(
-  result: Array<_ToolFileSearchToolFiltersFilter>,
-): any[] {
-  return result.map((item) => {
-    return _toolFileSearchToolFiltersFilterDeserializer(item);
-  });
-}
-
-/** Alias for _ToolFileSearchToolFiltersFilter */
-export type _ToolFileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
-
-export function _toolFileSearchToolFiltersFilterSerializer(
-  item: _ToolFileSearchToolFiltersFilter,
-): any {
-  return item;
-}
-
-export function _toolFileSearchToolFiltersFilterDeserializer(
-  item: any,
-): _ToolFileSearchToolFiltersFilter {
-  return item;
-}
-
 /** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ToolComputerTool extends Tool {
+export interface ComputerTool extends Tool {
   /** The type of the computer tool. Always `computer`. */
   type: "computer";
 }
 
-export function toolComputerToolSerializer(item: ToolComputerTool): any {
+export function computerToolSerializer(item: ComputerTool): any {
   return { type: item["type"] };
 }
 
-export function toolComputerToolDeserializer(item: any): ToolComputerTool {
+export function computerToolDeserializer(item: any): ComputerTool {
   return {
     type: item["type"],
   };
 }
 
 /** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
-export interface ToolComputerUsePreviewTool extends Tool {
+export interface ComputerUsePreviewTool extends Tool {
   /** The type of the computer use tool. Always `computer_use_preview`. */
   type: "computer_use_preview";
   /** The type of computer environment to control. */
@@ -1234,7 +1152,7 @@ export interface ToolComputerUsePreviewTool extends Tool {
   display_height: number;
 }
 
-export function toolComputerUsePreviewToolSerializer(item: ToolComputerUsePreviewTool): any {
+export function computerUsePreviewToolSerializer(item: ComputerUsePreviewTool): any {
   return {
     type: item["type"],
     environment: item["environment"],
@@ -1243,7 +1161,7 @@ export function toolComputerUsePreviewToolSerializer(item: ToolComputerUsePrevie
   };
 }
 
-export function toolComputerUsePreviewToolDeserializer(item: any): ToolComputerUsePreviewTool {
+export function computerUsePreviewToolDeserializer(item: any): ComputerUsePreviewTool {
   return {
     type: item["type"],
     environment: item["environment"],
@@ -1259,7 +1177,7 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "brow
  * Search the Internet for sources related to the prompt. Learn more about the
  * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
  */
-export interface ToolWebSearchTool extends Tool {
+export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
   type: "web_search";
   /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
@@ -1286,7 +1204,7 @@ export interface ToolWebSearchTool extends Tool {
   custom_search_configuration?: WebSearchConfiguration;
 }
 
-export function toolWebSearchToolSerializer(item: ToolWebSearchTool): any {
+export function webSearchToolSerializer(item: WebSearchTool): any {
   return {
     type: item["type"],
     external_web_access: item["external_web_access"],
@@ -1306,7 +1224,7 @@ export function toolWebSearchToolSerializer(item: ToolWebSearchTool): any {
   };
 }
 
-export function toolWebSearchToolDeserializer(item: any): ToolWebSearchTool {
+export function webSearchToolDeserializer(item: any): WebSearchTool {
   return {
     type: item["type"],
     external_web_access: item["external_web_access"],
@@ -1382,7 +1300,7 @@ export function webSearchApproximateLocationDeserializer(item: any): WebSearchAp
 }
 
 /** A tool that runs Python code to help generate a response to a prompt. */
-export interface ToolCodeInterpreterTool extends Tool {
+export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
   allowed_callers?: CallableToolAllowedCaller[];
@@ -1392,7 +1310,7 @@ export interface ToolCodeInterpreterTool extends Tool {
    * optional `memory_limit` setting.
    * If not provided, the service assumes auto.
    */
-  container?: string | AutoCodeInterpreterToolParam;
+  container?: _CodeInterpreterToolContainer;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1401,7 +1319,7 @@ export interface ToolCodeInterpreterTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolCodeInterpreterToolSerializer(item: ToolCodeInterpreterTool): any {
+export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -1411,7 +1329,7 @@ export function toolCodeInterpreterToolSerializer(item: ToolCodeInterpreterTool)
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerSerializer(item["container"]),
+      : _CodeInterpreterToolContainerSerializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1420,7 +1338,7 @@ export function toolCodeInterpreterToolSerializer(item: ToolCodeInterpreterTool)
   };
 }
 
-export function toolCodeInterpreterToolDeserializer(item: any): ToolCodeInterpreterTool {
+export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -1430,7 +1348,7 @@ export function toolCodeInterpreterToolDeserializer(item: any): ToolCodeInterpre
         }),
     container: !item["container"]
       ? item["container"]
-      : _toolCodeInterpreterToolContainerDeserializer(item["container"]),
+      : _CodeInterpreterToolContainerDeserializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1644,28 +1562,24 @@ export function containerNetworkPolicyDomainSecretParamDeserializer(
   };
 }
 
-/** model interface ToolProgrammaticToolCallingParam */
-export interface ToolProgrammaticToolCallingParam extends Tool {
+/** model interface ProgrammaticToolCallingParam */
+export interface ProgrammaticToolCallingParam extends Tool {
   /** The type of the tool. Always `programmatic_tool_calling`. */
   type: "programmatic_tool_calling";
 }
 
-export function toolProgrammaticToolCallingParamSerializer(
-  item: ToolProgrammaticToolCallingParam,
-): any {
+export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
   return { type: item["type"] };
 }
 
-export function toolProgrammaticToolCallingParamDeserializer(
-  item: any,
-): ToolProgrammaticToolCallingParam {
+export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
   return {
     type: item["type"],
   };
 }
 
 /** A tool that generates images using the GPT image models. */
-export interface ToolImageGenTool extends Tool {
+export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   model?:
@@ -1724,7 +1638,7 @@ export interface ToolImageGenTool extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolImageGenToolSerializer(item: ToolImageGenTool): any {
+export function imageGenToolSerializer(item: ImageGenTool): any {
   return {
     type: item["type"],
     model: item["model"],
@@ -1748,7 +1662,7 @@ export function toolImageGenToolSerializer(item: ToolImageGenTool): any {
   };
 }
 
-export function toolImageGenToolDeserializer(item: any): ToolImageGenTool {
+export function imageGenToolDeserializer(item: any): ImageGenTool {
   return {
     type: item["type"],
     model: item["model"],
@@ -1796,7 +1710,7 @@ export function imageGenToolInputImageMaskDeserializer(item: any): ImageGenToolI
 export type ImageGenAction = "generate" | "edit" | "auto";
 
 /** A tool that allows the model to execute shell commands in a local environment. */
-export interface ToolLocalShellToolParam extends Tool {
+export interface LocalShellToolParam extends Tool {
   /** The type of the local shell tool. Always `local_shell`. */
   type: "local_shell";
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1807,7 +1721,7 @@ export interface ToolLocalShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolLocalShellToolParamSerializer(item: ToolLocalShellToolParam): any {
+export function localShellToolParamSerializer(item: LocalShellToolParam): any {
   return {
     type: item["type"],
     name: item["name"],
@@ -1818,7 +1732,7 @@ export function toolLocalShellToolParamSerializer(item: ToolLocalShellToolParam)
   };
 }
 
-export function toolLocalShellToolParamDeserializer(item: any): ToolLocalShellToolParam {
+export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
   return {
     type: item["type"],
     name: item["name"],
@@ -1830,7 +1744,7 @@ export function toolLocalShellToolParamDeserializer(item: any): ToolLocalShellTo
 }
 
 /** A tool that allows the model to execute shell commands. */
-export interface ToolFunctionShellToolParam extends Tool {
+export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
   environment?: FunctionShellToolParamEnvironmentUnion;
@@ -1843,7 +1757,7 @@ export interface ToolFunctionShellToolParam extends Tool {
   tool_configs?: Record<string, ToolConfig>;
 }
 
-export function toolFunctionShellToolParamSerializer(item: ToolFunctionShellToolParam): any {
+export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -1862,7 +1776,7 @@ export function toolFunctionShellToolParamSerializer(item: ToolFunctionShellTool
   };
 }
 
-export function toolFunctionShellToolParamDeserializer(item: any): ToolFunctionShellToolParam {
+export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
   return {
     type: item["type"],
     environment: !item["environment"]
@@ -2216,7 +2130,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
 }
 
 /** Hosted or BYOT tool search configuration for deferred tools. */
-export interface ToolToolSearchToolParam extends Tool {
+export interface ToolSearchToolParam extends Tool {
   /** The type of the tool. Always `tool_search`. */
   type: "tool_search";
   /** Whether tool search is executed by the server or by the client. */
@@ -2225,7 +2139,7 @@ export interface ToolToolSearchToolParam extends Tool {
   parameters?: EmptyModelParam;
 }
 
-export function toolToolSearchToolParamSerializer(item: ToolToolSearchToolParam): any {
+export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
   return {
     type: item["type"],
     execution: item["execution"],
@@ -2236,7 +2150,7 @@ export function toolToolSearchToolParamSerializer(item: ToolToolSearchToolParam)
   };
 }
 
-export function toolToolSearchToolParamDeserializer(item: any): ToolToolSearchToolParam {
+export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam {
   return {
     type: item["type"],
     execution: item["execution"],
@@ -2262,7 +2176,7 @@ export function emptyModelParamDeserializer(item: any): EmptyModelParam {
 }
 
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search). */
-export interface ToolWebSearchPreviewTool extends Tool {
+export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
   user_location?: ApproximateLocation;
@@ -2271,7 +2185,7 @@ export interface ToolWebSearchPreviewTool extends Tool {
   search_content_types?: SearchContentType[];
 }
 
-export function toolWebSearchPreviewToolSerializer(item: ToolWebSearchPreviewTool): any {
+export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2286,7 +2200,7 @@ export function toolWebSearchPreviewToolSerializer(item: ToolWebSearchPreviewToo
   };
 }
 
-export function toolWebSearchPreviewToolDeserializer(item: any): ToolWebSearchPreviewTool {
+export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewTool {
   return {
     type: item["type"],
     user_location: !item["user_location"]
@@ -2338,13 +2252,13 @@ export type SearchContextSize = "low" | "medium" | "high";
 export type SearchContentType = "text" | "image";
 
 /** Allows the assistant to create, delete, or update files using unified diffs. */
-export interface ToolApplyPatchToolParam extends Tool {
+export interface ApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
   allowed_callers?: CallableToolAllowedCaller[];
 }
 
-export function toolApplyPatchToolParamSerializer(item: ToolApplyPatchToolParam): any {
+export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2355,7 +2269,7 @@ export function toolApplyPatchToolParamSerializer(item: ToolApplyPatchToolParam)
   };
 }
 
-export function toolApplyPatchToolParamDeserializer(item: any): ToolApplyPatchToolParam {
+export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
   return {
     type: item["type"],
     allowed_callers: !item["allowed_callers"]
@@ -2473,57 +2387,6 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
       : Object.fromEntries(
           Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
         ),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
-export interface CustomToolParam {
-  /** The type of the custom tool. Always `custom`. */
-  type: "custom";
-  /** The name of the custom tool, used to identify it in tool calls. */
-  name: string;
-  /** Whether the tool response can be returned asynchronously versus immediately returned on next response creation. */
-  async?: boolean;
-  /** Optional description of the custom tool, used to provide more context. */
-  description?: string;
-  /** The input format for the custom tool. Default is unconstrained text. */
-  format?: CustomToolParamFormatUnion;
-  /** Whether this tool should be deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  allowed_callers?: CallableToolAllowedCaller[];
-}
-
-export function customToolParamSerializer(item: CustomToolParam): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
-    defer_loading: item["defer_loading"],
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function customToolParamDeserializer(item: any): CustomToolParam {
-  return {
-    type: item["type"],
-    name: item["name"],
-    async: item["async"],
-    description: item["description"],
-    format: !item["format"]
-      ? item["format"]
-      : customToolParamFormatUnionDeserializer(item["format"]),
     defer_loading: item["defer_loading"],
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
@@ -3272,6 +3135,36 @@ export function realtimeFunctionToolParametersSerializer(
 export function realtimeFunctionToolParametersDeserializer(
   item: any,
 ): RealtimeFunctionToolParameters {
+  return item;
+}
+
+/** Alias for _VoiceAgentMcpToolAllowedTools */
+export type _VoiceAgentMcpToolAllowedTools = string[] | MCPToolFilter;
+
+export function _voiceAgentMcpToolAllowedToolsSerializer(
+  item: _VoiceAgentMcpToolAllowedTools,
+): any {
+  return item;
+}
+
+export function _voiceAgentMcpToolAllowedToolsDeserializer(
+  item: any,
+): _VoiceAgentMcpToolAllowedTools {
+  return item;
+}
+
+/** Alias for _VoiceAgentMcpToolRequireApproval */
+export type _VoiceAgentMcpToolRequireApproval = MCPToolRequireApproval | "always" | "never";
+
+export function _voiceAgentMcpToolRequireApprovalSerializer(
+  item: _VoiceAgentMcpToolRequireApproval,
+): any {
+  return item;
+}
+
+export function _voiceAgentMcpToolRequireApprovalDeserializer(
+  item: any,
+): _VoiceAgentMcpToolRequireApproval {
   return item;
 }
 
@@ -5029,12 +4922,12 @@ export interface RealtimeConversationItem {
 }
 
 export function realtimeConversationItemSerializer(item: RealtimeConversationItem): any {
-  return { type: item["type"] };
+  return { type: realtimeConversationItemTypeSerializer(item["type"]) };
 }
 
 export function realtimeConversationItemDeserializer(item: any): RealtimeConversationItem {
   return {
-    type: item["type"],
+    type: realtimeConversationItemTypeDeserializer(item["type"]),
   };
 }
 
@@ -5126,8 +5019,9 @@ export function realtimeConversationItemUnionDeserializer(
   }
 }
 
-/** Type of RealtimeConversationItemType */
+/** Alias for RealtimeConversationItemType */
 export type RealtimeConversationItemType =
+  | string
   | "function_call"
   | "function_call_output"
   | "mcp_approval_response"
@@ -5135,7 +5029,15 @@ export type RealtimeConversationItemType =
   | "mcp_call"
   | "mcp_approval_request"
   | "message"
-  | "system_tool";
+  | VoiceAgentConversationItemTypeExtension;
+
+export function realtimeConversationItemTypeSerializer(item: RealtimeConversationItemType): any {
+  return item;
+}
+
+export function realtimeConversationItemTypeDeserializer(item: any): RealtimeConversationItemType {
+  return item;
+}
 
 /** model interface RealtimeConversationItemMessage */
 export interface RealtimeConversationItemMessage extends RealtimeConversationItem {
@@ -8870,12 +8772,12 @@ export interface RealtimeClientEvent {
 }
 
 export function realtimeClientEventSerializer(item: RealtimeClientEvent): any {
-  return { type: item["type"] };
+  return { type: realtimeClientEventTypeSerializer(item["type"]) };
 }
 
 export function realtimeClientEventDeserializer(item: any): RealtimeClientEvent {
   return {
-    type: item["type"],
+    type: realtimeClientEventTypeDeserializer(item["type"]),
   };
 }
 
@@ -9025,8 +8927,9 @@ export function realtimeClientEventUnionDeserializer(item: any): RealtimeClientE
   }
 }
 
-/** Type of RealtimeClientEventType */
+/** Alias for RealtimeClientEventType */
 export type RealtimeClientEventType =
+  | string
   | "conversation.item.create"
   | "conversation.item.delete"
   | "conversation.item.retrieve"
@@ -9038,8 +8941,15 @@ export type RealtimeClientEventType =
   | "response.cancel"
   | "response.create"
   | "session.update"
-  | "session.avatar.connect"
-  | "rtc.call.sdp.create";
+  | VoiceAgentClientEventTypeExtension;
+
+export function realtimeClientEventTypeSerializer(item: RealtimeClientEventType): any {
+  return item;
+}
+
+export function realtimeClientEventTypeDeserializer(item: any): RealtimeClientEventType {
+  return item;
+}
 
 /**
  * Add a new Item to the Conversation's context, including messages, function
@@ -9480,133 +9390,6 @@ export function realtimeFunctionToolDeserializer(item: any): RealtimeFunctionToo
     parameters: !item["parameters"]
       ? item["parameters"]
       : realtimeFunctionToolParametersDeserializer(item["parameters"]),
-  };
-}
-
-/**
- * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
- */
-export interface MCPTool {
-  /** The type of the MCP tool. Always `mcp`. */
-  type: "mcp";
-  /** A label for this MCP server, used to identify it in tool calls. */
-  server_label: string;
-  /**
-   * The URL for the MCP server. One of `server_url`, `connector_id`, or
-   *   `tunnel_id` must be provided.
-   */
-  server_url?: string;
-  /**
-   * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
-   *   This field is deprecated for models released after September 1, 2026.
-   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
-   *   connect through a Secure MCP Tunnel.
-   *   Currently supported `connector_id` values are:
-   *   - Dropbox: `connector_dropbox`
-   *   - Gmail: `connector_gmail`
-   *   - Google Calendar: `connector_googlecalendar`
-   *   - Google Drive: `connector_googledrive`
-   *   - Microsoft Teams: `connector_microsoftteams`
-   *   - Outlook Calendar: `connector_outlookcalendar`
-   *   - Outlook Email: `connector_outlookemail`
-   *   - SharePoint: `connector_sharepoint`
-   */
-  connector_id?:
-    | "connector_dropbox"
-    | "connector_gmail"
-    | "connector_googlecalendar"
-    | "connector_googledrive"
-    | "connector_microsoftteams"
-    | "connector_outlookcalendar"
-    | "connector_outlookemail"
-    | "connector_sharepoint";
-  /**
-   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
-   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
-   */
-  tunnel_id?: string;
-  /**
-   * An OAuth access token that can be used with a remote MCP server, either
-   *   with a custom MCP server URL or a service connector. Your application
-   *   must handle the OAuth authorization flow and provide the token here.
-   */
-  authorization?: string;
-  /** Optional description of the MCP server, used to provide more context. */
-  server_description?: string;
-  headers?: Record<string, string>;
-  allowed_tools?: string[] | MCPToolFilter;
-  allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: MCPToolRequireApproval | "always" | "never";
-  /** Whether this MCP tool is deferred and discovered via tool search. */
-  defer_loading?: boolean;
-  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
-  project_connection_id?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
-}
-
-export function mcpToolSerializer(item: MCPTool): any {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: item["headers"],
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsSerializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p: any) => {
-          return p;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalSerializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordSerializer(item["tool_configs"]),
-  };
-}
-
-export function mcpToolDeserializer(item: any): MCPTool {
-  return {
-    type: item["type"],
-    server_label: item["server_label"],
-    server_url: item["server_url"],
-    connector_id: item["connector_id"],
-    tunnel_id: item["tunnel_id"],
-    authorization: item["authorization"],
-    server_description: item["server_description"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(
-          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : _toolMcpToolAllowedToolsDeserializer(item["allowed_tools"]),
-    allowed_callers: !item["allowed_callers"]
-      ? item["allowed_callers"]
-      : item["allowed_callers"].map((p1: any) => {
-          return p1;
-        }),
-    require_approval: !item["require_approval"]
-      ? item["require_approval"]
-      : _toolMcpToolRequireApprovalDeserializer(item["require_approval"]),
-    defer_loading: item["defer_loading"],
-    project_connection_id: item["project_connection_id"],
-    tool_configs: !item["tool_configs"]
-      ? item["tool_configs"]
-      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
