@@ -8,15 +8,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a goal resource.
  *
  * @summary gets a goal resource.
- * x-ms-original-file: 2026-10-01/GoalResources_Get_Complete_Example.json
+ * x-ms-original-file: 2026-11-30-preview/GoalResources_Get_Complete_Example.json
  */
 async function goalResourcesGetCompleteExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const result = await client.goalResources.get(
     "production-sg",
-    "zonal-resiliency-goal",
-    "primary-vm",
+    "resiliencyGoalAssignment",
+    "web-app-resource",
   );
   console.log(result);
 }
@@ -25,16 +25,12 @@ async function goalResourcesGetCompleteExample(): Promise<void> {
  * This sample demonstrates how to gets a goal resource.
  *
  * @summary gets a goal resource.
- * x-ms-original-file: 2026-10-01/GoalResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalResources_Get_MaximumSet_Gen.json
  */
 async function goalResourcesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.goalResources.get(
-    "production-sg",
-    "zonal-resiliency-goal",
-    "primary-vm",
-  );
+  const result = await client.goalResources.get("umyghwnfpzsgrhpczizcn", "ga1", "gr1");
   console.log(result);
 }
 
@@ -42,16 +38,12 @@ async function goalResourcesGetMaximumSet(): Promise<void> {
  * This sample demonstrates how to gets a goal resource.
  *
  * @summary gets a goal resource.
- * x-ms-original-file: 2026-10-01/GoalResources_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalResources_Get_MinimumSet_Gen.json
  */
 async function goalResourcesGetMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.goalResources.get(
-    "production-sg",
-    "zonal-resiliency-goal",
-    "primary-vm",
-  );
+  const result = await client.goalResources.get("sg1", "ga1", "gr1");
   console.log(result);
 }
 

@@ -49,6 +49,11 @@ import {
   _finalizeDeserialize,
 } from "./api/recoveryPlanActions/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeRecoveryConfigProfiles,
+  _updateDeserialize as _updateDeserializeRecoveryConfigProfiles,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeRecoveryConfigProfiles,
+} from "./api/recoveryConfigProfiles/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeRecoveryPlans,
   _updateDeserialize as _updateDeserializeRecoveryPlans,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeRecoveryPlans,
@@ -220,6 +225,21 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateResourcesDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/finalize":
     { deserializer: _finalizeDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryConfigProfiles/{recoveryConfigProfileName}":
+    {
+      deserializer: _$deleteDeserializeRecoveryConfigProfiles,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryConfigProfiles/{recoveryConfigProfileName}":
+    {
+      deserializer: _updateDeserializeRecoveryConfigProfiles,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}/recoveryConfigProfiles/{recoveryConfigProfileName}":
+    {
+      deserializer: _createOrUpdateDeserializeRecoveryConfigProfiles,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}":
     { deserializer: _$deleteDeserializeRecoveryPlans, expectedStatuses: ["202", "204", "200"] },
   "PATCH /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/recoveryPlans/{recoveryPlanName}":

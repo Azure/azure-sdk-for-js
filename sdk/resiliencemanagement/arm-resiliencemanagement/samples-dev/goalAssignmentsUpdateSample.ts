@@ -8,12 +8,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a goal assignment.
  *
  * @summary updates a goal assignment.
- * x-ms-original-file: 2026-10-01/GoalAssignments_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_Update_MaximumSet_Gen.json
  */
 async function goalAssignmentsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.goalAssignments.update("production-sg", "zonal-resiliency-goal", {
+  await client.goalAssignments.update("sg1", "ga1", {
     properties: {
       serviceLevelResources: [
         {
@@ -22,6 +22,11 @@ async function goalAssignmentsUpdateMaximumSet(): Promise<void> {
         },
       ],
       requireZonalResiliency: true,
+      requireRegionalResiliency: true,
+      regionalObjectives: {
+        targetRecoveryPointObjective: "PT15M",
+        targetRecoveryTimeObjective: "PT1H",
+      },
     },
   });
 }

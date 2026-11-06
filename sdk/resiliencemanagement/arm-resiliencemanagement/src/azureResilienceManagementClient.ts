@@ -24,6 +24,8 @@ import type { OperationStatusOperations } from "./classic/operationStatus/index.
 import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { RecoveryConfigProfilesOperations } from "./classic/recoveryConfigProfiles/index.js";
+import { _getRecoveryConfigProfilesOperations } from "./classic/recoveryConfigProfiles/index.js";
 import type { RecoveryJobResourcesOperations } from "./classic/recoveryJobResources/index.js";
 import { _getRecoveryJobResourcesOperations } from "./classic/recoveryJobResources/index.js";
 import type { RecoveryJobsOperations } from "./classic/recoveryJobs/index.js";
@@ -81,6 +83,7 @@ export class AzureResilienceManagementClient {
     this.recoveryJobs = _getRecoveryJobsOperations(this._client);
     this.recoveryResources = _getRecoveryResourcesOperations(this._client);
     this.recoveryPlanActions = _getRecoveryPlanActionsOperations(this._client);
+    this.recoveryConfigProfiles = _getRecoveryConfigProfilesOperations(this._client);
     this.recoveryPlans = _getRecoveryPlansOperations(this._client);
     this.goalResources = _getGoalResourcesOperations(this._client);
     this.goalAssignments = _getGoalAssignmentsOperations(this._client);
@@ -110,6 +113,8 @@ export class AzureResilienceManagementClient {
   public readonly recoveryResources: RecoveryResourcesOperations;
   /** The operation groups for recoveryPlanActions */
   public readonly recoveryPlanActions: RecoveryPlanActionsOperations;
+  /** The operation groups for recoveryConfigProfiles */
+  public readonly recoveryConfigProfiles: RecoveryConfigProfilesOperations;
   /** The operation groups for recoveryPlans */
   public readonly recoveryPlans: RecoveryPlansOperations;
   /** The operation groups for goalResources */

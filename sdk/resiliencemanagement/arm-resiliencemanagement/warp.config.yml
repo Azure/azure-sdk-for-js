@@ -15,6 +15,7 @@ exports:
   "./api/recoveryJobs": "./src/api/recoveryJobs/index.ts"
   "./api/recoveryResources": "./src/api/recoveryResources/index.ts"
   "./api/recoveryPlanActions": "./src/api/recoveryPlanActions/index.ts"
+  "./api/recoveryConfigProfiles": "./src/api/recoveryConfigProfiles/index.ts"
   "./api/recoveryPlans": "./src/api/recoveryPlans/index.ts"
   "./api/goalResources": "./src/api/goalResources/index.ts"
   "./api/goalAssignments": "./src/api/goalAssignments/index.ts"
