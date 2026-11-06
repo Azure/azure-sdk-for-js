@@ -51,7 +51,7 @@ export function createSearch(endpointParam: string, credential: KeyCredential | 
 export function getDocument(context: SearchContext, key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
 
 // @public
-export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<number>;
+export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {

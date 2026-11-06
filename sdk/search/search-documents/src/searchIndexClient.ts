@@ -1032,15 +1032,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async uploadKnowledgeSourceFileMultipart(
@@ -1071,15 +1084,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async updateKnowledgeSourceFile(

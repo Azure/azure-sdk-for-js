@@ -24,7 +24,6 @@ export type {
   ScoringFunction,
   ScoringFunctionUnion,
   ScoringFunctionInterpolation,
-  RandomScoringFunction,
   RandomScoringParameters,
   DistanceScoringFunction,
   DistanceScoringParameters,

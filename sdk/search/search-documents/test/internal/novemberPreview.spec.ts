@@ -7,10 +7,10 @@ import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipelin
 import { AzureKeyCredential } from "@azure/core-auth";
 import { KnowledgeRetrievalClient } from "../../src/knowledgeRetrievalClient.js";
 import { SearchClient } from "../../src/searchClient.js";
+import { SearchClient as ProtocolSearchClient } from "../../src/search/index.js";
 import { SearchIndexClient } from "../../src/searchIndexClient.js";
 import { SearchIndexerClient } from "../../src/searchIndexerClient.js";
 import type {
-  BaseScoringFunction,
   AzureBlobKnowledgeSource,
   KnowledgeBase,
   SearchIndex,
@@ -122,12 +122,12 @@ describe("2026-11-01-preview convenience integration", () => {
     });
   });
 
-  it("serializes all topic-graph variants and restored preview search options", async () => {
+  it("serializes topic-graph variants and agentic options through the protocol client", async () => {
     const requests: PipelineRequest[] = [];
-    const client = new SearchClient(
+    const client = new ProtocolSearchClient(
       endpoint,
-      "index",
       credential,
+      "index",
       mockOptions(
         [
           {
@@ -145,19 +145,18 @@ describe("2026-11-01-preview convenience integration", () => {
       { kind: "diverse", diversityFactor: 0.6, minDiversityPoolSize: 30 },
       { kind: "balanced", minDiversityPoolSize: 20 },
     ];
-    const result = await client.search("question", {
+    const result = await client.searchPost({
+      searchText: "question",
       queryType: "agentic",
       moreLikeThis: "document-1",
       agenticOptions: { maxRuntimeInSeconds: 10 },
       debug: "agentic",
-      vectorSearchOptions: {
-        queries: strategies.map((topicGraph) => ({
-          kind: "vector",
-          vector: [1, 0],
-          fields: ["embedding"],
-          topicGraph,
-        })),
-      },
+      vectorQueries: strategies.map((topicGraph) => ({
+        kind: "vector",
+        vector: [1, 0],
+        fields: "embedding",
+        topicGraph,
+      })),
     });
     const body = JSON.parse(requests[0].body as string);
     assert.deepEqual(
@@ -171,7 +170,7 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.equal(result.debugInfo?.agentic?.terminationReason, "modelStopped");
   });
 
-  it("round trips topic profiles, random scoring and OpenAI-compatible vectorizers", async () => {
+  it("round trips topic profiles with GA scoring functions and vectorizers", async () => {
     const requests: PipelineRequest[] = [];
     const index: SearchIndex = {
       name: "topics",
@@ -192,18 +191,28 @@ describe("2026-11-01-preview convenience integration", () => {
         topicGraphProfiles: [{ name: "topics", indexName: "graph", defaultKind: "balanced" }],
         vectorizers: [
           {
-            vectorizerName: "compatible",
-            kind: "openAICompatible",
-            openAICompatibleParameters: {
-              uri: "https://example.invalid/embeddings",
+            vectorizerName: "azure",
+            kind: "azureOpenAI",
+            parameters: {
+              resourceUrl: "https://example.openai.azure.com",
+              deploymentId: "embedding",
               modelName: "text-embedding-3-small",
-              dimensions: 2,
             },
           },
         ],
       },
       scoringProfiles: [
-        { name: "shuffle", functions: [{ type: "random", parameters: { seedParameter: "seed" } }] },
+        {
+          name: "rating",
+          functions: [
+            {
+              type: "magnitude",
+              fieldName: "rating",
+              boost: 2,
+              parameters: { boostingRangeStart: 0, boostingRangeEnd: 5 },
+            },
+          ],
+        },
       ],
       oneLakeSecuritySource: { fabricWorkspaceId: "workspace", lakehouseId: "lakehouse" },
       sharePointConnectorAppRegistration: {
@@ -243,8 +252,32 @@ describe("2026-11-01-preview convenience integration", () => {
     const wire = {
       ...index,
       fields: [{ name: "embedding", type: "Collection(Edm.Single)", topicGraphProfile: "topics" }],
+      scoringProfiles: [
+        {
+          name: "rating",
+          functions: [
+            {
+              type: "magnitude",
+              fieldName: "rating",
+              boost: 2,
+              magnitude: { boostingRangeStart: 0, boostingRangeEnd: 5 },
+            },
+          ],
+        },
+      ],
       vectorSearch: {
         ...index.vectorSearch,
+        vectorizers: [
+          {
+            name: "azure",
+            kind: "azureOpenAI",
+            azureOpenAIParameters: {
+              resourceUri: "https://example.openai.azure.com",
+              deploymentId: "embedding",
+              modelName: "text-embedding-3-small",
+            },
+          },
+        ],
         topicGraphProfiles: [{ name: "topics", indexName: "graph", defaultKind: "balanced" }],
       },
     };
@@ -257,13 +290,14 @@ describe("2026-11-01-preview convenience integration", () => {
     const body = JSON.parse(requests[0].body as string);
     assert.equal(body.fields[1].topicGraphProfile, "topics");
     assert.deepEqual(body.scoringProfiles[0].functions[0], {
-      type: "random",
-      random: { seedParameter: "seed" },
+      type: "magnitude",
+      fieldName: "rating",
+      boost: 2,
+      magnitude: { boostingRangeStart: 0, boostingRangeEnd: 5 },
     });
-    assert.notProperty(body.scoringProfiles[0].functions[0], "fieldName");
-    assert.notProperty(body.scoringProfiles[0].functions[0], "boost");
+    expect(actual.scoringProfiles).toMatchObject(index.scoringProfiles ?? []);
     assert.equal(actual.vectorSearch?.topicGraphProfiles?.[0].defaultKind, "balanced");
-    assert.equal(actual.vectorSearch?.vectorizers?.[0].kind, "openAICompatible");
+    assert.equal(actual.vectorSearch?.vectorizers?.[0].kind, "azureOpenAI");
     assert.equal(actual.fields[0].type, "Collection(Edm.Single)");
     assert.deepEqual(actual.oneLakeSecuritySource, index.oneLakeSecuritySource);
     assert.deepEqual(
@@ -272,8 +306,6 @@ describe("2026-11-01-preview convenience integration", () => {
     );
     assert.deepEqual(body.graphProfile, index.graphProfile);
     assert.deepEqual(actual.graphProfile, index.graphProfile);
-    const classic: BaseScoringFunction = { type: "magnitude", fieldName: "rating", boost: 2 };
-    assert.equal(classic.fieldName, "rating");
   });
 
   it("preserves restored indexer ACL configuration", async () => {
@@ -310,13 +342,12 @@ describe("2026-11-01-preview convenience integration", () => {
         { name: "lookup", description: "Lookup facts", knowledgeSources: [{ name: "source" }] },
       ],
       models: [
-        { kind: "microsoftRetriever1" },
         {
-          kind: "openAICompatible",
-          openAICompatibleParameters: {
-            uri: "https://example.invalid/chat/completions",
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUrl: "https://example.openai.azure.com",
+            deploymentId: "chat",
             modelName: "gpt-6-sol",
-            managedIdentityAudience: "https://example.invalid",
           },
         },
       ],
@@ -352,9 +383,10 @@ describe("2026-11-01-preview convenience integration", () => {
             enableReprocessing: true,
           },
           embeddingModel: {
-            kind: "openAICompatible" as const,
-            openAICompatibleParameters: {
-              uri: "https://example.invalid/embeddings",
+            kind: "azureOpenAI" as const,
+            azureOpenAIParameters: {
+              resourceUrl: "https://example.openai.azure.com",
+              deploymentId: "embedding",
               modelName: "text-embedding-3-small",
             },
           },
@@ -364,13 +396,33 @@ describe("2026-11-01-preview convenience integration", () => {
     const client = new SearchIndexClient(
       endpoint,
       credential,
-      mockOptions([{ body: base }, { body: source }, { body: blob }], requests),
+      mockOptions(
+        [
+          {
+            body: {
+              ...base,
+              models: [
+                {
+                  kind: "azureOpenAI",
+                  azureOpenAIParameters: {
+                    resourceUri: "https://example.openai.azure.com",
+                    deploymentId: "chat",
+                    modelName: "gpt-6-sol",
+                  },
+                },
+              ],
+            },
+          },
+          { body: source },
+          { body: blob },
+        ],
+        requests,
+      ),
     );
     const actual = await client.createOrUpdateKnowledgeBase(base);
     assert.equal(actual.tools?.[0].name, "lookup");
     assert.equal(actual.tools?.[0].knowledgeSources[0].name, "source");
-    assert.equal(actual.models?.[0].kind, "microsoftRetriever1");
-    assert.equal(actual.models?.[1].kind, "openAICompatible");
+    expect(actual.models).toMatchObject(base.models ?? []);
     await client.createOrUpdateKnowledgeSource(source);
     const createdBlob = (await client.createOrUpdateKnowledgeSource(
       blob,
@@ -394,7 +446,7 @@ describe("2026-11-01-preview convenience integration", () => {
       assert.equal(createdBlob.azureBlobParameters.graphExtraction?.graphName, "facts");
       assert.equal(
         createdBlob.azureBlobParameters.ingestionParameters?.embeddingModel?.kind,
-        "openAICompatible",
+        "azureOpenAI",
       );
     }
   });

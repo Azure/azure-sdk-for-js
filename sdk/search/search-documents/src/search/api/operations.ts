@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { SearchContext as Client } from "./index.js";
+import type { GetDocumentCountResponse } from "../../models/models.js";
 import type {
   SearchDocumentsResult,
   LookupDocument,
@@ -707,7 +708,9 @@ export function _getDocumentCountSend(
   });
 }
 
-export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
+export async function _getDocumentCountDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDocumentCountResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -718,14 +721,14 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
     throw error;
   }
 
-  return result.body;
+  return { body: result.body };
 }
 
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,
   options: GetDocumentCountOptionalParams = { requestOptions: {} },
-): Promise<number> {
+): Promise<GetDocumentCountResponse> {
   const result = await _getDocumentCountSend(context, options);
   return _getDocumentCountDeserialize(result);
 }

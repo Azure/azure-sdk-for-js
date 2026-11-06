@@ -9,8 +9,14 @@ import { createKnowledgeBaseRetrieval } from "./api/index.js";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
-import type { RetrieveStreamResponse } from "../models/models.js";
 import { retrieveStream, retrieve } from "./api/operations.js";
 import type { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -42,16 +48,27 @@ export class KnowledgeBaseRetrievalClient {
    * Retrieves relevant data from backing stores and streams progress and results as server-sent
    * events.
    *
-   * Process the response incrementally using server-sent event framing. Each event contains an
-   * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
-   * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
-   * clients may expose the raw response without typed event parsing. Do not deserialize the
-   * complete response body as a single JSON document.
+   * Narrow on the `event` property to access each typed payload. The stream closes at either
+   * `response.completed` or `error`, or when iteration ends early.
+   *
+   * @param retrievalRequest - The retrieval request to process.
+   * @param options - Options for the streaming retrieval operation.
+   * @returns An async iterable of typed server-sent events.
    */
   retrieveStream(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
     options: RetrieveStreamOptionalParams = { requestOptions: {} },
-  ): Promise<RetrieveStreamResponse> {
+  ): Promise<
+    AsyncIterable<
+      | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+      | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+      | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+      | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+      | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+      | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+      | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+    >
+  > {
     return retrieveStream(this._client, retrievalRequest, options);
   }
 

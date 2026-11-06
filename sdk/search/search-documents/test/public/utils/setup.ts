@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { computeSha256Hash, delay } from "@azure/core-util";
+import { computeSha256Hash, delay, randomUUID } from "@azure/core-util";
 import { assert } from "vitest";
 import type {
   SearchClient,
@@ -662,36 +662,33 @@ export async function deleteIndexers(client: SearchIndexerClient): Promise<void>
   }
 }
 
-export async function createSynonymMaps(client: SearchIndexClient): Promise<void> {
-  const testCaseNames: string[] = ["my-azure-synonymmap-1", "my-azure-synonymmap-2"];
-  const synonymMapNames: string[] = await client.listSynonymMapsNames();
-  const unCommonElements: string[] = synonymMapNames.filter(
-    (element) => !testCaseNames.includes(element),
-  );
-  if (unCommonElements.length > 0) {
-    // There are synonym maps which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has synonym maps for testing.
-    assert.fail("Subscription has other synonymmaps not related to this testing.");
+export async function createSynonymMaps(
+  client: SearchIndexClient,
+  names: readonly string[],
+): Promise<string[]> {
+  const createdNames: string[] = [];
+  try {
+    for (const name of names) {
+      await client.createSynonymMap({
+        name,
+        synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
+      });
+      createdNames.push(name);
+    }
+  } catch (error) {
+    await deleteSynonymMaps(client, createdNames).catch(() => {});
+    throw error;
   }
-
-  for (const synonymMap of synonymMapNames) {
-    await client.deleteSynonymMap(synonymMap);
-  }
-
-  for (let i = 1; i <= 2; i++) {
-    await client.createSynonymMap({
-      name: `my-azure-synonymmap-${i}`,
-      synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
-    });
-  }
+  return createdNames;
 }
 
-export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void> {
-  for (let i = 1; i <= 2; i++) {
-    await client.deleteSynonymMap(`my-azure-synonymmap-${i}`);
-  }
+export async function deleteSynonymMaps(
+  client: SearchIndexClient,
+  names: readonly string[],
+): Promise<void> {
+  const results = await Promise.allSettled(names.map((name) => client.deleteSynonymMap(name)));
+  const failure = results.find((result) => result.status === "rejected");
+  if (failure?.status === "rejected") throw failure.reason;
 }
 
 export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
@@ -737,7 +734,7 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
 }
 
 export function createRandomIndexName(): string {
-  return `hotel-live-test-${Math.floor(Math.random() * 100000) + 1000000}`;
+  return `hotel-live-test-${randomUUID()}`;
 }
 
 async function renameUniquelyInPlace<T extends string>(

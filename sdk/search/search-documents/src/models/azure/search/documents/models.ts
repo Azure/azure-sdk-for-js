@@ -2070,12 +2070,12 @@ export function searchResultSerializer(item: SearchResult): any {
 export function searchResultDeserializer(item: any): SearchResult {
   return {
     additionalProperties: serializeRecord(item, [
-      "score",
-      "rerankerScore",
-      "rerankerBoostedScore",
-      "highlights",
-      "captions",
-      "documentDebugInfo",
+      "@search.score",
+      "@search.rerankerScore",
+      "@search.rerankerBoostedScore",
+      "@search.highlights",
+      "@search.captions",
+      "@search.documentDebugInfo",
     ]),
     score: item["@search.score"],
     rerankerScore: item["@search.rerankerScore"],

@@ -309,7 +309,7 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "indexedSql" | "file" | "web" | "remoteSharePoint" | "workIQ" | "mcpServer" | "fabricDataAgent" | "fabricOntology";
+    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "indexedSql" | "file" | "web";
     name: string;
     resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
@@ -1053,12 +1053,6 @@ export interface ExtractiveQueryCaption {
 }
 
 // @public
-export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
-    fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
-    kind: "fabricDataAgent";
-}
-
-// @public
 export interface FabricDataAgentKnowledgeSourceParameters {
     dataAgentId: string;
     workspaceId: string;
@@ -1067,12 +1061,6 @@ export interface FabricDataAgentKnowledgeSourceParameters {
 // @public
 export interface FabricDataAgentKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "fabricDataAgent";
-}
-
-// @public
-export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
-    fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
-    kind: "fabricOntology";
 }
 
 // @public
@@ -2067,7 +2055,7 @@ export interface KnowledgeBaseMicrosoftRetriever1Model extends BaseKnowledgeBase
 }
 
 // @public (undocumented)
-export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel | KnowledgeBaseOpenAICompatibleModel | KnowledgeBaseMicrosoftRetriever1Model;
+export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 // @public
 export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKnowledgeBaseActivityRecord {
@@ -2379,7 +2367,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 }
 
 // @public (undocumented)
-export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | IndexedSqlKnowledgeSource | FileKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource | WorkIQKnowledgeSource | McpServerKnowledgeSource | FabricDataAgentKnowledgeSource | FabricOntologyKnowledgeSource;
+export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | IndexedSqlKnowledgeSource | FileKnowledgeSource | WebKnowledgeSource;
 
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
@@ -2557,7 +2545,7 @@ export interface KnowledgeSourceSynchronizationError {
 export type KnowledgeSourceSynchronizationStatus = string;
 
 // @public (undocumented)
-export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceOpenAICompatibleVectorizer;
+export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
 
 // @public
 export enum KnownAgenticSearchTerminationReason {
@@ -2750,6 +2738,12 @@ export enum KnownChatCompletionResponseFormatType {
     JsonObject = "jsonObject",
     JsonSchema = "jsonSchema",
     Text = "text"
+}
+
+// @public
+export enum KnownContentUnderstandingSkillChunkingMethod {
+    FixedSize = "fixedSize",
+    Semantic = "semantic"
 }
 
 // @public
@@ -4072,12 +4066,6 @@ export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
 }
 
 // @public
-export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
-    kind: "mcpServer";
-    mcpServerParameters: McpServerKnowledgeSourceParameters;
-}
-
-// @public
 export interface McpServerKnowledgeSourceParameters {
     authentication?: McpServerAuthenticationUnion;
     serverUrl: string;
@@ -4238,12 +4226,6 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 export interface OneLakeSecuritySource {
     fabricWorkspaceId: string;
     lakehouseId: string;
-}
-
-// @public
-export interface OpenAICompatibleVectorizer extends BaseVectorSearchVectorizer {
-    kind: "openAICompatible";
-    openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
 }
 
 // @public
@@ -4433,13 +4415,6 @@ export interface QueryRewritesValuesDebugInfo {
 export type QueryType = string;
 
 // @public
-export interface RandomScoringFunction {
-    interpolation?: ScoringFunctionInterpolation;
-    parameters?: RandomScoringParameters;
-    type: "random";
-}
-
-// @public
 export interface RandomScoringParameters {
     seedParameter: string;
 }
@@ -4449,12 +4424,6 @@ export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
-
-// @public
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-    kind: "remoteSharePoint";
-    remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
-}
 
 // @public
 export interface RemoteSharePointKnowledgeSourceParameters {
@@ -4536,13 +4505,15 @@ export interface ScalarQuantizationParameters {
 }
 
 // @public
-export type ScoringFunction = RandomScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
+export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
 export type ScoringFunctionAggregation = "sum" | "average" | "minimum" | "maximum" | "firstMatching" | "product";
 
 // @public
 export interface ScoringFunctionBase {
+    boost: number;
+    fieldName: string;
     interpolation?: ScoringFunctionInterpolation;
     type: string;
 }
@@ -5128,7 +5099,7 @@ export type SearchRequestQueryTypeOptions = {
     queryType: "semantic";
     semanticSearchOptions: SemanticSearchOptions;
 } | {
-    queryType?: "simple" | "full" | "agentic";
+    queryType?: "simple" | "full";
 };
 
 // @public
@@ -5257,8 +5228,8 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    knowledgeBaseCounter: ResourceCounter;
-    knowledgeSourceCounter: ResourceCounter;
+    knowledgeBaseCounter?: ResourceCounter;
+    knowledgeSourceCounter?: ResourceCounter;
     skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
@@ -5627,7 +5598,7 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
 }
 
 // @public
-export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel> | VectorizableImageUrlQuery<TModel> | VectorizableImageBinaryQuery<TModel>;
+export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
 
 // @public (undocumented)
 export type VectorQueryKind = `${KnownVectorQueryKind}`;
@@ -5702,7 +5673,7 @@ export interface VectorSearchTopicGraphProfile {
 }
 
 // @public
-export type VectorSearchVectorizer = AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer | OpenAICompatibleVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 // @public
 export type VectorSearchVectorizerKind = string;
@@ -5795,12 +5766,6 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
     splitOnCaseChange?: boolean;
     splitOnNumerics?: boolean;
     stemEnglishPossessive?: boolean;
-}
-
-// @public
-export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
-    kind: "workIQ";
-    workIQParameters: WorkIQKnowledgeSourceParameters;
 }
 
 // @public

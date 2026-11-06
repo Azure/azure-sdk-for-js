@@ -39,12 +39,18 @@ async function main(): Promise<void> {
 
   console.log(`Knowledge resource counters:`);
   console.log(
-    `  knowledgeBases:   usage=${knowledgeBaseCounter.usage}` +
-      (knowledgeBaseCounter.quota !== undefined ? `, quota=${knowledgeBaseCounter.quota}` : ""),
+    knowledgeBaseCounter
+      ? `  knowledgeBases:   usage=${knowledgeBaseCounter.usage}` +
+          (knowledgeBaseCounter.quota !== undefined ? `, quota=${knowledgeBaseCounter.quota}` : "")
+      : "  knowledgeBases: not reported by this service version",
   );
   console.log(
-    `  knowledgeSources: usage=${knowledgeSourceCounter.usage}` +
-      (knowledgeSourceCounter.quota !== undefined ? `, quota=${knowledgeSourceCounter.quota}` : ""),
+    knowledgeSourceCounter
+      ? `  knowledgeSources: usage=${knowledgeSourceCounter.usage}` +
+          (knowledgeSourceCounter.quota !== undefined
+            ? `, quota=${knowledgeSourceCounter.quota}`
+            : "")
+      : "  knowledgeSources: not reported by this service version",
   );
 
   const perIndexLimit = stats.limits.maxVectorIndexSizePerIndexInBytes;

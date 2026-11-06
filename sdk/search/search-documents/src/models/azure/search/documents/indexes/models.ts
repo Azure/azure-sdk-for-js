@@ -1204,27 +1204,37 @@ export function scoringFunctionUnionArrayDeserializer(result: Array<ScoringFunct
 
 /** Base type for functions that can modify document scores during ranking. */
 export interface ScoringFunction {
+  /** The name of the field used as input to the scoring function. */
+  fieldName: string;
+  /** A multiplier for the raw score. Must be a positive number not equal to 1.0. */
+  boost: number;
   /** A value indicating how boosting will be interpolated across document scores; defaults to "Linear". */
   interpolation?: ScoringFunctionInterpolation;
   /** Type of ScoringFunction. */
-  /** The discriminator possible values: random, distance, freshness, magnitude, tag */
+  /** The discriminator possible values: distance, freshness, magnitude, tag */
   type: string;
 }
 
 export function scoringFunctionSerializer(item: ScoringFunction): any {
-  return { interpolation: item["interpolation"], type: item["type"] };
+  return {
+    type: item["type"],
+    fieldName: item["fieldName"],
+    boost: item["boost"],
+    interpolation: item["interpolation"],
+  };
 }
 
 export function scoringFunctionDeserializer(item: any): ScoringFunction {
   return {
-    interpolation: item["interpolation"],
     type: item["type"],
+    fieldName: item["fieldName"],
+    boost: item["boost"],
+    interpolation: item["interpolation"],
   };
 }
 
 /** Alias for ScoringFunctionUnion */
 export type ScoringFunctionUnion =
-  | RandomScoringFunction
   | DistanceScoringFunction
   | FreshnessScoringFunction
   | MagnitudeScoringFunction
@@ -1233,9 +1243,6 @@ export type ScoringFunctionUnion =
 
 export function scoringFunctionUnionSerializer(item: ScoringFunctionUnion): any {
   switch (item.type) {
-    case "random":
-      return randomScoringFunctionSerializer(item as RandomScoringFunction);
-
     case "distance":
       return distanceScoringFunctionSerializer(item as DistanceScoringFunction);
 
@@ -1255,9 +1262,6 @@ export function scoringFunctionUnionSerializer(item: ScoringFunctionUnion): any 
 
 export function scoringFunctionUnionDeserializer(item: any): ScoringFunctionUnion {
   switch (item["type"]) {
-    case "random":
-      return randomScoringFunctionDeserializer(item as RandomScoringFunction);
-
     case "distance":
       return distanceScoringFunctionDeserializer(item as DistanceScoringFunction);
 
@@ -1277,40 +1281,6 @@ export function scoringFunctionUnionDeserializer(item: any): ScoringFunctionUnio
 
 /** Defines the function used to interpolate score boosting across a range of documents. */
 export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
-
-/**
- * Defines a function that assigns pseudo-random scores to documents for randomized ordering.
- * Random scoring functions do not take a boost. A scoring profile with a random function
- * cannot define text weights or other function types, and can contain only one random function.
- * Random scoring replaces the query and vector similarity scores, including for hybrid queries,
- * so results are returned in random order.
- */
-export interface RandomScoringFunction extends ScoringFunction {
-  /** Optional parameters for seeded random scoring. Omit this property for request-scoped random ordering. */
-  parameters?: RandomScoringParameters;
-  /** Indicates that pseudo-random scoring is used. */
-  type: "random";
-}
-
-export function randomScoringFunctionSerializer(item: RandomScoringFunction): any {
-  return {
-    interpolation: item["interpolation"],
-    type: item["type"],
-    random: !item["parameters"]
-      ? item["parameters"]
-      : randomScoringParametersSerializer(item["parameters"]),
-  };
-}
-
-export function randomScoringFunctionDeserializer(item: any): RandomScoringFunction {
-  return {
-    interpolation: item["interpolation"],
-    type: item["type"],
-    parameters: !item["random"]
-      ? item["random"]
-      : randomScoringParametersDeserializer(item["random"]),
-  };
-}
 
 /** Provides parameter values to a random scoring function. */
 export interface RandomScoringParameters {
@@ -9334,9 +9304,9 @@ export interface ServiceCounters {
   /** Total memory consumption of all vector indexes within the service, in bytes. */
   vectorIndexSizeCounter: ResourceCounter;
   /** Total number of knowledge bases. */
-  knowledgeBaseCounter: ResourceCounter;
+  knowledgeBaseCounter?: ResourceCounter;
   /** Total number of knowledge sources. */
-  knowledgeSourceCounter: ResourceCounter;
+  knowledgeSourceCounter?: ResourceCounter;
 }
 
 export function serviceCountersDeserializer(item: any): ServiceCounters {
@@ -9350,8 +9320,14 @@ export function serviceCountersDeserializer(item: any): ServiceCounters {
     synonymMapCounter: resourceCounterDeserializer(item["synonymMaps"]),
     skillsetCounter: resourceCounterDeserializer(item["skillsetCount"]),
     vectorIndexSizeCounter: resourceCounterDeserializer(item["vectorIndexSize"]),
-    knowledgeBaseCounter: resourceCounterDeserializer(item["knowledgeBasesCount"]),
-    knowledgeSourceCounter: resourceCounterDeserializer(item["knowledgeSourcesCount"]),
+    knowledgeBaseCounter:
+      item["knowledgeBasesCount"] == null
+        ? undefined
+        : resourceCounterDeserializer(item["knowledgeBasesCount"]),
+    knowledgeSourceCounter:
+      item["knowledgeSourcesCount"] == null
+        ? undefined
+        : resourceCounterDeserializer(item["knowledgeSourcesCount"]),
   };
 }
 

@@ -7,22 +7,14 @@ import type { VectorQueryTopicGraphUnion } from "./models/azure/search/documents
 import type {
   GraphProfile,
   OneLakeSecuritySource,
-  RandomScoringParameters,
   ScoringFunctionInterpolation,
   VectorSearchTopicGraphProfile,
-  OpenAICompatibleVectorizerParameters,
-  KnowledgeBaseOpenAICompatibleModel,
-  KnowledgeBaseMicrosoftRetriever1Model,
   KnowledgeSourceGraphExtractionParameters,
   KnowledgeSourceFile,
 } from "./models/azure/search/documents/indexes/index.js";
-import type {
-  KnowledgeSourceCache,
-  KnowledgeSourceOpenAICompatibleVectorizer,
-} from "./models/azure/search/documents/knowledgeBases/index.js";
+import type { KnowledgeSourceCache } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
-  WorkIQKnowledgeSourceParameters,
   ListingSearchType,
   AIFoundryModelCatalogName,
   AIServicesAccountKey,
@@ -1090,19 +1082,8 @@ export interface BaseScoringFunction {
   type: string;
 }
 
-/** Applies random scoring without a field or boost multiplier. */
-export interface RandomScoringFunction {
-  /** The random scoring discriminator. */
-  type: "random";
-  /** Seed configuration used to produce repeatable random ordering. */
-  parameters?: RandomScoringParameters;
-  /** Boost interpolation strategy. */
-  interpolation?: ScoringFunctionInterpolation;
-}
-
-/** Classic field-based scoring functions and random scoring. */
+/** Classic field-based scoring functions. */
 export type ScoringFunction =
-  | RandomScoringFunction
   | DistanceScoringFunction
   | FreshnessScoringFunction
   | MagnitudeScoringFunction
@@ -2592,19 +2573,7 @@ export interface WebApiParameters {
 /**
  * Contains configuration options on how to vectorize text vector queries.
  */
-export type VectorSearchVectorizer =
-  | AzureMachineLearningVectorizer
-  | AzureOpenAIVectorizer
-  | WebApiVectorizer
-  | OpenAICompatibleVectorizer;
-
-/** An OpenAI-compatible embedding endpoint used to vectorize text queries. */
-export interface OpenAICompatibleVectorizer extends BaseVectorSearchVectorizer {
-  /** The vectorizer discriminator. */
-  kind: "openAICompatible";
-  /** Endpoint, embedding profile, and authentication configuration. */
-  openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
-}
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
@@ -3168,12 +3137,7 @@ export type KnowledgeSource =
   | IndexedOneLakeKnowledgeSource
   | IndexedSqlKnowledgeSource
   | FileKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource
-  | WorkIQKnowledgeSource
-  | McpServerKnowledgeSource
-  | FabricDataAgentKnowledgeSource
-  | FabricOntologyKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3189,12 +3153,7 @@ export interface BaseKnowledgeSource {
     | "indexedOneLake"
     | "indexedSql"
     | "file"
-    | "web"
-    | "remoteSharePoint"
-    | "workIQ"
-    | "mcpServer"
-    | "fabricDataAgent"
-    | "fabricOntology";
+    | "web";
   /**
    * The name of the knowledge source.
    */
@@ -3369,20 +3328,6 @@ export interface IndexedSharePointKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for a knowledge source backed by a remote (live-queried) SharePoint site.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the remote SharePoint knowledge source.
-   */
-  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
-}
-
-/**
  * Parameters for remote SharePoint knowledge source.
  */
 export interface RemoteSharePointKnowledgeSourceParameters {
@@ -3395,34 +3340,6 @@ export interface RemoteSharePointKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for a knowledge source backed by WorkIQ.
- */
-export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "workIQ";
-  /**
-   * The parameters for the WorkIQ knowledge source, including the customer-owned Entra app configuration used for on-behalf-of authentication.
-   */
-  workIQParameters: WorkIQKnowledgeSourceParameters;
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Data Agent.
- */
-export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricDataAgent";
-  /**
-   * The parameters for the Fabric Data Agent knowledge source.
-   */
-  fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
-}
-
-/**
  * Parameters for Fabric Data Agent knowledge source.
  */
 export interface FabricDataAgentKnowledgeSourceParameters {
@@ -3430,20 +3347,6 @@ export interface FabricDataAgentKnowledgeSourceParameters {
   workspaceId: string;
   /** Specifies which Fabric Data Agent to access. */
   dataAgentId: string;
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Ontology.
- */
-export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricOntology";
-  /**
-   * The parameters for the Fabric Ontology knowledge source.
-   */
-  fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
 }
 
 /**
@@ -3508,20 +3411,6 @@ export interface FileKnowledgeSourceParameters {
   queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Names of resources created by the service. */
   readonly createdResources?: Record<string, string>;
-}
-
-/**
- * Configuration for a knowledge source backed by an MCP (Model Context Protocol) server.
- */
-export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "mcpServer";
-  /**
-   * The parameters for the MCP server knowledge source.
-   */
-  mcpServerParameters: McpServerKnowledgeSourceParameters;
 }
 
 /** Parameters for an MCP server knowledge source. */
@@ -3693,10 +3582,7 @@ export interface KnowledgeSourceIngestionParameters {
   networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
 
-export type KnowledgeBaseModel =
-  | KnowledgeBaseAzureOpenAIModel
-  | KnowledgeBaseOpenAICompatibleModel
-  | KnowledgeBaseMicrosoftRetriever1Model;
+export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 /** Specifies the Azure OpenAI resource used to do query planning. */
 export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
@@ -3706,8 +3592,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
   azureOpenAIParameters: AzureOpenAIParameters;
 }
 
-export type KnowledgeSourceVectorizer =
-  KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceOpenAICompatibleVectorizer;
+export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
 
 /** Options for asynchronously ingesting a file. */
 export interface IngestKnowledgeSourceFileOptions extends OperationOptions {

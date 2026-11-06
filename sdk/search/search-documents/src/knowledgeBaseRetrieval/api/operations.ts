@@ -5,22 +5,40 @@ import type { KnowledgeBaseRetrievalContext as Client } from "./index.js";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import {
   knowledgeBaseRetrievalRequestSerializer,
   knowledgeBaseRetrievalResponseDeserializer,
+  knowledgeBaseRetrievalStartedEventDeserializer,
+  knowledgeBaseActivityStartedEventDeserializer,
+  knowledgeBaseActivityRecordUnionDeserializer,
+  knowledgeBaseAnswerCompletedEventDeserializer,
+  knowledgeBaseReferenceUnionArrayDeserializer,
+  knowledgeBaseStreamErrorEventDeserializer,
+  knowledgeBaseResponseCompletedEventDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import type { RetrieveStreamResponse } from "../../models/models.js";
+import {
+  getSseResponse,
+  parseSseErrorResponse,
+  cancelSseResponse,
+} from "#platform/static-helpers/getSseResponse";
+import {
+  readSseStream,
+  type SseEventDescriptor,
+} from "#platform/static-helpers/sseStreamingHelpers";
+import { createSseStream, type EventMessage } from "@azure/core-sse";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { createSseStreamError } from "#platform/sseStreamError";
 import type { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-  getBinaryStreamResponse,
-} from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _retrieveStreamSend(
   context: Client,
@@ -58,34 +76,151 @@ export function _retrieveStreamSend(
 }
 
 export async function _retrieveStreamDeserialize(
-  result: PathUncheckedResponse & RetrieveStreamResponse,
-): Promise<RetrieveStreamResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw await createSseStreamError(result);
-  }
-
-  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+  events: AsyncIterable<EventMessage>,
+  descriptors: SseEventDescriptor<
+    | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+    | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+    | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+    | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+    | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+    | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+    | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+  >[],
+): Promise<
+  AsyncIterable<
+    | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+    | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+    | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+    | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+    | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+    | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+    | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+  >
+> {
+  return readSseStream(events, descriptors);
 }
 
 /**
  * Retrieves relevant data from backing stores and streams progress and results as server-sent
  * events.
  *
- * Process the response incrementally using server-sent event framing. Each event contains an
- * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
- * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
- * clients may expose the raw response without typed event parsing. Do not deserialize the
- * complete response body as a single JSON document.
+ * Narrow on the `event` property to access each typed payload. The stream closes at either
+ * `response.completed` or `error`, or when iteration ends early.
+ *
+ * @param context - The retrieval client context.
+ * @param retrievalRequest - The retrieval request to process.
+ * @param options - Options for the streaming retrieval operation.
+ * @returns An async iterable of typed server-sent events.
  */
 export async function retrieveStream(
   context: Client,
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveStreamOptionalParams = { requestOptions: {} },
-): Promise<RetrieveStreamResponse> {
-  const streamableMethod = _retrieveStreamSend(context, retrievalRequest, options);
-  const result = await getBinaryStreamResponse(streamableMethod);
-  return _retrieveStreamDeserialize(result);
+): Promise<
+  AsyncIterable<
+    | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+    | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+    | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+    | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+    | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+    | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+    | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+  >
+> {
+  const response = await getSseResponse(_retrieveStreamSend(context, retrievalRequest, options));
+  if (response.status !== "200") {
+    const result = await parseSseErrorResponse(response);
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+    throw error;
+  }
+
+  const responseContentType = Object.entries(response.headers)
+    .find(([name]) => name.toLowerCase() === "content-type")?.[1]
+    ?.split(";", 1)[0]
+    .trim()
+    .toLowerCase();
+  if (responseContentType !== "text/event-stream" || !response.body) {
+    const error = createRestError(response);
+    try {
+      await cancelSseResponse(response);
+    } catch (cleanupError) {
+      throw new AggregateError([error, cleanupError], "Unable to cancel invalid SSE response.", {
+        cause: cleanupError,
+      });
+    }
+    throw error;
+  }
+
+  const descriptors: SseEventDescriptor<
+    | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+    | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+    | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+    | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+    | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+    | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+    | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+  >[] = [
+    {
+      eventName: "retrieval.started",
+      isTerminal: false,
+      deserialize: (data) => ({
+        event: "retrieval.started",
+        data: knowledgeBaseRetrievalStartedEventDeserializer(data),
+      }),
+    },
+    {
+      eventName: "activity.started",
+      isTerminal: false,
+      deserialize: (data) => ({
+        event: "activity.started",
+        data: knowledgeBaseActivityStartedEventDeserializer(data),
+      }),
+    },
+    {
+      eventName: "activity.completed",
+      isTerminal: false,
+      deserialize: (data) => ({
+        event: "activity.completed",
+        data: knowledgeBaseActivityRecordUnionDeserializer(data),
+      }),
+    },
+    {
+      eventName: "answer.completed",
+      isTerminal: false,
+      deserialize: (data) => ({
+        event: "answer.completed",
+        data: knowledgeBaseAnswerCompletedEventDeserializer(data),
+      }),
+    },
+    {
+      eventName: "references.completed",
+      isTerminal: false,
+      deserialize: (data) => ({
+        event: "references.completed",
+        data: knowledgeBaseReferenceUnionArrayDeserializer(data),
+      }),
+    },
+    {
+      eventName: "error",
+      isTerminal: true,
+      deserialize: (data) => ({
+        event: "error",
+        data: knowledgeBaseStreamErrorEventDeserializer(data),
+      }),
+    },
+    {
+      eventName: "response.completed",
+      isTerminal: true,
+      deserialize: (data) => ({
+        event: "response.completed",
+        data: knowledgeBaseResponseCompletedEventDeserializer(data),
+      }),
+    },
+  ];
+  return _retrieveStreamDeserialize(createSseStream(response.body), descriptors);
 }
 
 export function _retrieveSend(

@@ -3,6 +3,7 @@
 
 import type { SearchContext, SearchClientOptionalParams } from "./api/index.js";
 import { createSearch } from "./api/index.js";
+import type { GetDocumentCountResponse } from "../models/models.js";
 import type {
   GraphQueryResult,
   SearchDocumentsResult,
@@ -125,7 +126,7 @@ export class SearchClient {
   /** Queries the number of documents in the index. */
   getDocumentCount(
     options: GetDocumentCountOptionalParams = { requestOptions: {} },
-  ): Promise<number> {
+  ): Promise<GetDocumentCountResponse> {
     return getDocumentCount(this._client, options);
   }
 

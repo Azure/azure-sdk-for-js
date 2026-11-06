@@ -2553,12 +2553,6 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
-export interface RandomScoringFunction extends ScoringFunction {
-    parameters?: RandomScoringParameters;
-    type: "random";
-}
-
-// @public
 export interface RandomScoringParameters {
     seedParameter: string;
 }
@@ -2609,6 +2603,8 @@ export interface ScalarQuantizationParameters {
 
 // @public
 export interface ScoringFunction {
+    boost: number;
+    fieldName: string;
     interpolation?: ScoringFunctionInterpolation;
     type: string;
 }
@@ -2620,7 +2616,7 @@ export type ScoringFunctionAggregation = "sum" | "average" | "minimum" | "maximu
 export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
 
 // @public
-export type ScoringFunctionUnion = RandomScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction | ScoringFunction;
+export type ScoringFunctionUnion = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction | ScoringFunction;
 
 // @public
 export interface ScoringProfile {
@@ -3064,8 +3060,8 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    knowledgeBaseCounter: ResourceCounter;
-    knowledgeSourceCounter: ResourceCounter;
+    knowledgeBaseCounter?: ResourceCounter;
+    knowledgeSourceCounter?: ResourceCounter;
     skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;

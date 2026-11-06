@@ -6,7 +6,6 @@ export type { ErrorResponse, ErrorDetail, ErrorAdditionalInfo } from "./errorMod
 export type { ScoringFunction as ScoringFunctionBase } from "./models/azure/search/documents/indexes/index.js";
 export { KnownOperationState, type OperationState } from "./models/index.js";
 export type { GraphOptions, GraphQueryError } from "./indexModels.js";
-export type { RandomScoringFunction, OpenAICompatibleVectorizer } from "./serviceModels.js";
 export type {
   IngestKnowledgeSourceFileOptions,
   BeginIngestKnowledgeSourceFileOptions,
@@ -511,6 +510,7 @@ export {
   type BlobIndexerParsingMode,
   type WordDelimiterTokenFilter,
   type ContentUnderstandingSkillChunkingMethod,
+  KnownContentUnderstandingSkillChunkingMethod,
   type SharePointConnectorAppRegistration,
   type FileKnowledgeSourceExtractionMode,
   type ListingSearchType,
@@ -741,7 +741,6 @@ export {
   type QueryAnswerResult,
   type QueryCaptionResult,
   type RegexFlags,
-  type RemoteSharePointKnowledgeSource,
   type RemoteSharePointKnowledgeSourceParameters,
   type ListIndexStatsSummaryOptions,
   type UploadKnowledgeSourceFileOptions,
@@ -796,17 +795,13 @@ export {
   type WebApiSkills,
   type WebApiVectorizer,
   type WebKnowledgeSource,
-  type WorkIQKnowledgeSource,
-  type FabricDataAgentKnowledgeSource,
   type FabricDataAgentKnowledgeSourceParameters,
-  type FabricOntologyKnowledgeSource,
   type FabricOntologyKnowledgeSourceParameters,
   type IndexedSqlKnowledgeSource,
   type IndexedSqlKnowledgeSourceParameters,
   type ResourceListingOptions,
   type FileKnowledgeSource,
   type FileKnowledgeSourceParameters,
-  type McpServerKnowledgeSource,
   type McpServerKnowledgeSourceParameters,
   type McpServerAuthentication,
   type McpServerAuthenticationUnion,

@@ -7,6 +7,11 @@
 import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
+export type GetDocumentCountResponse = {
+    body: number;
+};
+
+// @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokensCount?: number;
     model?: KnowledgeBaseActivityRecordModel;

@@ -82,7 +82,7 @@ export class SearchClient {
     autocompleteGet(searchText: string, suggesterName: string, options?: AutocompleteGetOptionalParams): Promise<AutocompleteResult>;
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
-    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
+    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
     graph(gql: string, options?: GraphOptionalParams): Promise<GraphQueryResult>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;

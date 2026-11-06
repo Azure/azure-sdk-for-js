@@ -21,12 +21,15 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { KnowledgeBase, McpServerKnowledgeSource } from "@azure/search-documents";
+import type {
+  KnowledgeBase,
+  McpServerKnowledgeSource,
+} from "@azure/search-documents/models/azure/search/documents/indexes";
+import { SearchIndexClient } from "@azure/search-documents/searchIndex";
 import {
   KnowledgeRetrievalClient,
   KnownKnowledgeSourceResultsProcessing,
   KnownMcpServerOutputParsingKind,
-  SearchIndexClient,
 } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
@@ -54,7 +57,7 @@ async function main(): Promise<void> {
     kind: "mcpServer",
     description: "MCP server knowledge source delegating retrieval to a remote MCP endpoint.",
     mcpServerParameters: {
-      serverUrl: mcpServerUrl || "https://contoso.example.com/mcp",
+      serverURL: mcpServerUrl || "https://contoso.example.com/mcp",
       authentication: {
         kind: "storedHeaders",
         storedHeadersParameters: {

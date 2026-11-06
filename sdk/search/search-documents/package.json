@@ -359,6 +359,46 @@
       }
     }
   },
+  "typesVersions": {
+    "*": {
+      "search": [
+        "dist/commonjs/search/index.d.ts"
+      ],
+      "search/api": [
+        "dist/commonjs/search/api/index.d.ts"
+      ],
+      "searchIndex": [
+        "dist/commonjs/searchIndex/index.d.ts"
+      ],
+      "searchIndex/api": [
+        "dist/commonjs/searchIndex/api/index.d.ts"
+      ],
+      "searchIndexer": [
+        "dist/commonjs/searchIndexer/index.d.ts"
+      ],
+      "searchIndexer/api": [
+        "dist/commonjs/searchIndexer/api/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval": [
+        "dist/commonjs/knowledgeBaseRetrieval/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval/api": [
+        "dist/commonjs/knowledgeBaseRetrieval/api/index.d.ts"
+      ],
+      "models": [
+        "dist/commonjs/models/index.d.ts"
+      ],
+      "models/azure/search/documents": [
+        "dist/commonjs/models/azure/search/documents/index.d.ts"
+      ],
+      "models/azure/search/documents/indexes": [
+        "dist/commonjs/models/azure/search/documents/indexes/index.d.ts"
+      ],
+      "models/azure/search/documents/knowledgeBases": [
+        "dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts"
+      ]
+    }
+  },
   "imports": {
     "#platform/*": {
       "browser": "./src/*-browser.mts",

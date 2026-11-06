@@ -34,5 +34,12 @@ export async function getSseStream(
     throw createSseError(response);
   }
 
+  if (
+    response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
+  ) {
+    response.body.destroy();
+    throw createSseError(response);
+  }
+
   return createSseStream(response.body as IncomingMessage);
 }

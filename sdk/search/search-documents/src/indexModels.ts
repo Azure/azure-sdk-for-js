@@ -235,10 +235,7 @@ export type SearchIterator<
  * The query parameters for vector and hybrid search queries.
  */
 export type VectorQuery<TModel extends object> =
-  | VectorizedQuery<TModel>
-  | VectorizableTextQuery<TModel>
-  | VectorizableImageUrlQuery<TModel>
-  | VectorizableImageBinaryQuery<TModel>;
+  VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
 
 /**
  * The query parameters for vector and hybrid search queries.
@@ -509,7 +506,7 @@ export type SearchRequestQueryTypeOptions =
        */
       semanticSearchOptions: SemanticSearchOptions;
     }
-  | { queryType?: "simple" | "full" | "agentic" };
+  | { queryType?: "simple" | "full" };
 
 /**
  * Contains a document found by a search query, plus associated metadata.

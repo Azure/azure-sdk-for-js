@@ -82,7 +82,10 @@ export enum KnownVersions {
   V20261101Preview = "2026-11-01-preview",
 }
 
-/** Platform-specific raw response returned by the protocol streaming retrieval operation. */
+/** The response from the protocol document-count operation. */
+export type GetDocumentCountResponse = { body: number };
+
+/** Platform-specific raw streaming response, retained for compatibility. */
 export type RetrieveStreamResponse = {
   /**
    * BROWSER ONLY

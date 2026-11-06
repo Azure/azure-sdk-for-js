@@ -56,8 +56,9 @@ function createRecorderStartOptions(): RecorderStartOptions {
 }
 
 function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
-  const uriDomainMap: Pick<Env, (typeof uriEnvVars)[number]> = {
-    ENDPOINT: "search.windows.net",
+  const uriDomainMap = {
+    ENDPOINT: String.raw`(?:search\.windows\.net|search-ppe\.windows-int\.net)`,
+    AZURE_OPENAI_ENDPOINT: String.raw`openai\.azure\.com`,
   };
 
   const subdomains = Object.entries(uriDomainMap)
@@ -76,7 +77,13 @@ function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
     };
   });
 
-  return generalSanitizers;
+  return [
+    ...generalSanitizers,
+    {
+      target: "search-ppe.windows-int.net",
+      value: "search.windows.net",
+    },
+  ];
 }
 
 export async function createClients<IndexModel extends object>(

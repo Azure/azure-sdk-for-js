@@ -26,7 +26,8 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KnowledgeRetrievalClient, SearchIndexClient } = require("@azure/search-documents");
+const { KnowledgeRetrievalClient } = require("@azure/search-documents");
+const { SearchIndexClient } = require("@azure/search-documents/searchIndex");
 
 require("dotenv").config();
 
