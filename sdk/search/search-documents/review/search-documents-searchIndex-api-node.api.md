@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import { NodeReadableStream } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -161,7 +161,7 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 export function deleteKnowledgeSource(context: SearchIndexContext, name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
 
 // @public
-export function deleteKnowledgeSourceFile(context: SearchIndexContext, fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+export function deleteKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
 
 // @public
 export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -261,7 +261,7 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
+export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
 
 // @public
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
@@ -360,6 +360,19 @@ export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
 }
 
 // @public
+export function listSynonymMaps(context: SearchIndexContext, options?: ListSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
+
+// @public
+export interface ListSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
 export interface SearchIndexClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
@@ -370,7 +383,7 @@ export interface SearchIndexContext extends Client {
 }
 
 // @public
-export function updateKnowledgeSourceFile(context: SearchIndexContext, fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+export function updateKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -378,18 +391,10 @@ export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOption
 }
 
 // @public
-export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
-
-// @public
-export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
 
