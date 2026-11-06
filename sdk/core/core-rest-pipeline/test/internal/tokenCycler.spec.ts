@@ -257,6 +257,36 @@ describe("tokenCycler", function () {
     await expect(claims).resolves.toMatchObject({ token: "claims" });
   });
 
+  it("restores cache ownership when a claims worker is rejoined", async function () {
+    const resolvers: Array<
+      (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
+    > = [];
+    const getToken = vi.fn<TokenCredential["getToken"]>(
+      () =>
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>(
+          (resolve) => {
+            resolvers.push(resolve);
+          },
+        ),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+    const firstClaims = getAccessToken(["scope"], { claims: "claims-a" });
+    const newerClaims = getAccessToken(["scope"], { claims: "claims-b" });
+
+    resolvers[1]!({ token: "newer", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(newerClaims).resolves.toMatchObject({ token: "newer" });
+    const rejoinedClaims = getAccessToken(["scope"], { claims: "claims-a" });
+    expect(getToken).toHaveBeenCalledTimes(2);
+
+    resolvers[0]!({ token: "rejoined", expiresOnTimestamp: Date.now() + 300_000 });
+    await expect(firstClaims).resolves.toMatchObject({ token: "rejoined" });
+    await expect(rejoinedClaims).resolves.toMatchObject({ token: "rejoined" });
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({
+      token: "rejoined",
+    });
+    expect(getToken).toHaveBeenCalledTimes(2);
+  });
+
   it("does not let invalidated workers suppress proactive renewal", async function () {
     const resolvers: Array<
       (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void
@@ -281,12 +311,17 @@ describe("tokenCycler", function () {
     await expect(claims).resolves.toMatchObject({ token: "claims" });
     const proactive = getAccessToken(["scope"], {});
     expect(getToken).toHaveBeenCalledTimes(3);
+    await expect(proactive).resolves.toMatchObject({ token: "claims" });
     resolvers[2]!({
       token: "renewed",
       expiresOnTimestamp: Date.now() + 300_000,
     });
     resolvers[0]!({ token: "old", expiresOnTimestamp: Date.now() + 300_000 });
-    await expect(proactive).resolves.toMatchObject({ token: "renewed" });
+    await vi.waitFor(async () => {
+      await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({
+        token: "renewed",
+      });
+    });
     await expect(oldWorker).resolves.toMatchObject({ token: "old" });
   });
 
