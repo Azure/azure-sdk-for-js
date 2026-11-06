@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the ManagedOps instance with the supplied fields.
  *
  * @summary updates the ManagedOps instance with the supplied fields.
- * x-ms-original-file: 2025-07-28-preview/ManagedOps_Update.json
+ * x-ms-original-file: 2026-01-06-preview/ManagedOps_Update.json
  */
 async function managedOpsUpdate() {
   const credential = new DefaultAzureCredential();

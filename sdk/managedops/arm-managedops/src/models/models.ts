@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -205,7 +206,7 @@ export function managedOpDeserializer(item: any): ManagedOp {
 /** Properties of the ManagedOps resource. */
 export interface ManagedOpsProperties {
   /** Product plan details of this resource. */
-  readonly sku?: Sku;
+  sku?: Sku;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
   /** Desired configuration input by the user. */
@@ -217,7 +218,10 @@ export interface ManagedOpsProperties {
 }
 
 export function managedOpsPropertiesSerializer(item: ManagedOpsProperties): any {
-  return { desiredConfiguration: desiredConfigurationSerializer(item["desiredConfiguration"]) };
+  return {
+    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
+    desiredConfiguration: desiredConfigurationSerializer(item["desiredConfiguration"]),
+  };
 }
 
 export function managedOpsPropertiesDeserializer(item: any): ManagedOpsProperties {
@@ -237,9 +241,13 @@ export function managedOpsPropertiesDeserializer(item: any): ManagedOpsPropertie
 /** Specifies the service plan for this resource. */
 export interface Sku {
   /** Name of the SKU. */
-  name: string;
+  name: SkuName;
   /** Pricing tier of the SKU. */
-  tier: string;
+  tier: SkuTier;
+}
+
+export function skuSerializer(item: Sku): any {
+  return { name: item["name"], tier: item["tier"] };
 }
 
 export function skuDeserializer(item: any): Sku {
@@ -248,6 +256,36 @@ export function skuDeserializer(item: any): Sku {
     tier: item["tier"],
   };
 }
+
+/** The name of the SKU. */
+export enum KnownSkuName {
+  /** ManagedOps SKU. */
+  ManagedOps = "ManagedOps",
+}
+
+/**
+ * The name of the SKU. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedOps**: ManagedOps SKU.
+ */
+export type SkuName = string;
+
+/** The pricing tier of the SKU. */
+export enum KnownSkuTier {
+  /** Essential tier. */
+  Essential = "Essential",
+}
+
+/**
+ * The pricing tier of the SKU. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Essential**: Essential tier.
+ */
+export type SkuTier = string;
 
 /** The provisioning state of a resource. */
 export enum KnownProvisioningState {
@@ -261,6 +299,8 @@ export enum KnownProvisioningState {
   Provisioning = "Provisioning",
   /** The resource is being deleted. */
   Deleting = "Deleting",
+  /** The resource has been accepted for provisioning. */
+  Accepted = "Accepted",
 }
 
 /**
@@ -272,7 +312,8 @@ export enum KnownProvisioningState {
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
  * **Provisioning**: The resource has begun provisioning. \
- * **Deleting**: The resource is being deleted.
+ * **Deleting**: The resource is being deleted. \
+ * **Accepted**: The resource has been accepted for provisioning.
  */
 export type ProvisioningState = string;
 
@@ -409,12 +450,17 @@ export interface ChangeTrackingInformation {
   dcrId: string;
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function changeTrackingInformationDeserializer(item: any): ChangeTrackingInformation {
   return {
     dcrId: item["dcrId"],
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -442,18 +488,38 @@ export enum KnownEnablementState {
  */
 export type EnablementState = string;
 
+/** Details of an error encountered during enabling a service. */
+export interface ErrorDetails {
+  /** Error code. */
+  code: string;
+  /** Detailed error message. */
+  message: string;
+}
+
+export function errorDetailsDeserializer(item: any): ErrorDetails {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
 /** Azure Monitor Insights service information. */
 export interface AzureMonitorInformation {
   /** ID of Data Collection Rule (DCR) associated with this service. */
   dcrId: string;
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function azureMonitorInformationDeserializer(item: any): AzureMonitorInformation {
   return {
     dcrId: item["dcrId"],
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -461,11 +527,16 @@ export function azureMonitorInformationDeserializer(item: any): AzureMonitorInfo
 export interface UpdateManagerInformation {
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function updateManagerInformationDeserializer(item: any): UpdateManagerInformation {
   return {
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -473,6 +544,8 @@ export function updateManagerInformationDeserializer(item: any): UpdateManagerIn
 export interface GuestConfigurationInformation {
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function guestConfigurationInformationDeserializer(
@@ -480,6 +553,9 @@ export function guestConfigurationInformationDeserializer(
 ): GuestConfigurationInformation {
   return {
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -487,6 +563,8 @@ export function guestConfigurationInformationDeserializer(
 export interface DefenderForServersInformation {
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function defenderForServersInformationDeserializer(
@@ -494,6 +572,9 @@ export function defenderForServersInformationDeserializer(
 ): DefenderForServersInformation {
   return {
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -501,11 +582,16 @@ export function defenderForServersInformationDeserializer(
 export interface DefenderCspmInformation {
   /** Indicates whether the service is enabled. */
   enablementStatus: EnablementState;
+  /** Optional error message if the service is in Failed state. */
+  errorDetails?: ErrorDetails;
 }
 
 export function defenderCspmInformationDeserializer(item: any): DefenderCspmInformation {
   return {
     enablementStatus: item["enablementStatus"],
+    errorDetails: !item["errorDetails"]
+      ? item["errorDetails"]
+      : errorDetailsDeserializer(item["errorDetails"]),
   };
 }
 
@@ -524,8 +610,8 @@ export function policyAssignmentPropertiesDeserializer(item: any): PolicyAssignm
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -551,8 +637,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -690,4 +776,6 @@ export function desiredConfigurationUpdateSerializer(item: DesiredConfigurationU
 export enum KnownVersions {
   /** 2025-07-28-preview */
   V20250728Preview = "2025-07-28-preview",
+  /** 2026-01-06-preview */
+  V20260106Preview = "2026-01-06-preview",
 }

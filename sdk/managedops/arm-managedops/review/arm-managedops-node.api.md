@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -32,6 +34,7 @@ export interface AzureMonitorConfiguration {
 export interface AzureMonitorInformation {
     dcrId: string;
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
 
 // @public
@@ -46,6 +49,7 @@ export interface ChangeTrackingConfiguration {
 export interface ChangeTrackingInformation {
     dcrId: string;
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
 
 // @public
@@ -59,11 +63,13 @@ export type CreatedByType = string;
 // @public
 export interface DefenderCspmInformation {
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
 
 // @public
 export interface DefenderForServersInformation {
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
 
 // @public
@@ -103,6 +109,12 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorDetails {
+    code: string;
+    message: string;
+}
+
+// @public
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
@@ -110,7 +122,10 @@ export interface ErrorResponse {
 // @public
 export interface GuestConfigurationInformation {
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -148,6 +163,7 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
+    Accepted = "Accepted",
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -156,8 +172,19 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSkuName {
+    ManagedOps = "ManagedOps"
+}
+
+// @public
+export enum KnownSkuTier {
+    Essential = "Essential"
+}
+
+// @public
 export enum KnownVersions {
-    V20250728Preview = "2025-07-28-preview"
+    V20250728Preview = "2025-07-28-preview",
+    V20260106Preview = "2026-01-06-preview"
 }
 
 // @public
@@ -212,7 +239,7 @@ export interface ManagedOpsProperties {
     readonly policyAssignmentProperties?: PolicyAssignmentProperties;
     readonly provisioningState?: ProvisioningState;
     readonly services?: ServiceInformation;
-    readonly sku?: Sku;
+    sku?: Sku;
 }
 
 // @public
@@ -291,6 +318,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ManagedOpsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -313,9 +342,15 @@ export interface ServiceInformation {
 
 // @public
 export interface Sku {
-    name: string;
-    tier: string;
+    name: SkuName;
+    tier: SkuTier;
 }
+
+// @public
+export type SkuName = string;
+
+// @public
+export type SkuTier = string;
 
 // @public
 export interface SystemData {
@@ -330,6 +365,7 @@ export interface SystemData {
 // @public
 export interface UpdateManagerInformation {
     enablementStatus: EnablementState;
+    errorDetails?: ErrorDetails;
 }
 
 // (No @packageDocumentation comment for this package)
