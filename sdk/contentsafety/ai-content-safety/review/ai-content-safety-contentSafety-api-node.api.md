@@ -52,10 +52,15 @@ export interface ShieldPromptOptionalParams extends OperationOptions {
 }
 
 // @public
-export function unifiedModerate(context: ContentSafetyContext, body: UnifiedModerateOptions, options?: UnifiedModerateOptionalParams): Promise<UnifiedModerateResult>;
+export function unifiedModerate(context: ContentSafetyContext, body: AgentContextUnion, options?: UnifiedModerateOptionalParams): Promise<AgentEvaluationResult>;
 
 // @public
 export interface UnifiedModerateOptionalParams extends OperationOptions {
+    policyId?: string;
+    selectedPolicyId?: string;
+    selectedPolicyRevision?: string;
+    selectedPolicySemanticDigest?: string;
+    targetResourceId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
