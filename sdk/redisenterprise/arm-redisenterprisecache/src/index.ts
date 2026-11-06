@@ -65,6 +65,8 @@ export type {
   SourceType,
   MigrationProvisioningState,
   AzureCacheForRedisMigrationProperties,
+  MigrationUndoRequest,
+  MigrationRollbackReason,
   MigrationValidationRequest,
   MigrationValidationResponse,
   MigrationValidationError,
@@ -91,6 +93,7 @@ export type {
   MaintenanceWindowType,
   MaintenanceWindowSchedule,
   MaintenanceDayOfWeek,
+  FirewallRule,
   RedundancyMode,
   TrackedResource,
   ClusterUpdate,
@@ -101,7 +104,6 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
-  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
   OperationStatus,
 } from "./models/index.js";
@@ -137,11 +139,12 @@ export {
 } from "./models/index.js";
 export type { RedisEnterpriseManagementClientOptionalParams } from "./api/index.js";
 export type {
-  AccessPolicyAssignmentListOptionalParams,
-  AccessPolicyAssignmentDeleteOptionalParams,
-  AccessPolicyAssignmentCreateUpdateOptionalParams,
-  AccessPolicyAssignmentGetOptionalParams,
-} from "./api/accessPolicyAssignment/index.js";
+  AccessPolicyAssignmentOperationsListOptionalParams,
+  AccessPolicyAssignmentOperationsDeleteOptionalParams,
+  AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
+  AccessPolicyAssignmentOperationsGetOptionalParams,
+} from "./api/accessPolicyAssignmentOperations/index.js";
+export type { ClustersUnlinkMigratedEndpointOptionalParams } from "./api/clusters/index.js";
 export type {
   DatabasesUpgradeDBRedisVersionOptionalParams,
   DatabasesFlushOptionalParams,
@@ -159,7 +162,8 @@ export type {
 } from "./api/databases/index.js";
 export type {
   MigrationsValidateOptionalParams,
-  MigrationsCancelOptionalParams,
+  MigrationsUnlinkMigratedEndpointOptionalParams,
+  MigrationsUndoOptionalParams,
   MigrationsListOptionalParams,
   MigrationsStartOptionalParams,
   MigrationsGetOptionalParams,
@@ -183,7 +187,8 @@ export type {
   RedisEnterpriseGetOptionalParams,
 } from "./api/redisEnterprise/index.js";
 export type {
-  AccessPolicyAssignmentOperations,
+  AccessPolicyAssignmentOperationsOperations,
+  ClustersOperations,
   DatabasesOperations,
   MigrationsOperations,
   OperationsOperations,

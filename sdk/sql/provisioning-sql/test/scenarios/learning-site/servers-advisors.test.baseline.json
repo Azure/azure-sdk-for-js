@@ -1,0 +1,47 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversadvisorsserve"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "advisor": {
+          "bicepIdentifier": "advisor",
+          "type": "Microsoft.Sql/servers/advisors",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversadvisorsserve"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

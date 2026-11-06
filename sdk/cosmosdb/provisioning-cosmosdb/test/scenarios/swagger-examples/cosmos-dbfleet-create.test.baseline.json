@@ -1,0 +1,59 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "fleet": {
+          "bicepIdentifier": "fleet",
+          "type": "Microsoft.DocumentDB/fleets",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleet1"
+              },
+              "location": {
+                "kind": "string",
+                "value": "West US"
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "Dept": {
+                    "kind": "string",
+                    "value": "Finance"
+                  },
+                  "Environment": {
+                    "kind": "string",
+                    "value": "Production"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "fleet"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

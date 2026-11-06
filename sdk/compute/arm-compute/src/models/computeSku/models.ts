@@ -177,9 +177,9 @@ export interface ResourceSkuZoneDetails {
 
 export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
   return {
-    name: !item["name"]
-      ? item["name"]
-      : item["name"].map((p: any) => {
+    name: !item["Name"]
+      ? item["Name"]
+      : item["Name"].map((p: any) => {
           return p;
         }),
     capabilities: !item["capabilities"]

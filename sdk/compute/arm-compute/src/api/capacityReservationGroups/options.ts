@@ -23,7 +23,10 @@ export interface CapacityReservationGroupsListByResourceGroupOptionalParams exte
 }
 
 /** Optional parameters. */
-export interface CapacityReservationGroupsDeleteOptionalParams extends OperationOptions {}
+export interface CapacityReservationGroupsDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsUpdateOptionalParams extends OperationOptions {}

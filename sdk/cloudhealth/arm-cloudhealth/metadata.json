@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.CloudHealth": "2026-10-01-preview"
+    "Microsoft.CloudHealth": "2026-11-01"
   },
-  "emitterVersion": "0.57.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.CloudHealth",
     "CrossLanguageDefinitionId": {

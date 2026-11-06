@@ -1120,3 +1120,60 @@ test("custom-only aliases of emitted models follow the emitted shape but keep th
     "target of a maintained custom-only alias",
   );
 });
+
+test("recovery routes a kept declaration's missing emitted additions to the unapplied list", () => {
+  const base = "export interface Tool { name: string; }";
+  const customized = "export interface Tool { name: string; custom?: string; }";
+  const incoming = "export interface Tool { name: string; added?: string; }";
+  const kept = modelFixture(base, customized, incoming, customized);
+  has(validate(kept), "Tool", "added", "Missing newly emitted model or options member");
+
+  const unapplied = [];
+  const retained = new Set(["models/models.ts::Tool"]);
+  assert.deepEqual(validate({ ...kept, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "models/models.ts",
+      declaration: "Tool",
+      member: "added",
+      kind: "model or options member",
+    },
+  ]);
+
+  // Only a declaration the recovery run kept is excused, and only when the caller
+  // collects the additions: nothing is dropped silently.
+  const elsewhere = new Set(["models/models.ts::Other"]);
+  has(validate({ ...kept, retained: elsewhere, unapplied: [] }), "Tool", "added");
+  has(validate({ ...kept, retained }), "Tool", "added");
+
+  // Every other finding about a kept declaration stays an error.
+  const lost = modelFixture(base, customized, incoming, base);
+  has(validate({ ...lost, retained, unapplied: [] }), "Tool", "custom", "Lost custom-only member");
+});
+
+test("recovery routes a kept Send function's missing request-body mapping", () => {
+  const send = (
+    body,
+  ) => `export function _createSend(context: Client, name: string, options: CreateOptionalParams = { requestOptions: {} }): StreamableMethod {
+  return context.path("/items").post({ body: { ${body} } });
+}`;
+  const files = (text) => tree({ "api/items/operations.ts": text });
+  const fixture = {
+    baseGenerated: files(send("name: name")),
+    baseSource: files(send("name: name")),
+    generated: files(send("name: name, extra: options?.extra")),
+    source: files(send("name: name")),
+  };
+  has(validate(fixture), "_createSend", "extra", "Missing newly emitted Send request-body mapping");
+  const unapplied = [];
+  const retained = new Set(["api/items/operations.ts::_createSend"]);
+  assert.deepEqual(validate({ ...fixture, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "api/items/operations.ts",
+      declaration: "_createSend",
+      member: "extra",
+      kind: "Send request-body mapping",
+    },
+  ]);
+});

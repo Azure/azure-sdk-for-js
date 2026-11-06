@@ -8,13 +8,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified volume
  *
  * @summary patch the specified volume
- * x-ms-original-file: 2026-06-15-preview/Volumes_Update.json
+ * x-ms-original-file: 2026-08-15-preview/Volumes_Update.json
  */
 async function volumesUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const result = await client.volumes.update("myRG", "account1", "pool1", "volume1", {});
+  const result = await client.volumes.update("myRG", "account1", "pool1", "volume1", {
+    properties: { asyncDirectoryDelete: { status: "Enabled", trashBinName: "trash" } },
+  });
   console.log(result);
 }
 

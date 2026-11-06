@@ -438,6 +438,7 @@ function requireDelta(previous, incoming, output, entry, kind, report) {
         entry.name,
         `Missing newly emitted ${kind}; incorporate the generated addition without replacing maintained customizations.`,
         typeof value === "string" ? value : member,
+        kind,
       );
     } else if (
       !previous.has(member) &&
@@ -1175,7 +1176,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
             });
           if (
             !generatedAddition &&
-            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+            !preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames)
           )
             return false;
         }
@@ -1205,24 +1206,35 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
+// Evaluators and Agent Insight Monitors were promoted from beta. The
 // customized client has two auth contexts, unlike the emitted single _client.
-// Admit only the new evaluator factory, using the same context as beta before
+// Admit only the promoted factory, using the same context as beta before
 // promotion; never substitute or rewrite the maintained constructor.
-function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+function preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames) {
+  const member =
+    ts.isExpressionStatement(statement) &&
+    ts.isBinaryExpression(statement.expression) &&
+    ts.isPropertyAccessExpression(statement.expression.left)
+      ? statement.expression.left.name.text
+      : undefined;
+  const factory = {
+    evaluators: "_getEvaluatorsOperations",
+    agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+  }[member];
   if (
+    !factory ||
     !ts.isClassDeclaration(before) ||
     before.name?.text !== "AIProjectClient" ||
     !baseGenerated ||
     !generated ||
     !ts.isClassDeclaration(generated) ||
-    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+    baseGenerated?.members?.some((item) => nameOf(item.name) === member)
   )
     return false;
   const key = (node) => (node ? nodeKey(node, renames) : "");
   const initializers = (node) => classInitializers({ node });
   const previousBeta = unwrap(initializers(before).get("beta"));
-  const emitted = unwrap(initializers(generated).get("evaluators"));
+  const emitted = unwrap(initializers(generated).get(member));
   if (
     !previousBeta ||
     !ts.isCallExpression(previousBeta) ||
@@ -1230,13 +1242,12 @@ function preservesPromotedEvaluatorContext(statement, before, baseGenerated, gen
     !previousBeta.arguments.length ||
     !emitted ||
     !ts.isCallExpression(emitted) ||
-    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
+    emitted.expression.getText() !== factory ||
     emitted.arguments.length !== 1
   )
     return false;
-  const expected = parse(
-    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
-  ).statements[0];
+  const expected = parse(`this.${member} = ${factory}(${previousBeta.arguments[0].getText()});`)
+    .statements[0];
   return key(statement) === key(expected);
 }
 
@@ -1799,6 +1810,17 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
   }
 }
 
+/**
+ * Check that the resolved source incorporates every emitted change and preserves
+ * every customization. Returns the diagnostics for anything that does not.
+ *
+ * A recovery run keeps the customized form of a declaration whose merge was
+ * rejected, so an addition the emitter made to it is knowingly not applied.
+ * When `retained` (the `file::declaration` keys of those declarations) and
+ * `unapplied` (an array) are both passed, such a missing addition is recorded
+ * in `unapplied` instead of being returned as a diagnostic. Every other check,
+ * and every missing addition in a declaration that was not kept, is unchanged.
+ */
 export function validateCustomization({
   baseGenerated,
   baseSource,
@@ -1806,15 +1828,19 @@ export function validateCustomization({
   source,
   matches = [],
   modelRenames = new Map(),
+  retained,
+  unapplied,
 }) {
   const diagnostics = [];
   const reported = new Set();
-  const report = (file, declaration, message, member) => {
+  const report = (file, declaration, message, member, unappliedKind) => {
     const diagnostic = { file, declaration, ...(member === undefined ? {} : { member }), message };
     const key = JSON.stringify(diagnostic);
     if (!reported.has(key)) {
       reported.add(key);
-      diagnostics.push(diagnostic);
+      if (unappliedKind !== undefined && unapplied && retained?.has(`${file}::${declaration}`))
+        unapplied.push({ file, declaration, member, kind: unappliedKind });
+      else diagnostics.push(diagnostic);
     }
   };
   for (const [name, value] of Object.entries({

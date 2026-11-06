@@ -88,6 +88,7 @@ export interface GatewaysOperations {
     options?: GatewaysGetOptionalParams,
   ) => Promise<Gateway>;
 }
+
 function _getGateways(context: HybridComputeManagementContext) {
   return {
     listBySubscription: (options?: GatewaysListBySubscriptionOptionalParams) =>
@@ -151,6 +152,7 @@ function _getGateways(context: HybridComputeManagementContext) {
       get(context, resourceGroupName, gatewayName, options),
   };
 }
+
 export function _getGatewaysOperations(
   context: HybridComputeManagementContext,
 ): GatewaysOperations {

@@ -97,7 +97,7 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "type-plus": "^7.6.2",
+    "type-plus": "^8.0.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

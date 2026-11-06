@@ -44,6 +44,8 @@ export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
     protected aadAudience: string | undefined;
     protected endpointUrl: string;
+    // @internal
+    protected readonly _increaseGenAiMessageLimit: boolean;
     protected instrumentationKey: string;
     protected trackStatsbeat: boolean;
 }

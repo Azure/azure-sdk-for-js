@@ -1,11 +1,11 @@
 ---
 name: apply-post-emitter-edits
-description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
+description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, replacing schemas after feature-flag version increments, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
 ---
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. The `customize` hook reconciles emitted changes with the committed generated and customized trees using the package's guarded resolver. This skill audits that working-tree diff and handles unresolved changes in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory.
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. The `customize` hook reconciles emitted changes with the committed generated and customized trees using the package's guarded resolver. This skill audits that working-tree diff and handles unresolved changes in five categories: recovery-worklist dispositions, conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory.
 
 When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
@@ -16,6 +16,7 @@ When the preceding `regenerate-from-typespec` skill produced `temp/typespec-comm
 - `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
 - You need to apply the standing list of search/replace/rename workarounds to emitted code.
 - You're verifying that protected hand-maintained files were not clobbered.
+- A feature flag advanced and the new generated schema must replace, not include, the previous version's schema.
 
 ## Inputs
 
@@ -35,16 +36,41 @@ then formats and runs the guards again with `--check`. Both local
 `npm run generate:client` and the SDK generation pipeline use this hook.
 See [the resolver workflow](../../../scripts/customization/README.md) for supported
 changes and fixture tests. The audits and per-rule edits below are still required
-for unresolved changes; do not bypass a resolver diagnostic just to make generation pass.
+for unresolved changes. Never bypass a resolver diagnostic by loosening a guard or
+editing `generated/`. When the resolver could not merge a change, `generate-client.ps1`
+continues in recovery mode and writes `temp/customization-worklist.md`; resolve each kept
+change by editing `src/` as Step 0a describes.
+
+SDK Validation runs `npm run customize` in strict mode; it does not invoke
+`generate-client.ps1`'s recovery fallback. For a resolver-policy bug in that
+pipeline, add a regression fixture using the committed generated, committed
+customized, and new emitted inputs, then follow the
+[resolver development checks](../../../scripts/customization/README.md#development).
+Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
+
+For a beta-to-root operation relocation, inspect all three inputs rather than
+assuming the old group was deleted. The resolver follows unique HTTP method/route
+matches, including renamed delete methods and their send/deserialize helpers.
+Plain delegates can follow their own API through parameter-only renames and
+import aliases; defaults, altered forwarding, unrelated callees, and genuinely
+custom-only methods still require review. Verify the destination's emitted
+request body, optional parameters, preview-header retirement, paging/poller
+behavior, classic delegates, and exports. A retired generated preview header
+must not be kept merely because its customized object has a trailing comma.
+For Agent Insight Monitor promotion, verify the new root client member uses
+the former beta group's authentication context and preserves the maintained
+constructor; copying the emitted single-client initialization is not safe.
+Keep an explicit disposition for any custom-only method that cannot be matched;
+never delete it to make relocation pass.
 
 Use this phase order to avoid mixing unrelated decisions:
 
-| Phase          | Steps                            | Exit point                                                                                                                                         |
-| -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected customizations are preserved and intentional deltas audited.                        |
-| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
-| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
-| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
+| Phase          | Steps                            | Exit point                                                                                                                                                                   |
+| -------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 0a, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, protected customizations are preserved and intentional deltas audited. |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                           |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                 |
+| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                      |
 
 ### Recovery: customization stopped on a dirty target
 
@@ -65,6 +91,8 @@ If any affected file had a user change before regeneration, stop and recover tha
 If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
 
 Do not use the guide to keep extensive emitted-code changes that are unrelated to the captured upstream commit descriptions. Use it as the deciding evidence only for specific conflicts between a standing rule and an upstream-described TypeSpec change, such as a removed field, renamed parameter, requiredness change, or hidden protocol method. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
+
+Apply the canonical [feature-flag version increment rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments) when a flag advances. The generated replacement contract takes precedence over retaining the prior schema for compatibility.
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
@@ -90,6 +118,43 @@ Get-ChildItem -Recurse -File src -Include *.ts |
 If the custom side is missing a type that the spec side adds (common when the spec introduces a brand-new model type like `SessionLogEvent`), Step 2 will catch it. Don't try to merge sides by hand here.
 
 Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A conflict can discard a newly generated interface member or request-body property while leaving the file compilable. Immediately after resolving markers, run the member-level check in Step 2a and the duplicate scan from Step 2b. Also compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
+
+### Step 0a: Disposition the recovery worklist (when present)
+
+When strict customization cannot merge an emitted change, `generate-client.ps1` continues in recovery mode, prints `RECOVERY MODE`, and writes `temp/customization-worklist.md`. If that file does not exist, skip to Step 1.
+
+Recovery is a hold, not a resolution. For every entry the resolver kept the **customized** declaration and did **not** apply the emitted change. Decide what each declaration should be after this regeneration, make `src/` say so, and keep going. An unmergeable change is an expected part of regeneration and never a reason to stop: use your best judgement, apply the rubric below, and record the call so a reviewer can overrule it.
+
+Verify with `node scripts/customize.mjs --recover --check`: it re-plans from the committed baseline and is strict without `--recover`, so it would fail on the very entries you have already dealt with. Once you have edited `src/`, never rerun `npm run customize` or a non-check `customize.mjs`: the first refuses a `src/` with uncommitted changes, and the second rewrites `src/` from the committed baseline and discards your edits. `npm run clean`, which `npm run build` and `pnpm turbo build` run, deletes `temp/` including the worklist and `typespec-commit-descriptions.md`, so build with `npx dev-tool run build-package` from here on. If the worklist is lost, `node scripts/customize.mjs --recover --dry-run` rebuilds it without touching `src/` (add `--base-ref <clean-ref>` on a resumed session).
+
+For each entry:
+
+1. **Read it.** The heading is `file::declaration`. "Not merged because" says where the two sides collide. "Emitter change" is what the new emission did to the declaration (committed `generated/` to new `generated/`). "Customization" is what the package did to it (committed `generated/` to committed `src/`). The resolver applied none of the emitter's changes to this declaration, so decide each one.
+2. **Decide**, using the first row that fits.
+
+   | Situation                                                                                                                                                                | Disposition                                                                                                                                                                                                                                       |
+   | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | The emitter now provides what the customization hand-rolled (for example a new `*Create` input model replaces a hand-written request type)                               | **Adopt** the emitted type and serializer. If the hand-rolled type is exported public API, keep it as an alias of the emitted type instead of deleting it.                                                                                        |
+   | The emitter removed or narrowed a property on a model the service still returns (typical when visibility splitting moves create/update-only properties off a read model) | **Keep** the customized property on the interface and on its converters; the resolver may have kept only some of them. Additions-only is the package default (Step 3); removal needs upstream evidence in `temp/typespec-commit-descriptions.md`. |
+   | The emitter changed the wire contract of a kept operation: route, method, headers, body, status codes, paging, or long-running behavior                                  | **Port** the change into the kept code, preserving the customized name, parameter order, tracing, and preview headers. A wire change is never optional.                                                                                           |
+   | The emitter changed parameter or return types while the customization only reordered or renamed parameters                                                               | **Combine**: keep the customized names and order, and adopt the emitted types and serializers.                                                                                                                                                    |
+   | The emitter added a property or member inside a kept declaration                                                                                                         | **Apply** the addition by hand. The worklist lists the ones the guards can identify under "Emitted additions not applied", and the Step 2a parity guard reports each one.                                                                         |
+   | The customization only works around something the new spec fixed or removed                                                                                              | **Drop** it when nothing in `src/`, tests, or samples uses it and it is not exported public API. Otherwise keep it and say why.                                                                                                                   |
+   | Anything else, or two options look equally plausible                                                                                                                     | Choose the one that preserves public API and existing behavior, implement it, and mark it **needs review**.                                                                                                                                       |
+
+3. **Fix the fallout.** A kept declaration can disagree with a neighbor that merged cleanly, for example a public method that now takes `IndexUpdateUnion` while its kept `_createOrUpdateSend` still takes `IndexUnion`, or with hand-written code that builds a type the emitter changed. These surface as compiler errors rather than worklist entries. Find them early with `npx tsc -p tsconfig.src.json --noEmit`, trace each one to the entry that caused it, and change `src/` to match that entry's disposition. Never suppress an error with `@ts-ignore`, `any` casts, or lint disables, and never edit `generated/`.
+4. **Re-verify** after the last edit:
+
+   ```powershell
+   npm run format
+   node scripts/customize.mjs --recover --check
+   node .github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs
+   npx tsc -p tsconfig.src.json --noEmit
+   ```
+
+5. **Record every disposition.** Keep a table for `open-regeneration-pr` to put in the pull request description, with one row per entry (plus one per separate decision an entry needed): the entry, the disposition (adopt, keep, port, combine, apply, or drop), and a one-line reason. Add **needs review** where you were unsure. An entry is not done until it has a row.
+
+If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
 
 ### Step 1: Pre-flight — verify protected files are intact
 
@@ -173,7 +238,7 @@ For each `missing` entry, **first classify it** as one of:
 
 Then, for each genuine addition:
 
-1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. The "additions only" rule means **only add**; never delete or modify existing entries even if `generated/` did so.
+1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. Apply the additions-only default except for validated removals and the [feature-flag schema replacement rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments).
 2. **Operations** (`src/api/.../operations.ts`): paste the new operation function plus its `*Send` and `*Deserialize` helpers, AND any new imports they require (e.g. `SessionLogEvent`, `sessionLogEventDeserializer`). **After pasting, re-apply Step 4 (a) below**: if the new method takes `foundryFeatures` as a positional parameter, refactor it to instantiate `foundryFeatures` locally instead.
 3. **Classic surface** (`src/classic/.../index.ts`): paste the new method onto the operations interface and the factory return object. Same `foundryFeatures` rule.
 4. **Beta union members** (e.g. a new `FabricIQPreviewTool` added to `ToolUnion`): also update the `*Serializer` / `*Deserializer` switch statements that dispatch on the union discriminator.
@@ -279,6 +344,8 @@ Review `git diff` for `src/models/models.ts` and `src/models/index.ts`. Addition
 default: revert deletions or modifications to existing models unless the upstream evidence from
 Step -1 and the current `generated/` versus `HEAD:generated/` diff establish that the target spec
 intentionally removed them.
+
+For a [feature-flag version increment](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments), reconcile the affected contracts to the target generated schema rather than preserving an inclusive old/new schema. Apply this exception to options and shared flag unions as well as models, even if the target generated files were committed in an earlier regeneration.
 
 Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
 
@@ -443,10 +510,13 @@ npm run check-format
 
 ## Hand-off
 
-Once the build is green, hand off to the `author-samples` skill.
+Once the build is green, hand off to the `author-samples` skill. When Step 0a produced a disposition table, carry it forward for `open-regeneration-pr`.
 
 ## Anti-patterns
 
+- Do **not** stop, or report a failed regeneration, because `npm run customize` printed `Customization rejected N unresolved or unsafe change(s)` or `missing resolved operation ...`. Strict rejection is expected. `generate-client.ps1` recovers, and Step 0a gives every kept change a disposition.
+- Do **not** call a worklist entry resolved because `src/` compiles. A kept declaration can silently miss an emitted wire change, so each entry needs a decision and a row in the disposition table.
+- Do **not** run `customize.mjs --check` without `--recover` after recovery (it is strict without it and fails on entries you have already dealt with), and never rerun a non-check `customize.mjs` or `npm run customize` once `src/` has your edits.
 - Do **not** accept broad emitter rewrites of protected files. Permit only narrowly scoped, necessary integration changes backed by upstream evidence, an intentional-delta audit, and focused validation.
 - Do **not** stage or commit before this skill completes; downstream skills (`author-samples`, `author-tests`, `update-changelog`, `open-regeneration-pr`) rely on the working-tree diff being intact.
 - Do **not** introduce an `incoming/` staging directory or `git merge-file` workflow — the emitter writes directly to `src/` and `generated/`, and the workflow operates on the resulting `git diff`.

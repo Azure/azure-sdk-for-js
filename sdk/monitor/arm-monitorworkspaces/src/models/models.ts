@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -231,10 +232,14 @@ export interface AzureMonitorWorkspace {
   readonly provisioningState?: ResourceProvisioningState;
   /** The Data Collection Rule and Endpoint used for ingestion by default. */
   readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
+  /** Query endpoints for the Azure Monitor Workspace. */
+  readonly endpoints?: AzureMonitorWorkspaceEndpoints;
   /** List of private endpoint connections */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Action configuration for the Azure Monitor Workspace. */
+  actions?: AzureMonitorWorkspaceActions;
 }
 
 export function azureMonitorWorkspaceSerializer(item: AzureMonitorWorkspace): any {
@@ -243,6 +248,9 @@ export function azureMonitorWorkspaceSerializer(item: AzureMonitorWorkspace): an
       ? item["metrics"]
       : azureMonitorWorkspaceMetricsSerializer(item["metrics"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    actions: !item["actions"]
+      ? item["actions"]
+      : azureMonitorWorkspaceActionsSerializer(item["actions"]),
   };
 }
 
@@ -256,10 +264,16 @@ export function azureMonitorWorkspaceDeserializer(item: any): AzureMonitorWorksp
     defaultIngestionSettings: !item["defaultIngestionSettings"]
       ? item["defaultIngestionSettings"]
       : azureMonitorWorkspaceDefaultIngestionSettingsDeserializer(item["defaultIngestionSettings"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : azureMonitorWorkspaceEndpointsDeserializer(item["endpoints"]),
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    actions: !item["actions"]
+      ? item["actions"]
+      : azureMonitorWorkspaceActionsDeserializer(item["actions"]),
   };
 }
 
@@ -340,6 +354,20 @@ export interface IngestionEndpoints {
 export function ingestionEndpointsDeserializer(item: any): IngestionEndpoints {
   return {
     metrics: item["metrics"],
+  };
+}
+
+/** Query endpoints for an Azure Monitor Workspace. */
+export interface AzureMonitorWorkspaceEndpoints {
+  /** The query endpoint for the Azure Monitor Workspace. */
+  readonly query?: string;
+}
+
+export function azureMonitorWorkspaceEndpointsDeserializer(
+  item: any,
+): AzureMonitorWorkspaceEndpoints {
+  return {
+    query: item["query"],
   };
 }
 
@@ -496,6 +524,60 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**: Public network access is disabled.
  */
 export type PublicNetworkAccess = string;
+
+/** Action configuration for an Azure Monitor Workspace. */
+export interface AzureMonitorWorkspaceActions {
+  /** The default action groups associated with the Azure Monitor Workspace. */
+  defaultActionGroups?: DefaultActionGroupResource[];
+}
+
+export function azureMonitorWorkspaceActionsSerializer(item: AzureMonitorWorkspaceActions): any {
+  return {
+    defaultActionGroups: !item["defaultActionGroups"]
+      ? item["defaultActionGroups"]
+      : defaultActionGroupResourceArraySerializer(item["defaultActionGroups"]),
+  };
+}
+
+export function azureMonitorWorkspaceActionsDeserializer(item: any): AzureMonitorWorkspaceActions {
+  return {
+    defaultActionGroups: !item["defaultActionGroups"]
+      ? item["defaultActionGroups"]
+      : defaultActionGroupResourceArrayDeserializer(item["defaultActionGroups"]),
+  };
+}
+
+export function defaultActionGroupResourceArraySerializer(
+  result: Array<DefaultActionGroupResource>,
+): any[] {
+  return result.map((item) => {
+    return defaultActionGroupResourceSerializer(item);
+  });
+}
+
+export function defaultActionGroupResourceArrayDeserializer(
+  result: Array<DefaultActionGroupResource>,
+): any[] {
+  return result.map((item) => {
+    return defaultActionGroupResourceDeserializer(item);
+  });
+}
+
+/** A reference to an Azure Monitor action group. */
+export interface DefaultActionGroupResource {
+  /** The resource ID of the action group. */
+  id?: string;
+}
+
+export function defaultActionGroupResourceSerializer(item: DefaultActionGroupResource): any {
+  return { id: item["id"] };
+}
+
+export function defaultActionGroupResourceDeserializer(item: any): DefaultActionGroupResource {
+  return {
+    id: item["id"],
+  };
+}
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -1558,18 +1640,50 @@ export function metricsContainerResourceDeserializer(item: any): MetricsContaine
 export interface MetricsContainer {
   /** The provisioning state of the metrics container. */
   readonly provisioningState?: ResourceProvisioningState;
+  /** Metrics limits. */
+  limits?: MetricsLimits;
   /** The version of Metrics Query Service that this AMW will use for all metric queries. */
   version?: string;
 }
 
 export function metricsContainerSerializer(item: MetricsContainer): any {
-  return { version: item["version"] };
+  return {
+    limits: !item["limits"] ? item["limits"] : metricsLimitsSerializer(item["limits"]),
+    version: item["version"],
+  };
 }
 
 export function metricsContainerDeserializer(item: any): MetricsContainer {
   return {
     provisioningState: item["provisioningState"],
+    limits: !item["limits"] ? item["limits"] : metricsLimitsDeserializer(item["limits"]),
     version: item["version"],
+  };
+}
+
+/** Definition of Metrics limits */
+export interface MetricsLimits {
+  /** Indicates whether automatic scaling of ingestion limits is enabled. */
+  enableAutoScale?: boolean;
+  /** Maximum number of active time series allowed on the metrics containers. */
+  maxActiveTimeSeries?: number;
+  /** Maximum rate (events per minute) that can be processed on the metrics containers. */
+  maxEventsPerMinute?: number;
+}
+
+export function metricsLimitsSerializer(item: MetricsLimits): any {
+  return {
+    enableAutoScale: item["enableAutoScale"],
+    maxActiveTimeSeries: item["maxActiveTimeSeries"],
+    maxEventsPerMinute: item["maxEventsPerMinute"],
+  };
+}
+
+export function metricsLimitsDeserializer(item: any): MetricsLimits {
+  return {
+    enableAutoScale: item["enableAutoScale"],
+    maxActiveTimeSeries: item["maxActiveTimeSeries"],
+    maxEventsPerMinute: item["maxEventsPerMinute"],
   };
 }
 
@@ -1606,8 +1720,501 @@ export function metricsContainerResourceArrayDeserializer(
   });
 }
 
+/** A metric namespace in an Azure Monitor Workspace metrics container. */
+export interface MetricNamespaceResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MetricNamespaceProperties;
+}
+
+export function metricNamespaceResourceDeserializer(item: any): MetricNamespaceResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : metricNamespacePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a metric namespace. */
+export interface MetricNamespaceProperties {
+  /** The provisioning state of the metric namespace. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function metricNamespacePropertiesDeserializer(item: any): MetricNamespaceProperties {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a MetricNamespaceResource list operation. */
+export interface _MetricNamespaceResourceListResult {
+  /** The MetricNamespaceResource items on this page */
+  value: MetricNamespaceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _metricNamespaceResourceListResultDeserializer(
+  item: any,
+): _MetricNamespaceResourceListResult {
+  return {
+    value: metricNamespaceResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function metricNamespaceResourceArrayDeserializer(
+  result: Array<MetricNamespaceResource>,
+): any[] {
+  return result.map((item) => {
+    return metricNamespaceResourceDeserializer(item);
+  });
+}
+
+/** A metric configuration in an Azure Monitor Workspace metric namespace. */
+export interface MetricConfigurationResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MetricConfigurationProperties;
+}
+
+export function metricConfigurationResourceSerializer(item: MetricConfigurationResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : metricConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function metricConfigurationResourceDeserializer(item: any): MetricConfigurationResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : metricConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a metric configuration. */
+export interface MetricConfigurationProperties {
+  /** The provisioning state of the metric configuration. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The actual metric namespace before route encoding. */
+  namespace?: string;
+  /** The actual ingested metric name before route encoding. */
+  metricName?: string;
+  /** The metric type. */
+  metricType?: MetricConfigurationType;
+  /** Dimensions emitted by the metric. */
+  readonly dimensions?: string[];
+  /** Whether raw metric data is stored. */
+  storeRawData?: boolean;
+  /** Aggregation configurations for an aggregated metric. */
+  aggregationConfigurations?: MetricAggregationConfiguration[];
+  /** The resource ID of the source metric for an aggregated metric. */
+  sourceMetricResourceId?: string;
+}
+
+export function metricConfigurationPropertiesSerializer(item: MetricConfigurationProperties): any {
+  return {
+    namespace: item["namespace"],
+    metricName: item["metricName"],
+    metricType: item["metricType"],
+    storeRawData: item["storeRawData"],
+    aggregationConfigurations: !item["aggregationConfigurations"]
+      ? item["aggregationConfigurations"]
+      : metricAggregationConfigurationArraySerializer(item["aggregationConfigurations"]),
+    sourceMetricResourceId: item["sourceMetricResourceId"],
+  };
+}
+
+export function metricConfigurationPropertiesDeserializer(
+  item: any,
+): MetricConfigurationProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    namespace: item["namespace"],
+    metricName: item["metricName"],
+    metricType: item["metricType"],
+    dimensions: !item["dimensions"]
+      ? item["dimensions"]
+      : item["dimensions"].map((p: any) => {
+          return p;
+        }),
+    storeRawData: item["storeRawData"],
+    aggregationConfigurations: !item["aggregationConfigurations"]
+      ? item["aggregationConfigurations"]
+      : metricAggregationConfigurationArrayDeserializer(item["aggregationConfigurations"]),
+    sourceMetricResourceId: item["sourceMetricResourceId"],
+  };
+}
+
+/** The type of metric stored in the Azure Monitor Workspace. */
+export enum KnownMetricConfigurationType {
+  /** A raw metric. */
+  Raw = "Raw",
+  /** A metric aggregated from another metric. */
+  Aggregated = "Aggregated",
+}
+
+/**
+ * The type of metric stored in the Azure Monitor Workspace. \
+ * {@link KnownMetricConfigurationType} can be used interchangeably with MetricConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Raw**: A raw metric. \
+ * **Aggregated**: A metric aggregated from another metric.
+ */
+export type MetricConfigurationType = string;
+
+export function metricAggregationConfigurationArraySerializer(
+  result: Array<MetricAggregationConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return metricAggregationConfigurationSerializer(item);
+  });
+}
+
+export function metricAggregationConfigurationArrayDeserializer(
+  result: Array<MetricAggregationConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return metricAggregationConfigurationDeserializer(item);
+  });
+}
+
+/** An aggregation configuration for an aggregated metric. */
+export interface MetricAggregationConfiguration {
+  /** Whether aggregated metric data is stored. */
+  storeAggregatedData?: boolean;
+  /** Dimensions included in this aggregation. */
+  dimensions?: string[];
+  /** Aggregation functions enabled for this aggregation. */
+  aggregationFunctions?: MetricAggregationFunctions;
+}
+
+export function metricAggregationConfigurationSerializer(
+  item: MetricAggregationConfiguration,
+): any {
+  return {
+    storeAggregatedData: item["storeAggregatedData"],
+    dimensions: !item["dimensions"]
+      ? item["dimensions"]
+      : item["dimensions"].map((p: any) => {
+          return p;
+        }),
+    aggregationFunctions: !item["aggregationFunctions"]
+      ? item["aggregationFunctions"]
+      : metricAggregationFunctionsSerializer(item["aggregationFunctions"]),
+  };
+}
+
+export function metricAggregationConfigurationDeserializer(
+  item: any,
+): MetricAggregationConfiguration {
+  return {
+    storeAggregatedData: item["storeAggregatedData"],
+    dimensions: !item["dimensions"]
+      ? item["dimensions"]
+      : item["dimensions"].map((p: any) => {
+          return p;
+        }),
+    aggregationFunctions: !item["aggregationFunctions"]
+      ? item["aggregationFunctions"]
+      : metricAggregationFunctionsDeserializer(item["aggregationFunctions"]),
+  };
+}
+
+/** Aggregation functions enabled for an aggregated metric. */
+export interface MetricAggregationFunctions {
+  /** Whether minimum and maximum aggregations are enabled. */
+  enableMinMax: boolean;
+  /** Whether percentile aggregations are enabled. */
+  enablePercentiles: boolean;
+}
+
+export function metricAggregationFunctionsSerializer(item: MetricAggregationFunctions): any {
+  return { enableMinMax: item["enableMinMax"], enablePercentiles: item["enablePercentiles"] };
+}
+
+export function metricAggregationFunctionsDeserializer(item: any): MetricAggregationFunctions {
+  return {
+    enableMinMax: item["enableMinMax"],
+    enablePercentiles: item["enablePercentiles"],
+  };
+}
+
+/** The response of a MetricConfigurationResource list operation. */
+export interface _MetricConfigurationResourceListResult {
+  /** The MetricConfigurationResource items on this page */
+  value: MetricConfigurationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _metricConfigurationResourceListResultDeserializer(
+  item: any,
+): _MetricConfigurationResourceListResult {
+  return {
+    value: metricConfigurationResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function metricConfigurationResourceArraySerializer(
+  result: Array<MetricConfigurationResource>,
+): any[] {
+  return result.map((item) => {
+    return metricConfigurationResourceSerializer(item);
+  });
+}
+
+export function metricConfigurationResourceArrayDeserializer(
+  result: Array<MetricConfigurationResource>,
+): any[] {
+  return result.map((item) => {
+    return metricConfigurationResourceDeserializer(item);
+  });
+}
+
+/** Paged collection of MetricConfigurationResource items */
+export interface _PagedMetricConfigurationResource {
+  /** The MetricConfigurationResource items on this page */
+  value: MetricConfigurationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedMetricConfigurationResourceDeserializer(
+  item: any,
+): _PagedMetricConfigurationResource {
+  return {
+    value: metricConfigurationResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** The trace container for an Azure Monitor Workspace. */
+export interface TraceContainerResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: TraceContainer;
+}
+
+export function traceContainerResourceSerializer(item: TraceContainerResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : traceContainerSerializer(item["properties"]),
+  };
+}
+
+export function traceContainerResourceDeserializer(item: any): TraceContainerResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : traceContainerDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a trace container. */
+export interface TraceContainer {
+  /** The provisioning state of the trace container. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The trace duration window in seconds. */
+  traceDurationWindowInSeconds: number;
+  /** The number of days for which the traces are retained. Value must be between 4 and 730 days. */
+  traceRetentionInDays: number;
+  /** Controls whether trace-derived metrics are emitted for this trace container. */
+  traceMetricsState: TraceMetricsState;
+}
+
+export function traceContainerSerializer(item: TraceContainer): any {
+  return {
+    traceDurationWindowInSeconds: item["traceDurationWindowInSeconds"],
+    traceRetentionInDays: item["traceRetentionInDays"],
+    traceMetricsState: item["traceMetricsState"],
+  };
+}
+
+export function traceContainerDeserializer(item: any): TraceContainer {
+  return {
+    provisioningState: item["provisioningState"],
+    traceDurationWindowInSeconds: item["traceDurationWindowInSeconds"],
+    traceRetentionInDays: item["traceRetentionInDays"],
+    traceMetricsState: item["traceMetricsState"],
+  };
+}
+
+/** The state of trace-derived metrics for a trace container. */
+export enum KnownTraceMetricsState {
+  /** Trace-derived metrics are emitted. */
+  Enabled = "Enabled",
+  /** Trace-derived metrics are not emitted. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The state of trace-derived metrics for a trace container. \
+ * {@link KnownTraceMetricsState} can be used interchangeably with TraceMetricsState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Trace-derived metrics are emitted. \
+ * **Disabled**: Trace-derived metrics are not emitted.
+ */
+export type TraceMetricsState = string;
+
+/** The response of a TraceContainerResource list operation. */
+export interface _TraceContainerResourceListResult {
+  /** The TraceContainerResource items on this page */
+  value: TraceContainerResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _traceContainerResourceListResultDeserializer(
+  item: any,
+): _TraceContainerResourceListResult {
+  return {
+    value: traceContainerResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function traceContainerResourceArraySerializer(
+  result: Array<TraceContainerResource>,
+): any[] {
+  return result.map((item) => {
+    return traceContainerResourceSerializer(item);
+  });
+}
+
+export function traceContainerResourceArrayDeserializer(
+  result: Array<TraceContainerResource>,
+): any[] {
+  return result.map((item) => {
+    return traceContainerResourceDeserializer(item);
+  });
+}
+
+/** An association between an Azure resource scope and an Azure Monitor Workspace. */
+export interface TraceAssociationResource extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: TraceAssociation;
+}
+
+export function traceAssociationResourceSerializer(item: TraceAssociationResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : traceAssociationSerializer(item["properties"]),
+  };
+}
+
+export function traceAssociationResourceDeserializer(item: any): TraceAssociationResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : traceAssociationDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a trace association. */
+export interface TraceAssociation {
+  /** The resource ID of the Azure Monitor Workspace that receives traces from the target scope. */
+  azureMonitorWorkspaceResourceId: string;
+}
+
+export function traceAssociationSerializer(item: TraceAssociation): any {
+  return { azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"] };
+}
+
+export function traceAssociationDeserializer(item: any): TraceAssociation {
+  return {
+    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
+  };
+}
+
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
+}
+
+export function extensionResourceDeserializer(item: any): ExtensionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a TraceAssociationResource list operation. */
+export interface _TraceAssociationResourceListResult {
+  /** The TraceAssociationResource items on this page */
+  value: TraceAssociationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _traceAssociationResourceListResultDeserializer(
+  item: any,
+): _TraceAssociationResourceListResult {
+  return {
+    value: traceAssociationResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function traceAssociationResourceArraySerializer(
+  result: Array<TraceAssociationResource>,
+): any[] {
+  return result.map((item) => {
+    return traceAssociationResourceSerializer(item);
+  });
+}
+
+export function traceAssociationResourceArrayDeserializer(
+  result: Array<TraceAssociationResource>,
+): any[] {
+  return result.map((item) => {
+    return traceAssociationResourceDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
+  /** API Version 2025-05-03-preview */
+  V20250503 = "2025-05-03-preview",
+  /** API Version 2025-10-03-preview */
+  V20251003 = "2025-10-03-preview",
   /** API Version 2025-10-03 */
   V20251003Stable = "2025-10-03",
+  /** API Version 2026-09-03-preview */
+  V20260903Preview = "2026-09-03-preview",
 }

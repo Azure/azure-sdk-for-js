@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refresh external governance enablement status.
  *
  * @summary refresh external governance enablement status.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceRefreshExternalGovernanceStatus.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceRefreshExternalGovernanceStatus.json
  */
 async function refreshExternalGovernanceEnablementStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

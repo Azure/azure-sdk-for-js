@@ -215,35 +215,35 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             case 1: {
                     if (wireType !== 2)
                         break;
-                    message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.sendToGroupMessage);
+                    message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.sendToGroupMessage);
                     message.message = "sendToGroupMessage";
                     continue;
                 }
             case 5: {
                     if (wireType !== 2)
                         break;
-                    message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.eventMessage);
+                    message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.eventMessage);
                     message.message = "eventMessage";
                     continue;
                 }
             case 6: {
                     if (wireType !== 2)
                         break;
-                    message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.joinGroupMessage);
+                    message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.joinGroupMessage);
                     message.message = "joinGroupMessage";
                     continue;
                 }
             case 7: {
                     if (wireType !== 2)
                         break;
-                    message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.leaveGroupMessage);
+                    message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.leaveGroupMessage);
                     message.message = "leaveGroupMessage";
                     continue;
                 }
             case 8: {
                     if (wireType !== 2)
                         break;
-                    message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.sequenceAckMessage);
+                    message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.sequenceAckMessage);
                     message.message = "sequenceAckMessage";
                     continue;
                 }
@@ -277,7 +277,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
     UpstreamMessage.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -672,7 +672,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 case 3: {
                         if (wireType !== 2)
                             break;
-                        message.data = $root.MessageData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.data);
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
                         continue;
                     }
                 case 4: {
@@ -712,7 +712,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         SendToGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1041,7 +1041,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 case 2: {
                         if (wireType !== 2)
                             break;
-                        message.data = $root.MessageData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.data);
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
                         continue;
                     }
                 case 3: {
@@ -1081,7 +1081,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         EventMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1419,7 +1419,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         JoinGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -1743,7 +1743,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         LeaveGroupMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -2040,7 +2040,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         SequenceAckMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -2342,21 +2342,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             case 1: {
                     if (wireType !== 2)
                         break;
-                    message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.ackMessage);
+                    message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.ackMessage);
                     message.message = "ackMessage";
                     continue;
                 }
             case 2: {
                     if (wireType !== 2)
                         break;
-                    message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.dataMessage);
+                    message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.dataMessage);
                     message.message = "dataMessage";
                     continue;
                 }
             case 3: {
                     if (wireType !== 2)
                         break;
-                    message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.systemMessage);
+                    message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.systemMessage);
                     message.message = "systemMessage";
                     continue;
                 }
@@ -2390,7 +2390,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
     DownstreamMessage.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -2724,7 +2724,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 case 3: {
                         if (wireType !== 2)
                             break;
-                        message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.error);
+                        message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.error);
                         message._error = "error";
                         continue;
                     }
@@ -2758,7 +2758,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         AckMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -3092,7 +3092,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             ErrorMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -3414,7 +3414,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 case 3: {
                         if (wireType !== 2)
                             break;
-                        message.data = $root.MessageData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.data);
+                        message.data = $root.MessageData.decode(reader, reader.size(), $undefined, _depth + 1, message.data);
                         continue;
                     }
                 case 4: {
@@ -3454,7 +3454,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         DataMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -3770,14 +3770,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 case 1: {
                         if (wireType !== 2)
                             break;
-                        message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.connectedMessage);
+                        message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.connectedMessage);
                         message.message = "connectedMessage";
                         continue;
                     }
                 case 2: {
                         if (wireType !== 2)
                             break;
-                        message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.uint32(), $undefined, _depth + 1, message.disconnectedMessage);
+                        message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.size(), $undefined, _depth + 1, message.disconnectedMessage);
                         message.message = "disconnectedMessage";
                         continue;
                     }
@@ -3811,7 +3811,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         SystemMessage.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
 
         /**
@@ -4152,7 +4152,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             ConnectedMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -4446,7 +4446,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             DisconnectedMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**
@@ -4761,7 +4761,7 @@ export const MessageData = $root.MessageData = (() => {
             case 3: {
                     if (wireType !== 2)
                         break;
-                    message.protobufData = $root.google.protobuf.Any.decode(reader, reader.uint32(), $undefined, _depth + 1, message.protobufData);
+                    message.protobufData = $root.google.protobuf.Any.decode(reader, reader.size(), $undefined, _depth + 1, message.protobufData);
                     message.data = "protobufData";
                     continue;
                 }
@@ -4802,7 +4802,7 @@ export const MessageData = $root.MessageData = (() => {
     MessageData.decodeDelimited = function(reader) {
         if (!(reader instanceof $Reader))
             reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
+        return this.decode(reader, reader.size());
     };
 
     /**
@@ -5169,7 +5169,7 @@ export const google = $root.google = (() => {
             Any.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
 
             /**

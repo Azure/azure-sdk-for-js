@@ -3,9 +3,15 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mergeCustomizedClassic, relocatedMemberDiagnostics } from "./classic.mjs";
+import { retainCustomizedOnConflict } from "./ast-merge.mjs";
+import {
+  ClassicRenderError,
+  mergeCustomizedClassic,
+  relocatedMemberDiagnostics,
+} from "./classic.mjs";
 import { validateCustomization } from "./guards.mjs";
 import { parse } from "./modules.mjs";
+import { classicFromOperations } from "./operations.mjs";
 import { planCustomization } from "./planner.mjs";
 
 function models() {
@@ -269,6 +275,82 @@ export async function getItemWithRetry(context: Client, id: string, options: Ite
   }
 });
 
+test("reports the unresolved operation merge instead of failing to render its classic member", () => {
+  // The customization and the emitter retype the same parameter differently, so
+  // the operation has no resolved declaration for its classic module to render from.
+  const retype = (text, type) => text.replace(/id: string/g, `id: ${type}`);
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/options.ts": options([getItem[3]]),
+      "api/items/operations.ts": operations(1, [getItem]),
+      "classic/items/index.ts": classic(2, "Items", "items", [getItem]),
+    }),
+  );
+  const baseSource = new Map(baseGenerated).set(
+    "api/items/operations.ts",
+    retype(operations(1, [getItem]), "number"),
+  );
+  const generated = new Map(baseGenerated)
+    .set("api/items/operations.ts", retype(operations(1, [getItem]), "boolean"))
+    .set("classic/items/index.ts", retype(classic(2, "Items", "items", [getItem]), "boolean"));
+  const plan = planCustomization({ baseGenerated, baseSource, generated });
+  const operationConflicts = plan.diagnostics.filter(
+    (item) => item.file === "api/items/operations.ts",
+  );
+  assert.deepEqual([...new Set(operationConflicts.map((item) => item.declaration))].sort(), [
+    "_getItemSend",
+    "getItem",
+  ]);
+  // The conflict is the only report: nothing is rendered from the missing declaration.
+  assert.deepEqual(
+    plan.diagnostics.filter((item) => item.file !== "api/items/operations.ts"),
+    [],
+  );
+});
+
+test("reports a classic member the emitter does not declare instead of throwing", () => {
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/options.ts": options([getItem[3]]),
+      "api/items/operations.ts": operations(1, [getItem]),
+      "classic/items/index.ts": classic(2, "Items", "items", [getItem]),
+    }),
+  );
+  const generated = new Map(baseGenerated)
+    .set("api/items/options.ts", options([getItem[3], archive[3]]))
+    .set("api/items/operations.ts", operations(1, [getItem, archive]));
+  // The emitted operations include archiveItem, but its classic interface omits it.
+  generated.set("classic/items/index.ts", classic(2, "Items", "items", [getItem]) + "\n");
+  const plan = planCustomization({ baseGenerated, baseSource: baseGenerated, generated });
+  assert.deepEqual(
+    plan.diagnostics.map(({ file, declaration }) => ({ file, declaration })),
+    [{ file: "classic/items/index.ts", declaration: "archiveItem" }],
+  );
+  assert.match(plan.diagnostics[0].message, /missing emitted interface member for archiveItem/);
+});
+
+test("classic rendering names an operation that has no resolved declaration", () => {
+  const match = {
+    incoming: { file: "api/items/operations.ts", name: "getItem" },
+    names: { publicNode: "getItem" },
+  };
+  assert.throws(
+    () =>
+      classicFromOperations(
+        "classic/items/index.ts",
+        classic(2, "Items", "items", [getItem]),
+        [match],
+        operations(1, [archive]),
+      ),
+    (error) =>
+      error instanceof ClassicRenderError &&
+      /missing resolved operation getItem in api\/items\/operations\.ts/.test(error.message) &&
+      error.diagnostic.declaration === "getItem",
+  );
+});
+
 test("reports a customized classic member instead of dropping it with its operation", () => {
   const deleteItem = ["deleteItem", "/items/{id}", "delete", "ItemsDeleteItemOptionalParams"];
   const baseText = classic(2, "Items", "items", [getItem, deleteItem]);
@@ -350,6 +432,210 @@ export async function deleteItemSoftly(context: Client, id: string, options: Ite
   assert.ok(rerouted.diagnostics.some((item) => item.declaration === "deleteItem"));
 });
 
+test("recovery keeps a customized classic member the emitter removed and records it", () => {
+  const deleteItem = ["deleteItem", "/items/{id}", "delete", "ItemsDeleteItemOptionalParams"];
+  const baseText = classic(2, "Items", "items", [getItem, deleteItem]);
+  const customText = baseText
+    .replace(
+      "  /** getItem operation. */",
+      "  /** Custom-only member. */\n  ping(): string;\n  /** getItem operation. */",
+    )
+    .replace("  return {\n    getItem:", '  return {\n    ping: () => "pong",\n    getItem:')
+    .replace(
+      "deleteItem(context, id, options)",
+      "deleteItem(context, id, { ...options, requestOptions: {} })",
+    );
+  const merge = (optionNames) =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText,
+      incomingText: classic(2, "Items", "items", [getItem]),
+      matches: [],
+      resolvedText: operations(1, [getItem, deleteItem]),
+      resolvedOptionsText: options(optionNames),
+    });
+  const strict = merge([getItem[3], deleteItem[3]]);
+  assert.equal(strict.text, undefined);
+  assert.ok(strict.diagnostics.some((item) => item.declaration === "deleteItem"));
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = merge([getItem[3], deleteItem[3]]);
+    assert.deepEqual(result.diagnostics, []);
+    assert.match(
+      result.text,
+      /deleteItem\(context, id, \{ \.\.\.options, requestOptions: \{\} \}\)/,
+    );
+    assert.deepEqual(
+      sink.map((item) => `${item.file}::${item.declaration}`),
+      ["classic/items/index.ts::deleteItem"],
+    );
+    assert.match(sink[0].baseText, /deleteItem: \(id: string/);
+    assert.match(sink[0].customText, /requestOptions: \{\}/);
+    assert.equal(sink[0].incomingText, null);
+    // Keeping the member never hides an import the resolved module no longer declares.
+    const missing = merge([getItem[3]]);
+    assert.equal(missing.text, undefined);
+    assert.ok(
+      missing.diagnostics.some((item) =>
+        /imports 'ItemsDeleteItemOptionalParams'/.test(item.message),
+      ),
+    );
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+});
+
+test("recovery keeps a customized classic module it cannot recognize without claiming a removal", () => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const merge = () =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText: "export const items = 1;\n",
+      incomingText: baseText,
+      matches: [],
+      resolvedText: operations(1, [getItem]),
+      resolvedOptionsText: options([getItem[3]]),
+    });
+  const strict = merge();
+  assert.equal(strict.text, undefined);
+  assert.deepEqual(
+    strict.diagnostics.map((item) => item.declaration),
+    ["<file>"],
+  );
+  const sink = [];
+  retainCustomizedOnConflict(sink);
+  try {
+    const result = merge();
+    assert.deepEqual(result, { text: undefined, diagnostics: [] });
+    assert.equal(sink.length, 1);
+    assert.equal(sink[0].declaration, "<file>");
+    assert.equal(sink[0].baseText, undefined);
+    assert.equal(sink[0].customText, undefined);
+    assert.equal(sink[0].incomingText, undefined);
+  } finally {
+    retainCustomizedOnConflict(null);
+  }
+});
+
+test("keeps a customized classic member whose resolved operation still matches it", () => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const customText = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/items/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/items/options.js";
+
+/** Operations for items. */
+export interface ItemsOperations {
+  /** Custom-only member. */
+  ping(): string;
+  /** getItem operation. */
+  getItem: (
+    id: string,
+    options?: ItemsGetItemOptionalParams,
+  ) => Promise<string>;
+}
+
+function _getItems(context: AIProjectContext) {
+  return {
+    ping: () => "pong",
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) =>
+      getItem(context, id, options),
+  };
+}
+
+export function _getItemsOperations(context: AIProjectContext): ItemsOperations {
+  return { ..._getItems(context) };
+}`;
+  // The emitter retyped getItem, but the resolved operation (the customized one)
+  // still returns what the member declares, so re-rendering would only churn layout.
+  const result = mergeCustomizedClassic({
+    file: "classic/items/index.ts",
+    baseText,
+    customText,
+    incomingText: baseText.replace("Promise<string>", "Promise<number>"),
+    matches: [
+      {
+        incoming: { file: "api/items/operations.ts", name: "getItem" },
+        names: { publicNode: "getItem" },
+      },
+    ],
+    resolvedText: operations(1, [getItem]),
+    resolvedOptionsText: options([getItem[3]]),
+    customApiText: operations(1, [getItem]),
+  });
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /getItem: \(\n {4}id: string,\n {4}options\?: ItemsGetItemOptionalParams,\n {2}\) => Promise<string>;/,
+  );
+  assert.match(
+    result.text,
+    /getItem: \(id: string, options\?: ItemsGetItemOptionalParams\) =>\n {6}getItem\(context, id, options\)/,
+  );
+  assert.doesNotMatch(result.text, /Promise<number>/);
+});
+
+test("updates a classic member when its resolved return literal changes", () => {
+  const baseText = classic(2, "Items", "items", [getItem]).replace(
+    "Promise<string>",
+    'Promise<"a b">',
+  );
+  const customText = `import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import { getItem } from "../../api/items/operations.js";
+import type { ItemsGetItemOptionalParams } from "../../api/items/options.js";
+
+/** Operations for items. */
+export interface ItemsOperations {
+  /** Custom-only member. */
+  ping(): string;
+  /** getItem operation. */
+  getItem: (
+    id: string,
+    options?: ItemsGetItemOptionalParams,
+  ) => Promise<"a b">;
+}
+
+function _getItems(context: AIProjectContext) {
+  return {
+    ping: () => "pong",
+    getItem: (id: string, options?: ItemsGetItemOptionalParams) =>
+      getItem(context, id, options),
+  };
+}
+
+export function _getItemsOperations(context: AIProjectContext): ItemsOperations {
+  return { ..._getItems(context) };
+}`;
+  const incomingText = baseText.replace('Promise<"a b">', 'Promise<"ab">');
+  const resolvedText = operations(1, [getItem]).replace(
+    "options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<string> {\n  const result",
+    'options: ItemsGetItemOptionalParams = { requestOptions: {} }): Promise<"ab"> {\n  const result',
+  );
+  const result = mergeCustomizedClassic({
+    file: "classic/items/index.ts",
+    baseText,
+    customText,
+    incomingText,
+    matches: [
+      {
+        incoming: { file: "api/items/operations.ts", name: "getItem" },
+        names: { publicNode: "getItem" },
+      },
+    ],
+    resolvedText,
+    resolvedOptionsText: options([getItem[3]]),
+    customApiText: operations(1, [getItem]),
+  });
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /getItem: \(\s*id: string,\s*options\?: ItemsGetItemOptionalParams,?\s*\) => Promise<"ab">;/,
+  );
+  assert.doesNotMatch(result.text, /Promise<"a b">/);
+});
+
 test("reports a customized classic member whose operation moves to another group", () => {
   const baseText = classic(3, "BetaItems", "beta/items", [betaArchive, restore]);
   const matches = [
@@ -425,6 +711,182 @@ export async function archiveItemWithAudit(context: Client, id: string, options:
       1,
     );
   }
+});
+
+test("relocates alpha-renamed delegates and aliases only from their own operation module", () => {
+  const file = "classic/beta/items/index.ts";
+  const base = classic(3, "BetaItems", "beta/items", [betaArchive]);
+  const custom = base
+    .replace("import { archiveItem }", "import { archiveItem as archive }")
+    .replaceAll("archiveItem: (id: string", "archiveItem: (itemId: string")
+    .replace("=> archiveItem(context, id, options)", "=> archive(context, itemId, options)");
+  const matches = [
+    {
+      base: { name: "archiveItem", file: "api/beta/items/operations.ts" },
+      customized: { name: "archiveItem" },
+      incoming: { name: "archiveItem", file: "api/items/operations.ts" },
+    },
+  ];
+  const api = operations(2, [betaArchive]);
+  assert.deepEqual(relocatedMemberDiagnostics(file, custom, base, matches, api), []);
+  for (const unsafe of [
+    custom.replace("api/beta/items/operations.js", "api/beta/other/operations.js"),
+    custom.replace("archiveItem as archive", "archiveItemWithAudit as archive"),
+    custom.replace(
+      "function _getBetaItems(context: AIProjectContext) {",
+      "function _getBetaItems(context: AIProjectContext) { const archive = audit;",
+    ),
+    custom.replace("archive(context, itemId, options)", "archive(context, options, itemId)"),
+  ])
+    assert.equal(relocatedMemberDiagnostics(file, unsafe, base, matches, api).length, 1);
+});
+
+test("a removed beta module carries renamed operation helpers but rejects unknown custom declarations", () => {
+  const oldFile = "api/beta/items/operations.ts";
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      [oldFile]: operations(2, [betaArchive]),
+      "api/beta/items/options.ts": options([betaArchive[3]]),
+      "classic/beta/items/index.ts": classic(3, "BetaItems", "beta/items", [betaArchive]),
+    }),
+  );
+  const baseSource = new Map(baseGenerated);
+  baseSource.set(
+    oldFile,
+    baseSource.get(oldFile).replaceAll("archiveItem", "deleteAgentInsightMonitor"),
+  );
+  baseSource.set(
+    "classic/beta/items/index.ts",
+    baseSource
+      .get("classic/beta/items/index.ts")
+      .replace("import { archiveItem }", "import { deleteAgentInsightMonitor as archiveItem }"),
+  );
+  const generated = new Map(
+    Object.entries({
+      ...models(),
+      "api/items/operations.ts": operations(1, [archive]),
+      "api/items/options.ts": options([archive[3]]),
+      "api/items/index.ts": 'export { archiveItem } from "./operations.js";',
+      "classic/items/index.ts": classic(2, "Items", "items", [archive]),
+    }),
+  );
+  const inputs = { baseGenerated, baseSource, generated };
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const resolved = plan.source.get("api/items/operations.ts");
+  for (const name of [
+    "deleteAgentInsightMonitor",
+    "_deleteAgentInsightMonitorSend",
+    "_deleteAgentInsightMonitorDeserialize",
+  ])
+    assert.match(resolved, new RegExp(`function ${name}\\(`));
+  assert.match(
+    plan.source.get("classic/items/index.ts"),
+    /deleteAgentInsightMonitor\(context, id, options\)/,
+  );
+  assert.equal(plan.source.has(oldFile), false);
+  assert.match(plan.source.get("api/items/index.ts"), /export \{ deleteAgentInsightMonitor \}/);
+  baseSource.set(
+    oldFile,
+    `${baseSource.get(oldFile)}\nexport function customDeleteAudit() { return "audit"; }`,
+  );
+  const unsafe = planCustomization(inputs);
+  assert.ok(
+    unsafe.diagnostics.some((d) => d.file === oldFile && d.declaration === "customDeleteAudit"),
+  );
+});
+
+test("promoted monitor wiring preserves the customized beta authentication context", () => {
+  const oldApi = "api/beta/agentInsightMonitors/operations.ts";
+  const rootApi = "api/agentInsightMonitors/operations.ts";
+  const beta = `export interface BetaOperations {
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+}
+export function _getBetaOperations(context: Client): BetaOperations {
+  return { agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context) };
+}`;
+  const client = `export class AIProjectClient {
+  constructor() {
+    this.beta = _getBetaOperations(this._client);
+    this.telemetry = customTelemetry();
+  }
+}`;
+  const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
+  const baseGenerated = new Map(
+    Object.entries({
+      ...models(),
+      [oldApi]: operations(2, [betaArchive]),
+      "api/beta/agentInsightMonitors/options.ts": options([betaArchive[3]]),
+      "classic/beta/agentInsightMonitors/index.ts": classic(
+        3,
+        "BetaAgentInsightMonitors",
+        "beta/agentInsightMonitors",
+        [betaArchive],
+      ),
+      "classic/beta/index.ts": beta,
+      "aiProjectClient.ts": client,
+    }),
+  );
+  const baseSource = new Map(baseGenerated);
+  baseSource.set("aiProjectClient.ts", customClient);
+  const generated = new Map(
+    Object.entries({
+      ...models(),
+      [rootApi]: operations(1, [archive]),
+      "api/agentInsightMonitors/options.ts": options([archive[3]]),
+      "classic/agentInsightMonitors/index.ts": classic(
+        2,
+        "AgentInsightMonitors",
+        "agentInsightMonitors",
+        [archive],
+      ),
+      "classic/beta/index.ts":
+        "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
+      "aiProjectClient.ts": `import { AgentInsightMonitorsOperations, _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+${client
+  .replace(
+    "constructor()",
+    "public readonly agentInsightMonitors: AgentInsightMonitorsOperations;\nconstructor()",
+  )
+  .replace(
+    "this.telemetry",
+    "this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._client);\nthis.telemetry",
+  )}`,
+    }),
+  );
+  const inputs = { baseGenerated, baseSource, generated };
+  const plan = planCustomization(inputs);
+  assert.deepEqual(plan.diagnostics, []);
+  const resolved = plan.source.get("aiProjectClient.ts");
+  assert.match(
+    resolved,
+    /this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)/,
+  );
+  assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
+  const guardInputs = {
+    ...inputs,
+    source: plan.source,
+    matches: plan.matches,
+    modelRenames: plan.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  const wrongContext = new Map(plan.source);
+  wrongContext.set(
+    "aiProjectClient.ts",
+    resolved.replace(
+      "_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)",
+      "_getAgentInsightMonitorsOperations(this._azureScopeClient)",
+    ),
+  );
+  assert.ok(
+    validateCustomization({ ...guardInputs, source: wrongContext }).some(
+      (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
+    ),
+  );
+  generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
+  const unrelated = planCustomization(inputs);
+  assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
 });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {

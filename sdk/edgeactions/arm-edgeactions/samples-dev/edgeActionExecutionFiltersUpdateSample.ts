@@ -5,10 +5,10 @@ import { EdgeActionsManagementClient } from "@azure/arm-edgeactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a EdgeActionExecutionFilter
+ * This sample demonstrates how to updates the properties and tags of an Edge Action execution filter. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected.
  *
- * @summary update a EdgeActionExecutionFilter
- * x-ms-original-file: 2025-12-01-preview/EdgeActionExecutionFilters_Update.json
+ * @summary updates the properties and tags of an Edge Action execution filter. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected.
+ * x-ms-original-file: 2026-10-01/EdgeActionExecutionFilters_Update.json
  */
 async function updateEdgeActionExecutionFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();

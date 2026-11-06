@@ -1,20 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
 import { errorResponseLinkedStorageDeserializer } from "../../models/applicationInsightsCommonTypes/models.js";
-import {
-  LiveTokenResponse,
-  liveTokenResponseDeserializer,
-} from "../../models/liveTokenApi/models.js";
+import type { LiveTokenResponse } from "../../models/liveTokenApi/models.js";
+import { liveTokenResponseDeserializer } from "../../models/liveTokenApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { LiveTokenGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { LiveTokenGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -41,7 +35,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Li
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseLinkedStorageDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseLinkedStorageDeserializer(result.body);
+    }
 
     throw error;
   }

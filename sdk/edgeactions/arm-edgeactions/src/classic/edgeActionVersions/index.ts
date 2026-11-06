@@ -24,7 +24,6 @@ import type {
 } from "../../api/edgeActionVersions/options.js";
 import type {
   EdgeActionVersion,
-  EdgeActionVersionProperties,
   EdgeActionVersionUpdate,
   VersionCode,
 } from "../../models/models.js";
@@ -54,7 +53,7 @@ export interface EdgeActionVersionsOperations {
     version: string,
     body: VersionCode,
     options?: EdgeActionVersionsDeployVersionCodeOptionalParams,
-  ) => PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
+  ) => PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
   /** List EdgeActionVersion resources by EdgeAction */
   listByEdgeAction: (
     resourceGroupName: string,
@@ -62,18 +61,13 @@ export interface EdgeActionVersionsOperations {
     options?: EdgeActionVersionsListByEdgeActionOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeActionVersion>;
   /** Delete a EdgeActionVersion */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,
     version: string,
     options?: EdgeActionVersionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update a EdgeActionVersion */
+  /** Updates the tags of an Edge Action version. Omitted tags are preserved, an empty tags object clears all tags, and supplied tags replace the entire tag collection. Null tags are rejected. Version properties are not changed. If deploymentType or isDefaultVersion is supplied, it must match the existing value; use swapDefault to change the default version. */
   update: (
     resourceGroupName: string,
     edgeActionName: string,
