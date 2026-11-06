@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type {
+  AccessToken,
+  GetTokenOptions,
+  TokenCredential,
+} from "@azure/core-auth";
 import { delay } from "@azure/core-util";
 
 /**
@@ -104,13 +108,27 @@ async function beginRefresh(
  *
  * @returns - a function that reliably produces a valid access token
  */
+interface CachedToken {
+  token: AccessToken;
+  tenantId: string | undefined;
+  sequence: number;
+}
+
+interface ClaimsEpoch {
+  pending: number;
+  latestSuccessfulSequence: number;
+  hasSuccessfulClaims: boolean;
+  ordinaryResults: Map<number, CachedToken>;
+  finalized: boolean;
+}
+
 interface RefreshWorker {
   promise: Promise<AccessToken>;
   sequence: number;
   requestIdentityKey: string;
   isClaimsRefresh: boolean;
-  startedDuringClaimsSequence?: number;
-  isInvalidated: boolean;
+  claimsEpoch?: ClaimsEpoch;
+  canJoin: boolean;
 }
 
 function getTokenRequestIdentityKey(
@@ -139,11 +157,8 @@ export function createTokenCycler(
   let tenantId: string | undefined;
   let nextRefreshSequence = 0;
   let latestCachedSequence = 0;
-  let latestSuccessfulClaimsSequence = 0;
+  let activeClaimsEpoch: ClaimsEpoch | undefined;
   const refreshWorkers = new Map<string, RefreshWorker>();
-  const pendingClaims = new Map<number, RefreshWorker>();
-  const deferredClaimsTokens = new Map<number, AccessToken>();
-  const deferredOrdinaryTokens = new Map<number, AccessToken>();
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
@@ -152,7 +167,14 @@ export function createTokenCycler(
 
   const cycler = {
     get isRefreshing(): boolean {
-      return refreshWorkers.size > 0;
+      return Array.from(refreshWorkers.values()).some((worker) => {
+        if (worker.isClaimsRefresh) {
+          return worker.claimsEpoch!.latestSuccessfulSequence < worker.sequence;
+        }
+        // Ordinary workers associated with a claims epoch cannot update the
+        // cache until every challenge in that epoch has settled.
+        return worker.claimsEpoch === undefined;
+      });
     },
     get shouldRefresh(): boolean {
       if (token === null) {
@@ -161,81 +183,107 @@ export function createTokenCycler(
       if (cycler.isRefreshing) {
         return false;
       }
-      if (token.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
+      if (
+        token.refreshAfterTimestamp &&
+        token.refreshAfterTimestamp < Date.now()
+      ) {
         return true;
       }
       return token.expiresOnTimestamp - options.refreshWindowInMs < Date.now();
     },
     get mustRefresh(): boolean {
       return (
-        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+        token === null ||
+        token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
     },
   };
 
-  function newestToken(tokens: Map<number, AccessToken>): AccessToken | undefined {
-    let newest: AccessToken | undefined;
-    let newestSequence = -1;
-    for (const [sequence, value] of tokens) {
-      if (sequence > newestSequence) {
-        newestSequence = sequence;
+  function cacheToken(value: CachedToken): void {
+    if (value.sequence < latestCachedSequence) {
+      return;
+    }
+    token = value.token;
+    tenantId = value.tenantId;
+    latestCachedSequence = value.sequence;
+  }
+
+  function newestToken(
+    tokens: Map<number, CachedToken>,
+  ): CachedToken | undefined {
+    let newest: CachedToken | undefined;
+    for (const value of tokens.values()) {
+      if (newest === undefined || value.sequence > newest.sequence) {
         newest = value;
       }
     }
     return newest;
   }
 
-  function finishClaimsBatchIfReady(): void {
-    if (pendingClaims.size !== 0) {
+  function finalizeClaimsEpoch(epoch: ClaimsEpoch): void {
+    if (epoch.pending !== 0 || epoch.finalized) {
       return;
     }
-
-    const claimsToken = newestToken(deferredClaimsTokens);
-    const ordinaryToken = newestToken(deferredOrdinaryTokens);
-    deferredClaimsTokens.clear();
-    deferredOrdinaryTokens.clear();
-
-    if (claimsToken !== undefined) {
-      latestCachedSequence = Math.max(latestCachedSequence, latestSuccessfulClaimsSequence);
-      token = claimsToken;
-      return;
+    epoch.finalized = true;
+    if (!epoch.hasSuccessfulClaims) {
+      const fallback = newestToken(epoch.ordinaryResults);
+      if (fallback !== undefined) {
+        cacheToken(fallback);
+      }
     }
-
-    // If every claims refresh failed, an ordinary refresh that completed while
-    // the challenge was pending is the safe fallback.
-    if (ordinaryToken !== undefined && latestSuccessfulClaimsSequence === 0) {
-      token = ordinaryToken;
+    if (activeClaimsEpoch === epoch) {
+      activeClaimsEpoch = undefined;
     }
+  }
+
+  function startClaimsEpoch(): ClaimsEpoch {
+    const epoch: ClaimsEpoch = {
+      pending: 0,
+      latestSuccessfulSequence: 0,
+      hasSuccessfulClaims: false,
+      ordinaryResults: new Map(),
+      finalized: false,
+    };
+    activeClaimsEpoch = epoch;
+    return epoch;
   }
 
   function refresh(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
-    const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
+    const requestIdentityKey = getTokenRequestIdentityKey(
+      scopes,
+      getTokenOptions,
+    );
     const existingWorker = refreshWorkers.get(requestIdentityKey);
-    if (existingWorker && !existingWorker.isInvalidated) {
+    if (existingWorker?.canJoin) {
       return existingWorker.promise;
     }
 
     const isClaimsRefresh = Boolean(getTokenOptions.claims);
-    const newestPendingClaims = Math.max(0, ...pendingClaims.keys());
+    const claimsEpoch = isClaimsRefresh
+      ? (activeClaimsEpoch ?? startClaimsEpoch())
+      : activeClaimsEpoch?.hasSuccessfulClaims
+        ? undefined
+        : activeClaimsEpoch;
     const worker: RefreshWorker = {
       promise: Promise.resolve(undefined as never),
       sequence: ++nextRefreshSequence,
       requestIdentityKey,
       isClaimsRefresh,
-      startedDuringClaimsSequence: isClaimsRefresh ? undefined : newestPendingClaims || undefined,
-      isInvalidated: false,
+      claimsEpoch,
+      canJoin: true,
     };
 
     if (isClaimsRefresh) {
+      claimsEpoch!.pending++;
       for (const activeWorker of refreshWorkers.values()) {
         if (!activeWorker.isClaimsRefresh) {
-          activeWorker.isInvalidated = true;
+          activeWorker.claimsEpoch = claimsEpoch;
+          activeWorker.canJoin = false;
         }
       }
-      pendingClaims.set(worker.sequence, worker);
     }
 
     const tryGetAccessToken = (): Promise<AccessToken | null> =>
@@ -246,44 +294,54 @@ export function createTokenCycler(
       token?.expiresOnTimestamp ?? Date.now(),
     )
       .then((_token) => {
-        refreshWorkers.delete(requestIdentityKey);
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
 
+        const result: CachedToken = {
+          token: _token,
+          tenantId: getTokenOptions.tenantId,
+          sequence: worker.sequence,
+        };
         if (worker.isClaimsRefresh) {
-          pendingClaims.delete(worker.sequence);
-          const newerClaimsPending = pendingClaims.size > 0;
-          if (newerClaimsPending) {
-            deferredClaimsTokens.set(worker.sequence, _token);
+          const epoch = worker.claimsEpoch!;
+          epoch.pending--;
+          epoch.hasSuccessfulClaims = true;
+          if (worker.sequence > epoch.latestSuccessfulSequence) {
+            epoch.latestSuccessfulSequence = worker.sequence;
+            cacheToken(result);
+            for (const activeWorker of refreshWorkers.values()) {
+              if (
+                activeWorker.claimsEpoch === epoch &&
+                !activeWorker.isClaimsRefresh
+              ) {
+                activeWorker.canJoin = false;
+              }
+            }
+          }
+          finalizeClaimsEpoch(epoch);
+        } else if (worker.claimsEpoch !== undefined) {
+          const epoch = worker.claimsEpoch;
+          if (epoch.finalized) {
+            if (!epoch.hasSuccessfulClaims) {
+              cacheToken(result);
+            }
           } else {
-            latestSuccessfulClaimsSequence = Math.max(
-              latestSuccessfulClaimsSequence,
-              worker.sequence,
-            );
-            token = _token;
-            tenantId = getTokenOptions.tenantId;
-            latestCachedSequence = Math.max(latestCachedSequence, worker.sequence);
-            deferredClaimsTokens.clear();
-            deferredOrdinaryTokens.clear();
+            epoch.ordinaryResults.set(worker.sequence, result);
           }
-          finishClaimsBatchIfReady();
-        } else if (!worker.isInvalidated) {
-          if (pendingClaims.size > 0 && worker.startedDuringClaimsSequence !== undefined) {
-            deferredOrdinaryTokens.set(worker.sequence, _token);
-          } else if (
-            worker.sequence >= latestCachedSequence &&
-            worker.startedDuringClaimsSequence === undefined
-          ) {
-            token = _token;
-            tenantId = getTokenOptions.tenantId;
-            latestCachedSequence = worker.sequence;
-          }
+        } else {
+          cacheToken(result);
         }
         return _token;
       })
       .catch((reason) => {
-        refreshWorkers.delete(requestIdentityKey);
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
         if (worker.isClaimsRefresh) {
-          pendingClaims.delete(worker.sequence);
-          finishClaimsBatchIfReady();
+          const epoch = worker.claimsEpoch!;
+          epoch.pending--;
+          finalizeClaimsEpoch(epoch);
         }
         throw reason;
       });
@@ -296,7 +354,10 @@ export function createTokenCycler(
     return promise;
   }
 
-  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
+  return async (
+    scopes: string | string[],
+    tokenOptions: GetTokenOptions,
+  ): Promise<AccessToken> => {
     const hasClaimChallenge = Boolean(tokenOptions.claims);
     const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
@@ -304,7 +365,8 @@ export function createTokenCycler(
       token = null;
     }
 
-    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
+    const mustRefresh =
+      tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
     if (mustRefresh) {
       return refresh(scopes, tokenOptions);
     }
