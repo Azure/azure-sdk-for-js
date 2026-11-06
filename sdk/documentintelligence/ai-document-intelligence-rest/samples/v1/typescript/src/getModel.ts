@@ -33,7 +33,8 @@ async function main(): Promise<void> {
   console.log("Description: ", model.body.description || "<none>");
 
   console.log("Document Types:");
-  for (const [docType, { fieldSchema }] of Object.entries(model.body.docTypes || {})) {
+  for (const [docType, docTypeDetails] of Object.entries(model.body.docTypes || {})) {
+    const { fieldSchema } = docTypeDetails;
     // We can also programmatically access a schema of the fields.
     console.log("-", docType, JSON.stringify(fieldSchema, undefined, 2));
   }
