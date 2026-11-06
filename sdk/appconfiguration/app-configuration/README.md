@@ -129,6 +129,8 @@ The [`AppConfigurationClient`](https://learn.microsoft.com/javascript/api/@azure
 - Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
 - Snapshots are represented as `ConfigurationSnapshot` objects.
 
+Pass keys, feature flag names, labels, and filter values as their original strings, without URL encoding them first. Both clients encode these values when building request URLs, so reserved characters such as `?` remain part of the value.
+
 The client follows a simple design methodology - [`ConfigurationSetting`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingid).
 
 This means this pattern works:

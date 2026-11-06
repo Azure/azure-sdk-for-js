@@ -1,5 +1,15 @@
 # Release History
 
+## 1.13.0-beta.3 (Unreleased)
+
+### Bugs Fixed
+
+- Correctly encode reserved characters in configuration setting labels and filters without double-encoding tag values. [#39670](https://github.com/Azure/azure-sdk-for-js/pull/39670)
+
+### Other Changes
+
+- Regenerated with `@azure-tools/typespec-ts` 0.58.0, which fixes double encoding of `$Select` query parameter names and removes the need for the client-side encoding workaround. [Azure/typespec-azure#5280](https://github.com/Azure/typespec-azure/pull/5280)
+
 ## 1.13.0-beta.2 (2026-10-15)
 
 ### Bugs Fixed

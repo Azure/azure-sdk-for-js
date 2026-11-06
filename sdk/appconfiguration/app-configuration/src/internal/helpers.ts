@@ -138,8 +138,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    // Ensure the tags are URL-encoded when encoding
-    tags: listConfigOptions.tagsFilter?.map((t) => encodeURIComponent(t)),
+    tags: listConfigOptions.tagsFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -599,16 +598,4 @@ export function getScope(appConfigEndpoint: string, appConfigAudience?: string):
   }
 
   return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
-}
-
-/**
- * Encodes a value for use as a URL path parameter according to RFC 3986.
- *
- * @internal
- */
-export function encodePathParameter(str: string): string {
-  return encodeURIComponent(str).replace(
-    /[!'()*]/g,
-    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
-  );
 }
