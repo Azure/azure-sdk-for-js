@@ -6,6 +6,7 @@ import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
 import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
+import { verifiedEmittedRenames } from "./models.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1980,12 +1981,15 @@ export function validateCustomization({
   }
   if (diagnostics.length) return diagnostics;
   const previousDiagnosticCount = diagnostics.length;
+  let emittedRenames;
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;
     const existing = baselineModels
       .get(original)
       ?.find((entry) => ts.isFunctionDeclaration(entry.node));
     if (existing) {
+      emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
+      if (emittedRenames.get(original) === replacement) continue;
       report(
         existing.file,
         original,

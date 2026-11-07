@@ -63,6 +63,15 @@ constructor; copying the emitted single-client initialization is not safe.
 Keep an explicit disposition for any custom-only method that cannot be matched;
 never delete it to make relocation pass.
 
+For JavaScript-only model-name changes, verify the resolver follows an approved
+old/new declaration pair only when the emitted declarations and converters are
+structurally equivalent. Retained discriminated variants still need an explicit
+union policy; do not treat a language rename as permission to retain or drop
+arbitrary legacy variants. Customized tracing wrappers may follow emitted
+parameter-only renames, but inspect their inner operation call: it must remain
+the one exact delegate from the baseline, with the emitted argument names and
+types. Altered forwarding still requires manual review.
+
 Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                                     | Exit point                                                                                                                                                                                                    |
