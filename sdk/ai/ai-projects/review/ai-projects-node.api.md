@@ -1897,62 +1897,6 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationOptions {
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsCreateOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationOptions {
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsGetOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsGetOptionalParams extends OperationOptions {
-    operationId?: string;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-    status?: TelephonyCampaignStatus;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsOperations {
-    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsGetOptionalParams) => Promise<TelephonyCampaign>;
-    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
-    list: (agentName: string, options?: BetaVoiceAgentsCampaignsListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
-    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
-}
-
-// @public
 export interface BetaVoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {
 }
 
@@ -2131,8 +2075,6 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 // @public
 export interface BetaVoiceAgentsOperations {
-    // (undocumented)
-    campaigns: BetaVoiceAgentsCampaignsOperations;
     conversations: BetaVoiceAgentsConversationsOperations;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
@@ -2142,6 +2084,12 @@ export interface BetaVoiceAgentsOperations {
 // @public
 export interface BetaVoiceAgentsTelephonyCancelCallJobOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyCancelOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2157,12 +2105,25 @@ export interface BetaVoiceAgentsTelephonyCreateCallJobOptionalParams extends Ope
 }
 
 // @public
+export interface BetaVoiceAgentsTelephonyCreateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface BetaVoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
 export interface BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyDeleteOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2183,6 +2144,15 @@ export interface BetaVoiceAgentsTelephonyGetCallJobOptionalParams extends Operat
 // @public
 export interface BetaVoiceAgentsTelephonyGetCallOptionalParams extends OperationOptions {
     foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyGetOperationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyGetOptionalParams extends OperationOptions {
+    operationId?: string;
 }
 
 // @public
@@ -2224,20 +2194,44 @@ export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends Operati
 }
 
 // @public
+export interface BetaVoiceAgentsTelephonyListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCampaignStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
 export interface BetaVoiceAgentsTelephonyOperations {
+    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
     cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsTelephonyCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
     createBinding: (agentName: string, binding: TelephonyBindingCreateUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     createCallJob: (agentName: string, idempotencyKey: string, job: TelephonyCallJobCreate, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
     deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
     deleteCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
+    deleteTelephony: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     endCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
+    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyGetOptionalParams) => Promise<TelephonyCampaign>;
     getBinding: (agentName: string, bindingId: string, options?: BetaVoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
     getCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
     getCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
     getTransferTargets: (agentName: string, options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
+    list: (agentName: string, options?: BetaVoiceAgentsTelephonyListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
     listBindings: (agentName: string, options?: BetaVoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
     listCallJobs: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallJob>;
     listCalls: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
+    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
     replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     transferCall: (agentName: string, callId: string, target: string, options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
     updateBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams) => Promise<TelephonyBindingUnion>;

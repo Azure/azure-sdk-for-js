@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
+import { indexOperations } from "../../../../scripts/customization/operations.mjs";
 import { planModelRemovals } from "./sync-generated-model-removals.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
@@ -221,7 +222,106 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
   return allowed;
 }
 
+// Verified campaigns-to-telephony merge in TypeSpec commit d7363f1cd9566b2a85b25b30ca5e28f893d36f2c.
+export function findCampaignRelocationRemovals({
+  previousGenerated,
+  previousSource,
+  currentGenerated,
+  currentSource,
+}) {
+  const oldApi = "api/beta/voiceAgents/campaigns";
+  const newApi = "api/beta/voiceAgents/telephony";
+  const oldClassic = "classic/beta/voiceAgents/campaigns/index.ts";
+  const newClassic = "classic/beta/voiceAgents/telephony/index.ts";
+  const allowed = new Set();
+  const parse = (tree, file) => parseSource(tree.get(file) ?? "", file);
+  if (
+    [currentGenerated, currentSource].some((tree) =>
+      [
+        oldClassic,
+        ...["index.ts", "operations.ts", "options.ts"].map((name) => `${oldApi}/${name}`),
+      ].some((file) => tree.has(file)),
+    )
+  )
+    return allowed;
+  const operations = (tree, directory) =>
+    indexOperations(
+      new Map([[`${directory}/operations.ts`, tree.get(`${directory}/operations.ts`) ?? ""]]),
+    );
+  const previous = operations(previousGenerated, oldApi);
+  const incoming = operations(currentGenerated, newApi);
+  const customized = operations(currentSource, newApi);
+  const currentNames = new Set(
+    [...currentSource].flatMap(([file, text]) => [...identifiers(parseSource(text, file))]),
+  );
+  const relocated = [
+    ["GetOperation", "getOperation"],
+    ["ListValidationErrors", "listValidationErrors"],
+    ["Delete", "deleteCampaign", "deleteTelephony"],
+    ["Cancel", "cancel"],
+    ["List", "list"],
+    ["Get", "get"],
+    ["Create", "create"],
+  ];
+  for (const [suffix, oldName, newName = oldName] of relocated) {
+    const oldOptions = `BetaVoiceAgentsCampaigns${suffix}OptionalParams`;
+    const newOptions = `BetaVoiceAgentsTelephony${suffix}OptionalParams`;
+    const prior = previous.filter(
+      (operation) => operation.name === oldName && operation.options === oldOptions,
+    );
+    if (prior.length !== 1 || currentNames.has(oldOptions)) continue;
+    const matches = (operations) =>
+      operations.filter((operation) => operation.identity === prior[0].identity);
+    const next = matches(incoming);
+    const source = matches(customized);
+    if (
+      [next, source].some(
+        (operations) =>
+          operations.length !== 1 ||
+          operations[0].name !== newName ||
+          operations[0].options !== newOptions,
+      ) ||
+      !collectExportedNames(parse(previousGenerated, `${oldApi}/options.ts`)).has(oldOptions) ||
+      ![currentGenerated, currentSource].every((tree) => {
+        const group = parse(tree, newClassic).statements.find(ts.isInterfaceDeclaration);
+        const member = group?.members.find((member) => propertyName(member.name) === newName);
+        return (
+          member &&
+          identifiers(member).has(newOptions) &&
+          collectExportedNames(parse(tree, `${newApi}/options.ts`)).has(newOptions) &&
+          collectExportedNames(parse(tree, "index.ts")).has(newOptions)
+        );
+      })
+    )
+      continue;
+    allowed.add(oldOptions);
+  }
+  const oldGroup = "BetaVoiceAgentsCampaignsOperations";
+  if (
+    allowed.size === relocated.length &&
+    !currentNames.has(oldGroup) &&
+    [currentGenerated, currentSource].every((tree) =>
+      collectExportedNames(parse(tree, "index.ts")).has("BetaVoiceAgentsTelephonyOperations"),
+    ) &&
+    [previousGenerated, previousSource].every((tree) => {
+      const groups = parse(tree, oldClassic).statements.filter(ts.isInterfaceDeclaration);
+      return (
+        groups.length === 1 &&
+        groups[0].name.text === oldGroup &&
+        !groups[0].heritageClauses?.length &&
+        groups[0].members.length === relocated.length &&
+        groups[0].members.every((member) =>
+          relocated.some(([, name]) => propertyName(member.name) === name),
+        )
+      );
+    })
+  )
+    allowed.add(oldGroup);
+  return allowed;
+}
+
 function propertyName(name) {
+  if (!name) return undefined;
   if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
     return name.text;
   }
@@ -689,11 +789,14 @@ function main() {
     );
   }
   const missingNames = new Set(allMissingPreservedExports.map((item) => item.name));
-  const promotedOptionRemovals = findPromotedOptionRemovals({
+  const trees = {
     previousGenerated: readTree(repoRoot, packageRelative, "generated", options.baseRef),
+    previousSource: readTree(repoRoot, packageRelative, "src", options.baseRef),
     currentGenerated: readTree(repoRoot, packageRelative, "generated", options.generatedRef),
     currentSource: readTree(repoRoot, packageRelative, "src", options.sourceRef),
-  });
+  };
+  const promotedOptionRemovals = findPromotedOptionRemovals(trees);
+  const campaignRelocationRemovals = findCampaignRelocationRemovals(trees);
   const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
     (name) => !missingNames.has(name),
   );
@@ -701,6 +804,7 @@ function main() {
     (item) =>
       !allowedModelRemovals.has(item.name) &&
       !promotedOptionRemovals.has(item.name) &&
+      !campaignRelocationRemovals.has(item.name) &&
       !options.allowedSourceRemovals.has(item.name),
   );
 
@@ -752,7 +856,8 @@ function main() {
     `Customization parity passed for ${generatedFiles.length} changed generated file(s); ` +
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
       `${allowedModelRemovals.size} generated-backed and ` +
-      `${promotedOptionRemovals.size} verified promotion removal(s), and ` +
+      `${promotedOptionRemovals.size} verified promotion removal(s), ` +
+      `${campaignRelocationRemovals.size} verified campaign relocation removal(s), and ` +
       `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }

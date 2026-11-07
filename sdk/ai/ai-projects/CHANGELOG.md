@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Move outbound campaign operations from `project.beta.voiceAgents.campaigns` to `project.beta.voiceAgents.telephony`, renaming `deleteCampaign` to `deleteTelephony` and the `BetaVoiceAgentsCampaigns*OptionalParams` types to `BetaVoiceAgentsTelephony*OptionalParams`. Remove `BetaVoiceAgentsCampaignsOperations`. [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Narrow voice conversation-engine, greeting, interim-response, tool, and WebRTC error `type` properties from unrestricted strings to the corresponding named discriminator types. Use the supported literal values when constructing these models. [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
 - Replace telephony create-request models with `TelephonyBindingCreateUnion` and `TelephonyCallJobCreate`, and rename `TelephonyOutboundFixedIntervalRetryPolicy` to `FixedIntervalRetryPolicy`. Use typed `TelephonyAddressUnion` objects for call-job sources, destinations, and transfer targets instead of scalar sources or `kind`-discriminated transfer destinations. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Remove telephony binding lifecycle `status` properties, the binding-list `status` filter, and `TelephonyBindingStatus`. Use the remaining binding configuration fields for updates. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
@@ -13,7 +14,7 @@
 ### Features Added
 
 - Add named voice discriminator types for `project.beta.voiceAgents` and allow unknown string values in `RealtimeClientEventType` and `RealtimeConversationItemType` for forward compatibility. [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
-- Add `project.beta.voiceAgents.campaigns` for outbound campaign creation, validation errors, scheduling, cancellation, deletion, and operation tracking. Add `listCallJobs` and `deleteCallJob` to `project.beta.voiceAgents.telephony`, including campaign-filtered job listing. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
+- Add outbound campaign creation, validation errors, scheduling, cancellation, deletion, and operation tracking to `project.beta.voiceAgents.telephony`. Add `listCallJobs` and `deleteCallJob`, including campaign-filtered job listing. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add voice system tools for language detection, digit recognition, SMS/DTMF collection and sending, and transfers, including private parameter binding and typed system-tool output. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add GPT Live voice definitions, delegation configuration, and native Live session and event models. Share settings through `VoiceAgentBaseDefinition`, retaining `VoiceAgentDefinition` for Realtime and defaulting omitted `sub_protocol` to Realtime without adding it to the wire payload. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
 - Add `project.beta.voiceAgents.liveConversations` for listing, reading, and deleting persisted Live conversations and retrieving their items and audio. Preserve preview headers and request options across cursor pages. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
@@ -30,6 +31,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `d7363f1cd9566b2a85b25b30ca5e28f893d36f2c`, moving campaign operations into telephony while preserving guarded final resource resolution, preview headers, and cursor paging. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/d7363f1cd9566b2a85b25b30ca5e28f893d36f2c). [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Regenerate the client from azure-rest-api-specs commit `30ed36b5ac7a3015dfae9832478e7254e9c811e1`, preserving released tool names, compatibility aliases, and customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/30ed36b5ac7a3015dfae9832478e7254e9c811e1). [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
 - Regenerate the client from azure-rest-api-specs commit `8d46b0a57a38e80d47535db5705c1f9154722e9b`, retaining customized tracing, preview headers, cursor paging, and public tool aliases. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/8d46b0a57a38e80d47535db5705c1f9154722e9b). [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Regenerate the client from azure-rest-api-specs commit `a868344d9bc9274f4897766b001d996f39dd4599`, preserving customized client behavior, tracing, and Realtime serialization. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a868344d9bc9274f4897766b001d996f39dd4599). [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)

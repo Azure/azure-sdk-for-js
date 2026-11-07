@@ -1454,15 +1454,6 @@ export type {
   BetaSkillsGetOptionalParams,
 } from "./api/beta/skills/index.js";
 export type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
-} from "./api/beta/voiceAgents/campaigns/index.js";
-export type {
   BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsConversationsGetAudioOptionalParams,
   BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
@@ -1490,6 +1481,13 @@ export type {
   BetaVoiceAgentsLiveConversationsListOptionalParams,
 } from "./api/beta/voiceAgents/liveConversations/index.js";
 export type {
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
   BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
@@ -1529,7 +1527,6 @@ export type {
   BetaSchedulesOperations,
   BetaSkillsOperations,
   BetaVoiceAgentsOperations,
-  BetaVoiceAgentsCampaignsOperations,
   BetaVoiceAgentsConversationsOperations,
   BetaVoiceAgentsLiveConversationsOperations,
   BetaVoiceAgentsTelephonyOperations,
