@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _SubgroupListResult } from "../../models/models.js";
-import { _subgroupListResultDeserializer } from "../../models/models.js";
-import type { Subgroup } from "../../models/network/models.js";
-import { subgroupDeserializer } from "../../models/network/models.js";
+import type { Subgroup, _SubgroupListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  subgroupDeserializer,
+  _subgroupListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -26,7 +27,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       interconnectGroupName: interconnectGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +67,7 @@ export function list(
     () => _listSend(context, resourceGroupName, interconnectGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -84,7 +85,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       interconnectGroupName: interconnectGroupName,
       subgroupName: subgroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -5,40 +5,32 @@ import type { NetworkManagementContext as Client } from "../index.js";
 import type {
   NetworkInterfaceIPConfiguration,
   NetworkInterface,
-} from "../../models/common/models.js";
+  TagsObject,
+  _NetworkInterfaceListResult,
+  EffectiveRouteListResult,
+  EffectiveNetworkSecurityGroupListResult,
+  _NetworkInterfaceIPConfigurationListResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   networkInterfaceIPConfigurationDeserializer,
   networkInterfaceSerializer,
   networkInterfaceDeserializer,
-} from "../../models/common/models.js";
-import type {
-  _NetworkInterfaceListResult,
-  _NetworkInterfaceIPConfigurationListResult,
-} from "../../models/models.js";
-import {
-  _networkInterfaceListResultDeserializer,
-  _networkInterfaceIPConfigurationListResultDeserializer,
-} from "../../models/models.js";
-import type {
-  TagsObject,
-  EffectiveRouteListResult,
-  EffectiveNetworkSecurityGroupListResult,
-} from "../../models/network/models.js";
-import {
   tagsObjectSerializer,
+  _networkInterfaceListResultDeserializer,
   effectiveRouteListResultDeserializer,
   effectiveNetworkSecurityGroupListResultDeserializer,
-} from "../../models/network/models.js";
+  _networkInterfaceIPConfigurationListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
   NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   NetworkInterfacesListAllOptionalParams,
@@ -47,80 +39,12 @@ import type {
   NetworkInterfacesUpdateTagsOptionalParams,
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesGetOptionalParams,
-  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
   NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
-
-export function _listVirtualMachineScaleSetNetworkInterfacesSend(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      virtualMachineScaleSetName: virtualMachineScaleSetName,
-      "api%2Dversion": "2018-10-01",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listVirtualMachineScaleSetNetworkInterfacesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_NetworkInterfaceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _networkInterfaceListResultDeserializer(result.body);
-}
-
-/** Gets all network interfaces in a virtual machine scale set. */
-export function listVirtualMachineScaleSetNetworkInterfaces(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<NetworkInterface> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _listVirtualMachineScaleSetNetworkInterfacesSend(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        options,
-      ),
-    _listVirtualMachineScaleSetNetworkInterfacesDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2018-10-01" },
-  );
-}
 
 export function _listCloudServiceNetworkInterfacesSend(
   context: Client,
@@ -136,7 +60,7 @@ export function _listCloudServiceNetworkInterfacesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudServiceName: cloudServiceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +103,7 @@ export function listCloudServiceNetworkInterfaces(
       _listCloudServiceNetworkInterfacesSend(context, resourceGroupName, cloudServiceName, options),
     _listCloudServiceNetworkInterfacesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -201,7 +125,7 @@ export function _listVirtualMachineScaleSetIpConfigurationsSend(
       virtualMachineScaleSetName: virtualMachineScaleSetName,
       virtualmachineIndex: virtualmachineIndex,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2018-10-01",
+      "api%2Dversion": context.apiVersion ?? "2018-10-01",
       "%24expand": options?.expand,
     },
     {
@@ -254,7 +178,7 @@ export function listVirtualMachineScaleSetIpConfigurations(
       ),
     _listVirtualMachineScaleSetIpConfigurationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2018-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2018-10-01" },
   );
 }
 
@@ -278,7 +202,7 @@ export function _getVirtualMachineScaleSetIpConfigurationSend(
       virtualmachineIndex: virtualmachineIndex,
       networkInterfaceName: networkInterfaceName,
       ipConfigurationName: ipConfigurationName,
-      "api%2Dversion": "2018-10-01",
+      "api%2Dversion": context.apiVersion ?? "2018-10-01",
       "%24expand": options?.expand,
     },
     {
@@ -331,6 +255,72 @@ export async function getVirtualMachineScaleSetIpConfiguration(
   return _getVirtualMachineScaleSetIpConfigurationDeserialize(result);
 }
 
+export function _listVirtualMachineScaleSetNetworkInterfacesSend(
+  context: Client,
+  resourceGroupName: string,
+  virtualMachineScaleSetName: string,
+  options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      virtualMachineScaleSetName: virtualMachineScaleSetName,
+      "api%2Dversion": context.apiVersion ?? "2018-10-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listVirtualMachineScaleSetNetworkInterfacesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_NetworkInterfaceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _networkInterfaceListResultDeserializer(result.body);
+}
+
+/** Gets all network interfaces in a virtual machine scale set. */
+export function listVirtualMachineScaleSetNetworkInterfaces(
+  context: Client,
+  resourceGroupName: string,
+  virtualMachineScaleSetName: string,
+  options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<NetworkInterface> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _listVirtualMachineScaleSetNetworkInterfacesSend(
+        context,
+        resourceGroupName,
+        virtualMachineScaleSetName,
+        options,
+      ),
+    _listVirtualMachineScaleSetNetworkInterfacesDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2018-10-01" },
+  );
+}
+
 export function _listEffectiveNetworkSecurityGroupsSend(
   context: Client,
   resourceGroupName: string,
@@ -345,7 +335,7 @@ export function _listEffectiveNetworkSecurityGroupsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +390,7 @@ export function listEffectiveNetworkSecurityGroups(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<
     OperationState<EffectiveNetworkSecurityGroupListResult>,
@@ -420,7 +410,7 @@ export function _getEffectiveRouteTableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -461,7 +451,7 @@ export function getEffectiveRouteTable(
     getInitialResponse: () =>
       _getEffectiveRouteTableSend(context, resourceGroupName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<EffectiveRouteListResult>, EffectiveRouteListResult>;
 }
 
@@ -473,7 +463,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,7 +501,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -525,7 +515,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -564,7 +554,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -580,7 +570,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -616,7 +606,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -633,7 +623,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -694,7 +684,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +728,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, networkInterfaceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -754,7 +744,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -792,145 +782,6 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _listVirtualMachineScaleSetVMNetworkInterfacesSend(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  options: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      virtualMachineScaleSetName: virtualMachineScaleSetName,
-      virtualmachineIndex: virtualmachineIndex,
-      "api%2Dversion": "2018-10-01",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listVirtualMachineScaleSetVMNetworkInterfacesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_NetworkInterfaceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _networkInterfaceListResultDeserializer(result.body);
-}
-
-/** Gets information about all network interfaces in a virtual machine in a virtual machine scale set. */
-export function listVirtualMachineScaleSetVMNetworkInterfaces(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  options: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<NetworkInterface> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _listVirtualMachineScaleSetVMNetworkInterfacesSend(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        options,
-      ),
-    _listVirtualMachineScaleSetVMNetworkInterfacesDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2018-10-01" },
-  );
-}
-
-export function _getVirtualMachineScaleSetNetworkInterfaceSend(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  options: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}{?api%2Dversion,%24expand}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      virtualMachineScaleSetName: virtualMachineScaleSetName,
-      virtualmachineIndex: virtualmachineIndex,
-      networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2018-10-01",
-      "%24expand": options?.expand,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getVirtualMachineScaleSetNetworkInterfaceDeserialize(
-  result: PathUncheckedResponse,
-): Promise<NetworkInterface> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return networkInterfaceDeserializer(result.body);
-}
-
-/** Get the specified network interface in a virtual machine scale set. */
-export async function getVirtualMachineScaleSetNetworkInterface(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  options: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<NetworkInterface> {
-  const result = await _getVirtualMachineScaleSetNetworkInterfaceSend(
-    context,
-    resourceGroupName,
-    virtualMachineScaleSetName,
-    virtualmachineIndex,
-    networkInterfaceName,
-    options,
-  );
-  return _getVirtualMachineScaleSetNetworkInterfaceDeserialize(result);
-}
-
 export function _listCloudServiceRoleInstanceNetworkInterfacesSend(
   context: Client,
   resourceGroupName: string,
@@ -947,7 +798,7 @@ export function _listCloudServiceRoleInstanceNetworkInterfacesSend(
       resourceGroupName: resourceGroupName,
       cloudServiceName: cloudServiceName,
       roleInstanceName: roleInstanceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -997,7 +848,7 @@ export function listCloudServiceRoleInstanceNetworkInterfaces(
       ),
     _listCloudServiceRoleInstanceNetworkInterfacesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -1017,7 +868,7 @@ export function _getCloudServiceNetworkInterfaceSend(
       cloudServiceName: cloudServiceName,
       roleInstanceName: roleInstanceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {

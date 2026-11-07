@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   VpnServerConfigurationPolicyGroup,
   _ListVpnServerConfigurationPolicyGroupsResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   vpnServerConfigurationPolicyGroupSerializer,
   vpnServerConfigurationPolicyGroupDeserializer,
   _listVpnServerConfigurationPolicyGroupsResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -40,7 +40,7 @@ export function _listByVpnServerConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnServerConfigurationName: vpnServerConfigurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +88,7 @@ export function listByVpnServerConfiguration(
       ),
     _listByVpnServerConfigurationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -106,7 +106,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vpnServerConfigurationName: vpnServerConfigurationName,
       configurationPolicyGroupName: configurationPolicyGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +149,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -168,7 +168,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vpnServerConfigurationName: vpnServerConfigurationName,
       configurationPolicyGroupName: configurationPolicyGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +223,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<VpnServerConfigurationPolicyGroup>,
     VpnServerConfigurationPolicyGroup
@@ -244,7 +244,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vpnServerConfigurationName: vpnServerConfigurationName,
       configurationPolicyGroupName: configurationPolicyGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

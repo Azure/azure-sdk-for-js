@@ -7,7 +7,7 @@ import type {
   DefaultSecurityRulesListOptionalParams,
   DefaultSecurityRulesGetOptionalParams,
 } from "../../api/defaultSecurityRules/options.js";
-import type { SecurityRule } from "../../models/common/models.js";
+import type { SecurityRule } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DefaultSecurityRules operations. */

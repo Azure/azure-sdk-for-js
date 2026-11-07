@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { get } from "../../api/applicationGatewayWafDynamicManifestsDefault/operations.js";
 import type { ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams } from "../../api/applicationGatewayWafDynamicManifestsDefault/options.js";
-import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/network/models.js";
+import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/models.js";
 
 /** Interface representing a ApplicationGatewayWafDynamicManifestsDefault operations. */
 export interface ApplicationGatewayWafDynamicManifestsDefaultOperations {

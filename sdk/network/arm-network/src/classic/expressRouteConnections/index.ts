@@ -14,10 +14,7 @@ import type {
   ExpressRouteConnectionsGetOptionalParams,
   ExpressRouteConnectionsCreateOrUpdateOptionalParams,
 } from "../../api/expressRouteConnections/options.js";
-import type {
-  ExpressRouteConnection,
-  ExpressRouteConnectionList,
-} from "../../models/network/models.js";
+import type { ExpressRouteConnection, ExpressRouteConnectionList } from "../../models/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

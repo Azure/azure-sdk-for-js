@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { BackendAddressPool } from "../../models/common/models.js";
+import type {
+  BackendAddressPool,
+  _LoadBalancerBackendAddressPoolListResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   backendAddressPoolSerializer,
   backendAddressPoolDeserializer,
-} from "../../models/common/models.js";
-import type { _LoadBalancerBackendAddressPoolListResult } from "../../models/network/models.js";
-import { _loadBalancerBackendAddressPoolListResultDeserializer } from "../../models/network/models.js";
+  _loadBalancerBackendAddressPoolListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, loadBalancerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -94,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
       backendAddressPoolName: backendAddressPoolName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, loadBalancerName, backendAddressPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
       backendAddressPoolName: backendAddressPoolName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<BackendAddressPool>, BackendAddressPool>;
 }
 
@@ -220,7 +222,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
       backendAddressPoolName: backendAddressPoolName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

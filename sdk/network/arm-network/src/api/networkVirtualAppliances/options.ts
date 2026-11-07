@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkVirtualApplianceInstanceIds } from "../../models/network/models.js";
+import type { NetworkVirtualApplianceInstanceIds } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

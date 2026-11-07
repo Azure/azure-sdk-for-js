@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/serviceTags/operations.js";
 import type { ServiceTagsListOptionalParams } from "../../api/serviceTags/options.js";
-import type { ServiceTagsListResult } from "../../models/network/models.js";
+import type { ServiceTagsListResult } from "../../models/models.js";
 
 /** Interface representing a ServiceTags operations. */
 export interface ServiceTagsOperations {

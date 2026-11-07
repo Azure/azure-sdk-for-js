@@ -2,13 +2,9 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { NetworkWatcher } from "../../models/common/models.js";
-import {
-  networkWatcherSerializer,
-  networkWatcherDeserializer,
-} from "../../models/common/models.js";
 import type {
   TagsObject,
+  NetworkWatcher,
   _NetworkWatcherListResult,
   TopologyParameters,
   Topology,
@@ -34,9 +30,11 @@ import type {
   ConnectionAnalyzer,
   _ConnectionAnalyzerListResult,
   ConnectionAnalyzerQueryStatusResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
   tagsObjectSerializer,
+  networkWatcherSerializer,
+  networkWatcherDeserializer,
   errorResponseDeserializer,
   _networkWatcherListResultDeserializer,
   topologyParametersSerializer,
@@ -65,7 +63,7 @@ import {
   connectionAnalyzerDeserializer,
   _connectionAnalyzerListResultDeserializer,
   connectionAnalyzerQueryStatusResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -114,7 +112,7 @@ export function _connectionAnalyzersQuerySend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       connectionAnalyzerName: connectionAnalyzerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,7 +167,7 @@ export function connectionAnalyzersQuery(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<
     OperationState<ConnectionAnalyzerQueryStatusResult>,
@@ -189,7 +187,7 @@ export function _connectionAnalyzersListSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +227,7 @@ export function connectionAnalyzersList(
     () => _connectionAnalyzersListSend(context, resourceGroupName, networkWatcherName, options),
     _connectionAnalyzersListDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -248,7 +246,7 @@ export function _connectionAnalyzersUpdateTagsSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       connectionAnalyzerName: connectionAnalyzerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -312,7 +310,7 @@ export function _connectionAnalyzersDeleteSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       connectionAnalyzerName: connectionAnalyzerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +359,7 @@ export function connectionAnalyzersDelete(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -380,7 +378,7 @@ export function _connectionAnalyzersGetSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       connectionAnalyzerName: connectionAnalyzerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,7 +439,7 @@ export function _connectionAnalyzersCreateSend(
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
       connectionAnalyzerName: connectionAnalyzerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -497,7 +495,7 @@ export function connectionAnalyzersCreate(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<ConnectionAnalyzer>, ConnectionAnalyzer>;
 }
@@ -515,7 +513,7 @@ export function _getNetworkConfigurationDiagnosticSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -572,7 +570,7 @@ export function getNetworkConfigurationDiagnostic(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<
     OperationState<NetworkConfigurationDiagnosticResponse>,
@@ -593,7 +591,7 @@ export function _listAvailableProvidersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -643,7 +641,7 @@ export function listAvailableProviders(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<AvailableProvidersList>, AvailableProvidersList>;
 }
 
@@ -660,7 +658,7 @@ export function _getAzureReachabilityReportSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -714,7 +712,7 @@ export function getAzureReachabilityReport(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<AzureReachabilityReport>, AzureReachabilityReport>;
 }
@@ -732,7 +730,7 @@ export function _checkConnectivitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -776,7 +774,7 @@ export function checkConnectivity(
     getInitialResponse: () =>
       _checkConnectivitySend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<ConnectivityInformation>, ConnectivityInformation>;
 }
 
@@ -793,7 +791,7 @@ export function _getFlowLogStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -837,7 +835,7 @@ export function getFlowLogStatus(
     getInitialResponse: () =>
       _getFlowLogStatusSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<FlowLogInformation>, FlowLogInformation>;
 }
 
@@ -854,7 +852,7 @@ export function _setFlowLogConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -904,7 +902,7 @@ export function setFlowLogConfiguration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<FlowLogInformation>, FlowLogInformation>;
 }
 
@@ -921,7 +919,7 @@ export function _getTroubleshootingResultSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -975,7 +973,7 @@ export function getTroubleshootingResult(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<TroubleshootingResult>, TroubleshootingResult>;
 }
@@ -993,7 +991,7 @@ export function _getTroubleshootingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1037,7 +1035,7 @@ export function getTroubleshooting(
     getInitialResponse: () =>
       _getTroubleshootingSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<TroubleshootingResult>, TroubleshootingResult>;
 }
 
@@ -1054,7 +1052,7 @@ export function _getVMSecurityRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1098,7 +1096,7 @@ export function getVMSecurityRules(
     getInitialResponse: () =>
       _getVMSecurityRulesSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<SecurityGroupViewResult>, SecurityGroupViewResult>;
 }
 
@@ -1115,7 +1113,7 @@ export function _getNextHopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1159,7 +1157,7 @@ export function getNextHop(
     getInitialResponse: () =>
       _getNextHopSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<NextHopResult>, NextHopResult>;
 }
 
@@ -1176,7 +1174,7 @@ export function _verifyIPFlowSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1220,7 +1218,7 @@ export function verifyIPFlow(
     getInitialResponse: () =>
       _verifyIPFlowSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<VerificationIPFlowResult>, VerificationIPFlowResult>;
 }
 
@@ -1237,7 +1235,7 @@ export function _getTopologySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1291,7 +1289,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1329,7 +1327,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -1343,7 +1341,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1382,7 +1380,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -1398,7 +1396,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1433,7 +1431,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkWatcherName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1450,7 +1448,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1511,7 +1509,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1571,7 +1569,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { get } from "../../api/vpnSiteLinkConnections/operations.js";
 import type { VpnSiteLinkConnectionsGetOptionalParams } from "../../api/vpnSiteLinkConnections/options.js";
-import type { VpnSiteLinkConnection } from "../../models/network/models.js";
+import type { VpnSiteLinkConnection } from "../../models/models.js";
 
 /** Interface representing a VpnSiteLinkConnections operations. */
 export interface VpnSiteLinkConnectionsOperations {

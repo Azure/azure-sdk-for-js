@@ -7,7 +7,7 @@ import type {
   LoadBalancerProbesListOptionalParams,
   LoadBalancerProbesGetOptionalParams,
 } from "../../api/loadBalancerProbes/options.js";
-import type { Probe } from "../../models/common/models.js";
+import type { Probe } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LoadBalancerProbes operations. */

@@ -3,6 +3,7 @@
 
 import { logger } from "../logger.js";
 import pkgJson from "@azure/arm-network/package.json" with { type: "json" };
+import { KnownVersions } from "../models/models.js";
 import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
 import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
@@ -12,10 +13,16 @@ import type { TokenCredential } from "@azure/core-auth";
 export interface NetworkManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion?: string;
 }
 
 /** Optional parameters for the client. */
 export interface NetworkManagementClientOptionalParams extends ClientOptions {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion?: string;
   /** Specifies the Azure cloud environment for the client. */
   cloudSetting?: AzureSupportedClouds;
 }
@@ -44,11 +51,6 @@ export function createNetworkManagement(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-
-  if (options.apiVersion) {
-    logger.warning(
-      "This client does not support client api-version, please change it at the operation level",
-    );
-  }
-  return { ...clientContext, subscriptionId } as NetworkManagementContext;
+  const apiVersion = options.apiVersion;
+  return { ...clientContext, apiVersion, subscriptionId } as NetworkManagementContext;
 }

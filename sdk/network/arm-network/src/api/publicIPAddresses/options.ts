@@ -4,10 +4,10 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams extends OperationOptions {}
+export interface PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams extends OperationOptions {}
+export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams extends OperationOptions {
@@ -50,15 +50,6 @@ export interface PublicIPAddressesCreateOrUpdateOptionalParams extends Operation
 
 /** Optional parameters. */
 export interface PublicIPAddressesGetOptionalParams extends OperationOptions {
-  /** Expands referenced resources. */
-  expand?: string;
-}
-
-/** Optional parameters. */
-export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends OperationOptions {
   /** Expands referenced resources. */
   expand?: string;
 }
