@@ -85,6 +85,35 @@ export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdat
 }
 
 // @public
+export interface CloudAccountIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export interface CloudAccountIdentityUpdateUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
+}
+
+// @public
+export interface CloudAccountMarketplaceUpdate {
+    offerDetails?: CloudAccountOfferDetailsUpdate;
+    saasResourceId?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface CloudAccountOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
 export interface CloudAccountProperties {
     company?: CompanyProfile;
     marketplace: MarketplaceDetails;
@@ -98,13 +127,6 @@ export interface CloudAccountPropertiesCreateOrUpdate {
     company?: CompanyProfile;
     marketplace: MarketplaceDetailsCreateOrUpdate;
     roleAssignmentsOnCcaCreate?: RoleAssignment[];
-    user: UserDetails;
-}
-
-// @public
-export interface CloudAccountPropertiesUpdate {
-    company?: CompanyProfile;
-    marketplace: MarketplaceDetailsUpdate;
     user: UserDetails;
 }
 
@@ -148,7 +170,7 @@ export interface CloudAccountsOperations {
     linkSaaS: (resourceGroupName: string, cloudAccountName: string, body: SaaSData, options?: CloudAccountsLinkSaaSOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
     listByResourceGroup: (resourceGroupName: string, options?: CloudAccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
     listBySubscription: (options?: CloudAccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
-    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
+    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdateUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
 // @public
@@ -157,9 +179,33 @@ export interface CloudAccountsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudAccountUpdate extends TrackedResourceUpdate {
-    identity?: ManagedServiceIdentityUpdate;
-    properties?: CloudAccountPropertiesUpdate;
+export interface CloudAccountUpdate {
+    identity?: CloudAccountIdentityUpdate;
+    properties?: CloudAccountUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudAccountUpdateProperties {
+    company?: CompanyProfile;
+    marketplace?: CloudAccountMarketplaceUpdate;
+    user?: CloudAccountUserUpdate;
+}
+
+// @public
+export interface CloudAccountUpdateUpdate {
+    identity?: CloudAccountIdentityUpdateUpdate;
+    properties?: CloudAccountUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudAccountUserUpdate {
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    upn?: string;
 }
 
 // @public
@@ -455,7 +501,8 @@ export enum KnownRuleProperty {
 
 // @public
 export enum KnownStorageClassType {
-    Cool = "COLD",
+    Cold = "COLD",
+    Cool = "COOL",
     Hot = "HOT"
 }
 
@@ -471,7 +518,8 @@ export enum KnownVendor {
 
 // @public
 export enum KnownVersions {
-    V20260930 = "2026-09-30"
+    V20260930 = "2026-09-30",
+    V20261103 = "2026-11-03"
 }
 
 // @public
@@ -518,12 +566,6 @@ export interface ManagedServiceIdentityCreateOrUpdate {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface ManagedServiceIdentityUpdate {
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
-}
-
-// @public
 export interface MarketplaceDetails {
     offerDetails: OfferDetails;
     saasResourceId?: string;
@@ -533,13 +575,6 @@ export interface MarketplaceDetails {
 
 // @public
 export interface MarketplaceDetailsCreateOrUpdate {
-    offerDetails: OfferDetails;
-    saasResourceId?: string;
-    subscriptionId?: string;
-}
-
-// @public
-export interface MarketplaceDetailsUpdate {
     offerDetails: OfferDetails;
     saasResourceId?: string;
     subscriptionId?: string;
@@ -809,10 +844,6 @@ export interface ResourceCreateOrUpdate {
 // @public
 export type ResourceProvisioningState = string;
 
-// @public
-export interface ResourceUpdate {
-}
-
 export { RestError }
 
 // @public
@@ -1066,11 +1097,6 @@ export interface TrackedResource extends Resource {
 // @public
 export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
     location: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface TrackedResourceUpdate extends ResourceUpdate {
     tags?: Record<string, string>;
 }
 
