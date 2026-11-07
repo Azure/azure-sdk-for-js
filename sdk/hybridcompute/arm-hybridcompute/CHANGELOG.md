@@ -1,5 +1,26 @@
 # Release History
 
+## 5.1.0 (2026-10-26)
+
+### Features Added
+  - Added operation group VmApplicationsOperations
+  - Added Interface VmApplication
+  - Added Interface VmApplicationInstanceView
+  - Added Interface VmApplicationInstanceViewAction
+  - Added Interface VmApplicationProperties
+  - Added Interface VmApplicationsCreateOrUpdateOptionalParams
+  - Added Interface VmApplicationsDeleteOptionalParams
+  - Added Interface VmApplicationsGetInstanceViewOptionalParams
+  - Added Interface VmApplicationsGetOptionalParams
+  - Added Interface VmApplicationsListOptionalParams
+  - Added Interface VmApplicationsUpdateOptionalParams
+  - Added Interface VmApplicationUpdate
+  - Added Interface VmApplicationUpdateProperties
+  - Interface MachineUpdate has a new optional parameter clientPublicKey
+  - Interface MachineUpdateProperties has a new optional parameter clientPublicKey
+  - Enum KnownIdentityKeyStore has a new value TpmTransition
+  - Enum KnownVersions has a new value V20260901
+
 ## 5.0.0 (2026-07-24)
 
 ### Features Added

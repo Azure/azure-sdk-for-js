@@ -3,6 +3,7 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import ts from "typescript";
 import { planOperations, normalizeOperationCode, classicFromOperations } from "./operations.mjs";
 import { parse, renameSymbols } from "./modules.mjs";
 
@@ -69,6 +70,74 @@ test("retains a deliberate customized operation name", () => {
   assert.deepEqual(result.diagnostics, []);
   assert.match(result.files.get("api/beta/new/operations.ts"), /function get\(/);
   assert.match(result.files.get("api/beta/new/options.ts"), /interface CustomReadOptions/);
+});
+
+test("merges a renamed body parameter when the emitter moves its value into options", () => {
+  const withBody = (text) =>
+    text
+      .replaceAll("id: string, options:", "id: string, update: Update, options:")
+      .replace("headers: {", "body: serialize(update), headers: {")
+      .replace("Send(context, id, options)", "Send(context, id, update, options)");
+  const baseGenerated = tree("old", "updateInsight", "UpdateOptions");
+  const baseSource = tree("old", "updateInsight", "UpdateOptions", { custom: true });
+  const generated = tree("new", "updateInsight", "UpdateOptions");
+  const oldFile = "api/beta/old/operations.ts";
+  for (const tree of [baseGenerated, baseSource]) tree.set(oldFile, withBody(tree.get(oldFile)));
+  baseSource.set(
+    oldFile,
+    renameSymbols(baseSource.get(oldFile), new Map([["update", "insightUpdate"]])),
+  );
+  generated.set(
+    "api/beta/new/operations.ts",
+    generated
+      .get("api/beta/new/operations.ts")
+      .replace("headers: {", "body: { status: options.status }, headers: {"),
+  );
+  const result = planOperations({ baseGenerated, baseSource, generated });
+  assert.deepEqual(result.diagnostics, []);
+  const resolved = result.files.get("api/beta/new/operations.ts");
+  assert.match(resolved, /body: \{ status: options.status \}/);
+  assert.match(resolved, /x-custom/);
+  assert.doesNotMatch(resolved, /insightUpdate|serialize\(update\)/);
+  assert.match(resolved, /_updateInsightSend\(context, id, options\)/);
+});
+
+test("parameter normalization preserves wire keys and nested bindings, and rejects capture", () => {
+  const baseGenerated = tree("old", "readItem", "ReadOptions");
+  const baseSource = tree("old", "readItem", "ReadOptions");
+  const generated = tree("new", "readItem", "ReadOptions", { addition: true });
+  const oldFile = "api/beta/old/operations.ts";
+  const newFile = "api/beta/new/operations.ts";
+  const nested = 'const label = ((id: string) => id)("nested");';
+  for (const [tree, file] of [
+    [baseGenerated, oldFile],
+    [baseSource, oldFile],
+    [generated, newFile],
+  ])
+    tree.set(file, tree.get(file).replace("const path =", `${nested} const path =`));
+  baseSource.set(
+    oldFile,
+    renameSymbols(
+      baseSource.get(oldFile),
+      new Map([["id", "itemId"]]),
+      oldFile,
+      (node) => ts.isParameter(node.parent) && ts.isFunctionDeclaration(node.parent.parent),
+    ),
+  );
+  const result = planOperations({ baseGenerated, baseSource, generated });
+  assert.deepEqual(result.diagnostics, []);
+  const resolved = result.files.get(newFile);
+  assert.match(resolved, /itemId: string/);
+  assert.match(resolved, /id: itemId/);
+  assert.match(resolved, /"\/things\/\{id\}/);
+  assert.match(resolved, /\(\(id: string\) => id\)/);
+  // A new local would capture the normalized parameter; it must not be renamed.
+  generated.set(
+    newFile,
+    generated.get(newFile).replace("const path =", 'const itemId = "local"; const path ='),
+  );
+  const captured = planOperations({ baseGenerated, baseSource, generated });
+  assert.ok(captured.diagnostics.length > 0);
 });
 
 test("rejects ambiguous route relocation rather than choosing a customization", () => {

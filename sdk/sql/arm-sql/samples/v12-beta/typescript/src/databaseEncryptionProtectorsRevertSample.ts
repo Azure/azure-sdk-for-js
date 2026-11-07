@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reverts an existing encryption protector for a particular database.
  *
  * @summary reverts an existing encryption protector for a particular database.
- * x-ms-original-file: 2025-08-01-preview/DatabaseEncryptionProtectorRevert.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseEncryptionProtectorRevert.json
  */
 async function revertsTheEncryptionProtectorForAParticularDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

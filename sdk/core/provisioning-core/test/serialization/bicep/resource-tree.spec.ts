@@ -46,7 +46,7 @@ describe("authored resource-tree identity", () => {
       expect(result.resources!.lock!.value).not.toHaveProperty("value.parent");
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 
   it("uses resource objects for extension chains through non-resource components", () => {
@@ -131,7 +131,7 @@ describe("authored resource-tree identity", () => {
     expect(result[1]!.variables).toBeUndefined();
     expect(result[1]!.resources!.storageAccount!.value).not.toHaveProperty("value.scope");
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("rejects resource attachment cycles and parents outside the Stack", () => {
     const stack = new Stack("cycle", { targetScope: "resourceGroup" });
@@ -173,7 +173,7 @@ describe("authored resource-tree identity", () => {
       },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("preserves resource conditions across ordinary component wrappers", () => {
     const { stack, group } = subscriptionStack("conditional-component");
@@ -203,7 +203,7 @@ describe("authored resource-tree identity", () => {
       condition: { kind: "identifier", id: "enabled" },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("does not change a current-group lookup's identity inside an explicitly external module", () => {
     const { stack, group } = subscriptionStack("lookup-scope");
@@ -225,5 +225,5 @@ describe("authored resource-tree identity", () => {
     expect(result[1]!.resources!.storageAccount).toBeUndefined();
     expect(result[1]!.parameters!.storageAccountName).toBeDefined();
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 });

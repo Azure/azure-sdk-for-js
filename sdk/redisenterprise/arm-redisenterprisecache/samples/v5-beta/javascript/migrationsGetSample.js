@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a migration in a Redis Enterprise cluster.
  *
  * @summary gets information about a migration in a Redis Enterprise cluster.
- * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseMigrationGet.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseMigrationGet.json
  */
 async function redisEnterpriseMigrationGet() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
   const result = await client.migrations.get("rg1", "cache1");
   console.log(result);

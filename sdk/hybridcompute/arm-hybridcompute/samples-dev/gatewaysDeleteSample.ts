@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a gateway.
  *
  * @summary the operation to delete a gateway.
- * x-ms-original-file: 2026-07-15/gateway/Gateway_Delete.json
+ * x-ms-original-file: 2026-09-01/gateway/Gateway_Delete.json
  */
 async function deleteAGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

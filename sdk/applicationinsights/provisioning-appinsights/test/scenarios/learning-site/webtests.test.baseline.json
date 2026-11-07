@@ -1,0 +1,111 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "component": {
+          "bicepIdentifier": "component",
+          "type": "Microsoft.Insights/components",
+          "apiVersion": "2020-02-02",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "appi01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "web"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "Application_Type": {
+                    "kind": "string",
+                    "value": "web"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "webtest": {
+          "bicepIdentifier": "webtest",
+          "type": "Microsoft.Insights/webtests",
+          "apiVersion": "2022-06-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "webtest01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "ping"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "SyntheticMonitorId": {
+                    "kind": "string",
+                    "value": "webtest01"
+                  },
+                  "Name": {
+                    "kind": "string",
+                    "value": "webtest01"
+                  },
+                  "Enabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "Frequency": {
+                    "kind": "integer",
+                    "value": "900"
+                  },
+                  "Timeout": {
+                    "kind": "integer",
+                    "value": "120"
+                  },
+                  "Kind": {
+                    "kind": "string",
+                    "value": "ping"
+                  },
+                  "RetryEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "Locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "Id": {
+                            "kind": "string",
+                            "value": "us-fl-mia-edge"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

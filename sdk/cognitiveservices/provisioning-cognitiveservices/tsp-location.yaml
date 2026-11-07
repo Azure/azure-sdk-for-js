@@ -1,0 +1,6 @@
+directory: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/CognitiveServices
+commit: 49b4745c79353471c868f058e6fa25380485c9cd
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json
