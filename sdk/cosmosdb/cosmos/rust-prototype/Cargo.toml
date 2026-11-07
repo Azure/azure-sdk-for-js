@@ -10,7 +10,7 @@ license = "MIT"
 crate-type = ["cdylib"]
 
 [dependencies]
-azure_data_cosmos_driver = { git = "https://github.com/Azure/azure-sdk-for-rust", rev = "84e2bb66c9911fa730dc9756c8fc3f9612456344" }
+azure_data_cosmos_driver = { git = "https://github.com/Azure/azure-sdk-for-rust", rev = "5ba864be8f128a6faf3f736ae0043f60d5911235" }
 napi = { version = "3.14.2", default-features = false, features = ["napi8", "tokio_rt"] }
 napi-derive = "3.6.12"
 url = "2.5"

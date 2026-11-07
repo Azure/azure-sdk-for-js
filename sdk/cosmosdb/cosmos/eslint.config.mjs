@@ -28,12 +28,20 @@ export default azsdkEslint.config([
     },
   },
   {
-    files: ["test/**/*.ts"],
+    files: ["test/**/*.ts", "test/workloads/**/*.mjs"],
     rules: {
       "no-console": "off",
       "space-before-function-paren": "off",
       "no-unused-expressions": "off",
       "@typescript-eslint/no-unused-expressions": "off",
+    },
+  },
+  {
+    files: ["test/workloads/**/*.mjs"],
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.workloads.json",
+      },
     },
   },
 ]);

@@ -1500,9 +1500,10 @@ there is no native read method yet.
 
 ### How do we run this step?
 
-The binding now depends directly on `azure_data_cosmos_driver`, pinned to
-revision `84e2bb66c9911fa730dc9756c8fc3f9612456344`. This matches the Python
-binding's inspected dependency revision. Cargo builds that pinned source;
+At this bite, the binding depended directly on `azure_data_cosmos_driver`,
+pinned to revision `84e2bb66c9911fa730dc9756c8fc3f9612456344`, matching the
+Python binding's inspected dependency revision. The VM build section below
+records the later driver update. Cargo builds the manifest's pinned source;
 it does not require editing or building the neighboring Rust checkout.
 The binding's lockfile records the resolved dependency graph.
 
@@ -2093,6 +2094,173 @@ npm run test:rust-prototype:public-read
 `Item.read()` within this restricted scope.** Complete compatibility,
 production packaging and sustained performance qualification remain separate
 work; this bite does not claim them.
+
+## Building the Linux binding on the VM
+
+Alpha Bank's customer app needs a native extension built for the VM's operating
+system and processor. The SDK team builds it on Ubuntu x64; the Windows `.node`
+file is not copied to Linux. The service backend is not part of this build.
+
+```text
+JS repository: binding source + Cargo.toml + Cargo.lock
+    -> Cargo fetches the pinned Rust driver and locked dependencies
+    -> Rust compiles the NAPI-RS binding and driver together
+    -> build.cjs copies Cargo's native library to cosmos_js_rust_prototype.node
+    -> Node.js loads the extension
+```
+
+The selected driver revision is
+`5ba864be8f128a6faf3f736ae0043f60d5911235`, the user's checked-out Rust commit.
+It is pinned in `Cargo.toml`; `Cargo.lock` records the resolved graph. A newer
+neighboring Rust checkout, including any uncommitted files, is not an input.
+
+A **build profile** controls compiler settings. The existing command still uses
+the development profile by default. For the VM, select an optimized release build
+explicitly. From `sdk/cosmosdb/cosmos` on Ubuntu:
+
+```bash
+npm run build:rust-prototype -- --release
+npm run test:rust-prototype
+```
+
+The build always uses `--locked`, fails if the lockfile needs changing, and
+removes an older addon before compilation so a failed build cannot appear to
+succeed by loading an old binary. The tests above exercise loading, conversion,
+error propagation, overlapping calls, and the build script without credentials.
+They do not establish service-backed read parity or Gateway V2.
+
+Record the JS commit plus any applied patch, Rust revision, lockfile hash,
+compiler versions, release profile, and addon hash with the VM build. Repeat
+the public-read parity and Gateway V2 checks with this artifact before measuring
+performance; the earlier Windows results used a different driver revision.
+
+## Read-only latency workload
+
+Alpha Bank still calls `await container.item(id, customerId).read()`. To compare
+the JavaScript and Rust implementations, repeat that same public SDK call in
+separate Node.js processes. Do not time `NativeReadClient.readItem()` directly:
+that would omit the JavaScript wrapper and response conversion the customer app
+uses.
+
+The JS workload lives in `sdk/cosmosdb/cosmos/test/workloads`, following the JS
+repository's singular `test` convention. Its structure follows the Python Phase A
+workload, but it contains no create, upsert, replace, delete, patch, or restoration
+loop.
+
+| File | Responsibility |
+|---|---|
+| `launch.mjs` | Require explicit settings, qualify the dataset in a separate process, launch JavaScript then Rust for each repetition, and stop on failure |
+| `workload.mjs` | Reuse one client, await one public read at a time, and publish interval snapshots |
+| `stats.mjs` | Keep successful-call latency frequencies, errors, request charges, and the first operation |
+| `reporter.mjs` | Save interval, error, and completion records through a separate JavaScript client in the launcher process |
+| `report.mjs` | Read saved records back, verify completeness, and merge latency distributions separately for each repetition |
+| `common.mjs` | Validate destinations, expected order bodies, build evidence, and data-request transport |
+
+### Keep workload data and results separate
+
+The selected names are **planned destinations**, not a claim that provisioning
+or seeding has run:
+
+| Purpose | Database | Container | Partition-key path |
+|---|---|---|---|
+| Prepared orders | `js_rust_read_latency_workload_db` | `js_rust_read_latency_workload_container` | `/customerId` |
+| Measurements | `js_rust_read_latency_results_db` | `js_rust_read_latency_results_container` | `/partition_key` |
+
+Both use the approved East US account. Neither reuses the Python resources nor
+`js_rust_read_item_db` / `js_rust_read_item_container`, which remain the earlier
+JS correctness fixture.
+
+Preparation must store `order-0` through `order-999`, with matching
+`customer-0` through `customer-999`. Each order has `countryCode: "US"`,
+`quantity: 2`, and `status: "Pending"`. Unlike Python's `/id` example, a JS read
+passes the **customer ID** as its partition-key value. `seedItem()` constructs
+that expected body in memory; it performs no writes.
+
+Before measurement, a separate qualification process reads all 1,000 expected
+orders through both implementations, checking complete application fields and
+matching ETags. It also checks the workload container's partition-key path and
+Rust's actual Gateway V2 data-request evidence. This verifies the selected
+orders, not the absence of other items. Measurement checks each returned body
+and ETag against this prepared state. No other workload should write these items.
+
+### What do we time and retain?
+
+The operation timer starts immediately before calling `item.read()` and stops
+when its promise settles. Item selection, response verification, statistics
+updates, and reporting are outside that timer. SDK work inside the call,
+including lazy Rust initialization, deserialization, and retries, remains
+inside it.
+
+Retain every operation; apply no warm-up exclusion. Record the first operation
+separately, along with client-setup duration (SDK import and construction) and process elapsed time at
+the first read's completion. These measurements have different boundaries.
+Their presence does not establish that later reads have reached steady state.
+
+The example proposes 60 seconds per sequence, reporting approximately every
+15 seconds, and two repetitions:
+
+```text
+JavaScript reads -> Rust reads -> JavaScript reads -> Rust reads
+```
+
+That is four minutes of configured sequence budgets, plus qualification,
+reporting, and shutdown. A sequence's launcher timer includes process startup;
+it does not guarantee 60 full seconds of completed reads. A pending read
+finishes before graceful shutdown; the launcher enforces a separate shutdown
+deadline and treats forced termination as failure.
+
+The reporter runs outside the measured process. Reporting still consumes VM
+and service resources; it is not zero-overhead. Interval durations are actual
+elapsed times, and the final interval may be partial. Reported completions per
+second include workload overhead and are not an isolated SDK throughput limit.
+
+For this bounded prototype, histograms store integer-microsecond frequencies
+rather than Python's encoded HDR format. They can be merged by adding bucket
+counts; averaging interval percentiles is incorrect. Each interval permits at
+most 16,384 distinct durations; exceeding that limit fails the sequence instead
+of dropping observations or clipping long calls. Short runs do not establish
+reliable extreme-tail estimates.
+
+A non-200 read, changed item, missing or compacted Rust evidence, Gateway V1
+fallback, or observed 429 stops the comparison. Success does not prove that no
+hidden retry or service throttling occurred: native diagnostics remain partial.
+Service-side capacity checks are still required. Results capacity must be
+checked separately from workload capacity; no throughput change is automatic.
+
+Completion is written only after prior interval/error writes succeed.
+Missing intervals, missing completion, mismatched totals, unexpected builds,
+reporting failures, or zero successful reads invalidate the report.
+Repetitions remain separate; always running JavaScript first does not remove
+execution-order effects.
+
+### How will we run it once preparation is approved?
+
+First provision and seed the dedicated destinations, select adequate capacity,
+build the JS SDK using the repository-root Turbo workflow, and retain the
+release binding's build manifest. These are prerequisites, not actions performed
+by the launcher. No credentials belong in the configuration or result files.
+
+From `sdk/cosmosdb/cosmos`, the offline workload checks are:
+
+```bash
+npm run test:read-workload
+```
+
+`test/workloads/read-latency.example.json` records the proposed settings. Review
+them and the native-build manifest path before using a configuration. With the
+authorized account key supplied only through `ACCOUNT_KEY`, an explicitly
+approved run would use:
+
+```bash
+npm run run:read-workload -- /absolute/path/read-latency.json /absolute/path/new-run-directory --execute
+```
+
+The output directory must not already exist. It retains the effective
+secret-free configuration, source/binary fingerprints, verified order ETags,
+per-process logs, mirrored result records, and the final report. Cosmos result
+records carry a unique run ID, process ID, interval ID, and build provenance.
+Do not treat the example configuration or this command as an approved run
+budget. Provisioning, seeding, and performance execution remain separate steps.
 
 ## Prototype plan and reference
 

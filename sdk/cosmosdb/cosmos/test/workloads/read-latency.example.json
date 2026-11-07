@@ -1,0 +1,20 @@
+{
+  "endpoint": "https://rust-migration-eastus.documents.azure.com/",
+  "workload": {
+    "database": "js_rust_read_latency_workload_db",
+    "container": "js_rust_read_latency_workload_container",
+    "partitionKey": "/customerId"
+  },
+  "results": {
+    "database": "js_rust_read_latency_results_db",
+    "container": "js_rust_read_latency_results_container",
+    "partitionKey": "/partition_key"
+  },
+  "itemCount": 1000,
+  "durationSeconds": 60,
+  "reportIntervalSeconds": 15,
+  "repetitions": 2,
+  "shutdownGraceSeconds": 30,
+  "qualificationTimeoutSeconds": 120,
+  "nativeBuildManifest": "/home/azureuser/js-sdk-rust-read-perf/build-evidence/5ba864be-release/build-manifest.json"
+}
