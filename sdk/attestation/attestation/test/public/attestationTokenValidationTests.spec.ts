@@ -3,9 +3,14 @@
 
 import { describe, it, assert, expect } from "vitest";
 import * as jsrsasign from "jsrsasign";
+import type { TokenCredential } from "@azure/core-auth";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { AttestationClient } from "../../src/index.js";
+import {
+  AttestationAdministrationClient,
+  AttestationClient,
+  KnownAttestationType,
+} from "../../src/index.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
 import { base64UrlEncodeByteArray } from "../../src/utils/base64.js";
 import { stringToBytes } from "../../src/utils/utf8.js";
@@ -130,6 +135,20 @@ describe("AttestationTokenValidation", () => {
     );
   });
 
+  it("validates a token with a jwk header against the signer matching its kid", () => {
+    const signer = createSigner("signer");
+    const token = new AttestationTokenImpl(
+      jsrsasign.KJUR.jws.JWS.sign(
+        "RS256",
+        { alg: "RS256", kid: "k1", jwk: { kty: "RSA" } },
+        claims(60),
+        signer.privKey,
+      ),
+    );
+
+    assert.deepEqual(token.getTokenProblems([{ keyId: "k1", certificates: [signer.cert] }]), []);
+  });
+
   it("rejects an unsigned service token unless unsigned tokens are allowed", () => {
     const unsigned = new AttestationTokenImpl(
       AttestationTokenImpl.create({ body: claims(60) }).serialize(),
@@ -151,6 +170,22 @@ describe("AttestationTokenValidation", () => {
     assert.deepEqual(token._getServiceTokenProblems([], {}, false), [
       "Unsupported attestation token algorithm: HS256",
     ]);
+    assert.deepEqual(token.getTokenProblems(), ["Unsupported attestation token algorithm: HS256"]);
+  });
+
+  it("reports a signature that cannot be verified instead of throwing", () => {
+    const signer = createSigner("signer");
+    const token = new AttestationTokenImpl(
+      jsrsasign.KJUR.jws.JWS.sign("RS256", { alg: "RS256", kid: "k1" }, claims(60), signer.privKey),
+    );
+    const unusableSigner = { keyId: "k1", certificates: ["not a certificate"] };
+
+    assert.deepEqual(token.getTokenProblems([unusableSigner]), [
+      "Attestation Token is not properly signed.",
+    ]);
+    assert.deepEqual(token._getServiceTokenProblems([unusableSigner], {}, false), [
+      "Attestation Token is not properly signed.",
+    ]);
   });
 
   it("runs the validation callback when it is the only option provided", () => {
@@ -171,6 +206,26 @@ describe("AttestationTokenValidation", () => {
     await client.attestSgxEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "policy" });
     await expect(client.attestSgxEnclave(new Uint8Array([1]))).rejects.toThrow(
       "Attestation Token is not signed.",
+    );
+  });
+
+  it("rejects a policy token signed by a key other than the trusted signers", async () => {
+    const trusted = createSigner("trusted");
+    const attacker = createSigner("attacker");
+    const forgedToken = AttestationTokenImpl.create({
+      body: claims(60),
+      privateKey: attacker.privKey,
+      certificate: attacker.cert,
+    }).serialize();
+    const credential: TokenCredential = {
+      getToken: async () => ({ token: "token", expiresOnTimestamp: Date.now() + 3600000 }),
+    };
+    const client = new AttestationAdministrationClient("https://attestation.test", credential, {
+      httpClient: fakeService(trusted.cert, forgedToken),
+    });
+
+    await expect(client.getPolicy(KnownAttestationType.SgxEnclave)).rejects.toThrow(
+      "Attestation Token is not properly signed.",
     );
   });
 

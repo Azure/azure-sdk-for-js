@@ -136,11 +136,11 @@ export interface AttestationToken {
    *
    * @remarks
    *
-   * This method does not apply the checks that the clients apply to tokens returned by the
-   * service. It accepts unsigned tokens, and it can verify the signature with the certificate
-   * embedded in the token itself, so an empty result does not show that the attestation service
-   * issued the token. A token returned by a client operation with `validateToken: false` was
-   * not validated by the client.
+   * Unlike the clients' validation of tokens returned by the service, which accepts an unsigned
+   * token only in response to a draft policy request, this method accepts any unsigned token,
+   * and it can verify the signature with the certificate embedded in the token itself, so an
+   * empty result does not show that the attestation service issued the token. A token returned
+   * by a client operation with `validateToken: false` was not validated by the client.
    */
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
@@ -480,18 +480,21 @@ export class AttestationTokenImpl implements AttestationToken {
     }
 
     const candidateSigners = new Array<AttestationSigner>();
-    const embeddedSigner = this.certificateChain;
     if (desiredKeyId !== undefined && possibleSigners !== undefined) {
       possibleSigners.forEach((possibleSigner) => {
         if (possibleSigner.keyId === desiredKeyId) {
           candidateSigners.push(possibleSigner);
         }
       });
-      if (candidateSigners.length === 0 && embeddedSigner) {
-        candidateSigners.push(embeddedSigner);
+      if (candidateSigners.length === 0) {
+        const embeddedSigner = this.certificateChain;
+        if (embeddedSigner) {
+          candidateSigners.push(embeddedSigner);
+        }
       }
     } else {
       possibleSigners?.forEach((value) => candidateSigners.push(value));
+      const embeddedSigner = this.certificateChain;
       if (embeddedSigner) {
         candidateSigners.push(embeddedSigner);
       }
