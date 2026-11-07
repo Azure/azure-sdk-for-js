@@ -8,7 +8,7 @@
  * @packageDocumentation
  */
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
