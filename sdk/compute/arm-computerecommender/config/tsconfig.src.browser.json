@@ -6,8 +6,9 @@
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
-    "../src/api/spotPlacementScores/index.ts",
     "../src/api/skuMixPlacementScores/index.ts",
+    "../src/api/computePlacementScores/index.ts",
+    "../src/api/spotPlacementScores/index.ts",
     "../src/api/operations/index.ts",
     "../src/models/index.ts"
   ]
