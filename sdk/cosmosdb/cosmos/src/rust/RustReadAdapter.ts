@@ -48,8 +48,8 @@ function validateDiagnostics(value: NativeReadDiagnostics): void {
     value.requestCount < value.retainedRequestCount ||
     value.requests.some(
       (request) =>
-        !["metadata", "data_plane"].includes(request.pipeline) ||
-        !["gateway", "gateway_v2"].includes(request.transport) ||
+        (request.pipeline !== "metadata" && request.pipeline !== "data_plane") ||
+        (request.transport !== "gateway" && request.transport !== "gateway_v2") ||
         !Number.isInteger(request.statusCode),
     )
   ) {
@@ -57,17 +57,18 @@ function validateDiagnostics(value: NativeReadDiagnostics): void {
   }
 }
 
+const responseHeaderFields = [
+  [Constants.HttpHeaders.RequestCharge, "requestCharge"],
+  [Constants.HttpHeaders.ActivityId, "activityId"],
+  [Constants.HttpHeaders.ETag, "etag"],
+  [Constants.HttpHeaders.SessionToken, "sessionToken"],
+  [Constants.HttpHeaders.RetryAfterInMilliseconds, "retryAfterMs"],
+] as const;
+
 function responseHeaders(response: NativeReadResponse): CosmosHeaders {
   const headers: CosmosHeaders = {};
-  const names = Constants.HttpHeaders;
-  const values: [string, string | number | undefined][] = [
-    [names.RequestCharge, response.requestCharge],
-    [names.ActivityId, response.activityId],
-    [names.ETag, response.etag],
-    [names.SessionToken, response.sessionToken],
-    [names.RetryAfterInMilliseconds, response.retryAfterMs],
-  ];
-  for (const [name, value] of values) {
+  for (const [name, field] of responseHeaderFields) {
+    const value = response[field];
     if (value !== undefined && value !== null) headers[name] = String(value);
   }
   return headers;
@@ -98,6 +99,7 @@ export class RustReadAdapter {
   private readonly key: string;
   private readonly unsupportedConfiguration?: string;
   private readonly factory: NativeReadClientFactory;
+  private readonly decoder = new TextDecoder("utf-8", { fatal: true });
   private initialization?: Promise<NativeReadClient>;
   private native?: NativeReadClient;
   private disposed = false;
@@ -139,11 +141,14 @@ export class RustReadAdapter {
     }
     this.activeReads++;
     try {
-      this.initialization ??= this.factory(this.endpoint, this.key).then((native) => {
-        this.native = native;
-        return native;
-      });
-      const native = await this.initialization;
+      let native = this.native;
+      if (!native) {
+        this.initialization ??= this.factory(this.endpoint, this.key).then((initialized) => {
+          this.native = initialized;
+          return initialized;
+        });
+        native = await this.initialization;
+      }
       let result: NativeReadResponse;
       try {
         result = await native.readItem(database, container, itemId, partitionKey[0]);
@@ -188,9 +193,7 @@ export class RustReadAdapter {
       if (result.statusCode !== 200 || !(result.body instanceof Uint8Array)) {
         throw new Error("The Rust binding returned an invalid successful item response.");
       }
-      const resource: unknown = JSON.parse(
-        new TextDecoder("utf-8", { fatal: true }).decode(result.body),
-      );
+      const resource: unknown = JSON.parse(this.decoder.decode(result.body));
       if (
         resource === null ||
         typeof resource !== "object" ||

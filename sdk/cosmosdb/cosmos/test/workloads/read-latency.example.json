@@ -11,6 +11,10 @@
     "partitionKey": "/partition_key"
   },
   "itemCount": 1000,
+  "capacityRuPerSecond": {
+    "workload": 1000,
+    "results": 400
+  },
   "durationSeconds": 60,
   "reportIntervalSeconds": 15,
   "repetitions": 2,

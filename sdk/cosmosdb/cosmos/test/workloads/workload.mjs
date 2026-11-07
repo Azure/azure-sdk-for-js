@@ -29,7 +29,7 @@ async function timedRead(read, clock = process.hrtime.bigint) {
   }
 }
 
-async function qualify(config, filename) {
+async function qualify(config, filename, signal) {
   let javascript;
   let rust;
   const etags = [];
@@ -38,12 +38,14 @@ async function qualify(config, filename) {
     rust = await createClient("rust", config.endpoint);
     await checkContainer(javascript, config.workload);
     for (let index = 0; index < config.itemCount; index++) {
+      signal.throwIfAborted();
       const item = seedItem(index);
       let expected;
       for (const [backend, client] of [
         ["javascript", javascript],
         ["rust", rust],
       ]) {
+        signal.throwIfAborted();
         const response = await client
           .database(config.workload.database)
           .container(config.workload.container)
@@ -53,6 +55,7 @@ async function qualify(config, filename) {
         assert.equal(evidence.observed429, 0, "Qualification encountered throttling");
         expected = response.etag;
       }
+      signal.throwIfAborted();
       etags.push(expected);
       await delay(10);
     }
@@ -67,37 +70,32 @@ async function qualify(config, filename) {
   }
 }
 
-async function run(config, backend, fixturePath) {
+async function run(config, backend, fixturePath, signal) {
   assert.ok(process.send, "Launch the workload through launch.mjs");
-  let stopping = false;
   let reportingError = false;
   let nextMessage = 0;
   const pending = new Map();
   const acknowledged = [];
-  process.on("message", (message) => {
-    if (message.type === "stop") stopping = true;
+  const acknowledge = (message) => {
     if (message.type === "ack") {
       const entry = pending.get(message.id);
       if (!entry) {
         reportingError = true;
-        stopping = true;
         return;
       }
       if (!message.ok) {
         reportingError = true;
-        stopping = true;
       }
       entry();
       pending.delete(message.id);
     }
-  });
-  process.on("disconnect", () => {
+  };
+  const disconnected = () => {
     if (pending.size) process.exitCode = 1;
-    stopping = true;
     reportingError = true;
     for (const resolve of pending.values()) resolve();
     pending.clear();
-  });
+  };
   function publish(snapshot) {
     if (!snapshot) return;
     assert.ok(!reportingError && pending.size < 8, "Reporter failed or cannot keep up");
@@ -113,30 +111,36 @@ async function run(config, backend, fixturePath) {
   const started = seconds();
   const stats = new Stats(started);
   const constructionStart = seconds();
-  const client = await createClient(backend, config.endpoint);
-  const constructionMs = (seconds() - constructionStart) * 1000;
-  const container = client.database(config.workload.database).container(config.workload.container);
-  let valid = true;
-  let index = 0;
-  let firstCompletionSeconds;
-  let cpu = process.cpuUsage();
-  function flush() {
-    const snapshot = stats.drain(seconds());
-    if (snapshot) {
-      const usage = process.cpuUsage(cpu);
-      cpu = process.cpuUsage();
-      publish({
-        ...snapshot,
-        client_setup_ms: constructionMs,
-        first_completion_process_seconds: firstCompletionSeconds,
-        cpu_user_ms: usage.user / 1000,
-        cpu_system_ms: usage.system / 1000,
-        rss_bytes: process.memoryUsage().rss,
-      });
-    }
-  }
+  let client;
   try {
-    while (!stopping) {
+    process.on("message", acknowledge);
+    process.on("disconnect", disconnected);
+    client = await createClient(backend, config.endpoint);
+    const constructionMs = (seconds() - constructionStart) * 1000;
+    const container = client
+      .database(config.workload.database)
+      .container(config.workload.container);
+    let valid = true;
+    let index = 0;
+    let firstCompletionSeconds;
+    let cpu = process.cpuUsage();
+    function flush() {
+      const snapshot = stats.drain(seconds());
+      if (snapshot) {
+        const currentCpu = process.cpuUsage();
+        const usage = { user: currentCpu.user - cpu.user, system: currentCpu.system - cpu.system };
+        cpu = currentCpu;
+        publish({
+          ...snapshot,
+          client_setup_ms: constructionMs,
+          first_completion_process_seconds: firstCompletionSeconds,
+          cpu_user_ms: usage.user / 1000,
+          cpu_system_ms: usage.system / 1000,
+          rss_bytes: process.memoryUsage().rss,
+        });
+      }
+    }
+    while (!signal.aborted && !reportingError) {
       const item = seedItem(index);
       const reference = container.item(item.id, item.customerId);
       const result = await timedRead(() => reference.read());
@@ -163,19 +167,50 @@ async function run(config, backend, fixturePath) {
     flush();
     await Promise.all(acknowledged);
     assert.ok(!reportingError, "Reporting did not finish successfully");
-    process.send({ type: "complete", valid });
+    process.send({ type: "complete", valid: valid && !signal.reason?.aborted });
   } finally {
-    client.dispose();
+    process.off("message", acknowledge);
+    process.off("disconnect", disconnected);
+    client?.dispose();
   }
 }
 
 async function main() {
-  const [configPath, mode, fixturePath] = process.argv.slice(2);
-  const config = readConfig(configPath);
-  if (mode === "qualify") await qualify(config, fixturePath);
-  else {
-    assert.ok(["javascript", "rust"].includes(mode));
-    await run(config, mode, fixturePath);
+  const [configPath, mode, fixturePath, configHash] = process.argv.slice(2);
+  assert.match(configHash, /^[a-f0-9]{64}$/, "Expected configuration fingerprint is required");
+  const config = readConfig(configPath, configHash);
+  const controller = new AbortController();
+  const stop = (aborted) => {
+    if (controller.signal.aborted) {
+      controller.signal.reason.aborted ||= aborted;
+    } else {
+      controller.abort(
+        Object.assign(new Error("Workload stopped"), {
+          code: "WORKLOAD_STOPPED",
+          aborted,
+        }),
+      );
+    }
+  };
+  const onMessage = (message) => {
+    if (message.type === "stop") stop(message.aborted === true);
+  };
+  const onSignal = () => stop(true);
+  process.on("message", onMessage);
+  process.on("disconnect", onSignal);
+  process.on("SIGINT", onSignal);
+  process.on("SIGTERM", onSignal);
+  try {
+    if (mode === "qualify") await qualify(config, fixturePath, controller.signal);
+    else {
+      assert.ok(["javascript", "rust"].includes(mode));
+      await run(config, mode, fixturePath, controller.signal);
+    }
+  } finally {
+    process.off("message", onMessage);
+    process.off("disconnect", onSignal);
+    process.off("SIGINT", onSignal);
+    process.off("SIGTERM", onSignal);
   }
   if (process.connected) process.disconnect();
 }

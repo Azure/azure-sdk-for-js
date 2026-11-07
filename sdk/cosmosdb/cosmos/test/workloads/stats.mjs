@@ -3,6 +3,81 @@
 
 import assert from "node:assert/strict";
 const MAX_BUCKETS = 16384;
+const MAX_ATTEMPT_GROUPS = 128;
+
+function mergeAttemptGroups(lists) {
+  const merged = new Map();
+  for (const groups of lists) {
+    addAttemptGroups(merged, groups);
+  }
+  return [...merged.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, group]) => group);
+}
+
+function addAttemptGroups(merged, groups) {
+  assert.ok(Array.isArray(groups));
+  for (const group of groups) {
+    assert.ok(["metadata", "data_plane", "unknown"].includes(group.pipeline));
+    assert.ok(["gateway", "gateway_v2", "unknown"].includes(group.transport));
+    for (const field of ["status_code", "sub_status_code"]) {
+      assert.ok(group[field] === null || (Number.isSafeInteger(group[field]) && group[field] >= 0));
+    }
+    assert.ok(group.status_code === null || group.status_code <= 599);
+    assert.ok(Number.isSafeInteger(group.count) && group.count > 0);
+    const key = JSON.stringify([
+      group.pipeline,
+      group.transport,
+      group.status_code,
+      group.sub_status_code,
+    ]);
+    assert.ok(
+      merged.has(key) || merged.size < MAX_ATTEMPT_GROUPS,
+      "Attempt evidence capacity exceeded",
+    );
+    const existing = merged.get(key);
+    const total = (existing?.count ?? 0) + group.count;
+    assert.ok(Number.isSafeInteger(total), "Attempt count overflow");
+    if (existing) {
+      existing.count = total;
+    } else {
+      merged.set(key, {
+        pipeline: group.pipeline,
+        transport: group.transport,
+        status_code: group.status_code,
+        sub_status_code: group.sub_status_code,
+        count: total,
+      });
+    }
+  }
+}
+
+function validateAttemptEvidence(record, backend) {
+  const population = backend === "rust" ? "rust_retained_requests" : "javascript_failed_attempts";
+  assert.ok(["rust", "javascript"].includes(backend));
+  assert.equal(record?.population, population, "Attempt populations must not be mixed");
+  assert.equal(record.coverage, "partial");
+  assert.ok(Array.isArray(record.groups));
+  for (const group of record.groups) {
+    if (backend === "javascript") {
+      assert.equal(group.pipeline, "unknown");
+      assert.equal(group.transport, "unknown");
+    } else {
+      assert.notEqual(group.pipeline, "unknown");
+      assert.notEqual(group.transport, "unknown");
+    }
+  }
+  return population;
+}
+
+function mergeAttemptEvidence(records, backend) {
+  assert.ok(records.length > 0);
+  const population = validateAttemptEvidence(records[0], backend);
+  for (const record of records.slice(1)) validateAttemptEvidence(record, backend);
+  return {
+    population,
+    coverage: "partial",
+    groups: mergeAttemptGroups(records.map((record) => record.groups)),
+  };
+}
 
 function mergeHistograms(histograms) {
   const merged = new Map();
@@ -49,8 +124,10 @@ function summarize(histogram) {
 }
 
 class Stats {
-  constructor(startSeconds) {
+  constructor(startSeconds, startUtcMs = Date.now()) {
+    assert.ok(Number.isFinite(startSeconds) && Number.isFinite(startUtcMs));
     this.start = startSeconds;
+    this.startUtcMs = startUtcMs;
     this.last = startSeconds;
     this.interval = 0;
     this.first = null;
@@ -63,6 +140,8 @@ class Stats {
     this.ru = 0;
     this.observed429 = 0;
     this.transportVerified = 0;
+    this.attemptPopulation = null;
+    this.attemptGroups = new Map();
   }
 
   success(durationNs, evidence) {
@@ -72,10 +151,17 @@ class Stats {
       this.histogram.has(us) || this.histogram.size < MAX_BUCKETS,
       "Latency histogram capacity exceeded",
     );
+    const population = validateAttemptEvidence(
+      evidence.attemptEvidence,
+      evidence.transportVerified ? "rust" : "javascript",
+    );
+    assert.ok(this.attemptPopulation === null || this.attemptPopulation === population);
+    addAttemptGroups(this.attemptGroups, evidence.attemptEvidence.groups);
     this.histogram.set(us, (this.histogram.get(us) || 0) + 1);
     this.ru += evidence.requestCharge;
     this.observed429 += evidence.observed429;
     this.transportVerified += Number(evidence.transportVerified);
+    this.attemptPopulation = population;
     this.first ??= { outcome: "success", duration_ms: Number(durationNs) / 1e6 };
   }
 
@@ -92,12 +178,27 @@ class Stats {
       interval_number: ++this.interval,
       interval_duration_seconds: nowSeconds - this.last,
       elapsed_seconds: nowSeconds - this.start,
+      measurement_started_at_utc: new Date(this.startUtcMs).toISOString(),
+      interval_started_at_utc: new Date(
+        this.startUtcMs + (this.last - this.start) * 1000,
+      ).toISOString(),
+      interval_ended_at_utc: new Date(
+        this.startUtcMs + (nowSeconds - this.start) * 1000,
+      ).toISOString(),
       histogram_us: [...this.histogram],
       errors: this.errors.length,
       error_details: this.errors,
       ru_sum: this.ru,
       observed_429: this.observed429,
       transport_verified_count: this.transportVerified,
+      attempt_evidence:
+        this.attemptPopulation === null
+          ? null
+          : {
+              population: this.attemptPopulation,
+              coverage: "partial",
+              groups: [...this.attemptGroups.values()],
+            },
       first_operation: this.first,
     };
     this.last = nowSeconds;
@@ -106,4 +207,12 @@ class Stats {
   }
 }
 
-export { Stats, summarize, mergeHistograms, MAX_BUCKETS };
+export {
+  Stats,
+  summarize,
+  mergeHistograms,
+  mergeAttemptGroups,
+  mergeAttemptEvidence,
+  MAX_BUCKETS,
+  MAX_ATTEMPT_GROUPS,
+};

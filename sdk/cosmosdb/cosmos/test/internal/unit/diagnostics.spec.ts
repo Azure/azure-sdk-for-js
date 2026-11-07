@@ -33,9 +33,53 @@ import {
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
 } from "../../../src/diagnostics/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
+import { DefaultDiagnosticFormatter } from "../../../src/diagnostics/DiagnosticFormatter.js";
+import {
+  LogDiagnosticWriter,
+  NoOpDiagnosticWriter,
+} from "../../../src/diagnostics/DiagnosticWriter.js";
 
 describe("Diagnostic Unit Tests", () => {
+  describe("Diagnostic writer formatting", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("does not format or enqueue diagnostics for a no-op writer", () => {
+      const format = vi.spyOn(DefaultDiagnosticFormatter.prototype, "format");
+      const write = vi.spyOn(NoOpDiagnosticWriter.prototype, "write");
+      const context = createTestClientContext({}, CosmosDbDiagnosticLevel.info);
+      context.recordDiagnostics(getEmptyCosmosDiagnostics());
+      assert.equal(format.mock.calls.length, 0);
+      assert.equal(write.mock.calls.length, 0);
+    });
+
+    it.each([CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe])(
+      "preserves formatting for diagnostic level %s",
+      (level) => {
+        const format = vi.spyOn(DefaultDiagnosticFormatter.prototype, "format");
+        const write = vi.spyOn(LogDiagnosticWriter.prototype, "write").mockResolvedValue(undefined);
+        const context = createTestClientContext({}, level);
+        const diagnostic = getEmptyCosmosDiagnostics();
+        context.recordDiagnostics(diagnostic);
+        assert.equal(format.mock.calls.length, 1);
+        assert.deepEqual(write.mock.calls, [[JSON.stringify(diagnostic)]]);
+      },
+    );
+
+    it("honors replacement of the configured writer", () => {
+      const format = vi.spyOn(DefaultDiagnosticFormatter.prototype, "format");
+      vi.spyOn(LogDiagnosticWriter.prototype, "write").mockResolvedValue(undefined);
+      const context = createTestClientContext({}, CosmosDbDiagnosticLevel.info);
+      const diagnostic = getEmptyCosmosDiagnostics();
+      context.recordDiagnostics(diagnostic);
+      context.initializeDiagnosticSettings(CosmosDbDiagnosticLevel.debug);
+      context.recordDiagnostics(diagnostic);
+      context.initializeDiagnosticSettings(CosmosDbDiagnosticLevel.info);
+      context.recordDiagnostics(diagnostic);
+      assert.equal(format.mock.calls.length, 1);
+    });
+  });
+
   describe("Test withDiagnostics utility function", () => {
     const clientContext = createTestClientContext({}, undefined);
 

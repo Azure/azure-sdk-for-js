@@ -133,14 +133,18 @@ impl NativeReadClient {
                         .map_err(|error| ReadFailure::new("readItem", error))
                 }
                 .await;
-                Ok(result)
+                // Prepare owned buffers on Tokio; N-API value creation stays on the JS thread.
+                match result {
+                    Ok(Some(response)) => Ok(Ok(NativeReadResponse::from_read(&response)?)),
+                    Ok(None) => Err(Error::new(
+                        Status::GenericFailure,
+                        "The Rust driver returned no response for a point read.",
+                    )),
+                    Err(failure) => Ok(Err(failure)),
+                }
             },
             |env, result| match result {
-                Ok(Some(response)) => NativeReadResponse::from_read(&response),
-                Ok(None) => Err(Error::new(
-                    Status::GenericFailure,
-                    "The Rust driver returned no response for a point read.",
-                )),
+                Ok(response) => Ok(response),
                 Err(failure) => Err(failure.into_napi_error(&env)?),
             },
         )

@@ -3,7 +3,7 @@
 
 import assert from "node:assert/strict";
 import { appendFileSync } from "node:fs";
-import { summarize } from "./stats.mjs";
+import { summarize, mergeAttemptEvidence } from "./stats.mjs";
 
 class Reporter {
   constructor(container, identity, logfile) {
@@ -15,6 +15,7 @@ class Reporter {
     this.errors = 0;
     this.throttled = 0;
     this.failed = false;
+    this.attemptEvidence = null;
   }
 
   async write(record) {
@@ -59,6 +60,12 @@ class Reporter {
     this.count += statistics.count;
     this.errors += snapshot.errors;
     this.throttled += snapshot.observed_429;
+    if (snapshot.attempt_evidence) {
+      this.attemptEvidence = mergeAttemptEvidence(
+        [...(this.attemptEvidence ? [this.attemptEvidence] : []), snapshot.attempt_evidence],
+        this.identity.config_backend,
+      );
+    }
   }
 
   async complete(valid) {
@@ -72,6 +79,8 @@ class Reporter {
       total_count: this.count,
       total_errors: this.errors,
       observed_429: this.throttled,
+      attempt_evidence: this.attemptEvidence,
+      completed_at_utc: new Date().toISOString(),
       valid: usable,
     });
     return usable;

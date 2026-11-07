@@ -5,7 +5,9 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { mergeAttemptGroups } from "./stats.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(__dirname, "../..");
@@ -24,8 +26,12 @@ const targets = {
   },
 };
 
-function readConfig(filename) {
-  return validateConfig(JSON.parse(readFileSync(filename, "utf8")));
+function readConfig(filename, expectedHash) {
+  const bytes = readFileSync(filename);
+  if (expectedHash !== undefined) {
+    assert.equal(sha256(bytes), expectedHash, "Effective configuration changed");
+  }
+  return validateConfig(JSON.parse(bytes.toString("utf8")));
 }
 
 function validateConfig(config) {
@@ -40,6 +46,7 @@ function validateConfig(config) {
     "shutdownGraceSeconds",
     "qualificationTimeoutSeconds",
     "nativeBuildManifest",
+    "capacityRuPerSecond",
   ];
   assert.deepEqual(
     Object.keys(config).sort(),
@@ -53,6 +60,10 @@ function validateConfig(config) {
   assert.equal(endpoint.pathname, "/");
   assert.ok(endpoint.port === "" || endpoint.port === "443");
   for (const kind of ["workload", "results"]) assert.deepEqual(config[kind], targets[kind]);
+  assert.deepEqual(Object.keys(config.capacityRuPerSecond).sort(), ["results", "workload"]);
+  for (const value of Object.values(config.capacityRuPerSecond)) {
+    assert.ok(Number.isSafeInteger(value) && value > 0, "Expected capacity must be positive RU/s");
+  }
   assert.equal(config.itemCount, 1000, "This drill requires exactly 1,000 prepared orders");
   for (const name of [
     "durationSeconds",
@@ -127,6 +138,11 @@ function inspectRead(response, index, backend, etag) {
     );
   } else {
     assert.equal(backend, "javascript");
+    assert.equal(
+      response.diagnostics?.experimentalRustRead,
+      undefined,
+      "JavaScript baseline returned Rust diagnostics",
+    );
     const diagnostics = response.diagnostics?.clientSideRequestStatistics;
     assert.ok(
       Array.isArray(diagnostics?.retryDiagnostics?.failedAttempts),
@@ -139,6 +155,19 @@ function inspectRead(response, index, backend, etag) {
     observed429: attempts.filter((request) => request.statusCode === 429).length,
     observedAttempts: attempts.length,
     transportVerified: backend === "rust",
+    attemptEvidence: {
+      population: backend === "rust" ? "rust_retained_requests" : "javascript_failed_attempts",
+      coverage: "partial",
+      groups: mergeAttemptGroups([
+        attempts.map((attempt) => ({
+          pipeline: backend === "rust" ? attempt.pipeline : "unknown",
+          transport: backend === "rust" ? attempt.transport : "unknown",
+          status_code: attempt.statusCode ?? null,
+          sub_status_code: attempt.subStatusCode ?? attempt.substatusCode ?? null,
+          count: 1,
+        })),
+      ]),
+    },
   };
 }
 
@@ -161,6 +190,46 @@ async function checkContainer(client, target) {
   assert.equal(response.statusCode, 200, "Required container must already exist");
   assert.deepEqual(response.resource.partitionKey.paths, [target.partitionKey]);
   return container;
+}
+
+async function captureCapacity(client, config, signal) {
+  const capacities = {};
+  for (const kind of ["workload", "results"]) {
+    signal?.throwIfAborted();
+    const target = config[kind];
+    const response = await client.database(target.database).container(target.container).readOffer();
+    signal?.throwIfAborted();
+    assert.equal(response.statusCode, 200, "Cannot read container throughput");
+    const content = response.resource?.content;
+    assert.ok(content, "Dedicated container throughput is required");
+    assert.ok(!content.offerAutopilotSettings, "This drill requires manual throughput");
+    assert.notEqual(content.offerIsRUPerMinuteThroughputEnabled, true);
+    assert.equal(content.offerThroughput, config.capacityRuPerSecond[kind], "Throughput changed");
+    capacities[kind] = {
+      mode: "manual",
+      ru_per_second: content.offerThroughput,
+      source: "container_offer",
+    };
+  }
+  return capacities;
+}
+
+function captureEnvironment() {
+  const cpus = os.cpus();
+  assert.ok(cpus.length > 0, "CPU inventory is unavailable");
+  return {
+    captured_at_utc: new Date().toISOString(),
+    hostname: os.hostname(),
+    platform: process.platform,
+    arch: process.arch,
+    kernel: os.release(),
+    cpu_count: cpus.length,
+    available_parallelism: os.availableParallelism(),
+    cpu_model: cpus[0].model,
+    total_memory_bytes: os.totalmem(),
+    node: process.version,
+    sdk_version: JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8")).version,
+  };
 }
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -230,6 +299,8 @@ export {
   inspectRead,
   createClient,
   checkContainer,
+  captureCapacity,
+  captureEnvironment,
   provenance,
   safeError,
   sha256,

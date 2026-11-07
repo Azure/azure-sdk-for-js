@@ -988,6 +988,7 @@ export class ClientContext {
   }
 
   public recordDiagnostics(diagnostic: CosmosDiagnostics): void {
+    if (this.diagnosticWriter instanceof NoOpDiagnosticWriter) return;
     const formatted = this.diagnosticFormatter.format(diagnostic);
     this.diagnosticWriter.write(formatted);
   }

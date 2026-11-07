@@ -92,7 +92,7 @@ export class Item {
   public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+    const readResponse = await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (this.clientContext.experimentalReadImplementation === "rust") {
         const adapter = this.clientContext.rustReadAdapter;
         if (!adapter) throw new Error("The experimental Rust read adapter is unavailable.");
@@ -104,14 +104,7 @@ export class Item {
           options,
           diagnosticNode,
         );
-        return new ItemResponse(
-          response.result,
-          response.headers,
-          response.code,
-          response.substatus,
-          this,
-          getEmptyCosmosDiagnostics(),
-        );
+        return response;
       }
       this.partitionKey = await setPartitionKeyIfUndefined(
         diagnosticNode,
@@ -186,15 +179,22 @@ export class Item {
         );
         response.result = body;
       }
-      return new ItemResponse(
-        response.result,
-        response.headers,
-        response.code,
-        response.substatus,
-        this,
-        getEmptyCosmosDiagnostics(),
-      );
+      // Finalizing diagnostics must not mutate a response supplied by a plugin.
+      return {
+        result: response.result,
+        headers: response.headers,
+        code: response.code,
+        substatus: response.substatus,
+      };
     }, this.clientContext);
+    return new ItemResponse(
+      readResponse.result,
+      readResponse.headers,
+      readResponse.code,
+      readResponse.substatus,
+      this,
+      readResponse.diagnostics,
+    );
   }
 
   /**
