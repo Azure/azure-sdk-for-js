@@ -1051,7 +1051,6 @@ export type {
   VoiceAgentLiveClientDelegation,
   VoiceAgentLiveResponsesDelegation,
   VoiceAgentLiveManagedAgentDelegation,
-  VersionedDatasetReference,
   VoiceAgentSystemToolItem,
   VoiceAgentSystemToolItemStatus,
   VoiceAgentLiveConversation,
@@ -1314,6 +1313,7 @@ export type {
   VoiceAgentConversationItemTypeExtension,
   VoiceAgentRtcCallErrorType,
   VoiceAgentClientEventTypeExtension,
+  TelephonyCampaignDatasetReference,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";

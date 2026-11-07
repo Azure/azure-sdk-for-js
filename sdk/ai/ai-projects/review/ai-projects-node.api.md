@@ -2815,7 +2815,7 @@ export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGeneration
 // @public
 export interface DatasetReference {
     name: string;
-    version?: string;
+    version: string;
 }
 
 // @public
@@ -3297,7 +3297,7 @@ export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBase
 
 // @public
 export interface EvaluatorGenerationArtifacts {
-    dataset: VersionedDatasetReference;
+    dataset: DatasetReference;
     kinds: string[];
 }
 
@@ -7526,7 +7526,7 @@ export interface TelephonyCampaign {
     readonly name: string;
     readonly operation_id: string;
     readonly progress: TelephonyCampaignProgress;
-    recipient_dataset?: DatasetReference;
+    recipient_dataset?: TelephonyCampaignDatasetReference;
     recipients?: TelephonyRecipient[];
     retry_policy?: TelephonyOutboundRetryPolicyUnion;
     schedule?: TelephonyCampaignScheduleUnion;
@@ -7537,6 +7537,12 @@ export interface TelephonyCampaign {
 
 // @public
 export type TelephonyCampaignCreate = Pick<TelephonyCampaign, "connection_name" | "source" | "recipients" | "recipient_dataset" | "schedule" | "retry_policy">;
+
+// @public
+export interface TelephonyCampaignDatasetReference {
+    name: string;
+    version?: string;
+}
 
 // @public
 export interface TelephonyCampaignOperation {
@@ -8163,12 +8169,6 @@ export interface UserConversationSimulationUserBehaviorConfiguration {
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
-}
-
-// @public
-export interface VersionedDatasetReference {
-    name: string;
-    version: string;
 }
 
 // @public

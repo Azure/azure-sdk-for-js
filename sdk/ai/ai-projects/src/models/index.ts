@@ -1012,7 +1012,6 @@ export type {
   VoiceAgentLiveClientDelegation,
   VoiceAgentLiveResponsesDelegation,
   VoiceAgentLiveManagedAgentDelegation,
-  VersionedDatasetReference,
   VoiceAgentSystemToolItem,
   VoiceAgentSystemToolItemStatus,
   VoiceAgentLiveConversation,
@@ -1275,4 +1274,5 @@ export type {
   VoiceAgentConversationItemTypeExtension,
   VoiceAgentRtcCallErrorType,
   VoiceAgentClientEventTypeExtension,
+  TelephonyCampaignDatasetReference,
 } from "./models.js";
