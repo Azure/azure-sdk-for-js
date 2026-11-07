@@ -46,6 +46,16 @@ describe("Identity utilities", function () {
         "get-token-options-tenant-id",
       );
     });
+
+    it("uses the JavaScript option name in multi-tenant configuration errors", async function () {
+      assert.throws(
+        () =>
+          processMultiTenantRequest("credential-options-tenant-id", {
+            tenantId: "get-token-options-tenant-id",
+          }),
+        /additionallyAllowedTenants/,
+      );
+    });
   });
 
   describe("getAuthority", () => {
