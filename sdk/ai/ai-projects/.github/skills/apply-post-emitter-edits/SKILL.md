@@ -48,14 +48,38 @@ customized, and new emitted inputs, then follow the
 [resolver development checks](../../../scripts/customization/README.md#development).
 Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
 
+For a beta-to-root operation relocation, inspect all three inputs rather than
+assuming the old group was deleted. The resolver follows unique HTTP method/route
+matches, including renamed delete methods and their send/deserialize helpers.
+Plain delegates can follow their own API through parameter-only renames and
+import aliases; defaults, altered forwarding, unrelated callees, and genuinely
+custom-only methods still require review. Verify the destination's emitted
+request body, optional parameters, preview-header retirement, paging/poller
+behavior, classic delegates, and exports. A retired generated preview header
+must not be kept merely because its customized object has a trailing comma.
+For Agent Insight Monitor promotion, verify the new root client member uses
+the former beta group's authentication context and preserves the maintained
+constructor; copying the emitted single-client initialization is not safe.
+Keep an explicit disposition for any custom-only method that cannot be matched;
+never delete it to make relocation pass.
+
+For JavaScript-only model-name changes, verify the resolver follows an approved
+old/new declaration pair only when the emitted declarations and converters are
+structurally equivalent. Retained discriminated variants still need an explicit
+union policy; do not treat a language rename as permission to retain or drop
+arbitrary legacy variants. Customized tracing wrappers may follow emitted
+parameter-only renames, but inspect their inner operation call: it must remain
+the one exact delegate from the baseline, with the emitted argument names and
+types. Altered forwarding still requires manual review.
+
 Use this phase order to avoid mixing unrelated decisions:
 
-| Phase          | Steps                            | Exit point                                                                                                                                                                   |
-| -------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cleanup        | Step -1, Step 0, Step 0a, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, protected customizations are preserved and intentional deltas audited. |
-| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                           |
-| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                 |
-| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                      |
+| Phase          | Steps                                     | Exit point                                                                                                                                                                                                    |
+| -------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 0a, Step 0b, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, relocated groups are reconciled, protected customizations are preserved and intentional deltas audited. |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3          | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                                                            |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c          | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                                                  |
+| Verification   | Step 6                                    | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                                                       |
 
 ### Recovery: customization stopped on a dirty target
 
@@ -139,7 +163,48 @@ For each entry:
 
 5. **Record every disposition.** Keep a table for `open-regeneration-pr` to put in the pull request description, with one row per entry (plus one per separate decision an entry needed): the entry, the disposition (adopt, keep, port, combine, apply, or drop), and a one-line reason. Add **needs review** where you were unsure. An entry is not done until it has a row.
 
-If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
+If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For a removed module or relocated group, follow Step 0b before treating the diagnostic as unexplained. For other plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
+
+### Step 0b: Mirror verified operation-group relocations
+
+The resolver matches generated operations by HTTP method and route, but a custom-only
+helper in a removed module has no generated identity to match. For example, moving
+`beta/voiceAgents/campaigns` into `beta/voiceAgents/telephony` leaves the customized
+`getCampaignResult` helper behind unless its relocation is handled explicitly.
+`Removed generated module contains custom-only declarations; relocation requires a policy`
+is a request to review that helper, not evidence that the upstream move should be omitted.
+Recovery does not bypass this plan diagnostic and may restore `src/` to the baseline.
+
+1. Compare the clean baseline's generated and customized modules with the new generated
+   tree. Use the pre-regeneration ref, not an already-emitted `HEAD`. Establish where
+   every operation moved using its method and route, and distinguish a relocation from
+   an actual removal. Do not infer a helper's destination from its name alone.
+2. Inventory custom-only helpers, imports, option types, classic members, and callers
+   in the removed group. Trace each helper's references to the relocated operations.
+   When the destination is unambiguous, carry that helper and its required imports with
+   those operations, preserving its behavior. Multiple destinations, name collisions,
+   or unrelated custom-only declarations require an explicit reviewed policy; never
+   suppress the removed-module diagnostic globally.
+3. Mirror the complete move in `src/`: operation implementations and send/deserialize
+   helpers, options and their imports, API barrels, classic interface/factory members,
+   parent client wiring, and public exports. Preserve customized parameter order,
+   preview headers, paging request options, and guarded LRO result handling. Remove the
+   retired group and obsolete generated-backed exports rather than leaving a second,
+   stale operation surface. Update existing tests and `samples-dev` callers.
+4. If the automatic resolver cannot represent the verified move, implement a narrowly
+   scoped relocation policy with a regression fixture using the old generated,
+   customized, and new emitted inputs. Test that custom-only behavior follows the move
+   and that ambiguous or conflicting relocations still fail. Do not edit `generated/`,
+   drop the helper, or copy entire emitted modules over customized source.
+5. Run the resolver fixture tests, check the reconciled source with the clean
+   `--base-ref`, and complete the parity, compilation, build, API extraction, and
+   consumer checks below. The API report must show the destination operations and no
+   retired group wiring. Record the relocation and custom-helper disposition for the
+   pull request.
+
+An additions-only scan cannot prove a relocation is complete: it may skip deleted
+modules entirely. Inspect generated deletions as well as additions before declaring
+post-emitter integration finished.
 
 ### Step 1: Pre-flight — verify protected files are intact
 

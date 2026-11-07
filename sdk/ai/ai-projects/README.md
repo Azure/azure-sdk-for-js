@@ -328,6 +328,7 @@ guarantee that artifact exists. Missing audio returns `404`. An unfinished merge
 recording can return `409 recording_not_ready`; follow its `Retry-After` guidance
 instead of treating that response as an empty recording.
 
+Campaign operations now share the `project.beta.voiceAgents.telephony` client.
 The campaign sample only reads campaign preparation, validation errors, operation
 monitors, and call jobs. It requires a deployment with those preview routes enabled.
 It never creates or cancels a call: campaign creation can authorize dialing before

@@ -1568,7 +1568,6 @@ export type {
   BetaVoiceAgentsConversationsOperations,
   BetaVoiceAgentsTelephonyOperations,
   EvaluatorsOperations,
-  BetaVoiceAgentsCampaignsOperations,
   BetaVoiceAgentsLiveConversationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator, NodeReadableStream };
@@ -1615,16 +1614,14 @@ export type {
   BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
   BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
   BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
 } from "./api/beta/voiceAgents/telephony/options.js";
-export type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
-} from "./api/beta/voiceAgents/campaigns/options.js";
 export type {
   BetaVoiceAgentsLiveConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsLiveConversationsGetAudioOptionalParams,

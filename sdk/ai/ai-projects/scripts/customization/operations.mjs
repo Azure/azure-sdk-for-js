@@ -15,6 +15,7 @@ import {
 import {
   declarations,
   edit,
+  exportEntries,
   header,
   importsOf,
   nameOf,
@@ -280,6 +281,101 @@ function operationNames(base, customized, incoming) {
   return result;
 }
 
+function alignParameterNames(snippets, file) {
+  if (!snippets[0] || !snippets[1]) return snippets;
+  const [base, custom] = snippets.slice(0, 2).map((text) => parse(text, file).statements[0]);
+  if (
+    !ts.isFunctionDeclaration(base) ||
+    !ts.isFunctionDeclaration(custom) ||
+    base.parameters.length !== custom.parameters.length
+  )
+    return snippets;
+  const renames = new Map();
+  for (let index = 0; index < base.parameters.length; index++) {
+    const before = base.parameters[index];
+    const after = custom.parameters[index];
+    if (!ts.isIdentifier(before.name) || !ts.isIdentifier(after.name)) return snippets;
+    if (before.name.text !== after.name.text) renames.set(before.name.text, after.name.text);
+  }
+  if (!renames.size) return snippets;
+  function aligned(text) {
+    const source = parse(text, file);
+    const targets = new Set(renames.values());
+    let collision = false;
+    function visit(node) {
+      if (
+        ts.isIdentifier(node) &&
+        targets.has(node.text) &&
+        !(
+          (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+          ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+            node.parent.name === node)
+        )
+      )
+        collision = true;
+      ts.forEachChild(node, visit);
+    }
+    visit(source);
+    if (collision) return null;
+    return renameSymbols(
+      text,
+      renames,
+      file,
+      (node) =>
+        ts.isParameter(node.parent) &&
+        ts.isFunctionDeclaration(node.parent.parent) &&
+        ts.isSourceFile(node.parent.parent.parent),
+    );
+  }
+  const normalizedBase = aligned(snippets[0]);
+  if (!normalizedBase) return snippets;
+  const signature = (node) =>
+    canonicalize(`function signature(${node.parameters.map((p) => p.getText()).join(",")}) {}`);
+  if (signature(parse(normalizedBase, file).statements[0]) !== signature(custom)) return snippets;
+  const normalizedIncoming = aligned(snippets[2]);
+  if (!normalizedIncoming) return snippets;
+  return [normalizedBase, snippets[1], normalizedIncoming];
+}
+
+function localReferences(source, nodes) {
+  const options = { noLib: true, target: ts.ScriptTarget.Latest };
+  const host = ts.createCompilerHost(options);
+  host.getSourceFile = (file) => (file === source.fileName ? source : undefined);
+  host.fileExists = (file) => file === source.fileName;
+  host.readFile = (file) => (file === source.fileName ? source.text : undefined);
+  const checker = ts.createProgram([source.fileName], options, host).getTypeChecker();
+  const bindings = new Map();
+  for (const [name, node] of nodes) {
+    const names = ts.isVariableStatement(node)
+      ? node.declarationList.declarations.map((declaration) => declaration.name)
+      : node.name
+        ? [node.name]
+        : [];
+    for (const binding of names) {
+      const symbol = checker.getSymbolAtLocation(binding);
+      if (symbol) bindings.set(symbol, name);
+    }
+  }
+  const references = new Map();
+  for (const [name, node] of nodes) {
+    const referenced = new Set();
+    const visit = (child) => {
+      if (ts.isIdentifier(child) && child !== node.name) {
+        const symbol =
+          ts.isShorthandPropertyAssignment(child.parent) && child.parent.name === child
+            ? checker.getShorthandAssignmentValueSymbol(child.parent)
+            : checker.getSymbolAtLocation(child);
+        const target = bindings.get(symbol);
+        if (target && target !== name) referenced.add(target);
+      }
+      ts.forEachChild(child, visit);
+    };
+    visit(node);
+    references.set(name, referenced);
+  }
+  return references;
+}
+
 export function planOperations({ baseGenerated, baseSource, generated, modelRenames = new Map() }) {
   const generatedMembers = modelMemberIndex(generated);
   const oldOperations = indexOperations(baseGenerated);
@@ -451,8 +547,11 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
           ),
         moduleFor(generated, incomingMaps, outputFile, "incoming"),
       ];
-      const snippets = modules.map((module) =>
-        module ? textOf(module.nodes.get(outputName), module.source) : null,
+      const snippets = alignParameterNames(
+        modules.map((module) =>
+          module ? textOf(module.nodes.get(outputName), module.source) : null,
+        ),
+        outputFile,
       );
       if (member === "publicNode" && snippets[1]) {
         snippets[0] = normalizePoller(snippets[0], snippets[1]);
@@ -532,6 +631,87 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       module: item.module.startsWith(".") ? relativeImport(toFile, resolved) : item.module,
     };
   }
+  const relocatedHelpers = new Map();
+  const helperDestinations = new Set();
+  for (const oldFile of new Set(matches.map((match) => match.customized?.file).filter(Boolean))) {
+    if (generated.has(oldFile)) continue;
+    const custom = moduleFor(baseSource, sourceMaps, oldFile, "custom");
+    const original = moduleFor(baseGenerated, baseMaps, oldFile, "base");
+    const helpers = new Map([...custom.nodes].filter(([name]) => !original.nodes.has(name)));
+    if (!helpers.size) continue;
+    const references = localReferences(custom.source, custom.nodes);
+    const destinations = new Map();
+    for (const match of matches.filter((item) => item.customized?.file === oldFile)) {
+      const visit = (name, visited = new Set()) => {
+        if (visited.has(name)) return;
+        visited.add(name);
+        for (const target of references.get(name) ?? []) {
+          if (!helpers.has(target)) continue;
+          if (!destinations.has(target)) destinations.set(target, new Set());
+          destinations.get(target).add(match.incoming.file);
+          visit(target, visited);
+        }
+      };
+      for (const member of ["send", "deserialize", "publicNode"]) visit(match.names[member]);
+    }
+    const exports = new Set(
+      exportEntries(custom.source)
+        .filter((entry) => !entry.module)
+        .map((entry) => entry.imported),
+    );
+    const exportAssignments = new Set(
+      custom.source.statements
+        .filter(ts.isExportAssignment)
+        .map(({ expression }) => (ts.isIdentifier(expression) ? expression.text : undefined))
+        .filter(Boolean),
+    );
+    for (const [name, targets] of destinations) {
+      const node = helpers.get(name);
+      const file = [...targets][0];
+      const output = outputDeclarations.get(file);
+      const dependencyMovesToDestination = (dependency) =>
+        matches.some(
+          (match) =>
+            match.customized?.file === oldFile &&
+            match.incoming.file === file &&
+            ["send", "deserialize", "publicNode"].some(
+              (member) => match.names[member] === dependency,
+            ),
+        );
+      const collides = [generated, baseSource].some(
+        (tree) =>
+          tree.has(file) &&
+          (declarations(parse(tree.get(file), file)).has(name) ||
+            importsOf(parse(tree.get(file), file)).some((item) => item.local === name)),
+      );
+      if (
+        targets.size !== 1 ||
+        !ts.isFunctionDeclaration(node) ||
+        node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ||
+        exports.has(name) ||
+        exportAssignments.has(name) ||
+        output?.has(name) ||
+        helperDestinations.has(`${file}::${name}`) ||
+        collides ||
+        [...(references.get(name) ?? [])].some(
+          (target) =>
+            !helpers.has(target) && (!dependencyMovesToDestination(target) || !output?.has(target)),
+        )
+      ) {
+        diagnostics.push({
+          file: oldFile,
+          declaration: name,
+          message:
+            "Custom helper relocation requires a private function, a unique destination, and all local dependencies without collisions",
+        });
+        continue;
+      }
+      const move = { file, name };
+      helperDestinations.add(`${file}::${name}`);
+      relocatedHelpers.set(`${oldFile}::${name}`, move);
+      moves.set(`${oldFile}::${name}`, move);
+    }
+  }
   for (const [file, nodes] of outputDeclarations) {
     if (baseGenerated.get(file) === generated.get(file) && baseSource.has(file)) {
       files.set(file, baseSource.get(file));
@@ -561,7 +741,11 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       const generatedBacked = (name) =>
         mapped.has(name) || (oldGenerated.has(name) && (renamed.get(name) ?? name) === name);
       for (const [name, node] of custom.nodes) {
-        if (!generatedBacked(name) && !nodes.has(name)) {
+        if (
+          !generatedBacked(name) &&
+          !nodes.has(name) &&
+          (generated.has(oldFile) || relocatedHelpers.get(`${oldFile}::${name}`)?.file === file)
+        ) {
           nodes.set(name, textOf(node, custom.source));
         }
       }
@@ -573,7 +757,7 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
     const imports = renderImports(file, body, candidates);
     files.set(file, `${header}${imports}\n\n${body}\n`);
   }
-  return { files, diagnostics, matches, moves };
+  return { files, diagnostics, matches, moves, relocatedHelpers };
 }
 
 export function classicFromOperations(file, incomingText, operations, sourceOperations) {

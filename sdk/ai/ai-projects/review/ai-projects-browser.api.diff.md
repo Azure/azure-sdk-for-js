@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -5543,9 +5543,9 @@
+@@ -5537,9 +5537,9 @@
      readonly type: "None";
  }
  

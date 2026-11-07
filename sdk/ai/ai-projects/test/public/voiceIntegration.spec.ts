@@ -132,7 +132,7 @@ describe("campaign final resource resolution", () => {
   for (const action of ["create", "cancel"] as const) {
     function start(
       client: AIProjectClient,
-    ): ReturnType<AIProjectClient["beta"]["voiceAgents"]["campaigns"]["create"]> {
+    ): ReturnType<AIProjectClient["beta"]["voiceAgents"]["telephony"]["create"]> {
       const options = {
         updateIntervalInMs: 0,
         operationId: "request-key-not-response-key",
@@ -140,13 +140,13 @@ describe("campaign final resource resolution", () => {
         requestOptions: { headers: { "x-test-header": "preserved" } },
       };
       return action === "create"
-        ? client.beta.voiceAgents.campaigns.create(
+        ? client.beta.voiceAgents.telephony.create(
             "voice agent",
             "campaign",
             campaignInput,
             options,
           )
-        : client.beta.voiceAgents.campaigns.cancel(
+        : client.beta.voiceAgents.telephony.cancel(
             "voice agent",
             "campaign",
             '"campaign-etag"',
@@ -270,6 +270,44 @@ describe("campaign final resource resolution", () => {
       expect(requests[0].headers.get("if-match")).toBe('"campaign-etag"');
     });
   }
+
+  it("deletes a campaign through telephony without fetching a deleted resource", async () => {
+    const { client, requests } = createClient(
+      {
+        status: 202,
+        headers: {
+          "operation-location": operationLocation,
+          "operation-id": operationId,
+          "retry-after": "0",
+        },
+      },
+      { body: { id: operationId, kind: "delete", status: "succeeded" } },
+    );
+    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
+      "voice agent",
+      "campaign",
+      '"campaign-etag"',
+      {
+        updateIntervalInMs: 0,
+        operationId: "delete-retry-key",
+        requestOptions: { headers: { "x-test-header": "preserved" } },
+      },
+    );
+    expect(await poller.pollUntilDone()).toBeUndefined();
+    expect(requests).toHaveLength(2);
+    expect(requests[0].method).toBe("DELETE");
+    expect(new URL(requests[0].url).pathname).toBe(
+      "/api/projects/test-project/agents/voice%20agent/telephony_campaigns/campaign",
+    );
+    expect(requests[1].method).toBe("GET");
+    expect(new URL(requests[1].url).pathname).toBe(new URL(operationLocation).pathname);
+    for (const request of requests) {
+      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(request.headers.get("if-match")).toBe('"campaign-etag"');
+      expect(request.headers.get("operation-id")).toBe("delete-retry-key");
+      expect(request.headers.get("x-test-header")).toBe("preserved");
+    }
+  });
 });
 
 describe("campaign management REST contracts", () => {
@@ -285,7 +323,7 @@ describe("campaign management REST contracts", () => {
 
   it("gets a campaign with an initiating-operation guard rather than its latest operation", async () => {
     const { client, requests } = createClient({ body: campaignResponse });
-    const result = await client.beta.voiceAgents.campaigns.get("voice agent", "campaign/name", {
+    const result = await client.beta.voiceAgents.telephony.get("voice agent", "campaign/name", {
       operationId: operation.id,
     });
     expect(result).toMatchObject({
@@ -310,7 +348,7 @@ describe("campaign management REST contracts", () => {
     const { client, requests } = createClient({
       body: { ...operation, status: "failed", error },
     });
-    const result = await client.beta.voiceAgents.campaigns.getOperation(
+    const result = await client.beta.voiceAgents.telephony.getOperation(
       "voice agent",
       "campaign/name",
       operation.id,
@@ -335,7 +373,7 @@ describe("campaign management REST contracts", () => {
       { status: 202, headers: { "operation-location": monitor, "retry-after": "0" } },
       { body: operation },
     );
-    const poller = client.beta.voiceAgents.campaigns.deleteCampaign(
+    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
       "voice agent",
       "campaign/name",
       '"campaign-etag"',
@@ -366,8 +404,8 @@ describe("campaign management REST contracts", () => {
   it("accepts an already-deleted campaign's empty 204 without polling", async () => {
     const { client, requests } = createClient({ status: 204 });
     await expect(
-      client.beta.voiceAgents.campaigns
-        .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
+      client.beta.voiceAgents.telephony
+        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
           updateIntervalInMs: 0,
         })
         .pollUntilDone(),
@@ -388,8 +426,8 @@ describe("campaign management REST contracts", () => {
       },
     );
     await expect(
-      client.beta.voiceAgents.campaigns
-        .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
+      client.beta.voiceAgents.telephony
+        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
           updateIntervalInMs: 0,
         })
         .pollUntilDone(),
@@ -431,8 +469,8 @@ describe("campaign management REST contracts", () => {
         },
       },
     );
-    const completion = client.beta.voiceAgents.campaigns
-      .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
+    const completion = client.beta.voiceAgents.telephony
+      .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
         abortSignal: controller.signal,
         updateIntervalInMs: 0,
       })
@@ -454,7 +492,7 @@ describe("campaign management REST contracts", () => {
       second: { ...campaignResponse, name: "second-campaign" },
       expected: { name: "second-campaign", created_at: new Date(1_700_000_000_000) },
       list: (client: AIProjectClient) =>
-        client.beta.voiceAgents.campaigns.list("voice agent", {
+        client.beta.voiceAgents.telephony.list("voice agent", {
           limit: 1,
           order: "asc",
           status: "cancelled",
@@ -484,7 +522,7 @@ describe("campaign management REST contracts", () => {
         error: { code: "invalid_input", param: "structured_inputs.name" },
       },
       list: (client: AIProjectClient) =>
-        client.beta.voiceAgents.campaigns.listValidationErrors("voice agent", "campaign/name", {
+        client.beta.voiceAgents.telephony.listValidationErrors("voice agent", "campaign/name", {
           limit: 1,
           order: "asc",
         }),
@@ -1130,12 +1168,12 @@ describe("voice post-emitter integration", () => {
     {
       name: "campaigns",
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.campaigns.list("agent", options),
+        client.beta.voiceAgents.telephony.list("agent", options),
     },
     {
       name: "campaign validation errors",
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.campaigns.listValidationErrors("agent", "campaign", options),
+        client.beta.voiceAgents.telephony.listValidationErrors("agent", "campaign", options),
     },
     {
       name: "Live conversations",
@@ -1185,7 +1223,7 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  it("wires redesigned campaign and Live groups without restoring legacy flat campaign APIs", () => {
+  it("wires campaigns through telephony without restoring legacy campaign APIs", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",
@@ -1197,7 +1235,7 @@ describe("voice post-emitter integration", () => {
       "pauseCampaign",
       "resumeCampaign",
       "cancelCampaign",
-      "getOperation",
+      "deleteCampaign",
     ]) {
       expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
     }
@@ -1206,8 +1244,14 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.campaigns.create).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.campaigns.getOperation).toBeTypeOf("function");
+    expect(client.beta.voiceAgents).not.toHaveProperty("campaigns");
+    expect(client.beta.voiceAgents.telephony.create).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.get).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.list).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.cancel).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.listValidationErrors).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.getOperation).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteTelephony).toBeTypeOf("function");
     expect(client.beta.voiceAgents.liveConversations.get).toBeTypeOf("function");
     expect(client.beta.voiceAgents.liveConversations).not.toHaveProperty("connect");
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");

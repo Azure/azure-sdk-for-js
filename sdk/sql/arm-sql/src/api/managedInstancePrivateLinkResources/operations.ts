@@ -35,7 +35,7 @@ export function _listByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,6 +62,7 @@ export async function _listByManagedInstanceDeserialize(
 
   return _managedInstancePrivateLinkListResultDeserializer(result.body);
 }
+
 /** Gets the private link resources for SQL server. */
 export function listByManagedInstance(
   context: Client,
@@ -79,7 +80,7 @@ export function listByManagedInstance(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -98,7 +99,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,6 +126,7 @@ export async function _getDeserialize(
 
   return managedInstancePrivateLinkDeserializer(result.body);
 }
+
 /** Gets a private link resource for SQL server. */
 export async function get(
   context: Client,

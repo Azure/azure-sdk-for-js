@@ -1,0 +1,47 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "instancePool": {
+          "bicepIdentifier": "instancePool",
+          "type": "Microsoft.Sql/instancePools",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "instancepoolsoperati"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "operation": {
+          "bicepIdentifier": "operation",
+          "type": "Microsoft.Sql/instancePools/operations",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "instancepoolsoperati"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "instancePool"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

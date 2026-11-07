@@ -13,8 +13,6 @@ import type {
 } from "../../../realtime/voiceAgentRealtimeClient.js";
 import { createVoiceAgentRealtimeClient } from "../../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../../tracing/configuration.js";
-import type { BetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
-import { _getBetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
 import type { BetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { _getBetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { VoiceAgentLiveClient } from "../../../live/voiceAgentLiveClient.js";
@@ -22,8 +20,7 @@ import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveCl
 
 /** Voice agent Realtime/Live connections, persisted conversations, and telephony. */
 export interface BetaVoiceAgentsOperations {
-  campaigns: BetaVoiceAgentsCampaignsOperations;
-  /** Operations for managing telephony bindings and calls. */
+  /** Operations for managing telephony campaigns, bindings, and calls. */
   telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
@@ -44,7 +41,6 @@ export function _getBetaVoiceAgentsOperations(
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaVoiceAgentsOperations {
   return {
-    campaigns: _getBetaVoiceAgentsCampaignsOperations(context),
     telephony: _getBetaVoiceAgentsTelephonyOperations(context, tracingConfig),
     liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context, tracingConfig),
     conversations: _getBetaVoiceAgentsConversationsOperations(context, tracingConfig),

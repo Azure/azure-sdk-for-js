@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to renames a database.
  *
  * @summary renames a database.
- * x-ms-original-file: 2025-08-01-preview/RenameDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/RenameDatabase.json
  */
 async function renamesADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

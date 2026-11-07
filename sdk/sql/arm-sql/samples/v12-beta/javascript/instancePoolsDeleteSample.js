@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an instance pool
  *
  * @summary deletes an instance pool
- * x-ms-original-file: 2025-08-01-preview/DeleteInstancePool.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteInstancePool.json
  */
 async function deleteAnInstancePool() {
   const credential = new DefaultAzureCredential();

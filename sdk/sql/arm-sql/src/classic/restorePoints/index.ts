@@ -65,6 +65,7 @@ export interface RestorePointsOperations {
     options?: RestorePointsGetOptionalParams,
   ) => Promise<RestorePoint>;
 }
+
 function _getRestorePoints(context: SqlManagementContext) {
   return {
     create: (
@@ -130,6 +131,7 @@ function _getRestorePoints(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, restorePointName, options),
   };
 }
+
 export function _getRestorePointsOperations(
   context: SqlManagementContext,
 ): RestorePointsOperations {

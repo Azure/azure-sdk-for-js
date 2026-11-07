@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get database table
  *
  * @summary get database table
- * x-ms-original-file: 2025-08-01-preview/DatabaseTableGet.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseTableGet.json
  */
 async function getDatabaseTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
