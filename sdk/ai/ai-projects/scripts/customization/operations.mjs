@@ -305,7 +305,11 @@ function localReferences(source, nodes) {
     const referenced = new Set();
     const visit = (child) => {
       if (ts.isIdentifier(child) && child !== node.name) {
-        const target = bindings.get(checker.getSymbolAtLocation(child));
+        const symbol =
+          ts.isShorthandPropertyAssignment(child.parent) && child.parent.name === child
+            ? checker.getShorthandAssignmentValueSymbol(child.parent)
+            : checker.getSymbolAtLocation(child);
+        const target = bindings.get(symbol);
         if (target && target !== name) referenced.add(target);
       }
       ts.forEachChild(child, visit);
@@ -596,10 +600,25 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
         .filter((entry) => !entry.module)
         .map((entry) => entry.imported),
     );
+    const exportAssignments = new Set(
+      custom.source.statements
+        .filter(ts.isExportAssignment)
+        .map(({ expression }) => (ts.isIdentifier(expression) ? expression.text : undefined))
+        .filter(Boolean),
+    );
     for (const [name, targets] of destinations) {
       const node = helpers.get(name);
       const file = [...targets][0];
       const output = outputDeclarations.get(file);
+      const dependencyMovesToDestination = (dependency) =>
+        matches.some(
+          (match) =>
+            match.customized?.file === oldFile &&
+            match.incoming.file === file &&
+            ["send", "deserialize", "publicNode"].some(
+              (member) => match.names[member] === dependency,
+            ),
+        );
       const collides = [generated, baseSource].some(
         (tree) =>
           tree.has(file) &&
@@ -611,11 +630,13 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
         !ts.isFunctionDeclaration(node) ||
         node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ||
         exports.has(name) ||
+        exportAssignments.has(name) ||
         output?.has(name) ||
         helperDestinations.has(`${file}::${name}`) ||
         collides ||
         [...(references.get(name) ?? [])].some(
-          (target) => !helpers.has(target) && !output?.has(target),
+          (target) =>
+            !helpers.has(target) && (!dependencyMovesToDestination(target) || !output?.has(target)),
         )
       ) {
         diagnostics.push({

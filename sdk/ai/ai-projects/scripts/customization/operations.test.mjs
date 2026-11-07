@@ -119,6 +119,23 @@ test("relocates private helper dependencies with their unique operation destinat
   assert.equal(result.relocatedHelpers.size, 2);
 });
 
+test("relocates helpers referenced through shorthand properties", () => {
+  const inputs = helperRelocation();
+  const file = "api/beta/old/operations.ts";
+  inputs.baseSource.set(
+    file,
+    inputs.baseSource
+      .get(file)
+      .replace("return finishResult(response, options);", "return { finishResult };"),
+  );
+  const result = planOperations(inputs);
+  assert.deepEqual(result.diagnostics, []);
+  const source = result.files.get("api/beta/nested/new/operations.ts");
+  assert.match(source, /return \{ finishResult \};/);
+  assert.match(source, /function finishResult\(/);
+  assert.equal(result.relocatedHelpers.size, 2);
+});
+
 test("does not mistake a shadowed name for a dependency on a removed module's helper", () => {
   const inputs = helperRelocation();
   const file = "api/beta/old/operations.ts";
@@ -152,6 +169,16 @@ for (const exported of ["export function", "function"]) {
             .get(file)
             .replace("function finishResult", "export function finishResult"),
     );
+    const result = planOperations(inputs);
+    assert.ok(result.diagnostics.some((item) => item.declaration === "finishResult"));
+  });
+}
+
+for (const assignment of ["export default finishResult;", "export = finishResult;"]) {
+  test(`rejects relocation of a helper exposed by ${assignment}`, () => {
+    const inputs = helperRelocation();
+    const file = "api/beta/old/operations.ts";
+    inputs.baseSource.set(file, inputs.baseSource.get(file) + `\n${assignment}`);
     const result = planOperations(inputs);
     assert.ok(result.diagnostics.some((item) => item.declaration === "finishResult"));
   });
@@ -227,6 +254,53 @@ test("rejects a shared helper when its operations split across destination modul
   const result = planOperations(inputs);
   assert.ok(result.diagnostics.some((item) => item.declaration === "finishResult"));
   assert.ok(result.diagnostics.some((item) => item.declaration === "guardResult"));
+});
+
+test("rejects a helper dependency moved away from its destination despite a same-named operation", () => {
+  const inputs = helperRelocation();
+  const oldFile = "api/beta/old/operations.ts";
+  const oldOptions = "api/beta/old/options.ts";
+  const originalDependency = operation("readOther", "ReadOtherOptions").replaceAll(
+    "/things/",
+    "/other/",
+  );
+  const customDependency = renameSymbols(
+    originalDependency,
+    new Map([
+      ["readOther", "get"],
+      ["_readOtherSend", "_getSend"],
+      ["_readOtherDeserialize", "_getDeserialize"],
+      ["ReadOtherOptions", "GetOptions"],
+    ]),
+  );
+  inputs.baseGenerated.set(oldFile, inputs.baseGenerated.get(oldFile) + `\n${originalDependency}`);
+  inputs.baseSource.set(
+    oldFile,
+    inputs.baseSource
+      .get(oldFile)
+      .replace(
+        "return _readItemDeserialize(normalize(guardResult(response), options));",
+        "return get;",
+      ) + `\n${customDependency}`,
+  );
+  inputs.baseGenerated.set(
+    oldOptions,
+    inputs.baseGenerated.get(oldOptions) + `\n${options("ReadOtherOptions")}`,
+  );
+  inputs.baseSource.set(
+    oldOptions,
+    inputs.baseSource.get(oldOptions) + `\n${options("GetOptions")}`,
+  );
+  for (const [file, text] of tree("split", "getOther", "GetOtherOptions"))
+    inputs.generated.set(file, text.replaceAll("/things/", "/other/"));
+  for (const [file, text] of tree("nested/new", "get", "GetOptions"))
+    inputs.generated.set(
+      file,
+      `${inputs.generated.get(file)}\n${text.replaceAll("/things/", "/unrelated/")}`,
+    );
+
+  const result = planOperations(inputs);
+  assert.ok(result.diagnostics.some((item) => item.declaration === "finishResult"));
 });
 
 test("rejects a helper whose generated local dependency does not move with the operations", () => {
