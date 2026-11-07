@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the Vault details.
  *
  * @summary get the Vault details.
- * x-ms-original-file: 2026-07-01/GETVault.json
+ * x-ms-original-file: 2026-11-01/GETVault.json
  */
 async function getRecoveryServicesResource() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function getRecoveryServicesResource() {
  * This sample demonstrates how to get the Vault details.
  *
  * @summary get the Vault details.
- * x-ms-original-file: 2026-07-01/GETVault_WithRegionOfChoiceSettings.json
+ * x-ms-original-file: 2026-11-01/GETVault_WithRegionOfChoiceSettings.json
  */
 async function getRecoveryServicesVaultWithRegionOfChoiceSettings() {
   const credential = new DefaultAzureCredential();
