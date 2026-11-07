@@ -328,6 +328,7 @@ export class AttestationTokenImpl implements AttestationToken {
     return this.getProblems(possibleSigners, options, {
       allowUnsigned: true,
       trustEmbeddedCertificate: true,
+      rethrowVerificationErrors: true,
     });
   }
 
@@ -336,8 +337,8 @@ export class AttestationTokenImpl implements AttestationToken {
    *
    * Validates a token returned by the attestation service. Only the trusted signers retrieved
    * from the service can verify its signature; the certificate embedded in the token is never
-   * trusted. The service returns unsigned tokens only for requests with a draft policy, so
-   * unsigned tokens are accepted only when `allowUnsigned` is true.
+   * trusted. The service returns unsigned tokens only for requests with a non-empty draft
+   * policy, so unsigned tokens are accepted only when `allowUnsigned` is true.
    */
   public _getServiceTokenProblems(
     trustedSigners: AttestationSigner[],
@@ -347,13 +348,18 @@ export class AttestationTokenImpl implements AttestationToken {
     return this.getProblems(trustedSigners, options ?? DEFAULT_VALIDATION_OPTIONS, {
       allowUnsigned,
       trustEmbeddedCertificate: false,
+      rethrowVerificationErrors: false,
     });
   }
 
   private getProblems(
     possibleSigners: AttestationSigner[] | undefined,
     options: AttestationTokenValidationOptions,
-    policy: { allowUnsigned: boolean; trustEmbeddedCertificate: boolean },
+    policy: {
+      allowUnsigned: boolean;
+      trustEmbeddedCertificate: boolean;
+      rethrowVerificationErrors: boolean;
+    },
   ): string[] {
     let problems = new Array<string>();
     if (!(options.validateToken ?? true)) {
@@ -369,7 +375,7 @@ export class AttestationTokenImpl implements AttestationToken {
       problems.push(`Unsupported attestation token algorithm: ${this.algorithm}`);
     } else {
       foundSigner = this.getCandidateSigners(possibleSigners, policy.trustEmbeddedCertificate).find(
-        (signer) => this.verifySignature(signer),
+        (signer) => this.verifySignature(signer, policy.rethrowVerificationErrors),
       );
 
       if (foundSigner === undefined) {
@@ -445,14 +451,18 @@ export class AttestationTokenImpl implements AttestationToken {
     return signer.certificates[0];
   }
 
-  private verifySignature(signer: AttestationSigner): boolean {
+  private verifySignature(signer: AttestationSigner, rethrowErrors: boolean): boolean {
     try {
       return jsrsasign.KJUR.jws.JWS.verify(
         this._token,
         this.certFromSigner(signer),
         ASYMMETRIC_SIGNATURE_ALGORITHMS,
       );
-    } catch {
+    } catch (e: unknown) {
+      // Direct getTokenProblems calls keep throwing, as in earlier versions.
+      if (rethrowErrors) {
+        throw e;
+      }
       return false;
     }
   }
@@ -461,9 +471,9 @@ export class AttestationTokenImpl implements AttestationToken {
    * Returns the signers which may have signed this token: the supplied signers matching the
    * token's key id, or all of them if the token has no key id.
    *
-   * When `trustEmbeddedCertificate` is true (direct calls to getTokenProblems, unchanged from
-   * earlier versions), the certificate chain embedded in the token is also a candidate, so a
-   * successful check does not show that the token was issued by the attestation service.
+   * When `trustEmbeddedCertificate` is true (direct calls to getTokenProblems), the certificate
+   * chain embedded in the token is also a candidate, as in earlier versions, so a successful
+   * check does not show that the token was issued by the attestation service.
    */
   private getCandidateSigners(
     possibleSigners: AttestationSigner[] | undefined,

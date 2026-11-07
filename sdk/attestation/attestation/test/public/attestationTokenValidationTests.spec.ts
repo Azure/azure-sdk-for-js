@@ -11,6 +11,7 @@ import {
   AttestationClient,
   KnownAttestationType,
 } from "../../src/index.js";
+import type { AttestationTokenValidationOptions } from "../../src/index.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
 import { base64UrlEncodeByteArray } from "../../src/utils/base64.js";
 import { stringToBytes } from "../../src/utils/utf8.js";
@@ -92,7 +93,11 @@ describe("AttestationTokenValidation", () => {
     const token = new AttestationTokenImpl(
       jsrsasign.KJUR.jws.JWS.sign(
         "RS256",
-        { alg: "RS256", kid: "second" },
+        {
+          alg: "RS256",
+          kid: "second",
+          x5c: [second.cert.replace(/-----[A-Z ]+-----|\s/g, "")],
+        },
         claims(60),
         second.privKey,
       ),
@@ -173,19 +178,24 @@ describe("AttestationTokenValidation", () => {
     assert.deepEqual(token.getTokenProblems(), ["Unsupported attestation token algorithm: HS256"]);
   });
 
-  it("reports a signature that cannot be verified instead of throwing", () => {
+  it("reports an unusable signer certificate as a problem only for service tokens", () => {
     const signer = createSigner("signer");
     const token = new AttestationTokenImpl(
       jsrsasign.KJUR.jws.JWS.sign("RS256", { alg: "RS256", kid: "k1" }, claims(60), signer.privKey),
     );
     const unusableSigner = { keyId: "k1", certificates: ["not a certificate"] };
 
-    assert.deepEqual(token.getTokenProblems([unusableSigner]), [
-      "Attestation Token is not properly signed.",
-    ]);
     assert.deepEqual(token._getServiceTokenProblems([unusableSigner], {}, false), [
       "Attestation Token is not properly signed.",
     ]);
+    assert.throws(() => token.getTokenProblems([unusableSigner]));
+  });
+
+  it("checks token times by default only when no validation options are provided", () => {
+    const expired = AttestationTokenImpl.create({ body: claims(-60) });
+
+    assert.deepEqual(expired.getTokenProblems(), ["AttestationToken has expired."]);
+    assert.deepEqual(expired.getTokenProblems(undefined, { validateToken: true }), []);
   });
 
   it("runs the validation callback when it is the only option provided", () => {
@@ -203,13 +213,24 @@ describe("AttestationTokenValidation", () => {
       httpClient: fakeService(undefined, unsignedToken),
     });
 
-    await client.attestSgxEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "policy" });
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "policy" }),
+    ).resolves.toBeDefined();
+    await expect(
+      client.attestOpenEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "policy" }),
+    ).resolves.toBeDefined();
     await expect(client.attestSgxEnclave(new Uint8Array([1]))).rejects.toThrow(
       "Attestation Token is not signed.",
     );
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "" }),
+    ).rejects.toThrow("Attestation Token is not signed.");
+    await expect(
+      client.attestOpenEnclave(new Uint8Array([1]), { draftPolicyForAttestation: "" }),
+    ).rejects.toThrow("Attestation Token is not signed.");
   });
 
-  it("rejects a policy token signed by a key other than the trusted signers", async () => {
+  it("returns any token when validation is turned off on the client or the operation", async () => {
     const trusted = createSigner("trusted");
     const attacker = createSigner("attacker");
     const forgedToken = AttestationTokenImpl.create({
@@ -217,35 +238,167 @@ describe("AttestationTokenValidation", () => {
       privateKey: attacker.privKey,
       certificate: attacker.cert,
     }).serialize();
+    const httpClient = fakeService(trusted.cert, forgedToken);
+
+    await expect(
+      new AttestationClient("https://attestation.test", {
+        httpClient,
+        validationOptions: { validateToken: false },
+      }).attestSgxEnclave(new Uint8Array([1])),
+    ).resolves.toBeDefined();
+    await expect(
+      new AttestationClient("https://attestation.test", { httpClient }).attestSgxEnclave(
+        new Uint8Array([1]),
+        { validationOptions: { validateToken: false } },
+      ),
+    ).resolves.toBeDefined();
+  });
+
+  describe("every client operation", () => {
+    const trusted = createSigner("trusted");
     const credential: TokenCredential = {
       getToken: async () => ({ token: "token", expiresOnTimestamp: Date.now() + 3600000 }),
     };
-    const client = new AttestationAdministrationClient("https://attestation.test", credential, {
-      httpClient: fakeService(trusted.cert, forgedToken),
+    const attestation = (
+      httpClient: HttpClient,
+      validationOptions?: AttestationTokenValidationOptions,
+    ): AttestationClient =>
+      new AttestationClient("https://attestation.test", { httpClient, validationOptions });
+    const administration = (
+      httpClient: HttpClient,
+      validationOptions?: AttestationTokenValidationOptions,
+    ): AttestationAdministrationClient =>
+      new AttestationAdministrationClient("https://attestation.test", credential, {
+        httpClient,
+        validationOptions,
+      });
+    const operations: Array<
+      [
+        string,
+        (
+          httpClient: HttpClient,
+          clientOptions?: AttestationTokenValidationOptions,
+          operationOptions?: AttestationTokenValidationOptions,
+        ) => Promise<unknown>,
+      ]
+    > = [
+      [
+        "attestSgxEnclave",
+        (h, c, o) =>
+          attestation(h, c).attestSgxEnclave(new Uint8Array([1]), { validationOptions: o }),
+      ],
+      [
+        "attestOpenEnclave",
+        (h, c, o) =>
+          attestation(h, c).attestOpenEnclave(new Uint8Array([1]), { validationOptions: o }),
+      ],
+      [
+        "getPolicy",
+        (h, c, o) =>
+          administration(h, c).getPolicy(KnownAttestationType.SgxEnclave, { validationOptions: o }),
+      ],
+      [
+        "setPolicy",
+        (h, c, o) =>
+          administration(h, c).setPolicy(KnownAttestationType.SgxEnclave, "policy", {
+            validationOptions: o,
+          }),
+      ],
+      [
+        "resetPolicy",
+        (h, c, o) =>
+          administration(h, c).resetPolicy(KnownAttestationType.SgxEnclave, {
+            validationOptions: o,
+          }),
+      ],
+      [
+        "getPolicyManagementCertificates",
+        (h, c, o) => administration(h, c).getPolicyManagementCertificates({ validationOptions: o }),
+      ],
+      [
+        "addPolicyManagementCertificate",
+        (h, c, o) =>
+          administration(h, c).addPolicyManagementCertificate(
+            trusted.cert,
+            trusted.privKey,
+            trusted.cert,
+            { validationOptions: o },
+          ),
+      ],
+      [
+        "removePolicyManagementCertificate",
+        (h, c, o) =>
+          administration(h, c).removePolicyManagementCertificate(
+            trusted.cert,
+            trusted.privKey,
+            trusted.cert,
+            { validationOptions: o },
+          ),
+      ],
+    ];
+
+    it.each(operations)(
+      "%s rejects a token signed by a key other than the trusted signers",
+      async (_name, run) => {
+        const attacker = createSigner("attacker");
+        const forgedToken = AttestationTokenImpl.create({
+          body: claims(60),
+          privateKey: attacker.privKey,
+          certificate: attacker.cert,
+        }).serialize();
+
+        await expect(run(fakeService(trusted.cert, forgedToken))).rejects.toThrow(
+          "Attestation Token is not properly signed.",
+        );
+      },
+    );
+
+    it.each(operations)("%s rejects an unsigned token", async (_name, run) => {
+      const unsignedToken = AttestationTokenImpl.create({ body: claims(60) }).serialize();
+
+      await expect(run(fakeService(trusted.cert, unsignedToken))).rejects.toThrow(
+        "Attestation Token is not signed.",
+      );
     });
 
-    await expect(client.getPolicy(KnownAttestationType.SgxEnclave)).rejects.toThrow(
-      "Attestation Token is not properly signed.",
+    it.each(operations)(
+      "%s keeps the client's validation callback when the operation passes its own options",
+      async (_name, run) => {
+        const signedToken = AttestationTokenImpl.create({
+          body: claims(60),
+          privateKey: trusted.privKey,
+          certificate: trusted.cert,
+        }).serialize();
+
+        await expect(
+          run(
+            fakeService(trusted.cert, signedToken),
+            { validateAttestationToken: () => ["rejected by policy"] },
+            { timeValidationSlack: 30 },
+          ),
+        ).rejects.toThrow("rejected by policy");
+      },
     );
   });
 
-  it("keeps the client's validation callback when an operation passes its own options", async () => {
+  it("keeps the client's issuer check when an operation passes its own options", async () => {
     const service = createSigner("service");
+    const now = Math.floor(Date.now() / 1000);
     const signedToken = AttestationTokenImpl.create({
-      body: claims(60),
+      body: JSON.stringify({ iss: "https://other", nbf: now, exp: now + 60 }),
       privateKey: service.privKey,
       certificate: service.cert,
     }).serialize();
     const client = new AttestationClient("https://attestation.test", {
       httpClient: fakeService(service.cert, signedToken),
-      validationOptions: { validateAttestationToken: () => ["rejected by policy"] },
+      validationOptions: { validateIssuer: true, expectedIssuer: "https://expected" },
     });
 
     await expect(
       client.attestSgxEnclave(new Uint8Array([1]), {
         validationOptions: { timeValidationSlack: 30 },
       }),
-    ).rejects.toThrow("rejected by policy");
+    ).rejects.toThrow("Found issuer: https://other; expected issuer: https://expected");
   });
 
   it("gives an operation's validation options precedence over the client's", async () => {
@@ -260,12 +413,16 @@ describe("AttestationTokenValidation", () => {
       validationOptions: { validateAttestationToken: () => ["rejected by policy"] },
     });
 
-    await client.attestSgxEnclave(new Uint8Array([1]), {
-      validationOptions: { validateToken: false },
-    });
-    await client.attestSgxEnclave(new Uint8Array([1]), {
-      validationOptions: { validateAttestationToken: () => undefined },
-    });
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), {
+        validationOptions: { validateToken: false },
+      }),
+    ).resolves.toBeDefined();
+    await expect(
+      client.attestSgxEnclave(new Uint8Array([1]), {
+        validationOptions: { validateAttestationToken: () => undefined },
+      }),
+    ).resolves.toBeDefined();
   });
 
   it("runs a validation callback defined as a class method", async () => {
