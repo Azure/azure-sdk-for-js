@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to creates a new user or updates an existing user on a mongo cluster.
+ * This sample demonstrates how to creates a new user or updates an existing user on a DocumentDB cluster.
  *
- * @summary creates a new user or updates an existing user on a mongo cluster.
+ * @summary creates a new user or updates an existing user on a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_UserCreateOrUpdate.json
  */
-async function createsAUserOnAMongoClusterResource(): Promise<void> {
+async function createsAUserOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -29,7 +29,7 @@ async function createsAUserOnAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createsAUserOnAMongoClusterResource();
+  await createsAUserOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

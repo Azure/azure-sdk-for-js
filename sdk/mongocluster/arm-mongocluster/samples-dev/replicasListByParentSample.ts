@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list all the replicas for the mongo cluster.
+ * This sample demonstrates how to list all the replicas for the DocumentDB cluster.
  *
- * @summary list all the replicas for the mongo cluster.
+ * @summary list all the replicas for the DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_ReplicaList.json
  */
-async function listTheReplicasLinkedToAMongoClusterResource(): Promise<void> {
+async function listTheReplicasLinkedToADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listTheReplicasLinkedToAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listTheReplicasLinkedToAMongoClusterResource();
+  await listTheReplicasLinkedToADocumentDBClusterResource();
 }
 
 main().catch(console.error);

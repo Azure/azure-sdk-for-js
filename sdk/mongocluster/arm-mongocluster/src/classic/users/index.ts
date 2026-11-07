@@ -15,20 +15,20 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Users operations. */
 export interface UsersOperations {
-  /** List all the users on a mongo cluster. */
+  /** List all the users on a DocumentDB cluster. */
   listByMongoCluster: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: UsersListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<User>;
-  /** Deletes a mongo cluster user. */
+  /** Deletes a DocumentDB cluster user. */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
     userName: string,
     options?: UsersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Creates a new user or updates an existing user on a mongo cluster. */
+  /** Creates a new user or updates an existing user on a DocumentDB cluster. */
   createOrUpdate: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -36,7 +36,7 @@ export interface UsersOperations {
     resource: User,
     options?: UsersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<User>, User>;
-  /** Gets the defintion of a Mongo cluster user. */
+  /** Gets the defintion of a DocumentDB cluster user. */
   get: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -44,6 +44,7 @@ export interface UsersOperations {
     options?: UsersGetOptionalParams,
   ) => Promise<User>;
 }
+
 function _getUsers(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -72,6 +73,7 @@ function _getUsers(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, userName, options),
   };
 }
+
 export function _getUsersOperations(context: MongoClusterManagementContext): UsersOperations {
   return {
     ..._getUsers(context),

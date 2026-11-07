@@ -62,7 +62,8 @@ export async function _listByMongoClusterDeserialize(
 
   return _firewallRuleListResultDeserializer(result.body);
 }
-/** List all the firewall rules in a given mongo cluster. */
+
+/** List all the firewall rules in a given DocumentDB cluster. */
 export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
@@ -118,7 +119,8 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-/** Deletes a mongo cluster firewall rule. */
+
+/** Deletes a DocumentDB cluster firewall rule. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -180,7 +182,8 @@ export async function _createOrUpdateDeserialize(
 
   return firewallRuleDeserializer(result.body);
 }
-/** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
+
+/** Creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -245,7 +248,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallRuleDeserializer(result.body);
 }
-/** Gets information about a mongo cluster firewall rule. */
+
+/** Gets information about a DocumentDB cluster firewall rule. */
 export async function get(
   context: Client,
   resourceGroupName: string,

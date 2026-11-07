@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list all the mongo clusters in a given subscription.
+ * This sample demonstrates how to list all the DocumentDB clusters in a given subscription.
  *
- * @summary list all the mongo clusters in a given subscription.
+ * @summary list all the DocumentDB clusters in a given subscription.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_List.json
  */
-async function listsTheMongoClusterResourcesInASubscription() {
+async function listsTheDocumentDBClusterResourcesInASubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listsTheMongoClusterResourcesInASubscription() {
 }
 
 async function main() {
-  await listsTheMongoClusterResourcesInASubscription();
+  await listsTheDocumentDBClusterResourcesInASubscription();
 }
 
 main().catch(console.error);

@@ -50,7 +50,8 @@ export async function _listByParentDeserialize(
 
   return _replicaListResultDeserializer(result.body);
 }
-/** List all the replicas for the mongo cluster. */
+
+/** List all the replicas for the DocumentDB cluster. */
 export function listByParent(
   context: Client,
   resourceGroupName: string,

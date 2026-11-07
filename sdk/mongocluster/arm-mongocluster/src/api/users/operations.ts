@@ -62,7 +62,8 @@ export async function _listByMongoClusterDeserialize(
 
   return _userListResultDeserializer(result.body);
 }
-/** List all the users on a mongo cluster. */
+
+/** List all the users on a DocumentDB cluster. */
 export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
@@ -118,7 +119,8 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-/** Deletes a mongo cluster user. */
+
+/** Deletes a DocumentDB cluster user. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -178,7 +180,8 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return userDeserializer(result.body);
 }
-/** Creates a new user or updates an existing user on a mongo cluster. */
+
+/** Creates a new user or updates an existing user on a DocumentDB cluster. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -243,7 +246,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Us
 
   return userDeserializer(result.body);
 }
-/** Gets the defintion of a Mongo cluster user. */
+
+/** Gets the defintion of a DocumentDB cluster user. */
 export async function get(
   context: Client,
   resourceGroupName: string,

@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to promotes a replica mongo cluster to a primary role.
+ * This sample demonstrates how to promotes a replica DocumentDB cluster to a primary role.
  *
- * @summary promotes a replica mongo cluster to a primary role.
+ * @summary promotes a replica DocumentDB cluster to a primary role.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_ForcePromoteReplica.json
  */
-async function promotesAReplicaMongoClusterResourceToAPrimaryRole(): Promise<void> {
+async function promotesAReplicaDocumentDBClusterResourceToAPrimaryRole(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -21,12 +21,12 @@ async function promotesAReplicaMongoClusterResourceToAPrimaryRole(): Promise<voi
 }
 
 /**
- * This sample demonstrates how to promotes a replica mongo cluster to a primary role.
+ * This sample demonstrates how to promotes a replica DocumentDB cluster to a primary role.
  *
- * @summary promotes a replica mongo cluster to a primary role.
+ * @summary promotes a replica DocumentDB cluster to a primary role.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_PlannedPromoteReplica.json
  */
-async function promotesAReplicaMongoClusterResourceToAPrimaryRoleWaitingForTheReplicaToCatchUpBeforePromoting(): Promise<void> {
+async function promotesAReplicaDocumentDBClusterResourceToAPrimaryRoleWaitingForTheReplicaToCatchUpBeforePromoting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -37,8 +37,8 @@ async function promotesAReplicaMongoClusterResourceToAPrimaryRoleWaitingForTheRe
 }
 
 async function main(): Promise<void> {
-  await promotesAReplicaMongoClusterResourceToAPrimaryRole();
-  await promotesAReplicaMongoClusterResourceToAPrimaryRoleWaitingForTheReplicaToCatchUpBeforePromoting();
+  await promotesAReplicaDocumentDBClusterResourceToAPrimaryRole();
+  await promotesAReplicaDocumentDBClusterResourceToAPrimaryRoleWaitingForTheReplicaToCatchUpBeforePromoting();
 }
 
 main().catch(console.error);

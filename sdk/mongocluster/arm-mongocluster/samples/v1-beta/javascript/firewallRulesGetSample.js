@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets information about a mongo cluster firewall rule.
+ * This sample demonstrates how to gets information about a DocumentDB cluster firewall rule.
  *
- * @summary gets information about a mongo cluster firewall rule.
+ * @summary gets information about a DocumentDB cluster firewall rule.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_FirewallRuleGet.json
  */
-async function getsAFirewallRuleOnAMongoClusterResource() {
+async function getsAFirewallRuleOnADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function getsAFirewallRuleOnAMongoClusterResource() {
 }
 
 async function main() {
-  await getsAFirewallRuleOnAMongoClusterResource();
+  await getsAFirewallRuleOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

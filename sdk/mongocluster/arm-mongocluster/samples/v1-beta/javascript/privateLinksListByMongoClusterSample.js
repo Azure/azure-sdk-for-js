@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary list private links on the given resource
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateLinkResourceList.json
  */
-async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
+async function listsThePrivateLinkResourcesAvailableOnADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
 }
 
 async function main() {
-  await listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
+  await listsThePrivateLinkResourcesAvailableOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets information about a mongo cluster.
+ * This sample demonstrates how to gets information about a DocumentDB cluster.
  *
- * @summary gets information about a mongo cluster.
+ * @summary gets information about a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_Get.json
  */
-async function getsAMongoClusterResource() {
+async function getsADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function getsAMongoClusterResource() {
 }
 
 async function main() {
-  await getsAMongoClusterResource();
+  await getsADocumentDBClusterResource();
 }
 
 main().catch(console.error);

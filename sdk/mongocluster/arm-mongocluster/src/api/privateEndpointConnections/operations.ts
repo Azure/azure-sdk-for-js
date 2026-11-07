@@ -62,6 +62,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete the private endpoint connection */
 export function $delete(
   context: Client,
@@ -130,6 +131,7 @@ export async function _createDeserialize(
 
   return privateEndpointConnectionResourceDeserializer(result.body);
 }
+
 /** Create a Private endpoint connection */
 export function create(
   context: Client,
@@ -203,6 +205,7 @@ export async function _getDeserialize(
 
   return privateEndpointConnectionResourceDeserializer(result.body);
 }
+
 /** Get a specific private connection */
 export async function get(
   context: Client,
@@ -260,6 +263,7 @@ export async function _listByMongoClusterDeserialize(
 
   return _privateEndpointConnectionResourceListResultDeserializer(result.body);
 }
+
 /** List existing private connections */
 export function listByMongoCluster(
   context: Client,
