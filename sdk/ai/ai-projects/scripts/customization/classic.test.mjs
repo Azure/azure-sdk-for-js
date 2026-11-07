@@ -636,6 +636,116 @@ export function _getItemsOperations(context: AIProjectContext): ItemsOperations 
   assert.doesNotMatch(result.text, /Promise<"a b">/);
 });
 
+test("ports emitted classic parameter changes through a customized tracing wrapper", async (t) => {
+  const baseText = classic(2, "Items", "items", [getItem]);
+  const customText = baseText.replace(
+    "getItem(context, id, options)",
+    'traceOperation("get_item", () => getItem(context, id, options))',
+  );
+  const incomingText = baseText
+    .replaceAll("id: string", "itemId: string")
+    .replace("getItem(context, id, options)", "getItem(context, itemId, options)");
+  const incomingApi = operations(1, [getItem])
+    .replaceAll("id: string", "itemId: string")
+    .replaceAll("context, id, options", "context, itemId, options");
+  const merge = (text, overrides = {}) =>
+    mergeCustomizedClassic({
+      file: "classic/items/index.ts",
+      baseText,
+      customText: text,
+      incomingText,
+      matches: [
+        {
+          incoming: { file: "api/items/operations.ts", name: "getItem" },
+          names: { publicNode: "getItem" },
+        },
+      ],
+      resolvedText: incomingApi,
+      resolvedOptionsText: options([getItem[3]]),
+      customApiText: operations(1, [getItem]),
+      ...overrides,
+    });
+  const result = merge(customText);
+  assert.deepEqual(result.diagnostics, []);
+  assert.match(
+    result.text,
+    /traceOperation\("get_item", \(\) => getItem\(context, itemId, options\)\)/,
+  );
+  assert.match(result.text, /itemId: string/);
+  assert.doesNotMatch(result.text, /id: string/);
+  const unsafe = merge(
+    customText.replace("getItem(context, id, options)", "getItem(context, options, id)"),
+  );
+  assert.ok(unsafe.diagnostics.length > 0);
+
+  for (const body of [
+    '{ const itemId = "maintained"; return getItem(context, id, options); }',
+    "(itemId: string) => getItem(context, id, options)",
+    "({ nested: { itemId } }) => getItem(context, id, options)",
+  ]) {
+    await t.test(`rejects a rename target collision in ${body}`, () => {
+      const colliding = customText.replace("() => getItem(context, id, options)", `() => ${body}`);
+      const result = merge(colliding);
+      assert.ok(result.diagnostics.length > 0);
+    });
+  }
+
+  for (const [kind, parameter] of [
+    ["default", "options: ItemsGetItemOptionalParams = { requestOptions: { timeout: 5 } }"],
+    ["rest", "...options: [ItemsGetItemOptionalParams?]"],
+  ]) {
+    for (const side of ["before", "custom", "after", "before and custom"]) {
+      await t.test(`does not fast-path a ${kind} parameter in ${side}`, () => {
+        const change = (text) =>
+          text
+            .replace(
+              "options?: ItemsGetItemOptionalParams) => getItem(",
+              `${parameter}) => getItem(`,
+            )
+            .replace(
+              "options?: ItemsGetItemOptionalParams) => traceOperation(",
+              `${parameter}) => traceOperation(`,
+            );
+        const result = merge(side.includes("custom") ? change(customText) : customText, {
+          baseText: side.includes("before") ? change(baseText) : baseText,
+          incomingText: side === "after" ? change(incomingText) : incomingText,
+        });
+        assert.ok(result.diagnostics.length > 0);
+      });
+    }
+  }
+
+  for (const [kind, updated, preserved] of [
+    [
+      "async modifier",
+      "getItem: async (itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+      /getItem: async \(itemId: string/,
+    ],
+    [
+      "type parameters",
+      "getItem: <T>(itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+      /getItem: <T>\(itemId: string/,
+    ],
+    [
+      "return annotation",
+      "getItem: (itemId: string, options?: ItemsGetItemOptionalParams): Promise<string> => getItem(context, itemId, options)",
+      /getItem: \(itemId: string,[\s\S]*\): Promise<string> =>/,
+    ],
+  ]) {
+    await t.test(`does not fast-path an emitted ${kind} change`, () => {
+      const changed = incomingText.replace(
+        "getItem: (itemId: string, options?: ItemsGetItemOptionalParams) => getItem(context, itemId, options)",
+        updated,
+      );
+      const result = merge(customText, { incomingText: changed });
+      assert.ok(
+        result.diagnostics.length > 0 || preserved.test(result.text),
+        `the emitted ${kind} change was dropped`,
+      );
+    });
+  }
+});
+
 test("reports a customized classic member whose operation moves to another group", () => {
   const baseText = classic(3, "BetaItems", "beta/items", [betaArchive, restore]);
   const matches = [
