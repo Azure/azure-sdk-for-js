@@ -18,7 +18,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 
 const endpoint = "https://example.test/api/projects/test";
 const restCredential = {
@@ -30,7 +30,7 @@ const callJob = {
   agent_name: "PRIVATE_AGENT",
   connection_name: "PRIVATE_CONNECTION",
   status: "accepted",
-  source: "+15555550200",
+  source: { type: "phone_number", value: "+15555550200" },
   destination: { type: "phone_number", value: "+15555550100" },
   retry_policy: { type: "none" },
   attempt_count: 0,
@@ -41,6 +41,7 @@ const callJob = {
 const binding = {
   id: "binding-1",
   provider: "twilio",
+  incoming_call_url: "https://example.com/incoming",
   connection_name: "PRIVATE_CONNECTION",
   phone_number: "+15555550100",
   label: "PRIVATE_LABEL",
@@ -103,7 +104,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
         "PRIVATE_IDEMPOTENCY",
         {
           connection_name: "PRIVATE_CONNECTION",
-          source: "+15555550200",
+          source: { type: "phone_number", value: "+15555550200" },
           destination: { type: "phone_number", value: "+15555550100" },
         },
         options,
@@ -204,6 +205,13 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 204,
     invoke: (client, options) =>
       client.beta.voiceAgents.conversations.delete("PRIVATE_AGENT", "conversation-1", options),
+  },
+  {
+    name: "voice_agents.live_conversations.delete",
+    method: "DELETE",
+    status: 204,
+    invoke: (client, options) =>
+      client.beta.voiceAgents.liveConversations.delete("PRIVATE_AGENT", "conversation-1", options),
   },
 ];
 

@@ -28,9 +28,8 @@ export interface VoiceAgentWebSocketConnectOptions {
 }
 
 /**
- * A pluggable WebSocket transport used by {@link VoiceAgentRealtimeClient}. Implement this
- * interface to customize how the realtime connection is established, for example to route it
- * through an authenticated relay.
+ * WebSocket transport used by Realtime and GPT Live.
+ * Implement this interface to connect through an authenticated relay or another custom transport.
  */
 export interface VoiceAgentWebSocketTransport {
   /** Registers the handlers invoked as connection events occur. */
@@ -43,8 +42,30 @@ export interface VoiceAgentWebSocketTransport {
   close(code: number, reason: string): Promise<void>;
 }
 
-/** Creates {@link VoiceAgentWebSocketTransport} instances for {@link VoiceAgentRealtimeClient}. */
+/** Creates transport instances for the Voice Agents Realtime and GPT Live clients. */
 export interface VoiceAgentWebSocketFactory {
   /** Creates a new transport instance for a single connection attempt. */
   create(): VoiceAgentWebSocketTransport;
+}
+
+/** Whether the close code represents a non-error closure. @internal */
+export function isCleanCloseCode(code: number): boolean {
+  switch (code) {
+    case 1002:
+    case 1003:
+    case 1005:
+    case 1006:
+    case 1007:
+    case 1008:
+    case 1009:
+    case 1010:
+    case 1011:
+    case 1012:
+    case 1013:
+    case 1014:
+    case 1015:
+      return false;
+    default:
+      return true;
+  }
 }

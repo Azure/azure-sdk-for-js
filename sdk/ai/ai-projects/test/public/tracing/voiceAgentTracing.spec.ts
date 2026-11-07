@@ -23,7 +23,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 import { resolveTracingConfig } from "$internal/tracing/configuration.js";
 import * as metricHelpers from "$internal/tracing/metrics.js";
 
@@ -1582,7 +1582,7 @@ describe("Voice Agents tracing", () => {
                   object: "telephony.call_job",
                   status: "accepted",
                   destination: { type: "phone_number", value: "+15555550100" },
-                  source: "+15555550200",
+                  source: { type: "phone_number", value: "+15555550200" },
                   agent_name: "voice",
                   created_at: 1,
                   updated_at: 1,
@@ -1604,7 +1604,7 @@ describe("Voice Agents tracing", () => {
     });
     await project.beta.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
       connection_name: "PRIVATE_CONNECTION",
-      source: "+15555550200",
+      source: { type: "phone_number", value: "+15555550200" },
       destination: { type: "phone_number", value: "+15555550100" },
     });
     expect(span("create_agent").attributes["gen_ai.operation.name"]).toBe("create_agent");

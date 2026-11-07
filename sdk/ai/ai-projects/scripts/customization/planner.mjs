@@ -607,7 +607,10 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       }),
     );
     const sourceOnly = [...customized.keys()].filter(
-      (name) => !previous.has(name) && !relocated.has(name),
+      (name) =>
+        !previous.has(name) &&
+        !relocated.has(name) &&
+        !operations.relocatedHelpers.has(`${file}::${name}`),
     );
     if (sourceOnly.length) {
       diagnostics.push({

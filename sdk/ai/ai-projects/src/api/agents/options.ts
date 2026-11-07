@@ -13,7 +13,6 @@ import type {
   AgentDefinitionOptInKeys,
   PageOrder,
   TelephonyProvider,
-  TelephonyBindingStatus,
   TelephonyCallStatus,
   JobStatus,
   AgentOptimizationCandidateExpand,
@@ -597,8 +596,6 @@ export interface AgentsListTelephonyBindingsOptionalParams extends OperationOpti
   foundryFeatures?: "VoiceAgents=V1Preview";
   /** Filters bindings by provider. */
   provider?: TelephonyProvider;
-  /** Filters bindings by lifecycle status. */
-  status?: TelephonyBindingStatus;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.

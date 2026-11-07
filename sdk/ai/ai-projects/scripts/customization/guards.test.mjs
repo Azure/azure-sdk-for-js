@@ -43,6 +43,101 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("historical filter aliases do not override released names retained in source", () => {
+  const customized = `
+export type _FileSearchToolFiltersValue = string | number;
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+export interface ComparisonFilter { value: string; }
+export interface CompoundFilter { filters: ComparisonFilter[]; }
+`;
+  const files = modelFixture(customized, customized, customized, customized);
+  files.generated = tree({ "models/javaScriptToolCompatibility/models.ts": customized });
+  assert.deepEqual(
+    validate({
+      ...files,
+      modelRenames: new Map([
+        ["_ToolFileSearchToolFiltersValue1", "_FileSearchToolFiltersValue"],
+        ["_ToolFileSearchToolFiltersFilter", "_FileSearchToolFiltersFilter"],
+      ]),
+    }),
+    [],
+  );
+});
+
+test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
+  const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
+  const files = {
+    baseSource: tree({ "constants.ts": baseline }),
+    packageVersion: "2.11.0",
+  };
+  const synchronized = baseline.replace("2.10.0", "2.11.0");
+  assert.deepEqual(validate({ ...files, source: tree({ "constants.ts": synchronized }) }), []);
+  for (const [source, packageVersion] of [
+    [synchronized, undefined],
+    [synchronized, "2.12.0"],
+    [synchronized, "not-a-version"],
+    [synchronized.replace('= "2.11.0"', "= process.env.VERSION"), "2.11.0"],
+    [synchronized.replace("SDK_VERSION =", "SDK_VERSION: string ="), "2.11.0"],
+    [synchronized.replace('"example"', '"different-package"'), "2.11.0"],
+  ]) {
+    const diagnostics = validate({
+      ...files,
+      packageVersion,
+      source: tree({ "constants.ts": source }),
+    });
+    assert.ok(
+      diagnostics.some((diagnostic) => diagnostic.message.includes("Protected customization")),
+      JSON.stringify(diagnostics),
+    );
+  }
+});
+
+test("protected polling helper admits only the optional core-lro skipFinalGet forwarding", () => {
+  const file = "static-helpers/pollingHelpers.ts";
+  const emitted = `
+export interface GetLongRunningPollerOptions<T> { getInitialResponse?: () => PromiseLike<T>; }
+export function getLongRunningPoller(client, processResult, expectedStatuses, options) {
+  return createHttpPoller(client, { processResult });
+}`;
+  const customized = emitted.replace(
+    "{ processResult }",
+    "{ processResult, intervalInMs: options?.updateIntervalInMs }",
+  );
+  const resolved = customized
+    .replace("getInitialResponse?:", "skipFinalGet?: boolean; getInitialResponse?:")
+    .replace("{ processResult,", "{ skipFinalGet: options?.skipFinalGet, processResult,");
+  const fixture = {
+    baseGenerated: tree({ [file]: emitted }),
+    baseSource: tree({ [file]: customized }),
+    generated: tree({ [file]: emitted }),
+  };
+  assert.deepEqual(validate({ ...fixture, source: tree({ [file]: resolved }) }), []);
+  for (const unsafe of [
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet: boolean"),
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet?: string"),
+    resolved.replace("skipFinalGet: options?.skipFinalGet", "skipFinalGet: true"),
+    resolved.replace("options?.updateIntervalInMs", "0"),
+    resolved.replace("createHttpPoller(client,", "differentPoller(client,"),
+    resolved.replace("getInitialResponse?:", "pollHeaders?: string; getInitialResponse?:"),
+  ]) {
+    assert.ok(
+      validate({ ...fixture, source: tree({ [file]: unsafe }) }).some((diagnostic) =>
+        diagnostic.message.includes("Protected customization"),
+      ),
+      unsafe,
+    );
+  }
+  const otherFile = "static-helpers/other.ts";
+  assert.ok(
+    validate({
+      baseSource: tree({ [otherFile]: customized }),
+      source: tree({ [otherFile]: resolved }),
+    }).some((diagnostic) => diagnostic.message.includes("Protected customization")),
+  );
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';

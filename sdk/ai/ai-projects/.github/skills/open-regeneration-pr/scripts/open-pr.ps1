@@ -124,6 +124,9 @@ try {
   Commit-Group "[ai-projects] regen: post-emitter edits" @(
     "$pkg/src",
     "$pkg/review",
+    "$pkg/scripts/customize.mjs",
+    "$pkg/scripts/customization",
+    "$pkg/.github/skills/open-regeneration-pr/scripts",
     "$pkg/scripts/post-emitter-workarounds.md",
     "$pkg/.github/skills/apply-post-emitter-edits/references/parameter-renames.yml"
   )

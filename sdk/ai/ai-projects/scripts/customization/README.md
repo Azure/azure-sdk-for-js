@@ -120,6 +120,13 @@ regeneration script falls back to it when the strict run fails.
   customization renamed away, for example a compatibility alias. It is retained
   beside the renamed declaration rather than collapsed into it, and a
   custom-only alias of an emitted model follows that model's emitted shape.
+  The historical `Tool*` identities restored by
+  [Azure/azure-rest-api-specs#47872](https://github.com/Azure/azure-rest-api-specs/pull/47872)
+  have explicit model, converter, and helper mappings because those aliases
+  prevent structural rename discovery. A reused name must be the corresponding
+  compatibility alias, not an independent declaration. Restored tool helpers
+  merge their actual union variants into the released inline property types;
+  customized toolbox and voice converter calls remain unchanged.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
   model module `src/models/models.ts` remains canonical and `src/models/index.ts`

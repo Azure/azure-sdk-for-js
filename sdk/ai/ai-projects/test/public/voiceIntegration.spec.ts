@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import { AbortError } from "@azure/abort-controller";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
@@ -10,7 +12,9 @@ import { AIProjectClient } from "../../src/index.js";
 import type {
   BetaVoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
+  VoiceAgentLiveDefinition,
   RealtimeServerEventResponseAudioDelta,
+  TelephonyCampaignCreate,
 } from "../../src/index.js";
 import {
   agentDefinitionUnionSerializer,
@@ -21,10 +25,28 @@ import {
 
 const endpoint = "https://example.com/api/projects/test-project";
 
+const campaignInput: TelephonyCampaignCreate = {
+  connection_name: "telephony-connection",
+  source: { type: "phone_number", value: "+15555550100" },
+  recipients: [{ destination: { type: "phone_number", value: "+15555550101" } }],
+};
+
+const campaignResponse = {
+  ...campaignInput,
+  created_at: 1_700_000_000,
+  updated_at: 1_700_000_000,
+  status: "cancelled",
+  name: "campaign",
+  etag: '"campaign-etag"',
+  operation_id: "body-is-not-the-initiating-operation",
+  progress: { pending: 0, active: 0, completed: 0, failed: 0, cancelled: 0, expired: 0 },
+};
+
 interface MockResponse {
   status?: number;
   body?: unknown;
   headers?: Record<string, string>;
+  bytes?: Uint8Array;
 }
 
 function createClient(...responses: MockResponse[]): {
@@ -42,6 +64,21 @@ function createClient(...responses: MockResponse[]): {
       requests.push(request);
       const response = responses.shift();
       if (!response) throw new Error(`Unexpected request: ${request.method} ${request.url}`);
+      const bodyAsText = response.body === undefined ? undefined : JSON.stringify(response.body);
+      const streaming =
+        request.streamResponseStatusCodes?.has(Infinity) ||
+        request.streamResponseStatusCodes?.has(response.status ?? 200);
+      let readableStreamBody: PipelineResponse["readableStreamBody"];
+      let browserStreamBody: PipelineResponse["browserStreamBody"];
+      if (streaming) {
+        const bytes = response.bytes ?? new TextEncoder().encode(bodyAsText);
+        if (isNodeLike) {
+          const { Readable } = await import("node:stream");
+          readableStreamBody = Readable.from([bytes]);
+        } else {
+          browserStreamBody = new Blob([Uint8Array.from(bytes)]).stream();
+        }
+      }
       return {
         request,
         status: response.status ?? 200,
@@ -49,7 +86,9 @@ function createClient(...responses: MockResponse[]): {
           "content-type": "application/json",
           ...response.headers,
         }),
-        bodyAsText: response.body === undefined ? undefined : JSON.stringify(response.body),
+        bodyAsText: streaming ? undefined : bodyAsText,
+        readableStreamBody,
+        browserStreamBody,
       };
     },
   };
@@ -68,7 +107,518 @@ function createClient(...responses: MockResponse[]): {
   };
 }
 
+describe("gateway HTTP error preservation", () => {
+  it.each([
+    { status: 401, body: { statusCode: 401, message: "Unauthorized." } },
+    { status: 503, body: { code: "GatewayUnavailable", message: "Gateway unavailable." } },
+    { status: 401, body: {} },
+  ])("preserves status $status and nonstandard error details", async ({ status, body }) => {
+    const { client, requests } = createClient({ status, body });
+    await expect(client.agents.get("voice-agent")).rejects.toMatchObject({
+      name: "RestError",
+      statusCode: status,
+      details: body,
+    });
+    expect(requests).toHaveLength(1);
+  });
+});
+
+describe("campaign final resource resolution", () => {
+  const operationId = "initiating operation/+";
+  const operationLocation =
+    `${endpoint}/agents/voice%20agent/telephony_campaigns/campaign/operations/` +
+    encodeURIComponent(operationId);
+
+  for (const action of ["create", "cancel"] as const) {
+    function start(
+      client: AIProjectClient,
+    ): ReturnType<AIProjectClient["beta"]["voiceAgents"]["telephony"]["create"]> {
+      const options = {
+        updateIntervalInMs: 0,
+        operationId: "request-key-not-response-key",
+        ifMatch: '"campaign-etag"',
+        requestOptions: { headers: { "x-test-header": "preserved" } },
+      };
+      return action === "create"
+        ? client.beta.voiceAgents.telephony.create(
+            "voice agent",
+            "campaign",
+            campaignInput,
+            options,
+          )
+        : client.beta.voiceAgents.telephony.cancel(
+            "voice agent",
+            "campaign",
+            '"campaign-etag"',
+            options,
+          );
+    }
+
+    function accepted(): MockResponse {
+      return {
+        status: action === "create" ? 201 : 202,
+        body:
+          action === "create"
+            ? campaignResponse
+            : { id: operationId, kind: "cancel", status: "in_progress", created_at: 1_700_000_000 },
+        headers: {
+          "operation-location": operationLocation,
+          "operation-id": operationId,
+          "retry-after": "0",
+          ...(action === "create" ? { location: `${endpoint}/unguarded-resource` } : {}),
+        },
+      };
+    }
+
+    const succeeded: MockResponse = {
+      body: {
+        id: operationId,
+        kind: action === "create" ? "validation" : "cancel",
+        status: "succeeded",
+        created_at: 1_700_000_000,
+        finished_at: 1_700_000_001,
+      },
+    };
+
+    it(`${action} resolves a resource-free monitor through the declared guarded GET`, async () => {
+      const { client, requests } = createClient(accepted(), succeeded, {
+        body: campaignResponse,
+      });
+      const poller = start(client);
+      const result = await poller.pollUntilDone();
+      expect(requests).toHaveLength(3);
+      expect(requests[0].method).toBe(action === "create" ? "PUT" : "POST");
+      expect(new URL(requests[0].url).pathname).toBe(
+        `/api/projects/test-project/agents/voice%20agent/telephony_campaigns/campaign${action === "cancel" ? ":cancel" : ""}`,
+      );
+      expect(requests[0].headers.get("operation-id")).toBe("request-key-not-response-key");
+      expect(requests[0].headers.get("if-match")).toBe('"campaign-etag"');
+      if (action === "create") {
+        expect(JSON.parse(String(requests[0].body))).toEqual(campaignInput);
+      }
+      expect(requests[1].method).toBe("GET");
+      expect(new URL(requests[1].url).pathname).toBe(new URL(operationLocation).pathname);
+      const finalUrl = new URL(requests[2].url);
+      expect(requests[2].method).toBe("GET");
+      expect(finalUrl.pathname).toBe(
+        "/api/projects/test-project/agents/voice%20agent/telephony_campaigns/campaign",
+      );
+      expect(finalUrl.searchParams.get("operation_id")).toBe(operationId);
+      expect(finalUrl.searchParams.get("api-version")).toBe("v1");
+      for (const request of requests) {
+        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(request.headers.get("x-test-header")).toBe("preserved");
+      }
+      expect(result).toMatchObject({
+        name: "campaign",
+        status: "cancelled",
+        source: campaignInput.source,
+        progress: campaignResponse.progress,
+        created_at: new Date(1_700_000_000_000),
+      });
+      expect(poller.result).toEqual(result);
+    });
+
+    it.each([
+      { status: 409, code: "campaign_operation_mismatch" },
+      { status: 404, code: "campaign_not_found" },
+    ])(`${action} surfaces guarded final GET errors ($status)`, async ({ status, code }) => {
+      const { client, requests } = createClient(accepted(), succeeded, {
+        status,
+        body: { error: { code, message: "The original campaign is no longer available." } },
+      });
+      await expect(start(client).pollUntilDone()).rejects.toMatchObject({
+        statusCode: status,
+        details: { error: { code } },
+      });
+      expect(requests).toHaveLength(3);
+      expect(new URL(requests[2].url).searchParams.get("operation_id")).toBe(operationId);
+    });
+
+    it(`${action} does not fetch a campaign after monitor failure`, async () => {
+      const { client, requests } = createClient(accepted(), {
+        body: {
+          id: operationId,
+          status: "failed",
+          error: { code: "campaign_failed", message: "Campaign action failed." },
+        },
+      });
+      await expect(start(client).pollUntilDone()).rejects.toThrow("Campaign action failed.");
+      expect(requests).toHaveLength(2);
+    });
+
+    it(`${action} never falls back to an unguarded GET when Operation-Id is missing`, async () => {
+      const response = accepted();
+      delete response.headers?.["operation-id"];
+      const { client, requests } = createClient(response, succeeded);
+      await expect(start(client).pollUntilDone()).rejects.toThrow("Operation-Id");
+      expect(requests).toHaveLength(2);
+    });
+
+    it(`${action} preserves initiating precondition errors without polling`, async () => {
+      const { client, requests } = createClient({
+        status: 412,
+        body: {
+          error: { code: "etag_mismatch", message: "Refresh the Campaign before retrying." },
+        },
+      });
+      await expect(start(client).pollUntilDone()).rejects.toMatchObject({
+        statusCode: 412,
+        details: { error: { code: "etag_mismatch" } },
+      });
+      expect(requests).toHaveLength(1);
+      expect(requests[0].headers.get("if-match")).toBe('"campaign-etag"');
+    });
+  }
+
+  it("deletes a campaign through telephony without fetching a deleted resource", async () => {
+    const { client, requests } = createClient(
+      {
+        status: 202,
+        headers: {
+          "operation-location": operationLocation,
+          "operation-id": operationId,
+          "retry-after": "0",
+        },
+      },
+      { body: { id: operationId, kind: "delete", status: "succeeded" } },
+    );
+    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
+      "voice agent",
+      "campaign",
+      '"campaign-etag"',
+      {
+        updateIntervalInMs: 0,
+        operationId: "delete-retry-key",
+        requestOptions: { headers: { "x-test-header": "preserved" } },
+      },
+    );
+    expect(await poller.pollUntilDone()).toBeUndefined();
+    expect(requests).toHaveLength(2);
+    expect(requests[0].method).toBe("DELETE");
+    expect(new URL(requests[0].url).pathname).toBe(
+      "/api/projects/test-project/agents/voice%20agent/telephony_campaigns/campaign",
+    );
+    expect(requests[1].method).toBe("GET");
+    expect(new URL(requests[1].url).pathname).toBe(new URL(operationLocation).pathname);
+    for (const request of requests) {
+      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(request.headers.get("if-match")).toBe('"campaign-etag"');
+      expect(request.headers.get("operation-id")).toBe("delete-retry-key");
+      expect(request.headers.get("x-test-header")).toBe("preserved");
+    }
+  });
+});
+
+describe("campaign management REST contracts", () => {
+  const path = "/api/projects/test-project/agents/voice%20agent/telephony_campaigns";
+  const operation = {
+    id: "operation/+",
+    kind: "delete",
+    status: "succeeded",
+    created_at: 0,
+    finished_at: 1_700_000_001,
+  };
+  const monitor = `${endpoint}/agents/voice%20agent/telephony_campaigns/campaign%2Fname/operations/operation%2F%2B`;
+
+  it("gets a campaign with an initiating-operation guard rather than its latest operation", async () => {
+    const { client, requests } = createClient({ body: campaignResponse });
+    const result = await client.beta.voiceAgents.telephony.get("voice agent", "campaign/name", {
+      operationId: operation.id,
+    });
+    expect(result).toMatchObject({
+      name: campaignResponse.name,
+      operation_id: campaignResponse.operation_id,
+      status: "cancelled",
+      etag: '"campaign-etag"',
+      created_at: new Date(1_700_000_000_000),
+      progress: campaignResponse.progress,
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("GET");
+    const url = new URL(requests[0].url);
+    expect(url.pathname).toBe(`${path}/campaign%2Fname`);
+    expect(url.searchParams.get("operation_id")).toBe(operation.id);
+    expect(url.searchParams.get("api-version")).toBe("v1");
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+  });
+
+  it("gets an encoded operation monitor with its dates and terminal error", async () => {
+    const error = { code: "cleanup_failed", message: "Cleanup could not complete." };
+    const { client, requests } = createClient({
+      body: { ...operation, status: "failed", error },
+    });
+    const result = await client.beta.voiceAgents.telephony.getOperation(
+      "voice agent",
+      "campaign/name",
+      operation.id,
+    );
+    expect(result).toEqual({
+      ...operation,
+      status: "failed",
+      error: expect.objectContaining(error),
+      created_at: new Date(0),
+      finished_at: new Date(1_700_000_001_000),
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("GET");
+    expect(new URL(requests[0].url).pathname).toBe(
+      `${path}/campaign%2Fname/operations/operation%2F%2B`,
+    );
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+  });
+
+  it("polls bodyless campaign deletion to void without fetching a removed resource", async () => {
+    const { client, requests } = createClient(
+      { status: 202, headers: { "operation-location": monitor, "retry-after": "0" } },
+      { body: operation },
+    );
+    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
+      "voice agent",
+      "campaign/name",
+      '"campaign-etag"',
+      {
+        operationId: "delete-retry/+",
+        updateIntervalInMs: 0,
+        requestOptions: { headers: { "x-test-header": "retained" } },
+      },
+    );
+    await expect(poller.pollUntilDone()).resolves.toBeUndefined();
+    expect(poller.isDone).toBe(true);
+    expect(poller.result).toBeUndefined();
+    expect(requests).toHaveLength(2);
+    expect(requests[0].method).toBe("DELETE");
+    expect(new URL(requests[0].url).pathname).toBe(`${path}/campaign%2Fname`);
+    expect(requests[0].body).toBeUndefined();
+    expect(requests[1].method).toBe("GET");
+    expect(new URL(requests[1].url).pathname).toBe(new URL(monitor).pathname);
+    for (const request of requests) {
+      expect(request.headers.get("if-match")).toBe('"campaign-etag"');
+      expect(request.headers.get("operation-id")).toBe("delete-retry/+");
+      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(request.headers.get("x-test-header")).toBe("retained");
+      expect(new URL(request.url).searchParams.get("api-version")).toBe("v1");
+    }
+  });
+
+  it("accepts an already-deleted campaign's empty 204 without polling", async () => {
+    const { client, requests } = createClient({ status: 204 });
+    await expect(
+      client.beta.voiceAgents.telephony
+        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+          updateIntervalInMs: 0,
+        })
+        .pollUntilDone(),
+    ).resolves.toBeUndefined();
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("DELETE");
+  });
+
+  it("surfaces deletion monitor failure without an inferred final GET", async () => {
+    const { client, requests } = createClient(
+      { status: 202, headers: { "operation-location": monitor, "retry-after": "0" } },
+      {
+        body: {
+          ...operation,
+          status: "failed",
+          error: { code: "cleanup_failed", message: "Cleanup failed." },
+        },
+      },
+    );
+    await expect(
+      client.beta.voiceAgents.telephony
+        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+          updateIntervalInMs: 0,
+        })
+        .pollUntilDone(),
+    ).rejects.toThrow("Cleanup failed.");
+    expect(requests).toHaveLength(2);
+  });
+
+  it("aborts an in-flight deletion monitor without sending another request", async () => {
+    const controller = new AbortController();
+    const requests: PipelineRequest[] = [];
+    let notifyStarted!: () => void;
+    const started = new Promise<void>((resolve) => {
+      notifyStarted = resolve;
+    });
+    const client = new AIProjectClient(
+      endpoint,
+      { getToken: async () => ({ token: "unit-test-token", expiresOnTimestamp: Infinity }) },
+      {
+        retryOptions: { maxRetries: 0 },
+        httpClient: {
+          async sendRequest(request) {
+            requests.push(request);
+            if (requests.length === 1) {
+              return {
+                request,
+                status: 202,
+                headers: createHttpHeaders({ "operation-location": monitor, "retry-after": "0" }),
+              };
+            }
+            return new Promise((_resolve, reject) => {
+              request.abortSignal?.addEventListener(
+                "abort",
+                () => reject(new AbortError("Campaign polling was aborted.")),
+                { once: true },
+              );
+              notifyStarted();
+            });
+          },
+        },
+      },
+    );
+    const completion = client.beta.voiceAgents.telephony
+      .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+        abortSignal: controller.signal,
+        updateIntervalInMs: 0,
+      })
+      .pollUntilDone();
+    const rejection = expect(completion).rejects.toThrow(AbortError);
+    await started;
+    controller.abort();
+    await rejection;
+    expect(requests).toHaveLength(2);
+    expect(requests[1].abortSignal?.aborted).toBe(true);
+    expect(new URL(requests[1].url).pathname).toBe(new URL(monitor).pathname);
+  }, 10_000);
+
+  const listCases = [
+    {
+      name: "campaigns",
+      suffix: "",
+      first: campaignResponse,
+      second: { ...campaignResponse, name: "second-campaign" },
+      expected: { name: "second-campaign", created_at: new Date(1_700_000_000_000) },
+      list: (client: AIProjectClient) =>
+        client.beta.voiceAgents.telephony.list("voice agent", {
+          limit: 1,
+          order: "asc",
+          status: "cancelled",
+        }),
+    },
+    {
+      name: "row validation errors",
+      suffix: "/campaign%2Fname/validation_errors",
+      first: {
+        row_number: 1,
+        error: {
+          code: "invalid_destination",
+          message: "Unsupported destination.",
+          param: "destination",
+        },
+      },
+      second: {
+        row_number: 9,
+        error: {
+          code: "invalid_input",
+          message: "Missing input.",
+          param: "structured_inputs.name",
+        },
+      },
+      expected: {
+        row_number: 9,
+        error: { code: "invalid_input", param: "structured_inputs.name" },
+      },
+      list: (client: AIProjectClient) =>
+        client.beta.voiceAgents.telephony.listValidationErrors("voice agent", "campaign/name", {
+          limit: 1,
+          order: "asc",
+        }),
+    },
+  ];
+
+  it.each(listCases)(
+    "iterates and resumes $name using opaque cursors, not item IDs",
+    async ({ first, second, expected, suffix, list }) => {
+      const firstPage = { body: { data: [first], last_id: "opaque/+cursor", has_more: true } };
+      const secondPage = { body: { data: [second], has_more: false } };
+      const { client, requests } = createClient(firstPage, secondPage, firstPage, secondPage);
+      const items = [];
+      for await (const item of list(client)) items.push(item);
+      expect(items).toHaveLength(2);
+      expect(items[1]).toMatchObject(expected);
+      const page = await list(client).byPage().next();
+      expect(page.value).toHaveLength(1);
+      expect(page.value?.continuationToken).toBeTruthy();
+      const resumed = list(client).byPage({ continuationToken: page.value?.continuationToken });
+      expect((await resumed.next()).value?.[0]).toMatchObject(expected);
+      expect((await resumed.next()).done).toBe(true);
+      expect(requests).toHaveLength(4);
+      for (const [index, request] of requests.entries()) {
+        const url = new URL(request.url);
+        expect(request.method).toBe("GET");
+        expect(url.pathname).toBe(`${path}${suffix}`);
+        expect(url.searchParams.get("after")).toBe(index % 2 ? "opaque/+cursor" : null);
+        expect(url.searchParams.get("limit")).toBe("1");
+        expect(url.searchParams.get("order")).toBe("asc");
+        expect(url.searchParams.get("status")).toBe(suffix ? null : "cancelled");
+        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      }
+    },
+  );
+
+  it.each(listCases)(
+    "preserves invalid-cursor errors for $name",
+    async ({ first, suffix, list }) => {
+      const { client, requests } = createClient(
+        { body: { data: [first], last_id: "stale/+", has_more: true } },
+        {
+          status: 400,
+          body: { error: { code: "invalid_cursor", message: "The Campaign round changed." } },
+        },
+      );
+      const pages = list(client).byPage();
+      expect((await pages.next()).value).toHaveLength(1);
+      await expect(pages.next()).rejects.toMatchObject({
+        statusCode: 400,
+        details: { error: { code: "invalid_cursor" } },
+      });
+      expect(requests).toHaveLength(2);
+      expect(new URL(requests[1].url).pathname).toBe(`${path}${suffix}`);
+      expect(new URL(requests[1].url).searchParams.get("after")).toBe("stale/+");
+    },
+  );
+});
+
 describe("voice post-emitter integration", () => {
+  it("sends post-call configuration and preserves preview audio rejection errors", async () => {
+    const { client, requests } = createClient({
+      status: 400,
+      body: {
+        error: {
+          code: "invalid_request",
+          message: "Post-call audio is not supported in this preview.",
+          param: "post_call.include",
+        },
+      },
+    });
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      model: "voice-model",
+      store: false,
+      post_call: {
+        destinations: [
+          { type: "event_grid", connection_name: "post-call-events" },
+          { type: "routine", name: "archive" },
+        ],
+        include: ["audio"],
+      },
+    };
+    await expect(
+      client.agents.createVersion("voice-agent", definition, {
+        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+      }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      details: { error: { code: "invalid_request", param: "post_call.include" } },
+    });
+    expect(requests).toHaveLength(1);
+    expect(JSON.parse(String(requests[0].body)).definition).toMatchObject(definition);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+  });
+
   it("wires voice operations without exposing the internal WebSocket handshake", async () => {
     const { client, requests, getToken } = createClient({
       body: {
@@ -100,6 +650,7 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.agents).not.toHaveProperty("createOptimizationJob");
     expect(client.beta.agents.createFromPrompt).toBeTypeOf("function");
     expect(client.beta.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations.getAudioItem).toBeTypeOf("function");
     expect(client.beta.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
     expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
     // Hand-written Voice Agents realtime WebSocket client (not part of this regen); it
@@ -131,6 +682,405 @@ describe("voice post-emitter integration", () => {
           details: [{ code: "disabled", message: "Not enabled." }],
         },
       },
+    });
+  });
+
+  describe("voice persisted conversation REST contracts", () => {
+    const path =
+      "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/conversations";
+    const conversationPath = `${path}/conversation%2Fid`;
+    const livePath =
+      "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/live/conversations/conversation%2Fid";
+    const conversation = {
+      id: "conversation/id",
+      object: "voice.conversation",
+      status: "completed",
+      created_at: 0,
+      completed_at: 1_700_000_001,
+      metadata: { purpose: "test" },
+      usage: { total_tokens: 0, input_tokens: 0, output_tokens: 0 },
+    };
+    const item = {
+      id: "item/id",
+      object: "realtime.item",
+      type: "message",
+      role: "assistant",
+      status: "completed",
+      content: [{ type: "output_audio", transcript: "Hello." }],
+      response_id: "response/id",
+      created_at: 1_700_000_000,
+    };
+    const response = {
+      id: "response/id",
+      object: "realtime.response",
+      status: "cancelled",
+      conversation_id: conversation.id,
+      metadata: { purpose: "test" },
+      output: [item],
+      usage: conversation.usage,
+      created_at: 0,
+      completed_at: 1_700_000_001,
+    };
+    const expectedItem = { ...item, created_at: new Date(1_700_000_000_000) };
+    const expectedResponse = {
+      ...response,
+      metadata: { additionalProperties: { purpose: "test" } },
+      output: [expectedItem],
+      created_at: new Date(0),
+      completed_at: new Date(1_700_000_001_000),
+    };
+    const expectedConversation = {
+      ...conversation,
+      created_at: new Date(0),
+      completed_at: new Date(1_700_000_001_000),
+    };
+
+    it.each([
+      {
+        name: "conversation",
+        suffix: "",
+        body: conversation,
+        expected: expectedConversation,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.get("voice agent", conversation.id),
+      },
+      {
+        name: "response",
+        suffix: "/responses/response%2Fid",
+        body: response,
+        expected: expectedResponse,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.getResponse(
+            "voice agent",
+            conversation.id,
+            response.id,
+          ),
+      },
+      {
+        name: "item",
+        suffix: "/items/item%2Fid",
+        body: item,
+        expected: expectedItem,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.getItem("voice agent", conversation.id, item.id),
+      },
+    ])(
+      "gets a persisted $name without losing projection or metadata fields",
+      async ({ body, expected, suffix, get }) => {
+        const { client, requests } = createClient({ body });
+        expect(await get(client)).toMatchObject(expected);
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe("GET");
+        const url = new URL(requests[0].url);
+        expect(url.pathname).toBe(`${conversationPath}${suffix}`);
+        expect(url.searchParams.get("api-version")).toBe("v1");
+        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      },
+    );
+
+    const lists = [
+      {
+        name: "conversations",
+        listPath: path,
+        wire: conversation,
+        expected: expectedConversation,
+        list: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.list("voice agent", { limit: 1, order: "asc" }),
+      },
+      {
+        name: "responses",
+        listPath: `${conversationPath}/responses`,
+        wire: { ...response, output: undefined },
+        expected: { ...expectedResponse, output: undefined },
+        list: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.listResponses("voice agent", conversation.id, {
+            limit: 1,
+            order: "asc",
+          }),
+      },
+      {
+        name: "items",
+        listPath: `${conversationPath}/items`,
+        wire: item,
+        expected: expectedItem,
+        list: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.listItems("voice agent", conversation.id, {
+            limit: 1,
+            order: "asc",
+          }),
+      },
+      {
+        name: "response items",
+        listPath: `${conversationPath}/responses/response%2Fid/items`,
+        wire: item,
+        expected: expectedItem,
+        list: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.listResponseItems(
+            "voice agent",
+            conversation.id,
+            response.id,
+            { limit: 1, order: "asc" },
+          ),
+      },
+    ];
+
+    it.each(lists)(
+      "iterates and resumes nonempty persisted $name",
+      async ({ wire, expected, listPath, list }) => {
+        const first = { body: { data: [wire], last_id: "cursor/+", has_more: true } };
+        const second = { body: { data: [{ ...wire, id: "second" }], has_more: false } };
+        const { client, requests } = createClient(first, second, first, second);
+        const items = [];
+        for await (const value of list(client)) items.push(value);
+        expect(items).toHaveLength(2);
+        expect(items[0]).toMatchObject(expected);
+        expect(items[1]).toMatchObject({ ...expected, id: "second" });
+        const firstPage = await list(client).byPage().next();
+        expect(firstPage.value?.continuationToken).toBeTruthy();
+        const resumed = list(client).byPage({
+          continuationToken: firstPage.value?.continuationToken,
+        });
+        expect((await resumed.next()).value?.[0]).toMatchObject({ ...expected, id: "second" });
+        expect((await resumed.next()).done).toBe(true);
+        expect(requests).toHaveLength(4);
+        for (const [index, request] of requests.entries()) {
+          const url = new URL(request.url);
+          expect(request.method).toBe("GET");
+          expect(url.pathname).toBe(listPath);
+          expect(url.searchParams.get("after")).toBe(index % 2 ? "cursor/+" : null);
+          expect(url.searchParams.get("limit")).toBe("1");
+          expect(url.searchParams.get("order")).toBe("asc");
+          expect(url.searchParams.get("api-version")).toBe("v1");
+          expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        }
+      },
+    );
+
+    it("deletes persisted Realtime data with an empty 204 response", async () => {
+      const { client, requests } = createClient({ status: 204 });
+      await expect(
+        client.beta.voiceAgents.conversations.delete("voice agent", conversation.id),
+      ).resolves.toBeUndefined();
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("DELETE");
+      expect(new URL(requests[0].url).pathname).toBe(conversationPath);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].body).toBeUndefined();
+    });
+
+    const audioItem = {
+      conversation_id: conversation.id,
+      item_id: item.id,
+      role: "agent",
+      format: "wav",
+      codec: "pcm16",
+      sample_rate: 24000,
+      channels: 1,
+      start_offset_ms: 0,
+      duration_ms: 120,
+      blob_uri: "https://example.blob.core.windows.net/audio/item.wav",
+    };
+    const recording = {
+      conversation_id: conversation.id,
+      format: "wav",
+      sample_rate: 24000,
+      channels: 2,
+      channel_layout: { left: "user", right: "agent" },
+      duration_ms: 120,
+      blob_uri: "https://example.blob.core.windows.net/audio/conversation.wav",
+    };
+
+    it.each([
+      {
+        name: "merged Realtime recording",
+        resource: `${conversationPath}/audio`,
+        body: recording,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.getAudio("voice agent", conversation.id),
+      },
+      {
+        name: "heard Realtime item",
+        resource: `${conversationPath}/items/item%2Fid/audio`,
+        body: audioItem,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.getAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+          ),
+      },
+      {
+        name: "generated Realtime item",
+        resource: `${conversationPath}/items/item%2Fid/audio/generated`,
+        body: audioItem,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.conversations.getGeneratedAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+          ),
+      },
+      {
+        name: "merged Live recording",
+        resource: `${livePath}/audio`,
+        body: recording,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.liveConversations.getAudio("voice agent", conversation.id),
+      },
+    ])(
+      "preserves BYOS metadata for $name without fetching customer storage",
+      async ({ resource, body, get }) => {
+        const { client, requests } = createClient({ body });
+        expect(await get(client)).toMatchObject(body);
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe("GET");
+        expect(new URL(requests[0].url).pathname).toBe(resource);
+        expect(requests[0].headers.get("accept")).toBe("application/json");
+        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      },
+    );
+
+    const downloads = [
+      {
+        name: "merged Realtime audio",
+        resource: `${conversationPath}/audio/content`,
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.conversations.downloadAudio(
+            "voice agent",
+            conversation.id,
+            options,
+          ),
+      },
+      {
+        name: "heard Realtime item audio",
+        resource: `${conversationPath}/items/item%2Fid/audio/content`,
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.conversations.downloadAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+            options,
+          ),
+      },
+      {
+        name: "generated Realtime item audio",
+        resource: `${conversationPath}/items/item%2Fid/audio/generated/content`,
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.conversations.downloadGeneratedAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+            options,
+          ),
+      },
+    ];
+
+    it.each(downloads)(
+      "downloads $name without JSON-decoding its bytes",
+      async ({ resource, get }) => {
+        const bytes = new Uint8Array([82, 73, 70, 70, 0, 1, 128, 255]);
+        const { client, requests } = createClient({
+          bytes,
+          headers: { "content-type": "audio/wav" },
+        });
+        const controller = new AbortController();
+        const audio = await get(client, {
+          abortSignal: controller.signal,
+          requestOptions: { headers: { "x-test-header": "retained" } },
+        });
+        let actual: Uint8Array;
+        if (audio.blobBody) {
+          actual = new Uint8Array(await (await audio.blobBody).arrayBuffer());
+        } else {
+          if (!audio.readableStreamBody) throw new Error("Missing audio stream.");
+          const { buffer } = await import("node:stream/consumers");
+          actual = await buffer(audio.readableStreamBody);
+        }
+        expect(Array.from(actual)).toEqual(Array.from(bytes));
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe("GET");
+        expect(new URL(requests[0].url).pathname).toBe(resource);
+        expect(new URL(requests[0].url).searchParams.get("api-version")).toBe("v1");
+        expect(requests[0].headers.get("accept")).toBe("audio/wav");
+        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(requests[0].headers.get("x-test-header")).toBe("retained");
+        expect(requests[0].abortSignal).toBe(controller.signal);
+      },
+    );
+
+    it.each([
+      { ...downloads[0], status: 409, code: "recording_not_ready" },
+      { ...downloads[1], status: 404, code: "not_persisted" },
+      { ...downloads[2], status: 404, code: "generated_audio_not_found" },
+      {
+        name: "failed Live merged audio",
+        resource: `${livePath}/audio/content`,
+        status: 409,
+        code: "recording_unavailable",
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.liveConversations.downloadAudio(
+            "voice agent",
+            conversation.id,
+            options,
+          ),
+      },
+      {
+        name: "Live delegation audio",
+        resource: `${livePath}/items/item%2Fid/audio/content`,
+        status: 404,
+        code: "audio_not_found",
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.liveConversations.downloadAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+            options,
+          ),
+      },
+    ])("parses streamed service errors for $name", async ({ get, resource, status, code }) => {
+      const { client, requests } = createClient({
+        status,
+        body: {
+          error: { code, message: "Stored audio is not available.", param: "conversation_id" },
+        },
+        headers: { "retry-after": "2" },
+      });
+      await expect(get(client, {})).rejects.toMatchObject({
+        statusCode: status,
+        details: { error: { code, param: "conversation_id" } },
+      });
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("GET");
+      expect(new URL(requests[0].url).pathname).toBe(resource);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    });
+
+    it("gets a stored Live delegation without treating guidance as spoken audio", async () => {
+      const delegation = {
+        id: item.id,
+        type: "delegation",
+        target: "foundry_managed_agent",
+        agent_name: "helper",
+        agent_version: "3",
+        backend_conversation_id: "backend-conversation",
+        created_at: 0,
+        offset_ms: 0,
+        status: "cancelled",
+        output: [{ commentary: "Accepted partial guidance.", thinking: "Accepted context." }],
+      };
+      const { client, requests } = createClient({ body: delegation });
+      const result = await client.beta.voiceAgents.liveConversations.getItem(
+        "voice agent",
+        conversation.id,
+        item.id,
+      );
+      expect(result).toMatchObject({ ...delegation, created_at: new Date(0) });
+      expect(result).not.toHaveProperty("transcription");
+      expect(result).not.toHaveProperty("audio");
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("GET");
+      expect(new URL(requests[0].url).pathname).toBe(`${livePath}/items/item%2Fid`);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
     });
   });
 
@@ -210,6 +1160,31 @@ describe("voice post-emitter integration", () => {
       list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.listCalls("agent", options),
     },
+    {
+      name: "telephony call jobs",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listCallJobs("agent", options),
+    },
+    {
+      name: "campaigns",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.list("agent", options),
+    },
+    {
+      name: "campaign validation errors",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.telephony.listValidationErrors("agent", "campaign", options),
+    },
+    {
+      name: "Live conversations",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.list("agent", options),
+    },
+    {
+      name: "Live conversation items",
+      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+        client.beta.voiceAgents.liveConversations.listItems("agent", "conversation", options),
+    },
   ];
 
   it.each(listCases)("retains cursor paging and request options for $name", async ({ list }) => {
@@ -248,7 +1223,7 @@ describe("voice post-emitter integration", () => {
     expect(onResponse).toHaveBeenCalledTimes(2);
   });
 
-  it("omits removed campaign operations while retaining call jobs and realtime connections", () => {
+  it("wires campaigns through telephony without restoring legacy campaign APIs", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",
@@ -260,39 +1235,105 @@ describe("voice post-emitter integration", () => {
       "pauseCampaign",
       "resumeCampaign",
       "cancelCampaign",
-      "getOperation",
+      "deleteCampaign",
     ]) {
       expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
     }
     expect(client.beta.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
+    expect(client.beta.voiceAgents).not.toHaveProperty("campaigns");
+    expect(client.beta.voiceAgents.telephony.create).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.get).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.list).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.cancel).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.listValidationErrors).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.getOperation).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteTelephony).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations.get).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.liveConversations).not.toHaveProperty("connect");
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
     expect(requests).toHaveLength(0);
   });
 
-  it("preserves arbitrary function JSON Schema through voice union serialization", () => {
-    const parameters = {
-      type: "object",
-      properties: { city: { type: "string", description: "City to look up." } },
-      required: ["city"],
-      additionalProperties: false,
-    };
-    const definition: VoiceAgentDefinition = {
+  it.each([undefined, "realtime"] as const)(
+    "preserves Realtime fields and JSON Schema with sub_protocol=%s",
+    (subProtocol) => {
+      const parameters = {
+        type: "object",
+        properties: { city: { type: "string", description: "City to look up." } },
+        required: ["city"],
+        additionalProperties: false,
+      };
+      const definition: VoiceAgentDefinition = {
+        kind: "voice",
+        ...(subProtocol === undefined ? {} : { sub_protocol: subProtocol }),
+        model: "voice-model",
+        model_type: "managed",
+        tools: [
+          {
+            type: "function",
+            name: "lookup",
+            parameters,
+          },
+        ],
+      };
+      const wire = agentDefinitionUnionSerializer(definition);
+      expect(wire.tools[0].parameters).toEqual(parameters);
+      expect(JSON.parse(JSON.stringify(wire))).toEqual(definition);
+      expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+      expect(agentDefinitionUnionDeserializer(wire)).toHaveProperty("sub_protocol", subProtocol);
+    },
+  );
+
+  it.each([
+    { type: "client", acknowledgement_delay_ms: 400 },
+    {
+      type: "responses",
+      responses: { model: "backend-deployment", instructions: "Help the caller." },
+    },
+    { type: "foundry_managed_agent", agent_name: "helper", agent_version: "3" },
+  ] as const)("round-trips the Live $type delegation through the agent union", (delegation) => {
+    const definition: VoiceAgentLiveDefinition = {
       kind: "voice",
-      model: "voice-model",
-      model_type: "managed",
-      tools: [
-        {
-          type: "function",
-          name: "lookup",
-          parameters,
-        },
-      ],
+      sub_protocol: "live",
+      model_type: "self_deployed",
+      model: "gpt-live-deployment",
+      instructions: "Talk to {{name}}.",
+      structured_inputs: { name: { required: true, description: "Caller name." } },
+      store: true,
+      greeting: { type: "template", text: "Hello {{name}}." },
+      delegation,
     };
     const wire = agentDefinitionUnionSerializer(definition);
-    expect(wire.tools[0].parameters).toEqual(parameters);
+    expect(JSON.parse(JSON.stringify(wire))).toEqual(definition);
     expect(agentDefinitionUnionDeserializer(wire)).toMatchObject(definition);
+  });
+
+  it("routes Live persistence separately and preserves dates and error details", async () => {
+    const { client, requests } = createClient({
+      body: {
+        id: "conversation",
+        object: "voice.conversation",
+        status: "failed",
+        created_at: 1700000000,
+        completed_at: 1700000001,
+        last_error: { code: "recording_unavailable", message: "Recording failed." },
+      },
+    });
+    const conversation = await client.beta.voiceAgents.liveConversations.get(
+      "voice agent",
+      "conversation/id",
+    );
+    expect(conversation.created_at).toEqual(new Date(1700000000000));
+    expect(conversation.completed_at).toEqual(new Date(1700000001000));
+    expect(conversation.last_error).toMatchObject({ code: "recording_unavailable" });
+    expect(new URL(requests[0].url).pathname).toBe(
+      "/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/live/conversations/conversation%2Fid",
+    );
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
   });
 
   it("round-trips base64 audio delta bytes", () => {

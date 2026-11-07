@@ -11,6 +11,7 @@ import {
   findMissingPreservedExports,
   findIndexInvariantViolations,
   findPromotedOptionRemovals,
+  findCampaignRelocationRemovals,
 } from "./check-generated-member-parity.mjs";
 
 const scriptPath = path.join(
@@ -74,6 +75,146 @@ export function widgetDeserializer(item: any): Widget {
   return { name: item["widget_name"], description: item["widget_description"] };
 }
 `;
+
+function campaignRelocationFixture() {
+  const previousGenerated = new Map();
+  const currentGenerated = new Map();
+  const suffixes = [
+    "GetOperation",
+    "ListValidationErrors",
+    "Delete",
+    "Cancel",
+    "List",
+    "Get",
+    "Create",
+  ];
+  for (const [tree, group] of [
+    [previousGenerated, "Campaigns"],
+    [currentGenerated, "Telephony"],
+  ]) {
+    const directory = `api/beta/voiceAgents/${group.toLowerCase()}`;
+    const options = suffixes.map((suffix) => `BetaVoiceAgents${group}${suffix}OptionalParams`);
+    const methods = suffixes.map((suffix) =>
+      suffix === "Delete"
+        ? `delete${group === "Campaigns" ? "Campaign" : "Telephony"}`
+        : suffix[0].toLowerCase() + suffix.slice(1),
+    );
+    tree.set(
+      `${directory}/operations.ts`,
+      methods
+        .map(
+          (name, index) => `
+export function _${name}Send(context: Client, options: ${options[index]} = {}) {
+  const path = expandUrlTemplate("/campaigns/${suffixes[index]}", {}, {});
+  return context.path(path).get(options);
+}
+export async function _${name}Deserialize(response: Response) { return response.body; }
+export async function ${name}(context: Client, options: ${options[index]} = {}) {
+  const response = await _${name}Send(context, options);
+  return _${name}Deserialize(response);
+}`,
+        )
+        .join("\n"),
+    );
+    tree.set(
+      `${directory}/options.ts`,
+      options.map((name) => `export interface ${name} {}`).join("\n"),
+    );
+    tree.set(
+      `classic/beta/voiceAgents/${group.toLowerCase()}/index.ts`,
+      `export interface BetaVoiceAgents${group}Operations {
+${methods.map((name, index) => `${name}: (options?: ${options[index]}) => Promise<string>;`).join("\n")}
+}`,
+    );
+    tree.set(
+      "index.ts",
+      `export type { ${options.join(", ")} } from "./${directory}/options.js";
+export type { BetaVoiceAgents${group}Operations } from "./classic/beta/voiceAgents/${group.toLowerCase()}/index.js";`,
+    );
+  }
+  return {
+    previousGenerated,
+    previousSource: new Map(previousGenerated),
+    currentGenerated,
+    currentSource: new Map(currentGenerated),
+  };
+}
+
+test("allows only the verified generated-backed campaign group and option relocations", () => {
+  const removals = findCampaignRelocationRemovals(campaignRelocationFixture());
+  assert.equal(removals.size, 8);
+  assert.ok(removals.has("BetaVoiceAgentsCampaignsOperations"));
+  assert.ok(removals.has("BetaVoiceAgentsCampaignsDeleteOptionalParams"));
+  assert.equal(removals.has("UnrelatedCustomizedOptions"), false);
+});
+
+for (const missing of ["public export", "option declaration", "classic member", "wire successor"]) {
+  test(`does not excuse campaign removals with a missing ${missing}`, () => {
+    const fixture = campaignRelocationFixture();
+    const api = "api/beta/voiceAgents/telephony";
+    const changes = {
+      "public export": ["index.ts", "BetaVoiceAgentsTelephonyGetOptionalParams", "Unrelated"],
+      "option declaration": [
+        `${api}/options.ts`,
+        "BetaVoiceAgentsTelephonyGetOptionalParams",
+        "Unrelated",
+      ],
+      "classic member": ["classic/beta/voiceAgents/telephony/index.ts", "get:", "unrelated:"],
+      "wire successor": [`${api}/operations.ts`, '"/campaigns/Get"', '"/changed/Get"'],
+    };
+    const [file, from, to] = changes[missing];
+    fixture.currentSource.set(file, fixture.currentSource.get(file).replace(from, to));
+    const removals = findCampaignRelocationRemovals(fixture);
+    assert.equal(removals.has("BetaVoiceAgentsCampaignsGetOptionalParams"), false);
+    assert.equal(removals.has("BetaVoiceAgentsCampaignsOperations"), false);
+  });
+}
+
+test("does not excuse old options still referenced by customized code", () => {
+  const fixture = campaignRelocationFixture();
+  fixture.currentSource.set(
+    "custom.ts",
+    "export interface Custom extends BetaVoiceAgentsCampaignsGetOptionalParams {}",
+  );
+  const removals = findCampaignRelocationRemovals(fixture);
+  assert.equal(removals.has("BetaVoiceAgentsCampaignsGetOptionalParams"), false);
+  assert.equal(removals.has("BetaVoiceAgentsCampaignsOperations"), false);
+});
+
+test("requires both emitted and customized old modules to disappear", () => {
+  for (const key of ["currentGenerated", "currentSource"]) {
+    const fixture = campaignRelocationFixture();
+    fixture[key].set("api/beta/voiceAgents/campaigns/index.ts", "export {};");
+    assert.equal(findCampaignRelocationRemovals(fixture).size, 0);
+  }
+});
+
+test("preserves a campaign group with custom-only or inherited operations", () => {
+  for (const custom of [
+    "export interface BetaVoiceAgentsCampaignsOperations extends Other {}",
+    "export interface BetaVoiceAgentsCampaignsOperations { custom: () => void; }",
+  ]) {
+    const fixture = campaignRelocationFixture();
+    fixture.previousSource.set("classic/beta/voiceAgents/campaigns/index.ts", custom);
+    const removals = findCampaignRelocationRemovals(fixture);
+    assert.equal(removals.size, 7);
+    assert.equal(removals.has("BetaVoiceAgentsCampaignsOperations"), false);
+  }
+});
+
+test("requires the destination operations group to remain publicly exported", () => {
+  const fixture = campaignRelocationFixture();
+  fixture.currentSource.set(
+    "index.ts",
+    fixture.currentSource
+      .get("index.ts")
+      .replace("BetaVoiceAgentsTelephonyOperations", "Unrelated"),
+  );
+  assert.equal(
+    findCampaignRelocationRemovals(fixture).has("BetaVoiceAgentsCampaignsOperations"),
+    false,
+  );
+});
 
 test("reports new members missing from customized declarations", () => {
   const currentSource = `

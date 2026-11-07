@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AbortError } from "@azure/abort-controller";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, expect, it } from "vitest";
@@ -9,6 +10,8 @@ import { AIProjectClient } from "../../src/index.js";
 import type {
   BrowserAutomationPreviewTool,
   BrowserAutomationPreviewToolboxTool,
+  TelephonyCallJob,
+  TelephonyCallJobCreate,
   TelephonyTransferTarget,
   VoiceAgentDefinition,
 } from "../../src/index.js";
@@ -69,7 +72,6 @@ const binding = {
   provider: "twilio",
   connection_name: "telephony-connection",
   phone_number: "+15555550100",
-  status: "active",
   incoming_call_url: "https://example.com/incoming",
   etag: '"binding-etag"',
 };
@@ -219,6 +221,27 @@ describe("beta agent telephony operations", () => {
     expect(result).toMatchObject(body);
   });
 
+  it("creates a SIP binding without service-generated fields or a display phone number", async () => {
+    const body = {
+      provider: "sip" as const,
+      connection_name: binding.connection_name,
+      allowed_calling_numbers: ["+15555550101"],
+    };
+    const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
+    const result = await client.beta.voiceAgents.telephony.createBinding(
+      "voice-agent",
+      body,
+      options,
+    );
+    expect(JSON.parse(requests[0].body as string)).toEqual(body);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(result).toMatchObject({
+      ...body,
+      id: binding.id,
+      incoming_call_url: binding.incoming_call_url,
+    });
+  });
+
   it("gets a Teams Phone extensibility binding without requiring a phone number", async () => {
     const teamsBinding = {
       ...binding,
@@ -242,18 +265,18 @@ describe("beta agent telephony operations", () => {
   });
 
   it("updates only supplied fields and sends the binding ETag", async () => {
-    const { client, requests } = createClient({ body: { ...binding, status: "suspended" } });
+    const { client, requests } = createClient({ body: { ...binding, label: "Updated" } });
     const result = await client.beta.voiceAgents.telephony.updateBinding(
       "voice-agent",
       binding.id,
       binding.etag,
-      { status: "suspended" },
+      { label: "Updated" },
       options,
     );
-    expect(result.status).toBe("suspended");
+    expect(result.label).toBe("Updated");
     expect(requests[0].method).toBe("PATCH");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
-    expect(JSON.parse(requests[0].body as string)).toEqual({ status: "suspended" });
+    expect(JSON.parse(requests[0].body as string)).toEqual({ label: "Updated" });
   });
 
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
@@ -288,17 +311,17 @@ describe("beta agent telephony operations", () => {
         {
           name: "support",
           description: "Support line",
-          destination: { kind: "pstn", value: "+15555550101" },
+          destination: { type: "phone_number", value: "+15555550101" },
         },
         {
           name: "sip",
           description: "SIP desk",
-          destination: { kind: "sip", value: "sip:support@example.com" },
+          destination: { type: "sip", value: "sip:support@example.com" },
         },
         {
           name: "teams",
           description: "Teams desk",
-          destination: { kind: "teams", value: "00000000-0000-0000-0000-000000000001" },
+          destination: { type: "teams", value: "00000000-0000-0000-0000-000000000001" },
         },
       ] satisfies TelephonyTransferTarget[],
     },
@@ -510,5 +533,232 @@ describe("beta agent telephony operations", () => {
     const { client, requests } = createClient({ body: { data: [], has_more: false } });
     expect((await list(client).next()).done).toBe(true);
     expect(requests).toHaveLength(1);
+  });
+});
+
+describe("beta agent outbound call jobs", () => {
+  const input: TelephonyCallJobCreate = {
+    connection_name: "outbound-connection",
+    source: { type: "phone_number", value: "+15555550100" },
+    destination: { type: "sip", value: "sip:help@example.com" },
+    structured_inputs: { opted_in: false, count: 0, customer: { name: "Ada" }, optional: null },
+    schedule: { not_before: new Date(0), expires_at: new Date(1_700_000_060_000) },
+    retry_policy: { type: "fixed_interval", max_attempts: 1, interval: 0 },
+  };
+  const job = {
+    ...input,
+    schedule: { not_before: 0, expires_at: 1_700_000_060 },
+    id: "job/1",
+    agent_name: "voice agent",
+    status: "waiting_for_retry",
+    attempt_count: 1,
+    next_attempt_at: 1_700_000_030,
+    revision: 7,
+    created_at: 0,
+    updated_at: 1_700_000_000,
+    campaign_name: "campaign/+",
+    terminal_reason: "no_answer",
+  };
+  const path = "/api/projects/test-project/agents/voice%20agent/telephony_call_jobs";
+
+  it("creates a durable job with an idempotency key and preserves nested and zero-valued inputs", async () => {
+    const { client, requests } = createClient({ status: 202, body: job });
+    const result = await client.beta.voiceAgents.telephony.createCallJob(
+      "voice agent",
+      "retry-key/+",
+      input,
+      options,
+    );
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("POST");
+    expect(new URL(requests[0].url).pathname).toBe(path);
+    expect(new URL(requests[0].url).searchParams.get("api-version")).toBe("v1");
+    expect(requests[0].headers.get("idempotency-key")).toBe("retry-key/+");
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("content-type")).toContain("application/json");
+    expect(JSON.parse(String(requests[0].body))).toEqual({
+      ...input,
+      schedule: job.schedule,
+    });
+    expect(result).toMatchObject({
+      ...input,
+      id: job.id,
+      status: job.status,
+      revision: 7,
+      attempt_count: 1,
+      next_attempt_at: new Date(1_700_000_030_000),
+      created_at: new Date(0),
+      updated_at: new Date(1_700_000_000_000),
+      campaign_name: job.campaign_name,
+      terminal_reason: "no_answer",
+    });
+  });
+
+  it("gets a campaign-owned job using an encoded ID", async () => {
+    const { client, requests } = createClient({ body: job });
+    const result = await client.beta.voiceAgents.telephony.getCallJob(
+      "voice agent",
+      job.id,
+      options,
+    );
+    expect(result).toMatchObject({
+      id: job.id,
+      campaign_name: job.campaign_name,
+      status: "waiting_for_retry",
+      revision: 7,
+      next_attempt_at: new Date(1_700_000_030_000),
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("GET");
+    expect(new URL(requests[0].url).pathname).toBe(`${path}/job%2F1`);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+  });
+
+  it.each([200, 202])(
+    "cancels a job with its ETag and reads cancellation state (%s)",
+    async (status) => {
+      const cancellation = {
+        requested_by: "test-principal",
+        mode: "stop_future_attempts",
+        requested_at: 1_700_000_010,
+        revision: 8,
+      };
+      const { client, requests } = createClient({
+        status,
+        body: { ...job, status: "cancellation_requested", revision: 8, cancellation },
+      });
+      const result = await client.beta.voiceAgents.telephony.cancelCallJob(
+        "voice agent",
+        job.id,
+        '"revision-7"',
+        options,
+      );
+      expect(result).toMatchObject({
+        id: job.id,
+        status: "cancellation_requested",
+        revision: 8,
+        cancellation: { ...cancellation, requested_at: new Date(1_700_000_010_000) },
+      });
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("POST");
+      expect(new URL(requests[0].url).pathname).toBe(`${path}/job%2F1:cancel`);
+      expect(requests[0].headers.get("if-match")).toBe('"revision-7"');
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].body).toBeUndefined();
+    },
+  );
+
+  it("deletes a terminal job without a response body or an implicit cancellation", async () => {
+    const { client, requests } = createClient({ status: 204 });
+    await expect(
+      client.beta.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
+    ).resolves.toBeUndefined();
+    expect(requests).toHaveLength(1);
+    expect(requests[0].method).toBe("DELETE");
+    expect(new URL(requests[0].url).pathname).toBe(`${path}/job%2F1`);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].body).toBeUndefined();
+  });
+
+  it.each([
+    {
+      name: "idempotency conflict",
+      status: 409,
+      code: "idempotency_key_conflict",
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.telephony.createCallJob(
+          "voice agent",
+          "retry-key/+",
+          input,
+          options,
+        ),
+    },
+    {
+      name: "stale cancellation ETag",
+      status: 412,
+      code: "etag_mismatch",
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.telephony.cancelCallJob("voice agent", job.id, '"stale"', options),
+    },
+    {
+      name: "nonterminal deletion",
+      status: 409,
+      code: "call_job_not_terminal",
+      invoke: (client: AIProjectClient) =>
+        client.beta.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
+    },
+  ])(
+    "preserves $name errors without issuing a second mutation",
+    async ({ status, code, invoke }) => {
+      const { client, requests } = createClient({
+        status,
+        body: { error: { code, message: "The call job cannot be changed.", param: "call_job_id" } },
+      });
+      await expect(invoke(client)).rejects.toMatchObject({
+        statusCode: status,
+        details: { error: { code, param: "call_job_id" } },
+      });
+      expect(requests).toHaveLength(1);
+    },
+  );
+
+  it("iterates and resumes nonempty job pages with campaign and lifecycle filters", async () => {
+    const first = { body: { data: [job], last_id: "opaque/+cursor", has_more: true } };
+    const second = { body: { data: [{ ...job, id: "second-job" }], has_more: false } };
+    const { client, requests } = createClient(first, second, first, second);
+    const list = (): PagedAsyncIterableIterator<TelephonyCallJob> =>
+      client.beta.voiceAgents.telephony.listCallJobs("voice agent", {
+        campaignName: "campaign/+",
+        status: "waiting_for_retry",
+        order: "asc",
+        limit: 1,
+        requestOptions: { headers: { "x-test-header": "retained" } },
+      });
+    const ids = [];
+    for await (const item of list()) {
+      ids.push(item.id);
+      expect(item.next_attempt_at).toEqual(new Date(1_700_000_030_000));
+    }
+    expect(ids).toEqual([job.id, "second-job"]);
+    const page = await list().byPage().next();
+    expect(page.value?.[0].id).toBe(job.id);
+    expect(page.value?.continuationToken).toBeTruthy();
+    const resumed = list().byPage({ continuationToken: page.value?.continuationToken });
+    expect((await resumed.next()).value?.[0].id).toBe("second-job");
+    expect((await resumed.next()).done).toBe(true);
+    expect(requests).toHaveLength(4);
+    for (const [index, request] of requests.entries()) {
+      const url = new URL(request.url);
+      expect(request.method).toBe("GET");
+      expect(url.pathname).toBe(path);
+      expect(url.searchParams.get("campaign_name")).toBe("campaign/+");
+      expect(url.searchParams.get("status")).toBe("waiting_for_retry");
+      expect(url.searchParams.get("order")).toBe("asc");
+      expect(url.searchParams.get("limit")).toBe("1");
+      expect(url.searchParams.get("after")).toBe(index % 2 ? "opaque/+cursor" : null);
+      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(request.headers.get("x-test-header")).toBe("retained");
+    }
+  });
+
+  it("surfaces an invalid campaign cursor on the next job page", async () => {
+    const { client, requests } = createClient(
+      { body: { data: [job], last_id: "old-round/+", has_more: true } },
+      {
+        status: 400,
+        body: { error: { code: "invalid_cursor", message: "Campaign was replaced." } },
+      },
+    );
+    const jobs = client.beta.voiceAgents.telephony.listCallJobs("voice agent", {
+      campaignName: "campaign/+",
+    });
+    expect((await jobs.next()).value?.id).toBe(job.id);
+    await expect(jobs.next()).rejects.toMatchObject({
+      statusCode: 400,
+      details: { error: { code: "invalid_cursor" } },
+    });
+    expect(requests).toHaveLength(2);
+    expect(new URL(requests[1].url).searchParams.get("after")).toBe("old-round/+");
+    expect(new URL(requests[1].url).searchParams.get("campaign_name")).toBe("campaign/+");
   });
 });

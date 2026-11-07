@@ -140,6 +140,65 @@ test("rejects a new emitted file that collides with custom-only source", () => {
   );
 });
 
+function relocatedHelperTrees() {
+  const baseGenerated = models();
+  const baseSource = models();
+  const generated = models();
+  const operation = `
+import type { Options } from "./options.js";
+export function _getSend(context: Client, options: Options = {}): StreamableMethod {
+  const path = expandUrlTemplate("/items", {}, {});
+  return context.path(path).get(options);
+}
+export async function _getDeserialize(response: Response): Promise<string> {
+  return response.body;
+}
+export async function get(context: Client, options: Options = {}): Promise<string> {
+  const response = await _getSend(context, options);
+  return _getDeserialize(response);
+}`;
+  for (const tree of [baseGenerated, baseSource]) {
+    tree.set("api/old/operations.ts", operation);
+    tree.set("api/old/options.ts", "export interface Options {}");
+    tree.set("api/old/index.ts", 'export { get } from "./operations.js";');
+  }
+  baseSource.set(
+    "api/old/operations.ts",
+    operation.replace("return _getDeserialize(response);", "return finishResult(response);") +
+      "\nfunction finishResult(response: Response): Promise<string> { return _getDeserialize(response); }",
+  );
+  generated.set("api/new/operations.ts", operation);
+  generated.set("api/new/options.ts", "export interface Options {}");
+  generated.set("api/new/index.ts", 'export { get } from "./operations.js";');
+  return { baseGenerated, baseSource, generated };
+}
+
+test("removes the old module only after carrying its private helper into the resolved destination", () => {
+  const plan = planCustomization(relocatedHelperTrees());
+  assert.deepEqual(plan.diagnostics, []);
+  assert.match(plan.source.get("api/new/operations.ts"), /function finishResult/);
+  assert.equal(plan.source.has("api/old/operations.ts"), false);
+  assert.equal(plan.source.has("api/old/options.ts"), false);
+  assert.equal(plan.source.has("api/old/index.ts"), false);
+  assert.ok(plan.removedFiles.has("api/old/operations.ts"));
+});
+
+test("still rejects deletion of a removed module's unrelated custom declarations", () => {
+  const inputs = relocatedHelperTrees();
+  const file = "api/old/operations.ts";
+  inputs.baseSource.set(file, inputs.baseSource.get(file) + "\nfunction unrelated() { return 1; }");
+  const plan = planCustomization(inputs);
+  assert.ok(
+    plan.diagnostics.some(
+      (item) =>
+        item.file === file &&
+        item.declaration === "unrelated" &&
+        /requires a policy/.test(item.message),
+    ),
+  );
+  assert.ok(plan.source.has(file));
+});
+
 function namespaced(tree) {
   tree.set(
     "models/models.ts",

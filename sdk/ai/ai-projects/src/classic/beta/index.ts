@@ -29,6 +29,7 @@ import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
+import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClient.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -64,6 +65,7 @@ export function _getBetaOperations(
   endpoint: string,
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
   tracingConfig?: ResolvedTracingConfig,
+  liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaOperations {
   return {
     /** Operations for managing skills. */
@@ -95,6 +97,7 @@ export function _getBetaOperations(
       endpoint,
       realtimeOptions,
       tracingConfig,
+      liveOptions,
     ),
   };
 }

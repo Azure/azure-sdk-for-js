@@ -1,6 +1,6 @@
 ---
 name: regenerate-from-typespec
-description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec commit on Azure/azure-rest-api-specs. Use when refreshing emitted code, bumping the pinned tsp-location commit, running tsp-client update, or pulling in upstream Foundry spec changes. Handles the rename dance between tsp-location.saved.yaml and tsp-location.yaml, and captures upstream commit descriptions for post-merge validation.'
+description: "Regenerate the @azure/ai-projects client from the latest TypeSpec commit on Azure/azure-rest-api-specs. Use when refreshing emitted code, bumping the pinned tsp-location commit, running tsp-client update, or pulling in upstream Foundry spec changes. Handles the rename dance between tsp-location.saved.yaml and tsp-location.yaml, and captures upstream commit descriptions for post-merge validation."
 ---
 
 # Regenerate ai-projects from TypeSpec
@@ -13,10 +13,10 @@ description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec 
 
 ## Inputs
 
-| Name | Default | Description |
-|------|---------|-------------|
-| `branch` | `feature/foundry-release` | Branch on `Azure/azure-rest-api-specs` to read the latest commit from. |
-| `commit` | _(none)_ | Optional explicit commit SHA. If provided, skip the `git ls-remote` lookup. |
+| Name                     | Default                                | Description                                                                                           |
+| ------------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `branch`                 | `feature/foundry-release`              | Branch on `Azure/azure-rest-api-specs` to read the latest commit from.                                |
+| `commit`                 | _(none)_                               | Optional explicit commit SHA. If provided, skip the `git ls-remote` lookup.                           |
 | `commitDescriptionsPath` | `temp/typespec-commit-descriptions.md` | File to write upstream commit subjects and bodies for the old-exclusive/new-inclusive TypeSpec range. |
 
 ## Prerequisites
@@ -79,6 +79,13 @@ The `customize` hook applies the generic customization merge, runs the guarded p
 **A customization rejection is not a stop condition.** The resolver is strict by default: it exits nonzero and writes nothing when it cannot merge an emitted change with a customization. `generate-client.ps1` handles that itself. After the strict run fails, it reruns customization in recovery mode, formats, validates the result, prints a `RECOVERY MODE` banner, and exits 0. Recovery keeps the customized code for every change it could not merge and records each one in `temp/customization-worklist.md`. The earlier `Customization rejected N unresolved or unsafe change(s)` output, the banner, and the worklist are the expected path, not a failure. Continue with Step 4, then hand off to `apply-post-emitter-edits` and follow its "Step 0a" worklist procedure. Verify later with `node scripts/customize.mjs --recover --check` (strict without `--recover`, because it re-plans from the committed baseline), and never rerun `npm run customize` or a non-check `customize.mjs` over edited `src/`.
 
 The script does not attempt recovery when `src/` already had uncommitted changes (recovery rewrites `src/` from the committed baseline), and `-Strict` disables recovery for a maintainer who wants the hard stop. Both exit nonzero. For dirty `src/`, restore it as the message says and rerun. If recovery itself fails, the diagnostics name a plan or guard failure rather than a merge conflict. The script then restores `src/` to the committed state, so the unresolved output of the generic merge that ran first is not left behind (a managed session publishes whatever remains in its working tree). Follow the guidance in `apply-post-emitter-edits` Step 0a and stop only as that skill and the calling workflow allow. See the [resolver workflow](../../../scripts/customization/README.md#recovery-mode) for what recovery does and does not hold.
+
+In particular, a removed module containing custom-only declarations can reject
+recovery before any worklist is written. Successful emission does not mean the move
+was mirrored into `src/`. Preserve the emitted tree and use the clean pre-regeneration
+baseline to follow
+[`apply-post-emitter-edits` Step 0b](../apply-post-emitter-edits/SKILL.md#step-0b-mirror-verified-operation-group-relocations);
+do not rerun the emitter or discard the custom helper to bypass the diagnostic.
 
 ### Step 4: Restore the saved-yaml filename
 

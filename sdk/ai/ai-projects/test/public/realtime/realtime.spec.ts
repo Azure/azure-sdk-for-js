@@ -25,7 +25,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 import {
   deserializeVoiceAgentServerEvent,
   serializeVoiceAgentClientEvent,
@@ -243,6 +243,8 @@ describe("VoiceAgentRealtimeClient query options", () => {
     "store",
     "transport",
     "x-agent-version-override",
+    "agent_version_override",
+    "AGENT_VERSION_OVERRIDE",
     "x-ms-client-sdk",
     "authorization",
     "api-key",
@@ -398,6 +400,79 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
   );
 });
 
+describe("VoiceAgents handoff and system-tool protocol coverage", () => {
+  const handoff = {
+    event_id: "handoff-event",
+    handoff_id: "handoff-1",
+    edge_id: "edge-1",
+    from_node_id: "$entrypoint",
+    to_node_id: "accounts",
+    from_model: "gpt-realtime",
+    to_model: "gpt-realtime",
+    tool_call_id: "handoff-call",
+    node_generation: 1,
+  };
+  const events = [
+    { ...handoff, type: "session.handoff.started" },
+    {
+      ...handoff,
+      type: "session.handoff.completed",
+      prepare_duration_ms: 20,
+      duration_ms: 50,
+    },
+    { ...handoff, type: "session.handoff.aborted", reason: "user_interruption" },
+    {
+      type: "response.system_tool_arguments.delta",
+      event_id: "system-delta",
+      response_id: "response-1",
+      item_id: "system-item",
+      output_index: 0,
+      call_id: "system-call",
+      delta: '{"value":',
+    },
+    {
+      type: "response.system_tool_arguments.done",
+      event_id: "system-done",
+      response_id: "response-1",
+      item_id: "system-item",
+      output_index: 0,
+      call_id: "system-call",
+      name: "send_dtmf",
+      arguments: '{"value":"code"}',
+    },
+    {
+      type: "input_collection.status",
+      call_id: "system-call",
+      collection_id: "collection-1",
+      channel: "dtmf",
+      status: "completed",
+      value: "0012",
+    },
+  ] as const satisfies readonly VoiceAgentServerEvent[];
+
+  it.each(events)("decodes $type as a known event", (event) => {
+    const decoded = deserializeVoiceAgentServerEvent(JSON.stringify(event));
+    expect(decoded.type).toBe(event.type);
+    expect(decoded).toMatchObject(event);
+  });
+
+  it.each(events)("requires correlation fields on $type", (event) => {
+    const missing = event.type.startsWith("session.handoff.") ? "handoff_id" : "call_id";
+    const malformed = Object.fromEntries(Object.entries(event).filter(([key]) => key !== missing));
+    expect(() => deserializeVoiceAgentServerEvent(JSON.stringify(malformed))).toThrow(
+      VoiceAgentProtocolError,
+    );
+  });
+
+  it.each(["constructor", "toString", "hasOwnProperty", "__proto__"])(
+    "rejects inherited client-dispatch key %s",
+    (type) => {
+      const event = JSON.parse(JSON.stringify({ type }));
+      expect(() => serializeVoiceAgentClientEvent(event)).toThrow(VoiceAgentProtocolError);
+    },
+  );
+});
+
 describe("AIProjectClient realtime", () => {
   it("uses generated session serializers for discriminated settings", () => {
     const message = serializeVoiceAgentClientEvent({
@@ -538,8 +613,7 @@ describe("AIProjectClient realtime", () => {
       ),
     ).toThrow('required "rtc_call_id"');
 
-    // `rtc.call.error` is the one server event where `event_id` is genuinely optional (see
-    // `optionalEventIdServerEvents` in protocol.ts), so this also exercises that special case.
+    // SDP errors can omit event_id, just like input-collection outcomes.
     const rtcError = deserializeVoiceAgentServerEvent(
       JSON.stringify({
         type: "rtc.call.error",
@@ -825,7 +899,8 @@ describe("AIProjectClient realtime", () => {
     const url = new URL(connectOptions.url);
     assert.equal(url.searchParams.get("agent_session_id"), "session-1");
     assert.equal(url.searchParams.get("store"), "false");
-    assert.equal(url.searchParams.get("x-agent-version-override"), "2");
+    assert.equal(url.searchParams.get("agent_version_override"), "2");
+    assert.equal(url.searchParams.has("x-agent-version-override"), false);
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");

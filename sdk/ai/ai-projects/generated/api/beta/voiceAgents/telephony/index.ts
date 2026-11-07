@@ -2,8 +2,17 @@
 // Licensed under the MIT License.
 
 export {
+  getOperation,
+  listValidationErrors,
+  deleteTelephony,
+  cancel,
+  list,
+  get,
+  create,
   cancelCallJob,
   getCallJob,
+  deleteCallJob,
+  listCallJobs,
   createCallJob,
   replaceTransferTargets,
   getTransferTargets,
@@ -18,8 +27,17 @@ export {
   createBinding,
 } from "./operations.js";
 export type {
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
   BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
   BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
   BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
   BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
   BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
