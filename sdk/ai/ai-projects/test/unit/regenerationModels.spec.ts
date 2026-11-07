@@ -194,6 +194,21 @@ describe("regenerated model wire contracts", () => {
     },
   );
 
+  it("preserves explicit null turn detection for manually controlled voice input", () => {
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      model_type: "managed",
+      model: "voice-deployment",
+      audio: { input: { turn_detection: null } },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(definition);
+    expect(agentDefinitionUnionDeserializer(toWire(definition))).toMatchObject({
+      kind: "voice",
+      audio: { input: { turn_detection: null } },
+    });
+  });
+
   it("dispatches Live voice definitions through their protocol and delegation serializers", () => {
     const definition: Models.VoiceAgentLiveDefinition = {
       kind: "voice",
@@ -811,6 +826,16 @@ describe("regenerated model wire contracts", () => {
       code: "minimal",
       message: "Minimal error.",
     });
+  });
+
+  it.each([
+    { statusCode: 401, message: "Unauthorized." },
+    "Gateway unavailable.",
+    { error: null },
+    { error: "Access denied." },
+    null,
+  ])("retains nonstandard gateway error details without a decoding failure", (body) => {
+    expect(apiErrorResponseDeserializer(body)).toEqual(body);
   });
 
   it.each(["potentially_unintended_data_access", "future_service_classification"])(

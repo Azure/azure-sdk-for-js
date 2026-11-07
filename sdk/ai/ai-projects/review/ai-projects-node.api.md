@@ -1158,6 +1158,7 @@ export class AIProjectClient {
 // @public
 export interface AIProjectClientOptionalParams extends ClientOptions {
     apiVersion?: KnownApiVersions;
+    liveOptions?: VoiceAgentLiveClientOptions;
     realtimeOptions?: VoiceAgentRealtimeClientOptions;
     tracingOptions?: GenAITracingOptions;
 }
@@ -2076,6 +2077,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 // @public
 export interface BetaVoiceAgentsOperations {
     conversations: BetaVoiceAgentsConversationsOperations;
+    live: VoiceAgentLiveClient;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
     telephony: BetaVoiceAgentsTelephonyOperations;
@@ -8226,7 +8228,7 @@ export interface VoiceAgentAudioInputConfig {
     format?: RealtimeAudioFormatsUnion;
     noise_reduction?: VoiceAgentNoiseReduction;
     transcription?: VoiceAgentInputTranscription;
-    turn_detection?: VoiceAgentTurnDetectionConfigUnion;
+    turn_detection?: VoiceAgentTurnDetectionConfigUnion | null;
 }
 
 // @public
@@ -8718,6 +8720,23 @@ export interface VoiceAgentLanguageDetectionSystemTool extends VoiceAgentSystemT
 }
 
 // @public
+export interface VoiceAgentLiveAppendOptions extends VoiceAgentEventOptions {
+    delegationId?: string | null;
+}
+
+// @public
+export class VoiceAgentLiveClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentLiveClientOptions);
+    connect(agentName: string, options?: VoiceAgentLiveClientConnectOptions): Promise<VoiceAgentLiveConnection>;
+}
+
+// @public
+export interface VoiceAgentLiveClientConnectOptions extends Omit<VoiceAgentRealtimeClientConnectOptions, "transport" | "agentSessionId"> {
+    onEvent?: (event: VoiceAgentLiveEvent) => void;
+    sessionTimeoutInMs?: number;
+}
+
+// @public
 export interface VoiceAgentLiveClientDelegation extends VoiceAgentLiveDelegation {
     acknowledgement_delay_ms?: number;
     type: "client";
@@ -8728,6 +8747,53 @@ export interface VoiceAgentLiveClientDelegationConversationItem extends VoiceAge
     commentary?: string;
     target: "client";
     thinking?: string;
+}
+
+// @public
+export type VoiceAgentLiveClientEvent = {
+    [K in Exclude<LiveClientEventType, "session.start">]: K extends "decision.item.create" ? Omit<Extract<LiveClientEventUnion, {
+        type: K;
+    }>, "item"> & {
+        item: VoiceAgentLiveDecisionItem;
+    } : Extract<LiveClientEventUnion, {
+        type: K;
+    }>;
+}[Exclude<LiveClientEventType, "session.start">];
+
+// @public
+export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOptions {
+    closeTimeoutInMs?: number;
+    sessionTimeoutInMs?: number;
+}
+
+// @public
+export interface VoiceAgentLiveCloseResult extends VoiceAgentCloseResult {
+    sessionClosed?: LiveServerEventLiveSessionClosed;
+}
+
+// @public
+export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEvent> {
+    appendCommentary(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    appendInstructions(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    appendThinking(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
+    close(code?: number, reason?: string): Promise<void>;
+    readonly closed: Promise<VoiceAgentLiveCloseResult>;
+    configureSession(session: LiveSessionUpdateParams, options?: VoiceAgentEventOptions): Promise<void>;
+    dispose(): Promise<void>;
+    muteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    off<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    on<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    once<K extends VoiceAgentLiveEvent["type"]>(type: K, handler: VoiceAgentLiveEventHandler<K>): this;
+    requestResponse(options?: VoiceAgentEventOptions): Promise<void>;
+    send(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
+    sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
+    sendEvent(event: VoiceAgentLiveClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
+    sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
+    sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
+    readonly session: VoiceAgentLiveSessionResource;
+    readonly sessionStarted: LiveServerEventLiveSessionStarted;
+    readonly state: VoiceAgentConnectionState;
+    unmuteInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
 }
 
 // @public
@@ -8753,6 +8819,26 @@ export type VoiceAgentLiveConversationItemType = "input" | "output" | "delegatio
 
 // @public
 export type VoiceAgentLiveConversationItemUnion = VoiceAgentLiveInputConversationItem | VoiceAgentLiveOutputConversationItem | VoiceAgentLiveDelegationConversationItemUnion | VoiceAgentLiveConversationItem;
+
+// @public
+export type VoiceAgentLiveDecisionItem = VoiceAgentLiveDecisionMessage | Extract<LiveDecisionInputItemParamUnion, {
+    type: Exclude<LiveDecisionInputItemParamUnion["type"], "message">;
+}>;
+
+// @public
+export interface VoiceAgentLiveDecisionMessage {
+    content: string | Record<string, unknown>[];
+    id?: string;
+    role: "user";
+    type: "message";
+}
+
+// @public
+export type VoiceAgentLiveDecisionStoredItem = (VoiceAgentLiveDecisionMessage & {
+    id: string;
+}) | Extract<LiveDecisionStoredInputItemParamUnion, {
+    type: Exclude<LiveDecisionStoredInputItemParamUnion["type"], "message">;
+}>;
 
 // @public
 export interface VoiceAgentLiveDefinition extends VoiceAgentBaseDefinition {
@@ -8805,6 +8891,22 @@ export type VoiceAgentLiveDelegationType = "client" | "responses" | "foundry_man
 
 // @public
 export type VoiceAgentLiveDelegationUnion = VoiceAgentLiveClientDelegation | VoiceAgentLiveResponsesDelegation | VoiceAgentLiveManagedAgentDelegation | VoiceAgentLiveDelegation;
+
+// @public
+export type VoiceAgentLiveEvent = {
+    [K in LiveServerEventType]: K extends "decision.item.created" ? Omit<Extract<LiveServerEventUnion, {
+        type: K;
+    }>, "item"> & {
+        item: VoiceAgentLiveDecisionStoredItem;
+    } : Extract<LiveServerEventUnion, {
+        type: K;
+    }>;
+}[LiveServerEventType] | VoiceAgentUnknownEvent;
+
+// @public
+export type VoiceAgentLiveEventHandler<K extends VoiceAgentLiveEvent["type"]> = (event: Extract<VoiceAgentLiveEvent, {
+    type: K;
+}>) => void;
 
 // @public
 export interface VoiceAgentLiveFoundryManagedAgentDelegationItem extends VoiceAgentLiveDelegationConversationItem {

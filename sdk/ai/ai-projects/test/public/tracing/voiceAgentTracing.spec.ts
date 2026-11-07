@@ -23,7 +23,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 import { resolveTracingConfig } from "$internal/tracing/configuration.js";
 import * as metricHelpers from "$internal/tracing/metrics.js";
 

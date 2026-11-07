@@ -13,6 +13,10 @@
 
 ### Features Added
 
+- Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Add self-contained Node.js samples and a README example for GPT Live text, PCM audio, and Responses function calling, with audio-clock and correlated instruction-acknowledgement guidance. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Add focused VoiceAgents samples for inline handoff, stored conversation and recording inspection, and read-only campaign and call-job monitoring. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Surface handoff and service-managed system-tool argument and input-collection events as typed Realtime events. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Add named voice discriminator types for `project.beta.voiceAgents` and allow unknown string values in `RealtimeClientEventType` and `RealtimeConversationItemType` for forward compatibility. [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
 - Add outbound campaign creation, validation errors, scheduling, cancellation, deletion, and operation tracking to `project.beta.voiceAgents.telephony`. Add `listCallJobs` and `deleteCallJob`, including campaign-filtered job listing. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Add voice system tools for language detection, digit recognition, SMS/DTMF collection and sending, and transfers, including private parameter binding and typed system-tool output. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
@@ -25,6 +29,10 @@
 
 ### Bugs Fixed
 
+- Allow explicit `null` turn detection in Realtime voice-agent definitions for manually controlled input, matching the documented configuration contract. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Preserve service error details when pagination or long-running operations fail, including invalid-cursor and ETag errors. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Preserve HTTP status and raw details for gateway failures without an `error` envelope, instead of throwing a nested-model `TypeError`. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
+- Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Resolve campaign creation and cancellation pollers through a final Campaign GET guarded by the initiating response's `Operation-Id`, preventing monitor deserialization failures and results from a reused campaign name. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Accept campaign and telephony binding creation inputs without requiring service-generated response fields, while retaining complete response models. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Send the canonical `agent_version_override` query parameter for Realtime connections and `structured_inputs` in browser and React Native handshakes, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)

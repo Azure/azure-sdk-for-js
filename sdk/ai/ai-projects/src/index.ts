@@ -8,6 +8,20 @@ import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { AIProjectClient } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
+export { VoiceAgentLiveClient } from "./live/voiceAgentLiveClient.js";
+export type {
+  VoiceAgentLiveClientOptions,
+  VoiceAgentLiveClientConnectOptions,
+  VoiceAgentLiveConnection,
+  VoiceAgentLiveCloseResult,
+  VoiceAgentLiveAppendOptions,
+  VoiceAgentLiveClientEvent,
+  VoiceAgentLiveEvent,
+  VoiceAgentLiveEventHandler,
+  VoiceAgentLiveDecisionMessage,
+  VoiceAgentLiveDecisionItem,
+  VoiceAgentLiveDecisionStoredItem,
+} from "./live/voiceAgentLiveClient.js";
 export {
   VoiceAgentRealtimeClient,
   KnownVoiceAgentConnectionState,
@@ -34,7 +48,7 @@ export type {
   VoiceAgentWebSocketTransport,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketConnectOptions,
-} from "./realtime/webSocketTransportLike.js";
+} from "./realtime/webSocketTransport.js";
 export {
   VoiceAgentRealtimeError,
   VoiceAgentAuthenticationError,
