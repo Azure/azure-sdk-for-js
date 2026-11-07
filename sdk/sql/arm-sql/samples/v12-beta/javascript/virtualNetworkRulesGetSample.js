@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual network rule.
  *
  * @summary gets a virtual network rule.
- * x-ms-original-file: 2025-08-01-preview/VirtualNetworkRulesGet.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualNetworkRulesGet.json
  */
 async function getsAVirtualNetworkRule() {
   const credential = new DefaultAzureCredential();

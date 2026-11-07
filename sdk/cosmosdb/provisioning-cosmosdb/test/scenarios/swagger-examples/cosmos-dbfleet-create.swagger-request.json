@@ -1,0 +1,7 @@
+{
+  "location": "West US",
+  "tags": {
+    "Dept": "Finance",
+    "Environment": "Production"
+  }
+}

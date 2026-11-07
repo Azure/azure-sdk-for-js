@@ -11,7 +11,7 @@ import {
 } from "../../../../../src/documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/queryRangeMapping.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
-describe.skip("CompositeQueryContinuationToken", () => {
+describe("CompositeQueryContinuationToken", () => {
   const mockRid = "test-resource-id";
 
   // Helper function to create mock partition key range
@@ -129,10 +129,8 @@ describe.skip("CompositeQueryContinuationToken", () => {
       });
     });
 
-    it("should parse empty JSON object", () => {
-      const token = parseCompositeQueryContinuationToken("{}");
-      assert.isUndefined(token.rid);
-      assert.isUndefined(token.rangeMappings);
+    it("should reject empty JSON object", () => {
+      assert.throws(() => parseCompositeQueryContinuationToken("{}"), "Invalid continuation token");
     });
   });
 

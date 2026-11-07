@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a database's blob auditing policy.
  *
  * @summary gets a database's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseBlobAuditingGet.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseBlobAuditingGet.json
  */
 async function getADatabaseBlobAuditingPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

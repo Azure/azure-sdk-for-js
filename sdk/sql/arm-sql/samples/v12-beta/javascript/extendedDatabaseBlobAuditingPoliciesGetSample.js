@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an extended database's blob auditing policy.
  *
  * @summary gets an extended database's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/ExtendedDatabaseBlobAuditingGet.json
+ * x-ms-original-file: 2026-08-01-preview/ExtendedDatabaseBlobAuditingGet.json
  */
 async function getAnExtendedDatabaseBlobAuditingPolicy() {
   const credential = new DefaultAzureCredential();

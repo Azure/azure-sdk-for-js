@@ -1,0 +1,82 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "commitmentPlan": {
+          "bicepIdentifier": "commitmentPlan",
+          "type": "Microsoft.CognitiveServices/commitmentPlans",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "commitment-plan"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AIServices"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "autoRenew": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "hostingModel": {
+                    "kind": "string",
+                    "value": "ConnectedContainer"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "S0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "accountAssociation": {
+          "bicepIdentifier": "accountAssociation",
+          "type": "Microsoft.CognitiveServices/commitmentPlans/accountAssociations",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "commitment-plan"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "commitmentPlan"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "accountId": {
+                    "kind": "string",
+                    "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.CognitiveServices/accounts/cognitive-account"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

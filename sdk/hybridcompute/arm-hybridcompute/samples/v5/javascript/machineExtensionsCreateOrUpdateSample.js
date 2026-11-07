@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update the extension.
  *
  * @summary the operation to create or update the extension.
- * x-ms-original-file: 2026-07-15/extension/Extension_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/extension/Extension_CreateOrUpdate.json
  */
 async function createOrUpdateAMachineExtension() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,24 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedDatabaseMoveOperationResult": {
+          "bicepIdentifier": "managedDatabaseMoveOperationResult",
+          "type": "Microsoft.Sql/locations/managedDatabaseMoveOperationResults",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/publicentrypointsman"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

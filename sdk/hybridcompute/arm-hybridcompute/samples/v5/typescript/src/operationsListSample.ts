@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of hybrid compute operations.
  *
  * @summary gets a list of hybrid compute operations.
- * x-ms-original-file: 2026-07-15/Operations_List.json
+ * x-ms-original-file: 2026-09-01/Operations_List.json
  */
 async function listHybridComputeProviderOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();

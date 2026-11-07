@@ -8,7 +8,9 @@ export interface DatabaseAdvisorsListByDatabaseOptionalParams extends OperationO
   /** The child resources to include in the response. */
   expand?: string;
 }
+
 /** Optional parameters. */
 export interface DatabaseAdvisorsUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface DatabaseAdvisorsGetOptionalParams extends OperationOptions {}

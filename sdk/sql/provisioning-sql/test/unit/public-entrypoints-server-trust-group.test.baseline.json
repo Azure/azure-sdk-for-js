@@ -1,0 +1,24 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "serverTrustGroup": {
+          "bicepIdentifier": "serverTrustGroup",
+          "type": "Microsoft.Sql/locations/serverTrustGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/publicentrypointsser"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

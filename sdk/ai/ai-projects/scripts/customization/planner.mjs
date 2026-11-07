@@ -20,6 +20,7 @@ import {
   exportEntries,
   header,
   importsOf,
+  nameOf,
   parse,
   relativeImport,
   renameSymbols,
@@ -194,6 +195,88 @@ function keepImportedModelModules(source, candidates) {
   }
 }
 
+function promoteAgentInsightMonitors(baseText, customText, incomingText, matches) {
+  const file = "aiProjectClient.ts";
+  const target = "api/agentInsightMonitors/operations.ts";
+  const promoted = matches.filter((match) => match.incoming.file === target);
+  if (
+    !baseText ||
+    !customText ||
+    !promoted.length ||
+    !promoted.every((match) => match.base?.file === "api/beta/agentInsightMonitors/operations.ts")
+  )
+    return customText;
+  const [base, custom, incoming] = [baseText, customText, incomingText].map((text) =>
+    parse(text, file),
+  );
+  const client = (module) => declarations(module).get("AIProjectClient");
+  const [before, current, next] = [base, custom, incoming].map(client);
+  if (![before, current, next].every((node) => node && ts.isClassDeclaration(node)))
+    return customText;
+  const member = (node) =>
+    node.members.find((item) => nameOf(item.name) === "agentInsightMonitors");
+  const field = member(next);
+  if (member(before) || member(current) || !field || !ts.isPropertyDeclaration(field))
+    return customText;
+  const constructor = current.members.find(ts.isConstructorDeclaration);
+  const assignment = (node, name) =>
+    node.members
+      .find(ts.isConstructorDeclaration)
+      ?.body?.statements.find(
+        (statement) =>
+          ts.isExpressionStatement(statement) &&
+          ts.isBinaryExpression(statement.expression) &&
+          statement.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+          ts.isPropertyAccessExpression(statement.expression.left) &&
+          statement.expression.left.expression.kind === ts.SyntaxKind.ThisKeyword &&
+          statement.expression.left.name.text === name,
+      )?.expression.right;
+  const beta = assignment(current, "beta");
+  const emitted = assignment(next, "agentInsightMonitors");
+  if (
+    !constructor?.body ||
+    !beta ||
+    !ts.isCallExpression(beta) ||
+    beta.expression.getText() !== "_getBetaOperations" ||
+    !beta.arguments.length ||
+    !emitted ||
+    !ts.isCallExpression(emitted) ||
+    emitted.expression.getText() !== "_getAgentInsightMonitorsOperations" ||
+    emitted.arguments.length !== 1
+  )
+    return customText;
+  const bindings = importsOf(incoming).filter(
+    (item) =>
+      item.module === "./classic/agentInsightMonitors/index.js" &&
+      ["AgentInsightMonitorsOperations", "_getAgentInsightMonitorsOperations"].includes(
+        item.local,
+      ) &&
+      item.local === item.imported,
+  );
+  if (
+    bindings.length !== 2 ||
+    bindings.some((item) => importsOf(custom).some((old) => old.local === item.local))
+  )
+    return customText;
+  return edit(customText, [
+    {
+      start: current.members.pos,
+      end: current.members.pos,
+      text: `\n${textOf(field, incoming)}\n`,
+    },
+    {
+      start: constructor.body.statements.end,
+      end: constructor.body.statements.end,
+      text: `\nthis.agentInsightMonitors = _getAgentInsightMonitorsOperations(${beta.arguments[0].getText()});\n`,
+    },
+    {
+      start: custom.statements[0].getStart(custom),
+      end: custom.statements[0].getStart(custom),
+      text: 'import type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";\nimport { _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";\n',
+    },
+  ]);
+}
+
 export function planCustomization({ baseGenerated, baseSource, generated }) {
   const diagnostics = [];
   const source = new Map(baseSource);
@@ -211,6 +294,11 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
   const optionsFile = (apiFile) => apiFile.replace(/operations\.ts$/, "options.ts");
   const moves = new Map(operations.moves);
   for (const match of operations.matches) {
+    for (const member of ["publicNode", "send", "deserialize"])
+      moves.set(`${match.incoming.file}::${match.incoming[member].name.text}`, {
+        file: match.incoming.file,
+        name: match.names[member],
+      });
     const currentOptions = match.incoming.file.replace(/operations\.ts$/, "options.ts");
     moves.set(`${currentOptions}::${match.incoming.options}`, {
       file: currentOptions,
@@ -386,6 +474,11 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           message: "New protected file requires an explicit customization policy",
         });
       }
+      if (file === "aiProjectClient.ts" && customText)
+        source.set(
+          file,
+          promoteAgentInsightMonitors(baseText, customText, incomingText, operations.matches),
+        );
       continue;
     }
     if (incomingText === baseText && customText !== undefined) continue;
@@ -502,8 +595,22 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     if (!baseSource.has(file)) continue;
     const customized = declarations(parse(baseSource.get(file), file));
     const previous = declarations(parse(baseText, file));
+    const relocated = new Set(
+      operations.matches.flatMap((match) => {
+        if (match.customized?.file === file)
+          return ["send", "deserialize", "publicNode"].map(
+            (member) => match.customized[member].name.text,
+          );
+        if (match.customized?.file.replace(/operations\.ts$/, "options.ts") === file)
+          return [match.customized.options];
+        return [];
+      }),
+    );
     const sourceOnly = [...customized.keys()].filter(
-      (name) => !previous.has(name) && !operations.relocatedHelpers.has(`${file}::${name}`),
+      (name) =>
+        !previous.has(name) &&
+        !relocated.has(name) &&
+        !operations.relocatedHelpers.has(`${file}::${name}`),
     );
     if (sourceOnly.length) {
       diagnostics.push({

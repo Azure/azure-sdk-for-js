@@ -35,7 +35,8 @@ regeneration script falls back to it when the strict run fails.
 
 - Changes to uncustomized declarations and members follow the emitter.
   Independent generated and customized changes are combined. Incompatible
-  concurrent changes require review.
+  concurrent changes require review. Trailing commas are formatting, not
+  customization; array holes and comma operators remain semantic.
 - Interface and type-literal members with unique, stable identities have
   presentation-only order. Contradictory customized and emitted orders keep the
   customized order and append emitted-only members after merging their content
@@ -60,14 +61,19 @@ regeneration script falls back to it when the strict run fails.
   sides replaced, keeps the strict ordering rule and still requires resolution.
 - Operations are matched by HTTP method and route identity so moves and
   renames can carry their existing implementation customizations forward.
-  Ambiguous matches are errors.
-  When an operation module disappears, a private function helper and its
-  private function dependencies can follow the relocated operations only
-  when symbol references establish one destination, all local dependencies
-  remain available there, and no destination declaration collides. Public,
-  unused, and shared-across-destination helpers still require an explicit policy.
-  The old module is removed only after every custom-only declaration has a
-  verified destination; recovery does not bypass this check.
+  Ambiguous matches are errors. Parameter-only binding renames with otherwise
+  identical baseline signatures are aligned before merging, including when
+  an emitted body parameter moves into options. Binding-aware alignment keeps
+  wire keys, literals, and nested bindings intact and refuses name capture.
+  Renamed public/send/deserialize declarations covered by a verified operation
+  match follow that operation when its old module disappears; they are not
+  custom-only methods. Unaccounted custom-only declarations in a removed
+  module still require an explicit relocation policy. Incoming API barrel
+  exports also follow the resolved operation names.
+- Verified Agent Insight Monitor beta-to-root promotion adds only the new root
+  client's field, imports, and factory initialization. The initialization uses
+  the maintained beta group's authentication context, not the emitter's single
+  `_client`; all other constructor customizations remain protected.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not
@@ -77,12 +83,30 @@ regeneration script falls back to it when the strict run fails.
   and removals; customized members the emitter changes are merged by identity
   or reported. A member is uncustomized only when it is unchanged from the
   emitted baseline or is exactly the delegation rendered from its own
-  operation's customized signature: the same callee, parameter names and types,
-  plain optional parameters, and return type. Relocating a customized member
+  operation's customized signature: the same imported operation from its own
+  API module (including an import alias), parameter types and order, plain
+  optional parameters, exact argument forwarding, and return type. Delegate
+  parameter names may differ from the API's names. Defaults, shadowed or
+  rerouted callees, and modified forwarding remain customizations.
+  A maintained tracing or option wrapper can follow an emitted parameter-only
+  rename when it still contains the exact baseline operation call once; the
+  wrapper is retained, while the emitted parameter types and operation
+  argument names are adopted. Altered forwarding or multiple matching calls
+  still require review.
+  Relocating a customized member
   out of its classic module requires review. A module whose API operations or
   options have unresolved changes is not rendered; the unresolved change is
   reported rather than a secondary `missing resolved operation` error from the
   classic module.
+- Approved language-scoped model renames are applied only when the old and new
+  emitted declarations have the same AST shape (including converters) and the
+  customization retains the baseline symbols. This carries the seven
+  telephony client names from `azure-rest-api-specs#47968` without accepting an
+  unrelated replacement or dropping legacy custom models. The
+  `TelephonyProvider` discriminator may add `sip` while retained binding
+  request variants still use the two prior values; other full-union replacements
+  require an explicit policy. Equivalent filter-alias and wire-discriminator
+  representation fixes are similarly limited to their known schemas.
 - Preview opt-ins are sent as constant `foundry-features` headers rather than
   the emitter's optional `foundryFeatures` option. The emitted optional header
   is normalized into the customized constant form before merging, so a changed

@@ -6,6 +6,7 @@ import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
 import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
+import { verifiedEmittedRenames } from "./models.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -1176,7 +1177,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
             });
           if (
             !generatedAddition &&
-            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+            !preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames)
           )
             return false;
         }
@@ -1206,24 +1207,35 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
+// Evaluators and Agent Insight Monitors were promoted from beta. The
 // customized client has two auth contexts, unlike the emitted single _client.
-// Admit only the new evaluator factory, using the same context as beta before
+// Admit only the promoted factory, using the same context as beta before
 // promotion; never substitute or rewrite the maintained constructor.
-function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+function preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames) {
+  const member =
+    ts.isExpressionStatement(statement) &&
+    ts.isBinaryExpression(statement.expression) &&
+    ts.isPropertyAccessExpression(statement.expression.left)
+      ? statement.expression.left.name.text
+      : undefined;
+  const factory = {
+    evaluators: "_getEvaluatorsOperations",
+    agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+  }[member];
   if (
+    !factory ||
     !ts.isClassDeclaration(before) ||
     before.name?.text !== "AIProjectClient" ||
     !baseGenerated ||
     !generated ||
     !ts.isClassDeclaration(generated) ||
-    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+    baseGenerated?.members?.some((item) => nameOf(item.name) === member)
   )
     return false;
   const key = (node) => (node ? nodeKey(node, renames) : "");
   const initializers = (node) => classInitializers({ node });
   const previousBeta = unwrap(initializers(before).get("beta"));
-  const emitted = unwrap(initializers(generated).get("evaluators"));
+  const emitted = unwrap(initializers(generated).get(member));
   if (
     !previousBeta ||
     !ts.isCallExpression(previousBeta) ||
@@ -1231,13 +1243,12 @@ function preservesPromotedEvaluatorContext(statement, before, baseGenerated, gen
     !previousBeta.arguments.length ||
     !emitted ||
     !ts.isCallExpression(emitted) ||
-    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
+    emitted.expression.getText() !== factory ||
     emitted.arguments.length !== 1
   )
     return false;
-  const expected = parse(
-    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
-  ).statements[0];
+  const expected = parse(`this.${member} = ${factory}(${previousBeta.arguments[0].getText()});`)
+    .statements[0];
   return key(statement) === key(expected);
 }
 
@@ -1970,12 +1981,15 @@ export function validateCustomization({
   }
   if (diagnostics.length) return diagnostics;
   const previousDiagnosticCount = diagnostics.length;
+  let emittedRenames;
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;
     const existing = baselineModels
       .get(original)
       ?.find((entry) => ts.isFunctionDeclaration(entry.node));
     if (existing) {
+      emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
+      if (emittedRenames.get(original) === replacement) continue;
       report(
         existing.file,
         original,

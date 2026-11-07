@@ -281,6 +281,62 @@ function operationNames(base, customized, incoming) {
   return result;
 }
 
+function alignParameterNames(snippets, file) {
+  if (!snippets[0] || !snippets[1]) return snippets;
+  const [base, custom] = snippets.slice(0, 2).map((text) => parse(text, file).statements[0]);
+  if (
+    !ts.isFunctionDeclaration(base) ||
+    !ts.isFunctionDeclaration(custom) ||
+    base.parameters.length !== custom.parameters.length
+  )
+    return snippets;
+  const renames = new Map();
+  for (let index = 0; index < base.parameters.length; index++) {
+    const before = base.parameters[index];
+    const after = custom.parameters[index];
+    if (!ts.isIdentifier(before.name) || !ts.isIdentifier(after.name)) return snippets;
+    if (before.name.text !== after.name.text) renames.set(before.name.text, after.name.text);
+  }
+  if (!renames.size) return snippets;
+  function aligned(text) {
+    const source = parse(text, file);
+    const targets = new Set(renames.values());
+    let collision = false;
+    function visit(node) {
+      if (
+        ts.isIdentifier(node) &&
+        targets.has(node.text) &&
+        !(
+          (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+          ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+            node.parent.name === node)
+        )
+      )
+        collision = true;
+      ts.forEachChild(node, visit);
+    }
+    visit(source);
+    if (collision) return null;
+    return renameSymbols(
+      text,
+      renames,
+      file,
+      (node) =>
+        ts.isParameter(node.parent) &&
+        ts.isFunctionDeclaration(node.parent.parent) &&
+        ts.isSourceFile(node.parent.parent.parent),
+    );
+  }
+  const normalizedBase = aligned(snippets[0]);
+  if (!normalizedBase) return snippets;
+  const signature = (node) =>
+    canonicalize(`function signature(${node.parameters.map((p) => p.getText()).join(",")}) {}`);
+  if (signature(parse(normalizedBase, file).statements[0]) !== signature(custom)) return snippets;
+  const normalizedIncoming = aligned(snippets[2]);
+  if (!normalizedIncoming) return snippets;
+  return [normalizedBase, snippets[1], normalizedIncoming];
+}
+
 function localReferences(source, nodes) {
   const options = { noLib: true, target: ts.ScriptTarget.Latest };
   const host = ts.createCompilerHost(options);
@@ -491,8 +547,11 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
           ),
         moduleFor(generated, incomingMaps, outputFile, "incoming"),
       ];
-      const snippets = modules.map((module) =>
-        module ? textOf(module.nodes.get(outputName), module.source) : null,
+      const snippets = alignParameterNames(
+        modules.map((module) =>
+          module ? textOf(module.nodes.get(outputName), module.source) : null,
+        ),
+        outputFile,
       );
       if (member === "publicNode" && snippets[1]) {
         snippets[0] = normalizePoller(snippets[0], snippets[1]);
