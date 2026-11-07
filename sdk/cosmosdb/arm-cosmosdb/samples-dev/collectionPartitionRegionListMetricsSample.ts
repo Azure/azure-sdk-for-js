@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the metrics determined by the given filter for the given collection and region, split by partition.
  *
  * @summary retrieves the metrics determined by the given filter for the given collection and region, split by partition.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBCollectionPartitionRegionGetMetrics.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCollectionPartitionRegionGetMetrics.json
  */
-async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
+async function cosmosDBCollectionPartitionRegionGetMetrics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -30,7 +30,7 @@ async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await cosmosDBDatabaseAccountRegionGetMetrics();
+  await cosmosDBCollectionPartitionRegionGetMetrics();
 }
 
 main().catch(console.error);

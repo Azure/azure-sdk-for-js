@@ -30,7 +30,7 @@ export function _listByDatabaseAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,11 +70,7 @@ export function listByDatabaseAccount(
     () => _listByDatabaseAccountSend(context, resourceGroupName, accountName, options),
     _listByDatabaseAccountDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -92,7 +88,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
