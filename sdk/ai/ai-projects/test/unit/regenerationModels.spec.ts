@@ -77,6 +77,7 @@ import {
   dataGenerationJobConfigurationUnionSerializer,
   dataGenerationJobInputsUnionSerializer,
   dataGenerationJobUnionDeserializer,
+  evaluatorGenerationArtifactsDeserializer,
   errorDeserializer,
   functionToolDeserializer,
   functionToolParamDeserializer,
@@ -98,6 +99,8 @@ import {
   telephonyCallJobDeserializer,
   telephonyCallLifecycleEventDeserializer,
   telephonyCallSummaryDeserializer,
+  telephonyCampaignSerializer,
+  telephonyCampaignDeserializer,
   telephonyOutboundRetryPolicyUnionDeserializer,
   telephonyOutboundRetryPolicyUnionSerializer,
   toolboxToolUnionDeserializer,
@@ -127,6 +130,67 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  it("requires a resolved dataset version for evaluator generation artifacts", () => {
+    expectTypeOf<Models.DatasetReference["version"]>().toEqualTypeOf<string>();
+    expectTypeOf<
+      Models.EvaluatorGenerationArtifacts["dataset"]
+    >().toEqualTypeOf<Models.DatasetReference>();
+    const artifacts: Models.EvaluatorGenerationArtifacts = {
+      dataset: { name: "generated-artifacts", version: "1" },
+      kinds: ["spec"],
+    };
+    expect(evaluatorGenerationArtifactsDeserializer(artifacts)).toEqual(artifacts);
+  });
+
+  it.each([{ name: "recipients" }, { name: "recipients", version: "2" }])(
+    "preserves campaign dataset resolution with reference %j",
+    (reference) => {
+      expectTypeOf<Models.TelephonyCampaignDatasetReference["version"]>().toEqualTypeOf<
+        string | undefined
+      >();
+      expectTypeOf<TelephonyCampaignCreate["recipient_dataset"]>().toEqualTypeOf<
+        Models.TelephonyCampaignDatasetReference | undefined
+      >();
+      const campaign: TelephonyCampaignCreate = {
+        connection_name: connectionName,
+        source: { type: "phone_number", value: "+14255550100" },
+        recipient_dataset: reference,
+      };
+      const response = {
+        ...campaign,
+        name: "campaign-test",
+        status: "queued",
+        created_at: timestamp,
+        updated_at: timestamp,
+        etag: "campaign-revision",
+        operation_id: "prepare-test",
+        progress: {
+          total_recipients: 1,
+          pending: 1,
+          active: 0,
+          completed: 0,
+          failed: 0,
+          cancelled: 0,
+          expired: 0,
+        },
+      };
+      expect(toWire(telephonyCampaignSerializer(campaign))).toEqual(campaign);
+      expect(toWire(telephonyCampaignDeserializer(response).recipient_dataset)).toEqual(reference);
+      expect(
+        toWire(
+          telephonyCampaignSerializer({
+            connection_name: connectionName,
+            source: campaign.source,
+          }),
+        ),
+      ).not.toHaveProperty("recipient_dataset");
+      expect(
+        telephonyCampaignDeserializer({ ...response, recipient_dataset: undefined })
+          .recipient_dataset,
+      ).toBeUndefined();
+    },
+  );
+
   it("keeps emitted tool names as aliases of the customized public contracts", () => {
     expectTypeOf<Models.ComparisonFilterValueItems>().toEqualTypeOf<string | number>();
     expectTypeOf<Models.ToolFunctionTool>().toEqualTypeOf<Models.FunctionTool>();
