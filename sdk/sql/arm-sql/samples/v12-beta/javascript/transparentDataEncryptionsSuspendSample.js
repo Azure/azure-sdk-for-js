@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to suspend ongoing logical database's Transparent Data Encryption scan configuration.
  *
  * @summary suspend ongoing logical database's Transparent Data Encryption scan configuration.
- * x-ms-original-file: 2025-08-01-preview/SuspendTransparentDataEncryptionUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/SuspendTransparentDataEncryptionUpdate.json
  */
 async function suspendDatabaseTransparentDataEncryptionScanStateWithMinimalParameters() {
   const credential = new DefaultAzureCredential();

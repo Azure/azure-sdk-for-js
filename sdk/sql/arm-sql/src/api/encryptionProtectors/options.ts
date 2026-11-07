@@ -8,12 +8,15 @@ export interface EncryptionProtectorsRevalidateOptionalParams extends OperationO
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EncryptionProtectorsListByServerOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface EncryptionProtectorsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface EncryptionProtectorsGetOptionalParams extends OperationOptions {}

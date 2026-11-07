@@ -21,6 +21,12 @@ import { isRestError, RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";
+import { removeExpectContinueHeader } from "./util/requestBodyHeaders.js";
+import {
+  addExpectContinueFraming,
+  createExpectContinueRequest,
+  hasExpectContinue,
+} from "./util/nodeExpectContinue.js";
 import {
   disposeNodeStream,
   setRequestCompletion,
@@ -30,8 +36,10 @@ import {
 
 const DEFAULT_TLS_SETTINGS = {};
 
-function isReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
+function isReadableStream(body: unknown): body is NodeJS.ReadableStream {
+  return (
+    typeof body === "object" && body !== null && "pipe" in body && typeof body.pipe === "function"
+  );
 }
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
@@ -96,6 +104,68 @@ interface NodeRequestResult {
   disposeRequest: () => void;
 }
 
+function createRequestLifecycle(
+  request: PipelineRequest,
+  options: http.RequestOptions,
+  isInsecure: boolean,
+  resolve: (result: NodeRequestResult) => void,
+  reject: (error: unknown) => void,
+): {
+  createRequest: (onResponse?: (incomingResponse: IncomingMessage) => void) => http.ClientRequest;
+  onResponse: (incomingResponse: IncomingMessage) => void;
+  rejectRequest: (error: Error & { code?: string }) => void;
+  abortRequest: (clientRequest: http.ClientRequest) => void;
+} {
+  let clientRequest: http.ClientRequest;
+  let response: IncomingMessage | undefined;
+  let requestDone = false;
+  let resolveRequestComplete!: () => void;
+  const requestComplete = new Promise<void>((_resolve) => {
+    resolveRequestComplete = _resolve;
+  });
+  const onComplete = (): void => {
+    requestDone = true;
+    clientRequest.removeListener("finish", onComplete);
+    clientRequest.removeListener("close", onComplete);
+    resolveRequestComplete();
+  };
+  const onResponse = (incomingResponse: IncomingMessage): void => {
+    response = incomingResponse;
+    resolve({
+      response: incomingResponse,
+      requestComplete,
+      isRequestComplete: () => requestDone,
+      disposeRequest: () => {
+        if (!requestDone) {
+          clientRequest.destroy();
+        }
+      },
+    });
+  };
+  return {
+    createRequest: (onResponseCallback = onResponse) => {
+      clientRequest = isInsecure
+        ? http.request(options, onResponseCallback)
+        : https.request(options, onResponseCallback);
+      clientRequest.once("finish", onComplete);
+      clientRequest.once("close", onComplete);
+      return clientRequest;
+    },
+    onResponse,
+    rejectRequest: (error) => {
+      reject(toRequestSendError(error, request));
+    },
+    abortRequest: (req) => {
+      const abortError = new AbortError(
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+      );
+      response?.destroy(abortError);
+      req.destroy(abortError);
+      reject(abortError);
+    },
+  };
+}
+
 function toRequestSendError(error: Error & { code?: string }, request: PipelineRequest): RestError {
   if (isRestError(error)) {
     return error;
@@ -112,6 +182,57 @@ function toRequestSendError(error: Error & { code?: string }, request: PipelineR
   );
 }
 
+function sendRequestBody(
+  clientRequest: http.ClientRequest,
+  body: RequestBodyType | undefined,
+  request: PipelineRequest,
+  onError: (error: RestError) => void,
+): void {
+  if (body && isReadableStream(body)) {
+    pipeUploadStream(body, clientRequest, request, onError);
+  } else if (body) {
+    if (typeof body === "string" || Buffer.isBuffer(body)) {
+      clientRequest.end(body);
+    } else {
+      logger.error("Unrecognized body type", body);
+      throw new RestError("Unrecognized body type", { request });
+    }
+  } else {
+    clientRequest.end();
+  }
+}
+
+function prepareRequestBody(
+  request: PipelineRequest,
+  useExpectContinue: boolean,
+): RequestBodyType | undefined {
+  const requestBody = request.body;
+  const resolvedBody = typeof requestBody === "function" ? requestBody() : requestBody;
+  const body =
+    resolvedBody && isArrayBuffer(resolvedBody) ? arrayBufferToBuffer(resolvedBody) : resolvedBody;
+  if (!useExpectContinue && body && !request.headers.has("Content-Length")) {
+    const bodyLength = getBodyLength(body);
+    if (bodyLength !== null) {
+      request.headers.set("Content-Length", bodyLength);
+    }
+  }
+  if (!body || !request.onUploadProgress) {
+    return body;
+  }
+
+  const uploadReportStream = new ReportTransform(request.onUploadProgress);
+  uploadReportStream.on("error", (e) => {
+    logger.error("Error in upload progress", e);
+  });
+  if (isReadableStream(body)) {
+    pipeUploadStream(body, uploadReportStream, request);
+  } else {
+    uploadReportStream.end(body);
+  }
+
+  return uploadReportStream;
+}
+
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
@@ -125,6 +246,7 @@ class NodeHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    const requestBody = request.body;
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
     const requestAbortSignal = request.abortSignal;
@@ -154,38 +276,39 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
+    // Keep input separate from the prepared upload. Even a direct stream must leave body
+    // undefined until preparation starts, so early rejection does not transfer its ownership.
     let body: RequestBodyType | undefined;
+
     let responseStream: NodeJS.ReadableStream | undefined;
     let requestComplete = Promise.resolve();
     try {
-      body = typeof request.body === "function" ? request.body() : request.body;
-      if (isArrayBuffer(body)) {
-        body = arrayBufferToBuffer(body);
+      let useExpectContinue = hasExpectContinue(request);
+      const knownBodyLength =
+        useExpectContinue && typeof requestBody !== "function"
+          ? getBodyLength(requestBody ?? null)
+          : null;
+      if (knownBodyLength === 0) {
+        removeExpectContinueHeader(request);
+        useExpectContinue = false;
       }
 
-      if (body && !request.headers.has("Content-Length")) {
-        const bodyLength = getBodyLength(body);
-        if (bodyLength !== null) {
-          request.headers.set("Content-Length", bodyLength);
-        }
+      if (!useExpectContinue) {
+        body = prepareRequestBody(request, false);
       }
 
-      if (body && request.onUploadProgress) {
-        const onUploadProgress = request.onUploadProgress;
-        const uploadReportStream = new ReportTransform(onUploadProgress);
-        uploadReportStream.on("error", (e) => {
-          logger.error("Error in upload progress", e);
-        });
-        if (isReadableStream(body)) {
-          pipeUploadStream(body, uploadReportStream, request);
-        } else {
-          uploadReportStream.end(body);
-        }
+      const result = useExpectContinue
+        ? await this.makeRequestWithExpectContinue(
+            request,
+            abortController,
+            () => {
+              body = prepareRequestBody(request, true);
+              return body;
+            },
+            knownBodyLength,
+          )
+        : await this.makeRequest(request, abortController, body);
 
-        body = uploadReportStream;
-      }
-
-      const result = await this.makeRequest(request, abortController, body);
       requestComplete = result.requestComplete;
       const res = result.response;
 
@@ -200,12 +323,18 @@ class NodeHttpClient implements HttpClient {
       if (!result.isRequestComplete()) {
         setRequestCompletion(response, result.requestComplete);
         const clearDisposer = setResponseBodyDisposer(response, result.disposeRequest);
-        void result.requestComplete.then(clearDisposer);
+        result.requestComplete.then(clearDisposer).catch((error) => {
+          logger.warning("Error disposing request", error);
+        });
       }
 
       // Responses to HEAD must not have a body.
       // If they do return a body, that body must be ignored.
-      if (request.method === "HEAD") {
+      const method =
+        typeof request.requestOverrides?.method === "string"
+          ? request.requestOverrides.method.toUpperCase()
+          : request.method;
+      if (method === "HEAD") {
         // call resume() and not destroy() to avoid closing the socket
         // and losing keep alive
         res.resume();
@@ -241,6 +370,8 @@ class NodeHttpClient implements HttpClient {
 
       return response;
     } catch (error) {
+      // Dispose only the prepared upload. If preparation never ran, body is undefined
+      // and the caller's untouched input stream is left alone.
       if (isReadableStream(body)) {
         disposeNodeStream(body);
       }
@@ -253,9 +384,11 @@ class NodeHttpClient implements HttpClient {
         clearTimeout(timeoutId);
       }
 
-      // clean up event listener
+      // Keep abort forwarding until the outgoing request and response have both completed.
       if (requestAbortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
+        // Wait only for a prepared upload. If preparation never ran, body is undefined,
+        // so the caller's untouched input stream cannot block abort-listener cleanup.
         if (isReadableStream(body)) {
           uploadStreamDone = isStreamComplete(body);
         }
@@ -280,10 +413,65 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    body?: RequestBodyType,
+    body: RequestBodyType | undefined,
   ): Promise<NodeRequestResult> {
-    const url = new URL(request.url);
+    const { options, isInsecure } = this.getRequestOptions(request);
 
+    return new Promise<NodeRequestResult>((resolve, reject) => {
+      const { createRequest, rejectRequest, abortRequest } = createRequestLifecycle(
+        request,
+        options,
+        isInsecure,
+        resolve,
+        reject,
+      );
+      const req = createRequest();
+      req.once("error", rejectRequest);
+      abortController.signal.addEventListener("abort", () => abortRequest(req));
+      sendRequestBody(req, body, request, rejectRequest);
+    });
+  }
+
+  private makeRequestWithExpectContinue(
+    request: PipelineRequest,
+    abortController: AbortController,
+    prepareBody: () => RequestBodyType | undefined,
+    knownBodyLength: number | null,
+  ): Promise<NodeRequestResult> {
+    const { options, isInsecure } = this.getRequestOptions(request);
+
+    addExpectContinueFraming(options, knownBodyLength);
+
+    return new Promise<NodeRequestResult>((resolve, reject) => {
+      const { createRequest, onResponse, rejectRequest, abortRequest } = createRequestLifecycle(
+        request,
+        options,
+        isInsecure,
+        resolve,
+        reject,
+      );
+
+      createExpectContinueRequest({
+        abortSignal: abortController.signal,
+        bodyStream: isReadableStream(request.body) ? request.body : undefined,
+        createRequest,
+        onAbort: abortRequest,
+        onError: rejectRequest,
+        onBodyError: reject,
+        onResponse,
+        sendBody: (clientRequest) => {
+          const body = prepareBody();
+          sendRequestBody(clientRequest, body, request, rejectRequest);
+        },
+      });
+    });
+  }
+
+  private getRequestOptions(request: PipelineRequest): {
+    options: http.RequestOptions;
+    isInsecure: boolean;
+  } {
+    const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 
     if (isInsecure && !request.allowInsecureConnection) {
@@ -291,75 +479,18 @@ class NodeHttpClient implements HttpClient {
     }
 
     const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
-    const options: http.RequestOptions = {
-      agent,
-      hostname: url.hostname,
-      path: `${url.pathname}${url.search}`,
-      port: url.port,
-      method: request.method,
-      headers: request.headers.toJSON({ preserveCase: true }),
-      ...request.requestOverrides,
+    return {
+      isInsecure,
+      options: {
+        agent,
+        hostname: url.hostname,
+        path: `${url.pathname}${url.search}`,
+        port: url.port,
+        method: request.method,
+        headers: request.headers.toJSON({ preserveCase: true }),
+        ...request.requestOverrides,
+      },
     };
-
-    return new Promise<NodeRequestResult>((_resolve, reject) => {
-      let requestDone = false;
-      let response: IncomingMessage | undefined;
-      let resolveRequestComplete!: () => void;
-      const requestComplete = new Promise<void>((resolve) => {
-        resolveRequestComplete = resolve;
-      });
-      const req = isInsecure
-        ? http.request(options, onResponse)
-        : https.request(options, onResponse);
-      function onResponse(incomingResponse: IncomingMessage): void {
-        response = incomingResponse;
-        _resolve({
-          response: incomingResponse,
-          requestComplete,
-          isRequestComplete: () => requestDone,
-          disposeRequest: () => {
-            if (!requestDone) {
-              req.destroy();
-            }
-          },
-        });
-      }
-
-      const onComplete = (): void => {
-        requestDone = true;
-        req.removeListener("finish", onComplete);
-        req.removeListener("close", onComplete);
-        resolveRequestComplete();
-      };
-      req.once("finish", onComplete);
-      req.once("close", onComplete);
-
-      req.once("error", (err: Error & { code?: string }) => {
-        reject(toRequestSendError(err, request));
-      });
-
-      abortController.signal.addEventListener("abort", () => {
-        const abortError = new AbortError(
-          "The operation was aborted. Rejecting from abort signal callback while making request.",
-        );
-        response?.destroy(abortError);
-        req.destroy(abortError);
-        reject(abortError);
-      });
-      if (body && isReadableStream(body)) {
-        pipeUploadStream(body, req, request, reject);
-      } else if (body) {
-        if (typeof body === "string" || Buffer.isBuffer(body)) {
-          req.end(body);
-        } else {
-          logger.error("Unrecognized body type", body);
-          reject(new RestError("Unrecognized body type"));
-        }
-      } else {
-        // streams don't like "undefined" being passed as data
-        req.end();
-      }
-    });
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
@@ -535,7 +666,7 @@ export function getBodyLength(body: RequestBodyType): number | null {
   } else if (isArrayBuffer(body)) {
     return body.byteLength;
   } else if (typeof body === "string") {
-    return Buffer.from(body).length;
+    return Buffer.byteLength(body);
   } else {
     return null;
   }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to remove legal hold immutability of an existing long term retention backup.
  *
  * @summary remove legal hold immutability of an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/RemoveLegalHoldImmutabilityLongTermRetentionBackup.json
+ * x-ms-original-file: 2026-08-01-preview/RemoveLegalHoldImmutabilityLongTermRetentionBackup.json
  */
 async function removeLegalHoldImmutabilityOfTheLongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();

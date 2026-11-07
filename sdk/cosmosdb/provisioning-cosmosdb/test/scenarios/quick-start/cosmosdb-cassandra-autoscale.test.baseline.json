@@ -1,0 +1,740 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "accountName": {
+          "bicepIdentifier": "accountName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "function-call",
+            "target": "format",
+            "args": [
+              {
+                "kind": "string",
+                "value": "cassandra-{0}"
+              },
+              {
+                "kind": "function-call",
+                "target": "uniqueString",
+                "args": [
+                  {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "function-call",
+                      "target": "resourceGroup",
+                      "args": []
+                    },
+                    "property": "id",
+                    "nullish": false
+                  }
+                ]
+              }
+            ]
+          },
+          "decorators": {
+            "description": "Cosmos DB account name, max length 44 characters"
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "property-access",
+            "base": {
+              "kind": "function-call",
+              "target": "resourceGroup",
+              "args": []
+            },
+            "property": "location",
+            "nullish": false
+          },
+          "decorators": {
+            "description": "Location for the Cosmos DB account."
+          }
+        },
+        "primaryRegion": {
+          "bicepIdentifier": "primaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The primary replica region for the Cosmos DB account."
+          }
+        },
+        "secondaryRegion": {
+          "bicepIdentifier": "secondaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The secondary replica region for the Cosmos DB account."
+          }
+        },
+        "defaultConsistencyLevel": {
+          "bicepIdentifier": "defaultConsistencyLevel",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "Eventual"
+          },
+          "decorators": {
+            "description": "The default consistency level of the Cosmos DB account.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "Eventual"
+              },
+              {
+                "kind": "string",
+                "value": "ConsistentPrefix"
+              },
+              {
+                "kind": "string",
+                "value": "Session"
+              },
+              {
+                "kind": "string",
+                "value": "BoundedStaleness"
+              },
+              {
+                "kind": "string",
+                "value": "Strong"
+              }
+            ]
+          }
+        },
+        "maxStalenessPrefix": {
+          "bicepIdentifier": "maxStalenessPrefix",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "100000"
+          },
+          "decorators": {
+            "description": "Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 2,147,483,647. Multi Region: 100,000 to 2,147,483,647.",
+            "minValue": 10,
+            "maxValue": 1000000
+          }
+        },
+        "maxIntervalInSeconds": {
+          "bicepIdentifier": "maxIntervalInSeconds",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "300"
+          },
+          "decorators": {
+            "description": "Max lag time (seconds). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84,600. Multi Region: 300 to 86,400.",
+            "minValue": 5,
+            "maxValue": 86400
+          }
+        },
+        "systemManagedFailover": {
+          "bicepIdentifier": "systemManagedFailover",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "bool"
+          },
+          "defaultValue": {
+            "kind": "boolean",
+            "value": true
+          },
+          "decorators": {
+            "description": "Enable system managed failover for regions",
+            "allowed": [
+              {
+                "kind": "boolean",
+                "value": true
+              },
+              {
+                "kind": "boolean",
+                "value": false
+              }
+            ]
+          }
+        },
+        "keyspaceName": {
+          "bicepIdentifier": "keyspaceName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the Cassandra Keyspace"
+          }
+        },
+        "tableName": {
+          "bicepIdentifier": "tableName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the Cassandra table"
+          }
+        },
+        "autoscaleMaxThroughput": {
+          "bicepIdentifier": "autoscaleMaxThroughput",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "1000"
+          },
+          "decorators": {
+            "description": "Maximum autoscale throughput for the Cassandra table",
+            "minValue": 1000,
+            "maxValue": 1000000
+          }
+        }
+      },
+      "variables": {
+        "consistencyPolicy": {
+          "bicepIdentifier": "consistencyPolicy",
+          "value": {
+            "kind": "object",
+            "value": {
+              "Eventual": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Eventual"
+                  }
+                }
+              },
+              "ConsistentPrefix": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "ConsistentPrefix"
+                  }
+                }
+              },
+              "Session": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Session"
+                  }
+                }
+              },
+              "BoundedStaleness": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "BoundedStaleness"
+                  },
+                  "maxStalenessPrefix": {
+                    "kind": "identifier",
+                    "id": "maxStalenessPrefix"
+                  },
+                  "maxIntervalInSeconds": {
+                    "kind": "identifier",
+                    "id": "maxIntervalInSeconds"
+                  }
+                }
+              },
+              "Strong": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Strong"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "locations": {
+          "bicepIdentifier": "locations",
+          "value": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "primaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "secondaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "toLower",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "id": "accountName"
+                  }
+                ]
+              },
+              "kind": {
+                "kind": "string",
+                "value": "GlobalDocumentDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilities": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "EnableCassandra"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "consistencyPolicy": {
+                    "kind": "ternary-operation",
+                    "condition": {
+                      "kind": "binary-operation",
+                      "operator": "==",
+                      "left": {
+                        "kind": "identifier",
+                        "id": "defaultConsistencyLevel"
+                      },
+                      "right": {
+                        "kind": "string",
+                        "value": "Eventual"
+                      }
+                    },
+                    "trueValue": {
+                      "kind": "property-access",
+                      "base": {
+                        "kind": "identifier",
+                        "id": "consistencyPolicy"
+                      },
+                      "property": "Eventual",
+                      "nullish": false
+                    },
+                    "falseValue": {
+                      "kind": "ternary-operation",
+                      "condition": {
+                        "kind": "binary-operation",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "id": "defaultConsistencyLevel"
+                        },
+                        "right": {
+                          "kind": "string",
+                          "value": "ConsistentPrefix"
+                        }
+                      },
+                      "trueValue": {
+                        "kind": "property-access",
+                        "base": {
+                          "kind": "identifier",
+                          "id": "consistencyPolicy"
+                        },
+                        "property": "ConsistentPrefix",
+                        "nullish": false
+                      },
+                      "falseValue": {
+                        "kind": "ternary-operation",
+                        "condition": {
+                          "kind": "binary-operation",
+                          "operator": "==",
+                          "left": {
+                            "kind": "identifier",
+                            "id": "defaultConsistencyLevel"
+                          },
+                          "right": {
+                            "kind": "string",
+                            "value": "Session"
+                          }
+                        },
+                        "trueValue": {
+                          "kind": "property-access",
+                          "base": {
+                            "kind": "identifier",
+                            "id": "consistencyPolicy"
+                          },
+                          "property": "Session",
+                          "nullish": false
+                        },
+                        "falseValue": {
+                          "kind": "ternary-operation",
+                          "condition": {
+                            "kind": "binary-operation",
+                            "operator": "==",
+                            "left": {
+                              "kind": "identifier",
+                              "id": "defaultConsistencyLevel"
+                            },
+                            "right": {
+                              "kind": "string",
+                              "value": "BoundedStaleness"
+                            }
+                          },
+                          "trueValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "BoundedStaleness",
+                            "nullish": false
+                          },
+                          "falseValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "Strong",
+                            "nullish": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "locations": {
+                    "kind": "identifier",
+                    "id": "locations"
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "enableAutomaticFailover": {
+                    "kind": "identifier",
+                    "id": "systemManagedFailover"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cassandraKeyspace": {
+          "bicepIdentifier": "cassandraKeyspace",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "keyspaceName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "keyspaceName"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "tableName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "cassandraKeyspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "tableName"
+                      },
+                      "schema": {
+                        "kind": "object",
+                        "value": {
+                          "columns": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "loadid"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "uuid"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "machine"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "uuid"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "cpu"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "int"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "mtime"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "int"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "load"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "float"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "partitionKeys": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "machine"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "cpu"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "mtime"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "clusterKeys": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "name": {
+                                    "kind": "string",
+                                    "value": "loadid"
+                                  },
+                                  "orderBy": {
+                                    "kind": "string",
+                                    "value": "asc"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "options": {
+                    "kind": "object",
+                    "value": {
+                      "autoscaleSettings": {
+                        "kind": "object",
+                        "value": {
+                          "maxThroughput": {
+                            "kind": "identifier",
+                            "id": "autoscaleMaxThroughput"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "cassandraKeyspace"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "table"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

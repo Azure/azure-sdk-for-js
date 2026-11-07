@@ -89,6 +89,7 @@ export interface WorkloadGroupsOperations {
     options?: WorkloadGroupsGetOptionalParams,
   ) => Promise<WorkloadGroup>;
 }
+
 function _getWorkloadGroups(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -202,6 +203,7 @@ function _getWorkloadGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, workloadGroupName, options),
   };
 }
+
 export function _getWorkloadGroupsOperations(
   context: SqlManagementContext,
 ): WorkloadGroupsOperations {

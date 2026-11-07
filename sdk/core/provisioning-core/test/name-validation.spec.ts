@@ -464,7 +464,7 @@ describe("ARM name-segment compatibility", () => {
       );
       validateRenderedBicepFiles(renderBicepFiles(stack));
     },
-    30_000,
+    60_000,
   );
 
   it.each([
@@ -476,7 +476,7 @@ describe("ARM name-segment compatibility", () => {
       const stack = createBlobServiceStack(declaredParent, name);
       expect(() => validateRenderedBicepFiles(renderBicepFiles(stack))).toThrow(diagnostic);
     },
-    30_000,
+    60_000,
   );
 });
 

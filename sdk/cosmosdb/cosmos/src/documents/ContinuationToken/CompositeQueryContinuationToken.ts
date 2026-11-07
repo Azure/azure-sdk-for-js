@@ -3,6 +3,7 @@
 
 import { QueryRange } from "../../routing/QueryRange.js";
 import type { QueryRangeMapping } from "../../queryExecutionContext/queryRangeMapping.js";
+import { ErrorResponse } from "../../request/ErrorResponse.js";
 
 /**
  * @hidden
@@ -16,6 +17,16 @@ export interface RangeBoundary {
    * Maximum boundary (exclusive)
    */
   max: string;
+}
+
+/**
+ * ORDER BY post-fetch state paired with a range's backend continuation.
+ * @hidden
+ */
+export interface OrderByContinuationFilter {
+  orderByItems: any[];
+  rid: string;
+  skipCount: number;
 }
 
 /**
@@ -91,7 +102,7 @@ export function serializeCompositeToken(token: CompositeQueryContinuationToken):
 export function parseCompositeQueryContinuationToken(
   tokenString: string,
 ): CompositeQueryContinuationToken {
-  return JSON.parse(tokenString);
+  return parseBaseContinuationToken(tokenString) as CompositeQueryContinuationToken;
 }
 
 /**
@@ -99,7 +110,113 @@ export function parseCompositeQueryContinuationToken(
  * @hidden
  */
 export function parseBaseContinuationToken(tokenString: string): BaseContinuationToken {
-  return JSON.parse(tokenString);
+  let token: unknown;
+  try {
+    token = JSON.parse(tokenString);
+  } catch (error) {
+    throw createInvalidContinuationTokenError("Token is not valid JSON.", error);
+  }
+  validateBaseContinuationToken(token);
+  return token;
+}
+
+function validateBaseContinuationToken(token: unknown): asserts token is BaseContinuationToken {
+  if (!token || typeof token !== "object" || Array.isArray(token)) {
+    throw createInvalidContinuationTokenError("Token must be a JSON object.");
+  }
+  const candidate = token as Partial<BaseContinuationToken>;
+  if (typeof candidate.rid !== "string" || candidate.rid.length === 0) {
+    throw createInvalidContinuationTokenError("Token rid must be a non-empty string.");
+  }
+  if (!Array.isArray(candidate.rangeMappings) || candidate.rangeMappings.length === 0) {
+    throw createInvalidContinuationTokenError("Token rangeMappings must be a non-empty array.");
+  }
+  if (
+    candidate.offset !== undefined &&
+    (!Number.isSafeInteger(candidate.offset) || candidate.offset < 0)
+  ) {
+    throw createInvalidContinuationTokenError("Token offset must be a non-negative safe integer.");
+  }
+  if (
+    candidate.limit !== undefined &&
+    (!Number.isSafeInteger(candidate.limit) || candidate.limit < 0)
+  ) {
+    throw createInvalidContinuationTokenError("Token limit must be a non-negative safe integer.");
+  }
+  const hashedLastResult = (
+    candidate as BaseContinuationToken & {
+      hashedLastResult?: unknown;
+    }
+  ).hashedLastResult;
+  if (hashedLastResult !== undefined && typeof hashedLastResult !== "string") {
+    throw createInvalidContinuationTokenError(
+      "Token hashedLastResult must be a string when present.",
+    );
+  }
+
+  const ranges = candidate.rangeMappings.map((mapping, index) => {
+    if (!mapping || typeof mapping !== "object" || Array.isArray(mapping)) {
+      throw createInvalidContinuationTokenError(`Token rangeMappings[${index}] must be an object.`);
+    }
+    if (
+      !mapping.queryRange ||
+      typeof mapping.queryRange !== "object" ||
+      Array.isArray(mapping.queryRange)
+    ) {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}].queryRange is required.`,
+      );
+    }
+    const { min, max } = mapping.queryRange;
+    if (typeof min !== "string" || typeof max !== "string") {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}] boundaries must be strings.`,
+      );
+    }
+    if (!(min < max)) {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}] must have min less than max.`,
+      );
+    }
+    if (
+      mapping.continuationToken !== undefined &&
+      mapping.continuationToken !== null &&
+      typeof mapping.continuationToken !== "string"
+    ) {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}].continuationToken must be a string when present.`,
+      );
+    }
+    if (mapping.isActive !== undefined && typeof mapping.isActive !== "boolean") {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}].isActive must be a boolean when present.`,
+      );
+    }
+    if (
+      mapping.isOrderByCheckpoint !== undefined &&
+      typeof mapping.isOrderByCheckpoint !== "boolean"
+    ) {
+      throw createInvalidContinuationTokenError(
+        `Token rangeMappings[${index}].isOrderByCheckpoint must be a boolean when present.`,
+      );
+    }
+    return { min, max };
+  });
+
+  ranges.sort((left, right) => left.min.localeCompare(right.min));
+  for (let index = 1; index < ranges.length; index++) {
+    if (ranges[index].min < ranges[index - 1].max) {
+      throw createInvalidContinuationTokenError("Token rangeMappings must not overlap.");
+    }
+  }
+}
+
+function createInvalidContinuationTokenError(message: string, cause?: unknown): ErrorResponse {
+  const error = new ErrorResponse(`Invalid continuation token. ${message}`);
+  if (cause !== undefined) {
+    error.cause = cause;
+  }
+  return error;
 }
 
 /**
@@ -116,6 +233,21 @@ export interface QueryRangeWithContinuationToken {
    * The continuation token for this specific range
    */
   continuationToken: string | undefined;
+
+  /**
+   * Whether this logical range still has work to resume.
+   */
+  isActive?: boolean;
+
+  /**
+   * Whether this range owns the global ORDER BY RID/skip checkpoint.
+   */
+  isOrderByCheckpoint?: boolean;
+
+  /**
+   * ORDER BY post-fetch state required when this range resumes from its saved backend cursor.
+   */
+  orderByFilter?: OrderByContinuationFilter;
 }
 
 /**
@@ -143,9 +275,29 @@ export function convertRangeMappingToQueryRange(
     max: pkRange.maxExclusive,
   };
 
+  const inferredActive =
+    !!rangeMapping.continuationToken && rangeMapping.continuationToken.toLowerCase() !== "null";
+  const isActive =
+    rangeMapping.isActive === false
+      ? false
+      : rangeMapping.isActive === true &&
+          (rangeMapping.continuationToken === rangeMapping.previousContinuationToken ||
+            !inferredActive)
+        ? true
+        : undefined;
+
   return {
     queryRange: simplifiedRange,
     continuationToken: rangeMapping.continuationToken,
+    isActive,
+    isOrderByCheckpoint: rangeMapping.isOrderByCheckpoint,
+    orderByFilter: rangeMapping.orderByFilter
+      ? {
+          orderByItems: [...rangeMapping.orderByFilter.orderByItems],
+          rid: rangeMapping.orderByFilter.rid,
+          skipCount: rangeMapping.orderByFilter.skipCount,
+        }
+      : undefined,
   };
 }
 

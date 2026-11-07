@@ -48,6 +48,21 @@ customized, and new emitted inputs, then follow the
 [resolver development checks](../../../scripts/customization/README.md#development).
 Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
 
+For a beta-to-root operation relocation, inspect all three inputs rather than
+assuming the old group was deleted. The resolver follows unique HTTP method/route
+matches, including renamed delete methods and their send/deserialize helpers.
+Plain delegates can follow their own API through parameter-only renames and
+import aliases; defaults, altered forwarding, unrelated callees, and genuinely
+custom-only methods still require review. Verify the destination's emitted
+request body, optional parameters, preview-header retirement, paging/poller
+behavior, classic delegates, and exports. A retired generated preview header
+must not be kept merely because its customized object has a trailing comma.
+For Agent Insight Monitor promotion, verify the new root client member uses
+the former beta group's authentication context and preserves the maintained
+constructor; copying the emitted single-client initialization is not safe.
+Keep an explicit disposition for any custom-only method that cannot be matched;
+never delete it to make relocation pass.
+
 Use this phase order to avoid mixing unrelated decisions:
 
 | Phase          | Steps                                     | Exit point                                                                                                                                                                                                    |

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a job step. This will implicitly create a new job version.
  *
  * @summary creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobStepMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobStepMax.json
  */
 async function createOrUpdateAJobStepWithAllPropertiesSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createOrUpdateAJobStepWithAllPropertiesSpecified(): Promise<void>
  * This sample demonstrates how to creates or updates a job step. This will implicitly create a new job version.
  *
  * @summary creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobStepMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobStepMin.json
  */
 async function createOrUpdateAJobStepWithMinimalPropertiesSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();

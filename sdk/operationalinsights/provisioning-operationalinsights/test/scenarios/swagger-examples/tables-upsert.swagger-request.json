@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "schema": {
+      "columns": [
+        {
+          "name": "MyNewColumn",
+          "type": "guid"
+        }
+      ],
+      "name": "AzureNetworkFlow"
+    },
+    "retentionInDays": 45,
+    "totalRetentionInDays": 70
+  }
+}
