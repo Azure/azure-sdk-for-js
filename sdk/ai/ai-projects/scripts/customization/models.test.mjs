@@ -9,6 +9,8 @@ import test from "node:test";
 import ts from "typescript";
 import { mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
+import { planCustomization } from "./planner.mjs";
+import { validateCustomization } from "./guards.mjs";
 import { readBaseline, readTree } from "./trees.mjs";
 
 const modelFile = "models/models.ts";
@@ -98,6 +100,76 @@ export interface Legacy extends Other { kind: "legacy"; }
   const result = plan(unrelated, unrelated, tree('export type OtherKind = "new";'));
   assert.equal(result.files.size, 0);
   assert.ok(result.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
+});
+
+test("retained telephony provider variants merge with an upstream provider addition", () => {
+  const base = tree(`
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
+export interface Binding { provider: TelephonyProvider; }
+export interface TeamsRequest extends Binding { provider: "teams_phone_extensibility"; }
+export interface TwilioRequest extends Binding { provider: "twilio"; }
+export type BindingUnion = TeamsRequest | TwilioRequest | Binding;
+`);
+  const custom = tree(
+    base.get(modelFile).replace('provider: "twilio";', 'provider: "twilio"; custom?: boolean;'),
+  );
+  const incoming = tree(`
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
+export interface Binding { provider: TelephonyProvider; }
+export interface SipBinding extends Binding { provider: "sip"; }
+export type BindingUnion = SipBinding | Binding;
+`);
+  const result = succeeded(base, custom, incoming);
+  const text = result.files.get(modelFile);
+  assert.match(text, /type TelephonyProvider =[\s\S]*"sip"/);
+  assert.match(text, /interface TwilioRequest[\s\S]*custom\?: boolean/);
+  assert.match(text, /BindingUnion =[\s\S]*SipBinding/);
+  for (const providers of [
+    '"sip"',
+    '"twilio" | "twilio" | "sip"',
+    '"teams_phone_extensibility" | "twilio" | boolean | "sip"',
+  ]) {
+    const unsafe = plan(
+      base,
+      custom,
+      tree(
+        incoming
+          .get(modelFile)
+          .replace(
+            'type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";',
+            `type TelephonyProvider = ${providers};`,
+          ),
+      ),
+    );
+    assert.ok(
+      unsafe.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+    );
+  }
+});
+
+test("uses the emitted snake-case voice discriminator in the union serializer", () => {
+  const incoming = tree(`
+export interface VoiceAgentBaseDefinition { sub_protocol: "realtime" | "live"; }
+export interface Other { subProtocol: string; }
+export function voiceAgentBaseDefinitionUnionSerializer(
+  item: VoiceAgentBaseDefinition,
+): VoiceAgentBaseDefinition {
+  const byOptions = (options: Other) => {
+    switch (options.subProtocol) { default: return item; }
+  };
+  const nested = (item: Other) => {
+    switch (item.subProtocol) { default: return item; }
+  };
+  switch (item.subProtocol) {
+    default: return item;
+  }
+}
+`);
+  const result = succeeded(new Map(), new Map(), incoming);
+  const text = result.files.get(modelFile);
+  assert.match(text, /switch \(item\.sub_protocol\)/);
+  assert.match(text, /switch \(options\.subProtocol\)/);
+  assert.equal((text.match(/switch \(item\.subProtocol\)/g) ?? []).length, 1);
 });
 
 function assertModelTypes(files, packageRoot) {
@@ -359,6 +431,143 @@ test("retained legacy models keep their discriminator and dispatch registrations
   assert.equal(api.deserializeTools({ kind: "added" }).kind, "added");
   assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
 });
+
+test("approved emitted telephony model renames adopt the new client names", () => {
+  function telephonyModels(renamed) {
+    const address = renamed
+      ? ["TelephonyPhoneNumber", "TelephonyTeamsAddress", "TelephonySipAddress"]
+      : ["PhoneNumber", "TeamsAddress", "SipAddress"];
+    const schedule = renamed
+      ? [
+          "TelephonyCampaignImmediateSchedule",
+          "TelephonyCampaignAtTimeSchedule",
+          "TelephonyCampaignPerRecipientSchedule",
+        ]
+      : ["ImmediateSchedule", "AtTimeSchedule", "PerRecipientSchedule"];
+    const lower = (name) => name[0].toLowerCase() + name.slice(1);
+    const model = (name, kind, parent) => `
+export interface ${name} extends ${parent} {
+  type: "${kind}";
+  value: string;
+}
+export function ${lower(name)}Serializer(item: ${name}): any {
+  return { type: item.type, value: item.value };
+}
+export function ${lower(name)}Deserializer(item: any): ${name} {
+  return { type: item.type, value: item.value };
+}`;
+    return `
+export type TelephonyAddressType = "phone_number" | "teams" | "sip";
+export interface TelephonyAddress { type: TelephonyAddressType; }
+${model(address[0], "phone_number", "TelephonyAddress")}
+${model(address[1], "teams", "TelephonyAddress")}
+${model(address[2], "sip", "TelephonyAddress")}
+export type TelephonyAddressUnion = ${address.join(" | ")} | TelephonyAddress;
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled" | "recipient";
+export interface TelephonyCampaignSchedule { type: TelephonyCampaignScheduleType; }
+${model(schedule[0], "immediate", "TelephonyCampaignSchedule")}
+${model(schedule[1], "scheduled", "TelephonyCampaignSchedule")}
+${model(schedule[2], "recipient", "TelephonyCampaignSchedule")}
+export type TelephonyCampaignScheduleUnion =
+  ${schedule.join(" | ")} | TelephonyCampaignSchedule;`;
+  }
+  const base = tree(telephonyModels(false));
+  const custom = tree(
+    telephonyModels(false)
+      .replace(
+        'export interface PhoneNumber extends TelephonyAddress {\n  type: "phone_number";\n  value: string;',
+        'export interface PhoneNumber extends TelephonyAddress {\n  type: "phone_number";\n  value: string;\n  custom?: boolean;',
+      )
+      .replace(
+        "return { type: item.type, value: item.value };",
+        "return { type: item.type, value: item.value, custom: item.custom };",
+      ),
+  );
+  const generated = tree(telephonyModels(true));
+  const result = succeeded(base, custom, generated);
+  const text = result.files.get(modelFile);
+  for (const [before, after] of [
+    ["PhoneNumber", "TelephonyPhoneNumber"],
+    ["TeamsAddress", "TelephonyTeamsAddress"],
+    ["SipAddress", "TelephonySipAddress"],
+    ["ImmediateSchedule", "TelephonyCampaignImmediateSchedule"],
+    ["AtTimeSchedule", "TelephonyCampaignAtTimeSchedule"],
+    ["PerRecipientSchedule", "TelephonyCampaignPerRecipientSchedule"],
+  ]) {
+    assert.equal(result.renames.get(before), after);
+    assert.doesNotMatch(text, new RegExp(`\\b${before}\\b`));
+    assert.match(text, new RegExp(`interface ${after}\\b`));
+  }
+  assert.match(text, /custom\?: boolean/);
+  assert.match(text, /custom: item.custom/);
+  const planned = planCustomization({ baseGenerated: base, baseSource: custom, generated });
+  assert.deepEqual(planned.diagnostics, []);
+  const guardInputs = {
+    baseGenerated: base,
+    baseSource: custom,
+    generated,
+    source: planned.source,
+    matches: planned.matches,
+    modelRenames: planned.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  const tampered = new Map(planned.source);
+  tampered.set(modelFile, text.replace(", custom: item.custom", ""));
+  assert.ok(validateCustomization({ ...guardInputs, source: tampered }).length > 0);
+});
+
+for (const suffix of ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"]) {
+  test(`rejects an emitted model rename when its customized ${suffix} cannot follow`, () => {
+    const baseText = `
+export interface PhoneNumber { value: string; }
+export function phoneNumber${suffix}(item: PhoneNumber): any {
+  return { value: item.value };
+}`;
+    const customText = baseText.replace(
+      "return { value: item.value };",
+      "return { value: item.value, custom: true };",
+    );
+    const incomingText = baseText
+      .replaceAll("PhoneNumber", "TelephonyPhoneNumber")
+      .replaceAll("phoneNumber", "telephonyPhoneNumber");
+    for (const generated of [
+      tree(incomingText.replace("value: item.value", "value: String(item.value)")),
+      tree(incomingText.slice(0, incomingText.indexOf("export function"))),
+      tree(incomingText),
+    ]) {
+      const base = tree(baseText);
+      const custom = tree(
+        customText +
+          (generated.get(modelFile) === incomingText
+            ? `\nexport function telephonyPhoneNumber${suffix}(): any { return {}; }`
+            : ""),
+      );
+      const result = plan(base, custom, generated);
+      assert.equal(result.files.size, 0);
+      assert.ok(
+        result.diagnostics.some(
+          (item) =>
+            item.declaration === `phoneNumber${suffix}` &&
+            /cannot preserve converter/.test(item.message),
+        ),
+      );
+      if (generated.get(modelFile) !== incomingText)
+        assert.ok(
+          validateCustomization({
+            baseGenerated: base,
+            baseSource: custom,
+            generated,
+            source: generated,
+            matches: [],
+            modelRenames: new Map([
+              ["PhoneNumber", "TelephonyPhoneNumber"],
+              [`phoneNumber${suffix}`, `telephonyPhoneNumber${suffix}`],
+            ]),
+          }).length > 0,
+        );
+    }
+  });
+}
 
 test("legacy registration retention does not resurrect a model removed by customization", () => {
   const result = succeeded(

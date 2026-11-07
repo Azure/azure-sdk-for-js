@@ -88,11 +88,25 @@ regeneration script falls back to it when the strict run fails.
   optional parameters, exact argument forwarding, and return type. Delegate
   parameter names may differ from the API's names. Defaults, shadowed or
   rerouted callees, and modified forwarding remain customizations.
+  A maintained tracing or option wrapper can follow an emitted parameter-only
+  rename when it still contains the exact baseline operation call once; the
+  wrapper is retained, while the emitted parameter types and operation
+  argument names are adopted. Altered forwarding or multiple matching calls
+  still require review.
   Relocating a customized member
   out of its classic module requires review. A module whose API operations or
   options have unresolved changes is not rendered; the unresolved change is
   reported rather than a secondary `missing resolved operation` error from the
   classic module.
+- Approved language-scoped model renames are applied only when the old and new
+  emitted declarations have the same AST shape (including converters) and the
+  customization retains the baseline symbols. This carries the seven
+  telephony client names from `azure-rest-api-specs#47968` without accepting an
+  unrelated replacement or dropping legacy custom models. The
+  `TelephonyProvider` discriminator may add `sip` while retained binding
+  request variants still use the two prior values; other full-union replacements
+  require an explicit policy. Equivalent filter-alias and wire-discriminator
+  representation fixes are similarly limited to their known schemas.
 - Preview opt-ins are sent as constant `foundry-features` headers rather than
   the emitter's optional `foundryFeatures` option. The emitted optional header
   is normalized into the customized constant form before merging, so a changed
