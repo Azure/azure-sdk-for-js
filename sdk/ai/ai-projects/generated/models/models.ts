@@ -12108,14 +12108,14 @@ export function endpointBasedEvaluatorDefinitionDeserializer(
 /** Service-managed provenance artifacts produced by an evaluator generation job. Present only on EvaluatorVersion resources created via the generation pipeline. The combined-JSONL Foundry Dataset is read-only and resolves to a versioned dataset in a service-reserved namespace. */
 export interface EvaluatorGenerationArtifacts {
   /** Reference to the single Foundry Dataset (one combined JSONL file, version-aligned to `EvaluatorVersion.version`) holding all artifacts produced by the generation pipeline. Each row in the JSONL carries a `kind` field discriminating its content (e.g. `spec`, `tools`, `context`). */
-  dataset: VersionedDatasetReference;
+  dataset: DatasetReference;
   /** The kinds of rows present in `dataset`. Always contains `"spec"` (the generated evaluation specification, a Markdown document describing what the evaluator measures). May additionally contain `"tools"` (when the generation pipeline produced or inferred OpenAI tool schemas) and/or `"context"` (when supplementary materials such as file uploads or trace samples were used during generation). */
   kinds: string[];
 }
 
 export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGenerationArtifacts {
   return {
-    dataset: versionedDatasetReferenceDeserializer(item["dataset"]),
+    dataset: datasetReferenceDeserializer(item["dataset"]),
     kinds: item["kinds"].map((p: any) => {
       return p;
     }),
@@ -12123,14 +12123,14 @@ export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGe
 }
 
 /** Reference to a Dataset whose concrete version has already been resolved. */
-export interface VersionedDatasetReference {
+export interface DatasetReference {
   /** Dataset name. */
   name: string;
   /** Concrete Dataset version. */
   version: string;
 }
 
-export function versionedDatasetReferenceDeserializer(item: any): VersionedDatasetReference {
+export function datasetReferenceDeserializer(item: any): DatasetReference {
   return {
     name: item["name"],
     version: item["version"],
@@ -20247,7 +20247,7 @@ export interface TelephonyCampaign {
   /** 1-100 recipients, exclusive with recipient_dataset. The whole UTF-8 request is limited to 1 MiB. Omitted from reads; retain the submission for row correlation. */
   recipients?: TelephonyRecipient[];
   /** Same-project CSV/JSON/JSONL uri_file, exclusive with recipients. Omitted version pins latest per preparation. Limits: 1-1,000,000 rows, 256 MiB decoded/file, 1 MiB/row. */
-  recipient_dataset?: DatasetReference;
+  recipient_dataset?: TelephonyCampaignDatasetReference;
   /** Dispatch schedule; omission equals ImmediateSchedule. Every mode waits for successful preparation, then follows its schedule and available capacity. */
   schedule?: TelephonyCampaignScheduleUnion;
   /** Per-recipient retries. Omit for one attempt; generated CallJobs return fixed_interval with max_attempts=1 and interval=0 seconds. */
@@ -20283,7 +20283,7 @@ export function telephonyCampaignSerializer(item: TelephonyCampaign): any {
       : telephonyRecipientArraySerializer(item["recipients"]),
     recipient_dataset: !item["recipient_dataset"]
       ? item["recipient_dataset"]
-      : datasetReferenceSerializer(item["recipient_dataset"]),
+      : telephonyCampaignDatasetReferenceSerializer(item["recipient_dataset"]),
     schedule: !item["schedule"]
       ? item["schedule"]
       : telephonyCampaignScheduleUnionSerializer(item["schedule"]),
@@ -20302,7 +20302,7 @@ export function telephonyCampaignDeserializer(item: any): TelephonyCampaign {
       : telephonyRecipientArrayDeserializer(item["recipients"]),
     recipient_dataset: !item["recipient_dataset"]
       ? item["recipient_dataset"]
-      : datasetReferenceDeserializer(item["recipient_dataset"]),
+      : telephonyCampaignDatasetReferenceDeserializer(item["recipient_dataset"]),
     schedule: !item["schedule"]
       ? item["schedule"]
       : telephonyCampaignScheduleUnionDeserializer(item["schedule"]),
@@ -20369,18 +20369,22 @@ export function telephonyRecipientDeserializer(item: any): TelephonyRecipient {
 }
 
 /** Reference to a Foundry Dataset in the current project. Consuming operations define supported Dataset kinds and resolution behavior. */
-export interface DatasetReference {
+export interface TelephonyCampaignDatasetReference {
   /** Dataset name. */
   name: string;
   /** Optional Dataset version. Omit to select latest when the consuming operation resolves the reference. */
   version?: string;
 }
 
-export function datasetReferenceSerializer(item: DatasetReference): any {
+export function telephonyCampaignDatasetReferenceSerializer(
+  item: TelephonyCampaignDatasetReference,
+): any {
   return { name: item["name"], version: item["version"] };
 }
 
-export function datasetReferenceDeserializer(item: any): DatasetReference {
+export function telephonyCampaignDatasetReferenceDeserializer(
+  item: any,
+): TelephonyCampaignDatasetReference {
   return {
     name: item["name"],
     version: item["version"],
