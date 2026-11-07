@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Rename `VersionedDatasetReference` to `DatasetReference` for resolved evaluator-generation artifacts and require `DatasetReference.version`. Use `TelephonyCampaignDatasetReference` for `TelephonyCampaign.recipient_dataset`, retaining optional versions that resolve to latest during campaign preparation. [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Move outbound campaign operations from `project.beta.voiceAgents.campaigns` to `project.beta.voiceAgents.telephony`, renaming `deleteCampaign` to `deleteTelephony` and the `BetaVoiceAgentsCampaigns*OptionalParams` types to `BetaVoiceAgentsTelephony*OptionalParams`. Remove `BetaVoiceAgentsCampaignsOperations`. [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Narrow voice conversation-engine, greeting, interim-response, tool, and WebRTC error `type` properties from unrestricted strings to the corresponding named discriminator types. Use the supported literal values when constructing these models. [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
 - Replace telephony create-request models with `TelephonyBindingCreateUnion` and `TelephonyCallJobCreate`, and rename `TelephonyOutboundFixedIntervalRetryPolicy` to `FixedIntervalRetryPolicy`. Use typed `TelephonyAddressUnion` objects for call-job sources, destinations, and transfer targets instead of scalar sources or `kind`-discriminated transfer destinations. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
@@ -39,6 +40,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `029ccd85da3da9a7c4a654becdad37e0d43846fe`, separating resolved dataset references from telephony campaign inputs while preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/029ccd85da3da9a7c4a654becdad37e0d43846fe). [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Regenerate the client from azure-rest-api-specs commit `d7363f1cd9566b2a85b25b30ca5e28f893d36f2c`, moving campaign operations into telephony while preserving guarded final resource resolution, preview headers, and cursor paging. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/d7363f1cd9566b2a85b25b30ca5e28f893d36f2c). [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Regenerate the client from azure-rest-api-specs commit `30ed36b5ac7a3015dfae9832478e7254e9c811e1`, preserving released tool names, compatibility aliases, and customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/30ed36b5ac7a3015dfae9832478e7254e9c811e1). [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
 - Regenerate the client from azure-rest-api-specs commit `8d46b0a57a38e80d47535db5705c1f9154722e9b`, retaining customized tracing, preview headers, cursor paging, and public tool aliases. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/8d46b0a57a38e80d47535db5705c1f9154722e9b). [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
