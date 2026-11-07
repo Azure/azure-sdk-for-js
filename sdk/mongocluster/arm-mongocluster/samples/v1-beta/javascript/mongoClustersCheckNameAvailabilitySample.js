@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to check if mongo cluster name is available for use.
+ * This sample demonstrates how to check if DocumentDB cluster name is available for use.
  *
- * @summary check if mongo cluster name is available for use.
+ * @summary check if DocumentDB cluster name is available for use.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_NameAvailability.json
  */
-async function checksAndConfirmsTheMongoClusterNameIsAvailableForUse() {
+async function checksAndConfirmsTheDocumentDBClusterNameIsAvailableForUse() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,12 +22,12 @@ async function checksAndConfirmsTheMongoClusterNameIsAvailableForUse() {
 }
 
 /**
- * This sample demonstrates how to check if mongo cluster name is available for use.
+ * This sample demonstrates how to check if DocumentDB cluster name is available for use.
  *
- * @summary check if mongo cluster name is available for use.
+ * @summary check if DocumentDB cluster name is available for use.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_NameAvailability_AlreadyExists.json
  */
-async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
+async function checksAndReturnsThatTheDocumentDBClusterNameIsAlreadyInUse() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -39,8 +39,8 @@ async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
 }
 
 async function main() {
-  await checksAndConfirmsTheMongoClusterNameIsAvailableForUse();
-  await checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
+  await checksAndConfirmsTheDocumentDBClusterNameIsAvailableForUse();
+  await checksAndReturnsThatTheDocumentDBClusterNameIsAlreadyInUse();
 }
 
 main().catch(console.error);

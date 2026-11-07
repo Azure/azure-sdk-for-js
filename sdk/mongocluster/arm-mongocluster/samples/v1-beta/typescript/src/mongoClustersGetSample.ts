@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets information about a mongo cluster.
+ * This sample demonstrates how to gets information about a DocumentDB cluster.
  *
- * @summary gets information about a mongo cluster.
+ * @summary gets information about a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_Get.json
  */
-async function getsAMongoClusterResource(): Promise<void> {
+async function getsADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -19,7 +19,7 @@ async function getsAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getsAMongoClusterResource();
+  await getsADocumentDBClusterResource();
 }
 
 main().catch(console.error);

@@ -37,59 +37,60 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MongoClusters operations. */
 export interface MongoClustersOperations {
-  /** Promotes a replica mongo cluster to a primary role. */
+  /** Promotes a replica DocumentDB cluster to a primary role. */
   promote: (
     resourceGroupName: string,
     mongoClusterName: string,
     body: PromoteReplicaRequest,
     options?: MongoClustersPromoteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Check if mongo cluster name is available for use. */
+  /** Check if DocumentDB cluster name is available for use. */
   checkNameAvailability: (
     location: string,
     body: CheckNameAvailabilityRequest,
     options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityResponse>;
-  /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
+  /** List DocumentDB cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
   listConnectionStrings: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersListConnectionStringsOptionalParams,
   ) => Promise<ListConnectionStringsResult>;
-  /** List all the mongo clusters in a given subscription. */
+  /** List all the DocumentDB clusters in a given subscription. */
   list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
-  /** List all the mongo clusters in a given resource group. */
+  /** List all the DocumentDB clusters in a given resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
-  /** Deletes a mongo cluster. */
+  /** Deletes a DocumentDB cluster. */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
+  /** Updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition. */
   update: (
     resourceGroupName: string,
     mongoClusterName: string,
     properties: MongoClusterUpdate,
     options?: MongoClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
-  /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
+  /** Create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
   createOrUpdate: (
     resourceGroupName: string,
     mongoClusterName: string,
     resource: MongoCluster,
     options?: MongoClustersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
-  /** Gets information about a mongo cluster. */
+  /** Gets information about a DocumentDB cluster. */
   get: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersGetOptionalParams,
   ) => Promise<MongoCluster>;
 }
+
 function _getMongoClusters(context: MongoClusterManagementContext) {
   return {
     promote: (
@@ -137,6 +138,7 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, options),
   };
 }
+
 export function _getMongoClustersOperations(
   context: MongoClusterManagementContext,
 ): MongoClustersOperations {

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary delete the private endpoint connection
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateEndpointConnectionDelete.json
  */
-async function deleteAPrivateEndpointConnectionOnAMongoClusterResource() {
+async function deleteAPrivateEndpointConnectionOnADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function deleteAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  await deleteAPrivateEndpointConnectionOnAMongoClusterResource();
+  await deleteAPrivateEndpointConnectionOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

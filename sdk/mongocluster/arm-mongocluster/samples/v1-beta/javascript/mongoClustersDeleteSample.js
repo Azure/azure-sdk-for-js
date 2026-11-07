@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to deletes a mongo cluster.
+ * This sample demonstrates how to deletes a DocumentDB cluster.
  *
- * @summary deletes a mongo cluster.
+ * @summary deletes a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_Delete.json
  */
-async function deletesAMongoClusterResource() {
+async function deletesADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function deletesAMongoClusterResource() {
 }
 
 async function main() {
-  await deletesAMongoClusterResource();
+  await deletesADocumentDBClusterResource();
 }
 
 main().catch(console.error);

@@ -80,7 +80,8 @@ export async function _promoteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-/** Promotes a replica mongo cluster to a primary role. */
+
+/** Promotes a replica DocumentDB cluster to a primary role. */
 export function promote(
   context: Client,
   resourceGroupName: string,
@@ -138,7 +139,8 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
-/** Check if mongo cluster name is available for use. */
+
+/** Check if DocumentDB cluster name is available for use. */
 export async function checkNameAvailability(
   context: Client,
   location: string,
@@ -188,7 +190,8 @@ export async function _listConnectionStringsDeserialize(
 
   return listConnectionStringsResultDeserializer(result.body);
 }
-/** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
+
+/** List DocumentDB cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
 export async function listConnectionStrings(
   context: Client,
   resourceGroupName: string,
@@ -239,7 +242,8 @@ export async function _listDeserialize(
 
   return _mongoClusterListResultDeserializer(result.body);
 }
-/** List all the mongo clusters in a given subscription. */
+
+/** List all the DocumentDB clusters in a given subscription. */
 export function list(
   context: Client,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
@@ -294,7 +298,8 @@ export async function _listByResourceGroupDeserialize(
 
   return _mongoClusterListResultDeserializer(result.body);
 }
-/** List all the mongo clusters in a given resource group. */
+
+/** List all the DocumentDB clusters in a given resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
@@ -347,7 +352,8 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-/** Deletes a mongo cluster. */
+
+/** Deletes a DocumentDB cluster. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -403,7 +409,8 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return mongoClusterDeserializer(result.body);
 }
-/** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
+
+/** Updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -463,7 +470,8 @@ export async function _createOrUpdateDeserialize(
 
   return mongoClusterDeserializer(result.body);
 }
-/** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
+
+/** Create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -518,7 +526,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 
   return mongoClusterDeserializer(result.body);
 }
-/** Gets information about a mongo cluster. */
+
+/** Gets information about a DocumentDB cluster. */
 export async function get(
   context: Client,
   resourceGroupName: string,
