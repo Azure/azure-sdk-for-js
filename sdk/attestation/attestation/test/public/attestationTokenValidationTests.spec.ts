@@ -193,6 +193,26 @@ describe("AttestationTokenValidation", () => {
     ).rejects.toThrow("rejected by policy");
   });
 
+  it("gives an operation's validation options precedence over the client's", async () => {
+    const service = createSigner("service");
+    const signedToken = AttestationTokenImpl.create({
+      body: claims(60),
+      privateKey: service.privKey,
+      certificate: service.cert,
+    }).serialize();
+    const client = new AttestationClient("https://attestation.test", {
+      httpClient: fakeService(service.cert, signedToken),
+      validationOptions: { validateAttestationToken: () => ["rejected by policy"] },
+    });
+
+    await client.attestSgxEnclave(new Uint8Array([1]), {
+      validationOptions: { validateToken: false },
+    });
+    await client.attestSgxEnclave(new Uint8Array([1]), {
+      validationOptions: { validateAttestationToken: () => undefined },
+    });
+  });
+
   it("runs a validation callback defined as a class method", async () => {
     const service = createSigner("service");
     const signedToken = AttestationTokenImpl.create({
