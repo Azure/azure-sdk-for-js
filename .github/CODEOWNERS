@@ -77,7 +77,7 @@
 # ServiceLabel: %Azure.Core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @sagar0207 @SwayGom @sjkwak @hmlam
+/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @ayush1252 @sagar0207 @SwayGom @sjkwak @hmlam
 
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
@@ -228,10 +228,10 @@
 # ServiceOwners: @rajeshka @shankarsama
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/    @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
+/sdk/eventhub/    @axisc @hmlam @j7nw4r @ayush1252 @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Event Hubs
-# ServiceOwners: @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
+# ServiceOwners: @axisc @hmlam @j7nw4r @ayush1252 @SwayGom @sagar0207 @sjkwak
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
@@ -997,7 +997,7 @@
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
 /.github/skills/                         @Azure/azsdk-cli @Azure/azure-sdk-for-js-core
 
-/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng @j7nw4r
 /.github/copilot-instructions.md         @praveenkuttappan
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @Azure/azure-sdk-eng
 
