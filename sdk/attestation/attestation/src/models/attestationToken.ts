@@ -46,8 +46,10 @@ const DEFAULT_VALIDATION_OPTIONS: AttestationTokenValidationOptions = {
  *
  * @remarks
  *
- *  If validateToken, validateNotBeforeTime, or validateExpirationTime are not
- *  provided, they are all assumed to be 'true'.
+ *  If no validation options are provided, validateToken, validateExpirationTime, and
+ *  validateNotBeforeTime are all true. If validation options are provided (for the clients,
+ *  on the client or on the operation), an omitted validateToken is still true, but an omitted
+ *  validateExpirationTime or validateNotBeforeTime is false, so that time is not checked.
  *
  */
 export interface AttestationTokenValidationOptions {
@@ -131,6 +133,14 @@ export interface AttestationToken {
    *
    * @param possibleSigners - the set of possible signers for this attestation token.
    * @param options - validation options
+   *
+   * @remarks
+   *
+   * This method does not apply the checks that the clients apply to tokens returned by the
+   * service. It accepts unsigned tokens, and it can verify the signature with the certificate
+   * embedded in the token itself, so an empty result does not show that the attestation service
+   * issued the token. A token returned by a client operation with `validateToken: false` was
+   * not validated by the client.
    */
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
@@ -451,9 +461,9 @@ export class AttestationTokenImpl implements AttestationToken {
    * Returns the signers which may have signed this token: the supplied signers matching the
    * token's key id, or all of them if the token has no key id.
    *
-   * When `trustEmbeddedCertificate` is true (direct calls to getTokenProblems, which can only
-   * validate tokens created locally or already validated by a client), the certificate chain
-   * embedded in the token is also a candidate, as in earlier versions.
+   * When `trustEmbeddedCertificate` is true (direct calls to getTokenProblems, unchanged from
+   * earlier versions), the certificate chain embedded in the token is also a candidate, so a
+   * successful check does not show that the token was issued by the attestation service.
    */
   private getCandidateSigners(
     possibleSigners: AttestationSigner[] | undefined,
