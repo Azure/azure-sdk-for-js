@@ -43,6 +43,7 @@ import { Reporter } from "./reporter.mjs";
 import { validateResults } from "./report.mjs";
 import { timedRead, run } from "./workload.mjs";
 import { runChild, installSignalHandlers, withDeadline } from "./launch.mjs";
+import { MAX_PROFILE_READS, copyRustProfile, validateReadProfiles } from "./profiling.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -329,7 +330,8 @@ async function withWorkload(options, check) {
             if (reads === options.failureAt) {
               throw Object.assign(new Error("read failed"), { code: 503 });
             }
-            return { ...response(backend), resource: item };
+            const result = { ...response(backend), resource: item };
+            return options.decorateResponse ? options.decorateResponse(result) : result;
           },
         }),
       }),
@@ -391,6 +393,182 @@ test("both implementations defer all reporting until reads stop and retain raw i
       assert.equal(worker.messages.at(-1).valid, true);
     });
   }
+});
+
+function rustProfile() {
+  return {
+    nativeCallStartMs: 0,
+    nativeCallEndMs: 0,
+    decodedAtMs: 0,
+    parsedAtMs: 0,
+    responseReadyAtMs: 0,
+    adapterEndMs: 0,
+    native: {
+      dispatchMs: 0,
+      resolveContainerMs: 0,
+      driverOperationMs: 0,
+      responsePreparationMs: 0,
+      completionMs: 0,
+      elapsedMs: 0,
+    },
+  };
+}
+
+test("profiling requires an explicit validated mode", () => {
+  assert.equal(
+    validateConfig({ ...config(), profilingMode: "stages_v1" }).profilingMode,
+    "stages_v1",
+  );
+  assert.equal(validateConfig({ ...config(), profilingMode: "none" }).profilingMode, "none");
+  assert.throws(() => validateConfig({ ...config(), profilingMode: "typo" }), /profiling mode/);
+});
+
+test("both profiled backends retain correlated reads until after reads stop", async () => {
+  for (const backend of ["javascript", "rust"]) {
+    await withWorkload(
+      {
+        backend,
+        config: { profilingMode: "stages_v1" },
+        decorateResponse(result) {
+          if (backend === "rust") result.diagnostics.experimentalRustRead.profile = rustProfile();
+          return result;
+        },
+      },
+      async (worker) => {
+        await worker.run();
+        const intervals = worker.messages.filter((message) => message.type === "interval");
+        let operation = 0;
+        for (const { snapshot } of intervals) {
+          operation = validateReadProfiles(snapshot, backend, "stages_v1", operation);
+        }
+        assert.equal(operation, 3);
+        const profiles = intervals.flatMap(({ snapshot }) => snapshot.read_profiles);
+        assert.deepEqual(
+          profiles.map((profile) => profile.operation),
+          [1, 2, 3],
+        );
+        assert.equal(worker.messages.at(-1).valid, true);
+      },
+    );
+  }
+});
+
+test("unprofiled snapshots have no per-read traces", async () => {
+  await withWorkload({}, async (worker) => {
+    await worker.run();
+    for (const { snapshot } of worker.messages.filter((message) => message.type === "interval")) {
+      assert.equal(snapshot.read_profiles, undefined);
+      validateReadProfiles(snapshot, "javascript", "none");
+    }
+  });
+});
+
+test("profiled failure remains invalid and does not invent successful stages", async () => {
+  await withWorkload(
+    { backend: "rust", config: { profilingMode: "stages_v1" }, failureAt: 1 },
+    async (worker) => {
+      await worker.run();
+      const snapshot = worker.messages.find((message) => message.type === "interval").snapshot;
+      assert.equal(validateReadProfiles(snapshot, "rust", "stages_v1"), 1);
+      assert.equal(snapshot.read_profiles[0].outcome, "failure");
+      assert.equal(snapshot.read_profiles[0].rust, undefined);
+      assert.equal(worker.messages.at(-1).valid, false);
+    },
+  );
+});
+
+function profiledSnapshot() {
+  return {
+    ...snapshot(),
+    read_profiles: [
+      {
+        operation: 1,
+        started_seconds: 0,
+        public_ms: 1,
+        duration_us: 1000,
+        validation_ms: 0.1,
+        statistics_ms: 0.1,
+        outcome: "success",
+        rust: rustProfile(),
+      },
+    ],
+  };
+}
+
+test("profile validation rejects omissions, gaps, unbounded traces and inconsistent timings", () => {
+  const mutations = [
+    (row) => {
+      delete row.read_profiles;
+    },
+    (row) => {
+      row.read_profiles[0].operation = 2;
+    },
+    (row) => {
+      row.read_profiles[0].public_ms = NaN;
+    },
+    (row) => {
+      row.read_profiles[0].duration_us = 2000;
+    },
+    (row) => {
+      row.read_profiles[0].rust = undefined;
+    },
+    (row) => {
+      row.read_profiles[0].rust.native.elapsedMs = 1;
+    },
+    (row) => {
+      row.read_profiles[0].rust.nativeCallStartMs = 1;
+    },
+    (row) => {
+      row.read_profiles[0].secret = "not-allowed";
+    },
+  ];
+  for (const mutate of mutations) {
+    const row = profiledSnapshot();
+    mutate(row);
+    assert.throws(() => validateReadProfiles(row, "rust", "stages_v1"));
+  }
+  assert.throws(() => validateReadProfiles(profiledSnapshot(), "rust", "none"), /Unprofiled/);
+  const row = profiledSnapshot();
+  row.read_profiles[0].operation = MAX_PROFILE_READS + 1;
+  assert.throws(
+    () => validateReadProfiles(row, "rust", "stages_v1", MAX_PROFILE_READS),
+    /capacity/,
+  );
+  const original = rustProfile();
+  assert.deepEqual(copyRustProfile(original, true), original);
+  assert.notEqual(copyRustProfile(original, true).native, original.native);
+});
+
+test("profiled results stay two documents and reconcile raw per-read traces on readback", async (t) => {
+  const rows = [];
+  const profiledIdentity = { ...identity, profiling_mode: "stages_v1" };
+  const reporter = reporterFor(
+    t,
+    {
+      items: {
+        async create(row) {
+          rows.push(structuredClone(row));
+          return { statusCode: 201, requestCharge: 1 };
+        },
+      },
+    },
+    profiledIdentity,
+  );
+  await reporter.interval(profiledSnapshot());
+  assert.equal(rows.length, 0);
+  await reporter.complete(true);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].read_profiles, undefined);
+  const report = validateResults(rows, [profiledIdentity], path.dirname(reporter.logfile))[0];
+  assert.equal(report.profiling_mode, "stages_v1");
+  assert.equal(JSON.parse(readFileSync(reporter.artifactFile, "utf8")).read_profiles.length, 1);
+  assert.throws(() =>
+    validateResults(
+      rows,
+      [{ ...identity, profiling_mode: "none" }],
+      path.dirname(reporter.logfile),
+    ),
+  );
 });
 
 test("post-read persistence and completion finish before the launcher advances", async (t) => {

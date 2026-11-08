@@ -14,6 +14,7 @@ import {
   safeError,
 } from "./common.mjs";
 import { Stats, IntervalBuffer } from "./stats.mjs";
+import { MAX_PROFILE_READS, copyRustProfile } from "./profiling.mjs";
 
 const seconds = () => Number(process.hrtime.bigint()) / 1e9;
 
@@ -78,6 +79,9 @@ async function run(
   runtime = { channel: process, createClient, seconds },
 ) {
   const { channel, createClient: makeClient, seconds: clock } = runtime;
+  const profiling = config.profilingMode === "stages_v1";
+  let operation = 0;
+  let profiles = profiling ? [] : undefined;
   assert.ok(channel.send, "Launch the workload through launch.mjs");
   let reportingError = false;
   let nextMessage = 0;
@@ -130,7 +134,7 @@ async function run(
   try {
     channel.on("message", acknowledge);
     channel.on("disconnect", disconnected);
-    client = await makeClient(backend, config.endpoint);
+    client = await makeClient(backend, config.endpoint, config.profilingMode ?? "none");
     const constructionMs = (clock() - constructionStart) * 1000;
     const container = client
       .database(config.workload.database)
@@ -152,30 +156,66 @@ async function run(
           cpu_user_ms: usage.user / 1000,
           cpu_system_ms: usage.system / 1000,
           rss_bytes: process.memoryUsage().rss,
+          ...(profiling ? { read_profiles: profiles } : {}),
         });
+        if (profiling) profiles = [];
       }
     }
     while (!signal.aborted && !reportingError) {
       const item = seedItem(index);
       const reference = container.item(item.id, item.customerId);
+      if (profiling) assert.ok(operation < MAX_PROFILE_READS, "Read profiling capacity exceeded");
+      const readStart = profiling ? clock() - started : 0;
       const result = await timedRead(() => reference.read());
       firstCompletionSeconds ??= process.uptime();
+      const validationStart = profiling ? performance.now() : 0;
+      let validationMs;
+      let statisticsMs;
+      let rustProfile;
+      let outcome = "failure";
       try {
         if (result.error) throw result.error;
         const evidence = inspectRead(result.response, index, backend, fixture.etags[index]);
+        if (profiling) validationMs = performance.now() - validationStart;
+        if (profiling && backend === "rust") {
+          rustProfile = copyRustProfile(
+            result.response.diagnostics.experimentalRustRead.profile,
+            true,
+          );
+        }
+        const statisticsStart = profiling ? performance.now() : 0;
         stats.success(result.durationNs, evidence);
+        if (profiling) statisticsMs = performance.now() - statisticsStart;
+        outcome = "success";
         if (evidence.observed429) {
           valid = false;
-          break;
         }
       } catch (error) {
+        if (profiling && backend === "rust") {
+          rustProfile = copyRustProfile(error.diagnostics?.experimentalRustRead?.profile, false);
+        }
+        if (profiling) validationMs ??= performance.now() - validationStart;
+        const statisticsStart = profiling ? performance.now() : 0;
         stats.failure(result.durationNs, {
           ...safeError(error),
           status_code: result.response?.statusCode ?? safeError(error).status_code,
         });
+        if (profiling) statisticsMs = performance.now() - statisticsStart;
         valid = false;
-        break;
       }
+      if (profiling) {
+        profiles.push({
+          operation: ++operation,
+          started_seconds: readStart,
+          public_ms: Number(result.durationNs) / 1e6,
+          duration_us: Math.max(1, Number(result.durationNs / 1000n)),
+          validation_ms: validationMs,
+          statistics_ms: statisticsMs,
+          outcome,
+          ...(rustProfile ? { rust: rustProfile } : {}),
+        });
+      }
+      if (!valid) break;
       if (clock() - stats.last >= config.reportIntervalSeconds) flush();
       index = (index + 1) % config.itemCount;
     }

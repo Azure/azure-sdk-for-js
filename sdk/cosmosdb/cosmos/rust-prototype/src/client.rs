@@ -14,6 +14,7 @@ use napi_derive::napi;
 use std::sync::{Arc, Mutex, MutexGuard};
 use url::Url;
 
+use crate::profiling::ReadProfileClock;
 use crate::response::{NativeReadResponse, ReadFailure};
 
 #[napi]
@@ -88,7 +89,9 @@ impl NativeReadClient {
         container: String,
         item_id: String,
         partition_key: String,
+        profile: Option<bool>,
     ) -> Result<AsyncBlock<NativeReadResponse>> {
+        let mut profile = profile.unwrap_or(false).then(ReadProfileClock::new);
         // Acquire ownership on the JS thread, before close() can release the client.
         let driver = self.lock_driver().and_then(|driver| {
             driver.as_ref().map(Arc::clone).ok_or_else(|| {
@@ -98,6 +101,9 @@ impl NativeReadClient {
         AsyncBlockBuilder::build_with_map(
             env,
             async move {
+                if let Some(clock) = profile.as_mut() {
+                    clock.mark();
+                }
                 let driver = driver?;
                 for (name, value) in [
                     ("database", &database),
@@ -112,11 +118,14 @@ impl NativeReadClient {
                     }
                 }
                 // An empty string is a valid supplied partition-key value.
-                let result = async {
+                let result: std::result::Result<_, ReadFailure> = async {
                     let container = driver
                         .resolve_container(&database, &container, OperationOptions::default())
                         .await
                         .map_err(|error| ReadFailure::new("resolveContainer", error))?;
+                    if let Some(clock) = profile.as_mut() {
+                        clock.mark();
+                    }
                     let item = ItemReference::from_name(
                         &container,
                         PartitionKey::from(partition_key),
@@ -127,24 +136,37 @@ impl NativeReadClient {
                             BinaryEncodingOptions::new().with_request_text_response(true),
                         )
                         .build();
-                    driver
+                    let response = driver
                         .execute_operation(CosmosOperation::read_item(item), options)
                         .await
-                        .map_err(|error| ReadFailure::new("readItem", error))
+                        .map_err(|error| ReadFailure::new("readItem", error))?;
+                    if let Some(clock) = profile.as_mut() {
+                        clock.mark();
+                    }
+                    Ok(response)
                 }
                 .await;
                 // Prepare owned buffers on Tokio; N-API value creation stays on the JS thread.
-                match result {
-                    Ok(Some(response)) => Ok(Ok(NativeReadResponse::from_read(&response)?)),
-                    Ok(None) => Err(Error::new(
-                        Status::GenericFailure,
-                        "The Rust driver returned no response for a point read.",
-                    )),
-                    Err(failure) => Ok(Err(failure)),
+                let prepared = match result {
+                    Ok(Some(response)) => Ok(NativeReadResponse::from_read(&response)?),
+                    Ok(None) => {
+                        return Err(Error::new(
+                            Status::GenericFailure,
+                            "The Rust driver returned no response for a point read.",
+                        ))
+                    }
+                    Err(failure) => Err(failure),
+                };
+                if let Some(clock) = profile.as_mut() {
+                    clock.mark();
                 }
+                Ok((prepared, profile))
             },
-            |env, result| match result {
-                Ok(response) => Ok(response),
+            |env, (result, profile)| match result {
+                Ok(mut response) => {
+                    response.profile = profile.map(ReadProfileClock::finish).transpose()?;
+                    Ok(response)
+                }
                 Err(failure) => Err(failure.into_napi_error(&env)?),
             },
         )

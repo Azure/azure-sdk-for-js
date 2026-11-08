@@ -19,7 +19,7 @@ import type { OperationType, ResourceType } from "../common/index.js";
 import { Constants, prepareURL } from "../common/index.js";
 import { allowTracing } from "./diagnosticLevelComparator.js";
 import { randomUUID } from "@azure/core-util";
-import type { NativeReadDiagnostics } from "../rust/NativeReadClient.js";
+import type { NativeReadDiagnostics, RustReadProfile } from "../rust/NativeReadClient.js";
 
 /**
  * @hidden
@@ -41,8 +41,8 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   private experimentalRustRead?: CosmosDiagnostics["experimentalRustRead"];
 
   /** @internal */
-  public markRustRead(requests?: NativeReadDiagnostics): void {
-    this.experimentalRustRead = { coverage: "partial", requests };
+  public markRustRead(requests?: NativeReadDiagnostics, profile?: RustReadProfile): void {
+    this.experimentalRustRead = { coverage: "partial", requests, ...(profile ? { profile } : {}) };
   }
 
   /**

@@ -80,7 +80,8 @@ function runChild(
   runtime = { fork, setTimeout, clearTimeout, openSync, closeSync },
 ) {
   return new Promise((resolve, reject) => {
-    const { signal, configSha256 } = options;
+    const { signal, configSha256, profilingMode = "none" } = options;
+    assert.ok(["none", "stages_v1"].includes(profilingMode));
     signal?.throwIfAborted();
     if (configSha256 !== undefined) readConfig(configPath, configSha256);
     const fd = runtime.openSync(logPath, "wx");
@@ -95,6 +96,7 @@ function runChild(
           env: {
             ...process.env,
             AZURE_COSMOS_EXPERIMENTAL_READ_IMPLEMENTATION: mode === "rust" ? "rust" : "javascript",
+            AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING: mode === "qualify" ? "none" : profilingMode,
           },
         },
       );
@@ -240,6 +242,7 @@ async function main() {
         warmup_exclusion: "none",
         reporting_mode: "after_reads",
         reporting_format: "aggregate_v1",
+        profiling_mode: config.profilingMode ?? "none",
         diagnostics_coverage: "partial",
         configuration_sha256: configHash,
         environment,
@@ -285,7 +288,7 @@ async function main() {
         seconds,
         config.shutdownGraceSeconds,
         reporter,
-        { signal, configSha256: configHash },
+        { signal, configSha256: configHash, profilingMode: config.profilingMode ?? "none" },
       );
       signal.throwIfAborted();
       readConfig(effectiveConfig, configHash);

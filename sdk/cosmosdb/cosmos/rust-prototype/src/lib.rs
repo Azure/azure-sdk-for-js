@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 mod client;
+mod profiling;
 mod response;
 
 use napi::{Error, Result, Status};

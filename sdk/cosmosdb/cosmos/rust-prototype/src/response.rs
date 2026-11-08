@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use crate::profiling::NativeReadProfile;
 use azure_data_cosmos_driver::{
     diagnostics::DiagnosticsContext,
     error::CosmosError,
@@ -23,6 +24,7 @@ pub struct NativeReadResponse {
     pub session_token: Option<String>,
     pub retry_after_ms: Option<String>,
     pub diagnostics: NativeReadDiagnostics,
+    pub profile: Option<NativeReadProfile>,
 }
 
 #[napi(object)]
@@ -82,6 +84,7 @@ impl NativeReadResponse {
                 .map(|value| value.as_str().to_owned()),
             retry_after_ms: headers.retry_after_ms.map(|value| value.to_string()),
             diagnostics: NativeReadDiagnostics::from_driver(response.diagnostics_ref())?,
+            profile: None,
         })
     }
 }

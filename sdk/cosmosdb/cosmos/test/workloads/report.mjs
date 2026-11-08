@@ -13,6 +13,7 @@ import {
   MAX_BUFFERED_INTERVALS,
 } from "./stats.mjs";
 import { sha256 } from "./common.mjs";
+import { validateReadProfiles } from "./profiling.mjs";
 
 function utcMilliseconds(value) {
   const parsed = Date.parse(value);
@@ -58,8 +59,15 @@ function validateIntervalResults(rows, expected) {
     assert.equal(completion.interval_count, measurements.length);
     assert.equal(completion.summary_count, measurements.length);
     let intervalEnd = 0;
+    let profileOperations = 0;
     let previousUtcEnd = utcMilliseconds(measurements[0].measurement_started_at_utc);
     for (const [index, row] of measurements.entries()) {
+      profileOperations = validateReadProfiles(
+        row,
+        cell.config_backend,
+        cell.profiling_mode,
+        profileOperations,
+      );
       assert.equal(row.operation, "ReadItem");
       assert.equal(row.interval_number, index + 1);
       assert.equal(row.interval_id, `${cell.process_id}-${index + 1}`);
@@ -124,6 +132,7 @@ function validateIntervalResults(rows, expected) {
       completions_per_second: summary.count / elapsed,
       first_operation: measurements[0].first_operation,
       reporting_mode: cell.reporting_mode,
+      ...(cell.profiling_mode !== undefined ? { profiling_mode: cell.profiling_mode } : {}),
       ru_sum: measurements.reduce((total, row) => total + row.ru_sum, 0),
       attempt_evidence: attempts,
       measurement_started_at_utc: measurements[0].measurement_started_at_utc,

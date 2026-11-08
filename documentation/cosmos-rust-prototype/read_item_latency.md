@@ -14,29 +14,32 @@ configuration is not permission to run it.
 
 ## Where we are now
 
-**Checkpoint: November 8, 2026 (UTC).** The optimized build and deferred reporting
-completed the approved warm-up calibration. Reads passed correctness and
-observed-throttling checks, but the deferred results upload encountered service
-429s. An exploratory 11-second exclusion candidate was identified. The final
-performance comparison has not started and remains blocked on reporting.
+**Checkpoint: November 8, 2026 (UTC).** The new two-record reporting check passed
+with complete raw evidence and no observed service 429s. The earlier warm-up
+calibration's reporting-throttling failure remains historical evidence; its
+exploratory 11-second exclusion candidate is unchanged. The final performance
+comparison has not started and still requires its own configuration and budget.
 
-**Local, not deployed:** the reporting revision now saves detailed intervals
+**Two-record reporting deployed:** revision
+`80224e3b0232d129664f1546edd1cc9f83efad54` now saves detailed intervals
 in a local artifact and creates only one aggregate measurement plus one
 completion per sequence. The deployed `140f150a` calibration used one Cosmos
 measurement per interval: 120 measurements plus one completion per sequence,
 or 484 documents across four sequences. That historical run did not use the
-two-document format. No new service run or capacity change accompanies this
-local revision.
+two-document format. A separately approved reporting check uses 120 seconds
+per implementation, one repetition, one-second snapshots, 2,000 qualification
+reads and a 120-second shutdown/reporting allowance per sequence. No throughput
+change or final performance comparison accompanies this verification.
 
 | Part | Recorded state | Remaining work |
 |---|---|---|
 | VM | `js-sdk-rust-read-perf-vm`, East US, Ubuntu x64; accelerated networking verified | Select this VM explicitly |
-| JS source | Clean VM checkout of `140f150a14e504fa52e13b075c9d18a3dff98f05`; SDK and Linux release binding built and used for calibration | Preserve matching evidence |
+| JS source | Clean VM checkout of `80224e3b0232d129664f1546edd1cc9f83efad54`; SDK and Linux release binding rebuilt for aggregate reporting | Preserve matching evidence |
 | Rust dependency | Built with driver `5ba864be8f128a6faf3f736ae0043f60d5911235` and Rust 1.95.0 | Retain matching build evidence |
 | Earlier native build | Preserved separately; not used for this preflight | Do not mix artifacts between checkouts |
-| Workload qualification | Current build: all 1,000 orders qualified; 170,797 measured reads passed, with Gateway V2 evidence for all Rust reads | Repeat qualification for each new matrix |
+| Workload qualification | New build: all 1,000 orders qualified; 93,137 measured reads passed, with Gateway V2 evidence for all 49,503 Rust reads | Repeat qualification for each new matrix |
 | Dedicated data and results destinations | Provisioned; 1,000 orders seeded; manual dedicated throughput is now 10,000 RU/s for both workload and results | Preserve isolation; retain historical result records |
-| Capacity preflight | Calibration at 10,000/400 RU/s: no workload-container 429; results container recorded 750 service 429s. Results capacity subsequently increased to 10,000 RU/s | Verify reporting at the new capacity before the final comparison |
+| Capacity preflight | New aggregate run at 10,000/10,000 RU/s: four result creates and no observed service 429s on either container; reporting gate passed | Keep capacity unchanged; do not treat this as a future no-throttling guarantee |
 | Measurement protocol | Reporting follows reads; all raw samples retained. Conservative common exclusion candidate: 11 seconds | Treat this as exploratory, not proof of stationarity or a final performance result |
 | Full performance execution | Not started | Approve the complete configuration and run budget |
 
@@ -56,7 +59,7 @@ were rebuilt, with new provenance retained. Both paths passed live
 qualification from the same revision during calibration. The body copy remains inside the
 public-read timer; no warm-up exclusion or timing boundary was added.
 
-The clean checkout is:
+The earlier calibration used this clean checkout:
 
 ```text
 /home/azureuser/js-sdk-rust-read-perf/checkouts/140f150a14e504fa52e13b075c9d18a3dff98f05
@@ -135,8 +138,8 @@ approximately 39-41 seconds after each read sequence, outside its measured
 interval denominator.
 
 **Do not start the final comparison yet.** The results-capacity increase below
-was separately approved after this finding. Reporting at the new capacity
-still requires a separately approved bounded check; the calibration's failed
+was separately approved after this finding. The bounded aggregate-format
+check below subsequently passed at the new capacity; the calibration's failed
 no-throttling verdict remains historical evidence and is not changed to a pass.
 
 VM evidence, including all raw intervals, analysis policy, and detailed
@@ -175,6 +178,66 @@ preserved and their hashes rechecked. The SDK and native artifact are unchanged.
 
 Higher capacity is not proof that reporting will avoid 429s. Verify the
 results-side service metrics and drain deadline before the final comparison.
+
+### Two-record deployment and live verification
+
+The clean pushed revision `80224e3b0232d129664f1546edd1cc9f83efad54` was
+deployed to a separate checkout. Its release build completed at **07:31:54 UTC
+on November 8, 2026**. All 17 SDK build tasks, 13 binding tests and 44 workload
+tests passed, as did scoped typing, formatting, lint and runtime provenance
+checks. The driver pin and addon SHA-256 remained unchanged. The preceding
+`140f150a` checkout, build manifest and addon were preserved and checked.
+
+```text
+/home/azureuser/js-sdk-rust-read-perf/checkouts/80224e3b0232d129664f1546edd1cc9f83efad54
+```
+
+Both dedicated JS containers were checked at manual 10,000 RU/s before
+preparing the bounded reporting verification. Its config and predeclared
+verification policy are isolated from the earlier calibration:
+
+```text
+/home/azureuser/js-sdk-rust-read-perf/calibration/reporting-20261108T073758Z-fPZndhSX
+```
+
+The approved run, `f9550f2d-05bc-45c3-a0a2-a3dc584b78fd`, executed from
+**07:46:56 to 07:51:17 UTC on November 8, 2026**. It exited successfully, with
+a complete manifest, 1,000 orders qualified through both backends, and exactly
+four acknowledged Cosmos result records reconciled against the saved cloud
+readback report and raw artifacts.
+
+| Sequence | Successful measured reads | Raw intervals | Cosmos documents | Reporting seconds | Measurement write RU | Completion write RU |
+|---|---:|---:|---:|---:|---:|---:|
+| JavaScript | 43,634 | 120 | 2 | 1.170 | 759.10 | 36.19 |
+| Rust | 49,503 | 120 | 2 | 1.036 | 1,012.76 | 38.29 |
+
+Both sequences had zero measured errors and SDK-observed 429s. Every Rust read
+retained Gateway V2 evidence. The two raw artifacts contain all 240 intervals;
+their sizes are 741,108 and 789,919 bytes, with SHA-256 verified before upload
+and on readback. Successful-create receipts total **1,846.34 RU** across the
+four writes. Aggregate documents were 20,990 and 26,934 serialized UTF-8 bytes;
+completion documents were 3,117 and 3,202 bytes. Two documents are not necessarily
+cheap writes, so this evidence does not authorize reducing throughput.
+
+Service `TotalRequests` **Count**, captured at **07:53:45 UTC** using the
+surrounding **07:41-07:57 UTC query range**, covered 95,144 workload status-200
+requests (at least the required 95,137 including qualification), two status-304
+requests, four results status-201 requests and five results status-200 requests.
+No service 429 was observed for either destination. The range's later endpoint
+is a query bound, not a claim about observations after capture.
+
+The raw-artifact, completion, request-coverage and no-observed-throttling gates
+passed for this bounded run. Both capacities remained at 10,000 RU/s;
+credentials were cleaned up. `execution-summary.json`, `verification-verdict.json`,
+`service-verification.json`, raw metric responses and the `run` directory retain
+the evidence together.
+
+This check retains all samples and applies no warm-up exclusion. It verifies
+the new persistence format, not a latency-performance conclusion, a revised
+warm-up cutoff, or permission to start the final comparison. Reporting fell
+from approximately 39-41 seconds in the earlier interval-upload calibration to
+approximately 1.0-1.2 seconds here, but both the reporting format and results
+capacity changed between those runs; this is not an isolated causal measurement.
 
 ### Earlier recorded preflight
 
@@ -580,7 +643,7 @@ or the sequence's measured interval denominator. Result records and reports
 identify this protocol as `reporting_mode: "after_reads"`; do not silently pool
 them with historical during-read reporting runs.
 
-The local revision identifies its storage format as
+The deployed revision identifies its storage format as
 `reporting_format: "aggregate_v1"`. It keeps these separate outputs:
 
 | Output | Meaning |
@@ -642,6 +705,64 @@ The launcher checks the configuration before and after each child, and the
 child hashes the exact bytes it parses before accessing the service. Editing
 the effective configuration invalidates the run.
 
+### Opt-in stage profiling (local, not deployed)
+
+For a separately authorized diagnostic run, add `"profilingMode": "stages_v1"`
+to a copied workload configuration. Omit it or use `"none"` for an unprofiled
+run. The launcher propagates the mode explicitly, overrides inherited profiling
+settings, keeps qualification and reporting clients unprofiled, and records
+`profiling_mode` in identities and reports. The SDK's internal switch is
+`AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING`; the workload controls it from the
+hashed configuration.
+
+Each raw interval gains `read_profiles`, correlated by a contiguous per-sequence
+operation number. Both backends record public-call latency, operation start
+offset, outcome, validation time and statistics-update time. Rust additionally
+records adapter-relative milestones for entering/leaving the native call,
+UTF-8 decoding, JSON parsing, response construction and adapter completion.
+The post-native-to-decoded span includes diagnostics/body checks as well as
+UTF-8 decoding; the parsed-to-ready span includes body/charge checks and header
+construction. Harness `validation_ms` measures the normal `inspectRead` checks,
+not the additional profiling-record validation.
+Native timing uses its own monotonic clock:
+
+| Native field | Inclusive boundary |
+|---|---|
+| `dispatchMs` | Native method entry to first future poll; includes binding lock/setup and dispatch |
+| `resolveContainerMs` | First future poll to completed container resolution; includes argument checks |
+| `driverOperationMs` | Container resolution to driver-operation completion; includes item/options construction and the driver await |
+| `responsePreparationMs` | Driver completion to owned response preparation, including body/header/diagnostics copies |
+| `completionMs` | Prepared response to entry into the JavaScript-thread completion mapper |
+| `elapsedMs` | Native entry to completion mapper; reconciles with the five stages above |
+
+These are elapsed spans, not CPU samples or isolated network times. N-API value
+creation occurs after the completion mapper: the difference between the JS
+native-await span and `native.elapsedMs` includes this conversion, promise
+delivery and other boundary overhead; it is not a pure scheduler-delay metric.
+The adapter's pre-native span includes lazy initialization on the first read.
+Successful profiles require all stages. Failed reads retain available wrapper
+timings without inventing missing native stages.
+
+Profiles are bounded to 100,000 reads per sequence and remain subject to the
+64 MiB raw-artifact cap. Overflow fails explicitly. No per-read logging or IPC
+runs during reads; traces travel with the existing post-read intervals and are
+not copied into Cosmos aggregates. Raw validation reconciles profile ordinals,
+outcomes and quantized durations against each interval histogram. There are
+still only two Cosmos documents per successfully reported sequence.
+
+Profiling adds timing and allocation work, so its latency must not be pooled
+with unprofiled benchmark results. Neither clock sampling nor per-read trace
+allocation is enabled in the normal path. No Rust driver changes are involved.
+Retain warm-up samples and apply the same predeclared exclusion to both paths
+during analysis. For tail diagnosis, select slow **public reads** and examine
+their own correlated stages; do not subtract unrelated stage P99s.
+Cross-clock containment checks allow 0.01 ms for clock precision; no negative
+residuals are silently clamped or reclassified as measured CPU time.
+
+This local instrumentation has not been deployed or run against the service.
+A new pushed build, explicit profiling budget and later unprofiled confirmation
+are required before drawing a performance conclusion.
+
 ### What do attempt counters mean?
 
 `attempt_evidence` groups counts by pipeline, transport, status, and substatus.
@@ -690,10 +811,10 @@ invalidates the sequence. Acknowledged raw intervals remain available for diagno
 but do not make a failed or aborted run valid.
 
 The deployed per-interval deferred writes created a reporting burst against
-the results container when it had 400 RU/s. In the new local format, finer
+the results container when it had 400 RU/s. In the new aggregate format, finer
 snapshots increase artifact and IPC work, not the number of Cosmos documents.
-Results capacity is now 10,000 RU/s, but the two-record revision has not been
-deployed or reverified against the service.
+Results capacity is now 10,000 RU/s and the two-record revision is deployed.
+Its separately budgeted service verification is recorded above.
 Check results-side throttling and the bounded shutdown budget in a separately
 approved run; do not increase capacity or the run budget implicitly.
 

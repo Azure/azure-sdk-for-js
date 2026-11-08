@@ -72,6 +72,7 @@ describe("public experimental Rust item reads", () => {
 
   beforeEach(() => {
     vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_IMPLEMENTATION", "rust");
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "none");
     native.create.mockReset().mockResolvedValue(native);
     native.readItem.mockReset().mockImplementation(async () => response());
     native.close.mockReset();
@@ -109,6 +110,102 @@ describe("public experimental Rust item reads", () => {
         requests,
       });
     }
+  });
+
+  it("only requests stage timings when explicitly enabled and keeps profiles per read", async () => {
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "stages_v1");
+    const timing = {
+      dispatchMs: 0,
+      resolveContainerMs: 0,
+      driverOperationMs: 0,
+      responsePreparationMs: 0,
+      completionMs: 0,
+      elapsedMs: 0,
+    };
+    native.readItem.mockImplementation(async () => ({ ...response(), profile: { ...timing } }));
+    const reference = item();
+    const first = await reference.read();
+    const second = await reference.read();
+    expect(native.readItem).toHaveBeenCalledWith(
+      "sales",
+      "orders",
+      "order-17",
+      "customer-17",
+      true,
+    );
+    for (const result of [first, second]) {
+      const profile = result.diagnostics.experimentalRustRead.profile;
+      expect(profile.native).toEqual(timing);
+      const boundaries = [
+        profile.nativeCallStartMs,
+        profile.nativeCallEndMs,
+        profile.decodedAtMs,
+        profile.parsedAtMs,
+        profile.responseReadyAtMs,
+        profile.adapterEndMs,
+      ];
+      expect(boundaries.every((time) => Number.isFinite(time) && time >= 0)).toBe(true);
+      expect(boundaries).toEqual([...boundaries].sort((a, b) => a - b));
+    }
+    expect(first.diagnostics.experimentalRustRead.profile).not.toBe(
+      second.diagnostics.experimentalRustRead.profile,
+    );
+  });
+
+  it("does not sample profiling clocks or request native profiles when disabled", async () => {
+    native.readItem.mockResolvedValue({ ...response(), profile: null });
+    const clock = vi.spyOn(performance, "now");
+    const result = await item().read();
+    expect(clock).not.toHaveBeenCalled();
+    expect(native.readItem).toHaveBeenCalledWith("sales", "orders", "order-17", "customer-17");
+    expect(result.diagnostics.experimentalRustRead).not.toHaveProperty("profile");
+  });
+
+  it("fails closed for missing or inconsistent native timing instead of inventing durations", async () => {
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "stages_v1");
+    const reference = item();
+    await expect(reference.read()).rejects.toThrow("missing or invalid read profiling");
+    native.readItem.mockResolvedValue({
+      ...response(),
+      profile: {
+        dispatchMs: 1,
+        resolveContainerMs: 2,
+        driverOperationMs: 3,
+        responsePreparationMs: 4,
+        completionMs: 5,
+        elapsedMs: 1,
+      },
+    });
+    await expect(reference.read()).rejects.toThrow("missing or invalid read profiling");
+  });
+
+  it("preserves partial wrapper timings on native errors without creating native timings", async () => {
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "stages_v1");
+    native.readItem.mockRejectedValue(failure(503));
+    const result = await item()
+      .read()
+      .catch((error: unknown) => error);
+    expect(result).toBeInstanceOf(ErrorResponse);
+    expect(result).toMatchObject({
+      code: 503,
+      diagnostics: {
+        experimentalRustRead: {
+          profile: {
+            nativeCallStartMs: expect.any(Number),
+            nativeCallEndMs: expect.any(Number),
+            adapterEndMs: expect.any(Number),
+          },
+        },
+      },
+    });
+  });
+
+  it("rejects invalid profiling configuration and unexpected enabled native instrumentation", async () => {
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "typo");
+    expect(() => client()).toThrow("must be 'none' or 'stages_v1'");
+    vi.stubEnv("AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING", "none");
+    native.readItem.mockResolvedValue({ ...response(), profile: {} });
+    await expect(item().read()).rejects.toThrow("profiling for an unprofiled read");
   });
 
   it("preserves native diagnostics after the standard wrapper for 404 responses", async () => {

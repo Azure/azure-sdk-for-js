@@ -15,6 +15,7 @@ import {
 } from "./stats.mjs";
 import { sha256 } from "./common.mjs";
 import { validateIntervalResults } from "./report.mjs";
+import { validateReadProfiles } from "./profiling.mjs";
 
 function encodeResult(document) {
   const bytes = Buffer.from(`${JSON.stringify(document)}\n`);
@@ -45,6 +46,7 @@ class Reporter {
     this.logfile = logfile;
     this.artifactFile = path.join(path.dirname(logfile), `${identity.workload_id}.intervals.jsonl`);
     this.intervals = 0;
+    this.profileOperations = 0;
     this.buckets = 0;
     this.artifactBytes = 0;
     this.artifactHash = createHash("sha256");
@@ -85,6 +87,12 @@ class Reporter {
     try {
       assert.equal(snapshot.interval_number, this.intervals + 1);
       assert.equal(snapshot.errors, snapshot.error_details.length);
+      const profileOperations = validateReadProfiles(
+        snapshot,
+        this.identity.config_backend,
+        this.identity.profiling_mode,
+        this.profileOperations,
+      );
       assert.ok(this.intervals < MAX_BUFFERED_INTERVALS, "Deferred interval capacity exceeded");
       const buckets = this.buckets + snapshot.histogram_us.length;
       assert.ok(buckets <= MAX_BUFFERED_BUCKETS, "Deferred histogram capacity exceeded");
@@ -108,6 +116,7 @@ class Reporter {
       this.artifactBytes += bytes.length;
       this.buckets = buckets;
       this.intervals++;
+      this.profileOperations = profileOperations;
     } catch (error) {
       this.failed = true;
       throw error;

@@ -10,11 +10,13 @@ import { ErrorResponse } from "../request/ErrorResponse.js";
 import type { RequestOptions } from "../request/RequestOptions.js";
 import type { Response } from "../request/Response.js";
 import { getNativeReadClientFactory } from "../utils/nativeReadClient.js";
+import { getExperimentalReadProfiling } from "../utils/envUtils.js";
 import type {
   NativeReadClient,
   NativeReadClientFactory,
   NativeReadDiagnostics,
   NativeReadResponse,
+  RustReadProfile,
 } from "./NativeReadClient.js";
 
 function configurationError(options: CosmosClientOptions): string | undefined {
@@ -100,6 +102,7 @@ export class RustReadAdapter {
   private readonly unsupportedConfiguration?: string;
   private readonly factory: NativeReadClientFactory;
   private readonly decoder = new TextDecoder("utf-8", { fatal: true });
+  private readonly profileReads: boolean;
   private initialization?: Promise<NativeReadClient>;
   private native?: NativeReadClient;
   private disposed = false;
@@ -111,6 +114,7 @@ export class RustReadAdapter {
     this.key = options.key;
     this.unsupportedConfiguration = configurationError(options);
     this.factory = getNativeReadClientFactory();
+    this.profileReads = getExperimentalReadProfiling();
   }
 
   public async read<T>(
@@ -121,7 +125,9 @@ export class RustReadAdapter {
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<T>> {
-    diagnosticNode.markRustRead();
+    const profile: RustReadProfile | undefined = this.profileReads ? {} : undefined;
+    const started = profile ? performance.now() : 0;
+    diagnosticNode.markRustRead(undefined, profile);
     if (this.disposed) throw new Error("The experimental Rust read client is disposed.");
     if (this.unsupportedConfiguration) {
       throw new Error(`Experimental Rust reads do not support ${this.unsupportedConfiguration}.`);
@@ -151,13 +157,20 @@ export class RustReadAdapter {
       }
       let result: NativeReadResponse;
       try {
-        result = await native.readItem(database, container, itemId, partitionKey[0]);
+        if (profile) profile.nativeCallStartMs = performance.now() - started;
+        try {
+          result = profile
+            ? await native.readItem(database, container, itemId, partitionKey[0], true)
+            : await native.readItem(database, container, itemId, partitionKey[0]);
+        } finally {
+          if (profile) profile.nativeCallEndMs = performance.now() - started;
+        }
       } catch (error: unknown) {
         if (!isNativeFailure(error)) throw error;
         const diagnostics = error.diagnostics ?? error.response?.diagnostics;
         if (diagnostics) {
           validateDiagnostics(diagnostics);
-          diagnosticNode.markRustRead(diagnostics);
+          diagnosticNode.markRustRead(diagnostics, profile);
         }
         const headers = error.response ? responseHeaders(error.response) : {};
         if (error.statusCode === 404 && error.fromWire) {
@@ -189,11 +202,41 @@ export class RustReadAdapter {
         throw converted;
       }
       validateDiagnostics(result.diagnostics);
-      diagnosticNode.markRustRead(result.diagnostics);
+      diagnosticNode.markRustRead(result.diagnostics, profile);
+      if (profile) {
+        const timing = result.profile;
+        if (
+          !timing ||
+          [
+            timing.dispatchMs,
+            timing.resolveContainerMs,
+            timing.driverOperationMs,
+            timing.responsePreparationMs,
+            timing.completionMs,
+            timing.elapsedMs,
+          ].some((value) => !Number.isFinite(value) || value < 0) ||
+          Math.abs(
+            timing.dispatchMs +
+              timing.resolveContainerMs +
+              timing.driverOperationMs +
+              timing.responsePreparationMs +
+              timing.completionMs -
+              timing.elapsedMs,
+          ) > 1e-6
+        ) {
+          throw new Error("The Rust binding returned missing or invalid read profiling.");
+        }
+        profile.native = timing;
+      } else if (result.profile !== undefined && result.profile !== null) {
+        throw new Error("The Rust binding returned profiling for an unprofiled read.");
+      }
       if (result.statusCode !== 200 || !(result.body instanceof Uint8Array)) {
         throw new Error("The Rust binding returned an invalid successful item response.");
       }
-      const resource: unknown = JSON.parse(this.decoder.decode(result.body));
+      const text = this.decoder.decode(result.body);
+      if (profile) profile.decodedAtMs = performance.now() - started;
+      const resource: unknown = JSON.parse(text);
+      if (profile) profile.parsedAtMs = performance.now() - started;
       if (
         resource === null ||
         typeof resource !== "object" ||
@@ -210,15 +253,18 @@ export class RustReadAdapter {
       ) {
         throw new Error("The Rust binding returned an invalid request charge.");
       }
+      const headers = responseHeaders(result);
+      if (profile) profile.responseReadyAtMs = performance.now() - started;
       return {
         result: resource as T,
-        headers: responseHeaders(result),
+        headers,
         code: result.statusCode,
         substatus: result.subStatusCode,
       };
     } finally {
       this.activeReads--;
       this.closeIfIdle();
+      if (profile) profile.adapterEndMs = performance.now() - started;
     }
   }
 

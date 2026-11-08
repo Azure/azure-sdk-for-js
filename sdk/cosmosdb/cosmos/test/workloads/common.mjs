@@ -48,6 +48,10 @@ function validateConfig(config) {
     "nativeBuildManifest",
     "capacityRuPerSecond",
   ];
+  if (Object.hasOwn(config, "profilingMode")) {
+    keys.push("profilingMode");
+    assert.ok(["none", "stages_v1"].includes(config.profilingMode), "Unknown profiling mode");
+  }
   assert.deepEqual(
     Object.keys(config).sort(),
     keys.sort(),
@@ -175,11 +179,13 @@ function inspectRead(response, index, backend, etag) {
   };
 }
 
-async function createClient(backend, endpoint) {
+async function createClient(backend, endpoint, profilingMode = "none") {
   assert.ok(["javascript", "rust"].includes(backend));
+  assert.ok(["none", "stages_v1"].includes(profilingMode), "Unknown profiling mode");
   assert.ok(process.env.ACCOUNT_KEY?.trim(), "ACCOUNT_KEY is required in process memory");
   process.env.AZURE_COSMOS_EXPERIMENTAL_READ_IMPLEMENTATION = backend;
   process.env.AZURE_COSMOS_EXPERIMENTAL_NATIVE_BINDING_PATH = bindingPath;
+  process.env.AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING = profilingMode;
   const { CosmosClient } = await import(pathToFileURL(sdkPath).href);
   return new CosmosClient({
     endpoint,

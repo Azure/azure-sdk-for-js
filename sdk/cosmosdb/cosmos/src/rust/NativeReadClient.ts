@@ -2,6 +2,27 @@
 // Licensed under the MIT License.
 
 /** @internal */
+export interface NativeReadProfile {
+  dispatchMs: number;
+  resolveContainerMs: number;
+  driverOperationMs: number;
+  responsePreparationMs: number;
+  completionMs: number;
+  elapsedMs: number;
+}
+
+/** @internal */
+export interface RustReadProfile {
+  nativeCallStartMs?: number;
+  nativeCallEndMs?: number;
+  decodedAtMs?: number;
+  parsedAtMs?: number;
+  responseReadyAtMs?: number;
+  adapterEndMs?: number;
+  native?: NativeReadProfile;
+}
+
+/** @internal */
 export interface NativeReadDiagnostics {
   requestCount: number;
   retainedRequestCount: number;
@@ -24,6 +45,7 @@ export interface NativeReadResponse {
   sessionToken?: string;
   retryAfterMs?: string;
   diagnostics: NativeReadDiagnostics;
+  profile?: NativeReadProfile | null;
 }
 
 /** @internal */
@@ -33,6 +55,7 @@ export interface NativeReadClient {
     container: string,
     itemId: string,
     partitionKey: string,
+    profile?: boolean,
   ): Promise<NativeReadResponse>;
   close(): void;
 }
