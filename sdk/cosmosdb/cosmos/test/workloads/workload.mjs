@@ -13,7 +13,7 @@ import {
   checkContainer,
   safeError,
 } from "./common.mjs";
-import { Stats } from "./stats.mjs";
+import { Stats, IntervalBuffer } from "./stats.mjs";
 
 const seconds = () => Number(process.hrtime.bigint()) / 1e9;
 
@@ -70,53 +70,68 @@ async function qualify(config, filename, signal) {
   }
 }
 
-async function run(config, backend, fixturePath, signal) {
-  assert.ok(process.send, "Launch the workload through launch.mjs");
+async function run(
+  config,
+  backend,
+  fixturePath,
+  signal,
+  runtime = { channel: process, createClient, seconds },
+) {
+  const { channel, createClient: makeClient, seconds: clock } = runtime;
+  assert.ok(channel.send, "Launch the workload through launch.mjs");
   let reportingError = false;
   let nextMessage = 0;
-  const pending = new Map();
-  const acknowledged = [];
+  let pending;
+  function failReporting(error) {
+    reportingError = true;
+    pending?.reject(error);
+    pending = undefined;
+  }
   const acknowledge = (message) => {
     if (message.type === "ack") {
-      const entry = pending.get(message.id);
-      if (!entry) {
-        reportingError = true;
+      if (!pending || pending.id !== message.id || message.ok !== true) {
+        failReporting(
+          new Error("Reporter rejected an interval or sent an invalid acknowledgement"),
+        );
         return;
       }
-      if (!message.ok) {
-        reportingError = true;
-      }
-      entry();
-      pending.delete(message.id);
+      const entry = pending;
+      pending = undefined;
+      entry.resolve();
     }
   };
   const disconnected = () => {
-    if (pending.size) process.exitCode = 1;
-    reportingError = true;
-    for (const resolve of pending.values()) resolve();
-    pending.clear();
+    channel.exitCode = 1;
+    failReporting(new Error("Reporter disconnected before reporting completed"));
   };
-  function publish(snapshot) {
-    if (!snapshot) return;
-    assert.ok(!reportingError && pending.size < 8, "Reporter failed or cannot keep up");
+  async function publish(snapshot) {
+    assert.ok(!reportingError && !pending, "Reporter failed or cannot keep up");
     const id = ++nextMessage;
-    acknowledged.push(new Promise((resolve) => pending.set(id, resolve)));
-    process.send({ type: "interval", id, snapshot });
+    await new Promise((resolve, reject) => {
+      pending = { id, resolve, reject };
+      channel.send({ type: "interval", id, snapshot }, (error) => {
+        if (error) failReporting(error);
+      });
+    });
+    assert.ok(!reportingError, "Reporting did not finish successfully");
   }
 
   const fixture = JSON.parse(readFileSync(fixturePath, "utf8"));
   assert.equal(fixture.endpoint, config.endpoint);
   assert.deepEqual(fixture.target, config.workload);
   assert.equal(fixture.etags.length, config.itemCount);
-  const started = seconds();
+  const started = clock();
   const stats = new Stats(started);
-  const constructionStart = seconds();
+  const buffered = new IntervalBuffer(
+    Math.ceil(config.durationSeconds / config.reportIntervalSeconds) + 1,
+  );
+  const constructionStart = clock();
   let client;
   try {
-    process.on("message", acknowledge);
-    process.on("disconnect", disconnected);
-    client = await createClient(backend, config.endpoint);
-    const constructionMs = (seconds() - constructionStart) * 1000;
+    channel.on("message", acknowledge);
+    channel.on("disconnect", disconnected);
+    client = await makeClient(backend, config.endpoint);
+    const constructionMs = (clock() - constructionStart) * 1000;
     const container = client
       .database(config.workload.database)
       .container(config.workload.container);
@@ -125,12 +140,12 @@ async function run(config, backend, fixturePath, signal) {
     let firstCompletionSeconds;
     let cpu = process.cpuUsage();
     function flush() {
-      const snapshot = stats.drain(seconds());
+      const snapshot = stats.drain(clock());
       if (snapshot) {
         const currentCpu = process.cpuUsage();
         const usage = { user: currentCpu.user - cpu.user, system: currentCpu.system - cpu.system };
         cpu = currentCpu;
-        publish({
+        buffered.add({
           ...snapshot,
           client_setup_ms: constructionMs,
           first_completion_process_seconds: firstCompletionSeconds,
@@ -161,16 +176,23 @@ async function run(config, backend, fixturePath, signal) {
         valid = false;
         break;
       }
-      if (seconds() - stats.last >= config.reportIntervalSeconds) flush();
+      if (clock() - stats.last >= config.reportIntervalSeconds) flush();
       index = (index + 1) % config.itemCount;
     }
     flush();
-    await Promise.all(acknowledged);
+    // No reporting IPC or persistence overlaps the read loop.
+    for (const snapshot of buffered.drain()) await publish(snapshot);
     assert.ok(!reportingError, "Reporting did not finish successfully");
-    process.send({ type: "complete", valid: valid && !signal.reason?.aborted });
+    await new Promise((resolve, reject) => {
+      channel.send({ type: "complete", valid: valid && !signal.reason?.aborted }, (error) => {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+    assert.ok(!reportingError, "Reporting did not finish successfully");
   } finally {
-    process.off("message", acknowledge);
-    process.off("disconnect", disconnected);
+    channel.off("message", acknowledge);
+    channel.off("disconnect", disconnected);
     client?.dispose();
   }
 }
@@ -223,4 +245,4 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   });
 }
 
-export { timedRead };
+export { timedRead, run };

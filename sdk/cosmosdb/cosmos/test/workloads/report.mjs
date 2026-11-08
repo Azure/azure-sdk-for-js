@@ -37,6 +37,7 @@ function validateResults(rows, expected) {
         "config_concurrency",
         "configuration_sha256",
         "environment",
+        "reporting_mode",
       ]) {
         assert.deepEqual(row[field], cell[field], `Mismatched ${field}`);
       }
@@ -120,6 +121,7 @@ function validateResults(rows, expected) {
       interval_seconds: elapsed,
       completions_per_second: summary.count / elapsed,
       first_operation: measurements[0].first_operation,
+      reporting_mode: cell.reporting_mode,
       ru_sum: measurements.reduce((total, row) => total + row.ru_sum, 0),
       attempt_evidence: attempts,
       measurement_started_at_utc: measurements[0].measurement_started_at_utc,

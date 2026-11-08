@@ -14,43 +14,66 @@ configuration is not permission to run it.
 
 ## Where we are now
 
-**Checkpoint: November 7, 2026 (UTC).** Preparation and the bounded preflight
-have passed. The proposed full performance comparison has not started.
+**Checkpoint: November 8, 2026 (UTC).** The pushed optimizations are deployed
+and rebuilt on the VM. Workload capacity is now 10,000 RU/s. The earlier bounded
+preflight qualifies the older build only; no live run of the optimized build or
+full performance comparison has started.
 
 | Part | Recorded state | Remaining work |
 |---|---|---|
 | VM | `js-sdk-rust-read-perf-vm`, East US, Ubuntu x64; accelerated networking verified | Select this VM explicitly |
-| JS source | Clean VM checkout of `1ea9953656d8a33cd74d3b4aed7af138a4da34eb`; SDK and release binding built | Preserve the selected build |
+| JS source | Clean VM checkout of `b02be558c113d856cc77c8ea7e32c48868465a76`; SDK and Linux release binding built | Qualify both implementations from this build |
 | Rust dependency | Built with driver `5ba864be8f128a6faf3f736ae0043f60d5911235` and Rust 1.95.0 | Retain matching build evidence |
 | Earlier native build | Preserved separately; not used for this preflight | Do not mix artifacts between checkouts |
-| Workload qualification | All 1,000 orders passed JS/Rust body and ETag checks; Rust data requests used Gateway V2 | Launcher repeats qualification before each new matrix |
-| Dedicated data and results destinations | Provisioned; 1,000 orders seeded; manual dedicated throughput is 1,000 RU/s for workload and 400 RU/s for results | Preserve isolation; retain preflight result records |
-| Capacity preflight | One 15-second sequence per implementation, 5-second reporting; no workload errors or observed SDK/service 429 | This does not establish full-run performance |
+| Workload qualification | Earlier build: all 1,000 orders passed JS/Rust body and ETag checks; Rust data requests used Gateway V2 | Repeat qualification for the selected build |
+| Dedicated data and results destinations | Provisioned; 1,000 orders seeded; manual dedicated throughput is 10,000 RU/s for workload and 400 RU/s for results | Preserve isolation; retain preflight result records |
+| Capacity preflight | Earlier build at 1,000 RU/s: one 15-second sequence per implementation, 5-second reporting; no workload errors or observed SDK/service 429 | Repeat an approved bounded check; more capacity does not guarantee no throttling |
+| Measurement protocol | Deployed build reports during reads; local changes defer reporting until each sequence ends. All samples still include warm-up | Push/deploy the workload changes and calibrate warm-up before steady-state interpretation |
 | Full performance execution | Not started | Approve the complete configuration and run budget |
 
-**Local changes after that preflight:** the workload now rejects Rust-marked
+**Changes deployed after that preflight:** the workload now rejects Rust-marked
 JavaScript responses, persists bounded attempt evidence, records UTC/host/capacity
 snapshots, verifies the effective configuration's SHA-256, and handles
-SIGINT/SIGTERM with bounded cleanup and an aborted manifest. These changes have
-not been deployed or exercised against the service. The recorded preflight
-qualifies the older checkout, not these new safeguards. Push and deploy the
-intended source, then repeat a separately approved short preflight before the
-full comparison.
+SIGINT/SIGTERM with bounded cleanup and an aborted manifest. The Linux build and
+offline checks passed; these changes have not been exercised against the service.
+The recorded preflight qualifies the older checkout, not these new safeguards.
+Repeat a separately approved short preflight before the full comparison.
 
-The local wrapper/binding optimizations also postdate this preflight. They
+The deployed wrapper/binding optimizations also postdate this preflight. They
 reuse adapter state, eliminate placeholder read diagnostics, skip formatting
 for the no-op diagnostic writer, and prepare successful native response data
 on Tokio before JavaScript completion. The shared diagnostic optimizations
-change the JavaScript baseline too. Rebuild both SDK targets and the Linux
-release addon, retain new provenance, and qualify both paths from the same
-revision. The body copy remains inside the public-read timer; no warm-up
-exclusion or timing boundary was added. These changes have not been deployed.
+change the JavaScript baseline too. Both SDK targets and the Linux release addon
+were rebuilt, with new provenance retained. Both paths still need live
+qualification from the same revision. The body copy remains inside the
+public-read timer; no warm-up exclusion or timing boundary was added.
 
 The clean checkout is:
 
 ```text
-/home/azureuser/js-sdk-rust-read-perf/checkouts/1ea9953656d8a33cd74d3b4aed7af138a4da34eb
+/home/azureuser/js-sdk-rust-read-perf/checkouts/b02be558c113d856cc77c8ea7e32c48868465a76
 ```
+
+The release build completed at **23:50:15 UTC on November 7, 2026** using Node
+22.23.3, pnpm 11.24.0, and Rust/Cargo 1.95.0. All 17 SDK build tasks succeeded;
+13 binding checks, 25 workload checks, and 73 wrapper/diagnostics/selection/loader
+tests passed. CommonJS/ESM imports, the native async probe, workload configuration
+typing, and binary/provenance checks also passed. Addon SHA-256:
+
+```text
+734be3f570f43de8e5a17f8fecf6840db704ea695d2877584bda0dbe8a833f17
+```
+
+The previous `1ea9953656d8a33cd74d3b4aed7af138a4da34eb` checkout, addon, and
+manifest were preserved and checked for changes.
+
+**Local change after this deployment:** reporting now buffers bounded interval
+snapshots during reads and persists them only after the sequence stops. All
+acknowledgements and completion persistence finish before the next sequence.
+The behavior described below reflects that local change, which is not yet in
+the deployed `b02be558c113d856cc77c8ea7e32c48868465a76` checkout. It changes only
+the workload, not the SDK, binding, or driver. Push and deploy it before
+calibration; no warm-up cutoff has been selected.
 
 The earlier checkout at `/home/azureuser/js-sdk-rust-read-perf/azure-sdk-for-js`
 was preserved, not overwritten. Its native build used the earlier JS source
@@ -222,7 +245,7 @@ The build commands below run in **Bash on the Linux VM**, not in local
 PowerShell. They prepare code; they do not launch the service workload:
 
 ```bash
-REPO="$HOME/js-sdk-rust-read-perf/checkouts/1ea9953656d8a33cd74d3b4aed7af138a4da34eb"
+REPO="$HOME/js-sdk-rust-read-perf/checkouts/b02be558c113d856cc77c8ea7e32c48868465a76"
 cd "$REPO"
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure/cosmos... --token 1
@@ -252,12 +275,16 @@ loaded CommonJS tree and workload files.
 The committed checkout's matching manifest is:
 
 ```text
-/home/azureuser/js-sdk-rust-read-perf/build-evidence/1ea9953656d8a33cd74d3b4aed7af138a4da34eb-release/build-manifest.json
+/home/azureuser/js-sdk-rust-read-perf/build-evidence/b02be558c113d856cc77c8ea7e32c48868465a76-release/build-manifest.json
 ```
 
-The example configuration in source still points at the earlier build's
-manifest. The prepared VM configurations use the matching manifest above.
-Do not treat an older path as valid merely because the file exists.
+The committed example configuration still points at the earlier build's
+manifest and expects 1,000 RU/s. The new build-evidence directory contains
+`read-latency.proposed.json`, using the matching manifest above and expected
+capacity of 10,000/400 RU/s, plus its exact-byte SHA-256. It retains the proposed
+60-second/two-repetition budget with 15-second snapshots; it has not been run
+and is not yet a warm-up calibration protocol. Do not treat an older path as
+valid merely because the file exists.
 
 **Ready means the intended checkout has both outputs and matching build
 evidence, not simply that a previous native build succeeded.**
@@ -271,8 +298,8 @@ repository's singular `test` convention, analogous to Python's `tests/workloads`
 |---|---|
 | `launch.mjs` | Validate settings, qualify the dataset, start separate processes, enforce stop deadlines, and request the final report |
 | `workload.mjs` | Perform qualification or repeated public reads, depending on the launch mode |
-| `stats.mjs` | Accumulate latency frequencies, errors, request charges, and the first operation |
-| `reporter.mjs` | Save interval, error, and completion records |
+| `stats.mjs` | Accumulate latency frequencies, errors, request charges, and the first operation; bound buffered intervals |
+| `reporter.mjs` | Save interval, error, and completion records after reads stop |
 | `report.mjs` | Read saved records back, check integrity, and merge interval distributions |
 | `common.mjs` | Define targets and expected orders; check configuration, responses, and provenance |
 | `read-latency.example.json` | Show the proposed, secret-free configuration |
@@ -288,11 +315,14 @@ Launcher process
     -> repeat as configured
 
 Measurement process
-    -> interval snapshot -> launcher reporter
-    -> next read continues
+    -> read -> interval snapshot in memory -> next read
+    -> stop reading -> final snapshot
+    -> send snapshots one at a time; await each persistence acknowledgement
+    -> send completion
 
 Launcher reporter
-    -> its own JavaScript SDK client -> results container
+    -> after reads: its own JavaScript SDK client -> results container
+    -> persist completion before the launcher advances to the next sequence
 ```
 
 **An interval snapshot** is the accumulated data for one reporting period.
@@ -301,7 +331,10 @@ It is not a copy of every order read.
 Python's reporter uses a background thread. Here the reporter runs in the
 launcher process, outside the measured process. It always uses the JavaScript
 SDK path; selecting Rust for measured reads does not change reporting.
-These are separate clients, but they still share VM and service resources.
+These are separate clients on the same VM. Deferring writes also removes their
+serialization, IPC, and acknowledgement processing from the read phase.
+Statistics collection, interval capture, and buffer allocation still cost CPU
+and memory; this is not an overhead-free measurement.
 
 ## Bite 5 of 12: How many reads run at once?
 
@@ -335,10 +368,10 @@ The example configuration proposes:
 | Setting | Proposed value | Meaning |
 |---|---:|---|
 | `durationSeconds` | 60 | Budget before the launcher requests a measured process to stop |
-| `reportIntervalSeconds` | 15 | Target interval between snapshots |
+| `reportIntervalSeconds` | 15 | Target interval between in-memory snapshots, not writes |
 | `repetitions` | 2 | Number of JavaScript-then-Rust pairs |
 | `qualificationTimeoutSeconds` | 120 | Budget for checking the prepared dataset before measurement |
-| `shutdownGraceSeconds` | 30 | Additional shutdown deadline; also the deadline for results-target checks and the final results query |
+| `shutdownGraceSeconds` | 30 | Additional deadline covering shutdown and the deferred reporting drain; also the deadline for results-target checks and the final results query |
 
 The read-only matrix becomes:
 
@@ -397,9 +430,19 @@ the expected body, and the qualified ETag.
 
 ### What about the first read?
 
-Retain all measurements; apply **no warm-up exclusion**. A warm-up exclusion
-would remove initial operation measurements from the comparison, and we have
-not selected one.
+The current implementation retains all measurements and applies **no warm-up
+exclusion**. Its merged report is an all-samples report, not a steady-state
+result. We now intend to separate warm-up from steady-state interpretation,
+but have not identified or selected a cutoff.
+
+Characterize both implementations in a separately approved calibration run
+with finer interval data. Retain the first read and all raw intervals. Inspect
+latency and completion-rate stability over multiple windows and repetitions;
+do not equate the first completed read with the end of warm-up. Select and
+record the exclusion rule before the independent comparison, rather than
+choosing a favorable cutoff from its results. If stability is not established,
+do not label any suffix steady-state. Interval histograms cannot split an
+interval at an arbitrary cutoff; exclusion must respect captured boundaries.
 
 The workload separately records:
 
@@ -418,14 +461,23 @@ Later intervals are not automatically proven steady-state measurements.
 
 ## Bite 8 of 12: What measurements do we save?
 
-The workload checks the reporting deadline after completed reads and sends an
-interval snapshot to the launcher. The reporter writes it while the workload
-can continue. At shutdown, the remaining snapshot is sent and reporting
-acknowledgements are awaited.
+The workload checks the snapshot deadline after completed reads and retains
+each interval in memory. It sends no measurement IPC and triggers no result
+writes during the read loop. After reads stop, it captures the remaining
+partial interval, then sends one snapshot at a time to the launcher and waits
+for its persistence acknowledgement before sending the next. Completion is
+sent only after every interval is acknowledged; the launcher waits for
+completion persistence before starting another sequence.
 
-Reporting is therefore approximate, not an independent exact 15-second clock.
+Snapshot timing is approximate, not an independent exact 15-second clock.
 A slow read can extend an interval; the last interval can be shorter. There
 need not be exactly four records for a 60-second sequence.
+
+The recorded interval durations, CPU samples, and end timestamps stop before
+the reporting drain. Reporting time is not included in the operation histogram
+or the sequence's measured interval denominator. Result records and reports
+identify this protocol as `reporting_mode: "after_reads"`; do not silently pool
+them with historical during-read reporting runs.
 
 Three record types describe one measured process:
 
@@ -500,10 +552,30 @@ the combined distribution. Do not average the individual interval P99 values.
 
 Each interval permits at most 16,384 distinct durations. Exceeding that limit
 fails the sequence rather than silently dropping observations or clipping
-long calls. Reporting also has a bounded outstanding-snapshot queue.
+long calls. Deferred storage permits at most 256 snapshots and 262,144 total
+histogram entries across the sequence, counting repeated durations again in
+each interval. Attempt evidence remains bounded per interval.
+
+The configured snapshot budget is
+`ceil(durationSeconds / reportIntervalSeconds) + 1`, including room for a final
+partial interval. Configurations exceeding
+256 snapshots are rejected before execution. Runtime overflow fails the run
+explicitly; it does not discard data or fall back to reporting during reads.
+Only one transferred snapshot awaits acknowledgement at a time.
+
+A hard process crash can lose buffered samples that have not yet been sent.
+Missing completion, a failed acknowledgement, disconnect, or reporting timeout
+invalidates the sequence. Acknowledged records remain available for diagnosis,
+but do not make a failed or aborted run valid.
+
+Deferred writes can create a reporting burst against the 400-RU/s results
+container. Finer snapshots also require more records and drain time. Validate
+results-side throttling and the bounded shutdown budget in the approved
+calibration; do not increase that capacity or the run budget implicitly.
 
 CPU and memory samples describe the measured process. They do not include the
-reporter process or prove which SDK component caused a change.
+reporter process or prove which SDK component caused a change. Retained
+histograms contribute to measured RSS and allocation/GC costs.
 
 ## Bite 9 of 12: Could service capacity hide the difference?
 
@@ -522,17 +594,23 @@ That demand would exceed a hypothetical 400 RU/s allocation, even with one
 read in progress at a time. These are not measurements or the selected
 capacity for the new containers.
 
-The approved preparation used 400 RU/s on each dedicated container, matching
-the Python setup. The workload container was subsequently increased to
-**1,000 RU/s**; results remain at **400 RU/s**. Both use manual dedicated
-throughput. The bounded preflight above passed at these settings; no further
-throughput change is implied by that result.
+The original approved preparation used 400 RU/s on each dedicated container,
+matching the Python setup at that time. The workload was then increased to
+1,000 RU/s for the recorded preflight. After separate approval, only the JS
+workload container was increased to **10,000 RU/s**; results remain at
+**400 RU/s**. Both manual offers were verified with no replacement pending at
+**00:00:56 UTC on November 8, 2026**.
+
+The Python workload was already at 10,000 RU/s when inspected for this change;
+it was not modified. Python results and the earlier JS correctness fixture
+remained at 400 RU/s. The historical preflight does not qualify the optimized
+build or the new capacity, and higher throughput cannot guarantee zero 429s.
 
 The configuration now requires:
 
 ```json
 "capacityRuPerSecond": {
-  "workload": 1000,
+  "workload": 10000,
   "results": 400
 }
 ```

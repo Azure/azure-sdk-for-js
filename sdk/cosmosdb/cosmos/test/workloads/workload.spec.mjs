@@ -25,10 +25,13 @@ import {
   mergeAttemptEvidence,
   MAX_BUCKETS,
   MAX_ATTEMPT_GROUPS,
+  IntervalBuffer,
+  MAX_BUFFERED_INTERVALS,
+  MAX_BUFFERED_BUCKETS,
 } from "./stats.mjs";
 import { Reporter } from "./reporter.mjs";
 import { validateResults } from "./report.mjs";
-import { timedRead } from "./workload.mjs";
+import { timedRead, run } from "./workload.mjs";
 import { runChild, installSignalHandlers, withDeadline } from "./launch.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -112,6 +115,10 @@ test("configuration selects separate JS targets and explicit bounded budgets", (
     },
     (value) => {
       value.capacityRuPerSecond.secret = "not-allowed";
+    },
+    (value) => {
+      value.durationSeconds = MAX_BUFFERED_INTERVALS;
+      value.reportIntervalSeconds = 1;
     },
   ];
   for (const mutate of mutations) {
@@ -238,12 +245,334 @@ test("histogram capacity fails visibly rather than dropping or clamping tails", 
   assert.throws(() => stats.success(BigInt(MAX_BUCKETS + 1) * 1000n, observed), /capacity/);
 });
 
+test("deferred snapshots enforce interval and total histogram bounds without dropping data", () => {
+  const buffer = new IntervalBuffer(2);
+  const first = snapshot();
+  const second = snapshot();
+  buffer.add(null);
+  buffer.add(first);
+  buffer.add(second);
+  assert.throws(() => buffer.add(snapshot()), /interval capacity/);
+  const draining = buffer.drain();
+  assert.equal(draining.next().value, first);
+  assert.equal(buffer.snapshots[0], null);
+  assert.equal(draining.next().value, second);
+  assert.equal(draining.next().done, true);
+  assert.equal(buffer.snapshots.length, 0);
+  assert.equal(buffer.buckets, 0);
+  assert.throws(() => new IntervalBuffer(MAX_BUFFERED_INTERVALS + 1), /interval capacity/);
+
+  const bounded = new IntervalBuffer(MAX_BUFFERED_INTERVALS);
+  const full = { histogram_us: Array.from({ length: MAX_BUCKETS }, (_, index) => [index + 1, 1]) };
+  for (let index = 0; index < MAX_BUFFERED_BUCKETS / MAX_BUCKETS; index++) bounded.add(full);
+  assert.throws(() => bounded.add({ histogram_us: [[1, 1]] }), /histogram capacity/);
+  assert.equal([...bounded.drain()].length, MAX_BUFFERED_BUCKETS / MAX_BUCKETS);
+});
+
+async function withWorkload(options, check) {
+  const directory = mkdtempSync(path.join(os.tmpdir(), "deferred-read-"));
+  const fixture = path.join(directory, "fixture.json");
+  const settings = { ...config(), reportIntervalSeconds: 1, ...options.config };
+  writeFileSync(
+    fixture,
+    JSON.stringify({
+      endpoint: settings.endpoint,
+      target: settings.workload,
+      etags: Array(settings.itemCount).fill("version-1"),
+    }),
+  );
+  const controller = new AbortController();
+  const channel = new EventEmitter();
+  const messages = [];
+  let now = 0;
+  let reads = 0;
+  let disposed = false;
+  const backend = options.backend ?? "javascript";
+  channel.send = (message, callback) => {
+    messages.push(message);
+    if (options.send) {
+      options.send(message, callback, { channel, controller });
+    } else {
+      queueMicrotask(() => {
+        callback();
+        if (message.type === "interval") {
+          channel.emit("message", { type: "ack", id: message.id, ok: true });
+        }
+      });
+    }
+  };
+  const client = {
+    database: () => ({
+      container: () => ({
+        item: (id, partitionKey) => ({
+          async read() {
+            assert.equal(messages.length, 0, "Reporting IPC overlapped reads");
+            const item = seedItem(reads);
+            assert.equal(id, item.id);
+            assert.equal(partitionKey, item.customerId);
+            reads++;
+            now += options.readSeconds ?? 1;
+            if (reads === (options.readCount ?? 3)) {
+              controller.abort({ aborted: options.interrupted === true });
+            }
+            if (reads === options.disconnectAt) channel.emit("disconnect");
+            if (reads === options.failureAt) {
+              throw Object.assign(new Error("read failed"), { code: 503 });
+            }
+            return { ...response(backend), resource: item };
+          },
+        }),
+      }),
+    }),
+    dispose() {
+      disposed = true;
+    },
+  };
+  try {
+    await check({
+      channel,
+      messages,
+      controller,
+      get reads() {
+        return reads;
+      },
+      get disposed() {
+        return disposed;
+      },
+      advanceClock(seconds) {
+        now += seconds;
+      },
+      run: () =>
+        run(settings, backend, fixture, controller.signal, {
+          channel,
+          createClient: async () => client,
+          seconds: () => now,
+        }),
+    });
+  } finally {
+    assert.equal(channel.listenerCount("message"), 0);
+    assert.equal(channel.listenerCount("disconnect"), 0);
+    unlinkSync(fixture);
+    rmdirSync(directory);
+  }
+}
+
+test("both implementations defer all reporting until reads stop and retain raw intervals", async () => {
+  for (const backend of ["javascript", "rust"]) {
+    await withWorkload({ backend, readSeconds: 0.75 }, async (worker) => {
+      await worker.run();
+      assert.equal(worker.reads, 3);
+      assert.equal(worker.disposed, true);
+      assert.deepEqual(
+        worker.messages.map((message) => message.type),
+        ["interval", "interval", "complete"],
+      );
+      const intervals = worker.messages.slice(0, -1).map((message) => message.snapshot);
+      assert.deepEqual(
+        intervals.map((row) => row.interval_duration_seconds),
+        [1.5, 0.75],
+      );
+      assert.deepEqual(
+        intervals.map((row) => summarize(row.histogram_us).count),
+        [2, 1],
+      );
+      assert.deepEqual(intervals[0].first_operation, intervals[1].first_operation);
+      assert.equal(intervals[1].elapsed_seconds, 2.25);
+      assert.equal(worker.messages.at(-1).valid, true);
+    });
+  }
+});
+
+test("post-read persistence and completion finish before the launcher advances", async () => {
+  const launcher = mockLauncher();
+  const rows = [];
+  await withWorkload(
+    {
+      backend: "rust",
+      send(message, callback) {
+        launcher.child.emit("message", message);
+        queueMicrotask(callback);
+      },
+    },
+    async (worker) => {
+      launcher.child.send = (message, callback) => {
+        worker.channel.emit("message", message);
+        callback?.();
+      };
+      let releaseCompletion;
+      const completionGate = new Promise((resolve) => {
+        releaseCompletion = resolve;
+      });
+      const reporter = new Reporter(
+        {
+          items: {
+            async create(row) {
+              assert.equal(worker.reads, 3, "Persistence overlapped reads");
+              worker.advanceClock(10);
+              if (row.record_type === "completion") await completionGate;
+              rows.push(structuredClone(row));
+              return { statusCode: 201 };
+            },
+          },
+        },
+        identity,
+      );
+      let advanced = false;
+      const parent = launcher
+        .runChild("config", "rust", "fixture", "log", 60, 30, reporter)
+        .then(() => {
+          advanced = true;
+          return null;
+        });
+      await worker.run();
+      launcher.child.emit("close", 0, null);
+      await Promise.resolve();
+      assert.equal(advanced, false);
+      assert.equal(rows.length, 3);
+      releaseCompletion();
+      await parent;
+      assert.equal(advanced, true);
+      const result = validateResults(rows, [identity])[0];
+      assert.equal(result.count, 3);
+      assert.equal(result.interval_seconds, 3);
+      assert.equal(result.reporting_mode, "after_reads");
+    },
+  );
+});
+
+test("post-read transfer waits for each persistence acknowledgement", async () => {
+  let worker;
+  const waiting = [];
+  await withWorkload(
+    {
+      send(message, callback) {
+        callback();
+        if (message.type === "interval") waiting.push(message.id);
+      },
+    },
+    async (value) => {
+      worker = value;
+      const running = worker.run();
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(worker.reads, 3);
+      assert.equal(worker.messages.length, 1);
+      for (let id = 1; id <= 3; id++) {
+        assert.deepEqual(waiting, [id]);
+        waiting.shift();
+        worker.channel.emit("message", { type: "ack", id, ok: true });
+        await new Promise((resolve) => setImmediate(resolve));
+      }
+      await running;
+      assert.equal(worker.messages.at(-1).type, "complete");
+    },
+  );
+});
+
+test("read failures and interruptions retain buffered samples but cannot complete as valid", async () => {
+  for (const options of [{ failureAt: 2 }, { interrupted: true }]) {
+    await withWorkload(options, async (worker) => {
+      await worker.run();
+      assert.equal(worker.messages.at(-1).valid, false);
+      assert.equal(worker.disposed, true);
+      const intervals = worker.messages.slice(0, -1).map((message) => message.snapshot);
+      assert.equal(
+        intervals.reduce((sum, row) => sum + row.errors, 0),
+        options.failureAt ? 1 : 0,
+      );
+      assert.equal(intervals.length, options.failureAt ? 2 : 3);
+    });
+  }
+});
+
+test("interruptions during deferred reporting still invalidate completion", async () => {
+  await withWorkload(
+    {
+      send(message, callback, { channel, controller }) {
+        queueMicrotask(() => {
+          callback();
+          if (message.type === "interval") {
+            controller.signal.reason.aborted = true;
+            channel.emit("message", { type: "ack", id: message.id, ok: true });
+          }
+        });
+      },
+    },
+    async (worker) => {
+      await worker.run();
+      assert.equal(worker.messages.at(-1).valid, false);
+    },
+  );
+});
+
+test("deferred acknowledgement, send, and disconnect failures prevent completion", async () => {
+  for (const failure of ["nack", "wrong-id", "duplicate-ack", "send", "throw", "disconnect"]) {
+    await withWorkload(
+      {
+        send(message, callback, { channel }) {
+          if (failure === "throw") throw new Error("IPC send failed");
+          queueMicrotask(() => {
+            if (failure === "send") return callback(new Error("IPC send failed"));
+            callback();
+            if (failure === "disconnect") return channel.emit("disconnect");
+            channel.emit("message", {
+              type: "ack",
+              id: message.id + Number(failure === "wrong-id"),
+              ok: failure !== "nack",
+            });
+            if (failure === "duplicate-ack") {
+              channel.emit("message", { type: "ack", id: message.id, ok: true });
+            }
+          });
+        },
+      },
+      async (worker) => {
+        await assert.rejects(worker.run(), /Reporter|Reporting|IPC/);
+        assert.equal(worker.messages.length, 1);
+        assert.equal(worker.messages[0].type, "interval");
+        assert.equal(worker.disposed, true);
+      },
+    );
+  }
+});
+
+test("disconnects during reads and buffer overflow fail without emitting success records", async () => {
+  for (const options of [
+    { disconnectAt: 1 },
+    { config: { durationSeconds: 1, reportIntervalSeconds: 1 } },
+  ]) {
+    await withWorkload(options, async (worker) => {
+      await assert.rejects(worker.run(), /Reporter|capacity/);
+      assert.equal(worker.messages.length, 0);
+      assert.equal(worker.disposed, true);
+    });
+  }
+});
+
+test("completion IPC failures cannot leave the workload successful", async () => {
+  await withWorkload(
+    {
+      send(message, callback, { channel }) {
+        queueMicrotask(() => {
+          if (message.type === "complete") return callback(new Error("Completion send failed"));
+          callback();
+          channel.emit("message", { type: "ack", id: message.id, ok: true });
+        });
+      },
+    },
+    async (worker) => {
+      await assert.rejects(worker.run(), /Completion send failed/);
+      assert.equal(worker.disposed, true);
+    },
+  );
+});
+
 const identity = {
   run_id: "run",
   workload_id: "read-rust-r1-run",
   process_id: "process",
   partition_key: "process",
   config_backend: "rust",
+  reporting_mode: "after_reads",
   repetition: 1,
   configuration_sha256: "a".repeat(64),
   environment: { hostname: "offline-test", capacity: { workload: 1000, results: 400 } },
@@ -303,6 +632,9 @@ test("reporter saves interval data before completion, then integrity checks the 
     },
     (data) => {
       data[0].environment.hostname = "another-host";
+    },
+    (data) => {
+      data[0].reporting_mode = "during_reads";
     },
     (data) => {
       data[0].interval_started_at_utc = "not-a-date";

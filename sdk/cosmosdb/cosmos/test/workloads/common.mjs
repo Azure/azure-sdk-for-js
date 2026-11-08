@@ -7,7 +7,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { mergeAttemptGroups } from "./stats.mjs";
+import { mergeAttemptGroups, MAX_BUFFERED_INTERVALS } from "./stats.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(__dirname, "../..");
@@ -83,6 +83,10 @@ function validateConfig(config) {
     "Run budget exceeds this short-drill limit",
   );
   assert.ok(config.shutdownGraceSeconds <= 120 && config.qualificationTimeoutSeconds <= 600);
+  assert.ok(
+    Math.ceil(config.durationSeconds / config.reportIntervalSeconds) + 1 <= MAX_BUFFERED_INTERVALS,
+    "Deferred interval capacity exceeded; increase the snapshot interval or shorten the sequence",
+  );
   assert.ok(
     typeof config.nativeBuildManifest === "string" && path.isAbsolute(config.nativeBuildManifest),
   );

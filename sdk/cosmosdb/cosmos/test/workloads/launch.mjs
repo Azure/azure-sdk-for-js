@@ -237,6 +237,7 @@ async function main() {
         config_target: config.workload,
         account_host: new URL(config.endpoint).hostname,
         warmup_exclusion: "none",
+        reporting_mode: "after_reads",
         diagnostics_coverage: "partial",
         configuration_sha256: configHash,
         environment,

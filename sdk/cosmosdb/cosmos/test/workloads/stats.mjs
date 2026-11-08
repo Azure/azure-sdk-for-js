@@ -4,6 +4,41 @@
 import assert from "node:assert/strict";
 const MAX_BUCKETS = 16384;
 const MAX_ATTEMPT_GROUPS = 128;
+const MAX_BUFFERED_INTERVALS = 256;
+const MAX_BUFFERED_BUCKETS = 262144;
+
+class IntervalBuffer {
+  constructor(maximumIntervals) {
+    assert.ok(
+      Number.isSafeInteger(maximumIntervals) &&
+        maximumIntervals > 0 &&
+        maximumIntervals <= MAX_BUFFERED_INTERVALS,
+      "Deferred interval capacity exceeded",
+    );
+    this.maximumIntervals = maximumIntervals;
+    this.snapshots = [];
+    this.buckets = 0;
+  }
+
+  add(snapshot) {
+    if (!snapshot) return;
+    assert.ok(this.snapshots.length < this.maximumIntervals, "Deferred interval capacity exceeded");
+    const buckets = this.buckets + snapshot.histogram_us.length;
+    assert.ok(buckets <= MAX_BUFFERED_BUCKETS, "Deferred histogram capacity exceeded");
+    this.snapshots.push(snapshot);
+    this.buckets = buckets;
+  }
+
+  *drain() {
+    for (let index = 0; index < this.snapshots.length; index++) {
+      const snapshot = this.snapshots[index];
+      this.snapshots[index] = null;
+      yield snapshot;
+    }
+    this.snapshots = [];
+    this.buckets = 0;
+  }
+}
 
 function mergeAttemptGroups(lists) {
   const merged = new Map();
@@ -215,4 +250,7 @@ export {
   mergeAttemptEvidence,
   MAX_BUCKETS,
   MAX_ATTEMPT_GROUPS,
+  IntervalBuffer,
+  MAX_BUFFERED_INTERVALS,
+  MAX_BUFFERED_BUCKETS,
 };
