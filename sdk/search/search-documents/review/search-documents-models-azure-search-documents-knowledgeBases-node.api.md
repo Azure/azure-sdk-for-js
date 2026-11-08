@@ -52,7 +52,7 @@ export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBase
 // @public
 export interface KnowledgeBaseActivityRecord {
     completedAt?: Date;
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     startedAt?: Date;

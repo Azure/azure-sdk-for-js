@@ -478,7 +478,7 @@ for await (const event of await client.retrieveStream(
   { abortSignal: controller.signal },
 )) {
   if (event.event === "activity.completed") {
-    console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
+    console.log(`Activity ${event.data.id} took ${event.data.elapsedInMs}ms`);
   } else if (event.event === "response.completed") {
     console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
     console.log(event.data.response.response);

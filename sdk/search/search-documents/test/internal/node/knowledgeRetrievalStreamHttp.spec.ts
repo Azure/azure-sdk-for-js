@@ -120,6 +120,8 @@ describe("knowledge retrieval stream HTTP transport", () => {
       if (completed.event === "activity.completed") {
         assert.deepEqual(completed.data.startedAt, new Date("2026-10-01T00:00:00Z"));
         assert.deepEqual(completed.data.completedAt, new Date("2026-10-01T00:00:01Z"));
+        assert.equal(completed.data.elapsedInMs, 1000);
+        assert.notProperty(completed.data, "elapsedMs");
       }
       assert.isTrue(body.destroyed);
       assert.equal(requests[0].abortSignal, controller.signal);

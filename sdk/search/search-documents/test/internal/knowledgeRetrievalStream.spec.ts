@@ -79,11 +79,12 @@ describe("knowledge retrieval stream", () => {
     const completed = events[1].data as {
       startedAt?: Date;
       completedAt?: Date;
-      elapsedMs?: number;
+      elapsedInMs?: number;
     };
     assert.deepEqual(completed.startedAt, new Date("2026-08-01T00:00:00Z"));
     assert.deepEqual(completed.completedAt, new Date("2026-08-01T00:00:01Z"));
-    assert.equal(completed.elapsedMs, 1000);
+    assert.equal(completed.elapsedInMs, 1000);
+    assert.notProperty(completed, "elapsedMs");
   });
 
   it("deserializes answer and reference completion events", async () => {

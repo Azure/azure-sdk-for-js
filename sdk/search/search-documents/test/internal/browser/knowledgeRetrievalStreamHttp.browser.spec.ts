@@ -90,6 +90,7 @@ describe("knowledge retrieval stream browser transport", () => {
             type: "searchIndex",
             startedAt: "2026-10-01T00:00:00Z",
             completedAt: "2026-10-01T00:00:01Z",
+            elapsedMs: 0,
           })}\n\n`,
           `event: response.completed\ndata: ${JSON.stringify({
             statusCode: 200,
@@ -122,6 +123,8 @@ describe("knowledge retrieval stream browser transport", () => {
     if (activity.event === "activity.completed") {
       expect(activity.data.startedAt).toEqual(new Date("2026-10-01T00:00:00Z"));
       expect(activity.data.completedAt).toEqual(new Date("2026-10-01T00:00:01Z"));
+      expect(activity.data.elapsedInMs).toBe(0);
+      expect(activity.data).not.toHaveProperty("elapsedMs");
     }
     expect(fetch).toHaveBeenCalledOnce();
   });

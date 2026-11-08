@@ -24,7 +24,7 @@
 - Removed `AzureMachineLearningVectorizer`, its parameter union and base/key/token/no-auth parameter types, `AIFoundryModelCatalogName`, and `KnownAIFoundryModelCatalogName`. `VectorSearchVectorizer` now accepts Azure OpenAI and custom Web API vectorizers. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Removed `QueryRewrites` and `GenerativeQueryRewrites`, and the `queryRewrites` properties of `SemanticSearchOptions` and `VectorizableTextQuery`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Removed `DocumentDebugInfo.semantic`, `SemanticDebugInfo`, and `QueryResultDocumentSemanticField`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- Renamed `BaseKnowledgeBaseActivityRecord.elapsedInMs` to `elapsedMs` and `KnowledgeSourceStatistics.totalSynchronizations` to `totalSynchronization`. Removed `KnowledgeBaseAgenticReasoningActivityRecord.retrievalReasoningEffort`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Renamed `KnowledgeSourceStatistics.totalSynchronizations` to `totalSynchronization`. Removed `KnowledgeBaseAgenticReasoningActivityRecord.retrievalReasoningEffort`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Removed `SimpleField.hasSensitivityLabel` and the standalone `SearchIndexerKnowledgeStoreParameters` type. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Raised the minimum supported Node.js version from 20 to 22. [#38887](https://github.com/Azure/azure-sdk-for-js/pull/38887)
 
@@ -32,6 +32,7 @@
 
 - Preserved the `13.0.0` argument order for protocol `SearchIndexClient.createOrUpdateIndex` and `analyzeText` while retaining the name-first signatures, and exported `KnownContentUnderstandingSkillChunkingMethod` from the package root. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Preserved body-first arguments for all nine affected protocol operations on both client classes and exported functions, restored the four legacy `get*` listing APIs and their result wrappers alongside the new pagers, and retained numeric protocol document counts. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Preserved the `13.0.0` `BaseKnowledgeBaseActivityRecord.elapsedInMs` property for retrieval responses and streaming activity events while retaining the service's `elapsedMs` wire field. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Fixed a `TypeError` when document lookup or other operations receive an empty error response body. These operations now throw a `RestError` with the HTTP status code. [#38842](https://github.com/Azure/azure-sdk-for-js/issues/38842)
 - Preserved document fields named `score` in search results and `text` in suggestions, and separated `@search.*` metadata from document contents. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Corrected ETag mapping so resources returned by index, indexer, and skillset operations support conditional updates and deletes with `onlyIfUnchanged`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
@@ -45,7 +46,7 @@
 ### Other Changes
 
 - Updated TypeScript and JavaScript samples and README snippets for the new GA features. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- Generated from TypeSpec commit `1393378ee55096b53d77a6ba64a3d7ec5dd4dd77` in `Azure/azure-rest-api-specs`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Generated from TypeSpec commit `f7e255087383277d1799db710d0470ca47a1a636` in `Azure/azure-rest-api-specs`. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 
 ## 13.1.0-beta.2 (2026-08-31)
 

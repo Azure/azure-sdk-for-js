@@ -179,7 +179,7 @@ export interface BaseDataDeletionDetectionPolicy {
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
     completedAt?: Date;
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     startedAt?: Date;

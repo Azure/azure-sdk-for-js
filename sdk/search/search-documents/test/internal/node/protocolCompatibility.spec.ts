@@ -5,13 +5,20 @@ import { assert, describe, expect, it } from "vitest";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { OperationOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, SearchClient as ConvenienceSearchClient } from "../../../src/index.js";
+import {
+  AzureKeyCredential,
+  KnowledgeRetrievalClient,
+  SearchClient as ConvenienceSearchClient,
+} from "../../../src/index.js";
+import type { BaseKnowledgeBaseActivityRecord } from "../../../src/index.js";
+import { KnowledgeBaseRetrievalClient } from "../../../src/knowledgeBaseRetrieval/index.js";
 import { SearchIndexClient } from "../../../src/searchIndex/index.js";
 import { SearchIndexerClient } from "../../../src/searchIndexer/index.js";
 import { SearchClient } from "../../../src/search/index.js";
 import * as indexApi from "../../../src/searchIndex/api/index.js";
 import * as indexerApi from "../../../src/searchIndexer/api/index.js";
 import * as searchApi from "../../../src/search/api/index.js";
+import * as retrievalApi from "../../../src/knowledgeBaseRetrieval/api/index.js";
 
 const endpoint = "https://example.search.windows.net";
 const credential = new AzureKeyCredential("key");
@@ -59,6 +66,41 @@ const dataSource = {
 };
 
 describe("released protocol contracts", () => {
+  it.each(["class", "function", "convenience"] as const)(
+    "preserves elapsedInMs on retrieval activity records through the %s",
+    async (entryPoint) => {
+      const t = transport([
+        {
+          activity: [
+            { id: 1, type: "searchIndex", elapsedMs: 0 },
+            { id: 2, type: "file", elapsedMs: 17 },
+            { id: 3, type: "agenticReasoning" },
+          ],
+        },
+      ]);
+      const request = { intents: [{ type: "semantic" as const, search: "status" }] };
+      const result =
+        entryPoint === "class"
+          ? await new KnowledgeBaseRetrievalClient(endpoint, credential, "base", t).retrieve(
+              request,
+            )
+          : entryPoint === "function"
+            ? await retrievalApi.retrieve(
+                retrievalApi.createKnowledgeBaseRetrieval(endpoint, credential, "base", t),
+                request,
+              )
+            : await new KnowledgeRetrievalClient(endpoint, "base", credential, t).retrieve(request);
+      const activity: BaseKnowledgeBaseActivityRecord[] = result.activity ?? [];
+      assert.deepEqual(
+        activity.map((record) => record.elapsedInMs),
+        [0, 17, undefined],
+      );
+      for (const record of activity) {
+        assert.notProperty(record, "elapsedMs");
+      }
+    },
+  );
+
   const indexCases = [
     {
       name: "createOrUpdateIndex",
