@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Sole script for sdk-regenerate.yml. The YAML dispatches to one of the
 // subcommands at the bottom of this file.
+// CI trigger check (comment only; no functional change).
 
 import { spawn, spawnSync } from "node:child_process";
 import fs from "node:fs";
