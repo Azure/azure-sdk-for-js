@@ -132,6 +132,7 @@ function runChild(
     }
     function abort() {
       interruption ??= signal.reason;
+      if (reporter) reporter.aborted = true;
       runtime.clearTimeout(stop);
       runtime.clearTimeout(kill);
       send({ type: "stop", aborted: true });
@@ -238,6 +239,7 @@ async function main() {
         account_host: new URL(config.endpoint).hostname,
         warmup_exclusion: "none",
         reporting_mode: "after_reads",
+        reporting_format: "aggregate_v1",
         diagnostics_coverage: "partial",
         configuration_sha256: configHash,
         environment,
@@ -292,6 +294,7 @@ async function main() {
       record.state = signal.aborted ? "aborted" : "failed";
       throw error;
     } finally {
+      if (reporter) record.reporting_writes = reporter.writes;
       record.ended_at_utc = new Date().toISOString();
       save();
     }
@@ -333,7 +336,7 @@ async function main() {
     );
     manifest.capacity_checked_at_utc = new Date().toISOString();
     assert.deepEqual(manifest.capacity_after, environment.capacity);
-    const report = await operation(() => fetchReport(results, runId, expected));
+    const report = await operation(() => fetchReport(results, runId, expected, directory));
     readConfig(effectiveConfig, configHash);
     signal.throwIfAborted();
     writeFileSync(

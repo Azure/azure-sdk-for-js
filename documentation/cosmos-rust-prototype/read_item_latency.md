@@ -14,73 +14,169 @@ configuration is not permission to run it.
 
 ## Where we are now
 
-**Checkpoint: November 8, 2026 (UTC).** The pushed optimizations are deployed
-and rebuilt on the VM. Workload capacity is now 10,000 RU/s. The earlier bounded
-preflight qualifies the older build only; no live run of the optimized build or
-full performance comparison has started.
+**Checkpoint: November 8, 2026 (UTC).** The optimized build and deferred reporting
+completed the approved warm-up calibration. Reads passed correctness and
+observed-throttling checks, but the deferred results upload encountered service
+429s. An exploratory 11-second exclusion candidate was identified. The final
+performance comparison has not started and remains blocked on reporting.
+
+**Local, not deployed:** the reporting revision now saves detailed intervals
+in a local artifact and creates only one aggregate measurement plus one
+completion per sequence. The deployed `140f150a` calibration used one Cosmos
+measurement per interval: 120 measurements plus one completion per sequence,
+or 484 documents across four sequences. That historical run did not use the
+two-document format. No new service run or capacity change accompanies this
+local revision.
 
 | Part | Recorded state | Remaining work |
 |---|---|---|
 | VM | `js-sdk-rust-read-perf-vm`, East US, Ubuntu x64; accelerated networking verified | Select this VM explicitly |
-| JS source | Clean VM checkout of `b02be558c113d856cc77c8ea7e32c48868465a76`; SDK and Linux release binding built | Qualify both implementations from this build |
+| JS source | Clean VM checkout of `140f150a14e504fa52e13b075c9d18a3dff98f05`; SDK and Linux release binding built and used for calibration | Preserve matching evidence |
 | Rust dependency | Built with driver `5ba864be8f128a6faf3f736ae0043f60d5911235` and Rust 1.95.0 | Retain matching build evidence |
 | Earlier native build | Preserved separately; not used for this preflight | Do not mix artifacts between checkouts |
-| Workload qualification | Earlier build: all 1,000 orders passed JS/Rust body and ETag checks; Rust data requests used Gateway V2 | Repeat qualification for the selected build |
-| Dedicated data and results destinations | Provisioned; 1,000 orders seeded; manual dedicated throughput is 10,000 RU/s for workload and 400 RU/s for results | Preserve isolation; retain preflight result records |
-| Capacity preflight | Earlier build at 1,000 RU/s: one 15-second sequence per implementation, 5-second reporting; no workload errors or observed SDK/service 429 | Repeat an approved bounded check; more capacity does not guarantee no throttling |
-| Measurement protocol | Deployed build reports during reads; local changes defer reporting until each sequence ends. All samples still include warm-up | Push/deploy the workload changes and calibrate warm-up before steady-state interpretation |
+| Workload qualification | Current build: all 1,000 orders qualified; 170,797 measured reads passed, with Gateway V2 evidence for all Rust reads | Repeat qualification for each new matrix |
+| Dedicated data and results destinations | Provisioned; 1,000 orders seeded; manual dedicated throughput is now 10,000 RU/s for both workload and results | Preserve isolation; retain historical result records |
+| Capacity preflight | Calibration at 10,000/400 RU/s: no workload-container 429; results container recorded 750 service 429s. Results capacity subsequently increased to 10,000 RU/s | Verify reporting at the new capacity before the final comparison |
+| Measurement protocol | Reporting follows reads; all raw samples retained. Conservative common exclusion candidate: 11 seconds | Treat this as exploratory, not proof of stationarity or a final performance result |
 | Full performance execution | Not started | Approve the complete configuration and run budget |
 
 **Changes deployed after that preflight:** the workload now rejects Rust-marked
 JavaScript responses, persists bounded attempt evidence, records UTC/host/capacity
 snapshots, verifies the effective configuration's SHA-256, and handles
 SIGINT/SIGTERM with bounded cleanup and an aborted manifest. The Linux build and
-offline checks passed; these changes have not been exercised against the service.
-The recorded preflight qualifies the older checkout, not these new safeguards.
-Repeat a separately approved short preflight before the full comparison.
+offline checks passed. The calibration below exercised the new build against
+the service. The earlier preflight remains separate historical evidence.
 
 The deployed wrapper/binding optimizations also postdate this preflight. They
 reuse adapter state, eliminate placeholder read diagnostics, skip formatting
 for the no-op diagnostic writer, and prepare successful native response data
 on Tokio before JavaScript completion. The shared diagnostic optimizations
 change the JavaScript baseline too. Both SDK targets and the Linux release addon
-were rebuilt, with new provenance retained. Both paths still need live
-qualification from the same revision. The body copy remains inside the
+were rebuilt, with new provenance retained. Both paths passed live
+qualification from the same revision during calibration. The body copy remains inside the
 public-read timer; no warm-up exclusion or timing boundary was added.
 
 The clean checkout is:
 
 ```text
-/home/azureuser/js-sdk-rust-read-perf/checkouts/b02be558c113d856cc77c8ea7e32c48868465a76
+/home/azureuser/js-sdk-rust-read-perf/checkouts/140f150a14e504fa52e13b075c9d18a3dff98f05
 ```
 
-The release build completed at **23:50:15 UTC on November 7, 2026** using Node
+The release build completed at **00:42:06 UTC on November 8, 2026** using Node
 22.23.3, pnpm 11.24.0, and Rust/Cargo 1.95.0. All 17 SDK build tasks succeeded;
-13 binding checks, 25 workload checks, and 73 wrapper/diagnostics/selection/loader
-tests passed. CommonJS/ESM imports, the native async probe, workload configuration
-typing, and binary/provenance checks also passed. Addon SHA-256:
+13 binding checks and 34 workload checks passed. CommonJS/ESM imports, the native
+async probe, workload configuration typing, scoped formatting/lint, and
+binary/provenance checks also passed. The addon SHA-256 is unchanged from the
+previous optimized build:
 
 ```text
 734be3f570f43de8e5a17f8fecf6840db704ea695d2877584bda0dbe8a833f17
 ```
 
-The previous `1ea9953656d8a33cd74d3b4aed7af138a4da34eb` checkout, addon, and
-manifest were preserved and checked for changes.
+The previous `b02be558c113d856cc77c8ea7e32c48868465a76` checkout, addon, and
+manifest were preserved and checked for changes. The older `1ea9953` preflight
+checkout and evidence also remain separate.
 
-**Local change after this deployment:** reporting now buffers bounded interval
+**Deferred reporting is deployed:** reporting now buffers bounded interval
 snapshots during reads and persists them only after the sequence stops. All
 acknowledgements and completion persistence finish before the next sequence.
-The behavior described below reflects that local change, which is not yet in
-the deployed `b02be558c113d856cc77c8ea7e32c48868465a76` checkout. It changes only
-the workload, not the SDK, binding, or driver. Push and deploy it before
-calibration; no warm-up cutoff has been selected.
+This revision changes only the workload and guide, not the SDK, binding, or
+driver. Calibration has now identified an exploratory warm-up exclusion
+candidate; the workload still captures all samples without automatic exclusion.
+Capacity was rechecked after deployment at **00:43:03 UTC on November 8, 2026**:
+manual 10,000 RU/s for workload and 400 RU/s for results, with no replacement
+pending. Deployment did not modify either offer.
 
 The earlier checkout at `/home/azureuser/js-sdk-rust-read-perf/azure-sdk-for-js`
 was preserved, not overwritten. Its native build used the earlier JS source
 plus a recorded build overlay. The older Windows live-read results do not
 qualify the new Linux build or the new dataset.
 
-### Recorded preflight
+### Warm-up calibration and reporting blocker
+
+The approved calibration ran from **01:05:36 to 01:16:38 UTC on November 8,
+2026** (19:05:36 to 19:16:38 on November 7 at UTC-06:00).
+Run ID: `e06954dd-7b38-49cb-8636-06d78dc1385f`.
+It used 120 seconds per implementation, two repetitions, one-second in-memory
+snapshots, and a 120-second shutdown/reporting allowance. It was not the final
+comparison.
+
+| Sequence | Successful measured reads | First read (ms) | Post-read reporting (seconds) |
+|---|---:|---:|---:|
+| JavaScript, repetition 1 | 39,167 | 228.674 | 39.402 |
+| Rust, repetition 1 | 44,428 | 253.222 | 41.437 |
+| JavaScript, repetition 2 | 41,694 | 226.817 | 39.295 |
+| Rust, repetition 2 | 45,508 | 339.102 | 41.453 |
+
+All four sequences completed without measured-read errors or SDK-observed
+read 429s. All 484 result records were persisted and the raw mirrors reconciled
+with the saved integrity report. Credential cleanup was confirmed.
+
+The analysis policy was saved before execution: aggregate contiguous
+approximately ten-second windows, compare P50/mean/completion rate against the
+last three windows using a 10% tolerance, and require at least 60 seconds of
+continuous stable suffix. Retain all late disturbances and all raw data.
+Exclude at least the first window conservatively for both implementations.
+Both JavaScript first windows failed this screen; subsequent windows passed.
+Rust windows passed, but its first calls still had initialization cost.
+
+The common conservative cutoff rounded up to **11 seconds**, leaving about
+109 seconds in each sequence. This is not a claim that initialization takes
+exactly 11 seconds, and the screen does not establish steady-state tail latency.
+Future interpretation must use whole captured intervals starting after the
+cutoff and must not silently relabel the existing all-samples report.
+
+Service `TotalRequests` **Count** for **01:00-01:22 UTC** covered 172,806 workload
+status-200 requests (at least the expected 172,797 including qualification),
+three status-304 requests, and no observed workload 429. Results showed 484
+status-201 requests, five status-200 requests, and **750 status-429 requests**.
+The read data passed, but the overall no-throttling gate failed. Reporting took
+approximately 39-41 seconds after each read sequence, outside its measured
+interval denominator.
+
+**Do not start the final comparison yet.** The results-capacity increase below
+was separately approved after this finding. Reporting at the new capacity
+still requires a separately approved bounded check; the calibration's failed
+no-throttling verdict remains historical evidence and is not changed to a pass.
+
+VM evidence, including all raw intervals, analysis policy, and detailed
+`warmup-analysis.json`, `warmup-intervals.csv`, and `warmup-windows.csv`:
+
+```text
+/home/azureuser/js-sdk-rust-read-perf/calibration/warmup-20261108T010115Z-t6IoFizC
+```
+
+The session's `files/js-perf-vm/warmup-140f150` directory holds the execution
+summary, service Count responses, analysis summary, and final
+`calibration-verdict.json`. The final verdict incorporates the reporting
+throttling gate; a stability candidate alone is not a readiness verdict.
+
+### Results capacity increase after calibration
+
+Only the dedicated JS results container was raised from 400 to **10,000 RU/s**.
+At **06:41:05 UTC on November 8, 2026**, both JS containers were verified at
+manual 10,000 RU/s with no replacement pending. Python workload remained at
+10,000 RU/s; Python results and the earlier JS correctness fixture remained
+at 400 RU/s. No new read or reporting workload was executed.
+
+A separate configuration was prepared at **06:41:41 UTC**:
+
+```text
+/home/azureuser/js-sdk-rust-read-perf/build-evidence/140f150a14e504fa52e13b075c9d18a3dff98f05-release/read-latency.results-10000.proposed.json
+```
+
+Its expected capacity is 10,000/10,000 RU/s and its SHA-256 is
+`e8482f7001be2e76a6d88197b029beee4bc71a1414d5b6b692d3d23e488aa7f2`.
+It retains the existing proposed 60-second/two-repetition budget with
+15-second snapshots and does not apply the warm-up candidate automatically.
+It is a proposal, not authorization or evidence of execution. The original
+10,000/400 configuration and the actual calibration configuration were
+preserved and their hashes rechecked. The SDK and native artifact are unchanged.
+
+Higher capacity is not proof that reporting will avoid 429s. Verify the
+results-side service metrics and drain deadline before the final comparison.
+
+### Earlier recorded preflight
 
 The approved preflight ran from **06:36:35 to 06:37:22 UTC** on November 7,
 2026. Run ID: `afbeb61f-e429-4aa9-8bad-ff9ac7ccb877`.
@@ -245,7 +341,7 @@ The build commands below run in **Bash on the Linux VM**, not in local
 PowerShell. They prepare code; they do not launch the service workload:
 
 ```bash
-REPO="$HOME/js-sdk-rust-read-perf/checkouts/b02be558c113d856cc77c8ea7e32c48868465a76"
+REPO="$HOME/js-sdk-rust-read-perf/checkouts/140f150a14e504fa52e13b075c9d18a3dff98f05"
 cd "$REPO"
 pnpm install --frozen-lockfile
 pnpm turbo build --filter=@azure/cosmos... --token 1
@@ -275,16 +371,17 @@ loaded CommonJS tree and workload files.
 The committed checkout's matching manifest is:
 
 ```text
-/home/azureuser/js-sdk-rust-read-perf/build-evidence/b02be558c113d856cc77c8ea7e32c48868465a76-release/build-manifest.json
+/home/azureuser/js-sdk-rust-read-perf/build-evidence/140f150a14e504fa52e13b075c9d18a3dff98f05-release/build-manifest.json
 ```
 
-The committed example configuration still points at the earlier build's
-manifest and expects 1,000 RU/s. The new build-evidence directory contains
-`read-latency.proposed.json`, using the matching manifest above and expected
-capacity of 10,000/400 RU/s, plus its exact-byte SHA-256. It retains the proposed
-60-second/two-repetition budget with 15-second snapshots; it has not been run
-and is not yet a warm-up calibration protocol. Do not treat an older path as
-valid merely because the file exists.
+The committed example configuration still points at an earlier build's
+manifest and expects 1,000/400 RU/s. In the build-evidence directory, use the
+new `read-latency.results-10000.proposed.json` for the current 10,000/10,000
+capacity. The old `read-latency.proposed.json` remains preserved at
+10,000/400 and no longer matches the live offers. Both have exact-byte hashes.
+The new proposal retains the 60-second/two-repetition budget with 15-second
+snapshots; it has not been run and does not itself implement warm-up exclusion.
+Do not treat an older path as valid merely because the file exists.
 
 **Ready means the intended checkout has both outputs and matching build
 evidence, not simply that a previous native build succeeded.**
@@ -432,8 +529,9 @@ the expected body, and the qualified ETag.
 
 The current implementation retains all measurements and applies **no warm-up
 exclusion**. Its merged report is an all-samples report, not a steady-state
-result. We now intend to separate warm-up from steady-state interpretation,
-but have not identified or selected a cutoff.
+result. The calibration above identified an exploratory **11-second** common
+exclusion candidate; it is not applied automatically and does not override the
+failed reporting-capacity gate.
 
 Characterize both implementations in a separately approved calibration run
 with finer interval data. Retain the first read and all raw intervals. Inspect
@@ -465,13 +563,16 @@ The workload checks the snapshot deadline after completed reads and retains
 each interval in memory. It sends no measurement IPC and triggers no result
 writes during the read loop. After reads stop, it captures the remaining
 partial interval, then sends one snapshot at a time to the launcher and waits
-for its persistence acknowledgement before sending the next. Completion is
-sent only after every interval is acknowledged; the launcher waits for
-completion persistence before starting another sequence.
+for its local-file persistence acknowledgement before sending the next. Each
+append is flushed to disk before acknowledgement. Completion is sent only
+after every interval is acknowledged; the launcher then verifies the artifact
+and persists one aggregate measurement followed by one completion in Cosmos.
+Both writes finish before another sequence starts.
 
 Snapshot timing is approximate, not an independent exact 15-second clock.
 A slow read can extend an interval; the last interval can be shorter. There
-need not be exactly four records for a 60-second sequence.
+need not be exactly four raw intervals for a 60-second sequence. A successfully
+reported sequence always has two Cosmos records, independent of interval count.
 
 The recorded interval durations, CPU samples, and end timestamps stop before
 the reporting drain. Reporting time is not included in the operation histogram
@@ -479,15 +580,17 @@ or the sequence's measured interval denominator. Result records and reports
 identify this protocol as `reporting_mode: "after_reads"`; do not silently pool
 them with historical during-read reporting runs.
 
-Three record types describe one measured process:
+The local revision identifies its storage format as
+`reporting_format: "aggregate_v1"`. It keeps these separate outputs:
 
-| Record type | Meaning |
+| Output | Meaning |
 |---|---|
-| `measurement` | Counts, successful-call latency distribution, RU sum, observed throttling, and process samples for one interval |
-| `error` | Bounded structured details of an operation/validation failure, including its interval ID |
-| `completion` | Interval count, successful-call count, error count, and whether the sequence is usable |
+| `<workload_id>.intervals.jsonl` | All detailed intervals, including histogram counts, timing, CPU/RSS, setup fields and bounded error details |
+| Cosmos `measurement` | One aggregate across all intervals: exact merged histogram, recomputed latency statistics, RU sum, errors, observed throttling and attempt evidence |
+| Cosmos `completion` | Raw interval count, `summary_count: 1`, operation/error totals and sequence validity |
+| `<workload_id>.jsonl` | Local mirror of the two acknowledged Cosmos records |
 
-For example, this is a **shortened illustrative measurement**, not a recorded
+For example, this is a **shortened illustrative raw interval**, not a recorded
 performance result:
 
 ```json
@@ -503,13 +606,27 @@ performance result:
 }
 ```
 
-The next interval's count starts again at zero. Completion combines interval
-counts, but its existence alone does not establish a valid result.
+The next interval's count starts again at zero. The aggregate combines interval
+counts, but completion's existence alone does not establish a valid result.
+Both Cosmos records carry the raw artifact's filename, SHA-256, byte length
+and interval count. Readback requires that artifact, validates its hash and
+interval continuity, and recomputes the aggregate for reconciliation. Missing
+or altered artifacts fail validation; there is no cloud-only fallback.
+Historical interval-format results remain readable under their original
+identities and must not be relabeled as aggregates.
 
 Each record identifies the run, workload sequence, process, and selected build.
-Measurements and error records also identify their interval. Raw SDK exception
-messages, stacks, credentials, and order bodies are not copied into error
-records.
+Raw intervals and structured error details identify their interval. Failures
+stay in the raw artifact and aggregate; no extra Cosmos error document is
+created. An operation failure or abort makes completion invalid, and reporting
+failure may leave fewer than two records. Raw SDK exception messages, stacks,
+credentials, and order bodies are not copied into error details.
+
+The launcher manifest's phase `reporting_writes` receipts retain each successful
+create response's `request_charge` and serialized `utf8_bytes`. Completion also
+stores `measurement_write_ru`; its own charge is known only after creation and
+is retained locally, without a third write. These charges are successful-response
+evidence, not a complete account of retries, metadata requests or service 429s.
 
 Each interval also records `measurement_started_at_utc`,
 `interval_started_at_utc`, and `interval_ended_at_utc`. Interval timestamps use
@@ -555,6 +672,10 @@ fails the sequence rather than silently dropping observations or clipping
 long calls. Deferred storage permits at most 256 snapshots and 262,144 total
 histogram entries across the sequence, counting repeated durations again in
 each interval. Attempt evidence remains bounded per interval.
+The raw interval artifact is capped at 64 MiB. Both Cosmos documents are checked
+against a 2,000,000-byte UTF-8 serialization cap before the first create;
+overflow fails explicitly without dropping histogram tails or falling back to
+per-interval cloud writes.
 
 The configured snapshot budget is
 `ceil(durationSeconds / reportIntervalSeconds) + 1`, including room for a final
@@ -565,13 +686,16 @@ Only one transferred snapshot awaits acknowledgement at a time.
 
 A hard process crash can lose buffered samples that have not yet been sent.
 Missing completion, a failed acknowledgement, disconnect, or reporting timeout
-invalidates the sequence. Acknowledged records remain available for diagnosis,
+invalidates the sequence. Acknowledged raw intervals remain available for diagnosis,
 but do not make a failed or aborted run valid.
 
-Deferred writes can create a reporting burst against the 400-RU/s results
-container. Finer snapshots also require more records and drain time. Validate
-results-side throttling and the bounded shutdown budget in the approved
-calibration; do not increase that capacity or the run budget implicitly.
+The deployed per-interval deferred writes created a reporting burst against
+the results container when it had 400 RU/s. In the new local format, finer
+snapshots increase artifact and IPC work, not the number of Cosmos documents.
+Results capacity is now 10,000 RU/s, but the two-record revision has not been
+deployed or reverified against the service.
+Check results-side throttling and the bounded shutdown budget in a separately
+approved run; do not increase capacity or the run budget implicitly.
 
 CPU and memory samples describe the measured process. They do not include the
 reporter process or prove which SDK component caused a change. Retained
@@ -597,7 +721,7 @@ capacity for the new containers.
 The original approved preparation used 400 RU/s on each dedicated container,
 matching the Python setup at that time. The workload was then increased to
 1,000 RU/s for the recorded preflight. After separate approval, only the JS
-workload container was increased to **10,000 RU/s**; results remain at
+workload container was increased to **10,000 RU/s**; results stayed at
 **400 RU/s**. Both manual offers were verified with no replacement pending at
 **00:00:56 UTC on November 8, 2026**.
 
@@ -606,12 +730,15 @@ it was not modified. Python results and the earlier JS correctness fixture
 remained at 400 RU/s. The historical preflight does not qualify the optimized
 build or the new capacity, and higher throughput cannot guarantee zero 429s.
 
-The configuration now requires:
+After the warm-up calibration exposed results-side throttling, a separately
+approved change increased only the JS results container to 10,000 RU/s.
+Both JS offers were verified at 10,000 RU/s with no replacement pending at
+06:41:05 UTC. The current proposed configuration therefore requires:
 
 ```json
 "capacityRuPerSecond": {
   "workload": 10000,
-  "results": 400
+  "results": 10000
 }
 ```
 
@@ -717,12 +844,13 @@ Keep the run directory and the Cosmos records together:
 | Artifact | Purpose |
 |---|---|
 | `config.json` | Effective secret-free settings |
-| `manifest.json` | Run ID, expected sequences, fingerprints, and overall state |
+| `manifest.json` | Run ID, expected sequences, fingerprints, state and per-phase reporting RU/size receipts |
 | `verified-orders.json` | Qualified target and ETags |
 | `qualification.log` | Qualification-process output |
 | Per-sequence `.log` files | Workload-process output |
-| Per-sequence `.jsonl` files | Local mirrors of acknowledged result records |
-| `latency-report.json` | Report after reading back and validating saved Cosmos records |
+| `<workload_id>.jsonl` | Local mirrors of the two acknowledged Cosmos result records |
+| `<workload_id>.intervals.jsonl` | Detailed raw intervals required for aggregate validation and explicit warm-up analysis |
+| `latency-report.json` | Report after reconciling saved Cosmos records with their local interval artifacts |
 
 The integrity check requires one valid completion per expected process,
 contiguous intervals, matching histogram/count totals, no recorded errors or

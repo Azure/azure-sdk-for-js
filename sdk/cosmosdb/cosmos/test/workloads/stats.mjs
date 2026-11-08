@@ -6,6 +6,45 @@ const MAX_BUCKETS = 16384;
 const MAX_ATTEMPT_GROUPS = 128;
 const MAX_BUFFERED_INTERVALS = 256;
 const MAX_BUFFERED_BUCKETS = 262144;
+const MAX_ARTIFACT_BYTES = 64 * 1024 * 1024;
+const MAX_RESULT_BYTES = 2_000_000;
+
+function aggregateIntervals(rows, backend) {
+  assert.ok(rows.length > 0 && rows.length <= MAX_BUFFERED_INTERVALS);
+  assert.ok(
+    rows.reduce((total, row) => total + row.histogram_us.length, 0) <= MAX_BUFFERED_BUCKETS,
+    "Deferred histogram capacity exceeded",
+  );
+  const histogram = mergeHistograms(rows.map((row) => row.histogram_us));
+  const sum = (field) =>
+    rows.reduce((total, row) => {
+      assert.ok(Number.isFinite(row[field]) && row[field] >= 0, `Invalid ${field}`);
+      const value = total + row[field];
+      assert.ok(Number.isFinite(value), `${field} overflow`);
+      return value;
+    }, 0);
+  for (const row of rows) assert.equal(row.errors, row.error_details.length);
+  const attempts = rows.map((row) => row.attempt_evidence).filter((value) => value !== null);
+  return {
+    histogram_us: histogram,
+    ...summarize(histogram),
+    interval_count: rows.length,
+    interval_duration_seconds: sum("interval_duration_seconds"),
+    elapsed_seconds: rows.at(-1).elapsed_seconds,
+    measurement_started_at_utc: rows[0].measurement_started_at_utc,
+    interval_started_at_utc: rows[0].interval_started_at_utc,
+    interval_ended_at_utc: rows.at(-1).interval_ended_at_utc,
+    first_operation: rows[0].first_operation,
+    errors: sum("errors"),
+    error_details: rows.flatMap((row) =>
+      row.error_details.map((error) => ({ ...error, interval_number: row.interval_number })),
+    ),
+    observed_429: sum("observed_429"),
+    transport_verified_count: sum("transport_verified_count"),
+    ru_sum: sum("ru_sum"),
+    attempt_evidence: attempts.length ? mergeAttemptEvidence(attempts, backend) : null,
+  };
+}
 
 class IntervalBuffer {
   constructor(maximumIntervals) {
@@ -253,4 +292,7 @@ export {
   IntervalBuffer,
   MAX_BUFFERED_INTERVALS,
   MAX_BUFFERED_BUCKETS,
+  MAX_ARTIFACT_BYTES,
+  MAX_RESULT_BYTES,
+  aggregateIntervals,
 };

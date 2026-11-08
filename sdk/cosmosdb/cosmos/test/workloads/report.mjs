@@ -2,7 +2,17 @@
 // Licensed under the MIT License.
 
 import assert from "node:assert/strict";
-import { mergeHistograms, summarize, mergeAttemptEvidence } from "./stats.mjs";
+import { readFileSync, statSync } from "node:fs";
+import path from "node:path";
+import {
+  mergeHistograms,
+  summarize,
+  mergeAttemptEvidence,
+  aggregateIntervals,
+  MAX_ARTIFACT_BYTES,
+  MAX_BUFFERED_INTERVALS,
+} from "./stats.mjs";
+import { sha256 } from "./common.mjs";
 
 function utcMilliseconds(value) {
   const parsed = Date.parse(value);
@@ -11,7 +21,7 @@ function utcMilliseconds(value) {
   return parsed;
 }
 
-function validateResults(rows, expected) {
+function validateIntervalResults(rows, expected) {
   assert.equal(new Set(rows.map((row) => row.id)).size, rows.length, "Duplicate result IDs");
   assert.ok(
     rows.every((row) => expected.some((cell) => cell.workload_id === row.workload_id)),
@@ -29,18 +39,10 @@ function validateResults(rows, expected) {
       ),
     );
     for (const row of selected) {
-      for (const field of [
-        "provenance",
-        "repetition",
-        "fixture_sha256",
-        "config_target",
-        "config_concurrency",
-        "configuration_sha256",
-        "environment",
-        "reporting_mode",
-      ]) {
-        assert.deepEqual(row[field], cell[field], `Mismatched ${field}`);
+      for (const [field, value] of Object.entries(cell)) {
+        assert.deepEqual(row[field], value, `Mismatched ${field}`);
       }
+      assert.equal(row.reporting_format, cell.reporting_format, "Mismatched reporting_format");
     }
     const completed = selected.filter((row) => row.record_type === "completion");
     const measurements = selected
@@ -130,14 +132,94 @@ function validateResults(rows, expected) {
   });
 }
 
-async function fetchReport(container, runId, expected) {
+function validateResults(rows, expected, artifactDirectory) {
+  assert.equal(new Set(rows.map((row) => row.id)).size, rows.length, "Duplicate result IDs");
+  assert.ok(
+    rows.every((row) => expected.some((cell) => cell.workload_id === row.workload_id)),
+    "Unexpected workload",
+  );
+  return expected.map((cell) => {
+    const selected = rows.filter((row) => row.workload_id === cell.workload_id);
+    if (cell.reporting_format === undefined) return validateIntervalResults(selected, [cell])[0];
+    assert.equal(cell.reporting_format, "aggregate_v1", "Unsupported reporting format");
+    assert.equal(selected.length, 2, "Expected one aggregate measurement and one completion");
+    const measurements = selected.filter((row) => row.record_type === "measurement");
+    const completions = selected.filter((row) => row.record_type === "completion");
+    assert.equal(measurements.length, 1);
+    assert.equal(completions.length, 1);
+    const measurement = measurements[0];
+    const completion = completions[0];
+    for (const row of selected) {
+      for (const [field, value] of Object.entries(cell)) {
+        assert.deepEqual(row[field], value, `Mismatched ${field}`);
+      }
+    }
+    assert.equal(measurement.id, `${cell.process_id}-measurement`);
+    assert.equal(completion.id, `${cell.process_id}-completion`);
+    assert.equal(measurement.operation, "ReadItem");
+    assert.equal(
+      measurement.interval_number,
+      undefined,
+      "Aggregate cannot masquerade as an interval",
+    );
+    assert.equal(completion.summary_count, 1);
+    assert.equal(completion.valid, true, "Sequence is not a usable comparison");
+    assert.ok(
+      Number.isFinite(completion.measurement_write_ru) && completion.measurement_write_ru >= 0,
+    );
+    const artifact = measurement.interval_artifact;
+    assert.deepEqual(completion.interval_artifact, artifact);
+    assert.equal(artifact.filename, `${cell.workload_id}.intervals.jsonl`);
+    assert.match(cell.workload_id, /^[A-Za-z0-9-]+$/);
+    assert.match(artifact.sha256, /^[a-f0-9]{64}$/);
+    assert.ok(
+      Number.isSafeInteger(artifact.bytes) &&
+        artifact.bytes > 0 &&
+        artifact.bytes <= MAX_ARTIFACT_BYTES,
+    );
+    assert.ok(
+      Number.isSafeInteger(artifact.interval_count) &&
+        artifact.interval_count > 0 &&
+        artifact.interval_count <= MAX_BUFFERED_INTERVALS,
+    );
+    assert.equal(completion.interval_count, artifact.interval_count);
+    assert.ok(typeof artifactDirectory === "string", "Interval artifact directory is required");
+    const filename = path.join(artifactDirectory, artifact.filename);
+    assert.equal(statSync(filename).size, artifact.bytes, "Interval artifact length changed");
+    const bytes = readFileSync(filename);
+    assert.equal(bytes.length, artifact.bytes, "Interval artifact length changed");
+    assert.equal(sha256(bytes), artifact.sha256, "Interval artifact hash changed");
+    const intervals = bytes.toString("utf8").trimEnd().split("\n").map(JSON.parse);
+    assert.equal(intervals.length, artifact.interval_count);
+    const aggregate = aggregateIntervals(intervals, cell.config_backend);
+    for (const [field, value] of Object.entries(aggregate)) {
+      assert.deepEqual(
+        measurement[field],
+        value,
+        `Aggregate differs from interval artifact: ${field}`,
+      );
+    }
+    const summary = validateIntervalResults(
+      [...intervals, { ...completion, summary_count: intervals.length }],
+      [cell],
+    )[0];
+    return {
+      ...summary,
+      reporting_format: cell.reporting_format,
+      interval_artifact: artifact,
+      measurement_write_ru: completion.measurement_write_ru,
+    };
+  });
+}
+
+async function fetchReport(container, runId, expected, artifactDirectory) {
   const { resources } = await container.items
     .query({
       query: "SELECT * FROM c WHERE c.run_id = @run",
       parameters: [{ name: "@run", value: runId }],
     })
     .fetchAll();
-  return validateResults(resources, expected);
+  return validateResults(resources, expected, artifactDirectory);
 }
 
-export { validateResults, fetchReport };
+export { validateResults, validateIntervalResults, fetchReport };

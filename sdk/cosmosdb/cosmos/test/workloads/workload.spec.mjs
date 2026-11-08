@@ -3,7 +3,14 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { readFileSync, mkdtempSync, writeFileSync, unlinkSync, rmdirSync } from "node:fs";
+import {
+  readFileSync,
+  mkdtempSync,
+  writeFileSync,
+  unlinkSync,
+  rmdirSync,
+  readdirSync,
+} from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { EventEmitter } from "node:events";
@@ -28,6 +35,9 @@ import {
   IntervalBuffer,
   MAX_BUFFERED_INTERVALS,
   MAX_BUFFERED_BUCKETS,
+  MAX_RESULT_BYTES,
+  MAX_ARTIFACT_BYTES,
+  aggregateIntervals,
 } from "./stats.mjs";
 import { Reporter } from "./reporter.mjs";
 import { validateResults } from "./report.mjs";
@@ -383,7 +393,7 @@ test("both implementations defer all reporting until reads stop and retain raw i
   }
 });
 
-test("post-read persistence and completion finish before the launcher advances", async () => {
+test("post-read persistence and completion finish before the launcher advances", async (t) => {
   const launcher = mockLauncher();
   const rows = [];
   await withWorkload(
@@ -403,7 +413,8 @@ test("post-read persistence and completion finish before the launcher advances",
       const completionGate = new Promise((resolve) => {
         releaseCompletion = resolve;
       });
-      const reporter = new Reporter(
+      const reporter = reporterFor(
+        t,
         {
           items: {
             async create(row) {
@@ -411,7 +422,7 @@ test("post-read persistence and completion finish before the launcher advances",
               worker.advanceClock(10);
               if (row.record_type === "completion") await completionGate;
               rows.push(structuredClone(row));
-              return { statusCode: 201 };
+              return { statusCode: 201, requestCharge: 3 };
             },
           },
         },
@@ -428,14 +439,23 @@ test("post-read persistence and completion finish before the launcher advances",
       launcher.child.emit("close", 0, null);
       await Promise.resolve();
       assert.equal(advanced, false);
-      assert.equal(rows.length, 3);
+      assert.equal(rows.length, 1);
       releaseCompletion();
       await parent;
       assert.equal(advanced, true);
-      const result = validateResults(rows, [identity])[0];
+      assert.equal(rows.length, 2);
+      const result = validateResults(rows, [identity], path.dirname(reporter.logfile))[0];
       assert.equal(result.count, 3);
       assert.equal(result.interval_seconds, 3);
       assert.equal(result.reporting_mode, "after_reads");
+      const raw = readFileSync(reporter.artifactFile, "utf8").trimEnd().split("\n").map(JSON.parse);
+      const sent = worker.messages.filter((message) => message.type === "interval");
+      assert.equal(raw.length, sent.length);
+      for (const [index, row] of raw.entries()) {
+        for (const [field, value] of Object.entries(sent[index].snapshot)) {
+          assert.deepEqual(row[field], value, `Raw interval lost ${field}`);
+        }
+      }
     },
   );
 });
@@ -573,6 +593,7 @@ const identity = {
   partition_key: "process",
   config_backend: "rust",
   reporting_mode: "after_reads",
+  reporting_format: "aggregate_v1",
   repetition: 1,
   configuration_sha256: "a".repeat(64),
   environment: { hostname: "offline-test", capacity: { workload: 1000, results: 400 } },
@@ -584,24 +605,48 @@ function snapshot() {
   return stats.drain(15);
 }
 
-test("reporter saves interval data before completion, then integrity checks the stored rows", async () => {
+function reporterFor(t, container, selectedIdentity = identity) {
+  const directory = mkdtempSync(path.join(os.tmpdir(), "aggregate-read-"));
+  t.after(() => {
+    for (const name of readdirSync(directory)) unlinkSync(path.join(directory, name));
+    rmdirSync(directory);
+  });
+  return new Reporter(
+    container,
+    selectedIdentity,
+    path.join(directory, `${selectedIdentity.workload_id}.jsonl`),
+  );
+}
+
+test("reporter saves raw intervals locally and only two Cosmos records, then verifies both", async (t) => {
   const rows = [];
-  const reporter = new Reporter(
+  const reporter = reporterFor(
+    t,
     {
       items: {
         async create(row) {
           rows.push(structuredClone(row));
-          return { statusCode: 201 };
+          return { statusCode: 201, requestCharge: 3 };
         },
       },
     },
     identity,
   );
   await reporter.interval(snapshot());
+  assert.equal(rows.length, 0);
+  assert.equal(JSON.parse(readFileSync(reporter.artifactFile, "utf8")).interval_number, 1);
   assert.equal(await reporter.complete(true), true);
   assert.equal(rows[0].record_type, "measurement");
   assert.equal(rows[1].record_type, "completion");
-  assert.equal(validateResults(rows, [identity])[0].count, 1);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[1].summary_count, 1);
+  assert.equal(rows[1].measurement_write_ru, 3);
+  assert.deepEqual(
+    reporter.writes.map((write) => write.request_charge),
+    [3, 3],
+  );
+  assert.ok(reporter.writes.every((write) => write.utf8_bytes > 0));
+  assert.equal(validateResults(rows, [identity], path.dirname(reporter.logfile))[0].count, 1);
   for (const mutate of [
     (data) => {
       data.pop();
@@ -637,6 +682,19 @@ test("reporter saves interval data before completion, then integrity checks the 
       data[0].reporting_mode = "during_reads";
     },
     (data) => {
+      data[0].reporting_format = undefined;
+    },
+    (data) => {
+      data[1].summary_count = 2;
+    },
+    (data) => {
+      data[0].interval_artifact.sha256 = "b".repeat(64);
+    },
+    (data) => {
+      data[0].interval_artifact.filename = "../outside.jsonl";
+      data[1].interval_artifact.filename = "../outside.jsonl";
+    },
+    (data) => {
       data[0].interval_started_at_utc = "not-a-date";
     },
     (data) => {
@@ -654,12 +712,13 @@ test("reporter saves interval data before completion, then integrity checks the 
   ]) {
     const changed = structuredClone(rows);
     mutate(changed);
-    assert.throws(() => validateResults(changed, [identity]));
+    assert.throws(() => validateResults(changed, [identity], path.dirname(reporter.logfile)));
   }
 });
 
-test("failed reporting prevents a success-shaped completion", async () => {
-  const reporter = new Reporter(
+test("failed reporting prevents a success-shaped completion", async (t) => {
+  const reporter = reporterFor(
+    t,
     {
       items: {
         async create() {
@@ -669,18 +728,20 @@ test("failed reporting prevents a success-shaped completion", async () => {
     },
     identity,
   );
-  await assert.rejects(reporter.interval(snapshot()), /write failed/);
+  await reporter.interval(snapshot());
+  await assert.rejects(reporter.complete(true), /write failed/);
   await assert.rejects(reporter.complete(true), /prevents completion/);
 });
 
-test("recorded operation failures have interval IDs and invalidate the sequence", async () => {
+test("recorded operation failures stay in raw data and the invalid aggregate", async (t) => {
   const rows = [];
-  const reporter = new Reporter(
+  const reporter = reporterFor(
+    t,
     {
       items: {
         async create(row) {
           rows.push(row);
-          return { statusCode: 201 };
+          return { statusCode: 201, requestCharge: 3 };
         },
       },
     },
@@ -690,9 +751,274 @@ test("recorded operation failures have interval IDs and invalidate the sequence"
   stats.failure(1_000_000n, { status_code: 404 });
   await reporter.interval(stats.drain(1));
   assert.equal(await reporter.complete(true), false);
-  assert.equal(rows[1].record_type, "error");
-  assert.equal(rows[1].interval_id, rows[0].interval_id);
-  assert.equal(rows[2].total_errors, 1);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].error_details[0].interval_number, 1);
+  assert.equal(rows[0].error_details[0].status_code, 404);
+  assert.equal(rows[1].total_errors, 1);
+  assert.equal(rows[1].valid, false);
+  assert.throws(
+    () => validateResults(rows, [identity], path.dirname(reporter.logfile)),
+    /usable comparison/,
+  );
+});
+
+test("120 raw intervals produce exactly one aggregate and one completion without losing samples", async (t) => {
+  const rows = [];
+  const reporter = reporterFor(t, {
+    items: {
+      async create(row) {
+        rows.push(structuredClone(row));
+        return { statusCode: 201, requestCharge: row.record_type === "measurement" ? 7 : 2 };
+      },
+    },
+  });
+  const stats = new Stats(0);
+  for (let interval = 1; interval <= 120; interval++) {
+    stats.success(BigInt(interval) * 1000n, evidence());
+    await reporter.interval(stats.drain(interval));
+  }
+  assert.equal(rows.length, 0);
+  assert.equal(readFileSync(reporter.artifactFile, "utf8").trimEnd().split("\n").length, 120);
+  assert.equal(await reporter.complete(true), true);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].interval_count, 120);
+  assert.equal(rows[0].count, 120);
+  assert.equal(rows[0].histogram_us.length, 120);
+  assert.equal(rows[0].p99_ms, 0.119);
+  assert.equal(rows[1].summary_count, 1);
+  assert.equal(rows[1].measurement_write_ru, 7);
+  assert.deepEqual(
+    reporter.writes.map((write) => write.request_charge),
+    [7, 2],
+  );
+  const report = validateResults(rows, [identity], path.dirname(reporter.logfile))[0];
+  assert.equal(report.count, 120);
+  assert.equal(report.interval_seconds, 120);
+  assert.equal(report.interval_artifact.sha256, sha256(readFileSync(reporter.artifactFile)));
+  await assert.rejects(reporter.complete(true), /duplicate completion/);
+  await assert.rejects(reporter.interval(snapshot()), /already completing/);
+  assert.equal(rows.length, 2);
+});
+
+test("aggregate percentiles use pooled histogram counts, not averages of percentiles", () => {
+  const stats = new Stats(0);
+  for (let i = 0; i < 99; i++) stats.success(1_000_000n, evidence());
+  stats.success(100_000_000n, evidence());
+  const first = stats.drain(10);
+  stats.success(10_000_000n, evidence());
+  const second = stats.drain(11);
+  const aggregate = aggregateIntervals([first, second], "rust");
+  assert.equal(aggregate.count, 101);
+  assert.equal(aggregate.p99_ms, 10);
+  assert.equal(aggregate.interval_duration_seconds, 11);
+  assert.equal(aggregate.transport_verified_count, 101);
+  assert.equal(aggregate.attempt_evidence.groups[0].count, 101);
+  assert.deepEqual(aggregate.first_operation, first.first_operation);
+});
+
+test("raw artifact tampering or write failure prevents either Cosmos document", async (t) => {
+  let creates = 0;
+  const container = {
+    items: {
+      async create() {
+        creates++;
+        return { statusCode: 201, requestCharge: 1 };
+      },
+    },
+  };
+  const tampered = reporterFor(t, container);
+  await tampered.interval(snapshot());
+  const original = readFileSync(tampered.artifactFile, "utf8");
+  const changed = original.replace("[[1000,1]]", "[[2000,1]]");
+  assert.notEqual(changed, original);
+  assert.equal(Buffer.byteLength(changed), Buffer.byteLength(original));
+  writeFileSync(tampered.artifactFile, changed);
+  await assert.rejects(tampered.complete(true), /artifact changed/);
+
+  const collision = reporterFor(t, container);
+  writeFileSync(collision.artifactFile, "preserve");
+  await assert.rejects(collision.interval(snapshot()), { code: "EEXIST" });
+  assert.equal(readFileSync(collision.artifactFile, "utf8"), "preserve");
+  await assert.rejects(collision.complete(true), /prevents completion/);
+
+  const bounded = reporterFor(t, container);
+  bounded.artifactBytes = MAX_ARTIFACT_BYTES;
+  await assert.rejects(bounded.interval(snapshot()), /artifact capacity/);
+  const empty = reporterFor(t, container);
+  await assert.rejects(empty.complete(true), /Missing interval artifact/);
+  assert.equal(creates, 0);
+});
+
+test("UTF-8 aggregate size overflow fails without clipping or creating documents", async (t) => {
+  let creates = 0;
+  const reporter = reporterFor(
+    t,
+    {
+      items: {
+        async create() {
+          creates++;
+          return { statusCode: 201, requestCharge: 1 };
+        },
+      },
+    },
+    { ...identity, padding: "\u00e9".repeat(MAX_RESULT_BYTES / 2) },
+  );
+  await reporter.interval(snapshot());
+  assert.ok(reporter.artifactBytes > MAX_RESULT_BYTES);
+  await assert.rejects(reporter.complete(true), /UTF-8 size limit/);
+  assert.equal(creates, 0);
+});
+
+test("readback rejects missing or altered local intervals and altered aggregate summaries", async (t) => {
+  const rows = [];
+  const reporter = reporterFor(t, {
+    items: {
+      async create(row) {
+        rows.push(structuredClone(row));
+        return { statusCode: 201, requestCharge: 1 };
+      },
+    },
+  });
+  await reporter.interval(snapshot());
+  await reporter.complete(true);
+  const directory = path.dirname(reporter.logfile);
+  const original = readFileSync(reporter.artifactFile);
+  assert.throws(
+    () => validateResults(rows, [{ ...identity, reporting_format: "aggregate_v2" }], directory),
+    /Unsupported reporting format/,
+  );
+  const legacyIdentity = { ...identity };
+  delete legacyIdentity.reporting_format;
+  assert.throws(() => validateResults(rows, [legacyIdentity]), /Mismatched reporting_format/);
+  const changedRows = structuredClone(rows);
+  changedRows[0].p99_ms++;
+  assert.throws(() => validateResults(changedRows, [identity], directory), /Aggregate differs/);
+  const changed = original.toString("utf8").replace("[[1000,1]]", "[[2000,1]]");
+  writeFileSync(reporter.artifactFile, changed);
+  assert.throws(() => validateResults(rows, [identity], directory), /artifact hash changed/);
+  const corruptInterval = JSON.parse(original.toString("utf8"));
+  corruptInterval.interval_number = 2;
+  const corruptBytes = Buffer.from(`${JSON.stringify(corruptInterval)}\n`);
+  writeFileSync(reporter.artifactFile, corruptBytes);
+  const matchingHashRows = structuredClone(rows);
+  for (const row of matchingHashRows) {
+    row.interval_artifact.sha256 = sha256(corruptBytes);
+    row.interval_artifact.bytes = corruptBytes.length;
+  }
+  assert.throws(() => validateResults(matchingHashRows, [identity], directory));
+  writeFileSync(reporter.artifactFile, original);
+  assert.throws(() => validateResults(rows, [identity]), /artifact directory/);
+  unlinkSync(reporter.artifactFile);
+  assert.throws(() => validateResults(rows, [identity], directory), { code: "ENOENT" });
+});
+
+test("completion write failure preserves raw evidence but cannot validate the lone aggregate", async (t) => {
+  const rows = [];
+  const reporter = reporterFor(t, {
+    items: {
+      async create(row) {
+        if (row.record_type === "completion") throw new Error("completion write failed");
+        rows.push(structuredClone(row));
+        return { statusCode: 201, requestCharge: 5 };
+      },
+    },
+  });
+  await reporter.interval(snapshot());
+  await assert.rejects(reporter.complete(true), /completion write failed/);
+  assert.equal(rows.length, 1);
+  assert.ok(readFileSync(reporter.artifactFile).length > 0);
+  assert.throws(
+    () => validateResults(rows, [identity], path.dirname(reporter.logfile)),
+    /one aggregate/,
+  );
+});
+
+test("deadline expiry after the aggregate request prevents a completion request", async (t) => {
+  const rows = [];
+  let release;
+  const gate = new Promise((resolve) => {
+    release = resolve;
+  });
+  const reporter = reporterFor(t, {
+    items: {
+      async create(row) {
+        rows.push(row);
+        await gate;
+        return { statusCode: 201, requestCharge: 5 };
+      },
+    },
+  });
+  await reporter.interval(snapshot());
+  const completing = reporter.complete(true);
+  reporter.failed = true;
+  release();
+  await assert.rejects(completing, /deadline expired/);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].record_type, "measurement");
+});
+
+test("an abort between aggregate and completion writes marks completion invalid", async (t) => {
+  const rows = [];
+  const reporter = reporterFor(t, {
+    items: {
+      async create(row) {
+        rows.push(structuredClone(row));
+        if (row.record_type === "measurement") reporter.aborted = true;
+        return { statusCode: 201, requestCharge: 5 };
+      },
+    },
+  });
+  await reporter.interval(snapshot());
+  assert.equal(await reporter.complete(true), false);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[1].valid, false);
+});
+
+test("missing write-charge evidence prevents a successful completion", async (t) => {
+  let creates = 0;
+  const reporter = reporterFor(t, {
+    items: {
+      async create() {
+        creates++;
+        return { statusCode: 201 };
+      },
+    },
+  });
+  await reporter.interval(snapshot());
+  await assert.rejects(reporter.complete(true), /request charge/);
+  assert.equal(creates, 1);
+});
+
+test("historical interval-format records remain readable without new artifact requirements", () => {
+  const legacy = { ...identity };
+  delete legacy.reporting_format;
+  const interval = snapshot();
+  const rows = [
+    {
+      ...legacy,
+      ...interval,
+      ...summarize(interval.histogram_us),
+      operation: "ReadItem",
+      record_type: "measurement",
+      id: "process-1-measurement",
+      interval_id: "process-1",
+    },
+    {
+      ...legacy,
+      record_type: "completion",
+      id: "process-completion",
+      interval_count: 1,
+      summary_count: 1,
+      total_count: 1,
+      total_errors: 0,
+      observed_429: 0,
+      valid: true,
+      completed_at_utc: new Date().toISOString(),
+      attempt_evidence: interval.attempt_evidence,
+    },
+  ];
+  assert.equal(validateResults(rows, [legacy])[0].count, 1);
+  assert.throws(() => validateResults(rows, [identity]), /Mismatched reporting_format/);
 });
 
 test("error records omit raw SDK messages, stacks and request data", () => {
