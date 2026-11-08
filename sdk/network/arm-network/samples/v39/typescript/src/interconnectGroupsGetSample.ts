@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified interconnect group.
  *
  * @summary gets information about the specified interconnect group.
- * x-ms-original-file: 2026-01-01/InterconnectGroupGet.json
+ * x-ms-original-file: 2026-03-01/InterconnectGroupGet.json
  */
 async function getInterconnectGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -20,6 +20,45 @@ import type { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export interface ActivateChangeDataCaptureIdentityRequest {
+    drainExistingSessions?: boolean;
+    identityAssignmentResourceId: string;
+}
+
+// @public
+export interface ActivateChangeDataCaptureIdentityResult {
+    readonly previousIdentityAssignmentResourceId?: string;
+    readonly status: "Succeeded";
+    readonly targetIdentityAssignmentResourceId: string;
+}
+
+// @public
+export type AiModelManagementStatus = string;
+
+// @public
+export interface Authentication extends ProxyResource {
+    properties?: AuthenticationProperties;
+}
+
+// @public
+export type AuthenticationName = string;
+
+// @public
+export interface AuthenticationProperties {
+    readonly provisioningState?: ProvisioningState;
+    readonly state: AuthenticationState;
+}
+
+// @public
+export interface AuthenticationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AuthenticationsOperations {
+    list: (resourceGroupName: string, clusterName: string, options?: AuthenticationsListOptionalParams) => PagedAsyncIterableIterator<Authentication>;
+}
+
+// @public
 export type AuthenticationState = string;
 
 // @public
@@ -33,6 +72,635 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BackupProperties {
+    readonly earliestRestorePointUtc?: Date;
+    geoRedundancy: GeoRedundancyState;
+    retentionDays?: number;
+}
+
+// @public
+export interface BackupPropertiesCreateOrUpdate {
+    geoRedundancy: GeoRedundancyState;
+    retentionDays?: number;
+}
+
+// @public
+export interface BackupPropertiesForPatchUpdate {
+    retentionDays?: number;
+}
+
+// @public
+export interface BackupPropertiesForPatchUpdateUpdate {
+    retentionDays?: number;
+}
+
+// @public
+export interface CapabilitiesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CapabilitiesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CapabilitiesOperations {
+    get: (location: string, options?: CapabilitiesGetOptionalParams) => Promise<Capability>;
+    list: (location: string, options?: CapabilitiesListOptionalParams) => PagedAsyncIterableIterator<Capability>;
+}
+
+// @public
+export interface Capability extends ProxyResource {
+    properties?: CapabilityProperties;
+}
+
+// @public
+export interface CapabilityProperties {
+    readonly clusterCapabilities: ClusterCapability;
+    readonly poolCapabilities: PoolCapability;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, resource: ChangeDataCaptureCapabilityCreateOrUpdate, options?: ChangeDataCaptureCapabilitiesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureCapability>, ChangeDataCaptureCapability>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, resource: ChangeDataCaptureCapabilityCreateOrUpdate, options?: ChangeDataCaptureCapabilitiesCreateOrReplaceOptionalParams) => Promise<ChangeDataCaptureCapability>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureCapabilitiesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureCapabilitiesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, properties: ChangeDataCaptureCapabilityForPatchUpdateUpdate, options?: ChangeDataCaptureCapabilitiesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureCapability>, ChangeDataCaptureCapability>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: ChangeDataCaptureCapabilityForPatchUpdateUpdate, options?: ChangeDataCaptureCapabilitiesUpdateOptionalParams) => Promise<ChangeDataCaptureCapability>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, resource: ChangeDataCaptureCapabilityCreateOrUpdate, options?: ChangeDataCaptureCapabilitiesCreateOrReplaceOptionalParams) => PollerLike<OperationState<ChangeDataCaptureCapability>, ChangeDataCaptureCapability>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureCapabilitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureCapabilitiesGetOptionalParams) => Promise<ChangeDataCaptureCapability>;
+    list: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureCapabilitiesListOptionalParams) => PagedAsyncIterableIterator<ChangeDataCaptureCapability>;
+    update: (resourceGroupName: string, clusterName: string, properties: ChangeDataCaptureCapabilityForPatchUpdateUpdate, options?: ChangeDataCaptureCapabilitiesUpdateOptionalParams) => PollerLike<OperationState<ChangeDataCaptureCapability>, ChangeDataCaptureCapability>;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilitiesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureCapability extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ChangeDataCaptureCapabilityProperties;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: ChangeDataCaptureCapabilityPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityForPatchUpdate {
+    properties?: ChangeDataCaptureCapabilityPropertiesForPatchUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityForPatchUpdateUpdate {
+    properties?: ChangeDataCaptureCapabilityPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityProperties {
+    autoUpgradeExtension?: boolean;
+    readonly configurationCount: number;
+    desiredState: ChangeDataCaptureDesiredState;
+    readonly destinationCount: number;
+    readonly effectiveState: ChangeDataCaptureEffectiveState;
+    readonly extension: ChangeDataCaptureExtensionStatus;
+    readonly prerequisites: ChangeDataCapturePrerequisiteStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly replicationArchitecture: ChangeDataCaptureReplicationArchitecture;
+    readonly status: ChangeDataCaptureStatus;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityPropertiesCreateOrUpdate {
+    autoUpgradeExtension?: boolean;
+    desiredState: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityPropertiesForPatchUpdate {
+    autoUpgradeExtension?: boolean;
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureCapabilityPropertiesForPatchUpdateUpdate {
+    autoUpgradeExtension?: boolean;
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureConfiguration extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ChangeDataCaptureConfigurationProperties;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: ChangeDataCaptureConfigurationPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationForPatchUpdate {
+    properties?: ChangeDataCaptureConfigurationPropertiesForPatchUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationForPatchUpdateUpdate {
+    properties?: ChangeDataCaptureConfigurationPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationProperties {
+    databaseName: string;
+    desiredState: ChangeDataCaptureDesiredState;
+    destinationResourceId: string;
+    readonly effectiveState: ChangeDataCaptureEffectiveState;
+    readonly extension: ChangeDataCaptureExtensionStatus;
+    readonly logicalStreamId: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly replication: ChangeDataCaptureReplicationStatus;
+    readonly status: ChangeDataCaptureStatus;
+    readonly topology: ChangeDataCaptureTopologyBindingStatus;
+    usageProfile: ChangeDataCaptureUsageProfile;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationPropertiesCreateOrUpdate {
+    databaseName: string;
+    desiredState: ChangeDataCaptureDesiredState;
+    destinationResourceId: string;
+    usageProfile: ChangeDataCaptureUsageProfile;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationPropertiesForPatchUpdate {
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationPropertiesForPatchUpdateUpdate {
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, configurationName: string, resource: ChangeDataCaptureConfigurationCreateOrUpdate, options?: ChangeDataCaptureConfigurationsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureConfiguration>, ChangeDataCaptureConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, configurationName: string, resource: ChangeDataCaptureConfigurationCreateOrUpdate, options?: ChangeDataCaptureConfigurationsCreateOrReplaceOptionalParams) => Promise<ChangeDataCaptureConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, configurationName: string, options?: ChangeDataCaptureConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, configurationName: string, options?: ChangeDataCaptureConfigurationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, configurationName: string, properties: ChangeDataCaptureConfigurationForPatchUpdateUpdate, options?: ChangeDataCaptureConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureConfiguration>, ChangeDataCaptureConfiguration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, configurationName: string, properties: ChangeDataCaptureConfigurationForPatchUpdateUpdate, options?: ChangeDataCaptureConfigurationsUpdateOptionalParams) => Promise<ChangeDataCaptureConfiguration>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, configurationName: string, resource: ChangeDataCaptureConfigurationCreateOrUpdate, options?: ChangeDataCaptureConfigurationsCreateOrReplaceOptionalParams) => PollerLike<OperationState<ChangeDataCaptureConfiguration>, ChangeDataCaptureConfiguration>;
+    delete: (resourceGroupName: string, clusterName: string, configurationName: string, options?: ChangeDataCaptureConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, configurationName: string, options?: ChangeDataCaptureConfigurationsGetOptionalParams) => Promise<ChangeDataCaptureConfiguration>;
+    list: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureConfigurationsListOptionalParams) => PagedAsyncIterableIterator<ChangeDataCaptureConfiguration>;
+    update: (resourceGroupName: string, clusterName: string, configurationName: string, properties: ChangeDataCaptureConfigurationForPatchUpdateUpdate, options?: ChangeDataCaptureConfigurationsUpdateOptionalParams) => PollerLike<OperationState<ChangeDataCaptureConfiguration>, ChangeDataCaptureConfiguration>;
+}
+
+// @public
+export interface ChangeDataCaptureConfigurationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ChangeDataCaptureDesiredState = string;
+
+// @public
+export interface ChangeDataCaptureDestination extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ChangeDataCaptureDestinationProperties;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: ChangeDataCaptureDestinationPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationDetails {
+    destinationType: ChangeDataCaptureDestinationType;
+    protocol: ChangeDataCaptureProtocol;
+}
+
+// @public
+export type ChangeDataCaptureDestinationDetailsUnion = FabricDestinationDetails | ChangeDataCaptureDestinationDetails;
+
+// @public
+export type ChangeDataCaptureDestinationEffectiveState = string;
+
+// @public
+export interface ChangeDataCaptureDestinationForPatchUpdate {
+    properties?: ChangeDataCaptureDestinationPropertiesForPatchUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationForPatchUpdateUpdate {
+    properties?: ChangeDataCaptureDestinationPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationProperties {
+    readonly activeIdentityAssignmentResourceId?: string;
+    readonly configurationCount: number;
+    desiredState: ChangeDataCaptureDesiredState;
+    destination: ChangeDataCaptureDestinationDetailsUnion;
+    readonly effectiveState: ChangeDataCaptureDestinationEffectiveState;
+    readonly provisioningState?: ProvisioningState;
+    readonly status: ChangeDataCaptureStatus;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationPropertiesCreateOrUpdate {
+    desiredState: ChangeDataCaptureDesiredState;
+    destination: ChangeDataCaptureDestinationDetailsUnion;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationPropertiesForPatchUpdate {
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationPropertiesForPatchUpdateUpdate {
+    desiredState?: ChangeDataCaptureDesiredState;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsActivateIdentityOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsOperations {
+    activateIdentity: (resourceGroupName: string, ifMatch: string, clusterName: string, destinationName: string, body: ActivateChangeDataCaptureIdentityRequest, options?: ChangeDataCaptureDestinationsActivateIdentityOptionalParams) => PollerLike<OperationState<ActivateChangeDataCaptureIdentityResult>, ActivateChangeDataCaptureIdentityResult>;
+    // @deprecated (undocumented)
+    beginActivateIdentity: (resourceGroupName: string, ifMatch: string, clusterName: string, destinationName: string, body: ActivateChangeDataCaptureIdentityRequest, options?: ChangeDataCaptureDestinationsActivateIdentityOptionalParams) => Promise<SimplePollerLike<OperationState<ActivateChangeDataCaptureIdentityResult>, ActivateChangeDataCaptureIdentityResult>>;
+    // @deprecated (undocumented)
+    beginActivateIdentityAndWait: (resourceGroupName: string, ifMatch: string, clusterName: string, destinationName: string, body: ActivateChangeDataCaptureIdentityRequest, options?: ChangeDataCaptureDestinationsActivateIdentityOptionalParams) => Promise<ActivateChangeDataCaptureIdentityResult>;
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, destinationName: string, resource: ChangeDataCaptureDestinationCreateOrUpdate, options?: ChangeDataCaptureDestinationsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureDestination>, ChangeDataCaptureDestination>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, destinationName: string, resource: ChangeDataCaptureDestinationCreateOrUpdate, options?: ChangeDataCaptureDestinationsCreateOrReplaceOptionalParams) => Promise<ChangeDataCaptureDestination>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, destinationName: string, options?: ChangeDataCaptureDestinationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, destinationName: string, options?: ChangeDataCaptureDestinationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, destinationName: string, properties: ChangeDataCaptureDestinationForPatchUpdateUpdate, options?: ChangeDataCaptureDestinationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ChangeDataCaptureDestination>, ChangeDataCaptureDestination>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, destinationName: string, properties: ChangeDataCaptureDestinationForPatchUpdateUpdate, options?: ChangeDataCaptureDestinationsUpdateOptionalParams) => Promise<ChangeDataCaptureDestination>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, destinationName: string, resource: ChangeDataCaptureDestinationCreateOrUpdate, options?: ChangeDataCaptureDestinationsCreateOrReplaceOptionalParams) => PollerLike<OperationState<ChangeDataCaptureDestination>, ChangeDataCaptureDestination>;
+    delete: (resourceGroupName: string, clusterName: string, destinationName: string, options?: ChangeDataCaptureDestinationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, destinationName: string, options?: ChangeDataCaptureDestinationsGetOptionalParams) => Promise<ChangeDataCaptureDestination>;
+    list: (resourceGroupName: string, clusterName: string, options?: ChangeDataCaptureDestinationsListOptionalParams) => PagedAsyncIterableIterator<ChangeDataCaptureDestination>;
+    update: (resourceGroupName: string, clusterName: string, destinationName: string, properties: ChangeDataCaptureDestinationForPatchUpdateUpdate, options?: ChangeDataCaptureDestinationsUpdateOptionalParams) => PollerLike<OperationState<ChangeDataCaptureDestination>, ChangeDataCaptureDestination>;
+}
+
+// @public
+export interface ChangeDataCaptureDestinationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ChangeDataCaptureDestinationType = string;
+
+// @public
+export type ChangeDataCaptureEffectiveState = string;
+
+// @public
+export type ChangeDataCaptureEngineConfigurationState = string;
+
+// @public
+export type ChangeDataCaptureExtensionState = string;
+
+// @public
+export interface ChangeDataCaptureExtensionStatus {
+    readonly name: string;
+    readonly state: ChangeDataCaptureExtensionState;
+    readonly version: string;
+}
+
+// @public
+export type ChangeDataCaptureIdentityActivationState = string;
+
+// @public
+export interface ChangeDataCaptureIdentityAssignmentProperties {
+    readonly activationState: ChangeDataCaptureIdentityActivationState;
+    readonly effectiveState: ChangeDataCaptureIdentityAssignmentState;
+    identityResourceId: string;
+    readonly principalId: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status: ChangeDataCaptureStatus;
+    readonly tenantId: string;
+    readonly validation: IdentityValidationStatus;
+}
+
+// @public
+export interface ChangeDataCaptureIdentityAssignmentPropertiesCreateOrUpdate {
+    identityResourceId: string;
+}
+
+// @public
+export type ChangeDataCaptureIdentityAssignmentState = string;
+
+// @public
+export type ChangeDataCaptureIdentityValidationState = string;
+
+// @public
+export interface ChangeDataCapturePrerequisiteStatus {
+    readonly engineConfigurationState: ChangeDataCaptureEngineConfigurationState;
+    readonly readWriteEndpointState: ChangeDataCaptureReadWriteEndpointState;
+}
+
+// @public
+export type ChangeDataCaptureProtocol = string;
+
+// @public
+export type ChangeDataCaptureReadWriteEndpointState = string;
+
+// @public
+export type ChangeDataCaptureReplicationArchitecture = string;
+
+// @public
+export type ChangeDataCaptureReplicationState = string;
+
+// @public
+export interface ChangeDataCaptureReplicationStatus {
+    readonly externalArtifactId?: string;
+    readonly lastConnectedAtUtc?: Date;
+    readonly state: ChangeDataCaptureReplicationState;
+}
+
+// @public
+export interface ChangeDataCaptureStatus {
+    readonly code: string;
+    readonly message: string;
+}
+
+// @public
+export type ChangeDataCaptureTopologyBindingState = string;
+
+// @public
+export interface ChangeDataCaptureTopologyBindingStatus {
+    readonly activeClusterResourceId: string;
+    readonly generation: number;
+    readonly replacementConfigurationResourceId?: string;
+    readonly state: ChangeDataCaptureTopologyBindingState;
+}
+
+// @public
+export type ChangeDataCaptureUsageProfile = string;
+
+// @public
+export interface Cluster extends TrackedResource {
+    identity?: HorizonDbClusterManagedServiceIdentity;
+    properties?: ClusterProperties;
+}
+
+// @public
+export interface ClusterCapability {
+    readonly recommendedPostgreSqlVersion: PostgreSqlCapabilityVersion;
+    readonly supportedFeatures: ClusterFeatureCapability[];
+    readonly supportedPostgreSqlVersions: PostgreSqlVersionCapability[];
+}
+
+// @public
+export type ClusterCreateMode = string;
+
+// @public
+export interface ClusterCreateOrUpdate extends TrackedResourceCreateOrUpdate {
+    identity?: HorizonDbClusterManagedServiceIdentityCreateOrUpdate;
+    properties?: ClusterPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface ClusterFeatureCapability {
+    readonly name: string;
+}
+
+// @public
+export interface ClusterForPatchUpdate {
+    identity?: HorizonDbClusterManagedServiceIdentity;
+    properties?: ClusterPropertiesForPatchUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ClusterForPatchUpdateUpdate {
+    identity?: HorizonDbClusterManagedServiceIdentityUpdate;
+    properties?: ClusterPropertiesForPatchUpdateUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ClusterProperties {
+    aiModelManagement?: AiModelManagementStatus;
+    backup?: BackupProperties;
+    creationMode?: ClusterCreateMode;
+    creationSourceClusterLocation?: string;
+    creationSourceClusterResourceId?: string;
+    dataEncryption?: HorizonDbClusterDataEncryption;
+    network?: Network;
+    pointInTimeUtc?: Date;
+    postgreSqlVersion?: PostgreSqlVersion;
+    readonly provisioningState: ProvisioningState;
+    readonly readWritePool: ReadWritePoolProperties;
+    readonly state: ClusterState;
+}
+
+// @public
+export interface ClusterPropertiesCreateOrUpdate {
+    aiModelManagement?: AiModelManagementStatus;
+    backup?: BackupPropertiesCreateOrUpdate;
+    creationMode?: ClusterCreateMode;
+    creationSourceClusterLocation?: string;
+    creationSourceClusterResourceId?: string;
+    dataEncryption?: HorizonDbClusterDataEncryptionCreateOrUpdate;
+    network?: Network;
+    pointInTimeUtc?: Date;
+    postgreSqlVersion?: PostgreSqlVersion;
+}
+
+// @public
+export interface ClusterPropertiesForPatchUpdate {
+    aiModelManagement?: AiModelManagementStatus;
+    backup?: BackupPropertiesForPatchUpdate;
+    dataEncryption?: HorizonDbClusterDataEncryptionForPatchUpdate;
+    network?: NetworkForPatchUpdate;
+}
+
+// @public
+export interface ClusterPropertiesForPatchUpdateUpdate {
+    aiModelManagement?: AiModelManagementStatus;
+    backup?: BackupPropertiesForPatchUpdateUpdate;
+    dataEncryption?: HorizonDbClusterDataEncryptionForPatchUpdateUpdate;
+    network?: NetworkForPatchUpdateUpdate;
+}
+
+// @public
+export interface ClustersCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersFailoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, resource: ClusterCreateOrUpdate, options?: ClustersCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, resource: ClusterCreateOrUpdate, options?: ClustersCreateOrReplaceOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFailover: (resourceGroupName: string, clusterName: string, options?: ClustersFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginFailoverAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersFailoverOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, properties: ClusterForPatchUpdateUpdate, options?: ClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: ClusterForPatchUpdateUpdate, options?: ClustersUpdateOptionalParams) => Promise<Cluster>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, resource: ClusterCreateOrUpdate, options?: ClustersCreateOrReplaceOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    failover: (resourceGroupName: string, clusterName: string, options?: ClustersFailoverOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listBySubscription: (options?: ClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    update: (resourceGroupName: string, clusterName: string, properties: ClusterForPatchUpdateUpdate, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+}
+
+// @public
+export type ClusterState = string;
+
+// @public
+export interface ClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputeGenerationCapability {
+    readonly computeGeneration: number;
+    readonly recommendedComputeModelType: PoolComputeModelType;
+    readonly supportedComputeModels: ComputeModelCapabilityUnion[];
+}
+
+// @public
+export interface ComputeModelCapability {
+    readonly type: PoolComputeModelType;
+}
+
+// @public
+export type ComputeModelCapabilityUnion = ProvisionedComputeModelCapability | ComputeModelCapability;
+
+// @public
+export interface ComputeProcessorCapability {
+    readonly name: ComputeProcessorType;
+    readonly supportedGenerations: ComputeGenerationCapability[];
+}
+
+// @public
+export type ComputeProcessorType = string;
+
+// @public
+export interface ComputeSizeCapability {
+    readonly memoryPerVCoreInMb: number;
+    readonly vCores: number;
+}
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -41,10 +709,64 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export type CreateModeCluster = string;
+export interface DefaultParameterGroup extends ProxyResource {
+    properties?: DefaultParameterGroupProperties;
+}
 
 // @public
-export type CreateModePool = string;
+export interface DefaultParameterGroupProperties {
+    description?: string;
+    parameters: ParameterProperties[];
+    postgreSqlVersion: PostgreSqlVersion;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface DefaultParameterGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DefaultParameterGroupsListBySubscriptionAndRegionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DefaultParameterGroupsOperations {
+    get: (location: string, name: string, options?: DefaultParameterGroupsGetOptionalParams) => Promise<DefaultParameterGroup>;
+    listBySubscriptionAndRegion: (location: string, options?: DefaultParameterGroupsListBySubscriptionAndRegionOptionalParams) => PagedAsyncIterableIterator<DefaultParameterGroup>;
+}
+
+// @public
+export interface Endpoint extends ProxyResource {
+    properties?: EndpointProperties;
+}
+
+// @public
+export interface EndpointProperties {
+    readonly associatedResourceId: string;
+    readonly fullyQualifiedDomainName: string;
+    readonly role: EndpointRole;
+    readonly scope: EndpointScope;
+}
+
+// @public
+export type EndpointRole = string;
+
+// @public
+export type EndpointScope = string;
+
+// @public
+export interface EndpointsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointsOperations {
+    get: (resourceGroupName: string, clusterName: string, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
+    list: (resourceGroupName: string, clusterName: string, options?: EndpointsListOptionalParams) => PagedAsyncIterableIterator<Endpoint>;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -67,78 +789,100 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface HorizonDbAdministrator extends ProxyResource {
-    properties?: HorizonDbAdministratorProperties;
+export interface FabricDestinationDetails extends ChangeDataCaptureDestinationDetails {
+    destinationType: "Fabric";
+    protocol: "Native";
+    workspaceId: string;
 }
 
 // @public
-export interface HorizonDbAdministratorAdd {
-    properties: HorizonDbAdministratorPropertiesForAdd;
+export interface FirewallRule extends ProxyResource {
+    properties?: FirewallRuleProperties;
 }
 
 // @public
-export interface HorizonDbAdministratorProperties {
-    readonly objectId?: string;
-    principalName: string;
-    principalType: PrincipalTypes;
+export interface FirewallRuleCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: FirewallRulePropertiesCreateOrUpdate;
+}
+
+// @public
+export interface FirewallRuleProperties {
+    description?: string;
+    endIpAddress: string;
     readonly provisioningState?: ProvisioningState;
-    tenantId?: string;
+    startIpAddress: string;
 }
 
 // @public
-export interface HorizonDbAdministratorPropertiesForAdd {
-    principalName: string;
-    principalType: PrincipalTypes;
-    tenantId?: string;
+export interface FirewallRulePropertiesCreateOrUpdate {
+    description?: string;
+    endIpAddress: string;
+    startIpAddress: string;
 }
 
 // @public
-export interface HorizonDbAdministratorsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface FirewallRulesCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface HorizonDbAdministratorsDeleteOptionalParams extends OperationOptions {
+export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface HorizonDbAdministratorsGetOptionalParams extends OperationOptions {
+export interface FirewallRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HorizonDbAdministratorsListOptionalParams extends OperationOptions {
+export interface FirewallRulesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HorizonDbAdministratorsOperations {
+export interface FirewallRulesOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbAdministrator>, HorizonDbAdministrator>>;
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: FirewallRuleCreateOrUpdate, options?: FirewallRulesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<FirewallRule>, FirewallRule>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => Promise<HorizonDbAdministrator>;
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: FirewallRuleCreateOrUpdate, options?: FirewallRulesCreateOrReplaceOptionalParams) => Promise<FirewallRule>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, clusterName: string, objectId: string, resource: HorizonDbAdministratorAdd, options?: HorizonDbAdministratorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbAdministrator>, HorizonDbAdministrator>;
-    delete: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, objectId: string, options?: HorizonDbAdministratorsGetOptionalParams) => Promise<HorizonDbAdministrator>;
-    list: (resourceGroupName: string, clusterName: string, options?: HorizonDbAdministratorsListOptionalParams) => PagedAsyncIterableIterator<HorizonDbAdministrator>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: FirewallRuleCreateOrUpdate, options?: FirewallRulesCreateOrReplaceOptionalParams) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
+    delete: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams) => Promise<FirewallRule>;
+    list: (resourceGroupName: string, clusterName: string, poolName: string, options?: FirewallRulesListOptionalParams) => PagedAsyncIterableIterator<FirewallRule>;
 }
+
+// @public
+export type GeoRedundancyState = string;
 
 // @public (undocumented)
 export class HorizonDbClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: HorizonDbClientOptionalParams);
-    readonly horizonDbAdministrators: HorizonDbAdministratorsOperations;
-    readonly horizonDbClusters: HorizonDbClustersOperations;
-    readonly horizonDbFirewallRules: HorizonDbFirewallRulesOperations;
-    readonly horizonDbParameterGroups: HorizonDbParameterGroupsOperations;
-    readonly horizonDbPools: HorizonDbPoolsOperations;
-    readonly horizonDbPrivateEndpointConnections: HorizonDbPrivateEndpointConnectionsOperations;
-    readonly horizonDbPrivateLinkResources: HorizonDbPrivateLinkResourcesOperations;
-    readonly horizonDbReplicas: HorizonDbReplicasOperations;
+    readonly authentications: AuthenticationsOperations;
+    readonly capabilities: CapabilitiesOperations;
+    readonly changeDataCaptureCapabilities: ChangeDataCaptureCapabilitiesOperations;
+    readonly changeDataCaptureConfigurations: ChangeDataCaptureConfigurationsOperations;
+    readonly changeDataCaptureDestinations: ChangeDataCaptureDestinationsOperations;
+    readonly clusters: ClustersOperations;
+    readonly defaultParameterGroups: DefaultParameterGroupsOperations;
+    readonly endpoints: EndpointsOperations;
+    readonly firewallRules: FirewallRulesOperations;
+    readonly identityAssignments: IdentityAssignmentsOperations;
+    readonly logCaptureConfigurations: LogCaptureConfigurationsOperations;
+    readonly logFiles: LogFilesOperations;
+    readonly maintenanceEvents: MaintenanceEventsOperations;
+    readonly microsoftEntraAdministrators: MicrosoftEntraAdministratorsOperations;
+    readonly microsoftEntraAuthentications: MicrosoftEntraAuthenticationsOperations;
+    readonly nodes: NodesOperations;
     readonly operations: OperationsOperations;
+    readonly parameterGroups: ParameterGroupsOperations;
+    readonly passwordAuthentications: PasswordAuthenticationsOperations;
     readonly pipeline: Pipeline;
+    readonly pools: PoolsOperations;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
 }
 
 // @public
@@ -148,448 +892,112 @@ export interface HorizonDbClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export interface HorizonDbCluster extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: HorizonDbClusterProperties;
+export interface HorizonDbClusterDataEncryption {
+    readonly primaryEncryptionKeyCurrentVersion?: string;
+    readonly primaryEncryptionKeyStatus?: HorizonDbClusterEncryptionKeyStatus;
+    primaryKeyUri?: string;
+    primaryUserAssignedIdentityId?: string;
+    type?: HorizonDbClusterDataEncryptionType;
 }
 
 // @public
-export interface HorizonDbClusterAuthConfig {
-    entraIdAuth?: AuthenticationState;
-    passwordAuth?: AuthenticationState;
-    tenantId?: string;
+export interface HorizonDbClusterDataEncryptionCreateOrUpdate {
+    primaryKeyUri?: string;
+    primaryUserAssignedIdentityId?: string;
+    type?: HorizonDbClusterDataEncryptionType;
 }
 
 // @public
-export interface HorizonDbClusterForPatchUpdate {
-    identity?: ManagedServiceIdentity;
-    properties?: HorizonDbClusterPropertiesForPatchUpdate;
-    tags?: Record<string, string>;
+export interface HorizonDbClusterDataEncryptionForPatchUpdate {
+    primaryKeyUri?: string;
+    primaryUserAssignedIdentityId?: string;
+    type?: HorizonDbClusterDataEncryptionType;
 }
 
 // @public
-export interface HorizonDbClusterMirroring {
-    databaseNames?: string[];
-    userAssignedIdentityId?: string;
+export interface HorizonDbClusterDataEncryptionForPatchUpdateUpdate {
+    primaryKeyUri?: string;
+    primaryUserAssignedIdentityId?: string;
+    type?: HorizonDbClusterDataEncryptionType;
 }
 
 // @public
-export interface HorizonDbClusterParameterGroupConnectionProperties {
-    applyImmediately?: boolean;
-    id?: string;
-    readonly syncStatus?: string;
+export type HorizonDbClusterDataEncryptionType = string;
+
+// @public
+export type HorizonDbClusterEncryptionKeyStatus = string;
+
+// @public
+export type HorizonDbClusterIdentityType = string;
+
+// @public
+export interface HorizonDbClusterManagedServiceIdentity {
+    type: HorizonDbClusterIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
-export interface HorizonDbClusterProperties {
-    administratorLogin: string;
-    administratorLoginPassword?: string;
-    authConfig?: HorizonDbClusterAuthConfig;
-    computeModel?: HorizonDbComputeModel;
-    createMode?: CreateModeCluster;
-    readonly fullyQualifiedDomainName?: string;
-    mirroring?: HorizonDbClusterMirroring;
-    network?: Network;
-    parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
-    pointInTimeUTC?: Date;
-    poolName?: string;
-    processorType?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly readonlyEndpoint?: string;
-    replicaCount?: number;
-    sourceClusterResourceId?: string;
-    readonly state?: State;
-    vCores?: number;
-    version?: string;
-    zonePlacementPolicy?: ZonePlacementPolicy;
+export interface HorizonDbClusterManagedServiceIdentityCreateOrUpdate {
+    type: HorizonDbClusterIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentityCreateOrUpdate>;
 }
 
 // @public
-export interface HorizonDbClusterPropertiesForPatchUpdate {
-    administratorLoginPassword?: string;
-    authConfig?: HorizonDbClusterAuthConfig;
-    computeModel?: HorizonDbComputeModel;
-    mirroring?: HorizonDbClusterMirroring;
-    parameterGroup?: HorizonDbClusterParameterGroupConnectionProperties;
-    vCores?: number;
+export interface HorizonDbClusterManagedServiceIdentityUpdate {
+    type: HorizonDbClusterIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
 }
 
 // @public
-export interface HorizonDbClustersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface IdentityAssignment extends ProxyResource {
+    readonly eTag?: string;
+    properties?: ChangeDataCaptureIdentityAssignmentProperties;
+}
+
+// @public
+export interface IdentityAssignmentCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: ChangeDataCaptureIdentityAssignmentPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface IdentityAssignmentsCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface HorizonDbClustersDeleteOptionalParams extends OperationOptions {
+export interface IdentityAssignmentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface HorizonDbClustersGetOptionalParams extends OperationOptions {
+export interface IdentityAssignmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HorizonDbClustersListByResourceGroupOptionalParams extends OperationOptions {
+export interface IdentityAssignmentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HorizonDbClustersListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbClustersOperations {
+export interface IdentityAssignmentsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, resource: HorizonDbCluster, options?: HorizonDbClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>>;
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, resource: IdentityAssignmentCreateOrUpdate, options?: IdentityAssignmentsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<IdentityAssignment>, IdentityAssignment>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, resource: HorizonDbCluster, options?: HorizonDbClustersCreateOrUpdateOptionalParams) => Promise<HorizonDbCluster>;
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, resource: IdentityAssignmentCreateOrUpdate, options?: IdentityAssignmentsCreateOrReplaceOptionalParams) => Promise<IdentityAssignment>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, options?: IdentityAssignmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginRestart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginRestartAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginStart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginStartAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginStop: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginStopAndWait: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => Promise<HorizonDbCluster>;
-    createOrUpdate: (resourceGroupName: string, clusterName: string, resource: HorizonDbCluster, options?: HorizonDbClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>;
-    delete: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersGetOptionalParams) => Promise<HorizonDbCluster>;
-    listByResourceGroup: (resourceGroupName: string, options?: HorizonDbClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<HorizonDbCluster>;
-    listBySubscription: (options?: HorizonDbClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<HorizonDbCluster>;
-    restart: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersRestartOptionalParams) => PollerLike<OperationState<void>, void>;
-    start: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStartOptionalParams) => PollerLike<OperationState<void>, void>;
-    stop: (resourceGroupName: string, clusterName: string, options?: HorizonDbClustersStopOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, clusterName: string, properties: HorizonDbClusterForPatchUpdate, options?: HorizonDbClustersUpdateOptionalParams) => PollerLike<OperationState<HorizonDbCluster>, HorizonDbCluster>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, options?: IdentityAssignmentsDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, resource: IdentityAssignmentCreateOrUpdate, options?: IdentityAssignmentsCreateOrReplaceOptionalParams) => PollerLike<OperationState<IdentityAssignment>, IdentityAssignment>;
+    delete: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, options?: IdentityAssignmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, destinationName: string, assignmentName: string, options?: IdentityAssignmentsGetOptionalParams) => Promise<IdentityAssignment>;
+    list: (resourceGroupName: string, clusterName: string, destinationName: string, options?: IdentityAssignmentsListOptionalParams) => PagedAsyncIterableIterator<IdentityAssignment>;
 }
 
 // @public
-export interface HorizonDbClustersRestartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbClustersStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbClustersStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbClustersUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbComputeModel {
-    maxvCores?: number;
-    minvCores?: number;
-    type?: HorizonDbComputeModelType;
-    vCores?: number;
-}
-
-// @public
-export type HorizonDbComputeModelType = string;
-
-// @public
-export interface HorizonDbFirewallRule extends ProxyResource {
-    properties?: HorizonDbFirewallRuleProperties;
-}
-
-// @public
-export interface HorizonDbFirewallRuleProperties {
-    description?: string;
-    endIpAddress: string;
-    readonly provisioningState?: ProvisioningState;
-    startIpAddress: string;
-}
-
-// @public
-export interface HorizonDbFirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbFirewallRulesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbFirewallRulesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbFirewallRulesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbFirewallRulesOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: HorizonDbFirewallRule, options?: HorizonDbFirewallRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbFirewallRule>, HorizonDbFirewallRule>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: HorizonDbFirewallRule, options?: HorizonDbFirewallRulesCreateOrUpdateOptionalParams) => Promise<HorizonDbFirewallRule>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: HorizonDbFirewallRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: HorizonDbFirewallRulesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, resource: HorizonDbFirewallRule, options?: HorizonDbFirewallRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbFirewallRule>, HorizonDbFirewallRule>;
-    delete: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: HorizonDbFirewallRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, poolName: string, firewallRuleName: string, options?: HorizonDbFirewallRulesGetOptionalParams) => Promise<HorizonDbFirewallRule>;
-    list: (resourceGroupName: string, clusterName: string, poolName: string, options?: HorizonDbFirewallRulesListOptionalParams) => PagedAsyncIterableIterator<HorizonDbFirewallRule>;
-}
-
-// @public
-export interface HorizonDbParameterGroup extends TrackedResource {
-    properties?: HorizonDbParameterGroupProperties;
-}
-
-// @public
-export interface HorizonDbParameterGroupConnectionProperties {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface HorizonDbParameterGroupForPatchUpdate {
-    properties?: HorizonDbParameterGroupPropertiesForPatchUpdate;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface HorizonDbParameterGroupProperties {
-    applyImmediately?: boolean;
-    description?: string;
-    parameters?: ParameterProperties[];
-    pgVersion?: number;
-    readonly provisioningState?: ProvisioningState;
-    readonly version?: number;
-}
-
-// @public
-export interface HorizonDbParameterGroupPropertiesForPatchUpdate {
-    applyImmediately?: boolean;
-    description?: string;
-    parameters?: ParameterProperties[];
-}
-
-// @public
-export interface HorizonDbParameterGroupsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbParameterGroupsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbParameterGroupsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbParameterGroupsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbParameterGroupsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbParameterGroupsListConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbParameterGroupsListVersionsOptionalParams extends OperationOptions {
-    version?: number;
-}
-
-// @public
-export interface HorizonDbParameterGroupsOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, parameterGroupName: string, resource: HorizonDbParameterGroup, options?: HorizonDbParameterGroupsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbParameterGroup>, HorizonDbParameterGroup>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, parameterGroupName: string, resource: HorizonDbParameterGroup, options?: HorizonDbParameterGroupsCreateOrUpdateOptionalParams) => Promise<HorizonDbParameterGroup>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, parameterGroupName: string, properties: HorizonDbParameterGroupForPatchUpdate, options?: HorizonDbParameterGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbParameterGroup>, HorizonDbParameterGroup>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, parameterGroupName: string, properties: HorizonDbParameterGroupForPatchUpdate, options?: HorizonDbParameterGroupsUpdateOptionalParams) => Promise<HorizonDbParameterGroup>;
-    createOrUpdate: (resourceGroupName: string, parameterGroupName: string, resource: HorizonDbParameterGroup, options?: HorizonDbParameterGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbParameterGroup>, HorizonDbParameterGroup>;
-    delete: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsGetOptionalParams) => Promise<HorizonDbParameterGroup>;
-    listByResourceGroup: (resourceGroupName: string, options?: HorizonDbParameterGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
-    listBySubscription: (options?: HorizonDbParameterGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
-    listConnections: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsListConnectionsOptionalParams) => PagedAsyncIterableIterator<HorizonDbParameterGroupConnectionProperties>;
-    listVersions: (resourceGroupName: string, parameterGroupName: string, options?: HorizonDbParameterGroupsListVersionsOptionalParams) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
-    update: (resourceGroupName: string, parameterGroupName: string, properties: HorizonDbParameterGroupForPatchUpdate, options?: HorizonDbParameterGroupsUpdateOptionalParams) => PollerLike<OperationState<HorizonDbParameterGroup>, HorizonDbParameterGroup>;
-}
-
-// @public
-export interface HorizonDbParameterGroupsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbPool extends ProxyResource {
-    properties?: HorizonDbPoolProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface HorizonDbPoolProperties {
-    readonly createMode?: CreateModePool;
-    location?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly replicaCount?: number;
-    readonly state?: State;
-    readonly version?: string;
-}
-
-// @public
-export interface HorizonDbPoolsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPoolsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPoolsOperations {
-    get: (resourceGroupName: string, clusterName: string, poolName: string, options?: HorizonDbPoolsGetOptionalParams) => Promise<HorizonDbPool>;
-    list: (resourceGroupName: string, clusterName: string, options?: HorizonDbPoolsListOptionalParams) => PagedAsyncIterableIterator<HorizonDbPool>;
-}
-
-// @public
-export interface HorizonDbPrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbPrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPrivateEndpointConnectionsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPrivateEndpointConnectionsOperations {
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    delete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: HorizonDbPrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-    list: (resourceGroupName: string, clusterName: string, options?: HorizonDbPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
-    updateStatus: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-}
-
-// @public
-export interface HorizonDbPrivateEndpointConnectionsUpdateStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPrivateLinkResource extends ProxyResource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
-export interface HorizonDbPrivateLinkResourcesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPrivateLinkResourcesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbPrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, clusterName: string, groupName: string, options?: HorizonDbPrivateLinkResourcesGetOptionalParams) => Promise<HorizonDbPrivateLinkResource>;
-    list: (resourceGroupName: string, clusterName: string, options?: HorizonDbPrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<HorizonDbPrivateLinkResource>;
-}
-
-// @public
-export interface HorizonDbReplica extends ProxyResource {
-    properties?: HorizonDbReplicaProperties;
-}
-
-// @public
-export interface HorizonDbReplicaForPatchUpdate {
-    properties?: HorizonDbReplicaPropertiesForPatchUpdate;
-}
-
-// @public
-export interface HorizonDbReplicaProperties {
-    availabilityZone?: string;
-    readonly fullyQualifiedDomainName?: string;
-    readonly provisioningState?: ProvisioningState;
-    role?: ReplicaRole;
-    readonly status?: State;
-}
-
-// @public
-export interface HorizonDbReplicaPropertiesForPatchUpdate {
-    role?: ReplicaRole;
-}
-
-// @public
-export interface HorizonDbReplicasCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbReplicasDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface HorizonDbReplicasGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbReplicasListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface HorizonDbReplicasOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, resource: HorizonDbReplica, options?: HorizonDbReplicasCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, resource: HorizonDbReplica, options?: HorizonDbReplicasCreateOrUpdateOptionalParams) => Promise<HorizonDbReplica>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, options?: HorizonDbReplicasDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, options?: HorizonDbReplicasDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, properties: HorizonDbReplicaForPatchUpdate, options?: HorizonDbReplicasUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, properties: HorizonDbReplicaForPatchUpdate, options?: HorizonDbReplicasUpdateOptionalParams) => Promise<HorizonDbReplica>;
-    createOrUpdate: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, resource: HorizonDbReplica, options?: HorizonDbReplicasCreateOrUpdateOptionalParams) => PollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>;
-    delete: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, options?: HorizonDbReplicasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, options?: HorizonDbReplicasGetOptionalParams) => Promise<HorizonDbReplica>;
-    list: (resourceGroupName: string, clusterName: string, poolName: string, options?: HorizonDbReplicasListOptionalParams) => PagedAsyncIterableIterator<HorizonDbReplica>;
-    update: (resourceGroupName: string, clusterName: string, poolName: string, replicaName: string, properties: HorizonDbReplicaForPatchUpdate, options?: HorizonDbReplicasUpdateOptionalParams) => PollerLike<OperationState<HorizonDbReplica>, HorizonDbReplica>;
-}
-
-// @public
-export interface HorizonDbReplicasUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+export interface IdentityValidationStatus {
+    readonly error?: ErrorDetail;
+    readonly state: ChangeDataCaptureIdentityValidationState;
+    readonly validatedAtUtc?: Date;
 }
 
 export { isRestError }
@@ -600,9 +1008,162 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAiModelManagementStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAuthenticationName {
+    MicrosoftEntra = "microsoftEntra",
+    PasswordMethod = "passwordMethod"
+}
+
+// @public
 export enum KnownAuthenticationState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownChangeDataCaptureDesiredState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownChangeDataCaptureDestinationEffectiveState {
+    Degraded = "Degraded",
+    Disabled = "Disabled",
+    Disabling = "Disabling",
+    Enabled = "Enabled",
+    Enabling = "Enabling",
+    Failed = "Failed",
+    WaitingForIdentity = "WaitingForIdentity"
+}
+
+// @public
+export enum KnownChangeDataCaptureDestinationType {
+    Fabric = "Fabric"
+}
+
+// @public
+export enum KnownChangeDataCaptureEffectiveState {
+    Degraded = "Degraded",
+    Disabled = "Disabled",
+    Disabling = "Disabling",
+    Enabled = "Enabled",
+    Enabling = "Enabling",
+    Failed = "Failed"
+}
+
+// @public
+export enum KnownChangeDataCaptureEngineConfigurationState {
+    Failed = "Failed",
+    NotReady = "NotReady",
+    Ready = "Ready",
+    Reconciling = "Reconciling"
+}
+
+// @public
+export enum KnownChangeDataCaptureExtensionState {
+    Failed = "Failed",
+    Installing = "Installing",
+    NotInstalled = "NotInstalled",
+    Ready = "Ready",
+    Removing = "Removing",
+    Upgrading = "Upgrading"
+}
+
+// @public
+export enum KnownChangeDataCaptureIdentityActivationState {
+    Activating = "Activating",
+    Active = "Active",
+    Deactivating = "Deactivating",
+    Failed = "Failed",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownChangeDataCaptureIdentityAssignmentState {
+    Assigned = "Assigned",
+    Assigning = "Assigning",
+    Failed = "Failed",
+    Removing = "Removing"
+}
+
+// @public
+export enum KnownChangeDataCaptureIdentityValidationState {
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownChangeDataCaptureProtocol {
+    Native = "Native"
+}
+
+// @public
+export enum KnownChangeDataCaptureReadWriteEndpointState {
+    Ready = "Ready",
+    Unavailable = "Unavailable"
+}
+
+// @public
+export enum KnownChangeDataCaptureReplicationArchitecture {
+    ComputeBased = "ComputeBased",
+    Hybrid = "Hybrid",
+    StorageBased = "StorageBased"
+}
+
+// @public
+export enum KnownChangeDataCaptureReplicationState {
+    Connecting = "Connecting",
+    Degraded = "Degraded",
+    Failed = "Failed",
+    NotApplicable = "NotApplicable",
+    NotConnected = "NotConnected",
+    Paused = "Paused",
+    Reconnecting = "Reconnecting",
+    Replicating = "Replicating",
+    Stopping = "Stopping"
+}
+
+// @public
+export enum KnownChangeDataCaptureTopologyBindingState {
+    Active = "Active",
+    Conflict = "Conflict",
+    RebindRequired = "RebindRequired",
+    Reconciling = "Reconciling",
+    Superseded = "Superseded"
+}
+
+// @public
+export enum KnownChangeDataCaptureUsageProfile {
+    Mirroring = "Mirroring"
+}
+
+// @public
+export enum KnownClusterCreateMode {
+    Create = "Create",
+    PointInTimeRestore = "PointInTimeRestore"
+}
+
+// @public
+export enum KnownClusterState {
+    Deleting = "Deleting",
+    Inaccessible = "Inaccessible",
+    Provisioning = "Provisioning",
+    Ready = "Ready",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownComputeProcessorType {
+    AMD = "AMD",
+    Intel = "Intel"
 }
 
 // @public
@@ -614,30 +1175,76 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownCreateModeCluster {
-    Create = "Create",
-    PointInTimeRestore = "PointInTimeRestore",
-    Update = "Update"
+export enum KnownEndpointRole {
+    ReadOnly = "ReadOnly",
+    ReadWrite = "ReadWrite"
 }
 
 // @public
-export enum KnownCreateModePool {
-    Create = "Create",
-    Update = "Update"
+export enum KnownEndpointScope {
+    Cluster = "Cluster",
+    Pool = "Pool"
 }
 
 // @public
-export enum KnownHorizonDbComputeModelType {
-    Provisioned = "Provisioned",
-    Serverless = "Serverless"
+export enum KnownGeoRedundancyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
-export enum KnownManagedServiceIdentityType {
+export enum KnownHorizonDbClusterDataEncryptionType {
+    AzureKeyVault = "AzureKeyVault",
+    SystemManaged = "SystemManaged"
+}
+
+// @public
+export enum KnownHorizonDbClusterEncryptionKeyStatus {
+    Invalid = "Invalid",
+    Valid = "Valid"
+}
+
+// @public
+export enum KnownHorizonDbClusterIdentityType {
     None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownLogCaptureState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownLogFileType {
+    PostgreSqlServer = "PostgreSqlServer"
+}
+
+// @public
+export enum KnownMaintenanceEventStatus {
+    Canceled = "Canceled",
+    Complete = "Complete",
+    InProgress = "InProgress",
+    Planned = "Planned",
+    Rescheduled = "Rescheduled"
+}
+
+// @public
+export enum KnownMaintenanceType {
+    PlannedMaintenance = "PlannedMaintenance"
+}
+
+// @public
+export enum KnownMicrosoftEntraAuthenticationName {
+    MicrosoftEntra = "microsoftEntra"
+}
+
+// @public
+export enum KnownNodeRole {
+    ReadOnly = "ReadOnly",
+    ReadWrite = "ReadWrite",
+    Unassigned = "Unassigned"
 }
 
 // @public
@@ -645,6 +1252,68 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownParameterApplyMethod {
+    Immediate = "Immediate",
+    PendingReboot = "PendingReboot"
+}
+
+// @public
+export enum KnownParameterGroupSyncStatus {
+    Applying = "Applying",
+    FailedToApply = "FailedToApply",
+    InSync = "InSync",
+    PendingReboot = "PendingReboot"
+}
+
+// @public
+export enum KnownParameterValueSource {
+    SystemDefault = "SystemDefault",
+    UserOverride = "UserOverride"
+}
+
+// @public
+export enum KnownPasswordAuthenticationName {
+    PasswordMethod = "passwordMethod"
+}
+
+// @public
+export enum KnownPoolComputeModelType {
+    Provisioned = "Provisioned"
+}
+
+// @public
+export enum KnownPoolHighAvailabilityMode {
+    AnyZone = "AnyZone",
+    Disabled = "Disabled",
+    ZoneRedundant = "ZoneRedundant"
+}
+
+// @public
+export enum KnownPoolState {
+    Deleting = "Deleting",
+    Inaccessible = "Inaccessible",
+    Provisioning = "Provisioning",
+    Ready = "Ready",
+    Restarting = "Restarting",
+    Starting = "Starting",
+    Stopped = "Stopped",
+    Stopping = "Stopping",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPostgreSqlCapabilityVersion {
+    V17 = "17",
+    V18 = "18"
+}
+
+// @public
+export enum KnownPostgreSqlVersion {
+    V17 = "17",
+    V18 = "18"
 }
 
 // @public
@@ -686,51 +1355,374 @@ export enum KnownPublicNetworkAccessState {
 }
 
 // @public
-export enum KnownReplicaRole {
-    Read = "Read",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
-export enum KnownState {
-    Disabled = "Disabled",
-    Dropping = "Dropping",
-    Healthy = "Healthy",
-    Ready = "Ready",
-    Starting = "Starting",
-    Stopped = "Stopped",
-    Stopping = "Stopping",
-    Succeeded = "Succeeded",
-    Updating = "Updating",
-    Upgrading = "Upgrading"
+export enum KnownScheduledMaintenanceManagementType {
+    System = "System"
 }
 
 // @public
 export enum KnownVersions {
-    V20260120Preview = "2026-01-20-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
-export enum KnownZonePlacementPolicy {
-    BestEffort = "BestEffort",
-    Strict = "Strict"
+export interface LogCaptureConfiguration extends ProxyResource {
+    properties?: LogCaptureConfigurationProperties;
 }
 
 // @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+export interface LogCaptureConfigurationForPatchUpdate {
+    properties?: LogCaptureConfigurationPropertiesForPatchUpdate;
 }
 
 // @public
-export type ManagedServiceIdentityType = string;
+export interface LogCaptureConfigurationForPatchUpdateUpdate {
+    properties?: LogCaptureConfigurationPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export interface LogCaptureConfigurationProperties {
+    readonly provisioningState?: ProvisioningState;
+    retentionDays: number;
+    state: LogCaptureState;
+}
+
+// @public
+export interface LogCaptureConfigurationPropertiesForPatchUpdate {
+    retentionDays?: number;
+    state?: LogCaptureState;
+}
+
+// @public
+export interface LogCaptureConfigurationPropertiesForPatchUpdateUpdate {
+    retentionDays?: number;
+    state?: LogCaptureState;
+}
+
+// @public
+export interface LogCaptureConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogCaptureConfigurationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogCaptureConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, logCaptureConfigurationName: string, properties: LogCaptureConfigurationForPatchUpdateUpdate, options?: LogCaptureConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<LogCaptureConfiguration>, LogCaptureConfiguration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, logCaptureConfigurationName: string, properties: LogCaptureConfigurationForPatchUpdateUpdate, options?: LogCaptureConfigurationsUpdateOptionalParams) => Promise<LogCaptureConfiguration>;
+    get: (resourceGroupName: string, clusterName: string, logCaptureConfigurationName: string, options?: LogCaptureConfigurationsGetOptionalParams) => Promise<LogCaptureConfiguration>;
+    list: (resourceGroupName: string, clusterName: string, options?: LogCaptureConfigurationsListOptionalParams) => PagedAsyncIterableIterator<LogCaptureConfiguration>;
+    update: (resourceGroupName: string, clusterName: string, logCaptureConfigurationName: string, properties: LogCaptureConfigurationForPatchUpdateUpdate, options?: LogCaptureConfigurationsUpdateOptionalParams) => PollerLike<OperationState<LogCaptureConfiguration>, LogCaptureConfiguration>;
+}
+
+// @public
+export interface LogCaptureConfigurationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LogCaptureState = string;
+
+// @public
+export interface LogFile extends ProxyResource {
+    properties?: LogFileProperties;
+}
+
+// @public
+export interface LogFileDownloadUrl {
+    downloadUri: string;
+    expiresAtUtc: Date;
+}
+
+// @public
+export interface LogFileProperties {
+    readonly createdAtUtc: Date;
+    readonly isMutable: boolean;
+    readonly lastModifiedAtUtc: Date;
+    readonly logType: LogFileType;
+    readonly node: string;
+    readonly pool: string;
+    readonly retentionExpiresAtUtc: Date;
+    readonly role: NodeRole;
+    readonly sizeInKilobytes: number;
+}
+
+// @public
+export interface LogFilesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogFilesListDownloadUrlsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogFilesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogFilesOperations {
+    get: (resourceGroupName: string, clusterName: string, logFileName: string, options?: LogFilesGetOptionalParams) => Promise<LogFile>;
+    list: (resourceGroupName: string, clusterName: string, options?: LogFilesListOptionalParams) => PagedAsyncIterableIterator<LogFile>;
+    listDownloadUrls: (resourceGroupName: string, clusterName: string, logFileName: string, options?: LogFilesListDownloadUrlsOptionalParams) => Promise<LogFileDownloadUrl>;
+}
+
+// @public
+export type LogFileType = string;
+
+// @public
+export interface MaintenanceEvent extends ProxyResource {
+    properties?: MaintenanceEventProperties;
+}
+
+// @public
+export interface MaintenanceEventActionResponse {
+    appliedNow?: boolean;
+    lastUpdatedTimeUtc?: Date;
+    maintenanceEventId?: string;
+    plannedEndTimeUtc?: Date;
+    plannedStartTimeUtc?: Date;
+    poolResourceId?: string;
+    status?: MaintenanceEventStatus;
+}
+
+// @public
+export interface MaintenanceEventProperties {
+    readonly deferrable: boolean;
+    readonly deferralDeadlineUtc?: Date;
+    readonly description?: string;
+    readonly endTimeUtc: Date;
+    readonly estimatedDowntime?: string;
+    readonly lastUpdatedTimeUtc?: Date;
+    readonly maintenanceEventId?: string;
+    readonly maintenanceType: MaintenanceType;
+    readonly originalStartTimeUtc: Date;
+    readonly rescheduledFromUtc?: Date;
+    readonly startTimeUtc: Date;
+    readonly status: MaintenanceEventStatus;
+}
+
+// @public
+export interface MaintenanceEventRescheduleRequest {
+    postponeToDateTimeUtc: Date;
+}
+
+// @public
+export interface MaintenanceEventsApplyNowOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceEventsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceEventsListOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface MaintenanceEventsOperations {
+    applyNow: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
+    // @deprecated (undocumented)
+    beginApplyNow: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>>;
+    // @deprecated (undocumented)
+    beginApplyNowAndWait: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, options?: MaintenanceEventsApplyNowOptionalParams) => Promise<MaintenanceEventActionResponse>;
+    // @deprecated (undocumented)
+    beginReschedule: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>>;
+    // @deprecated (undocumented)
+    beginRescheduleAndWait: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => Promise<MaintenanceEventActionResponse>;
+    get: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, options?: MaintenanceEventsGetOptionalParams) => Promise<MaintenanceEvent>;
+    list: (resourceGroupName: string, clusterName: string, poolName: string, options?: MaintenanceEventsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceEvent>;
+    reschedule: (resourceGroupName: string, clusterName: string, poolName: string, maintenanceEventId: string, body: MaintenanceEventRescheduleRequest, options?: MaintenanceEventsRescheduleOptionalParams) => PollerLike<OperationState<MaintenanceEventActionResponse>, MaintenanceEventActionResponse>;
+}
+
+// @public
+export interface MaintenanceEventsRescheduleOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MaintenanceEventStatus = string;
+
+// @public
+export type MaintenanceType = string;
+
+// @public
+export interface MicrosoftEntraAdministrator extends ProxyResource {
+    properties?: MicrosoftEntraAdministratorProperties;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorAdd {
+    properties: MicrosoftEntraAdministratorPropertiesForAdd;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorProperties {
+    readonly objectId?: string;
+    principalName: string;
+    principalType: PrincipalTypes;
+    readonly provisioningState?: ProvisioningState;
+    tenantId?: string;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorPropertiesForAdd {
+    principalName: string;
+    principalType: PrincipalTypes;
+    tenantId?: string;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MicrosoftEntraAdministratorsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MicrosoftEntraAdministratorsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MicrosoftEntraAdministratorsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, objectId: string, resource: MicrosoftEntraAdministratorAdd, options?: MicrosoftEntraAdministratorsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftEntraAdministrator>, MicrosoftEntraAdministrator>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, objectId: string, resource: MicrosoftEntraAdministratorAdd, options?: MicrosoftEntraAdministratorsCreateOrReplaceOptionalParams) => Promise<MicrosoftEntraAdministrator>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, objectId: string, options?: MicrosoftEntraAdministratorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, objectId: string, options?: MicrosoftEntraAdministratorsDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, objectId: string, resource: MicrosoftEntraAdministratorAdd, options?: MicrosoftEntraAdministratorsCreateOrReplaceOptionalParams) => PollerLike<OperationState<MicrosoftEntraAdministrator>, MicrosoftEntraAdministrator>;
+    delete: (resourceGroupName: string, clusterName: string, objectId: string, options?: MicrosoftEntraAdministratorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, objectId: string, options?: MicrosoftEntraAdministratorsGetOptionalParams) => Promise<MicrosoftEntraAdministrator>;
+    list: (resourceGroupName: string, clusterName: string, options?: MicrosoftEntraAdministratorsListOptionalParams) => PagedAsyncIterableIterator<MicrosoftEntraAdministrator>;
+}
+
+// @public
+export interface MicrosoftEntraAuthentication extends ProxyResource {
+    properties?: MicrosoftEntraAuthenticationProperties;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: MicrosoftEntraAuthenticationPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationForPatchUpdate {
+    properties?: MicrosoftEntraAuthenticationPropertiesForPatchUpdate;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationForPatchUpdateUpdate {
+    properties?: MicrosoftEntraAuthenticationPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export type MicrosoftEntraAuthenticationName = string;
+
+// @public
+export interface MicrosoftEntraAuthenticationProperties {
+    readonly provisioningState?: ProvisioningState;
+    state: AuthenticationState;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationPropertiesCreateOrUpdate {
+    state: AuthenticationState;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationPropertiesForPatchUpdate {
+    state?: AuthenticationState;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationPropertiesForPatchUpdateUpdate {
+    state?: AuthenticationState;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, resource: MicrosoftEntraAuthenticationCreateOrUpdate, options?: MicrosoftEntraAuthenticationsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftEntraAuthentication>, MicrosoftEntraAuthentication>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, resource: MicrosoftEntraAuthenticationCreateOrUpdate, options?: MicrosoftEntraAuthenticationsCreateOrReplaceOptionalParams) => Promise<MicrosoftEntraAuthentication>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, properties: MicrosoftEntraAuthenticationForPatchUpdateUpdate, options?: MicrosoftEntraAuthenticationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MicrosoftEntraAuthentication>, MicrosoftEntraAuthentication>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: MicrosoftEntraAuthenticationForPatchUpdateUpdate, options?: MicrosoftEntraAuthenticationsUpdateOptionalParams) => Promise<MicrosoftEntraAuthentication>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, resource: MicrosoftEntraAuthenticationCreateOrUpdate, options?: MicrosoftEntraAuthenticationsCreateOrReplaceOptionalParams) => PollerLike<OperationState<MicrosoftEntraAuthentication>, MicrosoftEntraAuthentication>;
+    get: (resourceGroupName: string, clusterName: string, options?: MicrosoftEntraAuthenticationsGetOptionalParams) => Promise<MicrosoftEntraAuthentication>;
+    update: (resourceGroupName: string, clusterName: string, properties: MicrosoftEntraAuthenticationForPatchUpdateUpdate, options?: MicrosoftEntraAuthenticationsUpdateOptionalParams) => PollerLike<OperationState<MicrosoftEntraAuthentication>, MicrosoftEntraAuthentication>;
+}
+
+// @public
+export interface MicrosoftEntraAuthenticationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface Network {
-    readonly publicNetworkAccess?: PublicNetworkAccessState;
+    publicAccess?: PublicNetworkAccessState;
+}
+
+// @public
+export interface NetworkForPatchUpdate {
+    publicAccess?: PublicNetworkAccessState;
+}
+
+// @public
+export interface NetworkForPatchUpdateUpdate {
+    publicAccess?: PublicNetworkAccessState;
+}
+
+// @public
+export interface Node extends ProxyResource {
+    properties?: NodeProperties;
+}
+
+// @public
+export interface NodeProperties {
+    readonly availabilityZone: string;
+    readonly role: NodeRole;
+}
+
+// @public
+export type NodeRole = string;
+
+// @public
+export interface NodesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NodesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NodesOperations {
+    get: (resourceGroupName: string, clusterName: string, poolName: string, nodeName: string, options?: NodesGetOptionalParams) => Promise<Node>;
+    list: (resourceGroupName: string, clusterName: string, poolName: string, options?: NodesListOptionalParams) => PagedAsyncIterableIterator<Node>;
 }
 
 // @public
@@ -775,9 +1767,124 @@ export interface PageSettings {
 }
 
 // @public
+export type ParameterApplyMethod = string;
+
+// @public
+export interface ParameterGroup extends TrackedResource {
+    properties?: ParameterGroupProperties;
+}
+
+// @public
+export interface ParameterGroupConnectionProperties {
+    readonly poolResourceId: string;
+}
+
+// @public
+export interface ParameterGroupCreateOrUpdate extends TrackedResourceCreateOrUpdate {
+    properties?: ParameterGroupPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface ParameterGroupForPatchUpdate {
+    properties?: ParameterGroupPropertiesForPatchUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ParameterGroupForPatchUpdateUpdate {
+    properties?: ParameterGroupPropertiesForPatchUpdateUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ParameterGroupProperties {
+    description?: string;
+    parameters?: ParameterProperties[];
+    postgreSqlVersion: PostgreSqlVersion;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ParameterGroupPropertiesCreateOrUpdate {
+    description?: string;
+    parameters?: ParameterPropertiesCreateOrUpdate[];
+    postgreSqlVersion: PostgreSqlVersion;
+}
+
+// @public
+export interface ParameterGroupPropertiesForPatchUpdate {
+    description?: string;
+    parameters?: ParameterProperties[];
+}
+
+// @public
+export interface ParameterGroupPropertiesForPatchUpdateUpdate {
+    description?: string;
+    parameters?: ParameterPropertiesUpdate[];
+}
+
+// @public
+export interface ParameterGroupsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ParameterGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ParameterGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ParameterGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ParameterGroupsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ParameterGroupsListConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ParameterGroupsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, parameterGroupName: string, resource: ParameterGroupCreateOrUpdate, options?: ParameterGroupsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<ParameterGroup>, ParameterGroup>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, parameterGroupName: string, resource: ParameterGroupCreateOrUpdate, options?: ParameterGroupsCreateOrReplaceOptionalParams) => Promise<ParameterGroup>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, parameterGroupName: string, options?: ParameterGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, parameterGroupName: string, options?: ParameterGroupsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, parameterGroupName: string, properties: ParameterGroupForPatchUpdateUpdate, options?: ParameterGroupsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ParameterGroup>, ParameterGroup>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, parameterGroupName: string, properties: ParameterGroupForPatchUpdateUpdate, options?: ParameterGroupsUpdateOptionalParams) => Promise<ParameterGroup>;
+    createOrReplace: (resourceGroupName: string, parameterGroupName: string, resource: ParameterGroupCreateOrUpdate, options?: ParameterGroupsCreateOrReplaceOptionalParams) => PollerLike<OperationState<ParameterGroup>, ParameterGroup>;
+    delete: (resourceGroupName: string, parameterGroupName: string, options?: ParameterGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, parameterGroupName: string, options?: ParameterGroupsGetOptionalParams) => Promise<ParameterGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: ParameterGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ParameterGroup>;
+    listBySubscription: (options?: ParameterGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ParameterGroup>;
+    listConnections: (resourceGroupName: string, parameterGroupName: string, options?: ParameterGroupsListConnectionsOptionalParams) => PagedAsyncIterableIterator<ParameterGroupConnectionProperties>;
+    update: (resourceGroupName: string, parameterGroupName: string, properties: ParameterGroupForPatchUpdateUpdate, options?: ParameterGroupsUpdateOptionalParams) => PollerLike<OperationState<ParameterGroup>, ParameterGroup>;
+}
+
+// @public
+export interface ParameterGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ParameterGroupSyncStatus = string;
+
+// @public
 export interface ParameterProperties {
     readonly allowedValues?: string;
     readonly dataType?: string;
+    readonly defaultValue?: string;
     readonly description?: string;
     readonly documentationLink?: string;
     readonly isDynamic?: boolean;
@@ -785,6 +1892,332 @@ export interface ParameterProperties {
     name?: string;
     readonly unit?: string;
     value?: string;
+    readonly valueSource?: ParameterValueSource;
+}
+
+// @public
+export interface ParameterPropertiesCreateOrUpdate {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface ParameterPropertiesUpdate {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export type ParameterValueSource = string;
+
+// @public
+export interface PasswordAuthentication extends ProxyResource {
+    properties?: PasswordAuthenticationProperties;
+}
+
+// @public
+export interface PasswordAuthenticationCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: PasswordAuthenticationPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface PasswordAuthenticationForPatchUpdate {
+    properties?: PasswordAuthenticationPropertiesForPatchUpdate;
+}
+
+// @public
+export interface PasswordAuthenticationForPatchUpdateUpdate {
+    properties?: PasswordAuthenticationPropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export type PasswordAuthenticationName = string;
+
+// @public
+export interface PasswordAuthenticationProperties {
+    readonly provisioningState?: ProvisioningState;
+    state: AuthenticationState;
+}
+
+// @public
+export interface PasswordAuthenticationPropertiesCreateOrUpdate {
+    administratorLogin?: string;
+    administratorLoginPassword?: string;
+    state: AuthenticationState;
+}
+
+// @public
+export interface PasswordAuthenticationPropertiesForPatchUpdate {
+    administratorLoginPassword?: string;
+    state?: AuthenticationState;
+}
+
+// @public
+export interface PasswordAuthenticationPropertiesForPatchUpdateUpdate {
+    administratorLoginPassword?: string;
+    state?: AuthenticationState;
+}
+
+// @public
+export interface PasswordAuthenticationsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PasswordAuthenticationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PasswordAuthenticationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, resource: PasswordAuthenticationCreateOrUpdate, options?: PasswordAuthenticationsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<PasswordAuthentication>, PasswordAuthentication>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, resource: PasswordAuthenticationCreateOrUpdate, options?: PasswordAuthenticationsCreateOrReplaceOptionalParams) => Promise<PasswordAuthentication>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, properties: PasswordAuthenticationForPatchUpdateUpdate, options?: PasswordAuthenticationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PasswordAuthentication>, PasswordAuthentication>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, properties: PasswordAuthenticationForPatchUpdateUpdate, options?: PasswordAuthenticationsUpdateOptionalParams) => Promise<PasswordAuthentication>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, resource: PasswordAuthenticationCreateOrUpdate, options?: PasswordAuthenticationsCreateOrReplaceOptionalParams) => PollerLike<OperationState<PasswordAuthentication>, PasswordAuthentication>;
+    get: (resourceGroupName: string, clusterName: string, options?: PasswordAuthenticationsGetOptionalParams) => Promise<PasswordAuthentication>;
+    update: (resourceGroupName: string, clusterName: string, properties: PasswordAuthenticationForPatchUpdateUpdate, options?: PasswordAuthenticationsUpdateOptionalParams) => PollerLike<OperationState<PasswordAuthentication>, PasswordAuthentication>;
+}
+
+// @public
+export interface PasswordAuthenticationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface Pool extends ProxyResource {
+    properties?: PoolProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PoolCapability {
+    readonly recommendedComputeProcessor: ComputeProcessorType;
+    readonly supportedFeatures: PoolFeatureCapability[];
+    readonly supportedProcessors: ComputeProcessorCapability[];
+}
+
+// @public
+export interface PoolComputeModel {
+    computeGeneration: number;
+    computeProcessor: ComputeProcessorType;
+    type: PoolComputeModelType;
+    vCores: number;
+}
+
+// @public
+export interface PoolComputeModelForPatchUpdate {
+    computeGeneration?: number;
+    computeProcessor?: ComputeProcessorType;
+    type?: PoolComputeModelType;
+    vCores?: number;
+}
+
+// @public
+export interface PoolComputeModelForPatchUpdateUpdate {
+    computeGeneration?: number;
+    computeProcessor?: ComputeProcessorType;
+    type?: PoolComputeModelType;
+    vCores?: number;
+}
+
+// @public
+export type PoolComputeModelType = string;
+
+// @public
+export interface PoolCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: PoolPropertiesCreateOrUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PoolFeatureCapability {
+    readonly name: string;
+}
+
+// @public
+export interface PoolForPatchUpdate {
+    properties?: PoolPropertiesForPatchUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PoolForPatchUpdateUpdate {
+    properties?: PoolPropertiesForPatchUpdateUpdate;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PoolHighAvailability {
+    mode: PoolHighAvailabilityMode;
+}
+
+// @public
+export type PoolHighAvailabilityMode = string;
+
+// @public
+export interface PoolHighAvailabilityPatch {
+    mode?: PoolHighAvailabilityMode;
+}
+
+// @public
+export interface PoolHighAvailabilityPatchUpdate {
+    mode?: PoolHighAvailabilityMode;
+}
+
+// @public
+export interface PoolParameterGroupReference {
+    applyMethod: ParameterApplyMethod;
+    parameterGroupResourceId: string;
+    readonly syncStatus?: ParameterGroupSyncStatus;
+}
+
+// @public
+export interface PoolParameterGroupReferenceCreateOrUpdate {
+    applyMethod: ParameterApplyMethod;
+    parameterGroupResourceId: string;
+}
+
+// @public
+export interface PoolParameterGroupReferenceForPatchUpdate {
+    applyMethod?: ParameterApplyMethod;
+    parameterGroupResourceId?: string;
+}
+
+// @public
+export interface PoolParameterGroupReferenceForPatchUpdateUpdate {
+    applyMethod?: ParameterApplyMethod;
+    parameterGroupResourceId?: string;
+}
+
+// @public
+export interface PoolProperties {
+    computeModel: PoolComputeModel;
+    highAvailability: PoolHighAvailability;
+    nodeCount: number;
+    parameterGroup: PoolParameterGroupReference;
+    readonly provisioningState?: ProvisioningState;
+    scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
+    readonly state?: PoolState;
+}
+
+// @public
+export interface PoolPropertiesCreateOrUpdate {
+    computeModel: PoolComputeModel;
+    highAvailability: PoolHighAvailability;
+    nodeCount: number;
+    parameterGroup: PoolParameterGroupReferenceCreateOrUpdate;
+    scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
+}
+
+// @public
+export interface PoolPropertiesForPatchUpdate {
+    computeModel?: PoolComputeModelForPatchUpdate;
+    highAvailability?: PoolHighAvailabilityPatch;
+    nodeCount?: number;
+    parameterGroup?: PoolParameterGroupReferenceForPatchUpdate;
+    scheduledMaintenance?: ScheduledMaintenancePropertiesForPatchUpdate;
+}
+
+// @public
+export interface PoolPropertiesForPatchUpdateUpdate {
+    computeModel?: PoolComputeModelForPatchUpdateUpdate;
+    highAvailability?: PoolHighAvailabilityPatchUpdate;
+    nodeCount?: number;
+    parameterGroup?: PoolParameterGroupReferenceForPatchUpdateUpdate;
+    scheduledMaintenance?: ScheduledMaintenancePropertiesForPatchUpdateUpdate;
+}
+
+// @public
+export interface PoolsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PoolsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PoolsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PoolsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PoolsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, clusterName: string, poolName: string, resource: PoolCreateOrUpdate, options?: PoolsCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, clusterName: string, poolName: string, resource: PoolCreateOrUpdate, options?: PoolsCreateOrReplaceOptionalParams) => Promise<Pool>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsRestartOptionalParams) => Promise<Pool>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStartOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStartOptionalParams) => Promise<Pool>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStopOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStopOptionalParams) => Promise<Pool>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, poolName: string, properties: PoolForPatchUpdateUpdate, options?: PoolsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Pool>, Pool>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, poolName: string, properties: PoolForPatchUpdateUpdate, options?: PoolsUpdateOptionalParams) => Promise<Pool>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, poolName: string, resource: PoolCreateOrUpdate, options?: PoolsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+    delete: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsGetOptionalParams) => Promise<Pool>;
+    list: (resourceGroupName: string, clusterName: string, options?: PoolsListOptionalParams) => PagedAsyncIterableIterator<Pool>;
+    restart: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsRestartOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+    start: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStartOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+    stop: (resourceGroupName: string, clusterName: string, poolName: string, options?: PoolsStopOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+    update: (resourceGroupName: string, clusterName: string, poolName: string, properties: PoolForPatchUpdateUpdate, options?: PoolsUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+}
+
+// @public
+export interface PoolsRestartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PoolsStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PoolsStopOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PoolState = string;
+
+// @public
+export interface PoolsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PostgreSqlCapabilityVersion = string;
+
+// @public
+export type PostgreSqlVersion = string;
+
+// @public
+export interface PostgreSqlVersionCapability {
+    readonly name: PostgreSqlCapabilityVersion;
+    readonly supportedVersionsToUpgrade: PostgreSqlCapabilityVersion[];
 }
 
 // @public
@@ -804,6 +2237,12 @@ export interface PrivateEndpointConnectionProperties {
 }
 
 // @public
+export interface PrivateEndpointConnectionPropertiesCreateOrUpdate {
+    privateEndpoint?: PrivateEndpointCreateOrUpdate;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+// @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
@@ -812,13 +2251,75 @@ export interface PrivateEndpointConnectionResource extends Resource {
 }
 
 // @public
+export interface PrivateEndpointConnectionResourceCreateOrUpdate extends ResourceCreateOrUpdate {
+    properties?: PrivateEndpointConnectionPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface PrivateEndpointConnectionsApproveOrRejectOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsOperations {
+    approveOrReject: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResourceCreateOrUpdate, options?: PrivateEndpointConnectionsApproveOrRejectOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
+    // @deprecated (undocumented)
+    beginApproveOrReject: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResourceCreateOrUpdate, options?: PrivateEndpointConnectionsApproveOrRejectOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResourceCreateOrUpdate, options?: PrivateEndpointConnectionsApproveOrRejectOptionalParams) => Promise<PrivateEndpointConnectionResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
+    list: (resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+}
+
+// @public
+export interface PrivateEndpointCreateOrUpdate {
+}
+
+// @public
 export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
 
 // @public
 export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, clusterName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    list: (resourceGroupName: string, clusterName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
@@ -829,6 +2330,13 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface ProvisionedComputeModelCapability extends ComputeModelCapability {
+    readonly recommendedVCoreCount: number;
+    readonly supportedComputeSizes: ComputeSizeCapability[];
+    type: "Provisioned";
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -836,10 +2344,16 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface ProxyResourceCreateOrUpdate extends ResourceCreateOrUpdate {
+}
+
+// @public
 export type PublicNetworkAccessState = string;
 
 // @public
-export type ReplicaRole = string;
+export interface ReadWritePoolProperties {
+    readonly designatedPoolResourceId?: string;
+}
 
 // @public
 export interface Resource {
@@ -847,6 +2361,10 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceCreateOrUpdate {
 }
 
 export { RestError }
@@ -860,6 +2378,27 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ScheduledMaintenanceManagementType = string;
+
+// @public
+export interface ScheduledMaintenanceProperties {
+    maintenanceManagementType: ScheduledMaintenanceManagementType;
+}
+
+// @public
+export interface ScheduledMaintenancePropertiesForPatchUpdate {
+    maintenanceManagementType?: ScheduledMaintenanceManagementType;
+}
+
+// @public
+export interface ScheduledMaintenancePropertiesForPatchUpdateUpdate {
+    maintenanceManagementType?: ScheduledMaintenanceManagementType;
+}
+
+// @public
+export type ScheduledMaintenancePropertiesUnion = SystemScheduledMaintenanceProperties | ScheduledMaintenanceProperties;
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
@@ -884,9 +2423,6 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 }
 
 // @public
-export type State = string;
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -897,7 +2433,18 @@ export interface SystemData {
 }
 
 // @public
+export interface SystemScheduledMaintenanceProperties extends ScheduledMaintenanceProperties {
+    maintenanceManagementType: "System";
+}
+
+// @public
 export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
     location: string;
     tags?: Record<string, string>;
 }
@@ -909,7 +2456,12 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type ZonePlacementPolicy = string;
+export interface UserAssignedIdentityCreateOrUpdate {
+}
+
+// @public
+export interface UserAssignedIdentityUpdate {
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -5,10 +5,10 @@ import { AppLinkClient } from "@azure/arm-appnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update an AppLinkMember.
+ * This sample demonstrates how to update a member of an Azure Kubernetes Application Network resource.
  *
- * @summary update an AppLinkMember.
- * x-ms-original-file: 2025-08-01-preview/AppLinkMembers_Update.json
+ * @summary update a member of an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinkMembers_Update.json
  */
 async function appLinkMembersUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function appLinkMembersUpdate(): Promise<void> {
     tags: { key7952: "updated_tag_value" },
     properties: {
       upgradeProfile: { mode: "SelfManaged", selfManagedUpgradeProfile: { version: "1.26" } },
-      connectivityProfile: { eastWestGateway: { visibility: "Internal" } },
+      connectivityProfile: { eastWestGateway: { visibility: "Internal" }, network: "network1" },
     },
   });
   console.log(result);

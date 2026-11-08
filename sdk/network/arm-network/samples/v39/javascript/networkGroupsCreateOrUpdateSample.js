@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a network group.
  *
  * @summary creates or updates a network group.
- * x-ms-original-file: 2026-01-01/NetworkManagerGroupPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerGroupPut.json
  */
 async function networkGroupsPut() {
   const credential = new DefaultAzureCredential();

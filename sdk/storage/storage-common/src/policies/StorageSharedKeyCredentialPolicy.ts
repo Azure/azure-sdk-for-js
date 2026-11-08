@@ -10,7 +10,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import type { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { HeaderConstants } from "../utils/constants.js";
 import { CredentialPolicy } from "./CredentialPolicy.js";
-import { buildStorageSharedKeyStringToSign } from "./SharedKeySigning.js";
+import { buildStringToSign } from "./SharedKeySigning.js";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
@@ -52,8 +52,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
       request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
     }
 
-    // Shares the core-v2 signer so both credential paths canonicalize identically.
-    const stringToSign: string = buildStorageSharedKeyStringToSign(
+    // Shares the core-v2 signer so both credential paths canonicalize identically. The headers
+    // are already set above, on the request that is sent, so the copy is only read.
+    const stringToSign: string = buildStringToSign(
       createPipelineRequest({
         url: request.url,
         method: request.method,

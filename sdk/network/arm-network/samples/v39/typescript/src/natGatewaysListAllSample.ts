@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the Nat Gateways in a subscription.
  *
  * @summary gets all the Nat Gateways in a subscription.
- * x-ms-original-file: 2026-01-01/NatGatewayListAll.json
+ * x-ms-original-file: 2026-03-01/NatGatewayListAll.json
  */
 async function listAllNatGateways(): Promise<void> {
   const credential = new DefaultAzureCredential();

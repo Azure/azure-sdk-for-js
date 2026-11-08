@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Azure Monitor Workspace
  *
  * @summary creates or updates an Azure Monitor Workspace
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesCreateOrUpdateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,9 +22,15 @@ async function azureMonitorWorkspacesCreateOrUpdateGeneratedByMaximumSetRuleGene
       properties: {
         metrics: { enableAccessUsingResourcePermissions: true },
         publicNetworkAccess: "Enabled",
+        actions: {
+          defaultActionGroups: [
+            {
+              id: "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/actionGroups/defaultActionGroup",
+            },
+          ],
+        },
       },
       tags: {},
-      identity: { type: "SystemAssigned" },
     },
   );
   console.log(result);

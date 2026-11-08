@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets database usages.
  *
  * @summary gets database usages.
- * x-ms-original-file: 2025-08-01-preview/GetDatabaseUsages.json
+ * x-ms-original-file: 2026-08-01-preview/GetDatabaseUsages.json
  */
 async function getsDatabaseUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

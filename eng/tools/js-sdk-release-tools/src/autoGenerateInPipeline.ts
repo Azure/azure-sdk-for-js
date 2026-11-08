@@ -7,16 +7,17 @@ import { logger } from "./utils/logger.js";
 import { generateRLCInPipeline } from "./llc/generateRLCInPipeline/generateRLCInPipeline.js";
 import { ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
 import { generateAzureSDKPackage } from "./mlc/clientGenerator/modularClientPackageGenerator.js";
+import { generateProvisioningSDKPackage } from "./provisioning/provisioningPackageGenerator.js";
 import { parseInputJson } from "./utils/generateInputUtils.js";
 import { configureNpmFromRepo } from "./common/npmUtils.js";
 import shell from "shelljs";
 import fs from "fs";
+import { emitterName as defaultEmitterName, provisioningEmitterName } from "./common/utils.js";
 
 async function automationGenerateInPipeline(
   inputJsonPath: string,
   outputJsonPath: string,
   use: string | undefined,
-  typespecEmitter: string | undefined,
   sdkGenerationType: string | undefined,
   localOverride?: boolean,
 ) {
@@ -47,6 +48,14 @@ async function automationGenerateInPipeline(
     }
     switch (sdkType) {
       case SDKType.HighLevelClient:
+        if (!local) {
+          throw new Error(
+            `High Level Client (HLC) generation is no longer supported in the SDK automation pipeline. ` +
+              `If you are using a Swagger-based management SDK configuration, please migrate the service to TypeSpec and use modular client generation. ` +
+              `If your service already has a TypeSpec project, configure the '@azure-tools/typespec-ts' emitter in tspconfig.yaml and ensure the pipeline uses that project instead of the Swagger README configuration. ` +
+              `For guidance, see https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/migrating-to-typespec.md.`,
+          );
+        }
         await generateMgmt({
           sdkRepo: String(shell.pwd()),
           swaggerRepo: specFolder,
@@ -73,7 +82,7 @@ async function automationGenerateInPipeline(
           readmeMd: readmeMd,
           typespecProject: typespecProject,
           use: use,
-          typespecEmitter: !!typespecEmitter ? typespecEmitter : `@azure-tools/typespec-ts`,
+          typespecEmitter: defaultEmitterName,
           outputJson: outputJson,
           skipGeneration: skipGeneration,
           sdkGenerationType: sdkGenerationType === "command" ? "command" : "script",
@@ -95,6 +104,7 @@ async function automationGenerateInPipeline(
           sdkRepoRoot,
           specRepoRoot: specFolder,
           typeSpecDirectory,
+          emitterName: defaultEmitterName,
           gitCommitId,
           skip,
           repoUrl,
@@ -106,6 +116,33 @@ async function automationGenerateInPipeline(
           runMode: runMode as RunMode,
         };
         const packageResult = await generateAzureSDKPackage(options);
+        outputJson.packages = [packageResult];
+        break;
+      }
+      case SDKType.Provisioning: {
+        if (!typespecProject) {
+          throw new Error("Provisioning generation requires a TypeSpec project.");
+        }
+        const options: ModularClientPackageOptions = {
+          sdkRepoRoot: String(shell.pwd()).replaceAll("\\", "/"),
+          specRepoRoot: specFolder,
+          typeSpecDirectory: path.posix.join(specFolder, typespecProject),
+          emitterName: provisioningEmitterName,
+          emitterPackageJsonPath: path.join(
+            process.cwd(),
+            "eng",
+            "provisioning-emitter-package.json",
+          ),
+          gitCommitId,
+          skip: skipGeneration ?? false,
+          repoUrl: repoHttpsUrl,
+          local,
+          versionPolicyName: "management",
+          apiVersion,
+          sdkReleaseType,
+          runMode: runMode as RunMode,
+        };
+        const packageResult = await generateProvisioningSDKPackage(options);
         outputJson.packages = [packageResult];
         break;
       }
@@ -126,13 +163,13 @@ async function automationGenerateInPipeline(
     if (!local) {
       await restoreNodeModules(String(shell.pwd()));
     }
+    fs.mkdirSync(path.dirname(path.resolve(outputJsonPath)), { recursive: true });
     fs.writeFileSync(outputJsonPath, JSON.stringify(outputJson, null, "  "), { encoding: "utf-8" });
   }
 }
 
 const optionDefinitions = [
   { name: "use", type: String },
-  { name: "typespecEmitter", type: String },
   { name: "sdkGenerationType", type: String },
   { name: "inputJsonPath", type: String },
   { name: "outputJsonPath", type: String },
@@ -141,12 +178,12 @@ const optionDefinitions = [
   { name: "local", type: Boolean, defaultValue: false },
 ];
 import commandLineArgs from "command-line-args";
+
 const options = commandLineArgs(optionDefinitions);
 automationGenerateInPipeline(
   options.inputJsonPath,
   options.outputJsonPath,
   options.use,
-  options.typespecEmitter,
   options.sdkGenerationType,
   options.local,
 ).catch((e) => {

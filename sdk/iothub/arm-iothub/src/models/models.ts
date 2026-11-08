@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface _OperationListResult {
   /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
@@ -417,8 +418,12 @@ export interface IotHubProperties {
   rootCertificate?: RootCertificateProperties;
   /** This property specifies the IP Version the hub is currently utilizing. */
   ipVersion?: IpVersion;
+  /** The connection profile that the IoT hub uses for device connections. Defaults to 'Classic'. */
+  connectionProfile?: ConnectionProfile;
+  /** The custom topic configuration for an Event Grid-backed MQTT v5 IoT hub. This property is valid only when connectionProfile is 'MqttV5'. */
+  mqttV5Settings?: MqttV5Settings;
   /** Represents properties related to the Azure Device Registry (ADR). */
-  deviceRegistry?: DeviceRegistry;
+  readonly deviceRegistry?: DeviceRegistry;
   /** Set of additional read-only properties for the IoT hub. */
   readonly iotHubDetails?: IotHubDetails;
 }
@@ -475,9 +480,10 @@ export function iotHubPropertiesSerializer(item: IotHubProperties): any {
       ? item["rootCertificate"]
       : rootCertificatePropertiesSerializer(item["rootCertificate"]),
     ipVersion: item["ipVersion"],
-    deviceRegistry: !item["deviceRegistry"]
-      ? item["deviceRegistry"]
-      : deviceRegistrySerializer(item["deviceRegistry"]),
+    connectionProfile: item["connectionProfile"],
+    mqttV5Settings: !item["mqttV5Settings"]
+      ? item["mqttV5Settings"]
+      : mqttV5SettingsSerializer(item["mqttV5Settings"]),
   };
 }
 
@@ -541,6 +547,10 @@ export function iotHubPropertiesDeserializer(item: any): IotHubProperties {
       ? item["rootCertificate"]
       : rootCertificatePropertiesDeserializer(item["rootCertificate"]),
     ipVersion: item["ipVersion"],
+    connectionProfile: item["connectionProfile"],
+    mqttV5Settings: !item["mqttV5Settings"]
+      ? item["mqttV5Settings"]
+      : mqttV5SettingsDeserializer(item["mqttV5Settings"]),
     deviceRegistry: !item["deviceRegistry"]
       ? item["deviceRegistry"]
       : deviceRegistryDeserializer(item["deviceRegistry"]),
@@ -977,6 +987,8 @@ export interface RoutingServiceBusQueueEndpointProperties {
   subscriptionId?: string;
   /** The name of the resource group of the service bus queue endpoint. */
   resourceGroup?: string;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingServiceBusQueueEndpointPropertiesSerializer(
@@ -992,6 +1004,7 @@ export function routingServiceBusQueueEndpointPropertiesSerializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1008,6 +1021,7 @@ export function routingServiceBusQueueEndpointPropertiesDeserializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1045,6 +1059,24 @@ export function managedIdentityDeserializer(item: any): ManagedIdentity {
   };
 }
 
+/** The supported formats for message payloads delivered to routing endpoints. */
+export enum KnownMessagePayloadFormat {
+  /** Formats the message as a com.do.telemetry.observation.v1 payload. */
+  DOObservationV1 = "DOObservationV1",
+  /** Preserves the original message payload. */
+  None = "None",
+}
+
+/**
+ * The supported formats for message payloads delivered to routing endpoints. \
+ * {@link KnownMessagePayloadFormat} can be used interchangeably with MessagePayloadFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DOObservationV1**: Formats the message as a com.do.telemetry.observation.v1 payload. \
+ * **None**: Preserves the original message payload.
+ */
+export type MessagePayloadFormat = string;
+
 export function routingServiceBusTopicEndpointPropertiesArraySerializer(
   result: Array<RoutingServiceBusTopicEndpointProperties>,
 ): any[] {
@@ -1081,6 +1113,8 @@ export interface RoutingServiceBusTopicEndpointProperties {
   subscriptionId?: string;
   /** The name of the resource group of the service bus topic endpoint. */
   resourceGroup?: string;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingServiceBusTopicEndpointPropertiesSerializer(
@@ -1096,6 +1130,7 @@ export function routingServiceBusTopicEndpointPropertiesSerializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1112,6 +1147,7 @@ export function routingServiceBusTopicEndpointPropertiesDeserializer(
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1151,6 +1187,8 @@ export interface RoutingEventHubProperties {
   subscriptionId?: string;
   /** The name of the resource group of the event hub endpoint. */
   resourceGroup?: string;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingEventHubPropertiesSerializer(item: RoutingEventHubProperties): any {
@@ -1164,6 +1202,7 @@ export function routingEventHubPropertiesSerializer(item: RoutingEventHubPropert
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1178,6 +1217,7 @@ export function routingEventHubPropertiesDeserializer(item: any): RoutingEventHu
     name: item["name"],
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1225,6 +1265,8 @@ export interface RoutingStorageContainerProperties {
   maxChunkSizeInBytes?: number;
   /** Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default value is 'avro'. */
   encoding?: RoutingStorageContainerPropertiesEncoding;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingStorageContainerPropertiesSerializer(
@@ -1244,6 +1286,7 @@ export function routingStorageContainerPropertiesSerializer(
     batchFrequencyInSeconds: item["batchFrequencyInSeconds"],
     maxChunkSizeInBytes: item["maxChunkSizeInBytes"],
     encoding: item["encoding"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1264,6 +1307,7 @@ export function routingStorageContainerPropertiesDeserializer(
     batchFrequencyInSeconds: item["batchFrequencyInSeconds"],
     maxChunkSizeInBytes: item["maxChunkSizeInBytes"],
     encoding: item["encoding"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1332,6 +1376,8 @@ export interface RoutingCosmosDBSqlApiProperties {
   partitionKeyName?: string;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
   partitionKeyTemplate?: string;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingCosmosDBSqlApiPropertiesSerializer(
@@ -1350,6 +1396,7 @@ export function routingCosmosDBSqlApiPropertiesSerializer(
     containerName: item["containerName"],
     partitionKeyName: item["partitionKeyName"],
     partitionKeyTemplate: item["partitionKeyTemplate"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1370,6 +1417,7 @@ export function routingCosmosDBSqlApiPropertiesDeserializer(
     containerName: item["containerName"],
     partitionKeyName: item["partitionKeyName"],
     partitionKeyTemplate: item["partitionKeyTemplate"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1409,6 +1457,8 @@ export interface RoutingEventStreamProperties {
   eventStreamId?: string;
   /** The unique GUID of the custom source for the event stream. */
   sourceId?: string;
+  /** The format of the message payload delivered to this endpoint. */
+  messagePayloadFormat?: MessagePayloadFormat;
 }
 
 export function routingEventStreamPropertiesSerializer(item: RoutingEventStreamProperties): any {
@@ -1421,6 +1471,7 @@ export function routingEventStreamPropertiesSerializer(item: RoutingEventStreamP
     workspaceId: item["workspaceId"],
     eventStreamId: item["eventStreamId"],
     sourceId: item["sourceId"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1435,6 +1486,7 @@ export function routingEventStreamPropertiesDeserializer(item: any): RoutingEven
     workspaceId: item["workspaceId"],
     eventStreamId: item["eventStreamId"],
     sourceId: item["sourceId"],
+    messagePayloadFormat: item["messagePayloadFormat"],
   };
 }
 
@@ -1473,6 +1525,8 @@ export interface RouteProperties {
   source: RoutingSource;
   /** The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
   condition?: string;
+  /** The data schema reference that is used to interpret the message body. */
+  dataSchema?: string;
   /** The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed. */
   endpointNames: string[];
   /** Used to specify whether a route is enabled. */
@@ -1484,6 +1538,7 @@ export function routePropertiesSerializer(item: RouteProperties): any {
     name: item["name"],
     source: item["source"],
     condition: item["condition"],
+    dataSchema: item["dataSchema"],
     endpointNames: item["endpointNames"].map((p: any) => {
       return p;
     }),
@@ -1496,6 +1551,7 @@ export function routePropertiesDeserializer(item: any): RouteProperties {
     name: item["name"],
     source: item["source"],
     condition: item["condition"],
+    dataSchema: item["dataSchema"],
     endpointNames: item["endpointNames"].map((p: any) => {
       return p;
     }),
@@ -1968,27 +2024,189 @@ export enum KnownIpVersion {
  */
 export type IpVersion = string;
 
+/** The connection profile that the IoT hub uses for device connections. */
+export enum KnownConnectionProfile {
+  /** Classic connection profile. */
+  Classic = "Classic",
+  /** MQTT v5 connection profile. */
+  MqttV5 = "MqttV5",
+}
+
+/**
+ * The connection profile that the IoT hub uses for device connections. \
+ * {@link KnownConnectionProfile} can be used interchangeably with ConnectionProfile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Classic**: Classic connection profile. \
+ * **MqttV5**: MQTT v5 connection profile.
+ */
+export type ConnectionProfile = string;
+
+/** Settings for an Event Grid-backed MQTT v5 IoT hub. */
+export interface MqttV5Settings {
+  /** The customer-defined groups of topic templates that devices publish to. */
+  topicGroups?: TopicGroup[];
+}
+
+export function mqttV5SettingsSerializer(item: MqttV5Settings): any {
+  return {
+    topicGroups: !item["topicGroups"]
+      ? item["topicGroups"]
+      : topicGroupArraySerializer(item["topicGroups"]),
+  };
+}
+
+export function mqttV5SettingsDeserializer(item: any): MqttV5Settings {
+  return {
+    topicGroups: !item["topicGroups"]
+      ? item["topicGroups"]
+      : topicGroupArrayDeserializer(item["topicGroups"]),
+  };
+}
+
+export function topicGroupArraySerializer(result: Array<TopicGroup>): any[] {
+  return result.map((item) => {
+    return topicGroupSerializer(item);
+  });
+}
+
+export function topicGroupArrayDeserializer(result: Array<TopicGroup>): any[] {
+  return result.map((item) => {
+    return topicGroupDeserializer(item);
+  });
+}
+
+/** A named set of topic templates for an Event Grid-backed MQTT v5 IoT hub. */
+export interface TopicGroup {
+  /** The customer-supplied identifier used to reconcile the topic group during updates. */
+  topicGroupId?: string;
+  /** The topic templates in this group. */
+  topicTemplates?: string[];
+}
+
+export function topicGroupSerializer(item: TopicGroup): any {
+  return {
+    topicGroupId: item["topicGroupId"],
+    topicTemplates: !item["topicTemplates"]
+      ? item["topicTemplates"]
+      : item["topicTemplates"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function topicGroupDeserializer(item: any): TopicGroup {
+  return {
+    topicGroupId: item["topicGroupId"],
+    topicTemplates: !item["topicTemplates"]
+      ? item["topicTemplates"]
+      : item["topicTemplates"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Represents properties related to the Azure Device Registry (ADR). */
 export interface DeviceRegistry {
   /** The identifier of the Azure Device Registry namespace */
   namespaceResourceId?: string;
+  /** The UUID of the associated Azure Device Registry namespace. */
+  namespaceUuid?: string;
+  /** The host name for the data plane endpoint of the associated Azure Device Registry. */
+  dataPlaneHostName?: string;
   /** The identity used to manage the ADR namespace from the data plane. */
-  identityResourceId?: string;
-}
-
-export function deviceRegistrySerializer(item: DeviceRegistry): any {
-  return {
-    namespaceResourceId: item["namespaceResourceId"],
-    identityResourceId: item["identityResourceId"],
-  };
+  identity?: DeviceRegistryIdentity;
+  /** The properties related to linking the IoT Hub with the Azure Device Registry. */
+  readonly linkingProperties?: DeviceRegistryLinkingProperties;
 }
 
 export function deviceRegistryDeserializer(item: any): DeviceRegistry {
   return {
     namespaceResourceId: item["namespaceResourceId"],
-    identityResourceId: item["identityResourceId"],
+    namespaceUuid: item["namespaceUuid"],
+    dataPlaneHostName: item["dataPlaneHostName"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : deviceRegistryIdentityDeserializer(item["identity"]),
+    linkingProperties: !item["linkingProperties"]
+      ? item["linkingProperties"]
+      : deviceRegistryLinkingPropertiesDeserializer(item["linkingProperties"]),
   };
 }
+
+/** The identity used to manage the ADR namespace from the data plane. */
+export interface DeviceRegistryIdentity {
+  /** The type of the identity. */
+  type?: DeviceRegistryIdentityType;
+  /** The user assigned identity if the identity type is 'UserAssigned'. */
+  userAssignedIdentity?: string;
+}
+
+export function deviceRegistryIdentityDeserializer(item: any): DeviceRegistryIdentity {
+  return {
+    type: item["type"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+/** The type of the identity. */
+export enum KnownDeviceRegistryIdentityType {
+  /** Use a system-assigned managed identity to manage the ADR namespace. */
+  SystemAssigned = "SystemAssigned",
+  /** Use a user-assigned managed identity to manage the ADR namespace. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * The type of the identity. \
+ * {@link KnownDeviceRegistryIdentityType} can be used interchangeably with DeviceRegistryIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: Use a system-assigned managed identity to manage the ADR namespace. \
+ * **UserAssigned**: Use a user-assigned managed identity to manage the ADR namespace.
+ */
+export type DeviceRegistryIdentityType = string;
+
+/** The properties related to linking the IoT Hub with the Azure Device Registry. */
+export interface DeviceRegistryLinkingProperties {
+  /** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+  readonly state?: DeviceRegistryLinkingState;
+  /** The last error encountered when linking the IoT Hub with an Azure Device Registry. */
+  readonly error?: ErrorDetails;
+}
+
+export function deviceRegistryLinkingPropertiesDeserializer(
+  item: any,
+): DeviceRegistryLinkingProperties {
+  return {
+    state: item["state"],
+    error: !item["error"] ? item["error"] : errorDetailsDeserializer(item["error"]),
+  };
+}
+
+/** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+export enum KnownDeviceRegistryLinkingState {
+  /** The IoT Hub linking with an Azure Device Registry is in progress. */
+  InProgress = "InProgress",
+  /** The IoT Hub is successfully linked with an Azure Device Registry. */
+  Success = "Success",
+  /** The linked Azure Device Registry is no longer associated with the IoT Hub. */
+  Orphaned = "Orphaned",
+  /** The IoT Hub failed to link with an Azure Device Registry. */
+  Failed = "Failed",
+}
+
+/**
+ * Indicates whether the IoT Hub is linked with an Azure Device Registry. \
+ * {@link KnownDeviceRegistryLinkingState} can be used interchangeably with DeviceRegistryLinkingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: The IoT Hub linking with an Azure Device Registry is in progress. \
+ * **Success**: The IoT Hub is successfully linked with an Azure Device Registry. \
+ * **Orphaned**: The linked Azure Device Registry is no longer associated with the IoT Hub. \
+ * **Failed**: The IoT Hub failed to link with an Azure Device Registry.
+ */
+export type DeviceRegistryLinkingState = string;
 
 /** Set of additional read-only properties for the IoT hub. */
 export interface IotHubDetails {
@@ -2074,6 +2292,7 @@ export enum KnownIotHubSku {
  * **B3**: B3
  */
 export type IotHubSku = string;
+
 /** The billing tier for the IoT hub. */
 export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
@@ -2374,6 +2593,7 @@ export enum KnownJobType {
  * **firmwareUpdate**: firmwareUpdate
  */
 export type JobType = string;
+
 /** The status of the job. */
 export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "failed" | "cancelled";
 
@@ -3001,15 +3221,15 @@ export interface CertificateProperties {
   readonly updated?: Date;
   /** The certificate content */
   certificate?: string;
-  /** The reference to policy stored in Azure Device Registry (ADR). */
-  policyResourceId?: string;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string;
 }
 
 export function certificatePropertiesSerializer(item: CertificateProperties): any {
   return {
     isVerified: item["isVerified"],
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3022,7 +3242,7 @@ export function certificatePropertiesDeserializer(item: any): CertificatePropert
     created: !item["created"] ? item["created"] : new Date(item["created"]),
     updated: !item["updated"] ? item["updated"] : new Date(item["updated"]),
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3100,8 +3320,8 @@ export interface CertificatePropertiesWithNonce {
   readonly verificationCode?: string;
   /** The certificate content */
   readonly certificate?: string;
-  /** The reference to policy stored in Azure Device Registry (ADR). */
-  policyResourceId?: string;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string;
 }
 
 export function certificatePropertiesWithNonceDeserializer(
@@ -3116,7 +3336,7 @@ export function certificatePropertiesWithNonceDeserializer(
     updated: !item["updated"] ? item["updated"] : new Date(item["updated"]),
     verificationCode: item["verificationCode"],
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3270,4 +3490,6 @@ export enum KnownVersions {
   V20260301Preview = "2026-03-01-preview",
   /** The 2026-05-01-preview API version. */
   V20260501Preview = "2026-05-01-preview",
+  /** The 2026-10-01-preview API version. */
+  V20261001Preview = "2026-10-01-preview",
 }

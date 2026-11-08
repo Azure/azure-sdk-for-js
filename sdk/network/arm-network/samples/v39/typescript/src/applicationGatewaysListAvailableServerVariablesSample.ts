@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available server variables.
  *
  * @summary lists all available server variables.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableServerVariablesGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableServerVariablesGet.json
  */
 async function getAvailableServerVariables(): Promise<void> {
   const credential = new DefaultAzureCredential();

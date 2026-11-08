@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: 2026-01-01/StorageTargets_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_CreateOrUpdate.json
  */
 async function storageTargetsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function storageTargetsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: 2026-01-01/StorageTargets_CreateOrUpdate_BlobNfs.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_CreateOrUpdate_BlobNfs.json
  */
 async function storageTargetsCreateOrUpdateBlobNfs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function storageTargetsCreateOrUpdateBlobNfs(): Promise<void> {
  * This sample demonstrates how to create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: 2026-01-01/StorageTargets_CreateOrUpdate_NoJunctions.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_CreateOrUpdate_NoJunctions.json
  */
 async function storageTargetsCreateOrUpdateNoJunctions(): Promise<void> {
   const credential = new DefaultAzureCredential();

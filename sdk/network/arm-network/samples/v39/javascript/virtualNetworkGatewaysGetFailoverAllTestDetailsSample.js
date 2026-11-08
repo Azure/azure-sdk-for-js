@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation retrieves the details of all the failover tests performed on the gateway for different peering locations
  *
  * @summary this operation retrieves the details of all the failover tests performed on the gateway for different peering locations
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetFailoverAllTestsDetails.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetFailoverAllTestsDetails.json
  */
 async function virtualNetworkGatewayGetFailoverAllTestsDetails() {
   const credential = new DefaultAzureCredential();

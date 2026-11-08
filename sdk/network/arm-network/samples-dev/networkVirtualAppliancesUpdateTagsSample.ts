@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Network Virtual Appliance.
  *
  * @summary updates a Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceUpdateTags.json
  */
 async function updateNetworkVirtualAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

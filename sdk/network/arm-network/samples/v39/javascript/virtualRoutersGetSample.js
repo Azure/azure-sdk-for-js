@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Virtual Router.
  *
  * @summary gets the specified Virtual Router.
- * x-ms-original-file: 2026-01-01/VirtualRouterGet.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterGet.json
  */
 async function getVirtualRouter() {
   const credential = new DefaultAzureCredential();

@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import type { RequestOptions } from "node:http";
-import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import * as coreTracing from "@azure/core-tracing";
 import {
   AzureMonitorTraceExporter,
   RateLimitedSampler,
@@ -25,12 +23,11 @@ import type { MetricHandler } from "../metrics/handler.js";
 import { ignoreOutgoingRequestHook } from "../utils/common.js";
 import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
 import { AzureFunctionsHook } from "./azureFnHook.js";
-import type {
-  Instrumentation,
-  InstrumentationModuleDefinition,
-} from "@opentelemetry/instrumentation";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler.js";
-import { Logger } from "../shared/logging/index.js";
+import { ensureAzureSdkTracingBridge } from "../utils/azureSdkTracingBridge.js";
+import { configureInstrumentation } from "../utils/instrumentation.js";
+import { AzureSdkInstrumentation } from "./azureSdkInstrumentation.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -50,7 +47,11 @@ export class TraceHandler {
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: InternalConfig, metricHandler: MetricHandler) {
+  constructor(
+    config: InternalConfig,
+    metricHandler: MetricHandler,
+    private readonly instrumentationCache?: Map<string, Instrumentation>,
+  ) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -121,29 +122,52 @@ export class TraceHandler {
       };
       httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
       this._instrumentations.push(
-        new HttpInstrumentation(this._config.instrumentationOptions.http),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "http",
+          httpinstrumentationOptions,
+          (options) => new HttpInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.azureSdk?.enabled) {
-      const azureSdkInstrumentation = createAzureSdkInstrumentation(
+      const azureSdkInstrumentation = configureInstrumentation(
+        this.instrumentationCache,
+        "azureSdk",
         this._config.instrumentationOptions.azureSdk,
+        (options) => new AzureSdkInstrumentation(options),
       );
       this._instrumentations.push(azureSdkInstrumentation);
-      this._wireAzureSdkInstrumenter(azureSdkInstrumentation);
+      ensureAzureSdkTracingBridge(azureSdkInstrumentation);
     }
     if (this._config.instrumentationOptions.mongoDb?.enabled) {
       this._instrumentations.push(
-        new MongoDBInstrumentation(this._config.instrumentationOptions.mongoDb),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "mongoDb",
+          this._config.instrumentationOptions.mongoDb,
+          (options) => new MongoDBInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.mySql?.enabled) {
       this._instrumentations.push(
-        new MySQLInstrumentation(this._config.instrumentationOptions.mySql),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "mySql",
+          this._config.instrumentationOptions.mySql,
+          (options) => new MySQLInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.postgreSql?.enabled) {
       this._instrumentations.push(
-        new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "postgreSql",
+          this._config.instrumentationOptions.postgreSql,
+          (options) => new PgInstrumentation(options),
+        ),
       );
     }
     if (
@@ -151,37 +175,13 @@ export class TraceHandler {
       this._config.instrumentationOptions.redis4?.enabled
     ) {
       this._instrumentations.push(
-        new RedisInstrumentation(this._config.instrumentationOptions.redis),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "redis",
+          this._config.instrumentationOptions.redis ?? {},
+          (options) => new RedisInstrumentation(options),
+        ),
       );
-    }
-  }
-
-  /**
-   * Wire the Azure SDK instrumenter into `@azure/core-tracing` directly.
-   *
-   * The Azure SDK instrumentation registers its instrumenter through an OpenTelemetry
-   * module-patch hook that only fires via `require`/`import`-in-the-middle. In ESM hosts
-   * where the OpenTelemetry loader cannot be registered up front (for example, Azure
-   * Functions, which controls the Node.js start command), that hook never runs, so Azure
-   * SDK dependency spans are missing. Because `@azure/core-tracing` resolves its
-   * instrumenter lazily at span-creation time from shared module-local state, applying
-   * the same patch directly here enables Azure SDK tracing regardless of module system.
-   */
-  private _wireAzureSdkInstrumenter(instrumentation: Instrumentation): void {
-    try {
-      const moduleDefinitions =
-        (
-          instrumentation as Instrumentation & {
-            getModuleDefinitions?: () => InstrumentationModuleDefinition[];
-          }
-        ).getModuleDefinitions?.() ?? [];
-      for (const moduleDefinition of moduleDefinitions) {
-        if (moduleDefinition.name === "@azure/core-tracing" && moduleDefinition.patch) {
-          moduleDefinition.patch(coreTracing);
-        }
-      }
-    } catch (error) {
-      Logger.getInstance().warn("Failed to enable Azure SDK tracing for ESM applications", error);
     }
   }
 }

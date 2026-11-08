@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list gallery inVMAccessControlProfiles in a gallery.
  *
  * @summary list gallery inVMAccessControlProfiles in a gallery.
- * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_ListByGallery.json
+ * x-ms-original-file: 2026-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_ListByGallery.json
  */
 async function listGalleryInVMAccessControlProfilesInAGallery() {
   const credential = new DefaultAzureCredential();

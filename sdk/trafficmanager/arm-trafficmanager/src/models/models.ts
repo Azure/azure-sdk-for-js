@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Class representing a Traffic Manager endpoint. */
 export interface Endpoint extends ProxyResource {
   /** The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'. */
@@ -418,7 +418,7 @@ export interface Profile extends TrackedResource {
   allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
-  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. */
+  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set. */
   recordType?: RecordType;
 }
 
@@ -478,7 +478,7 @@ export interface ProfileProperties {
   allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
-  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. */
+  /** When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set. */
   recordType?: RecordType;
 }
 
@@ -1169,8 +1169,8 @@ export type EndpointType = "AzureEndpoints" | "ExternalEndpoints" | "NestedEndpo
 export enum KnownVersions {
   /** The 2022-04-01 API version. */
   V20220401 = "2022-04-01",
-  /** The 2024-04-01-preview API version. */
-  V20240401Preview = "2024-04-01-preview",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _endpointPropertiesSerializer(item: Endpoint): any {

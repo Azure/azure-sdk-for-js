@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified virtual network.
  *
  * @summary deletes the specified virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkDelete.json
  */
 async function deleteVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

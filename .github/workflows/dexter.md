@@ -36,14 +36,14 @@ jobs:
       head_sha: ${{ steps.review_request.outputs.head_sha }}
     steps:
       - name: Checkout trusted request validation
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
           sparse-checkout: eng/tools/pr-review
       - name: Validate and claim the review request
         id: review_request
-        uses: actions/github-script@v9.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { prepareReview } = require('./eng/tools/pr-review/review-request.cjs');
@@ -68,10 +68,6 @@ permissions:
   vulnerability-alerts: read
   security-events: read
   copilot-requests: write
-# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
-engine:
-  id: copilot
-  version: "1.0.80"
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]
@@ -79,11 +75,10 @@ tools:
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
-  web-fetch:
 safe-outputs:
   steps:
     - name: Reject stale review outputs
-      uses: actions/github-script@v9.0.0
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       env:
         REVIEW_PR_NUMBER: ${{ needs.validate_request.outputs.pr_number }}
         REVIEW_HEAD_SHA: ${{ needs.validate_request.outputs.head_sha }}

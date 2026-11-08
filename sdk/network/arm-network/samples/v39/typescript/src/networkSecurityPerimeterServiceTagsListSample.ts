@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of service tags supported by NSP. These service tags can be used to create access rules in NSP.
  *
  * @summary gets the list of service tags supported by NSP. These service tags can be used to create access rules in NSP.
- * x-ms-original-file: 2026-01-01/NspServiceTagsList.json
+ * x-ms-original-file: 2026-03-01/NspServiceTagsList.json
  */
 async function nspServiceTagsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

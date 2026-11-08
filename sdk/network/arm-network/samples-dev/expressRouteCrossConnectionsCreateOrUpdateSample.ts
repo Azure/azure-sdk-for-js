@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the specified ExpressRouteCrossConnection.
  *
  * @summary update the specified ExpressRouteCrossConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionUpdate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionUpdate.json
  */
 async function updateExpressRouteCrossConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

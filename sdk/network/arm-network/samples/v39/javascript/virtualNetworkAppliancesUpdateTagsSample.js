@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a virtual network appliance tags.
  *
  * @summary updates a virtual network appliance tags.
- * x-ms-original-file: 2026-01-01/VirtualNetworkAppliances_UpdateTags.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkAppliances_UpdateTags.json
  */
 async function updateVirtualNetworkApplianceTags() {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-sse",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Implementation of the Server-sent events protocol for Node.js and browsers.",
   "sdk-type": "client",
   "type": "module",
@@ -110,6 +110,8 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "workspace:^",
     "tslib": "^2.6.2"
   },
   "//metadata": {

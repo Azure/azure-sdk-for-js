@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified private endpoint connection associated with the Elastic San
  *
  * @summary gets the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: 2025-09-01/PrivateEndpointConnections_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Get_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function privateEndpointConnectionsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to gets the specified private endpoint connection associated with the Elastic San
  *
  * @summary gets the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: 2025-09-01/PrivateEndpointConnections_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateEndpointConnections_Get_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

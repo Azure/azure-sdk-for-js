@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
  *
  * @summary disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/P2sVpnGatewaysDisconnectP2sVpnConnections.json
+ * x-ms-original-file: 2026-03-01/P2sVpnGatewaysDisconnectP2sVpnConnections.json
  */
 async function disconnectVpnConnectionsFromP2SVpnGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

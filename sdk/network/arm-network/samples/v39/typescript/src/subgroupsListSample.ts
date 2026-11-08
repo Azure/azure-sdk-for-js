@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all subgroups in an interconnect group.
  *
  * @summary gets all subgroups in an interconnect group.
- * x-ms-original-file: 2026-01-01/SubgroupList.json
+ * x-ms-original-file: 2026-03-01/SubgroupList.json
  */
 async function listSubgroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

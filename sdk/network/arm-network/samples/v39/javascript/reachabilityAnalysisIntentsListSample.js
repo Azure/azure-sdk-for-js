@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets list of Reachability Analysis Intents .
  *
  * @summary gets list of Reachability Analysis Intents .
- * x-ms-original-file: 2026-01-01/ReachabilityAnalysisIntentList.json
+ * x-ms-original-file: 2026-03-01/ReachabilityAnalysisIntentList.json
  */
 async function reachabilityAnalysisIntentList() {
   const credential = new DefaultAzureCredential();

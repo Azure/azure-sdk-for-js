@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all effective connectivity configurations applied on a virtual network.
  *
  * @summary list all effective connectivity configurations applied on a virtual network.
- * x-ms-original-file: 2026-01-01/NetworkManagerEffectiveConnectivityConfigurationsList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerEffectiveConnectivityConfigurationsList.json
  */
 async function listEffectiveConnectivityConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

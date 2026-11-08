@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/marketplaceGalleryImages/operations.js";
-import {
+import type {
   MarketplaceGalleryImagesListAllOptionalParams,
   MarketplaceGalleryImagesListByResourceGroupOptionalParams,
   MarketplaceGalleryImagesDeleteOptionalParams,
@@ -18,9 +18,12 @@ import {
   MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   MarketplaceGalleryImagesGetOptionalParams,
 } from "../../api/marketplaceGalleryImages/options.js";
-import { MarketplaceGalleryImage, MarketplaceGalleryImageTagsUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  MarketplaceGalleryImage,
+  MarketplaceGalleryImageTagsUpdate,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MarketplaceGalleryImages operations. */
 export interface MarketplaceGalleryImagesOperations {
@@ -34,11 +37,6 @@ export interface MarketplaceGalleryImagesOperations {
     options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MarketplaceGalleryImage>;
   /** The operation to delete a marketplace gallery image. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     marketplaceGalleryImageName: string,

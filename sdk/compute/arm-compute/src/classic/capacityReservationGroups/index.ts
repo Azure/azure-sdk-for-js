@@ -23,6 +23,9 @@ import type {
   CapacityReservationGroupUpdate,
 } from "../../models/compute/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CapacityReservationGroups operations. */
 export interface CapacityReservationGroupsOperations {
@@ -37,6 +40,18 @@ export interface CapacityReservationGroupsOperations {
   ) => PagedAsyncIterableIterator<CapacityReservationGroup>;
   /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
   delete: (
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationGroupsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationGroupsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
     resourceGroupName: string,
     capacityReservationGroupName: string,
     options?: CapacityReservationGroupsDeleteOptionalParams,
@@ -62,6 +77,7 @@ export interface CapacityReservationGroupsOperations {
     options?: CapacityReservationGroupsGetOptionalParams,
   ) => Promise<CapacityReservationGroup>;
 }
+
 function _getCapacityReservationGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) =>
@@ -75,6 +91,22 @@ function _getCapacityReservationGroups(context: ComputeManagementContext) {
       capacityReservationGroupName: string,
       options?: CapacityReservationGroupsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, capacityReservationGroupName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      capacityReservationGroupName: string,
+      options?: CapacityReservationGroupsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, capacityReservationGroupName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      capacityReservationGroupName: string,
+      options?: CapacityReservationGroupsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, capacityReservationGroupName, options);
+    },
     update: (
       resourceGroupName: string,
       capacityReservationGroupName: string,
@@ -95,6 +127,7 @@ function _getCapacityReservationGroups(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, capacityReservationGroupName, options),
   };
 }
+
 export function _getCapacityReservationGroupsOperations(
   context: ComputeManagementContext,
 ): CapacityReservationGroupsOperations {

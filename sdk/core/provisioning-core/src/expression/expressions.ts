@@ -179,15 +179,8 @@ export type ExpressionOrValue<T> = T | Expression<T>;
  * degrades to "allowed if the property exists in any variant".
  *
  * When the discriminator genuinely isn't known until deployment, wrap the
- * expression with this to state which variant you mean:
- *
- * ```ts snippet:ignore
- * widget.properties.primaryRule = {
- *   kind: asDiscriminator(kindParam),
- *   cacheKind: "long",
- *   days: 7,
- * };
- * ```
+ * expression with this to state which variant you mean. See the
+ * {@link https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/provisioning-core#deploy-time-discriminators | deploy-time discriminator example}.
  *
  * Every other property is still fully checked — only the discriminator's
  * type safety is waived. Note that the runtime cannot dispatch on a

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists a server trust group.
  *
  * @summary lists a server trust group.
- * x-ms-original-file: 2025-08-01-preview/ServerTrustGroupList.json
+ * x-ms-original-file: 2026-08-01-preview/ServerTrustGroupList.json
  */
 async function listServerTrustGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

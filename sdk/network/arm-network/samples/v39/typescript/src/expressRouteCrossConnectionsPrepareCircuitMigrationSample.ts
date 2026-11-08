@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to prepares an express route circuit migration for a cross connection.
  *
  * @summary prepares an express route circuit migration for a cross connection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionPrepareCircuitMigration.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionPrepareCircuitMigration.json
  */
 async function prepareExpressRouteCircuitMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

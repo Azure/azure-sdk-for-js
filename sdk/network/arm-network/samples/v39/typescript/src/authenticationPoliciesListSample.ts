@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the authentication policies within a resource group.
  *
  * @summary lists all of the authentication policies within a resource group.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyList.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyList.json
  */
 async function listsAuthenticationPoliciesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

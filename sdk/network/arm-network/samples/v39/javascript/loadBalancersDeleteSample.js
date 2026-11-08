@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified load balancer.
  *
  * @summary deletes the specified load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerDelete.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerDelete.json
  */
 async function deleteLoadBalancer() {
   const credential = new DefaultAzureCredential();

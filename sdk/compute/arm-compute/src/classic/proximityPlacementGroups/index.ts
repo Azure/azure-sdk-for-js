@@ -62,6 +62,7 @@ export interface ProximityPlacementGroupsOperations {
     options?: ProximityPlacementGroupsGetOptionalParams,
   ) => Promise<ProximityPlacementGroup>;
 }
+
 function _getProximityPlacementGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: ProximityPlacementGroupsListBySubscriptionOptionalParams) =>
@@ -95,6 +96,7 @@ function _getProximityPlacementGroups(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, proximityPlacementGroupName, options),
   };
 }
+
 export function _getProximityPlacementGroupsOperations(
   context: ComputeManagementContext,
 ): ProximityPlacementGroupsOperations {

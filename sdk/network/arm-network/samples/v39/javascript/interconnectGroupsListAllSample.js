@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all interconnect groups in a subscription.
  *
  * @summary gets all interconnect groups in a subscription.
- * x-ms-original-file: 2026-01-01/InterconnectGroupListAll.json
+ * x-ms-original-file: 2026-03-01/InterconnectGroupListAll.json
  */
 async function listAllInterconnectGroups() {
   const credential = new DefaultAzureCredential();

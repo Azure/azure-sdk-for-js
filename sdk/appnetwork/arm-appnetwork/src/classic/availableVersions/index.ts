@@ -9,7 +9,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a AvailableVersions operations. */
 export interface AvailableVersionsOperations {
-  /** List AvailableVersion resources by location. */
+  /** List the Azure Kubernetes Application Network versions available in a location. */
   listByLocation: (
     location: string,
     options?: AvailableVersionsListByLocationOptionalParams,

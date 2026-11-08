@@ -66,6 +66,7 @@ describe("Statsbeat redirect routing", () => {
     const euEnvelopes: any[] = [];
     let rowRequests = 0;
     nock(EU_ENDPOINT)
+      .matchHeader("Content-Encoding", "gzip")
       .post("/v2.1/track", (body: any[]) => {
         euEnvelopes.push(...body);
         return true;

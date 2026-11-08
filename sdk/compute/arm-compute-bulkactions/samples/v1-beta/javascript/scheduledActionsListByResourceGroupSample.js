@@ -5,17 +5,17 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to lists scheduled actions in the specified resource group.
+ * This sample demonstrates how to lists recurring bulk actions in the specified resource group.
  *
- * @summary lists scheduled actions in the specified resource group.
- * x-ms-original-file: 2026-09-06-preview/ScheduledActions_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary lists recurring bulk actions in the specified resource group.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_ListByResourceGroup_PagedSuccess.json
  */
-async function listScheduledActionsInAResourceGroup() {
+async function listRecurringBulkActionsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.scheduledActions.listByResourceGroup("rgcompute")) {
+  for await (const item of client.scheduledActions.listByResourceGroup("example-rg")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listScheduledActionsInAResourceGroup() {
 }
 
 async function main() {
-  await listScheduledActionsInAResourceGroup();
+  await listRecurringBulkActionsInAResourceGroup();
 }
 
 main().catch(console.error);

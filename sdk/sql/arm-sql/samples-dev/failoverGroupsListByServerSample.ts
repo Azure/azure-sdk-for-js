@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the failover groups in a server.
  *
  * @summary lists the failover groups in a server.
- * x-ms-original-file: 2025-08-01-preview/FailoverGroupList.json
+ * x-ms-original-file: 2026-08-01-preview/FailoverGroupList.json
  */
 async function listFailoverGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

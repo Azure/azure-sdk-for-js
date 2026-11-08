@@ -28,14 +28,7 @@ export class AppLinkClient {
     subscriptionId: string,
     options: AppLinkClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAppLink(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAppLink(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.availableVersions = _getAvailableVersionsOperations(this._client);
     this.upgradeHistories = _getUpgradeHistoriesOperations(this._client);

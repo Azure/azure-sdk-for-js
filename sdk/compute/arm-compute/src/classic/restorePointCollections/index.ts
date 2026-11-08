@@ -77,6 +77,7 @@ export interface RestorePointCollectionsOperations {
     options?: RestorePointCollectionsGetOptionalParams,
   ) => Promise<RestorePointCollection>;
 }
+
 function _getRestorePointCollections(context: ComputeManagementContext) {
   return {
     listAll: (options?: RestorePointCollectionsListAllOptionalParams) => listAll(context, options),
@@ -123,6 +124,7 @@ function _getRestorePointCollections(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, restorePointCollectionName, options),
   };
 }
+
 export function _getRestorePointCollectionsOperations(
   context: ComputeManagementContext,
 ): RestorePointCollectionsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified load balancer backend address pool.
  *
  * @summary deletes the specified load balancer backend address pool.
- * x-ms-original-file: 2026-01-01/LoadBalancerBackendAddressPoolDelete.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerBackendAddressPoolDelete.json
  */
 async function backendAddressPoolDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

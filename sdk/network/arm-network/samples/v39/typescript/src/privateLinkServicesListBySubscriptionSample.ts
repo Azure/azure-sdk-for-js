@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all private link service in a subscription.
  *
  * @summary gets all private link service in a subscription.
- * x-ms-original-file: 2026-01-01/PrivateLinkServiceListAll.json
+ * x-ms-original-file: 2026-03-01/PrivateLinkServiceListAll.json
  */
 async function listAllPrivateListService(): Promise<void> {
   const credential = new DefaultAzureCredential();

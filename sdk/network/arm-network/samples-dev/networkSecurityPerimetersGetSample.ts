@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified network security perimeter by the name.
  *
  * @summary gets the specified network security perimeter by the name.
- * x-ms-original-file: 2026-01-01/NetworkSecurityPerimeterGet.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityPerimeterGet.json
  */
 async function networkSecurityPerimeterGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an issue
  *
  * @summary update an issue
- * x-ms-original-file: 2025-10-03/Issue_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_Update_MaximumSet_Gen.json
  */
 async function issueUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,17 +24,6 @@ async function issueUpdateMaximumSet(): Promise<void> {
         status: "New",
         severity: "Sev2",
         impactTime: new Date("2024-12-13T02:45:33"),
-        notifications: {
-          updateTypes: [
-            { updateType: "IssueCreation" },
-            { updateType: "OnChange" },
-            { updateType: "TimeBased", updateInterval: "PT1H" },
-          ],
-          actionGroupIds: [
-            "/subscriptions/aceaa046-91f0-492a-96dc-45e10a9183dc/resourceGroups/rg1/providers/Microsoft.Insights/actionGroups/myActionGroup",
-          ],
-          excludeDefaultActionGroups: false,
-        },
       },
     },
   );

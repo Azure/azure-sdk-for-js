@@ -1267,6 +1267,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
+  fileName?: string;
   serverEncrypted?: boolean;
   fileMode?: string;
   owner?: string;
@@ -1314,6 +1315,10 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
+    fileName:
+      result.headers["x-ms-file-name"] === undefined || result.headers["x-ms-file-name"] === null
+        ? result.headers["x-ms-file-name"]
+        : result.headers["x-ms-file-name"],
     serverEncrypted:
       result.headers["x-ms-server-encrypted"] === undefined ||
       result.headers["x-ms-server-encrypted"] === null
@@ -1381,6 +1386,7 @@ export async function getProperties(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
+    fileName?: string;
     serverEncrypted?: boolean;
     fileMode?: string;
     owner?: string;
@@ -1402,6 +1408,7 @@ export async function getProperties(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       serverEncrypted?: boolean;
       fileMode?: string;
       owner?: string;

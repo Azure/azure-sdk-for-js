@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
  *
  * @summary creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
- * x-ms-original-file: 2026-01-01/VpnConnectionPut.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionPut.json
  */
 async function vpnConnectionPut() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the VpnGateways in a resource group.
  *
  * @summary lists all the VpnGateways in a resource group.
- * x-ms-original-file: 2026-01-01/VpnGatewayListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/VpnGatewayListByResourceGroup.json
  */
 async function vpnGatewayListByResourceGroup() {
   const credential = new DefaultAzureCredential();

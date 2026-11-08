@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes BulkCreates.
  *
  * @summary deletes BulkCreates.
- * x-ms-original-file: 2026-09-06-preview/BulkCreate_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/BulkCreate_Delete_MaximumSet_Gen.json
  */
 async function bulkCreateDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

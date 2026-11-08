@@ -16,6 +16,7 @@ export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/
 
 export const URLConstants = {
   Parameters: {
+    FILE_ID: "fileid",
     FORCE_BROWSER_NO_CACHE: "_",
     SHARE_SNAPSHOT: "sharesnapshot",
     SIGNATURE: "sig",

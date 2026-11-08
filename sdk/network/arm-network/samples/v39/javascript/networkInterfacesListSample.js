@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all network interfaces in a resource group.
  *
  * @summary gets all network interfaces in a resource group.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceList.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceList.json
  */
 async function listNetworkInterfacesInResourceGroup() {
   const credential = new DefaultAzureCredential();

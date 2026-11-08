@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to performs vip swap operation on swappable cloud services.
  *
  * @summary performs vip swap operation on swappable cloud services.
- * x-ms-original-file: 2026-01-01/CloudServiceSwapPut.json
+ * x-ms-original-file: 2026-03-01/CloudServiceSwapPut.json
  */
 async function putVipSwapOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the Pool resource.
  *
  * @summary delete the Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_Delete.json
+ * x-ms-original-file: 2026-03-01/IpamPools_Delete.json
  */
 async function ipamPoolsDelete() {
   const credential = new DefaultAzureCredential();

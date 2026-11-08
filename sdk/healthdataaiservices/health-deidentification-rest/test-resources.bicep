@@ -194,6 +194,9 @@ resource storageMIRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-0
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributor)
     principalId: testDeidService.identity.principalId
+    // The service's managed identity is created in the same deployment; setting principalType avoids
+    // PrincipalNotFound failures while the new identity replicates in Microsoft Entra ID.
+    principalType: 'ServicePrincipal'
   }
   scope: storageAccount
 }

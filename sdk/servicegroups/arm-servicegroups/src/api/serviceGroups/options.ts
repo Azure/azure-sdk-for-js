@@ -4,7 +4,4 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ServiceGroupsListAncestorsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface ServiceGroupsGetOptionalParams extends OperationOptions {}

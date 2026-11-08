@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all private endpoints in a subscription.
  *
  * @summary gets all private endpoints in a subscription.
- * x-ms-original-file: 2026-01-01/PrivateEndpointListAll.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointListAll.json
  */
 async function listAllPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

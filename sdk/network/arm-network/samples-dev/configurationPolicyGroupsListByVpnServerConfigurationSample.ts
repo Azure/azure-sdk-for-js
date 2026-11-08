@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
  *
  * @summary lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
- * x-ms-original-file: 2026-01-01/ConfigurationPolicyGroupListByVpnServerConfiguration.json
+ * x-ms-original-file: 2026-03-01/ConfigurationPolicyGroupListByVpnServerConfiguration.json
  */
 async function configurationPolicyGroupListByVpnServerConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

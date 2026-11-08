@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an issue
  *
  * @summary delete an issue
- * x-ms-original-file: 2025-10-03/Issue_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_Delete_MaximumSet_Gen.json
  */
 async function issueDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

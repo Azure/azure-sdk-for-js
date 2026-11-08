@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all network security perimeters in a subscription.
  *
  * @summary list all network security perimeters in a subscription.
- * x-ms-original-file: 2026-01-01/NetworkSecurityPerimeterListAll.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityPerimeterListAll.json
  */
 async function networkSecurityPerimetersList() {
   const credential = new DefaultAzureCredential();

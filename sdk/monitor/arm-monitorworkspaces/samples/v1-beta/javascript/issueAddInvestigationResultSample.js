@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to adds investigation result
  *
  * @summary adds investigation result
- * x-ms-original-file: 2025-10-03/Issue_AddInvestigationResult_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/Issue_AddInvestigationResult_MaximumSet_Gen.json
  */
 async function issueAddInvestigationResultMaximumSet() {
   const credential = new DefaultAzureCredential();

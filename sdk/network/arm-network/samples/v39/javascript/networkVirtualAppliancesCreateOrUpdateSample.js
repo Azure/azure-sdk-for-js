@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualAppliancePut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualAppliancePut.json
  */
 async function createNetworkVirtualAppliance() {
   const credential = new DefaultAzureCredential();
@@ -71,7 +71,7 @@ async function createNetworkVirtualAppliance() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSaaSPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSaaSPut.json
  */
 async function createSaaSNetworkVirtualAppliance() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function createSaaSNetworkVirtualAppliance() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVhubDualStackPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVhubDualStackPut.json
  */
 async function createNVAInVirtualHubForIPv4AndIPv6() {
   const credential = new DefaultAzureCredential();
@@ -128,7 +128,7 @@ async function createNVAInVirtualHubForIPv4AndIPv6() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVhubIPv4Put.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVhubIPv4Put.json
  */
 async function createNVAInVirtualHubForIPv4() {
   const credential = new DefaultAzureCredential();
@@ -192,7 +192,7 @@ async function createNVAInVirtualHubForIPv4() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetAdditionalPrivatePut.json
  */
 async function createNVAInVNetWithPrivateNicPublicNicAdditionalPrivateNic() {
   const credential = new DefaultAzureCredential();
@@ -247,7 +247,7 @@ async function createNVAInVNetWithPrivateNicPublicNicAdditionalPrivateNic() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetAdditionalPublicPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetAdditionalPublicPut.json
  */
 async function createNVAInVNetWithPrivateNicPublicNicAdditionalPublicNic() {
   const credential = new DefaultAzureCredential();
@@ -302,7 +302,7 @@ async function createNVAInVNetWithPrivateNicPublicNicAdditionalPublicNic() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetBasicPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetBasicPut.json
  */
 async function createNVAInVNetWithPrivateNicPublicNic() {
   const credential = new DefaultAzureCredential();
@@ -350,7 +350,7 @@ async function createNVAInVNetWithPrivateNicPublicNic() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetDualStackPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetDualStackPut.json
  */
 async function createNVAInVNetForIPv4AndIPv6() {
   const credential = new DefaultAzureCredential();
@@ -399,7 +399,7 @@ async function createNVAInVNetForIPv4AndIPv6() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetIPv4Put.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetIPv4Put.json
  */
 async function createNVAInVNetForIPv4() {
   const credential = new DefaultAzureCredential();
@@ -448,7 +448,7 @@ async function createNVAInVNetForIPv4() {
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetIngressPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetIngressPut.json
  */
 async function createNVAInVNetWithPrivateNicPublicNicIncludingInternetIngress() {
   const credential = new DefaultAzureCredential();
@@ -501,7 +501,7 @@ async function createNVAInVNetWithPrivateNicPublicNicIncludingInternetIngress() 
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance.
  *
  * @summary creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceVnetNetworkProfilePut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceVnetNetworkProfilePut.json
  */
 async function createNVAInVNetWithPrivateNicPublicNicIncludingNetworkProfile() {
   const credential = new DefaultAzureCredential();

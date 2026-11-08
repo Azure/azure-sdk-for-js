@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to shuts down BGP sessions as part of an express route circuit migration for a cross connection.
  *
  * @summary shuts down BGP sessions as part of an express route circuit migration for a cross connection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionShutDownBgpForCircuitMigration.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionShutDownBgpForCircuitMigration.json
  */
 async function shutDownBgpForExpressRouteCircuitMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves the details of a particular failover test performed on the gateway based on the test Guid
  *
  * @summary this operation retrieves the details of a particular failover test performed on the gateway based on the test Guid
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetFailoverSingleTestDetails.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetFailoverSingleTestDetails.json
  */
 async function virtualNetworkGatewayGetFailoverSingleTestDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

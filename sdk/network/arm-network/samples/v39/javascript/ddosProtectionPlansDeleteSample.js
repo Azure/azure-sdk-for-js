@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified DDoS protection plan.
  *
  * @summary deletes the specified DDoS protection plan.
- * x-ms-original-file: 2026-01-01/DdosProtectionPlanDelete.json
+ * x-ms-original-file: 2026-03-01/DdosProtectionPlanDelete.json
  */
 async function deleteDDoSProtectionPlan() {
   const credential = new DefaultAzureCredential();

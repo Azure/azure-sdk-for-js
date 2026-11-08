@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all effective security admin rules applied on a virtual network.
  *
  * @summary list all effective security admin rules applied on a virtual network.
- * x-ms-original-file: 2026-01-01/NetworkManagerEffectiveSecurityAdminRulesList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerEffectiveSecurityAdminRulesList.json
  */
 async function listEffectiveSecurityAdminRules() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check health of UpdateSummaries
  *
  * @summary check health of UpdateSummaries
- * x-ms-original-file: 2026-04-30/UpdateSummaries_CheckHealth.json
+ * x-ms-original-file: 2026-10-01/UpdateSummaries_CheckHealth.json
  */
 async function checkHealthOfUpdateSummaries(): Promise<void> {
   const credential = new DefaultAzureCredential();

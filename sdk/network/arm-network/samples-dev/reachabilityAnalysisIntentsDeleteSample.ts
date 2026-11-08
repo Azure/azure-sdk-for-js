@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Reachability Analysis Intent.
  *
  * @summary deletes Reachability Analysis Intent.
- * x-ms-original-file: 2026-01-01/ReachabilityAnalysisIntentDelete.json
+ * x-ms-original-file: 2026-03-01/ReachabilityAnalysisIntentDelete.json
  */
 async function reachabilityAnalysisIntentDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

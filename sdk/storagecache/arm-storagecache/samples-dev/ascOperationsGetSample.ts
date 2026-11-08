@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of an asynchronous operation for the Azure HPC Cache
  *
  * @summary gets the status of an asynchronous operation for the Azure HPC Cache
- * x-ms-original-file: 2026-01-01/AscOperations_Get.json
+ * x-ms-original-file: 2026-08-01/AscOperations_Get.json
  */
 async function ascOperationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

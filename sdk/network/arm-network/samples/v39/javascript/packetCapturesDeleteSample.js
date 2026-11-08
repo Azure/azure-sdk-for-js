@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified packet capture session.
  *
  * @summary deletes the specified packet capture session.
- * x-ms-original-file: 2026-01-01/NetworkWatcherPacketCaptureDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherPacketCaptureDelete.json
  */
 async function deletePacketCapture() {
   const credential = new DefaultAzureCredential();

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getHardLinks,
   createHardLink,
   getSymbolicLink,
   createSymbolicLink,
@@ -26,6 +27,7 @@ export {
   create,
 } from "./operations.js";
 export type {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,

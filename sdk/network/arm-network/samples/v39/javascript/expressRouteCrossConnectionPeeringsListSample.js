@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all peerings in a specified ExpressRouteCrossConnection.
  *
  * @summary gets all peerings in a specified ExpressRouteCrossConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionBgpPeeringList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionBgpPeeringList.json
  */
 async function expressRouteCrossConnectionBgpPeeringList() {
   const credential = new DefaultAzureCredential();

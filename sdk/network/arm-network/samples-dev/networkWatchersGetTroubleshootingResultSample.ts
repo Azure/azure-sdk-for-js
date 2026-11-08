@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the last completed troubleshooting result on a specified resource.
  *
  * @summary get the last completed troubleshooting result on a specified resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherTroubleshootResultQuery.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherTroubleshootResultQuery.json
  */
 async function getTroubleshootResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

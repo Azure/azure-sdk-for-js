@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates part of an Azure Monitor Workspace
  *
  * @summary updates part of an Azure Monitor Workspace
- * x-ms-original-file: 2025-10-03/AzureMonitorWorkspaces_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/AzureMonitorWorkspaces_Update_MaximumSet_Gen.json
  */
 async function azureMonitorWorkspacesUpdateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,14 +17,7 @@ async function azureMonitorWorkspacesUpdateGeneratedByMaximumSetRuleGeneratedByM
   const result = await client.azureMonitorWorkspaces.update(
     "rgazuremonitorworkspace",
     "myAzureMonitorWorkspace",
-    {
-      tags: {},
-      properties: {
-        publicNetworkAccess: "Enabled",
-        metrics: { enableAccessUsingResourcePermissions: true },
-      },
-      identity: { type: "SystemAssigned" },
-    },
+    { tags: {}, identity: { type: "SystemAssigned" } },
   );
   console.log(result);
 }

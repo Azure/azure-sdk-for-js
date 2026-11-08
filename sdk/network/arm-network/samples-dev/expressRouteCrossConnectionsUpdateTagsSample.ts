@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an express route cross connection tags.
  *
  * @summary updates an express route cross connection tags.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionUpdateTags.json
  */
 async function updateExpressRouteCrossConnectionTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

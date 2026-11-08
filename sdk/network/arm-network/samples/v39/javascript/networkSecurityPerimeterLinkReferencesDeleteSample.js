@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an NSP LinkReference resource.
  *
  * @summary deletes an NSP LinkReference resource.
- * x-ms-original-file: 2026-01-01/NspLinkReferenceDelete.json
+ * x-ms-original-file: 2026-03-01/NspLinkReferenceDelete.json
  */
 async function nspLinkReferenceDelete() {
   const credential = new DefaultAzureCredential();

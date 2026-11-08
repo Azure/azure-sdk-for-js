@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reconcile NSP access rules
  *
  * @summary reconcile NSP access rules
- * x-ms-original-file: 2026-01-01/NspAccessRuleReconcile.json
+ * x-ms-original-file: 2026-03-01/NspAccessRuleReconcile.json
  */
 async function nspAccessRuleReconcile() {
   const credential = new DefaultAzureCredential();

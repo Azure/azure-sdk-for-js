@@ -1,0 +1,48 @@
+{
+  "location": "West US",
+  "tags": {},
+  "properties": {
+    "resource": {
+      "id": "graphName",
+      "indexingPolicy": {
+        "indexingMode": "consistent",
+        "automatic": true,
+        "includedPaths": [
+          {
+            "path": "/*",
+            "indexes": [
+              {
+                "kind": "Range",
+                "dataType": "String",
+                "precision": -1
+              },
+              {
+                "kind": "Range",
+                "dataType": "Number",
+                "precision": -1
+              }
+            ]
+          }
+        ],
+        "excludedPaths": []
+      },
+      "partitionKey": {
+        "paths": ["/AccountNumber"],
+        "kind": "Hash"
+      },
+      "defaultTtl": 100,
+      "uniqueKeyPolicy": {
+        "uniqueKeys": [
+          {
+            "paths": ["/testPath"]
+          }
+        ]
+      },
+      "conflictResolutionPolicy": {
+        "mode": "LastWriterWins",
+        "conflictResolutionPath": "/path"
+      }
+    },
+    "options": {}
+  }
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of all VirtualHubBgpConnections.
  *
  * @summary retrieves the details of all VirtualHubBgpConnections.
- * x-ms-original-file: 2026-01-01/VirtualHubBgpConnectionList.json
+ * x-ms-original-file: 2026-03-01/VirtualHubBgpConnectionList.json
  */
 async function virtualHubRouteTableV2List(): Promise<void> {
   const credential = new DefaultAzureCredential();

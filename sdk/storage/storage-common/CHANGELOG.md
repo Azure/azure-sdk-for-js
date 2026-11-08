@@ -1,11 +1,10 @@
 # Release History
 
-## 12.6.0 (Unreleased)
+## 12.6.0-beta.1 (Unreleased)
 
 ### Features Added
 
-- Added `buildStorageSharedKeyStringToSign` and `prepareSharedKeyHeaders`, which expose the Shared Key request signing steps for use by other Azure Storage client libraries.
-- Added `storageDataLocalityPolicy`, which routes a request to a layout endpoint while preserving the original `Host` header.
+- Added `buildStorageSharedKeyStringToSign`, which sets the request headers that the Shared Key signature covers and returns the string to sign, for use by other Azure Storage client libraries.
 
 ### Breaking Changes
 
@@ -16,7 +15,6 @@
 - Fixed the Shared Key signature omitting query parameters that the service still canonicalizes. A value containing an unescaped `=`, an empty value, and a name carried without a value were all dropped, producing a signature the service rejects. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
 - Fixed the Shared Key signature placing `Content-Language` before `Content-Encoding` in the string to sign. A request that set either raw header was signed against the wrong canonical string and could be rejected with 403. [PR #39853](https://github.com/Azure/azure-sdk-for-js/pull/39853)
 - Fixed `BufferScheduler` letting a failed buffer allocation (`RangeError: Failed to allocate memory`) escape as an uncaught exception during large uploads. Allocation failures in the stream and internal event listeners are now routed through the scheduler's error handling so the upload promise rejects cleanly. `BufferScheduler` also no longer starts queued block uploads after the upload promise has been rejected. Issue [#39102](https://github.com/Azure/azure-sdk-for-js/issues/39102).
-- Added the missing export of `storageRedirectRangeHeaderPolicy` for browsers. [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 - Fixed `storageRetryPolicy` leaving a connection busy for each response it retries, such as a download that got a 500 or 503. The streamed body of a retried response is now released before the next attempt. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ### Other Changes

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all private link resources on an application gateway.
  *
  * @summary lists all private link resources on an application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayPrivateLinkResourceList.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayPrivateLinkResourceList.json
  */
 async function listsAllPrivateLinkResourcesOnApplicationGateway() {
   const credential = new DefaultAzureCredential();

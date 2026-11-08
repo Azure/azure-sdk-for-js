@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified network security rule.
  *
  * @summary deletes the specified network security rule.
- * x-ms-original-file: 2026-01-01/NetworkSecurityGroupRuleDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityGroupRuleDelete.json
  */
 async function deleteNetworkSecurityRuleFromNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

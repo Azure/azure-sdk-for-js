@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the VpnServerConfigurations in a subscription.
  *
  * @summary lists all the VpnServerConfigurations in a subscription.
- * x-ms-original-file: 2026-01-01/VpnServerConfigurationList.json
+ * x-ms-original-file: 2026-03-01/VpnServerConfigurationList.json
  */
 async function vpnServerConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to offline the specified region for the specified Azure Cosmos DB database account.
  *
  * @summary offline the specified region for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountOfflineRegion.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountOfflineRegion.json
  */
 async function cosmosDBDatabaseAccountOfflineRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();

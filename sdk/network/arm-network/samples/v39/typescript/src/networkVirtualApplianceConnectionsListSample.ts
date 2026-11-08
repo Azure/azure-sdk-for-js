@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists NetworkVirtualApplianceConnections under the NVA.
  *
  * @summary lists NetworkVirtualApplianceConnections under the NVA.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceConnectionList.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceConnectionList.json
  */
 async function networkVirtualApplianceConnectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

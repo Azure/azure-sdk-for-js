@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
  *
  * @summary the List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionsList.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionsList.json
  */
 async function listVirtualNetworkGatewayConnectionsinResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

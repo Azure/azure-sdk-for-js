@@ -8,6 +8,10 @@ import type {
 import { createStorageManagement } from "./api/index.js";
 import type { AdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
 import { _getAdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
+import type { BlobAccessPointConfigurationsOperations } from "./classic/blobAccessPointConfigurations/index.js";
+import { _getBlobAccessPointConfigurationsOperations } from "./classic/blobAccessPointConfigurations/index.js";
+import type { BlobAccessPointConnectionTestsOperations } from "./classic/blobAccessPointConnectionTests/index.js";
+import { _getBlobAccessPointConnectionTestsOperations } from "./classic/blobAccessPointConnectionTests/index.js";
 import type { BlobContainersOperations } from "./classic/blobContainers/index.js";
 import { _getBlobContainersOperations } from "./classic/blobContainers/index.js";
 import type { BlobInventoryPoliciesOperations } from "./classic/blobInventoryPolicies/index.js";
@@ -110,6 +114,10 @@ export class StorageManagementClient {
       _getStorageTaskAssignmentsInstancesReportOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.advancedPlatformMetrics = _getAdvancedPlatformMetricsOperations(this._client);
+    this.blobAccessPointConnectionTests = _getBlobAccessPointConnectionTestsOperations(
+      this._client,
+    );
+    this.blobAccessPointConfigurations = _getBlobAccessPointConfigurationsOperations(this._client);
     this.contextCacheContainers = _getContextCacheContainersOperations(this._client);
     this.contextCaches = _getContextCachesOperations(this._client);
     this.dataShares = _getDataSharesOperations(this._client);
@@ -152,6 +160,10 @@ export class StorageManagementClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for advancedPlatformMetrics */
   public readonly advancedPlatformMetrics: AdvancedPlatformMetricsOperations;
+  /** The operation groups for blobAccessPointConnectionTests */
+  public readonly blobAccessPointConnectionTests: BlobAccessPointConnectionTestsOperations;
+  /** The operation groups for blobAccessPointConfigurations */
+  public readonly blobAccessPointConfigurations: BlobAccessPointConfigurationsOperations;
   /** The operation groups for contextCacheContainers */
   public readonly contextCacheContainers: ContextCacheContainersOperations;
   /** The operation groups for contextCaches */

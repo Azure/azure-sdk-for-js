@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a list of Storage Targets for the specified cache.
  *
  * @summary returns a list of Storage Targets for the specified cache.
- * x-ms-original-file: 2026-01-01/StorageTargets_ListByCache.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_ListByCache.json
  */
 async function storageTargetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns resource collection belonging to a subscription.
  *
  * @summary returns resource collection belonging to a subscription.
- * x-ms-original-file: 2026-06-01/VaultCRUD/GetBackupVaultsInSubscription.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVaultsInSubscription.json
  */
 async function getBackupVaultsInSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

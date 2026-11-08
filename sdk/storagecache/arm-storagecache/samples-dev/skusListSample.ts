@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of StorageCache.Cache SKUs available to this subscription.
  *
  * @summary get the list of StorageCache.Cache SKUs available to this subscription.
- * x-ms-original-file: 2026-01-01/Skus_List.json
+ * x-ms-original-file: 2026-08-01/Skus_List.json
  */
 async function skusList(): Promise<void> {
   const credential = new DefaultAzureCredential();

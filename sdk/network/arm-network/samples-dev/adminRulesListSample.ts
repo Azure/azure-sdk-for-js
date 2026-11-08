@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all network manager security configuration admin rules.
  *
  * @summary list all network manager security configuration admin rules.
- * x-ms-original-file: 2026-01-01/NetworkManagerAdminRuleList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerAdminRuleList.json
  */
 async function listSecurityAdminRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -17,6 +17,18 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AcknowledgeBulkOperationErrorsRequest {
+    operationIds: string[];
+}
+
+// @public
+export interface AcknowledgeBulkOperationErrorsResponse {
+    acknowledged: string[];
+    notFound: string[];
+    skipped: string[];
+}
+
+// @public
 export type ActionType = string;
 
 // @public
@@ -39,9 +51,6 @@ export interface AllInstancesDown {
 }
 
 // @public
-export type AllocationStrategy = string;
-
-// @public
 export interface ApiEntityReference {
     id?: string;
 }
@@ -60,6 +69,11 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BillingProfile {
+    maxPrice?: number;
+}
 
 // @public
 export interface BootDiagnostics {
@@ -92,13 +106,16 @@ export interface BulkActionVmExtensionProperties {
 export interface BulkactionVMProperties {
     additionalCapabilities?: AdditionalCapabilities;
     applicationProfile?: ApplicationProfile;
+    billingProfile?: BillingProfile;
     capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
+    evictionPolicy?: EvictionPolicy;
     extensionsTimeBudget?: string;
     hardwareProfile?: HardwareProfile;
     licenseType?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    priority?: PriorityType;
     scheduledEventsPolicy?: ScheduledEventsPolicy;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
@@ -118,9 +135,6 @@ export interface BulkCreateCreateOrUpdateOptionalParams extends OperationOptions
 }
 
 // @public
-export type BulkCreateCustomAllocationStrategy = string;
-
-// @public
 export interface BulkCreateCustomCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -135,9 +149,6 @@ export interface BulkCreateCustomDeleteOptionalParams extends OperationOptions {
     deleteInstances?: boolean;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type BulkCreateCustomDistributionStrategy = string;
 
 // @public
 export interface BulkCreateCustomGetAsyncOperationStatusOptionalParams extends OperationOptions {
@@ -169,21 +180,15 @@ export interface BulkCreateCustomOperations {
 
 // @public
 export interface BulkCreateCustomOverride {
+    extendedLocation?: ExtendedLocation;
     extensions?: BulkactionVMExtension[];
     identity?: VirtualMachineIdentity;
+    placement?: Placement;
     plan?: Plan;
     tags?: Record<string, string>;
     virtualMachineName?: string;
     virtualMachineProfile?: BulkactionVMProperties;
-}
-
-// @public
-export interface BulkCreateCustomOverrideBase {
-    extensions?: BulkactionVMExtension[];
-    identity?: VirtualMachineIdentity;
-    plan?: Plan;
-    tags?: Record<string, string>;
-    virtualMachineProfile?: BulkactionVMProperties;
+    zone?: string;
 }
 
 // @public
@@ -193,28 +198,15 @@ export interface BulkCreateCustomOverridesProfile {
 }
 
 // @public
-export interface BulkCreateCustomPriorityProfile {
-    allocationStrategy?: BulkCreateCustomAllocationStrategy;
-    evictionPolicy?: EvictionPolicy;
-    maxPricePerVM?: number;
-    type?: PriorityType;
-}
-
-// @public
 export interface BulkCreateCustomProperties {
     capacity: number;
     capacityType?: CapacityType;
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
-    minCapacity?: number;
     overridesProfile?: BulkCreateCustomOverridesProfile;
-    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
-    priorityProfile: BulkCreateCustomPriorityProfile;
     readonly provisioningState?: ProvisioningState;
     readonly resources?: BulkCreateCustomResource[];
-    vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
-    zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
 }
 
 // @public
@@ -231,19 +223,6 @@ export interface BulkCreateCustomVirtualMachineInfo {
 
 // @public
 export interface BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BulkCreateCustomVmSizeProfile {
-    name: string;
-    override?: BulkCreateCustomOverrideBase;
-    rank: number;
-}
-
-// @public
-export interface BulkCreateCustomZoneAllocationPolicy {
-    distributionStrategy?: BulkCreateCustomDistributionStrategy;
-    zonePreferences?: ZonePreference[];
 }
 
 // @public
@@ -287,22 +266,11 @@ export interface BulkCreateProperties {
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
-    minCapacity?: number;
-    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
-    priorityProfile: PriorityProfile;
     readonly provisioningState?: ProvisioningState;
-    vmSizesProfile?: BulkCreateVmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
 export interface BulkCreateVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BulkCreateVmSizeProfile {
-    name: string;
-    rank?: number;
 }
 
 // @public
@@ -495,9 +463,6 @@ export interface DiskEncryptionSettings {
 }
 
 // @public
-export type DistributionStrategy = string;
-
-// @public
 export type DomainNameLabelScopeTypes = string;
 
 // @public
@@ -573,10 +538,20 @@ export interface ExecuteStartContent {
 
 // @public
 export interface ExecutionParameters {
+    additionalCreateParameters?: Record<string, any>;
     capacityRecommendationParameters?: CapacityRecommendationParameters;
     retryPolicy?: RetryPolicy;
     verifyVmAgentHealth?: boolean;
 }
+
+// @public
+export interface ExtendedLocation {
+    name: string;
+    type: ExtendedLocationType;
+}
+
+// @public
+export type ExtendedLocationType = string;
 
 // @public
 export interface ExtensionResource extends Resource {
@@ -649,26 +624,6 @@ export interface KeyVaultSecretReference {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownAllocationStrategy {
-    CapacityOptimized = "CapacityOptimized",
-    LowestPrice = "LowestPrice",
-    Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownBulkCreateCustomAllocationStrategy {
-    LowestPrice = "LowestPrice",
-    Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownBulkCreateCustomDistributionStrategy {
-    BestEffortBalanced = "BestEffortBalanced",
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized"
 }
 
 // @public
@@ -751,14 +706,6 @@ export enum KnownDiskDetachOptionTypes {
 }
 
 // @public
-export enum KnownDistributionStrategy {
-    BestEffortBalanced = "BestEffortBalanced",
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized",
-    StrictBalanced = "StrictBalanced"
-}
-
-// @public
 export enum KnownDomainNameLabelScopeTypes {
     NoReuse = "NoReuse",
     ResourceGroupReuse = "ResourceGroupReuse",
@@ -770,6 +717,12 @@ export enum KnownDomainNameLabelScopeTypes {
 export enum KnownEvictionPolicy {
     Deallocate = "Deallocate",
     Delete = "Delete"
+}
+
+// @public
+export enum KnownExtendedLocationType {
+    CustomLocation = "CustomLocation",
+    EdgeZone = "EdgeZone"
 }
 
 // @public
@@ -915,19 +868,6 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownPartialFulfillmentMode {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownPartialFulfillmentReason {
-    InsufficientCapacity = "InsufficientCapacity",
-    InsufficientQuota = "InsufficientQuota",
-    None = "None"
-}
-
-// @public
 export enum KnownPriorityType {
     Regular = "Regular",
     Spot = "Spot"
@@ -1054,7 +994,8 @@ export enum KnownVersions {
     V20260606 = "2026-06-06",
     V20260706Preview = "2026-07-06-preview",
     V20260806Preview = "2026-08-06-preview",
-    V20260906Preview = "2026-09-06-preview"
+    V20260906Preview = "2026-09-06-preview",
+    V20261006Preview = "2026-10-06-preview"
 }
 
 // @public
@@ -1088,6 +1029,12 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any",
+    Auto = "Auto"
 }
 
 // @public
@@ -1126,7 +1073,9 @@ export type LinuxVMGuestPatchMode = string;
 
 // @public
 export interface LocationBasedBulkCreate extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    placement?: Placement;
     plan?: Plan;
     properties?: BulkCreateProperties;
     tags?: Record<string, string>;
@@ -1135,7 +1084,9 @@ export interface LocationBasedBulkCreate extends ProxyResource {
 
 // @public
 export interface LocationBasedBulkCreateCustom extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    placement?: Placement;
     plan?: Plan;
     properties?: BulkCreateCustomProperties;
     tags?: Record<string, string>;
@@ -1400,24 +1351,18 @@ export interface PageSettings {
 }
 
 // @public
-export type PartialFulfillmentMode = string;
-
-// @public
-export interface PartialFulfillmentPolicy {
-    readonly fulfilledCapacity?: number;
-    mode?: PartialFulfillmentMode;
-    readonly reason?: PartialFulfillmentReason;
-}
-
-// @public
-export type PartialFulfillmentReason = string;
-
-// @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
+}
+
+// @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
 }
 
 // @public
@@ -1427,14 +1372,6 @@ export interface Plan {
     promotionCode?: string;
     publisher: string;
     version?: string;
-}
-
-// @public
-export interface PriorityProfile {
-    allocationStrategy?: AllocationStrategy;
-    evictionPolicy?: EvictionPolicy;
-    maxPricePerVM?: number;
-    type?: PriorityType;
 }
 
 // @public
@@ -1977,6 +1914,10 @@ export interface VirtualHardDisk {
 }
 
 // @public
+export interface VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams extends OperationOptions {
 }
 
@@ -1997,6 +1938,11 @@ export interface VirtualMachineBulkOperationsBulkHibernateOperationOptionalParam
 }
 
 // @public
+export interface VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams extends OperationOptions {
+    lookbackInMinutes?: number;
+}
+
+// @public
 export interface VirtualMachineBulkOperationsBulkReimageOperationOptionalParams extends OperationOptions {
 }
 
@@ -2006,11 +1952,13 @@ export interface VirtualMachineBulkOperationsBulkStartOperationOptionalParams ex
 
 // @public
 export interface VirtualMachineBulkOperationsOperations {
+    bulkAcknowledgeOperationErrors: (resourceGroupName: string, location: string, body: AcknowledgeBulkOperationErrorsRequest, options?: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams) => Promise<AcknowledgeBulkOperationErrorsResponse>;
     bulkCancelOperations: (resourceGroupName: string, location: string, requestBody: CancelOperationsContent, options?: VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
     bulkDeallocateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteDeallocateContent, options?: VirtualMachineBulkOperationsBulkDeallocateOperationOptionalParams) => Promise<DeallocateResourceOperationResponse>;
     bulkDeleteOperation: (resourceGroupName: string, location: string, requestBody: ExecuteDeleteContent, options?: VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams) => Promise<DeleteResourceOperationResponse>;
     bulkGetOperationsStatus: (resourceGroupName: string, location: string, requestBody: GetOperationStatusContent, options?: VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams) => Promise<GetOperationStatusResponse>;
     bulkHibernateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteHibernateContent, options?: VirtualMachineBulkOperationsBulkHibernateOperationOptionalParams) => Promise<HibernateResourceOperationResponse>;
+    bulkListOperationErrors: (resourceGroupName: string, location: string, options?: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams) => PagedAsyncIterableIterator<ResourceOperation>;
     bulkReimageOperation: (resourceGroupName: string, location: string, requestBody: ExecuteReimageRequest, options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams) => Promise<ReimageResourceOperationResponse>;
     bulkStartOperation: (resourceGroupName: string, location: string, requestBody: ExecuteStartContent, options?: VirtualMachineBulkOperationsBulkStartOperationOptionalParams) => Promise<StartResourceOperationResponse>;
 }
@@ -2175,17 +2123,7 @@ export interface WinRMListener {
 }
 
 // @public
-export interface ZoneAllocationPolicy {
-    distributionStrategy?: DistributionStrategy;
-    zonePreferences?: ZonePreference[];
-}
-
-// @public
-export interface ZonePreference {
-    rank: number;
-    targetMaxCapacity?: number;
-    zone: string;
-}
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,6 +1,21 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/traceAssociations/index.ts",
+    "../src/api/traceAssociationsAtSubscription/index.ts",
+    "../src/api/traceAssociationsAtResourceGroup/index.ts",
+    "../src/api/traceContainers/index.ts",
+    "../src/api/metricConfigurations/index.ts",
+    "../src/api/metricNamespaces/index.ts",
+    "../src/api/metricsContainers/index.ts",
+    "../src/api/issue/index.ts",
+    "../src/api/azureMonitorWorkspaces/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

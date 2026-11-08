@@ -4,12 +4,12 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyticsItemsDeleteOptionalParams extends OperationOptions {
@@ -120,8 +120,11 @@ export interface ApplicationInsightsComponent extends ComponentsResource {
     readonly appId?: string;
     readonly applicationId?: string;
     applicationType?: ApplicationType;
+    azureMonitorWorkspaceIngestionMode?: AzureMonitorWorkspaceIngestionMode;
+    azureMonitorWorkspaceResourceId?: string;
     readonly connectionString?: string;
     readonly creationDate?: Date;
+    readonly dataCollectionRuleResourceId?: string;
     disableIpMasking?: boolean;
     disableLocalAuth?: boolean;
     etag?: string;
@@ -135,6 +138,9 @@ export interface ApplicationInsightsComponent extends ComponentsResource {
     kind: string;
     readonly laMigrationDate?: Date;
     readonly namePropertiesName?: string;
+    readonly otlpLogsEndpoint?: string;
+    readonly otlpMetricsEndpoint?: string;
+    readonly otlpTracesEndpoint?: string;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     readonly provisioningState?: string;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
@@ -316,8 +322,11 @@ export interface ApplicationInsightsComponentProperties {
     readonly appId?: string;
     readonly applicationId?: string;
     applicationType: ApplicationType;
+    azureMonitorWorkspaceIngestionMode?: AzureMonitorWorkspaceIngestionMode;
+    azureMonitorWorkspaceResourceId?: string;
     readonly connectionString?: string;
     readonly creationDate?: Date;
+    readonly dataCollectionRuleResourceId?: string;
     disableIpMasking?: boolean;
     disableLocalAuth?: boolean;
     flowType?: FlowType;
@@ -329,6 +338,9 @@ export interface ApplicationInsightsComponentProperties {
     readonly instrumentationKey?: string;
     readonly laMigrationDate?: Date;
     readonly name?: string;
+    readonly otlpLogsEndpoint?: string;
+    readonly otlpMetricsEndpoint?: string;
+    readonly otlpTracesEndpoint?: string;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     readonly provisioningState?: string;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
@@ -394,6 +406,9 @@ export enum AzureClouds {
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
     AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureMonitorWorkspaceIngestionMode = string;
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
@@ -765,6 +780,13 @@ export type ItemTypeParameter = string;
 export enum KnownApplicationType {
     Other = "other",
     Web = "web"
+}
+
+// @public
+export enum KnownAzureMonitorWorkspaceIngestionMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotOptedIn = "NotOptedIn"
 }
 
 // @public

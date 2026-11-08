@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch Tags for a Network Security Perimeter.
  *
  * @summary patch Tags for a Network Security Perimeter.
- * x-ms-original-file: 2026-01-01/NetworkSecurityPerimeterPatch.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityPerimeterPatch.json
  */
 async function patchNetworkSecurityPerimeter(): Promise<void> {
   const credential = new DefaultAzureCredential();

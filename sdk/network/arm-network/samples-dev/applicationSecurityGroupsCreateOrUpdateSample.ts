@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an application security group.
  *
  * @summary creates or updates an application security group.
- * x-ms-original-file: 2026-01-01/ApplicationSecurityGroupCreate.json
+ * x-ms-original-file: 2026-03-01/ApplicationSecurityGroupCreate.json
  */
 async function createApplicationSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

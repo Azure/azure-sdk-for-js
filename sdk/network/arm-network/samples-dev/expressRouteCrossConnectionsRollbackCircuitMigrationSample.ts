@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to rolls back the express route circuit migration for a cross connection.
  *
  * @summary rolls back the express route circuit migration for a cross connection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionRollbackCircuitMigration.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionRollbackCircuitMigration.json
  */
 async function rollbackExpressRouteCircuitMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

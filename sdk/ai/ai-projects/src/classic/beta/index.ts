@@ -7,8 +7,6 @@ import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/
 import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import type { BetaAgentsOperations } from "./agents/index.js";
 import { _getBetaAgentsOperations } from "./agents/index.js";
-import type { BetaDatasetsOperations } from "./datasets/index.js";
-import { _getBetaDatasetsOperations } from "./datasets/index.js";
 import type { BetaSkillsOperations } from "./skills/index.js";
 import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
@@ -30,11 +28,10 @@ import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing data generation jobs. */
-  datasets: BetaDatasetsOperations;
   /** Operations for managing skills. */
   skills: BetaSkillsOperations;
   /** Operations for managing schedules. */
@@ -66,10 +63,9 @@ export function _getBetaOperations(
   credential: TokenCredential,
   endpoint: string,
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaOperations {
   return {
-    /** Operations for managing data generation jobs. */
-    datasets: _getBetaDatasetsOperations(context),
     /** Operations for managing skills. */
     skills: _getBetaSkillsOperations(context),
     /** Operations for managing schedules. */
@@ -89,10 +85,16 @@ export function _getBetaOperations(
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing agents. */
-    agents: _getBetaAgentsOperations(context),
+    agents: _getBetaAgentsOperations(context, tracingConfig),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
     /** Operations for managing voice agent conversations and telephony. */
-    voiceAgents: _getBetaVoiceAgentsOperations(context, credential, endpoint, realtimeOptions),
+    voiceAgents: _getBetaVoiceAgentsOperations(
+      context,
+      credential,
+      endpoint,
+      realtimeOptions,
+      tracingConfig,
+    ),
   };
 }

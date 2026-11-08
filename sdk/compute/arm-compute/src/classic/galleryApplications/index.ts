@@ -110,6 +110,7 @@ export interface GalleryApplicationsOperations {
     options?: GalleryApplicationsGetOptionalParams,
   ) => Promise<GalleryApplication>;
 }
+
 function _getGalleryApplications(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -259,6 +260,7 @@ function _getGalleryApplications(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, galleryName, galleryApplicationName, options),
   };
 }
+
 export function _getGalleryApplicationsOperations(
   context: ComputeManagementContext,
 ): GalleryApplicationsOperations {

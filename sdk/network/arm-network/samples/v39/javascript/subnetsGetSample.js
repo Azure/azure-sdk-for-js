@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified subnet by virtual network and resource group.
  *
  * @summary gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: 2026-01-01/SubnetGet.json
+ * x-ms-original-file: 2026-03-01/SubnetGet.json
  */
 async function getSubnet() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getSubnet() {
  * This sample demonstrates how to gets the specified subnet by virtual network and resource group.
  *
  * @summary gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: 2026-01-01/SubnetGetWithDelegation.json
+ * x-ms-original-file: 2026-03-01/SubnetGetWithDelegation.json
  */
 async function getSubnetWithADelegation() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getSubnetWithADelegation() {
  * This sample demonstrates how to gets the specified subnet by virtual network and resource group.
  *
  * @summary gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: 2026-01-01/SubnetGetWithSharingScope.json
+ * x-ms-original-file: 2026-03-01/SubnetGetWithSharingScope.json
  */
 async function getSubnetWithSharingScope() {
   const credential = new DefaultAzureCredential();

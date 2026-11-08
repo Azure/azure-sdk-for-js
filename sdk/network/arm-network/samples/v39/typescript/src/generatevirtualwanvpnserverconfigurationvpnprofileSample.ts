@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
  *
  * @summary generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
- * x-ms-original-file: 2026-01-01/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
+ * x-ms-original-file: 2026-03-01/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
  */
 async function generateVirtualWanVpnServerConfigurationVpnProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

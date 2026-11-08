@@ -4,11 +4,13 @@
 import path from "node:path";
 import ts from "typescript";
 import { retainedModelBases } from "./model-retention.mjs";
+import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
 import { canonicalize } from "./ast-merge.mjs";
 import {
   edit,
   header,
   importsOf,
+  nameOf,
   relativeImport,
   renameSymbols,
   renderExports,
@@ -27,6 +29,15 @@ const documentedRenames = new Map([
   ["ApiError", "ErrorModel"],
   ["_FileSearchToolFiltersValue", "_ComparisonFilterValue"],
   ["_FileSearchToolFiltersFilter", "_CompoundFilterFilter"],
+]);
+const emittedModelRenames = new Map([
+  ["ImmediateSchedule", "TelephonyCampaignImmediateSchedule"],
+  ["AtTimeSchedule", "TelephonyCampaignAtTimeSchedule"],
+  ["PerRecipientSchedule", "TelephonyCampaignPerRecipientSchedule"],
+  ["FixedIntervalRetryPolicy", "TelephonyOutboundFixedIntervalRetryPolicy"],
+  ["PhoneNumber", "TelephonyPhoneNumber"],
+  ["TeamsAddress", "TelephonyTeamsAddress"],
+  ["SipAddress", "TelephonySipAddress"],
 ]);
 
 function isModel(file) {
@@ -161,6 +172,32 @@ function renameFingerprint(declaration) {
   );
 }
 
+function emittedRenamePairs(before, after) {
+  const oldPrefix = before[0].toLowerCase() + before.slice(1);
+  const newPrefix = after[0].toLowerCase() + after.slice(1);
+  return [
+    [before, after],
+    [`${oldPrefix}Serializer`, `${newPrefix}Serializer`],
+    [`${oldPrefix}Deserializer`, `${newPrefix}Deserializer`],
+    [`${oldPrefix}ArraySerializer`, `${newPrefix}ArraySerializer`],
+    [`${oldPrefix}ArrayDeserializer`, `${newPrefix}ArrayDeserializer`],
+  ];
+}
+
+export function verifiedEmittedRenames({ baseGenerated, baseSource, generated }) {
+  const diagnostics = [];
+  const indexes = [baseGenerated, baseSource, generated].map((tree) =>
+    inventory(tree, diagnostics),
+  );
+  const renames = discoverRenames(...indexes, diagnostics);
+  const approved = new Map(
+    [...emittedModelRenames].flatMap(([before, after]) => emittedRenamePairs(before, after)),
+  );
+  return diagnostics.length
+    ? new Map()
+    : new Map([...renames].filter(([before, after]) => approved.get(before) === after));
+}
+
 function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
   const renames = new Map();
   for (const [generated, custom] of documentedRenames) {
@@ -181,6 +218,60 @@ function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
       (baseGenerated.declarations.has(generated) || incoming.declarations.has(generated))
     )
       renames.set(generated, custom);
+  }
+  const approvedRenames = [...emittedModelRenames].flatMap(([before, after]) =>
+    emittedRenamePairs(before, after).map(([oldName, newName]) => [
+      oldName,
+      newName,
+      before,
+      after,
+    ]),
+  );
+  let renamed = true;
+  while (renamed) {
+    renamed = false;
+    const before = inventory(
+      new Map([...baseGenerated.modules].map(([file, source]) => [file, source.text])),
+      diagnostics,
+      renames,
+    );
+    const next = inventory(
+      new Map([...incoming.modules].map(([file, source]) => [file, source.text])),
+      diagnostics,
+      renames,
+    );
+    for (const [oldName, newName, oldModel, newModel] of approvedRenames) {
+      if (
+        (oldName !== oldModel && renames.get(oldModel) !== newModel) ||
+        renames.has(oldName) ||
+        !baseSource.declarations.has(oldName) ||
+        baseSource.declarations.has(newName) ||
+        baseGenerated.declarations.has(newName) ||
+        incoming.declarations.has(oldName) ||
+        !before.declarations.has(oldName) ||
+        !next.declarations.has(newName) ||
+        before.declarations.get(oldName).node.kind !== next.declarations.get(newName).node.kind ||
+        renameFingerprint(before.declarations.get(oldName)) !==
+          renameFingerprint(next.declarations.get(newName))
+      )
+        continue;
+      renames.set(oldName, newName);
+      renamed = true;
+    }
+  }
+  for (const [oldName, newName, oldModel, newModel] of approvedRenames) {
+    if (
+      oldName !== oldModel &&
+      renames.get(oldModel) === newModel &&
+      baseSource.declarations.has(oldName) &&
+      renames.get(oldName) !== newName
+    ) {
+      diagnostics.push({
+        file: baseSource.declarations.get(oldName).file,
+        declaration: oldName,
+        message: `Emitted model rename from '${oldModel}' to '${newModel}' cannot preserve converter '${oldName}' as '${newName}'; explicit reconciliation is required.`,
+      });
+    }
   }
   const used = new Set(
     [...baseGenerated.declarations.keys()].filter((name) => baseSource.declarations.has(name)),
@@ -232,12 +323,141 @@ function simpleRecord(type) {
   );
 }
 
+// Explicitly approved for the configuration-schema migration (#46941).
+// Only this discriminator adopts the upstream values; unrelated legacy models
+// and their dispatch registrations still use the normal retention policy.
+function upstreamDiscriminators(before, custom, incoming, diagnostics) {
+  const name = "DataGenerationJobType";
+  const entries = [before, custom, incoming].map((declarations) => declarations.get(name));
+  if (entries.every((entry) => !entry)) return new Set();
+  const valid = entries.every((entry, index) =>
+    !entry && index < 2 ? true : isUpstreamDataGenerationType(entry?.node, index === 1),
+  );
+  if (!valid) {
+    diagnostics.push({
+      file: canonicalFile,
+      declaration: name,
+      message: "Data generation discriminator changed beyond the approved upstream-values policy.",
+    });
+    return new Set();
+  }
+  return new Set([name]);
+}
+
+function retainedTelephonyProvider(before, custom, incoming) {
+  const values = (entry) => {
+    if (!entry?.node || !ts.isTypeAliasDeclaration(entry.node)) return undefined;
+    if (!ts.isUnionTypeNode(entry.node.type)) return undefined;
+    const literals = entry.node.type.types.map((type) =>
+      ts.isLiteralTypeNode(type) && ts.isStringLiteral(type.literal)
+        ? type.literal.text
+        : undefined,
+    );
+    return literals.every((value) => value !== undefined) ? literals : undefined;
+  };
+  const expected = new Set(["teams_phone_extensibility", "twilio"]);
+  const oldValues = values(before);
+  const customValues = values(custom);
+  const newValues = values(incoming);
+  const equal = (left, target) =>
+    left?.length === target.size &&
+    new Set(left).size === target.size &&
+    left.every((value) => target.has(value));
+  return (
+    equal(oldValues, expected) &&
+    equal(customValues, expected) &&
+    equal(newValues, new Set([...expected, "sip"]))
+  );
+}
+
+function comparisonFilterText(base, custom, incoming, customModels, incomingModels) {
+  if (!base || !custom || !incoming) return custom;
+  const valueType = (declaration) => {
+    const source = parse(declaration, canonicalFile, []);
+    const node = source.statements[0];
+    const member =
+      ts.isInterfaceDeclaration(node) &&
+      node.members.find(
+        (item) => ts.isPropertySignature(item) && nameOf(item.name) === "value" && item.type,
+      );
+    return member?.type;
+  };
+  const equivalent = (entry, expected) =>
+    entry?.node &&
+    ts.isTypeAliasDeclaration(entry.node) &&
+    canonicalize(`type Value = ${entry.node.type.getText(entry.node.getSourceFile())};`) ===
+      expected;
+  const [beforeType, currentType, nextType] = [base, custom, incoming].map(valueType);
+  if (!beforeType || !currentType || !nextType) return custom;
+  const typeKey = (type) => canonicalize(`type Value = ${type.getText(type.getSourceFile())};`);
+  if (
+    typeKey(beforeType) !==
+      canonicalize("type Value = string | number | boolean | (string | number)[];") ||
+    typeKey(currentType) !==
+      canonicalize("type Value = string | number | boolean | _FileSearchToolFiltersValue[];") ||
+    typeKey(nextType) !== canonicalize("type Value = FileSearchToolFiltersValue;") ||
+    !equivalent(
+      customModels.get("FileSearchToolFiltersValue"),
+      canonicalize("type Value = string | number | boolean | _FileSearchToolFiltersValue[];"),
+    ) ||
+    !equivalent(
+      incomingModels.get("FileSearchToolFiltersValue"),
+      canonicalize("type Value = string | number | boolean | _FileSearchToolFiltersValue[];"),
+    ) ||
+    !equivalent(
+      customModels.get("_FileSearchToolFiltersValue"),
+      canonicalize("type Value = string | number;"),
+    ) ||
+    !equivalent(
+      incomingModels.get("_FileSearchToolFiltersValue"),
+      canonicalize("type Value = string | number;"),
+    )
+  )
+    return custom;
+  return edit(custom, [
+    {
+      start: currentType.getStart(currentType.getSourceFile()),
+      end: currentType.end,
+      text: nextType.getText(nextType.getSourceFile()),
+    },
+  ]);
+}
+
 function policyText(name, text, context, diagnostics) {
   if (text === null) return null;
   const source = parse(text, context.file, diagnostics);
   if (source.parseDiagnostics.length) return text;
   const node = source.statements[0];
   const changes = [];
+  if (name === "voiceAgentBaseDefinitionUnionSerializer" && ts.isFunctionDeclaration(node)) {
+    const parameter = node.parameters.find(
+      (item) =>
+        ts.isIdentifier(item.name) &&
+        item.type &&
+        ts.isTypeReferenceNode(item.type) &&
+        ts.isIdentifier(item.type.typeName) &&
+        item.type.typeName.text === "VoiceAgentBaseDefinition",
+    );
+    function visit(child) {
+      if (child !== node && ts.isFunctionLike(child)) return;
+      if (
+        parameter &&
+        ts.isSwitchStatement(child) &&
+        ts.isPropertyAccessExpression(child.expression) &&
+        ts.isIdentifier(child.expression.expression) &&
+        child.expression.expression.text === parameter.name.text &&
+        child.expression.name.text === "subProtocol"
+      ) {
+        changes.push({
+          start: child.expression.name.getStart(source),
+          end: child.expression.name.end,
+          text: "sub_protocol",
+        });
+      }
+      ts.forEachChild(child, visit);
+    }
+    visit(node);
+  }
   if (name === "RealtimeFunctionToolParameters") {
     const empty =
       (ts.isInterfaceDeclaration(node) &&
@@ -687,25 +907,48 @@ function mergedImports(references, base, custom, incoming, diagnostics) {
  */
 export function reconcileModels({ baseGenerated, baseSource, generated, mergeDeclaration }) {
   const diagnostics = [];
-  const result = { files: new Map(), diagnostics, exports: [], renames: new Map() };
+  const result = {
+    files: new Map(),
+    reexportModules: new Map(),
+    diagnostics,
+    exports: [],
+    renames: new Map(),
+  };
   const old = inventory(baseGenerated, diagnostics);
-  const custom = inventory(baseSource, diagnostics);
+  let custom = inventory(baseSource, diagnostics);
   const next = inventory(generated, diagnostics);
   if (diagnostics.length) return result;
   if (!old.modules.size && !custom.modules.size && !next.modules.size) return result;
   result.renames = discoverRenames(old, custom, next, diagnostics);
   if (diagnostics.length) return result;
+  custom = inventory(baseSource, diagnostics, result.renames);
   const before = inventory(baseGenerated, diagnostics, result.renames);
   const incoming = inventory(generated, diagnostics, result.renames);
   const oldPublic = publicEntries(before, diagnostics);
   const customPublic = publicEntries(custom, diagnostics);
   const nextPublic = publicEntries(incoming, diagnostics);
   if (diagnostics.length) return result;
+  const adoptedDiscriminators = upstreamDiscriminators(
+    before.declarations,
+    custom.declarations,
+    incoming.declarations,
+    diagnostics,
+  );
+  const retainedDiscriminators = new Set(adoptedDiscriminators);
+  if (
+    retainedTelephonyProvider(
+      before.declarations.get("TelephonyProvider"),
+      custom.declarations.get("TelephonyProvider"),
+      incoming.declarations.get("TelephonyProvider"),
+    )
+  )
+    retainedDiscriminators.add("TelephonyProvider");
   const retentionBases = retainedModelBases(
     before.declarations,
     custom.declarations,
     incoming.declarations,
     diagnostics,
+    retainedDiscriminators,
   );
   if (diagnostics.length) return result;
   const merged = new Map();
@@ -718,13 +961,28 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
     const ours = custom.declarations.get(name);
     const theirs = incoming.declarations.get(name);
     const context = { file: canonicalFile, declaration: name };
+    const customizedText =
+      name === "ComparisonFilter" && ours && theirs
+        ? comparisonFilterText(
+            base?.text,
+            ours.text,
+            theirs.text,
+            custom.declarations,
+            incoming.declarations,
+          )
+        : ours?.text;
     const baseText = policyText(
       name,
       retentionBases.get(name) ?? base?.text ?? null,
       context,
       diagnostics,
     );
-    const customText = policyText(name, ours?.text ?? null, context, diagnostics);
+    const customText = policyText(
+      name,
+      (adoptedDiscriminators.has(name) ? theirs?.text : customizedText) ?? null,
+      context,
+      diagnostics,
+    );
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(
       name,
@@ -829,6 +1087,8 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
   );
   result.exports = [...publicModels.values()].map(({ name, isTypeOnly }) => ({ name, isTypeOnly }));
 
+  // Re-export modules for other model paths are only candidates; the planner keeps one
+  // while another source file imports that path.
   for (const file of new Set([...custom.modules.keys(), ...incoming.modules.keys()])) {
     if (file === canonicalFile || file === modelBarrel) continue;
     const entries = new Map();
@@ -857,7 +1117,7 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
         }
       }
     }
-    result.files.set(file, `${header}${renderExports([...entries.values()])}\n`);
+    result.reexportModules.set(file, `${header}${renderExports([...entries.values()])}\n`);
   }
   return result;
 }

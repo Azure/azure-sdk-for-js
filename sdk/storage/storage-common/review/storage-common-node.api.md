@@ -82,9 +82,6 @@ export function getCachedDefaultHttpClient(): HttpClient;
 export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
-export const LAYOUT_ENDPOINT_HEADER = "x-azsdk-layout-endpoint";
-
-// @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
 // @public
@@ -94,9 +91,6 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
-
-// @public
-export function prepareSharedKeyHeaders(request: PipelineRequest): void;
 
 export { Readable }
 
@@ -130,12 +124,6 @@ export class StorageCRC64Calculator {
     final(body: Uint8Array, length: number): Uint8Array;
     static init(): Promise<void>;
 }
-
-// @public
-export function storageDataLocalityPolicy(): PipelinePolicy;
-
-// @public
-export const storageDataLocalityPolicyName = "storageDataLocalityPolicy";
 
 // @public
 export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;

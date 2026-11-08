@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the requested ExpressRoutePort resource.
  *
  * @summary retrieves the requested ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortGet.json
  */
 async function expressRoutePortGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

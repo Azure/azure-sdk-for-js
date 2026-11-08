@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: 2026-01-01/EffectiveRoutesListForConnection.json
+ * x-ms-original-file: 2026-03-01/EffectiveRoutesListForConnection.json
  */
 async function effectiveRoutesForAConnectionResource() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function effectiveRoutesForAConnectionResource() {
  * This sample demonstrates how to gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: 2026-01-01/EffectiveRoutesListForRouteTable.json
+ * x-ms-original-file: 2026-03-01/EffectiveRoutesListForRouteTable.json
  */
 async function effectiveRoutesForARouteTableResource() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function effectiveRoutesForARouteTableResource() {
  * This sample demonstrates how to gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: 2026-01-01/EffectiveRoutesListForVirtualHub.json
+ * x-ms-original-file: 2026-03-01/EffectiveRoutesListForVirtualHub.json
  */
 async function effectiveRoutesForTheVirtualHub() {
   const credential = new DefaultAzureCredential();

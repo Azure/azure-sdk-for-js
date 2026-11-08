@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of all ConnectionPolicies.
  *
  * @summary retrieves the details of all ConnectionPolicies.
- * x-ms-original-file: 2026-01-01/ConnectionPolicyList.json
+ * x-ms-original-file: 2026-03-01/ConnectionPolicyList.json
  */
 async function connectionPolicyList() {
   const credential = new DefaultAzureCredential();

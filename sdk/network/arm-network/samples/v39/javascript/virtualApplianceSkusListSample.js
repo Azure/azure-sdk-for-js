@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all SKUs available for a virtual appliance.
  *
  * @summary list all SKUs available for a virtual appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSkuList.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSkuList.json
  */
 async function networkVirtualApplianceSkuListResult() {
   const credential = new DefaultAzureCredential();

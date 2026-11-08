@@ -20,9 +20,24 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
+  Detector,
+  DetectorProperties,
+  ProvisioningState,
+  DetectorMetadata,
+  DetectorType,
+  DetectorDataset,
+  DetectorTable,
+  DetectorTableColumn,
+  DetectorRenderingProperties,
+  DetectorRenderingType,
+  DetectorStatus,
+  DetectorStatusId,
+  ProxyResource,
+  Resource,
+  SystemData,
+  CreatedByType,
   Scheduler,
   SchedulerProperties,
-  ProvisioningState,
   SchedulerSku,
   SchedulerSkuName,
   RedundancyState,
@@ -33,9 +48,9 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
-  Resource,
-  SystemData,
-  CreatedByType,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
   TrackedResource,
   SchedulerUpdate,
   SchedulerPropertiesUpdate,
@@ -43,29 +58,58 @@ export type {
   SchedulerPrivateLinkResource,
   PrivateLinkResourceProperties,
   PrivateEndpointConnectionUpdate,
-  OptionalPropertiesUpdateableProperties,
   TaskHub,
   TaskHubProperties,
-  ProxyResource,
+  TaskQueue,
+  TaskQueueProperties,
+  TaskQueueThroughput,
+  TaskQueueUpdate,
   RetentionPolicy,
   RetentionPolicyProperties,
   RetentionPolicyDetails,
   PurgeableOrchestrationState,
+  TransparentDataEncryption,
+  TransparentDataEncryptionProperties,
+  TransparentDataEncryptionKeySource,
+  FailoverInstance,
+  FailoverInstanceProperties,
+  ReplicationRole,
+  FailoverState,
 } from "./models/index.js";
 export {
   KnownOrigin,
   KnownActionType,
   KnownProvisioningState,
+  KnownDetectorType,
+  KnownDetectorRenderingType,
+  KnownDetectorStatusId,
+  KnownCreatedByType,
   KnownSchedulerSkuName,
   KnownRedundancyState,
   KnownPublicNetworkAccess,
   KnownPrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
-  KnownCreatedByType,
+  KnownManagedServiceIdentityType,
   KnownPurgeableOrchestrationState,
+  KnownTransparentDataEncryptionKeySource,
+  KnownReplicationRole,
+  KnownFailoverState,
   KnownVersions,
 } from "./models/index.js";
+export type { OptionalPropertiesUpdateableProperties } from "./models/typeSpec/index.js";
 export type { DurableTaskClientOptionalParams } from "./api/index.js";
+export type {
+  DetectorsListBySchedulerOptionalParams,
+  DetectorsGetOptionalParams,
+} from "./api/detectors/index.js";
+export type {
+  FailoverInstancesForceFailoverAllowDataLossOptionalParams,
+  FailoverInstancesFailoverOptionalParams,
+  FailoverInstancesListBySchedulerOptionalParams,
+  FailoverInstancesDeleteOptionalParams,
+  FailoverInstancesCreateOrReplaceOptionalParams,
+  FailoverInstancesGetOptionalParams,
+} from "./api/failoverInstances/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   RetentionPoliciesListBySchedulerOptionalParams,
@@ -75,6 +119,7 @@ export type {
   RetentionPoliciesGetOptionalParams,
 } from "./api/retentionPolicies/index.js";
 export type {
+  SchedulersRestartOptionalParams,
   SchedulersListPrivateEndpointConnectionsOptionalParams,
   SchedulersDeletePrivateEndpointConnectionOptionalParams,
   SchedulersUpdatePrivateEndpointConnectionOptionalParams,
@@ -96,11 +141,29 @@ export type {
   TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
 export type {
+  TaskQueuesListByTaskHubOptionalParams,
+  TaskQueuesDeleteOptionalParams,
+  TaskQueuesUpdateOptionalParams,
+  TaskQueuesCreateOrUpdateOptionalParams,
+  TaskQueuesGetOptionalParams,
+} from "./api/taskQueues/index.js";
+export type {
+  TransparentDataEncryptionsListBySchedulerOptionalParams,
+  TransparentDataEncryptionsDeleteOptionalParams,
+  TransparentDataEncryptionsCreateOrReplaceOptionalParams,
+  TransparentDataEncryptionsGetOptionalParams,
+} from "./api/transparentDataEncryptions/index.js";
+export type {
+  DetectorsOperations,
+  FailoverInstancesOperations,
   OperationsOperations,
   RetentionPoliciesOperations,
   SchedulersOperations,
   TaskHubsOperations,
+  TaskQueuesOperations,
+  TransparentDataEncryptionsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

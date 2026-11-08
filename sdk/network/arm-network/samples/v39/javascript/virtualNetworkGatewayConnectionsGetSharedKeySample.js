@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
  *
  * @summary the Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionGetSharedKey.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionGetSharedKey.json
  */
 async function getVirtualNetworkGatewayConnectionSharedKey() {
   const credential = new DefaultAzureCredential();

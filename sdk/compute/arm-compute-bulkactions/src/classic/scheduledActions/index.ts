@@ -50,88 +50,88 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
-  /** Runs the specified scheduled action immediately. */
+  /** Runs the specified recurring bulk action immediately. */
   triggerManualOccurrence: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ) => PollerLike<OperationState<Occurrence>, Occurrence>;
-  /** Cancels the next occurrence of the specified scheduled action. */
+  /** Cancels the next occurrence of the specified recurring bulk action. */
   cancelNextOccurrence: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: CancelOccurrenceRequest,
     options?: ScheduledActionsCancelNextOccurrenceOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Enables the specified scheduled action so new occurrences run. */
+  /** Enables the specified recurring bulk action so new occurrences run. */
   enable: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsEnableOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Disables the specified scheduled action so future occurrences do not run. */
+  /** Disables the specified recurring bulk action so future occurrences do not run. */
   disable: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsDisableOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Updates resource-specific settings for the specified scheduled action. */
+  /** Updates resource-specific settings for the specified recurring bulk action. */
   patchResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourcePatchRequest,
     options?: ScheduledActionsPatchResourcesOptionalParams,
   ) => Promise<ResourceOperationResponse>;
-  /** Removes resources from the specified scheduled action. */
+  /** Removes resources from the specified recurring bulk action. */
   detachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourceDetachRequest,
     options?: ScheduledActionsDetachResourcesOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Adds resources to the specified scheduled action. */
+  /** Adds resources to the specified recurring bulk action. */
   attachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourceAttachRequest,
     options?: ScheduledActionsAttachResourcesOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Lists resources associated with the specified scheduled action. */
+  /** Lists resources associated with the specified recurring bulk action. */
   listResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsListResourcesOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledActionResource>;
-  /** Lists scheduled actions in the specified subscription. */
+  /** Lists recurring bulk actions in the specified subscription. */
   listBySubscription: (
     options?: ScheduledActionsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledAction>;
-  /** Lists scheduled actions in the specified resource group. */
+  /** Lists recurring bulk actions in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: ScheduledActionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledAction>;
-  /** Deletes the specified scheduled action. */
+  /** Deletes the specified recurring bulk action. */
   delete: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Updates the specified scheduled action. */
+  /** Updates the specified recurring bulk action. */
   update: (
     resourceGroupName: string,
     scheduledActionName: string,
     properties: ScheduledActionUpdate,
     options?: ScheduledActionsUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Creates or updates a scheduled action. */
+  /** Creates or updates a recurring bulk action. */
   createOrUpdate: (
     resourceGroupName: string,
     scheduledActionName: string,
     resource: ScheduledAction,
     options?: ScheduledActionsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
-  /** Gets the specified scheduled action. */
+  /** Gets the specified recurring bulk action. */
   get: (
     resourceGroupName: string,
     scheduledActionName: string,

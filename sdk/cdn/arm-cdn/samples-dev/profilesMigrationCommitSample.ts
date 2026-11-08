@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to commit the migrated Azure Frontdoor(Standard/Premium) profile.
  *
  * @summary commit the migrated Azure Frontdoor(Standard/Premium) profile.
- * x-ms-original-file: 2025-12-01/Profiles_MigrationCommit.json
+ * x-ms-original-file: 2026-10-01/Profiles_MigrationCommit.json
  */
 async function profilesMigrationCommit(): Promise<void> {
   const credential = new DefaultAzureCredential();

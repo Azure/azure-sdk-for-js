@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, expect } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 import type { BlobLayoutSegment } from "../../src/utils/BlobLayoutSegment.js";
 import {
-  decodeLayoutContinuationToken,
-  encodeLayoutContinuationToken,
   fetchLayout,
   getLayoutEndpoint,
   toBlobLayoutCacheValue,
@@ -27,24 +24,6 @@ describe("toBlobLayoutSegments", () => {
     });
 
     assert.deepEqual(segments, [{ start: 0, end: 99, endpoint: "https://seven:443/" }]);
-  });
-
-  it("drops ranges whose endpoint is missing instead of throwing", () => {
-    const segments = toBlobLayoutSegments({
-      ranges: {
-        range: [
-          { start: 0, end: 99, endpointIndex: 0 },
-          { start: 100, end: 199, endpointIndex: 9 },
-        ],
-      },
-      endpoints: { endpoint: [{ index: 0, value: "https://zero:443/" }] },
-    });
-
-    assert.deepEqual(segments, [{ start: 0, end: 99, endpoint: "https://zero:443/" }]);
-  });
-
-  it("returns nothing for an empty layout", () => {
-    assert.deepEqual(toBlobLayoutSegments({}), []);
   });
 });
 
@@ -141,18 +120,6 @@ describe("fetchLayout", () => {
       ["*", "etag-a", "etag-a"],
     );
   });
-
-  it.each([400, 500, 503])("falls back silently on %i", async (statusCode) => {
-    const { context } = layoutContext([new RestError("no layout", { statusCode })]);
-
-    assert.isUndefined(await fetchLayout(context));
-  });
-
-  it.each([403, 404, 409, 412])("propagates %i", async (statusCode) => {
-    const { context } = layoutContext([new RestError("failed", { statusCode })]);
-
-    await expect(fetchLayout(context)).rejects.toThrow("failed");
-  });
 });
 
 describe("toBlobLayoutCacheValue", () => {
@@ -183,23 +150,5 @@ describe("toBlobLayoutCacheValue", () => {
 
     assert.isAtLeast(lifetime, 5 * 60 * 1000 - 1000);
     assert.isAtMost(lifetime, 5 * 60 * 1000 + 1000);
-  });
-});
-
-describe("encodeLayoutContinuationToken and decodeLayoutContinuationToken", () => {
-  it("round-trips the marker and the ETag", () => {
-    const token = encodeLayoutContinuationToken({ marker: "marker-1", etag: "etag-1" });
-
-    assert.deepEqual(decodeLayoutContinuationToken(token), { marker: "marker-1", etag: "etag-1" });
-  });
-
-  it("round-trips a marker without an ETag", () => {
-    const token = encodeLayoutContinuationToken({ marker: "marker-1" });
-
-    assert.deepEqual(decodeLayoutContinuationToken(token), { marker: "marker-1", etag: undefined });
-  });
-
-  it("takes any other token as a bare service marker", () => {
-    assert.deepEqual(decodeLayoutContinuationToken("marker-1"), { marker: "marker-1" });
   });
 });

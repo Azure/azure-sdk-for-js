@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the specified application gateway tags.
  *
  * @summary updates the specified application gateway tags.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayUpdateTags.json
  */
 async function updateApplicationGatewayTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

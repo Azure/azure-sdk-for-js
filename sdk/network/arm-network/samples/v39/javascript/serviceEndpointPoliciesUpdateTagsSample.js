@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates tags of a service endpoint policy.
  *
  * @summary updates tags of a service endpoint policy.
- * x-ms-original-file: 2026-01-01/ServiceEndpointPolicyUpdateTags.json
+ * x-ms-original-file: 2026-03-01/ServiceEndpointPolicyUpdateTags.json
  */
 async function updateServiceEndpointPolicyTags() {
   const credential = new DefaultAzureCredential();

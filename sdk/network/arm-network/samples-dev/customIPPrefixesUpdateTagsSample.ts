@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates custom IP prefix tags.
  *
  * @summary updates custom IP prefix tags.
- * x-ms-original-file: 2026-01-01/CustomIpPrefixUpdateTags.json
+ * x-ms-original-file: 2026-03-01/CustomIpPrefixUpdateTags.json
  */
 async function updatePublicIPAddressTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

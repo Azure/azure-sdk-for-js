@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Radius servers with respective radius secrets from virtual network gateway VpnClientConfiguration.
  *
  * @summary list all Radius servers with respective radius secrets from virtual network gateway VpnClientConfiguration.
- * x-ms-original-file: 2026-01-01/AllVirtualNetworkGatewayRadiusServerSecretsList.json
+ * x-ms-original-file: 2026-03-01/AllVirtualNetworkGatewayRadiusServerSecretsList.json
  */
 async function listAllVirtualNetworkGatewayRadiusServerSecrets() {
   const credential = new DefaultAzureCredential();

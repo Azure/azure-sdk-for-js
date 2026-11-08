@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an NSP profile.
  *
  * @summary deletes an NSP profile.
- * x-ms-original-file: 2026-01-01/NspProfileDelete.json
+ * x-ms-original-file: 2026-03-01/NspProfileDelete.json
  */
 async function nspProfilesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -27,10 +27,9 @@ concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
   cancel-in-progress: true
 
-# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
 engine:
   id: copilot
-  version: "1.0.80"
+  copilot-sdk: true
 
 tools:
   bash: false
@@ -49,30 +48,28 @@ network:
     - node
     - github
 
-post-steps:
-  - name: Verify triage produced output
-    if: ${{ !cancelled() }}
-    uses: actions/github-script@v9.0.0
-    with:
-      script: |
-        const fs = require('fs');
-        const outputFile = '/tmp/gh-aw/agent_output.json';
-
-        if (!fs.existsSync(outputFile)) {
-          core.setFailed('Triage did not produce an agent output file. Check the agent logs for tool or runtime failures.');
-          return;
-        }
-
-        const output = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
-        if (!output || !Array.isArray(output.items) || output.items.length === 0) {
-          core.setFailed('Triage produced no safe outputs. Expected a triage action or an explicit noop for an intentional skip.');
-          return;
-        }
-
-        core.info(`Triage emitted ${output.items.length} safe-output item(s).`);
-
 safe-outputs:
   report-failure-as-issue: false
+  steps:
+    - name: Verify triage produced output
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      with:
+        script: |
+          const fs = require('fs');
+          const outputFile = '/tmp/gh-aw/agent_output.json';
+
+          if (!fs.existsSync(outputFile)) {
+            core.setFailed('Triage did not produce an agent output file. Check the agent logs for tool or runtime failures.');
+            return;
+          }
+
+          const output = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+          if (!output || !Array.isArray(output.items) || output.items.length === 0) {
+            core.setFailed('Triage produced no safe outputs. Expected a triage action or an explicit noop for an intentional skip.');
+            return;
+          }
+
+          core.info(`Triage emitted ${output.items.length} safe-output item(s).`);
   add-labels:
     max: 7
     target: "*"
@@ -112,7 +109,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9.0.0
+          uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:

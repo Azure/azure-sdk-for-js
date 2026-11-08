@@ -507,15 +507,12 @@ If your endpoint URL is not in the standard `https://<account>.blob.core.windows
 
 ### Read blobs from the endpoints that store them (Node.js)
 
-The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client can fetch the layout and read the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in. The requests stay authenticated as, and addressed to, your account.
+The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client can fetch the layout and read the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in. The requests stay authenticated as, and addressed to, your account. When the account doesn't support it, the blob is read from the account endpoint as usual.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
-
-To route your own reads, `getLayout` returns the layout and `download` accepts a `layoutEndpoint` to read a range from. In browsers and React Native, `layoutEndpoint` is ignored and the range is read from the account endpoint, because routing depends on setting the `Host` header, which browsers forbid.
 
 ```ts snippet:ReadmeSampleLayoutAwareRouting
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
-import { buffer } from "node:stream/consumers";
 
 const account = "<account>";
 const blobServiceClient = new BlobServiceClient(
@@ -530,20 +527,6 @@ const downloaded = await blobClient.downloadToBuffer(0, undefined, {
   layoutAwareRouting: "enabled",
 });
 console.log(`Downloaded ${downloaded.length} bytes`);
-
-// To route reads yourself, read each range of the layout from the endpoint that serves it.
-for await (const page of blobClient.getLayout()) {
-  for (const range of page.ranges) {
-    const endpoint = page.endpoints.find((e) => e.index === range.endpointIndex);
-    const response = await blobClient.download(range.start, range.end - range.start + 1, {
-      layoutEndpoint: endpoint?.value,
-    });
-    if (response.readableStreamBody) {
-      const bytes = await buffer(response.readableStreamBody);
-      console.log(`Read ${bytes.length} bytes from ${endpoint?.value}`);
-    }
-  }
-}
 ```
 
 ## Troubleshooting

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list StorageDiscoveryWorkspace resources by subscription ID
  *
  * @summary list StorageDiscoveryWorkspace resources by subscription ID
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_ListBySubscription.json
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_ListBySubscription.json
  */
 async function listStorageDiscoveryWorkspacesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

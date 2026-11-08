@@ -20,6 +20,8 @@ import {
   type InputRecord,
 } from "@azure/provisioning-core/internal";
 
+export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
+
 /**
  * The vault's create mode to indicate whether the vault need to be recovered or not.
  */
@@ -1072,6 +1074,10 @@ export interface ManagedHsmProperties {
    */
   privateEndpointConnections?: MhsmPrivateEndpointConnectionItem[];
   /**
+   * Provisioning state.
+   */
+  provisioningState?: ProvisioningState;
+  /**
    * Control permission to the managed HSM from public networks.
    */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -1176,6 +1182,10 @@ export interface ManagedHsmPropertiesView extends InputOf<ManagedHsmProperties> 
    */
   readonly privateEndpointConnections?: Expression<MhsmPrivateEndpointConnectionItem[]> | undefined;
   /**
+   * Read-only output: Provisioning state.
+   */
+  readonly provisioningState?: Expression<ProvisioningState> | undefined;
+  /**
    * Control permission to the managed HSM from public networks.
    */
   publicNetworkAccess?: ExpressionOrValue<PublicNetworkAccess> | undefined;
@@ -1223,6 +1233,7 @@ export const managedHsmPropertiesShape: FlatModelShape = createFlatModelShape({
     value: createArrayShape(createDeferredShape(() => mhsmPrivateEndpointConnectionItemShape)),
     readOnly: true,
   },
+  provisioningState: { armPath: ["provisioningState"], value: createUnionShape(), readOnly: true },
   publicNetworkAccess: { armPath: ["publicNetworkAccess"], value: createUnionShape() },
   regions: {
     armPath: ["regions"],
@@ -1494,6 +1505,10 @@ export interface MhsmGeoReplicatedRegion {
    * Name of the geo replicated region.
    */
   name?: string;
+  /**
+   * Provisioning state of the geo replicated region.
+   */
+  provisioningState?: GeoReplicationRegionProvisioningState;
 }
 
 /**
@@ -1513,11 +1528,25 @@ export interface MhsmGeoReplicatedRegionInput extends InputOf<MhsmGeoReplicatedR
 /**
  * View type for A region that this managed HSM Pool has been extended to.
  */
-export type MhsmGeoReplicatedRegionView = MhsmGeoReplicatedRegionInput;
+export interface MhsmGeoReplicatedRegionView extends InputOf<MhsmGeoReplicatedRegion> {
+  /**
+   * A boolean value that indicates whether the region is the primary region or a secondary region.
+   */
+  isPrimary?: ExpressionOrValue<boolean> | undefined;
+  /**
+   * Name of the geo replicated region.
+   */
+  name?: ExpressionOrValue<string> | undefined;
+  /**
+   * Read-only output: Provisioning state of the geo replicated region.
+   */
+  readonly provisioningState?: Expression<GeoReplicationRegionProvisioningState> | undefined;
+}
 
 export const mhsmGeoReplicatedRegionShape: FlatModelShape = createFlatModelShape({
   isPrimary: { armPath: ["isPrimary"], value: createBooleanShape() },
   name: { armPath: ["name"], value: createStringShape() },
+  provisioningState: { armPath: ["provisioningState"], value: createUnionShape(), readOnly: true },
 });
 
 /**
@@ -1627,7 +1656,12 @@ export const mhsmNetworkRuleSetShape: FlatModelShape = createFlatModelShape({
 /**
  * Private endpoint object properties.
  */
-export interface MhsmPrivateEndpoint {}
+export interface MhsmPrivateEndpoint {
+  /**
+   * Full identifier of the private endpoint resource.
+   */
+  id?: string;
+}
 
 /**
  * Input type for Private endpoint object properties.
@@ -1637,14 +1671,29 @@ export interface MhsmPrivateEndpointInput extends InputOf<MhsmPrivateEndpoint> {
 /**
  * View type for Private endpoint object properties.
  */
-export type MhsmPrivateEndpointView = MhsmPrivateEndpointInput;
+export interface MhsmPrivateEndpointView extends InputOf<MhsmPrivateEndpoint> {
+  /**
+   * Read-only output: Full identifier of the private endpoint resource.
+   */
+  readonly id?: Expression<string> | undefined;
+}
 
-export const mhsmPrivateEndpointShape: FlatModelShape = createFlatModelShape({});
+export const mhsmPrivateEndpointShape: FlatModelShape = createFlatModelShape({
+  id: { armPath: ["id"], value: createStringShape(), readOnly: true },
+});
 
 /**
  * Private endpoint connection item.
  */
 export interface MhsmPrivateEndpointConnectionItem {
+  /**
+   * Modified whenever there is a change in the state of private endpoint connection.
+   */
+  etag?: string;
+  /**
+   * Id of private endpoint connection.
+   */
+  id?: string;
   /**
    * Private endpoint connection properties.
    */
@@ -1661,12 +1710,22 @@ export interface MhsmPrivateEndpointConnectionItemInput extends InputOf<MhsmPriv
  */
 export interface MhsmPrivateEndpointConnectionItemView extends InputOf<MhsmPrivateEndpointConnectionItem> {
   /**
+   * Read-only output: Modified whenever there is a change in the state of private endpoint connection.
+   */
+  readonly etag?: Expression<string> | undefined;
+  /**
+   * Read-only output: Id of private endpoint connection.
+   */
+  readonly id?: Expression<string> | undefined;
+  /**
    * Read-only output: Private endpoint connection properties.
    */
   readonly properties?: Expression<MhsmPrivateEndpointConnectionProperties> | undefined;
 }
 
 export const mhsmPrivateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
+  etag: { armPath: ["etag"], value: createStringShape(), readOnly: true },
+  id: { armPath: ["id"], value: createStringShape(), readOnly: true },
   properties: {
     armPath: ["properties"],
     value: createDeferredShape(() => mhsmPrivateEndpointConnectionPropertiesShape),
@@ -1686,6 +1745,10 @@ export interface MhsmPrivateEndpointConnectionProperties {
    * Approval state of the private link connection.
    */
   privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
+  /**
+   * Provisioning state of the private endpoint connection.
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 /**
@@ -1705,8 +1768,20 @@ export interface MhsmPrivateEndpointConnectionPropertiesInput extends InputOf<Mh
 /**
  * View type for Properties of the private endpoint connection resource.
  */
-export type MhsmPrivateEndpointConnectionPropertiesView =
-  MhsmPrivateEndpointConnectionPropertiesInput;
+export interface MhsmPrivateEndpointConnectionPropertiesView extends InputOf<MhsmPrivateEndpointConnectionProperties> {
+  /**
+   * Properties of the private endpoint object.
+   */
+  privateEndpoint?: MhsmPrivateEndpointView | undefined;
+  /**
+   * Approval state of the private link connection.
+   */
+  privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionStateView | undefined;
+  /**
+   * Read-only output: Provisioning state of the private endpoint connection.
+   */
+  readonly provisioningState?: Expression<PrivateEndpointConnectionProvisioningState> | undefined;
+}
 
 export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
@@ -1717,6 +1792,7 @@ export const mhsmPrivateEndpointConnectionPropertiesShape: FlatModelShape = crea
     armPath: ["privateLinkServiceConnectionState"],
     value: createDeferredShape(() => mhsmPrivateLinkServiceConnectionStateShape),
   },
+  provisioningState: { armPath: ["provisioningState"], value: createUnionShape(), readOnly: true },
 });
 
 /**
@@ -1946,7 +2022,12 @@ export const permissionsShape: FlatModelShape = createFlatModelShape({
 /**
  * Private endpoint object properties.
  */
-export interface PrivateEndpoint {}
+export interface PrivateEndpoint {
+  /**
+   * Full identifier of the private endpoint resource.
+   */
+  id?: string;
+}
 
 /**
  * Input type for Private endpoint object properties.
@@ -1956,14 +2037,29 @@ export interface PrivateEndpointInput extends InputOf<PrivateEndpoint> {}
 /**
  * View type for Private endpoint object properties.
  */
-export type PrivateEndpointView = PrivateEndpointInput;
+export interface PrivateEndpointView extends InputOf<PrivateEndpoint> {
+  /**
+   * Read-only output: Full identifier of the private endpoint resource.
+   */
+  readonly id?: Expression<string> | undefined;
+}
 
-export const privateEndpointShape: FlatModelShape = createFlatModelShape({});
+export const privateEndpointShape: FlatModelShape = createFlatModelShape({
+  id: { armPath: ["id"], value: createStringShape(), readOnly: true },
+});
 
 /**
  * Private endpoint connection item.
  */
 export interface PrivateEndpointConnectionItem {
+  /**
+   * Modified whenever there is a change in the state of private endpoint connection.
+   */
+  etag?: string;
+  /**
+   * Id of private endpoint connection.
+   */
+  id?: string;
   /**
    * Private endpoint connection properties.
    */
@@ -1980,12 +2076,22 @@ export interface PrivateEndpointConnectionItemInput extends InputOf<PrivateEndpo
  */
 export interface PrivateEndpointConnectionItemView extends InputOf<PrivateEndpointConnectionItem> {
   /**
+   * Read-only output: Modified whenever there is a change in the state of private endpoint connection.
+   */
+  readonly etag?: Expression<string> | undefined;
+  /**
+   * Read-only output: Id of private endpoint connection.
+   */
+  readonly id?: Expression<string> | undefined;
+  /**
    * Read-only output: Private endpoint connection properties.
    */
   readonly properties?: Expression<PrivateEndpointConnectionProperties> | undefined;
 }
 
 export const privateEndpointConnectionItemShape: FlatModelShape = createFlatModelShape({
+  etag: { armPath: ["etag"], value: createStringShape(), readOnly: true },
+  id: { armPath: ["id"], value: createStringShape(), readOnly: true },
   properties: {
     armPath: ["properties"],
     value: createDeferredShape(() => privateEndpointConnectionPropertiesShape),
@@ -2005,6 +2111,10 @@ export interface PrivateEndpointConnectionProperties {
    * Approval state of the private link connection.
    */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * Provisioning state of the private endpoint connection.
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 /**
@@ -2024,7 +2134,20 @@ export interface PrivateEndpointConnectionPropertiesInput extends InputOf<Privat
 /**
  * View type for Properties of the private endpoint connection resource.
  */
-export type PrivateEndpointConnectionPropertiesView = PrivateEndpointConnectionPropertiesInput;
+export interface PrivateEndpointConnectionPropertiesView extends InputOf<PrivateEndpointConnectionProperties> {
+  /**
+   * Properties of the private endpoint object.
+   */
+  privateEndpoint?: PrivateEndpointView | undefined;
+  /**
+   * Approval state of the private link connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateView | undefined;
+  /**
+   * Read-only output: Provisioning state of the private endpoint connection.
+   */
+  readonly provisioningState?: Expression<PrivateEndpointConnectionProvisioningState> | undefined;
+}
 
 export const privateEndpointConnectionPropertiesShape: FlatModelShape = createFlatModelShape({
   privateEndpoint: {
@@ -2035,6 +2158,7 @@ export const privateEndpointConnectionPropertiesShape: FlatModelShape = createFl
     armPath: ["privateLinkServiceConnectionState"],
     value: createDeferredShape(() => privateLinkServiceConnectionStateShape),
   },
+  provisioningState: { armPath: ["provisioningState"], value: createUnionShape(), readOnly: true },
 });
 
 /**
@@ -2512,6 +2636,10 @@ export interface VaultProperties {
    */
   privateEndpointConnections?: PrivateEndpointConnectionItem[];
   /**
+   * Provisioning state of the vault.
+   */
+  provisioningState?: VaultProvisioningState;
+  /**
    * Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules.
    */
   publicNetworkAccess?: string;
@@ -2520,7 +2648,7 @@ export interface VaultProperties {
    */
   sku: Sku;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: number;
   /**
@@ -2574,6 +2702,10 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    */
   networkAcls?: NetworkRuleSetInput | undefined;
   /**
+   * Provisioning state of the vault.
+   */
+  provisioningState?: ExpressionOrValue<VaultProvisioningState> | undefined;
+  /**
    * Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules.
    */
   publicNetworkAccess?: ExpressionOrValue<string> | undefined;
@@ -2582,7 +2714,7 @@ export interface VaultPropertiesInput extends InputOf<VaultProperties> {
    */
   sku: SkuInput;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
@@ -2644,6 +2776,10 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   readonly privateEndpointConnections?: Expression<PrivateEndpointConnectionItem[]> | undefined;
   /**
+   * Provisioning state of the vault.
+   */
+  provisioningState?: ExpressionOrValue<VaultProvisioningState> | undefined;
+  /**
    * Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules.
    */
   publicNetworkAccess?: ExpressionOrValue<string> | undefined;
@@ -2652,7 +2788,7 @@ export interface VaultPropertiesView extends InputOf<VaultProperties> {
    */
   sku: SkuView;
   /**
-   * softDelete data retention days. It accepts \>=7 and \<=90.
+   * softDelete data retention days. It accepts >=7 and <=90.
    */
   softDeleteRetentionInDays?: ExpressionOrValue<number> | undefined;
   /**
@@ -2687,6 +2823,7 @@ export const vaultPropertiesShape: FlatModelShape = createFlatModelShape({
     value: createArrayShape(createDeferredShape(() => privateEndpointConnectionItemShape)),
     readOnly: true,
   },
+  provisioningState: { armPath: ["provisioningState"], value: createUnionShape() },
   publicNetworkAccess: { armPath: ["publicNetworkAccess"], value: createStringShape() },
   sku: { armPath: ["sku"], value: createDeferredShape(() => skuShape) },
   softDeleteRetentionInDays: { armPath: ["softDeleteRetentionInDays"], value: createNumberShape() },
@@ -2812,6 +2949,25 @@ export type CertificatePermissions = string;
  * - `"Recoverable+ProtectedSubscription"`
  */
 export type DeletionRecoveryLevel = string;
+
+/**
+ * The current provisioning state.
+ *
+ * Known values:
+ *
+ * - `"Preprovisioning"`
+ *
+ * - `"Provisioning"`
+ *
+ * - `"Succeeded"`
+ *
+ * - `"Failed"`
+ *
+ * - `"Deleting"`
+ *
+ * - `"Cleanup"`
+ */
+export type GeoReplicationRegionProvisioningState = string;
 
 /**
  * The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256
@@ -2962,6 +3118,25 @@ export type NetworkRuleAction = string;
 export type NetworkRuleBypassOptions = string;
 
 /**
+ * The current provisioning state.
+ *
+ * Known values:
+ *
+ * - `"Succeeded"`
+ *
+ * - `"Creating"`
+ *
+ * - `"Updating"`
+ *
+ * - `"Deleting"`
+ *
+ * - `"Failed"`
+ *
+ * - `"Disconnected"`
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/**
  * The private endpoint connection status.
  *
  * Known values:
@@ -2975,6 +3150,29 @@ export type NetworkRuleBypassOptions = string;
  * - `"Disconnected"`
  */
 export type PrivateEndpointServiceConnectionStatus = string;
+
+/**
+ * Provisioning state.
+ *
+ * Known values:
+ *
+ * - `"Succeeded"`: The managed HSM Pool has been full provisioned.
+ *
+ * - `"Provisioning"`: The managed HSM Pool is currently being provisioned.
+ *
+ * - `"Failed"`: Provisioning of the managed HSM Pool has failed.
+ *
+ * - `"Updating"`: The managed HSM Pool is currently being updated.
+ *
+ * - `"Deleting"`: The managed HSM Pool is currently being deleted.
+ *
+ * - `"Activated"`: The managed HSM pool is ready for normal use.
+ *
+ * - `"SecurityDomainRestore"`: The managed HSM pool is waiting for a security domain restore action.
+ *
+ * - `"Restoring"`: The managed HSM pool is being restored from full HSM backup.
+ */
+export type ProvisioningState = string;
 
 /**
  * Control permission to the managed HSM from public networks.
@@ -3053,3 +3251,14 @@ export type SkuFamily = string;
  * - `"deletesas"`
  */
 export type StoragePermissions = string;
+
+/**
+ * Provisioning state of the vault.
+ *
+ * Known values:
+ *
+ * - `"Succeeded"`
+ *
+ * - `"RegisteringDns"`
+ */
+export type VaultProvisioningState = string;

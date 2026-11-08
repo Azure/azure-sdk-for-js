@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext as Client } from "../index.js";
-import {
+import type { ApplicationInsightsManagementContext as Client } from "../index.js";
+import type {
   _DeletedWorkbooksListResult,
-  _deletedWorkbooksListResultDeserializer,
   DeletedWorkbook,
-  deletedWorkbookErrorDeserializer,
 } from "../../models/deletedWorkbookApi/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  _deletedWorkbooksListResultDeserializer,
+  deletedWorkbookErrorDeserializer,
+} from "../../models/deletedWorkbookApi/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { DeletedWorkbooksListBySubscriptionOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { DeletedWorkbooksListBySubscriptionOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -53,7 +49,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = deletedWorkbookErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = deletedWorkbookErrorDeserializer(result.body);
+    }
 
     throw error;
   }

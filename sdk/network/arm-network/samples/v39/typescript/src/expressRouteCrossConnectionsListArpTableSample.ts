@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the currently advertised ARP table associated with the express route cross connection in a resource group.
  *
  * @summary gets the currently advertised ARP table associated with the express route cross connection in a resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionsArpTable.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionsArpTable.json
  */
 async function getExpressRouteCrossConnectionsArpTable(): Promise<void> {
   const credential = new DefaultAzureCredential();

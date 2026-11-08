@@ -1,0 +1,86 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest10"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "adminUserEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Container Registry"
+                  },
+                  "container.registry": {
+                    "kind": "string",
+                    "value": "crtest10"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "replication": {
+          "bicepIdentifier": "replication",
+          "type": "Microsoft.ContainerRegistry/registries/replications",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

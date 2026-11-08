@@ -42,7 +42,13 @@ function terminal(clause) {
  * the normal three-way merger treats their customized versions as additions.
  * No committed or emitted input files are changed.
  */
-export function retainedModelBases(before, custom, incoming, diagnostics) {
+export function retainedModelBases(
+  before,
+  custom,
+  incoming,
+  diagnostics,
+  upstreamDiscriminators = new Set(),
+) {
   const retained = new Map();
   for (const [name, entry] of custom) {
     if (!before.has(name) || incoming.has(name) || !ts.isInterfaceDeclaration(entry.node)) continue;
@@ -117,6 +123,7 @@ export function retainedModelBases(before, custom, incoming, diagnostics) {
   }
   const overrides = new Map();
   for (const name of new Set([...typeMembers.keys(), ...literalMembers.keys()])) {
+    if (upstreamDiscriminators.has(name)) continue;
     const entry = before.get(name);
     if (!entry || !incoming.has(name)) continue;
     const source = parse(entry.text);

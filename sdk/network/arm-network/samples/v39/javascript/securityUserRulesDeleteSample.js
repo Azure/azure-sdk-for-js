@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a security user rule.
  *
  * @summary deletes a security user rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleDelete.json
  */
 async function deleteASecurityUserRule() {
   const credential = new DefaultAzureCredential();

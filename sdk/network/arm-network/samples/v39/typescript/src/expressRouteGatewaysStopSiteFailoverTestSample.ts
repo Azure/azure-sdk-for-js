@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops failover simulation on the ExpressRoute gateway for the specified peering location.
  *
  * @summary stops failover simulation on the ExpressRoute gateway for the specified peering location.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayStopSiteFailoverTest.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayStopSiteFailoverTest.json
  */
 async function expressRouteGatewayStopSiteFailoverTest(): Promise<void> {
   const credential = new DefaultAzureCredential();

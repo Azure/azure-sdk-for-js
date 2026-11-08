@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of a VPN site link.
  *
  * @summary retrieves the details of a VPN site link.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkGet.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkGet.json
  */
 async function vpnSiteGet() {
   const credential = new DefaultAzureCredential();
