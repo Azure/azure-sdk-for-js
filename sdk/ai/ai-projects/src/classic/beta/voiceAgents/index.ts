@@ -7,10 +7,12 @@ import type { BetaVoiceAgentsConversationsOperations } from "./conversations/ind
 import { _getBetaVoiceAgentsConversationsOperations } from "./conversations/index.js";
 import type { BetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import { _getBetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
-import {
+import type {
   VoiceAgentRealtimeClient,
-  type VoiceAgentRealtimeClientOptions,
+  VoiceAgentRealtimeClientOptions,
 } from "../../../realtime/voiceAgentRealtimeClient.js";
+import { createVoiceAgentRealtimeClient } from "../../../realtime/voiceAgentRealtimeClient.js";
+import type { ResolvedTracingConfig } from "../../../tracing/configuration.js";
 
 /** Operations for managing voice agent conversations and telephony. */
 export interface BetaVoiceAgentsOperations {
@@ -27,13 +29,14 @@ export function _getBetaVoiceAgentsOperations(
   credential: TokenCredential,
   endpoint: string,
   realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  tracingConfig?: ResolvedTracingConfig,
 ): BetaVoiceAgentsOperations {
   return {
-    telephony: _getBetaVoiceAgentsTelephonyOperations(context),
-    conversations: _getBetaVoiceAgentsConversationsOperations(context),
+    telephony: _getBetaVoiceAgentsTelephonyOperations(context, tracingConfig),
+    conversations: _getBetaVoiceAgentsConversationsOperations(context, tracingConfig),
     // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
     // insecure local endpoint for the REST surface and never touch realtime connections.
-    realtime: new VoiceAgentRealtimeClient(endpoint, credential, realtimeOptions),
+    realtime: createVoiceAgentRealtimeClient(endpoint, credential, realtimeOptions, tracingConfig),
   };
 }

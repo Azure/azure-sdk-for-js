@@ -1,0 +1,11 @@
+{
+  "name": "connector1",
+  "location": "eastus",
+  "properties": {
+    "description": "Example connector",
+    "dataSourceType": "Azure_DataShare",
+    "source": {
+      "type": "DataShare"
+    }
+  }
+}

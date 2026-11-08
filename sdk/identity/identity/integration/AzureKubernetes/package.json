@@ -14,7 +14,7 @@
     "@azure/identity": "beta",
     "@azure/storage-blob": "^12.17.0",
     "express": "^5.2.1",
-    "dotenv": "^16.0.0"
+    "dotenv": "^18.0.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

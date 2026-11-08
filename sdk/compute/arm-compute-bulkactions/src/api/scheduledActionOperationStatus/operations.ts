@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,7 @@ export async function _getDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Gets the status of the specified scheduled action operation. */
+/** Gets the status of the specified recurring bulk action operation. */
 export async function get(
   context: Client,
   location: string,

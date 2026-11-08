@@ -1,0 +1,25 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "longTermRetentionBackup": {
+          "bicepIdentifier": "longTermRetentionBackup",
+          "type": "Microsoft.Sql/locations/longTermRetentionServers/longTermRetentionDatabases/longTermRetentionBackups",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/longtermretentionser/longtermretentiondat/locationslongtermret"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

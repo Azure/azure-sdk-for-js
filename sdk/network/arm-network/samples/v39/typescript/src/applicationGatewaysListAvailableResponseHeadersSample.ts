@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available response headers.
  *
  * @summary lists all available response headers.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableResponseHeadersGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableResponseHeadersGet.json
  */
 async function getAvailableResponseHeaders(): Promise<void> {
   const credential = new DefaultAzureCredential();

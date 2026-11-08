@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to schedule a priming job for deletion.
  *
  * @summary schedule a priming job for deletion.
- * x-ms-original-file: 2026-01-01/StopPrimingJob.json
+ * x-ms-original-file: 2026-08-01/StopPrimingJob.json
  */
 async function stopPrimingJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -100,6 +100,7 @@ export interface ImagesOperations {
     options?: ImagesGetOptionalParams,
   ) => Promise<Image>;
 }
+
 function _getImages(context: ComputeManagementContext) {
   return {
     list: (options?: ImagesListOptionalParams) => list(context, options),
@@ -177,6 +178,7 @@ function _getImages(context: ComputeManagementContext) {
       get(context, resourceGroupName, imageName, options),
   };
 }
+
 export function _getImagesOperations(context: ComputeManagementContext): ImagesOperations {
   return {
     ..._getImages(context),

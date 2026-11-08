@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.DBforPostgreSQL": "2026-04-01-preview"
+    "Microsoft.DBforPostgreSQL": "2026-10-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DBforPostgreSQL",
     "CrossLanguageDefinitionId": {
@@ -174,7 +174,6 @@
       "@azure/arm-postgresql-flexible!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-postgresql-flexible!KnownMigrationListFilter:enum": "Microsoft.DBforPostgreSQL.MigrationListFilter",
       "@azure/arm-postgresql-flexible!KnownMigrationNameAvailabilityReason:enum": "Microsoft.DBforPostgreSQL.MigrationNameAvailabilityReason",
-      "@azure/arm-postgresql-flexible!KnownPostgresMajorVersion:enum": "Microsoft.DBforPostgreSQL.PostgresMajorVersion",
       "@azure/arm-postgresql-flexible!KnownServerState:enum": "Microsoft.DBforPostgreSQL.ServerState",
       "@azure/arm-postgresql-flexible!KnownStorageAutoGrow:enum": "Microsoft.DBforPostgreSQL.StorageAutoGrow",
       "@azure/arm-postgresql-flexible!KnownAzureManagedDiskPerformanceTier:enum": "Microsoft.DBforPostgreSQL.AzureManagedDiskPerformanceTier",
@@ -184,6 +183,7 @@
       "@azure/arm-postgresql-flexible!KnownDataEncryptionType:enum": "Microsoft.DBforPostgreSQL.DataEncryptionType",
       "@azure/arm-postgresql-flexible!KnownEncryptionKeyStatus:enum": "Microsoft.DBforPostgreSQL.EncryptionKeyStatus",
       "@azure/arm-postgresql-flexible!KnownGeographicallyRedundantBackup:enum": "Microsoft.DBforPostgreSQL.GeographicallyRedundantBackup",
+      "@azure/arm-postgresql-flexible!KnownImmutableBackup:enum": "Microsoft.DBforPostgreSQL.ImmutableBackup",
       "@azure/arm-postgresql-flexible!KnownServerPublicNetworkAccessState:enum": "Microsoft.DBforPostgreSQL.ServerPublicNetworkAccessState",
       "@azure/arm-postgresql-flexible!KnownPostgreSqlFlexibleServerHighAvailabilityMode:enum": "Microsoft.DBforPostgreSQL.PostgreSqlFlexibleServerHighAvailabilityMode",
       "@azure/arm-postgresql-flexible!KnownHighAvailabilityState:enum": "Microsoft.DBforPostgreSQL.HighAvailabilityState",
@@ -194,6 +194,7 @@
       "@azure/arm-postgresql-flexible!KnownCreateMode:enum": "Microsoft.DBforPostgreSQL.CreateMode",
       "@azure/arm-postgresql-flexible!KnownPrivateEndpointServiceConnectionStatus:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointServiceConnectionStatus",
       "@azure/arm-postgresql-flexible!KnownPrivateEndpointConnectionProvisioningState:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointConnectionProvisioningState",
+      "@azure/arm-postgresql-flexible!KnownFipsMode:enum": "Microsoft.DBforPostgreSQL.FipsMode",
       "@azure/arm-postgresql-flexible!KnownIdentityType:enum": "Microsoft.DBforPostgreSQL.IdentityType",
       "@azure/arm-postgresql-flexible!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-postgresql-flexible!KnownCreateModeForPatch:enum": "Microsoft.DBforPostgreSQL.CreateModeForPatch",

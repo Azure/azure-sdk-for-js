@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsForcedStandaloneServer.json
+ * x-ms-original-file: 2026-10-01/ServersPromoteReplicaAsForcedStandaloneServer.json
  */
 async function promoteAReadReplicaToAStandaloneServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function promoteAReadReplicaToAStandaloneServerWithForcedDataSynchronizati
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsForcedSwitchover.json
+ * x-ms-original-file: 2026-10-01/ServersPromoteReplicaAsForcedSwitchover.json
  */
 async function switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,6 +32,8 @@ async function switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizatio
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.servers.update("exampleresourcegroup", "exampleserver", {
     replica: { promoteMode: "Switchover", promoteOption: "Forced" },
+    sourceServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/exampleresourcegroup/providers/Microsoft.DBforPostgreSQL/flexibleServers/examplesourceserver",
   });
   console.log(result);
 }
@@ -40,7 +42,7 @@ async function switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizatio
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsPlannedStandaloneServer.json
+ * x-ms-original-file: 2026-10-01/ServersPromoteReplicaAsPlannedStandaloneServer.json
  */
 async function promoteAReadReplicaToAStandaloneServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +58,7 @@ async function promoteAReadReplicaToAStandaloneServerWithPlannedDataSynchronizat
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsPlannedSwitchover.json
+ * x-ms-original-file: 2026-10-01/ServersPromoteReplicaAsPlannedSwitchover.json
  */
 async function switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,6 +66,8 @@ async function switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizati
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.servers.update("exampleresourcegroup", "exampleserver", {
     replica: { promoteMode: "Switchover", promoteOption: "Planned" },
+    sourceServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/exampleresourcegroup/providers/Microsoft.DBforPostgreSQL/flexibleServers/examplesourceserver",
   });
   console.log(result);
 }
@@ -72,7 +76,7 @@ async function switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizati
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdate.json
+ * x-ms-original-file: 2026-10-01/ServersUpdate.json
  */
 async function updateAnExistingServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,9 +84,15 @@ async function updateAnExistingServer(): Promise<void> {
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.servers.update("exampleresourcegroup", "exampleserver", {
     administratorLoginPassword: "examplenewpassword",
-    backup: { backupRetentionDays: 20 },
+    backup: { backupRetentionDays: 20, immutableBackup: "Enabled" },
     createMode: "Update",
-    storage: { autoGrow: "Enabled", storageSizeGB: 1024, tier: "P30" },
+    storage: {
+      autoGrow: "Enabled",
+      autoGrowMaxThresholdMb: 2097152,
+      autoGrowIncrementPercent: 20,
+      storageSizeGB: 1024,
+      tier: "P30",
+    },
     sku: { name: "Standard_D8s_v3", tier: "GeneralPurpose" },
   });
   console.log(result);
@@ -92,7 +102,23 @@ async function updateAnExistingServer(): Promise<void> {
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithCustomMaintenanceWindow.json
+ * x-ms-original-file: 2026-10-01/ServersUpdateFIPS.json
+ */
+async function enableOrDisableFipsModeOnAnExistingServer(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("exampleresourcegroup", "exampleserver", {
+    fipsMode: "Disabled",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithCustomMaintenanceWindow.json
  */
 async function updateAnExistingServerWithCustomMaintenanceWindow(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -109,7 +135,7 @@ async function updateAnExistingServerWithCustomMaintenanceWindow(): Promise<void
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithDataEncryptionEnabled.json
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithDataEncryptionEnabled.json
  */
 async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -148,7 +174,7 @@ async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithDataEncryptionEnabledAutoUpdate.json
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithDataEncryptionEnabledAutoUpdate.json
  */
 async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKeyWithAutomaticKeyVersionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -185,7 +211,7 @@ async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithMajorVersionUpgrade.json
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithMajorVersionUpgrade.json
  */
 async function updateAnExistingServerToUpgradeTheMajorVersionOfPostgreSQLDatabaseEngine(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -202,7 +228,7 @@ async function updateAnExistingServerToUpgradeTheMajorVersionOfPostgreSQLDatabas
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithMicrosoftEntraEnabled.json
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithMicrosoftEntraEnabled.json
  */
 async function updateAnExistingServerWithMicrosoftEntraAuthenticationEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -223,17 +249,35 @@ async function updateAnExistingServerWithMicrosoftEntraAuthenticationEnabled(): 
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
+ *
+ * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
+ * x-ms-original-file: 2026-10-01/ServersUpdateWithPremiumSsdV2.json
+ */
+async function updateTheStoragePerformanceOfAServerUsingPremiumSSDV2(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.update("exampleresourcegroup", "exampleserver", {
+    storage: { type: "PremiumV2_LRS", iops: 6000, throughput: 250 },
+  });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await promoteAReadReplicaToAStandaloneServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer();
   await switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer();
   await promoteAReadReplicaToAStandaloneServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer();
   await switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer();
   await updateAnExistingServer();
+  await enableOrDisableFipsModeOnAnExistingServer();
   await updateAnExistingServerWithCustomMaintenanceWindow();
   await updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey();
   await updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKeyWithAutomaticKeyVersionUpdate();
   await updateAnExistingServerToUpgradeTheMajorVersionOfPostgreSQLDatabaseEngine();
   await updateAnExistingServerWithMicrosoftEntraAuthenticationEnabled();
+  await updateTheStoragePerformanceOfAServerUsingPremiumSSDV2();
 }
 
 main().catch(console.error);

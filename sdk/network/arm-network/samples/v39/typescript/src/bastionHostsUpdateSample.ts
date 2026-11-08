@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates Tags or identity for BastionHost resource
  *
  * @summary updates Tags or identity for BastionHost resource
- * x-ms-original-file: 2026-01-01/BastionHostPatch.json
+ * x-ms-original-file: 2026-03-01/BastionHostPatch.json
  */
 async function patchBastionHost(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a vpn site link connection.
  *
  * @summary retrieves the details of a vpn site link connection.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionGet.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionGet.json
  */
 async function vpnSiteLinkConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the next hop from the specified VM.
  *
  * @summary gets the next hop from the specified VM.
- * x-ms-original-file: 2026-01-01/NetworkWatcherNextHopGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherNextHopGet.json
  */
 async function getNextHop() {
   const credential = new DefaultAzureCredential();

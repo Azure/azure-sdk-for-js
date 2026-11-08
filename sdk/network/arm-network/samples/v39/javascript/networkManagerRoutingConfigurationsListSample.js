@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the network manager routing configurations in a network manager, in a paginated format.
  *
  * @summary lists all the network manager routing configurations in a network manager, in a paginated format.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingConfigurationList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingConfigurationList.json
  */
 async function listRoutingConfigurationsInANetworkManager() {
   const credential = new DefaultAzureCredential();

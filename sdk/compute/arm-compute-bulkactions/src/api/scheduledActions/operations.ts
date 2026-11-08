@@ -65,7 +65,7 @@ export function _triggerManualOccurrenceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -93,7 +93,7 @@ export async function _triggerManualOccurrenceDeserialize(
   return occurrenceDeserializer(result.body);
 }
 
-/** Runs the specified scheduled action immediately. */
+/** Runs the specified recurring bulk action immediately. */
 export function triggerManualOccurrence(
   context: Client,
   resourceGroupName: string,
@@ -106,7 +106,7 @@ export function triggerManualOccurrence(
     getInitialResponse: () =>
       _triggerManualOccurrenceSend(context, resourceGroupName, scheduledActionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<Occurrence>, Occurrence>;
 }
 
@@ -123,7 +123,7 @@ export function _cancelNextOccurrenceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +153,7 @@ export async function _cancelNextOccurrenceDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Cancels the next occurrence of the specified scheduled action. */
+/** Cancels the next occurrence of the specified recurring bulk action. */
 export function cancelNextOccurrence(
   context: Client,
   resourceGroupName: string,
@@ -167,7 +167,7 @@ export function cancelNextOccurrence(
     getInitialResponse: () =>
       _cancelNextOccurrenceSend(context, resourceGroupName, scheduledActionName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
 }
 
@@ -183,7 +183,7 @@ export function _enableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +206,7 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Enables the specified scheduled action so new occurrences run. */
+/** Enables the specified recurring bulk action so new occurrences run. */
 export function enable(
   context: Client,
   resourceGroupName: string,
@@ -218,7 +218,7 @@ export function enable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _enableSend(context, resourceGroupName, scheduledActionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -234,7 +234,7 @@ export function _disableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,7 +257,7 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Disables the specified scheduled action so future occurrences do not run. */
+/** Disables the specified recurring bulk action so future occurrences do not run. */
 export function disable(
   context: Client,
   resourceGroupName: string,
@@ -270,7 +270,7 @@ export function disable(
     getInitialResponse: () =>
       _disableSend(context, resourceGroupName, scheduledActionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -287,7 +287,7 @@ export function _patchResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -317,7 +317,7 @@ export async function _patchResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Updates resource-specific settings for the specified scheduled action. */
+/** Updates resource-specific settings for the specified recurring bulk action. */
 export async function patchResources(
   context: Client,
   resourceGroupName: string,
@@ -348,7 +348,7 @@ export function _detachResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -378,7 +378,7 @@ export async function _detachResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Removes resources from the specified scheduled action. */
+/** Removes resources from the specified recurring bulk action. */
 export function detachResources(
   context: Client,
   resourceGroupName: string,
@@ -392,7 +392,7 @@ export function detachResources(
     getInitialResponse: () =>
       _detachResourcesSend(context, resourceGroupName, scheduledActionName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
 }
 
@@ -409,7 +409,7 @@ export function _attachResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -439,7 +439,7 @@ export async function _attachResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Adds resources to the specified scheduled action. */
+/** Adds resources to the specified recurring bulk action. */
 export function attachResources(
   context: Client,
   resourceGroupName: string,
@@ -453,7 +453,7 @@ export function attachResources(
     getInitialResponse: () =>
       _attachResourcesSend(context, resourceGroupName, scheduledActionName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
 }
 
@@ -469,7 +469,7 @@ export function _listResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -497,7 +497,7 @@ export async function _listResourcesDeserialize(
   return _resourceListResponseDeserializer(result.body);
 }
 
-/** Lists resources associated with the specified scheduled action. */
+/** Lists resources associated with the specified recurring bulk action. */
 export function listResources(
   context: Client,
   resourceGroupName: string,
@@ -512,7 +512,7 @@ export function listResources(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-06-preview",
+      apiVersion: context.apiVersion ?? "2026-10-06-preview",
     },
   );
 }
@@ -525,7 +525,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/scheduledActions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -553,7 +553,7 @@ export async function _listBySubscriptionDeserialize(
   return _scheduledActionListResultDeserializer(result.body);
 }
 
-/** Lists scheduled actions in the specified subscription. */
+/** Lists recurring bulk actions in the specified subscription. */
 export function listBySubscription(
   context: Client,
   options: ScheduledActionsListBySubscriptionOptionalParams = { requestOptions: {} },
@@ -566,7 +566,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-06-preview",
+      apiVersion: context.apiVersion ?? "2026-10-06-preview",
     },
   );
 }
@@ -581,7 +581,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -609,7 +609,7 @@ export async function _listByResourceGroupDeserialize(
   return _scheduledActionListResultDeserializer(result.body);
 }
 
-/** Lists scheduled actions in the specified resource group. */
+/** Lists recurring bulk actions in the specified resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
@@ -623,7 +623,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-06-preview",
+      apiVersion: context.apiVersion ?? "2026-10-06-preview",
     },
   );
 }
@@ -640,7 +640,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -663,7 +663,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Deletes the specified scheduled action. */
+/** Deletes the specified recurring bulk action. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -676,7 +676,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, scheduledActionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -693,7 +693,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -721,7 +721,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Updates the specified scheduled action. */
+/** Updates the specified recurring bulk action. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -735,7 +735,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, scheduledActionName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -752,7 +752,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -782,7 +782,7 @@ export async function _createOrUpdateDeserialize(
   return scheduledActionDeserializer(result.body);
 }
 
-/** Creates or updates a scheduled action. */
+/** Creates or updates a recurring bulk action. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -796,7 +796,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, scheduledActionName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-06-preview",
   }) as PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
 }
 
@@ -812,7 +812,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -838,7 +838,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   return scheduledActionDeserializer(result.body);
 }
 
-/** Gets the specified scheduled action. */
+/** Gets the specified recurring bulk action. */
 export async function get(
   context: Client,
   resourceGroupName: string,

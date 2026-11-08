@@ -4,6 +4,15 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface StoragesRefreshOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface StoragesDisableComplianceLockOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface StoragesEnableComplianceLockOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface StoragesListByCloudAccountOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

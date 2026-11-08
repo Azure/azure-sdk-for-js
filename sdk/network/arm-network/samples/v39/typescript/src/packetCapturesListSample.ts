@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all packet capture sessions within the specified resource group.
  *
  * @summary lists all packet capture sessions within the specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkWatcherPacketCapturesList.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherPacketCapturesList.json
  */
 async function listPacketCaptures(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,79 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.DocumentDB/databaseAccounts/privateEndpointConnections",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "privateendpointconne-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved by johndoe@contoso.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "privateEndpointConnection"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

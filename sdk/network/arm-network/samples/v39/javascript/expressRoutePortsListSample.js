@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the ExpressRoutePort resources in the specified subscription.
  *
  * @summary list all the ExpressRoutePort resources in the specified subscription.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortList.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortList.json
  */
 async function expressRoutePortList() {
   const credential = new DefaultAzureCredential();

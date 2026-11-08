@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all deleted servers in a subscription.
  *
  * @summary gets a list of all deleted servers in a subscription.
- * x-ms-original-file: 2025-08-01-preview/DeletedServerListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/DeletedServerListBySubscription.json
  */
 async function listDeletedServersInASubscription() {
   const credential = new DefaultAzureCredential();

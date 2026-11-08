@@ -265,11 +265,7 @@ describe("Highlevel Node.js only", () => {
         singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
-      assert.equal(
-        err.message,
-        "The operation was aborted. Request has already been canceled.",
-        "Unexpected error caught: " + err,
-      );
+      assert.equal(err.name, "AbortError", "Unexpected error caught: " + err);
     }
     assert.isDefined(eventTriggered);
   });

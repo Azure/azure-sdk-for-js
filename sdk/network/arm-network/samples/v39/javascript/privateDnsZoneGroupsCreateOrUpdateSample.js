@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a private dns zone group in the specified private endpoint.
  *
  * @summary creates or updates a private dns zone group in the specified private endpoint.
- * x-ms-original-file: 2026-01-01/PrivateEndpointDnsZoneGroupCreate.json
+ * x-ms-original-file: 2026-03-01/PrivateEndpointDnsZoneGroupCreate.json
  */
 async function createPrivateDnsZoneGroup() {
   const credential = new DefaultAzureCredential();

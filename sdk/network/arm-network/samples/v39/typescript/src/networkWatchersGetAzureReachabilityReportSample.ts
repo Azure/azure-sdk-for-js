@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to nOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
  *
  * @summary nOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
- * x-ms-original-file: 2026-01-01/NetworkWatcherAzureReachabilityReportGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherAzureReachabilityReportGet.json
  */
 async function getAzureReachabilityReport(): Promise<void> {
   const credential = new DefaultAzureCredential();

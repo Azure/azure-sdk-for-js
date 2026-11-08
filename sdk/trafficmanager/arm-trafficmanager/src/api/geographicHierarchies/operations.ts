@@ -19,7 +19,7 @@ export function _getDefaultSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -37,7 +37,9 @@ export async function _getDefaultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

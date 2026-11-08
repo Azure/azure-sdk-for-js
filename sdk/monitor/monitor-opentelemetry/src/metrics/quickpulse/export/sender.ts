@@ -11,7 +11,14 @@ import type {
   QuickpulseClientOptionalParams,
   CollectionConfigurationInfo,
 } from "../../../generated/index.js";
-import { QuickpulseClient } from "../../../generated/index.js";
+import type { QuickpulseContext } from "../../../generated/api/index.js";
+import { createQuickpulse } from "../../../generated/api/index.js";
+import {
+  _isSubscribedSend,
+  _isSubscribedDeserialize,
+  _publishSend,
+  _publishDeserialize,
+} from "../../../generated/api/operations.js";
 import { isSameRegisteredDomain } from "../redirectUtils.js";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
@@ -20,7 +27,7 @@ const applicationInsightsResource = "https://monitor.azure.com/.default";
  * Response type that includes the body and response headers from the Live Metrics service.
  * @internal
  */
-export interface QuickpulseResponse extends CollectionConfigurationInfo {
+export interface QuickpulseResponse extends Partial<CollectionConfigurationInfo> {
   /** Whether the instrumentation key is subscribed. */
   xMsQpsSubscribed?: string;
   /** Configuration ETag. */
@@ -36,7 +43,7 @@ export interface QuickpulseResponse extends CollectionConfigurationInfo {
  * @internal
  */
 export class QuickpulseSender {
-  private quickpulseClient: QuickpulseClient;
+  private quickpulseClient: QuickpulseContext;
   private instrumentationKey: string;
   private endpointUrl: string;
   private credential: TokenCredential;
@@ -72,8 +79,15 @@ export class QuickpulseSender {
     this.quickpulseClient = this.createQuickpulseClient(clientOptions);
   }
 
-  private createQuickpulseClient(clientOptions: QuickpulseClientOptionalParams): QuickpulseClient {
-    const client = new QuickpulseClient(this.credential, clientOptions);
+  private createQuickpulseClient(clientOptions: QuickpulseClientOptionalParams): QuickpulseContext {
+    const prefixFromOptions = clientOptions.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : "azsdk-js-client";
+    const client = createQuickpulse(this.credential, {
+      ...clientOptions,
+      userAgentOptions: { userAgentPrefix },
+    });
     // Handle redirects in HTTP Sender
     client.pipeline.removePolicy({ name: redirectPolicyName });
     return client;
@@ -87,13 +101,17 @@ export class QuickpulseSender {
     optionalParams: IsSubscribedOptionalParams,
   ): Promise<QuickpulseResponse | undefined> {
     try {
-      let responseHeaders: Record<string, string> = {};
-      const body = await this.quickpulseClient.isSubscribed(this.instrumentationKey, {
-        ...optionalParams,
-        onResponse: (rawResponse) => {
-          responseHeaders = rawResponse.headers.toJSON();
-        },
-      });
+      const response = await _isSubscribedSend(
+        this.quickpulseClient,
+        this.instrumentationKey,
+        optionalParams,
+      );
+      // Keep optional-body compatibility outside the regenerated deserializer.
+      const body =
+        response.status === "200" && response.body == null
+          ? undefined
+          : await _isSubscribedDeserialize(response);
+      const responseHeaders = response.headers;
       return {
         ...body,
         xMsQpsSubscribed: responseHeaders["x-ms-qps-subscribed"],
@@ -114,13 +132,16 @@ export class QuickpulseSender {
    */
   async publish(optionalParams: PublishOptionalParams): Promise<QuickpulseResponse | undefined> {
     try {
-      let responseHeaders: Record<string, string> = {};
-      const body = await this.quickpulseClient.publish(this.instrumentationKey, {
-        ...optionalParams,
-        onResponse: (rawResponse) => {
-          responseHeaders = rawResponse.headers.toJSON();
-        },
-      });
+      const response = await _publishSend(
+        this.quickpulseClient,
+        this.instrumentationKey,
+        optionalParams,
+      );
+      const body =
+        response.status === "200" && response.body == null
+          ? undefined
+          : await _publishDeserialize(response);
+      const responseHeaders = response.headers;
       return {
         ...body,
         xMsQpsSubscribed: responseHeaders["x-ms-qps-subscribed"],

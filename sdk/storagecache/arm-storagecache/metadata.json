@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.StorageCache": "2026-01-01"
+    "Microsoft.StorageCache": "2026-08-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageCache",
     "CrossLanguageDefinitionId": {
@@ -22,6 +22,19 @@
       "@azure/arm-storagecache!MetricSpecification:interface": "Microsoft.StorageCache.MetricSpecification",
       "@azure/arm-storagecache!MetricDimension:interface": "Microsoft.StorageCache.MetricDimension",
       "@azure/arm-storagecache!LogSpecification:interface": "Microsoft.StorageCache.LogSpecification",
+      "@azure/arm-storagecache!RebalanceJob:interface": "Microsoft.StorageCache.RebalanceJob",
+      "@azure/arm-storagecache!RebalanceJobProperties:interface": "Microsoft.StorageCache.RebalanceJobProperties",
+      "@azure/arm-storagecache!RebalanceJobPropertiesStatus:interface": "Microsoft.StorageCache.RebalanceJobPropertiesStatus",
+      "@azure/arm-storagecache!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-storagecache!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-storagecache!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-storagecache!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-storagecache!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-storagecache!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-storagecache!RebalanceJobUpdate:interface": "Microsoft.StorageCache.RebalanceJobUpdate",
+      "@azure/arm-storagecache!RebalanceJobUpdateProperties:interface": "Microsoft.StorageCache.RebalanceJobUpdateProperties",
+      "@azure/arm-storagecache!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-storagecache!RebalanceJobsListResult:interface": "Microsoft.StorageCache.RebalanceJobsListResult",
       "@azure/arm-storagecache!Cache:interface": "Microsoft.StorageCache.Cache",
       "@azure/arm-storagecache!CacheProperties:interface": "Microsoft.StorageCache.CacheProperties",
       "@azure/arm-storagecache!CacheHealth:interface": "Microsoft.StorageCache.CacheHealth",
@@ -45,12 +58,6 @@
       "@azure/arm-storagecache!CacheIdentity:interface": "Microsoft.StorageCache.CacheIdentity",
       "@azure/arm-storagecache!userAssignedIdentitiesValue:interface": "Microsoft.StorageCache.userAssignedIdentitiesValue",
       "@azure/arm-storagecache!CacheSku:interface": "Microsoft.StorageCache.CacheSku",
-      "@azure/arm-storagecache!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
-      "@azure/arm-storagecache!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
-      "@azure/arm-storagecache!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
-      "@azure/arm-storagecache!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
-      "@azure/arm-storagecache!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
-      "@azure/arm-storagecache!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
       "@azure/arm-storagecache!CachesListResult:interface": "Microsoft.StorageCache.CachesListResult",
       "@azure/arm-storagecache!PrimingJobIdParameter:interface": "Microsoft.StorageCache.PrimingJobIdParameter",
       "@azure/arm-storagecache!StorageTarget:interface": "Microsoft.StorageCache.StorageTarget",
@@ -83,7 +90,6 @@
       "@azure/arm-storagecache!AutoExportJob:interface": "Microsoft.StorageCache.AutoExportJob",
       "@azure/arm-storagecache!AutoExportJobProperties:interface": "Microsoft.StorageCache.AutoExportJobProperties",
       "@azure/arm-storagecache!AutoExportJobPropertiesStatus:interface": "Microsoft.StorageCache.AutoExportJobPropertiesStatus",
-      "@azure/arm-storagecache!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
       "@azure/arm-storagecache!AutoExportJobUpdate:interface": "Microsoft.StorageCache.AutoExportJobUpdate",
       "@azure/arm-storagecache!AutoExportJobUpdateProperties:interface": "Microsoft.StorageCache.AutoExportJobUpdateProperties",
       "@azure/arm-storagecache!AutoExportJobsListResult:interface": "Microsoft.StorageCache.AutoExportJobsListResult",
@@ -121,6 +127,11 @@
       "@azure/arm-storagecache!ResourceUsageName:interface": "Microsoft.StorageCache.ResourceUsageName",
       "@azure/arm-storagecache!KnownFilesystemSubnetStatusType:enum": "Microsoft.StorageCache.FilesystemSubnetStatusType",
       "@azure/arm-storagecache!KnownMetricAggregationType:enum": "Microsoft.StorageCache.MetricAggregationType",
+      "@azure/arm-storagecache!KnownRebalanceJobPropertiesProvisioningState:enum": "Microsoft.StorageCache.RebalanceJobPropertiesProvisioningState",
+      "@azure/arm-storagecache!KnownRebalanceJobAdminStatus:enum": "Microsoft.StorageCache.RebalanceJobAdminStatus",
+      "@azure/arm-storagecache!KnownRebalanceJobStatusType:enum": "Microsoft.StorageCache.RebalanceJobStatusType",
+      "@azure/arm-storagecache!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-storagecache!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-storagecache!KnownHealthStateType:enum": "Microsoft.StorageCache.HealthStateType",
       "@azure/arm-storagecache!KnownProvisioningStateType:enum": "Microsoft.StorageCache.ProvisioningStateType",
       "@azure/arm-storagecache!KnownFirmwareStatusType:enum": "Microsoft.StorageCache.FirmwareStatusType",
@@ -131,8 +142,6 @@
       "@azure/arm-storagecache!KnownUsernameDownloadedType:enum": "Microsoft.StorageCache.UsernameDownloadedType",
       "@azure/arm-storagecache!KnownPrimingJobState:enum": "Microsoft.StorageCache.PrimingJobState",
       "@azure/arm-storagecache!KnownCacheIdentityType:enum": "Microsoft.StorageCache.CacheIdentityType",
-      "@azure/arm-storagecache!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
-      "@azure/arm-storagecache!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-storagecache!KnownStorageTargetType:enum": "Microsoft.StorageCache.StorageTargetType",
       "@azure/arm-storagecache!KnownOperationalStateType:enum": "Microsoft.StorageCache.OperationalStateType",
       "@azure/arm-storagecache!KnownAmlFilesystemHealthStateType:enum": "Microsoft.StorageCache.AmlFilesystemHealthStateType",
@@ -216,6 +225,10 @@
       "@azure/arm-storagecache!CachesOperations#update:member": "Microsoft.StorageCache.Caches.update",
       "@azure/arm-storagecache!CachesOperations#createOrUpdate:member": "Microsoft.StorageCache.Caches.createOrUpdate",
       "@azure/arm-storagecache!CachesOperations#get:member": "Microsoft.StorageCache.Caches.get",
+      "@azure/arm-storagecache!RebalanceJobsOperations#listByAmlFilesystem:member": "Microsoft.StorageCache.RebalanceJobs.listByAmlFilesystem",
+      "@azure/arm-storagecache!RebalanceJobsOperations#delete:member": "Microsoft.StorageCache.RebalanceJobs.delete",
+      "@azure/arm-storagecache!RebalanceJobsOperations#update:member": "Microsoft.StorageCache.RebalanceJobs.update",
+      "@azure/arm-storagecache!RebalanceJobsOperations#get:member": "Microsoft.StorageCache.RebalanceJobs.get",
       "@azure/arm-storagecache!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
     }
   }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
  *
  * @summary upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
- * x-ms-original-file: 2026-01-01/Caches_UpgradeFirmware.json
+ * x-ms-original-file: 2026-08-01/Caches_UpgradeFirmware.json
  */
 async function cachesUpgradeFirmware(): Promise<void> {
   const credential = new DefaultAzureCredential();

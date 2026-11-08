@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a xml format representation for supported vpn devices.
  *
  * @summary gets a xml format representation for supported vpn devices.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewaySupportedVpnDevice.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewaySupportedVpnDevice.json
  */
 async function listVirtualNetworkGatewaySupportedVPNDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

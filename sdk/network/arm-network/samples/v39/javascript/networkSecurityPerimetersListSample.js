@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list network security perimeters in a resource group.
  *
  * @summary list network security perimeters in a resource group.
- * x-ms-original-file: 2026-01-01/NetworkSecurityPerimeterList.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityPerimeterList.json
  */
 async function listNetworkSecurityPerimeter() {
   const credential = new DefaultAzureCredential();

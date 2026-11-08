@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Azure Cosmos DB Mongo Role Definition.
  *
  * @summary creates or updates an Azure Cosmos DB Mongo Role Definition.
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBRoleDefinitionCreateUpdate.json
  */
 async function cosmosDBMongoDBRoleDefinitionCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,10 +19,10 @@ async function cosmosDBMongoDBRoleDefinitionCreateUpdate(): Promise<void> {
     "myAccountName",
     "myMongoRoleDefinitionId",
     {
-      roleName: "myRoleName",
       databaseName: "sales",
-      privileges: [{ resource: { db: "sales", collection: "sales" }, actions: ["insert", "find"] }],
-      roles: [{ role: "myInheritedRole", db: "sales" }],
+      privileges: [{ actions: ["insert", "find"], resource: { collection: "sales", db: "sales" } }],
+      roleName: "myRoleName",
+      roles: [{ db: "sales", role: "myInheritedRole" }],
     },
   );
   console.log(result);

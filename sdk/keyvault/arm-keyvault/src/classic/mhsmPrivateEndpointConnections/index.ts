@@ -29,11 +29,6 @@ export interface MhsmPrivateEndpointConnectionsOperations {
     options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
   ) => PagedAsyncIterableIterator<MhsmPrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection associated with the managed hsm pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

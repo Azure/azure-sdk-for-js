@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import ts from "typescript";
-import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import { canonicalize, mergeDeclaration, retainCustomized } from "./ast-merge.mjs";
 import {
   declarations,
   edit,
@@ -27,6 +27,19 @@ export function classicFile(apiFile) {
 
 export function classicMemberName(operationName) {
   return operationName === "$delete" ? "delete" : operationName;
+}
+
+/**
+ * A classic member that cannot be rendered from its resolved operation. The
+ * planner reports it as a diagnostic so it never hides the unresolved changes
+ * collected before it; other errors are tool defects and still throw.
+ */
+export class ClassicRenderError extends Error {
+  constructor(file, declaration, message) {
+    super(`${file}::${declaration}: ${message}`);
+    this.name = "ClassicRenderError";
+    this.diagnostic = { file, declaration, message };
+  }
 }
 
 /**
@@ -141,11 +154,19 @@ export function classicMember(
   const apiFile = classicApiFile(file);
   const node = declarations(resolved).get(match.names.publicNode);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type)
-    throw new Error(`${file}: missing resolved operation ${match.names.publicNode}`);
+    throw new ClassicRenderError(
+      file,
+      match.names.publicNode,
+      `missing resolved operation ${match.names.publicNode} in ${apiFile}; resolve the unresolved changes reported for that module first.`,
+    );
   const parameters = node.parameters.slice(1).map((parameter) => {
     const type = parameter.type?.getText(resolved);
     if (!type || !ts.isIdentifier(parameter.name))
-      throw new Error(`${file}: unsupported operation parameter`);
+      throw new ClassicRenderError(
+        file,
+        match.names.publicNode,
+        `unsupported parameter of resolved operation ${match.names.publicNode}.`,
+      );
     return `${parameter.name.text}${parameter.questionToken || parameter.initializer ? "?" : ""}: ${type}`;
   });
   const args = node.parameters.slice(1).map((parameter) => parameter.name.text);
@@ -153,7 +174,11 @@ export function classicMember(
     (member) => nameOf(member.name) === classicMemberName(match.incoming.name),
   );
   if (!incomingMember)
-    throw new Error(`${file}: missing interface member for ${match.incoming.name}`);
+    throw new ClassicRenderError(
+      file,
+      match.names.publicNode,
+      `missing emitted interface member for ${match.incoming.name}.`,
+    );
   const name = classicMemberName(match.names.publicNode);
   const comment = source.text
     .slice(incomingMember.getFullStart(), incomingMember.getStart(source))
@@ -203,6 +228,37 @@ function shapeOf(source, interfaceName) {
   return { source, interfaceNode, factory, members, properties };
 }
 
+function layoutless(text) {
+  const scanner = ts.createScanner(
+    ts.ScriptTarget.Latest,
+    false,
+    ts.LanguageVariant.Standard,
+    text ?? "",
+  );
+  const tokens = [];
+  let kind;
+  while ((kind = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+    if (kind === ts.SyntaxKind.WhitespaceTrivia || kind === ts.SyntaxKind.NewLineTrivia) continue;
+    tokens.push({ kind, text: scanner.getTokenText() });
+  }
+  const comments = new Set([
+    ts.SyntaxKind.SingleLineCommentTrivia,
+    ts.SyntaxKind.MultiLineCommentTrivia,
+  ]);
+  const closing = new Set([
+    ts.SyntaxKind.CloseParenToken,
+    ts.SyntaxKind.CloseBracketToken,
+    ts.SyntaxKind.CloseBraceToken,
+  ]);
+  return JSON.stringify(
+    tokens.filter((token, index) => {
+      if (token.kind !== ts.SyntaxKind.CommaToken) return true;
+      const next = tokens.slice(index + 1).find((item) => !comments.has(item.kind));
+      return !closing.has(next?.kind);
+    }),
+  );
+}
+
 function group(slots, name) {
   const nodes = slots.filter((slot) => slot.name === name).flatMap((slot) => slot.nodes);
   return nodes.length ? nodes : undefined;
@@ -248,7 +304,7 @@ function typeKey(node) {
 function parameterKeys(parameters) {
   return parameters.map((parameter) =>
     JSON.stringify([
-      ts.isIdentifier(parameter.name) ? parameter.name.text : null,
+      ts.isIdentifier(parameter.name) ? "<parameter>" : null,
       Boolean(parameter.questionToken || parameter.initializer),
       typeKey(parameter.type),
     ]),
@@ -289,7 +345,34 @@ function mirrorsOperation(members, properties, contextName, api, callee) {
   if (!api || !callee || !isSimpleMember(members, properties, contextName)) return false;
   const [member] = members;
   const arrow = properties[0].initializer;
-  if (arrow.body.expression.text !== callee) return false;
+  const local = arrow.body.expression.text;
+  const source = member.getSourceFile();
+  if (
+    !importsOf(source).some(
+      (item) =>
+        item.local === local &&
+        item.imported === callee &&
+        resolveImport(source.fileName, item.module) ===
+          classicApiFile(source.fileName).replace(/\.ts$/, ".js"),
+    )
+  )
+    return false;
+  let shadowed = false;
+  function visit(node) {
+    if (
+      ts.isIdentifier(node) &&
+      node.text === local &&
+      node.parent?.name === node &&
+      !ts.isImportSpecifier(node.parent) &&
+      !ts.isPropertyAssignment(node.parent) &&
+      !ts.isPropertySignature(node.parent) &&
+      !ts.isPropertyAccessExpression(node.parent)
+    )
+      shadowed = true;
+    ts.forEachChild(node, visit);
+  }
+  visit(source);
+  if (shadowed) return false;
   const node = api.get(callee);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type) return false;
   const expected = parameterKeys(node.parameters.slice(1));
@@ -344,6 +427,131 @@ function mergeNodes(kind, file, name, base, custom, incoming) {
     text: list.map((node) => textOf(node, source)).join(kind === "member" ? "\n" : ",\n"),
     diagnostics: [],
   };
+}
+
+function mergeWrappedProperty(file, base, custom, incoming, callee) {
+  if (
+    !base ||
+    !custom ||
+    !incoming ||
+    !callee ||
+    base.length !== 1 ||
+    custom.length !== 1 ||
+    incoming.length !== 1
+  )
+    return undefined;
+  const arrowOf = (property) =>
+    property && ts.isPropertyAssignment(property) && ts.isArrowFunction(property.initializer)
+      ? property.initializer
+      : undefined;
+  const [before, current, after] = [base[0], custom[0], incoming[0]].map(arrowOf);
+  if (!before || !current || !after) return undefined;
+  const direct = (arrow) =>
+    ts.isCallExpression(arrow.body) &&
+    ts.isIdentifier(arrow.body.expression) &&
+    arrow.body.expression.text === callee
+      ? arrow.body
+      : undefined;
+  const oldCall = direct(before);
+  const newCall = direct(after);
+  if (!oldCall || !newCall || direct(current)) return undefined;
+  const parameterEqual = (left, right) =>
+    left.length === right.length &&
+    left.every(
+      (parameter, index) =>
+        ts.isIdentifier(parameter.name) &&
+        ts.isIdentifier(right[index].name) &&
+        parameter.name.text === right[index].name.text &&
+        typeKey(parameter.type) === typeKey(right[index].type) &&
+        Boolean(parameter.questionToken || parameter.initializer) ===
+          Boolean(right[index].questionToken || right[index].initializer),
+    );
+  if (
+    !parameterEqual(before.parameters, current.parameters) ||
+    before.parameters.length !== after.parameters.length ||
+    [...before.parameters, ...current.parameters, ...after.parameters].some(
+      (parameter) =>
+        !ts.isIdentifier(parameter.name) || parameter.initializer || parameter.dotDotDotToken,
+    )
+  )
+    return undefined;
+  const signature = (arrow) =>
+    JSON.stringify([
+      arrow.modifiers?.map((modifier) => modifier.kind) ?? [],
+      arrow.typeParameters?.map((parameter) =>
+        layoutless(parameter.getText(parameter.getSourceFile())),
+      ) ?? [],
+      arrow.type ? layoutless(arrow.type.getText(arrow.getSourceFile())) : null,
+    ]);
+  const baselineSignature = signature(before);
+  if ([current, after].some((arrow) => signature(arrow) !== baselineSignature)) return undefined;
+  const renames = new Map();
+  for (let index = 0; index < before.parameters.length; index++) {
+    const oldName = before.parameters[index].name.text;
+    const newName = after.parameters[index].name.text;
+    if (oldName !== newName) renames.set(oldName, newName);
+  }
+  const targets = new Set(renames.values());
+  let collision = false;
+  function checkCollision(node) {
+    if (
+      ts.isIdentifier(node) &&
+      targets.has(node.text) &&
+      !(
+        (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+        ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+          node.parent.name === node)
+      )
+    )
+      collision = true;
+    ts.forEachChild(node, checkCollision);
+  }
+  checkCollision(current);
+  if (collision) return undefined;
+  const normalized = renameSymbols(
+    wrap("property", textOf(custom[0], custom[0].getSourceFile())),
+    renames,
+    file,
+    (node) =>
+      ts.isParameter(node.parent) &&
+      ts.isArrowFunction(node.parent.parent) &&
+      nameOf(node.parent.parent.parent?.name) === nameOf(custom[0].name),
+  );
+  let source = parse(normalized, file);
+  let declaration = source.statements[0]?.declarationList?.declarations[0];
+  let property = declaration?.initializer?.properties[0];
+  const normalizedArrow = arrowOf(property);
+  if (!normalizedArrow) return undefined;
+  const calls = [];
+  function visit(node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === callee
+    )
+      calls.push(node);
+    ts.forEachChild(node, visit);
+  }
+  visit(normalizedArrow.body);
+  if (
+    calls.length !== 1 ||
+    canonicalize(`const call = ${calls[0].getText(source)};`) !==
+      canonicalize(`const call = ${newCall.getText(after.getSourceFile())};`)
+  )
+    return undefined;
+  const updated = edit(normalized, [
+    {
+      start: normalizedArrow.parameters.pos,
+      end: normalizedArrow.parameters.end,
+      text: after.parameters
+        .map((parameter) => parameter.getText(after.getSourceFile()))
+        .join(", "),
+    },
+  ]);
+  source = parse(updated, file);
+  declaration = source.statements[0]?.declarationList?.declarations[0];
+  property = declaration?.initializer?.properties[0];
+  return property ? textOf(property, source) : undefined;
 }
 
 function place(slots, name, text, anchors) {
@@ -433,7 +641,27 @@ export function mergeCustomizedClassic({
   mapImport = (item) => item,
 }) {
   const diagnostics = [];
-  const report = (declaration, message) => diagnostics.push({ file, declaration, message });
+  // Per-member rejections leave the customized member in place, so a recovery
+  // run can keep it and record the unapplied emitted change.
+  const report = (declaration, message, entry) => {
+    const diagnostic = { file, declaration, message };
+    // `null` means the member is absent on that side; `undefined`, that the call site has no text.
+    const versions = (nodes) =>
+      nodes
+        ? [...(nodes.member ?? []), ...(nodes.property ?? [])]
+            .map((node) => textOf(node, node.getSourceFile()))
+            .join("\n") || null
+        : undefined;
+    const retained = retainCustomized({
+      file,
+      declaration,
+      diagnostics: [diagnostic],
+      baseText: versions(entry?.before),
+      customText: versions(entry?.current),
+      incomingText: versions(entry?.after),
+    });
+    if (!retained) diagnostics.push(diagnostic);
+  };
   const apiFile = classicApiFile(file);
   const incomingSource = parse(incomingText, file);
   const incomingInterface = incomingSource.statements.find(ts.isInterfaceDeclaration);
@@ -511,6 +739,7 @@ export function mergeCustomizedClassic({
         report(
           name,
           "The emitter removed or relocated a classic operation whose customized member requires review.",
+          { before, current, after },
         );
         continue;
       }
@@ -522,11 +751,16 @@ export function mergeCustomizedClassic({
       report(
         name,
         "The emitter changed a classic operation that the customization removed or replaced.",
+        { before, current, after },
       );
       continue;
     }
     if (!emitted && owned) {
-      report(name, "An emitted classic member collides with a customized member.");
+      report(name, "An emitted classic member collides with a customized member.", {
+        before,
+        current,
+        after,
+      });
       continue;
     }
     if (uncustomized || !owned) {
@@ -542,9 +776,24 @@ export function mergeCustomizedClassic({
         rendered.name !== name &&
         (group(custom.members, rendered.name) || group(custom.properties, rendered.name))
       ) {
-        report(rendered.name, "An emitted classic member collides with a customized member.");
+        report(rendered.name, "An emitted classic member collides with a customized member.", {
+          before,
+          current,
+          after,
+        });
         continue;
       }
+      // Re-rendering a member whose meaning did not change only churns its layout,
+      // which formatting restores but the pre-format guards would read as a change.
+      const currentText = (kind) => slots[kind].find((slot) => slot.name === name)?.text;
+      if (
+        owned &&
+        rendered.name === name &&
+        ["member", "property"].every(
+          (kind) => layoutless(rendered[kind]) === layoutless(currentText(kind)),
+        )
+      )
+        continue;
       for (const kind of ["member", "property"]) {
         slots[kind] = slots[kind].filter((slot) => slot.name !== name || rendered.name === name);
         if (!rendered[kind]) continue;
@@ -557,6 +806,19 @@ export function mergeCustomizedClassic({
     }
     for (const kind of ["member", "property"]) {
       if (sameNodes(kind, before[kind], after[kind])) continue;
+      if (kind === "property") {
+        const wrapped = mergeWrappedProperty(
+          file,
+          before[kind],
+          current[kind],
+          after[kind],
+          callees.get(name) ?? calleeOf(before.property),
+        );
+        if (wrapped) {
+          place(slots[kind], name, wrapped, []);
+          continue;
+        }
+      }
       const merged = mergeNodes(kind, file, name, before[kind], current[kind], after[kind]);
       diagnostics.push(...merged.diagnostics);
       if (merged.text) place(slots[kind], name, merged.text, []);
@@ -608,11 +870,13 @@ export function mergeCustomizedClassic({
   };
   for (const item of importsOf(parse(text, file))) {
     const declared = available[item.module];
+    // Never retained: the customized module would import a missing declaration.
     if (declared && !declared.has(item.imported))
-      report(
-        item.local,
-        `Customized classic module imports '${item.imported}', which the resolved '${item.module}' module no longer declares.`,
-      );
+      diagnostics.push({
+        file,
+        declaration: item.local,
+        message: `Customized classic module imports '${item.imported}', which the resolved '${item.module}' module no longer declares.`,
+      });
   }
   return diagnostics.length ? { text: undefined, diagnostics } : { text, diagnostics };
 }

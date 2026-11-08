@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
  *
  * @summary gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
- * x-ms-original-file: 2026-01-01/GetVirtualWanVpnServerConfigurations.json
+ * x-ms-original-file: 2026-03-01/GetVirtualWanVpnServerConfigurations.json
  */
 async function getVirtualWanVpnServerConfigurations() {
   const credential = new DefaultAzureCredential();

@@ -12,6 +12,7 @@ import type { MetricHandler } from "../metrics/handler.js";
 import { AzureLogRecordProcessor } from "./logRecordProcessor.js";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor.js";
 import { isLogCollectionDisabled, logLevelToSeverityNumber } from "../utils/logUtils.js";
+import { configureInstrumentation } from "../utils/instrumentation.js";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -30,7 +31,11 @@ export class LogHandler {
    * @param _config - Distro configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: InternalConfig, metricHandler: MetricHandler) {
+  constructor(
+    config: InternalConfig,
+    metricHandler: MetricHandler,
+    private readonly instrumentationCache?: Map<string, Instrumentation>,
+  ) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._azureExporter = new AzureMonitorLogExporter(config.azureMonitorExporterOptions);
@@ -72,23 +77,35 @@ export class LogHandler {
 
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
-        new BunyanInstrumentation({
-          ...this._config.instrumentationOptions.bunyan,
-          logSeverity,
-        }),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "bunyan",
+          {
+            ...this._config.instrumentationOptions.bunyan,
+            logSeverity,
+          },
+          (options) => new BunyanInstrumentation(options),
+        ),
       );
     }
     if (this._config.instrumentationOptions.winston?.enabled) {
       this._instrumentations.push(
-        new WinstonInstrumentation({
-          ...this._config.instrumentationOptions.winston,
-          logSeverity,
-        }),
+        configureInstrumentation(
+          this.instrumentationCache,
+          "winston",
+          {
+            ...this._config.instrumentationOptions.winston,
+            logSeverity,
+          },
+          (options) => new WinstonInstrumentation(options),
+        ),
       );
     }
     const consoleOptions = this._config.instrumentationOptions.console;
     if (consoleOptions?.enabled) {
       // Defer patching until registration so construction preserves the original methods.
+      // Console patches globals rather than module hooks and caches its logger,
+      // so each SDK lifetime needs a fresh instance.
       const consoleInstrumentation = new ConsoleInstrumentation({
         ...consoleOptions,
         enabled: false,

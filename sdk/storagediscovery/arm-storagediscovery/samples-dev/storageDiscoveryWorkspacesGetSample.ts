@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StorageDiscoveryWorkspace
  *
  * @summary get a StorageDiscoveryWorkspace
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_Get.json
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_Get.json
  */
 async function getAStorageDiscoveryWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

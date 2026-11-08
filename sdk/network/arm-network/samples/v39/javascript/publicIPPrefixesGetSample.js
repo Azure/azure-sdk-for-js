@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified public IP prefix in a specified resource group.
  *
  * @summary gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixGet.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixGet.json
  */
 async function getPublicIPPrefix() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getPublicIPPrefix() {
  * This sample demonstrates how to gets the specified public IP prefix in a specified resource group.
  *
  * @summary gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixGetStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixGetStandardV2Sku.json
  */
 async function getPublicIPPrefixWithStandardV2Sku() {
   const credential = new DefaultAzureCredential();

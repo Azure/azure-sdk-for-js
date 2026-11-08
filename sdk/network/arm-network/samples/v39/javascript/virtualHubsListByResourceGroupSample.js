@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the VirtualHubs in a resource group.
  *
  * @summary lists all the VirtualHubs in a resource group.
- * x-ms-original-file: 2026-01-01/VirtualHubListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/VirtualHubListByResourceGroup.json
  */
 async function virtualHubListByResourceGroup() {
   const credential = new DefaultAzureCredential();

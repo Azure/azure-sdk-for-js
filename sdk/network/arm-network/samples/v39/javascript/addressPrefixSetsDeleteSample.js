@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified address prefix set.
  *
  * @summary deletes the specified address prefix set.
- * x-ms-original-file: 2026-01-01/AddressPrefixSetDelete.json
+ * x-ms-original-file: 2026-03-01/AddressPrefixSetDelete.json
  */
 async function deleteAddressPrefixSet() {
   const credential = new DefaultAzureCredential();

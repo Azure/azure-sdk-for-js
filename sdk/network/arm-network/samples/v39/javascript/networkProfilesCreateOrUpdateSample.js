@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a network profile.
  *
  * @summary creates or updates a network profile.
- * x-ms-original-file: 2026-01-01/NetworkProfileCreateConfigOnly.json
+ * x-ms-original-file: 2026-03-01/NetworkProfileCreateConfigOnly.json
  */
 async function createNetworkProfileDefaults() {
   const credential = new DefaultAzureCredential();

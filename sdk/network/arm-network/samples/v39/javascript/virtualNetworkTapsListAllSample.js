@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the VirtualNetworkTaps in a subscription.
  *
  * @summary gets all the VirtualNetworkTaps in a subscription.
- * x-ms-original-file: 2026-01-01/VirtualNetworkTapListAll.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkTapListAll.json
  */
 async function listAllVirtualNetworkTaps() {
   const credential = new DefaultAzureCredential();

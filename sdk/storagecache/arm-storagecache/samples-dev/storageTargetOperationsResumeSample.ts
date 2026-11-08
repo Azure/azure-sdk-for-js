@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resumes client access to a previously suspended storage target.
  *
  * @summary resumes client access to a previously suspended storage target.
- * x-ms-original-file: 2026-01-01/StorageTargets_Resume.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_Resume.json
  */
 async function storageTargetsResume(): Promise<void> {
   const credential = new DefaultAzureCredential();

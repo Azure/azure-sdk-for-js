@@ -23,8 +23,8 @@ description: 'Regenerate the @azure/ai-projects client from the latest TypeSpec 
 
 - `git` on PATH.
 - `npm` on PATH.
-- The package dev dependency `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed. From the repository root, run `pnpm install` first if dependencies are not already installed.
-- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding.
+- The pinned `@azure-tools/typespec-client-generator-cli` (provides `tsp-client`) must be installed from its separate npm project. From the repository root, run `npm --prefix eng/common/tsp-client ci` if it is not already installed. The generation script invokes it with `npm --prefix ... exec`, so it does not need to be on `PATH`.
+- **Clean working tree under `sdk/ai/ai-projects/`.** `dev-tool customization apply` does a 3-way merge against the committed `generated/` baseline; running it on a tree with uncommitted changes from a prior failed regen produces silently-incorrect output (e.g. new model types from upstream do not get propagated into `src/`). Verify with `git status -- sdk/ai/ai-projects/` and revert any leftover changes before proceeding. After a package build, run `scripts/assert-clean-tree.ps1` from `sdk/ai/ai-projects/` instead: it removes the browser and react-native API diff reports that API extraction writes under `review/`, which are build output rather than leftover changes, and fails on anything else.
 
 ## Procedure
 
@@ -69,10 +69,16 @@ See [scripts/update-tsp-commit.ps1](./scripts/update-tsp-commit.ps1).
 ### Step 3: Run the emitter
 
 ```powershell
-npm run generate:client
+./.github/skills/regenerate-from-typespec/scripts/generate-client.ps1
 ```
 
-This runs `tsp-client update -d && npm run customize`. The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
+See [scripts/generate-client.ps1](./scripts/generate-client.ps1). It is equivalent to `npm run generate:client` (`tsp-client update -d && npm run customize`), but invokes the separately pinned CLI with `npm --prefix eng/common/tsp-client exec` and runs `tsp-client sync` and `tsp-client generate` separately. Between them, it rewrites Azure Artifacts tarball URLs (`https://<host>/.../_packaging/<feed>/npm/registry/`) in the temporary `TempTypeSpecFiles/package-lock.json` to `https://registry.npmjs.org/`. The committed `eng/emitter-package-lock.json` can pin internal feeds such as `ms-feed-25.pkgs.visualstudio.com`, which the Copilot cloud agent firewall cannot resolve (`npm ci` fails with `ENOTFOUND`). Integrity hashes are unchanged, so npm still verifies every tarball, and the repository lockfile is never modified. Always use this script rather than `npm run generate:client` in the cloud agent. If it reports a remaining non-public host, stop and report it.
+
+The `customize` hook applies the generic customization merge, runs the guarded package resolver before formatting, and validates the formatted result. It does not run `npm run post-emitter`. The next skill (`apply-post-emitter-edits`) audits the resulting working-tree diff and handles unresolved per-rule fixes. There is no `incoming/` snapshot.
+
+**A customization rejection is not a stop condition.** The resolver is strict by default: it exits nonzero and writes nothing when it cannot merge an emitted change with a customization. `generate-client.ps1` handles that itself. After the strict run fails, it reruns customization in recovery mode, formats, validates the result, prints a `RECOVERY MODE` banner, and exits 0. Recovery keeps the customized code for every change it could not merge and records each one in `temp/customization-worklist.md`. The earlier `Customization rejected N unresolved or unsafe change(s)` output, the banner, and the worklist are the expected path, not a failure. Continue with Step 4, then hand off to `apply-post-emitter-edits` and follow its "Step 0a" worklist procedure. Verify later with `node scripts/customize.mjs --recover --check` (strict without `--recover`, because it re-plans from the committed baseline), and never rerun `npm run customize` or a non-check `customize.mjs` over edited `src/`.
+
+The script does not attempt recovery when `src/` already had uncommitted changes (recovery rewrites `src/` from the committed baseline), and `-Strict` disables recovery for a maintainer who wants the hard stop. Both exit nonzero. For dirty `src/`, restore it as the message says and rerun. If recovery itself fails, the diagnostics name a plan or guard failure rather than a merge conflict. The script then restores `src/` to the committed state, so the unresolved output of the generic merge that ran first is not left behind (a managed session publishes whatever remains in its working tree). Follow the guidance in `apply-post-emitter-edits` Step 0a and stop only as that skill and the calling workflow allow. See the [resolver workflow](../../../scripts/customization/README.md#recovery-mode) for what recovery does and does not hold.
 
 ### Step 4: Restore the saved-yaml filename
 
@@ -90,11 +96,12 @@ The script wraps Step 2's edits in a `try/finally` when invoked normally, but if
 - The `commit:` line in `tsp-location.saved.yaml` matches the resolved hash.
 - `temp/typespec-commit-descriptions.md` exists and contains the upstream commit descriptions for `$currentCommit..$targetCommit`.
 - `git status` shows changes under `generated/` and/or `src/` from the regen.
+- If the script printed `RECOVERY MODE`, `temp/customization-worklist.md` exists and lists every change whose customized code was kept. Carry it into the hand-off.
 - Review the commit descriptions against the emitted diff before and after post-emitter merging; any SDK behavior, API shape, samples, or tests added during follow-up work should trace back to those upstream descriptions or be called out as an intentional local workaround.
 
 ## Hand-off
 
-Once this skill completes, hand off to the `apply-post-emitter-edits` skill to merge the emitted output into `src/`. Include `temp/typespec-commit-descriptions.md` in that hand-off so the post-merge SDK diff can be checked against the upstream TypeSpec commit descriptions.
+Once this skill completes, hand off to the `apply-post-emitter-edits` skill to merge the emitted output into `src/`. Include `temp/typespec-commit-descriptions.md` in that hand-off so the post-merge SDK diff can be checked against the upstream TypeSpec commit descriptions, and `temp/customization-worklist.md` when it exists so every kept change gets a disposition.
 
 ## Notes
 

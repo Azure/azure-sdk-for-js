@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a nat gateway.
  *
  * @summary creates or updates a nat gateway.
- * x-ms-original-file: 2026-01-01/NatGatewayCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/NatGatewayCreateOrUpdate.json
  */
 async function createNatGateway() {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function createNatGateway() {
  * This sample demonstrates how to creates or updates a nat gateway.
  *
  * @summary creates or updates a nat gateway.
- * x-ms-original-file: 2026-01-01/NatGatewayCreateOrUpdateStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/NatGatewayCreateOrUpdateStandardV2Sku.json
  */
 async function createNatGatewayWithStandardV2Sku() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function createNatGatewayWithStandardV2Sku() {
  * This sample demonstrates how to creates or updates a nat gateway.
  *
  * @summary creates or updates a nat gateway.
- * x-ms-original-file: 2026-01-01/NatGatewayWithNat64CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/NatGatewayWithNat64CreateOrUpdate.json
  */
 async function createNatGatewayWithNat64() {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function createNatGatewayWithNat64() {
  * This sample demonstrates how to creates or updates a nat gateway.
  *
  * @summary creates or updates a nat gateway.
- * x-ms-original-file: 2026-01-01/NatGatewayWithServiceGatewayCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/NatGatewayWithServiceGatewayCreateOrUpdate.json
  */
 async function createNatGatewayWithServiceGateway() {
   const credential = new DefaultAzureCredential();

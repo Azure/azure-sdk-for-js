@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Traffic Manager endpoint.
  *
  * @summary deletes a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-DELETE-External.json
+ * x-ms-original-file: 2026-09-01/Endpoint-DELETE-External.json
  */
 async function endpointDeleteExternal(): Promise<void> {
   const credential = new DefaultAzureCredential();

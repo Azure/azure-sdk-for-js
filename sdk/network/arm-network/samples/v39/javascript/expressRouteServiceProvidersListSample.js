@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the available express route service providers.
  *
  * @summary gets all the available express route service providers.
- * x-ms-original-file: 2026-01-01/ExpressRouteProviderList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteProviderList.json
  */
 async function listExpressRouteProviders() {
   const credential = new DefaultAzureCredential();

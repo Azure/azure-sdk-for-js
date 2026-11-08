@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves all vpn connections for a particular virtual wan vpn gateway.
  *
  * @summary retrieves all vpn connections for a particular virtual wan vpn gateway.
- * x-ms-original-file: 2026-01-01/VpnConnectionList.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionList.json
  */
 async function vpnConnectionList() {
   const credential = new DefaultAzureCredential();

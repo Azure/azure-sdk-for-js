@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       applicationSecurityGroupName: applicationSecurityGroupName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function list(
     () => _listSend(context, resourceGroupName, applicationSecurityGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -94,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       applicationSecurityGroupName: applicationSecurityGroupName,
       addressPrefixSetName: addressPrefixSetName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +137,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +156,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       applicationSecurityGroupName: applicationSecurityGroupName,
       addressPrefixSetName: addressPrefixSetName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +208,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-01-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<AddressPrefixSet>, AddressPrefixSet>;
 }
 
@@ -226,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       applicationSecurityGroupName: applicationSecurityGroupName,
       addressPrefixSetName: addressPrefixSetName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

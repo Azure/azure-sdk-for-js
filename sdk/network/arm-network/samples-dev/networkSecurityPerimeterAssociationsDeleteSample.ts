@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an NSP association resource.
  *
  * @summary deletes an NSP association resource.
- * x-ms-original-file: 2026-01-01/NspAssociationDelete.json
+ * x-ms-original-file: 2026-03-01/NspAssociationDelete.json
  */
 async function nspAssociationDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

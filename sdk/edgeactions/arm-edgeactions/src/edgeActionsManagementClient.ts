@@ -15,7 +15,7 @@ import { _getEdgeActionsOperations } from "./classic/edgeActions/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
+export type { EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
 
 export class EdgeActionsManagementClient {
   private _client: EdgeActionsManagementContext;
@@ -27,14 +27,7 @@ export class EdgeActionsManagementClient {
     subscriptionId: string,
     options: EdgeActionsManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createEdgeActionsManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createEdgeActionsManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.edgeActionExecutionFilters = _getEdgeActionExecutionFiltersOperations(this._client);
     this.edgeActionVersions = _getEdgeActionVersionsOperations(this._client);

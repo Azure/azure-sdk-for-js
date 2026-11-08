@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified service gateway.
  *
  * @summary gets the specified service gateway.
- * x-ms-original-file: 2026-01-01/ServiceGatewayGet.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayGet.json
  */
 async function getLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -24,6 +24,7 @@ export interface SharedGalleriesOperations {
     options?: SharedGalleriesGetOptionalParams,
   ) => Promise<SharedGallery>;
 }
+
 function _getSharedGalleries(context: ComputeManagementContext) {
   return {
     list: (location: string, options?: SharedGalleriesListOptionalParams) =>
@@ -35,6 +36,7 @@ function _getSharedGalleries(context: ComputeManagementContext) {
     ) => get(context, location, galleryUniqueName, options),
   };
 }
+
 export function _getSharedGalleriesOperations(
   context: ComputeManagementContext,
 ): SharedGalleriesOperations {

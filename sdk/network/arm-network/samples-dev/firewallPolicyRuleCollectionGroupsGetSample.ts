@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2026-01-01/FirewallPolicyNatRuleCollectionGroupGet.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyNatRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupGet.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getFirewallPolicyRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getFirewallPolicyRuleCollectionGroupWithIpGroups(): Promise<void>
  * This sample demonstrates how to gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();

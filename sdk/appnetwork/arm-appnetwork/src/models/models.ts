@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -174,7 +175,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** AppLink resource */
+/** An Azure Kubernetes Application Network resource. */
 export interface AppLink extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: AppLinkProperties;
@@ -222,8 +223,8 @@ export interface AppLinkProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function appLinkPropertiesSerializer(item: AppLinkProperties): any {
-  return item;
+export function appLinkPropertiesSerializer(_item: AppLinkProperties): any {
+  return {};
 }
 
 export function appLinkPropertiesDeserializer(item: any): AppLinkProperties {
@@ -329,8 +330,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -379,8 +380,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -451,10 +452,29 @@ export type CreatedByType = string;
 export interface AppLinkUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
 }
 
 export function appLinkUpdateSerializer(item: AppLinkUpdate): any {
-  return { tags: item["tags"] };
+  return {
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+  };
+}
+
+/** The update-specific managed service identity (all fields optional for PATCH). */
+export interface ManagedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** The response of a AppLink list operation. */
@@ -484,7 +504,7 @@ export function appLinkArrayDeserializer(result: Array<AppLink>): any[] {
   });
 }
 
-/** AppLink Member resource */
+/** A member of an Azure Kubernetes Application Network resource. */
 export interface AppLinkMember extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: AppLinkMemberProperties;
@@ -724,8 +744,8 @@ export interface MetricsProfile {
   readonly metricsEndpoint?: string;
 }
 
-export function metricsProfileSerializer(item: MetricsProfile): any {
-  return item;
+export function metricsProfileSerializer(_item: MetricsProfile): any {
+  return {};
 }
 
 export function metricsProfileDeserializer(item: any): MetricsProfile {
@@ -740,6 +760,8 @@ export interface ConnectivityProfile {
   eastWestGateway?: EastWestGatewayProfile;
   /** Private connect profile. */
   privateConnect?: PrivateConnectProfile;
+  /** The network name for an Azure Kubernetes Application Network member. */
+  network?: string;
 }
 
 export function connectivityProfileSerializer(item: ConnectivityProfile): any {
@@ -750,6 +772,7 @@ export function connectivityProfileSerializer(item: ConnectivityProfile): any {
     privateConnect: !item["privateConnect"]
       ? item["privateConnect"]
       : privateConnectProfileSerializer(item["privateConnect"]),
+    network: item["network"],
   };
 }
 
@@ -761,6 +784,7 @@ export function connectivityProfileDeserializer(item: any): ConnectivityProfile 
     privateConnect: !item["privateConnect"]
       ? item["privateConnect"]
       : privateConnectProfileDeserializer(item["privateConnect"]),
+    network: item["network"],
   };
 }
 
@@ -834,25 +858,93 @@ export function appLinkMemberUpdateSerializer(item: AppLinkMemberUpdate): any {
 /** The updatable properties of the AppLinkMember. */
 export interface AppLinkMemberUpdateProperties {
   /** Upgrade profile. */
-  upgradeProfile?: UpgradeProfile;
-  /** Observability profile */
-  observabilityProfile?: ObservabilityProfile;
+  upgradeProfile?: UpgradeProfileUpdate;
   /** Connectivity profile. */
-  connectivityProfile?: ConnectivityProfile;
+  connectivityProfile?: ConnectivityProfileUpdate;
 }
 
 export function appLinkMemberUpdatePropertiesSerializer(item: AppLinkMemberUpdateProperties): any {
   return {
     upgradeProfile: !item["upgradeProfile"]
       ? item["upgradeProfile"]
-      : upgradeProfileSerializer(item["upgradeProfile"]),
-    observabilityProfile: !item["observabilityProfile"]
-      ? item["observabilityProfile"]
-      : observabilityProfileSerializer(item["observabilityProfile"]),
+      : upgradeProfileUpdateSerializer(item["upgradeProfile"]),
     connectivityProfile: !item["connectivityProfile"]
       ? item["connectivityProfile"]
-      : connectivityProfileSerializer(item["connectivityProfile"]),
+      : connectivityProfileUpdateSerializer(item["connectivityProfile"]),
   };
+}
+
+/** The updatable AppLinkMember upgrade profile. */
+export interface UpgradeProfileUpdate {
+  /** Upgrade mode. */
+  mode?: UpgradeMode;
+  /** Fully managed upgrade profile. */
+  fullyManagedUpgradeProfile?: FullyManagedUpgradeProfileUpdate;
+  /** Self managed upgrade profile. */
+  selfManagedUpgradeProfile?: SelfManagedUpgradeProfileUpdate;
+}
+
+export function upgradeProfileUpdateSerializer(item: UpgradeProfileUpdate): any {
+  return {
+    mode: item["mode"],
+    fullyManagedUpgradeProfile: !item["fullyManagedUpgradeProfile"]
+      ? item["fullyManagedUpgradeProfile"]
+      : fullyManagedUpgradeProfileUpdateSerializer(item["fullyManagedUpgradeProfile"]),
+    selfManagedUpgradeProfile: !item["selfManagedUpgradeProfile"]
+      ? item["selfManagedUpgradeProfile"]
+      : selfManagedUpgradeProfileUpdateSerializer(item["selfManagedUpgradeProfile"]),
+  };
+}
+
+/** The updatable AppLinkMember fully managed upgrade profile. */
+export interface FullyManagedUpgradeProfileUpdate {
+  /** Release channel */
+  releaseChannel?: UpgradeReleaseChannel;
+}
+
+export function fullyManagedUpgradeProfileUpdateSerializer(
+  item: FullyManagedUpgradeProfileUpdate,
+): any {
+  return { releaseChannel: item["releaseChannel"] };
+}
+
+/** The updatable AppLinkMember self managed upgrade profile. */
+export interface SelfManagedUpgradeProfileUpdate {
+  /** Istio version */
+  version?: string;
+}
+
+export function selfManagedUpgradeProfileUpdateSerializer(
+  item: SelfManagedUpgradeProfileUpdate,
+): any {
+  return { version: item["version"] };
+}
+
+/** The updatable AppLinkMember connectivity profile. */
+export interface ConnectivityProfileUpdate {
+  /** East-West gateway profile. */
+  eastWestGateway?: EastWestGatewayProfileUpdate;
+  /** The network name for an Azure Kubernetes Application Network member. */
+  network?: string;
+}
+
+export function connectivityProfileUpdateSerializer(item: ConnectivityProfileUpdate): any {
+  return {
+    eastWestGateway: !item["eastWestGateway"]
+      ? item["eastWestGateway"]
+      : eastWestGatewayProfileUpdateSerializer(item["eastWestGateway"]),
+    network: item["network"],
+  };
+}
+
+/** The updatable AppLinkMember east-west gateway profile. */
+export interface EastWestGatewayProfileUpdate {
+  /** East-West gateway visibility. */
+  visibility?: EastWestGatewayVisibility;
+}
+
+export function eastWestGatewayProfileUpdateSerializer(item: EastWestGatewayProfileUpdate): any {
+  return { visibility: item["visibility"] };
 }
 
 /** The response of a AppLinkMember list operation. */
@@ -1098,4 +1190,6 @@ export function versionInfoDeserializer(item: any): VersionInfo {
 export enum KnownVersions {
   /** 2025-08-01-preview version */
   V20250801Preview = "2025-08-01-preview",
+  /** 2026-08-01-preview version */
+  V20260801Preview = "2026-08-01-preview",
 }

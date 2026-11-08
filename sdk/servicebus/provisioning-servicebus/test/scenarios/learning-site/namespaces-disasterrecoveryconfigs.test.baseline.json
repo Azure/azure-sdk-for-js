@@ -1,0 +1,156 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001ns1"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "minimumTlsVersion": {
+                    "kind": "string",
+                    "value": "1.2"
+                  },
+                  "premiumMessagingPartitions": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "disasterRecoveryConfig": {
+          "bicepIdentifier": "disasterRecoveryConfig",
+          "type": "Microsoft.ServiceBus/namespaces/disasterRecoveryConfigs",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001alias"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "partnerNamespace": {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "namespace2"
+                    },
+                    "property": "id",
+                    "nullish": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "namespace2": {
+          "bicepIdentifier": "namespace2",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001ns2"
+              },
+              "location": {
+                "kind": "string",
+                "value": "centralus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "minimumTlsVersion": {
+                    "kind": "string",
+                    "value": "1.2"
+                  },
+                  "premiumMessagingPartitions": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the supported optimization types for the current profile. A user can create an endpoint with an optimization type from the listed values.
  *
  * @summary gets the supported optimization types for the current profile. A user can create an endpoint with an optimization type from the listed values.
- * x-ms-original-file: 2025-12-01/Profiles_ListSupportedOptimizationTypes.json
+ * x-ms-original-file: 2026-10-01/Profiles_ListSupportedOptimizationTypes.json
  */
 async function profilesListSupportedOptimizationTypes(): Promise<void> {
   const credential = new DefaultAzureCredential();

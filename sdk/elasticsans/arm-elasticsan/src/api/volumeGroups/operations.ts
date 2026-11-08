@@ -37,7 +37,7 @@ export function _listByElasticSanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,7 +45,13 @@ export function _listByElasticSanSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.xMsAccessSoftDeletedResources !== undefined
+        ? { "x-ms-access-soft-deleted-resources": options?.xMsAccessSoftDeletedResources }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -55,7 +61,10 @@ export async function _listByElasticSanDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -74,7 +83,11 @@ export function listByElasticSan(
     () => _listByElasticSanSend(context, resourceGroupName, elasticSanName, options),
     _listByElasticSanDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -92,7 +105,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +118,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -113,11 +129,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an VolumeGroup. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -131,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, elasticSanName, volumeGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +161,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +179,10 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -190,7 +204,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, elasticSanName, volumeGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
 }
 
@@ -209,7 +223,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +241,10 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -249,7 +266,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, elasticSanName, volumeGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-09-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
 }
 
@@ -267,7 +284,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       elasticSanName: elasticSanName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +300,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

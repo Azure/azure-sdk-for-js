@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
  *
  * @summary creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
- * x-ms-original-file: 2026-01-01/NatRulePut.json
+ * x-ms-original-file: 2026-03-01/NatRulePut.json
  */
 async function natRulePut(): Promise<void> {
   const credential = new DefaultAzureCredential();

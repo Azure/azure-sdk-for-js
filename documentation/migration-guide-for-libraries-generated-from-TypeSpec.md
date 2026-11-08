@@ -13,7 +13,7 @@ This guide helps developers transition their JavaScript/TypeScript applications 
 
 ## Current status
 
-Several packages generated from *TypeSpec* have already reached General Availability (GA), including `@azure/arm-avs`, `@azure/arm-fabric`, `@azure/arm-oracledatabase`, `@azure/keyvault-admin`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and give them a try.
+Several packages generated from *TypeSpec* have already reached General Availability (GA), including `@azure/arm-avs` and `@azure/arm-oracledatabase`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and give them a try.
 
 ## Library improvements when generating from *TypeSpec*
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all available service aliases for this subscription in this region.
  *
  * @summary gets all available service aliases for this subscription in this region.
- * x-ms-original-file: 2026-01-01/AvailableServiceAliasesList.json
+ * x-ms-original-file: 2026-03-01/AvailableServiceAliasesList.json
  */
 async function getAvailableServiceAliases(): Promise<void> {
   const credential = new DefaultAzureCredential();

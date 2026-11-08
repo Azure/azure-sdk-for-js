@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all commits for the specified network manager.
  *
  * @summary lists all commits for the specified network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerCommitList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerCommitList.json
  */
 async function listNetworkManagerCommit(): Promise<void> {
   const credential = new DefaultAzureCredential();

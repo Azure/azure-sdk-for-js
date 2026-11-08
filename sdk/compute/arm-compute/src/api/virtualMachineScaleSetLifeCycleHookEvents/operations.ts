@@ -63,6 +63,7 @@ export async function _listDeserialize(
 
   return _vmScaleSetLifecycleHookEventListResultDeserializer(result.body);
 }
+
 /** Gets a list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource. */
 export function list(
   context: Client,
@@ -123,6 +124,7 @@ export async function _updateDeserialize(
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
+
 /** The operation to update a virtual machine scale set lifecycle hook event. */
 export async function update(
   context: Client,
@@ -184,6 +186,7 @@ export async function _getDeserialize(
 
   return vmScaleSetLifecycleHookEventDeserializer(result.body);
 }
+
 /** Gets a virtual machine scale set lifecycle hook event. */
 export async function get(
   context: Client,

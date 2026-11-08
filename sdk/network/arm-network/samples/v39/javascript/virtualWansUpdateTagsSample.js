@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a VirtualWAN tags.
  *
  * @summary updates a VirtualWAN tags.
- * x-ms-original-file: 2026-01-01/VirtualWANUpdateTags.json
+ * x-ms-original-file: 2026-03-01/VirtualWANUpdateTags.json
  */
 async function virtualWANUpdate() {
   const credential = new DefaultAzureCredential();

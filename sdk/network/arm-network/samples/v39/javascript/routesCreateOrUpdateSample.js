@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a route in the specified route table.
  *
  * @summary creates or updates a route in the specified route table.
- * x-ms-original-file: 2026-01-01/RouteTableRouteCreate.json
+ * x-ms-original-file: 2026-03-01/RouteTableRouteCreate.json
  */
 async function createRoute() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function createRoute() {
  * This sample demonstrates how to creates or updates a route in the specified route table.
  *
  * @summary creates or updates a route in the specified route table.
- * x-ms-original-file: 2026-01-01/RouteTableRouteCreateEcmp.json
+ * x-ms-original-file: 2026-03-01/RouteTableRouteCreateEcmp.json
  */
 async function createEcmpRoute() {
   const credential = new DefaultAzureCredential();

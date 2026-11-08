@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a network security group tags.
  *
  * @summary updates a network security group tags.
- * x-ms-original-file: 2026-01-01/NetworkSecurityGroupUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkSecurityGroupUpdateTags.json
  */
 async function updateNetworkSecurityGroupTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a nat ruleGet.
  *
  * @summary retrieves the details of a nat ruleGet.
- * x-ms-original-file: 2026-01-01/NatRuleGet.json
+ * x-ms-original-file: 2026-03-01/NatRuleGet.json
  */
 async function natRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

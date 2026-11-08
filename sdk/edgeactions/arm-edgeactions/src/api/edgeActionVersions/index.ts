@@ -11,13 +11,13 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type EdgeActionVersionsSwapDefaultOptionalParams,
-  type EdgeActionVersionsGetVersionCodeOptionalParams,
-  type EdgeActionVersionsDeployVersionCodeOptionalParams,
-  type EdgeActionVersionsListByEdgeActionOptionalParams,
-  type EdgeActionVersionsDeleteOptionalParams,
-  type EdgeActionVersionsUpdateOptionalParams,
-  type EdgeActionVersionsCreateOptionalParams,
-  type EdgeActionVersionsGetOptionalParams,
+export type {
+  EdgeActionVersionsSwapDefaultOptionalParams,
+  EdgeActionVersionsGetVersionCodeOptionalParams,
+  EdgeActionVersionsDeployVersionCodeOptionalParams,
+  EdgeActionVersionsListByEdgeActionOptionalParams,
+  EdgeActionVersionsDeleteOptionalParams,
+  EdgeActionVersionsUpdateOptionalParams,
+  EdgeActionVersionsCreateOptionalParams,
+  EdgeActionVersionsGetOptionalParams,
 } from "./options.js";

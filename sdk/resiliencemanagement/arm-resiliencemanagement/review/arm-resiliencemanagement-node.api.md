@@ -52,24 +52,36 @@ export interface AttentionReason {
     chaosResource?: ExtensionObjectState;
     chaosResourceCreationFailureReasons?: string[];
     chaosResourceUserMsi?: ExtensionObjectState;
+    discoveryRuleExists?: ExtensionObjectState;
     drillMonitoringErrors?: ErrorDetails[];
     readonly drillMonitoringResources?: ExtensionObjectState;
     drillRbacOnChaosResource?: RbacState;
+    drillRbacOnGoalAssignment?: RbacState;
+    drillRbacOnHealthModel?: RbacState;
     drillRbacOnMonitoringResources?: RbacState;
     drillRbacOnRecoveryPlan?: RbacState;
+    drillRbacOnSli?: RbacState;
     drillUserMsi?: ExtensionObjectState;
+    goalAssignment?: ExtensionObjectState;
+    readonly healthModelAssociatedWithServiceGroup?: ExtensionObjectState;
+    healthModelExists?: ExtensionObjectState;
     includedResourceInDrill?: ExtensionObjectState;
     missingRequiredResourceProviders?: string[];
     monitoringRbacOnDrillResources?: RbacState;
+    monitoringSourceNotConfigured?: boolean;
     rbacNeededForDrillOnChaosResource?: string[];
     rbacNeededForDrillOnDrillMonitoringResources?: string[];
     rbacNeededForDrillOnDrillResources?: string[];
+    rbacNeededForDrillOnGoalAssignment?: string[];
+    rbacNeededForDrillOnHealthModel?: string[];
     rbacNeededForDrillOnRecoveryPlan?: string[];
     rbacOnTargetResources?: RbacState;
+    recoveryPlan?: ExtensionObjectState;
     recoveryPlanAndDrillResourcesState?: RelativeResourceCompositionState;
     roReadiness?: RecoveryPlanState;
     runbookFaultRbacOnTargets?: RbacState;
     serviceGroupAndDrillResourcesState?: RelativeResourceCompositionState;
+    sliAttentionStatuses?: SliAttentionStatus[];
 }
 
 // @public
@@ -96,7 +108,6 @@ export class AzureResilienceManagementClient {
     readonly enrollments: EnrollmentsOperations;
     readonly goalAssignments: GoalAssignmentsOperations;
     readonly goalResources: GoalResourcesOperations;
-    readonly goalTemplates: GoalTemplatesOperations;
     readonly operations: OperationsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
@@ -179,15 +190,17 @@ export interface DrillProperties {
     readonly errorDetails?: ErrorDetail;
     readonly executionReadinessState?: ExecutionReadinessState;
     readonly executionState?: ExecutionState;
+    goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
+    healthModelMonitoringProperties?: HealthModelMonitoringProperties;
     readonly lastResyncReadinessCheckTime?: Date;
     readonly lastRunProperties?: LastRunProperties;
     readonly lastSyncTime?: Date;
-    readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
     monitoringProperties?: MonitoringPropertiesOfDrill;
     readonly provisioningState?: ProvisioningState;
     rbacSetupMode?: RbacSetupMode;
     recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill;
     readonly serviceGroupId?: string;
+    sliMonitoringProperties?: SliMonitoringProperties;
     readonly systemMetadata?: SystemMetadata;
 }
 
@@ -195,8 +208,28 @@ export interface DrillProperties {
 export type DrillPropertiesUnion = ZonalDrillProperties | RegionalDrillProperties | DrillProperties;
 
 // @public
+export type DrillReportFinalizationState = string;
+
+// @public
+export type DrillReportFormat = string;
+
+// @public
+export type DrillReportGenerationStatus = string;
+
+// @public
+export interface DrillReportSummary {
+    readonly availableFormats?: DrillReportFormat[];
+    readonly finalizationState?: DrillReportFinalizationState;
+    readonly generationStatus?: DrillReportGenerationStatus;
+    readonly lastError?: ErrorDetails;
+    readonly lastGeneratedTimestamp?: Date;
+    readonly schemaVersion?: string;
+    readonly stageStatuses?: ReportStageStatus[];
+}
+
+// @public
 export interface DrillResource extends ProxyResource {
-    properties?: DrillResourceProperties;
+    properties?: DrillResourcePropertiesUnion;
 }
 
 // @public
@@ -216,27 +249,27 @@ export type DrillResourceInclusionState = string;
 // @public
 export interface DrillResourceProperties {
     readonly activeLocations?: string[];
-    readonly activePhysicalZones?: string[];
-    readonly advisorHaRecommendationId?: string;
     readonly advisorRecommendationTypeId?: string;
     readonly attentionReason?: DrillResourceAttentionReason;
+    readonly drillType: DrillType;
     readonly faultProperties?: FaultProperties;
     readonly faultState?: DrillResourceFaultState;
     readonly forceInclusionState?: ForceInclusionAndUpdate;
-    readonly haStatus?: HAStatus;
     inclusionState?: DrillResourceInclusionState;
     readonly monitoringRbacAssignmentError?: ErrorDetails;
     readonly provisioningState?: ProvisioningState;
     readonly rbacAssignmentError?: ErrorDetails;
     readonly readinessState?: DrillResourceReadinessState;
     readonly recoveryLocations?: string[];
-    readonly recoveryPhysicalZones?: string[];
     readonly recoveryPlanExclusionReason?: RecoveryPlanExclusionReason;
     readonly recoveryPlanInclusionState?: ResourceInclusionState;
     resourceId: string;
     readonly resourceProtectionSolutionType?: ResourceProtectionSolutionType;
     resourceType: string;
 }
+
+// @public
+export type DrillResourcePropertiesUnion = ZonalDrillResourceProperties | RegionalDrillResourceProperties | DrillResourceProperties;
 
 // @public
 export type DrillResourceReadinessState = string;
@@ -289,7 +322,13 @@ export interface DrillRunProperties extends JobProperties {
     readonly drillMode?: DrillMode;
     jobType: "DrillRun";
     readonly notes?: string[];
+    readonly report?: DrillReportSummary;
     readonly supportedVerbsForStage?: SupportedVerbsForStage[];
+}
+
+// @public
+export interface DrillRunReprotectRequest {
+    reprotectProperties: ReprotectRequest;
 }
 
 // @public
@@ -324,6 +363,12 @@ export interface DrillRunsAddNotesOptionalParams extends OperationOptions {
 
 // @public
 export interface DrillRunsFailOverOptionalParams extends OperationOptions {
+    body?: DrillRunFailoverRequest;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DrillRunsGenerateReportOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -333,6 +378,11 @@ export interface DrillRunsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DrillRunsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DrillRunsListReportDownloadUrlOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -348,9 +398,17 @@ export interface DrillRunsOperations {
     // @deprecated (undocumented)
     beginAddNotesAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: DrillRunAddNotesRequest, options?: DrillRunsAddNotesOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginFailOver: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: DrillRunFailoverRequest, options?: DrillRunsFailOverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginFailOver: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsFailOverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginFailOverAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: DrillRunFailoverRequest, options?: DrillRunsFailOverOptionalParams) => Promise<void>;
+    beginFailOverAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsFailOverOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGenerateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<SimplePollerLike<OperationState<DrillReportSummary>, DrillReportSummary>>;
+    // @deprecated (undocumented)
+    beginGenerateReportAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => Promise<DrillReportSummary>;
+    // @deprecated (undocumented)
+    beginListReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<SimplePollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>>;
+    // @deprecated (undocumented)
+    beginListReportDownloadUrlAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => Promise<ListReportDownloadUrlResponse>;
     // @deprecated (undocumented)
     beginMarkAsComplete: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: MarkAsCompleteRequest, options?: DrillRunsMarkAsCompleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -363,9 +421,11 @@ export interface DrillRunsOperations {
     beginResume: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsResumeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginResumeAndWait: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsResumeOptionalParams) => Promise<void>;
-    failOver: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: DrillRunFailoverRequest, options?: DrillRunsFailOverOptionalParams) => PollerLike<OperationState<void>, void>;
+    failOver: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsFailOverOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateReport: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsGenerateReportOptionalParams) => PollerLike<OperationState<DrillReportSummary>, DrillReportSummary>;
     get: (serviceGroupName: string, drillName: string, drillRunName: string, options?: DrillRunsGetOptionalParams) => Promise<DrillRun>;
     list: (serviceGroupName: string, drillName: string, options?: DrillRunsListOptionalParams) => PagedAsyncIterableIterator<DrillRun>;
+    listReportDownloadUrl: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: ListReportDownloadUrlRequest, options?: DrillRunsListReportDownloadUrlOptionalParams) => PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>;
     markAsComplete: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, body: MarkAsCompleteRequest, options?: DrillRunsMarkAsCompleteOptionalParams) => PollerLike<OperationState<void>, void>;
     reprotect: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsReprotectOptionalParams) => PollerLike<OperationState<void>, void>;
     resume: (serviceGroupName: string, operationId: string, drillName: string, drillRunName: string, options?: DrillRunsResumeOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -373,6 +433,7 @@ export interface DrillRunsOperations {
 
 // @public
 export interface DrillRunsReprotectOptionalParams extends OperationOptions {
+    body?: DrillRunReprotectRequest;
     updateIntervalInMs?: number;
 }
 
@@ -383,6 +444,9 @@ export interface DrillRunsResumeOptionalParams extends OperationOptions {
 
 // @public
 export type DrillRunSubtasks = string;
+
+// @public
+export type DrillRunTasks = string;
 
 // @public
 export interface DrillsAddOrUpdateResourcesOptionalParams extends OperationOptions {
@@ -498,9 +562,12 @@ export interface DrillUpdate {
 export interface DrillUpdateProperties {
     chaosResourceProperties?: ChaosResourcePropertiesOfDrill;
     drillAssetProperties?: AssetPropertiesOfDrill;
+    goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
+    healthModelMonitoringProperties?: HealthModelMonitoringProperties;
     monitoringProperties?: MonitoringPropertiesOfDrill;
     rbacSetupMode?: RbacSetupMode;
     recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill;
+    sliMonitoringProperties?: SliMonitoringProperties;
 }
 
 // @public
@@ -641,10 +708,15 @@ export interface GoalAssignment extends ProxyResource {
 // @public
 export interface GoalAssignmentProperties {
     readonly errorDetails?: ErrorDetail;
-    goalAssignmentType: GoalAssignmentType;
-    goalTemplateId: string;
     readonly provisioningState?: ProvisioningState;
+    requireZonalResiliency: boolean;
     serviceLevelResources?: ServiceLevelResource[];
+}
+
+// @public
+export interface GoalAssignmentPropertiesOfDrill {
+    readonly goalAssignmentId?: string;
+    identity: AssociatedIdentity;
 }
 
 // @public
@@ -724,25 +796,15 @@ export interface GoalAssignmentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GoalAssignmentType = string;
-
-// @public
 export interface GoalResource extends ProxyResource {
     properties?: GoalResourceProperties;
 }
 
 // @public
 export interface GoalResourceProperties {
-    disasterRecoveryAttestationStatus?: AttestationState;
-    disasterRecoveryGoalParticipation?: ExclusionState;
-    readonly exclusionReasonForDisasterRecoveryGoals?: ExclusionReason;
-    readonly exclusionReasonForHighAvailabilityGoals?: ExclusionReason;
-    highAvailabilityAttestationStatus: AttestationState;
-    highAvailabilityGoalParticipation: ExclusionState;
     readonly provisioningState?: ProvisioningState;
     resourceArmId: string;
-    readonly serviceGroupMemberships?: ServiceGroupMembership[];
-    userConfirmationForHighAvailability?: UserConfirmationForHighAvailabilityItem[];
+    zonalResiliency?: ResiliencyProperties;
 }
 
 // @public
@@ -764,84 +826,17 @@ export interface GoalResourcesOperations {
 // @public
 export interface GoalsData {
     assignmentId: string;
-    regionalRecoveryPointEstimatedInMinutes?: IsoDuration;
-    regionalRecoveryPointObjectiveInMinutes?: IsoDuration;
-    regionalRecoveryPointObjectiveStatus: ResilienceHealthStatus;
-    regionalRecoveryTimeActualInMinutes?: IsoDuration;
-    regionalRecoveryTimeObjectiveInMinutes?: IsoDuration;
-    regionalRecoveryTimeObjectiveStatus: ResilienceHealthStatus;
-    requireDisasterRecovery?: UnifiedResilienceItemRequirementSelected;
-    requireHighAvailability?: UnifiedResilienceItemRequirementSelected;
-    templateId: string;
+    zonalResiliency?: UnifiedResilienceItemGoalRequirement;
 }
-
-// @public
-export interface GoalTemplate extends ProxyResource {
-    properties?: GoalTemplateProperties;
-}
-
-// @public
-export interface GoalTemplateProperties {
-    readonly errorDetails?: ErrorDetail;
-    goalType: GoalType;
-    readonly provisioningState?: ProvisioningState;
-    regionalRecoveryPointObjective?: string;
-    regionalRecoveryTimeObjective?: string;
-    requireDisasterRecovery?: RequirementSelected;
-    requireHighAvailability?: RequirementSelected;
-}
-
-// @public
-export interface GoalTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GoalTemplatesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GoalTemplatesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GoalTemplatesListOptionalParams extends OperationOptions {
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export interface GoalTemplatesOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<GoalTemplate>, GoalTemplate>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => Promise<GoalTemplate>;
-    // @deprecated (undocumented)
-    beginDelete: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => Promise<void>;
-    createOrUpdate: (serviceGroupName: string, goalTemplateName: string, resource: GoalTemplate, options?: GoalTemplatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<GoalTemplate>, GoalTemplate>;
-    delete: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (serviceGroupName: string, goalTemplateName: string, options?: GoalTemplatesGetOptionalParams) => Promise<GoalTemplate>;
-    list: (serviceGroupName: string, options?: GoalTemplatesListOptionalParams) => PagedAsyncIterableIterator<GoalTemplate>;
-    update: (serviceGroupName: string, goalTemplateName: string, properties: GoalTemplate, options?: GoalTemplatesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
-}
-
-// @public
-export interface GoalTemplatesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GoalType = string;
 
 // @public
 export type HAStatus = string;
+
+// @public
+export interface HealthModelMonitoringProperties {
+    healthModelId: string;
+    identity: AssociatedIdentity;
+}
 
 // @public
 export interface IncludeOrUpdateResource {
@@ -851,9 +846,6 @@ export interface IncludeOrUpdateResource {
 
 // @public
 export type InitialConfig = string;
-
-// @public
-export type IsoDuration = string;
 
 export { isRestError }
 
@@ -1014,6 +1006,25 @@ export enum KnownDrillMode {
 }
 
 // @public
+export enum KnownDrillReportFinalizationState {
+    Finalized = "Finalized",
+    NotFinalized = "NotFinalized"
+}
+
+// @public
+export enum KnownDrillReportFormat {
+    Html = "Html"
+}
+
+// @public
+export enum KnownDrillReportGenerationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownDrillResourceFaultState {
     CustomScript = "CustomScript",
     NotDefined = "NotDefined",
@@ -1054,6 +1065,14 @@ export enum KnownDrillRunSubtasks {
     Failover = "Failover",
     FailoverReverse = "FailoverReverse",
     FaultInjection = "FaultInjection",
+    Reprotect = "Reprotect",
+    ReprotectReverse = "ReprotectReverse"
+}
+
+// @public
+export enum KnownDrillRunTasks {
+    Failover = "Failover",
+    FailoverReverse = "FailoverReverse",
     Reprotect = "Reprotect",
     ReprotectReverse = "ReprotectReverse"
 }
@@ -1116,16 +1135,6 @@ export enum KnownForceInclusionAndUpdate {
 }
 
 // @public
-export enum KnownGoalAssignmentType {
-    Resiliency = "Resiliency"
-}
-
-// @public
-export enum KnownGoalType {
-    Resiliency = "Resiliency"
-}
-
-// @public
 export enum KnownHAStatus {
     Enabled = "Enabled",
     NotEnabled = "NotEnabled"
@@ -1135,14 +1144,6 @@ export enum KnownHAStatus {
 export enum KnownInitialConfig {
     Complete = "Complete",
     Pending = "Pending"
-}
-
-// @public
-export enum KnownIsoDuration {
-    PT15M = "PT15M",
-    PT1H = "PT1H",
-    PT24H = "PT24H",
-    PT4H = "PT4H"
 }
 
 // @public
@@ -1189,13 +1190,6 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
-export enum KnownMembershipType {
-    Direct = "Direct",
-    ThroughResourceGroup = "ThroughResourceGroup",
-    ThroughSubscription = "ThroughSubscription"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -1208,6 +1202,7 @@ export enum KnownProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
+    NeedsAttention = "NeedsAttention",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -1293,16 +1288,16 @@ export enum KnownRelativeResourceCompositionState {
 }
 
 // @public
-export enum KnownRequirementSelected {
-    NotRequired = "NotRequired",
-    Required = "Required"
+export enum KnownResourceFeasibilityReviewStatus {
+    Flagged = "Flagged",
+    NotApplicable = "NotApplicable",
+    Passed = "Passed",
+    Unavailable = "Unavailable"
 }
 
 // @public
-export enum KnownResilienceHealthStatus {
-    Healthy = "Healthy",
-    NotEvaluated = "NotEvaluated",
-    Unhealthy = "Unhealthy"
+export enum KnownResourceFeasibilityReviewType {
+    SkuCapacity = "SkuCapacity"
 }
 
 // @public
@@ -1341,6 +1336,18 @@ export enum KnownResourceTypeCategories {
 }
 
 // @public
+export enum KnownSliType {
+    Availability = "Availability",
+    Latency = "Latency"
+}
+
+// @public
+export enum KnownSliTypeMatchState {
+    Matched = "Matched",
+    Mismatched = "Mismatched"
+}
+
+// @public
 export enum KnownSolutionDisplayName {
     VmInMultiZoneVmss = "VmInMultiZoneVmss",
     ZonePinnedVmWithZrsDisk = "ZonePinnedVmWithZrsDisk"
@@ -1353,15 +1360,7 @@ export enum KnownTestFailoverState {
 }
 
 // @public
-export enum KnownUnifiedResilienceItemRequirementSelected {
-    NotRequired = "NotRequired",
-    NotSelected = "NotSelected",
-    Required = "Required"
-}
-
-// @public
 export enum KnownUsagePlanType {
-    Basic = "Basic",
     Standard = "Standard"
 }
 
@@ -1373,9 +1372,7 @@ export enum KnownUserConsent {
 
 // @public
 export enum KnownVersions {
-    V20250201Preview = "2025-02-01-preview",
-    V20260301Preview = "2026-03-01-preview",
-    V20260401Preview = "2026-04-01-preview"
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1393,8 +1390,15 @@ export interface LastRunProperties {
 }
 
 // @public
-export interface ManagedOnBehalfOfConfiguration {
-    readonly moboBrokerResources?: MoboBrokerResource[];
+export interface ListReportDownloadUrlRequest {
+    format?: DrillReportFormat;
+}
+
+// @public
+export interface ListReportDownloadUrlResponse {
+    readonly downloadUrl?: string;
+    readonly expiryTimestamp?: Date;
+    readonly format?: DrillReportFormat;
 }
 
 // @public
@@ -1411,14 +1415,6 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface MarkAsCompleteRequest {
     drillRunStage: DrillRunSubtasks;
-}
-
-// @public
-export type MembershipType = string;
-
-// @public
-export interface MoboBrokerResource {
-    readonly id?: string;
 }
 
 // @public
@@ -1451,6 +1447,7 @@ export interface OperationDisplay {
 export interface OperationQualificationDetails {
     notQualifiedReasons?: string[];
     qualificationState: QualificationState;
+    resourceFeasibilityReviews?: ResourceFeasibilityReview[];
 }
 
 // @public
@@ -1517,19 +1514,6 @@ export type RbacState = string;
 
 // @public
 export type ReasonForRequestingConfirmation = string;
-
-// @public
-export interface RecommendationsData {
-    highAvailability: RecommendationsHighAvailabilityData;
-}
-
-// @public
-export interface RecommendationsHighAvailabilityData {
-    enabledResourceCount?: number;
-    evaluationDateTime?: Date;
-    notEnabledResourceCount?: number;
-    notEvaluatedResourceCount?: number;
-}
 
 // @public
 export interface RecommendCapacityRequest {
@@ -1993,7 +1977,20 @@ export interface RegionalDrillProperties extends DrillProperties {
 }
 
 // @public
+export interface RegionalDrillResourceProperties extends DrillResourceProperties {
+    readonly drillType: "Regional";
+}
+
+// @public
 export type RelativeResourceCompositionState = string;
+
+// @public
+export interface ReportStageStatus {
+    drillRunStage: DrillRunSubtasks;
+    readonly generationStatus?: DrillReportGenerationStatus;
+    readonly lastAttemptTimestamp?: Date;
+    readonly lastError?: ErrorDetails;
+}
 
 // @public
 export interface ReprotectRequest {
@@ -2006,10 +2003,12 @@ export interface ReprotectRequestProperties {
 }
 
 // @public
-export type RequirementSelected = string;
-
-// @public
-export type ResilienceHealthStatus = string;
+export interface ResiliencyProperties {
+    attestationStatus?: AttestationState;
+    readonly exclusionReason?: ExclusionReason;
+    goalParticipation?: ExclusionState;
+    userConfirmation?: UserConfirmationItem[];
+}
 
 // @public
 export interface Resource {
@@ -2025,7 +2024,15 @@ export interface ResourceBaseProtectionSolutionSetting {
 }
 
 // @public
-export type ResourceBaseProtectionSolutionSettingUnion = ResourceNativeProtectionSolutionSetting | ResourceCustomProtectionSetting | ResourceSiteRecoveryProtectionSetting | ResourceBaseProtectionSolutionSetting;
+export type ResourceBaseProtectionSolutionSettingUnion = ResourceNativeProtectionSolutionSetting | ResourceCustomProtectionSetting | ResourceSiteRecoveryProtectionSetting | ResourceCrossZoneVmRecoveryProtectionSetting | ResourceBaseProtectionSolutionSetting;
+
+// @public
+export interface ResourceCrossZoneVmRecoveryProtectionSetting extends ResourceBaseProtectionSolutionSetting {
+    capacityReservationGroupId?: string;
+    // (undocumented)
+    protectionSolutionType: "CrossZoneVMRecovery";
+    targetZone?: string;
+}
 
 // @public
 export interface ResourceCustomProtectionAction {
@@ -2042,6 +2049,21 @@ export interface ResourceCustomProtectionSetting extends ResourceBaseProtectionS
     testFailoverAction?: ResourceCustomProtectionAction;
     testFailoverCleanupAction?: ResourceCustomProtectionAction;
 }
+
+// @public
+export interface ResourceFeasibilityReview {
+    currentTargetSku?: SkuDetails;
+    feasibilityType: ResourceFeasibilityReviewType;
+    recommendedTargetSkus?: SkuDetails[];
+    resourceType: string;
+    status: ResourceFeasibilityReviewStatus;
+}
+
+// @public
+export type ResourceFeasibilityReviewStatus = string;
+
+// @public
+export type ResourceFeasibilityReviewType = string;
 
 // @public
 export type ResourceInclusionState = string;
@@ -2124,15 +2146,8 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export interface ServiceGroupMembership {
-    membershipType: MembershipType;
-    serviceGroupId: string;
-}
-
-// @public
 export interface ServiceLevelResource {
     serviceLevelIndicatorResourceId: string;
-    serviceLevelObjectiveResourceId: string;
 }
 
 // @public
@@ -2156,6 +2171,44 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     // @deprecated
     toString(): string;
 }
+
+// @public
+export interface SkuDetails {
+    currency?: string;
+    monthlyPrice?: number;
+    offeringId?: string;
+    ram?: number;
+    sku: string;
+    vCpu?: number;
+}
+
+// @public
+export interface SliAttentionStatus {
+    readonly drillRbacOnDestinationAmw?: RbacState;
+    readonly exists?: ExtensionObjectState;
+    readonly rbacNeededOnDestinationAmws?: string[];
+    sliId: string;
+    type: SliType;
+    readonly typeMatch?: SliTypeMatchState;
+}
+
+// @public
+export interface SliMonitoringProperties {
+    identity: AssociatedIdentity;
+    slis: SliSelection[];
+}
+
+// @public
+export interface SliSelection {
+    sliId: string;
+    type: SliType;
+}
+
+// @public
+export type SliType = string;
+
+// @public
+export type SliTypeMatchState = string;
 
 // @public
 export type SolutionDisplayName = string;
@@ -2202,15 +2255,32 @@ export interface UnifiedResilienceItem extends ProxyResource {
 }
 
 // @public
-export interface UnifiedResilienceItemProperties {
-    goals: GoalsData;
-    lastModifiedTime: Date;
-    readonly provisioningState?: ProvisioningState;
-    recommendations: RecommendationsData;
+export interface UnifiedResilienceItemBillingInfo {
+    readonly errorDetails?: ErrorDetail;
+    usagePlanArmId?: string;
+    usagePlanEnrollmentArmId?: string;
+    usagePlanEnrollmentCreatedOn?: Date;
+    usagePlanEnrollmentLastUpdatedOn?: Date;
 }
 
 // @public
-export type UnifiedResilienceItemRequirementSelected = string;
+export interface UnifiedResilienceItemGoalRequirement {
+    required: boolean;
+}
+
+// @public
+export interface UnifiedResilienceItemProperties {
+    billingInfo?: UnifiedResilienceItemBillingInfo;
+    goals: GoalsData;
+    lastModifiedTime: Date;
+    readonly provisioningState?: ProvisioningState;
+    resiliencyPosture: UnifiedResilienceItemResiliencyPosture;
+}
+
+// @public
+export interface UnifiedResilienceItemResiliencyPosture {
+    zonalResiliency: UnifiedResilienceItemZonalResiliencyPosture;
+}
 
 // @public
 export interface UnifiedResilienceItemsGetOptionalParams extends OperationOptions {
@@ -2226,6 +2296,15 @@ export interface UnifiedResilienceItemsListOptionalParams extends OperationOptio
 export interface UnifiedResilienceItemsOperations {
     get: (serviceGroupName: string, unifiedResilienceItemName: string, options?: UnifiedResilienceItemsGetOptionalParams) => Promise<UnifiedResilienceItem>;
     list: (serviceGroupName: string, options?: UnifiedResilienceItemsListOptionalParams) => PagedAsyncIterableIterator<UnifiedResilienceItem>;
+}
+
+// @public
+export interface UnifiedResilienceItemZonalResiliencyPosture {
+    enabledResourceCount?: number;
+    evaluationDateTime?: Date;
+    notEnabledResourceCount?: number;
+    notEvaluatedResourceCount?: number;
+    userConfirmationNeededCount?: number;
 }
 
 // @public
@@ -2320,7 +2399,7 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface UserConfirmationForHighAvailabilityItem {
+export interface UserConfirmationItem {
     confirmationStatus: ConfirmationStatus;
     reasonForRequestingConfirmation?: ReasonForRequestingConfirmation;
     solutionDisplayName: SolutionDisplayName;
@@ -2331,7 +2410,8 @@ export type UserConsent = string;
 
 // @public
 export interface ValidateForExecutionProperties {
-    sourceLocations: string[];
+    operationName?: DrillRunTasks;
+    sourceLocations?: string[];
 }
 
 // @public
@@ -2356,6 +2436,15 @@ export type VMPresent = string;
 export interface ZonalDrillProperties extends DrillProperties {
     drillType: "Zonal";
     readonly vmsPresent?: VMPresent;
+}
+
+// @public
+export interface ZonalDrillResourceProperties extends DrillResourceProperties {
+    readonly activePhysicalZones?: string[];
+    readonly advisorHaRecommendationId?: string;
+    readonly drillType: "Zonal";
+    readonly haStatus?: HAStatus;
+    readonly recoveryPhysicalZones?: string[];
 }
 
 // (No @packageDocumentation comment for this package)

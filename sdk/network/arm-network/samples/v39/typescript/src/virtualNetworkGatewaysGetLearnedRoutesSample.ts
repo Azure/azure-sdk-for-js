@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
  *
  * @summary this operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayLearnedRoutes.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayLearnedRoutes.json
  */
 async function getVirtualNetworkGatewayLearnedRoutes(): Promise<void> {
   const credential = new DefaultAzureCredential();

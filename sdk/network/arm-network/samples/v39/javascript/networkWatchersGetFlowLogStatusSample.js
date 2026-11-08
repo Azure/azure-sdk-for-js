@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to queries status of flow log and traffic analytics (optional) on a specified resource.
  *
  * @summary queries status of flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogStatusQuery.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogStatusQuery.json
  */
 async function getFlowLogStatus() {
   const credential = new DefaultAzureCredential();

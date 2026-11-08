@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.DataProtection": "2026-06-01"
+    "Microsoft.DataProtection": "2026-07-01"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DataProtection",
     "CrossLanguageDefinitionId": {
@@ -32,6 +32,7 @@
       "@azure/arm-dataprotection!BlobBackupAutoProtectionSettings:interface": "Microsoft.DataProtection.BlobBackupAutoProtectionSettings",
       "@azure/arm-dataprotection!AdlsBlobBackupDatasourceParameters:interface": "Microsoft.DataProtection.AdlsBlobBackupDatasourceParameters",
       "@azure/arm-dataprotection!AdlsBlobBackupDatasourceParametersForAutoProtection:interface": "Microsoft.DataProtection.AdlsBlobBackupDatasourceParametersForAutoProtection",
+      "@azure/arm-dataprotection!PostgreSqlFlexibleServerBackupDatasourceParameters:interface": "Microsoft.DataProtection.PostgreSqlFlexibleServerBackupDatasourceParameters",
       "@azure/arm-dataprotection!GenericBackupDatasourceParameters:interface": "Microsoft.DataProtection.GenericBackupDatasourceParameters",
       "@azure/arm-dataprotection!ProtectionStatusDetails:interface": "Microsoft.DataProtection.ProtectionStatusDetails",
       "@azure/arm-dataprotection!UserFacingError:interface": "Microsoft.DataProtection.UserFacingError",
@@ -90,6 +91,7 @@
       "@azure/arm-dataprotection!SecuritySettings:interface": "Microsoft.DataProtection.SecuritySettings",
       "@azure/arm-dataprotection!SoftDeleteSettings:interface": "Microsoft.DataProtection.SoftDeleteSettings",
       "@azure/arm-dataprotection!ImmutabilitySettings:interface": "Microsoft.DataProtection.ImmutabilitySettings",
+      "@azure/arm-dataprotection!ImmutabilityConfiguration:interface": "Microsoft.DataProtection.ImmutabilityConfiguration",
       "@azure/arm-dataprotection!encryptionSettings:interface": "Microsoft.DataProtection.EncryptionSettings",
       "@azure/arm-dataprotection!CmkKeyVaultProperties:interface": "Microsoft.DataProtection.CmkKeyVaultProperties",
       "@azure/arm-dataprotection!CmkKekIdentity:interface": "Microsoft.DataProtection.CmkKekIdentity",
@@ -156,6 +158,7 @@
       "@azure/arm-dataprotection!AzureBackupRecoveryPoint:interface": "Microsoft.DataProtection.AzureBackupRecoveryPoint",
       "@azure/arm-dataprotection!AzureBackupDiscreteRecoveryPoint:interface": "Microsoft.DataProtection.AzureBackupDiscreteRecoveryPoint",
       "@azure/arm-dataprotection!RecoveryPointDataStoreDetails:interface": "Microsoft.DataProtection.RecoveryPointDataStoreDetails",
+      "@azure/arm-dataprotection!RecoveryPointImmutabilityProperties:interface": "Microsoft.DataProtection.RecoveryPointImmutabilityProperties",
       "@azure/arm-dataprotection!AzureBackupRecoveryPointResourceList:interface": "Microsoft.DataProtection.AzureBackupRecoveryPointResourceList",
       "@azure/arm-dataprotection!AzureBackupJobResource:interface": "Microsoft.DataProtection.AzureBackupJobResource",
       "@azure/arm-dataprotection!AzureBackupJob:interface": "Microsoft.DataProtection.AzureBackupJob",
@@ -189,6 +192,7 @@
       "@azure/arm-dataprotection!KnownAKSVolumeTypes:enum": "Microsoft.DataProtection.AKSVolumeTypes",
       "@azure/arm-dataprotection!KnownBlobBackupRuleMode:enum": "Microsoft.DataProtection.BlobBackupRuleMode",
       "@azure/arm-dataprotection!KnownBlobBackupPatternType:enum": "Microsoft.DataProtection.BlobBackupPatternType",
+      "@azure/arm-dataprotection!KnownBackupSolutionType:enum": "Microsoft.DataProtection.BackupSolutionType",
       "@azure/arm-dataprotection!KnownStatus:enum": "Microsoft.DataProtection.Status",
       "@azure/arm-dataprotection!KnownCurrentProtectionState:enum": "Microsoft.DataProtection.CurrentProtectionState",
       "@azure/arm-dataprotection!KnownSecretStoreType:enum": "Microsoft.DataProtection.SecretStoreType",
@@ -208,6 +212,7 @@
       "@azure/arm-dataprotection!KnownResourceMoveState:enum": "Microsoft.DataProtection.ResourceMoveState",
       "@azure/arm-dataprotection!KnownSoftDeleteState:enum": "Microsoft.DataProtection.SoftDeleteState",
       "@azure/arm-dataprotection!KnownImmutabilityState:enum": "Microsoft.DataProtection.ImmutabilityState",
+      "@azure/arm-dataprotection!KnownImmutabilityType:enum": "Microsoft.DataProtection.ImmutabilityType",
       "@azure/arm-dataprotection!KnownEncryptionState:enum": "Microsoft.DataProtection.EncryptionState",
       "@azure/arm-dataprotection!KnownIdentityType:enum": "Microsoft.DataProtection.IdentityType",
       "@azure/arm-dataprotection!KnownInfrastructureEncryptionState:enum": "Microsoft.DataProtection.InfrastructureEncryptionState",

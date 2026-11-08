@@ -1,0 +1,110 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sttest01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "StorageV2"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "accessTier": {
+                    "kind": "string",
+                    "value": "Hot"
+                  },
+                  "encryption": {
+                    "kind": "object",
+                    "value": {
+                      "keySource": {
+                        "kind": "string",
+                        "value": "Microsoft.Storage"
+                      },
+                      "services": {
+                        "kind": "object",
+                        "value": {
+                          "blob": {
+                            "kind": "object",
+                            "value": {
+                              "enabled": {
+                                "kind": "boolean",
+                                "value": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard_LRS"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "blobService": {
+          "bicepIdentifier": "blobService",
+          "type": "Microsoft.Storage/storageAccounts/blobServices",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "deleteRetentionPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "enabled": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "days": {
+                        "kind": "integer",
+                        "value": "7"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

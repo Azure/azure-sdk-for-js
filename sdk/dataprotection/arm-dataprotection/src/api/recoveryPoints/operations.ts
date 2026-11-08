@@ -35,7 +35,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       "%24skipToken": options?.skipToken,
     },
@@ -78,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -98,7 +98,7 @@ export function _getSend(
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

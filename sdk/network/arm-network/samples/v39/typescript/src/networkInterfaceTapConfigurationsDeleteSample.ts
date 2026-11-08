@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified tap configuration from the NetworkInterface.
  *
  * @summary deletes the specified tap configuration from the NetworkInterface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceTapConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceTapConfigurationDelete.json
  */
 async function deleteTapConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

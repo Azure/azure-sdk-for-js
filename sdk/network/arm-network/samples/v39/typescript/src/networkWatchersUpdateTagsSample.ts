@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a network watcher tags.
  *
  * @summary updates a network watcher tags.
- * x-ms-original-file: 2026-01-01/NetworkWatcherUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherUpdateTags.json
  */
 async function updateNetworkWatcherTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

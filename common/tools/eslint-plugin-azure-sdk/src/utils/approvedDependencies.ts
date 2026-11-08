@@ -12,7 +12,7 @@
 
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import yaml from "js-yaml";
+import { load as yamlLoad } from "js-yaml";
 
 /**
  * Name prefixes that are considered first-party and are always allowed as
@@ -233,7 +233,7 @@ export function loadApprovedDependencies(filePath: string): ApprovedDependencies
 
   let raw: unknown;
   try {
-    raw = yaml.load(readFileSync(filePath, "utf-8"));
+    raw = yamlLoad(readFileSync(filePath, "utf-8"));
   } catch (e) {
     fail(filePath, `failed to parse YAML (${(e as Error).message})`);
   }

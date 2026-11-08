@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post a Network Manager Commit.
  *
  * @summary post a Network Manager Commit.
- * x-ms-original-file: 2026-01-01/NetworkManagerCommitPost.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerCommitPost.json
  */
 async function networkManageCommitPost() {
   const credential = new DefaultAzureCredential();

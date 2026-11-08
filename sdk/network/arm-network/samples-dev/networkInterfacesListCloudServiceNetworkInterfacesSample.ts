@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all network interfaces in a cloud service.
  *
  * @summary gets all network interfaces in a cloud service.
- * x-ms-original-file: 2026-01-01/CloudServiceNetworkInterfaceList.json
+ * x-ms-original-file: 2026-03-01/CloudServiceNetworkInterfaceList.json
  */
 async function listCloudServiceNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a connection monitor.
  *
  * @summary create or update a connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorCreate.json
  */
 async function createConnectionMonitorV1(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createConnectionMonitorV1(): Promise<void> {
  * This sample demonstrates how to create or update a connection monitor.
  *
  * @summary create or update a connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
  */
 async function createConnectionMonitorWithArcNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -93,7 +93,7 @@ async function createConnectionMonitorWithArcNetwork(): Promise<void> {
  * This sample demonstrates how to create or update a connection monitor.
  *
  * @summary create or update a connection monitor.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorV2Create.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorV2Create.json
  */
 async function createConnectionMonitorV2(): Promise<void> {
   const credential = new DefaultAzureCredential();

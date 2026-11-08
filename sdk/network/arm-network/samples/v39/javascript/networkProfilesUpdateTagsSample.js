@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates network profile tags.
  *
  * @summary updates network profile tags.
- * x-ms-original-file: 2026-01-01/NetworkProfileUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkProfileUpdateTags.json
  */
 async function updateNetworkProfileTags() {
   const credential = new DefaultAzureCredential();

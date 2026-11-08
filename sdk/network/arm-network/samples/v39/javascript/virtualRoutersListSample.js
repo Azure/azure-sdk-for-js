@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the Virtual Routers in a subscription.
  *
  * @summary gets all the Virtual Routers in a subscription.
- * x-ms-original-file: 2026-01-01/VirtualRouterListBySubscription.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterListBySubscription.json
  */
 async function listAllVirtualRoutersForAGivenSubscription() {
   const credential = new DefaultAzureCredential();

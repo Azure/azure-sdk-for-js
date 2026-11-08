@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
  *
  * @summary returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
- * x-ms-original-file: 2026-01-01/AvailablePrivateEndpointTypesGet.json
+ * x-ms-original-file: 2026-03-01/AvailablePrivateEndpointTypesGet.json
  */
 async function getAvailablePrivateEndpointTypes(): Promise<void> {
   const credential = new DefaultAzureCredential();

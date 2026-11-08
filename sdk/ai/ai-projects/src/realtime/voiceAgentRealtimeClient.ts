@@ -11,6 +11,7 @@ import type {
   VoiceAgentClientEvent,
   VoiceAgentResponseCreateParams,
   VoiceAgentSessionUpdateConfig,
+  VoiceAgentTransport,
 } from "../models/models.js";
 import { logger } from "../logger.js";
 import { AsyncQueue } from "./asyncQueue.js";
@@ -25,9 +26,31 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
 } from "./webSocketTransportLike.js";
+import type { ResolvedTracingConfig } from "../tracing/configuration.js";
+import { VoiceAgentRealtimeTracing } from "../tracing/voiceAgentTracing.js";
+
+// Project-owned configuration stays private; the standalone constructor/options are unchanged.
+const projectTracingConfigs = new WeakMap<VoiceAgentRealtimeClient, ResolvedTracingConfig>();
 
 const defaultCredentialScope = "https://ai.azure.com/.default";
 const voiceAgentsPreview = "VoiceAgents=V1Preview";
+const reservedQueryParameters = new Set([
+  "api-version",
+  "agent_session_id",
+  "store",
+  "transport",
+  "x-agent-version-override",
+  "x-ms-client-sdk",
+  "authorization",
+  "api-key",
+  "foundry_features",
+  "foundry-features",
+  "client-request-id",
+  "x-ms-client-request-id",
+  "structured_input",
+  "structured_inputs",
+  "x-ms-voice-structured-inputs",
+]);
 
 /** Known values of {@link VoiceAgentConnectionState} reported by a voice-agent realtime connection. */
 export const KnownVoiceAgentConnectionState = {
@@ -73,8 +96,30 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   store?: boolean;
   /** Selects a specific immutable agent version. */
   agentVersionOverride?: string;
-  /** Values used to render the agent's structured prompt inputs. */
+  /**
+   * Selects the transport used for the realtime connection. Defaults to `"websocket"`. Set to
+   * `"webrtc"` to negotiate a WebRTC peer connection instead; the caller is responsible for
+   * completing the SDP offer/answer exchange using the `rtc.call.sdp.create` and
+   * `rtc.call.sdp.created` events (see {@link VoiceAgentRealtimeEvent}).
+   */
+  transport?: VoiceAgentTransport;
+  /**
+   * Values used to render the agent's structured prompt inputs.
+   * Serialized when `connect()` is called, before authentication.
+   */
   structuredInputs?: Record<string, unknown>;
+  /**
+   * Additional query parameters for this connection's WebSocket upgrade URL.
+   * Provide a plain object, including a null-prototype object.
+   * Values override matching endpoint query parameters; `undefined` removes a parameter.
+   * Values are URL-encoded automatically. Numbers must be finite.
+   * SDK-managed parameters, authentication parameters, and names starting with `h-` are
+   * reserved (case-insensitively) and cause a `TypeError`. Use the corresponding typed
+   * options for session, version, storage, transport, and structured prompt inputs instead.
+   * Both `structured_input` and `structured_inputs` are reserved.
+   * Do not include secrets: query parameters can appear in server or proxy logs.
+   */
+  query?: Readonly<Record<string, string | number | boolean | undefined>>;
   /** Overrides the client connection timeout in milliseconds. */
   connectionTimeoutInMs?: number;
   /** Cancels the connection attempt. */
@@ -218,20 +263,52 @@ export class VoiceAgentRealtimeClient {
     if (!agentName.trim()) {
       throw new TypeError("agentName must not be empty.");
     }
-    const factory =
-      this.options.webSocketFactory ??
-      (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
-    const connection = new VoiceAgentConnectionImpl(
+    const url = buildWebSocketUrl(
       normalizeEndpoint(this.endpoint),
       agentName,
-      this.credential,
-      this.options,
+      this.options.apiVersion,
       options,
-      factory,
     );
-    await connection.open();
-    return connection;
+    const serializedStructuredInputs = options.structuredInputs
+      ? JSON.stringify(options.structuredInputs)
+      : undefined;
+    const tracingConfig = projectTracingConfigs.get(this);
+    const tracing = tracingConfig?.enabled
+      ? new VoiceAgentRealtimeTracing(this.endpoint, tracingConfig, options.transport)
+      : undefined;
+    try {
+      const factory =
+        this.options.webSocketFactory ??
+        (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
+      const connection = new VoiceAgentConnectionImpl(
+        url,
+        agentName,
+        this.credential,
+        this.options,
+        options,
+        serializedStructuredInputs,
+        factory,
+        tracing,
+      );
+      await connection.open();
+      return connection;
+    } catch (error) {
+      tracing?.close(undefined, false, error);
+      throw error;
+    }
   }
+}
+
+/** Creates the project's realtime client using its already-resolved tracing settings. @internal */
+export function createVoiceAgentRealtimeClient(
+  endpoint: string,
+  credential: TokenCredential,
+  options: VoiceAgentRealtimeClientOptions | undefined,
+  tracingConfig: ResolvedTracingConfig | undefined,
+): VoiceAgentRealtimeClient {
+  const client = new VoiceAgentRealtimeClient(endpoint, credential, options);
+  if (tracingConfig) projectTracingConfigs.set(client, tracingConfig);
+  return client;
 }
 
 class VoiceAgentConnectionImpl implements VoiceAgentConnection {
@@ -244,7 +321,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
   private finished = false;
 
   public constructor(
-    private readonly endpoint: string,
+    private readonly url: string,
     private readonly agentName: string,
     private readonly credential: TokenCredential,
     private readonly clientOptions: VoiceAgentRealtimeClientOptions & {
@@ -252,7 +329,9 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       apiVersion: string;
     },
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
+    private readonly serializedStructuredInputs: string | undefined,
     factory: VoiceAgentWebSocketFactory,
+    private readonly tracing?: VoiceAgentRealtimeTracing,
   ) {
     this.events = new AsyncQueue<VoiceAgentRealtimeEvent>(10_000, {
       onOverflow: (error) => this.handleEventQueueOverflow(error),
@@ -310,18 +389,14 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
 
     try {
       await this.transport.connect({
-        url: buildWebSocketUrl(
-          this.endpoint,
-          this.agentName,
-          this.clientOptions.apiVersion,
-          this.connectOptions,
-        ),
+        url: this.url,
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.connectOptions),
+        headers: buildHeaders(token, this.clientOptions, this.serializedStructuredInputs),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
       });
+      this.tracing?.opened();
       this.setState(KnownVoiceAgentConnectionState.Connected);
       logger.info("Connected to voice agent", { agentName: this.agentName });
     } catch (error) {
@@ -352,9 +427,14 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       throw new VoiceAgentConnectionError("Send operation was cancelled.", "operationCancelled");
     }
 
+    let reservation: ReturnType<VoiceAgentRealtimeTracing["reserveSend"]> = undefined;
     try {
-      await this.transport.send(serializeVoiceAgentClientEvent(event), options.abortSignal);
+      const serialized = serializeVoiceAgentClientEvent(event);
+      reservation = this.tracing?.reserveSend(event);
+      await this.transport.send(serialized, options.abortSignal);
+      this.tracing?.sent(event, reservation);
     } catch (error) {
+      this.tracing?.sendFailed(error, reservation);
       if (error instanceof VoiceAgentProtocolError) {
         throw error;
       }
@@ -506,7 +586,9 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
 
   private handleMessage(data: string | ArrayBuffer): void {
     try {
-      this.events.enqueue(deserializeVoiceAgentServerEvent(data));
+      const event = deserializeVoiceAgentServerEvent(data);
+      this.tracing?.received(event);
+      this.events.enqueue(event);
     } catch (error) {
       const protocolError =
         error instanceof VoiceAgentProtocolError
@@ -562,6 +644,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       return;
     }
     this.finished = true;
+    this.tracing?.close(code, wasClean, error);
     if (error) {
       this.events.fail(error);
     } else {
@@ -613,7 +696,7 @@ function normalizeEndpoint(endpoint: string): string {
       "endpoint must use https; a plaintext endpoint would send the bearer token over an unencrypted connection.",
     );
   }
-  return url.toString().replace(/\/$/, "");
+  return url.toString();
 }
 
 function buildWebSocketUrl(
@@ -624,7 +707,34 @@ function buildWebSocketUrl(
 ): string {
   const url = new URL(endpoint);
   url.protocol = "wss:";
-  url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
+  url.pathname = `${url.pathname.replace(/\/+$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
+  if (
+    options.query !== undefined &&
+    (options.query === null ||
+      typeof options.query !== "object" ||
+      ![Object.prototype, null].includes(Object.getPrototypeOf(options.query)))
+  ) {
+    throw new TypeError("query must be a record of query parameters.");
+  }
+  for (const [name, value] of Object.entries(options.query ?? {})) {
+    const normalizedName = name.toLowerCase();
+    if (reservedQueryParameters.has(normalizedName) || normalizedName.startsWith("h-")) {
+      throw new TypeError(`Query parameter "${name}" is reserved; use the SDK's typed options.`);
+    }
+    if (value === undefined) {
+      url.searchParams.delete(name);
+    } else if (
+      typeof value === "string" ||
+      typeof value === "boolean" ||
+      (typeof value === "number" && Number.isFinite(value))
+    ) {
+      url.searchParams.set(name, String(value));
+    } else {
+      throw new TypeError(
+        `Query parameter "${name}" must be a string, boolean, finite number, or undefined.`,
+      );
+    }
+  }
   url.searchParams.set("api-version", apiVersion);
   url.searchParams.set("x-ms-client-sdk", `azsdk-js-ai-projects/${SDK_VERSION}`);
   if (options.agentSessionId) {
@@ -636,13 +746,16 @@ function buildWebSocketUrl(
   if (options.agentVersionOverride) {
     url.searchParams.set("x-agent-version-override", options.agentVersionOverride);
   }
+  if (options.transport) {
+    url.searchParams.set("transport", options.transport);
+  }
   return url.toString();
 }
 
 function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  connectOptions: VoiceAgentRealtimeClientConnectOptions,
+  serializedStructuredInputs: string | undefined,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {
@@ -654,8 +767,8 @@ function buildHeaders(
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
-  if (connectOptions.structuredInputs) {
-    headers["x-ms-voice-structured-inputs"] = JSON.stringify(connectOptions.structuredInputs);
+  if (serializedStructuredInputs !== undefined) {
+    headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
   }
   return headers;
 }

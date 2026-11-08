@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-06-01/VaultCRUD/PatchBackupVault.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVault.json
  */
 async function patchBackupVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function patchBackupVault(): Promise<void> {
  * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-06-01/VaultCRUD/PatchBackupVaultWithCMK.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVaultWithCMK.json
  */
 async function patchBackupVaultWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function patchBackupVaultWithCMK(): Promise<void> {
  * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-06-01/VaultCRUD/PatchBackupVaultWithCostManagementSettings.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVaultWithCostManagementSettings.json
  */
 async function patchBackupVaultWithCostManagementSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

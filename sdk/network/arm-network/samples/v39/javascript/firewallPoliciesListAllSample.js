@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the Firewall Policies in a subscription.
  *
  * @summary gets all the Firewall Policies in a subscription.
- * x-ms-original-file: 2026-01-01/FirewallPolicyListBySubscription.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyListBySubscription.json
  */
 async function listAllFirewallPoliciesForAGivenSubscription() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to schedule a priming job to be paused.
  *
  * @summary schedule a priming job to be paused.
- * x-ms-original-file: 2026-01-01/PausePrimingJob.json
+ * x-ms-original-file: 2026-08-01/PausePrimingJob.json
  */
 async function pausePrimingJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

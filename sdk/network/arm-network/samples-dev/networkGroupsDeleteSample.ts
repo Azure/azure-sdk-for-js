@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a network group.
  *
  * @summary deletes a network group.
- * x-ms-original-file: 2026-01-01/NetworkManagerGroupDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerGroupDelete.json
  */
 async function networkGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

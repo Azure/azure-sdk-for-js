@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB fleetspace account under a fleetspace
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB fleetspace account under a fleetspace
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetspaceAccountGet.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetspaceAccountGet.json
  */
 async function cosmosDBFleetspaceAccountGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

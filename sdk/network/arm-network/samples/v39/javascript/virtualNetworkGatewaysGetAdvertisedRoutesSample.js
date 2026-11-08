@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
  *
  * @summary this operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetAdvertisedRoutes.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetAdvertisedRoutes.json
  */
 async function getVirtualNetworkGatewayAdvertisedRoutes() {
   const credential = new DefaultAzureCredential();

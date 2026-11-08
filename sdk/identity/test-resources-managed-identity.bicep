@@ -338,6 +338,15 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
   }
 }
 
+resource identityBinding 'Microsoft.ContainerService/managedClusters/identityBindings@2026-06-01' = {
+  parent: kubernetesCluster
+  name: 'identitybinding'
+  properties: {
+    managedIdentity: {
+      resourceId: userAssignedIdentity.id
+    }
+  }
+}
 
 resource publicIP 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
   name: '${baseName}PublicIP'
@@ -487,6 +496,7 @@ output IdentityStorageIdUserAssigned string = storageAccountUserAssigned.id
 output IdentityFunctionName string = azureFunction.name
 output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'
+output IdentityAksIdentityBindingPodName string = 'javascript-identity-binding-test-app'
 output IdentityContainerInstanceName string = 'javascript-container-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer

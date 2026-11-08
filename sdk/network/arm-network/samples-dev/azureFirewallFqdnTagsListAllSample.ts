@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the Azure Firewall FQDN Tags in a subscription.
  *
  * @summary gets all the Azure Firewall FQDN Tags in a subscription.
- * x-ms-original-file: 2026-01-01/AzureFirewallFqdnTagsListBySubscription.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallFqdnTagsListBySubscription.json
  */
 async function listAllAzureFirewallFqdnTagsForAGivenSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

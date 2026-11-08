@@ -148,6 +148,7 @@ export interface DisksOperations {
     options?: DisksGetOptionalParams,
   ) => Promise<Disk>;
 }
+
 function _getDisks(context: ComputeManagementContext) {
   return {
     revokeAccess: (
@@ -270,6 +271,7 @@ function _getDisks(context: ComputeManagementContext) {
       get(context, resourceGroupName, diskName, options),
   };
 }
+
 export function _getDisksOperations(context: ComputeManagementContext): DisksOperations {
   return {
     ..._getDisks(context),

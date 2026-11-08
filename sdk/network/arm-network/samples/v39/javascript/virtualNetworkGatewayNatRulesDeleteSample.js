@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a nat rule.
  *
  * @summary deletes a nat rule.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayNatRuleDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayNatRuleDelete.json
  */
 async function virtualNetworkGatewayNatRuleDelete() {
   const credential = new DefaultAzureCredential();

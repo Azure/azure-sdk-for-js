@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-07-15-preview/UpdateAccount.json
+ * x-ms-original-file: 2026-09-15-preview/UpdateAccount.json
  */
 async function updateAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,14 @@ async function updateAccount(): Promise<void> {
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const result = await client.accounts.update("bvttest", "bingSearch", {
     location: "global",
+    properties: {
+      costControlConnections: {
+        appInsightsConnectionId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch/connections/myAppInsightsConnection",
+        eventGridConnectionId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch/connections/myEventGridConnection",
+      },
+    },
     sku: { name: "S2" },
   });
   console.log(result);

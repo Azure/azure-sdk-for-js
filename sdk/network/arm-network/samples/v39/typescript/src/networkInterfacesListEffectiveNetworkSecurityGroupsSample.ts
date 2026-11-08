@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all network security groups applied to a network interface.
  *
  * @summary gets all network security groups applied to a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceEffectiveNSGList.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceEffectiveNSGList.json
  */
 async function listNetworkInterfaceEffectiveNetworkSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

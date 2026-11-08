@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance.
  *
  * @summary retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceBootDiagnostics.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceBootDiagnostics.json
  */
 async function retrieveBootDiagnosticLogsForAGivenNVAVmssInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

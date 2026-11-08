@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: 2025-09-01/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: 2025-09-01/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

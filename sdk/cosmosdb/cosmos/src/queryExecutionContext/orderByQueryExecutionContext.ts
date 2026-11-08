@@ -12,6 +12,7 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { OrderByQueryProcessingStrategy } from "./queryProcessingStrategy/OrderByQueryProcessingStrategy.js";
+import type { BaseContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
@@ -38,6 +39,7 @@ export class OrderByQueryExecutionContext
     options: FeedOptions,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
+    parsedContinuationToken?: BaseContinuationToken,
   ) {
     const rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
       queryInfo: partitionedQueryExecutionInfo,
@@ -69,6 +71,7 @@ export class OrderByQueryExecutionContext
       rangeManager,
       processingStrategy,
       comparator,
+      parsedContinuationToken,
     );
   }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates/Updates the Pool resource.
  *
  * @summary creates/Updates the Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_Create.json
+ * x-ms-original-file: 2026-03-01/IpamPools_Create.json
  */
 async function ipamPoolsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function ipamPoolsCreate(): Promise<void> {
  * This sample demonstrates how to creates/Updates the Pool resource.
  *
  * @summary creates/Updates the Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_CreateWithAllocationBounds.json
+ * x-ms-original-file: 2026-03-01/IpamPools_CreateWithAllocationBounds.json
  */
 async function createOrUpdateThePoolResourceWithAllocationSizeBounds(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,9 +4,10 @@
 import { CertificateClient } from "../../../src/index.js";
 import { uniqueString } from "./recorderUtils.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 export async function authenticate(ctx: TestInfo): Promise<any> {
   const suffix = uniqueString();
@@ -28,10 +29,20 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
         },
         {
           regex: true,
-          target: `"value": "MII[^"]+"`,
-          // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
+          target: '"value"\\s*:\\s*"(?!A+={0,2}")[A-Za-z0-9+/_-]{200,}={0,2}"',
+          // Replace opaque PKCS12 containers and backup blobs, but retain public certificate fields.
           value: `"value": "YmFzZTY0X3BsYWNlaG9sZGVy"`,
         },
+        {
+          regex: true,
+          target:
+            "-----BEGIN (?:RSA |EC |ENCRYPTED )?PRIVATE KEY-----[\\s\\S]*?-----END (?:RSA |EC |ENCRYPTED )?PRIVATE KEY-----",
+          value: "Sanitized private key",
+        },
+      ],
+      headerSanitizers: [
+        { key: "x-ms-keyvault-network-info", value: "Sanitized" },
+        { key: "x-ms-keyvault-rbac-assignment-id", value: "Sanitized" },
       ],
     },
     removeCentralSanitizers: [
@@ -44,6 +55,24 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
 
   const recorder = new Recorder(ctx);
   await recorder.start(startOptions);
+  if (isPlaybackMode()) {
+    // Keep playback stable while the package transitions recordings to the GA api-version.
+    const httpClient = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `${(Recorder as typeof Recorder & { url: string }).url}/Admin/SetMatcher`,
+      method: "POST",
+      allowInsecureConnection: true,
+    });
+    request.headers.set("x-abstraction-identifier", "CustomDefaultMatcher");
+    request.headers.set(
+      "x-recording-id",
+      (recorder as Recorder & { recordingId: string }).recordingId,
+    );
+    request.body = JSON.stringify({
+      ignoredQueryParameters: "api-version",
+    });
+    await httpClient.sendRequest(request);
+  }
   if (suffix !== "") {
     await recorder.addSanitizers({
       generalSanitizers: [
@@ -60,6 +89,16 @@ export async function authenticate(ctx: TestInfo): Promise<any> {
   if (!keyVaultUrl) {
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
+
+  // Continuation URLs can include an explicit port, so sanitize the hostname independently.
+  await recorder.addSanitizers({
+    generalSanitizers: [
+      {
+        target: new URL(keyVaultUrl).hostname,
+        value: new URL(startOptions.envSetupForPlayback.KEYVAULT_URI).hostname,
+      },
+    ],
+  });
 
   const client = new CertificateClient(
     keyVaultUrl,

@@ -384,6 +384,7 @@ export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends O
 
 // @public
 export interface CapacityReservationGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -404,8 +405,12 @@ export interface CapacityReservationGroupsListBySubscriptionOptionalParams exten
 
 // @public
 export interface CapacityReservationGroupsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams) => Promise<CapacityReservationGroup>;
-    delete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams) => Promise<CapacityReservationGroup>;
     listByResourceGroup: (resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
     listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
@@ -618,9 +623,11 @@ export interface CommunityGalleryImagesOperations {
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
     artifactTags?: Record<string, string>;
+    readonly consumptionEndTime?: Date;
     disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
+    readonly imageState?: GalleryImageVersionState;
     publishedDate?: Date;
     storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
@@ -628,9 +635,11 @@ export interface CommunityGalleryImageVersion extends PirCommunityGalleryResourc
 // @public
 export interface CommunityGalleryImageVersionProperties {
     artifactTags?: Record<string, string>;
+    readonly consumptionEndTime?: Date;
     disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
+    readonly imageState?: GalleryImageVersionState;
     publishedDate?: Date;
     storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
@@ -826,6 +835,13 @@ export interface DataDiskImage {
 // @public
 export interface DataDiskImageEncryption extends DiskImageEncryption {
     lun: number;
+    securityProfile?: DataDiskImageSecurityProfile;
+}
+
+// @public
+export interface DataDiskImageSecurityProfile {
+    confidentialVMEncryptionType?: ConfidentialVMEncryptionType;
+    secureVMDiskEncryptionSetId?: string;
 }
 
 // @public
@@ -1811,6 +1827,11 @@ export interface ExternalHealthPolicy {
 export type FileFormat = string;
 
 // @public
+export interface FlexProfile {
+    preferredVMSize: string;
+}
+
+// @public
 export interface GalleriesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -2249,6 +2270,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
 
 // @public
 export interface GalleryImageVersion extends TrackedResource {
+    readonly imageMetadataProfiles?: ImageMetadataProfile[];
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
@@ -2261,6 +2283,7 @@ export interface GalleryImageVersion extends TrackedResource {
 
 // @public
 export interface GalleryImageVersionProperties {
+    readonly imageMetadataProfiles?: ImageMetadataProfile[];
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
@@ -2289,6 +2312,7 @@ export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends Operat
 
 // @public
 export interface GalleryImageVersionsDeleteOptionalParams extends OperationOptions {
+    bypassSoftDelete?: boolean;
     updateIntervalInMs?: number;
 }
 
@@ -2323,6 +2347,9 @@ export interface GalleryImageVersionsOperations {
 }
 
 // @public
+export type GalleryImageVersionState = string;
+
+// @public
 export interface GalleryImageVersionStorageProfile {
     dataDiskImages?: GalleryDataDiskImage[];
     osDiskImage?: GalleryOSDiskImage;
@@ -2342,6 +2369,7 @@ export interface GalleryImageVersionUefiSettings {
 
 // @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
+    readonly imageMetadataProfiles?: ImageMetadataProfile[];
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
@@ -2694,6 +2722,8 @@ export interface GallerySharingProfileUpdateOptionalParams extends OperationOpti
 
 // @public
 export interface GallerySoftDeletedResource extends TrackedResource {
+    readonly consumptionEndTime?: Date;
+    readonly hardDeletionTargetTime?: Date;
     resourceArmId?: string;
     softDeletedArtifactType?: SoftDeletedArtifactTypes;
     softDeletedTime?: string;
@@ -2701,6 +2731,8 @@ export interface GallerySoftDeletedResource extends TrackedResource {
 
 // @public
 export interface GallerySoftDeletedResourceProperties {
+    readonly consumptionEndTime?: Date;
+    readonly hardDeletionTargetTime?: Date;
     resourceArmId?: string;
     softDeletedArtifactType?: SoftDeletedArtifactTypes;
     softDeletedTime?: string;
@@ -2812,6 +2844,13 @@ export interface ImageDiskReference {
 }
 
 // @public
+export interface ImageMetadataProfile {
+    internalMetadataList?: MetadataKeyValue[];
+    publicMetadataList?: MetadataKeyValue[];
+    type: MetadataType;
+}
+
+// @public
 export interface ImageOSDisk extends ImageDisk {
     osState: OperatingSystemStateTypes;
     osType: OperatingSystemTypes;
@@ -2913,6 +2952,7 @@ export interface ImageUpdate extends UpdateResource {
 
 // @public
 export interface ImageVersionSecurityProfile {
+    secretsProvisioningSettings?: SecretsProvisioningSettings;
     uefiSettings?: GalleryImageVersionUefiSettings;
 }
 
@@ -3178,6 +3218,7 @@ export enum KnownCapacityReservationType {
 
 // @public
 export enum KnownConfidentialVMEncryptionType {
+    DataDiskEncryptedWithCmk = "DataDiskEncryptedWithCmk",
     EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
     EncryptedWithCmk = "EncryptedWithCmk",
     EncryptedWithPmk = "EncryptedWithPmk",
@@ -3423,6 +3464,12 @@ export enum KnownGalleryExtendedLocationType {
 }
 
 // @public
+export enum KnownGalleryImageVersionState {
+    Active = "Active",
+    SoftDeleted = "SoftDeleted"
+}
+
+// @public
 export enum KnownGalleryProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -3538,6 +3585,12 @@ export enum KnownLinuxVMGuestPatchMode {
 // @public
 export enum KnownListVersionsExpandOptions {
     Properties = "properties"
+}
+
+// @public
+export enum KnownMetadataType {
+    SecretsProvisioningImageMetadata = "SecretsProvisioningImageMetadata",
+    UserProvidedSecretsProvisioningMetadata = "UserProvidedSecretsProvisioningMetadata"
 }
 
 // @public
@@ -3824,6 +3877,14 @@ export enum KnownRunProfile {
 export enum KnownScriptShellTypes {
     Default = "Default",
     Powershell7 = "Powershell7"
+}
+
+// @public
+export enum KnownSecretsProvisioningComponentName {
+    AzureGuestAgent = "AzureGuestAgent",
+    CloudInit = "CloudInit",
+    OS = "OS",
+    SecretsProvisioningLibrary = "SecretsProvisioningLibrary"
 }
 
 // @public
@@ -4424,6 +4485,15 @@ export interface MaxInstancePercentPerZonePolicy {
     enabled?: boolean;
     value?: number;
 }
+
+// @public
+export interface MetadataKeyValue {
+    metadataKey: string;
+    metadataValue?: string;
+}
+
+// @public
+export type MetadataType = string;
 
 // @public
 export interface MigrateToVirtualMachineScaleSetInput {
@@ -5460,6 +5530,22 @@ export interface ScriptSource {
 }
 
 // @public
+export interface SecretsProvisioningComponent {
+    name?: SecretsProvisioningComponentName;
+    version?: string;
+}
+
+// @public
+export type SecretsProvisioningComponentName = string;
+
+// @public
+export interface SecretsProvisioningSettings {
+    components?: SecretsProvisioningComponent[];
+    isSupported?: boolean;
+    osName?: string;
+}
+
+// @public
 export type SecurityEncryptionTypes = string;
 
 // @public
@@ -5590,8 +5676,10 @@ export interface SharedGalleryImagesOperations {
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
     artifactTags?: Record<string, string>;
+    readonly consumptionEndTime?: Date;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
+    readonly imageState?: GalleryImageVersionState;
     publishedDate?: Date;
     storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
@@ -5599,8 +5687,10 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
 // @public
 export interface SharedGalleryImageVersionProperties {
     artifactTags?: Record<string, string>;
+    readonly consumptionEndTime?: Date;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
+    readonly imageState?: GalleryImageVersionState;
     publishedDate?: Date;
     storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
@@ -5951,7 +6041,9 @@ export interface SoftDeletedResourceOperations {
 
 // @public
 export interface SoftDeletePolicy {
+    gracePeriodInDays?: number;
     isSoftDeleteEnabled?: boolean;
+    retentionPeriodInDays?: number;
 }
 
 // @public
@@ -6346,6 +6438,7 @@ export interface VirtualMachine extends TrackedResource {
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extendedLocation?: ExtendedLocation;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;
@@ -6904,6 +6997,7 @@ export interface VirtualMachineNetworkInterfaceIPConfiguration {
     loadBalancerBackendAddressPools?: SubResource[];
     name: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersions;
     publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
     subnet?: SubResource;
@@ -6915,6 +7009,7 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
     applicationSecurityGroups?: SubResource[];
     loadBalancerBackendAddressPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersions;
     publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
     subnet?: SubResource;
@@ -6940,6 +7035,7 @@ export interface VirtualMachineProperties {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;
@@ -7333,6 +7429,7 @@ export interface VirtualMachineScaleSetIPConfiguration {
     loadBalancerInboundNatPools?: SubResource[];
     name: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7345,6 +7442,7 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
     loadBalancerBackendAddressPools?: SubResource[];
     loadBalancerInboundNatPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7878,6 +7976,7 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
     loadBalancerInboundNatPools?: SubResource[];
     name?: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7890,6 +7989,7 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
     loadBalancerBackendAddressPools?: SubResource[];
     loadBalancerInboundNatPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -8792,6 +8892,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;

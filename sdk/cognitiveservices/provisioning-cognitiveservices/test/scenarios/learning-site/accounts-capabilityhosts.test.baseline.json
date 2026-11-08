@@ -1,0 +1,56 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "capabilityHost": {
+          "bicepIdentifier": "capabilityHost",
+          "type": "Microsoft.CognitiveServices/accounts/capabilityHosts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-capabilityhosts"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilityHostKind": {
+                    "kind": "string",
+                    "value": "Agents"
+                  },
+                  "enablePublicHostingEnvironment": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates Verifier Workspace.
  *
  * @summary creates Verifier Workspace.
- * x-ms-original-file: 2026-01-01/VerifierWorkspacePut.json
+ * x-ms-original-file: 2026-03-01/VerifierWorkspacePut.json
  */
 async function verifierWorkspaceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

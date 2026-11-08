@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the ExpressRouteLag resources in the specified subscription.
  *
  * @summary list all the ExpressRouteLag resources in the specified subscription.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagList.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagList.json
  */
 async function listAllExpressRouteLags() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all caches the user has access to under a subscription.
  *
  * @summary returns all caches the user has access to under a subscription.
- * x-ms-original-file: 2026-01-01/Caches_List.json
+ * x-ms-original-file: 2026-08-01/Caches_List.json
  */
 async function cachesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

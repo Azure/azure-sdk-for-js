@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to track maintenance updates to resource
  *
  * @summary track maintenance updates to resource
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_Get.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdates_Get.json
  */
 async function applyUpdatesGet() {
   const credential = new DefaultAzureCredential();
