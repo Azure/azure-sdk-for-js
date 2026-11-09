@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an instance pool.
  *
  * @summary gets an instance pool.
- * x-ms-original-file: 2025-08-01-preview/GetInstancePool.json
+ * x-ms-original-file: 2026-08-01-preview/GetInstancePool.json
  */
 async function getAnInstancePool(): Promise<void> {
   const credential = new DefaultAzureCredential();

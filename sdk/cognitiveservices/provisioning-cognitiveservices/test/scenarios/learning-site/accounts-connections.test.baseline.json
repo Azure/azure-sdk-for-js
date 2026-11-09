@@ -1,0 +1,60 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "connection": {
+          "bicepIdentifier": "connection",
+          "type": "Microsoft.CognitiveServices/accounts/connections",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-connections"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "authType": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "CustomKeys"
+                  },
+                  "target": {
+                    "kind": "string",
+                    "value": "https://example.invalid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

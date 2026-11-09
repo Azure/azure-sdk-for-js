@@ -1,0 +1,42 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "raiExternalSafetyProvider": {
+          "bicepIdentifier": "raiExternalSafetyProvider",
+          "type": "Microsoft.CognitiveServices/raiExternalSafetyProviders",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "rai-external-safety-provider"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "providerName": {
+                    "kind": "string",
+                    "value": "safetyProviderName"
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "sync"
+                  },
+                  "url": {
+                    "kind": "string",
+                    "value": "https://example-safety-provider.contoso.com/webhook"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -2133,9 +2133,6 @@ importers:
       '@azure/core-auth':
         specifier: ^1.3.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-http-compat':
         specifier: ^2.0.0
         version: link:../../core/core-http-compat
@@ -2480,6 +2477,49 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
+  sdk/applicationinsights/provisioning-appinsights:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(supports-color@10.2.2)
@@ -5031,6 +5071,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/cognitiveservices/provisioning-cognitiveservices:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/commerce/arm-commerce:
     dependencies:
       '@azure-rest/core-client':
@@ -5403,7 +5486,7 @@ importers:
         version: 4.13.0(supports-color@10.2.2)
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: link:../../servicebus/service-bus
+        version: 7.10.0(supports-color@10.2.2)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.5
@@ -10223,6 +10306,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/cosmosdb/provisioning-cosmosdb:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql:
     dependencies:
       '@azure-rest/core-client':
@@ -14708,7 +14834,7 @@ importers:
         version: 4.13.0(supports-color@10.2.2)
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: link:../../servicebus/service-bus
+        version: 7.10.0(supports-color@10.2.2)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.5
@@ -15499,6 +15625,49 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
+  sdk/eventhub/provisioning-eventhub:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(supports-color@10.2.2)
@@ -16962,7 +17131,7 @@ importers:
   sdk/hybridcompute/arm-hybridcompute:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -24236,6 +24405,85 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/networksecurity/arm-networksecurity:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.7.0
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0(supports-color@10.2.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/newrelicobservability/arm-newrelicobservability:
     dependencies:
       '@azure-rest/core-client':
@@ -24916,6 +25164,49 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
+  sdk/operationalinsights/provisioning-operationalinsights:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(supports-color@10.2.2)
@@ -28188,7 +28479,7 @@ importers:
   sdk/redisenterprise/arm-redisenterprisecache:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -29781,6 +30072,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/search/provisioning-search:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/search/search-documents:
     dependencies:
       '@azure-rest/core-client':
@@ -30435,6 +30769,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/servicebus/provisioning-servicebus:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/servicebus/service-bus:
     dependencies:
       '@azure/abort-controller':
@@ -30593,7 +30970,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/service-bus':
         specifier: ^7.9.5
-        version: link:../service-bus
+        version: 7.10.0(supports-color@10.2.2)
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
@@ -31462,7 +31839,7 @@ importers:
   sdk/sql/arm-sql:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -31519,6 +31896,49 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 18.0.8
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
+  sdk/sql/provisioning-sql:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
       eslint:
         specifier: 'catalog:'
         version: 10.13.0(supports-color@10.2.2)
@@ -31835,6 +32255,49 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.64.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
+  sdk/storage/provisioning-storage:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35887,6 +36350,49 @@ importers:
         specifier: catalog:testing
         version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  sdk/web-pubsub/provisioning-webpubsub:
+    dependencies:
+      '@azure/provisioning-core':
+        specifier: 'catalog:'
+        version: link:../../core/provisioning-core
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.5
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 5.0.5(playwright@1.64.1)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vitest@5.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 5.0.5(vitest@5.0.5)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(supports-color@10.2.2)
+      playwright:
+        specifier: catalog:testing
+        version: 1.64.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.10
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 5.0.5(@opentelemetry/api@1.9.1)(@types/node@22.20.5)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-istanbul@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   sdk/web-pubsub/web-pubsub:
     dependencies:
       '@azure-rest/core-client':
@@ -36616,6 +37122,10 @@ packages:
     resolution: {integrity: sha1-S1KoRgnPcQfE993Z1yeiIQthblE=}
     engines: {node: '>=8.0.0'}
 
+  '@azure/core-amqp@4.5.1':
+    resolution: {integrity: sha1-ddnAPQ2aYO/GilPXk7sHquCK/lw=}
+    engines: {node: '>=22.0.0'}
+
   '@azure/core-auth@1.11.0':
     resolution: {integrity: sha1-Ha7/32LRqHHSK4ZfnzFkpj6h9XU=}
     engines: {node: '>=22.0.0'}
@@ -36768,6 +37278,10 @@ packages:
   '@azure/search-documents@12.1.0':
     resolution: {integrity: sha1-eTO+ozIX17lWlv6XoZzA9DMbw2o=}
     engines: {node: '>=18.0.0'}
+
+  '@azure/service-bus@7.10.0':
+    resolution: {integrity: sha512-UDTnLCISBpyQlwVnYpOio7lXIGCGlzxfashdDVIRcRlEe8MIrTQu+BFY1DxKh1lOUaHp+qLmWSjLXDunWeJDAQ==}
+    engines: {node: '>=22.0.0'}
 
   '@azure/storage-blob@12.31.0':
     resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=}
@@ -43832,6 +44346,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/core-amqp@4.5.1(supports-color@10.2.2)':
+    dependencies:
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-auth': 1.11.0(supports-color@10.2.2)
+      '@azure/core-util': 1.14.0(supports-color@10.2.2)
+      '@azure/logger': 1.4.0(supports-color@10.2.2)
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      rhea: 3.0.5(supports-color@10.2.2)
+      rhea-promise: 3.1.0(supports-color@10.2.2)
+      tslib: 2.8.1
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/core-auth@1.11.0(supports-color@10.2.2)':
     dependencies:
       '@azure/abort-controller': 2.2.0
@@ -44124,6 +44654,29 @@ snapshots:
       '@azure/logger': 1.4.0(supports-color@10.2.2)
       events: 3.3.0
       tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/service-bus@7.10.0(supports-color@10.2.2)':
+    dependencies:
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-amqp': 4.5.1(supports-color@10.2.2)
+      '@azure/core-auth': 1.11.0(supports-color@10.2.2)
+      '@azure/core-client': 1.11.1(supports-color@10.2.2)
+      '@azure/core-paging': 1.7.0
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-tracing': 1.4.0
+      '@azure/core-util': 1.14.0(supports-color@10.2.2)
+      '@azure/core-xml': 1.6.0
+      '@azure/logger': 1.4.0(supports-color@10.2.2)
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.2
+      long: 5.3.2
+      process: 0.11.10
+      rhea-promise: 3.1.0(supports-color@10.2.2)
+      tslib: 2.8.1
+      util: 0.12.5
     transitivePeerDependencies:
       - supports-color
 

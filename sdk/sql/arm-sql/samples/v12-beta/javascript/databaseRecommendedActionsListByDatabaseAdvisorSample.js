@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets list of Database Recommended Actions.
  *
  * @summary gets list of Database Recommended Actions.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRecommendedActionList.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRecommendedActionList.json
  */
 async function listOfDatabaseRecommendedActions() {
   const credential = new DefaultAzureCredential();

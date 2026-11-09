@@ -41,7 +41,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,7 @@ export async function _listByInstanceDeserialize(
 
   return _managedInstanceAzureADOnlyAuthListResultDeserializer(result.body);
 }
+
 /** Gets a list of server Azure Active Directory only authentications. */
 export function listByInstance(
   context: Client,
@@ -85,7 +86,7 @@ export function listByInstance(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -104,7 +105,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an existing server Active Directory only authentication property. */
 export function $delete(
   context: Client,
@@ -140,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, managedInstanceName, authenticationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -161,7 +163,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,6 +192,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedInstanceAzureADOnlyAuthenticationDeserializer(result.body);
 }
+
 /** Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property. */
 export function createOrUpdate(
   context: Client,
@@ -217,7 +220,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<ManagedInstanceAzureADOnlyAuthentication>,
     ManagedInstanceAzureADOnlyAuthentication
@@ -238,7 +241,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       authenticationName: authenticationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,6 +268,7 @@ export async function _getDeserialize(
 
   return managedInstanceAzureADOnlyAuthenticationDeserializer(result.body);
 }
+
 /** Gets a specific Azure Active Directory only authentication property. */
 export async function get(
   context: Client,

@@ -1,0 +1,65 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "managedNetwork": {
+          "bicepIdentifier": "managedNetwork",
+          "type": "Microsoft.CognitiveServices/accounts/managedNetworks",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "managedNetwork": {
+                    "kind": "object",
+                    "value": {
+                      "isolationMode": {
+                        "kind": "string",
+                        "value": "AllowOnlyApprovedOutbound"
+                      },
+                      "firewallSku": {
+                        "kind": "string",
+                        "value": "Standard"
+                      },
+                      "managedNetworkKind": {
+                        "kind": "string",
+                        "value": "V1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
