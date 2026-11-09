@@ -53,6 +53,7 @@ export async function _listByMongoClusterDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
+
 /** list private links on the given resource */
 export function listByMongoCluster(
   context: Client,

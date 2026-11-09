@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary get a specific private connection
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateEndpointConnectionGet.json
  */
-async function getAPrivateEndpointConnectionOnAMongoClusterResource() {
+async function getAPrivateEndpointConnectionOnADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function getAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  await getAPrivateEndpointConnectionOnAMongoClusterResource();
+  await getAPrivateEndpointConnectionOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
+ * This sample demonstrates how to creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster.
  *
- * @summary creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
+ * @summary creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_FirewallRuleCreate.json
  */
-async function createsAFirewallRuleOnAMongoClusterResource(): Promise<void> {
+async function createsAFirewallRuleOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function createsAFirewallRuleOnAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createsAFirewallRuleOnAMongoClusterResource();
+  await createsAFirewallRuleOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

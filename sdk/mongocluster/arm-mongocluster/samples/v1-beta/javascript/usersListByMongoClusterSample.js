@@ -5,12 +5,12 @@ const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list all the users on a mongo cluster.
+ * This sample demonstrates how to list all the users on a DocumentDB cluster.
  *
- * @summary list all the users on a mongo cluster.
+ * @summary list all the users on a DocumentDB cluster.
  * x-ms-original-file: 2026-06-15-preview/MongoClusters_UserList.json
  */
-async function listTheUsersOnAMongoClusterResource() {
+async function listTheUsersOnADocumentDBClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listTheUsersOnAMongoClusterResource() {
 }
 
 async function main() {
-  await listTheUsersOnAMongoClusterResource();
+  await listTheUsersOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

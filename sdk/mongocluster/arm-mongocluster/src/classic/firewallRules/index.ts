@@ -20,20 +20,20 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
-  /** List all the firewall rules in a given mongo cluster. */
+  /** List all the firewall rules in a given DocumentDB cluster. */
   listByMongoCluster: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: FirewallRulesListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<FirewallRule>;
-  /** Deletes a mongo cluster firewall rule. */
+  /** Deletes a DocumentDB cluster firewall rule. */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
+  /** Creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster. */
   createOrUpdate: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -41,7 +41,7 @@ export interface FirewallRulesOperations {
     resource: FirewallRule,
     options?: FirewallRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
-  /** Gets information about a mongo cluster firewall rule. */
+  /** Gets information about a DocumentDB cluster firewall rule. */
   get: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -49,6 +49,7 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesGetOptionalParams,
   ) => Promise<FirewallRule>;
 }
+
 function _getFirewallRules(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
@@ -85,6 +86,7 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
   };
 }
+
 export function _getFirewallRulesOperations(
   context: MongoClusterManagementContext,
 ): FirewallRulesOperations {

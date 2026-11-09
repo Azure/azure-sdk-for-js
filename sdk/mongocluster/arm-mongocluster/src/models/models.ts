@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -174,7 +175,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Represents a mongo cluster resource. */
+/** Represents a DocumentDB cluster resource. */
 export interface MongoCluster extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: MongoClusterProperties;
@@ -216,43 +217,43 @@ export function mongoClusterDeserializer(item: any): MongoCluster {
   };
 }
 
-/** The properties of a mongo cluster. */
+/** The properties of a DocumentDB cluster. */
 export interface MongoClusterProperties {
-  /** The mode to create a mongo cluster. */
+  /** The mode to create a DocumentDB cluster. */
   createMode?: CreateMode;
-  /** The parameters to create a point-in-time restore mongo cluster. */
+  /** The parameters to create a point-in-time restore DocumentDB cluster. */
   restoreParameters?: MongoClusterRestoreParameters;
-  /** The parameters to create a replica mongo cluster. */
+  /** The parameters to create a replica DocumentDB cluster. */
   replicaParameters?: MongoClusterReplicaParameters;
-  /** The local administrator properties for the mongo cluster. */
+  /** The local administrator properties for the DocumentDB cluster. */
   administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
   /** The default mongo connection string for the cluster. */
   readonly connectionString?: string;
-  /** The provisioning state of the mongo cluster. */
+  /** The provisioning state of the DocumentDB cluster. */
   readonly provisioningState?: ProvisioningState;
-  /** The status of the mongo cluster. */
+  /** The status of the DocumentDB cluster. */
   readonly clusterStatus?: MongoClusterStatus;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /** Whether or not public endpoint access is allowed for this DocumentDB cluster. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** The high availability properties of the mongo cluster. */
+  /** The high availability properties of the DocumentDB cluster. */
   highAvailability?: HighAvailabilityProperties;
-  /** The storage properties of the mongo cluster. */
+  /** The storage properties of the DocumentDB cluster. */
   storage?: StorageProperties;
-  /** The sharding properties of the mongo cluster. */
+  /** The sharding properties of the DocumentDB cluster. */
   sharding?: ShardingProperties;
-  /** The compute properties of the mongo cluster. */
+  /** The compute properties of the DocumentDB cluster. */
   compute?: ComputeProperties;
-  /** The backup properties of the mongo cluster. */
+  /** The backup properties of the DocumentDB cluster. */
   backup?: BackupProperties;
-  /** The Data API properties of the mongo cluster. */
+  /** The Data API properties of the DocumentDB cluster. */
   dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** List of private endpoint connections. */
   previewFeatures?: PreviewFeature[];
-  /** The replication properties for the mongo cluster */
+  /** The replication properties for the DocumentDB cluster */
   readonly replica?: ReplicationProperties;
   /** The infrastructure version the cluster is provisioned on. */
   readonly infrastructureVersion?: string;
@@ -260,7 +261,7 @@ export interface MongoClusterProperties {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
-  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows the Azure Cosmos DB service to bypass network restrictions. */
   networkBypassMode?: NetworkBypassMode;
 }
 
@@ -350,11 +351,11 @@ export function mongoClusterPropertiesDeserializer(item: any): MongoClusterPrope
   };
 }
 
-/** The mode that the Mongo Cluster is created with. */
+/** The mode that the DocumentDB cluster is created with. */
 export enum KnownCreateMode {
-  /** Create a new mongo cluster. */
+  /** Create a new DocumentDB cluster. */
   Default = "Default",
-  /** Create a mongo cluster from a restore point-in-time. */
+  /** Create a DocumentDB cluster from a restore point-in-time. */
   PointInTimeRestore = "PointInTimeRestore",
   /** Create a replica cluster in distinct geographic region from the source cluster. */
   GeoReplica = "GeoReplica",
@@ -363,12 +364,12 @@ export enum KnownCreateMode {
 }
 
 /**
- * The mode that the Mongo Cluster is created with. \
+ * The mode that the DocumentDB cluster is created with. \
  * {@link KnownCreateMode} can be used interchangeably with CreateMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default**: Create a new mongo cluster. \
- * **PointInTimeRestore**: Create a mongo cluster from a restore point-in-time. \
+ * **Default**: Create a new DocumentDB cluster. \
+ * **PointInTimeRestore**: Create a DocumentDB cluster from a restore point-in-time. \
  * **GeoReplica**: Create a replica cluster in distinct geographic region from the source cluster. \
  * **Replica**: Create a replica cluster in the same geographic region as the source cluster.
  */
@@ -376,7 +377,7 @@ export type CreateMode = string;
 
 /** Parameters used for restore operations */
 export interface MongoClusterRestoreParameters {
-  /** UTC point in time to restore a mongo cluster */
+  /** UTC point in time to restore a DocumentDB cluster */
   pointInTimeUTC?: Date;
   /** Resource ID to locate the source cluster to restore */
   sourceResourceId?: string;
@@ -472,53 +473,53 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-/** The status of the Mongo cluster resource. */
+/** The status of the DocumentDB cluster resource. */
 export enum KnownMongoClusterStatus {
-  /** The mongo cluster resource is ready for use. */
+  /** The DocumentDB cluster resource is ready for use. */
   Ready = "Ready",
-  /** The mongo cluster resource is being provisioned. */
+  /** The DocumentDB cluster resource is being provisioned. */
   Provisioning = "Provisioning",
-  /** The mongo cluster resource is being updated. */
+  /** The DocumentDB cluster resource is being updated. */
   Updating = "Updating",
-  /** The mongo cluster resource is being started. */
+  /** The DocumentDB cluster resource is being started. */
   Starting = "Starting",
-  /** The mongo cluster resource is being stopped. */
+  /** The DocumentDB cluster resource is being stopped. */
   Stopping = "Stopping",
-  /** The mongo cluster resource is stopped. */
+  /** The DocumentDB cluster resource is stopped. */
   Stopped = "Stopped",
-  /** The mongo cluster resource is being dropped. */
+  /** The DocumentDB cluster resource is being dropped. */
   Dropping = "Dropping",
 }
 
 /**
- * The status of the Mongo cluster resource. \
+ * The status of the DocumentDB cluster resource. \
  * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ready**: The mongo cluster resource is ready for use. \
- * **Provisioning**: The mongo cluster resource is being provisioned. \
- * **Updating**: The mongo cluster resource is being updated. \
- * **Starting**: The mongo cluster resource is being started. \
- * **Stopping**: The mongo cluster resource is being stopped. \
- * **Stopped**: The mongo cluster resource is stopped. \
- * **Dropping**: The mongo cluster resource is being dropped.
+ * **Ready**: The DocumentDB cluster resource is ready for use. \
+ * **Provisioning**: The DocumentDB cluster resource is being provisioned. \
+ * **Updating**: The DocumentDB cluster resource is being updated. \
+ * **Starting**: The DocumentDB cluster resource is being started. \
+ * **Stopping**: The DocumentDB cluster resource is being stopped. \
+ * **Stopped**: The DocumentDB cluster resource is stopped. \
+ * **Dropping**: The DocumentDB cluster resource is being dropped.
  */
 export type MongoClusterStatus = string;
 
-/** Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' */
+/** Whether or not public endpoint access is allowed for this DocumentDB cluster.  Value is optional and default value is 'Enabled' */
 export enum KnownPublicNetworkAccess {
-  /** If set, mongo cluster can be accessed through private and public methods. */
+  /** If set, DocumentDB cluster can be accessed through private and public methods. */
   Enabled = "Enabled",
   /** If set, the private endpoints are the exclusive access method. */
   Disabled = "Disabled",
 }
 
 /**
- * Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' \
+ * Whether or not public endpoint access is allowed for this DocumentDB cluster.  Value is optional and default value is 'Enabled' \
  * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: If set, mongo cluster can be accessed through private and public methods. \
+ * **Enabled**: If set, DocumentDB cluster can be accessed through private and public methods. \
  * **Disabled**: If set, the private endpoints are the exclusive access method.
  */
 export type PublicNetworkAccess = string;
@@ -579,21 +580,21 @@ export function storagePropertiesDeserializer(item: any): StorageProperties {
   };
 }
 
-/** The type of storage that a mongo cluster can be provisioned with. */
+/** The type of storage that a DocumentDB cluster can be provisioned with. */
 export enum KnownStorageType {
-  /** Premium SSD for high performance workloads. */
+  /** Premium SSD storage. Premium SSD v2 is recommended for better performance. */
   PremiumSSD = "PremiumSSD",
-  /** Premium SSD v2 for very IO-intensive workloads. This is a preview option and has additional limitations. */
+  /** Premium SSD v2 storage. Recommended for better performance. */
   PremiumSSDv2 = "PremiumSSDv2",
 }
 
 /**
- * The type of storage that a mongo cluster can be provisioned with. \
+ * The type of storage that a DocumentDB cluster can be provisioned with. \
  * {@link KnownStorageType} can be used interchangeably with StorageType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PremiumSSD**: Premium SSD for high performance workloads. \
- * **PremiumSSDv2**: Premium SSD v2 for very IO-intensive workloads. This is a preview option and has additional limitations.
+ * **PremiumSSD**: Premium SSD storage. Premium SSD v2 is recommended for better performance. \
+ * **PremiumSSDv2**: Premium SSD v2 storage. Recommended for better performance.
  */
 export type StorageType = string;
 
@@ -842,14 +843,14 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Preview features that can be enabled on a mongo cluster. */
+/** Preview features that can be enabled on a DocumentDB cluster. */
 export enum KnownPreviewFeature {
   /** Enables geo replicas preview feature. The feature must be set at create-time on new cluster to enable linking a geo-replica cluster to it. */
   GeoReplicas = "GeoReplicas",
 }
 
 /**
- * Preview features that can be enabled on a mongo cluster. \
+ * Preview features that can be enabled on a DocumentDB cluster. \
  * {@link KnownPreviewFeature} can be used interchangeably with PreviewFeature,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -857,7 +858,7 @@ export enum KnownPreviewFeature {
  */
 export type PreviewFeature = string;
 
-/** Replica properties of the mongo cluster. */
+/** Replica properties of the DocumentDB cluster. */
 export interface ReplicationProperties {
   /** The resource id the source cluster for the replica cluster. */
   readonly sourceResourceId?: string;
@@ -875,7 +876,7 @@ export function replicationPropertiesDeserializer(item: any): ReplicationPropert
   };
 }
 
-/** Replication role of the mongo cluster. */
+/** Replication role of the DocumentDB cluster. */
 export enum KnownReplicationRole {
   /** The cluster is a primary replica. */
   Primary = "Primary",
@@ -886,7 +887,7 @@ export enum KnownReplicationRole {
 }
 
 /**
- * Replication role of the mongo cluster. \
+ * Replication role of the DocumentDB cluster. \
  * {@link KnownReplicationRole} can be used interchangeably with ReplicationRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -926,7 +927,7 @@ export enum KnownReplicationState {
  */
 export type ReplicationState = string;
 
-/** The authentication configuration for the Mongo cluster. */
+/** The authentication configuration for the DocumentDB cluster. */
 export interface AuthConfigProperties {
   /** Allowed authentication modes for data access on the cluster. */
   allowedModes?: AuthenticationMode[];
@@ -952,7 +953,7 @@ export function authConfigPropertiesDeserializer(item: any): AuthConfigPropertie
   };
 }
 
-/** The authentication modes supporting on the Mongo cluster. */
+/** The authentication modes supporting on the DocumentDB cluster. */
 export enum KnownAuthenticationMode {
   /** Native mongo authentication mode using username and password with auth mechanism 'SCRAM-SHA-256'. */
   NativeAuth = "NativeAuth",
@@ -961,7 +962,7 @@ export enum KnownAuthenticationMode {
 }
 
 /**
- * The authentication modes supporting on the Mongo cluster. \
+ * The authentication modes supporting on the DocumentDB cluster. \
  * {@link KnownAuthenticationMode} can be used interchangeably with AuthenticationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -970,7 +971,7 @@ export enum KnownAuthenticationMode {
  */
 export type AuthenticationMode = string;
 
-/** The encryption configuration for the mongo cluster. */
+/** The encryption configuration for the DocumentDB cluster. */
 export interface EncryptionProperties {
   /** Customer managed key encryption settings. */
   customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
@@ -1059,21 +1060,21 @@ export enum KnownKeyEncryptionKeyIdentityType {
  */
 export type KeyEncryptionKeyIdentityType = string;
 
-/** The network bypass mode for the Mongo cluster. */
+/** The network bypass mode for the DocumentDB cluster. */
 export enum KnownNetworkBypassMode {
   /** No network bypass is enabled. */
   None = "None",
-  /** Allows Azure Cosmos DB service to bypass network restrictions. */
+  /** Allows the Azure Cosmos DB service to bypass network restrictions. */
   AzureCosmosDB = "AzureCosmosDB",
 }
 
 /**
- * The network bypass mode for the Mongo cluster. \
+ * The network bypass mode for the DocumentDB cluster. \
  * {@link KnownNetworkBypassMode} can be used interchangeably with NetworkBypassMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: No network bypass is enabled. \
- * **AzureCosmosDB**: Allows Azure Cosmos DB service to bypass network restrictions.
+ * **AzureCosmosDB**: Allows the Azure Cosmos DB service to bypass network restrictions.
  */
 export type NetworkBypassMode = string;
 
@@ -1283,23 +1284,23 @@ export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): any {
 
 /** The updatable properties of the MongoCluster. */
 export interface MongoClusterUpdateProperties {
-  /** The local administrator properties for the mongo cluster. */
+  /** The local administrator properties for the DocumentDB cluster. */
   administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /** Whether or not public endpoint access is allowed for this DocumentDB cluster. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** The high availability properties of the mongo cluster. */
+  /** The high availability properties of the DocumentDB cluster. */
   highAvailability?: HighAvailabilityProperties;
-  /** The storage properties of the mongo cluster. */
+  /** The storage properties of the DocumentDB cluster. */
   storage?: StorageProperties;
-  /** The sharding properties of the mongo cluster. */
+  /** The sharding properties of the DocumentDB cluster. */
   sharding?: ShardingProperties;
-  /** The compute properties of the mongo cluster. */
+  /** The compute properties of the DocumentDB cluster. */
   compute?: ComputeProperties;
-  /** The backup properties of the mongo cluster. */
+  /** The backup properties of the DocumentDB cluster. */
   backup?: BackupProperties;
-  /** The Data API properties of the mongo cluster. */
+  /** The Data API properties of the DocumentDB cluster. */
   dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   previewFeatures?: PreviewFeature[];
@@ -1307,7 +1308,7 @@ export interface MongoClusterUpdateProperties {
   authConfig?: AuthConfigProperties;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
   encryption?: EncryptionProperties;
-  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
+  /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows the Azure Cosmos DB service to bypass network restrictions. */
   networkBypassMode?: NetworkBypassMode;
 }
 
@@ -1368,9 +1369,9 @@ export function mongoClusterArrayDeserializer(result: Array<MongoCluster>): any[
   });
 }
 
-/** The connection strings for the given mongo cluster. */
+/** The connection strings for the given DocumentDB cluster. */
 export interface ListConnectionStringsResult {
-  /** An array that contains the connection strings for a mongo cluster. */
+  /** An array that contains the connection strings for a DocumentDB cluster. */
   readonly connectionStrings?: ConnectionString[];
 }
 
@@ -1388,7 +1389,7 @@ export function connectionStringArrayDeserializer(result: Array<ConnectionString
   });
 }
 
-/** Connection string for the mongo cluster */
+/** Connection string for the DocumentDB cluster */
 export interface ConnectionString {
   /** Value of the connection string */
   readonly connectionString?: string;
@@ -1501,7 +1502,7 @@ export enum KnownPromoteMode {
  */
 export type PromoteMode = string;
 
-/** Represents a mongo cluster firewall rule. */
+/** Represents a DocumentDB cluster firewall rule. */
 export interface FirewallRule extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: FirewallRuleProperties;
@@ -1529,13 +1530,13 @@ export function firewallRuleDeserializer(item: any): FirewallRule {
   };
 }
 
-/** The properties of a mongo cluster firewall rule. */
+/** The properties of a DocumentDB cluster firewall rule. */
 export interface FirewallRuleProperties {
   /** The provisioning state of the firewall rule. */
   readonly provisioningState?: ProvisioningState;
-  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   startIpAddress: string;
-  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  /** The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
 }
 
@@ -1753,7 +1754,7 @@ export function replicaArrayDeserializer(result: Array<Replica>): any[] {
   });
 }
 
-/** Represents a mongo cluster replica. */
+/** Represents a DocumentDB cluster replica. */
 export interface Replica extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: MongoClusterProperties;
@@ -1773,7 +1774,7 @@ export function replicaDeserializer(item: any): Replica {
   };
 }
 
-/** Represents a Mongo cluster user. */
+/** Represents a DocumentDB cluster user. */
 export interface User extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: UserProperties;
@@ -2020,26 +2021,26 @@ export function userArrayDeserializer(result: Array<User>): any[] {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-03-01-preview. */
+  /** Azure DocumentDB clusters api version 2024-03-01-preview. */
   V20240301Preview = "2024-03-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-06-01-preview. */
+  /** Azure DocumentDB clusters api version 2024-06-01-preview. */
   V20240601Preview = "2024-06-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-07-01. */
+  /** Azure DocumentDB clusters api version 2024-07-01. */
   V20240701 = "2024-07-01",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-10-01-preview. */
+  /** Azure DocumentDB clusters api version 2024-10-01-preview. */
   V20241001Preview = "2024-10-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-04-01-preview. */
+  /** Azure DocumentDB clusters api version 2025-04-01-preview. */
   V20250401Preview = "2025-04-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
+  /** Azure DocumentDB clusters api version 2025-07-01-preview. */
   V20250701Preview = "2025-07-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-08-01-preview. */
+  /** Azure DocumentDB clusters api version 2025-08-01-preview. */
   V20250801Preview = "2025-08-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-09-01. */
+  /** Azure DocumentDB clusters api version 2025-09-01. */
   V20250901 = "2025-09-01",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-02-01-preview. */
+  /** Azure DocumentDB clusters api version 2026-02-01-preview. */
   V20260201Preview = "2026-02-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-06-01. */
+  /** Azure DocumentDB clusters api version 2026-06-01. */
   V20260601 = "2026-06-01",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-06-15-preview. */
+  /** Azure DocumentDB clusters api version 2026-06-15-preview. */
   V20260615Preview = "2026-06-15-preview",
 }
