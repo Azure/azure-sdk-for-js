@@ -976,30 +976,62 @@ describe("VoiceAgentLiveClient native commands", () => {
     await connection.close();
   });
 
-  it.each(
-    (["client", "foundry_managed_agent"] as const).flatMap((type) =>
-      ["item", "tool", "response"].map((method) => ({ type, method })),
-    ),
-  )(
-    "rejects the Responses-only $method helper in $type delegation mode",
-    async ({ type, method }) => {
+  it.each(["item", "tool", "response"])(
+    "rejects the Responses command helper $0 in client delegation mode",
+    async (method) => {
       const factory = createFactory();
-      factory.transport.session = createSession({
-        delegation:
-          type === "client" ? { type } : { type, agent_name: "managed-owner", agent_version: "7" },
-      });
+      factory.transport.session = createSession({ delegation: { type: "client" } });
       const connection = await connect(factory);
       const operation =
         method === "item"
           ? connection.sendResponseItem({ type: "message", role: "user", content: [] })
           : method === "tool"
-            ? connection.sendToolOutput("call-1", "not a Responses delegation")
+            ? connection.sendToolOutput("call-1", "not a backend delegation")
             : connection.requestResponse();
       await expect(operation).rejects.toBeInstanceOf(VoiceAgentProtocolError);
       expect(factory.transport.sentMessages).toEqual([]);
       await connection.close();
     },
   );
+
+  it("sends function results and typed input in Foundry-managed agent delegation mode", async () => {
+    const factory = createFactory();
+    factory.transport.session = createSession({
+      delegation: {
+        type: "foundry_managed_agent",
+        agent_name: "managed-owner",
+        agent_version: "7",
+      },
+    });
+    const connection = await connect(factory);
+    // Foundry continues the managed agent's pending function calls with these results.
+    await connection.sendToolOutput("call-1", '{"utc":"2026-11-09T04:05:06Z"}', {
+      eventId: "tool-1",
+    });
+    // A user message followed by response.create starts a typed run of the managed agent.
+    const message = {
+      type: "message",
+      role: "user",
+      content: [{ type: "input_text", text: "Explain the past tense." }],
+    };
+    await connection.sendResponseItem(message, { eventId: "item-1" });
+    await connection.requestResponse({ eventId: "response-1" });
+    expect(factory.transport.sentMessages.map((data) => JSON.parse(data))).toEqual([
+      {
+        type: "response.item.create",
+        event_id: "tool-1",
+        item: {
+          type: "function_call_output",
+          call_id: "call-1",
+          output: '{"utc":"2026-11-09T04:05:06Z"}',
+        },
+      },
+      { type: "response.create" },
+      { type: "response.item.create", event_id: "item-1", item: message },
+      { type: "response.create", event_id: "response-1" },
+    ]);
+    await connection.close();
+  });
 
   it("send and sendEvent use the same native serializer", async () => {
     const factory = createFactory();
