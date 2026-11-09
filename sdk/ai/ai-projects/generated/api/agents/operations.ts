@@ -57,6 +57,8 @@ import {
   _SessionDirectoryListResponse,
   _sessionDirectoryListResponseDeserializer,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
+  generateAgentRequestSerializer,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
@@ -105,6 +107,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -2296,6 +2299,57 @@ export async function updateAgent(
 ): Promise<Agent> {
   const result = await _updateAgentSend(context, agentName, definition, options);
   return _updateAgentDeserialize(result);
+}
+
+export function _createFromPromptSend(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents:generate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: generateAgentRequestSerializer(body),
+    });
+}
+
+export async function _createFromPromptDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function createFromPrompt(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _createFromPromptSend(context, body, options);
+  return _createFromPromptDeserialize(result);
 }
 
 export function _createAgentSend(

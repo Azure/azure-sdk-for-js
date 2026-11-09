@@ -6,7 +6,6 @@ import {
   BetaAgentInsightMonitorsOperations,
   _getBetaAgentInsightMonitorsOperations,
 } from "./agentInsightMonitors/index.js";
-import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
@@ -36,7 +35,6 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  agents: BetaAgentsOperations;
   voiceAgents: BetaVoiceAgentsOperations;
 }
 
@@ -52,7 +50,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    agents: _getBetaAgentsOperations(context),
     voiceAgents: _getBetaVoiceAgentsOperations(context),
   };
 }
