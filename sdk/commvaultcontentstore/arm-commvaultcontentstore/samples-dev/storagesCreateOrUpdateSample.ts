@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Storage
  *
  * @summary create a Storage
- * x-ms-original-file: 2026-09-30/Storages_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/Storages_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function storagesCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function storagesCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGenerate
         location: "idxxvyqhyxvahalfmkbjxklfbimouxnasnxdmaydqv",
         storageType: "Air_Gap_Protect",
         vendor: "Azure_Blob_Storage",
-        class: "COLD",
+        class: "COOL",
       },
     },
   );

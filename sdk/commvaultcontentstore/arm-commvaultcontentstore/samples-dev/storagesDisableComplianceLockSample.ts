@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disable compliance lock on the storage. Initiates an out-of-band multi-person authorization (MPA) email approval workflow on the partner side. The storage compliance lock status transitions to 'DisablementPending' immediately; once the MPA approval completes, the status becomes 'Disabled' (observable via the refresh action).
  *
  * @summary disable compliance lock on the storage. Initiates an out-of-band multi-person authorization (MPA) email approval workflow on the partner side. The storage compliance lock status transitions to 'DisablementPending' immediately; once the MPA approval completes, the status becomes 'Disabled' (observable via the refresh action).
- * x-ms-original-file: 2026-09-30/Storages_DisableComplianceLock_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/Storages_DisableComplianceLock_MaximumSet_Gen.json
  */
 async function storagesDisableComplianceLockMaximumSetDisableComplianceLockOnStorageInitiatesMPAApprovalStatusBecomesDisablementPending(): Promise<void> {
   const credential = new DefaultAzureCredential();
