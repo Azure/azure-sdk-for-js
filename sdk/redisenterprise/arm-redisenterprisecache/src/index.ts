@@ -93,7 +93,6 @@ export type {
   MaintenanceWindowType,
   MaintenanceWindowSchedule,
   MaintenanceDayOfWeek,
-  FirewallRule,
   RedundancyMode,
   TrackedResource,
   ClusterUpdate,

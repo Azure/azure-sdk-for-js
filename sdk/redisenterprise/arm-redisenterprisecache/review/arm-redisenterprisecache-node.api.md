@@ -109,7 +109,6 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public
 export interface Cluster extends TrackedResource {
     encryption?: ClusterCommonPropertiesEncryption;
-    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -130,7 +129,6 @@ export interface Cluster extends TrackedResource {
 // @public
 export interface ClusterCommonProperties {
     encryption?: ClusterCommonPropertiesEncryption;
-    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     maintenanceConfiguration?: MaintenanceConfiguration;
@@ -185,7 +183,6 @@ export interface ClustersUnlinkMigratedEndpointOptionalParams extends OperationO
 // @public
 export interface ClusterUpdate {
     encryption?: ClusterCommonPropertiesEncryption;
-    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -434,12 +431,6 @@ export type EvictionPolicy = string;
 // @public
 export interface ExportClusterParameters {
     sasUri: string;
-}
-
-// @public
-export interface FirewallRule {
-    name: string;
-    sourceAddressPrefix: string;
 }
 
 // @public
@@ -742,12 +733,7 @@ export enum KnownTlsVersion {
 
 // @public
 export enum KnownVersions {
-    V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview",
-    V20260501Preview = "2026-05-01-preview",
-    V20260601Preview = "2026-06-01-preview",
-    V20260901 = "2026-09-01",
-    V20261001Preview = "2026-10-01-preview"
+    V20260901 = "2026-09-01"
 }
 
 // @public
