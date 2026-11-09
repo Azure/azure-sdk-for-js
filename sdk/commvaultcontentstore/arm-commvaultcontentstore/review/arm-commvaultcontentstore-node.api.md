@@ -87,13 +87,7 @@ export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdat
 // @public
 export interface CloudAccountIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-// @public
-export interface CloudAccountIdentityUpdateUpdate {
-    type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
+    userAssignedIdentities?: Record<string, CloudAccountUserAssignedIdentity>;
 }
 
 // @public
@@ -170,7 +164,7 @@ export interface CloudAccountsOperations {
     linkSaaS: (resourceGroupName: string, cloudAccountName: string, body: SaaSData, options?: CloudAccountsLinkSaaSOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
     listByResourceGroup: (resourceGroupName: string, options?: CloudAccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
     listBySubscription: (options?: CloudAccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudAccount>;
-    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdateUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
+    update: (resourceGroupName: string, cloudAccountName: string, properties: CloudAccountUpdate, options?: CloudAccountsUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
 }
 
 // @public
@@ -193,10 +187,7 @@ export interface CloudAccountUpdateProperties {
 }
 
 // @public
-export interface CloudAccountUpdateUpdate {
-    identity?: CloudAccountIdentityUpdateUpdate;
-    properties?: CloudAccountUpdateProperties;
-    tags?: Record<string, string>;
+export interface CloudAccountUserAssignedIdentity {
 }
 
 // @public
@@ -1108,10 +1099,6 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface UserAssignedIdentityCreateOrUpdate {
-}
-
-// @public
-export interface UserAssignedIdentityUpdate {
 }
 
 // @public

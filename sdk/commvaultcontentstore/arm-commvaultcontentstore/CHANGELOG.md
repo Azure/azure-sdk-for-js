@@ -1,14 +1,13 @@
 # Release History
 
-## 2.0.0 (2026-11-05)
+## 2.0.0 (2026-11-09)
 
 ### Features Added
   - Added Interface CloudAccountIdentityUpdate
-  - Added Interface CloudAccountIdentityUpdateUpdate
   - Added Interface CloudAccountMarketplaceUpdate
   - Added Interface CloudAccountOfferDetailsUpdate
   - Added Interface CloudAccountUpdateProperties
-  - Added Interface CloudAccountUpdateUpdate
+  - Added Interface CloudAccountUserAssignedIdentity
   - Added Interface CloudAccountUserUpdate
   - Enum KnownStorageClassType has a new value Cold
   - Enum KnownVersions has a new value V20261103
@@ -20,11 +19,9 @@
   - Removed Interface MarketplaceDetailsUpdate
   - Removed Interface ResourceUpdate
   - Removed Interface TrackedResourceUpdate
+  - Removed Interface UserAssignedIdentityUpdate
   - Type of parameter identity of interface CloudAccountUpdate is changed from ManagedServiceIdentityUpdate to CloudAccountIdentityUpdate
   - Type of parameter properties of interface CloudAccountUpdate is changed from CloudAccountPropertiesUpdate to CloudAccountUpdateProperties
-
-### Other Changes
-  - Enum KnownStorageClassType member Cool now has the value "COOL" (previously "COLD"), and the new member Cold has the value "COLD"
 
     
 ## 1.0.0 (2026-10-09)
