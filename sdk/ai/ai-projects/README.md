@@ -13,7 +13,7 @@ resources in your Microsoft Foundry Project. Use it to:
   - Bing Grounding
   - Browser Automation
   - Code Interpreter
-  - Computer Use (Preview)
+  - Computer Use
   - File Search
   - Function Tool
   - Image Generation
@@ -738,7 +738,7 @@ console.log(`Response: ${response.output_text}`);
 
 See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
 
-**Computer Use (Preview)**
+**Computer Use**
 
 Enable agents to interact directly with computer systems for task automation and system operations:
 
@@ -753,10 +753,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
   tools: [
     {
-      type: "computer_use_preview",
-      display_width: 1026,
-      display_height: 769,
-      environment: "windows" as const,
+      type: "computer",
     },
   ],
 });

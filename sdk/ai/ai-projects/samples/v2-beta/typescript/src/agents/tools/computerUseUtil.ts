@@ -105,56 +105,60 @@ export interface ComputerAction {
  * @returns Tuple of [screenshot_info, updated_current_state]
  */
 export function handleComputerActionAndTakeScreenshot(
-  action: ComputerAction,
+  actionOrActions: ComputerAction | ComputerAction[],
   currentState: SearchState,
   screenshots: Screenshots,
 ): [ScreenshotInfo, SearchState] {
-  console.log(`Executing computer action: ${action.type}`);
+  const actions = Array.isArray(actionOrActions) ? actionOrActions : [actionOrActions];
 
   // Track state transitions locally
   let updatedState = currentState;
 
-  // State transitions based on actions
-  if (action.type === "type" && action.text) {
-    updatedState = SearchState.TYPED;
-    console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
-  }
-  // Check for ENTER key press
-  else if (
-    (action.type === "key" || action.type === "keypress") &&
-    action.keys &&
-    (action.keys.includes("Return") || action.keys.includes("ENTER"))
-  ) {
-    updatedState = SearchState.PRESSED_ENTER;
-    console.log("  -> Detected ENTER key press");
-  }
-  // Check for click after typing (alternative submit method)
-  else if (action.type === "click" && updatedState === SearchState.TYPED) {
-    updatedState = SearchState.PRESSED_ENTER;
-    console.log("  -> Detected click after typing");
-  }
+  for (const action of actions) {
+    console.log(`Executing computer action: ${action.type}`);
 
-  // Provide more realistic feedback based on action type
-  if (action.x !== undefined && action.y !== undefined) {
-    if (action.type === "click") {
-      console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
-    } else if (action.type === "drag" && action.path) {
-      const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
-      console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
-    } else if (action.type === "scroll") {
-      console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+    // State transitions based on actions
+    if (action.type === "type" && action.text) {
+      updatedState = SearchState.TYPED;
+      console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
     }
-  }
+    // Check for ENTER key press
+    else if (
+      (action.type === "key" || action.type === "keypress") &&
+      action.keys &&
+      (action.keys.includes("Return") || action.keys.includes("ENTER") || action.keys.includes("Enter"))
+    ) {
+      updatedState = SearchState.PRESSED_ENTER;
+      console.log("  -> Detected ENTER key press");
+    }
+    // Check for click after typing (alternative submit method)
+    else if (action.type === "click" && updatedState === SearchState.TYPED) {
+      updatedState = SearchState.PRESSED_ENTER;
+      console.log("  -> Detected click after typing");
+    }
 
-  if (action.keys) {
-    console.log(`  Key press: ${action.keys} - Simulating key combination`);
-  }
+    // Provide more realistic feedback based on action type
+    if (action.x !== undefined && action.y !== undefined) {
+      if (action.type === "click") {
+        console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
+      } else if (action.type === "drag" && action.path) {
+        const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
+        console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
+      } else if (action.type === "scroll") {
+        console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+      }
+    }
 
-  if (action.type === "screenshot") {
-    console.log("  Taking screenshot - Capturing current screen state");
-  }
+    if (action.keys) {
+      console.log(`  Key press: ${action.keys} - Simulating key combination`);
+    }
 
-  console.log(`  -> Action processed: ${action.type}`);
+    if (action.type === "screenshot") {
+      console.log("  Taking screenshot - Capturing current screen state");
+    }
+
+    console.log(`  -> Action processed: ${action.type}`);
+  }
 
   // Determine screenshot based on current state
   let screenshotInfo: ScreenshotInfo;
