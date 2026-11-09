@@ -517,10 +517,12 @@ Remove-Item -ErrorAction SilentlyContinue `
   src/restorePollerHelpers.ts, `
   metadata.json, `
   agent_version_lines.txt, `
-  review/ai-projects-browser.api.diff.md, `
-  review/ai-projects-react-native.api.diff.md, `
   src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
 ```
+
+Keep `review/ai-projects-browser.api.diff.md` and `review/ai-projects-react-native.api.diff.md`.
+Regenerate them with API extraction in Step 6; they record the public runtime differences
+from Node.js, including `NodeReadableStream` resolving to `never` outside Node.js.
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 

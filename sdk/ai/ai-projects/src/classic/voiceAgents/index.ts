@@ -8,9 +8,11 @@ import type { VoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import { _getVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 
-/** Interface representing a VoiceAgents operations. */
+/** Operations for managing voice-agent telephony calls and stored Realtime conversations. */
 export interface VoiceAgentsOperations {
+  /** Operations for managing voice-agent telephony bindings, calls, and call jobs. */
   telephony: VoiceAgentsTelephonyOperations;
+  /** Operations for reading and deleting stored Realtime conversations and their audio. */
   conversations: VoiceAgentsConversationsOperations;
 }
 

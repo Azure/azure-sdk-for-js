@@ -8393,6 +8393,7 @@ export function browserAutomationPreviewToolboxToolDeserializer(
 
 /** A browser automation tool stored in a toolbox. */
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
+  /** Identifies a browser automation tool in the toolbox. */
   type: "browser_automation";
   /** The Browser Automation Tool parameters. */
   browser_automation: BrowserAutomationToolParameters;
@@ -25462,8 +25463,9 @@ export function agentOptimizationCandidatePromotionInfoDeserializer(
   };
 }
 
-/** model interface AgentReference */
+/** Identifies an agent by name and, optionally, a specific version. */
 export interface AgentReference {
+  /** Identifies this object as an agent reference. */
   type: "agent_reference";
   /** The name of the agent. */
   name: string;
@@ -27104,6 +27106,7 @@ export function agentOptimizationCandidateOutputUnionDeserializer(
 
 /** Candidate output produced by an agent-optimization job. */
 export interface AgentOptimizationAgentCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by agent optimization. */
   type: "agent_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -27174,6 +27177,7 @@ export function agentOptimizationMutationUnionDeserializer(
 
 /** Instructions mutation. */
 export interface AgentOptimizationInstructionsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's instructions. */
   type: "instructions";
   /** Optimized agent instructions. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -27190,6 +27194,7 @@ export function agentOptimizationInstructionsMutationDeserializer(
 
 /** Model mutation. */
 export interface AgentOptimizationModelMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's model selection. */
   type: "model";
   /** Selected model name or deployment name. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -27206,6 +27211,7 @@ export function agentOptimizationModelMutationDeserializer(
 
 /** Skill mutations. */
 export interface AgentOptimizationSkillsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's skills. */
   type: "skills";
   /** Added or changed skills. Omitted on LIST unless `expand=mutations` is specified. */
   value?: AgentOptimizationSkill[];
@@ -27222,6 +27228,7 @@ export function agentOptimizationSkillsMutationDeserializer(
 
 /** Tool mutations. */
 export interface AgentOptimizationToolsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's function tools. */
   type: "tools";
   /** Added or changed function tools. Omitted on LIST unless `expand=mutations` is specified. */
   value?: ChatCompletionTool[];
@@ -27238,6 +27245,7 @@ export function agentOptimizationToolsMutationDeserializer(
 
 /** Candidate output produced by a prompt-optimization job. */
 export interface AgentOptimizationPromptCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by prompt optimization. */
   type: "prompt_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -27544,6 +27552,7 @@ export function chatCompletionToolArrayDeserializer(result: Array<ChatCompletion
 export interface ChatCompletionTool {
   /** The type of the tool. Currently, only `function` is supported. */
   type: "function";
+  /** The function definition exposed to the model as a tool. */
   function: FunctionObject;
 }
 
@@ -27558,13 +27567,15 @@ export function chatCompletionToolDeserializer(item: any): ChatCompletionTool {
   };
 }
 
-/** model interface FunctionObject */
+/** Defines a function that a model can call, including its name and argument schema. */
 export interface FunctionObject {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
+  /** The function's parameters, described as a JSON Schema object. */
   parameters?: FunctionParameters;
+  /** Whether generated arguments must strictly follow the parameter schema. */
   strict?: boolean;
 }
 
@@ -28388,6 +28399,7 @@ export type VoiceAgentPostCallDestinationType = "event_grid" | "routine";
 
 /** An Event Grid connection that receives post-call events. */
 export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
+  /** Identifies an Event Grid connection as the post-call event destination. */
   type: "event_grid";
   /** The name of the Event Grid connection. */
   connection_name: string;
@@ -28410,6 +28422,7 @@ export function voiceAgentEventGridPostCallDestinationDeserializer(
 
 /** A routine that is dispatched with the post-call event. */
 export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
+  /** Identifies a routine as the post-call event destination. */
   type: "routine";
   /** The name of the routine. */
   name: string;
@@ -29049,6 +29062,7 @@ export function voiceAgentHandoffPolicyDeserializer(item: any): VoiceAgentHandof
 
 /** A SIP binding. */
 export interface SipTelephonyBinding extends TelephonyBinding {
+  /** Identifies SIP as the telephony provider for this binding. */
   provider: "sip";
   /** For UI display only. */
   phone_number?: string;
@@ -29074,6 +29088,7 @@ export function sipTelephonyBindingDeserializer(item: any): SipTelephonyBinding 
 
 /** A SIP binding returned in a list, including its entity tag. */
 export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
+  /** Identifies SIP as the telephony provider for this binding list item. */
   provider: "sip";
   /** For UI display only. */
   phone_number?: string;

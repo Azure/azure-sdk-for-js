@@ -413,7 +413,6 @@ export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
 // @public
 export interface AgentOptimizationAgentCandidateOutput extends AgentOptimizationCandidateOutput {
     mutations?: AgentOptimizationMutationUnion[];
-    // (undocumented)
     type: "agent_optimization";
 }
 
@@ -566,7 +565,6 @@ export type AgentOptimizationGoal = "improve_quality";
 
 // @public
 export interface AgentOptimizationInstructionsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "instructions";
     value?: string;
 }
@@ -621,7 +619,6 @@ export interface AgentOptimizationModelConfiguration {
 
 // @public
 export interface AgentOptimizationModelMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "model";
     value?: string;
 }
@@ -637,7 +634,6 @@ export type AgentOptimizationMutationUnion = AgentOptimizationInstructionsMutati
 // @public
 export interface AgentOptimizationPromptCandidateOutput extends AgentOptimizationCandidateOutput {
     mutations?: AgentOptimizationMutationUnion[];
-    // (undocumented)
     type: "prompt_optimization";
 }
 
@@ -660,7 +656,6 @@ export interface AgentOptimizationSkill {
 
 // @public
 export interface AgentOptimizationSkillsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "skills";
     value?: AgentOptimizationSkill[];
 }
@@ -730,7 +725,6 @@ export type AgentOptimizationTerminationReason = "completed" | "budget_exhausted
 
 // @public
 export interface AgentOptimizationToolsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "tools";
     value?: ChatCompletionTool[];
 }
@@ -769,7 +763,6 @@ export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocati
 // @public
 export interface AgentReference {
     name: string;
-    // (undocumented)
     type: "agent_reference";
     version?: string;
 }
@@ -2113,7 +2106,6 @@ export interface BrowserAutomationTool extends Tool {
 // @public
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
     browser_automation: BrowserAutomationToolParameters;
-    // (undocumented)
     type: "browser_automation";
 }
 
@@ -2148,7 +2140,6 @@ export interface ChartCoordinate {
 
 // @public
 export interface ChatCompletionTool {
-    // (undocumented)
     function: FunctionObject;
     type: "function";
 }
@@ -3360,9 +3351,7 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 export interface FunctionObject {
     description?: string;
     name: string;
-    // (undocumented)
     parameters?: FunctionParameters;
-    // (undocumented)
     strict?: boolean;
 }
 
@@ -6874,7 +6863,6 @@ export interface SipAddress extends TelephonyAddress {
 export interface SipTelephonyBinding extends TelephonyBinding {
     allowed_calling_numbers?: string[];
     phone_number?: string;
-    // (undocumented)
     provider: "sip";
 }
 
@@ -6885,7 +6873,6 @@ export type SipTelephonyBindingCreate = Omit<SipTelephonyBinding, "id" | "incomi
 export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
     allowed_calling_numbers?: string[];
     phone_number?: string;
-    // (undocumented)
     provider: "sip";
 }
 
@@ -8339,7 +8326,6 @@ export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" |
 // @public
 export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
     connection_name: string;
-    // (undocumented)
     type: "event_grid";
 }
 
@@ -8897,7 +8883,6 @@ export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
 // @public
 export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
     name: string;
-    // (undocumented)
     type: "routine";
 }
 
@@ -9378,9 +9363,7 @@ export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
 
 // @public
 export interface VoiceAgentsOperations {
-    // (undocumented)
     conversations: VoiceAgentsConversationsOperations;
-    // (undocumented)
     telephony: VoiceAgentsTelephonyOperations;
 }
 
