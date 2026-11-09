@@ -32,6 +32,8 @@
 
 ### Bugs Fixed
 
+- Normalize Realtime session handoff state so node descriptions use the public `display_description` property in `session.created` and `session.updated` events. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
+- Emit experimental Voice Agents tracing spans for `project.voiceAgents.telephony.deleteCallJob`, including failed and cancelled requests without recording call contents. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
 - Allow explicit `null` turn detection in Realtime voice-agent definitions for manually controlled input, matching the documented configuration contract. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Preserve service error details when pagination or long-running operations fail, including invalid-cursor and ETag errors. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Preserve HTTP status and raw details for gateway failures without an `error` envelope, instead of throwing a nested-model `TypeError`. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)

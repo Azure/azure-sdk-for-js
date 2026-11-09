@@ -185,7 +185,7 @@ function _getVoiceAgentsTelephony(
       agentName: string,
       callJobId: string,
       options?: VoiceAgentsTelephonyDeleteCallJobOptionalParams,
-    ) => deleteCallJob(context, agentName, callJobId, options),
+    ) => run("delete_call_job", () => deleteCallJob(context, agentName, callJobId, options)),
     listCallJobs: (agentName: string, options?: VoiceAgentsTelephonyListCallJobsOptionalParams) =>
       listCallJobs(context, agentName, options),
     createCallJob: (

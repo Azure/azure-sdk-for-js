@@ -24,6 +24,8 @@ import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
+import { createWriteStream } from "node:fs";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "url";
 import { context, trace } from "@opentelemetry/api";
 import {
@@ -101,6 +103,29 @@ describe("snippets", function () {
     } finally {
       await connection.close();
     }
+  });
+
+  it("ReadmeSampleVoiceAgentStoredLive", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+    const agentName = "<GPT Live agent name>";
+    const conversationId = "<stored Live conversation ID>";
+    const conversations = project.beta.voiceAgents.liveConversations;
+
+    const conversation = await conversations.get(agentName, conversationId);
+    console.log("Conversation:", conversation.id, conversation.status);
+    for await (const item of conversations.listItems(agentName, conversationId)) {
+      console.log("Stored item:", item.id, item.type);
+    }
+
+    const recording = await conversations.getAudio(agentName, conversationId);
+    if (recording.blob_uri) {
+      throw new Error("Retrieve BYOS audio from blob_uri using your own storage credentials.");
+    }
+    const audio = await conversations.downloadAudio(agentName, conversationId);
+    if (!audio.readableStreamBody) {
+      throw new Error("Expected a Node.js audio stream.");
+    }
+    await pipeline(audio.readableStreamBody, createWriteStream("live-conversation.wav"));
   });
 
   it("ReadmeSampleVoiceAgentTracing", async function () {

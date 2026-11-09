@@ -328,6 +328,39 @@ guarantee that artifact exists. Missing audio returns `404`. An unfinished merge
 recording can return `409 recording_not_ready`; follow its `Retry-After` guidance
 instead of treating that response as an empty recording.
 
+For stored GPT Live sessions, use `project.beta.voiceAgents.liveConversations`.
+Connect with `project.beta.voiceAgents.live.connect()` and `store: true` to persist
+a Live session; `project.beta.voiceAgents.realtime.connect()` uses the Realtime
+protocol and is not a Live connection. The following Node.js example reads a
+completed Live conversation, lists its stored items without printing transcripts,
+and saves its Foundry-managed merged WAV recording:
+
+```ts snippet:ReadmeSampleVoiceAgentStoredLive
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+import { pipeline } from "node:stream/promises";
+import { createWriteStream } from "node:fs";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const agentName = "<GPT Live agent name>";
+const conversationId = "<stored Live conversation ID>";
+const conversations = project.beta.voiceAgents.liveConversations;
+const conversation = await conversations.get(agentName, conversationId);
+console.log("Conversation:", conversation.id, conversation.status);
+for await (const item of conversations.listItems(agentName, conversationId)) {
+  console.log("Stored item:", item.id, item.type);
+}
+const recording = await conversations.getAudio(agentName, conversationId);
+if (recording.blob_uri) {
+  throw new Error("Retrieve BYOS audio from blob_uri using your own storage credentials.");
+}
+const audio = await conversations.downloadAudio(agentName, conversationId);
+if (!audio.readableStreamBody) {
+  throw new Error("Expected a Node.js audio stream.");
+}
+await pipeline(audio.readableStreamBody, createWriteStream("live-conversation.wav"));
+```
+
 Campaign operations now share the `project.beta.voiceAgents.telephony` client.
 The campaign sample only reads campaign preparation, validation errors, operation
 monitors, and call jobs. It requires a deployment with those preview routes enabled.

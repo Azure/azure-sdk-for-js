@@ -119,6 +119,13 @@ const restTelemetryCases: RestTelemetryCase[] = [
       client.voiceAgents.telephony.cancelCallJob("PRIVATE_AGENT", "job-1", "PRIVATE_ETAG", options),
   },
   {
+    name: "voice_agents.telephony.delete_call_job",
+    method: "DELETE",
+    status: 204,
+    invoke: (client, options) =>
+      client.voiceAgents.telephony.deleteCallJob("PRIVATE_AGENT", "job-1", options),
+  },
+  {
     name: "voice_agents.telephony.transfer_call",
     method: "POST",
     status: 200,
