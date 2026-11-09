@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "privateLinkServiceConnectionState": {
+      "status": "Approved",
+      "description": "Approved by johndoe@contoso.com"
+    }
+  }
+}

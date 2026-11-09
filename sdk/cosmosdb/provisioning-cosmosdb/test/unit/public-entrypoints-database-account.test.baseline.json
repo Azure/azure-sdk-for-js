@@ -1,0 +1,1661 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "locationName": {
+                            "kind": "string",
+                            "value": "eastus"
+                          },
+                          "failoverPriority": {
+                            "kind": "integer",
+                            "value": "0"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cassandraKeyspace": {
+          "bicepIdentifier": "cassandraKeyspace",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandrakeyspace-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "cassandrakeyspace-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandrakeyspacetab-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "cassandraKeyspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "cassandrakeyspacetab-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting": {
+          "bicepIdentifier": "throughputSetting",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting2": {
+          "bicepIdentifier": "throughputSetting2",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "cassandraKeyspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cassandraRoleAssignment": {
+          "bicepIdentifier": "cassandraRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandraroleassignm-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "cassandraRoleDefinition": {
+          "bicepIdentifier": "cassandraRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandraroledefinit-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "sqlDatabase": {
+          "bicepIdentifier": "sqlDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqldatabase-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "sqldatabase-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "clientEncryptionKey": {
+          "bicepIdentifier": "clientEncryptionKey",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/clientEncryptionKeys",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "clientencryptionkey-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "container": {
+          "bicepIdentifier": "container",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "container-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "container-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting3": {
+          "bicepIdentifier": "throughputSetting3",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "container"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "storedProcedure": {
+          "bicepIdentifier": "storedProcedure",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "storedprocedure-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "container"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "storedprocedure-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "trigger": {
+          "bicepIdentifier": "trigger",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "trigger-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "container"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "trigger-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "userDefinedFunction": {
+          "bicepIdentifier": "userDefinedFunction",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "userdefinedfunction-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "container"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "userdefinedfunction-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting4": {
+          "bicepIdentifier": "throughputSetting4",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mongodbDatabase": {
+          "bicepIdentifier": "mongodbDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongodbdatabase-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "mongodbdatabase-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "collection": {
+          "bicepIdentifier": "collection",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "collection-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "mongodbDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "collection-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting5": {
+          "bicepIdentifier": "throughputSetting5",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "collection"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting6": {
+          "bicepIdentifier": "throughputSetting6",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "mongodbDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "table2": {
+          "bicepIdentifier": "table2",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tables",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccounttable-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "databaseaccounttable-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting7": {
+          "bicepIdentifier": "throughputSetting7",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tables/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table2"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "gremlinDatabase": {
+          "bicepIdentifier": "gremlinDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "gremlindatabase-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "gremlindatabase-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "graph": {
+          "bicepIdentifier": "graph",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/graphs",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "graph-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "gremlinDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "graph-test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting8": {
+          "bicepIdentifier": "throughputSetting8",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/graphs/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "graph"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "throughputSetting9": {
+          "bicepIdentifier": "throughputSetting9",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "gremlinDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "gremlinRoleAssignment": {
+          "bicepIdentifier": "gremlinRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "gremlinroleassignmen-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "gremlinRoleDefinition": {
+          "bicepIdentifier": "gremlinRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "gremlinroledefinitio-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "mongoMIRoleAssignment": {
+          "bicepIdentifier": "mongoMIRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongoMIRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongomiroleassignmen-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "mongoMIRoleDefinition": {
+          "bicepIdentifier": "mongoMIRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongoMIRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongomiroledefinitio-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "mongodbRoleDefinition": {
+          "bicepIdentifier": "mongodbRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongoroledefinitiong-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "mongodbUserDefinition": {
+          "bicepIdentifier": "mongodbUserDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbUserDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongouserdefinitiong-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "notebookWorkspace": {
+          "bicepIdentifier": "notebookWorkspace",
+          "type": "Microsoft.DocumentDB/databaseAccounts/notebookWorkspaces",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.DocumentDB/databaseAccounts/privateEndpointConnections",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "privateendpointconne-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "privateLinkResource": {
+          "bicepIdentifier": "privateLinkResource",
+          "type": "Microsoft.DocumentDB/databaseAccounts/privateLinkResources",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "privatelinkresource-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "service": {
+          "bicepIdentifier": "service",
+          "type": "Microsoft.DocumentDB/databaseAccounts/services",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "service-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "sqlRoleAssignment": {
+          "bicepIdentifier": "sqlRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqlroleassignment-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "sqlRoleDefinition": {
+          "bicepIdentifier": "sqlRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqlroledefinition-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "tableRoleAssignment": {
+          "bicepIdentifier": "tableRoleAssignment",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tableRoleAssignments",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "tableroleassignment-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "tableRoleDefinition": {
+          "bicepIdentifier": "tableRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tableRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "tableroledefinition-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "cassandraKeyspace"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "table"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource3Id": {
+          "bicepIdentifier": "resource3Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource4Id": {
+          "bicepIdentifier": "resource4Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting2"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource5Id": {
+          "bicepIdentifier": "resource5Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "cassandraRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource6Id": {
+          "bicepIdentifier": "resource6Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "cassandraRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource7Id": {
+          "bicepIdentifier": "resource7Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "sqlDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource8Id": {
+          "bicepIdentifier": "resource8Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "clientEncryptionKey"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource9Id": {
+          "bicepIdentifier": "resource9Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource10Id": {
+          "bicepIdentifier": "resource10Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "collection"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource11Id": {
+          "bicepIdentifier": "resource11Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting5"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource12Id": {
+          "bicepIdentifier": "resource12Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "container"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource13Id": {
+          "bicepIdentifier": "resource13Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting3"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource14Id": {
+          "bicepIdentifier": "resource14Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "table2"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource15Id": {
+          "bicepIdentifier": "resource15Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting7"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource16Id": {
+          "bicepIdentifier": "resource16Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "gremlinDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource17Id": {
+          "bicepIdentifier": "resource17Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "graph"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource18Id": {
+          "bicepIdentifier": "resource18Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting8"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource19Id": {
+          "bicepIdentifier": "resource19Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting9"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource20Id": {
+          "bicepIdentifier": "resource20Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "gremlinRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource21Id": {
+          "bicepIdentifier": "resource21Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "gremlinRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource22Id": {
+          "bicepIdentifier": "resource22Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongoMIRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource23Id": {
+          "bicepIdentifier": "resource23Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongoMIRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource24Id": {
+          "bicepIdentifier": "resource24Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource25Id": {
+          "bicepIdentifier": "resource25Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbUserDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource26Id": {
+          "bicepIdentifier": "resource26Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting6"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource27Id": {
+          "bicepIdentifier": "resource27Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "notebookWorkspace"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource28Id": {
+          "bicepIdentifier": "resource28Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "privateEndpointConnection"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource29Id": {
+          "bicepIdentifier": "resource29Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "privateLinkResource"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource30Id": {
+          "bicepIdentifier": "resource30Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "service"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource31Id": {
+          "bicepIdentifier": "resource31Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting4"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource32Id": {
+          "bicepIdentifier": "resource32Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "sqlRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource33Id": {
+          "bicepIdentifier": "resource33Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "sqlRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource34Id": {
+          "bicepIdentifier": "resource34Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "storedProcedure"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource35Id": {
+          "bicepIdentifier": "resource35Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "tableRoleAssignment"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource36Id": {
+          "bicepIdentifier": "resource36Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "tableRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource37Id": {
+          "bicepIdentifier": "resource37Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "trigger"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource38Id": {
+          "bicepIdentifier": "resource38Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "userDefinedFunction"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

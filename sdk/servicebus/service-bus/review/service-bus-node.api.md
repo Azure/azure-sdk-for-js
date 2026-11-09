@@ -132,6 +132,16 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+}
+
+// @public
+export interface DeleteMessagesResult {
+    deletedCount: number;
+}
+
 export { Delivery }
 
 // @public
@@ -223,6 +233,17 @@ export interface ProcessErrorArgs {
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
     identifier: string;
+}
+
+// @public
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+    maxMessagesPerBatch?: number;
+}
+
+// @public
+export interface PurgeMessagesResult {
+    deletedCount: number;
 }
 
 // @public
@@ -495,11 +516,13 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
+    deleteMessages(maxMessageCount: number, options?: DeleteMessagesOptions): Promise<DeleteMessagesResult>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
+    purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";

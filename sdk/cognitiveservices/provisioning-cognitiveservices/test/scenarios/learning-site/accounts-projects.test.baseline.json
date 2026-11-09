@@ -1,0 +1,69 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "project": {
+          "bicepIdentifier": "project",
+          "type": "Microsoft.CognitiveServices/accounts/projects",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-projects"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "identity": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "SystemAssigned"
+                  }
+                }
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Cognitive Services project"
+                  },
+                  "description": {
+                    "kind": "string",
+                    "value": "Project coverage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
