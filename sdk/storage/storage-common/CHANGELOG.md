@@ -1,12 +1,10 @@
 # Release History
 
-## 12.6.0-beta.1 (Unreleased)
+## 12.6.0-beta.1 (2026-11-10)
 
 ### Features Added
 
 - Added `buildStorageSharedKeyStringToSign`, which sets the request headers that the Shared Key signature covers and returns the string to sign, for use by other Azure Storage client libraries.
-
-### Breaking Changes
 
 ### Bugs Fixed
 

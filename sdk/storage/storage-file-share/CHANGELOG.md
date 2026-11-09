@@ -1,6 +1,6 @@
 # Release History
 
-## 12.34.0-beta.1 (Unreleased)
+## 12.34.0-beta.1 (2026-11-10)
 
 ### Features Added
 
@@ -12,13 +12,9 @@
 - Added `ShareFileClient.getFileLinks()`, which returns the hard links of a file along with the file's properties. It's supported only on a client that addresses the file by its file ID.
 - Added `fileName` to the responses of `ShareFileClient.getProperties()` and `ShareDirectoryClient.getProperties()`. It is returned only when the client addresses the resource by file ID.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storagefile`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
-
-### Other Changes
 
 ## 12.33.0 (2026-09-24)
 
