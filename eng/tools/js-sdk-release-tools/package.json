@@ -45,7 +45,7 @@
     "comment-json": "^5.0.0",
     "eslint": "catalog:",
     "fs-extra": "^11.4.0",
-    "glob": "^13.0.6",
+    "glob": "^14.0.3",
     "js-yaml": "^5.2.2",
     "marked": "^18.0.7",
     "npm-registry-fetch": "^20.0.1",
