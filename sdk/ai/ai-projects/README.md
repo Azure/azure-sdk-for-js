@@ -1533,12 +1533,12 @@ const versionIndicator: VersionRefIndicator = {
   type: "version_ref",
   agent_version: "1.0",
 };
-const session = await project.beta.agents.createSession(agentName, versionIndicator);
+const session = await project.agents.createSession(agentName, versionIndicator);
 console.log(`Session created: ${session.agent_session_id}`);
 // Upload a file to the session sandbox
 const filePath = "/sandbox/hello.txt";
 const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
-const uploadResult = await project.beta.agents.uploadSessionFile(
+const uploadResult = await project.agents.uploadSessionFile(
   agentName,
   session.agent_session_id,
   filePath,

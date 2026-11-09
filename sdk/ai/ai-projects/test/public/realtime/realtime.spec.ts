@@ -858,7 +858,8 @@ describe("AIProjectClient realtime", () => {
     });
 
     assert.ok(client.agents);
-    assert.ok(client.beta.voiceAgents.conversations);
+    assert.ok(client.voiceAgents.conversations);
+    assert.notProperty(client.beta.voiceAgents, "conversations");
 
     const connection = await client.beta.voiceAgents.realtime.connect("support-agent");
     const connectOptions = factory.transport.connectOptions;

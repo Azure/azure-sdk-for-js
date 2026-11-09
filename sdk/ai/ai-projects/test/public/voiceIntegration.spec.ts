@@ -10,7 +10,7 @@ import { isNodeLike } from "@azure/core-util";
 import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
-  BetaVoiceAgentsConversationsListOptionalParams,
+  VoiceAgentsConversationsListOptionalParams,
   VoiceAgentDefinition,
   VoiceAgentLiveDefinition,
   RealtimeServerEventResponseAudioDelta,
@@ -631,14 +631,12 @@ describe("voice post-emitter integration", () => {
         etag: '"binding-etag"',
       },
     });
-    await client.beta.voiceAgents.telephony.getBinding("voice agent", "binding", {
-      foundryFeatures: "VoiceAgents=V1Preview",
-    });
+    await client.voiceAgents.telephony.getBinding("voice agent", "binding");
     expect(requests).toHaveLength(1);
     expect(new URL(requests[0].url).pathname).toBe(
       "/api/projects/test-project/agents/voice%20agent/telephony/bindings/binding",
     );
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(requests[0].headers.get(isNodeLike ? "user-agent" : "x-ms-useragent")).toContain(
       "integration-test azsdk-js-client azsdk-js-api azsdk-js-ai-projects/",
     );
@@ -647,18 +645,19 @@ describe("voice post-emitter integration", () => {
     expect(client.evaluators.list).toBeTypeOf("function");
     expect(client.agents.listSessionFiles).toBeTypeOf("function");
     expect(client.agents.createOptimizationJob).toBeTypeOf("function");
-    expect(client.beta.agents).not.toHaveProperty("createOptimizationJob");
-    expect(client.beta.agents.createFromPrompt).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
+    expect(client.beta).not.toHaveProperty("agents");
+    expect(client.agents.createFromPrompt).toBeTypeOf("function");
+    expect(client.beta.voiceAgents).not.toHaveProperty("conversations");
+    expect(client.voiceAgents.conversations.getAudioItem).toBeTypeOf("function");
     expect(client.beta.voiceAgents.liveConversations.getAudioItem).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
+    expect(client.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
     expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
     // Hand-written Voice Agents realtime WebSocket client (not part of this regen); it
     // intentionally lives alongside the generated voiceAgents operations.
     expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
   });
 
-  it("preserves the ErrorModel shape for failed beta calls", async () => {
+  it("preserves the ErrorModel shape for failed GA calls", async () => {
     const { client } = createClient({
       status: 409,
       body: {
@@ -670,19 +669,19 @@ describe("voice post-emitter integration", () => {
         },
       },
     });
-    await expect(
-      client.beta.voiceAgents.telephony.getBinding("agent", "binding"),
-    ).rejects.toMatchObject({
-      statusCode: 409,
-      details: {
-        error: {
-          code: "agent_disabled",
-          message: "Enable the agent first.",
-          param: "agent",
-          details: [{ code: "disabled", message: "Not enabled." }],
+    await expect(client.voiceAgents.telephony.getBinding("agent", "binding")).rejects.toMatchObject(
+      {
+        statusCode: 409,
+        details: {
+          error: {
+            code: "agent_disabled",
+            message: "Enable the agent first.",
+            param: "agent",
+            details: [{ code: "disabled", message: "Not enabled." }],
+          },
         },
       },
-    });
+    );
   });
 
   describe("voice persisted conversation REST contracts", () => {
@@ -742,7 +741,7 @@ describe("voice post-emitter integration", () => {
         body: conversation,
         expected: expectedConversation,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.get("voice agent", conversation.id),
+          client.voiceAgents.conversations.get("voice agent", conversation.id),
       },
       {
         name: "response",
@@ -750,11 +749,7 @@ describe("voice post-emitter integration", () => {
         body: response,
         expected: expectedResponse,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.getResponse(
-            "voice agent",
-            conversation.id,
-            response.id,
-          ),
+          client.voiceAgents.conversations.getResponse("voice agent", conversation.id, response.id),
       },
       {
         name: "item",
@@ -762,7 +757,7 @@ describe("voice post-emitter integration", () => {
         body: item,
         expected: expectedItem,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.getItem("voice agent", conversation.id, item.id),
+          client.voiceAgents.conversations.getItem("voice agent", conversation.id, item.id),
       },
     ])(
       "gets a persisted $name without losing projection or metadata fields",
@@ -774,7 +769,7 @@ describe("voice post-emitter integration", () => {
         const url = new URL(requests[0].url);
         expect(url.pathname).toBe(`${conversationPath}${suffix}`);
         expect(url.searchParams.get("api-version")).toBe("v1");
-        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(requests[0].headers.get("foundry-features")).toBeUndefined();
       },
     );
 
@@ -785,7 +780,7 @@ describe("voice post-emitter integration", () => {
         wire: conversation,
         expected: expectedConversation,
         list: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.list("voice agent", { limit: 1, order: "asc" }),
+          client.voiceAgents.conversations.list("voice agent", { limit: 1, order: "asc" }),
       },
       {
         name: "responses",
@@ -793,7 +788,7 @@ describe("voice post-emitter integration", () => {
         wire: { ...response, output: undefined },
         expected: { ...expectedResponse, output: undefined },
         list: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.listResponses("voice agent", conversation.id, {
+          client.voiceAgents.conversations.listResponses("voice agent", conversation.id, {
             limit: 1,
             order: "asc",
           }),
@@ -804,7 +799,7 @@ describe("voice post-emitter integration", () => {
         wire: item,
         expected: expectedItem,
         list: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.listItems("voice agent", conversation.id, {
+          client.voiceAgents.conversations.listItems("voice agent", conversation.id, {
             limit: 1,
             order: "asc",
           }),
@@ -815,7 +810,7 @@ describe("voice post-emitter integration", () => {
         wire: item,
         expected: expectedItem,
         list: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.listResponseItems(
+          client.voiceAgents.conversations.listResponseItems(
             "voice agent",
             conversation.id,
             response.id,
@@ -851,7 +846,7 @@ describe("voice post-emitter integration", () => {
           expect(url.searchParams.get("limit")).toBe("1");
           expect(url.searchParams.get("order")).toBe("asc");
           expect(url.searchParams.get("api-version")).toBe("v1");
-          expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+          expect(request.headers.get("foundry-features")).toBeUndefined();
         }
       },
     );
@@ -859,12 +854,12 @@ describe("voice post-emitter integration", () => {
     it("deletes persisted Realtime data with an empty 204 response", async () => {
       const { client, requests } = createClient({ status: 204 });
       await expect(
-        client.beta.voiceAgents.conversations.delete("voice agent", conversation.id),
+        client.voiceAgents.conversations.delete("voice agent", conversation.id),
       ).resolves.toBeUndefined();
       expect(requests).toHaveLength(1);
       expect(requests[0].method).toBe("DELETE");
       expect(new URL(requests[0].url).pathname).toBe(conversationPath);
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("foundry-features")).toBeUndefined();
       expect(requests[0].body).toBeUndefined();
     });
 
@@ -896,25 +891,21 @@ describe("voice post-emitter integration", () => {
         resource: `${conversationPath}/audio`,
         body: recording,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.getAudio("voice agent", conversation.id),
+          client.voiceAgents.conversations.getAudio("voice agent", conversation.id),
       },
       {
         name: "heard Realtime item",
         resource: `${conversationPath}/items/item%2Fid/audio`,
         body: audioItem,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.getAudioItem(
-            "voice agent",
-            conversation.id,
-            item.id,
-          ),
+          client.voiceAgents.conversations.getAudioItem("voice agent", conversation.id, item.id),
       },
       {
         name: "generated Realtime item",
         resource: `${conversationPath}/items/item%2Fid/audio/generated`,
         body: audioItem,
         get: (client: AIProjectClient) =>
-          client.beta.voiceAgents.conversations.getGeneratedAudioItem(
+          client.voiceAgents.conversations.getGeneratedAudioItem(
             "voice agent",
             conversation.id,
             item.id,
@@ -936,7 +927,9 @@ describe("voice post-emitter integration", () => {
         expect(requests[0].method).toBe("GET");
         expect(new URL(requests[0].url).pathname).toBe(resource);
         expect(requests[0].headers.get("accept")).toBe("application/json");
-        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(requests[0].headers.get("foundry-features")).toBe(
+          resource.startsWith(livePath) ? "VoiceAgents=V1Preview" : undefined,
+        );
       },
     );
 
@@ -945,17 +938,13 @@ describe("voice post-emitter integration", () => {
         name: "merged Realtime audio",
         resource: `${conversationPath}/audio/content`,
         get: (client: AIProjectClient, options: OperationOptions) =>
-          client.beta.voiceAgents.conversations.downloadAudio(
-            "voice agent",
-            conversation.id,
-            options,
-          ),
+          client.voiceAgents.conversations.downloadAudio("voice agent", conversation.id, options),
       },
       {
         name: "heard Realtime item audio",
         resource: `${conversationPath}/items/item%2Fid/audio/content`,
         get: (client: AIProjectClient, options: OperationOptions) =>
-          client.beta.voiceAgents.conversations.downloadAudioItem(
+          client.voiceAgents.conversations.downloadAudioItem(
             "voice agent",
             conversation.id,
             item.id,
@@ -966,7 +955,7 @@ describe("voice post-emitter integration", () => {
         name: "generated Realtime item audio",
         resource: `${conversationPath}/items/item%2Fid/audio/generated/content`,
         get: (client: AIProjectClient, options: OperationOptions) =>
-          client.beta.voiceAgents.conversations.downloadGeneratedAudioItem(
+          client.voiceAgents.conversations.downloadGeneratedAudioItem(
             "voice agent",
             conversation.id,
             item.id,
@@ -1002,7 +991,7 @@ describe("voice post-emitter integration", () => {
         expect(new URL(requests[0].url).pathname).toBe(resource);
         expect(new URL(requests[0].url).searchParams.get("api-version")).toBe("v1");
         expect(requests[0].headers.get("accept")).toBe("audio/wav");
-        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        expect(requests[0].headers.get("foundry-features")).toBeUndefined();
         expect(requests[0].headers.get("x-test-header")).toBe("retained");
         expect(requests[0].abortSignal).toBe(controller.signal);
       },
@@ -1052,7 +1041,9 @@ describe("voice post-emitter integration", () => {
       expect(requests).toHaveLength(1);
       expect(requests[0].method).toBe("GET");
       expect(new URL(requests[0].url).pathname).toBe(resource);
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("foundry-features")).toBe(
+        resource.startsWith(livePath) ? "VoiceAgents=V1Preview" : undefined,
+      );
     });
 
     it("gets a stored Live delegation without treating guidance as spoken audio", async () => {
@@ -1089,17 +1080,13 @@ describe("voice post-emitter integration", () => {
       name: "recorded audio",
       suffix: "",
       get: (client: AIProjectClient) =>
-        client.beta.voiceAgents.conversations.getAudioItem(
-          "voice agent",
-          "conversation/id",
-          "item/id",
-        ),
+        client.voiceAgents.conversations.getAudioItem("voice agent", "conversation/id", "item/id"),
     },
     {
       name: "generated audio",
       suffix: "/generated",
       get: (client: AIProjectClient) =>
-        client.beta.voiceAgents.conversations.getGeneratedAudioItem(
+        client.voiceAgents.conversations.getGeneratedAudioItem(
           "voice agent",
           "conversation/id",
           "item/id",
@@ -1120,30 +1107,30 @@ describe("voice post-emitter integration", () => {
       expect(new URL(requests[0].url).pathname).toBe(
         `/api/projects/test-project/agents/voice%20agent/endpoint/protocols/voice/conversations/conversation%2Fid/items/item%2Fid/audio${suffix}`,
       );
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     },
   );
 
   const listCases = [
     {
       name: "conversations",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.conversations.list("agent", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.conversations.list("agent", options),
     },
     {
       name: "responses",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.conversations.listResponses("agent", "conversation", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.conversations.listResponses("agent", "conversation", options),
     },
     {
       name: "items",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.conversations.listItems("agent", "conversation", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.conversations.listItems("agent", "conversation", options),
     },
     {
       name: "response items",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.conversations.listResponseItems(
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.conversations.listResponseItems(
           "agent",
           "conversation",
           "response",
@@ -1152,37 +1139,37 @@ describe("voice post-emitter integration", () => {
     },
     {
       name: "telephony bindings",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.telephony.listBindings("agent", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.telephony.listBindings("agent", options),
     },
     {
       name: "telephony calls",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.telephony.listCalls("agent", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.telephony.listCalls("agent", options),
     },
     {
       name: "telephony call jobs",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
-        client.beta.voiceAgents.telephony.listCallJobs("agent", options),
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
+        client.voiceAgents.telephony.listCallJobs("agent", options),
     },
     {
       name: "campaigns",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.list("agent", options),
     },
     {
       name: "campaign validation errors",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.listValidationErrors("agent", "campaign", options),
     },
     {
       name: "Live conversations",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.liveConversations.list("agent", options),
     },
     {
       name: "Live conversation items",
-      list: (client: AIProjectClient, options: BetaVoiceAgentsConversationsListOptionalParams) =>
+      list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.liveConversations.listItems("agent", "conversation", options),
     },
   ];
@@ -1239,11 +1226,32 @@ describe("voice post-emitter integration", () => {
     ]) {
       expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
     }
-    expect(client.beta.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
+    for (const name of [
+      "createCallJob",
+      "getCallJob",
+      "cancelCallJob",
+      "listCallJobs",
+      "deleteCallJob",
+      "createBinding",
+      "getBinding",
+      "updateBinding",
+      "deleteBinding",
+      "listBindings",
+      "getCall",
+      "listCalls",
+      "transferCall",
+      "endCall",
+      "getTransferTargets",
+      "replaceTransferTargets",
+    ]) {
+      expect(client.voiceAgents.telephony).toHaveProperty(name, expect.any(Function));
+      expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
+    }
+    expect(client.voiceAgents.telephony.createCallJob).toBeTypeOf("function");
+    expect(client.voiceAgents.telephony.getCallJob).toBeTypeOf("function");
+    expect(client.voiceAgents.telephony.cancelCallJob).toBeTypeOf("function");
+    expect(client.voiceAgents.telephony.listCallJobs).toBeTypeOf("function");
+    expect(client.voiceAgents.telephony.deleteCallJob).toBeTypeOf("function");
     expect(client.beta.voiceAgents).not.toHaveProperty("campaigns");
     expect(client.beta.voiceAgents.telephony.create).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.get).toBeTypeOf("function");
