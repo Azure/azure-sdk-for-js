@@ -42,7 +42,7 @@ import {
 import { Reporter } from "./reporter.mjs";
 import { validateResults } from "./report.mjs";
 import { timedRead, run } from "./workload.mjs";
-import { runChild, installSignalHandlers, withDeadline } from "./launch.mjs";
+import { createSequencePlan, runChild, installSignalHandlers, withDeadline } from "./launch.mjs";
 import { MAX_PROFILE_READS, copyRustProfile, validateReadProfiles } from "./profiling.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -137,6 +137,62 @@ test("configuration selects separate JS targets and explicit bounded budgets", (
     mutate(value);
     assert.throws(() => validateConfig(value));
   }
+});
+
+test("execution order is optional, explicit and strictly validated", () => {
+  assert.equal(validateConfig(config()).executionOrder, undefined);
+  for (const executionOrder of ["javascript_first", "alternating"]) {
+    assert.equal(validateConfig({ ...config(), executionOrder }).executionOrder, executionOrder);
+  }
+  for (const executionOrder of ["random", "", null, undefined, true, []]) {
+    assert.throws(() => validateConfig({ ...config(), executionOrder }), /execution order/);
+    assert.throws(() => createSequencePlan({ ...config(), executionOrder }), /execution order/);
+  }
+});
+
+test("default and explicit JavaScript-first plans preserve existing repetition order", () => {
+  const value = { ...config(), repetitions: 4 };
+  const expected = [
+    { backend: "javascript", repetition: 1 },
+    { backend: "rust", repetition: 1 },
+    { backend: "javascript", repetition: 2 },
+    { backend: "rust", repetition: 2 },
+    { backend: "javascript", repetition: 3 },
+    { backend: "rust", repetition: 3 },
+    { backend: "javascript", repetition: 4 },
+    { backend: "rust", repetition: 4 },
+  ];
+  assert.deepEqual(createSequencePlan(value), expected);
+  assert.deepEqual(createSequencePlan({ ...value, executionOrder: "javascript_first" }), expected);
+  assert.equal(value.executionOrder, undefined);
+});
+
+test("alternating plan balances first position and preserves backend repetition identities", () => {
+  const value = { ...config(), repetitions: 4, executionOrder: "alternating" };
+  const original = structuredClone(value);
+  const expected = [
+    { backend: "javascript", repetition: 1 },
+    { backend: "rust", repetition: 1 },
+    { backend: "rust", repetition: 2 },
+    { backend: "javascript", repetition: 2 },
+    { backend: "javascript", repetition: 3 },
+    { backend: "rust", repetition: 3 },
+    { backend: "rust", repetition: 4 },
+    { backend: "javascript", repetition: 4 },
+  ];
+  assert.deepEqual(createSequencePlan(value), expected);
+  assert.deepEqual(value, original);
+  assert.equal(
+    new Set(expected.map(({ backend, repetition }) => `${backend}-${repetition}`)).size,
+    8,
+  );
+  for (const repetitions of [1, 3]) {
+    assert.deepEqual(
+      createSequencePlan({ ...value, repetitions }),
+      expected.slice(0, repetitions * 2),
+    );
+  }
+  assert.throws(() => createSequencePlan({ ...value, repetitions: 0 }), /repetitions/);
 });
 
 test("public read checks validate bodies, ETags, successful status and actual V2 attempts", () => {

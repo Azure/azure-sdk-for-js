@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   readConfig,
+  validateConfig,
   createClient,
   checkContainer,
   provenance,
@@ -21,6 +22,19 @@ import { Reporter } from "./reporter.mjs";
 import { fetchReport } from "./report.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function createSequencePlan(config) {
+  validateConfig(config);
+  const plan = [];
+  for (let repetition = 1; repetition <= config.repetitions; repetition++) {
+    const backends =
+      config.executionOrder === "alternating" && repetition % 2 === 0
+        ? ["rust", "javascript"]
+        : ["javascript", "rust"];
+    for (const backend of backends) plan.push({ backend, repetition });
+  }
+  return plan;
+}
 
 function installSignalHandlers(target = process) {
   const controller = new AbortController();
@@ -221,33 +235,31 @@ async function main() {
   const fixture = path.join(directory, "verified-orders.json");
   const runId = randomUUID();
   const expected = [];
-  for (let repetition = 1; repetition <= config.repetitions; repetition++) {
-    for (const backend of ["javascript", "rust"]) {
-      const processId = randomUUID();
-      expected.push({
-        run_id: runId,
-        workload_id: `read-${backend}-r${repetition}-${runId}`,
-        process_id: processId,
-        partition_key: processId,
-        config_backend: backend,
-        repetition,
-        provenance: source,
-        config_duration_seconds: config.durationSeconds,
-        config_report_interval_seconds: config.reportIntervalSeconds,
-        config_concurrency: 1,
-        config_client_count: 1,
-        config_item_count: config.itemCount,
-        config_target: config.workload,
-        account_host: new URL(config.endpoint).hostname,
-        warmup_exclusion: "none",
-        reporting_mode: "after_reads",
-        reporting_format: "aggregate_v1",
-        profiling_mode: config.profilingMode ?? "none",
-        diagnostics_coverage: "partial",
-        configuration_sha256: configHash,
-        environment,
-      });
-    }
+  for (const { backend, repetition } of createSequencePlan(config)) {
+    const processId = randomUUID();
+    expected.push({
+      run_id: runId,
+      workload_id: `read-${backend}-r${repetition}-${runId}`,
+      process_id: processId,
+      partition_key: processId,
+      config_backend: backend,
+      repetition,
+      provenance: source,
+      config_duration_seconds: config.durationSeconds,
+      config_report_interval_seconds: config.reportIntervalSeconds,
+      config_concurrency: 1,
+      config_client_count: 1,
+      config_item_count: config.itemCount,
+      config_target: config.workload,
+      account_host: new URL(config.endpoint).hostname,
+      warmup_exclusion: "none",
+      reporting_mode: "after_reads",
+      reporting_format: "aggregate_v1",
+      profiling_mode: config.profilingMode ?? "none",
+      diagnostics_coverage: "partial",
+      configuration_sha256: configHash,
+      environment,
+    });
   }
   const manifest = {
     run_id: runId,
@@ -374,4 +386,4 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   });
 }
 
-export { runChild, installSignalHandlers, withDeadline };
+export { createSequencePlan, runChild, installSignalHandlers, withDeadline };

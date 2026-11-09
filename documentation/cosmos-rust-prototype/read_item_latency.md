@@ -529,7 +529,8 @@ The example configuration proposes:
 |---|---:|---|
 | `durationSeconds` | 60 | Budget before the launcher requests a measured process to stop |
 | `reportIntervalSeconds` | 15 | Target interval between in-memory snapshots, not writes |
-| `repetitions` | 2 | Number of JavaScript-then-Rust pairs |
+| `repetitions` | 2 | Number of pairs, each containing one JavaScript and one Rust sequence |
+| `executionOrder` | omitted (`javascript_first`) | Optional `javascript_first` or `alternating`; alternating reverses backend order on even repetitions |
 | `qualificationTimeoutSeconds` | 120 | Budget for checking the prepared dataset before measurement |
 | `shutdownGraceSeconds` | 30 | Additional deadline covering shutdown and the deferred reporting drain; also the deadline for results-target checks and the final results query |
 
@@ -563,6 +564,51 @@ require a complete manifest and the final integrity-checked report.
 
 **These values are proposals, not an approved execution budget.** Two repetitions
 are an initial comparison, not a guarantee of statistical reliability.
+
+### Approved next comparison: four alternating pairs
+
+The user approved four pairs at 120 seconds per backend, profiling disabled,
+one-second snapshots and the existing 11-second whole-interval warm-up exclusion.
+This is eight sequences (16 minutes of configured sequence budgets), plus 2,000
+qualification reads over 1,000 orders and up to 120 seconds shutdown/reporting
+per sequence. Capacity remains unchanged. The harness update must be pushed
+and deployed with matching provenance before execution; this matrix has not
+run yet.
+
+Set these fields in the copied, budget-approved configuration:
+
+```json
+{
+  "executionOrder": "alternating",
+  "profilingMode": "none",
+  "repetitions": 4,
+  "durationSeconds": 120,
+  "reportIntervalSeconds": 1,
+  "shutdownGraceSeconds": 120
+}
+```
+
+The sequence order is JavaScript/Rust, Rust/JavaScript, JavaScript/Rust,
+Rust/JavaScript. Each sequence still gets a fresh process and client, retains
+its backend/repetition identity and finishes reporting before the next starts.
+The hashed effective configuration records the selected order, and the
+manifest's `expected` array records the actual planned sequence order. Existing
+configurations retain JavaScript-first ordering.
+
+Primary comparison output is successful post-warm-up read count per backend
+and repetition, with actual retained duration and reads/second. Also calculate
+P95, P99 and P99.9 from the retained histograms, plus measured-read RU total,
+RU/read and RU/second from the same retained intervals' `ru_sum`. These RUs
+come from successful read responses, not an account-wide total including all
+metadata, failed attempts or reporting operations. Result-container throughput
+and reporting costs are not comparative metrics.
+
+Show all four repetitions and their order positions; report their variability.
+For pooled summaries, merge retained histograms rather than averaging
+percentiles, and divide total reads or RUs by total retained duration rather
+than averaging rates. Keep pooled results separate from per-repetition
+results so they cannot hide instability. These are single-in-flight workload
+completion rates, not maximum SDK throughput.
 
 ## Bite 7 of 12: What does the latency timer include?
 
@@ -705,7 +751,7 @@ The launcher checks the configuration before and after each child, and the
 child hashes the exact bytes it parses before accessing the service. Editing
 the effective configuration invalidates the run.
 
-### Opt-in stage profiling (local, not deployed)
+### Opt-in stage profiling (deployed; first diagnostic run completed)
 
 For a separately authorized diagnostic run, add `"profilingMode": "stages_v1"`
 to a copied workload configuration. Omit it or use `"none"` for an unprofiled
@@ -759,9 +805,157 @@ their own correlated stages; do not subtract unrelated stage P99s.
 Cross-clock containment checks allow 0.01 ms for clock precision; no negative
 residuals are silently clamped or reclassified as measured CPU time.
 
-This local instrumentation has not been deployed or run against the service.
-A new pushed build, explicit profiling budget and later unprofiled confirmation
-are required before drawing a performance conclusion.
+The profiling build was deployed on November 8, 2026 at 22:19 UTC from
+`d331333078ff5f97f790503194eeb706196fe526` into its own clean VM checkout.
+The Linux release addon SHA-256 is
+`0e1955822e05050a68842a99ea358e6c704d83d620f78d55124a44497edd43c8`;
+the Rust driver remains pinned to
+`5ba864be8f128a6faf3f736ae0043f60d5911235`.
+Build and runtime provenance are saved under
+`/home/azureuser/js-sdk-rust-read-perf/build-evidence/d331333078ff5f97f790503194eeb706196fe526-release`.
+The previous checkout, native addon and build manifest were preserved and
+their hashes rechecked.
+
+Offline SDK, native binding, wrapper, workload, type, format and lint checks
+passed. Standalone Rust tests on Linux required the test-only
+`--features napi/dyn-symbols` option because the executable has no Node host
+to resolve Node-API symbols. The production addon was rebuilt without that
+override and its hash matched the original release build. The missing
+`rustfmt` component was installed for the existing Rust 1.95.0 toolchain.
+
+No live profiling workload or capacity change was performed in the deployment
+step itself. The saved `read-latency.proposed.json` enables `stages_v1`, but a
+configuration file is not run authorization. The first separately authorized
+diagnostic run is recorded below; additional runs still require explicit budgets.
+
+#### First correlated diagnostic run: November 8, 2026
+
+Run `300fb5b0-dd08-4ecf-9bc9-586532388dd9` executed from
+22:38:16.172 UTC to 22:42:38.187 UTC on the profiling build above. The approved
+budget was JavaScript 120 seconds followed by Rust 120 seconds, one repetition,
+one-second snapshots, 2,000 qualification reads over 1,000 orders, and up to
+120 seconds shutdown/reporting per sequence. Both dedicated containers remained
+at 10,000 RU/s. Fresh control-plane checks confirmed East US VM/account placement
+and accelerated networking enabled.
+
+All 39,553 JavaScript and 48,940 Rust measured reads succeeded. Every Rust read
+had Gateway V2 evidence. The run produced four Cosmos records and retained 240
+raw intervals, including all per-read profiles. Reporting took 1.478 seconds
+for JavaScript and 2.083 seconds for Rust; successful reporting writes totaled
+2,173 RU. Raw hashes, profile ordinals, histograms, receipts and readback
+reconciled. Service `TotalRequests` Count covered the required workload and
+result requests with no observed 429. No workload remained active and ephemeral
+credential cleanup was confirmed.
+
+The analysis policy was saved before execution: retain raw warm-up samples,
+but interpret only whole intervals starting at or after 11 seconds for both
+backends. Each path discarded 11 intervals and retained 109:
+
+| Post-warm-up diagnostic metric | JavaScript | Rust |
+|---|---:|---:|
+| Retained reads | 36,291 | 44,820 |
+| P50 | 2.849 ms | 2.396 ms |
+| P99 | 6.487 ms | 3.643 ms |
+| P99.9 | 11.259 ms | 6.796 ms |
+| Mean | 2.988807 ms | 2.417470 ms |
+
+These are **profiled diagnostic results**, not a replacement for the earlier
+unprofiled comparison (JavaScript P99 3.594 ms, Rust 4.587 ms). The ordering
+reversed in this pass; no performance fix was made, and instrumentation,
+different execution times and fixed backend order prevent treating that
+reversal as proof of a stable improvement.
+
+For the same 449 slowest retained Rust reads, the average public latency was
+5.110402 ms: 5.014064 ms was inside the inclusive driver-operation span and
+0.096337 ms across all other measured public-call stages combined. Driver
+operation was the largest span in 448 of those 449 reads; native completion
+was largest in one. In that cohort, average dispatch was 0.020351 ms, container
+resolution 0.005269 ms, native completion 0.034813 ms, mixed NAPI delivery
+residual 0.022401 ms, and JSON parsing 0.003447 ms. These are averages of
+correlated operations, not differences between independent percentiles.
+
+The slowest retained Rust read took 25.303479 ms, with 25.165301 ms in the
+driver-operation span. No negative boundary residuals occurred. Post-read
+validation P99 was 0.021284 ms for JavaScript and 0.020448 ms for Rust; these
+spans are outside public-call latency and do not rule out indirect GC effects.
+
+This pass does not support wrapper conversion or NAPI delivery as the dominant
+Rust tail cost. It narrows the observed time to the driver-operation boundary,
+which still includes client/runtime, transport and service waits; it does not
+identify their individual contributions or explain the earlier run conclusively.
+The next comparison should be separately approved, repeated and counterbalanced,
+with unprofiled confirmation before changing the binding based on these timings.
+
+Evidence is preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/profiling-20261108T223206Z-3SXKWMzf`:
+`analysis-policy.json`, `execution-summary.json`, `correlated-analysis.json`,
+`verification-verdict.json`, service metric responses and the `run` directory.
+Raw interval SHA-256 values are
+`664f1f2022c0f268f2b36252b5e285f9a6f30bfe04b74fa4267ba08d70744a55`
+(JavaScript, 8,274,908 bytes) and
+`2a3074fe7a8f5461d98ea751ee1292fbd94823a6a706f1cc5f2defc3df2b1ee8`
+(Rust, 30,212,785 bytes). The Rust driver was not changed.
+
+#### Same-build unprofiled control: November 9, 2026 UTC
+
+The user separately approved disabling profiling and repeating the same bounded
+pair. Run `60159aad-72a6-4ed1-8d4f-def50267f9d5` executed from
+01:18:37.877 UTC to 01:22:58.371 UTC on November 9 (November 8 in US Central
+time). It used the same `d331333` checkout and Linux release addon, without a
+rebuild. Configuration comparison confirmed that only `profilingMode` changed,
+from `stages_v1` to `none`. Both result identities and all raw intervals declared
+`none`; no raw interval contained `read_profiles`.
+
+The initial credential handoff expired before execution. Recovery verified no
+launcher log, run manifest, execution summary or active workload for that
+preparation, removed its expired credential directory, and confirmed the cleanup
+timer had already unloaded. A fresh preparation and execution then completed
+together. Only one measured pair ran; the expired preparation was not a test run.
+
+The budget remained JavaScript 120 seconds followed by Rust 120 seconds, one
+repetition, one-second snapshots, 2,000 qualification reads over 1,000 orders,
+and up to 120 seconds shutdown/reporting per sequence. Both dedicated containers
+remained at 10,000 RU/s. All 38,747 JavaScript and 49,877 Rust measured reads
+succeeded, with Gateway V2 evidence for every Rust read. Four Cosmos records
+preserved 240 raw intervals. Successful reporting writes totaled 2,584.76 RU;
+reporting took 1.093 seconds for JavaScript and 0.997 seconds for Rust.
+Artifact integrity and service request coverage passed with no observed service
+429. No workload remained active and ephemeral credentials were removed.
+
+Independent reanalysis of all three runs used the same whole-interval
+start-at-or-after-11-seconds filter. Every backend retained 109 intervals and
+excluded 11; raw warm-up samples remain intact:
+
+| Warm-up-excluded P99 | JavaScript | Rust |
+|---|---:|---:|
+| Original unprofiled run (`80224e3`) | 3.594 ms | 4.587 ms |
+| Profiled diagnostic run (`d331333`) | 6.487 ms | 3.643 ms |
+| Same-build unprofiled control (`d331333`) | 7.718 ms | 4.452 ms |
+
+The new control retained 35,562 JavaScript reads and 45,487 Rust reads. JavaScript
+P50/mean were 2.937/3.052047 ms; Rust P50/mean were 2.294/2.384387 ms.
+Rust's median and mean decreased relative to the profiled run, while its P99
+increased. Its P99 was close to the original unprofiled result, whereas
+JavaScript's tail remained substantially higher with profiling disabled.
+Thus profiler overhead alone is not a sufficient explanation for the ranking
+reversal. These sequential runs still cannot identify a causal environmental,
+runtime or code effect, or quantify profiling overhead in isolation.
+
+The high JavaScript tail was not confined to one interval: ten-second buckets
+grouped by interval start had JavaScript P99s from 7.267 to 8.555 ms, versus
+3.947 to 5.268 ms for Rust. Further live work requires a separately approved
+repeated/counterbalanced design; there is still no established root cause or
+justification for a speculative binding change.
+
+Evidence is preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/unprofiled-20261109T011759Z-Xtcbjf8z`,
+including `unprofiled-comparison.json`, the predeclared analysis policy,
+execution summary, combined verification verdict, raw service metrics and
+the `run` directory. Raw interval SHA-256 values are
+`a3ed66987795f6267a17cec3a2e37eb027ab903312e0b3f71c29cc52bc66821f`
+(JavaScript, 739,773 bytes) and
+`b29e0cd24536d66780d7047d4414bf240ca3ff4f5765968d994cff43592f5f92`
+(Rust, 792,303 bytes). The Rust driver and container capacities were unchanged.
 
 ### What do attempt counters mean?
 
@@ -992,7 +1186,9 @@ Keep these limits explicit:
 
 - The report merges intervals within each sequence, not repetitions into a
   single result that hides variation.
-- JavaScript always runs first; repetition does not remove order effects.
+- JavaScript runs first by default. Opt-in alternating order balances first
+  position for an even number of pairs, but cannot eliminate every time-varying
+  condition.
 - Completions per second include workload overhead and are not an isolated
   SDK throughput ceiling.
 - A short run does not establish reliable extreme-tail or steady-state claims.

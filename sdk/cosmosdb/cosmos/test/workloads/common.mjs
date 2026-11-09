@@ -52,6 +52,13 @@ function validateConfig(config) {
     keys.push("profilingMode");
     assert.ok(["none", "stages_v1"].includes(config.profilingMode), "Unknown profiling mode");
   }
+  if (Object.hasOwn(config, "executionOrder")) {
+    keys.push("executionOrder");
+    assert.ok(
+      ["javascript_first", "alternating"].includes(config.executionOrder),
+      "Unknown execution order",
+    );
+  }
   assert.deepEqual(
     Object.keys(config).sort(),
     keys.sort(),
