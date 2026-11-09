@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables sensitivity recommendations on a given column
  *
  * @summary disables sensitivity recommendations on a given column
- * x-ms-original-file: 2025-08-01-preview/RecommendedColumnSensitivityLabelDisable.json
+ * x-ms-original-file: 2026-08-01-preview/RecommendedColumnSensitivityLabelDisable.json
  */
 async function disablesSensitivityRecommendationsOnAGivenColumn() {
   const credential = new DefaultAzureCredential();

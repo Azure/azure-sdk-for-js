@@ -1,0 +1,291 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-workspace"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "retentionInDays": {
+                    "kind": "integer",
+                    "value": "30"
+                  },
+                  "sku": {
+                    "kind": "object",
+                    "value": {
+                      "name": {
+                        "kind": "string",
+                        "value": "PerGB2018"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dataExport": {
+          "bicepIdentifier": "dataExport",
+          "type": "Microsoft.OperationalInsights/workspaces/dataExports",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-export"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "destination": {
+                    "kind": "object",
+                    "value": {
+                      "resourceId": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.EventHub/namespaces/public-eventhub"
+                      }
+                    }
+                  },
+                  "tableNames": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Heartbeat"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dataSource": {
+          "bicepIdentifier": "dataSource",
+          "type": "Microsoft.OperationalInsights/workspaces/dataSources",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-datasource"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AzureActivityLog"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        },
+        "linkedService": {
+          "bicepIdentifier": "linkedService",
+          "type": "Microsoft.OperationalInsights/workspaces/linkedServices",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-linked-service"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        },
+        "linkedStorageAccount": {
+          "bicepIdentifier": "linkedStorageAccount",
+          "type": "Microsoft.OperationalInsights/workspaces/linkedStorageAccounts",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "CustomLogs"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        },
+        "networkSecurityPerimeterConfiguration": {
+          "bicepIdentifier": "networkSecurityPerimeterConfiguration",
+          "type": "Microsoft.OperationalInsights/workspaces/networkSecurityPerimeterConfigurations",
+          "apiVersion": "2026-03-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-nsp"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              }
+            }
+          }
+        },
+        "savedSearch": {
+          "bicepIdentifier": "savedSearch",
+          "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-saved-search"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "category": {
+                    "kind": "string",
+                    "value": "public"
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "value": "public saved search"
+                  },
+                  "query": {
+                    "kind": "string",
+                    "value": "Heartbeat | take 10"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "storageInsightConfig": {
+          "bicepIdentifier": "storageInsightConfig",
+          "type": "Microsoft.OperationalInsights/workspaces/storageInsightConfigs",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-storage-insight"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "storageAccount": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Storage/storageAccounts/publicstorage"
+                      },
+                      "key": {
+                        "kind": "string",
+                        "value": "key"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summaryLog": {
+          "bicepIdentifier": "summaryLog",
+          "type": "Microsoft.OperationalInsights/workspaces/summaryLogs",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicsummary"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.OperationalInsights/workspaces/tables",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "PublicTable_CL"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

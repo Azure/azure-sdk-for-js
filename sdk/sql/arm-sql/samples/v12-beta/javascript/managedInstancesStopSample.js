@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops the managed instance.
  *
  * @summary stops the managed instance.
- * x-ms-original-file: 2025-08-01-preview/StopManagedInstance.json
+ * x-ms-original-file: 2026-08-01-preview/StopManagedInstance.json
  */
 async function stopsTheManagedInstance() {
   const credential = new DefaultAzureCredential();

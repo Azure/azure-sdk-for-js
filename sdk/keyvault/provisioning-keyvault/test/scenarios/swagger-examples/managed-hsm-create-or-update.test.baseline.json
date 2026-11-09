@@ -1,0 +1,84 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedHSM": {
+          "bicepIdentifier": "managedHSM",
+          "type": "Microsoft.KeyVault/managedHSMs",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "hsm1"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "enablePurgeProtection": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableSoftDelete": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "initialAdminObjectIds": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "00000000-0000-0000-0000-000000000000"
+                      }
+                    ]
+                  },
+                  "softDeleteRetentionInDays": {
+                    "kind": "integer",
+                    "value": "90"
+                  },
+                  "tenantId": {
+                    "kind": "string",
+                    "value": "00000000-0000-0000-0000-000000000000"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "family": {
+                    "kind": "string",
+                    "value": "B"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard_B1"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "Dept": {
+                    "kind": "string",
+                    "value": "hsm"
+                  },
+                  "Environment": {
+                    "kind": "string",
+                    "value": "dogfood"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

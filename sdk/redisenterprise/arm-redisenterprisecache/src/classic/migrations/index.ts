@@ -2,10 +2,18 @@
 // Licensed under the MIT License.
 
 import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
-import { validate, cancel, list, start, get } from "../../api/migrations/operations.js";
+import {
+  validate,
+  unlinkMigratedEndpoint,
+  undo,
+  list,
+  start,
+  get,
+} from "../../api/migrations/operations.js";
 import type {
   MigrationsValidateOptionalParams,
-  MigrationsCancelOptionalParams,
+  MigrationsUnlinkMigratedEndpointOptionalParams,
+  MigrationsUndoOptionalParams,
   MigrationsListOptionalParams,
   MigrationsStartOptionalParams,
   MigrationsGetOptionalParams,
@@ -29,23 +37,41 @@ export interface MigrationsOperations {
     body: MigrationValidationRequest,
     options?: MigrationsValidateOptionalParams,
   ) => Promise<MigrationValidationResponse>;
-  /** Cancel or rollback the migration operation in a Redis Enterprise cluster. */
-  cancel: (
+  /** Unlinks the migrated endpoint from the Azure Managed Redis cluster that was migrated from Azure Cache for Redis, removing the source cache endpoint that was redirected to this cluster during migration. */
+  unlinkMigratedEndpoint: (
     resourceGroupName: string,
     clusterName: string,
-    options?: MigrationsCancelOptionalParams,
+    options?: MigrationsUnlinkMigratedEndpointOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use cancel instead */
-  beginCancel: (
+  /** @deprecated use unlinkMigratedEndpoint instead */
+  beginUnlinkMigratedEndpoint: (
     resourceGroupName: string,
     clusterName: string,
-    options?: MigrationsCancelOptionalParams,
+    options?: MigrationsUnlinkMigratedEndpointOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use cancel instead */
-  beginCancelAndWait: (
+  /** @deprecated use unlinkMigratedEndpoint instead */
+  beginUnlinkMigratedEndpointAndWait: (
     resourceGroupName: string,
     clusterName: string,
-    options?: MigrationsCancelOptionalParams,
+    options?: MigrationsUnlinkMigratedEndpointOptionalParams,
+  ) => Promise<void>;
+  /** Cancel or rollback the migration operation in a Redis Enterprise cluster. */
+  undo: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: MigrationsUndoOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use undo instead */
+  beginUndo: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: MigrationsUndoOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use undo instead */
+  beginUndoAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: MigrationsUndoOptionalParams,
   ) => Promise<void>;
   /** Gets information about all migrations attempts in a Redis Enterprise cluster. */
   list: (
@@ -81,6 +107,7 @@ export interface MigrationsOperations {
     options?: MigrationsGetOptionalParams,
   ) => Promise<Migration>;
 }
+
 function _getMigrations(context: RedisEnterpriseManagementContext) {
   return {
     validate: (
@@ -89,26 +116,47 @@ function _getMigrations(context: RedisEnterpriseManagementContext) {
       body: MigrationValidationRequest,
       options?: MigrationsValidateOptionalParams,
     ) => validate(context, resourceGroupName, clusterName, body, options),
-    cancel: (
+    unlinkMigratedEndpoint: (
       resourceGroupName: string,
       clusterName: string,
-      options?: MigrationsCancelOptionalParams,
-    ) => cancel(context, resourceGroupName, clusterName, options),
-    beginCancel: async (
+      options?: MigrationsUnlinkMigratedEndpointOptionalParams,
+    ) => unlinkMigratedEndpoint(context, resourceGroupName, clusterName, options),
+    beginUnlinkMigratedEndpoint: async (
       resourceGroupName: string,
       clusterName: string,
-      options?: MigrationsCancelOptionalParams,
+      options?: MigrationsUnlinkMigratedEndpointOptionalParams,
     ) => {
-      const poller = cancel(context, resourceGroupName, clusterName, options);
+      const poller = unlinkMigratedEndpoint(context, resourceGroupName, clusterName, options);
       await poller.submitted();
       return getSimplePoller(poller);
     },
-    beginCancelAndWait: async (
+    beginUnlinkMigratedEndpointAndWait: async (
       resourceGroupName: string,
       clusterName: string,
-      options?: MigrationsCancelOptionalParams,
+      options?: MigrationsUnlinkMigratedEndpointOptionalParams,
     ) => {
-      return await cancel(context, resourceGroupName, clusterName, options);
+      return await unlinkMigratedEndpoint(context, resourceGroupName, clusterName, options);
+    },
+    undo: (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: MigrationsUndoOptionalParams,
+    ) => undo(context, resourceGroupName, clusterName, options),
+    beginUndo: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: MigrationsUndoOptionalParams,
+    ) => {
+      const poller = undo(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUndoAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: MigrationsUndoOptionalParams,
+    ) => {
+      return await undo(context, resourceGroupName, clusterName, options);
     },
     list: (
       resourceGroupName: string,
@@ -143,6 +191,7 @@ function _getMigrations(context: RedisEnterpriseManagementContext) {
       get(context, resourceGroupName, clusterName, options),
   };
 }
+
 export function _getMigrationsOperations(
   context: RedisEnterpriseManagementContext,
 ): MigrationsOperations {

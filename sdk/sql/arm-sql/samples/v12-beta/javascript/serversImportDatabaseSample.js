@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportNewDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ImportNewDatabase.json
  */
 async function importsToANewDatabase() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function importsToANewDatabase() {
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportNewDatabaseWithManagedIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/ImportNewDatabaseWithManagedIdentity.json
  */
 async function importsToANewDatabaseUsingManagedIdentityForTheSQLServerAndStorageAccount() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function importsToANewDatabaseUsingManagedIdentityForTheSQLServerAndStorag
  * This sample demonstrates how to imports a bacpac into a new database.
  *
  * @summary imports a bacpac into a new database.
- * x-ms-original-file: 2025-08-01-preview/ImportNewDatabaseWithNetworkIsolation.json
+ * x-ms-original-file: 2026-08-01-preview/ImportNewDatabaseWithNetworkIsolation.json
  */
 async function importsToANewDatabaseUsingPrivateLinkForTheSQLServerAndStorageAccount() {
   const credential = new DefaultAzureCredential();
