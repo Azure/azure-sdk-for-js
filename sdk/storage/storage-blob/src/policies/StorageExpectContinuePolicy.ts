@@ -37,18 +37,41 @@ function resolveMode(
   return mode === "auto" || mode === "always" || mode === "never" ? mode : defaultMode;
 }
 
+function resolveNonNegativeOption(
+  options: ExpectContinueOptions | undefined,
+  name: "minBodySizeInBytes" | "autoIntervalInMs",
+  defaultValue: number,
+): number {
+  const value = options?.[name] ?? defaultValue;
+  // Comparisons with NaN are always false, so it would keep the auto window open for good, or
+  // keep the header off every body of known length.
+  if (!Number.isFinite(value) || value < 0) {
+    throw new RangeError(
+      `expectContinueOptions.${name} must be a finite number >= 0, but it is ${value}.`,
+    );
+  }
+  return value;
+}
+
 /**
  * storageExpectContinuePolicy sends the `Expect: 100-continue` header on requests with a body,
  * always or, in `auto` mode, for a while after a 429, 500 or 503 response. Add it after the retry
  * phase so that the retry of a throttled attempt already carries the header.
+ *
+ * @throws RangeError when `minBodySizeInBytes` or `autoIntervalInMs` is not a finite number of
+ * 0 or more.
  */
 export function storageExpectContinuePolicy(
   options?: ExpectContinueOptions,
   defaultMode: ExpectContinueMode = "auto",
 ): PipelinePolicy {
   const mode = resolveMode(options?.mode, defaultMode);
-  const minBodySizeInBytes = options?.minBodySizeInBytes ?? 0;
-  const autoIntervalInMs = options?.autoIntervalInMs ?? DEFAULT_AUTO_INTERVAL_IN_MS;
+  const minBodySizeInBytes = resolveNonNegativeOption(options, "minBodySizeInBytes", 0);
+  const autoIntervalInMs = resolveNonNegativeOption(
+    options,
+    "autoIntervalInMs",
+    DEFAULT_AUTO_INTERVAL_IN_MS,
+  );
   let lastThrottledAt: number | undefined;
 
   function shouldSendHeader(request: PipelineRequest): boolean {

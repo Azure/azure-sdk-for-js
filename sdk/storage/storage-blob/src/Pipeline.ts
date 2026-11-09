@@ -244,9 +244,15 @@ export type ExpectContinueMode = "auto" | "always" | "never";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * Options for sending the `Expect: 100-continue` header on requests with a body, such as uploads.
- * The header lets the service reject a request, for example while it is throttling, before it reads
- * the body. Whether the body waits for the service's `100 Continue` response depends on the HTTP
- * client.
+ * The header lets the service reject a request, for example while it is throttling, before the
+ * body is sent.
+ *
+ * The default HTTP client in Node.js holds the body back until the service responds with
+ * `100 Continue`, and sends it anyway if that hasn't arrived after one second, so each request
+ * sent with the header can take up to one extra round trip, or one second, longer. When the
+ * service rejects a request before its body is sent, that connection isn't reused, so the next
+ * request, such as the retry, opens a new one. An HTTP client set with `httpClient` may send the
+ * body without waiting.
  *
  * Setting the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true`
  * (case-insensitive) or `1` stops the header from being sent, whatever these options say. The
@@ -264,12 +270,14 @@ export interface ExpectContinueOptions {
   /**
    * The smallest body size, in bytes, that is sent with the header. Requests whose body is empty
    * or smaller than this are sent without it. A body of unknown length counts as large. Defaults
-   * to 0.
+   * to 0. Must be a finite number of 0 or more: in Node.js, creating a client with any other value
+   * throws a `RangeError`.
    */
   minBodySizeInBytes?: number;
   /**
    * In `auto` mode, how long, in milliseconds, the header is sent after a response with status
-   * 429, 500 or 503. Defaults to 60000 (one minute).
+   * 429, 500 or 503. Defaults to 60000 (one minute). Must be a finite number of 0 or more: in
+   * Node.js, creating a client with any other value throws a `RangeError`.
    */
   autoIntervalInMs?: number;
 }

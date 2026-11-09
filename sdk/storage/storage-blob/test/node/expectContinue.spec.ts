@@ -322,6 +322,37 @@ describe("Expect: 100-continue in the blob pipeline", () => {
     });
   });
 
+  describe("option values", () => {
+    for (const name of ["minBodySizeInBytes", "autoIntervalInMs"] as const) {
+      for (const value of [NaN, -1, Infinity]) {
+        it(`throws a RangeError when ${name} is ${value}`, () => {
+          assert.throws(() => createTestPipeline({ [name]: value }), RangeError, name);
+        });
+      }
+    }
+
+    it("accepts 0 for both", async () => {
+      const pipeline = createTestPipeline({
+        mode: "always",
+        minBodySizeInBytes: 0,
+        autoIntervalInMs: 0,
+      });
+
+      assert.deepStrictEqual(await pipeline.send(withBody()), [EXPECT_CONTINUE]);
+    });
+
+    it("throws the RangeError when a client is created", () => {
+      assert.throws(
+        () =>
+          new BlockBlobClient(BLOB_URL, fakeCredential(), {
+            expectContinueOptions: { autoIntervalInMs: -1 },
+          }),
+        RangeError,
+        "autoIntervalInMs",
+      );
+    });
+  });
+
   describe(DISABLE_VARIABLE, () => {
     for (const value of ["true", "TRUE", "1"]) {
       it(`turns the header off when set to "${value}", even in mode "always"`, async () => {
