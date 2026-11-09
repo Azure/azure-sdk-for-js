@@ -1,5 +1,29 @@
 # Release History
 
+## 6.0.0-beta.1 (2026-11-09)
+Compared with version 5.0.0
+
+### Features Added
+  - Added Interface AccessPolicyAssignmentProvisioningError
+  - Added Interface FirewallRule
+  - Interface AccessPolicyAssignment has a new optional parameter accessString
+  - Interface AccessPolicyAssignment has a new optional parameter provisioningError
+  - Interface AccessPolicyAssignmentProperties has a new optional parameter accessString
+  - Interface AccessPolicyAssignmentProperties has a new optional parameter provisioningError
+  - Interface Cluster has a new optional parameter firewallRules
+  - Interface ClusterCommonProperties has a new optional parameter firewallRules
+  - Interface ClusterCreateProperties has a new optional parameter firewallRules
+  - Interface ClusterUpdate has a new optional parameter firewallRules
+  - Interface ClusterUpdateProperties has a new optional parameter firewallRules
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20260201Preview
+  - Enum KnownVersions has a new value V20260501Preview
+  - Enum KnownVersions has a new value V20260601Preview
+  - Enum KnownVersions has a new value V20261001Preview
+
+### Breaking Changes
+  - Parameter accessPolicyName of interface AccessPolicyAssignmentProperties is now optional
+
 ## 5.0.0 (2026-11-09)
 
 ### Features Added
