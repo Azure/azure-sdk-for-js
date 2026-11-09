@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates/Updates a particular access policy assignment for a database
  *
  * @summary creates/Updates a particular access policy assignment for a database
- * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
+ * x-ms-original-file: 2026-09-01/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
  */
 async function redisEnterpriseAccessPolicyAssignmentCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
