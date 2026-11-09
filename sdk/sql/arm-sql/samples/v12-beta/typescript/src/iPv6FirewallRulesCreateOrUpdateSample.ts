@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an IPv6 firewall rule.
  *
  * @summary creates or updates an IPv6 firewall rule.
- * x-ms-original-file: 2025-08-01-preview/IPv6FirewallRuleCreate.json
+ * x-ms-original-file: 2026-08-01-preview/IPv6FirewallRuleCreate.json
  */
 async function createAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
  * This sample demonstrates how to creates or updates an IPv6 firewall rule.
  *
  * @summary creates or updates an IPv6 firewall rule.
- * x-ms-original-file: 2025-08-01-preview/IPv6FirewallRuleUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/IPv6FirewallRuleUpdate.json
  */
 async function updateAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
   const credential = new DefaultAzureCredential();

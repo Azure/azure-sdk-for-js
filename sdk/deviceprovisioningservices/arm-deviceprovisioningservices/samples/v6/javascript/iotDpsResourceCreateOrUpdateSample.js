@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSCreate.json
+ * x-ms-original-file: 2026-11-01/DPSCreate.json
  */
 async function dpsCreate() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function dpsCreate() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSCreateWithIotHub.json
+ * x-ms-original-file: 2026-11-01/DPSCreateWithIotHub.json
  */
 async function dpsCreateWithIotHub() {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function dpsCreateWithIotHub() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSCreateWithNamespace.json
+ * x-ms-original-file: 2026-11-01/DPSCreateWithNamespace.json
  */
 async function dpsCreateWithNamespace() {
   const credential = new DefaultAzureCredential();
@@ -97,7 +97,7 @@ async function dpsCreateWithNamespace() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSCreate_DisableLocalAuthFalse.json
+ * x-ms-original-file: 2026-11-01/DPSCreate_DisableLocalAuthFalse.json
  */
 async function dpsCreateDisableLocalAuthFalse() {
   const credential = new DefaultAzureCredential();
@@ -120,7 +120,7 @@ async function dpsCreateDisableLocalAuthFalse() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSCreate_DisableLocalAuthTrue.json
+ * x-ms-original-file: 2026-11-01/DPSCreate_DisableLocalAuthTrue.json
  */
 async function dpsCreateDisableLocalAuthTrue() {
   const credential = new DefaultAzureCredential();
@@ -143,7 +143,7 @@ async function dpsCreateDisableLocalAuthTrue() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSUpdate.json
+ * x-ms-original-file: 2026-11-01/DPSUpdate.json
  */
 async function dpsUpdate() {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function dpsUpdate() {
  * This sample demonstrates how to create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
- * x-ms-original-file: 2026-08-31/DPSUpdate_DisableLocalAuth.json
+ * x-ms-original-file: 2026-11-01/DPSUpdate_DisableLocalAuth.json
  */
 async function dpsUpdateDisableLocalAuth() {
   const credential = new DefaultAzureCredential();

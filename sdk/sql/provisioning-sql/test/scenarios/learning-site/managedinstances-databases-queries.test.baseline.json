@@ -1,0 +1,70 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstancesdata"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/managedInstances/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstancesdata"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "query": {
+          "bicepIdentifier": "query",
+          "type": "Microsoft.Sql/managedInstances/databases/queries",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstancesdata"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

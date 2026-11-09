@@ -61,6 +61,7 @@ export class AzureMonitorMetricExporter
       metrics,
       this.instrumentationKey,
       false,
+      this._increaseGenAiMessageLimit,
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {

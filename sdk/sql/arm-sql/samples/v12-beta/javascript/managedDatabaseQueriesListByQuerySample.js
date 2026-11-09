@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get query execution statistics by query id.
  *
  * @summary get query execution statistics by query id.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceQueryStatisticsList.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceQueryStatisticsList.json
  */
 async function obtainQueryExecutionStatistics() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function obtainQueryExecutionStatistics() {
  * This sample demonstrates how to get query execution statistics by query id.
  *
  * @summary get query execution statistics by query id.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceQueryStatisticsListMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceQueryStatisticsListMax.json
  */
 async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
  * This sample demonstrates how to get query execution statistics by query id.
  *
  * @summary get query execution statistics by query id.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceQueryStatisticsListMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceQueryStatisticsListMin.json
  */
 async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters() {
   const credential = new DefaultAzureCredential();

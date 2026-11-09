@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "operationMode": "PolybaseImport",
+    "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "storageKeyType": "StorageAccessKey",
+    "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
+  }
+}

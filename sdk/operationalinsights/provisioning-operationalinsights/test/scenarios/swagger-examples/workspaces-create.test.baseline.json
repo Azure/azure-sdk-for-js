@@ -1,0 +1,55 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "oiautorest6685"
+              },
+              "location": {
+                "kind": "string",
+                "value": "australiasoutheast"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "retentionInDays": {
+                    "kind": "integer",
+                    "value": "30"
+                  },
+                  "sku": {
+                    "kind": "object",
+                    "value": {
+                      "name": {
+                        "kind": "string",
+                        "value": "PerGB2018"
+                      }
+                    }
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {
+                  "tag1": {
+                    "kind": "string",
+                    "value": "val1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

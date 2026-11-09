@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels the asynchronous operation on the database.
  *
  * @summary cancels the asynchronous operation on the database.
- * x-ms-original-file: 2025-08-01-preview/CancelDatabaseOperation.json
+ * x-ms-original-file: 2026-08-01-preview/CancelDatabaseOperation.json
  */
 async function cancelTheDatabaseManagementOperation() {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export { renderBicepFiles, type RenderedBicepFile } from "./serialization/bicep/index.js";
+
 export {
   unwrapExpression,
   wrapExpression,
@@ -9,27 +11,6 @@ export {
   type InputRecord,
   type InputTuple,
 } from "./expression/expressions.js";
-export { serializeExpression, type SerializableValue } from "./serialization/json/expression.js";
-export { sanitizeIdentifier } from "./serialization/json/util.js";
-export { collectDependenciesForDeclaration } from "./serialization/utils.js";
-export type {
-  BinaryOperator,
-  DeclarableBodyNode,
-  DecoratorsNode,
-  ExpressionNode,
-  IdentifierExpression,
-  InfraNode,
-  ModuleDeclarationNode,
-  ObjectValue,
-  OutputDeclarationNode,
-  ParameterDeclarationNode,
-  PrimitiveTypeMap,
-  ResourceDeclarationNode,
-  TargetScope,
-  TypeNode,
-  UnaryOperator,
-  VariableDeclarationNode,
-} from "./serialization/contract/index.js";
 export { unwrapResourceHandle } from "./constructs/resource/resource-proxy.js";
 export type {
   ResourceProps,
@@ -107,4 +88,4 @@ export {
   type UnixTimestampEncodingDescriptor,
   type ValueEncodingDescriptor,
 } from "./shape/value-encoding.js";
-export type { ResourceNamingRules, ResourceNamingValidCharacters } from "./naming/naming-rules.js";
+export type { ResourceNamingRules } from "./naming/naming-rules.js";

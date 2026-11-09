@@ -73,6 +73,7 @@ describe("Auto SDK generation path test", () => {
     const fakeTspConfig = {
       options: {
         [provisioningEmitterName]: { "azure-sdk-for-js": true },
+        "@azure-tools/typespec-ts": { "is-modular-library": true },
       },
     };
     const tempSpecFolder = path.join(__dirname, `tmp/spec-${getRandomInt(10000)}`);
@@ -87,9 +88,19 @@ describe("Auto SDK generation path test", () => {
         flush: true,
       });
       expect((await parseInputJson(inputJson)).sdkType).toBe(SDKType.ModularClient);
-      expect((await parseInputJson(inputJson, provisioningEmitterName)).sdkType).toBe(
-        SDKType.Provisioning,
-      );
+
+      const inputWithProvisioningEmitter = {
+        ...inputJson,
+        typespecEmitter: provisioningEmitterName,
+      };
+      const parsedInput = await parseInputJson(inputWithProvisioningEmitter);
+      expect(parsedInput.sdkType).toBe(SDKType.Provisioning);
+
+      const parsedWithModularEmitter = await parseInputJson({
+        ...inputJson,
+        typespecEmitter: "@azure-tools/typespec-ts",
+      });
+      expect(parsedWithModularEmitter.sdkType).toBe(SDKType.ModularClient);
     } finally {
       await remove(tempSpecFolder);
     }
