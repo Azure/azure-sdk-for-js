@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Move `project.beta.agents.createFromPrompt` to `project.agents.createFromPrompt`, and move Realtime conversation and non-campaign telephony operations to `project.voiceAgents.conversations` and `project.voiceAgents.telephony`. Replace their `Beta*OptionalParams` and conversation-download response types with the corresponding non-beta types, and remove the empty `BetaAgentsOperations` and `BetaVoiceAgentsConversationsOperations` groups. Keep campaigns and GPT Live under `project.beta.voiceAgents`. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Rename `VersionedDatasetReference` to `DatasetReference` for resolved evaluator-generation artifacts and require `DatasetReference.version`. Use `TelephonyCampaignDatasetReference` for `TelephonyCampaign.recipient_dataset`, retaining optional versions that resolve to latest during campaign preparation. [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Move outbound campaign operations from `project.beta.voiceAgents.campaigns` to `project.beta.voiceAgents.telephony`, renaming `deleteCampaign` to `deleteTelephony` and the `BetaVoiceAgentsCampaigns*OptionalParams` types to `BetaVoiceAgentsTelephony*OptionalParams`. Remove `BetaVoiceAgentsCampaignsOperations`. [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Narrow voice conversation-engine, greeting, interim-response, tool, and WebRTC error `type` properties from unrestricted strings to the corresponding named discriminator types. Use the supported literal values when constructing these models. [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
@@ -14,6 +15,7 @@
 
 ### Features Added
 
+- Remove the required voice preview opt-in from GA agent generation, Realtime conversation reads, and non-SIP telephony operations. Keep conditional SIP opt-ins, campaigns, GPT Live, handoff, and post-call delivery in preview. Support post-call `audio` delivery as a URL to the merged call recording. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Add `project.beta.voiceAgents.live` for native GPT Live WebSocket sessions, including typed events, streamed audio and transcripts, context appends, Responses function results, cancellation through operation signals, and graceful session finalization. Preserve existing Realtime behavior. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Add self-contained Node.js samples and a README example for GPT Live text, PCM audio, and Responses function calling, with audio-clock and correlated instruction-acknowledgement guidance. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Add focused VoiceAgents samples for inline handoff, stored conversation and recording inspection, and read-only campaign and call-job monitoring. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
@@ -25,7 +27,7 @@
 - Add `project.beta.voiceAgents.liveConversations` for listing, reading, and deleting persisted Live conversations and retrieving their items and audio. Preserve preview headers and request options across cursor pages. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
 - Add inline voice subagents, handoff conditions and policy, effective handoff state, and started, completed, and aborted handoff events for `project.beta.voiceAgents`. Share voice settings through `VoiceAgentVoiceConfig` while preserving the flattened audio output wire shape. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
 - Add SIP bindings to `project.beta.voiceAgents.telephony`, including optional display phone numbers and caller-number restrictions that can be cleared with an empty list. [#40640](https://github.com/Azure/azure-sdk-for-js/issues/40640)
-- Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. Post-call audio delivery is not supported in this preview. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
+- Add voice-agent `post_call` configuration for delivering transcripts to Event Grid connections and routines after a session ends. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 - Add `review_target` to misalignment error details and `message` to realtime response failure details. [#40616](https://github.com/Azure/azure-sdk-for-js/issues/40616)
 
 ### Bugs Fixed
@@ -40,6 +42,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `56d0a40aac679a336fce7fd8ba7dafbbac751374`, preserving tracing, cognitive authentication, cursor paging, and guarded campaign poller results across the voice GA split. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/56d0a40aac679a336fce7fd8ba7dafbbac751374). [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Regenerate the client from azure-rest-api-specs commit `029ccd85da3da9a7c4a654becdad37e0d43846fe`, separating resolved dataset references from telephony campaign inputs while preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/029ccd85da3da9a7c4a654becdad37e0d43846fe). [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Regenerate the client from azure-rest-api-specs commit `d7363f1cd9566b2a85b25b30ca5e28f893d36f2c`, moving campaign operations into telephony while preserving guarded final resource resolution, preview headers, and cursor paging. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/d7363f1cd9566b2a85b25b30ca5e28f893d36f2c). [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
 - Regenerate the client from azure-rest-api-specs commit `30ed36b5ac7a3015dfae9832478e7254e9c811e1`, preserving released tool names, compatibility aliases, and customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/30ed36b5ac7a3015dfae9832478e7254e9c811e1). [#40674](https://github.com/Azure/azure-sdk-for-js/issues/40674)
