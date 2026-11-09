@@ -1301,6 +1301,8 @@ export interface MigrationProperties {
   readonly creationTime?: Date;
   /** The timestamp when the migration operation was last updated. */
   readonly lastModifiedTime?: Date;
+  /** The timestamp until which a successful migration remains eligible to be undone (rolled back) to the source cache. This property is only returned while the migration is in the Succeeded state, and is calculated from the time the migration succeeded plus the rollback window. After this time the source cache is released and the migration can no longer be undone. */
+  readonly rollbackEligibleUntil?: Date;
 }
 
 export function migrationPropertiesSerializer(item: MigrationProperties): any {
@@ -1317,6 +1319,9 @@ export function migrationPropertiesDeserializer(item: any): MigrationProperties 
     lastModifiedTime: !item["lastModifiedTime"]
       ? item["lastModifiedTime"]
       : new Date(item["lastModifiedTime"]),
+    rollbackEligibleUntil: !item["rollbackEligibleUntil"]
+      ? item["rollbackEligibleUntil"]
+      : new Date(item["rollbackEligibleUntil"]),
   };
 }
 
@@ -1380,6 +1385,12 @@ export enum KnownMigrationProvisioningState {
   Cancelled = "Cancelled",
   /** The migration operation cancellation has failed. */
   CancellationFailed = "CancellationFailed",
+  /** The migrated endpoint is being unlinked from the cluster. */
+  Unlinking = "Unlinking",
+  /** The migrated endpoint has been unlinked from the cluster. */
+  Unlinked = "Unlinked",
+  /** Unlinking the migrated endpoint from the cluster has failed. */
+  UnlinkFailed = "UnlinkFailed",
 }
 
 /**
@@ -1394,7 +1405,10 @@ export enum KnownMigrationProvisioningState {
  * **Failed**: The migration operation has failed. \
  * **Cancelling**: The migration operation is being cancelled. \
  * **Cancelled**: The migration operation has been cancelled. \
- * **CancellationFailed**: The migration operation cancellation has failed.
+ * **CancellationFailed**: The migration operation cancellation has failed. \
+ * **Unlinking**: The migrated endpoint is being unlinked from the cluster. \
+ * **Unlinked**: The migrated endpoint has been unlinked from the cluster. \
+ * **UnlinkFailed**: Unlinking the migrated endpoint from the cluster has failed.
  */
 export type MigrationProvisioningState = string;
 
@@ -1404,7 +1418,7 @@ export interface AzureCacheForRedisMigrationProperties extends MigrationProperti
   sourceResourceId: string;
   /** Sets whether the DNS is switched automatically after the data is transferred from the source cache to the target cache. This property must be true during the preview. */
   switchDns: boolean;
-  /** Sets whether the data is migrated from source to target or not. This property must be true during the preview. */
+  /** Sets whether the data is migrated from source to target or not. Set this property to true to skip data migration. */
   skipDataMigration: boolean;
   /** Sets whether to ignore warnings when performing validation of the migration request. If this property is true, warning-level disparities between the source and target resources will be ignored, and the request will only fail validation if there are error-level disparities. The default value is false. */
   forceMigrate?: boolean;
@@ -1436,6 +1450,9 @@ export function azureCacheForRedisMigrationPropertiesDeserializer(
     lastModifiedTime: !item["lastModifiedTime"]
       ? item["lastModifiedTime"]
       : new Date(item["lastModifiedTime"]),
+    rollbackEligibleUntil: !item["rollbackEligibleUntil"]
+      ? item["rollbackEligibleUntil"]
+      : new Date(item["rollbackEligibleUntil"]),
     sourceResourceId: item["sourceResourceId"],
     switchDns: item["switchDns"],
     skipDataMigration: item["skipDataMigration"],
@@ -1470,21 +1487,39 @@ export function migrationArrayDeserializer(result: Array<Migration>): any[] {
   });
 }
 
+/** Parameters supplied to the undo migration operation. */
+export interface MigrationUndoRequest {
+  /** The reason for undoing (rolling back) the migration. Choose the value that best describes why the rollback is needed. This information helps us improve the migration experience and does not change how the rollback is performed. */
+  rollbackReason?: MigrationRollbackReason;
+}
+
+export function migrationUndoRequestSerializer(item: MigrationUndoRequest): any {
+  return { rollbackReason: item["rollbackReason"] };
+}
+
+/** The reason a migration operation is being undone (rolled back). */
+export type MigrationRollbackReason =
+  | "performance"
+  | "compatibility"
+  | "clientConnection"
+  | "cost"
+  | "testing"
+  | "stability"
+  | "dataLoss"
+  | "other";
+
 /** Properties for validating migration from Azure Cache for Redis to Redis Enterprise. */
 export interface MigrationValidationRequest {
   /** The source resource ID to validate migration from. This is the resource ID of the Azure Cache for Redis. */
   sourceResourceId: string;
   /** Sets whether the data is migrated from source to target or not. The default value is true. */
   skipDataMigration?: boolean;
-  /** Sets whether to ignore warnings when validating if the source cache can be migrated to the target cache. If this property is true, the isValid property in the response will ignore warning-level disparities between the source and target resource. The default value is false. */
-  forceMigrate?: boolean;
 }
 
 export function migrationValidationRequestSerializer(item: MigrationValidationRequest): any {
   return {
     sourceResourceId: item["sourceResourceId"],
     skipDataMigration: item["skipDataMigration"],
-    forceMigrate: item["forceMigrate"],
   };
 }
 
@@ -2628,19 +2663,15 @@ export function privateLinkResourcePropertiesDeserializer(
 export interface AccessPolicyAssignment extends ProxyResource {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
+  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
   accessPolicyName?: string;
-  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
-  accessString?: string;
-  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
-  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
   /** The user associated with the access policy. */
   user?: AccessPolicyAssignmentPropertiesUser;
 }
 
 export function accessPolicyAssignmentSerializer(item: AccessPolicyAssignment): any {
   return {
-    properties: areAllPropsUndefined(item, ["accessPolicyName", "accessString", "user"])
+    properties: areAllPropsUndefined(item, ["accessPolicyName", "user"])
       ? undefined
       : _accessPolicyAssignmentPropertiesSerializer(item),
   };
@@ -2664,12 +2695,8 @@ export function accessPolicyAssignmentDeserializer(item: any): AccessPolicyAssig
 export interface AccessPolicyAssignmentProperties {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
-  accessPolicyName?: string;
-  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
-  accessString?: string;
-  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
-  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
+  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
+  accessPolicyName: string;
   /** The user associated with the access policy. */
   user: AccessPolicyAssignmentPropertiesUser;
 }
@@ -2679,7 +2706,6 @@ export function accessPolicyAssignmentPropertiesSerializer(
 ): any {
   return {
     accessPolicyName: item["accessPolicyName"],
-    accessString: item["accessString"],
     user: accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
   };
 }
@@ -2690,31 +2716,7 @@ export function accessPolicyAssignmentPropertiesDeserializer(
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
-    accessString: item["accessString"],
-    provisioningError: !item["provisioningError"]
-      ? item["provisioningError"]
-      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),
-  };
-}
-
-/** Error details for access policy assignment provisioning failures. */
-export interface AccessPolicyAssignmentProvisioningError {
-  /** Machine-readable error code (e.g., "InvalidAccessString"). */
-  code: string;
-  /** Human-readable error message describing the failure. */
-  message: string;
-  /** The property that caused the error (e.g., "properties.accessString"). */
-  target?: string;
-}
-
-export function accessPolicyAssignmentProvisioningErrorDeserializer(
-  item: any,
-): AccessPolicyAssignmentProvisioningError {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
   };
 }
 
@@ -2798,14 +2800,8 @@ export function operationStatusDeserializer(item: any): OperationStatus {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-08-01-preview API version. */
-  V20250801Preview = "2025-08-01-preview",
-  /** The 2026-02-01-preview API version. */
-  V20260201Preview = "2026-02-01-preview",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
-  /** The 2026-06-01-preview API version. */
-  V20260601Preview = "2026-06-01-preview",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _databasePropertiesSerializer(item: Database): any {
@@ -2968,7 +2964,6 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
 export function _accessPolicyAssignmentPropertiesSerializer(item: AccessPolicyAssignment): any {
   return {
     accessPolicyName: item["accessPolicyName"],
-    accessString: item["accessString"],
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
@@ -2979,10 +2974,6 @@ export function _accessPolicyAssignmentPropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
-    accessString: item["accessString"],
-    provisioningError: !item["provisioningError"]
-      ? item["provisioningError"]
-      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),

@@ -142,7 +142,7 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /**
  * Configuration options for
- * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ * [reasoning models](https://developers.openai.com/api/docs/guides/reasoning).
  */
 export interface Reasoning {
   /**
@@ -193,7 +193,7 @@ export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
  * Reducing reasoning effort can result in faster responses and fewer tokens
  * used on reasoning in a response. Not all reasoning models support every
  * value. See the
- * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+ * [reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)
  * for model-specific support.
  */
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
@@ -575,7 +575,7 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
 
 /**
  * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ * (MCP) servers. [Learn more about MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp).
  */
 export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
@@ -590,7 +590,10 @@ export interface MCPTool extends Tool {
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
    *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
-   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   about service connectors [here](https://developers.openai.com/api/docs/guides/tools-connectors-mcp#connectors).
+   *   This field is deprecated for models released after September 1, 2026.
+   *   Use `server_url` to connect to a remote MCP server, or `tunnel_id` to
+   *   connect through a Secure MCP Tunnel.
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
@@ -985,7 +988,7 @@ export function containerNetworkPolicyDomainSecretParamDeserializer(
   };
 }
 
-/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://developers.openai.com/api/docs/guides/function-calling). */
 export interface FunctionTool extends Tool {
   /** The type of the function tool. Always `function`. */
   type: "function";
@@ -1045,7 +1048,7 @@ export function functionToolDeserializer(item: any): FunctionTool {
   };
 }
 
-/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search). */
+/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search). */
 export interface FileSearchTool extends Tool {
   /** The type of the file search tool. Always `file_search`. */
   type: "file_search";
@@ -1244,7 +1247,7 @@ export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
   /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | any)[];
+  filters: (ComparisonFilter | CompoundFilter)[];
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
@@ -1278,7 +1281,7 @@ export function _fileSearchToolFiltersFilterArrayDeserializer(
 }
 
 /** Alias for _FileSearchToolFiltersFilter */
-export type _FileSearchToolFiltersFilter = ComparisonFilter | any;
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
 
 export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
   return item;
@@ -1288,7 +1291,7 @@ export function _fileSearchToolFiltersFilterDeserializer(item: any): _FileSearch
   return item;
 }
 
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
 export interface ComputerUsePreviewTool extends Tool {
   /** The type of the computer use tool. Always `computer_use_preview`. */
   type: "computer_use_preview";
@@ -1323,7 +1326,7 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "brow
 
 /**
  * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](/docs/guides/tools-web-search).
+ * [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
  */
 export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
@@ -1331,6 +1334,11 @@ export interface WebSearchTool extends Tool {
   /** Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content. */
   external_web_access?: boolean;
   filters?: WebSearchToolFilters;
+  /**
+   * The approximate location of the user. If omitted or null, defaults to the
+   *   United States. To avoid this fallback, pass `{"type": "approximate"}` without
+   *   location fields. To localize results, provide the relevant location fields.
+   */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -1463,13 +1471,23 @@ export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   model?:
-    "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21";
+    | "gpt-image-1"
+    | "gpt-image-1-mini"
+    | "gpt-image-1.5"
+    | "gpt-image-2"
+    | "gpt-image-2-2026-04-21"
+    | "gpt-image-2.5-sunburst"
+    | "gpt-image-2.5-sunburst-2026-09-08"
+    | "gpt-image-2.5-flare"
+    | "gpt-image-2.5-flare-2026-09-08";
   /**
-   * The quality of the generated image. One of `low`, `medium`, `high`,
-   *   or `auto`. Default: `auto`.
+   * The quality of the generated image. The GPT image models support `low`,
+   *   `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
+   *   including their `2026-09-08` snapshots, also support `xhigh` and `max`.
+   *   Default: `auto`.
    */
-  quality?: "low" | "medium" | "high" | "auto";
-  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
+  /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
    * The output format of the generated image. One of `png`, `webp`, or
@@ -1481,11 +1499,13 @@ export interface ImageGenTool extends Tool {
   /** Moderation level for the generated image. Default: `auto`. */
   moderation?: "auto" | "low";
   /**
-   * Set the background of the generated image. One of `transparent`,
-   *   `opaque`, or `auto`. Transparent backgrounds are available for
-   *   supported GPT Image models. For `gpt-image-2` and
-   *   `gpt-image-2-2026-04-21`, this support is in preview. When using
-   *   `transparent`, set the output format to `png` or `webp`. Default: `auto`.
+   * Set the background of the generated image. One of `transparent`, `opaque`,
+   *   or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
+   *   their `2026-09-08` snapshots, support `opaque` and `transparent`
+   *   backgrounds. Transparent backgrounds are available for supported GPT Image
+   *   models. For `gpt-image-2` and `gpt-image-2-2026-04-21`, this support is in
+   *   preview. When using `transparent`, set the output format to `png` or `webp`.
+   *   Default: `auto`.
    */
   background?: "transparent" | "opaque" | "auto";
   input_fidelity?: InputFidelity;
@@ -1997,7 +2017,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
   };
 }
 
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](/docs/guides/function-calling#custom-tools) */
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/api/docs/guides/function-calling#custom-tools) */
 export interface CustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
@@ -2137,7 +2157,7 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
 /** Type of GrammarSyntax1 */
 export type GrammarSyntax1 = "lark" | "regex";
 
-/** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
+/** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search). */
 export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
@@ -2242,7 +2262,7 @@ export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam 
   };
 }
 
-/** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use). */
 export interface ComputerTool extends Tool {
   /** The type of the computer tool. Always `computer`. */
   type: "computer";
@@ -2896,7 +2916,7 @@ export function toolChoiceComputerUseDeserializer(item: any): ToolChoiceComputer
  * An object specifying the format that the model must output.
  * Configuring `{ "type": "json_schema" }` enables Structured Outputs,
  * which ensures the model will match your supplied JSON schema. Learn more in the
- * [Structured Outputs guide](/docs/guides/structured-outputs).
+ * [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs).
  * The default format is `{ "type": "text" }` with no additional options.
  * *Not recommended for gpt-4o and newer models:**
  * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
@@ -2961,7 +2981,7 @@ export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json
 
 /**
  * JSON Schema response format. Used to generate structured JSON responses.
- * Learn more about [Structured Outputs](/docs/guides/structured-outputs).
+ * Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
  */
 export interface TextResponseFormatJsonSchema extends TextResponseFormat {
   /** The type of response format being defined. Always `json_schema`. */
@@ -3315,7 +3335,7 @@ export function functionObjectDeserializer(item: any): FunctionObject {
 }
 
 /**
- * The parameters the functions accepts, described as a JSON Schema object. See the [guide](/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+ * The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://developers.openai.com/api/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
  * Omitting `parameters` defines a function with an empty parameter list.
  */
 export interface FunctionParameters {
@@ -4703,8 +4723,9 @@ export type RealtimeClientEventType =
  * calls, and function call responses. This event can be used both to populate a
  * "history" of the conversation and to add new items mid-stream, but has the
  * current limitation that it cannot populate assistant audio messages.
- * If successful, the server will respond with a `conversation.item.created`
- * event, otherwise an `error` event will be sent.
+ * If successful, the server will emit a `conversation.item.added` event and,
+ * when the item is finalized, a `conversation.item.done` event. Otherwise, an
+ * `error` event will be sent.
  */
 export interface RealtimeClientEventConversationItemCreate extends RealtimeClientEvent {
   /** Optional client-generated ID used to identify this event. */
@@ -4931,7 +4952,7 @@ export function realtimeClientEventInputAudioBufferClearDeserializer(
  * stop generating audio and emit a `output_audio_buffer.cleared` event. This
  * event should be preceded by a `response.cancel` client event to stop the
  * generation of the current response.
- * [Learn more](/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
+ * [Learn more](https://developers.openai.com/api/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
  */
 export interface RealtimeClientEventOutputAudioBufferClear extends RealtimeClientEvent {
   /** The unique ID of the client event used for error handling. */
@@ -7414,7 +7435,7 @@ export function realtimeServerEventSessionUpdatedDeserializer(
  * mode when the user has interrupted (`input_audio_buffer.speech_started`),
  * or when the client has emitted the `output_audio_buffer.clear` event to manually
  * cut off the current audio response.
- * [Learn more](/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
+ * [Learn more](https://developers.openai.com/api/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
  */
 export interface RealtimeServerEventOutputAudioBufferCleared extends RealtimeServerEvent {
   /** The unique ID of the server event. */

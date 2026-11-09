@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified profile name under the specified subscription and resource group.
  *
  * @summary gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified profile name under the specified subscription and resource group.
- * x-ms-original-file: 2025-12-01/Profiles_Get.json
+ * x-ms-original-file: 2026-10-01/Profiles_Get.json
  */
 async function profilesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -16,6 +16,7 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListSupportedOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
+
 function _getPrivateLinkResources(context: SearchManagementContext) {
   return {
     listSupported: (
@@ -25,6 +26,7 @@ function _getPrivateLinkResources(context: SearchManagementContext) {
     ) => listSupported(context, resourceGroupName, searchServiceName, options),
   };
 }
+
 export function _getPrivateLinkResourcesOperations(
   context: SearchManagementContext,
 ): PrivateLinkResourcesOperations {

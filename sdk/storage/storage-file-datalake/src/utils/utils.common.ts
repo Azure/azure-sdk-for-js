@@ -772,6 +772,23 @@ interface UploadCheckSumBody {
   contentLength: number;
 }
 
+/**
+ * Returns an `ArrayBuffer`, or an `ArrayBufferView` other than a `Uint8Array`, as a `Uint8Array`
+ * over the same bytes. Some versions of the HTTP runtime send only `Uint8Array` bodies as raw bytes
+ * and serialize the other binary types as JSON.
+ *
+ * @param body - the upload body
+ */
+function toUint8ArrayIfBinary(body: HttpRequestBody): HttpRequestBody {
+  if (body instanceof ArrayBuffer) {
+    return new Uint8Array(body);
+  }
+  if (ArrayBuffer.isView(body) && !(body instanceof Uint8Array)) {
+    return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  }
+  return body;
+}
+
 export async function setUploadChecksumParameters(
   body: HttpRequestBody,
   contentLength: number,
@@ -801,7 +818,7 @@ export async function setUploadChecksumParameters(
   }
 
   return {
-    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : toUint8ArrayIfBinary(body),
     contentLength:
       contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
     contentChecksumAlgorithm: contentChecksumAlgorithm,

@@ -14,6 +14,9 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
+import { isError } from "./util/error.js";
+import { setResponseBodyCompletion } from "./util/responseBody.js";
+import { logger } from "./log.js";
 
 // The Fetch spec requires `duplex: "half"` when body is a ReadableStream,
 // but TypeScript's lib.dom.d.ts hasn't added it to RequestInit yet.
@@ -41,6 +44,19 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    let headers: Headers;
+    try {
+      headers =
+        request.requestOverrides && "headers" in request.requestOverrides
+          ? new Headers(request.requestOverrides.headers as HeadersInit)
+          : buildFetchHeaders(request.headers);
+    } catch (error: unknown) {
+      throw getError(isError(error) ? error : new Error(String(error)), request);
+    }
+    if (headers.has("expect")) {
+      throw new Error("The Expect header is not supported by the Fetch HttpClient.");
+    }
+
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 
@@ -53,7 +69,7 @@ class FetchHttpClient implements HttpClient {
     }
 
     try {
-      return await makeRequest(request);
+      return await makeRequest(request, headers);
     } catch (e: any) {
       throw getError(e, request);
     }
@@ -63,10 +79,9 @@ class FetchHttpClient implements HttpClient {
 /**
  * Sends a request
  */
-async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
+async function makeRequest(request: PipelineRequest, headers: Headers): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
   try {
-    const headers = buildFetchHeaders(request.headers);
     const { streaming, body: requestBody } = buildRequestBody(request);
     const requestInit: RequestInit = {
       body: requestBody,
@@ -97,12 +112,14 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     const response = await fetch(request.url, {
       ...requestInit,
       ...request.requestOverrides,
+      // Reuse the validated collection; the original header override may be a one-shot iterator.
+      headers,
     });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
     }
-    return buildPipelineResponse(response, request, abortControllerCleanup);
+    return await buildPipelineResponse(response, request, abortControllerCleanup);
   } catch (e) {
     abortControllerCleanup?.();
     throw e;
@@ -124,30 +141,52 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isWebReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, {
-        onProgress: request.onDownloadProgress,
-        onEnd: abortControllerCleanup,
-      })
-    : httpResponse.body;
-
-  if (
+  const streamResponse =
     // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
     request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-    request.streamResponseStatusCodes?.has(response.status)
-  ) {
-    if (request.enableBrowserStreams) {
-      response.browserStreamBody = bodyStream ?? undefined;
+    request.streamResponseStatusCodes?.has(response.status);
+
+  if (streamResponse && request.enableBrowserStreams) {
+    if (isWebReadableStream(httpResponse.body)) {
+      let resolveBodyCompletion!: () => void;
+      const bodyCompletion = new Promise<void>((resolve) => {
+        resolveBodyCompletion = resolve;
+      });
+      let bodyComplete = false;
+      const onBodyComplete = (): void => {
+        if (bodyComplete) {
+          return;
+        }
+        bodyComplete = true;
+        abortControllerCleanup?.();
+        resolveBodyCompletion();
+      };
+      response.browserStreamBody = buildBodyStream(httpResponse.body, {
+        onProgress: request.onDownloadProgress,
+        onEnd: onBodyComplete,
+      });
+      setResponseBodyCompletion(response, bodyCompletion);
     } else {
-      const responseStream = new Response(bodyStream);
-      response.blobBody = responseStream.blob();
+      response.browserStreamBody = httpResponse.body ?? undefined;
       abortControllerCleanup?.();
     }
   } else {
-    const responseStream = new Response(bodyStream);
+    const bodyStream = isWebReadableStream(httpResponse.body)
+      ? buildBodyStream(httpResponse.body, {
+          onProgress: request.onDownloadProgress,
+        })
+      : httpResponse.body;
 
-    response.bodyAsText = await responseStream.text();
-    abortControllerCleanup?.();
+    if (streamResponse) {
+      const responseStream = new Response(bodyStream);
+      response.blobBody = responseStream.blob();
+      abortControllerCleanup?.();
+    } else {
+      const responseStream = new Response(bodyStream);
+
+      response.bodyAsText = await responseStream.text();
+      abortControllerCleanup?.();
+    }
   }
 
   return response;
@@ -166,8 +205,9 @@ function setupAbortSignal(request: PipelineRequest): {
    * Attach an abort listener to the request
    */
   let abortListener: ((event: any) => void) | undefined;
-  if (request.abortSignal) {
-    if (request.abortSignal.aborted) {
+  const requestAbortSignal = request.abortSignal;
+  if (requestAbortSignal) {
+    if (requestAbortSignal.aborted) {
       throw new AbortError("The operation was aborted. Request has already been canceled.");
     }
 
@@ -176,10 +216,11 @@ function setupAbortSignal(request: PipelineRequest): {
         abortController.abort();
       }
     };
-    request.abortSignal.addEventListener("abort", abortListener);
+    requestAbortSignal.addEventListener("abort", abortListener);
     abortControllerCleanup = () => {
       if (abortListener) {
-        request.abortSignal?.removeEventListener("abort", abortListener);
+        requestAbortSignal.removeEventListener("abort", abortListener);
+        abortListener = undefined;
       }
     };
   }
@@ -268,71 +309,123 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
 }
 
 /**
- * Reads the request/response original stream and stream it through a new
- * ReadableStream, this is done to be able to report progress in a way that
- * all modern browsers support. TransformStreams would be an alternative,
- * however they are not yet supported by all browsers i.e Firefox
+ * Wraps the original stream to report progress and observe completion without reading ahead.
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
   options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
+  let ended = false;
+  let reading = false;
+  let sourceClosed = false;
   const { onProgress, onEnd } = options;
-
-  // If the current browser supports pipeThrough we use a TransformStream
-  // to report progress
-  if (isTransformStreamSupported(readableStream)) {
-    return readableStream.pipeThrough(
-      new TransformStream({
-        transform(chunk, controller) {
-          if (chunk === null) {
-            controller.terminate();
+  const reader = readableStream.getReader();
+  const end = (): void => {
+    if (ended) {
+      return;
+    }
+    ended = true;
+    onEnd?.();
+  };
+  const close = (controller: ReadableStreamDefaultController<Uint8Array>): void => {
+    if (ended) {
+      return;
+    }
+    end();
+    controller.close();
+    reader.releaseLock();
+  };
+  return new ReadableStream(
+    {
+      start(controller) {
+        void reader.closed.then(
+          () => {
+            sourceClosed = true;
+            // The final read result must be enqueued before forwarding closure.
+            if (!reading) {
+              close(controller);
+            }
+            return undefined;
+          },
+          (error: unknown) => {
+            if (ended) {
+              return;
+            }
+            end();
+            controller.error(error);
+            reader.releaseLock();
+          },
+        );
+      },
+      async pull(controller) {
+        if (ended) {
+          return;
+        }
+        reading = true;
+        try {
+          let result: ReadableStreamReadResult<Uint8Array>;
+          try {
+            result = await reader.read();
+          } catch (error) {
+            if (ended) {
+              return;
+            }
+            end();
+            controller.error(error);
+            reader.releaseLock();
+            return;
+          }
+          if (ended) {
+            return;
+          }
+          const { done, value } = result;
+          if (done || !value) {
+            close(controller);
+            if (!done) {
+              await readableStream.cancel().catch((error: unknown) => {
+                logger.warning("Error canceling body stream", error);
+              });
+            }
             return;
           }
 
-          controller.enqueue(chunk);
-          loadedBytes += chunk.length;
-          if (onProgress) {
-            onProgress({ loadedBytes });
+          loadedBytes += value.length;
+          try {
+            onProgress?.({ loadedBytes });
+          } catch (error) {
+            if (ended) {
+              return;
+            }
+            end();
+            controller.error(error);
+            await reader.cancel(error).catch((cancelError: unknown) => {
+              logger.warning("Error canceling body stream", cancelError);
+            });
+            reader.releaseLock();
+            return;
           }
-        },
-        flush() {
-          onEnd?.();
-        },
-      }),
-    );
-  } else {
-    // If we can't use transform streams, wrap the original stream in a new readable stream
-    // and use pull to enqueue each chunk and report progress.
-    const reader = readableStream.getReader();
-    return new ReadableStream({
-      async pull(controller) {
-        const { done, value } = await reader.read();
-        // When no more data needs to be consumed, break the reading
-        if (done || !value) {
-          onEnd?.();
-          // Close the stream
-          controller.close();
+          if (!ended) {
+            controller.enqueue(value);
+          }
+        } finally {
+          reading = false;
+          if (sourceClosed) {
+            close(controller);
+          }
+        }
+      },
+      async cancel(reason?: unknown) {
+        end();
+        try {
+          await reader.cancel(reason);
+        } finally {
           reader.releaseLock();
-          return;
-        }
-
-        loadedBytes += value?.length ?? 0;
-
-        // Enqueue the next data chunk into our target stream
-        controller.enqueue(value);
-
-        if (onProgress) {
-          onProgress({ loadedBytes });
         }
       },
-      cancel(reason?: string) {
-        onEnd?.();
-        return reader.cancel(reason);
-      },
-    });
-  }
+    },
+    { highWaterMark: 0 },
+  );
 }
 
 /**
@@ -341,8 +434,4 @@ function buildBodyStream(
  */
 export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
-}
-
-function isTransformStreamSupported(readableStream: ReadableStream): boolean {
-  return readableStream.pipeThrough !== undefined && self.TransformStream !== undefined;
 }

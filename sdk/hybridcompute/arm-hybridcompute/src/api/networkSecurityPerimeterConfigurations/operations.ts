@@ -42,7 +42,7 @@ export function _reconcileForPrivateLinkScopeSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       perimeterName: perimeterName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,6 +69,7 @@ export async function _reconcileForPrivateLinkScopeDeserialize(
 
   return networkSecurityPerimeterConfigurationReconcileResultDeserializer(result.body);
 }
+
 /** Forces the network security perimeter configuration to refresh for a private link scope. */
 export function reconcileForPrivateLinkScope(
   context: Client,
@@ -98,7 +99,7 @@ export function reconcileForPrivateLinkScope(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-07-15",
+      apiVersion: context.apiVersion ?? "2026-09-01",
     },
   ) as PollerLike<
     OperationState<NetworkSecurityPerimeterConfigurationReconcileResult>,
@@ -120,7 +121,7 @@ export function _listByPrivateLinkScopeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,6 +148,7 @@ export async function _listByPrivateLinkScopeDeserialize(
 
   return _networkSecurityPerimeterConfigurationListResultDeserializer(result.body);
 }
+
 /** Lists the network security perimeter configurations for a private link scope. */
 export function listByPrivateLinkScope(
   context: Client,
@@ -161,7 +163,7 @@ export function listByPrivateLinkScope(
     () => _listByPrivateLinkScopeSend(context, resourceGroupName, scopeName, options),
     _listByPrivateLinkScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -181,7 +183,7 @@ export function _getByPrivateLinkScopeSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       perimeterName: perimeterName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,6 +210,7 @@ export async function _getByPrivateLinkScopeDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
+
 /** Gets the network security perimeter configuration for a private link scope. */
 export async function getByPrivateLinkScope(
   context: Client,

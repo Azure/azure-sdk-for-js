@@ -1,0 +1,490 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "sqlDatabase": {
+          "bicepIdentifier": "sqlDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqldatabase-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "container": {
+          "bicepIdentifier": "container",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "containerName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlDatabase"
+              },
+              "location": {
+                "kind": "string",
+                "value": "West US"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "containerName"
+                      },
+                      "indexingPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "indexingMode": {
+                            "kind": "string",
+                            "value": "consistent"
+                          },
+                          "automatic": {
+                            "kind": "boolean",
+                            "value": true
+                          },
+                          "includedPaths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/*"
+                                  },
+                                  "indexes": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "object",
+                                        "value": {
+                                          "kind": {
+                                            "kind": "string",
+                                            "value": "Range"
+                                          },
+                                          "dataType": {
+                                            "kind": "string",
+                                            "value": "String"
+                                          },
+                                          "precision": {
+                                            "kind": "integer",
+                                            "value": "-1"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "kind": "object",
+                                        "value": {
+                                          "kind": {
+                                            "kind": "string",
+                                            "value": "Range"
+                                          },
+                                          "dataType": {
+                                            "kind": "string",
+                                            "value": "Number"
+                                          },
+                                          "precision": {
+                                            "kind": "integer",
+                                            "value": "-1"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "excludedPaths": {
+                            "kind": "array",
+                            "items": []
+                          },
+                          "vectorIndexes": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath1"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "flat"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath2"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "quantizedFlat"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath3"
+                                  },
+                                  "type": {
+                                    "kind": "string",
+                                    "value": "diskANN"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "fullTextIndexes": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath1"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath2"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath3"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "vectorEmbeddingPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "vectorEmbeddings": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath1"
+                                  },
+                                  "dataType": {
+                                    "kind": "string",
+                                    "value": "float32"
+                                  },
+                                  "dimensions": {
+                                    "kind": "integer",
+                                    "value": "400"
+                                  },
+                                  "distanceFunction": {
+                                    "kind": "string",
+                                    "value": "euclidean"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath2"
+                                  },
+                                  "dataType": {
+                                    "kind": "string",
+                                    "value": "uint8"
+                                  },
+                                  "dimensions": {
+                                    "kind": "integer",
+                                    "value": "512"
+                                  },
+                                  "distanceFunction": {
+                                    "kind": "string",
+                                    "value": "cosine"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/vectorPath3"
+                                  },
+                                  "dataType": {
+                                    "kind": "string",
+                                    "value": "int8"
+                                  },
+                                  "dimensions": {
+                                    "kind": "integer",
+                                    "value": "512"
+                                  },
+                                  "distanceFunction": {
+                                    "kind": "string",
+                                    "value": "dotproduct"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "fullTextPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "defaultLanguage": {
+                            "kind": "string",
+                            "value": "1033"
+                          },
+                          "fullTextPaths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath1"
+                                  },
+                                  "language": {
+                                    "kind": "string",
+                                    "value": "en-US"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath2"
+                                  },
+                                  "language": {
+                                    "kind": "string",
+                                    "value": "fr-FR"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/ftPath3"
+                                  },
+                                  "language": {
+                                    "kind": "string",
+                                    "value": "de-DE"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "partitionKey": {
+                        "kind": "object",
+                        "value": {
+                          "paths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "string",
+                                "value": "/AccountNumber"
+                              }
+                            ]
+                          },
+                          "kind": {
+                            "kind": "string",
+                            "value": "Hash"
+                          }
+                        }
+                      },
+                      "defaultTtl": {
+                        "kind": "integer",
+                        "value": "100"
+                      },
+                      "uniqueKeyPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "uniqueKeys": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "paths": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "/testPath"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "conflictResolutionPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "mode": {
+                            "kind": "string",
+                            "value": "LastWriterWins"
+                          },
+                          "conflictResolutionPath": {
+                            "kind": "string",
+                            "value": "/path"
+                          }
+                        }
+                      },
+                      "clientEncryptionPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "includedPaths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/path"
+                                  },
+                                  "clientEncryptionKeyId": {
+                                    "kind": "string",
+                                    "value": "keyId"
+                                  },
+                                  "encryptionAlgorithm": {
+                                    "kind": "string",
+                                    "value": "AEAD_AES_256_CBC_HMAC_SHA256"
+                                  },
+                                  "encryptionType": {
+                                    "kind": "string",
+                                    "value": "Deterministic"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "policyFormatVersion": {
+                            "kind": "integer",
+                            "value": "2"
+                          }
+                        }
+                      },
+                      "computedProperties": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "name": {
+                                "kind": "string",
+                                "value": "cp_lowerName"
+                              },
+                              "query": {
+                                "kind": "string",
+                                "value": "SELECT VALUE LOWER(c.name) FROM c"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "options": {
+                    "kind": "object",
+                    "value": {}
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "container"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

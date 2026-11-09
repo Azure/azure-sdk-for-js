@@ -357,6 +357,12 @@
 # PRLabel: %Mgmt
 /sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
+# PRLabel: %Mgmt
+/sdk/*/provisioning-*/ @qiaozha @RodgeFu
+
+# PRLabel: %Azure.Core
+/sdk/core/provisioning-core/ @Azure/azure-sdk-for-js-core
+
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1000,6 +1006,7 @@
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
+/eng/provisioning-emitter-package.json @qiaozha @RodgeFu 
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core

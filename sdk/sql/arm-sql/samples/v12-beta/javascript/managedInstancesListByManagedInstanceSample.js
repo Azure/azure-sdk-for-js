@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get top resource consuming queries of a managed instance.
  *
  * @summary get top resource consuming queries of a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceTopQueriesList.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceTopQueriesList.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueries() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
  * This sample demonstrates how to get top resource consuming queries of a managed instance.
  *
  * @summary get top resource consuming queries of a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceTopQueriesListMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceTopQueriesListMax.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse() {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
  * This sample demonstrates how to get top resource consuming queries of a managed instance.
  *
  * @summary get top resource consuming queries of a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceTopQueriesListMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceTopQueriesListMin.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse() {
   const credential = new DefaultAzureCredential();
