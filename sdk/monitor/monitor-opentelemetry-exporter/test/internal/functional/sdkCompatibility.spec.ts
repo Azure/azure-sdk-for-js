@@ -7,7 +7,7 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { BatchSpanProcessor, SimpleSpanProcessor, TracerProvider } from "@opentelemetry/sdk-trace";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, expectTypeOf, it, vi } from "vitest";
 import {
   ApplicationInsightsSampler,
   AzureMonitorLogExporter,
@@ -17,6 +17,7 @@ import {
 import { ConfigurationManager } from "../../../src/_configuration/configurationManager.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../../src/generated/index.js";
+import { AzureMonitorSampleRate } from "../../../src/utils/constants/applicationinsights.js";
 
 const { send } = vi.hoisted(() => ({
   send: vi.fn<(envelopes: Envelope[]) => Promise<ExportResult>>(),
@@ -45,8 +46,30 @@ describe("OpenTelemetry SDK compatibility", () => {
     send.mockReset();
   });
 
+  it.each([
+    { sampler: new ApplicationInsightsSampler(0.5), sampleRate: 50 },
+    { sampler: new RateLimitedSampler(0), sampleRate: 0 },
+  ])("widens string-only attribute values with $sampler", ({ sampler, sampleRate }) => {
+    const attributes: Record<string, string> = { name: "request" };
+    const result = sampler.shouldSample(
+      context.active(),
+      "1234567890abcdef1234567890abcdef",
+      "sample",
+      SpanKind.INTERNAL,
+      attributes,
+      [],
+    );
+
+    expectTypeOf(result.attributes[AzureMonitorSampleRate]).toEqualTypeOf<string | number>();
+    expect(result.attributes).toBe(attributes);
+    expect(result.attributes).toEqual({
+      name: "request",
+      [AzureMonitorSampleRate]: sampleRate,
+    });
+  });
+
   it.each([new ApplicationInsightsSampler(0.5), new RateLimitedSampler(0)])(
-    "preserves caller attribute types with %s",
+    "preserves supported attribute value types with %s",
     (sampler) => {
       const attributes: Record<string, string | number | boolean> = {
         name: "request",
@@ -74,9 +97,10 @@ describe("OpenTelemetry SDK compatibility", () => {
         structuredAttributes,
         [],
       );
-      const returnedStructuredAttributes: typeof structuredAttributes = structuredResult.attributes;
+      const returnedStructuredAttributes: Record<string, { count: number } | number> =
+        structuredResult.attributes;
       expect(returnedStructuredAttributes).toBe(structuredAttributes);
-      expect(returnedStructuredAttributes.request.count).toBe(1);
+      expect(returnedStructuredAttributes.request).toEqual({ count: 1 });
     },
   );
 

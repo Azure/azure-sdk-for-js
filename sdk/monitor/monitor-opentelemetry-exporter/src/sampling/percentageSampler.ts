@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
+import type { Link, SpanKind, Context } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace";
 import { SamplingDecision } from "@opentelemetry/sdk-trace";
 import { shouldSample } from "./samplingUtils.js";
@@ -39,19 +39,19 @@ export class ApplicationInsightsSampler implements Sampler {
    * @param attributes - Initial set of SpanAttributes for the Span being constructed.
    * @param links - Collection of links that will be associated with the Span to
    *     be created. Typically useful for batch operations.
-   * @returns a {@link SamplingResult} retaining the supplied attribute type.
+   * @returns a {@link SamplingResult} with the supplied attribute value types widened to include the numeric sample rate.
    */
-  public shouldSample<T extends Attributes>(
+  public shouldSample<T>(
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
     spanName: string,
     // @ts-expect-error unused argument
     spanKind: SpanKind,
-    attributes: T,
+    attributes: Record<string, T>,
     // @ts-expect-error unused argument
     links: Link[],
-  ): SamplingResult & { attributes: T } {
+  ): SamplingResult & { attributes: Record<string, T | number> } {
     return shouldSample(this._sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };

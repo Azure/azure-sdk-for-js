@@ -5,7 +5,6 @@
 ```ts
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
-import type { Attributes } from '@opentelemetry/api';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { Context } from '@opentelemetry/api';
 import type { ExportResult } from '@opentelemetry/core';
@@ -35,8 +34,8 @@ export interface ApplicationInsightsClientOptionalParams extends ServiceClientOp
 // @public
 export class ApplicationInsightsSampler implements Sampler {
     constructor(samplingRatio?: number);
-    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
-        attributes: T;
+    shouldSample<T>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Record<string, T>, links: Link[]): SamplingResult & {
+        attributes: Record<string, T | number>;
     };
     toString(): string;
 }
@@ -89,8 +88,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 export class RateLimitedSampler implements Sampler {
     constructor(tracesPerSecond: number);
     getSampleRate(): number;
-    shouldSample<T extends Attributes>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: T, links: Link[]): SamplingResult & {
-        attributes: T;
+    shouldSample<T>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Record<string, T>, links: Link[]): SamplingResult & {
+        attributes: Record<string, T | number>;
     };
     toString(): string;
 }
