@@ -901,8 +901,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     describe("Disable Non-Essential Statsbeat", () => {
       let originalEnv: NodeJS.ProcessEnv;
 
-      beforeEach(async () => {
-        await StatsbeatManager.getInstance().shutdown();
+      beforeEach(() => {
         originalEnv = process.env;
         process.env = { ...originalEnv };
       });
@@ -916,7 +915,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should disable statsbeat when the environment variable is set", async () => {
+        // Shutdown can recreate metrics when a pending OneSettings callback enables Statsbeat.
         process.env[ENV_DISABLE_STATSBEAT] = "true";
+        await StatsbeatManager.getInstance().shutdown();
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         try {
           const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
@@ -930,6 +931,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should disable all statsbeat when the legacy environment variable is set", async () => {
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
+        await StatsbeatManager.getInstance().shutdown();
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         try {
           assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);

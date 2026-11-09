@@ -33,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,6 +63,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /**
  * Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
  * Returns 200 (OK) on successful deletion, 204 (No Content) if the service exists but the query keys not found, or 404 (Not Found) if the service is not found.
@@ -91,7 +92,7 @@ export function _listBySearchServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,6 +125,7 @@ export async function _listBySearchServiceDeserialize(
 
   return _listQueryKeysResultDeserializer(result.body);
 }
+
 /** Returns the list of query API keys for the given Azure AI Search service. */
 export function listBySearchService(
   context: Client,
@@ -136,11 +138,7 @@ export function listBySearchService(
     () => _listBySearchServiceSend(context, resourceGroupName, searchServiceName, options),
     _listBySearchServiceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -158,7 +156,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,6 +187,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return queryKeyDeserializer(result.body);
 }
+
 /** Generates a new query key for the specified search service. You can create up to 50 query keys per service. */
 export async function create(
   context: Client,

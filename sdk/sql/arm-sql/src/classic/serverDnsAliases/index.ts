@@ -104,6 +104,7 @@ export interface ServerDnsAliasesOperations {
     options?: ServerDnsAliasesGetOptionalParams,
   ) => Promise<ServerDnsAlias>;
 }
+
 function _getServerDnsAliases(context: SqlManagementContext) {
   return {
     acquire: (
@@ -208,6 +209,7 @@ function _getServerDnsAliases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, dnsAliasName, options),
   };
 }
+
 export function _getServerDnsAliasesOperations(
   context: SqlManagementContext,
 ): ServerDnsAliasesOperations {

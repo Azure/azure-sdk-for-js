@@ -82,11 +82,6 @@ export interface ManagedHsmsOperations {
     options?: ManagedHsmsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedHsm>;
   /** Deletes the specified managed HSM Pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -151,7 +146,7 @@ export interface ManagedHsmsOperations {
     resourceGroupName: string,
     name: string,
     options?: ManagedHsmsGetOptionalParams,
-  ) => Promise<ManagedHsm>;
+  ) => Promise<ManagedHsm | void>;
 }
 
 function _getManagedHsms(context: KeyVaultManagementContext) {

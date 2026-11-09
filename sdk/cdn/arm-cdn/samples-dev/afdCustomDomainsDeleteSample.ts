@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
  *
  * @summary deletes an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
- * x-ms-original-file: 2025-12-01/AFDCustomDomains_Delete.json
+ * x-ms-original-file: 2026-10-01/AFDCustomDomains_Delete.json
  */
 async function afdCustomDomainsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

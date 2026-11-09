@@ -1,12 +1,10 @@
 # Release History
 
-## 1.21.0 (Unreleased)
+## 1.21.0 (2026-11-05)
 
 ### Features Added
 
 - Added OneSettings `FEATURE_LIVE_METRICS` control of QuickPulse polling, collection, and publishing, preserving local opt-outs and the last valid state when settings are missing or invalid. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

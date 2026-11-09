@@ -9,6 +9,7 @@ exports:
   "./api/privateEndpointConnectionOperations": "./src/api/privateEndpointConnectionOperations/index.ts"
   "./api/protectionIntentOperations": "./src/api/protectionIntentOperations/index.ts"
   "./api/bMSPrepareDataMoveOperationResult": "./src/api/bMSPrepareDataMoveOperationResult/index.ts"
+  "./api/protectionContainerRefreshOperationStatuses": "./src/api/protectionContainerRefreshOperationStatuses/index.ts"
   "./api/tieringCostOperationStatus": "./src/api/tieringCostOperationStatus/index.ts"
   "./api/getTieringCostOperationResult": "./src/api/getTieringCostOperationResult/index.ts"
   "./api/fetchTieringCost": "./src/api/fetchTieringCost/index.ts"

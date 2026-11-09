@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary gets the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-07-15-preview/GetRaiPolicy.json
+ * x-ms-original-file: 2026-09-15-preview/GetRaiPolicy.json
  */
 async function getRaiPolicy() {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,23 @@ async function getRaiPolicy() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
+ *
+ * @summary gets the specified Content Filters associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-09-15-preview/GetRaiPolicyAcs.json
+ */
+async function getAnACSPolicy() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.raiPolicies.get("resource-group", "safety-account", "agent-guard");
+  console.log(result);
+}
+
 async function main() {
   await getRaiPolicy();
+  await getAnACSPolicy();
 }
 
 main().catch(console.error);

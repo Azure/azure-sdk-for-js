@@ -1,0 +1,38 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "raiPolicy": {
+          "bicepIdentifier": "raiPolicy",
+          "type": "Microsoft.CognitiveServices/raiPolicy",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "raipolicy"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "basePolicyName": {
+                    "kind": "string",
+                    "value": "Microsoft.Default"
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "Blocking"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

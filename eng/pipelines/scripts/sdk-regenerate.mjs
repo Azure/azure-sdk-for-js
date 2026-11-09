@@ -18,6 +18,9 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
   "eng/common/scripts/TypeSpec-Project-Generate.ps1",
 );
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
+const PACKAGE_MANAGER = JSON.parse(
+  fs.readFileSync(path.join(SDK_ROOT, "package.json"), "utf8"),
+).packageManager;
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
 const SPEC_REPO_URL = "https://github.com/Azure/azure-rest-api-specs.git";
 const SPEC_REPO_BRANCH = "main";
@@ -247,7 +250,20 @@ function runRegenerateEmitter() {
 }
 
 function installGlobalCliTools() {
-  runShell("npm install -g @azure-tools/typespec-client-generator-cli pnpm");
+  const registryResult = spawnSync("npm config get registry", {
+    cwd: SDK_ROOT,
+    encoding: "utf8",
+    shell: true,
+  });
+  const npmRegistry = registryResult.stdout?.trim();
+  if (registryResult.status !== 0 || !npmRegistry) {
+    console.error("##[error]Failed to resolve the repository npm registry");
+    process.exit(registryResult.status || 1);
+  }
+  runShell(
+    `npm install -g @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER} --registry="${npmRegistry}"`,
+    SDK_ROOT,
+  );
   // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
   runShell("npm config set legacy-peer-deps true");
 }
@@ -284,8 +300,9 @@ function downloadEmitterPackageJsonFromNpm(emitterVersion) {
 }
 
 function preinstallReleaseTools() {
-  // Pre-install js-sdk-release-tools once so every shard's update-changelog reuses the same node_modules.
-  runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
+  // Install and build once so every shard's update-changelog reuses the same output.
+  runShell("pnpm install --frozen-lockfile", SDK_ROOT);
+  runShell("pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1", SDK_ROOT);
 }
 
 // Shallow-clone azure-rest-api-specs main once per shard. Each package syncs from
@@ -627,17 +644,12 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
 }
 
 async function generateChangelogForOnePackage(pkg) {
-  // Invoke update-changelog bin directly (avoids backslash issues in the
+  // Invoke the built update-changelog CLI directly (avoids backslash issues in the
   // PowerShell wrapper script on Linux agents).
   const result = await runCommandCapturing(
-    "npm",
+    "node",
     [
-      "--prefix",
-      RELEASE_TOOLS_DIR,
-      "exec",
-      "--no",
-      "--",
-      "update-changelog",
+      path.join(RELEASE_TOOLS_DIR, "dist/generateChangelogCli.js"),
       "--sdkRepoPath",
       SDK_ROOT,
       "--packagePath",

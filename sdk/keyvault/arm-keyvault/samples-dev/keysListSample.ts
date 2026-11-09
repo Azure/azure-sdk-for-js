@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the keys in the specified key vault.
  *
  * @summary lists the keys in the specified key vault.
- * x-ms-original-file: 2026-02-01/listKeys.json
+ * x-ms-original-file: 2026-05-15/listKeys.json
  */
 async function listKeysInTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

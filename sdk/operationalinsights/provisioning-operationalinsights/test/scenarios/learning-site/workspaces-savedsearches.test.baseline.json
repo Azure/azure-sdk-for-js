@@ -1,0 +1,64 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-saved-search-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "savedSearch": {
+          "bicepIdentifier": "savedSearch",
+          "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-saved-search"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "category": {
+                    "kind": "string",
+                    "value": "learn"
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "value": "learn saved search"
+                  },
+                  "query": {
+                    "kind": "string",
+                    "value": "Heartbeat | take 10"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

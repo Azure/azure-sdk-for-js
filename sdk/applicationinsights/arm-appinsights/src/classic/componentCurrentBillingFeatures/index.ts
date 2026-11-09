@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { update, get } from "../../api/componentCurrentBillingFeatures/operations.js";
-import {
+import type {
   ComponentCurrentBillingFeaturesUpdateOptionalParams,
   ComponentCurrentBillingFeaturesGetOptionalParams,
 } from "../../api/componentCurrentBillingFeatures/options.js";
-import { ApplicationInsightsComponentBillingFeatures } from "../../models/componentAPIs/models.js";
+import type { ApplicationInsightsComponentBillingFeatures } from "../../models/componentAPIs/models.js";
 
 /** Interface representing a ComponentCurrentBillingFeatures operations. */
 export interface ComponentCurrentBillingFeaturesOperations {

@@ -43,12 +43,13 @@ export async function generateAzureSDKPackage(
     const packageDirectory = await getGeneratedPackageDirectory(
       options.typeSpecDirectory,
       options.sdkRepoRoot,
+      options.emitterName,
     );
     const relativePackageDirToSdkRoot = posix.relative(
       posix.normalize(options.sdkRepoRoot),
       posix.normalize(packageDirectory),
     );
-    await ignoreLinkGenerator(options.typeSpecDirectory);
+    await ignoreLinkGenerator(options.typeSpecDirectory, options.emitterName);
     const packageJsonPath = posix.join(packageDirectory, "package.json");
     let originalNpmPackageInfo: undefined | NpmPackageInfo;
     if (await exists(packageJsonPath))
@@ -56,7 +57,11 @@ export async function generateAzureSDKPackage(
 
     await cleanUpPackageDirectory(packageDirectory, options.runMode);
     if (options.apiVersion) {
-      specifyApiVersionToGenerateSDKByTypeSpec(options.typeSpecDirectory, options.apiVersion);
+      specifyApiVersionToGenerateSDKByTypeSpec(
+        options.typeSpecDirectory,
+        options.apiVersion,
+        options.emitterName,
+      );
     }
     await generateTypeScriptCodeFromTypeSpec(
       options,

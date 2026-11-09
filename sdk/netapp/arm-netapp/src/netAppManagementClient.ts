@@ -23,6 +23,8 @@ import type { BucketsOperations } from "./classic/buckets/index.js";
 import { _getBucketsOperations } from "./classic/buckets/index.js";
 import type { CachesOperations } from "./classic/caches/index.js";
 import { _getCachesOperations } from "./classic/caches/index.js";
+import type { ClusterPeersOperations } from "./classic/clusterPeers/index.js";
+import { _getClusterPeersOperations } from "./classic/clusterPeers/index.js";
 import type { ElasticAccountsOperations } from "./classic/elasticAccounts/index.js";
 import { _getElasticAccountsOperations } from "./classic/elasticAccounts/index.js";
 import type { ElasticBackupPoliciesOperations } from "./classic/elasticBackupPolicies/index.js";
@@ -39,6 +41,14 @@ import type { ElasticSnapshotsOperations } from "./classic/elasticSnapshots/inde
 import { _getElasticSnapshotsOperations } from "./classic/elasticSnapshots/index.js";
 import type { ElasticVolumesOperations } from "./classic/elasticVolumes/index.js";
 import { _getElasticVolumesOperations } from "./classic/elasticVolumes/index.js";
+import type { ExternalCacheConnectionsOperations } from "./classic/externalCacheConnections/index.js";
+import { _getExternalCacheConnectionsOperations } from "./classic/externalCacheConnections/index.js";
+import type { ExternalCachesOperations } from "./classic/externalCaches/index.js";
+import { _getExternalCachesOperations } from "./classic/externalCaches/index.js";
+import type { ExternalClustersOperations } from "./classic/externalClusters/index.js";
+import { _getExternalClustersOperations } from "./classic/externalClusters/index.js";
+import type { ExternalSvmsOperations } from "./classic/externalSvms/index.js";
+import { _getExternalSvmsOperations } from "./classic/externalSvms/index.js";
 import type { NetAppResourceOperations } from "./classic/netAppResource/index.js";
 import { _getNetAppResourceOperations } from "./classic/netAppResource/index.js";
 import type { NetAppResourceQuotaLimitsOperations } from "./classic/netAppResourceQuotaLimits/index.js";
@@ -61,6 +71,8 @@ import type { SnapshotsOperations } from "./classic/snapshots/index.js";
 import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { SubvolumesOperations } from "./classic/subvolumes/index.js";
 import { _getSubvolumesOperations } from "./classic/subvolumes/index.js";
+import type { SvmPeersOperations } from "./classic/svmPeers/index.js";
+import { _getSvmPeersOperations } from "./classic/svmPeers/index.js";
 import type { VolumeGroupsOperations } from "./classic/volumeGroups/index.js";
 import { _getVolumeGroupsOperations } from "./classic/volumeGroups/index.js";
 import type { VolumeQuotaRulesOperations } from "./classic/volumeQuotaRules/index.js";
@@ -110,6 +122,12 @@ export class NetAppManagementClient {
     this.accounts = _getAccountsOperations(this._client);
     this.netAppResourceRegionInfos = _getNetAppResourceRegionInfosOperations(this._client);
     this.netAppResourceQuotaLimits = _getNetAppResourceQuotaLimitsOperations(this._client);
+    this.externalCacheConnections = _getExternalCacheConnectionsOperations(this._client);
+    this.externalCaches = _getExternalCachesOperations(this._client);
+    this.svmPeers = _getSvmPeersOperations(this._client);
+    this.externalSvms = _getExternalSvmsOperations(this._client);
+    this.clusterPeers = _getClusterPeersOperations(this._client);
+    this.externalClusters = _getExternalClustersOperations(this._client);
     this.activeDirectoryConfigs = _getActiveDirectoryConfigsOperations(this._client);
     this.elasticBackups = _getElasticBackupsOperations(this._client);
     this.elasticBackupPolicies = _getElasticBackupPoliciesOperations(this._client);
@@ -156,6 +174,18 @@ export class NetAppManagementClient {
   public readonly netAppResourceRegionInfos: NetAppResourceRegionInfosOperations;
   /** The operation groups for netAppResourceQuotaLimits */
   public readonly netAppResourceQuotaLimits: NetAppResourceQuotaLimitsOperations;
+  /** The operation groups for externalCacheConnections */
+  public readonly externalCacheConnections: ExternalCacheConnectionsOperations;
+  /** The operation groups for externalCaches */
+  public readonly externalCaches: ExternalCachesOperations;
+  /** The operation groups for svmPeers */
+  public readonly svmPeers: SvmPeersOperations;
+  /** The operation groups for externalSvms */
+  public readonly externalSvms: ExternalSvmsOperations;
+  /** The operation groups for clusterPeers */
+  public readonly clusterPeers: ClusterPeersOperations;
+  /** The operation groups for externalClusters */
+  public readonly externalClusters: ExternalClustersOperations;
   /** The operation groups for activeDirectoryConfigs */
   public readonly activeDirectoryConfigs: ActiveDirectoryConfigsOperations;
   /** The operation groups for elasticBackups */

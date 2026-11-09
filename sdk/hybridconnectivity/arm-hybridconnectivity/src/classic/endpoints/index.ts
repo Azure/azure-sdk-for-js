@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import type { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
   listManagedProxyDetails,
   listIngressGatewayCredentials,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/endpoints/operations.js";
-import {
+import type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -22,14 +22,14 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
-import {
+import type {
   EndpointResource,
   EndpointAccessResource,
   IngressGatewayResource,
   ManagedProxyRequest,
   ManagedProxyResource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Endpoints operations. */
 export interface EndpointsOperations {
@@ -58,11 +58,6 @@ export interface EndpointsOperations {
     options?: EndpointsListOptionalParams,
   ) => PagedAsyncIterableIterator<EndpointResource>;
   /** Deletes the endpoint access to the target resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     endpointName: string,

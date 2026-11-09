@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an existing virtual network rule.
  *
  * @summary creates or updates an existing virtual network rule.
- * x-ms-original-file: 2025-08-01-preview/VirtualNetworkRulesCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualNetworkRulesCreateOrUpdate.json
  */
 async function createOrUpdateAVirtualNetworkRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

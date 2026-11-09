@@ -1,0 +1,82 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "cassandraCluster": {
+          "bicepIdentifier": "cassandraCluster",
+          "type": "Microsoft.DocumentDB/cassandraClusters",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "clusterresource-test"
+              }
+            }
+          }
+        },
+        "dataCenter": {
+          "bicepIdentifier": "dataCenter",
+          "type": "Microsoft.DocumentDB/cassandraClusters/dataCenters",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "datacenter-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "cassandraCluster"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "dataCenterLocation": {
+                    "kind": "string",
+                    "value": "West US 2"
+                  },
+                  "delegatedSubnetId": {
+                    "kind": "string",
+                    "value": "/subscriptions/536e130b-d7d6-4ac7-98a5-de20d69588d2/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/dc1-subnet"
+                  },
+                  "nodeCount": {
+                    "kind": "integer",
+                    "value": "9"
+                  },
+                  "base64EncodedCassandraYamlFragment": {
+                    "kind": "string",
+                    "value": "Y29tcGFjdGlvbl90aHJvdWdocHV0X21iX3Blcl9zZWM6IDMyCmNvbXBhY3Rpb25fbGFyZ2VfcGFydGl0aW9uX3dhcm5pbmdfdGhyZXNob2xkX21iOiAxMDA="
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "dataCenter"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

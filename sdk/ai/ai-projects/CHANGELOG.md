@@ -1,10 +1,44 @@
 # Release History
 
-## 2.8.1 (Unreleased)
+## 2.10.0 (2026-10-30)
+
+### Breaking Changes
+
+- Require `max_samples` in `SimulationSeedDataGenerationJobConfiguration` when creating simulation-seed data-generation jobs through `project.datasets.createGenerationJob`. [#40570](https://github.com/Azure/azure-sdk-for-js/issues/40570)
+- Align routine options with the generated V2 preview contract introduced in [#39782](https://github.com/Azure/azure-sdk-for-js/pull/39782). Remove `Routines=V1Preview` from routine options and `FoundryFeaturesOptInKeys`, remove the unsupported `before` parameter from routine and run lists, and narrow `order` to `PageOrder` (`"asc" | "desc"`).
+
+### Features Added
+
+- Add voice-agent `soundscape` configuration for built-in background ambience and opening, working, transfer, and closing cues on telephony calls. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add managed Azure Speech transcription `profanity_filter` modes, the `azure-speech-streaming` transcription model, and headset and personalized noise suppression options. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add `enable_memory_snapshot` to hosted agent definitions and `voice_conversation_engine` to supported agent protocols. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+- Add GPT Image 2.5 Sunburst and Flare model identifiers, including their dated snapshots, and `xhigh` and `max` image quality options. [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+
+### Other Changes
+
+- Regenerate the client from azure-rest-api-specs commit `4c0bca84cb8862569a22ec3f8fae2a6e14871a97`. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/4c0bca84cb8862569a22ec3f8fae2a6e14871a97). [#40570](https://github.com/Azure/azure-sdk-for-js/issues/40570)
+- Regenerate the client from azure-rest-api-specs commit `1af5aada936fd34b72a8362d832b4d7fcd0a9ac6`, preserving customized transcription fields and voice audio contracts. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/1af5aada936fd34b72a8362d832b4d7fcd0a9ac6). [#40502](https://github.com/Azure/azure-sdk-for-js/issues/40502)
+
+## 2.9.0 (2026-10-19)
+
+### Breaking Changes
+
+- Remove `VoiceResponseBase` and `VoiceAgentRealtimeResponseBase`, composing their fields directly into `VoiceResponse` and `VoiceAgentRealtimeResponse`. Make persisted response `id` and `conversation_id` optional and change `VoiceResponse.metadata` to `Metadata`, with SDK keys under `additionalProperties` and unchanged flat wire metadata. Preserve the Foundry audio contract and string voice API. [#40339](https://github.com/Azure/azure-sdk-for-js/issues/40339)
+- Rename Teams Phone binding models from `*TeamsPhoneExtension*` to `*TeamsPhoneExtensibility*` and replace `teams_phone_extension` with `teams_phone_extensibility` in `TelephonyProvider`, binding discriminators, and `TelephonyCallLifecycleEventSource`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
+
+### Features Added
+
+- Add `MicrosoftCopilotHarness` and `MicrosoftCopilotToolsetPreview` for prompt agents, including built-in tool enablement overrides and the `MicrosoftCopilot=V1Preview` opt-in. Retain the legacy GitHub Copilot contracts for compatibility. [#40375](https://github.com/Azure/azure-sdk-for-js/issues/40375)
+- Add OpenTelemetry tracing for Voice Agents generation, telephony mutations, conversation deletion, and realtime connection/response lifecycles using the existing experimental tracing configuration. Include content-free message summaries, response duration/token metrics, aggregate audio bytes, and SDK-observed first-audio latency. Preserve message roles and correlate delayed audio transcripts without replacing newer pending input. Message contents require `contentRecording: true`; raw media and transport authentication fields are excluded. [#40320](https://github.com/Azure/azure-sdk-for-js/pull/40320)
+- Add `FineTuningSessions=V1Preview` to `FoundryFeaturesOptInKeys`. [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
 
 ### Other Changes
 
 - Upgrade `openai` dependency to `^7.28.0` and `ws` to `^8.21.0`. [#39489](https://github.com/Azure/azure-sdk-for-js/issues/39489)
+- Regenerate the client from azure-rest-api-specs commit `a7ef5b9218652546fbbddea463a4ac56e187102f` and document the Microsoft Copilot replacements for legacy GitHub Copilot models. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a7ef5b9218652546fbbddea463a4ac56e187102f). [#40375](https://github.com/Azure/azure-sdk-for-js/issues/40375)
+- Regenerate the client from azure-rest-api-specs commit `24b904e4e5f77231feaf05e3d39fca48dc531565` to simplify OpenAI-backed voice models while retaining customized MCP tools, response inputs, audio serialization, and realtime behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/24b904e4e5f77231feaf05e3d39fca48dc531565). [#40339](https://github.com/Azure/azure-sdk-for-js/issues/40339)
+- Regenerate the client from azure-rest-api-specs commit `9224f3baca6db983469634f3e7ff723697f76d92` and update `SessionConfiguration.idle_timeout_seconds` documentation to reflect the increased maximum of 14,400 seconds (4 hours), retaining the 120-second minimum and 900-second server default. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/9224f3baca6db983469634f3e7ff723697f76d92). [#40224](https://github.com/Azure/azure-sdk-for-js/issues/40224)
+- Regenerate the client from azure-rest-api-specs commit `98d958ad0d13deafa0d66119bc99301324cd86bd`, keeping the existing `VoiceAgentTransport` contract reachable in emitted code. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/98d958ad0d13deafa0d66119bc99301324cd86bd). [#40216](https://github.com/Azure/azure-sdk-for-js/issues/40216)
 
 ## 2.8.0 (2026-10-05)
 
