@@ -711,7 +711,12 @@ export function buildWebSocketUrl(
 ): string {
   const url = new URL(endpoint);
   url.protocol = "wss:";
-  url.pathname = `${url.pathname.replace(/\/+$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice${suffix}`;
+  const pathname = url.pathname;
+  let pathnameEnd = pathname.length;
+  while (pathnameEnd > 0 && pathname.charCodeAt(pathnameEnd - 1) === 47) {
+    pathnameEnd--;
+  }
+  url.pathname = `${pathname.slice(0, pathnameEnd)}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice${suffix}`;
   if (
     options.query !== undefined &&
     (options.query === null ||
