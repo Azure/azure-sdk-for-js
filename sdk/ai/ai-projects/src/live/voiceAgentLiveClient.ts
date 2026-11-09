@@ -188,21 +188,31 @@ export interface VoiceAgentLiveConnection extends AsyncIterable<VoiceAgentLiveEv
   appendThinking(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
   /** Adds text for the model to say to the user. This is context, not a user message. */
   appendCommentary(content: string, options?: VoiceAgentLiveAppendOptions): Promise<void>;
-  /** Adds a conversation item when the session uses Responses delegation. */
+  /** Adds a conversation item. Requires Responses or Foundry-managed agent delegation. */
   sendResponseItem(item: Record<string, unknown>, options?: VoiceAgentEventOptions): Promise<void>;
-  /** Sends a function result to the Responses backend and requests a follow-up response by default. */
+  /** Sends a function result to the delegation backend and requests a follow-up response by default. Requires Responses or Foundry-managed agent delegation. */
   sendToolOutput(
     callId: string,
     output: string,
     options?: VoiceAgentSendToolOutputOptions,
   ): Promise<void>;
-  /** Asks the Responses backend to respond. Requires Responses delegation. */
+  /** Asks the delegation backend to respond. Requires Responses or Foundry-managed agent delegation. */
   requestResponse(options?: VoiceAgentEventOptions): Promise<void>;
   /** Closes the session and waits for service confirmation. Rejects if the connection failed or finalization was not confirmed, including when the socket has already closed. */
   close(code?: number, reason?: string): Promise<void>;
   /** Closes the session. Equivalent to close(). */
   dispose(): Promise<void>;
 }
+
+/**
+ * Delegation types whose backend accepts response.item.create and response.create. GPT Live
+ * relays them to a Responses backend. In Foundry-managed agent sessions, Foundry handles them
+ * itself: function results continue the agent's pending calls, and user messages start typed runs.
+ */
+const responsesCommandDelegations: ReadonlySet<string> = new Set([
+  "responses",
+  "foundry_managed_agent",
+]);
 
 /** Connects to Foundry voice agents that use GPT Live. */
 export class VoiceAgentLiveClient {
@@ -465,9 +475,11 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
     const data = serializeVoiceAgentLiveEvent(event);
     if (
       (event.type === "response.item.create" || event.type === "response.create") &&
-      this.session.delegation?.type !== "responses"
+      !responsesCommandDelegations.has(this.session.delegation?.type ?? "")
     ) {
-      throw new VoiceAgentProtocolError("Responses commands require a Responses delegation.");
+      throw new VoiceAgentProtocolError(
+        "Responses commands require a Responses or Foundry-managed agent delegation.",
+      );
     }
     try {
       await this.transport.send(data, options.abortSignal);

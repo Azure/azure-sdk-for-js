@@ -36,6 +36,7 @@
 - Resolve campaign creation and cancellation pollers through a final Campaign GET guarded by the initiating response's `Operation-Id`, preventing monitor deserialization failures and results from a reused campaign name. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Accept campaign and telephony binding creation inputs without requiring service-generated response fields, while retaining complete response models. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Send the canonical `agent_version_override` query parameter for Realtime connections and `structured_inputs` in browser and React Native handshakes, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
+- Allow `sendResponseItem()`, `sendToolOutput()`, and `requestResponse()` on GPT Live sessions with Foundry-managed agent delegation. Foundry handles these commands in managed sessions, so the client no longer rejects function results for the managed agent's local tools or typed user input. Client delegation still rejects them. [#40705](https://github.com/Azure/azure-sdk-for-js/pull/40705)
 
 ### Other Changes
 

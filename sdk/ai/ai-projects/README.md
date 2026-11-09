@@ -498,7 +498,10 @@ With Responses delegation, backend events arrive inside `response.event`. Use
 `sendResponseItem()` to add a user message and `requestResponse()` to ask for a reply.
 For a function call, wait for the calling backend response to finish, then use
 `sendToolOutput()` to return the result and request continuation. These methods require
-Responses delegation. For client-handled delegation, use `appendThinking()` or
+Responses or Foundry-managed agent delegation. With Foundry-managed agent delegation, the
+managed agent's events also arrive inside `response.event`; Foundry uses function results
+to continue the agent's pending calls, and a user message followed by `requestResponse()`
+starts a typed run of the agent. For client-handled delegation, use `appendThinking()` or
 `appendCommentary()` and pass the delegation ID as `delegationId`.
 
 Decision context items support user messages, function calls and results, and
