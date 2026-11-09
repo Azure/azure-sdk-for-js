@@ -20,6 +20,7 @@
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ## 12.5.0 (2026-08-03)
 

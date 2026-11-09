@@ -200,6 +200,24 @@ describe("storageSessionAuthenticationPolicy", () => {
     assert.isNull(returnedBody.readableFlowing, "the returned body is left for the caller");
   });
 
+  it("still falls back to bearer when the rejected body fails while it drains", async () => {
+    const drainError = new Error("The connection was reset while the body was read.");
+    const rejectedBody = new Readable({
+      read() {
+        this.destroy(drainError);
+      },
+    });
+    const harness = createHarness({ statuses: [401, 200], bodies: [rejectedBody] });
+
+    const response = await harness.send();
+    // The drain starts, and fails, on a later tick.
+    await settle();
+
+    assert.strictEqual(response.status, 200);
+    assert.lengthOf(harness.bearerSeen, 1);
+    assert.strictEqual(rejectedBody.errored, drainError);
+  });
+
   it("reuses the connection of a rejected session download for the bearer retry", async () => {
     let connections = 0;
     const server = http.createServer((req, res) => {

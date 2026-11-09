@@ -20,6 +20,7 @@
 
 - Migrated to TypeSpec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 - Added a note to the create and delete methods of `DataLakeFileSystemClient` about what happens after a file system is deleted: a file system with the same name can't be created for at least 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ## 12.31.0 (2026-06-24)
 

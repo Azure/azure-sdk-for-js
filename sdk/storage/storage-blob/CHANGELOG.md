@@ -28,6 +28,7 @@
 
 - Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 - Added a note to the create and delete methods of `ContainerClient` and `BlobServiceClient` about what happens after a container is deleted: a container with the same name can't be created for at least 30 seconds, and blob operations may keep succeeding for up to 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ## 12.34.0 (2026-09-24)
 

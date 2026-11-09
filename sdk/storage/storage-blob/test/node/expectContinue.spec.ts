@@ -1,13 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { randomBytes } from "node:crypto";
+import * as http from "node:http";
+import type { AddressInfo } from "node:net";
 import { Readable } from "node:stream";
 import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import type { HttpMethods, Pipeline, RequestBodyType } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ExpectContinueOptions } from "../../src/index.js";
-import { BlockBlobClient, ContainerClient, StorageSharedKeyCredential } from "../../src/index.js";
+import {
+  AnonymousCredential,
+  BlockBlobClient,
+  ContainerClient,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
 import { getCoreClientOptions, newPipeline } from "../../src/Pipeline.js";
 import {
   createAndStartRecorder,
@@ -417,5 +425,238 @@ describe("Expect: 100-continue against the service", () => {
     assert.strictEqual(response._response.status, 201);
     assert.isDefined(response.etag);
     assert.isDefined(response.lastModified);
+  });
+});
+
+/**
+ * How the local server answers one attempt:
+ * - `"reject"`: 503 at once, without `100 Continue`;
+ * - `"continue"`: `100 Continue` after a pause, then 201 once it has gone out and the body has arrived;
+ * - `"noContinue"`: never `100 Continue`, 201 once the body has arrived;
+ * - `"readThenReject"`: 503 once the body has arrived, for an attempt without the header;
+ * - `"hang"`: no answer.
+ */
+type ServerAnswer = "reject" | "continue" | "noContinue" | "readThenReject" | "hang";
+
+/** What the local server saw of one attempt. */
+interface ServerAttempt {
+  expect: string | undefined;
+  /** Body bytes that had arrived when the server sent `100 Continue`. */
+  bytesBeforeContinue?: number;
+  /** Every body byte that arrived, set once the request has ended or its connection has closed. */
+  body?: Buffer;
+}
+
+/** How long the server waits before `100 Continue`, so a body sent too early would arrive first. */
+const CONTINUE_DELAY_IN_MS = 100;
+
+/** Fails fast, instead of at the suite timeout, if a request never finishes. */
+async function within<T>(promise: Promise<T>, what: string, ms: number = 10_000): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_resolve, reject) => {
+        timer = setTimeout(() => reject(new Error(`${what} didn't finish in ${ms} ms.`)), ms);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * A local blob endpoint that answers each attempt with the next of `answers` and records what
+ * arrived. Attempts with `Expect: 100-continue` reach it through `checkContinue`, so it sends
+ * `100 Continue` only when the answer does.
+ */
+async function startUploadServer(
+  answers: ServerAnswer[],
+  onAttempt?: () => void,
+): Promise<{
+  blobUrl: string;
+  attempts: ServerAttempt[];
+  /** Resolves once every attempt so far has ended or lost its connection, so its body is complete. */
+  allDone: () => Promise<void>;
+  close: () => Promise<void>;
+}> {
+  const attempts: ServerAttempt[] = [];
+  const done: Array<Promise<void>> = [];
+  const timers: Array<ReturnType<typeof setTimeout>> = [];
+  const handle = (req: http.IncomingMessage, res: http.ServerResponse): void => {
+    const attempt: ServerAttempt = { expect: req.headers.expect };
+    attempts.push(attempt);
+    const chunks: Buffer[] = [];
+    req.on("data", (chunk: Buffer) => chunks.push(chunk));
+    done.push(
+      new Promise<void>((resolve) => {
+        const finish = (): void => {
+          attempt.body = Buffer.concat(chunks);
+          resolve();
+        };
+        req.once("end", finish);
+        req.once("close", finish);
+        // A request answered before its body never ends; its connection closing is the end.
+        req.socket.once("close", finish);
+      }),
+    );
+    const reply = (status: number): void => {
+      res.writeHead(
+        status,
+        status === 201 ? { etag: '"0x1"' } : { "x-ms-error-code": "ServerBusy" },
+      );
+      res.end();
+    };
+    switch (answers.shift() ?? "continue") {
+      case "reject":
+        reply(503);
+        break;
+      case "continue": {
+        let continued = false;
+        let ended = false;
+        timers.push(
+          setTimeout(() => {
+            attempt.bytesBeforeContinue = Buffer.concat(chunks).length;
+            continued = true;
+            res.writeContinue();
+            if (ended) {
+              reply(201);
+            }
+          }, CONTINUE_DELAY_IN_MS),
+        );
+        req.once("end", () => {
+          ended = true;
+          if (continued) {
+            reply(201);
+          }
+        });
+        break;
+      }
+      case "noContinue":
+        req.once("end", () => reply(201));
+        break;
+      case "readThenReject":
+        req.once("end", () => reply(503));
+        break;
+      case "hang":
+        break;
+    }
+    onAttempt?.();
+  };
+  const server = http.createServer(handle);
+  server.on("checkContinue", handle);
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const { port } = server.address() as AddressInfo;
+  return {
+    blobUrl: `http://127.0.0.1:${port}/devstoreaccount1/container/blob`,
+    attempts,
+    allDone: async () => {
+      await Promise.all(done);
+    },
+    close: async () => {
+      timers.forEach(clearTimeout);
+      server.closeAllConnections();
+      await new Promise((resolve) => server.close(resolve));
+    },
+  };
+}
+
+describe("Expect: 100-continue with the default HTTP client", () => {
+  const content = randomBytes(64 * 1024);
+  // The retry of a 503 starts right away.
+  const retryOptions = { maxTries: 2, retryDelayInMs: 1, maxRetryDelayInMs: 1 };
+
+  it("sends no body when the service rejects the request first, then all of it after 100 Continue", async () => {
+    const server = await startUploadServer(["reject", "continue"]);
+    try {
+      const client = new BlockBlobClient(server.blobUrl, new AnonymousCredential(), {
+        expectContinueOptions: { mode: "always" },
+        retryOptions,
+      });
+
+      const response = await within(client.upload(content, content.length), "The upload");
+      await within(server.allDone(), "The server's requests");
+
+      assert.strictEqual(response._response.status, 201);
+      assert.deepStrictEqual(
+        server.attempts.map((attempt) => attempt.expect),
+        [EXPECT_CONTINUE, EXPECT_CONTINUE],
+      );
+      assert.strictEqual(server.attempts[0].body?.length, 0, "the rejected attempt sent its body");
+      assert.strictEqual(server.attempts[1].bytesBeforeContinue, 0, "the body didn't wait");
+      assert.isTrue(server.attempts[1].body?.equals(content), "the retry didn't send the body");
+    } finally {
+      await server.close();
+    }
+  });
+
+  it('holds back the body of the retry after a 503 in mode "auto" (the default)', async () => {
+    const server = await startUploadServer(["readThenReject", "continue"]);
+    try {
+      const client = new BlockBlobClient(server.blobUrl, new AnonymousCredential(), {
+        retryOptions,
+      });
+
+      const response = await within(client.upload(content, content.length), "The upload");
+      await within(server.allDone(), "The server's requests");
+
+      assert.strictEqual(response._response.status, 201);
+      assert.deepStrictEqual(
+        server.attempts.map((attempt) => attempt.expect),
+        [undefined, EXPECT_CONTINUE],
+      );
+      assert.isTrue(server.attempts[0].body?.equals(content), "the first attempt sent no body");
+      assert.strictEqual(server.attempts[1].bytesBeforeContinue, 0, "the body didn't wait");
+      assert.isTrue(server.attempts[1].body?.equals(content), "the retry didn't send the body");
+    } finally {
+      await server.close();
+    }
+  });
+
+  it("sends the body when the service never answers 100 Continue", async () => {
+    const server = await startUploadServer(["noContinue"]);
+    try {
+      const client = new BlockBlobClient(server.blobUrl, new AnonymousCredential(), {
+        expectContinueOptions: { mode: "always" },
+        retryOptions: { maxTries: 1 },
+      });
+
+      const response = await within(client.upload(content, content.length), "The upload");
+      await within(server.allDone(), "The server's requests");
+
+      assert.strictEqual(response._response.status, 201);
+      assert.deepStrictEqual(
+        server.attempts.map((attempt) => attempt.expect),
+        [EXPECT_CONTINUE],
+      );
+      assert.isTrue(server.attempts[0].body?.equals(content), "the body wasn't sent");
+    } finally {
+      await server.close();
+    }
+  });
+
+  it("sends no body when the upload is aborted while it waits for 100 Continue", async () => {
+    const controller = new AbortController();
+    const server = await startUploadServer(["hang"], () => controller.abort());
+    try {
+      const client = new BlockBlobClient(server.blobUrl, new AnonymousCredential(), {
+        expectContinueOptions: { mode: "always" },
+        retryOptions: { maxTries: 1 },
+      });
+
+      const error = await within(
+        client.upload(content, content.length, { abortSignal: controller.signal }).then(
+          () => undefined,
+          (e: unknown) => e,
+        ),
+        "The upload",
+      );
+      await within(server.allDone(), "The server's requests");
+
+      assert.strictEqual((error as Error | undefined)?.name, "AbortError");
+      assert.strictEqual(server.attempts[0].body?.length, 0, "the aborted attempt sent its body");
+    } finally {
+      await server.close();
+    }
   });
 });
