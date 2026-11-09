@@ -1009,6 +1009,7 @@
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
+/eng/provisioning-emitter-package.json @qiaozha @RodgeFu 
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core

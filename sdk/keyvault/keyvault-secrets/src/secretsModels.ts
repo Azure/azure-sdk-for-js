@@ -8,7 +8,7 @@ import type { ContentType, DeletionRecoveryLevel } from "./models/models.js";
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "2025-07-01";
+export const LATEST_API_VERSION = "2026-04-01";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient

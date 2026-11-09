@@ -1,0 +1,159 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sttest01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "StorageV2"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isHnsEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "isLocalUserEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "isSftpEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard_LRS"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "blobService": {
+          "bicepIdentifier": "blobService",
+          "type": "Microsoft.Storage/storageAccounts/blobServices",
+          "apiVersion": "2026-04-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              }
+            }
+          }
+        },
+        "container": {
+          "bicepIdentifier": "container",
+          "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "container1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "blobService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "publicAccess": {
+                    "kind": "string",
+                    "value": "None"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "localUser": {
+          "bicepIdentifier": "localUser",
+          "type": "Microsoft.Storage/storageAccounts/localUsers",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "localuser1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "hasSharedKey": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "homeDirectory": {
+                    "kind": "string",
+                    "value": "container1"
+                  },
+                  "permissionScopes": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "permissions": {
+                            "kind": "string",
+                            "value": "rcwdl"
+                          },
+                          "resourceName": {
+                            "kind": "string",
+                            "value": "container1"
+                          },
+                          "service": {
+                            "kind": "string",
+                            "value": "blob"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

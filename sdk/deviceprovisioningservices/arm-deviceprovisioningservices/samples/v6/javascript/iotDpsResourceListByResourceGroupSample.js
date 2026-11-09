@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of all provisioning services in the given resource group.
  *
  * @summary get a list of all provisioning services in the given resource group.
- * x-ms-original-file: 2026-08-31/DPSListByResourceGroup.json
+ * x-ms-original-file: 2026-11-01/DPSListByResourceGroup.json
  */
 async function dpsListByResourceGroup() {
   const credential = new DefaultAzureCredential();

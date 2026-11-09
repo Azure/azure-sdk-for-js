@@ -2112,6 +2112,8 @@ export enum KnownIdentityKeyStore {
   TPM = "TPM",
   /** Default */
   Default = "Default",
+  /** The machine is transitioning its identity key store to TPM. */
+  TpmTransition = "TpmTransition",
 }
 
 /**
@@ -2120,7 +2122,8 @@ export enum KnownIdentityKeyStore {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **TPM**: TPM \
- * **Default**: Default
+ * **Default**: Default \
+ * **TpmTransition**: The machine is transitioning its identity key store to TPM.
  */
 export type IdentityKeyStore = string;
 
@@ -2524,6 +2527,8 @@ export interface MachineUpdate extends ResourceUpdate {
   identityKeyStore?: string;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
   tpmEkCertificate?: string;
+  /** Public Key that the client provides to be used during initial resource onboarding */
+  clientPublicKey?: string;
 }
 
 export function machineUpdateSerializer(item: MachineUpdate): any {
@@ -2542,6 +2547,7 @@ export function machineUpdateSerializer(item: MachineUpdate): any {
       "privateLinkScopeResourceId",
       "identityKeyStore",
       "tpmEkCertificate",
+      "clientPublicKey",
     ])
       ? undefined
       : _machineUpdatePropertiesSerializer(item),
@@ -2566,6 +2572,8 @@ export interface MachineUpdateProperties {
   identityKeyStore?: string;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
   tpmEkCertificate?: string;
+  /** Public Key that the client provides to be used during initial resource onboarding */
+  clientPublicKey?: string;
 }
 
 export function machineUpdatePropertiesSerializer(item: MachineUpdateProperties): any {
@@ -2584,6 +2592,7 @@ export function machineUpdatePropertiesSerializer(item: MachineUpdateProperties)
     privateLinkScopeResourceId: item["privateLinkScopeResourceId"],
     identityKeyStore: item["identityKeyStore"],
     tpmEkCertificate: item["tpmEkCertificate"],
+    clientPublicKey: item["clientPublicKey"],
   };
 }
 
@@ -3823,6 +3832,205 @@ export function machineRunCommandArraySerializer(result: Array<MachineRunCommand
 export function machineRunCommandArrayDeserializer(result: Array<MachineRunCommand>): any[] {
   return result.map((item) => {
     return machineRunCommandDeserializer(item);
+  });
+}
+
+/** A VM application installed on a hybrid machine. */
+export interface VmApplication extends TrackedResource {
+  /** The VM application properties. */
+  properties?: VmApplicationProperties;
+}
+
+export function vmApplicationSerializer(item: VmApplication): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function vmApplicationDeserializer(item: any): VmApplication {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of a VM application. Exactly one gallery application reference must be specified when creating or replacing the resource. */
+export interface VmApplicationProperties {
+  /** The order in which the application is installed. */
+  order?: number;
+  /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
+  packageReferenceId?: string;
+  /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
+  sharedGalleryApplicationId?: string;
+  /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
+  communityGalleryApplicationId?: string;
+  /** The URI of configuration data that replaces the package's default configuration. */
+  configurationReference?: string;
+  /** Indicates whether an application operation failure causes the deployment to fail. */
+  treatFailureAsDeploymentFailure?: boolean;
+  /** The provisioning state of the VM application. */
+  readonly provisioningState?: ProvisioningState;
+  /** The instance view of the VM application. */
+  readonly instanceView?: VmApplicationInstanceView;
+}
+
+export function vmApplicationPropertiesSerializer(item: VmApplicationProperties): any {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+  };
+}
+
+export function vmApplicationPropertiesDeserializer(item: any): VmApplicationProperties {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+    provisioningState: item["provisioningState"],
+    instanceView: !item["instanceView"]
+      ? item["instanceView"]
+      : vmApplicationInstanceViewDeserializer(item["instanceView"]),
+  };
+}
+
+/** The instance view of a VM application. */
+export interface VmApplicationInstanceView {
+  /** The application name. */
+  name?: string;
+  /** The application version. */
+  version?: string;
+  /** The current installation result. */
+  result?: string;
+  /** The recent actions performed for the application. */
+  actionsPerformed?: VmApplicationInstanceViewAction[];
+}
+
+export function vmApplicationInstanceViewDeserializer(item: any): VmApplicationInstanceView {
+  return {
+    name: item["name"],
+    version: item["version"],
+    result: item["result"],
+    actionsPerformed: !item["actionsPerformed"]
+      ? item["actionsPerformed"]
+      : vmApplicationInstanceViewActionArrayDeserializer(item["actionsPerformed"]),
+  };
+}
+
+export function vmApplicationInstanceViewActionArrayDeserializer(
+  result: Array<VmApplicationInstanceViewAction>,
+): any[] {
+  return result.map((item) => {
+    return vmApplicationInstanceViewActionDeserializer(item);
+  });
+}
+
+/** An action recently performed for a VM application. */
+export interface VmApplicationInstanceViewAction {
+  /** The operation that was performed. */
+  operation?: string;
+  /** The result of the operation. */
+  result?: string;
+}
+
+export function vmApplicationInstanceViewActionDeserializer(
+  item: any,
+): VmApplicationInstanceViewAction {
+  return {
+    operation: item["operation"],
+    result: item["result"],
+  };
+}
+
+/** The update request for a VM application. */
+export interface VmApplicationUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: VmApplicationUpdateProperties;
+}
+
+export function vmApplicationUpdateSerializer(item: VmApplicationUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the VmApplication. */
+export interface VmApplicationUpdateProperties {
+  /** The order in which the application is installed. */
+  order?: number;
+  /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
+  packageReferenceId?: string;
+  /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
+  sharedGalleryApplicationId?: string;
+  /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
+  communityGalleryApplicationId?: string;
+  /** The URI of configuration data that replaces the package's default configuration. */
+  configurationReference?: string;
+  /** Indicates whether an application operation failure causes the deployment to fail. */
+  treatFailureAsDeploymentFailure?: boolean;
+}
+
+export function vmApplicationUpdatePropertiesSerializer(item: VmApplicationUpdateProperties): any {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+  };
+}
+
+/** A page of VM applications. */
+export interface _VmApplicationsListResult {
+  /** The VmApplication items on this page */
+  value: VmApplication[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vmApplicationsListResultDeserializer(item: any): _VmApplicationsListResult {
+  return {
+    value: vmApplicationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function vmApplicationArraySerializer(result: Array<VmApplication>): any[] {
+  return result.map((item) => {
+    return vmApplicationSerializer(item);
+  });
+}
+
+export function vmApplicationArrayDeserializer(result: Array<VmApplication>): any[] {
+  return result.map((item) => {
+    return vmApplicationDeserializer(item);
   });
 }
 
@@ -5196,6 +5404,8 @@ export type InstanceViewTypes = string;
 export enum KnownVersions {
   /** The 2026-07-15 API version. */
   V20260715 = "2026-07-15",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _licensePropertiesSerializer(item: License): any {
@@ -5441,6 +5651,7 @@ export function _machineUpdatePropertiesSerializer(item: MachineUpdate): any {
     privateLinkScopeResourceId: item["privateLinkScopeResourceId"],
     identityKeyStore: item["identityKeyStore"],
     tpmEkCertificate: item["tpmEkCertificate"],
+    clientPublicKey: item["clientPublicKey"],
   };
 }
 

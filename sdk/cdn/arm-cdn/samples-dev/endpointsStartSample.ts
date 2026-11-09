@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts an existing CDN endpoint that is on a stopped state.
  *
  * @summary starts an existing CDN endpoint that is on a stopped state.
- * x-ms-original-file: 2025-12-01/Endpoints_Start.json
+ * x-ms-original-file: 2026-10-01/Endpoints_Start.json
  */
 async function endpointsStart(): Promise<void> {
   const credential = new DefaultAzureCredential();

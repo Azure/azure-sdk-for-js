@@ -4,6 +4,7 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - eng/tools/ci-runner
+  - eng/tools/repo-health-status-report
   - eng/tools/js-sdk-release-tools
   - eng/tools/eng-package-utils
   - eng/tools/versioning
@@ -25,7 +26,7 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
-  '@azure/provisioning-core': 1.0.0-beta.1
+  '@azure/provisioning-core': 1.0.0-beta.2
   '@eslint/js': ^10.0.1
   '@types/node': ^22.0.0
   autorest: latest
@@ -69,6 +70,7 @@ overrides:
   'front-matter>js-yaml': ^5.2.2
   'vitest>vite': ^8.0.0
   '@vitest/mocker>vite': ^8.0.0
+  '@opentelemetry/api': 1.9.1
 
 # eslint-plugin-import 2.32.0 (latest) caps its eslint peer at ^9, but the only
 # rule we consume (import/no-extraneous-dependencies) works functionally under

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades a data warehouse.
  *
  * @summary upgrades a data warehouse.
- * x-ms-original-file: 2025-08-01-preview/UpgradeDataWarehouse.json
+ * x-ms-original-file: 2026-08-01-preview/UpgradeDataWarehouse.json
  */
 async function upgradesADataWarehouse(): Promise<void> {
   const credential = new DefaultAzureCredential();

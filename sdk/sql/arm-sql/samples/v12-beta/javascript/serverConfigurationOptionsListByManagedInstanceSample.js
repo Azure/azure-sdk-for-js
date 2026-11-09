@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of managed instance server configuration options.
  *
  * @summary gets a list of managed instance server configuration options.
- * x-ms-original-file: 2025-08-01-preview/ServerConfigurationOptionList.json
+ * x-ms-original-file: 2026-08-01-preview/ServerConfigurationOptionList.json
  */
 async function getsAListOfManagedInstanceServerConfigurationOptions() {
   const credential = new DefaultAzureCredential();

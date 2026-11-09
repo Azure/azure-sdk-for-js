@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates managed instance DTC settings.
  *
  * @summary updates managed instance DTC settings.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceDtcUpdateEnableDtc.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceDtcUpdateEnableDtc.json
  */
 async function updatesManagedInstanceDTCSettingsByEnablingDTC(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function updatesManagedInstanceDTCSettingsByEnablingDTC(): Promise<void> {
  * This sample demonstrates how to updates managed instance DTC settings.
  *
  * @summary updates managed instance DTC settings.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceDtcUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceDtcUpdateMax.json
  */
 async function updatesManagedInstanceDTCSettingsWithAllOptionalParametersSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();

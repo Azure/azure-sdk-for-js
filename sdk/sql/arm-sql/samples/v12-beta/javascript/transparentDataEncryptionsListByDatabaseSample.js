@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of the logical database's transparent data encryption.
  *
  * @summary gets a list of the logical database's transparent data encryption.
- * x-ms-original-file: 2025-08-01-preview/TransparentDataEncryptionList.json
+ * x-ms-original-file: 2026-08-01-preview/TransparentDataEncryptionList.json
  */
 async function getAListOfTheDatabaseTransparentDataEncryption() {
   const credential = new DefaultAzureCredential();

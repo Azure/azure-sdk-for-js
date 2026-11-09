@@ -1,0 +1,71 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sttest01"
+              }
+            }
+          }
+        },
+        "fileService": {
+          "bicepIdentifier": "fileService",
+          "type": "Microsoft.Storage/storageAccounts/fileServices",
+          "apiVersion": "2026-04-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              }
+            }
+          }
+        },
+        "share": {
+          "bicepIdentifier": "share",
+          "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "share1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "fileService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "accessTier": {
+                    "kind": "string",
+                    "value": "Hot"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

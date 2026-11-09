@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a database default Geo backup policy.
  *
  * @summary create or update a database default Geo backup policy.
- * x-ms-original-file: 2025-08-01-preview/GeoBackupPoliciesCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/GeoBackupPoliciesCreateOrUpdate.json
  */
 async function createOrUpdateADatabaseDefaultGeoBackupPolicy() {
   const credential = new DefaultAzureCredential();

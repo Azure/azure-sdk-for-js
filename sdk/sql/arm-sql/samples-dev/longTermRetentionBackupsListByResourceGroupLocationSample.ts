@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the long term retention backups for a given location based on resource group.
  *
  * @summary lists the long term retention backups for a given location based on resource group.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByLocation.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByLocation.json
  */
 async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGrou
  * This sample demonstrates how to lists the long term retention backups for a given location based on resource group.
  *
  * @summary lists the long term retention backups for a given location based on resource group.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByLocationWithPagination.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedLongTermRetentionBackupListByLocationWithPagination.json
  */
 async function getLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroupWithPagination(): Promise<void> {
   const credential = new DefaultAzureCredential();

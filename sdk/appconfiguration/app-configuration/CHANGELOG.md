@@ -1,6 +1,18 @@
 # Release History
 
-## 1.13.1 (Unreleased)
+## 1.13.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Removed the direct dependency on `@azure/core-client` while preserving the existing client options. [#40645](https://github.com/Azure/azure-sdk-for-js/pull/40645)
+
+## 1.13.1 (2026-10-27)
 
 ### Bugs Fixed
 

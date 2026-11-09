@@ -17,6 +17,7 @@ export interface ManagedDatabaseSecurityEventsOperations {
     options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<SecurityEvent>;
 }
+
 function _getManagedDatabaseSecurityEvents(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -27,6 +28,7 @@ function _getManagedDatabaseSecurityEvents(context: SqlManagementContext) {
     ) => listByDatabase(context, resourceGroupName, managedInstanceName, databaseName, options),
   };
 }
+
 export function _getManagedDatabaseSecurityEventsOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseSecurityEventsOperations {

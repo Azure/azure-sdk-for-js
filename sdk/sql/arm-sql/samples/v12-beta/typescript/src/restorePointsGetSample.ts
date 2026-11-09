@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a restore point.
  *
  * @summary gets a restore point.
- * x-ms-original-file: 2025-08-01-preview/DataWarehouseRestorePointsGet.json
+ * x-ms-original-file: 2026-08-01-preview/DataWarehouseRestorePointsGet.json
  */
 async function getsADatawarehouseDatabaseRestorePoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getsADatawarehouseDatabaseRestorePoint(): Promise<void> {
  * This sample demonstrates how to gets a restore point.
  *
  * @summary gets a restore point.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRestorePointsGet.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRestorePointsGet.json
  */
 async function getsADatabaseRestorePoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

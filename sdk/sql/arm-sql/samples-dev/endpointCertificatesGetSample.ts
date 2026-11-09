@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a certificate used on the endpoint with the given id.
  *
  * @summary gets a certificate used on the endpoint with the given id.
- * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesGet.json
+ * x-ms-original-file: 2026-08-01-preview/EndpointCertificatesGet.json
  */
 async function getsAnEndpointCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAnEndpointCertificate(): Promise<void> {
  * This sample demonstrates how to gets a certificate used on the endpoint with the given id.
  *
  * @summary gets a certificate used on the endpoint with the given id.
- * x-ms-original-file: 2025-08-01-preview/EndpointCertificatesGetWithTrustedRootCertificate.json
+ * x-ms-original-file: 2026-08-01-preview/EndpointCertificatesGetWithTrustedRootCertificate.json
  */
 async function getsAnEndpointCertificateIncludingTrustedRootCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();

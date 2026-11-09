@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "userName": "myUserName",
+    "password": "myPassword",
+    "databaseName": "sales",
+    "customData": "My custom data",
+    "roles": [
+      {
+        "role": "myReadRole",
+        "db": "sales"
+      }
+    ],
+    "mechanisms": "SCRAM-SHA-256"
+  }
+}

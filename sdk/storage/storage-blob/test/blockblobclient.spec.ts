@@ -506,9 +506,11 @@ describe("BlockBlobClient request bodies", () => {
     ["Uint16Array", new Uint16Array([1, 2, 3])],
   ] satisfies [string, ArrayBuffer | ArrayBufferView][])("preserves %s bodies", async (_, body) => {
     let requestBody: unknown;
+    let contentLength: string | undefined;
     const httpClient: HttpClient = {
       async sendRequest(request) {
         requestBody = request.body;
+        contentLength = request.headers.get("content-length");
         return {
           request,
           status: 201,
@@ -528,6 +530,16 @@ describe("BlockBlobClient request bodies", () => {
 
     await client.upload(body, body.byteLength);
 
-    assert.strictEqual(requestBody, body);
+    // Some HTTP runtime versions send only Uint8Array bodies as raw bytes, so the transport must get
+    // a Uint8Array over exactly the caller's bytes, whatever the runtime version.
+    assert.instanceOf(requestBody, Uint8Array);
+    const expected = ArrayBuffer.isView(body)
+      ? new Uint8Array(body.buffer, body.byteOffset, body.byteLength)
+      : new Uint8Array(body);
+    assert.deepEqual(requestBody, expected);
+    // Browsers compute Content-Length from the body, so the pipeline removes the header there.
+    if (isNodeLike) {
+      assert.strictEqual(contentLength, String(body.byteLength));
+    }
   });
 });
