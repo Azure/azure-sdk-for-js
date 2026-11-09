@@ -2227,6 +2227,16 @@ export type DeleteSnapshotsOptionType = "include" | "only";
 export type EncryptionAlgorithmType = string;
 
 // @public
+export type ExpectContinueMode = "auto" | "always" | "never";
+
+// @public
+export interface ExpectContinueOptions {
+    autoIntervalInMs?: number;
+    minBodySizeInBytes?: number;
+    mode?: ExpectContinueMode;
+}
+
+// @public
 export type FileShareTokenIntent = string;
 
 // @public
@@ -3297,6 +3307,7 @@ export const StorageOAuthScopes: string | string[];
 // @public
 export interface StoragePipelineOptions {
     audience?: string | string[];
+    expectContinueOptions?: ExpectContinueOptions;
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;

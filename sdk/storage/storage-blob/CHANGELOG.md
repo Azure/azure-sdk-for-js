@@ -8,6 +8,7 @@
 - Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
 - Added opt-in data locality support to `downloadToBuffer`. Set `layoutAwareRouting` to `"enabled"` to read blocks from the endpoints that hold them when the service hints at it; disabled by default and Node.js only.
 - `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
+- Added `expectContinueOptions` to the client options. By default, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as uploads, for one minute after the service responds with status 429, 500 or 503. Set `expectContinueOptions.mode` to `"auto"`, `"always"` or `"never"` to choose when the header is sent, or set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
 
 ### Breaking Changes
 
@@ -27,6 +28,7 @@
 
 - Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
 - Added a note to the create and delete methods of `ContainerClient` and `BlobServiceClient` about what happens after a container is deleted: a container with the same name can't be created for at least 30 seconds, and blob operations may keep succeeding for up to 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ## 12.34.0 (2026-09-24)
 

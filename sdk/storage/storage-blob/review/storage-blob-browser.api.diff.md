@@ -425,7 +425,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type DeleteSnapshotsOptionType = "include" | "only";
  
  // @public
-@@ -2271,17 +2108,8 @@
+@@ -2281,17 +2118,8 @@
      where: string;
  }
  
@@ -443,7 +443,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2289,11 +2117,8 @@
+@@ -2299,11 +2127,8 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -455,7 +455,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      scheme: string;
      value: string;
  }
-@@ -2313,10 +2138,8 @@
+@@ -2323,10 +2148,8 @@
  
  // @public
  export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
@@ -466,7 +466,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export enum KnownEncryptionAlgorithmType {
      // (undocumented)
      AES256 = "AES256"
-@@ -2470,13 +2293,8 @@
+@@ -2480,13 +2303,8 @@
      ifNoneMatch?: string;
  }
  
@@ -480,7 +480,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
      retentionPolicy?: RetentionPolicy;
-@@ -2489,12 +2307,8 @@
+@@ -2499,12 +2317,8 @@
      ifUnmodifiedSince?: Date;
  }
  
@@ -493,7 +493,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifMatch?: string;
      ifModifiedSince?: Date;
      ifNoneMatch?: string;
-@@ -2504,26 +2318,9 @@
+@@ -2514,26 +2328,9 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -520,7 +520,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      contentMD5?: Uint8Array;
-@@ -2538,8 +2335,9 @@
+@@ -2548,8 +2345,9 @@
  
  // @public
  export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -530,7 +530,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
  }
-@@ -2708,12 +2506,8 @@
+@@ -2718,12 +2516,8 @@
      conditions?: BlobRequestConditions;
  }
  
@@ -543,7 +543,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2887,31 +2681,9 @@
+@@ -2897,31 +2691,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -575,7 +575,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2986,70 +2758,8 @@
+@@ -2996,70 +2768,8 @@
      start: string;
  }
  
@@ -646,7 +646,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3277,21 +2987,19 @@
+@@ -3287,21 +2997,19 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -672,7 +672,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3310,16 +3018,14 @@
+@@ -3321,16 +3029,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

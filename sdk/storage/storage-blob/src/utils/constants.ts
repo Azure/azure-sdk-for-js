@@ -55,6 +55,7 @@ export const HeaderConstants = {
   CONTENT_TYPE: "Content-Type",
   COOKIE: "Cookie",
   DATE: "date",
+  EXPECT: "Expect",
   IF_MATCH: "if-match",
   IF_MODIFIED_SINCE: "if-modified-since",
   IF_NONE_MATCH: "if-none-match",

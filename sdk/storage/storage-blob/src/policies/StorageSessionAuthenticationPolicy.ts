@@ -7,6 +7,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { getErrorMessage } from "@azure/core-util";
 import {
   StorageSharedKeyCredential,
   buildStorageSharedKeyStringToSign,
@@ -18,6 +19,7 @@ import {
 } from "../session/ContainerSessionProvider.js";
 import type { ActiveSession } from "../session/models.js";
 import type { PipelineLike, StoragePipelineOptions } from "../Pipeline.js";
+import { logger } from "../log.js";
 import { HeaderConstants, HTTPURLConnection } from "../utils/constants.js";
 import { getAccountNameFromUrl } from "../utils/utils.common.js";
 
@@ -92,8 +94,18 @@ export function storageSessionAuthenticationPolicy(
       // only that session so the next request to this container mints a fresh one, then retry
       // this request once with bearer authentication.
       getProvider(request).invalidateSession(request, session);
-      // An unread body keeps its connection busy, so drain the rejected response before retrying.
-      response.readableStreamBody?.resume();
+      const rejectedBody = response.readableStreamBody;
+      if (rejectedBody) {
+        // An unread body keeps its connection busy, so drain the rejected response before
+        // retrying. Nothing else reads it, and Node.js throws an "error" event that has no
+        // listener as an uncaught exception.
+        rejectedBody.on("error", (e: unknown) => {
+          logger.warning(
+            `Failed to drain the body of a rejected session request: ${getErrorMessage(e)}`,
+          );
+        });
+        rejectedBody.resume();
+      }
       request.headers.delete(HeaderConstants.AUTHORIZATION);
       request.headers.delete(HeaderConstants.X_MS_DATE);
       return bearerPolicy.sendRequest(request, next);

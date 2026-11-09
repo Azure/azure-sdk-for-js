@@ -87,6 +87,12 @@ export {
 
 /**
  * Options interface for the {@link newPipeline} function.
+ *
+ * In Node.js, Data Lake clients send requests that have a body, such as appends, with the
+ * `Expect: 100-continue` header for a minute after the service responds with status 429, 500 or
+ * 503, unless `httpClient` is set, as `@azure/storage-blob` clients do by default. Data Lake
+ * clients have no option to change this. To turn it off, set the environment variable
+ * `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1`.
  */
 export interface StoragePipelineOptions {
   /**
