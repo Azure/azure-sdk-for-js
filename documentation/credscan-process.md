@@ -47,9 +47,9 @@ Credential warnings are suppressed in [eng/CredScanSuppression.json][suppression
 the `"placeholder"` list, and suppressed files are in the `"file"` lists under `"suppressions"`.
 
 If you have a fake credential flagged by CredScan, try one of the following (listed from most to least preferable):
-  - Import and use a suitable credential from a file that's already suppressed in [eng/CredScanSuppression.json][suppression_file]. If the fake credential will be used by multiple packages, consider adding and exporting it in the `test-utils` package.
+  - Import and use a suitable credential from a file that's already suppressed in [eng/CredScanSuppression.json][suppression_file]. If the fake credential will be used by multiple packages, consider adding and exporting it in the `test-utils-vitest` package.
   - If the test credentials are specific to your package, create a `fakeTestSecrets.ts` file under your `test` folder, add and export the fake secrets from this file, and add the file path to the list of suppressed files if necessary.
-  - Replace the credential with a string value that's already suppressed in [eng/CredScanSuppression.json][suppression_file]. "SecretPlaceholder" is a good one to use.
+  - Replace the credential with a string value that's already suppressed in [eng/CredScanSuppression.json][suppression_file]. The escaped form `\"password\":\"SecretPlaceholder\"` and the `fakeTestSecretPlaceholder` constant are good ones to use.
   - Add the string that uses credential to the list of suppressed string values. For examples, `"password: fakeTestSecretPlaceholder,"`
 
 Ideally, fake credential files -- which contain nothing but fake secrets -- should be suppressed and their fake

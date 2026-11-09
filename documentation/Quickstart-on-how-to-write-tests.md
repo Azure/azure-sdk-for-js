@@ -454,7 +454,7 @@ export function createClient(recorder: Recorder, options?: ClientOptions): Purvi
 
 ## Example 2: Basic HLC test interaction and recording for Azure management service
 
-At the code structure [section](#code-structure), we described if your SDK is generated based on HLC, we'll generate a sample test named `sampleTest.ts` for you.
+At the code structure [section](#code-structure), we described if your SDK is generated based on HLC, we'll generate a sample test named `sampleTest.spec.ts` for you.
 
 Next, we'll take the package `@azure/arm-monitor` as an example to guide you how to add your own test case. Below are the steps:
 

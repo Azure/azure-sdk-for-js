@@ -194,7 +194,7 @@ export default {
   input: "src/index.js",
   output: {
     file: "dist/bundle.js",
-    format: "esm",
+    format: "iife",
     name: "main",
   },
   plugins: [nodeResolve({ browser: true })],
@@ -228,7 +228,7 @@ export default {
   input: "src/index.js",
   output: {
     file: "dist/bundle.js",
-    format: "esm",
+    format: "iife",
     name: "main"
   },
   plugins: [
@@ -327,7 +327,7 @@ export default {
   input: "src/index.ts",
   output: {
     file: "dist/bundle.js",
-    format: "esm",
+    format: "iife",
     name: "main"
   },
   plugins: [
