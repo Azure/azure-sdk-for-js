@@ -116,6 +116,25 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleDeleteAndPurgeMessages", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    const receiver = serviceBusClient.createReceiver("my-queue");
+    // @ts-preserve-whitespace
+    try {
+      const beforeEnqueueTime = new Date();
+      const deleted = await receiver.deleteMessages(100, { beforeEnqueueTime });
+      console.log(`Deleted ${deleted.deletedCount} messages in one batch.`);
+      // @ts-preserve-whitespace
+      const purged = await receiver.purgeMessages({ beforeEnqueueTime });
+      console.log(`Purged ${purged.deletedCount} remaining eligible messages.`);
+    } finally {
+      await receiver.close();
+      await serviceBusClient.close();
+    }
+  });
+
   it("ReadmeSampleDeadLetterQueue", async () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();

@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "roleName": "myRoleName",
+    "databaseName": "sales",
+    "privileges": [
+      {
+        "resource": {
+          "db": "sales",
+          "collection": "sales"
+        },
+        "actions": ["insert", "find"]
+      }
+    ],
+    "roles": [
+      {
+        "role": "myInheritedRole",
+        "db": "sales"
+      }
+    ]
+  }
+}

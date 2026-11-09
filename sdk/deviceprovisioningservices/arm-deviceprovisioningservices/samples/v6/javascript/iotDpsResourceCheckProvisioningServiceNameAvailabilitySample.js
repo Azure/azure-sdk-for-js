@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
  *
  * @summary check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
- * x-ms-original-file: 2026-08-31/DPSCheckNameAvailability.json
+ * x-ms-original-file: 2026-11-01/DPSCheckNameAvailability.json
  */
 async function dpsCheckName() {
   const credential = new DefaultAzureCredential();

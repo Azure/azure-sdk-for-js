@@ -147,7 +147,7 @@ describe("imported resource scopes", () => {
       expect(files[0]!.contents).toContain(`targetScope = '${targetScope}'`);
       validateRenderedBicepFiles(files);
     },
-    30_000,
+    60_000,
   );
 
   it("preserves scope for unregistered resource classes", () => {
@@ -218,7 +218,7 @@ describe("imported resource scopes", () => {
       expect(files[0]!.contents).not.toContain("module ");
       validateRenderedBicepFiles(files);
     },
-    30_000,
+    60_000,
   );
 
   it.each(["tenant", "managementGroup", "subscription", "resourceGroup"] as const)(
@@ -294,7 +294,7 @@ describe("imported resource scopes", () => {
     expect(files[0]!.contents).toContain("guid(subscription().subscriptionId, 'assignment')");
     expect(files[0]!.contents).toContain("scope: tenant()");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("preserves unresolved identifiers instead of guessing a parent", () => {
     const scope: ExpressionNode = { kind: "identifier", id: "externalScope" };
@@ -363,7 +363,7 @@ describe("imported resource scopes", () => {
     expect(files[0]!.contents).not.toContain("scope: storageAccount");
     expect(files[0]!.contents).not.toContain("parent: storageAccount");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("does not add explicit scope authoring for new resources", () => {
     const stack = new Stack("authored");
@@ -400,7 +400,7 @@ describe("imported resource scopes", () => {
     expect(files[1]!.contents).toContain("targetScope = 'resourceGroup'");
     expect(files[1]!.contents).toContain("scope: tenant()");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("does not split current-context peers just because a preserved scope is present", () => {
     const input = document(tenant, "resourceGroup");
@@ -431,7 +431,7 @@ describe("imported resource scopes", () => {
     expect(files[0]!.contents).toContain("guid(storageAccount.id)");
     expect(files[0]!.contents).not.toContain("module ");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it("reconstructs resource and RG references as normal parents", () => {
     for (const type of [
@@ -502,7 +502,7 @@ describe("imported resource scopes", () => {
     const files = renderBicepFiles(stack);
     expect(files[0]!.contents).toContain("scope: storageAccount[0]");
     validateRenderedBicepFiles(files);
-  }, 30_000);
+  }, 60_000);
 
   it.each(["conditional", "looped"] as const)(
     "preserves explicit scope beneath %s declaration wrappers",

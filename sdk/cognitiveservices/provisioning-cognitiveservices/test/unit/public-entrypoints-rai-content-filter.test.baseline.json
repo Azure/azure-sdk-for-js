@@ -1,0 +1,25 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "raiContentFilter": {
+          "bicepIdentifier": "raiContentFilter",
+          "type": "Microsoft.CognitiveServices/locations/raiContentFilters",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/default"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

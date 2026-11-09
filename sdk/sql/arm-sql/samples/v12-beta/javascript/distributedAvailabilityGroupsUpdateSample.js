@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a distributed availability group replication mode.
  *
  * @summary updates a distributed availability group replication mode.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsUpdate.json
  */
 async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletin
  * This sample demonstrates how to updates a distributed availability group replication mode.
  *
  * @summary updates a distributed availability group replication mode.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsUpdateDatabases.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsUpdateDatabases.json
  */
 async function updateTheDatabasesOfADistributedAvailabilityGroup() {
   const credential = new DefaultAzureCredential();

@@ -18,7 +18,6 @@ async function automationGenerateInPipeline(
   inputJsonPath: string,
   outputJsonPath: string,
   use: string | undefined,
-  typespecEmitter: string | undefined,
   sdkGenerationType: string | undefined,
   localOverride?: boolean,
 ) {
@@ -37,17 +36,10 @@ async function automationGenerateInPipeline(
     apiVersion,
     runMode,
     sdkReleaseType,
-  } = await parseInputJson(inputJson, typespecEmitter);
+  } = await parseInputJson(inputJson);
   // If --local parameter is used, local is true; otherwise, determine from runMode
   const local = localOverride || runMode === RunMode.Local;
   try {
-    if (
-      sdkType === SDKType.ModularClient &&
-      typespecEmitter &&
-      typespecEmitter !== defaultEmitterName
-    ) {
-      throw new Error(`Unsupported TypeSpec emitter '${typespecEmitter}'.`);
-    }
     if (local) {
       configureNpmFromRepo(String(shell.pwd()));
     }
@@ -90,7 +82,7 @@ async function automationGenerateInPipeline(
           readmeMd: readmeMd,
           typespecProject: typespecProject,
           use: use,
-          typespecEmitter: !!typespecEmitter ? typespecEmitter : `@azure-tools/typespec-ts`,
+          typespecEmitter: defaultEmitterName,
           outputJson: outputJson,
           skipGeneration: skipGeneration,
           sdkGenerationType: sdkGenerationType === "command" ? "command" : "script",
@@ -178,7 +170,6 @@ async function automationGenerateInPipeline(
 
 const optionDefinitions = [
   { name: "use", type: String },
-  { name: "typespecEmitter", type: String },
   { name: "sdkGenerationType", type: String },
   { name: "inputJsonPath", type: String },
   { name: "outputJsonPath", type: String },
@@ -193,7 +184,6 @@ automationGenerateInPipeline(
   options.inputJsonPath,
   options.outputJsonPath,
   options.use,
-  options.typespecEmitter,
   options.sdkGenerationType,
   options.local,
 ).catch((e) => {

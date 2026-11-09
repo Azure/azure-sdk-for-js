@@ -1,0 +1,164 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "searchService": {
+          "bicepIdentifier": "searchService",
+          "type": "Microsoft.Search/searchServices",
+          "apiVersion": "2025-05-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "search-public-entrypoints"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "basic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "networkSecurityPerimeterConfiguration": {
+          "bicepIdentifier": "networkSecurityPerimeterConfiguration",
+          "type": "Microsoft.Search/searchServices/networkSecurityPerimeterConfigurations",
+          "apiVersion": "2025-05-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "00000000-0000-0000-0000-000000000000.public"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "searchService"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.Search/searchServices/privateEndpointConnections",
+          "apiVersion": "2025-05-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "private-endpoint"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "searchService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "groupId": {
+                    "kind": "string",
+                    "value": "searchService"
+                  },
+                  "privateEndpoint": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Network/privateEndpoints/search-private-endpoint"
+                      }
+                    }
+                  },
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "actionsRequired": {
+                        "kind": "string",
+                        "value": "None"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved for package coverage"
+                      },
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sharedPrivateLinkResource": {
+          "bicepIdentifier": "sharedPrivateLinkResource",
+          "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
+          "apiVersion": "2025-05-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "shared-private-link"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "searchService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "groupId": {
+                    "kind": "string",
+                    "value": "blob"
+                  },
+                  "privateLinkResourceId": {
+                    "kind": "string",
+                    "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Storage/storageAccounts/searchstorage"
+                  },
+                  "requestMessage": {
+                    "kind": "string",
+                    "value": "please approve"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "perimeterName": {
+          "bicepIdentifier": "perimeterName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "networkSecurityPerimeterConfiguration"
+            },
+            "property": "name",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

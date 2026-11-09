@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets the role for managed instance in a distributed availability group.
  *
  * @summary sets the role for managed instance in a distributed availability group.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsSetRole.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsSetRole.json
  */
 async function setDistributedAvailabilityGroupPrimaryReplicaToManagedInstance() {
   const credential = new DefaultAzureCredential();
