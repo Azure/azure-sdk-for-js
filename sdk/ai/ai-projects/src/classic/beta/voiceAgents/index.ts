@@ -3,8 +3,6 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { BetaVoiceAgentsConversationsOperations } from "./conversations/index.js";
-import { _getBetaVoiceAgentsConversationsOperations } from "./conversations/index.js";
 import type { BetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import { _getBetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import type {
@@ -18,14 +16,12 @@ import { _getBetaVoiceAgentsLiveConversationsOperations } from "./liveConversati
 import { VoiceAgentLiveClient } from "../../../live/voiceAgentLiveClient.js";
 import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveClient.js";
 
-/** Voice agent Realtime/Live connections, persisted conversations, and telephony. */
+/** Preview voice agent Realtime/Live connections, GPT Live conversations, and telephony campaigns. */
 export interface BetaVoiceAgentsOperations {
-  /** Operations for managing telephony campaigns, bindings, and calls. */
+  /** Operations for managing telephony campaigns. */
   telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
-  /** Operations for reading persisted voice conversations and audio. */
-  conversations: BetaVoiceAgentsConversationsOperations;
   /** Realtime voice-agent connections. */
   realtime: VoiceAgentRealtimeClient;
   /** Native GPT Live voice-agent connections. */
@@ -41,9 +37,8 @@ export function _getBetaVoiceAgentsOperations(
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaVoiceAgentsOperations {
   return {
-    telephony: _getBetaVoiceAgentsTelephonyOperations(context, tracingConfig),
+    telephony: _getBetaVoiceAgentsTelephonyOperations(context),
     liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context, tracingConfig),
-    conversations: _getBetaVoiceAgentsConversationsOperations(context, tracingConfig),
     // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
     // insecure local endpoint for the REST surface and never touch realtime connections.

@@ -297,6 +297,48 @@ test("still rejects missing evaluator initialization and unrelated constructor r
   }
 });
 
+test("voice GA wiring retains the cognitive context and the exact beta tracing configuration", () => {
+  const fixture = () => {
+    const files = promotedClientFixture();
+    for (const tree of [files.baseGenerated, files.baseSource, files.generated, files.source]) {
+      tree.set(
+        "aiProjectClient.ts",
+        tree
+          .get("aiProjectClient.ts")
+          .replaceAll("evaluators", "voiceAgents")
+          .replaceAll("Evaluators", "VoiceAgents")
+          .replaceAll(
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint)",
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint, realtimeOptions, this._tracingConfig)",
+          )
+          .replaceAll(
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          ),
+      );
+    }
+    return files;
+  };
+  assert.deepEqual(validate(fixture()), []);
+  for (const replacement of [
+    "_getVoiceAgentsOperations(this._azureScopeClient, this._tracingConfig)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient, otherTracingConfig)",
+  ]) {
+    const files = fixture();
+    files.source.set(
+      "aiProjectClient.ts",
+      files.source
+        .get("aiProjectClient.ts")
+        .replace(
+          "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          replacement,
+        ),
+    );
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
 test("reports unresolved markers, parse errors, duplicate declarations and members", () => {
   const diagnostics = validate({
     source: tree({

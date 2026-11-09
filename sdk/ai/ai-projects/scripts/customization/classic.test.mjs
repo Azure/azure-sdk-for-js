@@ -82,6 +82,203 @@ const betaArchive = [
   "BetaItemsArchiveItemOptionalParams",
 ];
 const archive = ["archiveItem", "/items/{id}:archive", "post", "ItemsArchiveItemOptionalParams"];
+
+function tracingPromotionTrees({ telephony = false, conversations = false } = {}) {
+  const suffix = telephony
+    ? "VoiceAgentsTelephony"
+    : conversations
+      ? "VoiceAgentsConversations"
+      : "Agents";
+  const group = telephony
+    ? "voiceAgents/telephony"
+    : conversations
+      ? "voiceAgents/conversations"
+      : "agents";
+  const name = telephony ? "createBinding" : conversations ? "$delete" : "createFromPrompt";
+  const method = conversations ? "delete" : "post";
+  const before = [name, `/agents/{id}/${name}`, method, `Beta${suffix}Options`];
+  const after = [name, before[1], method, `${suffix}Options`];
+  const campaign = ["getCampaign", "/campaigns/{id}", "get", "CampaignOptions"];
+  const oldSpecs = telephony ? [before, campaign] : [before];
+  const trees = {
+    baseGenerated: new Map(Object.entries(models())),
+    baseSource: new Map(Object.entries(models())),
+    generated: new Map(Object.entries(models())),
+  };
+  const oldFile = `classic/beta/${group}/index.ts`;
+  const file = `classic/${group}/index.ts`;
+  const depth = telephony || conversations ? 4 : 3;
+  for (const tree of [trees.baseGenerated, trees.baseSource]) {
+    tree.set(`api/beta/${group}/operations.ts`, operations(depth - 1, oldSpecs));
+    tree.set(`api/beta/${group}/options.ts`, options(oldSpecs.map((spec) => spec[3])));
+    tree.set(
+      oldFile,
+      classic(depth, `Beta${suffix}`, `beta/${group}`, oldSpecs).replaceAll("$delete:", "delete:"),
+    );
+  }
+  trees.generated.set(`api/${group}/operations.ts`, operations(depth - 2, [after]));
+  trees.generated.set(`api/${group}/options.ts`, options([after[3]]));
+  trees.generated.set(
+    file,
+    classic(depth - 1, suffix, group, [after]).replaceAll("$delete:", "delete:"),
+  );
+  if (telephony) {
+    trees.generated.set("api/beta/voiceAgents/telephony/operations.ts", operations(3, [campaign]));
+    trees.generated.set("api/beta/voiceAgents/telephony/options.ts", options([campaign[3]]));
+    trees.generated.set(oldFile, classic(4, `Beta${suffix}`, `beta/${group}`, [campaign]));
+    const api = "api/beta/voiceAgents/telephony/operations.ts";
+    trees.baseSource.set(
+      api,
+      trees.baseSource
+        .get(api)
+        .replace("return _getCampaignDeserialize(result);", "return getCampaignResult(result);") +
+        "\nfunction getCampaignResult(result: PathUncheckedResponse): Promise<string> { return _getCampaignDeserialize(result); }",
+    );
+  }
+  const wrapped = trees.baseSource
+    .get(oldFile)
+    .replaceAll(
+      "context: AIProjectContext)",
+      "context: AIProjectContext, tracingConfig?: ResolvedTracingConfig)",
+    )
+    .replace(
+      `=> ${name}(context, id, options)`,
+      telephony
+        ? `=> run("create_binding", () => ${name}(context, id, options))`
+        : `=> traceVoiceAgentOperation("delete_or_create", context.endpoint, tracingConfig, () => ${name}(context, id, options))`,
+    )
+    .replace(`..._getBeta${suffix}(context)`, `..._getBeta${suffix}(context, tracingConfig)`)
+    .replace(
+      "  return {",
+      telephony
+        ? `  const run = <T>(name: string, operation: () => Promise<T>): Promise<T> =>
+      traceVoiceAgentOperation(name, context.endpoint, tracingConfig, operation);
+  return {`
+        : "  return {",
+    );
+  trees.baseSource.set(
+    oldFile,
+    `import type { ResolvedTracingConfig } from "${"../".repeat(depth)}tracing/configuration.js";
+import { traceVoiceAgentOperation } from "${"../".repeat(depth)}tracing/voiceAgentTracing.js";
+${wrapped}`,
+  );
+  return { trees, oldFile, file, name };
+}
+
+for (const scenario of [{}, { conversations: true }, { telephony: true }]) {
+  test(`reviewed GA tracing promotion preserves wrappers and factory configuration ${JSON.stringify(scenario)}`, () => {
+    const { trees, oldFile, file } = tracingPromotionTrees(scenario);
+    const plan = planCustomization(trees);
+    assert.deepEqual(plan.diagnostics, []);
+    const output = plan.source.get(file);
+    assert.match(output, /tracingConfig\?: ResolvedTracingConfig/);
+    assert.match(output, /traceVoiceAgentOperation/);
+    assert.doesNotMatch(output, /(?:export interface|options\?:) Beta(?:Agents|VoiceAgents)/);
+    if (scenario.telephony) {
+      assert.match(output, /const run/);
+      assert.match(output, /run\("create_binding"/);
+      assert.match(plan.source.get(oldFile), /getCampaign/);
+      assert.doesNotMatch(plan.source.get(oldFile), /createBinding/);
+      assert.doesNotMatch(output, /getCampaign/);
+      assert.match(
+        plan.source.get("api/beta/voiceAgents/telephony/operations.ts"),
+        /function getCampaignResult/,
+      );
+      assert.doesNotMatch(
+        plan.source.get("api/voiceAgents/telephony/operations.ts"),
+        /getCampaignResult/,
+      );
+    } else assert.equal(plan.source.has(oldFile), false);
+  });
+}
+
+test("reviewed promotion still rejects altered forwarding and duplicate delegate calls", () => {
+  for (const change of [
+    "createFromPrompt(context, 'wrong', options)",
+    "(createFromPrompt(context, id, options), createFromPrompt(context, id, options))",
+  ]) {
+    const { trees, oldFile } = tracingPromotionTrees();
+    trees.baseSource.set(
+      oldFile,
+      trees.baseSource.get(oldFile).replace("createFromPrompt(context, id, options)", change),
+    );
+    const plan = planCustomization(trees);
+    assert.ok(plan.diagnostics.some((item) => /cannot be relocated/.test(item.message)));
+  }
+});
+
+test("reviewed tracing promotion follows customized delegates after positional preview opt-in retirement", () => {
+  const { trees, oldFile, file, name } = tracingPromotionTrees();
+  const api = "api/beta/agents/operations.ts";
+  trees.baseGenerated.set(
+    api,
+    trees.baseGenerated
+      .get(api)
+      .replaceAll(
+        "context: Client, id: string",
+        'context: Client, foundryFeatures: "VoiceAgents=V1Preview", id: string',
+      )
+      .replace(
+        `_${name}Send(context, id, options)`,
+        `_${name}Send(context, foundryFeatures, id, options)`,
+      )
+      .replace("headers: { accept:", 'headers: { "foundry-features": foundryFeatures, accept:'),
+  );
+  trees.baseSource.set(
+    api,
+    trees.baseSource
+      .get(api)
+      .replace(
+        "  const path =",
+        '  const foundryFeatures = "VoiceAgents=V1Preview";\n  const path =',
+      )
+      .replace("headers: { accept:", 'headers: { "foundry-features": foundryFeatures, accept:'),
+  );
+  trees.baseGenerated.set(
+    oldFile,
+    trees.baseGenerated
+      .get(oldFile)
+      .replaceAll(
+        "id: string, options?",
+        'foundryFeatures: "VoiceAgents=V1Preview", id: string, options?',
+      )
+      .replace(`${name}(context, id, options)`, `${name}(context, foundryFeatures, id, options)`),
+  );
+  const plan = planCustomization(trees);
+  assert.deepEqual(plan.diagnostics, []);
+  assert.match(plan.source.get(file), /traceVoiceAgentOperation/);
+  assert.doesNotMatch(plan.source.get(file), /foundryFeatures/);
+  assert.doesNotMatch(plan.source.get("api/agents/operations.ts"), /foundry-features/);
+});
+
+test("reviewed promotion does not authorize an unrelated destination or custom-only declaration", () => {
+  const { trees, oldFile } = tracingPromotionTrees();
+  trees.baseSource.set(
+    oldFile,
+    trees.baseSource.get(oldFile) + "\nfunction unrelated() { return 1; }",
+  );
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) =>
+      /custom-only declarations/.test(item.message),
+    ),
+  );
+  for (const file of [...trees.generated.keys()].filter((file) => file.includes("/agents/"))) {
+    trees.generated.set(file.replace("/agents/", "/other/"), trees.generated.get(file));
+    trees.generated.delete(file);
+  }
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) => /cannot be relocated/.test(item.message)),
+  );
+});
+
+test("reviewed tracing promotion rejects an existing destination member rather than overwriting it", () => {
+  const { trees, file } = tracingPromotionTrees();
+  trees.baseSource.set(file, trees.generated.get(file));
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) => /cannot be relocated/.test(item.message)),
+  );
+});
+
 const restore = [
   "restoreItem",
   "/items/{id}:restore",

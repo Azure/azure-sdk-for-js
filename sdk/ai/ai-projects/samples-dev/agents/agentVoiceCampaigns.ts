@@ -61,8 +61,9 @@ export async function main(): Promise<void> {
     }
   }
 
-  for await (const page of telephony
-    .listCallJobs(agentName, { ...options, campaignName, limit: 5, order: "desc" })
+  // Call jobs are GA, including jobs created by a preview campaign.
+  for await (const page of project.voiceAgents.telephony
+    .listCallJobs(agentName, { campaignName, limit: 5, order: "desc" })
     .byPage()) {
     for (const job of page) {
       // Avoid logging telephone numbers, provider credentials, or structured caller inputs.
@@ -71,7 +72,7 @@ export async function main(): Promise<void> {
     break;
   }
   if (callJobId) {
-    const job = await telephony.getCallJob(agentName, callJobId, options);
+    const job = await project.voiceAgents.telephony.getCallJob(agentName, callJobId);
     console.log(`Selected call job ${job.id}: ${job.status}, attempts: ${job.attempt_count}`);
   }
 }

@@ -874,9 +874,6 @@ export type {
   VoiceAgentWebSocketMessage,
   VoiceAgentTransport,
   VoiceAgentWebSocketSubprotocol,
-  BetaVoiceAgentsConversationsDownloadAudioResponse,
-  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
-  BetaVoiceAgentsConversationsDownloadAudioItemResponse,
   TelephonyCallEndReason,
   TelephonyCallLifecycleEventReason,
   RealtimeConversationItemMessage,
@@ -1328,6 +1325,9 @@ export type {
   VoiceAgentRtcCallErrorType,
   VoiceAgentClientEventTypeExtension,
   TelephonyCampaignDatasetReference,
+  VoiceAgentsConversationsDownloadAudioResponse,
+  VoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
+  VoiceAgentsConversationsDownloadAudioItemResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { BetaAgentInsightMonitorsOperations } from "./classic/beta/agentInsightMonitors/index.js";
@@ -1375,6 +1375,7 @@ export type {
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
 } from "./api/agents/options.js";
 export type {
   AgentsUpdateAgentObjectOptionalParams,
@@ -1439,7 +1440,6 @@ export type {
   BetaAgentInsightMonitorsCreateOptionalParams,
   BetaAgentInsightMonitorsListOptionalParams,
 } from "./api/beta/agentInsightMonitors/index.js";
-export type { BetaAgentsCreateFromPromptOptionalParams } from "./api/beta/agents/options.js";
 export type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
@@ -1551,7 +1551,6 @@ export type {
   DeploymentsOperations,
   EvaluationRulesOperations,
   IndexesOperations,
-  BetaAgentsOperations,
   TelemetryOperations,
   BetaEvaluationTaxonomiesOperations,
   BetaEvaluatorsOperations,
@@ -1565,10 +1564,12 @@ export type {
   BetaSkillsOperations,
   ToolboxesOperations,
   BetaVoiceAgentsOperations,
-  BetaVoiceAgentsConversationsOperations,
   BetaVoiceAgentsTelephonyOperations,
   EvaluatorsOperations,
   BetaVoiceAgentsLiveConversationsOperations,
+  VoiceAgentsOperations,
+  VoiceAgentsConversationsOperations,
+  VoiceAgentsTelephonyOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator, NodeReadableStream };
 export type {
@@ -1582,38 +1583,24 @@ export type {
   TextResponseFormatConfigurationUnion,
 } from "./deprecate.interface.js";
 export type {
-  BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
-  BetaVoiceAgentsConversationsGetAudioOptionalParams,
-  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetItemOptionalParams,
-  BetaVoiceAgentsConversationsListItemsOptionalParams,
-  BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
-  BetaVoiceAgentsConversationsGetResponseOptionalParams,
-  BetaVoiceAgentsConversationsListResponsesOptionalParams,
-  BetaVoiceAgentsConversationsDeleteOptionalParams,
-  BetaVoiceAgentsConversationsGetOptionalParams,
-  BetaVoiceAgentsConversationsListOptionalParams,
-} from "./api/beta/voiceAgents/conversations/index.js";
+  VoiceAgentsTelephonyCancelCallJobOptionalParams,
+  VoiceAgentsTelephonyGetCallJobOptionalParams,
+  VoiceAgentsTelephonyCreateCallJobOptionalParams,
+  VoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
+  VoiceAgentsTelephonyGetTransferTargetsOptionalParams,
+  VoiceAgentsTelephonyEndCallOptionalParams,
+  VoiceAgentsTelephonyTransferCallOptionalParams,
+  VoiceAgentsTelephonyGetCallOptionalParams,
+  VoiceAgentsTelephonyListCallsOptionalParams,
+  VoiceAgentsTelephonyDeleteBindingOptionalParams,
+  VoiceAgentsTelephonyUpdateBindingOptionalParams,
+  VoiceAgentsTelephonyGetBindingOptionalParams,
+  VoiceAgentsTelephonyListBindingsOptionalParams,
+  VoiceAgentsTelephonyCreateBindingOptionalParams,
+  VoiceAgentsTelephonyDeleteCallJobOptionalParams,
+  VoiceAgentsTelephonyListCallJobsOptionalParams,
+} from "./api/voiceAgents/telephony/options.js";
 export type {
-  BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
-  BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
-  BetaVoiceAgentsTelephonyEndCallOptionalParams,
-  BetaVoiceAgentsTelephonyTransferCallOptionalParams,
-  BetaVoiceAgentsTelephonyGetCallOptionalParams,
-  BetaVoiceAgentsTelephonyListCallsOptionalParams,
-  BetaVoiceAgentsTelephonyDeleteBindingOptionalParams,
-  BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
-  BetaVoiceAgentsTelephonyGetBindingOptionalParams,
-  BetaVoiceAgentsTelephonyListBindingsOptionalParams,
-  BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
-  BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyListCallJobsOptionalParams,
   BetaVoiceAgentsTelephonyGetOperationOptionalParams,
   BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
   BetaVoiceAgentsTelephonyDeleteOptionalParams,
@@ -1633,3 +1620,19 @@ export type {
   BetaVoiceAgentsLiveConversationsGetOptionalParams,
   BetaVoiceAgentsLiveConversationsListOptionalParams,
 } from "./api/beta/voiceAgents/liveConversations/options.js";
+export type {
+  VoiceAgentsConversationsDownloadAudioOptionalParams,
+  VoiceAgentsConversationsGetAudioOptionalParams,
+  VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
+  VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
+  VoiceAgentsConversationsDownloadAudioItemOptionalParams,
+  VoiceAgentsConversationsGetAudioItemOptionalParams,
+  VoiceAgentsConversationsGetItemOptionalParams,
+  VoiceAgentsConversationsListItemsOptionalParams,
+  VoiceAgentsConversationsListResponseItemsOptionalParams,
+  VoiceAgentsConversationsGetResponseOptionalParams,
+  VoiceAgentsConversationsListResponsesOptionalParams,
+  VoiceAgentsConversationsDeleteOptionalParams,
+  VoiceAgentsConversationsGetOptionalParams,
+  VoiceAgentsConversationsListOptionalParams,
+} from "./api/voiceAgents/conversations/options.js";

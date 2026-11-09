@@ -89,7 +89,7 @@ const call = {
 };
 const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
 
-describe("beta agent voice authoring", () => {
+describe("agent voice authoring", () => {
   it("generates a voice agent and deserializes its latest definition", async () => {
     const { client, requests } = createClient({
       body: {
@@ -108,13 +108,13 @@ describe("beta agent voice authoring", () => {
       goal: "Help callers find public transport.",
       draft: true,
     };
-    const agent = await client.beta.agents.createFromPrompt(body);
+    const agent = await client.agents.createFromPrompt(body);
     expect(agent.versions.latest.definition).toMatchObject(voiceDefinition);
     expect(agent.versions.latest.created_at).toEqual(new Date(1_700_000_000_000));
     expect(requests).toHaveLength(1);
     expect(requests[0].method).toBe("POST");
     expect(new URL(requests[0].url).pathname).toBe("/api/projects/test-project/agents:generate");
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
   });
 
@@ -148,7 +148,7 @@ describe("beta agent voice authoring", () => {
       },
     });
     await expect(
-      client.beta.agents.createFromPrompt({
+      client.agents.createFromPrompt({
         kind: "voice",
         name: "voice-agent",
         model: "text-only",
@@ -181,7 +181,7 @@ describe("beta agent voice authoring", () => {
   });
 });
 
-describe("beta agent telephony operations", () => {
+describe("agent telephony operations", () => {
   it("creates a provider-discriminated binding", async () => {
     const { client, requests } = createClient({ status: 201, body: binding });
     const body = {
@@ -190,17 +190,13 @@ describe("beta agent telephony operations", () => {
       phone_number: binding.phone_number,
       label: "Support",
     };
-    const result = await client.beta.voiceAgents.telephony.createBinding(
-      "voice agent",
-      body,
-      options,
-    );
+    const result = await client.voiceAgents.telephony.createBinding("voice agent", body);
     expect(result).toMatchObject({ provider: "twilio", phone_number: binding.phone_number });
     expect(requests[0].method).toBe("POST");
     expect(new URL(requests[0].url).pathname).toBe(
       "/api/projects/test-project/agents/voice%20agent/telephony/bindings",
     );
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
   });
 
@@ -211,13 +207,9 @@ describe("beta agent telephony operations", () => {
       resource_account_object_id: "00000000-0000-0000-0000-000000000001",
     };
     const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
-    const result = await client.beta.voiceAgents.telephony.createBinding(
-      "voice-agent",
-      body,
-      options,
-    );
+    const result = await client.voiceAgents.telephony.createBinding("voice-agent", body);
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(result).toMatchObject(body);
   });
 
@@ -228,11 +220,7 @@ describe("beta agent telephony operations", () => {
       allowed_calling_numbers: ["+15555550101"],
     };
     const { client, requests } = createClient({ status: 201, body: { ...binding, ...body } });
-    const result = await client.beta.voiceAgents.telephony.createBinding(
-      "voice-agent",
-      body,
-      options,
-    );
+    const result = await client.voiceAgents.telephony.createBinding("voice-agent", body, options);
     expect(JSON.parse(requests[0].body as string)).toEqual(body);
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
     expect(result).toMatchObject({
@@ -250,7 +238,7 @@ describe("beta agent telephony operations", () => {
       resource_account_object_id: "00000000-0000-0000-0000-000000000001",
     };
     const { client, requests } = createClient({ body: teamsBinding });
-    const result = await client.beta.voiceAgents.telephony.getBinding(
+    const result = await client.voiceAgents.telephony.getBinding(
       "voice-agent",
       "binding/1",
       options,
@@ -266,7 +254,7 @@ describe("beta agent telephony operations", () => {
 
   it("updates only supplied fields and sends the binding ETag", async () => {
     const { client, requests } = createClient({ body: { ...binding, label: "Updated" } });
-    const result = await client.beta.voiceAgents.telephony.updateBinding(
+    const result = await client.voiceAgents.telephony.updateBinding(
       "voice-agent",
       binding.id,
       binding.etag,
@@ -282,12 +270,7 @@ describe("beta agent telephony operations", () => {
   it("deletes a binding with its ETag and accepts an empty 204 response", async () => {
     const { client, requests } = createClient({ status: 204 });
     await expect(
-      client.beta.voiceAgents.telephony.deleteBinding(
-        "voice-agent",
-        binding.id,
-        binding.etag,
-        options,
-      ),
+      client.voiceAgents.telephony.deleteBinding("voice-agent", binding.id, binding.etag, options),
     ).resolves.toBeUndefined();
     expect(requests[0].method).toBe("DELETE");
     expect(requests[0].headers.get("if-match")).toBe(binding.etag);
@@ -295,9 +278,7 @@ describe("beta agent telephony operations", () => {
 
   it("gets an empty set of transfer targets", async () => {
     const { client, requests } = createClient({ body: { transfer_targets: [] } });
-    expect(
-      await client.beta.voiceAgents.telephony.getTransferTargets("voice-agent", options),
-    ).toEqual({
+    expect(await client.voiceAgents.telephony.getTransferTargets("voice-agent", options)).toEqual({
       transfer_targets: [],
     });
     expect(requests[0].method).toBe("GET");
@@ -330,7 +311,7 @@ describe("beta agent telephony operations", () => {
     const body = { transfer_targets: targets };
     const { client, requests } = createClient({ body });
     expect(
-      await client.beta.voiceAgents.telephony.replaceTransferTargets(
+      await client.voiceAgents.telephony.replaceTransferTargets(
         "voice-agent",
         '"targets-etag"',
         targets,
@@ -348,21 +329,21 @@ describe("beta agent telephony operations", () => {
       method: "GET",
       suffix: "",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.getCall("voice-agent", "call/1", options),
+        client.voiceAgents.telephony.getCall("voice-agent", "call/1", options),
     },
     {
       name: "transfer",
       method: "POST",
       suffix: ":transfer",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.transferCall("voice-agent", "call/1", "support", options),
+        client.voiceAgents.telephony.transferCall("voice-agent", "call/1", "support", options),
     },
     {
       name: "end",
       method: "POST",
       suffix: ":end",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.endCall("voice-agent", "call/1", options),
+        client.voiceAgents.telephony.endCall("voice-agent", "call/1", options),
     },
   ])("routes $name and deserializes call timestamps", async ({ name, method, suffix, invoke }) => {
     const { client, requests } = createClient({ body: call });
@@ -387,7 +368,7 @@ describe("beta agent telephony operations", () => {
       },
     });
     await expect(
-      client.beta.voiceAgents.telephony.updateBinding("voice-agent", binding.id, '"stale"', {
+      client.voiceAgents.telephony.updateBinding("voice-agent", binding.id, '"stale"', {
         label: "New",
       }),
     ).rejects.toMatchObject({ statusCode: 412, details: { error: { code: "etag_mismatch" } } });
@@ -420,7 +401,7 @@ describe("beta agent telephony operations", () => {
         },
       },
     );
-    const result = client.beta.voiceAgents.telephony.getCall("voice-agent", call.id, {
+    const result = client.voiceAgents.telephony.getCall("voice-agent", call.id, {
       abortSignal: controller.signal,
     });
     const assertion = expect(result).rejects.toThrow(AbortError);
@@ -464,7 +445,7 @@ describe("beta agent telephony operations", () => {
       { body: { data: [{ ...call, id: "second" }], has_more: false } },
     );
     const ids = [];
-    for await (const result of client.beta.voiceAgents.telephony.listCalls("voice-agent", {
+    for await (const result of client.voiceAgents.telephony.listCalls("voice-agent", {
       ...options,
       ...filters,
       limit: 1,
@@ -492,13 +473,13 @@ describe("beta agent telephony operations", () => {
       name: "bindings",
       item: binding,
       list: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.listBindings("voice-agent", { ...options, limit: 1 }),
+        client.voiceAgents.telephony.listBindings("voice-agent", { ...options, limit: 1 }),
     },
     {
       name: "calls",
       item: call,
       list: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.listCalls("voice-agent", { ...options, limit: 1 }),
+        client.voiceAgents.telephony.listCalls("voice-agent", { ...options, limit: 1 }),
     },
   ];
 
@@ -536,7 +517,7 @@ describe("beta agent telephony operations", () => {
   });
 });
 
-describe("beta agent outbound call jobs", () => {
+describe("agent outbound call jobs", () => {
   const input: TelephonyCallJobCreate = {
     connection_name: "outbound-connection",
     source: { type: "phone_number", value: "+15555550100" },
@@ -563,7 +544,7 @@ describe("beta agent outbound call jobs", () => {
 
   it("creates a durable job with an idempotency key and preserves nested and zero-valued inputs", async () => {
     const { client, requests } = createClient({ status: 202, body: job });
-    const result = await client.beta.voiceAgents.telephony.createCallJob(
+    const result = await client.voiceAgents.telephony.createCallJob(
       "voice agent",
       "retry-key/+",
       input,
@@ -596,11 +577,7 @@ describe("beta agent outbound call jobs", () => {
 
   it("gets a campaign-owned job using an encoded ID", async () => {
     const { client, requests } = createClient({ body: job });
-    const result = await client.beta.voiceAgents.telephony.getCallJob(
-      "voice agent",
-      job.id,
-      options,
-    );
+    const result = await client.voiceAgents.telephony.getCallJob("voice agent", job.id, options);
     expect(result).toMatchObject({
       id: job.id,
       campaign_name: job.campaign_name,
@@ -627,7 +604,7 @@ describe("beta agent outbound call jobs", () => {
         status,
         body: { ...job, status: "cancellation_requested", revision: 8, cancellation },
       });
-      const result = await client.beta.voiceAgents.telephony.cancelCallJob(
+      const result = await client.voiceAgents.telephony.cancelCallJob(
         "voice agent",
         job.id,
         '"revision-7"',
@@ -651,12 +628,12 @@ describe("beta agent outbound call jobs", () => {
   it("deletes a terminal job without a response body or an implicit cancellation", async () => {
     const { client, requests } = createClient({ status: 204 });
     await expect(
-      client.beta.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
+      client.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
     ).resolves.toBeUndefined();
     expect(requests).toHaveLength(1);
     expect(requests[0].method).toBe("DELETE");
     expect(new URL(requests[0].url).pathname).toBe(`${path}/job%2F1`);
-    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(requests[0].body).toBeUndefined();
   });
 
@@ -666,26 +643,21 @@ describe("beta agent outbound call jobs", () => {
       status: 409,
       code: "idempotency_key_conflict",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.createCallJob(
-          "voice agent",
-          "retry-key/+",
-          input,
-          options,
-        ),
+        client.voiceAgents.telephony.createCallJob("voice agent", "retry-key/+", input, options),
     },
     {
       name: "stale cancellation ETag",
       status: 412,
       code: "etag_mismatch",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.cancelCallJob("voice agent", job.id, '"stale"', options),
+        client.voiceAgents.telephony.cancelCallJob("voice agent", job.id, '"stale"', options),
     },
     {
       name: "nonterminal deletion",
       status: 409,
       code: "call_job_not_terminal",
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
+        client.voiceAgents.telephony.deleteCallJob("voice agent", job.id),
     },
   ])(
     "preserves $name errors without issuing a second mutation",
@@ -707,7 +679,7 @@ describe("beta agent outbound call jobs", () => {
     const second = { body: { data: [{ ...job, id: "second-job" }], has_more: false } };
     const { client, requests } = createClient(first, second, first, second);
     const list = (): PagedAsyncIterableIterator<TelephonyCallJob> =>
-      client.beta.voiceAgents.telephony.listCallJobs("voice agent", {
+      client.voiceAgents.telephony.listCallJobs("voice agent", {
         campaignName: "campaign/+",
         status: "waiting_for_retry",
         order: "asc",
@@ -736,7 +708,7 @@ describe("beta agent outbound call jobs", () => {
       expect(url.searchParams.get("order")).toBe("asc");
       expect(url.searchParams.get("limit")).toBe("1");
       expect(url.searchParams.get("after")).toBe(index % 2 ? "opaque/+cursor" : null);
-      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(request.headers.get("foundry-features")).toBeUndefined();
       expect(request.headers.get("x-test-header")).toBe("retained");
     }
   });
@@ -749,7 +721,7 @@ describe("beta agent outbound call jobs", () => {
         body: { error: { code: "invalid_cursor", message: "Campaign was replaced." } },
       },
     );
-    const jobs = client.beta.voiceAgents.telephony.listCallJobs("voice agent", {
+    const jobs = client.voiceAgents.telephony.listCallJobs("voice agent", {
       campaignName: "campaign/+",
     });
     expect((await jobs.next()).value?.id).toBe(job.id);

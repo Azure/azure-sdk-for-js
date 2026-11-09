@@ -16,28 +16,21 @@ export async function main(): Promise<void> {
     throw new Error("Set FOUNDRY_PROJECT_ENDPOINT before running this sample.");
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const options = {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  };
-
   console.log("Generating a voice agent...");
-  const agent = await project.beta.agents.createFromPrompt(
-    {
-      kind: "voice",
-      name: `sample-generated-voice-${Date.now()}`,
-      model_type: "managed",
-      use_case: "Travel information",
-      goal: "Help callers find information about public transport. Do not make bookings.",
-    },
-    options,
-  );
+  const agent = await project.agents.createFromPrompt({
+    kind: "voice",
+    name: `sample-generated-voice-${Date.now()}`,
+    model_type: "managed",
+    use_case: "Travel information",
+    goal: "Help callers find information about public transport. Do not make bookings.",
+  });
   try {
     console.log(`Generated agent: ${agent.name}`);
-    const savedAgent = await project.agents.get(agent.name, options);
+    const savedAgent = await project.agents.get(agent.name);
     console.log("Generated definition:", savedAgent.versions.latest.definition);
   } finally {
     console.log("Deleting the sample agent...");
-    await project.agents.delete(agent.name, options);
+    await project.agents.delete(agent.name);
   }
 }
 

@@ -7,6 +7,7 @@ import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import { classicApiFile, classicMember, resolvedOperationImports } from "./classic.mjs";
 import { customizeNewOperation, modelMemberIndex } from "./new-operations.mjs";
 import {
+  adoptConditionalPreviewHeader,
   applyPreviewHeaderPolicy,
   previewLiteral,
   retirePreviewHeaders,
@@ -568,11 +569,28 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
             snippets[1],
             previewLiteral(optionsOf(baseGenerated, baseMaps, base.file, "base")),
           );
-        snippets[2] = applyPreviewHeaderPolicy(
-          snippets[2],
-          snippets[1],
-          previewLiteral(optionsOf(generated, incomingMaps, incoming.file, "incoming")),
+        const incomingPreview = previewLiteral(
+          optionsOf(generated, incomingMaps, incoming.file, "incoming"),
         );
+        // #47930 makes call-job deletion's previously required opt-in
+        // conditional for SIP. Do not turn that new optional header back into
+        // an unconditional opt-in merely because the old wrapper used a constant.
+        const conditionalCallJobPreview =
+          base?.file === "api/beta/voiceAgents/telephony/operations.ts" &&
+          incoming.file === "api/voiceAgents/telephony/operations.ts" &&
+          base.name === "deleteCallJob" &&
+          incoming.name === "deleteCallJob" &&
+          declarations(parse(baseGenerated.get(base.file), base.file))
+            .get(base.send.name.text)
+            ?.parameters.some((parameter) => nameOf(parameter.name) === "foundryFeatures") &&
+          !incoming.send.parameters.some(
+            (parameter) => nameOf(parameter.name) === "foundryFeatures",
+          ) &&
+          incomingPreview === "VoiceAgents=V1Preview";
+        if (conditionalCallJobPreview) {
+          snippets[0] = adoptConditionalPreviewHeader(snippets[0], snippets[2]);
+          snippets[1] = adoptConditionalPreviewHeader(snippets[1], snippets[2]);
+        } else snippets[2] = applyPreviewHeaderPolicy(snippets[2], snippets[1], incomingPreview);
       }
       const merged = mergeDeclaration(...snippets, { file: outputFile, declaration: outputName });
       diagnostics.push(...merged.diagnostics);
@@ -744,7 +762,8 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
         if (
           !generatedBacked(name) &&
           !nodes.has(name) &&
-          (generated.has(oldFile) || relocatedHelpers.get(`${oldFile}::${name}`)?.file === file)
+          ((oldFile === file && generated.has(oldFile)) ||
+            relocatedHelpers.get(`${oldFile}::${name}`)?.file === file)
         ) {
           nodes.set(name, textOf(node, custom.source));
         }

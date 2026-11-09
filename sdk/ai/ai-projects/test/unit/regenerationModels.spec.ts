@@ -558,7 +558,7 @@ describe("regenerated model wire contracts", () => {
       Parameters<Models.BetaVoiceAgentsTelephonyOperations["create"]>[2]
     >().toEqualTypeOf<TelephonyCampaignCreate>();
     expectTypeOf<
-      Parameters<Models.BetaVoiceAgentsTelephonyOperations["createBinding"]>[1]
+      Parameters<Models.VoiceAgentsTelephonyOperations["createBinding"]>[1]
     >().toEqualTypeOf<TelephonyBindingCreateUnion>();
     expectTypeOf<keyof TelephonyCampaignCreate>().toEqualTypeOf<
       | "connection_name"

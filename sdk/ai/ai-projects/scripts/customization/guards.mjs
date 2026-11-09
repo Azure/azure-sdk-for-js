@@ -1221,6 +1221,7 @@ function preservesPromotedBetaContext(statement, before, baseGenerated, generate
   const factory = {
     evaluators: "_getEvaluatorsOperations",
     agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+    voiceAgents: "_getVoiceAgentsOperations",
   }[member];
   if (
     !factory ||
@@ -1247,8 +1248,12 @@ function preservesPromotedBetaContext(statement, before, baseGenerated, generate
     emitted.arguments.length !== 1
   )
     return false;
-  const expected = parse(`this.${member} = ${factory}(${previousBeta.arguments[0].getText()});`)
-    .statements[0];
+  if (member === "voiceAgents" && previousBeta.arguments[4]?.getText() !== "this._tracingConfig")
+    return false;
+  const tracing = member === "voiceAgents" ? `, ${previousBeta.arguments[4].getText()}` : "";
+  const expected = parse(
+    `this.${member} = ${factory}(${previousBeta.arguments[0].getText()}${tracing});`,
+  ).statements[0];
   return key(statement) === key(expected);
 }
 

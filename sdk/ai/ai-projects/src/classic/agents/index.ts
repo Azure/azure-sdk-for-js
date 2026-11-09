@@ -44,6 +44,7 @@ import {
   getOptimizationJob,
   estimateOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
 } from "../../api/agents/operations.js";
 import type {
   AgentsDeleteSessionFileOptionalParams,
@@ -86,6 +87,7 @@ import type {
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
 } from "../../api/agents/options.js";
 import type {
   Agent,
@@ -109,9 +111,11 @@ import type {
   AgentOptimizationEstimateInputs,
   AgentOptimizationEstimateResult,
   AgentOptimizationCandidate,
+  GenerateAgentRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import { traceVoiceAgentOperation } from "../../tracing/voiceAgentTracing.js";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
@@ -340,6 +344,14 @@ export interface AgentsOperations {
     agentName: string,
     options?: AgentsUpdateAgentObjectOptionalParams,
   ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    body: GenerateAgentRequest,
+    options?: AgentsCreateFromPromptOptionalParams,
+  ) => Promise<Agent>;
   /** Modifies an existing agent. */
   patchAgentObject: (
     agentName: string,
@@ -532,6 +544,17 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
+    createFromPrompt: (
+      body: GenerateAgentRequest,
+      options?: AgentsCreateFromPromptOptionalParams,
+    ) =>
+      traceVoiceAgentOperation(
+        "create_agent",
+        context.endpoint,
+        tracingConfig,
+        () => createFromPrompt(context, body, options),
+        (agent) => ({ "gen_ai.agent.name": agent.name, "gen_ai.agent.id": agent.id }),
+      ),
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
       patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>

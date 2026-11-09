@@ -14,6 +14,13 @@ import type {
   VersionIndicatorUnion,
   AgentSessionResource,
   _AgentsPagedResultAgentSessionResource,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationEstimateInputs,
+  AgentOptimizationEstimateResult,
+  _AgentsPagedResultAgentOptimizationJob,
+  _AgentsPagedResultAgentOptimizationCandidate,
+  AgentOptimizationCandidate,
   Microsoft365PublishScope,
   Microsoft365PublishResponse,
   Microsoft365PublishDefaults,
@@ -23,13 +30,7 @@ import type {
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
-  AgentOptimizationJob,
-  AgentOptimizationJobResult,
-  AgentOptimizationEstimateInputs,
-  AgentOptimizationEstimateResult,
-  _AgentsPagedResultAgentOptimizationJob,
-  _AgentsPagedResultAgentOptimizationCandidate,
-  AgentOptimizationCandidate,
+  GenerateAgentRequest,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -47,11 +48,6 @@ import {
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
-  microsoft365PermissionScopesArraySerializer,
-  microsoft365PublishResponseDeserializer,
-  microsoft365PublishDefaultsDeserializer,
-  sessionFileWriteResponseDeserializer,
-  sessionDirectoryListResponseDeserializer,
   agentOptimizationJobSerializer,
   agentOptimizationJobDeserializer,
   agentOptimizationJobResultDeserializer,
@@ -60,6 +56,12 @@ import {
   _agentsPagedResultAgentOptimizationJobDeserializer,
   _agentsPagedResultAgentOptimizationCandidateDeserializer,
   agentOptimizationCandidateDeserializer,
+  microsoft365PermissionScopesArraySerializer,
+  microsoft365PublishResponseDeserializer,
+  microsoft365PublishDefaultsDeserializer,
+  sessionFileWriteResponseDeserializer,
+  sessionDirectoryListResponseDeserializer,
+  generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -72,6 +74,15 @@ import type {
   GetMicrosoft365PublishDefaultsOptionalParams,
   GetMicrosoft365PackageOptionalParams,
   PublishToMicrosoft365OptionalParams,
+  AgentsPromoteOptimizationCandidateOptionalParams,
+  AgentsGetOptimizationCandidateOptionalParams,
+  AgentsListOptimizationCandidatesOptionalParams,
+  AgentsDeleteOptimizationJobOptionalParams,
+  AgentsCancelOptimizationJobOptionalParams,
+  AgentsListOptimizationJobsOptionalParams,
+  AgentsGetOptimizationJobOptionalParams,
+  AgentsEstimateOptimizationJobOptionalParams,
+  AgentsCreateOptimizationJobOptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -96,15 +107,7 @@ import type {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
-  AgentsPromoteOptimizationCandidateOptionalParams,
-  AgentsGetOptimizationCandidateOptionalParams,
-  AgentsListOptimizationCandidatesOptionalParams,
-  AgentsDeleteOptimizationJobOptionalParams,
-  AgentsCancelOptimizationJobOptionalParams,
-  AgentsListOptimizationJobsOptionalParams,
-  AgentsGetOptimizationJobOptionalParams,
-  AgentsEstimateOptimizationJobOptionalParams,
-  AgentsCreateOptimizationJobOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -2335,6 +2338,55 @@ export async function update(
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
+}
+
+export function _createFromPromptSend(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents:generate{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: generateAgentRequestSerializer(body),
+  });
+}
+
+export async function _createFromPromptDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function createFromPrompt(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsCreateFromPromptOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _createFromPromptSend(context, body, options);
+  return _createFromPromptDeserialize(result);
 }
 
 export function _createSend(

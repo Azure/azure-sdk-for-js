@@ -413,7 +413,6 @@ export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
 // @public
 export interface AgentOptimizationAgentCandidateOutput extends AgentOptimizationCandidateOutput {
     mutations?: AgentOptimizationMutationUnion[];
-    // (undocumented)
     type: "agent_optimization";
 }
 
@@ -566,7 +565,6 @@ export type AgentOptimizationGoal = "improve_quality";
 
 // @public
 export interface AgentOptimizationInstructionsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "instructions";
     value?: string;
 }
@@ -621,7 +619,6 @@ export interface AgentOptimizationModelConfiguration {
 
 // @public
 export interface AgentOptimizationModelMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "model";
     value?: string;
 }
@@ -637,7 +634,6 @@ export type AgentOptimizationMutationUnion = AgentOptimizationInstructionsMutati
 // @public
 export interface AgentOptimizationPromptCandidateOutput extends AgentOptimizationCandidateOutput {
     mutations?: AgentOptimizationMutationUnion[];
-    // (undocumented)
     type: "prompt_optimization";
 }
 
@@ -660,7 +656,6 @@ export interface AgentOptimizationSkill {
 
 // @public
 export interface AgentOptimizationSkillsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "skills";
     value?: AgentOptimizationSkill[];
 }
@@ -730,7 +725,6 @@ export type AgentOptimizationTerminationReason = "completed" | "budget_exhausted
 
 // @public
 export interface AgentOptimizationToolsMutation extends AgentOptimizationMutation {
-    // (undocumented)
     type: "tools";
     value?: ChatCompletionTool[];
 }
@@ -769,7 +763,6 @@ export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocati
 // @public
 export interface AgentReference {
     name: string;
-    // (undocumented)
     type: "agent_reference";
     version?: string;
 }
@@ -788,6 +781,10 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
+}
+
+// @public
+export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1022,6 +1019,7 @@ export interface AgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: AgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
     create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
     create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
+    createFromPrompt: (body: GenerateAgentRequest, options?: AgentsCreateFromPromptOptionalParams) => Promise<Agent>;
     createOptimizationJob: (job: AgentOptimizationJob, options?: AgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateVersionOptionalParams): Promise<AgentVersion>;
@@ -1153,6 +1151,7 @@ export class AIProjectClient {
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
+    readonly voiceAgents: VoiceAgentsOperations;
 }
 
 // @public
@@ -1453,15 +1452,6 @@ export interface BetaAgentInsightMonitorsUpdateOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaAgentsCreateFromPromptOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaAgentsOperations {
-    createFromPrompt: (body: GenerateAgentRequest, options?: BetaAgentsCreateFromPromptOptionalParams) => Promise<Agent>;
-}
-
-// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -1687,7 +1677,6 @@ export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 // @public
 export interface BetaOperations {
     agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-    agents: BetaAgentsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
     insights: BetaInsightsOperations;
@@ -1898,114 +1887,6 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaVoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaVoiceAgentsConversationsDownloadAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface BetaVoiceAgentsConversationsGetAudioItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsGetAudioOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsGetItemOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsGetResponseOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsListItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsListResponseItemsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsListResponsesOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsConversationsOperations {
-    delete: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsDeleteOptionalParams) => Promise<void>;
-    downloadAudio: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsDownloadAudioOptionalParams) => Promise<BetaVoiceAgentsConversationsDownloadAudioResponse>;
-    downloadAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams) => Promise<BetaVoiceAgentsConversationsDownloadAudioItemResponse>;
-    downloadGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams) => Promise<BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse>;
-    get: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsGetOptionalParams) => Promise<VoiceConversation>;
-    getAudio: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsGetAudioOptionalParams) => Promise<VoiceRecording>;
-    getAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams) => Promise<VoiceAudioItem>;
-    getGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams) => Promise<VoiceGeneratedAudioItem>;
-    getItem: (agentName: string, conversationId: string, itemId: string, options?: BetaVoiceAgentsConversationsGetItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
-    getResponse: (agentName: string, conversationId: string, responseId: string, options?: BetaVoiceAgentsConversationsGetResponseOptionalParams) => Promise<VoiceResponse>;
-    list: (agentName: string, options?: BetaVoiceAgentsConversationsListOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
-    listItems: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsListItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listResponseItems: (agentName: string, conversationId: string, responseId: string, options?: BetaVoiceAgentsConversationsListResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
-    listResponses: (agentName: string, conversationId: string, options?: BetaVoiceAgentsConversationsListResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
-}
-
-// @public
 export interface BetaVoiceAgentsLiveConversationsDeleteOptionalParams extends OperationOptions {
 }
 
@@ -2076,7 +1957,6 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 // @public
 export interface BetaVoiceAgentsOperations {
-    conversations: BetaVoiceAgentsConversationsOperations;
     live: VoiceAgentLiveClient;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
@@ -2084,26 +1964,9 @@ export interface BetaVoiceAgentsOperations {
 }
 
 // @public
-export interface BetaVoiceAgentsTelephonyCancelCallJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
 export interface BetaVoiceAgentsTelephonyCancelOptionalParams extends OperationOptions {
     operationId?: string;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyCreateBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyCreateCallJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -2114,38 +1977,9 @@ export interface BetaVoiceAgentsTelephonyCreateOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaVoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BetaVoiceAgentsTelephonyDeleteOptionalParams extends OperationOptions {
     operationId?: string;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyEndCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetCallJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -2155,44 +1989,6 @@ export interface BetaVoiceAgentsTelephonyGetOperationOptionalParams extends Oper
 // @public
 export interface BetaVoiceAgentsTelephonyGetOptionalParams extends OperationOptions {
     operationId?: string;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyListBindingsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyListCallJobsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    campaignName?: string;
-    limit?: number;
-    order?: PageOrder;
-    status?: TelephonyCallJobStatus;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyListCallsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "VoiceAgents=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-    provider?: TelephonyProvider;
-    startedAfterTime?: Date;
-    startedBeforeTime?: Date;
-    status?: TelephonyCallStatus;
 }
 
 // @public
@@ -2215,43 +2011,12 @@ export interface BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams exte
 // @public
 export interface BetaVoiceAgentsTelephonyOperations {
     cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
     create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsTelephonyCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    createBinding: (agentName: string, binding: TelephonyBindingCreateUnion, options?: BetaVoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    createCallJob: (agentName: string, idempotencyKey: string, job: TelephonyCallJobCreate, options?: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
-    deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
-    deleteCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
     deleteTelephony: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    endCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
     get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyGetOptionalParams) => Promise<TelephonyCampaign>;
-    getBinding: (agentName: string, bindingId: string, options?: BetaVoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-    getCall: (agentName: string, callId: string, options?: BetaVoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
-    getCallJob: (agentName: string, callJobId: string, options?: BetaVoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
     getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
-    getTransferTargets: (agentName: string, options?: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
     list: (agentName: string, options?: BetaVoiceAgentsTelephonyListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
-    listBindings: (agentName: string, options?: BetaVoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
-    listCallJobs: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallJobsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallJob>;
-    listCalls: (agentName: string, options?: BetaVoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
     listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
-    replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
-    transferCall: (agentName: string, callId: string, target: string, options?: BetaVoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
-    updateBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyTransferCallOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-// @public
-export interface BetaVoiceAgentsTelephonyUpdateBindingOptionalParams extends OperationOptions {
-    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public
@@ -2341,7 +2106,6 @@ export interface BrowserAutomationTool extends Tool {
 // @public
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
     browser_automation: BrowserAutomationToolParameters;
-    // (undocumented)
     type: "browser_automation";
 }
 
@@ -2376,7 +2140,6 @@ export interface ChartCoordinate {
 
 // @public
 export interface ChatCompletionTool {
-    // (undocumented)
     function: FunctionObject;
     type: "function";
 }
@@ -3588,9 +3351,7 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 export interface FunctionObject {
     description?: string;
     name: string;
-    // (undocumented)
     parameters?: FunctionParameters;
-    // (undocumented)
     strict?: boolean;
 }
 
@@ -7102,7 +6863,6 @@ export interface SipAddress extends TelephonyAddress {
 export interface SipTelephonyBinding extends TelephonyBinding {
     allowed_calling_numbers?: string[];
     phone_number?: string;
-    // (undocumented)
     provider: "sip";
 }
 
@@ -7113,7 +6873,6 @@ export type SipTelephonyBindingCreate = Omit<SipTelephonyBinding, "id" | "incomi
 export interface SipTelephonyBindingListItem extends TelephonyBindingListItem {
     allowed_calling_numbers?: string[];
     phone_number?: string;
-    // (undocumented)
     provider: "sip";
 }
 
@@ -8567,7 +8326,6 @@ export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" |
 // @public
 export interface VoiceAgentEventGridPostCallDestination extends VoiceAgentPostCallDestination {
     connection_name: string;
-    // (undocumented)
     type: "event_grid";
 }
 
@@ -9125,7 +8883,6 @@ export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
 // @public
 export interface VoiceAgentRoutinePostCallDestination extends VoiceAgentPostCallDestination {
     name: string;
-    // (undocumented)
     type: "routine";
 }
 
@@ -9138,6 +8895,114 @@ export interface VoiceAgentRtcCallErrorDetails {
 
 // @public
 export type VoiceAgentRtcCallErrorType = "invalid_request_error" | "server_error";
+
+// @public
+export interface VoiceAgentsConversationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsDownloadAudioItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export type VoiceAgentsConversationsDownloadAudioItemResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface VoiceAgentsConversationsDownloadAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export type VoiceAgentsConversationsDownloadAudioResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export type VoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface VoiceAgentsConversationsGetAudioItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsGetAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsGetItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsGetResponseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VoiceAgentsConversationsListItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface VoiceAgentsConversationsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface VoiceAgentsConversationsListResponseItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface VoiceAgentsConversationsListResponsesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface VoiceAgentsConversationsOperations {
+    delete: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsDeleteOptionalParams) => Promise<void>;
+    downloadAudio: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsDownloadAudioOptionalParams) => Promise<VoiceAgentsConversationsDownloadAudioResponse>;
+    downloadAudioItem: (agentName: string, conversationId: string, itemId: string, options?: VoiceAgentsConversationsDownloadAudioItemOptionalParams) => Promise<VoiceAgentsConversationsDownloadAudioItemResponse>;
+    downloadGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams) => Promise<VoiceAgentsConversationsDownloadGeneratedAudioItemResponse>;
+    get: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsGetOptionalParams) => Promise<VoiceConversation>;
+    getAudio: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsGetAudioOptionalParams) => Promise<VoiceRecording>;
+    getAudioItem: (agentName: string, conversationId: string, itemId: string, options?: VoiceAgentsConversationsGetAudioItemOptionalParams) => Promise<VoiceAudioItem>;
+    getGeneratedAudioItem: (agentName: string, conversationId: string, itemId: string, options?: VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams) => Promise<VoiceGeneratedAudioItem>;
+    getItem: (agentName: string, conversationId: string, itemId: string, options?: VoiceAgentsConversationsGetItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
+    getResponse: (agentName: string, conversationId: string, responseId: string, options?: VoiceAgentsConversationsGetResponseOptionalParams) => Promise<VoiceResponse>;
+    list: (agentName: string, options?: VoiceAgentsConversationsListOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
+    listItems: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsListItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listResponseItems: (agentName: string, conversationId: string, responseId: string, options?: VoiceAgentsConversationsListResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listResponses: (agentName: string, conversationId: string, options?: VoiceAgentsConversationsListResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
+}
 
 // @public
 export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
@@ -9497,6 +9362,12 @@ export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
 }
 
 // @public
+export interface VoiceAgentsOperations {
+    conversations: VoiceAgentsConversationsOperations;
+    telephony: VoiceAgentsTelephonyOperations;
+}
+
+// @public
 export interface VoiceAgentSoundscapeConfig {
     background?: VoiceAgentSoundscapeTrackConfig;
     closing?: VoiceAgentSoundscapeTrackConfig;
@@ -9531,6 +9402,126 @@ export interface VoiceAgentSoundscapeWorkingTrackConfig {
 export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
     texts?: string[];
     type: "static_interim_response";
+}
+
+// @public
+export interface VoiceAgentsTelephonyCancelCallJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyCreateBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    repeatabilityFirstSent?: Date;
+    repeatabilityRequestId?: string;
+}
+
+// @public
+export interface VoiceAgentsTelephonyCreateCallJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyEndCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyGetBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyGetCallJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyGetCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyGetTransferTargetsOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyListBindingsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    provider?: TelephonyProvider;
+}
+
+// @public
+export interface VoiceAgentsTelephonyListCallJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    campaignName?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCallJobStatus;
+}
+
+// @public
+export interface VoiceAgentsTelephonyListCallsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    provider?: TelephonyProvider;
+    startedAfterTime?: Date;
+    startedBeforeTime?: Date;
+    status?: TelephonyCallStatus;
+}
+
+// @public
+export interface VoiceAgentsTelephonyOperations {
+    cancelCallJob: (agentName: string, callJobId: string, ifMatch: string, options?: VoiceAgentsTelephonyCancelCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    createBinding: (agentName: string, binding: TelephonyBindingCreateUnion, options?: VoiceAgentsTelephonyCreateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    createCallJob: (agentName: string, idempotencyKey: string, job: TelephonyCallJobCreate, options?: VoiceAgentsTelephonyCreateCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    deleteBinding: (agentName: string, bindingId: string, ifMatch: string, options?: VoiceAgentsTelephonyDeleteBindingOptionalParams) => Promise<void>;
+    deleteCallJob: (agentName: string, callJobId: string, options?: VoiceAgentsTelephonyDeleteCallJobOptionalParams) => Promise<void>;
+    endCall: (agentName: string, callId: string, options?: VoiceAgentsTelephonyEndCallOptionalParams) => Promise<TelephonyCallRecord>;
+    getBinding: (agentName: string, bindingId: string, options?: VoiceAgentsTelephonyGetBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+    getCall: (agentName: string, callId: string, options?: VoiceAgentsTelephonyGetCallOptionalParams) => Promise<TelephonyCallRecord>;
+    getCallJob: (agentName: string, callJobId: string, options?: VoiceAgentsTelephonyGetCallJobOptionalParams) => Promise<TelephonyCallJob>;
+    getTransferTargets: (agentName: string, options?: VoiceAgentsTelephonyGetTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
+    listBindings: (agentName: string, options?: VoiceAgentsTelephonyListBindingsOptionalParams) => PagedAsyncIterableIterator<TelephonyBindingListItemUnion>;
+    listCallJobs: (agentName: string, options?: VoiceAgentsTelephonyListCallJobsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallJob>;
+    listCalls: (agentName: string, options?: VoiceAgentsTelephonyListCallsOptionalParams) => PagedAsyncIterableIterator<TelephonyCallSummary>;
+    replaceTransferTargets: (agentName: string, ifMatch: string, transferTargets: TelephonyTransferTarget[], options?: VoiceAgentsTelephonyReplaceTransferTargetsOptionalParams) => Promise<TelephonyTransferTargets>;
+    transferCall: (agentName: string, callId: string, target: string, options?: VoiceAgentsTelephonyTransferCallOptionalParams) => Promise<TelephonyCallRecord>;
+    updateBinding: (agentName: string, bindingId: string, ifMatch: string, body: UpdateTelephonyBindingRequest, options?: VoiceAgentsTelephonyUpdateBindingOptionalParams) => Promise<TelephonyBindingUnion>;
+}
+
+// @public
+export interface VoiceAgentsTelephonyReplaceTransferTargetsOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyTransferCallOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+// @public
+export interface VoiceAgentsTelephonyUpdateBindingOptionalParams extends OperationOptions {
+    foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 // @public

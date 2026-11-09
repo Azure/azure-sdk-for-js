@@ -20,34 +20,28 @@ export async function main(): Promise<void> {
     );
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const options = { foundryFeatures: "VoiceAgents=V1Preview" } as const;
-
   // This sample only reads configuration and history; it does not place or change calls.
   console.log("Listing telephony bindings...");
-  for await (const binding of project.beta.voiceAgents.telephony.listBindings(agentName, options)) {
-    const details = await project.beta.voiceAgents.telephony.getBinding(
-      agentName,
-      binding.id,
-      options,
-    );
+  for await (const binding of project.voiceAgents.telephony.listBindings(agentName)) {
+    const details = await project.voiceAgents.telephony.getBinding(agentName, binding.id);
     // Avoid logging phone numbers, webhook URLs, or caller information.
     console.log(`Binding provider: ${details.provider}`);
   }
 
   console.log("Reading configured transfer targets...");
-  const targets = await project.beta.voiceAgents.telephony.getTransferTargets(agentName, options);
+  const targets = await project.voiceAgents.telephony.getTransferTargets(agentName);
   console.log(
     "Transfer target names:",
     targets.transfer_targets.map((target) => target.name),
   );
 
   console.log("Reading up to five recent calls...");
-  const pages = project.beta.voiceAgents.telephony
-    .listCalls(agentName, { ...options, order: "desc", limit: 5 })
+  const pages = project.voiceAgents.telephony
+    .listCalls(agentName, { order: "desc", limit: 5 })
     .byPage();
   const firstPage = await pages.next();
   for (const call of firstPage.value ?? []) {
-    const details = await project.beta.voiceAgents.telephony.getCall(agentName, call.id, options);
+    const details = await project.voiceAgents.telephony.getCall(agentName, call.id);
     console.log(`Call status: ${details.status}, phase: ${details.phase}`);
     console.log(`Lifecycle events: ${details.events.length}`);
   }

@@ -9,6 +9,7 @@ import {
   classicApiFile,
   classicFile,
   mergeCustomizedClassic,
+  prepareTracingPromotions,
   relocatedMemberDiagnostics,
   simpleFactoryProblem,
 } from "./classic.mjs";
@@ -195,15 +196,23 @@ function keepImportedModelModules(source, candidates) {
   }
 }
 
-function promoteAgentInsightMonitors(baseText, customText, incomingText, matches) {
+function promoteBetaClientGroup(
+  baseText,
+  customText,
+  incomingText,
+  matches,
+  group = "agentInsightMonitors",
+) {
   const file = "aiProjectClient.ts";
-  const target = "api/agentInsightMonitors/operations.ts";
-  const promoted = matches.filter((match) => match.incoming.file === target);
+  const voice = group === "voiceAgents";
+  const type = voice ? "VoiceAgents" : "AgentInsightMonitors";
+  const target = `api/${group}/`;
+  const promoted = matches.filter((match) => match.incoming.file.startsWith(target));
   if (
     !baseText ||
     !customText ||
     !promoted.length ||
-    !promoted.every((match) => match.base?.file === "api/beta/agentInsightMonitors/operations.ts")
+    !promoted.every((match) => match.base?.file.startsWith(`api/beta/${group}/`))
   )
     return customText;
   const [base, custom, incoming] = [baseText, customText, incomingText].map((text) =>
@@ -213,8 +222,7 @@ function promoteAgentInsightMonitors(baseText, customText, incomingText, matches
   const [before, current, next] = [base, custom, incoming].map(client);
   if (![before, current, next].every((node) => node && ts.isClassDeclaration(node)))
     return customText;
-  const member = (node) =>
-    node.members.find((item) => nameOf(item.name) === "agentInsightMonitors");
+  const member = (node) => node.members.find((item) => nameOf(item.name) === group);
   const field = member(next);
   if (member(before) || member(current) || !field || !ts.isPropertyDeclaration(field))
     return customText;
@@ -232,7 +240,7 @@ function promoteAgentInsightMonitors(baseText, customText, incomingText, matches
           statement.expression.left.name.text === name,
       )?.expression.right;
   const beta = assignment(current, "beta");
-  const emitted = assignment(next, "agentInsightMonitors");
+  const emitted = assignment(next, group);
   if (
     !constructor?.body ||
     !beta ||
@@ -241,16 +249,15 @@ function promoteAgentInsightMonitors(baseText, customText, incomingText, matches
     !beta.arguments.length ||
     !emitted ||
     !ts.isCallExpression(emitted) ||
-    emitted.expression.getText() !== "_getAgentInsightMonitorsOperations" ||
-    emitted.arguments.length !== 1
+    emitted.expression.getText() !== `_get${type}Operations` ||
+    emitted.arguments.length !== 1 ||
+    (voice && beta.arguments[4]?.getText() !== "this._tracingConfig")
   )
     return customText;
   const bindings = importsOf(incoming).filter(
     (item) =>
-      item.module === "./classic/agentInsightMonitors/index.js" &&
-      ["AgentInsightMonitorsOperations", "_getAgentInsightMonitorsOperations"].includes(
-        item.local,
-      ) &&
+      item.module === `./classic/${group}/index.js` &&
+      [`${type}Operations`, `_get${type}Operations`].includes(item.local) &&
       item.local === item.imported,
   );
   if (
@@ -267,12 +274,12 @@ function promoteAgentInsightMonitors(baseText, customText, incomingText, matches
     {
       start: constructor.body.statements.end,
       end: constructor.body.statements.end,
-      text: `\nthis.agentInsightMonitors = _getAgentInsightMonitorsOperations(${beta.arguments[0].getText()});\n`,
+      text: `\nthis.${group} = _get${type}Operations(${beta.arguments[0].getText()}${voice ? `, ${beta.arguments[4].getText()}` : ""});\n`,
     },
     {
       start: custom.statements[0].getStart(custom),
       end: custom.statements[0].getStart(custom),
-      text: 'import type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";\nimport { _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";\n',
+      text: `import type { ${type}Operations } from "./classic/${group}/index.js";\nimport { _get${type}Operations } from "./classic/${group}/index.js";\n`,
     },
   ]);
 }
@@ -287,6 +294,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
   const operations = planOperations({ baseGenerated, baseSource, generated, modelRenames });
   diagnostics.push(...operations.diagnostics);
   for (const [file, text] of operations.files) source.set(file, text);
+  const tracingPromotions = prepareTracingPromotions(baseGenerated, baseSource, operations.matches);
 
   const generatedNameMappings = new Map(modelRenames);
   const removedFiles = new Set();
@@ -315,11 +323,15 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       (match) => match.incoming.file === apiFile && match.base,
     );
     for (const oldFile of new Set(relocated.map((match) => classicFile(match.base.file)))) {
-      if (oldFile !== file && baseSource.has(oldFile)) {
+      if (
+        oldFile !== file &&
+        baseSource.has(oldFile) &&
+        !tracingPromotions.removedModules.has(oldFile)
+      ) {
         diagnostics.push(
           ...relocatedMemberDiagnostics(
             oldFile,
-            baseSource.get(oldFile),
+            tracingPromotions.sources.get(oldFile),
             baseGenerated.get(oldFile),
             relocated.filter((match) => classicFile(match.base.file) === oldFile),
             baseSource.get(classicApiFile(oldFile)),
@@ -334,7 +346,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
         moves.set(`${oldFile}::${oldInterface.name.text}`, { file, name: newInterface.name.text });
       }
     }
-    const customText = baseSource.get(file);
+    const customText = tracingPromotions.sources.get(file);
     const baseText = baseGenerated.get(file);
     // A classic module is rendered from its resolved operations. A rejected
     // operation merge leaves nothing to render from, and rendering would only
@@ -378,12 +390,15 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           mapImport: knownImport,
         });
         diagnostics.push(...merged.diagnostics);
-        if (merged.text) source.set(file, merged.text);
+        if (merged.text) source.set(file, tracingPromotions.apply(file, merged.text));
         continue;
       }
       source.set(
         file,
-        classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
+        tracingPromotions.apply(
+          file,
+          classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
+        ),
       );
     } catch (error) {
       if (!(error instanceof ClassicRenderError)) throw error;
@@ -477,7 +492,13 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       if (file === "aiProjectClient.ts" && customText)
         source.set(
           file,
-          promoteAgentInsightMonitors(baseText, customText, incomingText, operations.matches),
+          promoteBetaClientGroup(
+            baseText,
+            promoteBetaClientGroup(baseText, customText, incomingText, operations.matches),
+            incomingText,
+            operations.matches,
+            "voiceAgents",
+          ),
         );
       continue;
     }
@@ -612,7 +633,7 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
         !relocated.has(name) &&
         !operations.relocatedHelpers.has(`${file}::${name}`),
     );
-    if (sourceOnly.length) {
+    if (sourceOnly.length && !tracingPromotions.removedModules.has(file)) {
       diagnostics.push({
         file,
         declaration: sourceOnly.join(", "),

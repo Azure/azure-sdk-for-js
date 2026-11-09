@@ -24,6 +24,8 @@ test("groups customization tooling and maintained snippets in managed mode", (t)
     `${pkg}/scripts/customization/guards.test.mjs`,
     `${pkg}/.github/skills/open-regeneration-pr/scripts/open-pr.ps1`,
     `${pkg}/.github/skills/open-regeneration-pr/scripts/open-pr.test.mjs`,
+    `${pkg}/.github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs`,
+    `${pkg}/.github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.test.mjs`,
     `${pkg}/test/snippets.spec.ts`,
     `${pkg}/README.md`,
     `${pkg}/CHANGELOG.md`,

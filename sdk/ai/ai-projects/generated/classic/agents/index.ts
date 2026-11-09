@@ -40,6 +40,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   updateAgent,
+  createFromPrompt,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
@@ -81,6 +82,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -104,6 +106,7 @@ import {
   Microsoft365PublishDefaults,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
@@ -406,6 +409,14 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    body: GenerateAgentRequest,
+    options?: AgentsCreateFromPromptOptionalParams,
+  ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
     name: string,
@@ -568,6 +579,10 @@ function _getAgents(context: AIProjectContext) {
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
+    createFromPrompt: (
+      body: GenerateAgentRequest,
+      options?: AgentsCreateFromPromptOptionalParams,
+    ) => createFromPrompt(context, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
