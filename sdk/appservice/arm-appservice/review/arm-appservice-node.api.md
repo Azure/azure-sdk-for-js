@@ -939,6 +939,11 @@ export interface ArcConfiguration {
 }
 
 // @public
+export interface ArmErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ArmIdWrapper {
     // (undocumented)
     readonly id?: string;
@@ -2450,11 +2455,6 @@ export interface ErrorProperties {
 // @public
 export interface ErrorResponse {
     error?: ErrorProperties;
-}
-
-// @public
-export interface ErrorResponse_1 {
-    error?: ErrorDetail;
 }
 
 // @public

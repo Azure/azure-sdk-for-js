@@ -20290,12 +20290,12 @@ export function aiGatewayPropertiesDeserializer(item: any): AiGatewayProperties 
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse_1 {
+export interface ArmErrorResponse {
   /** The error object. */
   error?: ErrorDetail;
 }
 
-export function errorResponseDeserializer_1(item: any): ErrorResponse_1 {
+export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
   return {
     error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };

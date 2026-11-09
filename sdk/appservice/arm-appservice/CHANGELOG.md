@@ -1,6 +1,6 @@
 # Release History
 
-## 19.1.0 (2026-11-03)
+## 19.1.0 (2026-11-09)
 
 ### Features Added
   - Added operation group AiGatewaysOperations
@@ -25,10 +25,10 @@
   - Added Interface AiIntegration
   - Added Interface AppServicePlansStartWebAppsOptionalParams
   - Added Interface AppServicePlansStopWebAppsOptionalParams
+  - Added Interface ArmErrorResponse
   - Added Interface EndpointTrafficConfig
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
-  - Added Interface ErrorResponse_1
   - Added Interface LastKnownGoodProperties
   - Added Interface LastKnownGoodResource
   - Added Interface LastKnownGoodResourcesGetLastKnownGoodOptionalParams

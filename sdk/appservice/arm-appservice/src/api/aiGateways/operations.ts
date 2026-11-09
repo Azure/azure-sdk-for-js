@@ -6,7 +6,7 @@ import type { AiGateway, AiGatewayTagsUpdate, _AiGatewayListResult } from "../..
 import {
   aiGatewaySerializer,
   aiGatewayDeserializer,
-  errorResponseDeserializer_1,
+  armErrorResponseDeserializer,
   aiGatewayTagsUpdateSerializer,
   _aiGatewayListResultDeserializer,
 } from "../../models/models.js";
@@ -72,7 +72,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -123,7 +123,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -172,7 +172,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -224,7 +224,7 @@ export async function _patchDeserialize(result: PathUncheckedResponse): Promise<
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -279,7 +279,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -329,7 +329,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ai
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorResponseDeserializer_1(result.body);
+      error.details = armErrorResponseDeserializer(result.body);
     }
 
     throw error;

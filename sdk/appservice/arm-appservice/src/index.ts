@@ -566,7 +566,7 @@ export type {
   ErrorProperties,
   AiGateway,
   AiGatewayProperties,
-  ErrorResponse_1,
+  ArmErrorResponse,
   AiGatewayTagsUpdate,
   WorkflowRun,
   WorkflowRunProperties,
