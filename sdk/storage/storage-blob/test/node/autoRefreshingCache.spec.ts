@@ -302,4 +302,14 @@ describe("AutoRefreshingCache", () => {
     assert.strictEqual(await survivor, expected);
     assert.strictEqual(acquire.mock.calls.length, 1);
   });
+
+  it("starts no acquisition for a caller whose signal is already aborted", async () => {
+    const acquire = vi.fn(async (): Promise<SessionTokenInfo> => {
+      throw new Error("Create Session failed");
+    });
+    const cache = new AutoRefreshingCache(acquire);
+
+    await expect(cache.get(AbortSignal.abort())).rejects.toMatchObject({ name: "AbortError" });
+    assert.strictEqual(acquire.mock.calls.length, 0);
+  });
 });

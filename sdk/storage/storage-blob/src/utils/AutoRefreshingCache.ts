@@ -57,16 +57,16 @@ export class AutoRefreshingCache<T extends ExpiringValue> {
       return current;
     }
 
-    const shared = this.acquireShared();
     if (!abortSignal) {
-      return shared;
+      return this.acquireShared();
     }
 
     // Each caller races the shared acquisition against its own signal, so one caller
-    // cancelling never fails the others.
+    // cancelling never fails the others. Joining inside the builder means a caller whose signal
+    // is already aborted starts no acquisition, and every acquisition started here is observed.
     return createAbortablePromise<T>(
       (resolve, reject) => {
-        void shared.then(resolve).catch(reject);
+        void this.acquireShared().then(resolve, reject);
       },
       { abortSignal },
     );
