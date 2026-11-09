@@ -68,12 +68,13 @@ describe("storageDataLocalityPolicy", () => {
     assert.equal(sent.host, "myaccount.blob.core.windows.net");
   });
 
-  it("preserves a non-default port already on the original request", async () => {
+  it("connects to the layout endpoint's port and keeps the account's port in Host", async () => {
     const sent = await route(
       "https://myaccount.blob.core.windows.net:10000/container/blob.txt",
       "https://blob.stamp.store.core.windows.net:443/",
     );
 
+    assert.equal(sent.url, "https://blob.stamp.store.core.windows.net/container/blob.txt");
     assert.equal(sent.host, "myaccount.blob.core.windows.net:10000");
   });
 

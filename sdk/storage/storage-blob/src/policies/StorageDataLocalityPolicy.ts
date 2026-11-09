@@ -66,6 +66,9 @@ export function storageDataLocalityPolicy(): PipelinePolicy {
             ? parseLayoutHost(layoutEndpoint)
             : undefined;
         if (layoutHost) {
+          // Assigning a host without a port keeps the current one, so the account's port is
+          // cleared first: the request goes to the layout endpoint's port, or the default.
+          url.port = "";
           (url as unknown as { host: string }).host = layoutHost;
           request.url = url.toString();
           request.headers.set("Host", host);
