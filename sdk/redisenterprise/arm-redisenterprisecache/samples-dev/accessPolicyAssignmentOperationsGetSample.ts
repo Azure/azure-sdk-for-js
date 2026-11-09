@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about access policy assignment for database.
  *
  * @summary gets information about access policy assignment for database.
- * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseAccessPolicyAssignmentGet.json
+ * x-ms-original-file: 2026-09-01/RedisEnterpriseAccessPolicyAssignmentGet.json
  */
 async function redisEnterpriseAccessPolicyAssignmentGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

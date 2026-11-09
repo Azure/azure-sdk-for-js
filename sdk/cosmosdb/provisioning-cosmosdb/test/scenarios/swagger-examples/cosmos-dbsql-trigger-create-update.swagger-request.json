@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "resource": {
+      "id": "triggerName",
+      "body": "body"
+    },
+    "options": {}
+  }
+}

@@ -1,0 +1,879 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "accountName": {
+          "bicepIdentifier": "accountName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "function-call",
+            "target": "toLower",
+            "args": [
+              {
+                "kind": "function-call",
+                "target": "format",
+                "args": [
+                  {
+                    "kind": "string",
+                    "value": "mongodb-{0}"
+                  },
+                  {
+                    "kind": "function-call",
+                    "target": "uniqueString",
+                    "args": [
+                      {
+                        "kind": "property-access",
+                        "base": {
+                          "kind": "function-call",
+                          "target": "resourceGroup",
+                          "args": []
+                        },
+                        "property": "id",
+                        "nullish": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "decorators": {
+            "description": "Cosmos DB account name"
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "property-access",
+            "base": {
+              "kind": "function-call",
+              "target": "resourceGroup",
+              "args": []
+            },
+            "property": "location",
+            "nullish": false
+          },
+          "decorators": {
+            "description": "Location for the Cosmos DB account."
+          }
+        },
+        "primaryRegion": {
+          "bicepIdentifier": "primaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The primary replica region for the Cosmos DB account."
+          }
+        },
+        "secondaryRegion": {
+          "bicepIdentifier": "secondaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The secondary replica region for the Cosmos DB account."
+          }
+        },
+        "serverVersion": {
+          "bicepIdentifier": "serverVersion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "4.2"
+          },
+          "decorators": {
+            "description": "Specifies the MongoDB server version to use.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "3.2"
+              },
+              {
+                "kind": "string",
+                "value": "3.6"
+              },
+              {
+                "kind": "string",
+                "value": "4.0"
+              },
+              {
+                "kind": "string",
+                "value": "4.2"
+              }
+            ]
+          }
+        },
+        "defaultConsistencyLevel": {
+          "bicepIdentifier": "defaultConsistencyLevel",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "Session"
+          },
+          "decorators": {
+            "description": "The default consistency level of the Cosmos DB account.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "Eventual"
+              },
+              {
+                "kind": "string",
+                "value": "ConsistentPrefix"
+              },
+              {
+                "kind": "string",
+                "value": "Session"
+              },
+              {
+                "kind": "string",
+                "value": "BoundedStaleness"
+              },
+              {
+                "kind": "string",
+                "value": "Strong"
+              }
+            ]
+          }
+        },
+        "maxStalenessPrefix": {
+          "bicepIdentifier": "maxStalenessPrefix",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "100000"
+          },
+          "decorators": {
+            "description": "Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 1000000. Multi Region: 100000 to 1000000.",
+            "minValue": 10,
+            "maxValue": 2147483647
+          }
+        },
+        "maxIntervalInSeconds": {
+          "bicepIdentifier": "maxIntervalInSeconds",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "300"
+          },
+          "decorators": {
+            "description": "Max lag time (seconds). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84600. Multi Region: 300 to 86400.",
+            "minValue": 5,
+            "maxValue": 86400
+          }
+        },
+        "databaseName": {
+          "bicepIdentifier": "databaseName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the Mongo DB database"
+          }
+        },
+        "collection1Name": {
+          "bicepIdentifier": "collection1Name",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the first Mongo DB collection"
+          }
+        },
+        "collection2Name": {
+          "bicepIdentifier": "collection2Name",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the second Mongo DB collection"
+          }
+        },
+        "autoscaleMaxThroughput": {
+          "bicepIdentifier": "autoscaleMaxThroughput",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "1000"
+          },
+          "decorators": {
+            "description": "Maximum throughput when using Autoscale Throughput Policy for the Database",
+            "minValue": 1000,
+            "maxValue": 1000000
+          }
+        }
+      },
+      "variables": {
+        "consistencyPolicy": {
+          "bicepIdentifier": "consistencyPolicy",
+          "value": {
+            "kind": "object",
+            "value": {
+              "Eventual": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Eventual"
+                  }
+                }
+              },
+              "ConsistentPrefix": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "ConsistentPrefix"
+                  }
+                }
+              },
+              "Session": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Session"
+                  }
+                }
+              },
+              "BoundedStaleness": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "BoundedStaleness"
+                  },
+                  "maxStalenessPrefix": {
+                    "kind": "identifier",
+                    "id": "maxStalenessPrefix"
+                  },
+                  "maxIntervalInSeconds": {
+                    "kind": "identifier",
+                    "id": "maxIntervalInSeconds"
+                  }
+                }
+              },
+              "Strong": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Strong"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "locations": {
+          "bicepIdentifier": "locations",
+          "value": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "primaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "secondaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "accountName"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "MongoDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "consistencyPolicy": {
+                    "kind": "ternary-operation",
+                    "condition": {
+                      "kind": "binary-operation",
+                      "operator": "==",
+                      "left": {
+                        "kind": "identifier",
+                        "id": "defaultConsistencyLevel"
+                      },
+                      "right": {
+                        "kind": "string",
+                        "value": "Eventual"
+                      }
+                    },
+                    "trueValue": {
+                      "kind": "property-access",
+                      "base": {
+                        "kind": "identifier",
+                        "id": "consistencyPolicy"
+                      },
+                      "property": "Eventual",
+                      "nullish": false
+                    },
+                    "falseValue": {
+                      "kind": "ternary-operation",
+                      "condition": {
+                        "kind": "binary-operation",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "id": "defaultConsistencyLevel"
+                        },
+                        "right": {
+                          "kind": "string",
+                          "value": "ConsistentPrefix"
+                        }
+                      },
+                      "trueValue": {
+                        "kind": "property-access",
+                        "base": {
+                          "kind": "identifier",
+                          "id": "consistencyPolicy"
+                        },
+                        "property": "ConsistentPrefix",
+                        "nullish": false
+                      },
+                      "falseValue": {
+                        "kind": "ternary-operation",
+                        "condition": {
+                          "kind": "binary-operation",
+                          "operator": "==",
+                          "left": {
+                            "kind": "identifier",
+                            "id": "defaultConsistencyLevel"
+                          },
+                          "right": {
+                            "kind": "string",
+                            "value": "Session"
+                          }
+                        },
+                        "trueValue": {
+                          "kind": "property-access",
+                          "base": {
+                            "kind": "identifier",
+                            "id": "consistencyPolicy"
+                          },
+                          "property": "Session",
+                          "nullish": false
+                        },
+                        "falseValue": {
+                          "kind": "ternary-operation",
+                          "condition": {
+                            "kind": "binary-operation",
+                            "operator": "==",
+                            "left": {
+                              "kind": "identifier",
+                              "id": "defaultConsistencyLevel"
+                            },
+                            "right": {
+                              "kind": "string",
+                              "value": "BoundedStaleness"
+                            }
+                          },
+                          "trueValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "BoundedStaleness",
+                            "nullish": false
+                          },
+                          "falseValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "Strong",
+                            "nullish": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "locations": {
+                    "kind": "identifier",
+                    "id": "locations"
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "apiProperties": {
+                    "kind": "object",
+                    "value": {
+                      "serverVersion": {
+                        "kind": "identifier",
+                        "id": "serverVersion"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mongodbDatabase": {
+          "bicepIdentifier": "mongodbDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "databaseName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "databaseName"
+                      }
+                    }
+                  },
+                  "options": {
+                    "kind": "object",
+                    "value": {
+                      "autoscaleSettings": {
+                        "kind": "object",
+                        "value": {
+                          "maxThroughput": {
+                            "kind": "identifier",
+                            "id": "autoscaleMaxThroughput"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "collection": {
+          "bicepIdentifier": "collection",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "collection1Name"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "mongodbDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "collection1Name"
+                      },
+                      "shardKey": {
+                        "kind": "object",
+                        "value": {
+                          "user_id": {
+                            "kind": "string",
+                            "value": "Hash"
+                          }
+                        }
+                      },
+                      "indexes": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "_id"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "$**"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "user_id"
+                                      },
+                                      {
+                                        "kind": "string",
+                                        "value": "user_address"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "options": {
+                                "kind": "object",
+                                "value": {
+                                  "unique": {
+                                    "kind": "boolean",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "_ts"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "collection2": {
+          "bicepIdentifier": "collection2",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "collection2Name"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "mongodbDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "collection2Name"
+                      },
+                      "shardKey": {
+                        "kind": "object",
+                        "value": {
+                          "company_id": {
+                            "kind": "string",
+                            "value": "Hash"
+                          }
+                        }
+                      },
+                      "indexes": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "_id"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "$**"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "company_id"
+                                      },
+                                      {
+                                        "kind": "string",
+                                        "value": "company_address"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "options": {
+                                "kind": "object",
+                                "value": {
+                                  "unique": {
+                                    "kind": "boolean",
+                                    "value": true
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "kind": "object",
+                            "value": {
+                              "key": {
+                                "kind": "object",
+                                "value": {
+                                  "keys": {
+                                    "kind": "array",
+                                    "items": [
+                                      {
+                                        "kind": "string",
+                                        "value": "_ts"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "collection"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource3Id": {
+          "bicepIdentifier": "resource3Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "collection2"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}
