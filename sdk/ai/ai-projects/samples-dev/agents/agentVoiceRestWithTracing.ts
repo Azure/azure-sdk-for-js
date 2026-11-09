@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
       tracingOptions: { experimental: true, contentRecording: false },
     });
     await context.with(trace.setSpan(context.active(), operationsSpan), async () => {
-      const agent = await project.beta.agents.createFromPrompt({
+      const agent = await project.agents.createFromPrompt({
         kind: "voice",
         name: `voice-rest-tracing-${Date.now()}`,
         goal: "Help callers find public transport information.",
@@ -49,14 +49,12 @@ export async function main(): Promise<void> {
       try {
         console.log("Voice agent created. Inspect the create_agent span.");
       } finally {
-        await project.agents.delete(agent.name, {
-          requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-        });
+        await project.agents.delete(agent.name);
       }
 
       // This places a real telephone call and may incur charges. It is disabled by default.
       if (process.env["FOUNDRY_ENABLE_OUTBOUND_CALL"] === "true") {
-        const job = await project.beta.voiceAgents.telephony.createCallJob(
+        const job = await project.voiceAgents.telephony.createCallJob(
           required("FOUNDRY_VOICE_AGENT_NAME"),
           randomUUID(),
           {
@@ -64,7 +62,6 @@ export async function main(): Promise<void> {
             source: { type: "phone_number", value: required("FOUNDRY_TELEPHONY_SOURCE") },
             destination: { type: "phone_number", value: required("FOUNDRY_TELEPHONY_DESTINATION") },
           },
-          { foundryFeatures: "VoiceAgents=V1Preview" },
         );
         console.log(`Call job accepted (${job.status}); the call may still be in progress.`);
       } else {

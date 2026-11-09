@@ -36,10 +36,12 @@ export async function main(): Promise<void> {
   const conversations =
     protocol === "live"
       ? project.beta.voiceAgents.liveConversations
-      : project.beta.voiceAgents.conversations;
-  const options = {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  };
+      : project.voiceAgents.conversations;
+  // GPT Live remains preview; Realtime conversation reads are generally available.
+  const options =
+    protocol === "live"
+      ? { requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } } }
+      : {};
 
   // Only inspect one page. No stored conversation or existing agent is modified.
   let conversationId = process.env["FOUNDRY_VOICE_CONVERSATION_ID"]?.trim();
@@ -77,7 +79,7 @@ export async function main(): Promise<void> {
   }
 
   if (protocol === "realtime") {
-    const realtime = project.beta.voiceAgents.conversations;
+    const realtime = project.voiceAgents.conversations;
     let responseId: string | undefined;
     for await (const page of realtime
       .listResponses(agentName, conversationId, { ...options, limit: 1, order: "desc" })
@@ -125,7 +127,7 @@ export async function main(): Promise<void> {
   }
   if (protocol === "realtime" && generatedItemId) {
     // This artifact requires an interrupted/truncated item with generated audio beyond the heard segment.
-    const realtime = project.beta.voiceAgents.conversations;
+    const realtime = project.voiceAgents.conversations;
     const audio = await realtime.getGeneratedAudioItem(
       agentName,
       conversationId,
