@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the login credentials for the specified container registry.
  *
  * @summary lists the login credentials for the specified container registry.
- * x-ms-original-file: 2026-09-01-preview/RegistryListCredentials.json
+ * x-ms-original-file: 2026-10-15-preview/RegistryListCredentials.json
  */
 async function registryListCredentials() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the detailed information for a given pipeline run.
  *
  * @summary gets the detailed information for a given pipeline run.
- * x-ms-original-file: 2026-09-01-preview/PipelineRunGet.json
+ * x-ms-original-file: 2026-10-15-preview/PipelineRunGet.json
  */
 async function pipelineRunGet() {
   const credential = new DefaultAzureCredential();

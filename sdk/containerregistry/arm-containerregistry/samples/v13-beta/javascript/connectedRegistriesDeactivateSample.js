@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deactivates the connected registry instance.
  *
  * @summary deactivates the connected registry instance.
- * x-ms-original-file: 2026-09-01-preview/ConnectedRegistryDeactivate.json
+ * x-ms-original-file: 2026-10-15-preview/ConnectedRegistryDeactivate.json
  */
 async function connectedRegistryDeactivate() {
   const credential = new DefaultAzureCredential();

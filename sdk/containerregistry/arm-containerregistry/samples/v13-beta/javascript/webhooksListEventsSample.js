@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists recent events for the specified webhook.
  *
  * @summary lists recent events for the specified webhook.
- * x-ms-original-file: 2026-09-01-preview/WebhookListEvents.json
+ * x-ms-original-file: 2026-10-15-preview/WebhookListEvents.json
  */
 async function webhookListEvents() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a connected registry for a container registry with the specified parameters.
  *
  * @summary creates a connected registry for a container registry with the specified parameters.
- * x-ms-original-file: 2026-09-01-preview/ConnectedRegistryCreate.json
+ * x-ms-original-file: 2026-10-15-preview/ConnectedRegistryCreate.json
  */
 async function connectedRegistryCreate() {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function connectedRegistryCreate() {
  * This sample demonstrates how to creates a connected registry for a container registry with the specified parameters.
  *
  * @summary creates a connected registry for a container registry with the specified parameters.
- * x-ms-original-file: 2026-09-01-preview/ConnectedRegistryCreateManagedIdentity.json
+ * x-ms-original-file: 2026-10-15-preview/ConnectedRegistryCreateManagedIdentity.json
  */
 async function connectedRegistryCreateManagedIdentity() {
   const credential = new DefaultAzureCredential();
