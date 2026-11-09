@@ -821,9 +821,6 @@ export type {
   VoiceAgentWebSocketMessage,
   VoiceAgentTransport,
   VoiceAgentWebSocketSubprotocol,
-  BetaVoiceAgentsConversationsDownloadAudioResponse,
-  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
-  BetaVoiceAgentsConversationsDownloadAudioItemResponse,
   TelephonyCallEndReason,
   TelephonyCallLifecycleEventReason,
   RealtimeConversationItemMessage,
@@ -1275,4 +1272,7 @@ export type {
   VoiceAgentRtcCallErrorType,
   VoiceAgentClientEventTypeExtension,
   TelephonyCampaignDatasetReference,
+  VoiceAgentsConversationsDownloadAudioResponse,
+  VoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
+  VoiceAgentsConversationsDownloadAudioItemResponse,
 } from "./models.js";

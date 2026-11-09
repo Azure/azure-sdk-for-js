@@ -9,13 +9,13 @@ import type {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
+  AgentOptimizationCandidateExpand,
   TelephonyProvider,
   TelephonyCallStatus,
-  JobStatus,
-  AgentOptimizationCandidateExpand,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -503,6 +503,9 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
 }
+
+/** Optional parameters. */
+export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {

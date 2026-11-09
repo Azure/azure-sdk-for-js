@@ -56,6 +56,44 @@ const evaluatorPromotions = [
   ["ListVersions", "listVersions"],
 ];
 
+// Reviewed GA split in azure-rest-api-specs#47930. Campaigns and GPT Live
+// remain beta; only the listed operations and their unused options move.
+const voiceConversationPromotions = [
+  "downloadAudio",
+  "getAudio",
+  "downloadGeneratedAudioItem",
+  "getGeneratedAudioItem",
+  "downloadAudioItem",
+  "getAudioItem",
+  "getItem",
+  "listItems",
+  "listResponseItems",
+  "getResponse",
+  "listResponses",
+  "delete",
+  "get",
+  "list",
+].map((operation) => [operation[0].toUpperCase() + operation.slice(1), operation]);
+const voiceTelephonyPromotions = [
+  "cancelCallJob",
+  "getCallJob",
+  "createCallJob",
+  "replaceTransferTargets",
+  "getTransferTargets",
+  "endCall",
+  "transferCall",
+  "getCall",
+  "listCalls",
+  "deleteBinding",
+  "updateBinding",
+  "getBinding",
+  "listBindings",
+  "createBinding",
+  "deleteCallJob",
+  "listCallJobs",
+].map((operation) => [operation[0].toUpperCase() + operation.slice(1), operation]);
+const promptPromotion = [["CreateFromPrompt", "createFromPrompt"]];
+
 function identifiers(node) {
   const names = new Set();
   function visit(child) {
@@ -129,7 +167,11 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
   function operationUses(files, file, operation, option) {
     const source = parse(files, file);
     for (const statement of source.statements) {
-      if (ts.isFunctionDeclaration(statement) && statement.name?.text === operation) {
+      if (
+        ts.isFunctionDeclaration(statement) &&
+        (statement.name?.text === operation ||
+          (operation === "delete" && statement.name?.text === "$delete"))
+      ) {
         return statement.parameters.some(
           (parameter) => parameter.type && identifiers(parameter.type).has(option),
         );
@@ -151,9 +193,11 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
 
   const allowed = new Set();
   for (const [group, prefix, promotions] of [
-    ["agents", "Agents", optimizationPromotions],
+    ["agents", "Agents", [...optimizationPromotions, ...promptPromotion]],
     ["datasets", "Datasets", generationPromotions],
     ["evaluators", "Evaluators", evaluatorPromotions],
+    ["voiceAgents/conversations", "VoiceAgentsConversations", voiceConversationPromotions],
+    ["voiceAgents/telephony", "VoiceAgentsTelephony", voiceTelephonyPromotions],
   ]) {
     const betaOptionsFile = `api/beta/${group}/options.ts`;
     const optionsFile = `api/${group}/options.ts`;
@@ -188,36 +232,42 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
 
   // Only this verified, entirely promoted group may disappear. Extra members or
   // inherited operations must not be silently removed with the generation jobs.
-  const betaGroup = "BetaDatasetsOperations";
-  const betaGroupFile = "classic/beta/datasets/index.ts";
-  const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
-    (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
-  );
-  if (
-    previousGroups.length === 1 &&
-    collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
-    !previousGroups[0].heritageClauses?.length &&
-    previousGroups[0].members.length === generationPromotions.length &&
-    previousGroups[0].members.every(
-      (member) =>
-        member.name &&
-        generationPromotions.some(([, operation]) => propertyName(member.name) === operation),
-    ) &&
-    generationPromotions.every(([suffix]) => allowed.has(`BetaDatasets${suffix}OptionalParams`)) &&
-    !usedByBeta.has(betaGroup) &&
-    [currentGenerated, currentSource].every((files) => {
-      const betaSource = parse(files, betaGroupFile);
-      const gaMembers = collectInterfaces(parse(files, "classic/datasets/index.ts")).get(
-        "DatasetsOperations",
-      );
-      return (
-        !collectExportedNames(betaSource).has(betaGroup) &&
-        !collectInterfaces(betaSource).has(betaGroup) &&
-        generationPromotions.every(([, operation]) => gaMembers?.has(operation))
-      );
-    })
-  ) {
-    allowed.add(betaGroup);
+  for (const [group, prefix, promotions] of [
+    ["datasets", "Datasets", generationPromotions],
+    ["agents", "Agents", promptPromotion],
+    ["voiceAgents/conversations", "VoiceAgentsConversations", voiceConversationPromotions],
+  ]) {
+    const betaGroup = `Beta${prefix}Operations`;
+    const betaGroupFile = `classic/beta/${group}/index.ts`;
+    const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
+      (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
+    );
+    if (
+      previousGroups.length === 1 &&
+      collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
+      !previousGroups[0].heritageClauses?.length &&
+      previousGroups[0].members.length === promotions.length &&
+      previousGroups[0].members.every(
+        (member) =>
+          member.name &&
+          promotions.some(([, operation]) => propertyName(member.name) === operation),
+      ) &&
+      promotions.every(([suffix]) => allowed.has(`Beta${prefix}${suffix}OptionalParams`)) &&
+      !usedByBeta.has(betaGroup) &&
+      [currentGenerated, currentSource].every((files) => {
+        const betaSource = parse(files, betaGroupFile);
+        const gaMembers = collectInterfaces(parse(files, `classic/${group}/index.ts`)).get(
+          `${prefix}Operations`,
+        );
+        return (
+          !collectExportedNames(betaSource).has(betaGroup) &&
+          !collectInterfaces(betaSource).has(betaGroup) &&
+          promotions.every(([, operation]) => gaMembers?.has(operation))
+        );
+      })
+    ) {
+      allowed.add(betaGroup);
+    }
   }
   return allowed;
 }

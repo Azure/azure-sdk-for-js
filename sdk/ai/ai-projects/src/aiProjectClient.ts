@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+import type { VoiceAgentsOperations } from "./classic/voiceAgents/index.js";
+import { _getVoiceAgentsOperations } from "./classic/voiceAgents/index.js";
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
@@ -89,6 +91,9 @@ function resolveRealtimeOptions(
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
+  /** The operation groups for voiceAgents */
+  public readonly voiceAgents: VoiceAgentsOperations;
+
   private _cognitiveScopeClient: AIProjectContext;
   private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
@@ -144,6 +149,7 @@ export class AIProjectClient {
       },
     );
     this.telemetry = _getTelemetryOperations(this.connections);
+    this.voiceAgents = _getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig);
   }
 
   /** The operation groups for toolboxes */

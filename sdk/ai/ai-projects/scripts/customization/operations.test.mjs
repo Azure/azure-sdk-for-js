@@ -105,6 +105,80 @@ test("retains a deliberate customized operation name", () => {
   assert.match(result.files.get("api/beta/new/options.ts"), /interface CustomReadOptions/);
 });
 
+test("reviewed call-job GA promotion adopts conditional SIP opt-in instead of the old required constant", () => {
+  for (const group of ["voiceAgents/telephony", "unreviewed"]) {
+    const oldFile = `api/beta/${group}/operations.ts`;
+    const file = `api/${group}/operations.ts`;
+    const oldOption = "BetaVoiceAgentsTelephonyDeleteCallJobOptionalParams";
+    const option = "VoiceAgentsTelephonyDeleteCallJobOptionalParams";
+    const baseGenerated = tree(group, "deleteCallJob", oldOption);
+    baseGenerated.set(
+      oldFile,
+      baseGenerated
+        .get(oldFile)
+        .replaceAll(
+          "context: Client, id: string",
+          'context: Client, foundryFeatures: "VoiceAgents=V1Preview", id: string',
+        )
+        .replace(
+          "_deleteCallJobSend(context, id, options)",
+          "_deleteCallJobSend(context, foundryFeatures, id, options)",
+        )
+        .replace(
+          'accept: "application/json",',
+          '"foundry-features": foundryFeatures, accept: "application/json",',
+        ),
+    );
+    const baseSource = tree(group, "deleteCallJob", oldOption, { custom: true });
+    baseSource.set(
+      oldFile,
+      baseSource
+        .get(oldFile)
+        .replace(
+          "  const path =",
+          '  const foundryFeatures = "VoiceAgents=V1Preview";\n  const path =',
+        )
+        .replace(
+          'accept: "application/json",',
+          '"foundry-features": foundryFeatures, accept: "application/json",',
+        ),
+    );
+    const generated = new Map([
+      [
+        file,
+        operation("deleteCallJob", option)
+          .replace(
+            'from "../../index.js"',
+            `from "${group === "unreviewed" ? "../" : "../../"}index.js"`,
+          )
+          .replace(
+            'from "../../../static-helpers/',
+            `from "${group === "unreviewed" ? "../../" : "../../../"}static-helpers/`,
+          )
+          .replace(
+            'accept: "application/json",',
+            '...(options?.foundryFeatures !== undefined ? { "foundry-features": options?.foundryFeatures } : {}), accept: "application/json",',
+          ),
+      ],
+      [
+        file.replace("operations.ts", "options.ts"),
+        options(option).replace(
+          "extends OperationOptions {",
+          'extends OperationOptions { foundryFeatures?: "VoiceAgents=V1Preview";',
+        ),
+      ],
+    ]);
+    const result = planOperations({ baseGenerated, baseSource, generated });
+    assert.deepEqual(result.diagnostics, []);
+    const output = result.files.get(file);
+    assert.match(output, /x-custom/);
+    if (group === "voiceAgents/telephony") {
+      assert.match(output, /options\?\.foundryFeatures !== undefined/);
+      assert.doesNotMatch(output, /const foundryFeatures/);
+    } else assert.match(output, /const foundryFeatures/);
+  }
+});
+
 test("merges a renamed body parameter when the emitter moves its value into options", () => {
   const withBody = (text) =>
     text

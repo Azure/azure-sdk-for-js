@@ -5,8 +5,6 @@ import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-import type { BetaAgentsOperations } from "./agents/index.js";
-import { _getBetaAgentsOperations } from "./agents/index.js";
 import type { BetaSkillsOperations } from "./skills/index.js";
 import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
@@ -51,8 +49,6 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  /** Operations for managing agents. */
-  agents: BetaAgentsOperations;
   /** Operations for managing Agent Insights monitors. */
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
   /** Operations for managing voice agent conversations and telephony. */
@@ -86,8 +82,6 @@ export function _getBetaOperations(
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    /** Operations for managing agents. */
-    agents: _getBetaAgentsOperations(context, tracingConfig),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
     /** Operations for managing voice agent conversations and telephony. */

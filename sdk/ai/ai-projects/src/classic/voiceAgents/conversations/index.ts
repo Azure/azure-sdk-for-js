@@ -1,7 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext } from "../../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type {
+  VoiceConversation,
+  VoiceResponse,
+  VoiceAudioItem,
+  VoiceGeneratedAudioItem,
+  VoiceRecording,
+  RealtimeConversationItemUnion,
+  VoiceAgentsConversationsDownloadAudioResponse,
+  VoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
+  VoiceAgentsConversationsDownloadAudioItemResponse,
+} from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
+  VoiceAgentsConversationsDownloadAudioOptionalParams,
+  VoiceAgentsConversationsGetAudioOptionalParams,
+  VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
+  VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
+  VoiceAgentsConversationsDownloadAudioItemOptionalParams,
+  VoiceAgentsConversationsGetAudioItemOptionalParams,
+  VoiceAgentsConversationsGetItemOptionalParams,
+  VoiceAgentsConversationsListItemsOptionalParams,
+  VoiceAgentsConversationsListResponseItemsOptionalParams,
+  VoiceAgentsConversationsGetResponseOptionalParams,
+  VoiceAgentsConversationsListResponsesOptionalParams,
+  VoiceAgentsConversationsDeleteOptionalParams,
+  VoiceAgentsConversationsGetOptionalParams,
+  VoiceAgentsConversationsListOptionalParams,
+} from "../../../api/voiceAgents/conversations/options.js";
 import {
   downloadAudio,
   getAudio,
@@ -17,40 +45,12 @@ import {
   $delete,
   get,
   list,
-} from "../../../../api/beta/voiceAgents/conversations/operations.js";
-import type {
-  BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
-  BetaVoiceAgentsConversationsGetAudioOptionalParams,
-  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
-  BetaVoiceAgentsConversationsGetItemOptionalParams,
-  BetaVoiceAgentsConversationsListItemsOptionalParams,
-  BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
-  BetaVoiceAgentsConversationsGetResponseOptionalParams,
-  BetaVoiceAgentsConversationsListResponsesOptionalParams,
-  BetaVoiceAgentsConversationsDeleteOptionalParams,
-  BetaVoiceAgentsConversationsGetOptionalParams,
-  BetaVoiceAgentsConversationsListOptionalParams,
-} from "../../../../api/beta/voiceAgents/conversations/options.js";
-import type {
-  VoiceConversation,
-  VoiceResponse,
-  RealtimeConversationItemUnion,
-  VoiceAudioItem,
-  VoiceGeneratedAudioItem,
-  VoiceRecording,
-  BetaVoiceAgentsConversationsDownloadAudioResponse,
-  BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
-  BetaVoiceAgentsConversationsDownloadAudioItemResponse,
-} from "../../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { ResolvedTracingConfig } from "../../../../tracing/configuration.js";
-import { traceVoiceAgentOperation } from "../../../../tracing/voiceAgentTracing.js";
+} from "../../../api/voiceAgents/conversations/operations.js";
+import type { ResolvedTracingConfig } from "../../../tracing/configuration.js";
+import { traceVoiceAgentOperation } from "../../../tracing/voiceAgentTracing.js";
 
 /** Operations for managing voice agent conversations. */
-export interface BetaVoiceAgentsConversationsOperations {
+export interface VoiceAgentsConversationsOperations {
   /**
    * Streams the whole-call merged stereo recording as a WAV (`audio/wav`) byte stream through the service
    * (no SAS URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS)
@@ -65,8 +65,8 @@ export interface BetaVoiceAgentsConversationsOperations {
   downloadAudio: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
-  ) => Promise<BetaVoiceAgentsConversationsDownloadAudioResponse>;
+    options?: VoiceAgentsConversationsDownloadAudioOptionalParams,
+  ) => Promise<VoiceAgentsConversationsDownloadAudioResponse>;
   /**
    * Returns metadata for the whole-call merged stereo recording (user audio on the left channel, agent audio
    * on the right). The common metadata (format, sample rate, channels, channel layout, duration) is returned
@@ -82,7 +82,7 @@ export interface BetaVoiceAgentsConversationsOperations {
   getAudio: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsGetAudioOptionalParams,
+    options?: VoiceAgentsConversationsGetAudioOptionalParams,
   ) => Promise<VoiceRecording>;
   /**
    * Streams a conversation item's generated audio as a WAV (`audio/wav`) byte stream through the service. This
@@ -96,8 +96,8 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     itemId: string,
-    options?: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
-  ) => Promise<BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse>;
+    options?: VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
+  ) => Promise<VoiceAgentsConversationsDownloadGeneratedAudioItemResponse>;
   /**
    * Returns metadata for a conversation item's generated audio. This subordinate artifact is separate from the
    * canonical heard-audio segment and exists only when playback was interrupted and the service rendered more audio
@@ -108,7 +108,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     itemId: string,
-    options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
+    options?: VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
   ) => Promise<VoiceGeneratedAudioItem>;
   /**
    * Streams a single conversation item's audio as a WAV (`audio/wav`) byte stream through the service (no SAS
@@ -121,8 +121,8 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     itemId: string,
-    options?: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
-  ) => Promise<BetaVoiceAgentsConversationsDownloadAudioItemResponse>;
+    options?: VoiceAgentsConversationsDownloadAudioItemOptionalParams,
+  ) => Promise<VoiceAgentsConversationsDownloadAudioItemResponse>;
   /**
    * Returns metadata for a single conversation item's audio segment, including the common playback facts
    * (role, format/codec, sample rate, channels, offset, duration) for both Foundry-managed and
@@ -135,7 +135,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     itemId: string,
-    options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
+    options?: VoiceAgentsConversationsGetAudioItemOptionalParams,
   ) => Promise<VoiceAudioItem>;
   /**
    * Retrieves a single item from the specified conversation by its id, including its transcript. An
@@ -148,7 +148,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     itemId: string,
-    options?: BetaVoiceAgentsConversationsGetItemOptionalParams,
+    options?: VoiceAgentsConversationsGetItemOptionalParams,
   ) => Promise<RealtimeConversationItemUnion>;
   /**
    * Returns a paged collection of items — the complete ordered conversation history, including user input,
@@ -158,7 +158,7 @@ export interface BetaVoiceAgentsConversationsOperations {
   listItems: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsListItemsOptionalParams,
+    options?: VoiceAgentsConversationsListItemsOptionalParams,
   ) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
   /**
    * Returns a paged collection of the output items produced by a specific response (the response's output
@@ -170,7 +170,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     responseId: string,
-    options?: BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
+    options?: VoiceAgentsConversationsListResponseItemsOptionalParams,
   ) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
   /**
    * Retrieves a single response from the specified conversation by its id, including its `output` items,
@@ -180,7 +180,7 @@ export interface BetaVoiceAgentsConversationsOperations {
     agentName: string,
     conversationId: string,
     responseId: string,
-    options?: BetaVoiceAgentsConversationsGetResponseOptionalParams,
+    options?: VoiceAgentsConversationsGetResponseOptionalParams,
   ) => Promise<VoiceResponse>;
   /**
    * Returns a paged collection of the responses (model inference turns) recorded for the specified
@@ -190,7 +190,7 @@ export interface BetaVoiceAgentsConversationsOperations {
   listResponses: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsListResponsesOptionalParams,
+    options?: VoiceAgentsConversationsListResponsesOptionalParams,
   ) => PagedAsyncIterableIterator<VoiceResponse>;
   /**
    * Deletes a conversation and all of its stored data — responses, items, and any audio (cascade). This is
@@ -199,7 +199,7 @@ export interface BetaVoiceAgentsConversationsOperations {
   delete: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsDeleteOptionalParams,
+    options?: VoiceAgentsConversationsDeleteOptionalParams,
   ) => Promise<void>;
   /**
    * Retrieves a single conversation recorded for the specified voice agent endpoint by its id.
@@ -208,7 +208,7 @@ export interface BetaVoiceAgentsConversationsOperations {
   get: (
     agentName: string,
     conversationId: string,
-    options?: BetaVoiceAgentsConversationsGetOptionalParams,
+    options?: VoiceAgentsConversationsGetOptionalParams,
   ) => Promise<VoiceConversation>;
   /**
    * Returns the conversations persisted for the specified voice agent endpoint.
@@ -217,81 +217,81 @@ export interface BetaVoiceAgentsConversationsOperations {
    */
   list: (
     agentName: string,
-    options?: BetaVoiceAgentsConversationsListOptionalParams,
+    options?: VoiceAgentsConversationsListOptionalParams,
   ) => PagedAsyncIterableIterator<VoiceConversation>;
 }
 
-function _getBetaVoiceAgentsConversations(
+function _getVoiceAgentsConversations(
   context: AIProjectContext,
   tracingConfig?: ResolvedTracingConfig,
-): BetaVoiceAgentsConversationsOperations {
+): VoiceAgentsConversationsOperations {
   return {
     downloadAudio: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsDownloadAudioOptionalParams,
+      options?: VoiceAgentsConversationsDownloadAudioOptionalParams,
     ) => downloadAudio(context, agentName, conversationId, options),
     getAudio: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsGetAudioOptionalParams,
+      options?: VoiceAgentsConversationsGetAudioOptionalParams,
     ) => getAudio(context, agentName, conversationId, options),
     downloadGeneratedAudioItem: (
       agentName: string,
       conversationId: string,
       itemId: string,
-      options?: BetaVoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
+      options?: VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
     ) => downloadGeneratedAudioItem(context, agentName, conversationId, itemId, options),
     getGeneratedAudioItem: (
       agentName: string,
       conversationId: string,
       itemId: string,
-      options?: BetaVoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
+      options?: VoiceAgentsConversationsGetGeneratedAudioItemOptionalParams,
     ) => getGeneratedAudioItem(context, agentName, conversationId, itemId, options),
     downloadAudioItem: (
       agentName: string,
       conversationId: string,
       itemId: string,
-      options?: BetaVoiceAgentsConversationsDownloadAudioItemOptionalParams,
+      options?: VoiceAgentsConversationsDownloadAudioItemOptionalParams,
     ) => downloadAudioItem(context, agentName, conversationId, itemId, options),
     getAudioItem: (
       agentName: string,
       conversationId: string,
       itemId: string,
-      options?: BetaVoiceAgentsConversationsGetAudioItemOptionalParams,
+      options?: VoiceAgentsConversationsGetAudioItemOptionalParams,
     ) => getAudioItem(context, agentName, conversationId, itemId, options),
     getItem: (
       agentName: string,
       conversationId: string,
       itemId: string,
-      options?: BetaVoiceAgentsConversationsGetItemOptionalParams,
+      options?: VoiceAgentsConversationsGetItemOptionalParams,
     ) => getItem(context, agentName, conversationId, itemId, options),
     listItems: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsListItemsOptionalParams,
+      options?: VoiceAgentsConversationsListItemsOptionalParams,
     ) => listItems(context, agentName, conversationId, options),
     listResponseItems: (
       agentName: string,
       conversationId: string,
       responseId: string,
-      options?: BetaVoiceAgentsConversationsListResponseItemsOptionalParams,
+      options?: VoiceAgentsConversationsListResponseItemsOptionalParams,
     ) => listResponseItems(context, agentName, conversationId, responseId, options),
     getResponse: (
       agentName: string,
       conversationId: string,
       responseId: string,
-      options?: BetaVoiceAgentsConversationsGetResponseOptionalParams,
+      options?: VoiceAgentsConversationsGetResponseOptionalParams,
     ) => getResponse(context, agentName, conversationId, responseId, options),
     listResponses: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsListResponsesOptionalParams,
+      options?: VoiceAgentsConversationsListResponsesOptionalParams,
     ) => listResponses(context, agentName, conversationId, options),
     delete: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsDeleteOptionalParams,
+      options?: VoiceAgentsConversationsDeleteOptionalParams,
     ) =>
       traceVoiceAgentOperation(
         "voice_agents.conversations.delete",
@@ -302,16 +302,16 @@ function _getBetaVoiceAgentsConversations(
     get: (
       agentName: string,
       conversationId: string,
-      options?: BetaVoiceAgentsConversationsGetOptionalParams,
+      options?: VoiceAgentsConversationsGetOptionalParams,
     ) => get(context, agentName, conversationId, options),
-    list: (agentName: string, options?: BetaVoiceAgentsConversationsListOptionalParams) =>
+    list: (agentName: string, options?: VoiceAgentsConversationsListOptionalParams) =>
       list(context, agentName, options),
   };
 }
 
-export function _getBetaVoiceAgentsConversationsOperations(
+export function _getVoiceAgentsConversationsOperations(
   context: AIProjectContext,
   tracingConfig?: ResolvedTracingConfig,
-): BetaVoiceAgentsConversationsOperations {
-  return { ..._getBetaVoiceAgentsConversations(context, tracingConfig) };
+): VoiceAgentsConversationsOperations {
+  return { ..._getVoiceAgentsConversations(context, tracingConfig) };
 }

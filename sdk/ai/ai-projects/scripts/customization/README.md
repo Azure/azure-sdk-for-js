@@ -93,8 +93,13 @@ regeneration script falls back to it when the strict run fails.
   wrapper is retained, while the emitted parameter types and operation
   argument names are adopted. Altered forwarding or multiple matching calls
   still require review.
-  Relocating a customized member
-  out of its classic module requires review. A module whose API operations or
+  The reviewed voice GA split in `azure-rest-api-specs#47930` carries only the
+  existing `createFromPrompt`, conversation delete, and telephony write tracing
+  wrappers into their verified root destinations. Each wrapper must still call
+  its own customized baseline delegate exactly once with unchanged forwarding.
+  Factory tracing parameters and the local telephony `run` helper follow the
+  wrappers; campaigns and their `getCampaignResult` helper stay in beta telephony.
+  Other customized member relocations require review. A module whose API operations or
   options have unresolved changes is not rendered; the unresolved change is
   reported rather than a secondary `missing resolved operation` error from the
   classic module.
@@ -116,6 +121,10 @@ regeneration script falls back to it when the strict run fails.
   the opt-in beside the forwarded `options.requestOptions.headers` return to
   the emitted poller shape, and other maintained poll headers are kept. A
   preview header the emitter never sent is a customization and stays.
+  The reviewed GA call-job deletion promotion is a scoped exception: its old
+  required constant becomes the emitted optional SIP opt-in, while custom
+  headers continue to be forwarded. Unreviewed required-to-optional transitions
+  still use the standing constant-header policy.
 - A custom-only declaration or export may reuse a generated name the
   customization renamed away, for example a compatibility alias. It is retained
   beside the renamed declaration rather than collapsed into it, and a
@@ -158,6 +167,11 @@ regeneration script falls back to it when the strict run fails.
   unmodified generated export of a group module the emitter removed, for
   example when its operations were merged into another group, is removed rather
   than retained as a compatibility alias.
+- Root voice-agent client wiring uses the maintained beta cognitive authentication
+  context and tracing configuration. The constructor, OpenAI setup, and user-agent
+  tokens are otherwise unchanged. The parity guard permits only verified unused
+  promoted voice options and fully promoted group removals; campaign and Live
+  options remain beta.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,

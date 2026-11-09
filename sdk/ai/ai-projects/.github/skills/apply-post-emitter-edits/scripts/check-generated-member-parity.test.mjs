@@ -409,7 +409,7 @@ test("rejects an invalid configured ref", () => {
   assert.match(result.stderr, /Invalid --generated-ref value: invalid-ref-for-parity-test/);
 });
 
-function promotionFixture(group = "agents") {
+function promotionFixture(group = "agents", promotedOperations) {
   const operations =
     group === "datasets" || group === "evaluators"
       ? [
@@ -435,7 +435,11 @@ function promotionFixture(group = "agents") {
       "List",
       "ListVersions",
     );
-  const groupName = group[0].toUpperCase() + group.slice(1);
+  if (promotedOperations) operations.splice(0, operations.length, ...promotedOperations);
+  const groupName = group
+    .split("/")
+    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .join("");
   const previousGenerated = new Map();
   const currentGenerated = new Map();
   for (const [files, prefix, directory] of [
@@ -469,6 +473,108 @@ function promotionFixture(group = "agents") {
   }
   return { previousGenerated, currentGenerated, currentSource: new Map(currentGenerated) };
 }
+
+test("voice GA promotion retires only verified unused options and fully promoted groups", () => {
+  for (const [group, prefix, operations, full] of [
+    ["agents", "Agents", ["CreateFromPrompt"], true],
+    [
+      "voiceAgents/conversations",
+      "VoiceAgentsConversations",
+      [
+        "DownloadAudio",
+        "GetAudio",
+        "DownloadGeneratedAudioItem",
+        "GetGeneratedAudioItem",
+        "DownloadAudioItem",
+        "GetAudioItem",
+        "GetItem",
+        "ListItems",
+        "ListResponseItems",
+        "GetResponse",
+        "ListResponses",
+        "Delete",
+        "Get",
+        "List",
+      ],
+      true,
+    ],
+    [
+      "voiceAgents/telephony",
+      "VoiceAgentsTelephony",
+      [
+        "CancelCallJob",
+        "GetCallJob",
+        "CreateCallJob",
+        "ReplaceTransferTargets",
+        "GetTransferTargets",
+        "EndCall",
+        "TransferCall",
+        "GetCall",
+        "ListCalls",
+        "DeleteBinding",
+        "UpdateBinding",
+        "GetBinding",
+        "ListBindings",
+        "CreateBinding",
+        "DeleteCallJob",
+        "ListCallJobs",
+      ],
+      false,
+    ],
+  ]) {
+    const fixture = promotionFixture(group, operations);
+    if (group.endsWith("conversations")) {
+      for (const files of [
+        fixture.previousGenerated,
+        fixture.currentGenerated,
+        fixture.currentSource,
+      ]) {
+        for (const [file, text] of files)
+          if (file.endsWith("/operations.ts"))
+            files.set(file, text.replace("function delete(", "function $delete("));
+      }
+    }
+    if (!full) {
+      for (const files of [
+        fixture.previousGenerated,
+        fixture.currentGenerated,
+        fixture.currentSource,
+      ]) {
+        const path = `api/beta/${group}/options.ts`;
+        files.set(
+          path,
+          (files.get(path) ?? "") + `\nexport interface Beta${prefix}CreateOptionalParams {}`,
+        );
+        const api = `api/beta/${group}/operations.ts`;
+        files.set(
+          api,
+          (files.get(api) ?? "") +
+            `\nexport function create(options: Beta${prefix}CreateOptionalParams) {}`,
+        );
+      }
+    }
+    const allowed = findPromotedOptionRemovals(fixture);
+    assert.equal(allowed.size, operations.length + Number(full));
+    for (const operation of operations)
+      assert.ok(allowed.has(`Beta${prefix}${operation}OptionalParams`));
+    assert.equal(allowed.has(`Beta${prefix}Operations`), full);
+    assert.equal(allowed.has(`Beta${prefix}CreateOptionalParams`), false);
+    const retained = `Beta${prefix}${operations[0]}OptionalParams`;
+    fixture.currentSource.set(
+      `api/beta/${group}/stillBeta.ts`,
+      `export function keep(options: ${retained}) {}`,
+    );
+    // A real beta operations module, not an arbitrary support declaration.
+    fixture.currentSource.set(
+      `api/beta/${group}/operations.ts`,
+      (fixture.currentSource.get(`api/beta/${group}/operations.ts`) ?? "") +
+        `\nexport function keep(options: ${retained}) {}`,
+    );
+    assert.equal(findPromotedOptionRemovals(fixture).has(retained), false);
+    fixture.currentGenerated.delete(`api/${group}/operations.ts`);
+    assert.equal(findPromotedOptionRemovals(fixture).size, 0);
+  }
+});
 
 function evaluatorPromotionFixture() {
   const fixture = promotionFixture("evaluators");

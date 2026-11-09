@@ -25414,66 +25414,6 @@ export type VoiceAgentTransport = "websocket" | "webrtc";
 /** The WebSocket subprotocol supported by a voice-agent connection. */
 export type VoiceAgentWebSocketSubprotocol = "realtime";
 
-/**
- * The merged stereo WAV recording of a voice conversation, exposed as a browser Blob or Node.js
- * readable stream.
- */
-export type BetaVoiceAgentsConversationsDownloadAudioResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
-/**
- * The generated WAV audio for an interrupted conversation item, exposed as a browser Blob or
- * Node.js readable stream.
- */
-export type BetaVoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
-/** The WAV audio for a conversation item, exposed as a browser Blob or Node.js readable stream. */
-export type BetaVoiceAgentsConversationsDownloadAudioItemResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
 /** Summary of candidates produced by an agent optimization job. */
 export interface AgentOptimizationResultCandidateSummary {
   /** Number of completed candidates. Does not include the baseline. */
@@ -28342,7 +28282,7 @@ export function voiceAgentSoundscapeWorkingTrackConfigDeserializer(
 export interface VoiceAgentPostCallConfig {
   /** The destinations to notify. */
   destinations: VoiceAgentPostCallDestinationUnion[];
-  /** Additional content to include in each delivery. The transcript is always delivered. `audio` is not supported in this preview; the service rejects it when the agent version is saved. */
+  /** Additional content to include in each delivery. The transcript is always delivered; add `audio` to also deliver a URL to the merged call recording. */
   include?: VoiceAgentPostCallIncludeOption[];
 }
 
@@ -37181,3 +37121,63 @@ export function telephonyCampaignDatasetReferenceDeserializer(
     version: item["version"],
   };
 }
+
+/**
+ * The merged stereo WAV recording of a voice conversation, exposed as a browser Blob or Node.js
+ * readable stream.
+ */
+export type VoiceAgentsConversationsDownloadAudioResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+/**
+ * The generated WAV audio for an interrupted conversation item, exposed as a browser Blob or
+ * Node.js readable stream.
+ */
+export type VoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+/** The WAV audio for a conversation item, exposed as a browser Blob or Node.js readable stream. */
+export type VoiceAgentsConversationsDownloadAudioItemResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
