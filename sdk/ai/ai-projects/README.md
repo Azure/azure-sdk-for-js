@@ -308,7 +308,7 @@ the basic generation, Realtime, and GPT Live examples do not require tracing set
 The conversation-recordings sample is read-only and supports both persisted API
 families. Set `FOUNDRY_AGENT_NAME` and choose `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=realtime`
 or `live`. It reads one page and can select an exact conversation or item using the
-variables documented in [sample.env](./sample.env). Use IDs returned by the REST
+variables documented in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env). Use IDs returned by the REST
 collections, not the native Realtime WebSocket item or response IDs. Create the
 recording first by connecting with
 `store: true` and finalize the session before downloading audio. The sample never
