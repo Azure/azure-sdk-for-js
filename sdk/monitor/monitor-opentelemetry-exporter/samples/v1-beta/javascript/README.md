@@ -20,7 +20,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+The sample programs require Node.js 22.15.0 or later and OpenTelemetry SDK 3.x.
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Span } from "@opentelemetry/api";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 
 export function spanToReadableSpan(span: Span): ReadableSpan {
   const s = span as any;
