@@ -144,22 +144,12 @@ If any required attribute is missing or empty, the exporter sends the record as 
 
 Set `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=multi_endpoint_routing` before constructing
 any exporter to route logs, spans, and metric data points to different Application Insights
-resources. Feature names are comma-separated, case-insensitive, and trimmed. Unknown names
-are ignored. The selection is shared by the exporters and fixed when the first exporter
-is constructed. Routing is disabled by default.
+resources. Routing is disabled by default. A host connection string is optional.
 
-Each item must supply both `microsoft.instrumentation_key` and `microsoft.ingestion_endpoint`.
-Keys must be nonempty strings of at most 200 characters. Endpoints must be absolute HTTPS
-URLs of at most 2048 characters, without credentials, query strings, or fragments.
+Each item must supply `microsoft.instrumentation_key` and `microsoft.ingestion_endpoint`
+as attributes. The endpoint must be an absolute HTTPS URL without credentials, query strings,
+or fragments. Items with missing or invalid destinations are dropped, not sent to the host.
 **Use trusted, server-owned destination configuration, not request headers or baggage.**
-Missing or invalid destinations are dropped, never sent to the host connection string.
-
-With routing enabled, the exporter connection string is optional. If supplied explicitly
-or through `APPLICATIONINSIGHTS_CONNECTION_STRING`, it is still validated normally.
-Without a host connection string, host retry storage, Statsbeat, and customer SDK statistics
-are not initialized. Routed retry storage remains available.
-With a host connection string, Statsbeat and customer SDK statistics retain the user's
-`disableOfflineStorage` setting. The unused host telemetry sender does not persist or replay data.
 
 ```ts snippet:ReadmeSampleMultiEndpointRouting
 import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
@@ -186,41 +176,19 @@ provider.getLogger("routed-logs").emit({
 ```
 
 Set the same attributes on spans or individual metric data points to route those signals.
-Span events inherit their parent span's destination, key, authentication mode, and cloud role.
-Metric routing does not read resource or instrumentation-scope attributes. The host resource
-metric is not emitted in routing mode.
+Span events inherit their parent span's routing attributes. Resource and instrumentation-scope
+attributes are not used for metric routing.
 
-Items are grouped by normalized endpoint and authentication mode, not by instrumentation key.
-Set `microsoft.ingestion_auth` to `"aad"` to use the exporter's `credential`. The value is
-trimmed and case-insensitive. Other values select key-only authentication, even when a
-credential is configured. An AAD route without a credential fails without preventing other
-destinations from sending.
+For Microsoft Entra ID authentication, set `microsoft.ingestion_auth` to `"aad"` and
+provide an exporter `credential`. Otherwise, items use key-only authentication, even if
+a credential is configured. AAD routes without a credential fail.
 
-Cloud roles come from `microsoft.multi_endpoint_cloud_role`. Missing, blank, or non-string
-values use `unknown_service`. Role instances remain resource-derived. The four routing
-attributes are excluded from exported custom properties and the source telemetry is not mutated.
+Set `microsoft.multi_endpoint_cloud_role` to specify the cloud role name. It defaults to
+`unknown_service`. Role instances still come from the resource.
 
-Each exporter caches up to 64 endpoint/authentication pairs. Cached destinations have
-separate retry partitions, isolated from host storage, sharing a 50 MB routed-storage quota
-under the configured `storageDirectory`. Additional destinations use short-lived senders
-without persistence, processed one at a time per exporter, including across overlapping
-exports. Each temporary sender is shut down before the next is created. Cached destinations
-continue sending concurrently. Retried envelopes retain their original keys and destinations.
-In-flight replay batches retain their storage quota until delivery or restoration completes.
-One background worker per exporter checks opened routes after a randomized initial delay
-of up to 60 seconds, then every 60 seconds, even without new telemetry. This staggers replay
-across replicas that restart together. Existing partitions are not discovered at startup
-until their route is opened.
-Retryable failures pause new transmissions for that route while available offline storage
-queues the new items. Backoff honors `Retry-After`, or defaults to 60 seconds.
-Storage opt-outs and the OneSettings storage control also apply to routed retries.
-Shutdown stops the worker and waits for active exports and retries.
-
-The existing JS export result convention is preserved for stored batches. Successfully
-queued batches return success. Routed failures that cannot be persisted return failure.
-Custom `httpClient` transports and `retryOptions` remain supported. Custom `pipeline` and
-`additionalPolicies` are rejected in routing mode because destination-specific authentication
-and redirect state must not be shared between policy chains.
+Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
+Custom `httpClient` and `retryOptions` are supported, but `pipeline` and `additionalPolicies`
+are not supported in routing mode.
 
 ### Sampling
 
