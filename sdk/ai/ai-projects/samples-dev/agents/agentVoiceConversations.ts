@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Inspect stored Realtime or GPT Live conversations and optionally download WAV recordings.
+ * @summary Inspect stored Realtime (GA) or GPT Live (preview) conversations and optionally download WAV recordings.
  * @azsdk-weight 50
  */
 

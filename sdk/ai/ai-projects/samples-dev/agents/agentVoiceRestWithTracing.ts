@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Trace voice agent generation and an optional outbound call.
+ * @summary Trace voice agent generation and an optional outbound TPE/Twilio call.
  * @azsdk-weight 50
  */
 
@@ -52,7 +52,7 @@ export async function main(): Promise<void> {
         await project.agents.delete(agent.name);
       }
 
-      // This places a real telephone call and may incur charges. It is disabled by default.
+      // Requires a TPE/Twilio connection. This real call may incur charges and is disabled by default.
       if (process.env["FOUNDRY_ENABLE_OUTBOUND_CALL"] === "true") {
         const job = await project.voiceAgents.telephony.createCallJob(
           required("FOUNDRY_VOICE_AGENT_NAME"),

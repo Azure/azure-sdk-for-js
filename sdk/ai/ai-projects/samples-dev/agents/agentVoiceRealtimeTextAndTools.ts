@@ -15,6 +15,7 @@ import "dotenv/config";
 export async function main(): Promise<void> {
   const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
   if (!projectEndpoint) throw new Error("Set FOUNDRY_PROJECT_ENDPOINT.");
+  // Use an existing GA Realtime agent, or let this sample create one.
   const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text-${Date.now()}`;
   const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
   const outputPath =
@@ -25,7 +26,7 @@ export async function main(): Promise<void> {
   try {
     const output = await open(outputPath, "w");
     try {
-      const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
+      const connection = await project.voiceAgents.realtime.connect(agentName, {
         store: false,
       });
       try {
@@ -123,9 +124,7 @@ export async function main(): Promise<void> {
   } finally {
     // Never delete an agent that already existed.
     if (created) {
-      await project.agents.delete(agentName, {
-        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-      });
+      await project.agents.delete(agentName);
     }
   }
 }
@@ -151,9 +150,7 @@ async function getOrCreateVoiceAgent(
   modelName: string,
 ): Promise<boolean> {
   try {
-    const agent = await project.agents.get(agentName, {
-      requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-    });
+    const agent = await project.agents.get(agentName);
     const definition = agent.versions.latest.definition;
     if (
       definition.kind !== "voice" ||
@@ -166,18 +163,14 @@ async function getOrCreateVoiceAgent(
     if (!isRestError(error) || error.statusCode !== 404) throw error;
   }
 
-  await project.agents.create(
-    agentName,
-    {
-      kind: "voice",
-      model_type: "managed",
-      model: modelName,
-      instructions: "You are a helpful voice assistant. Use tools when appropriate.",
-      output_modalities: ["text", "audio"],
-      store: false,
-    },
-    { foundryFeatures: "VoiceAgents=V1Preview" },
-  );
+  await project.agents.create(agentName, {
+    kind: "voice",
+    model_type: "managed",
+    model: modelName,
+    instructions: "You are a helpful voice assistant. Use tools when appropriate.",
+    output_modalities: ["text", "audio"],
+    store: false,
+  });
   return true;
 }
 

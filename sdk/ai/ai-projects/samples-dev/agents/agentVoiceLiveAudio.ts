@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a PCM speech file to GPT Live and save its spoken reply.
+ * @summary Send a PCM speech file to GPT Live (preview) and save its spoken reply.
  * @azsdk-weight 100
  */
 
@@ -11,6 +11,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { delay } from "@azure/core-util";
 import { randomUUID } from "node:crypto";
 import { once } from "node:events";
+import { existsSync } from "node:fs";
 import { readFile, open } from "node:fs/promises";
 import { createInterface } from "node:readline";
 import "dotenv/config";
@@ -21,9 +22,13 @@ export async function main(): Promise<void> {
   if (!projectEndpoint || !modelName) {
     throw new Error("Set FOUNDRY_PROJECT_ENDPOINT and FOUNDRY_LIVE_MODEL (a deployment name).");
   }
+  const adjacentInput = new URL("./assets/input.pcm", import.meta.url);
   const inputPath =
     process.env["FOUNDRY_LIVE_AUDIO_INPUT"]?.trim() ||
-    new URL("./assets/input.pcm", import.meta.url);
+    // Published TypeScript assets sit outside src/ and dist/.
+    (existsSync(adjacentInput)
+      ? adjacentInput
+      : new URL("../../agents/assets/input.pcm", import.meta.url));
   const input = await readFile(inputPath);
   if (
     !input.length ||

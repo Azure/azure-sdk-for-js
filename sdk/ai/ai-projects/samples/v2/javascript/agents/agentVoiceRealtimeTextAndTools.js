@@ -2,223 +2,175 @@
 // Licensed under the MIT License.
 
 /**
- * This sample sends text to a voice agent, streams text/audio output, and handles a local function.
- *
- * @summary Streams text and local function calls with a Foundry voice agent.
+ * @summary Send text to a Realtime voice agent, handle a weather tool, and save its audio reply.
  */
 
 const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { once } = require("node:events");
-const { createWriteStream } = require("node:fs");
-const { finished } = require("node:stream/promises");
+const { randomUUID } = require("node:crypto");
+const { open } = require("node:fs/promises");
 require("dotenv/config");
 
-const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
-const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text-${Date.now()}`;
-const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
-const audioOutputPath =
-  process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "voice-agent-output.pcm";
-const preview = "VoiceAgents=V1Preview";
-const pcmSampleRate = 24_000;
-
 async function main() {
+  const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
+  if (!projectEndpoint) throw new Error("Set FOUNDRY_PROJECT_ENDPOINT.");
+  // Use an existing GA Realtime agent, or let this sample create one.
+  const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text-${Date.now()}`;
+  const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+  const outputPath =
+    process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "voice-agent-output.pcm";
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { created } = await getOrCreateVoiceAgent(project);
+  const created = await getOrCreateVoiceAgent(project, agentName, modelName);
 
   try {
-    const connection = await project.beta.voiceAgents.realtime.connect(agentName);
-    const audioOutput = createWriteStream(audioOutputPath);
-    let pendingToolOutputs = 0;
-    let toolCallCount = 0;
-    let textCharacterCount = 0;
-    let audioByteCount = 0;
-
+    const output = await open(outputPath, "w");
     try {
-      // session.update merges into the existing session config; only the changed field needs to be sent.
-      const pcmFormat = { type: "audio/pcm", rate: pcmSampleRate };
-      const weatherTool = {
-        type: "function",
-        name: "get_weather",
-        description: "Get the current weather for a city.",
-        parameters: {
-          type: "object",
-          properties: { city: { type: "string" } },
-          required: ["city"],
-        },
-      };
-      await connection.configureSession({
-        type: "realtime",
-        output_modalities: ["text", "audio"],
-        audio: {
-          output: { format: pcmFormat },
-        },
-        tools: [weatherTool],
+      const connection = await project.voiceAgents.realtime.connect(agentName, {
+        store: false,
       });
-
-      await connection.sendText("What is the weather in Seattle? Use the weather tool.");
-
-      for await (const event of connection) {
-        console.log(`[event] ${event.type}${describeEvent(event)}`);
-        switch (event.type) {
-          case "response.output_text.delta":
-          case "response.output_audio_transcript.delta":
-            textCharacterCount += event.delta.length;
-            process.stdout.write(event.delta);
-            break;
-          case "response.output_audio.delta":
-            audioByteCount += event.delta.byteLength;
-            await writeAudio(audioOutput, event.delta);
-            break;
-          case "response.function_call_arguments.done": {
-            toolCallCount++;
-            pendingToolOutputs++;
-            const args = parseWeatherToolArguments(event.arguments);
-            await connection.sendToolOutput(
-              event.call_id,
-              JSON.stringify({ city: args.city, temperature: 62, unit: "F" }),
-              { createResponse: false },
-            );
-            break;
-          }
-          case "error":
-            throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
-          case "response.done":
-            if (pendingToolOutputs > 0) {
-              pendingToolOutputs = 0;
-              await connection.requestResponse();
-            } else {
-              await connection.close();
-            }
-            break;
-        }
-      }
-      console.log(
-        `\nCompleted with ${toolCallCount} tool call(s), ${textCharacterCount} text character(s).`,
-      );
-      console.log(`Audio format: PCM16, ${pcmSampleRate} Hz, mono.`);
-      console.log("Input audio:  N/A (this sample sends text input only).");
-      console.log(
-        `Output audio: ${audioByteCount} bytes (${formatBytes(audioByteCount)}), ` +
-          `${formatDuration(audioByteCount)}`,
-      );
-    } finally {
-      audioOutput.end();
       try {
-        await finished(audioOutput);
+        await connection.configureSession({
+          type: "realtime",
+          output_modalities: ["text", "audio"],
+          audio: { output: { format: { type: "audio/pcm", rate: 24000 } } },
+          tools: [
+            {
+              type: "function",
+              name: "get_weather",
+              description: "Get the current weather for a city.",
+              parameters: {
+                type: "object",
+                properties: { city: { type: "string" } },
+                required: ["city"],
+                additionalProperties: false,
+              },
+            },
+          ],
+        });
+
+        // Tag our responses so an existing agent's startup greeting is not mistaken for this turn.
+        const turnId = randomUUID();
+        const response = { metadata: { additionalProperties: { sample_turn: turnId } } };
+        let responseId;
+        let needsResponse = false;
+        let completed = false;
+        const handledCalls = new Set();
+
+        console.log("Asking about the weather in Seattle...");
+        await connection.sendText("What is the weather in Seattle? Use get_weather.", {
+          createResponse: false,
+        });
+        await connection.requestResponse({ response });
+
+        for await (const event of connection) {
+          if (event.type === "error") {
+            throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+          }
+          if (event.type === "response.created") {
+            if (event.response.metadata?.additionalProperties?.["sample_turn"] === turnId) {
+              responseId = event.response.id;
+            }
+          } else if (event.type === "response.done" && event.response.id === responseId) {
+            if (event.response.status !== "completed") {
+              throw new Error(`Voice response ${event.response.status ?? "unknown"}.`);
+            }
+            if (needsResponse) {
+              needsResponse = false;
+              responseId = undefined;
+              await connection.requestResponse({ response });
+            } else {
+              completed = true;
+              break;
+            }
+          } else if ("response_id" in event && event.response_id === responseId) {
+            switch (event.type) {
+              case "response.output_text.delta":
+              case "response.output_audio_transcript.delta":
+                process.stdout.write(event.delta);
+                break;
+              case "response.output_audio.delta":
+                await output.writeFile(event.delta);
+                break;
+              case "response.function_call_arguments.done": {
+                if (event.name !== "get_weather" || !event.call_id) {
+                  throw new Error("Unexpected function call.");
+                }
+                const city = parseCity(event.arguments);
+                if (handledCalls.has(event.call_id)) break;
+                handledCalls.add(event.call_id);
+                console.log(`\nReturning sample weather data for ${city}.`);
+                // Replace this fixed result with a call to your weather service.
+                await connection.sendToolOutput(
+                  event.call_id,
+                  JSON.stringify({ city, temperature: 62, unit: "F" }),
+                  { createResponse: false },
+                );
+                // Wait for this response to finish before asking the agent to use the result.
+                needsResponse = true;
+                break;
+              }
+            }
+          }
+        }
+        if (!completed) throw new Error("The connection closed before the reply completed.");
+        console.log(`\nSaved the reply to ${outputPath} (PCM16LE, mono, 24 kHz; not played).`);
       } finally {
-        await connection.dispose();
+        await connection.close();
       }
+    } finally {
+      await output.close();
     }
   } finally {
+    // Never delete an agent that already existed.
     if (created) {
-      await project.agents.delete(agentName, {
-        requestOptions: { headers: { "foundry-features": preview } },
-      });
+      await project.agents.delete(agentName);
     }
   }
 }
 
-function parseWeatherToolArguments(value) {
-  const argumentsValue = JSON.parse(value);
+function parseCity(value) {
+  const args = JSON.parse(value);
   if (
-    typeof argumentsValue !== "object" ||
-    argumentsValue === null ||
-    !("city" in argumentsValue) ||
-    typeof argumentsValue.city !== "string" ||
-    !argumentsValue.city.trim()
+    typeof args !== "object" ||
+    args === null ||
+    Array.isArray(args) ||
+    !("city" in args) ||
+    typeof args.city !== "string" ||
+    !args.city.trim()
   ) {
-    throw new Error('The get_weather tool requires a non-empty string "city" argument.');
+    throw new Error('get_weather requires a non-empty string "city" argument.');
   }
-  return { city: argumentsValue.city.trim() };
+  return args.city.trim();
 }
 
-/** Summarizes a server event with a short, useful detail for the event log. */
-function describeEvent(event) {
-  switch (event.type) {
-    case "unknown":
-      return ` (unrecognized event type: ${event.eventType})`;
-    case "response.output_audio.delta":
-      return ` (${event.delta.byteLength} bytes)`;
-    case "response.output_text.delta":
-    case "response.output_audio_transcript.delta":
-      return ` (${event.delta.length} chars)`;
-    case "response.function_call_arguments.delta":
-      return ` (call_id=${event.call_id}, +${event.delta.length} chars of arguments)`;
-    case "response.function_call_arguments.done":
-      return ` (call_id=${event.call_id}, name=${event.name}, arguments=${event.arguments})`;
-    case "response.output_item.added":
-      return ` (item type=${event.item.type})`;
-    case "response.done":
-      return ` (status=${event.response.status})`;
-    case "error":
-      return ` (${event.error.code ?? "unknown"}: ${event.error.message})`;
-    default:
-      return "";
-  }
-}
-
-const bytesPerKiB = 1024;
-const bytesPerMiB = bytesPerKiB * 1024;
-
-/** Formats a byte count as a human-readable size (bytes, KB, or MB). */
-function formatBytes(byteCount) {
-  if (byteCount >= bytesPerMiB) {
-    return `${(byteCount / bytesPerMiB).toFixed(2)} MB`;
-  }
-  if (byteCount >= bytesPerKiB) {
-    return `${(byteCount / bytesPerKiB).toFixed(2)} KB`;
-  }
-  return `${byteCount} B`;
-}
-
-const pcmBytesPerSample = 2;
-
-/** Computes and formats the audio duration implied by a PCM16 mono byte count at pcmSampleRate. */
-function formatDuration(byteCount) {
-  const seconds = byteCount / (pcmSampleRate * pcmBytesPerSample);
-  return `${seconds.toFixed(2)}s of audio`;
-}
-
-async function writeAudio(output, audio) {
-  if (!output.write(audio)) {
-    await once(output, "drain");
-  }
-}
-
-async function getOrCreateVoiceAgent(project) {
+async function getOrCreateVoiceAgent(project, agentName, modelName) {
   try {
-    await project.agents.get(agentName, {
-      requestOptions: { headers: { "foundry-features": preview } },
-    });
-    return { created: false };
-  } catch (error) {
-    if (!isRestError(error) || error.statusCode !== 404) {
-      throw error;
+    const agent = await project.agents.get(agentName);
+    const definition = agent.versions.latest.definition;
+    if (
+      definition.kind !== "voice" ||
+      ("sub_protocol" in definition && definition.sub_protocol === "live")
+    ) {
+      throw new Error(`Agent ${agentName} is not a Realtime voice agent.`);
     }
+    return false;
+  } catch (error) {
+    if (!isRestError(error) || error.statusCode !== 404) throw error;
   }
 
-  const definition = {
+  await project.agents.create(agentName, {
     kind: "voice",
     model_type: "managed",
     model: modelName,
     instructions: "You are a helpful voice assistant. Use tools when appropriate.",
     output_modalities: ["text", "audio"],
-  };
-  await project.agents.create(agentName, definition, { foundryFeatures: preview });
-  return { created: true };
-}
-
-function getRequiredEnvironmentVariable(name) {
-  const value = process.env[name]?.trim();
-  if (!value) {
-    throw new Error(`Set ${name} before running this sample.`);
-  }
-  return value;
+    store: false,
+  });
+  return true;
 }
 
 main().catch((error) => {
-  console.error("The sample encountered an error:", error);
+  console.error("Sample failed:", error);
   process.exitCode = 1;
 });
 

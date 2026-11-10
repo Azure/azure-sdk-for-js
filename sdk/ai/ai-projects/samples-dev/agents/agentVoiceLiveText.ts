@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send text to GPT Live and print its spoken reply as captions.
+ * @summary Send text to GPT Live (preview) and print its spoken reply as captions.
  * @azsdk-weight 100
  */
 

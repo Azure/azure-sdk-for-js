@@ -16,17 +16,23 @@ import {
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { delay } from "@azure/core-util";
+import { existsSync } from "node:fs";
 import { open, readFile } from "node:fs/promises";
 import "dotenv/config";
 
 export async function main(): Promise<void> {
   const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
   if (!projectEndpoint) throw new Error("Set FOUNDRY_PROJECT_ENDPOINT.");
+  // Use an existing GA Realtime agent, or let this sample create one.
   const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-audio-${Date.now()}`;
   const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
+  const adjacentInput = new URL("./assets/input.pcm", import.meta.url);
   const inputPath =
     process.env["FOUNDRY_VOICE_AGENT_AUDIO_INPUT_FILE"]?.trim() ||
-    new URL("./assets/input.pcm", import.meta.url);
+    // Published TypeScript assets sit outside src/ and dist/.
+    (existsSync(adjacentInput)
+      ? adjacentInput
+      : new URL("../../agents/assets/input.pcm", import.meta.url));
   const outputPath = process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "./output.pcm";
   // Use a short recording of speech: raw PCM16LE, mono, 24 kHz (not a WAV file).
   const input = await readFile(inputPath);
@@ -48,7 +54,7 @@ export async function main(): Promise<void> {
     const turnDetection = withTurnDetectionOverrides(definition.audio?.input?.turn_detection);
     const output = await open(outputPath, "w");
     try {
-      const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
+      const connection = await project.voiceAgents.realtime.connect(agentName, {
         store: false,
       });
       let receiveEvents: Promise<void> | undefined;
@@ -157,18 +163,14 @@ async function getOrCreateVoiceAgent(
   } catch (error) {
     if (!isRestError(error) || error.statusCode !== 404) throw error;
   }
-  const agent = await project.agents.create(
-    agentName,
-    {
-      kind: "voice",
-      model_type: "managed",
-      model: modelName,
-      instructions: "Listen carefully and answer the user's request.",
-      output_modalities: ["text", "audio"],
-      store: false,
-    },
-    { foundryFeatures: "VoiceAgents=V1Preview" },
-  );
+  const agent = await project.agents.create(agentName, {
+    kind: "voice",
+    model_type: "managed",
+    model: modelName,
+    instructions: "Listen carefully and answer the user's request.",
+    output_modalities: ["text", "audio"],
+    store: false,
+  });
   return { agent, created: true };
 }
 
