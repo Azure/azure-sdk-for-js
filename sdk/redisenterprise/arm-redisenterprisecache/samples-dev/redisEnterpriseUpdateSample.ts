@@ -28,7 +28,7 @@ async function redisEnterpriseUpdate(): Promise<void> {
       { name: "allowOfficeNetwork", sourceAddressPrefix: "10.0.0.0/24" },
       { name: "allowPartnerNetwork", sourceAddressPrefix: "192.168.1.0/24" },
     ],
-    sku: { name: "EnterpriseFlash_F300", capacity: 9 },
+    sku: { name: "Balanced_B10" },
     tags: { tag1: "value1" },
   });
   console.log(result);

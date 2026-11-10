@@ -429,6 +429,131 @@ function mergeNodes(kind, file, name, base, custom, incoming) {
   };
 }
 
+function mergeWrappedProperty(file, base, custom, incoming, callee) {
+  if (
+    !base ||
+    !custom ||
+    !incoming ||
+    !callee ||
+    base.length !== 1 ||
+    custom.length !== 1 ||
+    incoming.length !== 1
+  )
+    return undefined;
+  const arrowOf = (property) =>
+    property && ts.isPropertyAssignment(property) && ts.isArrowFunction(property.initializer)
+      ? property.initializer
+      : undefined;
+  const [before, current, after] = [base[0], custom[0], incoming[0]].map(arrowOf);
+  if (!before || !current || !after) return undefined;
+  const direct = (arrow) =>
+    ts.isCallExpression(arrow.body) &&
+    ts.isIdentifier(arrow.body.expression) &&
+    arrow.body.expression.text === callee
+      ? arrow.body
+      : undefined;
+  const oldCall = direct(before);
+  const newCall = direct(after);
+  if (!oldCall || !newCall || direct(current)) return undefined;
+  const parameterEqual = (left, right) =>
+    left.length === right.length &&
+    left.every(
+      (parameter, index) =>
+        ts.isIdentifier(parameter.name) &&
+        ts.isIdentifier(right[index].name) &&
+        parameter.name.text === right[index].name.text &&
+        typeKey(parameter.type) === typeKey(right[index].type) &&
+        Boolean(parameter.questionToken || parameter.initializer) ===
+          Boolean(right[index].questionToken || right[index].initializer),
+    );
+  if (
+    !parameterEqual(before.parameters, current.parameters) ||
+    before.parameters.length !== after.parameters.length ||
+    [...before.parameters, ...current.parameters, ...after.parameters].some(
+      (parameter) =>
+        !ts.isIdentifier(parameter.name) || parameter.initializer || parameter.dotDotDotToken,
+    )
+  )
+    return undefined;
+  const signature = (arrow) =>
+    JSON.stringify([
+      arrow.modifiers?.map((modifier) => modifier.kind) ?? [],
+      arrow.typeParameters?.map((parameter) =>
+        layoutless(parameter.getText(parameter.getSourceFile())),
+      ) ?? [],
+      arrow.type ? layoutless(arrow.type.getText(arrow.getSourceFile())) : null,
+    ]);
+  const baselineSignature = signature(before);
+  if ([current, after].some((arrow) => signature(arrow) !== baselineSignature)) return undefined;
+  const renames = new Map();
+  for (let index = 0; index < before.parameters.length; index++) {
+    const oldName = before.parameters[index].name.text;
+    const newName = after.parameters[index].name.text;
+    if (oldName !== newName) renames.set(oldName, newName);
+  }
+  const targets = new Set(renames.values());
+  let collision = false;
+  function checkCollision(node) {
+    if (
+      ts.isIdentifier(node) &&
+      targets.has(node.text) &&
+      !(
+        (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+        ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+          node.parent.name === node)
+      )
+    )
+      collision = true;
+    ts.forEachChild(node, checkCollision);
+  }
+  checkCollision(current);
+  if (collision) return undefined;
+  const normalized = renameSymbols(
+    wrap("property", textOf(custom[0], custom[0].getSourceFile())),
+    renames,
+    file,
+    (node) =>
+      ts.isParameter(node.parent) &&
+      ts.isArrowFunction(node.parent.parent) &&
+      nameOf(node.parent.parent.parent?.name) === nameOf(custom[0].name),
+  );
+  let source = parse(normalized, file);
+  let declaration = source.statements[0]?.declarationList?.declarations[0];
+  let property = declaration?.initializer?.properties[0];
+  const normalizedArrow = arrowOf(property);
+  if (!normalizedArrow) return undefined;
+  const calls = [];
+  function visit(node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === callee
+    )
+      calls.push(node);
+    ts.forEachChild(node, visit);
+  }
+  visit(normalizedArrow.body);
+  if (
+    calls.length !== 1 ||
+    canonicalize(`const call = ${calls[0].getText(source)};`) !==
+      canonicalize(`const call = ${newCall.getText(after.getSourceFile())};`)
+  )
+    return undefined;
+  const updated = edit(normalized, [
+    {
+      start: normalizedArrow.parameters.pos,
+      end: normalizedArrow.parameters.end,
+      text: after.parameters
+        .map((parameter) => parameter.getText(after.getSourceFile()))
+        .join(", "),
+    },
+  ]);
+  source = parse(updated, file);
+  declaration = source.statements[0]?.declarationList?.declarations[0];
+  property = declaration?.initializer?.properties[0];
+  return property ? textOf(property, source) : undefined;
+}
+
 function place(slots, name, text, anchors) {
   const existing = slots.findIndex((slot) => slot.name === name);
   if (existing >= 0) {
@@ -681,6 +806,19 @@ export function mergeCustomizedClassic({
     }
     for (const kind of ["member", "property"]) {
       if (sameNodes(kind, before[kind], after[kind])) continue;
+      if (kind === "property") {
+        const wrapped = mergeWrappedProperty(
+          file,
+          before[kind],
+          current[kind],
+          after[kind],
+          callees.get(name) ?? calleeOf(before.property),
+        );
+        if (wrapped) {
+          place(slots[kind], name, wrapped, []);
+          continue;
+        }
+      }
       const merged = mergeNodes(kind, file, name, before[kind], current[kind], after[kind]);
       diagnostics.push(...merged.diagnostics);
       if (merged.text) place(slots[kind], name, merged.text, []);

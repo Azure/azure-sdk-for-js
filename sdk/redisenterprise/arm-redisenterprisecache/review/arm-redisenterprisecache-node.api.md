@@ -31,6 +31,8 @@ export type AccessKeyType = "Primary" | "Secondary";
 // @public
 export interface AccessPolicyAssignment extends ProxyResource {
     accessPolicyName?: string;
+    accessString?: string;
+    readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
     readonly provisioningState?: ProvisioningState;
     user?: AccessPolicyAssignmentPropertiesUser;
 }
@@ -71,7 +73,9 @@ export interface AccessPolicyAssignmentOperationsOperations {
 
 // @public
 export interface AccessPolicyAssignmentProperties {
-    accessPolicyName: string;
+    accessPolicyName?: string;
+    accessString?: string;
+    readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
     readonly provisioningState?: ProvisioningState;
     user: AccessPolicyAssignmentPropertiesUser;
 }
@@ -79,6 +83,13 @@ export interface AccessPolicyAssignmentProperties {
 // @public
 export interface AccessPolicyAssignmentPropertiesUser {
     objectId?: string;
+}
+
+// @public
+export interface AccessPolicyAssignmentProvisioningError {
+    code: string;
+    message: string;
+    target?: string;
 }
 
 // @public
