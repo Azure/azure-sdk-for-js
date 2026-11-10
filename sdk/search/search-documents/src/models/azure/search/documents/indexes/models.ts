@@ -14752,3 +14752,35 @@ export function _searchIndexerDataSourceConnectionCredentialsDeserializer(item: 
     connectionString: item["connectionString"],
   };
 }
+
+/** Response from a List SynonymMaps request. If successful, it includes the full definitions of all synonym maps. */
+export interface ListSynonymMapsResult {
+  /** The synonym maps in the Search service. */
+  readonly synonymMaps: SynonymMap[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
+}
+
+/** Response from a List Datasources request. If successful, it includes the full definitions of all datasources. */
+export interface ListDataSourcesResult {
+  /** The datasources in the Search service. */
+  readonly dataSources: SearchIndexerDataSourceConnection[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
+}
+
+/** Response from a List Indexers request. If successful, it includes the full definitions of all indexers. */
+export interface ListIndexersResult {
+  /** The indexers in the Search service. */
+  readonly indexers: SearchIndexer[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
+}
+
+/** Response from a list skillset request. If successful, it includes the full definitions of all skillsets. */
+export interface ListSkillsetsResult {
+  /** The skillsets defined in the Search service. */
+  readonly skillsets: SearchIndexerSkillset[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
+}

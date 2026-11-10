@@ -186,15 +186,15 @@ describe("GA runtime compatibility in the November preview", () => {
     );
   });
 
-  it("preserves protocol count response bodies and numeric convenience counts", async () => {
+  it("preserves numeric protocol and convenience counts", async () => {
     const t = transport([42]);
     const protocol = new ProtocolSearchClient(endpoint, credential, "idx", {
       httpClient: t.httpClient,
     });
     const context = createSearch(endpoint, credential, "idx", { httpClient: t.httpClient });
     const client = new SearchClient(endpoint, "idx", credential, { httpClient: t.httpClient });
-    assert.deepEqual(await protocol.getDocumentCount(), { body: 42 });
-    assert.deepEqual(await getDocumentCount(context), { body: 42 });
+    assert.strictEqual(await protocol.getDocumentCount(), 42);
+    assert.strictEqual(await getDocumentCount(context), 42);
     assert.equal(await client.getDocumentsCount(), 42);
   });
 

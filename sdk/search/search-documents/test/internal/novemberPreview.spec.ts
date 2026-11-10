@@ -5,15 +5,22 @@ import { assert, describe, expect, it } from "vitest";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { AbortError } from "@azure/abort-controller";
 import { KnowledgeRetrievalClient } from "../../src/knowledgeRetrievalClient.js";
 import { SearchClient } from "../../src/searchClient.js";
 import { SearchClient as ProtocolSearchClient } from "../../src/search/index.js";
+import { SearchIndexClient as ProtocolSearchIndexClient } from "../../src/searchIndex/index.js";
 import { SearchIndexClient } from "../../src/searchIndexClient.js";
 import { SearchIndexerClient } from "../../src/searchIndexerClient.js";
 import type {
   AzureBlobKnowledgeSource,
+  ChatCompletionSkill,
+  IndexedOneLakeKnowledgeSource,
   KnowledgeBase,
+  KnowledgeBaseOpenAICompatibleModel,
   SearchIndex,
+  SearchIndexer,
+  SearchIndexerDataSourceConnection,
   SearchClientOptions,
   VectorQueryTopicGraphUnion,
 } from "../../src/index.js";
@@ -37,6 +44,9 @@ function mockOptions(replies: MockReply[], requests: PipelineRequest[]): SearchC
         policy: {
           name: "november-preview-mock",
           async sendRequest(request): Promise<PipelineResponse> {
+            if (request.abortSignal?.aborted) {
+              throw new AbortError();
+            }
             requests.push(request);
             const reply = replies[offset++];
             assert.isDefined(reply, "Unexpected HTTP request");
@@ -71,7 +81,14 @@ describe("2026-11-01-preview convenience integration", () => {
               value: [{ entity: "Ada", "@search.graphProvenance": { kind: "none" } }],
               "@search.graphStats": { executionMode: "execute", queryCount: 2, totalMs: 12 },
               "@search.graphDiagnostics": [
-                { code: "bounded", severity: "warning", message: "Bounded query" },
+                {
+                  code: "bounded",
+                  severity: "warning",
+                  phase: "execution",
+                  message: "Bounded query",
+                  span: null,
+                  suggestions: ["Limit the result set"],
+                },
               ],
               "@search.graphExplain": { logical: { operator: "scan" } },
             },
@@ -103,7 +120,14 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.equal(body.includeDiagnostics, true);
     assert.equal(result.value[0].additionalProperties?.entity, "Ada");
     assert.equal(result.statistics?.queryCount, 2);
-    assert.equal(result.diagnostics?.[0].code, "bounded");
+    expect(result.diagnostics?.[0]).toEqual({
+      code: "bounded",
+      severity: "warning",
+      phase: "execution",
+      message: "Bounded query",
+      span: null,
+      suggestions: ["Limit the result set"],
+    });
   });
 
   it("preserves structured graph failures", async () => {
@@ -133,7 +157,13 @@ describe("2026-11-01-preview convenience integration", () => {
           {
             body: {
               value: [],
-              "@search.debug": { agentic: { terminationReason: "modelStopped" } },
+              "@search.debug": {
+                agentic: {
+                  terminationReason: "modelStopped",
+                  subQueries: [{ search: "question", iteration: 1 }],
+                  usage: { agenticPlanningTokens: 0, reasoningTokens: 42 },
+                },
+              },
             },
           },
         ],
@@ -142,8 +172,9 @@ describe("2026-11-01-preview convenience integration", () => {
     );
     const strategies: VectorQueryTopicGraphUnion[] = [
       { kind: "none" },
-      { kind: "diverse", diversityFactor: 0.6, minDiversityPoolSize: 30 },
-      { kind: "balanced", minDiversityPoolSize: 20 },
+      { kind: "diverse", diversityFactor: 0, minDiversityPoolSize: 250 },
+      { kind: "diverse", diversityFactor: 1, minDiversityPoolSize: 10000 },
+      { kind: "balanced", minDiversityPoolSize: 1000 },
     ];
     const result = await client.searchPost({
       searchText: "question",
@@ -168,6 +199,11 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.equal(body.agenticOptions.maxRuntimeInSeconds, 10);
     assert.equal(body.debug, "agentic");
     assert.equal(result.debugInfo?.agentic?.terminationReason, "modelStopped");
+    assert.deepEqual(result.debugInfo?.agentic?.subQueries, [{ search: "question", iteration: 1 }]);
+    assert.deepEqual(result.debugInfo?.agentic?.usage, {
+      agenticPlanningTokens: 0,
+      reasoningTokens: 42,
+    });
   });
 
   it("round trips topic profiles with GA scoring functions and vectorizers", async () => {
@@ -339,7 +375,20 @@ describe("2026-11-01-preview convenience integration", () => {
       name: "kb",
       knowledgeSources: [{ name: "source" }],
       tools: [
-        { name: "lookup", description: "Lookup facts", knowledgeSources: [{ name: "source" }] },
+        {
+          name: "lookup",
+          description: "Lookup facts",
+          knowledgeSources: [
+            {
+              name: "source",
+              alwaysQuerySource: true,
+              rerankerThreshold: 0,
+              filterAddOn: "category eq 'manual'",
+              maxOutputDocuments: 50,
+              failOnError: true,
+            },
+          ],
+        },
       ],
       models: [
         {
@@ -420,10 +469,11 @@ describe("2026-11-01-preview convenience integration", () => {
       ),
     );
     const actual = await client.createOrUpdateKnowledgeBase(base);
-    assert.equal(actual.tools?.[0].name, "lookup");
-    assert.equal(actual.tools?.[0].knowledgeSources[0].name, "source");
+    assert.deepEqual(JSON.parse(requests[0].body as string).tools, base.tools);
+    expect(actual.tools).toMatchObject(base.tools ?? []);
     expect(actual.models).toMatchObject(base.models ?? []);
-    await client.createOrUpdateKnowledgeSource(source);
+    const createdSource = await client.createOrUpdateKnowledgeSource(source);
+    expect(createdSource).toMatchObject(source);
     const createdBlob = (await client.createOrUpdateKnowledgeSource(
       blob,
     )) as AzureBlobKnowledgeSource;
@@ -463,7 +513,23 @@ describe("2026-11-01-preview convenience integration", () => {
             body: {
               response: [],
               activity: [
-                { id: 1, type: "graphSearch", elapsedMs: 12, knowledgeSourceName: "blob" },
+                {
+                  id: 1,
+                  type: "graphSearch",
+                  elapsedMs: 12,
+                  knowledgeSourceName: "blob",
+                  graphSearchArguments: {
+                    naturalLanguageQuery: "What is connected?",
+                    graphIndexName: "facts",
+                    gql: "MATCH (n) RETURN n",
+                    outcome: "Success",
+                    attempts: 1,
+                    inputTokens: 20,
+                    outputTokens: 10,
+                    modelElapsedMs: 8,
+                    modelName: "gpt-6-sol",
+                  },
+                },
               ],
               references: [{ id: "ref", type: "graphSearch", graphIndexName: "facts" }],
             },
@@ -480,7 +546,10 @@ describe("2026-11-01-preview convenience integration", () => {
           kind: "azureBlob",
           knowledgeSourceName: "blob",
           topicGraph: { kind: "balanced" },
-          graphParameters: { includeQuery: true, provenance: { kind: "none" } },
+          graphParameters: {
+            includeQuery: true,
+            provenance: { kind: "hydrate", hydrateDocuments: { select: "id,title", top: 100 } },
+          },
         },
       ],
     });
@@ -488,9 +557,501 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.equal(body.toolName, "lookup");
     assert.equal(body.knowledgeSourceParams[0].topicGraph.kind, "balanced");
     assert.equal(body.knowledgeSourceParams[0].graphParameters.includeQuery, true);
+    assert.deepEqual(body.knowledgeSourceParams[0].graphParameters.provenance, {
+      kind: "hydrate",
+      hydrateDocuments: { select: "id,title", top: 100 },
+    });
     assert.equal(result.activity?.[0].type, "graphSearch");
     assert.equal(result.activity?.[0].elapsedMs, 12);
+    expect(result.activity?.[0]).toMatchObject({
+      graphSearchArguments: {
+        naturalLanguageQuery: "What is connected?",
+        graphIndexName: "facts",
+        gql: "MATCH (n) RETURN n",
+        outcome: "Success",
+        attempts: 1,
+        inputTokens: 20,
+        outputTokens: 10,
+        modelElapsedMs: 8,
+        modelName: "gpt-6-sol",
+      },
+    });
     assert.equal(result.references?.[0].type, "graphSearch");
+  });
+
+  it.each(["stored headers", "managed identity"] as const)(
+    "preserves OpenAI-compatible GPT-6 model configuration with %s through the protocol client",
+    async (authentication) => {
+      const requests: PipelineRequest[] = [];
+      const identity = {
+        odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity" as const,
+        resourceId:
+          "/subscriptions/example/providers/Microsoft.ManagedIdentity/userAssignedIdentities/model",
+      };
+      const parameters: KnowledgeBaseOpenAICompatibleModel["openAICompatibleParameters"] = {
+        uri: "https://gateway.example.com/models/chat/responses?deployment=preview",
+        modelName: "gpt-6-sol",
+        ...(authentication === "stored headers"
+          ? { headers: { "x-test-key": "not-a-real-key" } }
+          : {
+              managedIdentityAudience: "00000000-0000-0000-0000-000000000001",
+              authIdentity: identity,
+            }),
+      };
+      const { headers, authIdentity, ...readable } = parameters;
+      const wire = {
+        name: "kb",
+        knowledgeSources: [{ name: "source" }],
+        models: [
+          {
+            kind: "openAICompatible",
+            openAICompatibleParameters: {
+              ...readable,
+              ...(authIdentity
+                ? {
+                    authIdentity: {
+                      "@odata.type": identity.odatatype,
+                      userAssignedIdentity: identity.resourceId,
+                    },
+                  }
+                : {}),
+            },
+          },
+        ],
+      };
+      const client = new ProtocolSearchIndexClient(
+        endpoint,
+        credential,
+        mockOptions([{ body: wire }, { body: wire }], requests),
+      );
+      const created = await client.createOrUpdateKnowledgeBase("kb", {
+        name: "kb",
+        knowledgeSources: [{ name: "source" }],
+        models: [{ kind: "openAICompatible", openAICompatibleParameters: parameters }],
+      });
+      const sent = JSON.parse(requests[0].body as string).models[0].openAICompatibleParameters;
+      assert.equal(sent.uri, parameters.uri);
+      assert.equal(sent.modelName, parameters.modelName);
+      assert.deepEqual(sent.headers, headers);
+      assert.equal(sent.managedIdentityAudience, parameters.managedIdentityAudience);
+      if (authIdentity) {
+        assert.deepEqual(sent.authIdentity, {
+          "@odata.type": identity.odatatype,
+          userAssignedIdentity: identity.resourceId,
+        });
+      }
+      expect(created.models?.[0]).toMatchObject({
+        kind: "openAICompatible",
+        openAICompatibleParameters: readable,
+      });
+      await client.createOrUpdateKnowledgeBase("kb", created);
+      assert.notProperty(
+        JSON.parse(requests[1].body as string).models[0].openAICompatibleParameters,
+        "headers",
+      );
+      assert.isTrue(requests.every((request) => new URL(request.url).origin === endpoint));
+    },
+  );
+
+  it("round trips OpenAI-compatible index vectorizers without returned credentials", async () => {
+    const requests: PipelineRequest[] = [];
+    const parameters = {
+      uri: "https://gateway.example.com/embeddings?deployment=small",
+      modelName: "text-embedding-3-small",
+      dimensions: 2,
+      headers: { "x-test-key": "not-a-real-key" },
+    };
+    const definition = {
+      name: "vectors",
+      fields: [
+        { name: "id", type: "Edm.String", key: true },
+        {
+          name: "embedding",
+          type: "Collection(Edm.Single)",
+          searchable: true,
+          vectorSearchDimensions: 2,
+          vectorSearchProfileName: "vectors",
+        },
+      ],
+      vectorSearch: {
+        algorithms: [{ name: "hnsw", kind: "hnsw" as const }],
+        profiles: [
+          { name: "vectors", algorithmConfigurationName: "hnsw", vectorizerName: "gateway" },
+        ],
+        vectorizers: [
+          {
+            vectorizerName: "gateway",
+            kind: "openAICompatible" as const,
+            openAICompatibleParameters: parameters,
+          },
+        ],
+      },
+    };
+    const readable = { ...parameters, headers: undefined };
+    const client = new ProtocolSearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions(
+        [
+          {
+            body: {
+              ...definition,
+              vectorSearch: {
+                ...definition.vectorSearch,
+                vectorizers: [
+                  {
+                    name: "gateway",
+                    kind: "openAICompatible",
+                    openAICompatibleParameters: readable,
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        requests,
+      ),
+    );
+    const actual = await client.createOrUpdateIndex(definition, definition.name);
+    const sent = JSON.parse(requests[0].body as string).vectorSearch.vectorizers[0];
+    assert.deepEqual(sent, {
+      name: "gateway",
+      kind: "openAICompatible",
+      openAICompatibleParameters: parameters,
+    });
+    expect(actual.vectorSearch?.vectorizers?.[0]).toMatchObject({
+      vectorizerName: "gateway",
+      kind: "openAICompatible",
+      openAICompatibleParameters: readable,
+    });
+  });
+
+  it("preserves OpenAI-compatible embedding and image verbalization models during ingestion", async () => {
+    const requests: PipelineRequest[] = [];
+    const ingestionParameters = {
+      contentExtractionMode: "minimal",
+      embeddingModel: {
+        kind: "openAICompatible" as const,
+        openAICompatibleParameters: {
+          uri: "https://gateway.example.com/embeddings",
+          modelName: "text-embedding-3-large",
+          dimensions: 3072,
+          managedIdentityAudience: "00000000-0000-0000-0000-000000000001",
+        },
+      },
+      chatCompletionModel: {
+        kind: "openAICompatible" as const,
+        openAICompatibleParameters: {
+          uri: "https://gateway.example.com/chat/completions",
+          modelName: "gpt-4o",
+          managedIdentityAudience: "00000000-0000-0000-0000-000000000001",
+        },
+      },
+    };
+    const definition = {
+      name: "blob",
+      kind: "azureBlob" as const,
+      azureBlobParameters: {
+        connectionString: "ResourceId=/subscriptions/example",
+        containerName: "documents",
+        ingestionParameters,
+      },
+    };
+    const client = new ProtocolSearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions([{ body: definition }], requests),
+    );
+    const actual = await client.createOrUpdateKnowledgeSource("blob", definition);
+    assert.deepEqual(
+      JSON.parse(requests[0].body as string).azureBlobParameters.ingestionParameters,
+      ingestionParameters,
+    );
+    expect(actual).toMatchObject(definition);
+  });
+
+  it("preserves gateway chat-completion skills through the convenience layer", async () => {
+    const requests: PipelineRequest[] = [];
+    const skill: ChatCompletionSkill = {
+      odatatype: "#Microsoft.Skills.Custom.ChatCompletionSkill",
+      name: "describe",
+      context: "/document",
+      uri: "https://gateway.example.com/chat/completions?deployment=chat",
+      apiKey: "not-a-real-key",
+      inputs: [{ name: "userMessage", source: "/document/content" }],
+      outputs: [{ name: "response", targetName: "description" }],
+      commonModelParameters: { model: "gpt-4o", temperature: 0 },
+      extraParameters: { custom: { enabled: true } },
+      extraParametersBehavior: "pass-through",
+      responseFormat: { type: "text" },
+    };
+    const { odatatype, ...properties } = skill;
+    const wire = { ...properties, "@odata.type": odatatype };
+    const client = new SearchIndexerClient(
+      endpoint,
+      credential,
+      mockOptions([{ body: { name: "skills", skills: [wire] } }], requests),
+    );
+    const actual = await client.createOrUpdateSkillset({ name: "skills", skills: [skill] });
+    assert.deepEqual(JSON.parse(requests[0].body as string).skills[0], wire);
+    expect(actual.skills[0]).toMatchObject(skill);
+  });
+
+  it("preserves Microsoft Retriever 1 configuration and agentic reasoning accounting", async () => {
+    const requests: PipelineRequest[] = [];
+    const base = {
+      name: "kb",
+      knowledgeSources: [{ name: "source" }],
+      models: [{ kind: "microsoftRetriever1" as const }],
+    };
+    const indexClient = new ProtocolSearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions([{ body: base }], requests),
+    );
+    const actual = await indexClient.createOrUpdateKnowledgeBase("kb", base);
+    assert.deepEqual(JSON.parse(requests[0].body as string).models, base.models);
+    assert.deepEqual(actual.models, base.models);
+
+    const client = new KnowledgeRetrievalClient(
+      endpoint,
+      "kb",
+      credential,
+      mockOptions(
+        [
+          {
+            body: {
+              response: [],
+              activity: [
+                {
+                  id: 1,
+                  type: "agenticReasoning",
+                  reasoningTokens: 0,
+                  retrievalReasoningEffort: { kind: "minimal" },
+                  logicalReasoningEffort: { kind: "low" },
+                },
+              ],
+            },
+          },
+        ],
+        requests,
+      ),
+    );
+    const result = await client.retrieve({
+      intents: [{ type: "semantic", search: "Find relevant facts" }],
+      retrievalReasoningEffort: { kind: "minimal" },
+      includeActivity: true,
+    });
+    assert.equal(JSON.parse(requests[1].body as string).retrievalReasoningEffort.kind, "minimal");
+    expect(result.activity?.[0]).toMatchObject({
+      type: "agenticReasoning",
+      reasoningTokens: 0,
+      retrievalReasoningEffort: { kind: "minimal" },
+      logicalReasoningEffort: { kind: "low" },
+    });
+  });
+
+  it.each([
+    { name: "deferred", ontology: undefined },
+    {
+      name: "inline",
+      ontology: {
+        kind: "inline",
+        name: "people",
+        value: JSON.stringify({
+          "@context": {
+            schema: "https://schema.org/",
+            rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+          },
+          "@graph": [{ "@id": "schema:Person", "@type": "rdfs:Class" }],
+        }),
+      },
+    },
+  ])(
+    "preserves $name graph extraction ontology and synchronization statistics",
+    async ({ ontology }) => {
+      const requests: PipelineRequest[] = [];
+      const graphExtraction = { graphName: "facts", ontology, pageDegreeOfParallelism: 1024 };
+      const definition = {
+        name: "blob",
+        kind: "azureBlob" as const,
+        azureBlobParameters: {
+          connectionString: "ResourceId=/subscriptions/example",
+          containerName: "documents",
+          graphExtraction,
+          ingestionParameters: {
+            cache: {
+              storageConnectionString: "ResourceId=/subscriptions/cache",
+              enableReprocessing: true,
+            },
+          },
+        },
+      };
+      const synchronization = {
+        startTime: "2026-11-01T00:00:00Z",
+        itemsUpdatesProcessed: 1,
+        itemsUpdatesFailed: 0,
+        itemsSkipped: 0,
+      };
+      const client = new SearchIndexClient(
+        endpoint,
+        credential,
+        mockOptions(
+          [
+            {
+              body: {
+                ...definition,
+                azureBlobParameters: {
+                  ...definition.azureBlobParameters,
+                  ingestionParameters: { cache: { enableReprocessing: true } },
+                },
+              },
+            },
+            {
+              body: {
+                kind: "azureBlob",
+                synchronizationStatus: "active",
+                currentSynchronizationState: {
+                  ...synchronization,
+                  graphStatistics: { triplesWritten: 0 },
+                },
+                lastSynchronizationState: {
+                  ...synchronization,
+                  endTime: "2026-11-01T00:01:00Z",
+                  graphStatistics: { ontologyName: "people", triplesWritten: 42 },
+                },
+              },
+            },
+          ],
+          requests,
+        ),
+      );
+      const actual = (await client.createOrUpdateKnowledgeSource(
+        definition,
+      )) as AzureBlobKnowledgeSource;
+      const sent = JSON.parse(requests[0].body as string).azureBlobParameters;
+      assert.deepEqual(sent.graphExtraction, JSON.parse(JSON.stringify(graphExtraction)));
+      assert.equal(
+        sent.ingestionParameters.cache.storageConnectionString,
+        "ResourceId=/subscriptions/cache",
+      );
+      assert.equal(actual.azureBlobParameters.ingestionParameters?.cache?.enableReprocessing, true);
+      assert.isUndefined(
+        actual.azureBlobParameters.ingestionParameters?.cache?.storageConnectionString,
+      );
+      assert.deepEqual(actual.azureBlobParameters.graphExtraction?.ontology, ontology);
+      const status = await client.getKnowledgeSourceStatus("blob");
+      assert.deepEqual(status.currentSynchronizationState?.graphStatistics, {
+        ontologyName: undefined,
+        triplesWritten: 0,
+      });
+      assert.deepEqual(status.lastSynchronizationState?.graphStatistics, {
+        ontologyName: "people",
+        triplesWritten: 42,
+      });
+      assert.instanceOf(status.lastSynchronizationState?.endTime, Date);
+    },
+  );
+
+  it("round trips OneLake security fields and ingestion permission options", async () => {
+    const requests: PipelineRequest[] = [];
+    const index: SearchIndex = {
+      name: "onelake",
+      permissionFilterOption: "enabled",
+      oneLakeSecuritySource: { fabricWorkspaceId: "workspace", lakehouseId: "lakehouse" },
+      fields: [
+        { name: "id", type: "Edm.String", key: true },
+        {
+          name: "parentFolders",
+          type: "Collection(Edm.String)",
+          filterable: true,
+          permissionFilter: "oneLakeParentFolders",
+        },
+        {
+          name: "lakehouse",
+          type: "Edm.String",
+          filterable: true,
+          permissionFilter: "oneLakeLakehouseId",
+        },
+      ],
+    };
+    const source: IndexedOneLakeKnowledgeSource = {
+      name: "source",
+      kind: "indexedOneLake",
+      indexedOneLakeParameters: {
+        fabricWorkspaceId: "workspace",
+        lakehouseId: "lakehouse",
+        ingestionParameters: {
+          ingestionPermissionOptions: ["oneLakeParentFolders", "oneLakeLakehouseId"],
+        },
+      },
+    };
+    const indexClient = new SearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions([{ body: index }, { body: source }], requests),
+    );
+    const actualIndex = await indexClient.createOrUpdateIndex(index);
+    const actualSource = await indexClient.createOrUpdateKnowledgeSource(source);
+    const indexBody = JSON.parse(requests[0].body as string);
+    assert.equal(indexBody.permissionFilterOption, "enabled");
+    assert.deepEqual(indexBody.oneLakeSecuritySource, index.oneLakeSecuritySource);
+    assert.equal(indexBody.fields[1].permissionFilter, "oneLakeParentFolders");
+    assert.equal(indexBody.fields[2].permissionFilter, "oneLakeLakehouseId");
+    expect(actualIndex.fields).toMatchObject(index.fields);
+    expect(actualSource).toMatchObject(source);
+    assert.deepEqual(
+      JSON.parse(requests[1].body as string).indexedOneLakeParameters.ingestionParameters,
+      source.indexedOneLakeParameters.ingestionParameters,
+    );
+
+    const dataSource: SearchIndexerDataSourceConnection = {
+      name: "onelake-source",
+      type: "onelake",
+      connectionString: "ResourceId=/subscriptions/example",
+      container: { name: "Files" },
+      indexerPermissionOptions: ["oneLakeParentFolders", "oneLakeLakehouseId"],
+    };
+    const indexer: SearchIndexer = {
+      name: "onelake-indexer",
+      dataSourceName: dataSource.name,
+      targetIndexName: index.name,
+      fieldMappings: [
+        { sourceFieldName: "metadata_onelake_parent_folders", targetFieldName: "parentFolders" },
+      ],
+    };
+    const indexerClient = new SearchIndexerClient(
+      endpoint,
+      credential,
+      mockOptions(
+        [
+          {
+            body: {
+              name: dataSource.name,
+              type: dataSource.type,
+              container: dataSource.container,
+              credentials: { connectionString: dataSource.connectionString },
+              indexerPermissionOptions: dataSource.indexerPermissionOptions,
+            },
+          },
+          { body: indexer },
+        ],
+        requests,
+      ),
+    );
+    const actualDataSource = await indexerClient.createOrUpdateDataSourceConnection(dataSource);
+    assert.deepEqual(
+      JSON.parse(requests[2].body as string).indexerPermissionOptions,
+      dataSource.indexerPermissionOptions,
+    );
+    assert.deepEqual(
+      actualDataSource.indexerPermissionOptions,
+      dataSource.indexerPermissionOptions,
+    );
+    const actualIndexer = await indexerClient.createOrUpdateIndexer(indexer);
+    const sentIndexer = JSON.parse(requests[3].body as string);
+    assert.deepEqual(sentIndexer.fieldMappings, indexer.fieldMappings);
+    expect(actualIndexer.fieldMappings).toMatchObject(indexer.fieldMappings ?? []);
   });
 
   it("paginates ingestion diagnostics and retains request cancellation", async () => {
@@ -669,5 +1230,43 @@ describe("2026-11-01-preview convenience integration", () => {
     });
     assert.equal((await restored.pollUntilDone()).fileId, "resumed-file");
     assert.equal(requests.filter((request) => request.method === "POST").length, 1);
+  });
+
+  it("aborts an in-progress file ingestion poller without another upload", async () => {
+    const requests: PipelineRequest[] = [];
+    const controller = new AbortController();
+    const location = `${endpoint}/knowledgesources('files')/ingestionOperations('abort')`;
+    const client = new SearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions(
+        [
+          {
+            status: 202,
+            headers: { "operation-location": location, "retry-after": "0" },
+            body: { status: "Running" },
+          },
+          { body: { status: "Running" } },
+        ],
+        requests,
+      ),
+    );
+    const poller = client.beginIngestKnowledgeSourceFile(
+      "files",
+      {
+        metadata: { fileName: "manual.txt" },
+        content: { contents: new Uint8Array([65]), contentType: "text/plain" },
+      },
+      { updateIntervalInMs: 0, abortSignal: controller.signal },
+    );
+    await poller.poll();
+    assert.isFalse(poller.isDone);
+    assert.isFalse(requests[1].abortSignal?.aborted);
+    controller.abort();
+    await expect(poller.pollUntilDone({ abortSignal: controller.signal })).rejects.toMatchObject({
+      name: "AbortError",
+    });
+    assert.equal(requests.length, 2);
+    assert.isTrue(requests[1].abortSignal?.aborted);
   });
 });

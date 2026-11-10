@@ -29,6 +29,9 @@ export interface CreateIndexerOptionalParams extends OperationOptions {
 }
 
 // @public
+export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, dataSource: SearchIndexerDataSourceConnection, name: string, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
+
+// @public
 export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, name: string, dataSource: SearchIndexerDataSourceConnection, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
 
 // @public
@@ -39,6 +42,9 @@ export interface CreateOrUpdateDataSourceConnectionOptionalParams extends Operat
     ifNoneMatch?: string;
     skipIndexerResetRequirementForCache?: boolean;
 }
+
+// @public
+export function createOrUpdateIndexer(context: SearchIndexerContext, indexer: SearchIndexer, name: string, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
 
 // @public
 export function createOrUpdateIndexer(context: SearchIndexerContext, name: string, indexer: SearchIndexer, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
@@ -52,6 +58,9 @@ export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
     skipIndexerResetRequirementForCache?: boolean;
 }
+
+// @public
+export function createOrUpdateSkillset(context: SearchIndexerContext, skillset: SearchIndexerSkillset, name: string, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
 
 // @public
 export function createOrUpdateSkillset(context: SearchIndexerContext, name: string, skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
@@ -121,12 +130,38 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 }
 
 // @public
+export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): Promise<ListDataSourcesResult>;
+
+// @public
+export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
 export function getIndexer(context: SearchIndexerContext, name: string, options?: GetIndexerOptionalParams): Promise<SearchIndexer>;
 
 // @public
 export interface GetIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+}
+
+// @public
+export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): Promise<ListIndexersResult>;
+
+// @public
+export interface GetIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public
@@ -145,6 +180,19 @@ export function getSkillset(context: SearchIndexerContext, name: string, options
 export interface GetSkillsetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+}
+
+// @public
+export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
+
+// @public
+export interface GetSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public

@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Carried forward typed protocol SSE retrieval, the root `KnownContentUnderstandingSkillChunkingMethod` export, released body-first index operation overloads, and legacy TypeScript protocol-subpath resolution from the `2026-10-01` GA SDK. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Carried forward typed protocol SSE retrieval, the root `KnownContentUnderstandingSkillChunkingMethod` export, released body-first protocol operation overloads, legacy listing APIs, and legacy TypeScript protocol-subpath resolution from the `2026-10-01` GA SDK. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Added support for `2026-11-01-preview`, generated from Azure/azure-rest-api-specs commit `b41ba04c0219f6622b7f5214fc020f90bad339ae` (PR #47300). This is now the default service version; explicit stable and older preview versions remain selectable.
 - Added `SearchClient.graph` with typed graph rows, provenance, statistics, diagnostics, explain plans, and structured query errors, plus graph index profiles and knowledge source graph extraction/retrieval configuration.
 - Added topic-graph `none`, `diverse`, and `balanced` vector queries, topic graph profiles, and per-field/per-knowledge-source configuration.
@@ -12,14 +12,10 @@
 - Added asynchronous File ingestion and replacement pollers, paged ingestion operation diagnostics, and file capacity/graph ingestion statistics. Pollers use `@azure/core-lro`; keep the poller unawaited to observe progress or call `pollUntilDone`.
 - Added protocol-level agentic queries, query options/diagnostics, `moreLikeThis`, GPT-6 model names, Content Understanding model options, OneLake security fields, ACL refresh settings, and expanded SharePoint content containers.
 
-### Breaking Changes
-
-- Restored the GA protocol `getDocumentCount` return shape, `GetDocumentCountResponse` (`{ body: number }`), instead of the generated preview primitive. The root `SearchClient.getDocumentsCount` still returns a number. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- Restored October GA's closed convenience unions for scoring functions, knowledge bases and sources, vectorizers, vector queries, and search query types. Removed conflicting preview alternatives, including random scoring, rather than weakening the GA contracts. Preview-only knowledge source kinds remain available through protocol subpaths. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- The preview activity duration is now named `elapsedMs`; the previous `elapsedInMs` alias remains available for existing callers. Query hints on indexed ingestion sources and their request-time overrides are no longer in the November service contract; the previous optional SDK fields and wire mappings are retained for older preview versions.
-
 ### Bugs Fixed
 
+- Preserved October GA's numeric protocol `getDocumentCount` result and legacy listing result/option exports. Body-first protocol calls remain supported alongside name-first preview calls. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Preserved October GA's closed convenience unions for scoring functions, knowledge bases and sources, vectorizers, vector queries, and search query types. Excluded conflicting preview alternatives, including random scoring, rather than weakening the GA contracts. Preview-only knowledge source kinds remain available through protocol subpaths. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Preserved GA ETag round-tripping, document fields that share metadata names, custom analyzers/vectorizers/skill aliases, dynamic indexer configuration, resource continuation tokens, search continuation parameters, delete options, and semantic query options. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Validated SSE response content types, closed terminal/invalid streams, and preserved HTTP errors for malformed JSON error bodies on Node.js and browser transports. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Restored required GA scoring fields and their protocol serialization, including unrecognized scoring-function kinds. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
@@ -28,8 +24,10 @@
 
 ### Other Changes
 
+- Added the preview activity duration name `elapsedMs` while retaining `elapsedInMs` for existing callers. Retained optional indexed-ingestion query hints, request-time overrides, and their wire mappings for older preview versions even though the November service contract no longer includes them. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Added offline HTTP/serialization/polling coverage and a November preview sample. Release date remains unconfirmed.
-- Refreshed November preview test recordings and temporarily skipped four backend-dependent semantic search and knowledge retrieval cases, preserving their last published recordings pending a backend fix and re-recording. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
+- Refreshed November preview test recordings and re-enabled four semantic search and knowledge retrieval cases after successful PPE re-recording. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
+- Added recorded integration coverage for graph queries and errors, tool-scoped retrieval, Microsoft Retriever 1, agentic diagnostics, query-hint auto-configuration, and File ingestion/replacement LROs. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 
 ## 13.1.0-beta.2 (2026-08-31)
 

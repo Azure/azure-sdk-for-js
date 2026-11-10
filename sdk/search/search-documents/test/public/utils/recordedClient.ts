@@ -37,6 +37,8 @@ function createRecorderStartOptions(): RecorderStartOptions {
     ENDPOINT: "https://subdomain.search.windows.net/",
     AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME: "deployment-name",
+    AZURE_OPENAI_CHAT_DEPLOYMENT_NAME: "deployment-name",
+    AZURE_OPENAI_CHAT_MODEL_NAME: "gpt-4o",
   };
 
   appendTrailingSlashesToEnvironment(envSetupForPlayback);
@@ -47,7 +49,7 @@ function createRecorderStartOptions(): RecorderStartOptions {
   };
   return {
     envSetupForPlayback,
-    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493"],
+    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493", "AZSDK2030"],
     sanitizerOptions: {
       generalSanitizers,
       bodyKeySanitizers: [bodyKeySanitizer],

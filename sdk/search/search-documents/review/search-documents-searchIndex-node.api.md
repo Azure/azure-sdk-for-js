@@ -194,6 +194,16 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
 export interface IngestKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
     clientRequestId?: string;
     updateIntervalInMs?: number;
@@ -307,11 +317,15 @@ export class SearchIndexClient {
     createIndex(index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, options?: CreateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+    createOrUpdateAlias(alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
     createOrUpdateAlias(name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
     createOrUpdateIndex(index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
     createOrUpdateIndex(name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createOrUpdateKnowledgeBase(name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
     createOrUpdateKnowledgeSource(name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+    createOrUpdateSynonymMap(synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
     createOrUpdateSynonymMap(name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptionalParams): Promise<SynonymMap>;
     deleteAlias(name: string, options?: DeleteAliasOptionalParams): Promise<void>;
@@ -329,6 +343,7 @@ export class SearchIndexClient {
     getKnowledgeSourceStatus(name: string, options?: GetKnowledgeSourceStatusOptionalParams): Promise<KnowledgeSourceStatus>;
     getServiceStatistics(options?: GetServiceStatisticsOptionalParams): Promise<SearchServiceStatistics>;
     getSynonymMap(name: string, options?: GetSynonymMapOptionalParams): Promise<SynonymMap>;
+    getSynonymMaps(options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
     ingestKnowledgeSourceFileMultipart(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: IngestKnowledgeSourceFileMultipartOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
     ingestKnowledgeSourceFileReplacement(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: IngestKnowledgeSourceFileReplacementOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;

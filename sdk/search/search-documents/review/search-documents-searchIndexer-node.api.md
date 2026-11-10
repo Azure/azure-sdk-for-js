@@ -89,9 +89,29 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 }
 
 // @public
+export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
 export interface GetIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+}
+
+// @public
+export interface GetIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public
@@ -104,6 +124,16 @@ export interface GetIndexerStatusOptionalParams extends OperationOptions {
 export interface GetSkillsetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+}
+
+// @public
+export interface GetSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public
@@ -173,17 +203,23 @@ export class SearchIndexerClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SearchIndexerClientOptionalParams);
     createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptionalParams): Promise<SearchIndexer>;
+    createOrUpdateDataSourceConnection(dataSource: SearchIndexerDataSourceConnection, name: string, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
     createOrUpdateDataSourceConnection(name: string, dataSource: SearchIndexerDataSourceConnection, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
+    createOrUpdateIndexer(indexer: SearchIndexer, name: string, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
     createOrUpdateIndexer(name: string, indexer: SearchIndexer, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
+    createOrUpdateSkillset(skillset: SearchIndexerSkillset, name: string, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
     createOrUpdateSkillset(name: string, skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
     createSkillset(skillset: SearchIndexerSkillset, options?: CreateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
     deleteDataSourceConnection(name: string, options?: DeleteDataSourceConnectionOptionalParams): Promise<void>;
     deleteIndexer(name: string, options?: DeleteIndexerOptionalParams): Promise<void>;
     deleteSkillset(name: string, options?: DeleteSkillsetOptionalParams): Promise<void>;
     getDataSourceConnection(name: string, options?: GetDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
+    getDataSourceConnections(options?: GetDataSourceConnectionsOptionalParams): Promise<ListDataSourcesResult>;
     getIndexer(name: string, options?: GetIndexerOptionalParams): Promise<SearchIndexer>;
+    getIndexers(options?: GetIndexersOptionalParams): Promise<ListIndexersResult>;
     getIndexerStatus(name: string, options?: GetIndexerStatusOptionalParams): Promise<SearchIndexerStatus>;
     getSkillset(name: string, options?: GetSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
+    getSkillsets(options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
     listDataSourceConnections(options?: ListDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
     listIndexers(options?: ListIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
     listSkillsets(options?: ListSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;

@@ -3,6 +3,7 @@
 
 import type { SearchIndexContext as Client } from "./index.js";
 import type {
+  ListSynonymMapsResult,
   SynonymMap,
   _ListSynonymMapsResult,
   SearchIndex,
@@ -65,6 +66,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   ListKnowledgeSourceFileIngestionOperationsOptionalParams,
@@ -109,6 +111,17 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+import { collectPagedAsyncIterable } from "../../serviceUtils.js";
+
+/** Lists all synonym maps available for a search service. */
+export async function getSynonymMaps(
+  context: Client,
+  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+): Promise<ListSynonymMapsResult> {
+  // Preserve the legacy result shape while following service-driven continuation.
+  return { synonymMaps: await collectPagedAsyncIterable(listSynonymMaps(context, options)) };
+}
 
 export function _listIndexStatsSummarySend(
   context: Client,
@@ -1184,12 +1197,35 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
 }
 
 /** Creates a new knowledge source or updates an knowledge source if it already exists. */
-export async function createOrUpdateKnowledgeSource(
+export function createOrUpdateKnowledgeSource(
+  context: Client,
+  knowledgeSource: KnowledgeSourceUnion,
+  name: string,
+  options?: CreateOrUpdateKnowledgeSourceOptionalParams,
+): Promise<KnowledgeSourceUnion>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateKnowledgeSource(
   context: Client,
   name: string,
   knowledgeSource: KnowledgeSourceUnion,
+  options?: CreateOrUpdateKnowledgeSourceOptionalParams,
+): Promise<KnowledgeSourceUnion>;
+
+export async function createOrUpdateKnowledgeSource(
+  context: Client,
+  nameOrKnowledgeSource: string | KnowledgeSourceUnion,
+  knowledgeSourceOrName: KnowledgeSourceUnion | string,
   options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeSourceUnion> {
+  const name =
+    typeof nameOrKnowledgeSource === "string"
+      ? nameOrKnowledgeSource
+      : (knowledgeSourceOrName as string);
+  const knowledgeSource =
+    typeof nameOrKnowledgeSource === "string"
+      ? (knowledgeSourceOrName as KnowledgeSourceUnion)
+      : nameOrKnowledgeSource;
   const result = await _createOrUpdateKnowledgeSourceSend(context, name, knowledgeSource, options);
   return _createOrUpdateKnowledgeSourceDeserialize(result);
 }
@@ -1489,12 +1525,33 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
 }
 
 /** Creates a new knowledge base or updates a knowledge base if it already exists. */
-export async function createOrUpdateKnowledgeBase(
+export function createOrUpdateKnowledgeBase(
+  context: Client,
+  knowledgeBase: KnowledgeBase,
+  name: string,
+  options?: CreateOrUpdateKnowledgeBaseOptionalParams,
+): Promise<KnowledgeBase>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateKnowledgeBase(
   context: Client,
   name: string,
   knowledgeBase: KnowledgeBase,
+  options?: CreateOrUpdateKnowledgeBaseOptionalParams,
+): Promise<KnowledgeBase>;
+
+export async function createOrUpdateKnowledgeBase(
+  context: Client,
+  nameOrKnowledgeBase: string | KnowledgeBase,
+  knowledgeBaseOrName: KnowledgeBase | string,
   options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBase> {
+  const name =
+    typeof nameOrKnowledgeBase === "string" ? nameOrKnowledgeBase : (knowledgeBaseOrName as string);
+  const knowledgeBase =
+    typeof nameOrKnowledgeBase === "string"
+      ? (knowledgeBaseOrName as KnowledgeBase)
+      : nameOrKnowledgeBase;
   const result = await _createOrUpdateKnowledgeBaseSend(context, name, knowledgeBase, options);
   return _createOrUpdateKnowledgeBaseDeserialize(result);
 }
@@ -1788,12 +1845,29 @@ export async function _createOrUpdateAliasDeserialize(
 }
 
 /** Creates a new search alias or updates an alias if it already exists. */
-export async function createOrUpdateAlias(
+export function createOrUpdateAlias(
+  context: Client,
+  alias: SearchAlias,
+  name: string,
+  options?: CreateOrUpdateAliasOptionalParams,
+): Promise<SearchAlias>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateAlias(
   context: Client,
   name: string,
   alias: SearchAlias,
+  options?: CreateOrUpdateAliasOptionalParams,
+): Promise<SearchAlias>;
+
+export async function createOrUpdateAlias(
+  context: Client,
+  nameOrAlias: string | SearchAlias,
+  aliasOrName: SearchAlias | string,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): Promise<SearchAlias> {
+  const name = typeof nameOrAlias === "string" ? nameOrAlias : (aliasOrName as string);
+  const alias = typeof nameOrAlias === "string" ? (aliasOrName as SearchAlias) : nameOrAlias;
   const result = await _createOrUpdateAliasSend(context, name, alias, options);
   return _createOrUpdateAliasDeserialize(result);
 }
@@ -1849,12 +1923,30 @@ export async function _analyzeTextDeserialize(
 }
 
 /** Shows how an analyzer breaks text into tokens. */
-export async function analyzeText(
+export function analyzeText(
+  context: Client,
+  request: AnalyzeTextOptions,
+  name: string,
+  options?: AnalyzeTextOptionalParams,
+): Promise<AnalyzeResult>;
+
+/** Accepts the resource name before the request body. */
+export function analyzeText(
   context: Client,
   name: string,
   request: AnalyzeTextOptions,
+  options?: AnalyzeTextOptionalParams,
+): Promise<AnalyzeResult>;
+
+export async function analyzeText(
+  context: Client,
+  nameOrRequest: string | AnalyzeTextOptions,
+  requestOrName: AnalyzeTextOptions | string,
   options: AnalyzeTextOptionalParams = { requestOptions: {} },
 ): Promise<AnalyzeResult> {
+  const name = typeof nameOrRequest === "string" ? nameOrRequest : (requestOrName as string);
+  const request =
+    typeof nameOrRequest === "string" ? (requestOrName as AnalyzeTextOptions) : nameOrRequest;
   const result = await _analyzeTextSend(context, name, request, options);
   return _analyzeTextDeserialize(result);
 }
@@ -2274,12 +2366,29 @@ export async function _createOrUpdateIndexDeserialize(
 }
 
 /** Creates a new search index or updates an index if it already exists. */
-export async function createOrUpdateIndex(
+export function createOrUpdateIndex(
+  context: Client,
+  index: SearchIndex,
+  name: string,
+  options?: CreateOrUpdateIndexOptionalParams,
+): Promise<SearchIndex>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateIndex(
   context: Client,
   name: string,
   index: SearchIndex,
+  options?: CreateOrUpdateIndexOptionalParams,
+): Promise<SearchIndex>;
+
+export async function createOrUpdateIndex(
+  context: Client,
+  nameOrIndex: string | SearchIndex,
+  indexOrName: SearchIndex | string,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
+  const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
+  const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
   const result = await _createOrUpdateIndexSend(context, name, index, options);
   return _createOrUpdateIndexDeserialize(result);
 }
@@ -2578,12 +2687,31 @@ export async function _createOrUpdateSynonymMapDeserialize(
 }
 
 /** Creates a new synonym map or updates a synonym map if it already exists. */
-export async function createOrUpdateSynonymMap(
+export function createOrUpdateSynonymMap(
+  context: Client,
+  synonymMap: SynonymMap,
+  name: string,
+  options?: CreateOrUpdateSynonymMapOptionalParams,
+): Promise<SynonymMap>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateSynonymMap(
   context: Client,
   name: string,
   synonymMap: SynonymMap,
+  options?: CreateOrUpdateSynonymMapOptionalParams,
+): Promise<SynonymMap>;
+
+export async function createOrUpdateSynonymMap(
+  context: Client,
+  nameOrSynonymMap: string | SynonymMap,
+  synonymMapOrName: SynonymMap | string,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): Promise<SynonymMap> {
+  const name =
+    typeof nameOrSynonymMap === "string" ? nameOrSynonymMap : (synonymMapOrName as string);
+  const synonymMap =
+    typeof nameOrSynonymMap === "string" ? (synonymMapOrName as SynonymMap) : nameOrSynonymMap;
   const result = await _createOrUpdateSynonymMapSend(context, name, synonymMap, options);
   return _createOrUpdateSynonymMapDeserialize(result);
 }

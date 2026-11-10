@@ -3,6 +3,9 @@
 
 import type { SearchIndexerContext as Client } from "./index.js";
 import type {
+  ListDataSourcesResult,
+  ListIndexersResult,
+  ListSkillsetsResult,
   SearchIndexerDataSourceConnection,
   SearchIndexer,
   SearchIndexerSkillset,
@@ -33,6 +36,9 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  GetDataSourceConnectionsOptionalParams,
+  GetIndexersOptionalParams,
+  GetSkillsetsOptionalParams,
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
@@ -57,6 +63,35 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+import { collectPagedAsyncIterable } from "../../serviceUtils.js";
+
+/** Lists all datasources available for a search service. */
+export async function getDataSourceConnections(
+  context: Client,
+  options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+): Promise<ListDataSourcesResult> {
+  // The released API returns all resources in a result wrapper, not a pager.
+  return {
+    dataSources: await collectPagedAsyncIterable(listDataSourceConnections(context, options)),
+  };
+}
+
+/** Lists all indexers available for a search service. */
+export async function getIndexers(
+  context: Client,
+  options: GetIndexersOptionalParams = { requestOptions: {} },
+): Promise<ListIndexersResult> {
+  return { indexers: await collectPagedAsyncIterable(listIndexers(context, options)) };
+}
+
+/** List all skillsets in a search service. */
+export async function getSkillsets(
+  context: Client,
+  options: GetSkillsetsOptionalParams = { requestOptions: {} },
+): Promise<ListSkillsetsResult> {
+  return { skillsets: await collectPagedAsyncIterable(listSkillsets(context, options)) };
+}
 
 export function _resetSkillsSend(
   context: Client,
@@ -413,12 +448,30 @@ export async function _createOrUpdateSkillsetDeserialize(
 }
 
 /** Creates a new skillset in a search service or updates the skillset if it already exists. */
-export async function createOrUpdateSkillset(
+export function createOrUpdateSkillset(
+  context: Client,
+  skillset: SearchIndexerSkillset,
+  name: string,
+  options?: CreateOrUpdateSkillsetOptionalParams,
+): Promise<SearchIndexerSkillset>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateSkillset(
   context: Client,
   name: string,
   skillset: SearchIndexerSkillset,
+  options?: CreateOrUpdateSkillsetOptionalParams,
+): Promise<SearchIndexerSkillset>;
+
+export async function createOrUpdateSkillset(
+  context: Client,
+  nameOrSkillset: string | SearchIndexerSkillset,
+  skillsetOrName: SearchIndexerSkillset | string,
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerSkillset> {
+  const name = typeof nameOrSkillset === "string" ? nameOrSkillset : (skillsetOrName as string);
+  const skillset =
+    typeof nameOrSkillset === "string" ? (skillsetOrName as SearchIndexerSkillset) : nameOrSkillset;
   const result = await _createOrUpdateSkillsetSend(context, name, skillset, options);
   return _createOrUpdateSkillsetDeserialize(result);
 }
@@ -776,12 +829,30 @@ export async function _createOrUpdateIndexerDeserialize(
 }
 
 /** Creates a new indexer or updates an indexer if it already exists. */
-export async function createOrUpdateIndexer(
+export function createOrUpdateIndexer(
+  context: Client,
+  indexer: SearchIndexer,
+  name: string,
+  options?: CreateOrUpdateIndexerOptionalParams,
+): Promise<SearchIndexer>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateIndexer(
   context: Client,
   name: string,
   indexer: SearchIndexer,
+  options?: CreateOrUpdateIndexerOptionalParams,
+): Promise<SearchIndexer>;
+
+export async function createOrUpdateIndexer(
+  context: Client,
+  nameOrIndexer: string | SearchIndexer,
+  indexerOrName: SearchIndexer | string,
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexer> {
+  const name = typeof nameOrIndexer === "string" ? nameOrIndexer : (indexerOrName as string);
+  const indexer =
+    typeof nameOrIndexer === "string" ? (indexerOrName as SearchIndexer) : nameOrIndexer;
   const result = await _createOrUpdateIndexerSend(context, name, indexer, options);
   return _createOrUpdateIndexerDeserialize(result);
 }
@@ -1312,12 +1383,33 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
 }
 
 /** Creates a new datasource or updates a datasource if it already exists. */
-export async function createOrUpdateDataSourceConnection(
+export function createOrUpdateDataSourceConnection(
+  context: Client,
+  dataSource: SearchIndexerDataSourceConnection,
+  name: string,
+  options?: CreateOrUpdateDataSourceConnectionOptionalParams,
+): Promise<SearchIndexerDataSourceConnection>;
+
+/** Accepts the resource name before the request body. */
+export function createOrUpdateDataSourceConnection(
   context: Client,
   name: string,
   dataSource: SearchIndexerDataSourceConnection,
+  options?: CreateOrUpdateDataSourceConnectionOptionalParams,
+): Promise<SearchIndexerDataSourceConnection>;
+
+export async function createOrUpdateDataSourceConnection(
+  context: Client,
+  nameOrDataSource: string | SearchIndexerDataSourceConnection,
+  dataSourceOrName: SearchIndexerDataSourceConnection | string,
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndexerDataSourceConnection> {
+  const name =
+    typeof nameOrDataSource === "string" ? nameOrDataSource : (dataSourceOrName as string);
+  const dataSource =
+    typeof nameOrDataSource === "string"
+      ? (dataSourceOrName as SearchIndexerDataSourceConnection)
+      : nameOrDataSource;
   const result = await _createOrUpdateDataSourceConnectionSend(context, name, dataSource, options);
   return _createOrUpdateDataSourceConnectionDeserialize(result);
 }

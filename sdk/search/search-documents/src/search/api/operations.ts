@@ -721,7 +721,7 @@ export async function _getDocumentCountDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return Number(result.body);
 }
 
 /** Queries the number of documents in the index. */

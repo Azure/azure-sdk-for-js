@@ -83,7 +83,7 @@ export enum KnownVersions {
 }
 
 /** The response from the protocol document-count operation. */
-export type GetDocumentCountResponse = { body: number };
+export type GetDocumentCountResponse = number;
 
 /** Platform-specific raw streaming response, retained for compatibility. */
 export type RetrieveStreamResponse = {

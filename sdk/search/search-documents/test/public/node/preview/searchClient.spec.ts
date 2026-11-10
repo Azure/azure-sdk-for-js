@@ -51,8 +51,7 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
       },
     }) as const;
 
-  // Temporarily skipped: PPE returns "Semantic Reranker failed" (503). Restore after the backend fix and re-record.
-  it.skip("search with document debug info", async () => {
+  it("search with document debug info", async () => {
     const baseOptions = baseSemanticOptions();
     const options = {
       ...baseOptions,

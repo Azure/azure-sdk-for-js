@@ -4,6 +4,7 @@
 import type { SearchIndexContext, SearchIndexClientOptionalParams } from "./api/index.js";
 import { createSearchIndex } from "./api/index.js";
 import type {
+  ListSynonymMapsResult,
   SynonymMap,
   SearchIndex,
   SearchIndexResponse,
@@ -23,6 +24,7 @@ import type {
 import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
   listKnowledgeSourceFileIngestionOperations,
@@ -65,6 +67,7 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   ListKnowledgeSourceFileIngestionOperationsOptionalParams,
@@ -124,6 +127,13 @@ export class SearchIndexClient {
   ) {
     this._client = createSearchIndex(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Lists all resources in the legacy result wrapper, following continuation pages. */
+  getSynonymMaps(
+    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSynonymMapsResult> {
+    return getSynonymMaps(this._client, options);
   }
 
   /** Retrieves a summary of statistics for all indexes in the search service. */
@@ -263,10 +273,31 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge source or updates an knowledge source if it already exists. */
   createOrUpdateKnowledgeSource(
+    knowledgeSource: KnowledgeSourceUnion,
+    name: string,
+    options?: CreateOrUpdateKnowledgeSourceOptionalParams,
+  ): Promise<KnowledgeSourceUnion>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateKnowledgeSource(
     name: string,
     knowledgeSource: KnowledgeSourceUnion,
+    options?: CreateOrUpdateKnowledgeSourceOptionalParams,
+  ): Promise<KnowledgeSourceUnion>;
+
+  createOrUpdateKnowledgeSource(
+    nameOrKnowledgeSource: string | KnowledgeSourceUnion,
+    knowledgeSourceOrName: KnowledgeSourceUnion | string,
     options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceUnion> {
+    const name =
+      typeof nameOrKnowledgeSource === "string"
+        ? nameOrKnowledgeSource
+        : (knowledgeSourceOrName as string);
+    const knowledgeSource =
+      typeof nameOrKnowledgeSource === "string"
+        ? (knowledgeSourceOrName as KnowledgeSourceUnion)
+        : nameOrKnowledgeSource;
     return createOrUpdateKnowledgeSource(this._client, name, knowledgeSource, options);
   }
 
@@ -303,10 +334,31 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge base or updates a knowledge base if it already exists. */
   createOrUpdateKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    name: string,
+    options?: CreateOrUpdateKnowledgeBaseOptionalParams,
+  ): Promise<KnowledgeBase>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateKnowledgeBase(
     name: string,
     knowledgeBase: KnowledgeBase,
+    options?: CreateOrUpdateKnowledgeBaseOptionalParams,
+  ): Promise<KnowledgeBase>;
+
+  createOrUpdateKnowledgeBase(
+    nameOrKnowledgeBase: string | KnowledgeBase,
+    knowledgeBaseOrName: KnowledgeBase | string,
     options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBase> {
+    const name =
+      typeof nameOrKnowledgeBase === "string"
+        ? nameOrKnowledgeBase
+        : (knowledgeBaseOrName as string);
+    const knowledgeBase =
+      typeof nameOrKnowledgeBase === "string"
+        ? (knowledgeBaseOrName as KnowledgeBase)
+        : nameOrKnowledgeBase;
     return createOrUpdateKnowledgeBase(this._client, name, knowledgeBase, options);
   }
 
@@ -343,10 +395,25 @@ export class SearchIndexClient {
 
   /** Creates a new search alias or updates an alias if it already exists. */
   createOrUpdateAlias(
+    alias: SearchAlias,
+    name: string,
+    options?: CreateOrUpdateAliasOptionalParams,
+  ): Promise<SearchAlias>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateAlias(
     name: string,
     alias: SearchAlias,
+    options?: CreateOrUpdateAliasOptionalParams,
+  ): Promise<SearchAlias>;
+
+  createOrUpdateAlias(
+    nameOrAlias: string | SearchAlias,
+    aliasOrName: SearchAlias | string,
     options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
   ): Promise<SearchAlias> {
+    const name = typeof nameOrAlias === "string" ? nameOrAlias : (aliasOrName as string);
+    const alias = typeof nameOrAlias === "string" ? (aliasOrName as SearchAlias) : nameOrAlias;
     return createOrUpdateAlias(this._client, name, alias, options);
   }
 
@@ -484,10 +551,27 @@ export class SearchIndexClient {
 
   /** Creates a new synonym map or updates a synonym map if it already exists. */
   createOrUpdateSynonymMap(
+    synonymMap: SynonymMap,
+    name: string,
+    options?: CreateOrUpdateSynonymMapOptionalParams,
+  ): Promise<SynonymMap>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateSynonymMap(
     name: string,
     synonymMap: SynonymMap,
+    options?: CreateOrUpdateSynonymMapOptionalParams,
+  ): Promise<SynonymMap>;
+
+  createOrUpdateSynonymMap(
+    nameOrSynonymMap: string | SynonymMap,
+    synonymMapOrName: SynonymMap | string,
     options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
   ): Promise<SynonymMap> {
+    const name =
+      typeof nameOrSynonymMap === "string" ? nameOrSynonymMap : (synonymMapOrName as string);
+    const synonymMap =
+      typeof nameOrSynonymMap === "string" ? (synonymMapOrName as SynonymMap) : nameOrSynonymMap;
     return createOrUpdateSynonymMap(this._client, name, synonymMap, options);
   }
 }

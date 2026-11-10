@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 export type {
+  ListDataSourcesResult,
+  ListIndexersResult,
+  ListSkillsetsResult,
+  ListSynonymMapsResult,
   SynonymMap,
   SearchResourceEncryptionKey,
   AzureActiveDirectoryApplicationCredentials,

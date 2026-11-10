@@ -3,6 +3,9 @@
 
 export { SearchIndexerClient } from "./searchIndexerClient.js";
 export type {
+  GetDataSourceConnectionsOptionalParams,
+  GetIndexersOptionalParams,
+  GetSkillsetsOptionalParams,
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,

@@ -4,6 +4,9 @@
 import type { SearchIndexerContext, SearchIndexerClientOptionalParams } from "./api/index.js";
 import { createSearchIndexer } from "./api/index.js";
 import type {
+  ListDataSourcesResult,
+  ListIndexersResult,
+  ListSkillsetsResult,
   SearchIndexerDataSourceConnection,
   IndexerResyncBody,
   SearchIndexer,
@@ -13,6 +16,9 @@ import type {
 } from "../models/azure/search/documents/indexes/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getDataSourceConnections,
+  getIndexers,
+  getSkillsets,
   resetSkills,
   createSkillset,
   listSkillsets,
@@ -36,6 +42,9 @@ import {
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import type {
+  GetDataSourceConnectionsOptionalParams,
+  GetIndexersOptionalParams,
+  GetSkillsetsOptionalParams,
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
@@ -75,6 +84,27 @@ export class SearchIndexerClient {
   ) {
     this._client = createSearchIndexer(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Lists all resources in the legacy result wrapper, following continuation pages. */
+  getDataSourceConnections(
+    options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
+  ): Promise<ListDataSourcesResult> {
+    return getDataSourceConnections(this._client, options);
+  }
+
+  /** Lists all resources in the legacy result wrapper, following continuation pages. */
+  getIndexers(
+    options: GetIndexersOptionalParams = { requestOptions: {} },
+  ): Promise<ListIndexersResult> {
+    return getIndexers(this._client, options);
+  }
+
+  /** Lists all resources in the legacy result wrapper, following continuation pages. */
+  getSkillsets(
+    options: GetSkillsetsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSkillsetsResult> {
+    return getSkillsets(this._client, options);
   }
 
   /** Reset an existing skillset in a search service. */
@@ -119,10 +149,28 @@ export class SearchIndexerClient {
 
   /** Creates a new skillset in a search service or updates the skillset if it already exists. */
   createOrUpdateSkillset(
+    skillset: SearchIndexerSkillset,
+    name: string,
+    options?: CreateOrUpdateSkillsetOptionalParams,
+  ): Promise<SearchIndexerSkillset>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateSkillset(
     name: string,
     skillset: SearchIndexerSkillset,
+    options?: CreateOrUpdateSkillsetOptionalParams,
+  ): Promise<SearchIndexerSkillset>;
+
+  createOrUpdateSkillset(
+    nameOrSkillset: string | SearchIndexerSkillset,
+    skillsetOrName: SearchIndexerSkillset | string,
     options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerSkillset> {
+    const name = typeof nameOrSkillset === "string" ? nameOrSkillset : (skillsetOrName as string);
+    const skillset =
+      typeof nameOrSkillset === "string"
+        ? (skillsetOrName as SearchIndexerSkillset)
+        : nameOrSkillset;
     return createOrUpdateSkillset(this._client, name, skillset, options);
   }
 
@@ -167,10 +215,26 @@ export class SearchIndexerClient {
 
   /** Creates a new indexer or updates an indexer if it already exists. */
   createOrUpdateIndexer(
+    indexer: SearchIndexer,
+    name: string,
+    options?: CreateOrUpdateIndexerOptionalParams,
+  ): Promise<SearchIndexer>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateIndexer(
     name: string,
     indexer: SearchIndexer,
+    options?: CreateOrUpdateIndexerOptionalParams,
+  ): Promise<SearchIndexer>;
+
+  createOrUpdateIndexer(
+    nameOrIndexer: string | SearchIndexer,
+    indexerOrName: SearchIndexer | string,
     options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexer> {
+    const name = typeof nameOrIndexer === "string" ? nameOrIndexer : (indexerOrName as string);
+    const indexer =
+      typeof nameOrIndexer === "string" ? (indexerOrName as SearchIndexer) : nameOrIndexer;
     return createOrUpdateIndexer(this._client, name, indexer, options);
   }
 
@@ -240,10 +304,29 @@ export class SearchIndexerClient {
 
   /** Creates a new datasource or updates a datasource if it already exists. */
   createOrUpdateDataSourceConnection(
+    dataSource: SearchIndexerDataSourceConnection,
+    name: string,
+    options?: CreateOrUpdateDataSourceConnectionOptionalParams,
+  ): Promise<SearchIndexerDataSourceConnection>;
+
+  /** Accepts the resource name before the request body. */
+  createOrUpdateDataSourceConnection(
     name: string,
     dataSource: SearchIndexerDataSourceConnection,
+    options?: CreateOrUpdateDataSourceConnectionOptionalParams,
+  ): Promise<SearchIndexerDataSourceConnection>;
+
+  createOrUpdateDataSourceConnection(
+    nameOrDataSource: string | SearchIndexerDataSourceConnection,
+    dataSourceOrName: SearchIndexerDataSourceConnection | string,
     options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerDataSourceConnection> {
+    const name =
+      typeof nameOrDataSource === "string" ? nameOrDataSource : (dataSourceOrName as string);
+    const dataSource =
+      typeof nameOrDataSource === "string"
+        ? (dataSourceOrName as SearchIndexerDataSourceConnection)
+        : nameOrDataSource;
     return createOrUpdateDataSourceConnection(this._client, name, dataSource, options);
   }
 }

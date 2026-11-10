@@ -5,6 +5,7 @@ export { SearchIndexClient } from "./searchIndexClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   ListKnowledgeSourceFileIngestionOperationsOptionalParams,
