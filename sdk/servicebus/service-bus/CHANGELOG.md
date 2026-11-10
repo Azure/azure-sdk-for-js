@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Clarified that `scheduledEnqueueTimeUtc` controls when Service Bus makes a sent message available to receivers, not when the client sends it. ([#40540](https://github.com/Azure/azure-sdk-for-js/pull/40540))
+
 ## 7.10.0 (2026-10-06)
 
 ### Features Added
