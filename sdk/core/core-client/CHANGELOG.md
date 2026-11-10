@@ -1,18 +1,16 @@
 # Release History
 
-## 1.11.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-- Preserve dictionary entries such as `__proto__` as own data properties during serialization and deserialization. [#40495](https://github.com/Azure/azure-sdk-for-js/issues/40495)
+## 1.11.3 (Unreleased)
 
 ### Other Changes
 
 - Re-export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` while preserving the existing public API. Update the pipeline dependency to `^1.26.0`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)
+
+## 1.11.2 (2026-11-06)
+
+### Bugs Fixed
+
+- Preserve dictionary entries such as `__proto__` as own data properties during serialization and deserialization. [#40495](https://github.com/Azure/azure-sdk-for-js/issues/40495)
 
 ## 1.11.1 (2026-09-03)
 
