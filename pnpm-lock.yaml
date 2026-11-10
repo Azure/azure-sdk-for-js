@@ -727,9 +727,6 @@ importers:
       '@typespec/compiler':
         specifier: ^1.14.0
         version: 1.17.0(@types/node@22.20.5)
-      copyfiles:
-        specifier: ^2.4.1
-        version: 2.4.1
       prettier:
         specifier: 'catalog:'
         version: 3.9.10
