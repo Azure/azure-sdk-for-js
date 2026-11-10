@@ -102,6 +102,25 @@ export interface Legacy extends Other { kind: "legacy"; }
   assert.ok(result.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
 });
 
+test("reviewed conversation data generation adds only the new discriminator", () => {
+  const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  const incoming = tree(
+    `export type DataGenerationJobType = ${dataGenerationValues} | "conversations";`,
+  );
+  const result = succeeded(base, base, incoming);
+  assert.match(result.files.get(modelFile), /"conversations"/);
+  for (const extra of [' | "future"', ' | "conversations"']) {
+    const unsafe = plan(
+      base,
+      base,
+      tree(
+        `export type DataGenerationJobType = ${dataGenerationValues} | "conversations"${extra};`,
+      ),
+    );
+    assert.ok(unsafe.diagnostics.length > 0);
+  }
+});
+
 test("retained telephony provider variants merge with an upstream provider addition", () => {
   const base = tree(`
 export type TelephonyProvider = "teams_phone_extensibility" | "twilio";

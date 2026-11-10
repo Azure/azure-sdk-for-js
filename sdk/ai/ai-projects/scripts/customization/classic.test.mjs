@@ -1104,7 +1104,8 @@ test("a removed beta module carries renamed operation helpers but rejects unknow
   );
 });
 
-test("promoted monitor wiring preserves the customized beta authentication context", () => {
+for (const group of ["agentInsightMonitors", "skills"]) {
+test(`promoted ${group} wiring preserves the customized beta authentication context`, () => {
   const oldApi = "api/beta/agentInsightMonitors/operations.ts";
   const rootApi = "api/agentInsightMonitors/operations.ts";
   const beta = `export interface BetaOperations {
@@ -1162,13 +1163,21 @@ ${client
   )}`,
     }),
   );
+  const rename = (text) => group === "skills"
+    ? text.replaceAll("agentInsightMonitors", "skills").replaceAll("AgentInsightMonitors", "Skills")
+    : text;
+  for (const tree of [baseGenerated, baseSource, generated]) {
+    const entries = [...tree];
+    tree.clear();
+    for (const [file, text] of entries) tree.set(rename(file), rename(text));
+  }
   const inputs = { baseGenerated, baseSource, generated };
   const plan = planCustomization(inputs);
   assert.deepEqual(plan.diagnostics, []);
   const resolved = plan.source.get("aiProjectClient.ts");
   assert.match(
     resolved,
-    /this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)/,
+    new RegExp(rename(String.raw`this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)`)),
   );
   assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
   const guardInputs = {
@@ -1182,8 +1191,8 @@ ${client
   wrongContext.set(
     "aiProjectClient.ts",
     resolved.replace(
-      "_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)",
-      "_getAgentInsightMonitorsOperations(this._azureScopeClient)",
+      rename("_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)"),
+      rename("_getAgentInsightMonitorsOperations(this._azureScopeClient)"),
     ),
   );
   assert.ok(
@@ -1191,10 +1200,11 @@ ${client
       (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
     ),
   );
-  generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
+  generated.set(rename(rootApi), generated.get(rename(rootApi)).replaceAll("/items/", "/unrelated/"));
   const unrelated = planCustomization(inputs);
   assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
 });
+}
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {
   const patch = ["patchItem", "/items/{id}", "patch", "ItemsPatchItemOptionalParams"];

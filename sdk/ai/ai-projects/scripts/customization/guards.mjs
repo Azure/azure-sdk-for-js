@@ -1222,6 +1222,7 @@ function preservesPromotedBetaContext(statement, before, baseGenerated, generate
     evaluators: "_getEvaluatorsOperations",
     agentInsightMonitors: "_getAgentInsightMonitorsOperations",
     voiceAgents: "_getVoiceAgentsOperations",
+    skills: "_getSkillsOperations",
   }[member];
   if (
     !factory ||

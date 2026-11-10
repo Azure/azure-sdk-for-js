@@ -2,113 +2,12 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import type {
-  Agent,
-  AgentVersion,
-  AgentDefinitionUnion,
-  DeleteAgentResponse,
-  _AgentsPagedResultAgentObject,
-  DeleteAgentVersionResponse,
-  _AgentsPagedResultAgentVersionObject,
-  CreateAgentVersionFromCodeContent,
-  VersionIndicatorUnion,
-  AgentSessionResource,
-  _AgentsPagedResultAgentSessionResource,
-  AgentOptimizationJob,
-  AgentOptimizationJobResult,
-  AgentOptimizationEstimateInputs,
-  AgentOptimizationEstimateResult,
-  _AgentsPagedResultAgentOptimizationJob,
-  _AgentsPagedResultAgentOptimizationCandidate,
-  AgentOptimizationCandidate,
-  Microsoft365PublishScope,
-  Microsoft365PublishResponse,
-  Microsoft365PublishDefaults,
-  SessionFileWriteResponse,
-  SessionDirectoryListResponse,
-  SessionDirectoryEntry,
-  AgentsDownloadSessionFileResponse,
-  GetMicrosoft365PackageResponse,
-  AgentsDownloadAgentCodeResponse,
-  GenerateAgentRequest,
-} from "../../models/models.js";
-import {
-  agentDeserializer,
-  agentVersionDeserializer,
-  agentDefinitionUnionSerializer,
-  agentBlueprintReferenceUnionSerializer,
-  agentEndpointConfigSerializer,
-  agentCardSerializer,
-  apiErrorResponseDeserializer,
-  deleteAgentResponseDeserializer,
-  _agentsPagedResultAgentObjectDeserializer,
-  deleteAgentVersionResponseDeserializer,
-  _agentsPagedResultAgentVersionObjectDeserializer,
-  createAgentVersionFromCodeContentSerializer,
-  versionIndicatorUnionSerializer,
-  agentSessionResourceDeserializer,
-  _agentsPagedResultAgentSessionResourceDeserializer,
-  agentOptimizationJobSerializer,
-  agentOptimizationJobDeserializer,
-  agentOptimizationJobResultDeserializer,
-  agentOptimizationEstimateInputsSerializer,
-  agentOptimizationEstimateResultDeserializer,
-  _agentsPagedResultAgentOptimizationJobDeserializer,
-  _agentsPagedResultAgentOptimizationCandidateDeserializer,
-  agentOptimizationCandidateDeserializer,
-  microsoft365PermissionScopesArraySerializer,
-  microsoft365PublishResponseDeserializer,
-  microsoft365PublishDefaultsDeserializer,
-  sessionFileWriteResponseDeserializer,
-  sessionDirectoryListResponseDeserializer,
-  generateAgentRequestSerializer,
-} from "../../models/models.js";
+import type { Agent, AgentVersion, AgentDefinitionUnion, DeleteAgentResponse, _AgentsPagedResultAgentObject, DeleteAgentVersionResponse, _AgentsPagedResultAgentVersionObject, CreateAgentVersionFromCodeContent, VersionIndicatorUnion, AgentSessionResource, _AgentsPagedResultAgentSessionResource, AgentOptimizationJob, AgentOptimizationJobResult, AgentOptimizationEstimateInputs, AgentOptimizationEstimateResult, _AgentsPagedResultAgentOptimizationJob, _AgentsPagedResultAgentOptimizationCandidate, AgentOptimizationCandidate, Microsoft365PublishScope, Microsoft365PublishResponse, Microsoft365PublishDefaults, SessionFileWriteResponse, SessionDirectoryListResponse, SessionDirectoryEntry, GenerateAgentRequest, AgentsDownloadSessionFileResponse, GetMicrosoft365PackageResponse, AgentsDownloadAgentCodeResponse, AgentsDownloadOptimizationJobFileResponse } from "../../models/models.js";
+import { agentDeserializer, agentVersionDeserializer, agentDefinitionUnionSerializer, agentBlueprintReferenceUnionSerializer, agentEndpointConfigSerializer, agentCardSerializer, apiErrorResponseDeserializer, deleteAgentResponseDeserializer, _agentsPagedResultAgentObjectDeserializer, deleteAgentVersionResponseDeserializer, _agentsPagedResultAgentVersionObjectDeserializer, createAgentVersionFromCodeContentSerializer, versionIndicatorUnionSerializer, agentSessionResourceDeserializer, _agentsPagedResultAgentSessionResourceDeserializer, agentOptimizationJobSerializer, agentOptimizationJobDeserializer, agentOptimizationJobResultDeserializer, agentOptimizationEstimateInputsSerializer, agentOptimizationEstimateResultDeserializer, _agentsPagedResultAgentOptimizationJobDeserializer, _agentsPagedResultAgentOptimizationCandidateDeserializer, agentOptimizationCandidateDeserializer, microsoft365PermissionScopesArraySerializer, microsoft365PublishResponseDeserializer, microsoft365PublishDefaultsDeserializer, sessionFileWriteResponseDeserializer, sessionDirectoryListResponseDeserializer, generateAgentRequestSerializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
-  AgentsDeleteSessionFileOptionalParams,
-  AgentsListSessionFilesOptionalParams,
-  AgentsDownloadSessionFileOptionalParams,
-  AgentsUploadSessionFileOptionalParams,
-  GetMicrosoft365PublishDefaultsOptionalParams,
-  GetMicrosoft365PackageOptionalParams,
-  PublishToMicrosoft365OptionalParams,
-  AgentsPromoteOptimizationCandidateOptionalParams,
-  AgentsGetOptimizationCandidateOptionalParams,
-  AgentsListOptimizationCandidatesOptionalParams,
-  AgentsDeleteOptimizationJobOptionalParams,
-  AgentsCancelOptimizationJobOptionalParams,
-  AgentsListOptimizationJobsOptionalParams,
-  AgentsGetOptimizationJobOptionalParams,
-  AgentsEstimateOptimizationJobOptionalParams,
-  AgentsCreateOptimizationJobOptionalParams,
-  AgentsGetSessionLogStreamOptionalParams,
-  AgentsListSessionsOptionalParams,
-  AgentsStopSessionOptionalParams,
-  AgentsDeleteSessionOptionalParams,
-  AgentsGetSessionOptionalParams,
-  AgentsCreateSessionOptionalParams,
-  AgentsDisableOptionalParams,
-  AgentsEnableOptionalParams,
-  AgentsDownloadAgentCodeOptionalParams,
-  AgentsCreateVersionFromCodeOptionalParams,
-  AgentsUpdateAgentObjectOptionalParams,
-  AgentsListVersionsOptionalParams,
-  AgentsDeleteVersionOptionalParams,
-  AgentsGetVersionOptionalParams,
-  AgentsCreateAgentVersionFromManifestOptionalParams,
-  AgentsCreateVersionOptionalParams,
-  AgentsListOptionalParams,
-  AgentsDeleteOptionalParams,
-  AgentsUpdateAgentFromManifestOptionalParams,
-  AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateOptionalParams,
-  AgentsCreateOptionalParams,
-  AgentsGetOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
-  AgentsCreateFromPromptOptionalParams,
-} from "./options.js";
+import type { AgentsDeleteSessionFileOptionalParams, AgentsListSessionFilesOptionalParams, AgentsDownloadSessionFileOptionalParams, AgentsUploadSessionFileOptionalParams, GetMicrosoft365PublishDefaultsOptionalParams, GetMicrosoft365PackageOptionalParams, PublishToMicrosoft365OptionalParams, AgentsPromoteOptimizationCandidateOptionalParams, AgentsGetOptimizationCandidateOptionalParams, AgentsListOptimizationCandidatesOptionalParams, AgentsDeleteOptimizationJobOptionalParams, AgentsCancelOptimizationJobOptionalParams, AgentsListOptimizationJobsOptionalParams, AgentsGetOptimizationJobOptionalParams, AgentsEstimateOptimizationJobOptionalParams, AgentsCreateOptimizationJobOptionalParams, AgentsGetSessionLogStreamOptionalParams, AgentsListSessionsOptionalParams, AgentsStopSessionOptionalParams, AgentsDeleteSessionOptionalParams, AgentsGetSessionOptionalParams, AgentsCreateSessionOptionalParams, AgentsDisableOptionalParams, AgentsEnableOptionalParams, AgentsDownloadAgentCodeOptionalParams, AgentsCreateVersionFromCodeOptionalParams, AgentsUpdateAgentObjectOptionalParams, AgentsListVersionsOptionalParams, AgentsDeleteVersionOptionalParams, AgentsGetVersionOptionalParams, AgentsCreateAgentVersionFromManifestOptionalParams, AgentsCreateVersionOptionalParams, AgentsListOptionalParams, AgentsDeleteOptionalParams, AgentsUpdateAgentFromManifestOptionalParams, AgentsCreateAgentFromManifestOptionalParams, AgentsUpdateOptionalParams, AgentsCreateFromPromptOptionalParams, AgentsCreateOptionalParams, AgentsGetOptionalParams, AgentsPatchAgentObjectOptionalParams, AgentsDownloadOptimizationJobFileOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
@@ -859,13 +758,13 @@ export function _listOptimizationJobsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      status: options?.status,
+      status: options?.status as any,
       agent_name: options?.agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
+    }
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
@@ -910,6 +809,59 @@ export function listOptimizationJobs(
       },
     },
   );
+}
+
+export function _downloadOptimizationJobFileSend(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/files{?api-version,candidate_id,path}",
+    {
+      jobId: jobId,
+      candidate_id: options?.candidateId,
+      path: path,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path_1)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/octet-stream", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _downloadOptimizationJobFileDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadOptimizationJobFileResponse,
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+export async function downloadOptimizationJobFile(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const result = await _downloadOptimizationJobFileSend(context, jobId, path, options);
+  return _downloadOptimizationJobFileDeserialize(result);
 }
 
 export function _getOptimizationJobSend(

@@ -1,22 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AgentState,
-  AgentKind,
-  AgentBlueprintReferenceUnion,
-  AgentEndpointConfig,
-  ActivityProtocolAccessBoundary,
-  DigitalWorkerType,
-  AgentCard,
-  JobStatus,
-  Microsoft365PermissionScopes,
-  AgentDefinitionOptInKeys,
-  PageOrder,
-  AgentOptimizationCandidateExpand,
-  TelephonyProvider,
-  TelephonyCallStatus,
-} from "../../models/models.js";
+import type { AgentState, AgentKind, AgentBlueprintReferenceUnion, AgentEndpointConfig, ActivityProtocolAccessBoundary, DigitalWorkerType, AgentCard, Microsoft365PermissionScopes, AgentDefinitionOptInKeys, PageOrder, AgentOptimizationCandidateExpand, TelephonyProvider, TelephonyCallStatus, AgentOptimizationJobStatus } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -255,9 +240,15 @@ export interface AgentsListOptimizationJobsOptionalParams extends OperationOptio
    */
   before?: string;
   /** Filter to jobs in this lifecycle state. */
-  status?: JobStatus;
+  status?: AgentOptimizationJobStatus;
   /** Filter to jobs targeting this agent name. */
   agentName?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadOptimizationJobFileOptionalParams extends OperationOptions {
+  /** The candidate that owns the file. Omit to request a job-level file. */
+  candidateId?: string;
 }
 
 /** Optional parameters. */

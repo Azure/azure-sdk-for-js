@@ -3,10 +3,6 @@
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-import type { BetaSkillsOperations } from "./skills/index.js";
-import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import { _getBetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import type { BetaEvaluatorsOperations } from "./evaluators/index.js";
@@ -31,27 +27,23 @@ import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClien
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing skills. */
-  skills: BetaSkillsOperations;
-  /** Operations for managing schedules. */
+/** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
-  /** Operations for managing routines. */
+/** Operations for managing routines. */
   routines: BetaRoutinesOperations;
-  /** Operations for managing red team evaluations. */
+/** Operations for managing red team evaluations. */
   redTeams: BetaRedTeamsOperations;
-  /** Operations for managing models. */
+/** Operations for managing models. */
   models: BetaModelsOperations;
-  /** Operations for managing memory stores. */
+/** Operations for managing memory stores. */
   memoryStores: BetaMemoryStoresOperations;
-  /** Operations for managing evaluation insights. */
+/** Operations for managing evaluation insights. */
   insights: BetaInsightsOperations;
-  /** Operations for managing evaluators. */
+/** Operations for managing evaluators. */
   evaluators: BetaEvaluatorsOperations;
-  /** Operations for managing evaluation taxonomies. */
+/** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  /** Operations for managing Agent Insights monitors. */
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  /** Operations for managing voice agent conversations and telephony. */
+/** Operations for managing voice agent conversations and telephony. */
   voiceAgents: BetaVoiceAgentsOperations;
 }
 
@@ -64,27 +56,23 @@ export function _getBetaOperations(
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaOperations {
   return {
-    /** Operations for managing skills. */
-    skills: _getBetaSkillsOperations(context),
-    /** Operations for managing schedules. */
+/** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
-    /** Operations for managing routines. */
+/** Operations for managing routines. */
     routines: _getBetaRoutinesOperations(context),
-    /** Operations for managing red team evaluations. */
+/** Operations for managing red team evaluations. */
     redTeams: _getBetaRedTeamsOperations(context),
-    /** Operations for managing models. */
+/** Operations for managing models. */
     models: _getBetaModelsOperations(context),
-    /** Operations for managing memory stores. */
+/** Operations for managing memory stores. */
     memoryStores: _getBetaMemoryStoresOperations(context),
-    /** Operations for managing evaluation insights. */
+/** Operations for managing evaluation insights. */
     insights: _getBetaInsightsOperations(context),
-    /** Operations for managing evaluators. */
+/** Operations for managing evaluators. */
     evaluators: _getBetaEvaluatorsOperations(context),
-    /** Operations for managing evaluation taxonomies. */
+/** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    /** Operations for managing Agent Insights monitors. */
-    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    /** Operations for managing voice agent conversations and telephony. */
+/** Operations for managing voice agent conversations and telephony. */
     voiceAgents: _getBetaVoiceAgentsOperations(
       context,
       credential,
@@ -92,6 +80,6 @@ export function _getBetaOperations(
       realtimeOptions,
       tracingConfig,
       liveOptions,
-    ),
+    )
   };
 }

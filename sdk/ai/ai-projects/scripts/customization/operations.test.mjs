@@ -105,6 +105,51 @@ test("retains a deliberate customized operation name", () => {
   assert.match(result.files.get("api/beta/new/options.ts"), /interface CustomReadOptions/);
 });
 
+test("reviewed Skills promotion ports the OpenAI route and preserves custom headers", () => {
+    const skills = (file, prefix, custom = false) =>
+      new Map([
+        [
+          file,
+          operation("get", "GetOptions", { custom })
+            .replace("/things/{id}", `${prefix}/skills/{id}`)
+            .replaceAll(
+              'from "../../index.js"',
+              file.includes("/beta/") ? 'from "../../../index.js"' : 'from "../../index.js"',
+            )
+            .replaceAll(
+              'from "../../../static-helpers/urlTemplate.js"',
+              file.includes("/beta/")
+                ? 'from "../../../../static-helpers/urlTemplate.js"'
+                : 'from "../../../static-helpers/urlTemplate.js"',
+            ),
+        ],
+        [file.replace("operations.ts", "options.ts"), options("GetOptions")],
+      ]);
+    const oldFile = "api/beta/skills/operations.ts";
+    const newFile = "api/skills/operations.ts";
+    const baseGenerated = skills(oldFile, "");
+    const baseSource = skills(oldFile, "", true);
+    const result = planOperations({
+      baseGenerated,
+      baseSource,
+      generated: skills(newFile, "/openai/v1"),
+    });
+    assert.deepEqual(result.diagnostics, []);
+    const source = result.files.get(newFile);
+    assert.match(source, /\/openai\/v1\/skills\/\{id\}/);
+    assert.match(source, /x-custom/);
+    assert.equal(result.files.has(oldFile), false);
+
+    for (const file of ["api/unreviewed/operations.ts", newFile]) {
+      const unsafe = planOperations({
+        baseGenerated,
+        baseSource,
+        generated: skills(file, "/unreviewed/v1"),
+      });
+      assert.ok(unsafe.diagnostics.some((item) => /disappeared/.test(item.message)));
+    }
+});
+
 test("reviewed call-job GA promotion adopts conditional SIP opt-in instead of the old required constant", () => {
   for (const group of ["voiceAgents/telephony", "unreviewed"]) {
     const oldFile = `api/beta/${group}/operations.ts`;

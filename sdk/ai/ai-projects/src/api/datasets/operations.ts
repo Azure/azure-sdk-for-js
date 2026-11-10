@@ -2,47 +2,12 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import {
-  apiErrorResponseDeserializer,
-  dataGenerationJobUnionDeserializer,
-  dataGenerationJobResultDeserializer,
-  _agentsPagedResultDataGenerationJobDeserializer,
-  dataGenerationJobInputsUnionSerializer,
-  _pagedDatasetVersionDeserializer,
-  datasetVersionUnionSerializer,
-  datasetVersionUnionDeserializer,
-  pendingUploadRequestSerializer,
-  pendingUploadResponseDeserializer,
-  datasetCredentialDeserializer,
-} from "../../models/models.js";
-import type {
-  DataGenerationJobUnion,
-  DataGenerationJobResult,
-  _AgentsPagedResultDataGenerationJob,
-  DataGenerationJobInputsUnion,
-  _PagedDatasetVersion,
-  DatasetVersionUnion,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-} from "../../models/models.js";
+import { apiErrorResponseDeserializer, _pagedDatasetVersionDeserializer, datasetVersionUnionSerializer, datasetVersionUnionDeserializer, pendingUploadRequestSerializer, pendingUploadResponseDeserializer, datasetCredentialDeserializer, dataGenerationJobUnionDeserializer, dataGenerationJobResultDeserializer, _agentsPagedResultDataGenerationJobDeserializer, dataGenerationJobInputsUnionSerializer } from "../../models/models.js";
+import type { _PagedDatasetVersion, DatasetVersionUnion, PendingUploadRequest, PendingUploadResponse, DatasetCredential, DataGenerationJobUnion, DataGenerationJobResult, _AgentsPagedResultDataGenerationJob, DataGenerationJobInputsUnion } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
-  DatasetsDeleteGenerationJobOptionalParams,
-  DatasetsCancelGenerationJobOptionalParams,
-  DatasetsCreateGenerationJobOptionalParams,
-  DatasetsListGenerationJobsOptionalParams,
-  DatasetsGetGenerationJobOptionalParams,
-  DatasetsGetCredentialsOptionalParams,
-  DatasetsPendingUploadOptionalParams,
-  DatasetsCreateOrUpdateOptionalParams,
-  DatasetsDeleteOptionalParams,
-  DatasetsGetOptionalParams,
-  DatasetsListOptionalParams,
-  DatasetsListVersionsOptionalParams,
-} from "./options.js";
+import type { DatasetsDeleteGenerationJobOptionalParams, DatasetsCancelGenerationJobOptionalParams, DatasetsCreateGenerationJobOptionalParams, DatasetsListGenerationJobsOptionalParams, DatasetsGetGenerationJobOptionalParams, DatasetsGetCredentialsOptionalParams, DatasetsPendingUploadOptionalParams, DatasetsCreateOrUpdateOptionalParams, DatasetsDeleteOptionalParams, DatasetsGetOptionalParams, DatasetsListOptionalParams, DatasetsListVersionsOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";

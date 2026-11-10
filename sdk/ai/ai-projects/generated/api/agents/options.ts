@@ -9,7 +9,7 @@ import {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
-  JobStatus,
+  AgentOptimizationJobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
@@ -253,9 +253,15 @@ export interface AgentsListOptimizationJobsOptionalParams extends OperationOptio
    */
   before?: string;
   /** Filter to jobs in this lifecycle state. */
-  status?: JobStatus;
+  status?: AgentOptimizationJobStatus;
   /** Filter to jobs targeting this agent name. */
   agentName?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadOptimizationJobFileOptionalParams extends OperationOptions {
+  /** The candidate that owns the file. Omit to request a job-level file. */
+  candidateId?: string;
 }
 
 /** Optional parameters. */

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
+
 export type { AgentsOperations } from "./agents/index.js";
 export type { BetaOperations } from "./beta/index.js";
 export type { ConnectionsOperations } from "./connections/index.js";
@@ -17,12 +19,13 @@ export type { BetaModelsOperations, BetaModelsCreateOptions } from "./beta/model
 export type { BetaRedTeamsOperations } from "./beta/redTeams/index.js";
 export type { BetaRoutinesOperations } from "./beta/routines/index.js";
 export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
-export type { BetaSkillsOperations } from "./beta/skills/index.js";
 export type { TelemetryOperations } from "./telemetry/index.js";
 export type { BetaVoiceAgentsOperations } from "./beta/voiceAgents/index.js";
-export type { BetaVoiceAgentsTelephonyOperations } from "./beta/voiceAgents/telephony/index.js";
 export type { EvaluatorsOperations } from "./evaluators/index.js";
 export type { BetaVoiceAgentsLiveConversationsOperations } from "./beta/voiceAgents/liveConversations/index.js";
 export type { VoiceAgentsOperations } from "./voiceAgents/index.js";
 export type { VoiceAgentsConversationsOperations } from "./voiceAgents/conversations/index.js";
 export type { VoiceAgentsTelephonyOperations } from "./voiceAgents/telephony/index.js";
+export type { AgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
+export type { SkillsOperations } from "./skills/index.js";
+export type { BetaVoiceAgentsCampaignsOperations } from "./beta/voiceAgents/campaigns/index.js";

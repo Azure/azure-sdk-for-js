@@ -205,7 +205,8 @@ function promoteBetaClientGroup(
 ) {
   const file = "aiProjectClient.ts";
   const voice = group === "voiceAgents";
-  const type = voice ? "VoiceAgents" : "AgentInsightMonitors";
+  const type = { voiceAgents: "VoiceAgents", skills: "Skills", agentInsightMonitors: "AgentInsightMonitors" }[group];
+  if (!type) return customText;
   const target = `api/${group}/`;
   const promoted = matches.filter((match) => match.incoming.file.startsWith(target));
   if (
@@ -489,17 +490,13 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           message: "New protected file requires an explicit customization policy",
         });
       }
-      if (file === "aiProjectClient.ts" && customText)
-        source.set(
-          file,
-          promoteBetaClientGroup(
-            baseText,
-            promoteBetaClientGroup(baseText, customText, incomingText, operations.matches),
-            incomingText,
-            operations.matches,
-            "voiceAgents",
-          ),
-        );
+      if (file === "aiProjectClient.ts" && customText) {
+        let client = customText;
+        for (const group of ["agentInsightMonitors", "voiceAgents", "skills"]) {
+          client = promoteBetaClientGroup(baseText, client, incomingText, operations.matches, group);
+        }
+        source.set(file, client);
+      }
       continue;
     }
     if (incomingText === baseText && customText !== undefined) continue;

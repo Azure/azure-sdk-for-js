@@ -4694,6 +4694,1102 @@ export function functionParametersDeserializer(item: any): FunctionParameters {
   };
 }
 
+/** A JSONL dataset used as the input to an evaluation run. See [evaluate datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-datasets?tabs=python). */
+export interface CreateEvalJsonlRunDataSource {
+  /** The type of data source. Always `jsonl`. */
+  type: "jsonl";
+  /** Determines what populates the `item` namespace in the data source. */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+}
+
+export function createEvalJsonlRunDataSourceSerializer(item: CreateEvalJsonlRunDataSource): any {
+  return {
+    type: item["type"],
+    source: _datasetEvaluationRuleActionSourceSourceSerializer(item["source"]),
+  };
+}
+
+export function createEvalJsonlRunDataSourceDeserializer(item: any): CreateEvalJsonlRunDataSource {
+  return {
+    type: item["type"],
+    source: _datasetEvaluationRuleActionSourceSourceDeserializer(item["source"]),
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceSource */
+export type _DatasetEvaluationRuleActionSourceSource =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+
+export function _datasetEvaluationRuleActionSourceSourceSerializer(
+  item: _DatasetEvaluationRuleActionSourceSource,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceSourceDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceSource {
+  return item;
+}
+
+/** model interface EvalJsonlFileContentSource */
+export interface EvalJsonlFileContentSource {
+  /** The type of jsonl source. Always `file_content`. */
+  type: "file_content";
+  /** The content of the jsonl file. */
+  content: EvalJsonlFileContentSourceContent[];
+}
+
+export function evalJsonlFileContentSourceSerializer(item: EvalJsonlFileContentSource): any {
+  return {
+    type: item["type"],
+    content: evalJsonlFileContentSourceContentArraySerializer(item["content"]),
+  };
+}
+
+export function evalJsonlFileContentSourceDeserializer(item: any): EvalJsonlFileContentSource {
+  return {
+    type: item["type"],
+    content: evalJsonlFileContentSourceContentArrayDeserializer(item["content"]),
+  };
+}
+
+export function evalJsonlFileContentSourceContentArraySerializer(
+  result: Array<EvalJsonlFileContentSourceContent>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileContentSourceContentSerializer(item);
+  });
+}
+
+export function evalJsonlFileContentSourceContentArrayDeserializer(
+  result: Array<EvalJsonlFileContentSourceContent>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileContentSourceContentDeserializer(item);
+  });
+}
+
+/** model interface EvalJsonlFileContentSourceContent */
+export interface EvalJsonlFileContentSourceContent {
+  item: Record<string, any>;
+  sample?: Record<string, any>;
+}
+
+export function evalJsonlFileContentSourceContentSerializer(
+  item: EvalJsonlFileContentSourceContent,
+): any {
+  return { item: item["item"], sample: item["sample"] };
+}
+
+export function evalJsonlFileContentSourceContentDeserializer(
+  item: any,
+): EvalJsonlFileContentSourceContent {
+  return {
+    item: Object.fromEntries(Object.entries(item["item"]).map(([k, p]: [string, any]) => [k, p])),
+    sample: !item["sample"]
+      ? item["sample"]
+      : Object.fromEntries(Object.entries(item["sample"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** model interface EvalJsonlFileIdSource */
+export interface EvalJsonlFileIdSource {
+  /** The type of jsonl source. Always `file_id`. */
+  type: "file_id";
+  /** The identifier of the file. */
+  id: string;
+}
+
+export function evalJsonlFileIdSourceSerializer(item: EvalJsonlFileIdSource): any {
+  return { type: item["type"], id: item["id"] };
+}
+
+export function evalJsonlFileIdSourceDeserializer(item: any): EvalJsonlFileIdSource {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** A CompletionsRunDataSource object describing a model sampling configuration. */
+export interface CreateEvalCompletionsRunDataSource {
+  /** The type of run data source. Always `completions`. */
+  type: "completions";
+  /** Used when sampling from a model. Dictates the structure of the messages passed into the model. Can either be a reference to a prebuilt trajectory (ie, `item.input_trajectory`), or a template with variable references to the `item` namespace. */
+  input_messages?:
+    | CreateEvalCompletionsRunDataSourceInputMessagesTemplate
+    | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
+  sampling_params?: CreateEvalCompletionsRunDataSourceSamplingParams;
+  /** The name of the model to use for generating completions (e.g. "o3-mini"). */
+  model?: string;
+  /** Determines what populates the `item` namespace in this run's data source. */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource | EvalStoredCompletionsSource;
+}
+
+export function createEvalCompletionsRunDataSourceSerializer(
+  item: CreateEvalCompletionsRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : _datasetEvaluationRuleActionSourceInputMessagesSerializer(item["input_messages"]),
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : createEvalCompletionsRunDataSourceSamplingParamsSerializer(item["sampling_params"]),
+    model: item["model"],
+    source: _datasetEvaluationRuleActionSourceSource1Serializer(item["source"]),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSource {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : _datasetEvaluationRuleActionSourceInputMessagesDeserializer(item["input_messages"]),
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : createEvalCompletionsRunDataSourceSamplingParamsDeserializer(item["sampling_params"]),
+    model: item["model"],
+    source: _datasetEvaluationRuleActionSourceSource1Deserializer(item["source"]),
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessages */
+export type _DatasetEvaluationRuleActionSourceInputMessages =
+  | CreateEvalCompletionsRunDataSourceInputMessagesTemplate
+  | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
+
+export function _datasetEvaluationRuleActionSourceInputMessagesSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessages,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessages {
+  return item;
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceInputMessagesTemplate */
+export interface CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
+  type: "template";
+  template: (EasyInputMessage | EvalItem)[];
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesTemplateSerializer(
+  item: CreateEvalCompletionsRunDataSourceInputMessagesTemplate,
+): any {
+  return {
+    type: item["type"],
+    template: _datasetEvaluationRuleActionSourceInputMessagesTemplateArraySerializer(
+      item["template"],
+    ),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesTemplateDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
+  return {
+    type: item["type"],
+    template: _datasetEvaluationRuleActionSourceInputMessagesTemplateArrayDeserializer(
+      item["template"],
+    ),
+  };
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateArraySerializer(
+  result: Array<_DatasetEvaluationRuleActionSourceInputMessagesTemplate>,
+): any[] {
+  return result.map((item) => {
+    return _datasetEvaluationRuleActionSourceInputMessagesTemplateSerializer(item);
+  });
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateArrayDeserializer(
+  result: Array<_DatasetEvaluationRuleActionSourceInputMessagesTemplate>,
+): any[] {
+  return result.map((item) => {
+    return _datasetEvaluationRuleActionSourceInputMessagesTemplateDeserializer(item);
+  });
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessagesTemplate */
+export type _DatasetEvaluationRuleActionSourceInputMessagesTemplate = EasyInputMessage | EvalItem;
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessagesTemplate,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessagesTemplate {
+  return item;
+}
+
+/**
+ * A message input to the model with a role indicating instruction following
+ * hierarchy. Instructions given with the `developer` or `system` role take
+ * precedence over instructions given with the `user` role. Messages with the
+ * `assistant` role are presumed to have been generated by the model in previous
+ * interactions.
+ */
+export interface EasyInputMessage {
+  /**
+   * The role of the message input. One of `user`, `assistant`, `system`, or
+   *   `developer`.
+   */
+  role: "user" | "assistant" | "system" | "developer";
+  /**
+   * Text, image, or audio input to the model, used to generate a response.
+   *   Can also contain previous assistant responses.
+   */
+  content: string | InputContentUnion[];
+  phase?: MessagePhase;
+  /** The type of the message input. Always `message`. */
+  type: "message";
+  /**
+   * The status of item. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when items are returned via API.
+   */
+  status?: "in_progress" | "completed" | "incomplete";
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function easyInputMessageSerializer(item: EasyInputMessage): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    role: item["role"],
+    content: _datasetEvaluationRuleActionSourceInputMessagesTemplateContentSerializer(
+      item["content"],
+    ),
+    phase: item["phase"],
+    type: item["type"],
+    status: item["status"],
+  };
+}
+
+export function easyInputMessageDeserializer(item: any): EasyInputMessage {
+  return {
+    additionalProperties: serializeRecord(item, ["role", "content", "phase", "type", "status"]),
+    role: item["role"],
+    content: _datasetEvaluationRuleActionSourceInputMessagesTemplateContentDeserializer(
+      item["content"],
+    ),
+    phase: item["phase"],
+    type: item["type"],
+    status: item["status"],
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent */
+export type _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent =
+  string | InputContentUnion[];
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateContentSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateContentDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent {
+  return item;
+}
+
+export function inputContentUnionArraySerializer(result: Array<InputContentUnion>): any[] {
+  return result.map((item) => {
+    return inputContentUnionSerializer(item);
+  });
+}
+
+export function inputContentUnionArrayDeserializer(result: Array<InputContentUnion>): any[] {
+  return result.map((item) => {
+    return inputContentUnionDeserializer(item);
+  });
+}
+
+/** model interface InputContent */
+export interface InputContent {
+  type: InputContentType;
+}
+
+export function inputContentSerializer(item: InputContent): any {
+  return { type: item["type"] };
+}
+
+export function inputContentDeserializer(item: any): InputContent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for InputContentUnion */
+export type InputContentUnion =
+  | InputContentInputTextContent
+  | InputContentInputImageContent
+  | InputContentInputFileContent
+  | InputContent;
+
+export function inputContentUnionSerializer(item: InputContentUnion): any {
+  switch (item.type) {
+    case "input_text":
+      return inputContentInputTextContentSerializer(item as InputContentInputTextContent);
+
+    case "input_image":
+      return inputContentInputImageContentSerializer(item as InputContentInputImageContent);
+
+    case "input_file":
+      return inputContentInputFileContentSerializer(item as InputContentInputFileContent);
+
+    default:
+      return inputContentSerializer(item);
+  }
+}
+
+export function inputContentUnionDeserializer(item: any): InputContentUnion {
+  switch (item["type"]) {
+    case "input_text":
+      return inputContentInputTextContentDeserializer(item as InputContentInputTextContent);
+
+    case "input_image":
+      return inputContentInputImageContentDeserializer(item as InputContentInputImageContent);
+
+    case "input_file":
+      return inputContentInputFileContentDeserializer(item as InputContentInputFileContent);
+
+    default:
+      return inputContentDeserializer(item);
+  }
+}
+
+/** Type of InputContentType */
+export type InputContentType = "input_text" | "input_image" | "input_file";
+
+/** A text input to the model. */
+export interface InputContentInputTextContent extends InputContent {
+  /** The type of the input item. Always `input_text`. */
+  type: "input_text";
+  /** The text input to the model. */
+  text: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function inputContentInputTextContentSerializer(item: InputContentInputTextContent): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function inputContentInputTextContentDeserializer(item: any): InputContentInputTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+/** Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block. */
+export interface PromptCacheBreakpointConfig {
+  /** The breakpoint mode. Always `explicit`. */
+  mode: "explicit";
+  /** The minimum lifetime of this cache breakpoint. Defaults to the request TTL. */
+  ttl?: "30m" | "12h";
+}
+
+export function promptCacheBreakpointConfigSerializer(item: PromptCacheBreakpointConfig): any {
+  return { mode: item["mode"], ttl: item["ttl"] };
+}
+
+export function promptCacheBreakpointConfigDeserializer(item: any): PromptCacheBreakpointConfig {
+  return {
+    mode: item["mode"],
+    ttl: item["ttl"],
+  };
+}
+
+/** An image input to the model. Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision). */
+export interface InputContentInputImageContent extends InputContent {
+  /** The type of the input item. Always `input_image`. */
+  type: "input_image";
+  image_url?: string;
+  file_id?: string;
+  /** The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`. */
+  detail: ImageDetail;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function inputContentInputImageContentSerializer(item: InputContentInputImageContent): any {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    file_id: item["file_id"],
+    detail: item["detail"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function inputContentInputImageContentDeserializer(
+  item: any,
+): InputContentInputImageContent {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    file_id: item["file_id"],
+    detail: item["detail"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+/** Type of ImageDetail */
+export type ImageDetail = "low" | "high" | "auto" | "original";
+
+/** A file input to the model. */
+export interface InputContentInputFileContent extends InputContent {
+  /** The type of the input item. Always `input_file`. */
+  type: "input_file";
+  file_id?: string;
+  /** The name of the file to be sent to the model. */
+  filename?: string;
+  /** The content of the file to be sent to the model. */
+  file_data?: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+  /** The URL of the file to be sent to the model. */
+  file_url?: string;
+  /** The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`. */
+  detail?: FileInputDetail;
+}
+
+export function inputContentInputFileContentSerializer(item: InputContentInputFileContent): any {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    filename: item["filename"],
+    file_data: item["file_data"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+    file_url: item["file_url"],
+    detail: item["detail"],
+  };
+}
+
+export function inputContentInputFileContentDeserializer(item: any): InputContentInputFileContent {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    filename: item["filename"],
+    file_data: item["file_data"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+    file_url: item["file_url"],
+    detail: item["detail"],
+  };
+}
+
+/** Type of FileInputDetail */
+export type FileInputDetail = "auto" | "low" | "high";
+
+/**
+ * Labels an `assistant` message as intermediate commentary (`commentary`) or the final answer (`final_answer`).
+ * For models like `gpt-5.3-codex` and beyond, when sending follow-up requests, preserve and resend
+ * phase on all assistant messages — dropping it can degrade performance. Not used for user messages.
+ */
+export type MessagePhase = "commentary" | "final_answer";
+
+/**
+ * A message input to the model with a role indicating instruction following
+ * hierarchy. Instructions given with the `developer` or `system` role take
+ * precedence over instructions given with the `user` role. Messages with the
+ * `assistant` role are presumed to have been generated by the model in previous
+ * interactions.
+ */
+export interface EvalItem {
+  /**
+   * The role of the message input. One of `user`, `assistant`, `system`, or
+   *   `developer`.
+   */
+  role: "user" | "assistant" | "system" | "developer";
+  content: EvalItemContent;
+  /** The type of the message input. Always `message`. */
+  type?: "message";
+}
+
+export function evalItemSerializer(item: EvalItem): any {
+  return {
+    role: item["role"],
+    content: evalItemContentSerializer(item["content"]),
+    type: item["type"],
+  };
+}
+
+export function evalItemDeserializer(item: any): EvalItem {
+  return {
+    role: item["role"],
+    content: evalItemContentDeserializer(item["content"]),
+    type: item["type"],
+  };
+}
+
+/** Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items. */
+export type EvalItemContent = EvalItemContentItem | EvalItemContentItem[];
+
+export function evalItemContentSerializer(item: EvalItemContent): any {
+  return item;
+}
+
+export function evalItemContentDeserializer(item: any): EvalItemContent {
+  return item;
+}
+
+/** A single content item: input text, output text, input image, or input audio. */
+export type EvalItemContentItem = string | EvalItemContentItemObjectUnion;
+
+export function evalItemContentItemSerializer(item: EvalItemContentItem): any {
+  return item;
+}
+
+export function evalItemContentItemDeserializer(item: any): EvalItemContentItem {
+  return item;
+}
+
+/** A single content item: input text, output text, input image, or input audio. */
+export interface EvalItemContentItemObject {
+  type: EvalItemContentItemObjectType;
+}
+
+export function evalItemContentItemObjectSerializer(item: EvalItemContentItemObject): any {
+  return { type: item["type"] };
+}
+
+export function evalItemContentItemObjectDeserializer(item: any): EvalItemContentItemObject {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvalItemContentItemObjectUnion */
+export type EvalItemContentItemObjectUnion =
+  | EvalItemContentOutputText
+  | EvalItemInputImage
+  | InputAudio
+  | EvalItemContentItemObjectInputTextContent
+  | EvalItemContentItemObject;
+
+export function evalItemContentItemObjectUnionSerializer(
+  item: EvalItemContentItemObjectUnion,
+): any {
+  switch (item.type) {
+    case "output_text":
+      return evalItemContentOutputTextSerializer(item as EvalItemContentOutputText);
+
+    case "input_image":
+      return evalItemInputImageSerializer(item as EvalItemInputImage);
+
+    case "input_audio":
+      return inputAudioSerializer(item as InputAudio);
+
+    case "input_text":
+      return evalItemContentItemObjectInputTextContentSerializer(
+        item as EvalItemContentItemObjectInputTextContent,
+      );
+
+    default:
+      return evalItemContentItemObjectSerializer(item);
+  }
+}
+
+export function evalItemContentItemObjectUnionDeserializer(
+  item: any,
+): EvalItemContentItemObjectUnion {
+  switch (item["type"]) {
+    case "output_text":
+      return evalItemContentOutputTextDeserializer(item as EvalItemContentOutputText);
+
+    case "input_image":
+      return evalItemInputImageDeserializer(item as EvalItemInputImage);
+
+    case "input_audio":
+      return inputAudioDeserializer(item as InputAudio);
+
+    case "input_text":
+      return evalItemContentItemObjectInputTextContentDeserializer(
+        item as EvalItemContentItemObjectInputTextContent,
+      );
+
+    default:
+      return evalItemContentItemObjectDeserializer(item);
+  }
+}
+
+/** Type of EvalItemContentItemObjectType */
+export type EvalItemContentItemObjectType =
+  "input_text" | "output_text" | "input_image" | "input_audio";
+
+/** A text output from the model. */
+export interface EvalItemContentOutputText extends EvalItemContentItemObject {
+  /** The type of the output text. Always `output_text`. */
+  type: "output_text";
+  /** The text output from the model. */
+  text: string;
+}
+
+export function evalItemContentOutputTextSerializer(item: EvalItemContentOutputText): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function evalItemContentOutputTextDeserializer(item: any): EvalItemContentOutputText {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** An image input block used within EvalItem content arrays. */
+export interface EvalItemInputImage extends EvalItemContentItemObject {
+  /** The type of the image input. Always `input_image`. */
+  type: "input_image";
+  /** The URL of the image input. */
+  image_url: string;
+  /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
+  detail?: string;
+}
+
+export function evalItemInputImageSerializer(item: EvalItemInputImage): any {
+  return { type: item["type"], image_url: item["image_url"], detail: item["detail"] };
+}
+
+export function evalItemInputImageDeserializer(item: any): EvalItemInputImage {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+  };
+}
+
+/** An audio input to the model. */
+export interface InputAudio extends EvalItemContentItemObject {
+  /** The type of the input item. Always `input_audio`. */
+  type: "input_audio";
+  input_audio: InputAudioInputAudio;
+}
+
+export function inputAudioSerializer(item: InputAudio): any {
+  return { type: item["type"], input_audio: inputAudioInputAudioSerializer(item["input_audio"]) };
+}
+
+export function inputAudioDeserializer(item: any): InputAudio {
+  return {
+    type: item["type"],
+    input_audio: inputAudioInputAudioDeserializer(item["input_audio"]),
+  };
+}
+
+/** model interface InputAudioInputAudio */
+export interface InputAudioInputAudio {
+  data: string;
+  format: "mp3" | "wav";
+}
+
+export function inputAudioInputAudioSerializer(item: InputAudioInputAudio): any {
+  return { data: item["data"], format: item["format"] };
+}
+
+export function inputAudioInputAudioDeserializer(item: any): InputAudioInputAudio {
+  return {
+    data: item["data"],
+    format: item["format"],
+  };
+}
+
+/** A text input to the model. */
+export interface EvalItemContentItemObjectInputTextContent extends EvalItemContentItemObject {
+  /** The type of the input item. Always `input_text`. */
+  type: "input_text";
+  /** The text input to the model. */
+  text: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function evalItemContentItemObjectInputTextContentSerializer(
+  item: EvalItemContentItemObjectInputTextContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function evalItemContentItemObjectInputTextContentDeserializer(
+  item: any,
+): EvalItemContentItemObjectInputTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function evalItemContentItemArraySerializer(result: Array<EvalItemContentItem>): any[] {
+  return result.map((item) => {
+    return evalItemContentItemSerializer(item);
+  });
+}
+
+export function evalItemContentItemArrayDeserializer(result: Array<EvalItemContentItem>): any[] {
+  return result.map((item) => {
+    return evalItemContentItemDeserializer(item);
+  });
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference */
+export interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
+  type: "item_reference";
+  item_reference: string;
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceSerializer(
+  item: CreateEvalCompletionsRunDataSourceInputMessagesItemReference,
+): any {
+  return { type: item["type"], item_reference: item["item_reference"] };
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
+  return {
+    type: item["type"],
+    item_reference: item["item_reference"],
+  };
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceSamplingParams */
+export interface CreateEvalCompletionsRunDataSourceSamplingParams {
+  reasoning_effort?: ReasoningEffort;
+  temperature?: number;
+  max_completion_tokens?: number;
+  top_p?: number;
+  seed?: number;
+  response_format?: ResponseFormatText | ResponseFormatJsonSchema | ResponseFormatJsonObject;
+  tools?: ChatCompletionTool[];
+}
+
+export function createEvalCompletionsRunDataSourceSamplingParamsSerializer(
+  item: CreateEvalCompletionsRunDataSourceSamplingParams,
+): any {
+  return {
+    reasoning_effort: item["reasoning_effort"],
+    temperature: item["temperature"],
+    max_completion_tokens: item["max_completion_tokens"],
+    top_p: item["top_p"],
+    seed: item["seed"],
+    response_format: !item["response_format"]
+      ? item["response_format"]
+      : _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatSerializer(
+          item["response_format"],
+        ),
+    tools: !item["tools"] ? item["tools"] : chatCompletionToolArraySerializer(item["tools"]),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceSamplingParamsDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceSamplingParams {
+  return {
+    reasoning_effort: item["reasoning_effort"],
+    temperature: item["temperature"],
+    max_completion_tokens: item["max_completion_tokens"],
+    top_p: item["top_p"],
+    seed: item["seed"],
+    response_format: !item["response_format"]
+      ? item["response_format"]
+      : _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatDeserializer(
+          item["response_format"],
+        ),
+    tools: !item["tools"] ? item["tools"] : chatCompletionToolArrayDeserializer(item["tools"]),
+  };
+}
+
+/** Alias for _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat */
+export type _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat =
+  ResponseFormatText | ResponseFormatJsonSchema | ResponseFormatJsonObject;
+
+export function _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatSerializer(
+  item: _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat,
+): any {
+  return item;
+}
+
+export function _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatDeserializer(
+  item: any,
+): _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat {
+  return item;
+}
+
+/** Default response format. Used to generate text responses. */
+export interface ResponseFormatText {
+  /** The type of response format being defined. Always `text`. */
+  type: "text";
+}
+
+export function responseFormatTextSerializer(item: ResponseFormatText): any {
+  return { type: item["type"] };
+}
+
+export function responseFormatTextDeserializer(item: any): ResponseFormatText {
+  return {
+    type: item["type"],
+  };
+}
+
+/**
+ * JSON Schema response format. Used to generate structured JSON responses.
+ * Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+ */
+export interface ResponseFormatJsonSchema extends CreateChatCompletionRequestResponseFormat {
+  /** The type of response format being defined. Always `json_schema`. */
+  type: "json_schema";
+  /** Structured Outputs configuration options, including a JSON Schema. */
+  json_schema: ResponseFormatJsonSchemaJsonSchema;
+}
+
+export function responseFormatJsonSchemaSerializer(item: ResponseFormatJsonSchema): any {
+  return {
+    type: item["type"],
+    json_schema: responseFormatJsonSchemaJsonSchemaSerializer(item["json_schema"]),
+  };
+}
+
+export function responseFormatJsonSchemaDeserializer(item: any): ResponseFormatJsonSchema {
+  return {
+    type: item["type"],
+    json_schema: responseFormatJsonSchemaJsonSchemaDeserializer(item["json_schema"]),
+  };
+}
+
+/** model interface ResponseFormatJsonSchemaJsonSchema */
+export interface ResponseFormatJsonSchemaJsonSchema {
+  description?: string;
+  name: string;
+  schema?: Record<string, any>;
+  strict?: boolean;
+}
+
+export function responseFormatJsonSchemaJsonSchemaSerializer(
+  item: ResponseFormatJsonSchemaJsonSchema,
+): any {
+  return {
+    description: item["description"],
+    name: item["name"],
+    schema: item["schema"],
+    strict: item["strict"],
+  };
+}
+
+export function responseFormatJsonSchemaJsonSchemaDeserializer(
+  item: any,
+): ResponseFormatJsonSchemaJsonSchema {
+  return {
+    description: item["description"],
+    name: item["name"],
+    schema: !item["schema"]
+      ? item["schema"]
+      : Object.fromEntries(Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p])),
+    strict: item["strict"],
+  };
+}
+
+/**
+ * JSON object response format. An older method of generating JSON responses.
+ * Using `json_schema` is recommended for models that support it. Note that the
+ * model will not generate JSON without a system or user message instructing it
+ * to do so.
+ */
+export interface ResponseFormatJsonObject {
+  /** The type of response format being defined. Always `json_object`. */
+  type: "json_object";
+}
+
+export function responseFormatJsonObjectSerializer(item: ResponseFormatJsonObject): any {
+  return { type: item["type"] };
+}
+
+export function responseFormatJsonObjectDeserializer(item: any): ResponseFormatJsonObject {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceSource1 */
+export type _DatasetEvaluationRuleActionSourceSource1 =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource | EvalStoredCompletionsSource;
+
+export function _datasetEvaluationRuleActionSourceSource1Serializer(
+  item: _DatasetEvaluationRuleActionSourceSource1,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceSource1Deserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceSource1 {
+  return item;
+}
+
+/** A StoredCompletionsRunDataSource configuration describing a set of filters */
+export interface EvalStoredCompletionsSource {
+  /** The type of source. Always `stored_completions`. */
+  type: "stored_completions";
+  metadata?: Metadata;
+  model?: string;
+  created_after?: number;
+  created_before?: number;
+  limit?: number;
+}
+
+export function evalStoredCompletionsSourceSerializer(item: EvalStoredCompletionsSource): any {
+  return {
+    type: item["type"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    model: item["model"],
+    created_after: item["created_after"],
+    created_before: item["created_before"],
+    limit: item["limit"],
+  };
+}
+
+export function evalStoredCompletionsSourceDeserializer(item: any): EvalStoredCompletionsSource {
+  return {
+    type: item["type"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    model: item["model"],
+    created_after: item["created_after"],
+    created_before: item["created_before"],
+    limit: item["limit"],
+  };
+}
+
+/**
+ * Set of 16 key-value pairs that can be attached to an object. This can be
+ * useful for storing additional information about the object in a structured
+ * format, and querying for objects via API or the dashboard.
+ * Keys are strings with a maximum length of 64 characters. Values are strings
+ * with a maximum length of 512 characters.
+ */
+export interface Metadata {
+  /** Additional properties */
+  additionalProperties?: Record<string, string>;
+}
+
+export function metadataSerializer(item: Metadata): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
+}
+
+export function metadataDeserializer(item: any): Metadata {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
+
+export function evalJsonlFileIdSourceArraySerializer(result: Array<EvalJsonlFileIdSource>): any[] {
+  return result.map((item) => {
+    return evalJsonlFileIdSourceSerializer(item);
+  });
+}
+
+export function evalJsonlFileIdSourceArrayDeserializer(
+  result: Array<EvalJsonlFileIdSource>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileIdSourceDeserializer(item);
+  });
+}
+
+/**
+ * An object specifying the format that the model must output.
+ * Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
+ * Structured Outputs which ensures the model will match your supplied JSON
+ * schema. Learn more in the [Structured Outputs
+ * guide](https://developers.openai.com/api/docs/guides/structured-outputs).
+ * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
+ * ensures the message the model generates is valid JSON. Using `json_schema`
+ * is preferred for models that support it.
+ */
+export interface CreateChatCompletionRequestResponseFormat {
+  type: CreateChatCompletionRequestResponseFormatType;
+}
+
+export function createChatCompletionRequestResponseFormatSerializer(
+  item: CreateChatCompletionRequestResponseFormat,
+): any {
+  return { type: item["type"] };
+}
+
+export function createChatCompletionRequestResponseFormatDeserializer(
+  item: any,
+): CreateChatCompletionRequestResponseFormat {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for CreateChatCompletionRequestResponseFormatUnion */
+export type CreateChatCompletionRequestResponseFormatUnion =
+  ResponseFormatJsonSchema | CreateChatCompletionRequestResponseFormat;
+
+export function createChatCompletionRequestResponseFormatUnionSerializer(
+  item: CreateChatCompletionRequestResponseFormatUnion,
+): any {
+  switch (item.type) {
+    case "json_schema":
+      return responseFormatJsonSchemaSerializer(item as ResponseFormatJsonSchema);
+
+    default:
+      return createChatCompletionRequestResponseFormatSerializer(item);
+  }
+}
+
+export function createChatCompletionRequestResponseFormatUnionDeserializer(
+  item: any,
+): CreateChatCompletionRequestResponseFormatUnion {
+  switch (item["type"]) {
+    case "json_schema":
+      return responseFormatJsonSchemaDeserializer(item as ResponseFormatJsonSchema);
+
+    default:
+      return createChatCompletionRequestResponseFormatDeserializer(item);
+  }
+}
+
+/** Type of CreateChatCompletionRequestResponseFormatType */
+export type CreateChatCompletionRequestResponseFormatType = "text" | "json_schema" | "json_object";
+
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
   cached_tokens: number;
@@ -5842,28 +6938,6 @@ export function realtimeMCPApprovalRequestDeserializer(item: any): RealtimeMCPAp
     arguments: item["arguments"],
     created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
     response_id: item["response_id"],
-  };
-}
-
-/**
- * Set of 16 key-value pairs that can be attached to an object. This can be
- * useful for storing additional information about the object in a structured
- * format, and querying for objects via API or the dashboard.
- * Keys are strings with a maximum length of 64 characters. Values are strings
- * with a maximum length of 512 characters.
- */
-export interface Metadata {
-  /** Additional properties */
-  additionalProperties?: Record<string, string>;
-}
-
-export function metadataSerializer(item: Metadata): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}) };
-}
-
-export function metadataDeserializer(item: any): Metadata {
-  return {
-    additionalProperties: serializeRecord(item, []),
   };
 }
 
@@ -13274,3 +14348,35 @@ export function realtimeServerEventErrorDeserializer(item: any): RealtimeServerE
     error: realtimeServerEventErrorErrorDeserializer(item["error"]),
   };
 }
+
+/** Type of InputItemType */
+export type InputItemType =
+  | "message"
+  | "output_message"
+  | "file_search_call"
+  | "computer_call"
+  | "computer_call_output"
+  | "web_search_call"
+  | "function_call"
+  | "function_call_output"
+  | "tool_search_call"
+  | "tool_search_output"
+  | "additional_tools"
+  | "configuration_update"
+  | "reasoning"
+  | "compaction"
+  | "image_generation_call"
+  | "code_interpreter_call"
+  | "local_shell_call"
+  | "local_shell_call_output"
+  | "shell_call"
+  | "shell_call_output"
+  | "apply_patch_call"
+  | "apply_patch_call_output"
+  | "mcp_list_tools"
+  | "mcp_approval_request"
+  | "mcp_approval_response"
+  | "mcp_call"
+  | "custom_tool_call_output"
+  | "custom_tool_call"
+  | "item_reference";

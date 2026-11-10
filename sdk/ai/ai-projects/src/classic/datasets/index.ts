@@ -1,121 +1,84 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AIProjectClientOptionalParams,
-  AIProjectContext,
-} from "../../api/aiProjectContext.js";
-import {
-  getCredentials,
-  pendingUpload,
-  createOrUpdate,
-  $delete,
-  get,
-  list,
-  listVersions,
-  deleteGenerationJob,
-  cancelGenerationJob,
-  createGenerationJob,
-  listGenerationJobs,
-  getGenerationJob,
-} from "../../api/datasets/operations.js";
+import type { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
+import { getCredentials, pendingUpload, createOrUpdate, $delete, get, list, listVersions, deleteGenerationJob, cancelGenerationJob, createGenerationJob, listGenerationJobs, getGenerationJob } from "../../api/datasets/operations.js";
 import { uploadFile, uploadFolder } from "#platform/api/datasets/uploads";
-import type {
-  DatasetsGetCredentialsOptionalParams,
-  DatasetsPendingUploadOptionalParams,
-  DatasetsCreateOrUpdateOptionalParams,
-  DatasetsDeleteOptionalParams,
-  DatasetsGetOptionalParams,
-  DatasetsListOptionalParams,
-  DatasetsListVersionsOptionalParams,
-  DatasetsDeleteGenerationJobOptionalParams,
-  DatasetsCancelGenerationJobOptionalParams,
-  DatasetsCreateGenerationJobOptionalParams,
-  DatasetsListGenerationJobsOptionalParams,
-  DatasetsGetGenerationJobOptionalParams,
-} from "../../api/datasets/options.js";
-import type {
-  DatasetVersionUnion,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-  DataGenerationJobUnion,
-  DataGenerationJobResult,
-  DataGenerationJobInputsUnion,
-} from "../../models/models.js";
+import type { DatasetsGetCredentialsOptionalParams, DatasetsPendingUploadOptionalParams, DatasetsCreateOrUpdateOptionalParams, DatasetsDeleteOptionalParams, DatasetsGetOptionalParams, DatasetsListOptionalParams, DatasetsListVersionsOptionalParams, DatasetsDeleteGenerationJobOptionalParams, DatasetsCancelGenerationJobOptionalParams, DatasetsCreateGenerationJobOptionalParams, DatasetsListGenerationJobsOptionalParams, DatasetsGetGenerationJobOptionalParams } from "../../api/datasets/options.js";
+import type { DatasetVersionUnion, PendingUploadRequest, PendingUploadResponse, DatasetCredential, DataGenerationJobUnion, DataGenerationJobResult, DataGenerationJobInputsUnion } from "../../models/models.js";
 import type { DatasetUploadOptions } from "../../api/index.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
-  /** Removes the specified data generation job and its associated output. */
+/** Removes the specified data generation job and its associated output. */
   deleteGenerationJob: (
     jobId: string,
     options?: DatasetsDeleteGenerationJobOptionalParams,
   ) => Promise<void>;
-  /** Cancels the specified data generation job if it is still in progress. */
+/** Cancels the specified data generation job if it is still in progress. */
   cancelGenerationJob: (
     jobId: string,
     options?: DatasetsCancelGenerationJobOptionalParams,
   ) => Promise<DataGenerationJobUnion>;
-  /** Submits a new data generation job for asynchronous execution. */
+/** Submits a new data generation job for asynchronous execution. */
   createGenerationJob: (
     job: DataGenerationJobInputsUnion,
     options?: DatasetsCreateGenerationJobOptionalParams,
   ) => JobPoller<DataGenerationJobResult>;
-  /** Returns a list of data generation jobs. */
+/** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: DatasetsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
-  /** Retrieves the specified data generation job and its current status. */
+/** Retrieves the specified data generation job and its current status. */
   getGenerationJob: (
     jobId: string,
     options?: DatasetsGetGenerationJobOptionalParams,
   ) => Promise<DataGenerationJobUnion>;
-  /** Get the SAS credential to access the storage account associated with a Dataset version. */
+/** Get the SAS credential to access the storage account associated with a Dataset version. */
   getCredentials: (
     name: string,
     version: string,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
-  /** Start a new or get an existing pending upload of a dataset for a specific version. */
+/** Start a new or get an existing pending upload of a dataset for a specific version. */
   pendingUpload: (
     name: string,
     version: string,
     pendingUploadRequest: PendingUploadRequest,
     options?: DatasetsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
-  /** Create a new or update an existing DatasetVersion with the given version id */
+/** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
     version: string,
     datasetVersion: DatasetVersionUnion,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
-  /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
+/** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
   delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
-  /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
+/** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
   get: (
     name: string,
     version: string,
     options?: DatasetsGetOptionalParams,
   ) => Promise<DatasetVersionUnion>;
-  /** List the latest version of each DatasetVersion */
+/** List the latest version of each DatasetVersion */
   list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-  /** List all versions of the given DatasetVersion */
+/** List all versions of the given DatasetVersion */
   listVersions: (
     name: string,
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-  /** Upload a file to the DatasetVersion. Only supported in Node.js. */
+/** Upload a file to the DatasetVersion. Only supported in Node.js. */
   uploadFile: (
     name: string,
     version: string,
     filePath: string,
     options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
-  /** Upload a folder to the DatasetVersion. Only supported in Node.js. */
+/** Upload a folder to the DatasetVersion. Only supported in Node.js. */
   uploadFolder: (
     name: string,
     version: string,
@@ -129,51 +92,51 @@ function _getDatasets(
   projectOptions: AIProjectClientOptionalParams = {},
 ) {
   return {
-    deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) =>
+deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) =>
       deleteGenerationJob(context, jobId, options),
-    cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) =>
+cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) =>
       cancelGenerationJob(context, jobId, options),
-    createGenerationJob: (
+createGenerationJob: (
       job: DataGenerationJobInputsUnion,
       options?: DatasetsCreateGenerationJobOptionalParams,
     ) => createGenerationJob(context, job, options),
-    listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) =>
+listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) =>
       listGenerationJobs(context, options),
-    getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) =>
+getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
-    getCredentials: (
+getCredentials: (
       name: string,
       version: string,
       options?: DatasetsGetCredentialsOptionalParams,
     ) => getCredentials(context, name, version, options),
-    pendingUpload: (
+pendingUpload: (
       name: string,
       version: string,
       pendingUploadRequest: PendingUploadRequest,
       options?: DatasetsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
-    createOrUpdate: (
+createOrUpdate: (
       name: string,
       version: string,
       datasetVersion: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, version, datasetVersion, options),
-    delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
+delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
       $delete(context, name, version, options),
-    get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>
+get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>
       get(context, name, version, options),
-    list: (options?: DatasetsListOptionalParams) => list(context, options),
-    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
+list: (options?: DatasetsListOptionalParams) => list(context, options),
+listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) =>
+uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) =>
       uploadFile(context, name, version, filePath, { ...options, projectOptions }),
-    uploadFolder: (
+uploadFolder: (
       name: string,
       version: string,
       folderPath: string,
       options?: DatasetUploadOptions,
     ) => uploadFolder(context, name, version, folderPath, { ...options, projectOptions }),
-  };
+};
 }
 
 export function _getDatasetsOperations(

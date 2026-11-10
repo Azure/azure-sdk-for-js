@@ -3,7 +3,7 @@
 
 import ts from "typescript";
 
-/** The user-approved upstream values; other discriminator changes require review. */
+/** Reviewed upstream values (#46941 and #47368); other changes require review. */
 export function isUpstreamDataGenerationType(node, allowLegacy = false) {
   if (!node || !ts.isTypeAliasDeclaration(node) || node.name.text !== "DataGenerationJobType")
     return false;
@@ -14,6 +14,12 @@ export function isUpstreamDataGenerationType(node, allowLegacy = false) {
   );
   return (
     [...expected].every((value) => values.includes(value)) &&
-    values.every((value) => expected.has(value) || (allowLegacy && value === "task_generation"))
+    values.every(
+      (value) =>
+        expected.has(value) ||
+        value === "conversations" ||
+        (allowLegacy && value === "task_generation"),
+    ) &&
+    new Set(values).size === values.length
   );
 }

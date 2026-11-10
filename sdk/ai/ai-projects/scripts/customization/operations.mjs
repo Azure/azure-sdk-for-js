@@ -38,7 +38,7 @@ function calls(node, predicate) {
   return result;
 }
 
-function operationIdentity(node) {
+function operationIdentity(node, file) {
   const paths = calls(
     node,
     (call) =>
@@ -55,9 +55,18 @@ function operationIdentity(node) {
       ),
   );
   if (paths.length !== 1 || methods.length !== 1) return undefined;
-  const template = paths[0].arguments[0].text
+  let template = paths[0].arguments[0].text
     .replace(/\{\?[^}]*\}/g, "")
     .replace(/\{[^}]*\}/g, "{}");
+  // azure-rest-api-specs#47858 promotes Skills CRUD and changes only its
+  // route prefix. Scope identity alignment to these two reviewed modules;
+  // the actual emitted URL still participates in the three-way merge.
+  if (
+    file === "api/skills/operations.ts" &&
+    /^\/openai\/v1\/skills(?:\/\{\}(?:\/versions(?:\/\{\})?)?(?:\/content)?)?$/.test(template)
+  ) {
+    template = template.replace(/^\/openai\/v1/, "");
+  }
   return `${methods[0].expression.name.text.toUpperCase()} ${template}`;
 }
 
@@ -165,7 +174,7 @@ export function indexOperations(files) {
     const nodes = declarations(source);
     for (const node of nodes.values()) {
       if (!ts.isFunctionDeclaration(node) || !node.name.text.endsWith("Send")) continue;
-      const identity = operationIdentity(node);
+      const identity = operationIdentity(node, file);
       if (!identity) continue;
       const publicFunctions = [...nodes.values()].filter(
         (candidate) =>
@@ -214,6 +223,15 @@ function chooseOperation(candidates, operation, preferredFile = operation.file) 
   );
   if (local.length === 1) return local[0];
   const matches = candidates.filter((item) => item.identity === operation.identity);
+  if (operation.file === "api/skills/operations.ts") {
+    // create and createFromFiles intentionally share a multipart route. Match
+    // their reviewed names, not an arbitrary first operation on that route.
+    const promoted = matches.filter(
+      (item) =>
+        item.file === "api/beta/skills/operations.ts" && item.name === operation.name,
+    );
+    if (promoted.length === 1) return promoted[0];
+  }
   if (matches.length > 1)
     throw new Error(
       `${operation.file}::${operation.name}: ambiguous operation identity ${operation.identity}`,

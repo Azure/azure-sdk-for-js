@@ -61,6 +61,7 @@ import {
   generateAgentRequestSerializer,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
+  AgentsDownloadOptimizationJobFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import {
@@ -83,6 +84,7 @@ import {
   AgentsDeleteOptimizationJobOptionalParams,
   AgentsCancelOptimizationJobOptionalParams,
   AgentsListOptimizationJobsOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
@@ -613,7 +615,7 @@ export async function _promoteOptimizationCandidateDeserialize(
   return agentOptimizationCandidateDeserializer(result.body);
 }
 
-/** Promotes a candidate to the Foundry agent stored in the parent job's target configuration. Promotion is unavailable when the job omitted target_configuration. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
+/** Promotes a supported completed candidate to the Foundry agent stored in the parent job's target configuration. A skill-optimization candidate must be the evaluated learned candidate for a supported Prompt or Managed target; baseline, unevaluated, agentless, and unsupported-runtime skill candidates cannot be promoted. Skill promotion releases the exact evaluated candidate configuration without regenerating skills. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
 export async function promoteOptimizationCandidate(
   context: Client,
   jobId: string,
@@ -665,7 +667,7 @@ export async function _getOptimizationCandidateDeserialize(
   return agentOptimizationCandidateDeserializer(result.body);
 }
 
-/** Retrieves a single candidate. Mutation values are always included. */
+/** Retrieves a single candidate. Mutation values are always included. Skill optimization detail includes independent skill results, resolved context, and the persisted execution snapshot when available; these detail fields are omitted from candidate lists. */
 export async function getOptimizationCandidate(
   context: Client,
   jobId: string,
@@ -724,7 +726,7 @@ export async function _listOptimizationCandidatesDeserialize(
   return _agentsPagedResultAgentOptimizationCandidateDeserializer(result.body);
 }
 
-/** Lists candidates for the given optimization job with cursor pagination, including the original baseline and generated candidates. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
+/** Lists candidates for the given optimization job with cursor pagination. Agent optimization can include the original baseline and multiple generated candidates; prompt and skill optimization generate a single candidate. Evaluated skill jobs also expose the original baseline for reporting through the existing evaluation field; the baseline is not a generated alternative. A generated skill candidate contains zero or more skill outcomes, not one candidate per skill. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
 export function listOptimizationCandidates(
   context: Client,
   jobId: string,
@@ -843,7 +845,7 @@ export function _listOptimizationJobsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      status: options?.status,
+      status: options?.status as any,
       agent_name: options?.agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -887,6 +889,59 @@ export function listOptimizationJobs(
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
+}
+
+export function _downloadOptimizationJobFileSend(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/files{?candidate_id,path,api%2Dversion}",
+    {
+      jobId: jobId,
+      candidate_id: options?.candidateId,
+      path: path,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path_1)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/octet-stream", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _downloadOptimizationJobFileDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadOptimizationJobFileResponse,
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+export async function downloadOptimizationJobFile(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const result = await _downloadOptimizationJobFileSend(context, jobId, path, options);
+  return _downloadOptimizationJobFileDeserialize(result);
 }
 
 export function _getOptimizationJobSend(

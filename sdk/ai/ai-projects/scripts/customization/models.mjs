@@ -269,6 +269,22 @@ function inventory(tree, diagnostics, replacements = new Map()) {
       }
     }
     const scopedRenames = new Map(replacements);
+    // Historical Tool* compatibility aliases coexist with the released
+    // declaration. Do not rename their binding onto that declaration.
+    for (const [from, to] of historicalToolRenames) {
+      if (scopedRenames.get(from) !== to || !names.has(from) || !names.has(to)) continue;
+      const alias = source.statements.find((node) => declarationName(node) === from);
+      const target = ts.isTypeAliasDeclaration(alias)
+        ? alias.type
+        : ts.isVariableStatement(alias)
+          ? alias.declarationList.declarations[0].initializer
+          : undefined;
+      if (
+        (target && ts.isTypeReferenceNode(target) && target.typeName.getText(source) === to) ||
+        (target && ts.isIdentifier(target) && target.text === to) ||
+        (from === "_ToolFileSearchToolFiltersValue" && ts.isTypeAliasDeclaration(alias))
+      ) scopedRenames.delete(from);
+    }
     for (const item of importsOf(source)) {
       if (!internalModelImport(file, item.module) || item.sideEffect) continue;
       if (item.imported === "*" || item.imported === "default") {
