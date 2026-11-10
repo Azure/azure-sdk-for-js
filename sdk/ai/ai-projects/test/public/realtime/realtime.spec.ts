@@ -415,9 +415,12 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
 
     const first = await pendingConnection;
     try {
-      expect(factory.transport.connectOptions?.headers["x-ms-voice-structured-inputs"]).toBe(
+      const connectOptions = factory.transport.connectOptions;
+      assert.ok(connectOptions);
+      expect(new URL(connectOptions.url).searchParams.getAll("structured_inputs")).toEqual([
         '{"customer":{"name":"Ada"}}',
-      );
+      ]);
+      expect(connectOptions.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
     } finally {
       await first.close();
     }
@@ -427,8 +430,32 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
       const connectOptions = factory.transport.connectOptions;
       assert.ok(connectOptions);
       expect(connectOptions.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+      expect(new URL(connectOptions.url).searchParams.has("structured_inputs")).toBe(false);
     } finally {
       await second.close();
+    }
+  });
+
+  it("uses one canonical structured-input query and removes the legacy spelling", async () => {
+    const factory = new MockWebSocketFactory();
+    const client = new VoiceAgentRealtimeClient(
+      "https://example.test/api/projects/project?structured_input=legacy&structured_inputs=old",
+      new TestCredential(),
+      { webSocketFactory: factory },
+    );
+    const connection = await client.connect("support-agent", {
+      structuredInputs: { customer: "Ada & Bob" },
+    });
+    try {
+      const options = factory.transport.connectOptions;
+      assert.ok(options);
+      const url = new URL(options.url);
+      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada & Bob"}']);
+      expect(url.searchParams.has("structured_input")).toBe(false);
+      expect(options.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+      expect(options.headers).not.toHaveProperty("foundry-features");
+    } finally {
+      await connection.close();
     }
   });
 
@@ -541,6 +568,42 @@ describe("VoiceAgents handoff and system-tool protocol coverage", () => {
 });
 
 describe("AIProjectClient realtime", () => {
+  for (const type of ["session.created", "session.updated"] as const) {
+    it.each([0, 1_794_296_021])(
+      `decodes ${type} expiration %s as Date without dropping session fields`,
+      (seconds) => {
+        const event = deserializeVoiceAgentServerEvent(
+          JSON.stringify({
+            type,
+            event_id: "session-expiration-event",
+            session: {
+              type: "realtime",
+              object: "realtime.session",
+              id: "session-1",
+              model: "voice-model",
+              expires_at: seconds,
+              future_field: { preserved: true },
+            },
+          }),
+        );
+        expect(event.type).toBe(type);
+        if (event.type === "session.created" || event.type === "session.updated") {
+          expect(event.session.expires_at).toBeInstanceOf(Date);
+          expect(event.session.expires_at?.getTime()).toBe(seconds * 1000);
+          expect(event.session).toHaveProperty("future_field", { preserved: true });
+        }
+      },
+    );
+
+    it(`rejects an invalid ${type} expiration timestamp`, () => {
+      expect(() =>
+        deserializeVoiceAgentServerEvent(
+          `{"type":"${type}","event_id":"event-1","session":{"expires_at":1e309}}`,
+        ),
+      ).toThrow('invalid session "expires_at" timestamp');
+    });
+  }
+
   it("uses generated session serializers for discriminated settings", () => {
     const message = serializeVoiceAgentClientEvent({
       type: "session.update",
@@ -1019,7 +1082,8 @@ describe("AIProjectClient realtime", () => {
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], undefined);
-    assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
+    assert.deepEqual(url.searchParams.getAll("structured_inputs"), ['{"customer":"Ada"}']);
+    assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], undefined);
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);

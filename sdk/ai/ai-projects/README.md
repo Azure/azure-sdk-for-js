@@ -456,6 +456,8 @@ of putting SDK settings in `query`. SDK and authentication parameter names, stru
 names, and names starting with `h-` are reserved regardless of case; using them throws
 `TypeError` before authentication. Custom query values do not become prompt variables.
 **Never put secrets in query parameters:** URLs can appear in server or proxy logs.
+`structuredInputs` also uses the `structured_inputs` URL query parameter in every
+environment; do not include sensitive prompt-variable values.
 
 ### GPT Live voice agents
 
@@ -623,12 +625,12 @@ put tokens in URLs, or embed API keys, client secrets, or long-lived tokens in b
 If direct browser authentication is unavailable, supply an authenticated backend relay
 through `webSocketFactory`.
 
-For Live connections, the complete `structuredInputs` value is JSON-encoded in the
+For Realtime and Live connections, the complete `structuredInputs` value is JSON-encoded in the
 `structured_inputs` WebSocket URL query parameter in **all environments, including
 Node.js, browsers, and Workers**. This includes prompt-variable values, not just
 custom query parameters. Proxy and server access logs can retain URLs: do not put
 credentials, personal data, or other sensitive information in these inputs.
-The current Live service contract requires the query parameter; the SDK does not
+The current service contracts require the query parameter; the SDK does not
 provide a header-based alternative.
 
 ### Using Agent tools

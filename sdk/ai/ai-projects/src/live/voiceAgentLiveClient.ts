@@ -410,7 +410,7 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
               url: this.url,
               // Browser upgrades require Live plus the bearer credential subprotocol.
               protocols: isNodeLike ? [] : ["live"],
-              headers: buildHeaders(token, this.clientOptions, undefined, {
+              headers: buildHeaders(token, this.clientOptions, {
                 foundryFeatures: "VoiceAgents=V1Preview",
               }),
               connectionTimeoutInMs:

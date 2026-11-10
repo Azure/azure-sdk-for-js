@@ -104,7 +104,8 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
    */
   transport?: VoiceAgentTransport;
   /**
-   * Values for the agent's prompt variables. Captured when connect() is called.
+   * Prompt-variable values captured when connect() is called and sent in the URL.
+   * Do not include sensitive data.
    */
   structuredInputs?: Record<string, unknown>;
   /**
@@ -265,15 +266,21 @@ export class VoiceAgentRealtimeClient {
     if (!agentName.trim()) {
       throw new TypeError("agentName must not be empty.");
     }
-    const url = buildWebSocketUrl(
-      normalizeEndpoint(this.endpoint),
-      agentName,
-      this.options.apiVersion,
-      options,
+    const url = new URL(
+      buildWebSocketUrl(
+        normalizeEndpoint(this.endpoint),
+        agentName,
+        this.options.apiVersion,
+        options,
+      ),
     );
     const serializedStructuredInputs = options.structuredInputs
       ? JSON.stringify(options.structuredInputs)
       : undefined;
+    if (serializedStructuredInputs !== undefined) {
+      url.searchParams.delete("structured_input");
+      url.searchParams.set("structured_inputs", serializedStructuredInputs);
+    }
     const tracingConfig = projectTracingConfigs.get(this);
     const tracing = tracingConfig?.enabled
       ? new VoiceAgentRealtimeTracing(this.endpoint, tracingConfig, options.transport)
@@ -283,12 +290,11 @@ export class VoiceAgentRealtimeClient {
         this.options.webSocketFactory ??
         (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory();
       const connection = new VoiceAgentConnectionImpl(
-        url,
+        url.toString(),
         agentName,
         this.credential,
         this.options,
         options,
-        serializedStructuredInputs,
         factory,
         tracing,
       );
@@ -331,7 +337,6 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       apiVersion: string;
     },
     private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
-    private readonly serializedStructuredInputs: string | undefined,
     factory: VoiceAgentWebSocketFactory,
     private readonly tracing?: VoiceAgentRealtimeTracing,
   ) {
@@ -393,12 +398,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       await this.transport.connect({
         url: this.url,
         protocols: ["realtime"],
-        headers: buildHeaders(
-          token,
-          this.clientOptions,
-          this.serializedStructuredInputs,
-          this.connectOptions,
-        ),
+        headers: buildHeaders(token, this.clientOptions, this.connectOptions),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -771,7 +771,6 @@ export function buildWebSocketUrl(
 export function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  serializedStructuredInputs?: string,
   options: Pick<VoiceAgentRealtimeClientConnectOptions, "foundryFeatures"> = {},
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
@@ -785,9 +784,6 @@ export function buildHeaders(
   };
   if (options.foundryFeatures !== undefined) {
     headers["foundry-features"] = options.foundryFeatures;
-  }
-  if (serializedStructuredInputs !== undefined) {
-    headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
   }
   return headers;
 }

@@ -43,7 +43,7 @@
 - Correlate the Realtime tracing sample and Voice Agent documentation example with the requested response instead of closing on a generated greeting. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
 - Resolve campaign creation and cancellation pollers through a final Campaign GET guarded by the initiating response's `Operation-Id`, preventing monitor deserialization failures and results from a reused campaign name. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
 - Accept campaign and telephony binding creation inputs without requiring service-generated response fields, while retaining complete response models. [#40653](https://github.com/Azure/azure-sdk-for-js/issues/40653)
-- Send the canonical `agent_version_override` query parameter for Realtime connections and `structured_inputs` in browser and React Native handshakes, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646)
+- Send the canonical `agent_version_override` and `structured_inputs` query parameters in Realtime handshakes on all platforms, while retaining reserved-name checks and structured-input snapshots. [#40646](https://github.com/Azure/azure-sdk-for-js/issues/40646) [#40727](https://github.com/Azure/azure-sdk-for-js/pull/40727)
 
 ### Other Changes
 
