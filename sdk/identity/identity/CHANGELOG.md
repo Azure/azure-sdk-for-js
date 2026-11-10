@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed multi-tenant configuration guidance to use the JavaScript `additionallyAllowedTenants` option name in Node.js and browser builds. [#40539](https://github.com/Azure/azure-sdk-for-js/pull/40539)
+
 ### Other Changes
 
 ## 4.15.0-beta.3 (Unreleased)
