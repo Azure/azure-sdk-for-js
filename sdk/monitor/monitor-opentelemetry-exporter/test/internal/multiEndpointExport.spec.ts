@@ -25,6 +25,7 @@ import { ConfigurationManager } from "../../src/_configuration/configurationMana
 import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
 import { CustomerSDKStatsManager } from "../../src/export/statsbeat/customerSDKStatsManager.js";
 import { AzureMonitorStatsbeatExporter } from "../../src/export/statsbeat/statsbeatExporter.js";
+import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
 
 const hostKey = "00000000-0000-4000-8000-000000000001";
 const route = (key = "tenant-key", endpoint = "https://first.test"): Attributes => ({
@@ -204,6 +205,57 @@ describe("multi-endpoint exporters", () => {
       );
     }
   });
+
+  it.each([AzureMonitorLogExporter, AzureMonitorTraceExporter, AzureMonitorMetricExporter])(
+    "%s preserves statistics storage settings independently of host sender persistence",
+    async (Exporter) => {
+      vi.stubEnv("APPLICATION_INSIGHTS_NO_STATSBEAT", undefined);
+      vi.stubEnv("APPLICATIONINSIGHTS_SDKSTATS_DISABLED", undefined);
+      vi.spyOn(StatsbeatManager.getInstance(), "initialize").mockImplementation(() => {});
+      vi.spyOn(CustomerSDKStatsManager.getInstance(), "initialize").mockResolvedValue();
+      vi.spyOn(FileAccessControl, "checkFileProtection").mockImplementation(() => {});
+      const fileProtection = FileAccessControl.OS_PROVIDES_FILE_PROTECTION;
+      FileAccessControl.OS_PROVIDES_FILE_PROTECTION = true;
+      vi.useFakeTimers();
+
+      try {
+        for (const routingEnabled of [true, false]) {
+          vi.mocked(routing.isMultiEndpointRoutingEnabled).mockReturnValue(routingEnabled);
+          for (const disableOfflineStorage of [undefined, false, true]) {
+            const exporterOptions = {
+              ...options,
+              connectionString: `InstrumentationKey=${hostKey};IngestionEndpoint=https://host.test`,
+              disableOfflineStorage,
+            };
+            const exporter = create(new Exporter(exporterOptions));
+            const sender =
+              exporter instanceof AzureMonitorTraceExporter
+                ? exporter["sender"]
+                : exporter instanceof AzureMonitorLogExporter
+                  ? exporter["_sender"]
+                  : exporter["_sender"];
+            const statisticsOptions = expect.objectContaining({
+              instrumentationKey: hostKey,
+              endpointUrl: "https://host.test",
+              disableOfflineStorage: disableOfflineStorage ?? false,
+            });
+            expect(StatsbeatManager.getInstance().initialize).toHaveBeenLastCalledWith(
+              statisticsOptions,
+            );
+            expect(CustomerSDKStatsManager.getInstance().initialize).toHaveBeenLastCalledWith(
+              statisticsOptions,
+            );
+            expect(sender.hasOfflineStorage).toBe(!routingEnabled && !disableOfflineStorage);
+            expect(exporterOptions.disableOfflineStorage).toBe(disableOfflineStorage);
+            await exporter.shutdown();
+          }
+        }
+      } finally {
+        FileAccessControl.OS_PROVIDES_FILE_PROTECTION = fileProtection;
+        vi.useRealTimers();
+      }
+    },
+  );
 
   it.each([AzureMonitorLogExporter, AzureMonitorTraceExporter, AzureMonitorMetricExporter])(
     "%s still validates supplied host connection strings",

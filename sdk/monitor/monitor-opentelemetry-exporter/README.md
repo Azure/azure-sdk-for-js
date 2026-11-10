@@ -158,6 +158,8 @@ With routing enabled, the exporter connection string is optional. If supplied ex
 or through `APPLICATIONINSIGHTS_CONNECTION_STRING`, it is still validated normally.
 Without a host connection string, host retry storage, Statsbeat, and customer SDK statistics
 are not initialized. Routed retry storage remains available.
+With a host connection string, Statsbeat and customer SDK statistics retain the user's
+`disableOfflineStorage` setting. The unused host telemetry sender does not persist or replay data.
 
 ```ts snippet:ReadmeSampleMultiEndpointRouting
 import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";

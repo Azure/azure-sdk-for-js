@@ -50,7 +50,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
       endpointUrl: this.endpointUrl,
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
-      exporterOptions: this.routingSender ? { ...options, disableOfflineStorage: true } : options,
+      exporterOptions: options,
+      disableOfflineStorage: !!this.routingSender,
       aadAudience: this.aadAudience,
     });
     diag.debug("AzureMonitorTraceExporter was successfully setup");

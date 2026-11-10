@@ -127,19 +127,21 @@ export abstract class BaseSender {
     instrumentationKey: string;
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
+    disableOfflineStorage?: boolean;
     aadAudience?: string;
     isStatsbeatSender?: boolean;
     isRouted?: boolean;
     storagePartition?: StoragePartition;
   }) {
     this.isRouted = options.isRouted ?? false;
-    this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
+    const disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
+    this.disableOfflineStorage = options.disableOfflineStorage || disableOfflineStorage;
     this.statsbeatManager = StatsbeatManager.getInstance();
     if (options.trackStatsbeat) {
       this.statsbeatManager.initialize({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
-        disableOfflineStorage: this.disableOfflineStorage,
+        disableOfflineStorage,
       });
       if (!options.isStatsbeatSender && !process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
@@ -159,7 +161,7 @@ export abstract class BaseSender {
           .initialize({
             instrumentationKey: options.instrumentationKey,
             endpointUrl: options.endpointUrl,
-            disableOfflineStorage: this.disableOfflineStorage,
+            disableOfflineStorage,
             networkCollectionInterval: exportInterval,
           })
           .catch((error) => {
@@ -169,7 +171,7 @@ export abstract class BaseSender {
     }
     this.persister = new FileSystemPersist(
       options.instrumentationKey,
-      options.exporterOptions,
+      { ...options.exporterOptions, disableOfflineStorage: this.disableOfflineStorage },
       () => this.customerSDKStatsMetrics,
       () => this.remoteStorageEnabled,
       options.storagePartition,

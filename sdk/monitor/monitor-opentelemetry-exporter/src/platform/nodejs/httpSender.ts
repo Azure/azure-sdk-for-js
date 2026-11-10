@@ -35,6 +35,8 @@ export class HttpSender extends BaseSender {
     instrumentationKey: string;
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
+    /** Disables persistence only for this sender, not its statistics exporters. */
+    disableOfflineStorage?: boolean;
     aadAudience?: string;
     isStatsbeatSender?: boolean;
     isRouted?: boolean;
