@@ -1104,97 +1104,90 @@ test("a removed beta module carries renamed operation helpers but rejects unknow
   );
 });
 
-test("promoted monitor wiring preserves the customized beta authentication context", () => {
-  const oldApi = "api/beta/agentInsightMonitors/operations.ts";
-  const rootApi = "api/agentInsightMonitors/operations.ts";
-  const beta = `export interface BetaOperations {
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+for (const [group, type] of [
+  ["agentInsightMonitors", "AgentInsightMonitors"],
+  ["skills", "Skills"],
+])
+  test(`promoted ${group} wiring preserves the customized beta authentication context`, () => {
+    const oldApi = `api/beta/${group}/operations.ts`;
+    const rootApi = `api/${group}/operations.ts`;
+    const beta = `export interface BetaOperations {
+  ${group}: Beta${type}Operations;
 }
 export function _getBetaOperations(context: Client): BetaOperations {
-  return { agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context) };
+  return { ${group}: _getBeta${type}Operations(context) };
 }`;
-  const client = `export class AIProjectClient {
+    const client = `export class AIProjectClient {
   constructor() {
     this.beta = _getBetaOperations(this._client);
     this.telemetry = customTelemetry();
   }
 }`;
-  const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
-  const baseGenerated = new Map(
-    Object.entries({
-      ...models(),
-      [oldApi]: operations(2, [betaArchive]),
-      "api/beta/agentInsightMonitors/options.ts": options([betaArchive[3]]),
-      "classic/beta/agentInsightMonitors/index.ts": classic(
-        3,
-        "BetaAgentInsightMonitors",
-        "beta/agentInsightMonitors",
-        [betaArchive],
-      ),
-      "classic/beta/index.ts": beta,
-      "aiProjectClient.ts": client,
-    }),
-  );
-  const baseSource = new Map(baseGenerated);
-  baseSource.set("aiProjectClient.ts", customClient);
-  const generated = new Map(
-    Object.entries({
-      ...models(),
-      [rootApi]: operations(1, [archive]),
-      "api/agentInsightMonitors/options.ts": options([archive[3]]),
-      "classic/agentInsightMonitors/index.ts": classic(
-        2,
-        "AgentInsightMonitors",
-        "agentInsightMonitors",
-        [archive],
-      ),
-      "classic/beta/index.ts":
-        "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
-      "aiProjectClient.ts": `import { AgentInsightMonitorsOperations, _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+    const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
+    const baseGenerated = new Map(
+      Object.entries({
+        ...models(),
+        [oldApi]: operations(2, [betaArchive]),
+        [`api/beta/${group}/options.ts`]: options([betaArchive[3]]),
+        [`classic/beta/${group}/index.ts`]: classic(3, `Beta${type}`, `beta/${group}`, [
+          betaArchive,
+        ]),
+        "classic/beta/index.ts": beta,
+        "aiProjectClient.ts": client,
+      }),
+    );
+    const baseSource = new Map(baseGenerated);
+    baseSource.set("aiProjectClient.ts", customClient);
+    const generated = new Map(
+      Object.entries({
+        ...models(),
+        [rootApi]: operations(1, [archive]),
+        [`api/${group}/options.ts`]: options([archive[3]]),
+        [`classic/${group}/index.ts`]: classic(2, type, group, [archive]),
+        "classic/beta/index.ts":
+          "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
+        "aiProjectClient.ts": `import { ${type}Operations, _get${type}Operations } from "./classic/${group}/index.js";
 ${client
-  .replace(
-    "constructor()",
-    "public readonly agentInsightMonitors: AgentInsightMonitorsOperations;\nconstructor()",
-  )
+  .replace("constructor()", `public readonly ${group}: ${type}Operations;\nconstructor()`)
   .replace(
     "this.telemetry",
-    "this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._client);\nthis.telemetry",
+    `this.${group} = _get${type}Operations(this._client);\nthis.telemetry`,
   )}`,
-    }),
-  );
-  const inputs = { baseGenerated, baseSource, generated };
-  const plan = planCustomization(inputs);
-  assert.deepEqual(plan.diagnostics, []);
-  const resolved = plan.source.get("aiProjectClient.ts");
-  assert.match(
-    resolved,
-    /this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)/,
-  );
-  assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
-  const guardInputs = {
-    ...inputs,
-    source: plan.source,
-    matches: plan.matches,
-    modelRenames: plan.modelRenames,
-  };
-  assert.deepEqual(validateCustomization(guardInputs), []);
-  const wrongContext = new Map(plan.source);
-  wrongContext.set(
-    "aiProjectClient.ts",
-    resolved.replace(
-      "_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)",
-      "_getAgentInsightMonitorsOperations(this._azureScopeClient)",
-    ),
-  );
-  assert.ok(
-    validateCustomization({ ...guardInputs, source: wrongContext }).some(
-      (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
-    ),
-  );
-  generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
-  const unrelated = planCustomization(inputs);
-  assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
-});
+      }),
+    );
+    const inputs = { baseGenerated, baseSource, generated };
+    const plan = planCustomization(inputs);
+    assert.deepEqual(plan.diagnostics, []);
+    const resolved = plan.source.get("aiProjectClient.ts");
+    assert.match(
+      resolved,
+      new RegExp(`this\\.${group} = _get${type}Operations\\(this\\._cognitiveScopeClient\\)`),
+    );
+    assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
+    const guardInputs = {
+      ...inputs,
+      source: plan.source,
+      matches: plan.matches,
+      modelRenames: plan.modelRenames,
+    };
+    assert.deepEqual(validateCustomization(guardInputs), []);
+    const wrongContext = new Map(plan.source);
+    wrongContext.set(
+      "aiProjectClient.ts",
+      resolved.replace(
+        `_get${type}Operations(this._cognitiveScopeClient)`,
+        `_get${type}Operations(this._azureScopeClient)`,
+      ),
+    );
+    assert.ok(
+      validateCustomization({ ...guardInputs, source: wrongContext }).some(
+        (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
+      ),
+    );
+    generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
+    const unrelated = planCustomization(inputs);
+    assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
+  });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {
   const patch = ["patchItem", "/items/{id}", "patch", "ItemsPatchItemOptionalParams"];

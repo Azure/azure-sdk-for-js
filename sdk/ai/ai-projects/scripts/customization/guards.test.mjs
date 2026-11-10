@@ -142,19 +142,30 @@ test("data generation discriminator guards enforce upstream values without relax
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
   const legacy = upstream.replace(";", ' | "task_generation";');
+  const conversations = upstream.replace(";", ' | "conversations";');
   assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  assert.deepEqual(validate(modelFixture(upstream, legacy, conversations, conversations)), []);
+  assert.deepEqual(validate(modelFixture(conversations, conversations, upstream, upstream)), []);
   for (const output of [
-    legacy,
-    upstream.replace('"traces" | ', ""),
-    upstream.replace(";", ' | "unexpected";'),
+    upstream,
+    conversations.replace(";", ' | "task_generation";'),
+    conversations.replace('"traces" | ', ""),
+    conversations.replace(";", ' | "unexpected";'),
+    conversations.replace(";", ' | "conversations";'),
   ]) {
     has(
-      validate(modelFixture(upstream, legacy, upstream, output)),
+      validate(modelFixture(upstream, legacy, conversations, output)),
       "DataGenerationJobType",
       undefined,
       "must adopt upstream values",
     );
   }
+  has(
+    validate(modelFixture(conversations, conversations, upstream, conversations)),
+    "DataGenerationJobType",
+    undefined,
+    "must adopt upstream values",
+  );
   const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
   has(
     validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),

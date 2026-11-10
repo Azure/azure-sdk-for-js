@@ -4,7 +4,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import ts from "typescript";
-import { planOperations, normalizeOperationCode, classicFromOperations } from "./operations.mjs";
+import {
+  planOperations,
+  normalizeOperationCode,
+  classicFromOperations,
+  indexOperations,
+} from "./operations.mjs";
 import { parse, renameSymbols } from "./modules.mjs";
 
 function operation(name, optionName, { custom = false, addition = false } = {}) {
@@ -460,6 +465,106 @@ test("rejects ambiguous route relocation rather than choosing a customization", 
       }),
     /ambiguous operation identity/,
   );
+});
+
+function skillsTree({
+  custom = false,
+  migrated = false,
+  promoted = false,
+  names = ["create", "createFromFiles"],
+} = {}) {
+  const file = `api/${promoted ? "" : "beta/"}skills/operations.ts`;
+  const route = `${migrated ? "/openai/v1" : ""}/skills/{id}/versions`;
+  const operations = names.map((name, index) => {
+    let text = operation(name, `SkillOptions${index}`, { custom })
+      .replace("/things/{id}", route)
+      .replace(".get(", ".post(")
+      .replace('"x-custom": "retained"', `"x-custom": "operation-${index}"`);
+    if (promoted)
+      text = text
+        .replace('from "../../index.js"', 'from "../index.js"')
+        .replace('from "../../../static-helpers/', 'from "../../static-helpers/');
+    return text;
+  });
+  return new Map([
+    [file, operations.join("\n")],
+    [
+      file.replace("operations.ts", "options.ts"),
+      names.map((_, i) => options(`SkillOptions${i}`)).join("\n"),
+    ],
+  ]);
+}
+
+test("Skills route migration retains the distinct customizations for shared POST routes", () => {
+  for (const promoted of [false, true]) {
+    const result = planOperations({
+      baseGenerated: skillsTree(),
+      baseSource: skillsTree({ custom: true }),
+      generated: skillsTree({ migrated: true, promoted }),
+    });
+    assert.deepEqual(result.diagnostics, []);
+    const operations = indexOperations(result.files);
+    for (const [index, name] of ["create", "createFromFiles"].entries()) {
+      const operation = operations.find((item) => item.name === name);
+      assert.ok(operation, name);
+      assert.equal(operation.file, `api/${promoted ? "" : "beta/"}skills/operations.ts`);
+      const send = operation.send.getText(operation.source);
+      assert.match(send, /\/openai\/v1\/skills\/\{id\}\/versions/);
+      assert.match(send, new RegExp(`"x-custom": "operation-${index}"`));
+    }
+  }
+});
+
+test("Skills route migration rejects ambiguous matches and unrelated route changes", () => {
+  const baseGenerated = skillsTree();
+  const baseSource = skillsTree({ custom: true });
+  for (const promoted of [false, true])
+    assert.throws(
+      () =>
+        planOperations({
+          baseGenerated,
+          baseSource,
+          generated: skillsTree({
+            migrated: true,
+            promoted,
+            names: ["renamed", "createFromFiles"],
+          }),
+        }),
+      /ambiguous operation identity/,
+    );
+  const withOtherModule = new Map(baseGenerated);
+  withOtherModule.set(
+    "api/other/operations.ts",
+    operation("otherCreate", "OtherOptions")
+      .replace("/things/{id}", "/openai/v1/skills/{id}/versions")
+      .replace(".get(", ".post("),
+  );
+  assert.throws(
+    () =>
+      planOperations({
+        baseGenerated: withOtherModule,
+        baseSource: withOtherModule,
+        generated: skillsTree({ migrated: true, promoted: true }),
+      }),
+    /ambiguous operation identity/,
+  );
+  for (const otherModule of [false, true]) {
+    const relocate = (files) =>
+      new Map(
+        [...files].map(([file, text]) => [
+          otherModule ? file.replace("/skills/", "/other/") : file,
+          otherModule ? text : text.replaceAll("/openai/v1/skills/", "/openai/v1/skills-extra/"),
+        ]),
+      );
+    const result = planOperations({
+      baseGenerated: relocate(baseGenerated),
+      baseSource: relocate(baseSource),
+      generated: relocate(skillsTree({ migrated: true })),
+    });
+    assert.ok(
+      result.diagnostics.some((item) => /disappeared without an unambiguous/.test(item.message)),
+    );
+  }
 });
 
 test("keeps untouched customized modules byte-for-byte", () => {
