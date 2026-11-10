@@ -47,6 +47,19 @@ const gaTelephonyMethods = new Set([
   "cancelCallJob",
   "deleteCallJob",
 ]);
+const sampleLocations = [
+  { label: "source", segments: ["samples-dev", "agents"], extension: ".ts" },
+  {
+    label: "published TypeScript",
+    segments: ["samples", "v2", "typescript", "src", "agents"],
+    extension: ".ts",
+  },
+  {
+    label: "published JavaScript",
+    segments: ["samples", "v2", "javascript", "agents"],
+    extension: ".js",
+  },
+];
 
 function findLeaks(text: string, file: string, gaOnly = false): string[] {
   const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
@@ -123,19 +136,34 @@ describe("Voice Agents GA sample surface", () => {
     expect(findLeaks(text, "conditional.ts")).toEqual([]);
   });
 
-  it.each([
-    ["source", "samples-dev\\agents", ".ts"],
-    ["published TypeScript", "samples\\v2\\typescript\\src\\agents", ".ts"],
-    ["published JavaScript", "samples\\v2\\javascript\\agents", ".js"],
-  ])("uses GA entry points in all %s Voice samples", (_label, folder, extension) => {
-    const leaks: string[] = [];
-    for (const name of voiceSamples) {
-      const file = path.join(process.cwd(), folder, `${name}${extension}`);
-      expect(existsSync(file), file).toBe(true);
-      leaks.push(...findLeaks(readFileSync(file, "utf8"), file, gaOnlySamples.has(name)));
-    }
-    expect(leaks).toEqual([]);
-  });
+  it.each(["posix", "win32"] as const)(
+    "resolves sample locations portably with %s paths",
+    (platform) => {
+      const platformPath = path[platform];
+      const root = platform === "win32" ? String.raw`C:\workspace` : "/workspace";
+      for (const { segments } of sampleLocations) {
+        expect(segments.every((segment) => !/[\\/]/.test(segment))).toBe(true);
+        const file = platformPath.join(root, ...segments, "agentSessions.ts");
+        expect(platformPath.relative(root, file).split(platformPath.sep)).toEqual([
+          ...segments,
+          "agentSessions.ts",
+        ]);
+      }
+    },
+  );
+
+  it.each(sampleLocations)(
+    "uses GA entry points in all $label Voice samples",
+    ({ segments, extension }) => {
+      const leaks: string[] = [];
+      for (const name of voiceSamples) {
+        const file = path.join(process.cwd(), ...segments, `${name}${extension}`);
+        expect(existsSync(file), file).toBe(true);
+        leaks.push(...findLeaks(readFileSync(file, "utf8"), file, gaOnlySamples.has(name)));
+      }
+      expect(leaks).toEqual([]);
+    },
+  );
 
   it("uses GA entry points in runnable documentation snippets", () => {
     const snippetFile = path.join(process.cwd(), "test", "snippets.spec.ts");
@@ -172,14 +200,12 @@ describe("Voice Agents GA sample surface", () => {
   });
 
   it("uses neutral names and current APIs for promoted agent-session examples", () => {
-    for (const [folder, extension] of [
-      ["samples-dev\\agents", ".ts"],
-      ["samples\\v2\\typescript\\src\\agents", ".ts"],
-      ["samples\\v2\\javascript\\agents", ".js"],
-    ]) {
-      const current = path.join(process.cwd(), folder, `agentSessions${extension}`);
+    for (const { segments, extension } of sampleLocations) {
+      const current = path.join(process.cwd(), ...segments, `agentSessions${extension}`);
       expect(existsSync(current), current).toBe(true);
-      expect(existsSync(path.join(process.cwd(), folder, `betaAgents${extension}`))).toBe(false);
+      expect(existsSync(path.join(process.cwd(), ...segments, `betaAgents${extension}`))).toBe(
+        false,
+      );
       expect(findLeaks(readFileSync(current, "utf8"), current)).toEqual([]);
     }
     const notebookPath = path.join(process.cwd(), "samples-dev", "agents", "agentSessions.ipynb");
