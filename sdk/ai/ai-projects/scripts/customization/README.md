@@ -65,15 +65,20 @@ regeneration script falls back to it when the strict run fails.
   identical baseline signatures are aligned before merging, including when
   an emitted body parameter moves into options. Binding-aware alignment keeps
   wire keys, literals, and nested bindings intact and refuses name capture.
+  The reviewed Skills route migration in azure-rest-api-specs#47858 matches
+  `/skills` to `/openai/v1/skills` only within Skills modules, including
+  beta-to-root promotion;
+  operations sharing a route still require unambiguous name matches.
   Renamed public/send/deserialize declarations covered by a verified operation
   match follow that operation when its old module disappears; they are not
   custom-only methods. Unaccounted custom-only declarations in a removed
   module still require an explicit relocation policy. Incoming API barrel
   exports also follow the resolved operation names.
-- Verified Agent Insight Monitor beta-to-root promotion adds only the new root
-  client's field, imports, and factory initialization. The initialization uses
-  the maintained beta group's authentication context, not the emitter's single
-  `_client`; all other constructor customizations remain protected.
+- Verified Agent Insight Monitor and Skills beta-to-root promotions add only
+  the new root client's field, imports, and factory initialization. The
+  initialization uses the maintained beta group's authentication context, not
+  the emitter's single `_client`; all other constructor customizations remain
+  protected.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not
@@ -150,8 +155,10 @@ regeneration script falls back to it when the strict run fails.
   The explicitly approved exception for the data-generation configuration
   migration (azure-rest-api-specs#46941) adopts the upstream
   `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and
-  `simulation_seed`, without the customized `task_generation` value. The policy
-  validates these exact values; future discriminator changes still require review.
+  `simulation_seed`, plus `conversations` when emitted
+  (azure-rest-api-specs#47368), without the customized `task_generation` value.
+  The output must match the emitted values exactly; other discriminator changes
+  still require review.
   Retire renamed options/output-target declarations with the generated-model
   removal synchronizer, including dependent legacy task-generation models.
 - Existing package-specific naming, error-model, streaming, JSON Schema,

@@ -50,6 +50,7 @@ const dataGenerationValues = '"simple_qna" | "traces" | "tool_use" | "simulation
 
 test("data generation schema renames adopt only the explicitly approved upstream discriminator", () => {
   const discriminator = `export type DataGenerationJobType = ${dataGenerationValues};`;
+  const conversations = discriminator.replace(";", ' | "conversations";');
   const options = `
 export interface DataGenerationJobOptions { type: DataGenerationJobType; }
 ${["simple_qna", "traces", "tool_use", "simulation_seed"]
@@ -65,26 +66,38 @@ ${["simple_qna", "traces", "tool_use", "simulation_seed"]
       'export type Unrelated = "kept";',
   );
   const incoming = tree(
-    discriminator +
+    conversations +
       "export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }",
   );
   const result = succeeded(base, custom, incoming);
   const text = result.files.get(modelFile);
   assert.doesNotMatch(text, /"task_generation"/);
   assert.match(text, /type Unrelated = "kept"/);
-  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed"])
+  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed", "conversations"])
     assert.ok(text.includes(`"${value}"`));
   assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
 
   // A subsequent regeneration must not resurrect the customized discriminator.
   const repeated = succeeded(incoming, result.files, incoming);
   assert.doesNotMatch(repeated.files.get(modelFile), /"task_generation"/);
+  assert.match(repeated.files.get(modelFile), /"conversations"/);
+});
+
+test("data generation discriminator follows the exact approved incoming values", () => {
+  const previous = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  const expanded = tree(
+    `export type DataGenerationJobType = ${dataGenerationValues} | "conversations";`,
+  );
+  const result = succeeded(expanded, expanded, previous);
+  assert.doesNotMatch(result.files.get(modelFile), /"conversations"/);
 });
 
 test("unapproved data generation values and unrelated full-union retention still require review", () => {
   const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
   for (const incoming of [
     tree(`export type DataGenerationJobType = ${dataGenerationValues} | "future";`),
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "task_generation";`),
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "traces";`),
     tree('export type DataGenerationJobType = "simple_qna";'),
     tree("export type DataGenerationJobType = string;"),
   ]) {
@@ -247,6 +260,36 @@ function assertModelTypes(files, packageRoot) {
     }),
   );
 }
+
+test("daily schedule converters keep their direct array when hours become optional", () => {
+  const mapped = 'item["hours"].map((p: any) => { return p; })';
+  const direct = 'item["hours"]';
+  const model = (optional, hours) => `
+export interface DailyRecurrenceSchedule { hours${optional ? "?" : ""}: number[]; }
+export function dailyRecurrenceScheduleSerializer(item: DailyRecurrenceSchedule): any {
+  return { hours: ${hours} };
+}
+export function dailyRecurrenceScheduleDeserializer(item: any): DailyRecurrenceSchedule {
+  return { hours: ${hours} };
+}`;
+  const base = tree(model(false, mapped));
+  const custom = tree(model(false, direct));
+  const incoming = tree(model(true, `!${direct} ? ${direct} : ${mapped}`));
+  const result = succeeded(base, custom, incoming);
+  const output = result.files.get(modelFile);
+  assert.match(output, /hours\?: number\[\]/);
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+  const converters = evaluate(output);
+  for (const name of ["dailyRecurrenceScheduleSerializer", "dailyRecurrenceScheduleDeserializer"]) {
+    const hours = [0, 5, 23];
+    assert.equal(converters[name]({ hours }).hours, hours);
+    assert.equal(converters[name]({}).hours, undefined);
+  }
+  const changed = tree(
+    model(true, `!${direct} ? ${direct} : ${mapped.replace("return p", "return p + 1")}`),
+  );
+  assert.ok(plan(base, custom, changed).diagnostics.length);
+});
 
 test("telephony resource replacement preserves only unchanged approved discriminator contracts", () => {
   for (const [name, values] of [

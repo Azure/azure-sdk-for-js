@@ -38,7 +38,7 @@ function calls(node, predicate) {
   return result;
 }
 
-function operationIdentity(node, file) {
+function operationIdentity(node) {
   const paths = calls(
     node,
     (call) =>
@@ -55,18 +55,9 @@ function operationIdentity(node, file) {
       ),
   );
   if (paths.length !== 1 || methods.length !== 1) return undefined;
-  let template = paths[0].arguments[0].text
+  const template = paths[0].arguments[0].text
     .replace(/\{\?[^}]*\}/g, "")
     .replace(/\{[^}]*\}/g, "{}");
-  // azure-rest-api-specs#47858 promotes Skills CRUD and changes only its
-  // route prefix. Scope identity alignment to these two reviewed modules;
-  // the actual emitted URL still participates in the three-way merge.
-  if (
-    file === "api/skills/operations.ts" &&
-    /^\/openai\/v1\/skills(?:\/\{\}(?:\/versions(?:\/\{\})?)?(?:\/content)?)?$/.test(template)
-  ) {
-    template = template.replace(/^\/openai\/v1/, "");
-  }
   return `${methods[0].expression.name.text.toUpperCase()} ${template}`;
 }
 
@@ -174,7 +165,7 @@ export function indexOperations(files) {
     const nodes = declarations(source);
     for (const node of nodes.values()) {
       if (!ts.isFunctionDeclaration(node) || !node.name.text.endsWith("Send")) continue;
-      const identity = operationIdentity(node, file);
+      const identity = operationIdentity(node);
       if (!identity) continue;
       const publicFunctions = [...nodes.values()].filter(
         (candidate) =>
@@ -210,32 +201,42 @@ export function indexOperations(files) {
   return result;
 }
 
+const skillsFiles = new Set(["api/beta/skills/operations.ts", "api/skills/operations.ts"]);
+
+function isSkillsOperationPair(left, right) {
+  return skillsFiles.has(left.file) && skillsFiles.has(right.file);
+}
+
+function sameOperationIdentity(left, right) {
+  if (left.identity === right.identity) return true;
+  if (!isSkillsOperationPair(left, right)) return false;
+  const previousSkillsRoute = (identity) =>
+    identity.replace(/^(GET|POST|DELETE) \/openai\/v1\/skills(?=\/|$)/, "$1 /skills");
+  return previousSkillsRoute(left.identity) === previousSkillsRoute(right.identity);
+}
+
 function chooseOperation(candidates, operation, preferredFile = operation.file) {
   const exact = candidates.filter(
     (item) =>
       item.file === preferredFile &&
       item.name === operation.name &&
-      item.identity === operation.identity,
+      sameOperationIdentity(item, operation),
   );
   if (exact.length === 1) return exact[0];
   const local = candidates.filter(
-    (item) => item.file === preferredFile && item.identity === operation.identity,
+    (item) => item.file === preferredFile && sameOperationIdentity(item, operation),
   );
   if (local.length === 1) return local[0];
-  const matches = candidates.filter((item) => item.identity === operation.identity);
-  if (operation.file === "api/skills/operations.ts") {
-    // create and createFromFiles intentionally share a multipart route. Match
-    // their reviewed names, not an arbitrary first operation on that route.
-    const promoted = matches.filter(
-      (item) =>
-        item.file === "api/beta/skills/operations.ts" && item.name === operation.name,
-    );
-    if (promoted.length === 1) return promoted[0];
+  const matches = candidates.filter((item) => sameOperationIdentity(item, operation));
+  if (matches.length > 1 && matches.every((item) => isSkillsOperationPair(item, operation))) {
+    const namedSkills = matches.filter((item) => item.name === operation.name);
+    if (namedSkills.length === 1) return namedSkills[0];
   }
-  if (matches.length > 1)
+  if (matches.length > 1) {
     throw new Error(
       `${operation.file}::${operation.name}: ambiguous operation identity ${operation.identity}`,
     );
+  }
   return matches[0];
 }
 

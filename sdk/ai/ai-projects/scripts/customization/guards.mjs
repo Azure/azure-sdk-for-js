@@ -4,7 +4,10 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
+import {
+  isUpstreamDataGenerationType,
+  matchesUpstreamDataGenerationType,
+} from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
 import { verifiedEmittedRenames } from "./models.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
@@ -532,7 +535,7 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     isUpstreamDataGenerationType(custom?.node, true) &&
     isUpstreamDataGenerationType(incoming?.node)
   ) {
-    if (!isUpstreamDataGenerationType(output?.node))
+    if (!matchesUpstreamDataGenerationType(output?.node, incoming?.node))
       report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
   } else {
     preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
@@ -1207,7 +1210,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators and Agent Insight Monitors were promoted from beta. The
+// Evaluators, Agent Insight Monitors, Skills, and voice agents were promoted from beta. The
 // customized client has two auth contexts, unlike the emitted single _client.
 // Admit only the promoted factory, using the same context as beta before
 // promotion; never substitute or rewrite the maintained constructor.
@@ -1221,8 +1224,8 @@ function preservesPromotedBetaContext(statement, before, baseGenerated, generate
   const factory = {
     evaluators: "_getEvaluatorsOperations",
     agentInsightMonitors: "_getAgentInsightMonitorsOperations",
-    voiceAgents: "_getVoiceAgentsOperations",
     skills: "_getSkillsOperations",
+    voiceAgents: "_getVoiceAgentsOperations",
   }[member];
   if (
     !factory ||
