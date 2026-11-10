@@ -123,7 +123,7 @@ export interface VoiceAgentLiveClientOptions extends VoiceAgentRealtimeClientOpt
  */
 export interface VoiceAgentLiveClientConnectOptions extends Omit<
   VoiceAgentRealtimeClientConnectOptions,
-  "transport" | "agentSessionId"
+  "transport" | "agentSessionId" | "foundryFeatures"
 > {
   /** Overrides the timeout for the service's session.started event, in milliseconds. */
   sessionTimeoutInMs?: number;
@@ -410,7 +410,9 @@ class VoiceAgentLiveConnectionImpl implements VoiceAgentLiveConnection {
               url: this.url,
               // Browser upgrades require Live plus the bearer credential subprotocol.
               protocols: isNodeLike ? [] : ["live"],
-              headers: buildHeaders(token, this.clientOptions),
+              headers: buildHeaders(token, this.clientOptions, undefined, {
+                foundryFeatures: "VoiceAgents=V1Preview",
+              }),
               connectionTimeoutInMs:
                 this.connectOptions.connectionTimeoutInMs ??
                 this.clientOptions.connectionTimeoutInMs ??

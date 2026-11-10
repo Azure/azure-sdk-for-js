@@ -400,7 +400,12 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 /** Optional parameters. */
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -487,7 +492,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -509,7 +519,12 @@ export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /** The initial operational state of the agent. Defaults to 'enabled' if not specified. */
   state?: AgentState;

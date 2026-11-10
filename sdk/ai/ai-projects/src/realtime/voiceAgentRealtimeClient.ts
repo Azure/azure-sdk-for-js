@@ -33,7 +33,6 @@ import { VoiceAgentRealtimeTracing } from "../tracing/voiceAgentTracing.js";
 const projectTracingConfigs = new WeakMap<VoiceAgentRealtimeClient, ResolvedTracingConfig>();
 
 const defaultCredentialScope = "https://ai.azure.com/.default";
-const voiceAgentsPreview = "VoiceAgents=V1Preview";
 const reservedQueryParameters = new Set([
   "api-version",
   "agent_session_id",
@@ -96,6 +95,8 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
   store?: boolean;
   /** Selects a specific immutable agent version. */
   agentVersionOverride?: string;
+  /** Opts into Handoff, SIP transfer destinations, or post-call preview features. Omit for GA agents. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
   /**
    * Connection transport. Defaults to "websocket".
    * Use "webrtc" only if your app handles the SDP offer/answer exchange through
@@ -392,7 +393,12 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
       await this.transport.connect({
         url: this.url,
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.serializedStructuredInputs),
+        headers: buildHeaders(
+          token,
+          this.clientOptions,
+          this.serializedStructuredInputs,
+          this.connectOptions,
+        ),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -766,17 +772,20 @@ export function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
   serializedStructuredInputs?: string,
+  options: Pick<VoiceAgentRealtimeClientConnectOptions, "foundryFeatures"> = {},
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {
     authorization: `Bearer ${token}`,
-    "foundry-features": voiceAgentsPreview,
     "x-ms-client-request-id": createRequestId(),
     "x-ms-client-sdk": sdkUserAgent,
     "user-agent": clientOptions.userAgentPrefix
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
+  if (options.foundryFeatures !== undefined) {
+    headers["foundry-features"] = options.foundryFeatures;
+  }
   if (serializedStructuredInputs !== undefined) {
     headers["x-ms-voice-structured-inputs"] = serializedStructuredInputs;
   }

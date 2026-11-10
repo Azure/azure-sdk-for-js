@@ -15255,9 +15255,9 @@ export interface VoiceAgentDefinition extends VoiceAgentBaseDefinition {
   tool_choice?: VoiceAgentToolChoice;
   /** Whether the model may call multiple tools in parallel. */
   parallel_tool_calls?: boolean;
-  /** Optional subagent configuration. Set `subagent_type` to `delegate` for delegated background specialists or `inline` for inline voice subagents. */
+  /** Optional subagents. Set `subagentType` to `delegate` for GA background specialists or `inline` for preview handoff. */
   subagent_config?: VoiceAgentSubagentConfigUnion;
-  /** Optional post-call delivery configuration. After each session ends, the service notifies the configured destinations. */
+  /** Preview post-call delivery. Requires `VoiceAgents=V1Preview`; notifies configured destinations after each session ends. */
   post_call?: VoiceAgentPostCallConfig;
 }
 
@@ -17508,15 +17508,14 @@ export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequ
   };
 }
 
-/** A telephony provider supported by an agent binding. Known values are stable; additional values may be added over time. */
+/** A telephony binding provider. Teams Phone extensibility and Twilio are GA; SIP is preview. */
 export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
 
 /** A telephony binding owned by a voice agent. */
 export interface TelephonyBinding {
   /** The service-generated binding identifier. */
   readonly id: string;
-  /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extensibility, twilio */
+  /** The telephony provider: `teams_phone_extensibility`, `twilio`, or preview `sip`. */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;
@@ -17637,8 +17636,7 @@ export function telephonyBindingListItemUnionArrayDeserializer(
 export interface TelephonyBindingListItem {
   /** The service-generated binding identifier. */
   id: string;
-  /** The telephony provider. */
-  /** The discriminator possible values: teams_phone_extensibility, twilio */
+  /** The telephony provider: `teams_phone_extensibility`, `twilio`, or preview `sip`. */
   provider: TelephonyProvider;
   /** The Foundry connection name for the telephony provider. */
   connection_name: string;

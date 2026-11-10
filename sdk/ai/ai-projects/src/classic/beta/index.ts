@@ -25,7 +25,7 @@ import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
-import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
+import type { VoiceAgentRealtimeClient } from "../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClient.js";
 
@@ -51,7 +51,7 @@ export interface BetaOperations {
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
   /** Operations for managing Agent Insights monitors. */
   agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  /** Operations for managing voice agent conversations and telephony. */
+  /** Preview Live connections, stored Live conversations, and campaigns. */
   voiceAgents: BetaVoiceAgentsOperations;
 }
 
@@ -59,7 +59,7 @@ export function _getBetaOperations(
   context: AIProjectContext,
   credential: TokenCredential,
   endpoint: string,
-  realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  getRealtimeClient: () => VoiceAgentRealtimeClient,
   tracingConfig?: ResolvedTracingConfig,
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaOperations {
@@ -84,12 +84,12 @@ export function _getBetaOperations(
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
     /** Operations for managing Agent Insights monitors. */
     agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    /** Operations for managing voice agent conversations and telephony. */
+    /** Preview Live connections, stored Live conversations, and campaigns. */
     voiceAgents: _getBetaVoiceAgentsOperations(
       context,
       credential,
       endpoint,
-      realtimeOptions,
+      getRealtimeClient,
       tracingConfig,
       liveOptions,
     ),
