@@ -11,6 +11,11 @@
  * demonstrating how to handle computer actions like typing, clicking, and
  * taking screenshots in a controlled environment.
  *
+ * Setup:
+ * - Set `COMPUTER_USE_MODEL_DEPLOYMENT_NAME` to a model deployment that supports the GA `computer`
+ *   tool, such as `gpt-5.4` (defaults to `gpt-5.4`).
+ * - Preview `computer-use-preview` deployments require the `computer_use_preview` tool instead.
+ *
  * @summary This sample demonstrates how to create a Computer Use Agent that can interact
  * with computer interfaces through simulated actions and screenshots.
  */
@@ -26,8 +31,7 @@ const {
 } = require("./computerUseUtil.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "gpt-5.4";
 
 async function main() {
   // Initialize state machine

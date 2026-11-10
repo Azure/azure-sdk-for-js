@@ -740,7 +740,7 @@ See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-s
 
 **Computer Use**
 
-Enable agents to interact directly with computer systems for task automation and system operations:
+Enable agents to interact directly with computer systems for task automation and system operations (requires a model deployment that supports the `computer` tool, such as `gpt-5.4`; for `computer-use-preview` deployments, use `computer_use_preview`):
 
 ```ts snippet:agent-computer-use
 const agent = await project.agents.createVersion("ComputerUseAgent", {
