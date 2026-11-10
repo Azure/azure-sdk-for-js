@@ -1,6 +1,6 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library (in preview) is part of the Microsoft Foundry SDK, and provides easy access to
+The AI Projects client library is part of the Microsoft Foundry SDK, and provides easy access to
 resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
@@ -26,7 +26,7 @@ resources in your Microsoft Foundry Project. Use it to:
 
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 
-* **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
+* **Manage hosted agent sessions and files** using the `.agents` operations on a deployment that supports sessions.
 * **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
 * **Manage toolboxes** for grouping tools into reusable collections, using the `.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
@@ -62,7 +62,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
-  - [Voice Agent operations (preview)](#voice-agent-operations-preview)
+  - [Voice Agent operations](#voice-agent-operations)
   - [GPT Live voice agents](#gpt-live-voice-agents)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
@@ -74,7 +74,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
   - [fine-tuning operations](#fine-tuning-operations)
-  - [Beta agent sessions operations (preview)](#beta-agent-sessions-operations-preview)
+  - [Agent session operations](#agent-session-operations)
   - [Skills operations (preview)](#skills-operations-preview)
   - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
@@ -147,7 +147,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`. Voice Agents have both GA and preview features; see [Voice Agent operations](#voice-agent-operations) for their opt-in requirements.
 
 Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
 
@@ -239,19 +239,55 @@ await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
 
-### Voice Agent operations (preview)
+### Voice Agent operations
 
 Use `project.agents` to create and manage voice agents. Choose the connection client
 that matches your agent:
 
-- `project.beta.voiceAgents.realtime` for Realtime and cascaded voice agents.
-- `project.beta.voiceAgents.live` for [GPT Live](#gpt-live-voice-agents).
+- `project.voiceAgents.realtime` for Realtime and cascaded voice agents.
+- `project.beta.voiceAgents.live` for [GPT Live (preview)](#gpt-live-voice-agents).
+
+The old `project.beta.voiceAgents.realtime` path is a deprecated compatibility alias
+for the same client. Use the root path in new code. Ordinary Realtime connections are
+GA and **do not send a VoiceAgents preview opt-in by default**.
+
+| Scope       | API or feature                                                                                                                      | `VoiceAgents=V1Preview`                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| GA          | Realtime/cascaded definitions, delegate subagents, and phone system tools through `project.agents`                                  | Not required                                                                                |
+| GA          | `project.agents.createFromPrompt` (`agents:generate`)                                                                               | Do not send                                                                                 |
+| GA          | All 14 stored Realtime conversation operations on `project.voiceAgents.conversations`; Realtime protocol and OpenAI Realtime models | Not required                                                                                |
+| GA          | TPE/Twilio telephony and call-job list/get operations on `project.voiceAgents.telephony`                                            | Not required                                                                                |
+| Conditional | Realtime connections to an agent using inline handoff, SIP transfer destinations, or `post_call`                                    | Pass `foundryFeatures` to `connect()`                                                       |
+| Conditional | Telephony binding/transfer/call writes and call-job create/cancel/delete on `project.voiceAgents.telephony`                         | Pass `foundryFeatures` only when using SIP                                                  |
+| Preview     | GPT Live definitions, delegation, sessions, stored conversations, and models                                                        | Required; native Live and `project.beta.voiceAgents.liveConversations` supply it internally |
+| Preview     | Inline handoff configuration/state/events, SIP models, and `post_call` configuration/types                                          | Required for these preview members; use the relevant operation's opt-in                     |
+| Preview     | All seven campaign operations on `project.beta.voiceAgents.telephony`                                                               | Required; supplied internally                                                               |
+
+A GA operation can accept a union with preview-only members. Opt in when selecting
+Live, inline-handoff, or SIP members, or when configuring `post_call`; the presence
+of those members does not make the entire union or operation preview.
+
+For telephony writes, use the connection, binding, call, or call-job provider to
+determine SIP usage, not just the address type: a SIP connection can use
+`phone_number` source and destination addresses. The REST tracing sample accepts
+only an existing TPE/Twilio connection for its optional outbound call; it does not
+demonstrate SIP calls. Separately, `transfer.require_handoff` is a GA transfer-summary
+setting; it does not by itself enable preview inline handoff.
+
+When migrating older samples, replace `project.beta.agents.createFromPrompt` with
+`project.agents.createFromPrompt`, `project.beta.voiceAgents.conversations` with
+`project.voiceAgents.conversations`, and non-campaign uses of
+`project.beta.voiceAgents.telephony` with `project.voiceAgents.telephony`. Replace
+their retired `Beta*OptionalParams` and conversation-download response types with
+the corresponding non-beta types. Keep campaign and GPT Live operations under
+`project.beta.voiceAgents`; use the root Realtime client listed above.
 
 This Node.js example sends text to an existing Realtime agent and prints the reply.
 Use an agent without an automatic greeting so the first response is the answer to your message.
 
 ```ts snippet:voiceAgent
-const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+// Ordinary Realtime sessions are GA and do not require a preview opt-in.
+const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
 try {
   await connection.sendText("Hello. Please introduce yourself briefly.");
   for await (const event of connection) {
@@ -280,8 +316,24 @@ their original type is in `eventType`. Validate `rawEvent` before using its fiel
 Malformed events throw `VoiceAgentProtocolError`. Handle service `error` events as shown above.
 
 To keep conversations, set `store: true` on the agent or on `connect()`, then use
-`project.beta.voiceAgents.conversations` to read them. Connecting to a disabled agent
+`project.voiceAgents.conversations` to read Realtime conversations. Connecting to a disabled agent
 fails with `409 Conflict` and error code `agent_disabled`.
+
+The [inline-handoff sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)
+shows the explicit opt-in for a Realtime agent that uses preview configuration:
+
+```ts snippet:ReadmeSampleVoiceAgentPreviewOptIn
+const connection = await project.voiceAgents.realtime.connect("<inline-handoff agent name>", {
+  foundryFeatures: "VoiceAgents=V1Preview",
+});
+await connection.close();
+```
+
+In Node.js, this option sends the `foundry-features` header. Browsers and React Native
+send the equivalent `foundry_features` WebSocket query parameter. Use the typed option,
+not the reserved generic `query` parameter. Default Realtime samples use GA agent
+configurations; for an existing agent with inline handoff, SIP transfer destinations,
+or `post_call`, opt in as above.
 
 Choose a complete sample for the task you want:
 
@@ -292,22 +344,29 @@ Choose a complete sample for the task you want:
 | Send speech and save the audio reply                    | [Realtime audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeAudio.ts)                 |
 | Send text and handle a function call                    | [Realtime text and tools](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeTextAndTools.ts) |
 | Inspect bindings and call history without placing calls | [Telephony](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentTelephony.ts)                               |
-| Route a turn to an inline specialist                    | [Inline handoff](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)                       |
-| Inspect stored conversations and download WAV audio     | [Conversation recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)       |
-| Inspect campaigns and outbound call-job status          | [Read-only campaigns](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceCampaigns.ts)                   |
+| Route a turn to an inline specialist (preview)          | [Inline handoff](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)                       |
+| Inspect Realtime (GA) or Live (preview) recordings      | [Conversation recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)        |
+| Inspect preview campaigns and GA outbound call jobs     | [Read-only campaigns](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceCampaigns.ts)                |
 
-The handoff sample creates two inline Realtime specialists, observes the correlated
+The preview handoff sample opts in when creating the definition and connecting.
+It creates two inline Realtime specialists, observes the correlated
 handoff events and the target's completed response, then deletes its sample agent.
 If creation is interrupted, an aborted HTTP request does not cancel server-side
 creation: use the logged unique agent name to check for a resource that finishes later.
 The [tracing samples](#voice-agents-tracing) are separate instrumentation walkthroughs;
 the basic generation, Realtime, and GPT Live examples do not require tracing setup.
+The configuration sample is GA by default; setting either optional post-call
+destination enables preview transcript delivery and adds the definition opt-in.
+Post-call delivery also supports optional merged-recording URLs; the sample does
+not request caller audio.
 
 #### Stored conversations and recordings
 
 The conversation-recordings sample is read-only and supports both persisted API
 families. Set `FOUNDRY_AGENT_NAME` and choose `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=realtime`
-or `live`. It reads one page and can select an exact conversation or item using the
+or `live`. Realtime uses the GA `project.voiceAgents.conversations` client without a
+preview header; Live uses `project.beta.voiceAgents.liveConversations` with the required
+preview header. It reads one page and can select an exact conversation or item using the
 variables documented in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env). Use IDs returned by the REST
 collections, not the native Realtime WebSocket item or response IDs. Create the
 recording first by connecting with
@@ -328,9 +387,13 @@ guarantee that artifact exists. Missing audio returns `404`. An unfinished merge
 recording can return `409 recording_not_ready`; follow its `Retry-After` guidance
 instead of treating that response as an empty recording.
 
-Campaign operations now share the `project.beta.voiceAgents.telephony` client.
-The campaign sample only reads campaign preparation, validation errors, operation
-monitors, and call jobs. It requires a deployment with those preview routes enabled.
+Campaign operations use the preview `project.beta.voiceAgents.telephony` client.
+Use `deleteCampaign()` to delete a campaign; `deleteTelephony()` is a deprecated
+compatibility alias for that operation.
+Call-job list/get operations use the GA `project.voiceAgents.telephony` client,
+including jobs created by a preview campaign. The campaign sample only reads campaign
+preparation, validation errors, operation monitors, and call jobs. The campaign reads
+require a deployment with those preview routes enabled.
 It never creates or cancels a call: campaign creation can authorize dialing before
 its preparation poller returns. An empty validation-error page during preparation
 does not establish that the campaign is valid or ready.
@@ -341,7 +404,7 @@ Pass `query` to add URL parameters for one connection. Use names supported by yo
 service or gateway; the names below are examples:
 
 ```ts snippet:ReadmeSampleVoiceAgentQuery
-const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+const connection = await project.voiceAgents.realtime.connect("my-voice-agent", {
   query: {
     custom_key: "custom value",
     custom_flag: true,
@@ -354,7 +417,8 @@ Values can be strings, finite numbers, or booleans. The SDK URL-encodes them and
 them when `connect()` is called. A value replaces a matching endpoint parameter;
 `undefined` removes it. These values are not reused for later connections.
 
-Use typed options such as `store`, `agentVersionOverride`, and `structuredInputs` instead
+Use typed options such as `store`, `agentVersionOverride`, `structuredInputs`, and
+Realtime's `foundryFeatures` instead
 of putting SDK settings in `query`. SDK and authentication parameter names, structured-input
 names, and names starting with `h-` are reserved regardless of case; using them throws
 `TypeError` before authentication. Custom query values do not become prompt variables.
@@ -365,6 +429,9 @@ names, and names starting with `h-` are reserved regardless of case; using them 
 Use `project.beta.voiceAgents.live` for GPT Live agents. When creating the agent, set
 `sub_protocol: "live"`, `model_type: "self_deployed"`, and `model` to your GPT Live
 deployment name. Creation requires `VoiceAgents=V1Preview`.
+Pass `{ foundryFeatures: "VoiceAgents=V1Preview" }` to `project.agents.create()` or
+`createVersion()`. Native Live connections always send the required preview flag
+internally; callers do not need a flag on `live.connect()`.
 
 This short example requires an existing agent configured for mono PCM16LE audio
 at 24 kHz. Live advances on an audio clock even when adding text instructions, so
@@ -1520,14 +1587,16 @@ const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateP
 console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 ```
 
-### Beta agent sessions operations (preview)
+### Agent session operations
 
-The `.beta.agents` operations let you manage agent sessions and session files for hosted agents. Sessions provide isolated sandbox environments for agent interactions.
+Use `project.agents` to manage sessions and session files for hosted agents.
+Sessions provide isolated sandbox environments for agent interactions. This
+example requires a hosted agent deployment that supports session operations.
 
-```ts snippet:beta-agents
+```ts snippet:agent-sessions
 import { VersionRefIndicator } from "@azure/ai-projects";
 
-const agentName = "MyBetaAgent";
+const agentName = "MySessionAgent";
 // Create a session for the agent
 const versionIndicator: VersionRefIndicator = {
   type: "version_ref",
@@ -1537,7 +1606,7 @@ const session = await project.agents.createSession(agentName, versionIndicator);
 console.log(`Session created: ${session.agent_session_id}`);
 // Upload a file to the session sandbox
 const filePath = "/sandbox/hello.txt";
-const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+const fileContent = new TextEncoder().encode("Hello from the agent sessions sample!");
 const uploadResult = await project.agents.uploadSessionFile(
   agentName,
   session.agent_session_id,
@@ -1547,7 +1616,8 @@ const uploadResult = await project.agents.uploadSessionFile(
 console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 ```
 
-See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/betaAgents.ts).
+See the full sample code in [agentSessions.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentSessions.ts)
+and the matching [notebook](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentSessions.ipynb).
 
 ### Skills operations (preview)
 
@@ -1686,7 +1756,7 @@ const project = new AIProjectClient("<project endpoint>", new DefaultAzureCreden
     contentRecording: false,
   },
 });
-const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
 try {
   await connection.sendText("Hello.");
   for await (const event of connection) {
@@ -1710,7 +1780,7 @@ response, not per audio chunk. These include status, token usage, and audio byte
 First-audio latency is measured from response creation to receipt, not from user speech
 or speaker playback. Service IDs appear in traces, not metric dimensions.
 
-REST and `project.beta.voiceAgents.realtime` share the project's tracing settings.
+REST and `project.voiceAgents.realtime` share the project's tracing settings.
 A separately constructed `VoiceAgentRealtimeClient` does not inherit them.
 Input summaries describe the latest input, not the full conversation history.
 
