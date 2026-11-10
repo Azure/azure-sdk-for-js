@@ -87,7 +87,7 @@ GA coverage, even when no new GA features were added, then `update-changelog`.
 
 ## Notes
 
-- Do **not** author samples for `project.beta.*` additions unless explicitly asked — beta surface is allowed to stay sample-less. (Existing preview-feature samples like `agents/agentVoiceLiveText.ts` are fine; just don't add new ones reflexively.)
+- Do **not** author samples for `project.beta.*` additions unless explicitly asked — beta surface is allowed to stay sample-less. (Beta samples that already exist in `samples-dev/` like `agents/betaAgents.ts` are fine; just don't add new ones reflexively.)
 - Match the voice of nearby samples in the same bucket. Read at least one neighboring file before writing.
 - Samples must be runnable end-to-end against a real Foundry project; do not mock.
 - **Watch for cascade renames from `apply-post-emitter-edits`.** If a method on the public surface was renamed in the customization layer (e.g. `listSessionFiles` → `getSessionFiles`), `npm run build:samples` will fail in _existing_ samples that called the old name. Fix the call site in the existing sample as part of this skill — do not revert the rename. Cross-reference the rename table in [../apply-post-emitter-edits/references/post-emitter-workarounds.md](../apply-post-emitter-edits/references/post-emitter-workarounds.md) before debugging build failures.
