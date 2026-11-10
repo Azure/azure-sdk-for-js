@@ -234,3 +234,11 @@ robece is an invalid user. Ensure the user exists, is public member of Azure and
 axisc is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 jimmyca15 is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 zhenlan is not a public member of Azure.
+wanyang7 is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+sgellock is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+mbifeld is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+yangyuan is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+sumantmehtams is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+chlahav is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+zesluo is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+rastala is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
