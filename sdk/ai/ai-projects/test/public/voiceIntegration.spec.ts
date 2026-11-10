@@ -1079,32 +1079,119 @@ describe("voice post-emitter integration", () => {
       );
     });
 
-    it("gets a stored Live delegation without treating guidance as spoken audio", async () => {
-      const delegation = {
-        id: item.id,
+    const liveItems = [
+      {
+        id: "input/id",
+        type: "input",
+        transcription: "An account question.",
+        audio: {
+          conversation_id: conversation.id,
+          item_id: "input/id",
+          role: "user",
+          format: "wav",
+          codec: "pcm16",
+          sample_rate: 24000,
+          channels: 1,
+          start_offset_ms: 0,
+          duration_ms: 500,
+        },
+      },
+      {
+        id: "output/id",
+        type: "output",
+        transcription: "An account answer.",
+        audio: {
+          conversation_id: conversation.id,
+          item_id: "output/id",
+          role: "agent",
+          format: "wav",
+          codec: "pcm16",
+          sample_rate: 24000,
+          channels: 1,
+          start_offset_ms: 500,
+          duration_ms: 1000,
+        },
+      },
+      {
+        id: "client/id",
+        type: "delegation",
+        target: "client",
+        created_at: 0,
+        commentary: "Accepted client guidance.",
+        thinking: "Accepted client context.",
+      },
+      {
+        id: "responses/id",
+        type: "delegation",
+        target: "responses",
+        response_id: "backend-response",
+        created_at: 1_700_000_000,
+        output: "A backend response, not spoken audio.",
+      },
+      {
+        id: "agent/id",
         type: "delegation",
         target: "foundry_managed_agent",
         agent_name: "helper",
         agent_version: "3",
         backend_conversation_id: "backend-conversation",
-        created_at: 0,
+        created_at: 1_700_000_001,
         offset_ms: 0,
         status: "cancelled",
+        delegation_context: "An account question.",
         output: [{ commentary: "Accepted partial guidance.", thinking: "Accepted context." }],
-      };
-      const { client, requests } = createClient({ body: delegation });
-      const result = await client.beta.voiceAgents.liveConversations.getItem(
+      },
+    ] as const;
+    const liveItemCases = liveItems.map((wire) => ({
+      wire,
+      expected:
+        "created_at" in wire ? { ...wire, created_at: new Date(wire.created_at * 1000) } : wire,
+    }));
+
+    it.each(liveItemCases)(
+      "gets a stored Live $wire.type item $wire.id without losing subtype fields",
+      async ({ wire, expected }) => {
+        const { client, requests } = createClient({ body: wire });
+        const result = await client.beta.voiceAgents.liveConversations.getItem(
+          "voice agent",
+          conversation.id,
+          wire.id,
+        );
+        expect(result).toMatchObject(expected);
+        if (wire.type === "delegation") {
+          expect(result).not.toHaveProperty("transcription");
+          expect(result).not.toHaveProperty("audio");
+        }
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe("GET");
+        expect(new URL(requests[0].url).pathname).toBe(
+          `${livePath}/items/${encodeURIComponent(wire.id)}`,
+        );
+        expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      },
+    );
+
+    it("deserializes speech and all delegation targets across non-empty Live item pages", async () => {
+      const { client, requests } = createClient(
+        { body: { data: liveItems.slice(0, 2), last_id: "output/id", has_more: true } },
+        { body: { data: liveItems.slice(2), last_id: "agent/id", has_more: false } },
+      );
+      const results = [];
+      for await (const stored of client.beta.voiceAgents.liveConversations.listItems(
         "voice agent",
         conversation.id,
-        item.id,
-      );
-      expect(result).toMatchObject({ ...delegation, created_at: new Date(0) });
-      expect(result).not.toHaveProperty("transcription");
-      expect(result).not.toHaveProperty("audio");
-      expect(requests).toHaveLength(1);
-      expect(requests[0].method).toBe("GET");
-      expect(new URL(requests[0].url).pathname).toBe(`${livePath}/items/item%2Fid`);
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+        { limit: 2, order: "asc" },
+      )) {
+        results.push(stored);
+      }
+      expect(results).toMatchObject(liveItemCases.map(({ expected }) => expected));
+      expect(results).toHaveLength(liveItems.length);
+      expect(requests).toHaveLength(2);
+      expect(new URL(requests[1].url).searchParams.get("after")).toBe("output/id");
+      for (const request of requests) {
+        expect(new URL(request.url).pathname).toBe(`${livePath}/items`);
+        expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      }
     });
 
     it("deletes stored Live data with the required preview flag and an empty response", async () => {

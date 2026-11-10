@@ -380,6 +380,9 @@ function normalizeSessionResponseUnions(session: models.VoiceAgentSessionRespons
   if (session.interim_response) {
     session.interim_response = deserializeInterimResponse(session.interim_response);
   }
+  if (session.handoff) {
+    session.handoff = models.voiceAgentHandoffStateDeserializer(session.handoff);
+  }
 }
 
 function deserializeTurnDetection(

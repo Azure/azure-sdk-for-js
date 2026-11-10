@@ -273,6 +273,104 @@ describe("regenerated model wire contracts", () => {
     });
   });
 
+  it("round-trips delegated subagents through the agent-definition union", () => {
+    const config: Models.VoiceAgentDelegateSubagentConfig = {
+      subagentType: "delegate",
+      subagents: [
+        {
+          agent_name: "accounts",
+          agent_version: "2",
+          agent_capabilities: "Answer account questions.",
+          invoke_timeout_seconds: 30,
+          response_policy: {
+            immediate_ack: false,
+            enable_delta_progress: true,
+            gap_filling_interval: 5,
+            progress_update_interval: 2,
+          },
+        },
+      ],
+    };
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      audio: { output: { voice_type: "openai", voice: "alloy", speed: 1.1 } },
+      subagent_config: config,
+    };
+    const wire = {
+      ...definition,
+      subagent_config: { subagent_type: "delegate", subagents: config.subagents },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(wire);
+    expect(toWire(agentDefinitionUnionDeserializer(wire))).toEqual(definition);
+  });
+
+  it("round-trips inline subagents, voice overrides, and handoff policy through agent dispatch", () => {
+    const config: Models.VoiceAgentInlineSubagentConfig = {
+      subagentType: "inline",
+      subagents: [
+        {
+          id: "$entrypoint",
+          source: "inline",
+          interface: "voice",
+          display_description: "Welcome callers.",
+          instructions: "Route account questions to the specialist.",
+          audio_output: { voice_type: "openai", voice: "alloy", speed: 1 },
+          parallel_tool_calls: false,
+          handoff_conditions: [
+            {
+              id: "accounts-edge",
+              target: "accounts",
+              condition: "The caller needs account assistance.",
+              cancel_on_interruption: false,
+              delay_ms: 0,
+              target_response: "none",
+            },
+          ],
+        },
+        {
+          id: "accounts",
+          source: "inline",
+          interface: "voice",
+          display_description: "Handle account questions.",
+          inherit_base_instructions: false,
+          instructions: "Answer account questions.",
+          audio_output: {
+            voice_type: "azure-standard",
+            voice: "en-US-AvaMultilingualNeural",
+            voice_locale: "en-US",
+            speed: 1.2,
+            voice_temperature: 0,
+            prefer_locales: ["en-US"],
+            style: "friendly",
+          },
+          temperature: 0,
+          max_response_output_tokens: "inf",
+          handoff_conditions: [],
+        },
+      ],
+      handoff_policy: { max_transfers: 2, max_attempts: 3 },
+    };
+    const definition: VoiceAgentDefinition = {
+      kind: "voice",
+      sub_protocol: "realtime",
+      audio: { output: { voice_type: "openai", voice: "alloy", speed: 1 } },
+      subagent_config: config,
+    };
+    const wire = {
+      ...definition,
+      subagent_config: {
+        subagent_type: "inline",
+        subagents: config.subagents.map(({ display_description, ...subagent }) => ({
+          ...subagent,
+          description: display_description,
+        })),
+        handoff_policy: config.handoff_policy,
+      },
+    };
+    expect(toWire(agentDefinitionUnionSerializer(definition))).toEqual(wire);
+    expect(toWire(agentDefinitionUnionDeserializer(wire))).toEqual(definition);
+  });
+
   it("dispatches Live voice definitions through their protocol and delegation serializers", () => {
     const definition: Models.VoiceAgentLiveDefinition = {
       kind: "voice",

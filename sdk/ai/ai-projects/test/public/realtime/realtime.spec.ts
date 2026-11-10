@@ -508,6 +508,21 @@ describe("VoiceAgents handoff and system-tool protocol coverage", () => {
     expect(decoded).toMatchObject(event);
   });
 
+  it.each(events.filter((event) => event.type.startsWith("session.handoff.")))(
+    "delivers $type through a Realtime connection",
+    async (event) => {
+      const factory = new MockWebSocketFactory();
+      const connection = await createClient(factory).voiceAgents.realtime.connect("agent");
+      try {
+        const next = connection[Symbol.asyncIterator]().next();
+        factory.transport.receive(event);
+        await expect(next).resolves.toMatchObject({ done: false, value: event });
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
   it.each(events)("requires correlation fields on $type", (event) => {
     const missing = event.type.startsWith("session.handoff.") ? "handoff_id" : "call_id";
     const malformed = Object.fromEntries(Object.entries(event).filter(([key]) => key !== missing));
@@ -790,6 +805,56 @@ describe("AIProjectClient realtime", () => {
       expect(event.session.audio?.input?.turn_detection).not.toHaveProperty(
         "end_of_utterance_detection.extra",
       );
+    },
+  );
+
+  it.each(["session.created", "session.updated"])(
+    "normalizes handoff node descriptions in %s",
+    (type) => {
+      const handoff = {
+        pipeline_family: "realtime",
+        active_node_id: "$entrypoint",
+        node_generation: 0,
+        transfer_count: 0,
+        attempt_count: 0,
+        available_edge_ids: ["accounts-edge"],
+        transfer_tool: null,
+        nodes: [
+          { id: "$entrypoint", description: "Welcome callers.", implicit: true },
+          { id: "accounts", description: "Handle account questions.", implicit: false },
+        ],
+        edges: [
+          {
+            id: "accounts-edge",
+            source: "$entrypoint",
+            target: "accounts",
+            cancel_on_interruption: false,
+            delay_ms: 0,
+            target_response: "none",
+          },
+        ],
+      };
+      const event = deserializeVoiceAgentServerEvent(
+        JSON.stringify({
+          type,
+          event_id: "session-handoff",
+          session: {
+            type: "realtime",
+            object: "realtime.session",
+            id: "session-1",
+            model: "gpt-realtime",
+            handoff,
+          },
+        }),
+      );
+      assert.ok(event.type === "session.created" || event.type === "session.updated");
+      expect(event.session.handoff).toEqual({
+        ...handoff,
+        nodes: [
+          { id: "$entrypoint", display_description: "Welcome callers.", implicit: true },
+          { id: "accounts", display_description: "Handle account questions.", implicit: false },
+        ],
+      });
     },
   );
 

@@ -139,6 +139,12 @@ describe("Voice Agents GA sample surface", () => {
 
   it("uses GA entry points in runnable documentation snippets", () => {
     const snippetFile = path.join(process.cwd(), "test", "snippets.spec.ts");
+    const realtimeReadme = readFileSync(
+      path.join(process.cwd(), "test", "public", "realtime", "README.md"),
+      "utf8",
+    );
+    expect(realtimeReadme).toContain("project.voiceAgents.realtime");
+    expect(realtimeReadme).not.toContain("project.beta.voiceAgents.realtime");
     const readme = readFileSync(path.join(process.cwd(), "README.md"), "utf8");
     const leaks = findLeaks(readFileSync(snippetFile, "utf8"), snippetFile);
     for (const [index, fence] of [
