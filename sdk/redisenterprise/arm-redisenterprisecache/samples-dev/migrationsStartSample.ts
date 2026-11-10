@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts a new migration
  *
  * @summary starts a new migration
- * x-ms-original-file: 2026-09-01/RedisEnterpriseMigrationStart.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseMigrationStart.json
  */
 async function redisEnterpriseMigrationStart(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function redisEnterpriseMigrationStart(): Promise<void> {
  * This sample demonstrates how to starts a new migration
  *
  * @summary starts a new migration
- * x-ms-original-file: 2026-09-01/RedisEnterpriseMigrationStartWithDataMigration.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseMigrationStartWithDataMigration.json
  */
 async function redisEnterpriseMigrationStartWithDataMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();
