@@ -89,8 +89,12 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
-                  - script: >
-                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                  - script: |
+                      set -ex
+                      artifact_dir="$(Pipeline.Workspace)/${{ parameters.ArtifactName }}/${{ artifact.name }}"
+                      install_dir="$(mktemp -d "$(Agent.TempDirectory)/npm-install-check.XXXXXX")"
+                      ls "$artifact_dir"/*.tgz
+                      npm install --prefix "$install_dir" "$artifact_dir"/*.tgz
                     displayName: Validating package can be installed
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
