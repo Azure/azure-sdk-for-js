@@ -475,7 +475,7 @@ describe("Voice Agents exported traces", () => {
       new AIProjectClient("https://example.test", credential, {
         tracingOptions,
         realtimeOptions: { webSocketFactory: factory },
-      }).beta.voiceAgents.realtime;
+      }).voiceAgents.realtime;
     const realtime = createRealtime({ contentRecording: false });
     vi.stubEnv("AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING", "false");
     await (await realtime.connect("voice")).close();
@@ -531,7 +531,7 @@ describe("Voice Agents exported traces", () => {
     );
     const parent = trace.getTracer("application").startSpan("workflow");
     await context.with(trace.setSpan(context.active(), parent), async () => {
-      const connection = await client.beta.voiceAgents.realtime.connect("voice");
+      const connection = await client.voiceAgents.realtime.connect("voice");
       expect(trace.getSpan(context.active())).toBe(parent);
       // Simulate a callback outside the caller's context; children still belong to the session.
       context.with(ROOT_CONTEXT, () => {

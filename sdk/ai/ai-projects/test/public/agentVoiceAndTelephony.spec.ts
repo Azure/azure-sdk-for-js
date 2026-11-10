@@ -5,15 +5,21 @@ import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AbortError } from "@azure/abort-controller";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { AIProjectClient } from "../../src/index.js";
 import type {
+  AgentDefinitionOptInKeys,
+  AgentDefinitionUnion,
   BrowserAutomationPreviewTool,
   BrowserAutomationPreviewToolboxTool,
+  TelephonyBindingListItemUnion,
   TelephonyCallJob,
   TelephonyCallJobCreate,
+  TelephonyCallSummary,
   TelephonyTransferTarget,
   VoiceAgentDefinition,
+  VoiceAgentsTelephonyCreateCallJobOptionalParams,
+  VoiceAgentsTelephonyListBindingsOptionalParams,
 } from "../../src/index.js";
 
 interface MockResponse {
@@ -126,6 +132,144 @@ describe("agent voice authoring", () => {
     expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
   });
 
+  const phoneTools: VoiceAgentDefinition["tools"] = [
+    { type: "system", name: "collect_dtmf" },
+    {
+      type: "system",
+      name: "transfer",
+      require_handoff: true,
+      targets: [
+        {
+          name: "support",
+          destinations: [{ type: "phone_number", value: "+15555550101" }],
+          routing: { strategy: "sequential" },
+        },
+      ],
+    },
+  ];
+  const definitionCases: {
+    name: string;
+    definition: AgentDefinitionUnion;
+    wire: unknown;
+    foundryFeatures?: AgentDefinitionOptInKeys;
+  }[] = [
+    { name: "GA Realtime voice", definition: voiceDefinition, wire: voiceDefinition },
+    {
+      name: "GA delegate subagents and phone system tools",
+      definition: {
+        ...voiceDefinition,
+        subagent_config: {
+          subagentType: "delegate",
+          subagents: [{ agent_name: "helper", agent_capabilities: "Answer transit questions." }],
+        },
+        tools: phoneTools,
+      },
+      wire: {
+        ...voiceDefinition,
+        subagent_config: {
+          subagent_type: "delegate",
+          subagents: [{ agent_name: "helper", agent_capabilities: "Answer transit questions." }],
+        },
+        tools: phoneTools,
+      },
+    },
+    {
+      name: "preview GPT Live",
+      definition: {
+        kind: "voice",
+        sub_protocol: "live",
+        model_type: "self_deployed",
+        model: "gpt-live-deployment",
+        delegation: { type: "client" },
+        store: false,
+      },
+      wire: {
+        kind: "voice",
+        sub_protocol: "live",
+        model_type: "self_deployed",
+        model: "gpt-live-deployment",
+        delegation: { type: "client" },
+        store: false,
+      },
+      foundryFeatures: "VoiceAgents=V1Preview",
+    },
+    {
+      name: "preview post-call delivery",
+      definition: {
+        ...voiceDefinition,
+        post_call: { destinations: [{ type: "routine", name: "archive" }] },
+      },
+      wire: {
+        ...voiceDefinition,
+        post_call: { destinations: [{ type: "routine", name: "archive" }] },
+      },
+      foundryFeatures: "VoiceAgents=V1Preview",
+    },
+  ];
+
+  const authoringActions: Array<"create" | "update" | "createVersion"> = [
+    "create",
+    "update",
+    "createVersion",
+  ];
+  for (const action of authoringActions) {
+    it.each(definitionCases)(
+      `${action} preserves the definition and conditional opt-in for $name`,
+      async ({ definition, wire, foundryFeatures }) => {
+        const resultVersion = { ...version, definition: wire };
+        const { client, requests } = createClient({
+          body:
+            action === "createVersion"
+              ? resultVersion
+              : {
+                  object: "agent",
+                  id: "agent-1",
+                  name: "voice-agent",
+                  versions: { latest: resultVersion },
+                },
+        });
+        const onResponse = vi.fn();
+        const controller = new AbortController();
+        await client.agents[action]("voice-agent", definition, {
+          foundryFeatures,
+          onResponse,
+          abortSignal: controller.signal,
+          requestOptions: { headers: { "x-test-header": "retained" } },
+        });
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe("POST");
+        expect(new URL(requests[0].url).pathname).toBe(
+          action === "create"
+            ? "/api/projects/test-project/agents"
+            : `/api/projects/test-project/agents/voice-agent${action === "createVersion" ? "/versions" : ""}`,
+        );
+        expect(JSON.parse(String(requests[0].body)).definition).toEqual(wire);
+        expect(requests[0].headers.get("foundry-features")).toBe(foundryFeatures);
+        expect(requests[0].headers.get("x-test-header")).toBe("retained");
+        expect(requests[0].abortSignal).toBe(controller.signal);
+        expect(onResponse).toHaveBeenCalledOnce();
+      },
+    );
+  }
+
+  const otherOptIns: AgentDefinitionOptInKeys[] = [
+    "WorkflowAgents=V1Preview",
+    "ExternalAgents=V1Preview",
+    "DraftAgents=V1Preview",
+    "DigitalWorker=V1Preview",
+    "GitHubCopilot=V1Preview",
+    "Skills=V1Preview",
+    "MicrosoftCopilot=V1Preview",
+  ];
+  it.each(otherOptIns)("preserves an explicit %s definition opt-in", async (foundryFeatures) => {
+    const { client, requests } = createClient({
+      body: { object: "agent", id: "agent-1", name: "voice-agent", versions: { latest: version } },
+    });
+    await client.agents.create("voice-agent", voiceDefinition, { foundryFeatures });
+    expect(requests).toHaveLength(1);
+    expect(requests[0].headers.get("foundry-features")).toBe(foundryFeatures);
+  });
+
   it("preserves browser automation preview in request and response tool unions", async () => {
     const tool: BrowserAutomationPreviewTool = {
       type: "browser_automation_preview",
@@ -182,6 +326,164 @@ describe("agent voice authoring", () => {
 });
 
 describe("agent telephony operations", () => {
+  const headerCases = [
+    {
+      name: "createBinding",
+      method: "POST",
+      suffix: "/bindings",
+      status: 201,
+      body: binding,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.createBinding(
+          "voice-agent",
+          requestOptions.foundryFeatures
+            ? { provider: "sip", connection_name: binding.connection_name }
+            : {
+                provider: "twilio",
+                connection_name: binding.connection_name,
+                phone_number: binding.phone_number,
+              },
+          requestOptions,
+        ),
+    },
+    {
+      name: "getBinding",
+      method: "GET",
+      suffix: "/bindings/binding-1",
+      body: { ...binding, provider: "sip" },
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.getBinding("voice-agent", binding.id, requestOptions),
+    },
+    {
+      name: "updateBinding",
+      method: "PATCH",
+      suffix: "/bindings/binding-1",
+      body: binding,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.updateBinding(
+          "voice-agent",
+          binding.id,
+          binding.etag,
+          { label: "Updated" },
+          requestOptions,
+        ),
+    },
+    {
+      name: "deleteBinding",
+      method: "DELETE",
+      suffix: "/bindings/binding-1",
+      status: 204,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.deleteBinding(
+          "voice-agent",
+          binding.id,
+          binding.etag,
+          requestOptions,
+        ),
+    },
+    {
+      name: "getTransferTargets",
+      method: "GET",
+      suffix: "/transfer_targets",
+      body: { transfer_targets: [] },
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.getTransferTargets("voice-agent", requestOptions),
+    },
+    {
+      name: "replaceTransferTargets",
+      method: "PUT",
+      suffix: "/transfer_targets",
+      body: { transfer_targets: [] },
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.replaceTransferTargets(
+          "voice-agent",
+          '"targets-etag"',
+          [
+            {
+              name: "support",
+              description: "Support desk",
+              destination: requestOptions.foundryFeatures
+                ? { type: "sip", value: "sip:support@example.com" }
+                : { type: "phone_number", value: "+15555550101" },
+            },
+          ],
+          requestOptions,
+        ),
+    },
+    {
+      name: "getCall",
+      method: "GET",
+      suffix: "/calls/call-1",
+      body: { ...call, provider: "sip" },
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.getCall("voice-agent", call.id, requestOptions),
+    },
+    {
+      name: "transferCall",
+      method: "POST",
+      suffix: "/calls/call-1:transfer",
+      body: call,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.transferCall(
+          "voice-agent",
+          call.id,
+          "support",
+          requestOptions,
+        ),
+    },
+    {
+      name: "endCall",
+      method: "POST",
+      suffix: "/calls/call-1:end",
+      body: call,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.endCall("voice-agent", call.id, requestOptions),
+    },
+  ];
+
+  for (const foundryFeatures of [undefined, options.foundryFeatures]) {
+    it.each(headerCases)(
+      `forwards ${foundryFeatures ?? "no default preview flag"} for $name`,
+      async ({ method, suffix, status, body, invoke }) => {
+        const { client, requests } = createClient({ status, body });
+        await invoke(client, {
+          foundryFeatures,
+          requestOptions: { headers: { "x-test-header": "retained" } },
+        });
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe(method);
+        expect(new URL(requests[0].url).pathname).toBe(
+          `/api/projects/test-project/agents/voice-agent/telephony${suffix}`,
+        );
+        expect(requests[0].headers.get("foundry-features")).toBe(foundryFeatures);
+        expect(requests[0].headers.get("x-test-header")).toBe("retained");
+      },
+    );
+  }
+
   it("creates a provider-discriminated binding", async () => {
     const { client, requests } = createClient({ status: 201, body: binding });
     const body = {
@@ -483,6 +785,57 @@ describe("agent telephony operations", () => {
     },
   ];
 
+  for (const foundryFeatures of [undefined, options.foundryFeatures]) {
+    it.each(["bindings", "calls"])(
+      `retains ${foundryFeatures ?? "no default preview flag"} on every %s page`,
+      async (kind) => {
+        const item =
+          kind === "bindings" ? { ...binding, provider: "sip" } : { ...call, provider: "sip" };
+        const first = { body: { data: [item], last_id: "cursor/+", has_more: true } };
+        const second = { body: { data: [{ ...item, id: "second" }], has_more: false } };
+        const { client, requests } = createClient(first, second, first, second);
+        const controller = new AbortController();
+        const onResponse = vi.fn();
+        const listOptions: VoiceAgentsTelephonyListBindingsOptionalParams = {
+          foundryFeatures,
+          provider: "sip",
+          limit: 1,
+          order: "asc",
+          abortSignal: controller.signal,
+          onResponse,
+          requestOptions: { timeout: 1234, headers: { "x-test-header": "retained" } },
+        };
+        const list = (): PagedAsyncIterableIterator<
+          TelephonyBindingListItemUnion | TelephonyCallSummary
+        > =>
+          kind === "bindings"
+            ? client.voiceAgents.telephony.listBindings("voice-agent", listOptions)
+            : client.voiceAgents.telephony.listCalls("voice-agent", listOptions);
+        const ids = [];
+        for await (const value of list()) ids.push(value.id);
+        expect(ids).toEqual([item.id, "second"]);
+        const firstPage = await list().byPage().next();
+        expect(firstPage.value?.continuationToken).toBeTruthy();
+        const resumed = list().byPage({ continuationToken: firstPage.value?.continuationToken });
+        expect((await resumed.next()).value?.[0].id).toBe("second");
+        expect((await resumed.next()).done).toBe(true);
+        expect(requests).toHaveLength(4);
+        for (const [index, request] of requests.entries()) {
+          const query = new URL(request.url).searchParams;
+          expect(query.get("after")).toBe(index % 2 ? "cursor/+" : null);
+          expect(query.get("provider")).toBe("sip");
+          expect(query.get("order")).toBe("asc");
+          expect(query.get("limit")).toBe("1");
+          expect(request.headers.get("foundry-features")).toBe(foundryFeatures);
+          expect(request.headers.get("x-test-header")).toBe("retained");
+          expect(request.abortSignal).toBe(controller.signal);
+          expect(request.timeout).toBe(1234);
+        }
+        expect(onResponse).toHaveBeenCalledTimes(4);
+      },
+    );
+  }
+
   it.each(listCases)("iterates $name across nonempty pages", async ({ item, list }) => {
     const { client, requests } = createClient(
       { body: { data: [item], last_id: item.id, has_more: true } },
@@ -542,6 +895,84 @@ describe("agent outbound call jobs", () => {
   };
   const path = "/api/projects/test-project/agents/voice%20agent/telephony_call_jobs";
 
+  const headerCases = [
+    {
+      name: "createCallJob",
+      method: "POST",
+      suffix: "",
+      status: 202,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.createCallJob(
+          "voice agent",
+          "retry-key/+",
+          requestOptions.foundryFeatures
+            ? input
+            : { ...input, destination: { type: "phone_number", value: "+15555550101" } },
+          requestOptions,
+        ),
+    },
+    {
+      name: "getCallJob",
+      method: "GET",
+      suffix: "/job%2F1",
+      status: 200,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.getCallJob("voice agent", job.id, requestOptions),
+    },
+    {
+      name: "cancelCallJob",
+      method: "POST",
+      suffix: "/job%2F1:cancel",
+      status: 202,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) =>
+        client.voiceAgents.telephony.cancelCallJob(
+          "voice agent",
+          job.id,
+          '"revision-7"',
+          requestOptions,
+        ),
+    },
+    {
+      name: "deleteCallJob",
+      method: "DELETE",
+      suffix: "/job%2F1",
+      status: 204,
+      invoke: (
+        client: AIProjectClient,
+        requestOptions: VoiceAgentsTelephonyCreateCallJobOptionalParams,
+      ) => client.voiceAgents.telephony.deleteCallJob("voice agent", job.id, requestOptions),
+    },
+  ];
+
+  for (const foundryFeatures of [undefined, options.foundryFeatures]) {
+    it.each(headerCases)(
+      `forwards ${foundryFeatures ?? "no default preview flag"} for $name`,
+      async ({ method, suffix, status, invoke }) => {
+        const { client, requests } = createClient({
+          status,
+          body: status === 204 ? undefined : job,
+        });
+        await invoke(client, {
+          foundryFeatures,
+          requestOptions: { headers: { "x-test-header": "retained" } },
+        });
+        expect(requests).toHaveLength(1);
+        expect(requests[0].method).toBe(method);
+        expect(new URL(requests[0].url).pathname).toBe(`${path}${suffix}`);
+        expect(requests[0].headers.get("foundry-features")).toBe(foundryFeatures);
+        expect(requests[0].headers.get("x-test-header")).toBe("retained");
+      },
+    );
+  }
+
   it("creates a durable job with an idempotency key and preserves nested and zero-valued inputs", async () => {
     const { client, requests } = createClient({ status: 202, body: job });
     const result = await client.voiceAgents.telephony.createCallJob(
@@ -573,6 +1004,39 @@ describe("agent outbound call jobs", () => {
       campaign_name: job.campaign_name,
       terminal_reason: "no_answer",
     });
+  });
+
+  it("retains the SIP opt-in with phone-number source and destination addresses", async () => {
+    const sipInput: TelephonyCallJobCreate = {
+      ...input,
+      connection_name: "sip-connection",
+      destination: { type: "phone_number", value: "+15555550101" },
+    };
+    const { client, requests } = createClient({
+      status: 202,
+      body: {
+        ...job,
+        connection_name: sipInput.connection_name,
+        source: sipInput.source,
+        destination: sipInput.destination,
+      },
+    });
+    const result = await client.voiceAgents.telephony.createCallJob(
+      "voice agent",
+      "phone-number-sip-key",
+      sipInput,
+      options,
+    );
+    expect(requests).toHaveLength(1);
+    expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(requests[0].headers.get("idempotency-key")).toBe("phone-number-sip-key");
+    expect(JSON.parse(String(requests[0].body))).toEqual({
+      ...sipInput,
+      schedule: job.schedule,
+    });
+    expect(result.connection_name).toBe("sip-connection");
+    expect(result.source).toEqual({ type: "phone_number", value: "+15555550100" });
+    expect(result.destination).toEqual(sipInput.destination);
   });
 
   it("gets a campaign-owned job using an encoded ID", async () => {

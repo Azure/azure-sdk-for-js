@@ -105,6 +105,59 @@ function createClient(
 }
 
 describe("VoiceAgentRealtimeClient query options", () => {
+  it("exposes the GA realtime client and retains the deprecated beta alias", () => {
+    const client = createClient(new MockWebSocketFactory());
+    expect(client.voiceAgents.realtime).toBeInstanceOf(VoiceAgentRealtimeClient);
+    expect(client.beta.voiceAgents.realtime).toBe(client.voiceAgents.realtime);
+  });
+
+  it.each(["project", "standalone"])(
+    "omits preview opt-in for GA connections with the %s client",
+    async (kind) => {
+      const factory = new MockWebSocketFactory();
+      const credential = new TestCredential();
+      const client =
+        kind === "standalone"
+          ? new VoiceAgentRealtimeClient("https://example.test/api/projects/project", credential, {
+              webSocketFactory: factory,
+            })
+          : createClient(factory, credential).voiceAgents.realtime;
+      const connection = await client.connect("ga-agent");
+      try {
+        const options = factory.transport.connectOptions;
+        assert.ok(options);
+        expect(options.headers).not.toHaveProperty("foundry-features");
+        expect(new URL(options.url).searchParams.has("foundry_features")).toBe(false);
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
+  it.each(["project", "standalone"])(
+    "forwards an explicit preview opt-in with the %s client",
+    async (kind) => {
+      const factory = new MockWebSocketFactory();
+      const credential = new TestCredential();
+      const client =
+        kind === "standalone"
+          ? new VoiceAgentRealtimeClient("https://example.test/api/projects/project", credential, {
+              webSocketFactory: factory,
+            })
+          : createClient(factory, credential).voiceAgents.realtime;
+      const connection = await client.connect("preview-agent", {
+        foundryFeatures: "VoiceAgents=V1Preview",
+      });
+      try {
+        const options = factory.transport.connectOptions;
+        assert.ok(options);
+        expect(options.headers["foundry-features"]).toBe("VoiceAgents=V1Preview");
+      } finally {
+        await connection.close();
+      }
+    },
+  );
+
   it.each(["project", "standalone"])(
     "merges and encodes connection query parameters for the %s client",
     async (kind) => {
@@ -119,7 +172,7 @@ describe("VoiceAgentRealtimeClient query options", () => {
           ? new VoiceAgentRealtimeClient(endpoint, credential, { webSocketFactory: factory })
           : new AIProjectClient(endpoint, credential, {
               realtimeOptions: { webSocketFactory: factory },
-            }).beta.voiceAgents.realtime;
+            }).voiceAgents.realtime;
       const query = Object.freeze({
         replace: "space + /?&=#",
         remove: undefined,
@@ -198,10 +251,9 @@ describe("VoiceAgentRealtimeClient query options", () => {
     const factory = new MockWebSocketFactory();
     const query: Record<string, string> = Object.create(null);
     query.custom = "value";
-    const connection = await createClient(factory).beta.voiceAgents.realtime.connect(
-      "support-agent",
-      { query },
-    );
+    const connection = await createClient(factory).voiceAgents.realtime.connect("support-agent", {
+      query,
+    });
     try {
       const connectOptions = factory.transport.connectOptions;
       assert.ok(connectOptions);
@@ -213,7 +265,7 @@ describe("VoiceAgentRealtimeClient query options", () => {
 
   it("snapshots query values at connect entry without retaining them for later connections", async () => {
     const factory = new MockWebSocketFactory();
-    const realtime = createClient(factory).beta.voiceAgents.realtime;
+    const realtime = createClient(factory).voiceAgents.realtime;
     const query = { custom: "first" };
     const pendingConnection = realtime.connect("support-agent", { query });
     query.custom = "changed";
@@ -266,7 +318,7 @@ describe("VoiceAgentRealtimeClient query options", () => {
     const credential = new TestCredential();
     const getToken = vi.spyOn(credential, "getToken");
     const create = vi.spyOn(factory, "create");
-    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+    const realtime = createClient(factory, credential).voiceAgents.realtime;
 
     await expect(
       realtime.connect("support-agent", { query: { [name]: "private-value" } }),
@@ -295,7 +347,7 @@ describe("VoiceAgentRealtimeClient query options", () => {
     const credential = new TestCredential();
     const getToken = vi.spyOn(credential, "getToken");
     const create = vi.spyOn(factory, "create");
-    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+    const realtime = createClient(factory, credential).voiceAgents.realtime;
 
     await expect(
       realtime.connect("support-agent", {
@@ -332,7 +384,7 @@ describe("VoiceAgentRealtimeClient query options", () => {
     const credential = new TestCredential();
     const getToken = vi.spyOn(credential, "getToken");
     const create = vi.spyOn(factory, "create");
-    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+    const realtime = createClient(factory, credential).voiceAgents.realtime;
 
     await expect(
       // @ts-expect-error Verify runtime validation for JavaScript callers.
@@ -352,7 +404,7 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
       resolveToken = resolve;
     });
     vi.spyOn(credential, "getToken").mockReturnValueOnce(token);
-    const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+    const realtime = createClient(factory, credential).voiceAgents.realtime;
     const structuredInputs = { customer: { name: "Ada" } };
     const options = { structuredInputs };
     const pendingConnection = realtime.connect("support-agent", options);
@@ -387,7 +439,7 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
       const credential = new TestCredential();
       const getToken = vi.spyOn(credential, "getToken");
       const create = vi.spyOn(factory, "create");
-      const realtime = createClient(factory, credential).beta.voiceAgents.realtime;
+      const realtime = createClient(factory, credential).voiceAgents.realtime;
       const structuredInputs: Record<string, unknown> = {};
       structuredInputs.value = kind === "circular" ? structuredInputs : 1n;
 
@@ -687,7 +739,7 @@ describe("AIProjectClient realtime", () => {
     expect(() => deserializeVoiceAgentServerEvent(data)).toThrow(message);
 
     const factory = new MockWebSocketFactory();
-    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const connection = await createClient(factory).voiceAgents.realtime.connect("agent");
     const next = connection[Symbol.asyncIterator]().next();
     factory.transport.receiveRaw(data);
     await expect(next).rejects.toThrow(VoiceAgentProtocolError);
@@ -697,7 +749,7 @@ describe("AIProjectClient realtime", () => {
 
   it("does not reinterpret a malformed known event as an unknown event", async () => {
     const factory = new MockWebSocketFactory();
-    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const connection = await createClient(factory).voiceAgents.realtime.connect("agent");
     const next = connection[Symbol.asyncIterator]().next();
     factory.transport.receive({ type: "session.created", event_id: "session-1" });
     await expect(next).rejects.toBeInstanceOf(VoiceAgentProtocolError);
@@ -770,7 +822,7 @@ describe("AIProjectClient realtime", () => {
     async (unknownFirst) => {
       const factory = new MockWebSocketFactory();
       const states: VoiceAgentConnectionState[] = [];
-      const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent", {
+      const connection = await createClient(factory).voiceAgents.realtime.connect("agent", {
         onConnectionStateChange: (state) => states.push(state),
       });
       const closed = vi.fn();
@@ -826,7 +878,7 @@ describe("AIProjectClient realtime", () => {
 
   it("keeps service errors and unsupported outbound events distinct from the fallback", async () => {
     const factory = new MockWebSocketFactory();
-    const connection = await createClient(factory).beta.voiceAgents.realtime.connect("agent");
+    const connection = await createClient(factory).voiceAgents.realtime.connect("agent");
     const iterator = connection[Symbol.asyncIterator]();
     const serviceError = {
       type: "error",
@@ -846,7 +898,7 @@ describe("AIProjectClient realtime", () => {
     await connection.close();
   });
 
-  it("inherits project connection options and exposes one realtime client", async () => {
+  it("inherits project connection options for the GA realtime client", async () => {
     const factory = new MockWebSocketFactory();
     const credential = new TestCredential();
     const client = new AIProjectClient("https://unused.example", credential, {
@@ -861,7 +913,7 @@ describe("AIProjectClient realtime", () => {
     assert.ok(client.voiceAgents.conversations);
     assert.notProperty(client.beta.voiceAgents, "conversations");
 
-    const connection = await client.beta.voiceAgents.realtime.connect("support-agent");
+    const connection = await client.voiceAgents.realtime.connect("support-agent");
     const connectOptions = factory.transport.connectOptions;
     assert.ok(connectOptions);
     const url = new URL(connectOptions.url);
@@ -884,16 +936,13 @@ describe("AIProjectClient realtime", () => {
   it("builds the authenticated upgrade request and reports states", async () => {
     const factory = new MockWebSocketFactory();
     const states: VoiceAgentConnectionState[] = [];
-    const connection = await createClient(factory).beta.voiceAgents.realtime.connect(
-      "support-agent",
-      {
-        agentSessionId: "session-1",
-        store: false,
-        agentVersionOverride: "2",
-        structuredInputs: { customer: "Ada" },
-        onConnectionStateChange: (state) => states.push(state),
-      },
-    );
+    const connection = await createClient(factory).voiceAgents.realtime.connect("support-agent", {
+      agentSessionId: "session-1",
+      store: false,
+      agentVersionOverride: "2",
+      structuredInputs: { customer: "Ada" },
+      onConnectionStateChange: (state) => states.push(state),
+    });
 
     const connectOptions = factory.transport.connectOptions;
     assert.ok(connectOptions);
@@ -904,7 +953,7 @@ describe("AIProjectClient realtime", () => {
     assert.equal(url.searchParams.has("x-agent-version-override"), false);
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
-    assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
+    assert.equal(connectOptions.headers["foundry-features"], undefined);
     assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
@@ -927,7 +976,7 @@ describe("AIProjectClient realtime", () => {
     "sets the connect-time transport query parameter (transport: %s)",
     async (transport, expectedQueryValue) => {
       const factory = new MockWebSocketFactory();
-      const connection = await createClient(factory).beta.voiceAgents.realtime.connect(
+      const connection = await createClient(factory).voiceAgents.realtime.connect(
         "support-agent",
         transport === undefined ? {} : { transport },
       );
@@ -943,8 +992,7 @@ describe("AIProjectClient realtime", () => {
 
   it("sends text, audio, session settings, and tool outputs", async () => {
     const factory = new MockWebSocketFactory();
-    const connection =
-      await createClient(factory).beta.voiceAgents.realtime.connect("support-agent");
+    const connection = await createClient(factory).voiceAgents.realtime.connect("support-agent");
 
     await connection.configureSession({
       type: "realtime",
@@ -978,7 +1026,7 @@ describe("AIProjectClient realtime", () => {
   it("streams events and surfaces protocol and transport failures", async () => {
     const streamFactory = new MockWebSocketFactory();
     const connection =
-      await createClient(streamFactory).beta.voiceAgents.realtime.connect("support-agent");
+      await createClient(streamFactory).voiceAgents.realtime.connect("support-agent");
     const iterator = connection[Symbol.asyncIterator]();
 
     streamFactory.transport.receive({
@@ -996,7 +1044,7 @@ describe("AIProjectClient realtime", () => {
 
     const protocolFactory = new MockWebSocketFactory();
     const protocolConnection =
-      await createClient(protocolFactory).beta.voiceAgents.realtime.connect("support-agent");
+      await createClient(protocolFactory).voiceAgents.realtime.connect("support-agent");
     const protocolRead = protocolConnection[Symbol.asyncIterator]().next();
     protocolFactory.transport.receiveRaw("not-json");
     await expect(protocolRead).rejects.toBeInstanceOf(VoiceAgentProtocolError);
@@ -1004,7 +1052,7 @@ describe("AIProjectClient realtime", () => {
 
     const closeFactory = new MockWebSocketFactory();
     const closeConnection =
-      await createClient(closeFactory).beta.voiceAgents.realtime.connect("support-agent");
+      await createClient(closeFactory).voiceAgents.realtime.connect("support-agent");
     const closeRead = closeConnection[Symbol.asyncIterator]().next();
     closeFactory.transport.disconnect(1011, "service failure");
     await expect(closeRead).rejects.toBeInstanceOf(VoiceAgentConnectionError);
@@ -1016,7 +1064,7 @@ describe("AIProjectClient realtime", () => {
     controller.abort();
 
     await expect(
-      createClient(new MockWebSocketFactory()).beta.voiceAgents.realtime.connect("support-agent", {
+      createClient(new MockWebSocketFactory()).voiceAgents.realtime.connect("support-agent", {
         abortSignal: controller.signal,
       }),
     ).rejects.toMatchObject({ code: "operationCancelled" });
