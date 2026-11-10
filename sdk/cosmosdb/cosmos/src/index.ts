@@ -74,6 +74,7 @@ export {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
+  VectorIndexQuantizationType,
   type FullTextIndex,
   type FullTextPolicy,
   type FullTextPath,

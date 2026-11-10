@@ -71,8 +71,17 @@ export interface VectorIndex {
    */
   type: VectorIndexType;
   /**
+   * The quantizer type for the vector index.
+   * This is an optional parameter and applies to index types DiskANN and quantizedFlat.
+   * Allowed values are "product" and "spherical".
+   * When omitted, the service uses product quantization.
+   * Do not specify quantizationByteSize when using spherical quantization.
+   */
+  quantizerType?: VectorIndexQuantizationType;
+  /**
    * The number of bytes used in product quantization of the vectors.
    * This is an optional parameter and applies to index types DiskANN and quantizedFlat.
+   * Only supported with product quantization, including when quantizerType is omitted.
    * The allowed range for this parameter is between 1 and min(Dimensions, 512).
    */
   quantizationByteSize?: number;
@@ -106,6 +115,22 @@ export enum VectorIndexType {
    * Represents quantizedFlat index type.
    */
   QuantizedFlat = "quantizedFlat",
+}
+
+/**
+ * Represents the quantization type for a vector index.
+ * This is an optional parameter and applies to index types DiskANN and quantizedFlat.
+ */
+export enum VectorIndexQuantizationType {
+  /**
+   * Represents a product quantizer type.
+   */
+  Product = "product",
+  /**
+   * Represents a spherical quantizer type.
+   * The quantizationByteSize option is not supported with this quantizer.
+   */
+  Spherical = "spherical",
 }
 
 /**
