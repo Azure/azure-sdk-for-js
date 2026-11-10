@@ -723,40 +723,16 @@ export function cloudAccountUserUpdateSerializer(item: CloudAccountUserUpdate): 
   };
 }
 
-/** Managed service identity details supplied in a cloud account PATCH. */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export interface CloudAccountIdentityUpdate {
   /** The type of managed identity assigned to this resource. */
   type?: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, CloudAccountUserAssignedIdentity>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function cloudAccountIdentityUpdateSerializer(item: CloudAccountIdentityUpdate): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : cloudAccountUserAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
-}
-
-export function cloudAccountUserAssignedIdentityRecordSerializer(
-  item: Record<string, CloudAccountUserAssignedIdentity>,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : cloudAccountUserAssignedIdentitySerializer(item[key]);
-  });
-  return result;
-}
-
-/** User-assigned identity details supplied in a cloud account PATCH. */
-export interface CloudAccountUserAssignedIdentity {}
-
-export function cloudAccountUserAssignedIdentitySerializer(
-  _item: CloudAccountUserAssignedIdentity,
-): any {
-  return {};
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** The response of a CloudAccount list operation. */
@@ -2548,6 +2524,49 @@ export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
 
 export function trackedResourceCreateOrUpdateSerializer(item: TrackedResourceCreateOrUpdate): any {
   return { tags: item["tags"], location: item["location"] };
+}
+
+/** The type used for update operations of the CloudAccount. */
+export interface CloudAccountUpdateUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CloudAccountUpdateProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: CloudAccountIdentityUpdateUpdate;
+}
+
+export function cloudAccountUpdateUpdateSerializer(item: CloudAccountUpdateUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudAccountUpdatePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : cloudAccountIdentityUpdateUpdateSerializer(item["identity"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface CloudAccountIdentityUpdateUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
+}
+
+export function cloudAccountIdentityUpdateUpdateSerializer(
+  item: CloudAccountIdentityUpdateUpdate,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentityUpdate {}
+
+export function userAssignedIdentityUpdateSerializer(_item: UserAssignedIdentityUpdate): any {
+  return {};
 }
 
 /** Supported API versions for the Commvault.ContentStore resource provider. */
