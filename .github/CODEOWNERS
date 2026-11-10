@@ -418,7 +418,7 @@
 # ServiceOwners:          @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
-# ServiceOwners:          @mjudeikis @julienstroheker @amanohar
+# ServiceOwners:          @mjudeikis @jim-minter @julienstroheker @amanohar
 
 # ServiceLabel: %Attestation %Service Attention
 # ServiceOwners:          @anilba06
@@ -472,7 +472,7 @@
 # ServiceOwners:          @swmachan
 
 # ServiceLabel: %Cognitive - Speech %Service Attention
-# ServiceOwners:          @oscholz
+# ServiceOwners:          @robch @oscholz
 
 # ServiceLabel: %Cognitive - LUIS %Service Attention
 # ServiceOwners:          @cahann @kayousef
@@ -605,7 +605,7 @@
 # ServiceOwners:          @mgreenegit @vivlingaiah
 
 # ServiceLabel: %HDInsight %Service Attention
-# ServiceOwners:          @idear1203 @deshriva
+# ServiceOwners:          @aim-for-better @idear1203 @deshriva
 
 # ServiceLabel: %HPC Cache %Service Attention
 # ServiceOwners:          @romahamu @omzevall
@@ -981,7 +981,6 @@
 /.github/workflows/tester.lock.yml       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.md       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.lock.yml @Azure/azure-sdk-for-js-core
-/.github/agents/agentic-workflows.agent.md @Azure/azure-sdk-for-js-core
 /.github/agents/archie.agent.md          @maorleger @Azure/azure-sdk-for-js-core
 /.github/agents/dash.agent.md            @Azure/azure-sdk-for-js-core
 /.github/agents/dexter.agent.md          @Azure/azure-sdk-for-js-core
