@@ -355,6 +355,120 @@ describe("routed senders and persistence", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it.each(["result", "throw"])(
+    "serializes overflow sender lifetimes across concurrent batches after a %s failure",
+    async (failure) => {
+      const sender = router();
+      const batch = (start: number, count: number): RoutingGroups => {
+        const result: RoutingGroups = new Map();
+        for (let index = start; index < start + count; index++) {
+          for (const [key, value] of groups(`https://route-${index}.test`)) {
+            result.set(key, value);
+          }
+        }
+        return result;
+      };
+      await sender.export(batch(0, 64));
+      const cached = new Set(sender["senders"].values());
+      let active = 0;
+      let peak = 0;
+      let created = 0;
+      let closed = 0;
+      const error = new Error("Overflow export failed");
+      vi.spyOn(HttpSender.prototype, "exportEnvelopes").mockImplementation(async function () {
+        active++;
+        created++;
+        peak = Math.max(peak, active);
+        const first = created === 1;
+        await Promise.resolve();
+        if (first) {
+          if (failure === "throw") {
+            throw error;
+          }
+          return { code: ExportResultCode.FAILED, error };
+        }
+        return { code: ExportResultCode.SUCCESS };
+      });
+      const shutdown = HttpSender.prototype.shutdown;
+      vi.spyOn(HttpSender.prototype, "shutdown").mockImplementation(async function (
+        this: HttpSender,
+      ) {
+        await Promise.resolve();
+        await shutdown.call(this);
+        if (!cached.has(this)) {
+          active--;
+          closed++;
+        }
+      });
+
+      const results = await Promise.all([
+        sender.export(batch(64, 128)),
+        sender.export(batch(192, 128)),
+      ]);
+      expect(results).toEqual([
+        { code: ExportResultCode.FAILED, error },
+        { code: ExportResultCode.SUCCESS },
+      ]);
+      expect(peak).toBe(1);
+      expect(active).toBe(0);
+      expect(created).toBe(256);
+      expect(closed).toBe(256);
+      expect(sender["senders"].size).toBe(64);
+    },
+  );
+
+  it("keeps cached routes independent and drains queued overflow routes during shutdown", async () => {
+    const sender = router();
+    const batch: RoutingGroups = new Map();
+    for (let index = 0; index < 64; index++) {
+      for (const [key, value] of groups(`https://route-${index}.test`)) {
+        batch.set(key, value);
+      }
+    }
+    await sender.export(batch);
+    const cached = new Set(sender["senders"].values());
+    let release!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let overflowStarted = 0;
+    vi.spyOn(HttpSender.prototype, "exportEnvelopes").mockImplementation(async function (
+      this: HttpSender,
+    ) {
+      if (!cached.has(this)) {
+        overflowStarted++;
+        await pending;
+      }
+      return { code: ExportResultCode.SUCCESS };
+    });
+    const exporting = sender.export(
+      new Map([...groups("https://overflow-1.test"), ...groups("https://overflow-2.test")]),
+    );
+    try {
+      await vi.waitFor(() => expect(overflowStarted).toBeGreaterThan(0));
+      expect((await sender.export(groups("https://route-0.test"))).code).toBe(
+        ExportResultCode.SUCCESS,
+      );
+      let stopped = false;
+      const stopping = sender.shutdown().then(() => {
+        stopped = true;
+        return;
+      });
+      expect((await sender.export(groups())).code).toBe(ExportResultCode.FAILED);
+      expect(overflowStarted).toBe(1);
+      expect(stopped).toBe(false);
+      release();
+      expect((await exporting).code).toBe(ExportResultCode.SUCCESS);
+      await stopping;
+      expect(overflowStarted).toBe(2);
+      expect(stopped).toBe(true);
+      expect(sender["senders"].size).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      release();
+    }
+  });
+
   it("never persists to or replays from host storage", async () => {
     const hostKey = "host-key";
     const host = new FileSystemPersist(hostKey, { storageDirectory: directory });

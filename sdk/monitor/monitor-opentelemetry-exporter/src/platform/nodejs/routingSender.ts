@@ -17,6 +17,7 @@ const RETRY_POLL_INTERVAL_MS = 60_000;
 export class RoutingSender {
   private readonly senders = new Map<string, HttpSender>();
   private readonly operations = new Set<Promise<ExportResult>>();
+  private overflowReady: Promise<void> = Promise.resolve();
   private retryWorker: NodeJS.Timeout | undefined;
   private isShutdown = false;
   private shutdownPromise: Promise<void> | undefined;
@@ -58,6 +59,14 @@ export class RoutingSender {
       [...groups].map(async ([key, { route, envelopes }]): Promise<ExportResult> => {
         let sender: HttpSender | undefined;
         let temporary = false;
+        let releaseOverflow: (() => void) | undefined;
+        if (!this.senders.has(key) && this.senders.size >= MAX_CACHED_ROUTES) {
+          const previous = this.overflowReady;
+          this.overflowReady = new Promise((resolve) => {
+            releaseOverflow = resolve;
+          });
+          await previous;
+        }
         try {
           sender = this.senders.get(key);
           if (!sender) {
@@ -97,8 +106,12 @@ export class RoutingSender {
             error: error instanceof Error ? error : new Error(String(error)),
           };
         } finally {
-          if (temporary) {
-            await sender?.shutdown();
+          try {
+            if (temporary) {
+              await sender?.shutdown();
+            }
+          } finally {
+            releaseOverflow?.();
           }
         }
       }),

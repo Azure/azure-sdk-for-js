@@ -203,7 +203,9 @@ attributes are excluded from exported custom properties and the source telemetry
 Each exporter caches up to 64 endpoint/authentication pairs. Cached destinations have
 separate retry partitions, isolated from host storage, sharing a 50 MB routed-storage quota
 under the configured `storageDirectory`. Additional destinations use short-lived senders
-without persistence. Retried envelopes retain their original keys and destinations.
+without persistence, processed one at a time per exporter, including across overlapping
+exports. Each temporary sender is shut down before the next is created. Cached destinations
+continue sending concurrently. Retried envelopes retain their original keys and destinations.
 In-flight replay batches retain their storage quota until delivery or restoration completes.
 One background worker per exporter checks opened routes after a randomized initial delay
 of up to 60 seconds, then every 60 seconds, even without new telemetry. This staggers replay
