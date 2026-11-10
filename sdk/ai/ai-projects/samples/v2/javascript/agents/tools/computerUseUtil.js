@@ -93,7 +93,11 @@ function handleComputerActionAndTakeScreenshot(actionOrActions, currentState, sc
     }
     // Check for ENTER key press
     else if (action.type === "keypress") {
-      if (action.keys.includes("Return") || action.keys.includes("ENTER") || action.keys.includes("Enter")) {
+      if (
+        action.keys.includes("Return") ||
+        action.keys.includes("ENTER") ||
+        action.keys.includes("Enter")
+      ) {
         updatedState = SearchState.PRESSED_ENTER;
         console.log("  -> Detected ENTER key press");
       }

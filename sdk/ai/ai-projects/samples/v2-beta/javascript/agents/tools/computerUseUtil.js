@@ -62,6 +62,9 @@ async function loadScreenshotAssets(openAIClient) {
 }
 
 /**
+ * Computer action interface representing various action types.
+ */
+/**
  * Process a computer action and simulate its execution.
  *
  * In a real implementation, you might want to execute real browser operations
@@ -82,42 +85,37 @@ function handleComputerActionAndTakeScreenshot(actionOrActions, currentState, sc
     console.log(`Executing computer action: ${action.type}`);
 
     // State transitions based on actions
-    if (action.type === "type" && action.text) {
-      updatedState = SearchState.TYPED;
-      console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
-    }
-    // Check for ENTER key press
-    else if (
-      (action.type === "key" || action.type === "keypress") &&
-      action.keys &&
-      (action.keys.includes("Return") || action.keys.includes("ENTER") || action.keys.includes("Enter"))
-    ) {
-      updatedState = SearchState.PRESSED_ENTER;
-      console.log("  -> Detected ENTER key press");
-    }
-    // Check for click after typing (alternative submit method)
-    else if (action.type === "click" && updatedState === SearchState.TYPED) {
-      updatedState = SearchState.PRESSED_ENTER;
-      console.log("  -> Detected click after typing");
-    }
-
-    // Provide more realistic feedback based on action type
-    if (action.x !== undefined && action.y !== undefined) {
-      if (action.type === "click") {
-        console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
-      } else if (action.type === "drag" && action.path) {
-        const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
-        console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
-      } else if (action.type === "scroll") {
-        console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+    if (action.type === "type") {
+      if (action.text) {
+        updatedState = SearchState.TYPED;
+        console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
       }
     }
-
-    if (action.keys) {
+    // Check for ENTER key press
+    else if (action.type === "keypress") {
+      if (
+        action.keys.includes("Return") ||
+        action.keys.includes("ENTER") ||
+        action.keys.includes("Enter")
+      ) {
+        updatedState = SearchState.PRESSED_ENTER;
+        console.log("  -> Detected ENTER key press");
+      }
       console.log(`  Key press: ${action.keys} - Simulating key combination`);
     }
-
-    if (action.type === "screenshot") {
+    // Check for click after typing (alternative submit method)
+    else if (action.type === "click") {
+      if (updatedState === SearchState.TYPED) {
+        updatedState = SearchState.PRESSED_ENTER;
+        console.log("  -> Detected click after typing");
+      }
+      console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
+    } else if (action.type === "drag") {
+      const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
+      console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
+    } else if (action.type === "scroll") {
+      console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+    } else if (action.type === "screenshot") {
       console.log("  Taking screenshot - Capturing current screen state");
     }
 
@@ -160,8 +158,13 @@ function printFinalOutput(response) {
 }
 
 module.exports = {
+  ComputerAction,
   SearchState,
+  ScreenshotInfo,
+  Screenshots,
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
+  ResponseItem,
+  AgentResponse,
   printFinalOutput,
 };
