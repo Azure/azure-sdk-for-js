@@ -196,7 +196,6 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       const fileContents = readFileSync(
         resolve(dirname(fileURLToPath(import.meta.url)), "fixtures", fileName),
       );
-      const contentDisposition = `attachment; filename="${fileName}"`;
 
       beforeEach(async () => {
         fileKnowledgeSourceName = `file-ks-${TEST_INDEX_NAME}`;
@@ -244,10 +243,12 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       });
 
       it("uploads a file to the File knowledge source", async () => {
-        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+        const uploaded = await indexClient.uploadKnowledgeSourceFileMultipart(
           fileKnowledgeSourceName,
-          fileContents,
-          contentDisposition,
+          {
+            metadata: { fileName },
+            content: { contents: fileContents, contentType: "text/plain", filename: fileName },
+          },
         );
         assert.exists(uploaded);
         assert.exists(uploaded.fileId);
@@ -280,10 +281,12 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       });
 
       it("lists files in the File knowledge source", async () => {
-        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+        const uploaded = await indexClient.uploadKnowledgeSourceFileMultipart(
           fileKnowledgeSourceName,
-          fileContents,
-          contentDisposition,
+          {
+            metadata: { fileName },
+            content: { contents: fileContents, contentType: "text/plain", filename: fileName },
+          },
         );
 
         const fileIds: string[] = [];
@@ -296,10 +299,12 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       });
 
       it("deletes a file from the File knowledge source", async () => {
-        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+        const uploaded = await indexClient.uploadKnowledgeSourceFileMultipart(
           fileKnowledgeSourceName,
-          fileContents,
-          contentDisposition,
+          {
+            metadata: { fileName },
+            content: { contents: fileContents, contentType: "text/plain", filename: fileName },
+          },
         );
         await indexClient.deleteKnowledgeSourceFile(fileKnowledgeSourceName, uploaded.fileId!);
 

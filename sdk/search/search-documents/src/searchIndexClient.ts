@@ -72,7 +72,6 @@ import type {
   SearchIndexStatistics,
   SearchServiceStatistics,
   UpdateKnowledgeSourceFileOptions,
-  UploadKnowledgeSourceFileOptions,
   UploadKnowledgeSourceFileMultipartOptions,
   SynonymMap,
 } from "./serviceModels.js";
@@ -265,7 +264,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps(updatedOptions),
+            this.client.listSynonymMaps(updatedOptions),
             utils.generatedSynonymMapToPublicSynonymMap,
           ),
         );
@@ -285,7 +284,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps({
+            this.client.listSynonymMaps({
               ...updatedOptions,
               select: "name",
             }),
@@ -908,34 +907,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Uploads a file to a File knowledge source for processing and indexing.
-   * @param name - The name of the knowledge source.
-   * @param file - The file contents.
-   * @param contentDisposition - The content-disposition header value (e.g., 'attachment; filename="example.pdf"').
-   * @param options - The options parameters.
-   * @returns Metadata for the uploaded file.
-   */
-  public async uploadKnowledgeSourceFile(
-    name: string,
-    file: Uint8Array,
-    contentDisposition: string,
-    options: UploadKnowledgeSourceFileOptions = {},
-  ): Promise<KnowledgeSourceFile> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-uploadKnowledgeSourceFile",
-      options,
-      async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFile(
-          contentDisposition,
-          file,
-          name,
-          updatedOptions,
-        );
-      },
-    );
-  }
-
-  /**
    * Uploads a file and its metadata to a File knowledge source using multipart form data.
    * @param name - The name of the knowledge source.
    * @param body - The file content and metadata.
@@ -948,15 +919,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async uploadKnowledgeSourceFileMultipart(
@@ -968,7 +952,7 @@ export class SearchIndexClient {
       "SearchIndexClient-uploadKnowledgeSourceFileMultipart",
       options,
       async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFileMultipart(body, name, updatedOptions);
+        return this.client.uploadKnowledgeSourceFileMultipart(name, body, updatedOptions);
       },
     );
   }
@@ -987,15 +971,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async updateKnowledgeSourceFile(
@@ -1008,7 +1005,7 @@ export class SearchIndexClient {
       "SearchIndexClient-updateKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.updateKnowledgeSourceFile(fileId, body, name, updatedOptions);
+        return this.client.updateKnowledgeSourceFile(name, fileId, body, updatedOptions);
       },
     );
   }
@@ -1040,7 +1037,7 @@ export class SearchIndexClient {
       "SearchIndexClient-deleteKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.deleteKnowledgeSourceFile(fileId, name, updatedOptions);
+        return this.client.deleteKnowledgeSourceFile(name, fileId, updatedOptions);
       },
     );
   }

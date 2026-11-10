@@ -9,8 +9,14 @@ import {
 import {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { RetrieveStreamResponse } from "../models/models.js";
 import { retrieveStream, retrieve } from "./api/operations.js";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -51,7 +57,17 @@ export class KnowledgeBaseRetrievalClient {
   retrieveStream(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
     options: RetrieveStreamOptionalParams = { requestOptions: {} },
-  ): Promise<RetrieveStreamResponse> {
+  ): Promise<
+    AsyncIterable<
+      | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+      | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+      | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+      | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+      | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+      | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+      | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+    >
+  > {
     return retrieveStream(this._client, retrievalRequest, options);
   }
 
