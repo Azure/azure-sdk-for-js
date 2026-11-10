@@ -2,6 +2,12 @@
 
 ## 1.11.3 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
 ### Other Changes
 
 - Re-export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` while preserving the existing public API. Update the pipeline dependency to `^1.26.0`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)
