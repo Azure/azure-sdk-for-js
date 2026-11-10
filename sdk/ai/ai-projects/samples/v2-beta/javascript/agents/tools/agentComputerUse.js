@@ -55,7 +55,10 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
     tools: [
       {
-        type: "computer",
+        type: "computer_use_preview",
+        display_width: 1026,
+        display_height: 769,
+        environment: "windows",
       },
     ],
   });
@@ -113,19 +116,14 @@ Be direct and efficient. When you reach the search results page, read and descri
 
     // Process the first computer call
     const computerCall = computerCalls[0];
-    const actions =
-      computerCall.actions && computerCall.actions.length > 0
-        ? computerCall.actions
-        : computerCall.action
-          ? [computerCall.action]
-          : [];
+    const action = computerCall.action;
     const callId = computerCall.call_id;
 
     console.log(`Processing computer call (ID: ${callId})`);
 
-    // Handle the actions and get the screenshot info
+    // Handle the action and get the screenshot info
     const [screenshotInfo, updatedState] = handleComputerActionAndTakeScreenshot(
-      actions,
+      action,
       currentState,
       screenshots,
     );
