@@ -7,7 +7,7 @@ import { toHttpHeadersLike } from "@azure/core-http-compat";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env, isRecordMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type {
   DataLakeFileSystemClient,
@@ -305,12 +305,17 @@ describe("Data locality Node.js only", () => {
 
   // Proves the Data Lake pipeline routes the reads readToBuffer sends through the blob client. The
   // layout and the endpoint of a single read are internal, so they are reached directly.
-  it("reads a range from the endpoint the file's layout names", async () => {
+  it("reads a range from the endpoint the file's layout names", async (ctx) => {
     const offset = 1024;
     const count = 1024;
     const page: LayoutPage = await (
       fileClient as any
     ).blockBlobClientInternal.blobContext.getLayout({});
+    // Only accounts with data locality enabled return layout ranges, so a live run elsewhere has
+    // nothing to route. Record mode doesn't skip: a recording must come from such an account.
+    if (isLiveMode() && !page.ranges?.range?.length) {
+      ctx.skip();
+    }
     const range = page.ranges!.range.find((r) => r.start <= offset && offset <= r.end)!;
     const endpoint = page.endpoints!.endpoint.find((e) => e.index === range.endpointIndex)!;
     spy.sent.length = 0;

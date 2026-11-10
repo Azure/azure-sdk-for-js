@@ -9,7 +9,7 @@ import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse } from "@azure-rest/core-client";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env, isRecordMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { LAYOUT_ENDPOINT_HEADER } from "../../src/policies/StorageDataLocalityPolicy.js";
 import { addStorageCompatResponse } from "../../src/generated/static-helpers/storageCompatResponse.js";
@@ -543,6 +543,8 @@ interface SentRequest {
   host: string;
   hostHeader?: string;
   isLayout: boolean;
+  /** The `x-ms-download-hint` the service answered with, if any. */
+  downloadHint?: string;
 }
 
 /**
@@ -554,18 +556,21 @@ function createRoutingSpy(): { policy: PipelinePolicy; sent: SentRequest[] } {
   const sent: SentRequest[] = [];
   const policy: PipelinePolicy = {
     name: "layoutRoutingSpyPolicy",
-    sendRequest(request, next) {
+    async sendRequest(request, next) {
       const url = new URL(request.url);
       const hostHeader = request.headers.get("host");
-      sent.push({
+      const sentRequest: SentRequest = {
         host: url.host,
         hostHeader,
         isLayout: url.searchParams.get("comp") === "layout",
-      });
+      };
+      sent.push(sentRequest);
       if (hostHeader && isRecordMode()) {
         request.headers.set("x-recording-upstream-host-header", hostHeader);
       }
-      return next(request);
+      const response = await next(request);
+      sentRequest.downloadHint = response.headers.get("x-ms-download-hint");
+      return response;
     },
   };
   return { policy, sent };
@@ -606,7 +611,7 @@ describe("Data locality Node.js only", () => {
     await recorder.stop();
   });
 
-  it("routes every block after the first once the service hints the blob has a layout", async () => {
+  it("routes every block after the first once the service hints the blob has a layout", async (ctx) => {
     // The service only hints for large blobs; repeating one staged block builds one cheaply.
     const block = Buffer.from(Array.from({ length: 16 * blockSize }, (_, i) => i % 251));
     const large = containerClient.getBlockBlobClient(
@@ -629,6 +634,11 @@ describe("Data locality Node.js only", () => {
     );
     const accountHost = new URL(large.url).host;
     const [first, ...rest] = spy.sent.filter((request) => !request.isLayout);
+    // Only accounts with data locality enabled get a layout hint, so a live run elsewhere has
+    // nothing to route. Record mode doesn't skip: a recording must come from such an account.
+    if (isLiveMode() && first.downloadHint !== "layout") {
+      ctx.skip();
+    }
     assert.equal(first.host, accountHost, "the hint arrives on a read from the account");
     assert.lengthOf(rest, count / blockSize - 1);
     for (const read of rest) {
