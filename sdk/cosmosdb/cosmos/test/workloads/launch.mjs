@@ -10,6 +10,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   readConfig,
   validateConfig,
+  validateRustWorkerThreads,
   createClient,
   checkContainer,
   provenance,
@@ -31,7 +32,15 @@ function createSequencePlan(config) {
       config.executionOrder === "alternating" && repetition % 2 === 0
         ? ["rust", "javascript"]
         : ["javascript", "rust"];
-    for (const backend of backends) plan.push({ backend, repetition });
+    for (const backend of backends) {
+      plan.push({
+        backend,
+        repetition,
+        ...(backend === "rust" && config.rustWorkerThreadsByRepetition
+          ? { rustWorkerThreads: config.rustWorkerThreadsByRepetition[repetition - 1] }
+          : {}),
+      });
+    }
   }
   return plan;
 }
@@ -94,8 +103,17 @@ function runChild(
   runtime = { fork, setTimeout, clearTimeout, openSync, closeSync },
 ) {
   return new Promise((resolve, reject) => {
-    const { signal, configSha256, profilingMode = "none" } = options;
+    const { signal, configSha256, profilingMode = "none", rustWorkerThreads } = options;
     assert.ok(["none", "stages_v1"].includes(profilingMode));
+    assert.equal(
+      process.env.TOKIO_WORKER_THREADS,
+      undefined,
+      "TOKIO_WORKER_THREADS must be unset; use rustWorkerThreadsByRepetition",
+    );
+    if (rustWorkerThreads !== undefined) {
+      assert.equal(mode, "rust", "Worker overrides apply only to measured Rust sequences");
+      validateRustWorkerThreads(rustWorkerThreads);
+    }
     signal?.throwIfAborted();
     if (configSha256 !== undefined) readConfig(configPath, configSha256);
     const fd = runtime.openSync(logPath, "wx");
@@ -111,6 +129,9 @@ function runChild(
             ...process.env,
             AZURE_COSMOS_EXPERIMENTAL_READ_IMPLEMENTATION: mode === "rust" ? "rust" : "javascript",
             AZURE_COSMOS_EXPERIMENTAL_READ_PROFILING: mode === "qualify" ? "none" : profilingMode,
+            ...(rustWorkerThreads !== undefined
+              ? { TOKIO_WORKER_THREADS: String(rustWorkerThreads) }
+              : {}),
           },
         },
       );
@@ -222,6 +243,11 @@ async function main() {
   for (const name of ["NODE_OPTIONS", "RUST_LOG", "RUST_BACKTRACE"]) {
     assert.ok(!process.env[name], `${name} must be unset for the unprofiled comparison`);
   }
+  assert.equal(
+    process.env.TOKIO_WORKER_THREADS,
+    undefined,
+    "TOKIO_WORKER_THREADS must be unset; use rustWorkerThreadsByRepetition",
+  );
   const configPath = path.resolve(configArgument);
   const config = readConfig(configPath);
   const source = provenance(config);
@@ -235,7 +261,7 @@ async function main() {
   const fixture = path.join(directory, "verified-orders.json");
   const runId = randomUUID();
   const expected = [];
-  for (const { backend, repetition } of createSequencePlan(config)) {
+  for (const { backend, repetition, rustWorkerThreads } of createSequencePlan(config)) {
     const processId = randomUUID();
     expected.push({
       run_id: runId,
@@ -243,6 +269,7 @@ async function main() {
       process_id: processId,
       partition_key: processId,
       config_backend: backend,
+      ...(rustWorkerThreads !== undefined ? { config_rust_worker_threads: rustWorkerThreads } : {}),
       repetition,
       provenance: source,
       config_duration_seconds: config.durationSeconds,
@@ -300,7 +327,12 @@ async function main() {
         seconds,
         config.shutdownGraceSeconds,
         reporter,
-        { signal, configSha256: configHash, profilingMode: config.profilingMode ?? "none" },
+        {
+          signal,
+          configSha256: configHash,
+          profilingMode: config.profilingMode ?? "none",
+          rustWorkerThreads: reporter?.identity.config_rust_worker_threads,
+        },
       );
       signal.throwIfAborted();
       readConfig(effectiveConfig, configHash);

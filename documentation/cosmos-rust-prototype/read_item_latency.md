@@ -565,15 +565,16 @@ require a complete manifest and the final integrity-checked report.
 **These values are proposals, not an approved execution budget.** Two repetitions
 are an initial comparison, not a guarantee of statistical reliability.
 
-### Approved next comparison: four alternating pairs
+### Four-pair alternating comparison
 
 The user approved four pairs at 120 seconds per backend, profiling disabled,
 one-second snapshots and the existing 11-second whole-interval warm-up exclusion.
 This is eight sequences (16 minutes of configured sequence budgets), plus 2,000
 qualification reads over 1,000 orders and up to 120 seconds shutdown/reporting
-per sequence. Capacity remains unchanged. The harness update must be pushed
-and deployed with matching provenance before execution; this matrix has not
-run yet.
+per sequence. Capacity remained unchanged. This matrix completed on
+November 9, 2026 UTC using deployed revision
+`129ffbb7cea574e104307bf8ae92c3c84894a226`; detailed results are recorded below.
+This completed authorization does not authorize additional repetitions.
 
 Set these fields in the copied, budget-approved configuration:
 
@@ -597,14 +598,15 @@ configurations retain JavaScript-first ordering.
 
 Primary comparison output is successful post-warm-up read count per backend
 and repetition, with actual retained duration and reads/second. Also calculate
-P95, P99 and P99.9 from the retained histograms, plus measured-read RU total,
+P50 (median), P95, P99 and P99.9 from the retained histograms, plus measured-read RU total,
 RU/read and RU/second from the same retained intervals' `ru_sum`. These RUs
 come from successful read responses, not an account-wide total including all
 metadata, failed attempts or reporting operations. Result-container throughput
 and reporting costs are not comparative metrics.
 
 Show all four repetitions and their order positions; report their variability.
-For pooled summaries, merge retained histograms rather than averaging
+Keep pooled calculations in saved analysis rather than the primary comparison
+table. For those summaries, merge retained histograms rather than averaging
 percentiles, and divide total reads or RUs by total retained duration rather
 than averaging rates. Keep pooled results separate from per-repetition
 results so they cannot hide instability. These are single-in-flight workload
@@ -956,6 +958,409 @@ the `run` directory. Raw interval SHA-256 values are
 (JavaScript, 739,773 bytes) and
 `b29e0cd24536d66780d7047d4414bf240ca3ff4f5765968d994cff43592f5f92`
 (Rust, 792,303 bytes). The Rust driver and container capacities were unchanged.
+
+#### Four alternating pairs: November 9, 2026 UTC
+
+Run `e0f56c49-9320-4b7f-ac37-562f966a0127` executed from
+02:26:03.226 UTC to 02:42:29.923 UTC on November 9 (20:26 to 20:42 on November 8
+in US Central time). The actual phase order matched the predeclared sequence:
+JavaScript/Rust, Rust/JavaScript, JavaScript/Rust, Rust/JavaScript.
+Each sequence had a 120-second budget, fresh process/client, one in-flight
+public read and profiling disabled.
+
+The deployed harness revision was
+`129ffbb7cea574e104307bf8ae92c3c84894a226`. Source comparison confirmed no SDK,
+native-binding or dependency changes from `d331333`. Runtime provenance
+confirmed that the compiled SDK tree and reused Linux release native addon
+were byte-identical to the preceding comparison. The addon SHA-256 remained
+`0e1955822e05050a68842a99ea358e6c704d83d620f78d55124a44497edd43c8`;
+the build manifest records native artifact reuse from `d331333`.
+
+All 365,493 measured reads succeeded: 165,409 JavaScript and 200,084 Rust,
+including warm-up. Every Rust read had Gateway V2 evidence. The run retained
+960 raw intervals and produced 16 result records. All intervals were marked
+`profiling_mode: "none"` and lacked per-read profiles. Raw artifact hashes,
+histograms, counts, completion records and actual phase order reconciled.
+Service request Count covered the required workload requests and result creates
+with no observed 429. Capacity was unchanged; no workload remained active and
+ephemeral credentials were removed.
+
+The following comparisons exclude whole intervals starting before 11 seconds.
+Each sequence retained 109 intervals and discarded 11, without altering raw
+samples. Percentiles use nearest-rank histogram calculation, independently
+checked against sorted expanded samples.
+
+| Pair | Order position | Backend | Retained reads | Reads/s | P95 ms | P99 ms | P99.9 ms |
+|---|---|---|---:|---:|---:|---:|---:|
+| 1 | First | JavaScript | 37,744 | 346.41 | 3.622 | 6.575 | 11.231 |
+| 1 | Second | Rust | 46,913 | 430.34 | 2.659 | 3.128 | 5.605 |
+| 2 | First | Rust | 42,968 | 394.19 | 3.087 | 5.728 | 9.411 |
+| 2 | Second | JavaScript | 38,443 | 352.66 | 3.377 | 4.389 | 8.719 |
+| 3 | First | JavaScript | 39,543 | 362.73 | 3.249 | 3.738 | 7.525 |
+| 3 | Second | Rust | 48,088 | 441.12 | 2.674 | 3.534 | 7.740 |
+| 4 | First | Rust | 44,804 | 411.01 | 2.751 | 3.706 | 7.244 |
+| 4 | Second | JavaScript | 36,422 | 334.13 | 3.828 | 6.893 | 10.912 |
+
+Pooled results merge the retained histograms and divide summed reads/RUs by
+summed actual retained durations; they are not averages of percentiles or rates:
+
+| Metric | JavaScript | Rust |
+|---|---:|---:|
+| Successful retained reads | 152,152 | 182,773 |
+| Actual retained seconds | 435.985254 | 436.040175 |
+| Reads/s | 348.98 | 419.17 |
+| P50 | 2.787 ms | 2.335 ms |
+| P95 | 3.467 ms | 2.775 ms |
+| P99 | 5.564 ms | 4.030 ms |
+| P99.9 | 10.074 ms | 7.842 ms |
+| Measured-read RU total | 152,152 | 182,773 |
+| RU/read | 1.00 | 1.00 |
+| RU/s | 348.98 | 419.17 |
+
+Rust's normalized read-rate gains were 24.23%, 11.78%, 21.61% and 23.01% for
+pairs 1 through 4, respectively; the pooled gain was 20.11%. It completed more
+reads and had lower P95 in every pair. Higher total Rust read RUs reflect more
+completed reads, not a higher per-read charge. Read RUs cover successful response
+charges in the retained intervals, not all account activity or reporting costs.
+
+Tail improvement was not uniform. Rust P99 was 30.51% higher in pair 2
+(5.728 versus 4.389 ms); P99.9 was higher in pairs 2 and 3. Across repetitions,
+JavaScript P99 ranged from 3.738 to 6.893 ms and Rust P99 from 3.128 to
+5.728 ms. Thus the original observation that Rust can have higher P99 despite
+better completion rate is reproduced within this alternating batch.
+
+Grouping the two first-position versus two second-position sequences gave
+Rust P99 4.812 versus 3.262 ms and JavaScript P99 5.192 versus 5.849 ms.
+This describes the observed order/time association, not proof of an order
+effect or its cause. Four pairs support a throughput advantage in this bounded
+single-in-flight workload, not universal tail superiority or maximum SDK
+capacity. The source of tail variation remains unresolved.
+
+Evidence is preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/alternating-20261109T022512Z-WqIUNIIJ`,
+including `alternating-analysis.json`, `analysis-policy.json`,
+`execution-summary.json`, `verification-verdict.json`, raw service metrics
+and all raw intervals under `run`. The full analysis records each artifact's
+SHA-256, actual retained duration, all-sample totals, per-pair gains and
+order-position summaries. Local evidence is under the session's
+`files/js-perf-vm/alternating-129ffbb` directory.
+
+#### Five-pair follow-up: November 9, 2026 UTC
+
+The user separately approved five pairs with the preceding settings unchanged.
+Run `67dd20e3-dc78-49f8-bf11-2a20f833fc17` executed from 03:10:44.555 UTC to
+03:31:13.305 UTC on November 9 (21:10 to 21:31 on November 8 in US Central
+time). Configuration comparison confirmed that only `repetitions` changed,
+from four to five. The existing `129ffbb` checkout and byte-identical SDK/native
+artifacts were reused; no rebuild or source change was needed.
+
+The budget was ten 120-second sequences, profiling disabled, one-second
+snapshots, 2,000 qualification reads over 1,000 orders and up to 120 seconds
+shutdown/reporting per sequence. The actual order was JavaScript/Rust,
+Rust/JavaScript, JavaScript/Rust, Rust/JavaScript, JavaScript/Rust. Five pairs
+give JavaScript three first positions and Rust two; this imbalance must remain
+explicit. The analysis policy was saved before execution and did not assume
+that Rust would have lower P99.9.
+
+All 448,928 measured reads succeeded. Every Rust read had Gateway V2 evidence;
+all 1,200 raw intervals were unprofiled and retained. The 20 result records,
+raw hashes, counts, histograms and phase order reconciled. Service request Count
+covered the required reads and result creates, with no observed service 429.
+Capacity was unchanged. No workload remained active, and ephemeral credentials
+were removed.
+
+Each sequence retained 109 whole intervals starting at or after 11 seconds.
+Raw warm-up samples remain intact. Median and tail percentiles were independently
+checked against sorted expanded histogram samples. Per-pair results, without
+pooled rows:
+
+| Pair | Backend | Retained reads | Reads/s | P50 ms | P95 ms | P99 ms | P99.9 ms |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 1 | JavaScript | 41,142 | 377.61 | 2.576 | 3.271 | 5.126 | 9.089 |
+| 1 | Rust | 43,106 | 395.54 | 2.475 | 3.155 | 5.767 | 8.267 |
+| 2 | JavaScript | 37,179 | 341.10 | 2.778 | 3.699 | 6.527 | 11.665 |
+| 2 | Rust | 46,180 | 423.61 | 2.337 | 2.676 | 3.852 | 6.995 |
+| 3 | JavaScript | 34,443 | 316.01 | 3.086 | 4.006 | 7.195 | 12.456 |
+| 3 | Rust | 44,620 | 409.31 | 2.439 | 2.790 | 4.253 | 7.868 |
+| 4 | JavaScript | 40,064 | 367.53 | 2.671 | 3.067 | 3.608 | 7.085 |
+| 4 | Rust | 42,426 | 389.17 | 2.492 | 3.110 | 5.611 | 8.455 |
+| 5 | JavaScript | 38,536 | 353.53 | 2.813 | 3.185 | 3.691 | 6.963 |
+| 5 | Rust | 43,474 | 398.77 | 2.423 | 2.961 | 4.029 | 7.293 |
+
+Both backends consumed 1 RU per successful read. Thus each row's measured-read
+RU total equals its retained read count, and RU/second equals reads/second;
+these values exclude warm-up, qualification and result reporting charges.
+
+Rust had more successful reads, higher normalized completion rate and lower
+median latency in all five pairs. Read-rate gains for pairs 1 through 5 were
+4.75%, 24.19%, 29.53%, 5.89% and 12.80%. However, Rust P99.9 was higher in
+pair 4 (8.455 versus 7.085 ms, +19.34%) and pair 5
+(7.293 versus 6.963 ms, +4.74%). P99 was higher in pairs 1, 4 and 5,
+and P95 was slightly higher in pair 4.
+
+This follow-up does not support a claim that Rust P99.9 is always lower.
+The throughput and median improvements repeated in this bounded workload;
+tail superiority did not. All unfavorable outcomes are retained, and no
+additional runs were performed to obtain a preferred outcome. The cause of
+the varying tails remains unresolved.
+
+Evidence is preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/alternating5-20261109T031000Z-h6H59nuf`,
+including `five-pair-analysis.json`, `analysis-policy.json`,
+`execution-summary.json`, `verification-verdict.json`, service metric responses
+and raw intervals under `run`. The full analysis preserves artifact hashes,
+actual retained durations and paired differences. Local evidence is under
+the session's `files/js-perf-vm/alternating5-129ffbb` directory. This five-pair
+authorization is complete; it does not authorize another matrix.
+
+#### CPU/allocation attribution preparation: November 9, 2026
+
+Read-only analysis of the preceding four-pair artifacts used the same
+whole-interval warm-up cutoff. Worker CPU per successful read is
+`1000 * sum(cpu_user_ms + cpu_system_ms) / sum(successful reads)`.
+This includes SDK, native runtime and harness work, but not the separate
+reporting process. It is not binding-only CPU attribution.
+
+| Pair | JavaScript CPU us/read | Rust CPU us/read | Rust CPU increase |
+|---|---:|---:|---:|
+| 1 | 238.22 | 328.66 | 37.97% |
+| 2 | 237.89 | 318.34 | 33.82% |
+| 3 | 221.76 | 329.43 | 48.55% |
+| 4 | 250.68 | 324.31 | 29.37% |
+
+Thus higher completion rate and lower median latency did not imply lower CPU
+per completed operation. These observations motivate attribution before an
+allocator or ownership change; they do not establish which component is costly.
+
+The existing VM has working `perf` and `bpftrace`. The release addon retains
+native symbols and unwind information, but not debug line sections. Session
+tooling under `files/js-perf-vm/alternating-129ffbb` prepares two separate,
+bounded captures without changing the SDK, addon, driver, or kernel settings:
+
+- `capture-attribution.py --mode cpu` records 99 Hz CPU-clock samples with
+  DWARF stack unwinding for an explicit measured-worker PID only. It rejects
+  qualification and launcher PIDs, verifies the pinned addon hash and process
+  start identity, and excludes the reporting process. Native symbols do not
+  guarantee JavaScript/JIT frame or source-line resolution.
+- `--mode native-allocations` probes the pinned Rust allocator entry points
+  for the Rust worker only. It aggregates allocation calls, requested-byte
+  totals, size histograms, deallocations and reallocations. Counts describe
+  allocator entry requests, not successful allocations, live memory, V8 heap
+  allocations, or cross-thread ownership. Reallocation is reported separately;
+  subtracting these totals is not a leak measurement.
+
+The tool requires a fresh output directory, restricts it to the owner, retains
+capture metadata and artifact hashes, and accepts at most 120 seconds per
+capture. Native allocation instrumentation must run separately from CPU
+sampling. Both perturb execution and are diagnostic captures, not replacement
+unprofiled benchmark results. Capture windows do not necessarily align with
+whole workload intervals: do not divide partial-window allocation totals by
+whole-sequence read counts or silently treat the capture as post-warm-up.
+
+Synthetic validation checks profiler availability and allocation argument
+positions/counts without contacting Cosmos. Live capture still needs a
+separately approved workload budget, exact worker selection, preserved time
+boundaries and the existing correctness/service-capacity checks. No new Cosmos
+workload or optimization change is authorized by this preparation alone.
+
+#### Partial diagnostic capture: November 10, 2026 UTC
+
+The user subsequently approved two alternating pairs of 120 seconds per backend,
+2,000 qualification reads, 90-second CPU captures for both backends in the first
+pair, and a separate 30-second native-allocation capture during Rust in the second
+pair. Capacity, SDK, addon, driver and allocator remained unchanged.
+
+Run `cfaf157f-4927-4622-85d4-8bf8362a5ed6` started at 00:38:26.313 UTC and was
+aborted at 00:43:02.141 UTC on November 10 (18:38 to 18:43 on November 9 in US
+Central time). The first JavaScript and Rust sequences completed 41,089 and
+47,322 reads. Rust's second sequence stopped at 5,793 reads; the final JavaScript
+sequence did not run. The two CPU captures completed, with 761 JavaScript samples
+and 1,127 Rust samples. The native-allocation capture failed before attachment.
+These are diagnostic observations from an aborted matrix, not a successful
+four-sequence comparison or a replacement latency benchmark.
+
+The failure was in the capture tooling: it checked shortened allocator labels
+instead of the release binary's exact mangled ELF symbols. Compilation with
+`bpftrace -d` had not established successful probe resolution. The corrected
+tool now verifies exact symbol names and was tested by actual attachment to the
+loaded production addon in a disposable Node process, without constructing a
+Cosmos client or issuing reads. Ten offline checks and known-count synthetic
+allocator checks passed. The original failed run scripts and evidence remain
+unchanged. No allocation totals were obtained from that run.
+
+CPU report observations (shares of sampled CPU, not elapsed read latency):
+
+| Category | JavaScript | Rust-backed JavaScript |
+|---|---:|---:|
+| Native addon self CPU | Not present | 39.22% |
+| libc self CPU | 4.99% | 22.45% |
+| Kernel self CPU | 10.12% | 21.83% |
+| Node executable self CPU | 68.07% | 13.40% |
+
+Rust's `malloc` symbol accounted for 3.19% self and 4.26% inclusive CPU;
+`cfree` accounted for 1.15% self CPU. `finish_task_switch.isra.0` accounted for
+5.68% self CPU, and `__x64_sys_futex` for 8.07% inclusive CPU. Inclusive stack
+percentages overlap and must not be added. Native addon samples include driver,
+runtime, transport and binding work, so the table is not binding-only
+attribution. JavaScript/JIT and some libc frames are incompletely resolved.
+These observations support investigating allocation and scheduling costs but
+do not establish their root cause or promise an allocator or handoff gain.
+
+Partial-run Azure Monitor verification covered the required 96,204 successful
+qualification/measured reads and six result creates: the window contained
+96,212 workload HTTP 200 responses and six result HTTP 201 responses, with no
+observed service 429. This validates service coverage only; it does not turn
+the aborted matrix into a successful benchmark. Credential cleanup was
+confirmed, and no workload or capture process remained active.
+
+Evidence is preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/attribution-20261110T003747Z-266CvK33`,
+including restricted CPU captures, artifact hashes, symbol reports,
+`cpu-attribution-analysis.json`, capture failure logs and the aborted execution
+summary. Local scripts and the partial service audit are under the session's
+`files/js-perf-vm/attribution-129ffbb` directory. Another live allocation attempt
+requires a new bounded approval; the failed attempt is not automatically retried.
+
+#### Allocation-only follow-up: November 10, 2026 UTC
+
+The user separately approved one additional JavaScript/Rust pair, 120 seconds
+per backend, 2,000 qualification reads and a single 30-second native-allocation
+capture during Rust. No CPU sampling, capacity change, SDK/driver change or
+allocator switch was included.
+
+Run `fe704b77-1f48-4227-8446-0f109c7995a3` executed from 01:39:24.492 UTC to
+01:43:44.666 UTC on November 10 (19:39 to 19:43 on November 9 in US Central
+time). JavaScript completed 38,135 reads and Rust completed 46,962 reads, with
+zero recorded read errors. All Rust reads had Gateway V2 evidence. The four
+result documents and raw interval hashes reconciled. These instrumented
+sequences are not replacement unprofiled latency results.
+
+The corrected native capture completed. Its process lifetime was 30.562 seconds,
+including profiler startup/teardown around the requested 30-second collection:
+
+| Native allocator entry requests | Count | Requested bytes |
+|---|---:|---:|
+| Ordinary allocations | 3,527,059 | 878,121,940 |
+| Zeroed allocations | 71,621 | 2,197,341 |
+| Reallocations (new requested sizes) | 428,437 | 88,490,628 |
+
+This is 3,598,680 new allocation requests plus 428,437 reallocation requests.
+Their requested sizes sum to 968,809,909 bytes (968.81 decimal MB, 923.93 MiB).
+These are cumulative allocator requests, not retained memory, confirmed
+successful allocations, V8 heap allocations, or evidence of a leak. The capture
+also recorded 3,585,900 deallocation calls and 921,113,630 deallocation bytes;
+window boundaries, reallocations and outstanding allocations make simple
+subtraction inappropriate as a leak test.
+
+For ordinary allocations, 2,860,744 requests (81.11%) were smaller than 128
+bytes. There were 10,251 requests in each of the 8-16 KiB and 16-32 KiB bins.
+Histogram counts reconciled exactly with the corresponding ordinary, zeroed
+and reallocation call totals. The coarse size bins do not identify exact
+allocation sizes or call sites. In particular, the earlier Python allocation
+size must not be presented as a JS measurement. The partial capture window
+does not provide an exact corresponding successful-read count, so these totals
+are not normalized by the entire sequence's read count.
+
+**Service qualification remains incomplete.** Six bounded Azure Monitor
+queries returned 78,900 workload HTTP 200 responses versus 87,097 expected
+successful qualification/measured reads, a deficit of 8,197. The two HTTP 304
+responses are not counted as successful point-read HTTP 200 responses. All four
+result creates were covered. No 429 appeared in the returned metrics, but
+incomplete request coverage prevents a fully qualified service-throttling
+conclusion. The cause of the coverage gap remains unresolved.
+
+The final verdict is
+`diagnostic_capture_complete_service_coverage_incomplete`, with
+`benchmarkQualified: false`. Credential cleanup and absence of active
+workload/capture processes were independently confirmed. Evidence, restricted
+capture artifacts, hashes, histograms and the explicit incomplete-coverage
+verdict are preserved under
+`/home/azureuser/js-sdk-rust-read-perf/calibration/allocation-20261110T013839Z-HBrvUQu4`.
+Local operational artifacts are under the session's
+`files/js-perf-vm/allocation-129ffbb` directory.
+
+Together with the CPU capture, the allocation census supports investigating
+allocation call sites and scheduling/handoff behavior before an allocator
+switch. It does not yet isolate the binding's body copy or diagnostic objects
+as the dominant cost, or establish that a specific code change improves CPU
+or tail latency. No production optimization was made.
+
+#### Caller attribution and offline bridge experiment
+
+Further analysis recovered leaf instruction samples separately from callchains.
+The existing captures have incomplete callchain coverage: 764 of 1,127 Rust
+samples and 641 of 761 JavaScript samples print no callchain frames. Leaf
+instruction attribution remains available for those samples. Therefore an
+allocation absent from decoded stacks is not evidence that it did not occur on
+that thread. Rust allocator leaf samples occur on all four sampled Tokio worker
+threads and the Node thread; the resolved-stack-only view was biased toward one
+worker. The saved `leaf-and-caller-coverage.json` records that limitation.
+
+The decoded callers include driver execution, container/topology resolution,
+vector/hash-table growth, HTTP/body buffers and the binding response conversion.
+They do not establish which call sites account for most cumulative allocation
+bytes. Four Tokio workers contributed 893 of the 1,127 Rust samples despite the
+workload having only one public read in flight; this motivates a worker-count
+experiment, not a conclusion that four workers are incorrect.
+
+The pinned NAPI implementation gives a concrete bridge hypothesis:
+`AsyncBlockBuilder::build_with_map` calls `execute_future_impl`, whose native
+Tokio path spawns both the operation future and a second task awaiting its join
+handle to propagate panics. `JsDeferred::new` creates a thread-safe completion
+function and registers teardown protection for each deferred. These are framework
+mechanisms, not two database requests. They must not be bypassed without
+preserving panic, error, completion and environment-teardown behavior.
+The driver's `CosmosDriverRuntime` is a shared configuration/resource object;
+its builder does not itself construct a second Tokio worker pool.
+
+An offline experiment used the unchanged addon's existing `probeAsync` export,
+which yields once and returns a string. It did not construct a Cosmos client,
+call public `Item.read()`, use account credentials, or issue database requests.
+Each fresh process performed 2,000 warm-up calls and 20,000 measured calls.
+Worker orders were 4/1/2, 2/4/1 and 1/2/4; actual Tokio thread counts were
+verified. Whole-process CPU includes the probe loop and bridge.
+
+| Repetition | 1 worker CPU us/call | 2 workers CPU us/call | 4 workers CPU us/call |
+|---|---:|---:|---:|
+| 1 | 23.268 | 36.845 | 36.332 |
+| 2 | 24.130 | 31.582 | 32.481 |
+| 3 | 23.066 | 37.212 | 34.448 |
+
+One worker used less CPU in all three repetitions, with 25.71-35.96% reductions
+relative to four workers. These short synthetic observations are not predictions
+of Cosmos read latency, CPU savings or scalability. Raw results, including the
+two-worker outcomes and wall times, are saved as `offline-bridge-probe.json`
+under the preceding CPU-capture run directory.
+
+The workload now supports an opt-in, per-repetition experiment:
+
+```json
+"repetitions": 4,
+"executionOrder": "alternating",
+"profilingMode": "none",
+"rustWorkerThreadsByRepetition": [4, 1, 1, 4]
+```
+
+Only 1, 2 or 4 workers are accepted, with exactly one value for each repetition.
+The launcher sets `TOKIO_WORKER_THREADS` only in the selected measured Rust child
+process before addon initialization. JavaScript controls and qualification keep
+the default runtime settings. Omission preserves the original sequence plan and
+SDK behavior. An inherited `TOKIO_WORKER_THREADS` is rejected rather than
+silently introducing an unrecorded runtime change.
+
+Each overridden Rust identity records `config_rust_worker_threads` in its
+manifest, raw intervals and both result documents. This is the requested value,
+not independent proof of observed thread count. Existing configuration hashes
+and result identity checks cover it. The example balances the 4/1 conditions
+across Rust's first/second backend position, but still includes four JavaScript
+controls: it is eight sequences, not four. It does not authorize a live run.
+
+No SDK/binding/driver default was changed. A subsequent approved public
+`Item.read()` comparison must use the same release addon, preserve
+correctness/RU/transport checks, resolve service-coverage qualification, and
+measure CPU/read separately from latency. A one-worker setting could trade
+away throughput under concurrency; single-in-flight results cannot select a
+production-wide default.
 
 ### What do attempt counters mean?
 

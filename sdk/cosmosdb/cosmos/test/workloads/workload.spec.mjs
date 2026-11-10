@@ -167,6 +167,54 @@ test("default and explicit JavaScript-first plans preserve existing repetition o
   assert.equal(value.executionOrder, undefined);
 });
 
+test("Rust worker counts are optional, bounded and specified for every repetition", () => {
+  assert.equal(validateConfig(config()).rustWorkerThreadsByRepetition, undefined);
+  const value = { ...config(), repetitions: 4, rustWorkerThreadsByRepetition: [4, 1, 2, 4] };
+  assert.deepEqual(validateConfig(value).rustWorkerThreadsByRepetition, [4, 1, 2, 4]);
+  for (const workers of [
+    null,
+    undefined,
+    1,
+    [],
+    [1],
+    [1, 2, 4, 0],
+    [1, 2, 4, 3],
+    [1, 2, 4, 8],
+    [1, 2, 4, "1"],
+    [1, 2, 4, true],
+    [1, 2, 4, 1.5],
+    new Array(4),
+  ]) {
+    assert.throws(
+      () => createSequencePlan({ ...value, rustWorkerThreadsByRepetition: workers }),
+      /Rust worker threads/,
+    );
+  }
+});
+
+test("worker counts follow Rust repetition identities regardless of execution order", () => {
+  for (const executionOrder of ["javascript_first", "alternating"]) {
+    const value = {
+      ...config(),
+      repetitions: 4,
+      executionOrder,
+      rustWorkerThreadsByRepetition: [4, 1, 1, 4],
+    };
+    const original = structuredClone(value);
+    const plan = createSequencePlan(value);
+    assert.deepEqual(
+      plan.filter((cell) => cell.backend === "rust").map((cell) => cell.rustWorkerThreads),
+      [4, 1, 1, 4],
+    );
+    assert.ok(
+      plan
+        .filter((cell) => cell.backend === "javascript")
+        .every((cell) => !Object.hasOwn(cell, "rustWorkerThreads")),
+    );
+    assert.deepEqual(value, original);
+  }
+});
+
 test("alternating plan balances first position and preserves backend repetition identities", () => {
   const value = { ...config(), repetitions: 4, executionOrder: "alternating" };
   const original = structuredClone(value);
@@ -967,6 +1015,42 @@ test("failed reporting prevents a success-shaped completion", async (t) => {
   await assert.rejects(reporter.complete(true), /prevents completion/);
 });
 
+test("requested Rust worker count is persisted and checked in results and raw intervals", async (t) => {
+  const rows = [];
+  const selectedIdentity = { ...identity, config_rust_worker_threads: 1 };
+  const reporter = reporterFor(
+    t,
+    {
+      items: {
+        async create(row) {
+          rows.push(structuredClone(row));
+          return { statusCode: 201, requestCharge: 3 };
+        },
+      },
+    },
+    selectedIdentity,
+  );
+  await reporter.interval(snapshot());
+  assert.equal(
+    JSON.parse(readFileSync(reporter.artifactFile, "utf8")).config_rust_worker_threads,
+    1,
+  );
+  assert.equal(await reporter.complete(true), true);
+  assert.ok(rows.every((row) => row.config_rust_worker_threads === 1));
+  assert.equal(
+    validateResults(rows, [selectedIdentity], path.dirname(reporter.logfile))[0].count,
+    1,
+  );
+  for (const index of [0, 1]) {
+    const changed = structuredClone(rows);
+    changed[index].config_rust_worker_threads = 4;
+    assert.throws(
+      () => validateResults(changed, [selectedIdentity], path.dirname(reporter.logfile)),
+      /config_rust_worker_threads/,
+    );
+  }
+});
+
 test("recorded operation failures stay in raw data and the invalid aggregate", async (t) => {
   const rows = [];
   const reporter = reporterFor(
@@ -1271,9 +1355,10 @@ function mockLauncher() {
   };
   const timers = [];
   const runtime = {
-    fork: (filename, args) => {
+    fork: (filename, args, options) => {
       child.forked = true;
       child.arguments = args;
+      child.options = options;
       return child;
     },
     openSync: () => 1,
@@ -1291,6 +1376,65 @@ function mockLauncher() {
     runChild: (...args) => runChild(...args.slice(0, 7), args[7] ?? {}, runtime),
   };
 }
+
+test("launcher sets worker count only for an explicitly selected measured Rust child", async () => {
+  for (const rustWorkerThreads of [undefined, 1, 2, 4]) {
+    const mock = mockLauncher();
+    const running = mock.runChild("config", "rust", "fixture", "log", 60, 30, undefined, {
+      rustWorkerThreads,
+    });
+    assert.equal(
+      mock.child.options.env.TOKIO_WORKER_THREADS,
+      rustWorkerThreads === undefined ? undefined : String(rustWorkerThreads),
+    );
+    assert.equal(process.env.TOKIO_WORKER_THREADS, undefined);
+    mock.child.emit("close", 0, null);
+    await running;
+  }
+  for (const mode of ["javascript", "qualify"]) {
+    const mock = mockLauncher();
+    const running = mock.runChild("config", mode, "fixture", "log", 60, 30, undefined);
+    assert.equal(mock.child.options.env.TOKIO_WORKER_THREADS, undefined);
+    mock.child.emit("close", 0, null);
+    await running;
+    const invalid = mockLauncher();
+    await assert.rejects(
+      invalid.runChild("config", mode, "fixture", "log", 60, 30, undefined, {
+        rustWorkerThreads: 1,
+      }),
+      /only to measured Rust/,
+    );
+    assert.notEqual(invalid.child.forked, true);
+  }
+});
+
+test("launcher rejects invalid or unrecorded inherited worker counts before forking", async () => {
+  for (const rustWorkerThreads of [0, 3, 8, "1", null, true]) {
+    const mock = mockLauncher();
+    await assert.rejects(
+      mock.runChild("config", "rust", "fixture", "log", 60, 30, undefined, { rustWorkerThreads }),
+      /Rust worker threads/,
+    );
+    assert.notEqual(mock.child.forked, true);
+  }
+  const previous = process.env.TOKIO_WORKER_THREADS;
+  try {
+    for (const inherited of ["4", ""]) {
+      process.env.TOKIO_WORKER_THREADS = inherited;
+      const mock = mockLauncher();
+      await assert.rejects(
+        mock.runChild("config", "rust", "fixture", "log", 60, 30, undefined, {
+          rustWorkerThreads: 1,
+        }),
+        /TOKIO_WORKER_THREADS must be unset/,
+      );
+      assert.notEqual(mock.child.forked, true);
+    }
+  } finally {
+    if (previous === undefined) delete process.env.TOKIO_WORKER_THREADS;
+    else process.env.TOKIO_WORKER_THREADS = previous;
+  }
+});
 
 test("launcher waits for reporting completion and rejects missing completion", async () => {
   const mock = mockLauncher();

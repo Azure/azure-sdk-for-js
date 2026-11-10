@@ -34,6 +34,10 @@ function readConfig(filename, expectedHash) {
   return validateConfig(JSON.parse(bytes.toString("utf8")));
 }
 
+function validateRustWorkerThreads(value) {
+  assert.ok([1, 2, 4].includes(value), "Rust worker threads must be 1, 2 or 4");
+}
+
 function validateConfig(config) {
   const keys = [
     "endpoint",
@@ -58,6 +62,15 @@ function validateConfig(config) {
       ["javascript_first", "alternating"].includes(config.executionOrder),
       "Unknown execution order",
     );
+  }
+  if (Object.hasOwn(config, "rustWorkerThreadsByRepetition")) {
+    keys.push("rustWorkerThreadsByRepetition");
+    assert.ok(
+      Array.isArray(config.rustWorkerThreadsByRepetition) &&
+        config.rustWorkerThreadsByRepetition.length === config.repetitions,
+      "Rust worker threads require one value per repetition",
+    );
+    for (const value of config.rustWorkerThreadsByRepetition) validateRustWorkerThreads(value);
   }
   assert.deepEqual(
     Object.keys(config).sort(),
@@ -312,6 +325,7 @@ export {
   targets,
   readConfig,
   validateConfig,
+  validateRustWorkerThreads,
   seedItem,
   inspectRead,
   createClient,
