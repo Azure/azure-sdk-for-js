@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a job.
  *
  * @summary creates or updates a job.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobMax.json
  */
 async function createAJobWithAllPropertiesSpecified() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createAJobWithAllPropertiesSpecified() {
  * This sample demonstrates how to creates or updates a job.
  *
  * @summary creates or updates a job.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobMin.json
  */
 async function createAJobWithDefaultProperties() {
   const credential = new DefaultAzureCredential();

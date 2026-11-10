@@ -54,7 +54,7 @@ describe("ContainerService test", () => {
             value: "api-version=2026-07-01",
           },
           {
-            target: "api-version=2026-07-02-preview",
+            target: "api-version=2026-08-02-preview",
             value: "api-version=2026-07-01",
           },
         ],

@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type GalleryImagesListAllOptionalParams,
-  type GalleryImagesListByResourceGroupOptionalParams,
-  type GalleryImagesDeleteOptionalParams,
-  type GalleryImagesUpdateOptionalParams,
-  type GalleryImagesCreateOrUpdateOptionalParams,
-  type GalleryImagesGetOptionalParams,
+export type {
+  GalleryImagesListAllOptionalParams,
+  GalleryImagesListByResourceGroupOptionalParams,
+  GalleryImagesDeleteOptionalParams,
+  GalleryImagesUpdateOptionalParams,
+  GalleryImagesCreateOrUpdateOptionalParams,
+  GalleryImagesGetOptionalParams,
 } from "./options.js";

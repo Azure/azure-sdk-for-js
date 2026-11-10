@@ -31,6 +31,7 @@ export interface DataWarehouseUserActivitiesOperationsOperations {
     options?: DataWarehouseUserActivitiesOperationsGetOptionalParams,
   ) => Promise<DataWarehouseUserActivities>;
 }
+
 function _getDataWarehouseUserActivitiesOperations(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -56,6 +57,7 @@ function _getDataWarehouseUserActivitiesOperations(context: SqlManagementContext
       ),
   };
 }
+
 export function _getDataWarehouseUserActivitiesOperationsOperations(
   context: SqlManagementContext,
 ): DataWarehouseUserActivitiesOperationsOperations {

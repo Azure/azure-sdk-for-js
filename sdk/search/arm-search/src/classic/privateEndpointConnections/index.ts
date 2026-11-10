@@ -52,6 +52,7 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
+
 function _getPrivateEndpointConnections(context: SearchManagementContext) {
   return {
     listByService: (
@@ -95,6 +96,7 @@ function _getPrivateEndpointConnections(context: SearchManagementContext) {
     ) => get(context, resourceGroupName, searchServiceName, privateEndpointConnectionName, options),
   };
 }
+
 export function _getPrivateEndpointConnectionsOperations(
   context: SearchManagementContext,
 ): PrivateEndpointConnectionsOperations {

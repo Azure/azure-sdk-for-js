@@ -69,6 +69,7 @@ export interface ManagedInstanceAdvancedThreatProtectionSettingsOperations {
     options?: ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams,
   ) => Promise<ManagedInstanceAdvancedThreatProtection>;
 }
+
 function _getManagedInstanceAdvancedThreatProtectionSettings(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -134,6 +135,7 @@ function _getManagedInstanceAdvancedThreatProtectionSettings(context: SqlManagem
       get(context, resourceGroupName, managedInstanceName, advancedThreatProtectionName, options),
   };
 }
+
 export function _getManagedInstanceAdvancedThreatProtectionSettingsOperations(
   context: SqlManagementContext,
 ): ManagedInstanceAdvancedThreatProtectionSettingsOperations {

@@ -5570,16 +5570,16 @@ export interface UploadKnowledgeSourceFileOptions extends OperationOptions {
 export type VectorEncodingFormat = string;
 
 // @public (undocumented)
-export type VectorFilterMode = `${KnownVectorFilterMode}`;
+export type VectorFilterMode = "postFilter" | "preFilter";
 
 // @public
-export interface VectorizableImageBinaryQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+export interface VectorizableImageBinaryQuery<TModel extends object> extends Omit<BaseVectorQuery<TModel>, "kind"> {
     binaryImage: string;
     kind: "imageBinary";
 }
 
 // @public
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+export interface VectorizableImageUrlQuery<TModel extends object> extends Omit<BaseVectorQuery<TModel>, "kind"> {
     kind: "imageUrl";
     url: string;
 }
@@ -5601,7 +5601,7 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
 export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
 
 // @public (undocumented)
-export type VectorQueryKind = `${KnownVectorQueryKind}`;
+export type VectorQueryKind = "vector" | "text";
 
 // @public
 export interface VectorQueryTopicGraph {

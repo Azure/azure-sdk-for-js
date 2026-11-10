@@ -14,6 +14,7 @@
 
 ### Bugs Fixed
 
+- Kept `VectorQueryKind`, `BaseVectorQuery.kind`, and `VectorFilterMode` closed to October GA values while retaining preview known values and protocol models. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Preserved October GA's numeric protocol `getDocumentCount` result and legacy listing result/option exports. Body-first protocol calls remain supported alongside name-first preview calls. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Preserved October GA's closed convenience unions for scoring functions, knowledge bases and sources, vectorizers, vector queries, and search query types. Excluded conflicting preview alternatives, including random scoring, rather than weakening the GA contracts. Preview-only knowledge source kinds remain available through protocol subpaths. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Preserved GA ETag round-tripping, document fields that share metadata names, custom analyzers/vectorizers/skill aliases, dynamic indexer configuration, resource continuation tokens, search continuation parameters, delete options, and semantic query options. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)

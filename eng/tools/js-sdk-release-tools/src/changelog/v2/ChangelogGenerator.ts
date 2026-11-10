@@ -41,6 +41,7 @@ export enum ChangelogItemCategory {
   ClassChanged = 40001,
   ClassPropertyRemoved = 40002,
   ClassPropertyOptionalToRequired = 40003,
+  ClassPropertyTypeChanged = 40004,
   // model
   ModelRemoved = 50000,
   ModelRequiredPropertyAdded = 50001,
@@ -112,6 +113,8 @@ export class ChangelogGenerator {
   // TODO: should be called 'property'
   private modelPropertyTypeChangedTemplate =
     "Type of parameter {newPropertyName} of interface {interfaceName} is changed from {oldPropertyType} to {newPropertyType}";
+  private modelPropertyChangedTemplate =
+    "Property {propertyName} of interface {interfaceName} has changed";
   private modelPropertyRemovedTemplate =
     "Interface {interfaceName} no longer has parameter {propertyName}";
   private modelPropertyOptionalToRequiredTemplate =
@@ -124,6 +127,8 @@ export class ChangelogGenerator {
   private classAddedTemplate = "Added Class {className}";
   private classRemovedTemplate = "Deleted Class {className}";
   private classPropertyRemovedTemplate = "Class {className} no longer has parameter {propertyName}";
+  private classPropertyTypeChangedTemplate =
+    "Type of property {propertyName} of class {className} has changed";
   private classPropertyOptionalToRequiredTemplate =
     "Parameter {propertyName} of class {className} is now required";
   // NOTE: not detected in v1 except constructor and it's parameters
@@ -424,6 +429,16 @@ export class ChangelogGenerator {
         });
         this.addChangelogItem(ChangelogItemCategory.ClassPropertyRemoved, message);
       }
+      if (
+        p.location === DiffLocation.Property &&
+        this.hasReasons(p.reasons, DiffReasons.TypeChanged)
+      ) {
+        const message = template(this.classPropertyTypeChangedTemplate, {
+          className,
+          propertyName: p.source!.name,
+        });
+        this.addChangelogItem(ChangelogItemCategory.ClassPropertyTypeChanged, message);
+      }
       // class property optional to required (baseline to current)
       if (
         p.location === DiffLocation.Property &&
@@ -708,8 +723,12 @@ export class ChangelogGenerator {
       diffPair.location === DiffLocation.Property &&
       this.hasReasons(diffPair.reasons, DiffReasons.TypeChanged)
     ) {
-      const getTypeText = (node: Node) =>
-        node.asKindOrThrow(SyntaxKind.PropertySignature).getTypeNodeOrThrow().getText();
+      const getTypeText = (node: Node) => {
+        if (Node.isGetAccessorDeclaration(node)) return node.getReturnTypeNodeOrThrow().getText();
+        if (Node.isSetAccessorDeclaration(node))
+          return node.getParameters()[0].getTypeNodeOrThrow().getText();
+        return node.asKindOrThrow(SyntaxKind.PropertySignature).getTypeNodeOrThrow().getText();
+      };
       const oldPropertyTypeText = getTypeText(diffPair.target!.node);
       const newPropertyTypeText = getTypeText(diffPair.source!.node);
       // TODO: improve changelog to tell the most outer impacted declarations
@@ -719,6 +738,17 @@ export class ChangelogGenerator {
           newPropertyName: diffPair.source!.name,
           oldPropertyType: oldPropertyTypeText,
           newPropertyType: newPropertyTypeText,
+        });
+        this.addChangelogItem(ChangelogItemCategory.ModelPropertyTypeChanged, message);
+      } else if (
+        Node.isGetAccessorDeclaration(diffPair.target!.node) ||
+        Node.isSetAccessorDeclaration(diffPair.target!.node) ||
+        Node.isGetAccessorDeclaration(diffPair.source!.node) ||
+        Node.isSetAccessorDeclaration(diffPair.source!.node)
+      ) {
+        const message = template(this.modelPropertyChangedTemplate, {
+          interfaceName,
+          propertyName: diffPair.source!.name,
         });
         this.addChangelogItem(ChangelogItemCategory.ModelPropertyTypeChanged, message);
       }

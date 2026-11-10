@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all elastic pools in a server.
  *
  * @summary gets all elastic pools in a server.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolListByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolListByServer.json
  */
 async function getAllElasticPoolsInAServer() {
   const credential = new DefaultAzureCredential();

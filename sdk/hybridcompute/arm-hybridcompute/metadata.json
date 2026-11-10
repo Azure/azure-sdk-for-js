@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.HybridCompute": "2026-07-15"
+    "Microsoft.HybridCompute": "2026-09-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.HybridCompute",
     "CrossLanguageDefinitionId": {
@@ -96,6 +96,13 @@
       "@azure/arm-hybridcompute!MachineRunCommandInstanceView:interface": "Microsoft.HybridCompute.MachineRunCommandInstanceView",
       "@azure/arm-hybridcompute!ExtensionsResourceStatus:interface": "Microsoft.HybridCompute.ExtensionsResourceStatus",
       "@azure/arm-hybridcompute!MachineRunCommandsListResult:interface": "Microsoft.HybridCompute.MachineRunCommandsListResult",
+      "@azure/arm-hybridcompute!VmApplication:interface": "Microsoft.HybridCompute.VmApplication",
+      "@azure/arm-hybridcompute!VmApplicationProperties:interface": "Microsoft.HybridCompute.VmApplicationProperties",
+      "@azure/arm-hybridcompute!VmApplicationInstanceView:interface": "Microsoft.HybridCompute.VmApplicationInstanceView",
+      "@azure/arm-hybridcompute!VmApplicationInstanceViewAction:interface": "Microsoft.HybridCompute.VmApplicationInstanceViewAction",
+      "@azure/arm-hybridcompute!VmApplicationUpdate:interface": "Microsoft.HybridCompute.VmApplicationUpdate",
+      "@azure/arm-hybridcompute!VmApplicationUpdateProperties:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",
+      "@azure/arm-hybridcompute!VmApplicationsListResult:interface": "Microsoft.HybridCompute.VmApplicationsListResult",
       "@azure/arm-hybridcompute!Gateway:interface": "Microsoft.HybridCompute.Gateway",
       "@azure/arm-hybridcompute!GatewayProperties:interface": "Microsoft.HybridCompute.GatewayProperties",
       "@azure/arm-hybridcompute!GatewayUpdate:interface": "Microsoft.HybridCompute.GatewayUpdate",
@@ -226,6 +233,12 @@
       "@azure/arm-hybridcompute!GatewaysOperations#update:member": "Microsoft.HybridCompute.Gateways.update",
       "@azure/arm-hybridcompute!GatewaysOperations#createOrUpdate:member": "Microsoft.HybridCompute.Gateways.createOrUpdate",
       "@azure/arm-hybridcompute!GatewaysOperations#get:member": "Microsoft.HybridCompute.Gateways.get",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#list:member": "Microsoft.HybridCompute.VmApplications.list",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#delete:member": "Microsoft.HybridCompute.VmApplications.delete",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#update:member": "Microsoft.HybridCompute.VmApplications.update",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#createOrUpdate:member": "Microsoft.HybridCompute.VmApplications.createOrUpdate",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#getInstanceView:member": "Microsoft.HybridCompute.VmApplications.getInstanceView",
+      "@azure/arm-hybridcompute!VmApplicationsOperations#get:member": "Microsoft.HybridCompute.VmApplications.get",
       "@azure/arm-hybridcompute!MachineRunCommandsOperations#list:member": "Microsoft.HybridCompute.MachineRunCommands.list",
       "@azure/arm-hybridcompute!MachineRunCommandsOperations#delete:member": "Microsoft.HybridCompute.MachineRunCommands.delete",
       "@azure/arm-hybridcompute!MachineRunCommandsOperations#createOrUpdate:member": "Microsoft.HybridCompute.MachineRunCommands.createOrUpdate",

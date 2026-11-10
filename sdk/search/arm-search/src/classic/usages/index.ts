@@ -15,12 +15,14 @@ export interface UsagesOperations {
     options?: UsagesListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<QuotaUsageResult>;
 }
+
 function _getUsages(context: SearchManagementContext) {
   return {
     listBySubscription: (location: string, options?: UsagesListBySubscriptionOptionalParams) =>
       listBySubscription(context, location, options),
   };
 }
+
 export function _getUsagesOperations(context: SearchManagementContext): UsagesOperations {
   return {
     ..._getUsages(context),

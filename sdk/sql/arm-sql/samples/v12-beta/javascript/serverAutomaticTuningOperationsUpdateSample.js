@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update automatic tuning options on server.
  *
  * @summary update automatic tuning options on server.
- * x-ms-original-file: 2025-08-01-preview/ServerAutomaticTuningUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAutomaticTuningUpdateMax.json
  */
 async function updatesServerAutomaticTuningSettingsWithAllProperties() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function updatesServerAutomaticTuningSettingsWithAllProperties() {
  * This sample demonstrates how to update automatic tuning options on server.
  *
  * @summary update automatic tuning options on server.
- * x-ms-original-file: 2025-08-01-preview/ServerAutomaticTuningUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ServerAutomaticTuningUpdateMin.json
  */
 async function updatesServerAutomaticTuningSettingsWithMinimalProperties() {
   const credential = new DefaultAzureCredential();

@@ -92,10 +92,6 @@ permissions:
   pull-requests: read
   actions: read
   copilot-requests: write
-# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
-engine:
-  id: copilot
-  version: "1.0.80"
 strict: false
 network:
   allowed:
@@ -106,10 +102,12 @@ tools:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
+  allowed-domains:
+    - eng.ms
+    - teams.microsoft.com
   threat-detection:
     engine:
       id: copilot
-      version: "1.0.80"
       model: gpt-5.6-sol
     prompt: |
       The workflow source prompt is trusted configuration and is expected to

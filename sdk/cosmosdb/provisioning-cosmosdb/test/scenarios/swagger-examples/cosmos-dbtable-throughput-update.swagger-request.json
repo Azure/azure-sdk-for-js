@@ -1,0 +1,9 @@
+{
+  "location": "West US",
+  "tags": {},
+  "properties": {
+    "resource": {
+      "throughput": 400
+    }
+  }
+}

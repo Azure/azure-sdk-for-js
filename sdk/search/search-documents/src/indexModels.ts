@@ -49,8 +49,6 @@ import type {
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
-  KnownVectorFilterMode,
-  KnownVectorQueryKind,
   QueryDebugMode,
   QueryResultDocumentRerankerInput,
   QueryType,
@@ -247,8 +245,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
    * **text**: Vector query where a text value that needs to be vectorized is provided.
-   * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided.
-   * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
    */
   kind: VectorQueryKind;
   /**
@@ -323,7 +319,10 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
 /**
  * The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided.
  */
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+export interface VectorizableImageUrlQuery<TModel extends object> extends Omit<
+  BaseVectorQuery<TModel>,
+  "kind"
+> {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
@@ -337,9 +336,10 @@ export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVe
 /**
  * The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided.
  */
-export interface VectorizableImageBinaryQuery<
-  TModel extends object,
-> extends BaseVectorQuery<TModel> {
+export interface VectorizableImageBinaryQuery<TModel extends object> extends Omit<
+  BaseVectorQuery<TModel>,
+  "kind"
+> {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
@@ -1172,5 +1172,5 @@ export interface VectorSearchOptions<TModel extends object> {
 }
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
-export type VectorFilterMode = `${KnownVectorFilterMode}`;
-export type VectorQueryKind = `${KnownVectorQueryKind}`;
+export type VectorFilterMode = "postFilter" | "preFilter";
+export type VectorQueryKind = "vector" | "text";

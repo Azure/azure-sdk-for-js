@@ -68,10 +68,6 @@ permissions:
   vulnerability-alerts: read
   security-events: read
   copilot-requests: write
-# Work around github/gh-aw-mcpg#13221 until gh-aw bundles MCPG v0.4.24 or newer.
-engine:
-  id: copilot
-  version: "1.0.80"
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]
@@ -79,7 +75,6 @@ tools:
   bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
-  web-fetch:
 safe-outputs:
   steps:
     - name: Reject stale review outputs

@@ -1,6 +1,31 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/loadBalancers/index.ts",
+    "../src/api/inboundRules/index.ts",
+    "../src/api/natGateways/index.ts",
+    "../src/api/publicIPAddresses/index.ts",
+    "../src/api/virtualNetworkSubnets/index.ts",
+    "../src/api/virtualNetworks/index.ts",
+    "../src/api/guestAgents/index.ts",
+    "../src/api/attestationStatuses/index.ts",
+    "../src/api/hybridIdentityMetadata/index.ts",
+    "../src/api/virtualMachineInstances/index.ts",
+    "../src/api/virtualHardDisks/index.ts",
+    "../src/api/storageContainers/index.ts",
+    "../src/api/snapshots/index.ts",
+    "../src/api/securityRules/index.ts",
+    "../src/api/networkSecurityGroups/index.ts",
+    "../src/api/networkInterfaces/index.ts",
+    "../src/api/marketplaceGalleryImages/index.ts",
+    "../src/api/logicalNetworks/index.ts",
+    "../src/api/galleryImages/index.ts",
+    "../src/models/index.ts"
   ]
 }

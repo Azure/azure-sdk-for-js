@@ -38,6 +38,7 @@ export interface GeoBackupPoliciesOperations {
     options?: GeoBackupPoliciesGetOptionalParams,
   ) => Promise<GeoBackupPolicy>;
 }
+
 function _getGeoBackupPolicies(context: SqlManagementContext) {
   return {
     list: (
@@ -72,6 +73,7 @@ function _getGeoBackupPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, geoBackupPolicyName, options),
   };
 }
+
 export function _getGeoBackupPoliciesOperations(
   context: SqlManagementContext,
 ): GeoBackupPoliciesOperations {

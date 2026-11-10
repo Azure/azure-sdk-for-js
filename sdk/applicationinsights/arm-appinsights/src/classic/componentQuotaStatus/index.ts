@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { get } from "../../api/componentQuotaStatus/operations.js";
-import { ComponentQuotaStatusGetOptionalParams } from "../../api/componentQuotaStatus/options.js";
-import { ApplicationInsightsComponentQuotaStatus } from "../../models/componentAPIs/models.js";
+import type { ComponentQuotaStatusGetOptionalParams } from "../../api/componentQuotaStatus/options.js";
+import type { ApplicationInsightsComponentQuotaStatus } from "../../models/componentAPIs/models.js";
 
 /** Interface representing a ComponentQuotaStatus operations. */
 export interface ComponentQuotaStatusOperations {

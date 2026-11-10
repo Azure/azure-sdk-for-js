@@ -1,0 +1,98 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "fleet": {
+          "bicepIdentifier": "fleet",
+          "type": "Microsoft.DocumentDB/fleets",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleet-test"
+              }
+            }
+          }
+        },
+        "fleetspace": {
+          "bicepIdentifier": "fleetspace",
+          "type": "Microsoft.DocumentDB/fleets/fleetspaces",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleetspace-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "fleet"
+              }
+            }
+          }
+        },
+        "fleetspaceAccount": {
+          "bicepIdentifier": "fleetspaceAccount",
+          "type": "Microsoft.DocumentDB/fleets/fleetspaces/fleetspaceAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleetspaceaccount-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "fleetspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "globalDatabaseAccountProperties": {
+                    "kind": "object",
+                    "value": {
+                      "armLocation": {
+                        "kind": "string",
+                        "value": "West US"
+                      },
+                      "resourceId": {
+                        "kind": "string",
+                        "value": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DocumentDB/resourceGroup/rg1/databaseAccounts/db1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "fleetspaceAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

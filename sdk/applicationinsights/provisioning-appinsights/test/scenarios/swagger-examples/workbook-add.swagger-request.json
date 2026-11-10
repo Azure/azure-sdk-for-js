@@ -1,0 +1,12 @@
+{
+  "kind": "shared",
+  "location": "westus",
+  "properties": {
+    "category": "workbook",
+    "displayName": "Sample workbook"
+  },
+  "tags": {
+    "TagSample01": "sample01",
+    "TagSample02": "sample02"
+  }
+}

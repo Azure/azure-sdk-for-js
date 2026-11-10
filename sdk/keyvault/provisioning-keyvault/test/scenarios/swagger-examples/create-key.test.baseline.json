@@ -1,0 +1,52 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "vault": {
+          "bicepIdentifier": "vault",
+          "type": "Microsoft.KeyVault/vaults",
+          "apiVersion": "2026-02-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sample-vault-name"
+              }
+            }
+          }
+        },
+        "key": {
+          "bicepIdentifier": "key",
+          "type": "Microsoft.KeyVault/vaults/keys",
+          "apiVersion": "2026-02-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sample-key-name"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "vault"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "kty": {
+                    "kind": "string",
+                    "value": "RSA"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

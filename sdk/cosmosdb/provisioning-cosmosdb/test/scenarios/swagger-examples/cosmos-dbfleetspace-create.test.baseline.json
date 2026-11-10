@@ -1,0 +1,96 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "fleet": {
+          "bicepIdentifier": "fleet",
+          "type": "Microsoft.DocumentDB/fleets",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleet-test"
+              }
+            }
+          }
+        },
+        "fleetspace": {
+          "bicepIdentifier": "fleetspace",
+          "type": "Microsoft.DocumentDB/fleets/fleetspaces",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "fleetspace1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "fleet"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "fleetspaceApiKind": {
+                    "kind": "string",
+                    "value": "NoSQL"
+                  },
+                  "serviceTier": {
+                    "kind": "string",
+                    "value": "GeneralPurpose"
+                  },
+                  "dataRegions": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "westus2"
+                      }
+                    ]
+                  },
+                  "throughputPoolConfiguration": {
+                    "kind": "object",
+                    "value": {
+                      "minThroughput": {
+                        "kind": "integer",
+                        "value": "100000"
+                      },
+                      "maxThroughput": {
+                        "kind": "integer",
+                        "value": "500000"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "fleetspace"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

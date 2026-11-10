@@ -38,6 +38,7 @@ export interface QueryKeysOperations {
     options?: QueryKeysCreateOptionalParams,
   ) => Promise<QueryKey>;
 }
+
 function _getQueryKeys(context: SearchManagementContext) {
   return {
     delete: (
@@ -59,6 +60,7 @@ function _getQueryKeys(context: SearchManagementContext) {
     ) => create(context, resourceGroupName, searchServiceName, name, options),
   };
 }
+
 export function _getQueryKeysOperations(context: SearchManagementContext): QueryKeysOperations {
   return {
     ..._getQueryKeys(context),
