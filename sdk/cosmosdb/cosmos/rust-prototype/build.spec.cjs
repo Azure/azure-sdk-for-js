@@ -10,6 +10,7 @@ const { runInNewContext } = require("node:vm");
 const source = readFileSync(path.join(__dirname, "build.cjs"), "utf8");
 const library = path.join(__dirname, "target", "release", "libcosmos_js_rust_prototype.so");
 const addon = path.join(__dirname, "cosmos_js_rust_prototype.node");
+const mimallocAddon = path.join(__dirname, "cosmos_js_rust_prototype_mimalloc.node");
 const artifact = {
   reason: "compiler-artifact",
   target: { name: "cosmos_js_rust_prototype", crate_types: ["cdylib"] },
@@ -50,28 +51,62 @@ function runBuild(args, result, events) {
   });
 }
 
-for (const args of [[], ["--release"]]) {
-  test(`build preserves locked dependencies with ${args.length ? "release" : "default dev"} profile`, () => {
+for (const args of [
+  [],
+  ["--release"],
+  ["--allocator=system"],
+  ["--release", "--allocator=system"],
+  ["--allocator=mimalloc"],
+  ["--release", "--allocator=mimalloc"],
+  ["--allocator=mimalloc", "--release"],
+]) {
+  test(`build preserves locked dependencies and selects the allocator: ${args.join(" ") || "default"}`, () => {
     const events = [];
+    const selected = args.includes("--allocator=mimalloc") ? mimallocAddon : addon;
     runBuild(args, { status: 0, stdout: JSON.stringify(artifact) }, events);
     assert.deepEqual(events, [
-      ["remove", addon],
+      ["remove", selected],
       [
         "cargo",
         "cargo",
-        ["build", "--locked", "--lib", "--message-format=json-render-diagnostics", ...args],
+        [
+          "build",
+          "--locked",
+          "--lib",
+          "--message-format=json-render-diagnostics",
+          ...(args.includes("--release") ? ["--release"] : []),
+          ...(selected === mimallocAddon ? ["--features", "allocator-mimalloc"] : []),
+        ],
       ],
-      ["copy", library, addon],
+      ["copy", library, selected],
     ]);
   });
 }
 
 test("invalid build arguments fail before removing the existing addon", () => {
-  for (const args of [["--unknown"], ["--release", "--release"]]) {
+  for (const args of [
+    ["--unknown"],
+    ["--release", "--release"],
+    ["--allocator=jemalloc"],
+    ["--allocator=mimalloc", "--allocator=system"],
+    ["--allocator=mimalloc", "--allocator=mimalloc"],
+    ["--allocator"],
+  ]) {
     const events = [];
     assert.throws(() => runBuild(args, undefined, events), /Usage:/);
     assert.deepEqual(events, []);
   }
+});
+
+test("a failed mimalloc build cannot remove or replace the default addon", () => {
+  const events = [];
+  assert.throws(
+    () => runBuild(["--release", "--allocator=mimalloc"], { status: 101, stdout: "" }, events),
+    /exit 101/,
+  );
+  assert.equal(events[0][1], mimallocAddon);
+  assert.equal(events.length, 2);
+  assert.ok(events.every((event) => !event.includes(addon)));
 });
 
 test("a failed Cargo build removes the stale addon without copying a library", () => {

@@ -2,6 +2,8 @@
 
 [Implementation guide](read_item.md) | [Language foundations](foundations.md)
 
+[November 10 read and load-test results](read_item_allocator_results.md)
+
 This is the follow-along guide for comparing the existing JavaScript read path
 with the Rust-backed read path. It follows the structure of the Python
 `docs/V5/profiling/05-phase-a-operation-latency.md` guide, but measures **only
@@ -1317,8 +1319,10 @@ An offline experiment used the unchanged addon's existing `probeAsync` export,
 which yields once and returns a string. It did not construct a Cosmos client,
 call public `Item.read()`, use account credentials, or issue database requests.
 Each fresh process performed 2,000 warm-up calls and 20,000 measured calls.
-Worker orders were 4/1/2, 2/4/1 and 1/2/4; actual Tokio thread counts were
-verified. Whole-process CPU includes the probe loop and bridge.
+Worker orders were 4/1/2, 2/4/1 and 1/2/4; matching Tokio thread-name counts
+were observed. This is not a generally valid way to distinguish asynchronous
+workers from blocking-pool threads, as the subsequent live attempt demonstrated.
+Whole-process CPU includes the probe loop and bridge.
 
 | Repetition | 1 worker CPU us/call | 2 workers CPU us/call | 4 workers CPU us/call |
 |---|---:|---:|---:|
@@ -1361,6 +1365,240 @@ correctness/RU/transport checks, resolve service-coverage qualification, and
 measure CPU/read separately from latency. A one-worker setting could trade
 away throughput under concurrency; single-in-flight results cannot select a
 production-wide default.
+
+#### Approved worker-count attempt: aborted, not a benchmark
+
+Run `b4b7a642-ffc8-4657-8585-e7e863012eee`, using commit
+`36d77f0ac4ee9cac5bfa923e4dd8ea8744f0f15b`, ran from
+2026-11-10 03:59:39 UTC to 04:04:09 UTC. The first JavaScript and four-worker
+Rust sequences completed. The external observer stopped the next Rust sequence
+after counting two `tokio-rt-worker` threads when one asynchronous worker was
+requested. The remaining sequences did not run.
+
+The observer was incorrect to equate thread names with asynchronous worker
+count. The pinned Tokio blocking pool uses the same builder thread-name
+function. A standalone offline Tokio 1.53.3 reproduction reported one worker
+through `RuntimeMetrics::num_workers()` while two threads shared that name:
+one asynchronous worker and one explicitly started blocking thread. That
+reproduction made no Cosmos requests. It establishes the observer's ambiguity,
+not the identity of the extra thread in the terminated database process.
+Do not reuse the name-based observer as a worker-count gate.
+
+Partial artifacts passed hash and count checks. The service audit covered
+93,372 successful reads including qualification: 93,380 HTTP 200 responses
+were observed, alongside all six result creates and no observed 429 responses.
+Three HTTP 304 responses were not counted as successful reads. Credential
+cleanup and absence of active workloads were verified. The persisted verdict
+remains `benchmarkQualified: false`; service coverage cannot qualify an aborted
+comparison. No automatic live retry occurred, and no allocator was changed.
+
+#### Opt-in allocator comparison: offline preparation
+
+The native build helper supports two explicitly separate artifacts:
+
+```bash
+node rust-prototype/build.cjs --release --allocator=system
+node rust-prototype/build.cjs --release --allocator=mimalloc
+```
+
+Omitting `--allocator` retains the existing system-allocator build and
+`cosmos_js_rust_prototype.node` filename. The experimental build enables only
+the `allocator-mimalloc` Cargo feature and writes
+`cosmos_js_rust_prototype_mimalloc.node`; it cannot replace or remove the
+default addon. The dependency is pinned to Rust wrapper `mimalloc` 0.1.52;
+the lockfile selects `libmimalloc-sys` 0.1.49, whose bundled v3 header identifies
+mimalloc 3.3.2. Existing lockfile package versions and the Rust driver pin
+remain unchanged.
+
+This feature selects the Rust allocator in the native addon. It does not
+enable process-wide malloc interposition or change Node/V8's allocator.
+No mimalloc tuning, secure/debug allocator mode, or worker-count change is
+combined with it. Both variants use four requested Tokio workers during
+offline checks, run in separate processes, and retain separate release
+artifacts, source-overlay hashes and build manifests. A failed experimental
+build removes only its own stale output.
+
+The existing offline binding tests can select an absolute addon path through
+`AZURE_COSMOS_EXPERIMENTAL_NATIVE_BINDING_PATH`. This test override is not an
+allocator selector for the workload harness: `common.mjs` still fixes the
+workload binding path and checks its hash against the selected build manifest.
+Do not silently swap the addon between measured sequences. A live comparison
+must use independently verified, immutable variant deployments or an explicit
+validated harness selector.
+
+Offline probe success and observed allocator calls establish activation and
+the tested binding behavior, not a Cosmos performance gain. Public-read CPU,
+latency, throughput, memory, correctness and service coverage still require a
+separately approved bounded A/B run with allocator selection as the only
+experimental variable. No production default is changed by this preparation.
+
+Offline preparation completed using base commit
+`36d77f0ac4ee9cac5bfa923e4dd8ea8744f0f15b` plus recorded source overlay
+`42568b209d13380f8755400178bcea9f1aaacef96d0830b1fef49a69dfb44556`.
+The system and mimalloc release addons have SHA-256 fingerprints
+`801d624aeb77584607b5547347da748781c2b9fc6891b4d44b0ee34d7dea828f`
+and `40f59f6bb66616e0722338551773ffb5bd7284d33eb51d253ea37d2520f4238f`,
+respectively. Both passed the offline binding checks and an additional
+2,048-call string-ownership exercise in batches of 32, including error recovery.
+These synthetic checks are not a database performance or scalability test.
+
+Exact-PID runtime probes observed calls to the system Rust allocation entry
+points and to `mi_malloc_aligned`/`mi_free` in the experimental binary.
+The first parser rejected bpftrace's additional cleared-zero map output;
+the completed system capture was preserved and reused after validating that
+format. Windows/Linux text-newline normalization was also corrected in the
+probe-source identity check by comparing bytes. Neither issue triggered
+database traffic. Full raw capture and failed-check evidence is retained.
+
+Separate runtime packages now contain identical SDK and workload bytes, the
+same lockfile and driver pin, and their respective fingerprinted addons at the
+harness's canonical binding path. They do not share or overwrite the default
+addon. Build, activation and runtime-preparation evidence is saved under
+`/home/azureuser/js-sdk-rust-read-perf/build-evidence/allocator-36d77f0-42568b209d13-release`.
+The recorded result remains `performanceImprovementProven: false`, with zero
+database requests during this preparation.
+
+#### Allocator A/B: completed bounded comparison
+
+Matrix `3eb569c1-b2bb-4538-b4ae-779b1f58fc12` completed on November 10,
+2026, from 05:54:56 to 06:18:33 UTC. Each pair ran legacy JavaScript first,
+then Rust, for 120 seconds each. Rust allocator order was
+system / mimalloc / mimalloc / system, with four requested Tokio workers,
+profiling disabled, and unchanged 10,000 RU/s workload and results capacities.
+Each pair also performed 2,000 qualification reads. There were no live retries.
+SDK/workload bytes, driver pin, lockfile, and qualified item versions matched
+across the matrix; the native allocator variant was the intended variable.
+
+The table excludes whole intervals starting before 11 seconds, without deleting
+raw samples. All eight sequences retained 109 of 120 intervals. Percentiles come
+from merged histogram counts within each sequence; rows are not pooled.
+CPU is whole measured-worker CPU per successful read, excluding the reporter.
+RSS is sampled whole-process resident memory, not retained native heap.
+
+| Pair | Backend / Rust allocator | Retained reads | Actual seconds | Reads/s | P50 / P95 / P99 (ms) | CPU (us/read) | Sampled peak RSS (MiB) | RU/read |
+|---|---|---:|---:|---:|---|---:|---:|---:|
+| 1 | JavaScript control | 35,535 | 108.953 | 326.15 | 2.955 / 4.071 / 6.421 | 251.08 | 111.48 | 1.00 |
+| 1 | Rust / system | 44,312 | 108.960 | 406.68 | 2.398 / 2.963 / 4.190 | 326.04 | 102.56 | 1.00 |
+| 2 | JavaScript control | 40,100 | 108.955 | 368.04 | 2.709 / 3.181 / 3.493 | 249.94 | 112.28 | 1.00 |
+| 2 | Rust / mimalloc | 45,321 | 108.991 | 415.82 | 2.311 / 2.811 / 3.784 | 294.89 | 118.97 | 1.00 |
+| 3 | JavaScript control | 36,560 | 108.957 | 335.55 | 2.892 / 3.821 / 5.796 | 250.42 | 112.15 | 1.00 |
+| 3 | Rust / mimalloc | 41,905 | 108.977 | 384.53 | 2.485 / 3.228 / 4.902 | 304.19 | 117.77 | 1.00 |
+| 4 | JavaScript control | 36,669 | 108.954 | 336.55 | 2.816 / 3.533 / 4.726 | 228.65 | 112.16 | 1.00 |
+| 4 | Rust / system | 40,534 | 109.011 | 371.83 | 2.584 / 3.355 / 5.676 | 320.54 | 104.62 | 1.00 |
+
+Adjacent allocator comparisons, always treating system as the baseline:
+
+| System pair vs mimalloc pair | CPU/read reduction | Reads/s change | Sampled peak RSS change |
+|---|---:|---:|---:|
+| 1 vs 2 | 9.55% | +2.25% | +16.41 MiB |
+| 4 vs 3 | 5.10% | +3.41% | +13.15 MiB |
+
+Both observations support a CPU-saving signal with a memory tradeoff in this
+single-in-flight workload, not a general allocator recommendation. JavaScript
+control throughput changed by +12.84% between pairs 1 and 2, versus -0.30%
+between pairs 4 and 3. Accordingly, the small Rust throughput changes cannot
+be cleanly attributed to allocator selection. Normalizing Rust CPU/read to
+each pair's JavaScript control gives reductions of 9.14% and 13.35%; this is
+a sensitivity comparison, not a way to eliminate all time-varying conditions.
+Mimalloc Rust still consumed 17.99% and 21.47% more CPU/read than its respective
+JavaScript controls. Its pair-2 P99 was also worse than that JavaScript control.
+Two Rust observations per allocator do not establish concurrency scalability,
+long-duration memory behavior, or a production default choice.
+
+All eight sequences had zero read errors and zero observed 429 responses.
+Raw artifacts, completion records, native provenance, unchanged item versions,
+credential-directory removal, and absence of active workloads were verified.
+One encompassing service-metric window covered 358,573 required successful
+reads, including qualification and warm-up: 358,601 HTTP 200 responses and
+all 16 result creates were observed, with no observed service 429 responses.
+Eight HTTP 304 responses were not counted as successful reads. Service counts
+establish coverage, not exact run attribution; RU/read above excludes reporting.
+
+The first offline audit stopped because PowerShell normalized two timestamp
+strings (`.130Z` to `.13Z`, and `.660Z` to `.66Z`). Comparison now requires
+identical UTC instants for those two timestamp fields and exact equality for
+all other summary fields. Failed audit artifacts were preserved; only offline
+analysis was repeated, not the database workload.
+
+Full analysis, matrix input, service coverage and the qualification verdict are
+retained under
+`/home/azureuser/js-sdk-rust-read-perf/build-evidence/allocator-matrix-3eb569c1-b2bb-4538-b4ae-779b1f58fc12`.
+The successful verdict qualifies this bounded comparison only. The system
+allocator remains the default; neither Node/V8's nor Python's allocator was
+changed, and no Rust driver source was modified.
+
+#### Allocator block repetitions: client-observed results
+
+The follow-up matrix `495e0302-dbf6-4c51-9908-b344a85bfadc` completed on
+November 10, 2026, from 07:16:00 to 07:52:12 UTC. It ran three mimalloc pairs
+followed by three system pairs. Each pair retained the JavaScript-first control,
+120 seconds per backend, 2,000 qualification reads, four requested Rust workers,
+profiling disabled, and both capacities fixed at 10,000 RU/s. The same
+fingerprinted native builds, SDK/workload bytes and item versions were used.
+There were no workload retries.
+
+Latency here is the complete public `await item.read()` duration, including
+receive-side SDK work before the caller obtains the response: native completion
+handoff, body decoding, JSON parsing, diagnostics and `ItemResponse` construction.
+Benchmark validation and reporting happen after that timer stops. It is not
+time to first network byte or an isolated client-CPU measurement. No separate
+server-latency investigation was performed, as requested.
+
+These are individual sequences, not pooled rows. The same whole-interval
+warm-up rule (interval starts at or after 11 seconds) applies, with all raw
+samples retained. CPU/read covers the measured worker and harness; sampled
+peak/final RSS covers the whole worker process, not retained native heap.
+Every sequence used 1.00 RU per successful read, excluding reporting.
+
+| Pair | Backend / Rust allocator | Reads/s | P50 / P95 / P99 (ms) | CPU (us/read) | Sampled peak / final RSS (MiB) |
+|---|---|---:|---|---:|---|
+| 1 | JavaScript control | 344.62 | 2.821 / 3.498 / 5.026 | 257.38 | 111.32 / 89.74 |
+| 1 | Rust / mimalloc | 452.95 | 2.167 / 2.638 / 3.263 | 296.17 | 129.76 / 107.27 |
+| 2 | JavaScript control | 338.51 | 2.865 / 3.669 / 5.546 | 227.50 | 112.79 / 91.39 |
+| 2 | Rust / mimalloc | 409.20 | 2.395 / 2.832 / 3.369 | 294.90 | 119.60 / 118.68 |
+| 3 | JavaScript control | 377.82 | 2.602 / 3.098 / 3.571 | 238.14 | 111.88 / 90.29 |
+| 3 | Rust / mimalloc | 403.23 | 2.516 / 3.092 / 4.690 | 301.94 | 118.71 / 118.34 |
+| 4 | JavaScript control | 339.59 | 2.815 / 3.732 / 5.666 | 247.88 | 111.65 / 89.95 |
+| 4 | Rust / system | 404.92 | 2.516 / 3.056 / 4.020 | 325.37 | 104.20 / 104.20 |
+| 5 | JavaScript control | 353.60 | 2.749 / 3.404 / 4.738 | 234.39 | 111.34 / 89.98 |
+| 5 | Rust / system | 385.00 | 2.578 / 3.099 / 4.501 | 333.06 | 104.59 / 104.59 |
+| 6 | JavaScript control | 350.69 | 2.756 / 3.571 / 4.918 | 252.03 | 110.71 / 89.18 |
+| 6 | Rust / system | 415.80 | 2.356 / 2.925 / 4.030 | 324.00 | 102.61 / 102.61 |
+
+Ordinal comparisons were declared before execution: system pair 4 versus
+mimalloc pair 1, pair 5 versus pair 2, and pair 6 versus pair 3. These are
+positions within successive blocks, not simultaneous or time-matched controls.
+Positive reduction means improvement; a negative reduction means regression.
+
+| System pair vs mimalloc pair | CPU/read reduction | Client P99 reduction | Reads/s change | Sampled peak RSS change |
+|---|---:|---:|---:|---:|
+| 4 vs 1 | 8.97% | 18.83% | +11.86% | +25.57 MiB |
+| 5 vs 2 | 11.46% | 25.15% | +6.28% | +15.02 MiB |
+| 6 vs 3 | 6.81% | -16.38% | -3.02% | +16.11 MiB |
+
+CPU/read is the repeatable positive signal: all three mimalloc observations
+were below all three system observations. Sampled peak RSS was consistently
+higher. P99 and throughput did not consistently improve: the third mimalloc
+observation was worse than its ordinal system comparison on both, despite
+lower CPU/read. Mimalloc also used more CPU/read than each corresponding
+JavaScript control, and its third P99 was worse than that JavaScript control.
+The fixed allocator-block order remains confounded with time of run; these
+results do not prove a universal latency improvement, sustained-memory behavior
+or concurrency scalability. The system allocator remains the default.
+
+All twelve sequences completed with zero read errors and zero observed 429
+responses. Raw/provenance/item-version checks, credential-directory removal,
+and absence of active workloads passed. A single encompassing service-request
+audit observed 556,450 HTTP 200 responses against 556,408 required successful
+reads (including 12,000 qualification reads and warm-up), all 24 result creates,
+and no observed service 429 responses. Twelve HTTP 304 responses were not
+counted as successful reads. This is coverage evidence, not server-latency data.
+
+Full analysis, exact retained counts/durations, matrix inputs, service coverage
+and the qualified bounded-comparison verdict are retained under
+`/home/azureuser/js-sdk-rust-read-perf/build-evidence/allocator-block-matrix-495e0302-dbf6-4c51-9908-b344a85bfadc`.
+No production default, Python allocator, Node/V8 allocator or Rust driver source
+was changed.
 
 ### What do attempt counters mean?
 

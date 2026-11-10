@@ -63,6 +63,19 @@ function validateConfig(config) {
       "Unknown execution order",
     );
   }
+  if (Object.hasOwn(config, "concurrency")) {
+    keys.push("concurrency");
+    assert.ok(
+      Number.isSafeInteger(config.concurrency) &&
+        config.concurrency >= 1 &&
+        config.concurrency <= 64,
+      "Concurrency must be an integer from 1 to 64",
+    );
+    assert.ok(
+      config.concurrency === 1 || config.profilingMode !== "stages_v1",
+      "Per-read profiling requires concurrency 1",
+    );
+  }
   if (Object.hasOwn(config, "rustWorkerThreadsByRepetition")) {
     keys.push("rustWorkerThreadsByRepetition");
     assert.ok(
@@ -311,8 +324,19 @@ function provenance(config) {
   };
 }
 
+const harnessFailureCodes = new Map([
+  ["Deferred histogram capacity exceeded", "WORKLOAD_BUFFERED_HISTOGRAM_CAPACITY"],
+  ["Deferred interval capacity exceeded", "WORKLOAD_INTERVAL_CAPACITY"],
+  ["Latency histogram capacity exceeded", "WORKLOAD_HISTOGRAM_CAPACITY"],
+  ["Interval artifact capacity exceeded", "WORKLOAD_ARTIFACT_CAPACITY"],
+  ["Result document exceeds the UTF-8 size limit", "WORKLOAD_RESULT_CAPACITY"],
+]);
+
 function safeError(error) {
-  const code = error?.statusCode ?? error?.code;
+  const code =
+    error?.statusCode ??
+    (error?.code === "ERR_ASSERTION" ? harnessFailureCodes.get(error.message) : undefined) ??
+    error?.code;
   return {
     name: String(error?.name || "Error").slice(0, 64),
     status_code: Number.isInteger(code) ? code : null,

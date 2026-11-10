@@ -274,7 +274,7 @@ async function main() {
       provenance: source,
       config_duration_seconds: config.durationSeconds,
       config_report_interval_seconds: config.reportIntervalSeconds,
-      config_concurrency: 1,
+      config_concurrency: config.concurrency ?? 1,
       config_client_count: 1,
       config_item_count: config.itemCount,
       config_target: config.workload,

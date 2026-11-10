@@ -150,6 +150,20 @@ test("execution order is optional, explicit and strictly validated", () => {
   }
 });
 
+test("concurrency is opt-in, bounded and incompatible with concurrent per-read profiling", () => {
+  assert.equal(validateConfig(config()).concurrency, undefined);
+  for (const concurrency of [1, 32, 64]) {
+    assert.equal(validateConfig({ ...config(), concurrency }).concurrency, concurrency);
+  }
+  for (const concurrency of [0, -1, 65, 1.5, "32", null, undefined, true]) {
+    assert.throws(() => validateConfig({ ...config(), concurrency }), /Concurrency/);
+  }
+  assert.throws(
+    () => validateConfig({ ...config(), concurrency: 32, profilingMode: "stages_v1" }),
+    /profiling requires concurrency 1/,
+  );
+});
+
 test("default and explicit JavaScript-first plans preserve existing repetition order", () => {
   const value = { ...config(), repetitions: 4 };
   const expected = [
@@ -379,9 +393,12 @@ test("deferred snapshots enforce interval and total histogram bounds without dro
 
   const bounded = new IntervalBuffer(MAX_BUFFERED_INTERVALS);
   const full = { histogram_us: Array.from({ length: MAX_BUCKETS }, (_, index) => [index + 1, 1]) };
-  for (let index = 0; index < MAX_BUFFERED_BUCKETS / MAX_BUCKETS; index++) bounded.add(full);
-  assert.throws(() => bounded.add({ histogram_us: [[1, 1]] }), /histogram capacity/);
-  assert.equal([...bounded.drain()].length, MAX_BUFFERED_BUCKETS / MAX_BUCKETS);
+  for (let index = 0; index < MAX_BUFFERED_BUCKETS / MAX_BUCKETS - 1; index++) bounded.add(full);
+  assert.throws(
+    () => bounded.add({ histogram_us: [...full.histogram_us, [MAX_BUCKETS + 1, 1]] }),
+    /histogram capacity/,
+  );
+  assert.equal([...bounded.drain()].length, MAX_BUFFERED_BUCKETS / MAX_BUCKETS - 1);
 });
 
 async function withWorkload(options, check) {
@@ -426,12 +443,16 @@ async function withWorkload(options, check) {
             assert.equal(id, item.id);
             assert.equal(partitionKey, item.customerId);
             reads++;
+            const readNumber = reads;
+            if (options.beforeResponse) {
+              await options.beforeResponse({ readNumber, controller, channel });
+            }
             now += options.readSeconds ?? 1;
-            if (reads === (options.readCount ?? 3)) {
+            if (readNumber === (options.readCount ?? 3)) {
               controller.abort({ aborted: options.interrupted === true });
             }
-            if (reads === options.disconnectAt) channel.emit("disconnect");
-            if (reads === options.failureAt) {
+            if (readNumber === options.disconnectAt) channel.emit("disconnect");
+            if (readNumber === options.failureAt) {
               throw Object.assign(new Error("read failed"), { code: 503 });
             }
             const result = { ...response(backend), resource: item };
@@ -473,6 +494,19 @@ async function withWorkload(options, check) {
   }
 }
 
+test("a full concurrent run retains dense histograms without losing counts or precision", () => {
+  const buffer = new IntervalBuffer(121);
+  for (let interval = 0; interval < 120; interval++) {
+    const row = snapshot();
+    row.histogram_us = Array.from({ length: 3000 }, (_, index) => [2000 + index, 1]);
+    buffer.add(row);
+  }
+  const aggregate = aggregateIntervals([...buffer.drain()], "rust");
+  assert.equal(aggregate.count, 360000);
+  assert.equal(aggregate.histogram_us.length, 3000);
+  assert.equal(aggregate.p99_ms, 4.969);
+});
+
 test("both implementations defer all reporting until reads stop and retain raw intervals", async () => {
   for (const backend of ["javascript", "rust"]) {
     await withWorkload({ backend, readSeconds: 0.75 }, async (worker) => {
@@ -496,6 +530,107 @@ test("both implementations defer all reporting until reads stop and retain raw i
       assert.equal(intervals[1].elapsed_seconds, 2.25);
       assert.equal(worker.messages.at(-1).valid, true);
     });
+  }
+});
+
+test("concurrent reads refill only completed slots, preserve identities and drain before reporting", async () => {
+  for (const backend of ["javascript", "rust"]) {
+    const pending = new Map();
+    await withWorkload(
+      {
+        backend,
+        config: { concurrency: 32 },
+        readCount: 34,
+        readSeconds: 0.01,
+        beforeResponse({ readNumber }) {
+          return new Promise((resolve) => pending.set(readNumber, resolve));
+        },
+      },
+      async (worker) => {
+        const running = worker.run();
+        const tick = () => new Promise((resolve) => setImmediate(resolve));
+        const finish = (number) => {
+          pending.get(number)();
+          pending.delete(number);
+        };
+        await tick();
+        assert.equal(worker.reads, 32);
+        finish(17);
+        await tick();
+        assert.equal(worker.reads, 33);
+        assert.equal(pending.size, 32);
+        finish(1);
+        await tick();
+        assert.equal(worker.reads, 34);
+        finish(34);
+        await tick();
+        assert.equal(worker.reads, 34);
+        assert.equal(worker.messages.length, 0);
+        assert.equal(worker.disposed, false);
+        for (const number of [...pending.keys()].reverse()) finish(number);
+        await running;
+        const intervals = worker.messages.slice(0, -1).map((message) => message.snapshot);
+        assert.equal(
+          intervals.reduce((sum, row) => sum + summarize(row.histogram_us).count, 0),
+          34,
+        );
+        assert.equal(
+          intervals.reduce((sum, row) => sum + row.errors, 0),
+          0,
+        );
+        assert.equal(worker.messages.at(-1).valid, true);
+        assert.equal(worker.disposed, true);
+      },
+    );
+  }
+});
+
+test("concurrent failure or throttling stops submissions but drains outstanding reads", async () => {
+  for (const failure of ["read", "throttle", "disconnect"]) {
+    const pending = [];
+    await withWorkload(
+      {
+        config: { concurrency: 4 },
+        readCount: 100,
+        readSeconds: 0.1,
+        failureAt: failure === "read" ? 1 : undefined,
+        disconnectAt: failure === "disconnect" ? 1 : undefined,
+        beforeResponse() {
+          return new Promise((resolve) => pending.push(resolve));
+        },
+        decorateResponse(result) {
+          if (failure === "throttle" && result.resource.id === "order-0") {
+            result.diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.push({
+              statusCode: 429,
+            });
+          }
+          return result;
+        },
+      },
+      async (worker) => {
+        const running = worker.run();
+        const tick = () => new Promise((resolve) => setImmediate(resolve));
+        await tick();
+        pending.shift()();
+        await tick();
+        assert.equal(worker.reads, 4);
+        assert.equal(worker.disposed, false);
+        assert.equal(worker.messages.length, 0);
+        for (const finish of pending) finish();
+        if (failure === "disconnect") {
+          await assert.rejects(running, /Reporter/);
+        } else {
+          await running;
+          const intervals = worker.messages.slice(0, -1).map((message) => message.snapshot);
+          assert.equal(
+            intervals.reduce((sum, row) => sum + summarize(row.histogram_us).count + row.errors, 0),
+            4,
+          );
+          assert.equal(worker.messages.at(-1).valid, false);
+        }
+        assert.equal(worker.disposed, true);
+      },
+    );
   }
 });
 
@@ -844,7 +979,8 @@ test("disconnects during reads and buffer overflow fail without emitting success
   ]) {
     await withWorkload(options, async (worker) => {
       await assert.rejects(worker.run(), /Reporter|capacity/);
-      assert.equal(worker.messages.length, 0);
+      assert.equal(worker.messages.length, options.disconnectAt ? 0 : 2);
+      assert.ok(worker.messages.every((message) => message.type === "interval"));
       assert.equal(worker.disposed, true);
     });
   }
@@ -1342,6 +1478,15 @@ test("historical interval-format records remain readable without new artifact re
 test("error records omit raw SDK messages, stacks and request data", () => {
   const error = Object.assign(new Error("AccountKey=do-not-log"), { code: 429 });
   assert.deepEqual(safeError(error), { name: "Error", status_code: 429, code: null });
+  const capacity = new assert.AssertionError({ message: "Deferred histogram capacity exceeded" });
+  assert.deepEqual(safeError(capacity), {
+    name: "AssertionError",
+    status_code: null,
+    code: "WORKLOAD_BUFFERED_HISTOGRAM_CAPACITY",
+  });
+  const unknown = new assert.AssertionError({ message: "AccountKey=do-not-log" });
+  assert.equal(safeError(unknown).code, "ERR_ASSERTION");
+  assert.ok(!JSON.stringify(safeError(unknown)).includes("do-not-log"));
 });
 
 function mockLauncher() {

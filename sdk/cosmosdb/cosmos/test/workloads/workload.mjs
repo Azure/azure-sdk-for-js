@@ -161,67 +161,84 @@ async function run(
         if (profiling) profiles = [];
       }
     }
-    while (!signal.aborted && !reportingError) {
-      const item = seedItem(index);
-      const reference = container.item(item.id, item.customerId);
-      if (profiling) assert.ok(operation < MAX_PROFILE_READS, "Read profiling capacity exceeded");
-      const readStart = profiling ? clock() - started : 0;
-      const result = await timedRead(() => reference.read());
-      firstCompletionSeconds ??= process.uptime();
-      const validationStart = profiling ? performance.now() : 0;
-      let validationMs;
-      let statisticsMs;
-      let rustProfile;
-      let outcome = "failure";
-      try {
-        if (result.error) throw result.error;
-        const evidence = inspectRead(result.response, index, backend, fixture.etags[index]);
-        if (profiling) validationMs = performance.now() - validationStart;
-        if (profiling && backend === "rust") {
-          rustProfile = copyRustProfile(
-            result.response.diagnostics.experimentalRustRead.profile,
-            true,
+    async function readLoop() {
+      while (!signal.aborted && !reportingError && valid) {
+        const readIndex = index;
+        index = (index + 1) % config.itemCount;
+        const item = seedItem(readIndex);
+        const reference = container.item(item.id, item.customerId);
+        if (profiling) assert.ok(operation < MAX_PROFILE_READS, "Read profiling capacity exceeded");
+        const readStart = profiling ? clock() - started : 0;
+        const result = await timedRead(() => reference.read());
+        firstCompletionSeconds ??= process.uptime();
+        const validationStart = profiling ? performance.now() : 0;
+        let validationMs;
+        let statisticsMs;
+        let rustProfile;
+        let outcome = "failure";
+        try {
+          if (result.error) throw result.error;
+          const evidence = inspectRead(
+            result.response,
+            readIndex,
+            backend,
+            fixture.etags[readIndex],
           );
-        }
-        const statisticsStart = profiling ? performance.now() : 0;
-        stats.success(result.durationNs, evidence);
-        if (profiling) statisticsMs = performance.now() - statisticsStart;
-        outcome = "success";
-        if (evidence.observed429) {
+          if (profiling) validationMs = performance.now() - validationStart;
+          if (profiling && backend === "rust") {
+            rustProfile = copyRustProfile(
+              result.response.diagnostics.experimentalRustRead.profile,
+              true,
+            );
+          }
+          const statisticsStart = profiling ? performance.now() : 0;
+          stats.success(result.durationNs, evidence);
+          if (profiling) statisticsMs = performance.now() - statisticsStart;
+          outcome = "success";
+          if (evidence.observed429) {
+            valid = false;
+          }
+        } catch (error) {
+          if (profiling && backend === "rust") {
+            rustProfile = copyRustProfile(error.diagnostics?.experimentalRustRead?.profile, false);
+          }
+          if (profiling) validationMs ??= performance.now() - validationStart;
+          const statisticsStart = profiling ? performance.now() : 0;
+          stats.failure(result.durationNs, {
+            ...safeError(error),
+            status_code: result.response?.statusCode ?? safeError(error).status_code,
+          });
+          if (profiling) statisticsMs = performance.now() - statisticsStart;
           valid = false;
         }
-      } catch (error) {
-        if (profiling && backend === "rust") {
-          rustProfile = copyRustProfile(error.diagnostics?.experimentalRustRead?.profile, false);
+        if (profiling) {
+          profiles.push({
+            operation: ++operation,
+            started_seconds: readStart,
+            public_ms: Number(result.durationNs) / 1e6,
+            duration_us: Math.max(1, Number(result.durationNs / 1000n)),
+            validation_ms: validationMs,
+            statistics_ms: statisticsMs,
+            outcome,
+            ...(rustProfile ? { rust: rustProfile } : {}),
+          });
         }
-        if (profiling) validationMs ??= performance.now() - validationStart;
-        const statisticsStart = profiling ? performance.now() : 0;
-        stats.failure(result.durationNs, {
-          ...safeError(error),
-          status_code: result.response?.statusCode ?? safeError(error).status_code,
-        });
-        if (profiling) statisticsMs = performance.now() - statisticsStart;
-        valid = false;
+        if (clock() - stats.last >= config.reportIntervalSeconds) flush();
       }
-      if (profiling) {
-        profiles.push({
-          operation: ++operation,
-          started_seconds: readStart,
-          public_ms: Number(result.durationNs) / 1e6,
-          duration_us: Math.max(1, Number(result.durationNs / 1000n)),
-          validation_ms: validationMs,
-          statistics_ms: statisticsMs,
-          outcome,
-          ...(rustProfile ? { rust: rustProfile } : {}),
-        });
-      }
-      if (!valid) break;
-      if (clock() - stats.last >= config.reportIntervalSeconds) flush();
-      index = (index + 1) % config.itemCount;
     }
-    flush();
+    // Drain every submitted read before reporting or disposing the shared client.
+    const workers = Array.from({ length: config.concurrency ?? 1 }, () =>
+      readLoop().catch((error) => {
+        valid = false;
+        throw error;
+      }),
+    );
+    const outcomes = await Promise.allSettled(workers);
+    const failure = outcomes.find((outcome) => outcome.status === "rejected");
+    if (!failure) flush();
     // No reporting IPC or persistence overlaps the read loop.
     for (const snapshot of buffered.drain()) await publish(snapshot);
+    if (failure) throw failure.reason;
     assert.ok(!reportingError, "Reporting did not finish successfully");
     await new Promise((resolve, reject) => {
       channel.send({ type: "complete", valid: valid && !signal.reason?.aborted }, (error) => {

@@ -8,6 +8,10 @@ mod response;
 use napi::{Error, Result, Status};
 use napi_derive::napi;
 
+#[cfg(feature = "allocator-mimalloc")]
+#[global_allocator]
+static ALLOCATOR: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 #[napi]
 pub async fn probe_async(value: String) -> Result<String> {
     napi::tokio::task::yield_now().await;

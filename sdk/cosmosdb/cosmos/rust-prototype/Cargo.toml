@@ -9,8 +9,12 @@ license = "MIT"
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+allocator-mimalloc = ["dep:mimalloc"]
+
 [dependencies]
 azure_data_cosmos_driver = { git = "https://github.com/Azure/azure-sdk-for-rust", rev = "5ba864be8f128a6faf3f736ae0043f60d5911235" }
+mimalloc = { version = "=0.1.52", optional = true, default-features = false }
 napi = { version = "3.14.2", default-features = false, features = ["napi8", "tokio_rt"] }
 napi-derive = "3.6.12"
 url = "2.5"

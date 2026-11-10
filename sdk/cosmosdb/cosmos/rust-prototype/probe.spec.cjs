@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 const assert = require("node:assert/strict");
+const path = require("node:path");
 const { test } = require("node:test");
-const { NativeReadClient, probeAsync } = require("./cosmos_js_rust_prototype.node");
+const bindingPath =
+  process.env.AZURE_COSMOS_EXPERIMENTAL_NATIVE_BINDING_PATH ??
+  path.join(__dirname, "cosmos_js_rust_prototype.node");
+assert.ok(path.isAbsolute(bindingPath), "The native test binding path must be absolute");
+const { NativeReadClient, probeAsync } = require(bindingPath);
 
 test("the compiled Rust probe returns a Promise with the supplied item ID", async () => {
   const result = probeAsync("order-17");
