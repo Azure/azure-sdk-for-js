@@ -765,6 +765,26 @@ describe("HttpSender", () => {
   });
 
   describe("#backward compatibility with ServiceClientOptions", () => {
+    it("continues ignoring legacy baseUri and requestContentType options", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          baseUri: "https://legacy.example",
+          requestContentType: "application/legacy",
+        },
+      });
+      scope
+        .matchHeader("content-type", "application/json")
+        .reply(200, JSON.stringify(successfulBreezeResponse(1)));
+
+      const { statusCode } = await sender.send([{ name: "name", time: new Date() }]);
+
+      assert.strictEqual(statusCode, 200);
+      assert.isTrue(nock.isDone());
+    });
+
     it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
@@ -772,7 +792,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           credentialScopes: ["https://custom.scope/.default"],
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://custom.scope/.default"],
@@ -786,7 +806,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           credentialScopes: "https://custom.scope/.default",
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://custom.scope/.default"],
@@ -801,7 +821,7 @@ describe("HttpSender", () => {
         exporterOptions: {
           credentials: { scopes: ["https://new.scope/.default"] },
           credentialScopes: ["https://old.scope/.default"],
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://new.scope/.default"],

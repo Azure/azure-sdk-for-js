@@ -1,16 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
-import type { ServiceClientOptions } from "@azure/core-client";
 import type { ServiceApiVersion } from "./Declarations/Constants.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Optional parameters for the Application Insights client.
- * Extends both ServiceClientOptions (for backward compatibility) and ClientOptions (REST client).
+ * Includes legacy client options for backward compatibility.
  */
-export interface ApplicationInsightsClientOptionalParams
-  extends ServiceClientOptions, ClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
+  /**
+   * Legacy base URI option retained for backward compatibility.
+   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
+   */
+  baseUri?: string;
+  /**
+   * Authentication scopes retained for backward compatibility.
+   */
+  credentialScopes?: string | string[];
+  /**
+   * Legacy request content type option retained for backward compatibility.
+   */
+  requestContentType?: string;
+  /**
+   * Credential used to authenticate the request.
+   */
+  credential?: TokenCredential;
   /** Breeze endpoint: https://dc.services.visualstudio.com */
   host?: string;
   /** Overrides client endpoint. */
