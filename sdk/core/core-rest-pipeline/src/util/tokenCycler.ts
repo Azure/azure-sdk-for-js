@@ -104,34 +104,81 @@ async function beginRefresh(
  *
  * @returns - a function that reliably produces a valid access token
  */
+interface CachedToken {
+  token: AccessToken;
+  tenantId: string | undefined;
+  sequence: number;
+}
+
+interface ClaimsEpoch {
+  pending: number;
+  latestSuccessfulSequence: number;
+  hasSuccessfulClaims: boolean;
+  successfulResult?: CachedToken;
+  ordinaryResult?: CachedToken;
+  finalized: boolean;
+}
+
+interface RefreshWorker {
+  promise: Promise<AccessToken>;
+  sequence: number;
+  requestIdentityKey: string;
+  isClaimsRefresh: boolean;
+  claimsEpoch?: ClaimsEpoch;
+  canJoin: boolean;
+}
+
+function getTokenRequestIdentityKey(
+  scopes: string | string[],
+  getTokenOptions: GetTokenOptions,
+): string {
+  const proofOfPossessionOptions = getTokenOptions.proofOfPossessionOptions;
+  return JSON.stringify({
+    scopes: typeof scopes === "string" ? [scopes] : [...scopes],
+    tenantId: getTokenOptions.tenantId,
+    claims: getTokenOptions.claims,
+    enableCae: getTokenOptions.enableCae === true,
+    proofOfPossessionOptions: proofOfPossessionOptions && {
+      nonce: proofOfPossessionOptions.nonce,
+      resourceRequestMethod: proofOfPossessionOptions.resourceRequestMethod,
+      resourceRequestUrl: proofOfPossessionOptions.resourceRequestUrl,
+    },
+  });
+}
+
 export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
-  let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
   let tenantId: string | undefined;
+  let nextRefreshSequence = 0;
+  let latestCachedSequence = 0;
+  let activeClaimsEpoch: ClaimsEpoch | undefined;
+  const refreshWorkers = new Map<string, RefreshWorker>();
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
     ...tokenCyclerOptions,
   };
 
-  /**
-   * This little holder defines several predicates that we use to construct
-   * the rules of refreshing the token.
-   */
   const cycler = {
-    /**
-     * Produces true if a refresh job is currently in progress.
-     */
     get isRefreshing(): boolean {
-      return refreshWorker !== null;
+      return Array.from(refreshWorkers.values()).some((worker) => {
+        if (worker.isClaimsRefresh) {
+          return worker.claimsEpoch!.latestSuccessfulSequence < worker.sequence;
+        }
+        // Ordinary workers associated with a claims epoch cannot update the
+        // cache until every challenge in that epoch has settled. An ordinary
+        // worker that is older than the current cache owner is also obsolete
+        // and must not suppress proactive renewal.
+        return (
+          worker.claimsEpoch === undefined &&
+          worker.canJoin &&
+          worker.sequence >= latestCachedSequence
+        );
+      });
     },
-    /**
-     * Produces true if the cycler SHOULD refresh (we are within the refresh
-     * window and not already refreshing)
-     */
     get shouldRefresh(): boolean {
       if (token === null) {
         return true;
@@ -142,13 +189,8 @@ export function createTokenCycler(
       if (token.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
         return true;
       }
-
       return token.expiresOnTimestamp - options.refreshWindowInMs < Date.now();
     },
-    /**
-     * Produces true if the cycler MUST refresh (null or nearly-expired
-     * token).
-     */
     get mustRefresh(): boolean {
       return (
         token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
@@ -156,72 +198,194 @@ export function createTokenCycler(
     },
   };
 
-  /**
-   * Starts a refresh job or returns the existing job if one is already
-   * running.
-   */
+  function cacheToken(value: CachedToken): void {
+    if (value.sequence < latestCachedSequence) {
+      return;
+    }
+    token = value.token;
+    tenantId = value.tenantId;
+    latestCachedSequence = value.sequence;
+  }
+
+  function finalizeClaimsEpoch(epoch: ClaimsEpoch): void {
+    if (epoch.pending !== 0 || epoch.finalized) {
+      return;
+    }
+    epoch.finalized = true;
+    if (epoch.hasSuccessfulClaims) {
+      if (epoch.successfulResult !== undefined) {
+        cacheToken(epoch.successfulResult);
+      }
+    } else if (epoch.ordinaryResult !== undefined) {
+      cacheToken(epoch.ordinaryResult);
+    }
+    if (activeClaimsEpoch === epoch) {
+      activeClaimsEpoch = undefined;
+    }
+  }
+
+  function startClaimsEpoch(): ClaimsEpoch {
+    const epoch: ClaimsEpoch = {
+      pending: 0,
+      latestSuccessfulSequence: 0,
+      hasSuccessfulClaims: false,
+
+      finalized: false,
+    };
+    activeClaimsEpoch = epoch;
+    return epoch;
+  }
+
   function refresh(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
-    if (!cycler.isRefreshing) {
-      // We bind `scopes` here to avoid passing it around a lot
-      const tryGetAccessToken = (): Promise<AccessToken | null> =>
-        credential.getToken(scopes, getTokenOptions);
+    const requestIdentityKey = getTokenRequestIdentityKey(scopes, getTokenOptions);
+    const isClaimsRefresh = Boolean(getTokenOptions.claims);
+    const existingWorker = refreshWorkers.get(requestIdentityKey);
+    if (
+      existingWorker !== undefined &&
+      !existingWorker.isClaimsRefresh &&
+      existingWorker.sequence < latestCachedSequence
+    ) {
+      existingWorker.canJoin = false;
+    }
+    if (existingWorker?.canJoin) {
+      // A new claims challenge can rejoin a still-pending claims worker after
+      // another challenge has completed. Treat that rejoin as the current
+      // cache owner so the shared worker's eventual result is not discarded as
+      // stale, and invalidate ordinary workers that could otherwise replace
+      // the challenged token.
+      if (isClaimsRefresh && existingWorker.isClaimsRefresh) {
+        let epoch = existingWorker.claimsEpoch!;
+        if (epoch.hasSuccessfulClaims) {
+          // This is a new challenge after an earlier challenge in the epoch
+          // succeeded. Move the still-pending worker into a new epoch so
+          // ordinary workers remain deferred until the rejoined challenge
+          // settles.
+          epoch.pending--;
+          finalizeClaimsEpoch(epoch);
+          epoch = startClaimsEpoch();
+          epoch.pending++;
+          existingWorker.claimsEpoch = epoch;
+        }
+        existingWorker.sequence = ++nextRefreshSequence;
+        for (const activeWorker of refreshWorkers.values()) {
+          if (!activeWorker.isClaimsRefresh) {
+            activeWorker.claimsEpoch = epoch;
+            activeWorker.canJoin = false;
+          }
+        }
+      }
+      return existingWorker.promise;
+    }
+    const claimsEpoch = isClaimsRefresh
+      ? activeClaimsEpoch?.hasSuccessfulClaims
+        ? startClaimsEpoch()
+        : (activeClaimsEpoch ?? startClaimsEpoch())
+      : activeClaimsEpoch;
+    const worker: RefreshWorker = {
+      promise: Promise.resolve(undefined as never),
+      sequence: ++nextRefreshSequence,
+      requestIdentityKey,
+      isClaimsRefresh,
+      claimsEpoch,
+      canJoin: true,
+    };
 
-      // Take advantage of promise chaining to insert an assignment to `token`
-      // before the refresh can be considered done.
-      refreshWorker = beginRefresh(
-        tryGetAccessToken,
-        options.retryIntervalInMs,
-        // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now(),
-      )
-        .then((_token) => {
-          refreshWorker = null;
-          token = _token;
-          tenantId = getTokenOptions.tenantId;
-          return token;
-        })
-        .catch((reason) => {
-          // We also should reset the refresher if we enter a failed state.  All
-          // existing awaiters will throw, but subsequent requests will start a
-          // new retry chain.
-          refreshWorker = null;
-          token = null;
-          tenantId = undefined;
-          throw reason;
-        });
+    if (isClaimsRefresh) {
+      claimsEpoch!.pending++;
+      for (const activeWorker of refreshWorkers.values()) {
+        if (!activeWorker.isClaimsRefresh) {
+          activeWorker.claimsEpoch = claimsEpoch;
+          activeWorker.canJoin = false;
+        }
+      }
     }
 
-    return refreshWorker as Promise<AccessToken>;
+    const tryGetAccessToken = (): Promise<AccessToken | null> =>
+      credential.getToken(scopes, getTokenOptions);
+    const promise = beginRefresh(
+      tryGetAccessToken,
+      options.retryIntervalInMs,
+      token?.expiresOnTimestamp ?? Date.now(),
+    )
+      .then((_token) => {
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
+
+        const result: CachedToken = {
+          token: _token,
+          tenantId: getTokenOptions.tenantId,
+          sequence: worker.sequence,
+        };
+        if (worker.isClaimsRefresh) {
+          const epoch = worker.claimsEpoch!;
+          epoch.pending--;
+          if (!epoch.hasSuccessfulClaims || worker.sequence > epoch.latestSuccessfulSequence) {
+            epoch.hasSuccessfulClaims = true;
+            epoch.latestSuccessfulSequence = worker.sequence;
+            epoch.successfulResult = result;
+            cacheToken(result);
+            for (const activeWorker of refreshWorkers.values()) {
+              if (activeWorker.claimsEpoch === epoch && !activeWorker.isClaimsRefresh) {
+                activeWorker.canJoin = false;
+              }
+            }
+          }
+          finalizeClaimsEpoch(epoch);
+        } else if (worker.claimsEpoch !== undefined) {
+          const epoch = worker.claimsEpoch;
+          if (epoch.finalized) {
+            if (!epoch.hasSuccessfulClaims) {
+              cacheToken(result);
+            }
+          } else if (!epoch.hasSuccessfulClaims) {
+            if (
+              epoch.ordinaryResult === undefined ||
+              result.sequence > epoch.ordinaryResult.sequence
+            ) {
+              epoch.ordinaryResult = result;
+            }
+          }
+        } else {
+          cacheToken(result);
+        }
+        return _token;
+      })
+      .catch((reason) => {
+        if (refreshWorkers.get(requestIdentityKey) === worker) {
+          refreshWorkers.delete(requestIdentityKey);
+        }
+        if (worker.isClaimsRefresh) {
+          const epoch = worker.claimsEpoch!;
+          epoch.pending--;
+          finalizeClaimsEpoch(epoch);
+        }
+        throw reason;
+      });
+
+    // A proactive refresh is intentionally not awaited by callers. Observe its
+    // rejection without changing the promise returned to forced callers.
+    void promise.catch(() => {});
+    worker.promise = promise;
+    refreshWorkers.set(requestIdentityKey, worker);
+    return promise;
   }
 
   return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
-    //
-    // Simple rules:
-    // - If we MUST refresh, then return the refresh task, blocking
-    //   the pipeline until a token is available.
-    // - If we SHOULD refresh, then run refresh but don't return it
-    //   (we can still use the cached token).
-    // - Return the token, since it's fine if we didn't return in
-    //   step 1.
-    //
-
     const hasClaimChallenge = Boolean(tokenOptions.claims);
     const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
     if (hasClaimChallenge) {
-      // If we've received a claim, we know the existing token isn't valid
-      // We want to clear it so that that refresh worker won't use the old expiration time as a timeout
+      // A claims challenge means the cached token was rejected. Clear it before
+      // starting the claims refresh so beginRefresh uses an immediate deadline
+      // instead of retrying against the rejected token's expiration.
       token = null;
     }
 
-    // If the tenantId passed in token options is different to the one we have
-    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
-    // refresh the token with the new tenantId or token.
     const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
-
     if (mustRefresh) {
       return refresh(scopes, tokenOptions);
     }

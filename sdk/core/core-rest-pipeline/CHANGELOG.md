@@ -1,6 +1,12 @@
 # Release History
 
-## 1.25.1 (2026-11-06)
+## 1.25.2 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed concurrent CAE claims challenges reusing incompatible in-flight token refreshes and unhandled rejections from superseded proactive refreshes. [#40087](https://github.com/Azure/azure-sdk-for-js/issues/40087)
+
+## 1.25.1 (Unreleased)
 
 ### Bugs Fixed
 
