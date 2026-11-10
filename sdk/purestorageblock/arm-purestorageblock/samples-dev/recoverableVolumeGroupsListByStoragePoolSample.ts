@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all recoverable volume groups in a storage pool
  *
  * @summary list all recoverable volume groups in a storage pool
- * x-ms-original-file: 2026-05-01-preview/RecoverableVolumeGroups_ListByStoragePool_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/RecoverableVolumeGroups_ListByStoragePool_MaximumSet_Gen.json
  */
 async function recoverableVolumeGroupsListByStoragePool(): Promise<void> {
   const credential = new DefaultAzureCredential();

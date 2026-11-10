@@ -68,7 +68,7 @@ export function _configurePlatformConsoleAuthSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,6 +97,7 @@ export async function _configurePlatformConsoleAuthDeserialize(
 
   return platformConsoleAuthResultUnionDeserializer(result.body);
 }
+
 /** Configure authentication settings for platform console access to the storage pool */
 export async function configurePlatformConsoleAuth(
   context: Client,
@@ -127,7 +128,7 @@ export function _listPlatformConsoleActivationCodeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,6 +155,7 @@ export async function _listPlatformConsoleActivationCodeDeserialize(
 
   return platformConsoleActivationCodeDeserializer(result.body);
 }
+
 /** Returns a one-time activation code for platform console access to the storage pool */
 export async function listPlatformConsoleActivationCode(
   context: Client,
@@ -182,7 +184,7 @@ export function _repairAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,6 +208,7 @@ export async function _repairAvsConnectionDeserialize(
 
   return;
 }
+
 /** Test and repair, if needed, all configuration elements of the storage pool connection to the AVS instance */
 export function repairAvsConnection(
   context: Client,
@@ -218,8 +221,8 @@ export function repairAvsConnection(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _repairAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -236,7 +239,7 @@ export function _finalizeAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,6 +267,7 @@ export async function _finalizeAvsConnectionDeserialize(
 
   return;
 }
+
 /** Finalize an already started AVS connection to a specific AVS SDDC */
 export function finalizeAvsConnection(
   context: Client,
@@ -277,8 +281,8 @@ export function finalizeAvsConnection(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _finalizeAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -294,7 +298,7 @@ export function _disableAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,6 +322,7 @@ export async function _disableAvsConnectionDeserialize(
 
   return;
 }
+
 /** Disable the existing AVS connection */
 export function disableAvsConnection(
   context: Client,
@@ -330,8 +335,8 @@ export function disableAvsConnection(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _disableAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -348,7 +353,7 @@ export function _enableAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,6 +381,7 @@ export async function _enableAvsConnectionDeserialize(
 
   return;
 }
+
 /** Initiate a connection between the storage pool and a specified AVS SDDC resource */
 export function enableAvsConnection(
   context: Client,
@@ -389,8 +395,8 @@ export function enableAvsConnection(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _enableAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -406,7 +412,7 @@ export function _getAvsStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -431,6 +437,7 @@ export async function _getAvsStatusDeserialize(result: PathUncheckedResponse): P
 
   return avsStatusDeserializer(result.body);
 }
+
 /** Returns the status of the storage pool connection to AVS */
 export async function getAvsStatus(
   context: Client,
@@ -454,7 +461,7 @@ export function _getAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -481,6 +488,7 @@ export async function _getAvsConnectionDeserialize(
 
   return avsConnectionDeserializer(result.body);
 }
+
 /** Returns current information about an on-going connection to an AVS instance */
 export async function getAvsConnection(
   context: Client,
@@ -504,7 +512,7 @@ export function _getHealthStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,6 +539,7 @@ export async function _getHealthStatusDeserialize(
 
   return storagePoolHealthInfoDeserializer(result.body);
 }
+
 /** Retrieve health metrics of a storage pool */
 export async function getHealthStatus(
   context: Client,
@@ -550,7 +559,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/PureStorage.Block/storagePools{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -577,6 +586,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _storagePoolListResultDeserializer(result.body);
 }
+
 /** List storage pools by Azure subscription ID */
 export function listBySubscription(
   context: Client,
@@ -587,11 +597,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -605,7 +611,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -632,6 +638,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _storagePoolListResultDeserializer(result.body);
 }
+
 /** List storage pools by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -643,11 +650,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -663,7 +666,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -685,6 +688,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a storage pool */
 export function $delete(
   context: Client,
@@ -697,7 +701,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, storagePoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -714,7 +718,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -741,6 +745,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return storagePoolDeserializer(result.body);
 }
+
 /** Update a storage pool */
 export function update(
   context: Client,
@@ -755,7 +760,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, storagePoolName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
 
@@ -772,7 +777,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -799,6 +804,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return storagePoolDeserializer(result.body);
 }
+
 /** Create a storage pool */
 export function create(
   context: Client,
@@ -813,7 +819,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, storagePoolName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
 
@@ -829,7 +835,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -854,6 +860,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<St
 
   return storagePoolDeserializer(result.body);
 }
+
 /** Get a storage pool */
 export async function get(
   context: Client,

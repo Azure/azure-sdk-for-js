@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an AVS VM
  *
  * @summary update an AVS VM
- * x-ms-original-file: 2026-05-01-preview/AvsVms_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsVms_Update_MaximumSet_Gen.json
  */
 async function avsVmsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

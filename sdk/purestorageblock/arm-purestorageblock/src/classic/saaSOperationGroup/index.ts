@@ -15,6 +15,7 @@ export interface SaaSOperationGroupOperations {
     options?: SaaSOperationGroupActivateResourceOptionalParams,
   ) => PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
 }
+
 function _getSaaSOperationGroup(context: BlockContext) {
   return {
     activateResource: (
@@ -23,6 +24,7 @@ function _getSaaSOperationGroup(context: BlockContext) {
     ) => activateResource(context, body, options),
   };
 }
+
 export function _getSaaSOperationGroupOperations(
   context: BlockContext,
 ): SaaSOperationGroupOperations {

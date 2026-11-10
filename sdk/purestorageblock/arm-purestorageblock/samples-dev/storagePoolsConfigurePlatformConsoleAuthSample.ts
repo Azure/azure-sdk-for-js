@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to configure authentication settings for platform console access to the storage pool
  *
  * @summary configure authentication settings for platform console access to the storage pool
- * x-ms-original-file: 2026-05-01-preview/StoragePools_ConfigurePlatformConsoleAuth_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_ConfigurePlatformConsoleAuth_MaximumSet_Gen.json
  */
 async function storagePoolsConfigurePlatformConsoleAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();

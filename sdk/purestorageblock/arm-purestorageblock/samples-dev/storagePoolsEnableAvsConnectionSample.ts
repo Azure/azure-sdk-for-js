@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initiate a connection between the storage pool and a specified AVS SDDC resource
  *
  * @summary initiate a connection between the storage pool and a specified AVS SDDC resource
- * x-ms-original-file: 2026-05-01-preview/StoragePools_EnableAvsConnection_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_EnableAvsConnection_MaximumSet_Gen.json
  */
 async function storagePoolsEnableAvsConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

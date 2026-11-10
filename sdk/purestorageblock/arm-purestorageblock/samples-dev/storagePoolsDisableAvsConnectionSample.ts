@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disable the existing AVS connection
  *
  * @summary disable the existing AVS connection
- * x-ms-original-file: 2026-05-01-preview/StoragePools_DisableAvsConnection_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_DisableAvsConnection_MaximumSet_Gen.json
  */
 async function storagePoolsDisableAvsConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a one-time activation code for platform console access to the storage pool
  *
  * @summary returns a one-time activation code for platform console access to the storage pool
- * x-ms-original-file: 2026-05-01-preview/StoragePools_ListPlatformConsoleActivationCode_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_ListPlatformConsoleActivationCode_MaximumSet_Gen.json
  */
 async function storagePoolsListPlatformConsoleActivationCode(): Promise<void> {
   const credential = new DefaultAzureCredential();

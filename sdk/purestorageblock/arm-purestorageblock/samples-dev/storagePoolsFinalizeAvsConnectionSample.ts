@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to finalize an already started AVS connection to a specific AVS SDDC
  *
  * @summary finalize an already started AVS connection to a specific AVS SDDC
- * x-ms-original-file: 2026-05-01-preview/StoragePools_FinalizeAvsConnection_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_FinalizeAvsConnection_MaximumSet_Gen.json
  */
 async function storagePoolsFinalizeAvsConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

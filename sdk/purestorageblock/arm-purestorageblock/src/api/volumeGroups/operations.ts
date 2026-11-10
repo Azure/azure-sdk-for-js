@@ -53,7 +53,7 @@ export function _overwriteSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,6 +79,7 @@ export async function _overwriteDeserialize(result: PathUncheckedResponse): Prom
 
   return;
 }
+
 /** Restores a volume group to a specific snapshot state, including volume structure and data */
 export function overwrite(
   context: Client,
@@ -94,7 +95,7 @@ export function overwrite(
     getInitialResponse: () =>
       _overwriteSend(context, resourceGroupName, storagePoolName, volumeGroupName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -112,7 +113,7 @@ export function _getStatusSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,6 +140,7 @@ export async function _getStatusDeserialize(
 
   return volumeGroupStatusDeserializer(result.body);
 }
+
 /** Get current status and space information of the volume group */
 export async function getStatus(
   context: Client,
@@ -171,7 +173,7 @@ export function _listConnectionParametersSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,6 +200,7 @@ export async function _listConnectionParametersDeserialize(
 
   return connectionParametersResponseDeserializer(result.body);
 }
+
 /** Get connection parameters for ISCSI connection to the volume group */
 export async function listConnectionParameters(
   context: Client,
@@ -228,7 +231,7 @@ export function _listByStoragePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +258,7 @@ export async function _listByStoragePoolDeserialize(
 
   return _volumeGroupListResultDeserializer(result.body);
 }
+
 /** List volume groups by storage pool */
 export function listByStoragePool(
   context: Client,
@@ -267,11 +271,7 @@ export function listByStoragePool(
     () => _listByStoragePoolSend(context, resourceGroupName, storagePoolName, options),
     _listByStoragePoolDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -289,7 +289,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,6 +311,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a volume group */
 export function $delete(
   context: Client,
@@ -325,7 +326,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storagePoolName, volumeGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -344,7 +345,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,6 +372,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return volumeGroupDeserializer(result.body);
 }
+
 /** Update a volume group */
 export function update(
   context: Client,
@@ -393,7 +395,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
 }
 
@@ -412,7 +414,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -439,6 +441,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return volumeGroupDeserializer(result.body);
 }
+
 /** Create a volume group */
 export function create(
   context: Client,
@@ -454,7 +457,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, storagePoolName, volumeGroupName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<VolumeGroup>, VolumeGroup>;
 }
 
@@ -472,7 +475,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -497,6 +500,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
 
   return volumeGroupDeserializer(result.body);
 }
+
 /** Get a volume group */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides a summarized report along with actions for resources billed via given reservation
  *
  * @summary provides a summarized report along with actions for resources billed via given reservation
- * x-ms-original-file: 2026-05-01-preview/Reservations_GetBillingReport_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_GetBillingReport_MaximumSet_Gen.json
  */
 async function reservationsGetBillingReportMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
