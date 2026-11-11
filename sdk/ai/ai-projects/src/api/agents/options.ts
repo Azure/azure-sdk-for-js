@@ -15,7 +15,7 @@ import type {
   AgentOptimizationCandidateExpand,
   TelephonyProvider,
   TelephonyCallStatus,
-  AgentOptimizationJobStatus,
+  JobStatus,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -255,7 +255,7 @@ export interface AgentsListOptimizationJobsOptionalParams extends OperationOptio
    */
   before?: string;
   /** Filter to jobs in this lifecycle state. */
-  status?: AgentOptimizationJobStatus;
+  status?: JobStatus;
   /** Filter to jobs targeting this agent name. */
   agentName?: string;
 }

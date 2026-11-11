@@ -1328,7 +1328,6 @@ export type {
   VoiceAgentsConversationsDownloadAudioResponse,
   VoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   VoiceAgentsConversationsDownloadAudioItemResponse,
-  AgentOptimizationJobStatus,
   SkillOptimizationConfiguration,
   SkillReferencesOptimizationContext,
   AgentOptimizationSkillReference,
