@@ -784,7 +784,7 @@ function exportsOf(modules, file, report, seen = new Set()) {
   return result;
 }
 
-function checkExports(trees, renames, report) {
+function checkExports(trees, renames, report, verifiedEmittedRename = () => undefined) {
   const baseInventory = inventory(trees.base);
   const customInventory = inventory(trees.custom);
   const incomingInventory = inventory(trees.incoming);
@@ -815,6 +815,13 @@ function checkExports(trees, renames, report) {
         }
         continue;
       }
+      // An approved emitted model rename carries the maintained export to the new name.
+      const renamedDeclaration = verifiedEmittedRename(entry.imported);
+      if (
+        renamedDeclaration !== undefined &&
+        output.get(mapped(name, renames))?.imported === renamedDeclaration
+      )
+        continue;
       const counterpart =
         emittedBase.get(name) ??
         [...emittedBase.values()].find((item) => mapped(item.name, renames) === name);
@@ -2044,14 +2051,19 @@ export function validateCustomization({
   if (diagnostics.length) return diagnostics;
   const previousDiagnosticCount = diagnostics.length;
   let emittedRenames;
+  const verifiedEmittedRename = (original) => {
+    if (!modelRenames.has(original)) return undefined;
+    emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
+    const replacement = emittedRenames.get(original);
+    return replacement === modelRenames.get(original) ? replacement : undefined;
+  };
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;
     const existing = baselineModels
       .get(original)
       ?.find((entry) => ts.isFunctionDeclaration(entry.node));
     if (existing) {
-      emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
-      if (emittedRenames.get(original) === replacement) continue;
+      if (verifiedEmittedRename(original) === replacement) continue;
       report(
         existing.file,
         original,
@@ -2068,7 +2080,7 @@ export function validateCustomization({
     if (match.base?.options && match.customized?.options)
       exportRenames.set(match.base.options, match.customized.options);
   }
-  checkExports(trees, exportRenames, report);
+  checkExports(trees, exportRenames, report, verifiedEmittedRename);
   checkOperations(trees, matches, renames, report);
   checkProtected(trees, renames, report, matches, packageVersion);
   checkKnownPolicies(trees, modelIndexes, renames, report);

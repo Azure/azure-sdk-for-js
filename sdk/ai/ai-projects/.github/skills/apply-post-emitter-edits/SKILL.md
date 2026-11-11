@@ -48,6 +48,24 @@ customized, and new emitted inputs, then follow the
 [resolver development checks](../../../scripts/customization/README.md#development).
 Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
 
+SDK Validation checks out the SDK branch named in the spec project's
+`sdk-validation.yaml` (`feature/ai-projects/vnext`), not `main`; the log line
+`Resolved SDK repo branch` confirms it. Reproduce against that branch's commit at
+the run's checkout time: save the emitted `generated/` tree, restore the package,
+and run `node scripts/customize.mjs --dry-run --generated-dir <saved-tree> --base-ref <commit>`.
+If the current branch tip already passes, a rerun fixes the pipeline; still fix a
+resolver gap that the failing baseline exposed.
+
+`Conflicting additions with no common baseline` on a union converter case, for
+example `evalRunDataSourceUnionSerializer...caseBlock.["string","azure_ai_trace_data_source"]`,
+usually means the spec renamed a discriminated model without changing its
+discriminator. The resolver retains the old model's dispatch while the emitter
+registers the same value for the new model. Confirm the rename upstream. Then
+add the old/new pair to `emittedModelRenames` in
+`scripts/customization/models.mjs` only when the declarations and converters are
+structurally equivalent. An approved pair renames the dispatch cases, converters,
+and root exports together. Otherwise, the rename needs an explicit union policy.
+
 For a beta-to-root operation relocation, inspect all three inputs rather than
 assuming the old group was deleted. The resolver follows unique HTTP method/route
 matches, including renamed delete methods and their send/deserialize helpers.

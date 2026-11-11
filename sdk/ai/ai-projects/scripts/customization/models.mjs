@@ -38,6 +38,10 @@ const emittedModelRenames = new Map([
   ["PhoneNumber", "TelephonyPhoneNumber"],
   ["TeamsAddress", "TelephonyTeamsAddress"],
   ["SipAddress", "TelephonySipAddress"],
+  // azure-rest-api-specs#48159 renames these evaluation run data sources; discriminators are unchanged.
+  ["AzureAITraceDataSourceEvalRunDataSource", "TraceSourceEvalRunDataSource"],
+  ["AzureAITraceDataSourcePreviewEvalRunDataSource", "TraceSourcePreviewEvalRunDataSource"],
+  ["EvalCsvRunDataSource", "CsvEvalRunDataSource"],
 ]);
 // azure-rest-api-specs#47872 restores these released identities. Source keeps
 // Tool* compatibility aliases, so structural rename discovery cannot identify them.

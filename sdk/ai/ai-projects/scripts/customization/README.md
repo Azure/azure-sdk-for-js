@@ -123,6 +123,18 @@ regeneration script falls back to it when the strict run fails.
   request variants still use the two prior values; other full-union replacements
   require an explicit policy. Equivalent filter-alias and wire-discriminator
   representation fixes are similarly limited to their known schemas.
+  The evaluation run data-source renames from `azure-rest-api-specs#48159`
+  (`AzureAITraceDataSourceEvalRunDataSource`,
+  `AzureAITraceDataSourcePreviewEvalRunDataSource`, and `EvalCsvRunDataSource`
+  to `TraceSourceEvalRunDataSource`, `TraceSourcePreviewEvalRunDataSource`, and
+  `CsvEvalRunDataSource`) are approved the same way: their union dispatch cases
+  follow the renamed converters, and the maintained root and model barrel
+  exports follow the new names. Only an approved, verified rename waives the
+  lost-export guard; the renamed export must still be present.
+  An unapproved rename of a discriminated model whose discriminator is unchanged
+  still fails on that union converter case with
+  `Conflicting additions with no common baseline`: retention keeps the old
+  model's dispatch while the emitter adds the new model's dispatch.
 - Preview opt-ins are sent as constant `foundry-features` headers rather than
   the emitter's optional `foundryFeatures` option. The emitted optional header
   is normalized into the customized constant form before merging, so a changed

@@ -578,6 +578,192 @@ export type TelephonyCampaignScheduleUnion =
   assert.ok(validateCustomization({ ...guardInputs, source: tampered }).length > 0);
 });
 
+const entryScaffold = `import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
+`;
+
+// Mirrors the evaluation run data sources renamed by azure-rest-api-specs#48159.
+function evaluationDataSources(names = {}) {
+  const variants = [
+    [names.traces ?? "TracesEvalRunDataSource", "azure_ai_traces", "trace_ids"],
+    [
+      names.trace ?? "AzureAITraceDataSourceEvalRunDataSource",
+      "azure_ai_trace_data_source",
+      "trace_source",
+    ],
+    [
+      names.preview ?? "AzureAITraceDataSourcePreviewEvalRunDataSource",
+      "azure_ai_trace_data_source_preview",
+      "trace_source",
+    ],
+    [names.csv ?? "EvalCsvRunDataSource", "csv", "source"],
+  ];
+  const lower = (name) => name[0].toLowerCase() + name.slice(1);
+  const dispatch = (suffix) =>
+    variants
+      .map(
+        ([name, type]) =>
+          `    case "${type}":\n      return ${lower(name)}${suffix}(item as ${name});`,
+      )
+      .join("\n");
+  const models = `export interface EvalRunDataSource {
+  type: string;
+}
+export function evalRunDataSourceSerializer(item: EvalRunDataSource): any {
+  return { type: item["type"] };
+}
+export function evalRunDataSourceDeserializer(item: any): EvalRunDataSource {
+  return { type: item["type"] };
+}
+${variants
+  .map(
+    ([name, type, property]) => `export interface ${name} extends EvalRunDataSource {
+  type: "${type}";
+  ${property}?: string;
+}
+export function ${lower(name)}Serializer(item: ${name}): any {
+  return { type: item["type"], ${property}: item["${property}"] };
+}
+export function ${lower(name)}Deserializer(item: any): ${name} {
+  return { type: item["type"], ${property}: item["${property}"] };
+}`,
+  )
+  .join("\n")}
+export type EvalRunDataSourceUnion = ${variants.map(([name]) => name).join(" | ")} | EvalRunDataSource;
+export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): any {
+  switch (item.type) {
+${dispatch("Serializer")}
+    default:
+      return evalRunDataSourceSerializer(item);
+  }
+}
+export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSourceUnion {
+  switch (item["type"]) {
+${dispatch("Deserializer")}
+    default:
+      return evalRunDataSourceDeserializer(item);
+  }
+}`;
+  const exported = [
+    "EvalRunDataSource",
+    "EvalRunDataSourceUnion",
+    ...variants.map(([name]) => name),
+  ].join(", ");
+  return new Map([
+    [modelFile, models],
+    [barrelFile, `export type { ${exported} } from "./models.js";`],
+    [
+      "index.ts",
+      `${entryScaffold}export type { ${exported} } from "./models/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };`,
+    ],
+    ["static-helpers/pagingHelpers.ts", "export interface ContinuablePage {}"],
+  ]);
+}
+
+const evaluationRenames = [
+  ["AzureAITraceDataSourceEvalRunDataSource", "TraceSourceEvalRunDataSource"],
+  ["AzureAITraceDataSourcePreviewEvalRunDataSource", "TraceSourcePreviewEvalRunDataSource"],
+  ["EvalCsvRunDataSource", "CsvEvalRunDataSource"],
+];
+
+test("approved evaluation data source renames carry union dispatch and root exports", () => {
+  const baseGenerated = evaluationDataSources();
+  const baseSource = evaluationDataSources();
+  const generated = evaluationDataSources({
+    trace: "TraceSourceEvalRunDataSource",
+    preview: "TraceSourcePreviewEvalRunDataSource",
+    csv: "CsvEvalRunDataSource",
+  });
+  const planned = planCustomization({ baseGenerated, baseSource, generated });
+  assert.deepEqual(planned.diagnostics, []);
+  const text = planned.source.get(modelFile);
+  for (const [before, after] of evaluationRenames) {
+    const lower = (name) => name[0].toLowerCase() + name.slice(1);
+    assert.equal(planned.modelRenames.get(before), after);
+    assert.equal(
+      planned.modelRenames.get(`${lower(before)}Serializer`),
+      `${lower(after)}Serializer`,
+    );
+    for (const file of [modelFile, barrelFile, "index.ts"]) {
+      assert.doesNotMatch(planned.source.get(file), new RegExp(before, "i"));
+      assert.match(planned.source.get(file), new RegExp(`\\b${after}\\b`));
+    }
+    assert.match(text, new RegExp(`return ${lower(after)}Serializer\\(item as ${after}\\)`));
+    assert.match(text, new RegExp(`return ${lower(after)}Deserializer\\(item as ${after}\\)`));
+  }
+  const api = evaluate(text);
+  for (const item of [
+    { type: "azure_ai_traces", trace_ids: "unchanged" },
+    { type: "azure_ai_trace_data_source", trace_source: "renamed" },
+    { type: "azure_ai_trace_data_source_preview", trace_source: "renamed" },
+    { type: "csv", source: "renamed" },
+  ]) {
+    assert.deepEqual({ ...api.evalRunDataSourceUnionSerializer(item) }, item);
+    assert.deepEqual({ ...api.evalRunDataSourceUnionDeserializer(item) }, item);
+  }
+  assertModelTypes(
+    new Map([modelFile, barrelFile].map((file) => [file, planned.source.get(file)])),
+    path.resolve(fileURLToPath(new URL("../..", import.meta.url))),
+  );
+  const guardInputs = {
+    baseGenerated,
+    baseSource,
+    generated,
+    source: planned.source,
+    matches: planned.matches,
+    modelRenames: planned.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  // The rename carries the maintained export; it does not license dropping it.
+  const tampered = new Map(planned.source);
+  tampered.set("index.ts", tampered.get("index.ts").replace(/,\s*CsvEvalRunDataSource\b/, ""));
+  assert.notEqual(tampered.get("index.ts"), planned.source.get("index.ts"));
+  assert.ok(
+    validateCustomization({ ...guardInputs, source: tampered }).some(
+      (item) =>
+        item.file === "index.ts" &&
+        item.declaration === "EvalCsvRunDataSource" &&
+        /Lost maintained root export/.test(item.message),
+    ),
+  );
+});
+
+test("an unapproved discriminator-preserving model rename still fails closed", () => {
+  const baseGenerated = evaluationDataSources();
+  const generated = evaluationDataSources({ traces: "RenamedTracesEvalRunDataSource" });
+  const result = plan(baseGenerated, evaluationDataSources(), generated);
+  assert.equal(result.files.size, 0);
+  for (const declaration of [
+    "evalRunDataSourceUnionSerializer",
+    "evalRunDataSourceUnionDeserializer",
+  ])
+    assert.ok(
+      result.diagnostics.some(
+        (item) =>
+          item.declaration === declaration &&
+          item.member?.endsWith('["string","azure_ai_traces"]') &&
+          /Conflicting additions with no common baseline/.test(item.message),
+      ),
+      JSON.stringify(result.diagnostics, null, 2),
+    );
+  // Guard inputs cannot approve the rename either: the old root export is still lost.
+  assert.ok(
+    validateCustomization({
+      baseGenerated,
+      baseSource: evaluationDataSources(),
+      generated,
+      source: generated,
+      matches: [],
+      modelRenames: new Map([["TracesEvalRunDataSource", "RenamedTracesEvalRunDataSource"]]),
+    }).some(
+      (item) =>
+        item.declaration === "TracesEvalRunDataSource" &&
+        /Lost maintained root export/.test(item.message),
+    ),
+  );
+});
+
 for (const suffix of ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"]) {
   test(`rejects an emitted model rename when its customized ${suffix} cannot follow`, () => {
     const baseText = `
