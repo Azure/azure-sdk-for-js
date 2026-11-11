@@ -8817,7 +8817,7 @@ export interface PromptOptimizationConfiguration extends AgentOptimizationConfig
   /** Optimization type discriminator. */
   type: "prompt_optimization";
   /** Steering context for prompt optimization. Agent trace and skill reference context are supported only by skill optimization. Omitted when no context is supplied. */
-  context?: SteeringPromptOptimizationContext[];
+  context?: OptimizationContextUnion[];
 }
 
 export function promptOptimizationConfigurationSerializer(
@@ -8827,7 +8827,7 @@ export function promptOptimizationConfigurationSerializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : steeringPromptOptimizationContextArraySerializer(item["context"]),
+      : optimizationContextUnionArraySerializer(item["context"]),
   };
 }
 
@@ -8838,84 +8838,7 @@ export function promptOptimizationConfigurationDeserializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : steeringPromptOptimizationContextArrayDeserializer(item["context"]),
-  };
-}
-
-export function steeringPromptOptimizationContextArraySerializer(
-  result: Array<SteeringPromptOptimizationContext>,
-): any[] {
-  return result.map((item) => {
-    return steeringPromptOptimizationContextSerializer(item);
-  });
-}
-
-export function steeringPromptOptimizationContextArrayDeserializer(
-  result: Array<SteeringPromptOptimizationContext>,
-): any[] {
-  return result.map((item) => {
-    return steeringPromptOptimizationContextDeserializer(item);
-  });
-}
-
-/** Natural-language guidance for the desired optimization. */
-export interface SteeringPromptOptimizationContext extends OptimizationContext {
-  /** Optimization context type discriminator. */
-  type: "steering_prompt";
-  /** Developer guidance describing the desired changes. */
-  prompt: string;
-}
-
-export function steeringPromptOptimizationContextSerializer(
-  item: SteeringPromptOptimizationContext,
-): any {
-  return { type: item["type"], prompt: item["prompt"] };
-}
-
-export function steeringPromptOptimizationContextDeserializer(
-  item: any,
-): SteeringPromptOptimizationContext {
-  return {
-    type: item["type"],
-    prompt: item["prompt"],
-  };
-}
-
-/** Configuration for generating a single skill candidate from trace evidence. The candidate can contain zero or more skill outcomes; no new learnings can produce an empty skill_results array without publishing versions. Optional evaluation reuses a non-generated baseline candidate. */
-export interface SkillOptimizationConfiguration extends AgentOptimizationConfigurationBase {
-  /** Skill optimization discriminator. */
-  type: "skill_optimization";
-  /** At least one context item containing trace evidence, optional steering guidance, and optional exact baseline references. Supply agent_traces context; use separate steering_prompt and skill_references items for guidance and baselines. For skill optimization only, a steering prompt must be non-empty and at most 100 KiB (102,400 UTF-8 bytes), enforced by the service; oversized prompts are rejected rather than truncated. */
-  context: OptimizationContextUnion[];
-  /** Fraction of generated question groups assigned to learning, strictly greater than 0 and less than 1. Defaults to 0.7 when omitted. Normalized questions and shared source traces stay in the same group, and every generated row belongs to learning or validation. The service rejects splits that leave either side empty. Caller-provided validation data is not split. */
-  training_split_ratio?: number;
-  /** Optional historical training-trace grading and before/after comparison for supported registered targets. Requires target_configuration, evaluation_model, and one existing evaluator or evaluator_generation_configuration. Training verdicts can inform learning; separate before/after scores report impact and do not drive candidate search, selection, or publication. Omitted to skip new training grading and comparison. */
-  evaluation_configuration?: SkillOptimizationEvaluationConfiguration;
-}
-
-export function skillOptimizationConfigurationSerializer(
-  item: SkillOptimizationConfiguration,
-): any {
-  return {
-    type: item["type"],
-    context: optimizationContextUnionArraySerializer(item["context"]),
-    training_split_ratio: item["training_split_ratio"],
-    evaluation_configuration: !item["evaluation_configuration"]
-      ? item["evaluation_configuration"]
-      : skillOptimizationEvaluationConfigurationSerializer(item["evaluation_configuration"]),
-  };
-}
-
-export function skillOptimizationConfigurationDeserializer(
-  item: any,
-): SkillOptimizationConfiguration {
-  return {
-    type: item["type"],
-    context: optimizationContextUnionArrayDeserializer(item["context"]),
-    training_split_ratio: item["training_split_ratio"],
-    evaluation_configuration: !item["evaluation_configuration"]
-      ? item["evaluation_configuration"]
-      : skillOptimizationEvaluationConfigurationDeserializer(item["evaluation_configuration"]),
+      : optimizationContextUnionArrayDeserializer(item["context"]),
   };
 }
 
@@ -8999,6 +8922,29 @@ export function optimizationContextUnionDeserializer(item: any): OptimizationCon
 
 /** Type of context supplied to an optimization workflow. */
 export type OptimizationContextType = "steering_prompt" | "agent_traces" | "skill_references";
+
+/** Natural-language guidance for the desired optimization. */
+export interface SteeringPromptOptimizationContext extends OptimizationContext {
+  /** Optimization context type discriminator. */
+  type: "steering_prompt";
+  /** Developer guidance describing the desired changes. */
+  prompt: string;
+}
+
+export function steeringPromptOptimizationContextSerializer(
+  item: SteeringPromptOptimizationContext,
+): any {
+  return { type: item["type"], prompt: item["prompt"] };
+}
+
+export function steeringPromptOptimizationContextDeserializer(
+  item: any,
+): SteeringPromptOptimizationContext {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+  };
+}
 
 /** Explicit exact-version baselines for skill optimization. */
 export interface SkillReferencesOptimizationContext extends OptimizationContext {
@@ -9374,6 +9320,44 @@ export function agentOptimizationTraceIdsTraceWindowDeserializer(
       return p;
     }),
     lookback_hours: item["lookback_hours"],
+  };
+}
+
+/** Configuration for generating a single skill candidate from trace evidence. The candidate can contain zero or more skill outcomes; no new learnings can produce an empty skill_results array without publishing versions. Optional evaluation reuses a non-generated baseline candidate. */
+export interface SkillOptimizationConfiguration extends AgentOptimizationConfigurationBase {
+  /** Skill optimization discriminator. */
+  type: "skill_optimization";
+  /** At least one context item containing trace evidence, optional steering guidance, and optional exact baseline references. Supply agent_traces context; use separate steering_prompt and skill_references items for guidance and baselines. For skill optimization only, a steering prompt must be non-empty and at most 100 KiB (102,400 UTF-8 bytes), enforced by the service; oversized prompts are rejected rather than truncated. */
+  context: OptimizationContextUnion[];
+  /** Fraction of generated question groups assigned to learning, strictly greater than 0 and less than 1. Defaults to 0.7 when omitted. Normalized questions and shared source traces stay in the same group, and every generated row belongs to learning or validation. The service rejects splits that leave either side empty. Caller-provided validation data is not split. */
+  training_split_ratio?: number;
+  /** Optional historical training-trace grading and before/after comparison for supported registered targets. Requires target_configuration, evaluation_model, and one existing evaluator or evaluator_generation_configuration. Training verdicts can inform learning; separate before/after scores report impact and do not drive candidate search, selection, or publication. Omitted to skip new training grading and comparison. */
+  evaluation_configuration?: SkillOptimizationEvaluationConfiguration;
+}
+
+export function skillOptimizationConfigurationSerializer(
+  item: SkillOptimizationConfiguration,
+): any {
+  return {
+    type: item["type"],
+    context: optimizationContextUnionArraySerializer(item["context"]),
+    training_split_ratio: item["training_split_ratio"],
+    evaluation_configuration: !item["evaluation_configuration"]
+      ? item["evaluation_configuration"]
+      : skillOptimizationEvaluationConfigurationSerializer(item["evaluation_configuration"]),
+  };
+}
+
+export function skillOptimizationConfigurationDeserializer(
+  item: any,
+): SkillOptimizationConfiguration {
+  return {
+    type: item["type"],
+    context: optimizationContextUnionArrayDeserializer(item["context"]),
+    training_split_ratio: item["training_split_ratio"],
+    evaluation_configuration: !item["evaluation_configuration"]
+      ? item["evaluation_configuration"]
+      : skillOptimizationEvaluationConfigurationDeserializer(item["evaluation_configuration"]),
   };
 }
 
