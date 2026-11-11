@@ -21,7 +21,7 @@ import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
-import type { VoiceAgentRealtimeClientOptions } from "../../realtime/voiceAgentRealtimeClient.js";
+import type { VoiceAgentRealtimeClient } from "../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClient.js";
 import type { BetaSkillsOperations } from "./skills/index.js";
@@ -45,7 +45,7 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  /** Operations for managing voice agent conversations and telephony. */
+  /** Preview Live connections, stored Live conversations, and campaigns. */
   voiceAgents: BetaVoiceAgentsOperations;
   /** Operations for managing preview skills and their versions. */
   skills: BetaSkillsOperations;
@@ -55,7 +55,7 @@ export function _getBetaOperations(
   context: AIProjectContext,
   credential: TokenCredential,
   endpoint: string,
-  realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  getRealtimeClient: () => VoiceAgentRealtimeClient,
   tracingConfig?: ResolvedTracingConfig,
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaOperations {
@@ -76,12 +76,12 @@ export function _getBetaOperations(
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    /** Operations for managing voice agent conversations and telephony. */
+    /** Preview Live connections, stored Live conversations, and campaigns. */
     voiceAgents: _getBetaVoiceAgentsOperations(
       context,
       credential,
       endpoint,
-      realtimeOptions,
+      getRealtimeClient,
       tracingConfig,
       liveOptions,
     ),

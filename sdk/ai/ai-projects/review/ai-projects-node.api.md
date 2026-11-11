@@ -2219,6 +2219,7 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 export interface BetaVoiceAgentsOperations {
     live: VoiceAgentLiveClient;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
+    // @deprecated
     realtime: VoiceAgentRealtimeClient;
     telephony: BetaVoiceAgentsTelephonyOperations;
 }
@@ -2272,6 +2273,8 @@ export interface BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams exte
 export interface BetaVoiceAgentsTelephonyOperations {
     cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
     create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsTelephonyCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    // @deprecated
     deleteTelephony: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyGetOptionalParams) => Promise<TelephonyCampaign>;
     getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
@@ -9431,7 +9434,7 @@ export class VoiceAgentLiveClient {
 }
 
 // @public
-export interface VoiceAgentLiveClientConnectOptions extends Omit<VoiceAgentRealtimeClientConnectOptions, "transport" | "agentSessionId"> {
+export interface VoiceAgentLiveClientConnectOptions extends Omit<VoiceAgentRealtimeClientConnectOptions, "transport" | "agentSessionId" | "foundryFeatures"> {
     onEvent?: (event: VoiceAgentLiveEvent) => void;
     sessionTimeoutInMs?: number;
 }
@@ -9754,6 +9757,7 @@ export interface VoiceAgentRealtimeClientConnectOptions extends OperationOptions
     agentSessionId?: string;
     agentVersionOverride?: string;
     connectionTimeoutInMs?: number;
+    foundryFeatures?: "VoiceAgents=V1Preview";
     onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
     query?: Readonly<Record<string, string | number | boolean | undefined>>;
     store?: boolean;
@@ -10306,6 +10310,7 @@ export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
 // @public
 export interface VoiceAgentsOperations {
     conversations: VoiceAgentsConversationsOperations;
+    realtime: VoiceAgentRealtimeClient;
     telephony: VoiceAgentsTelephonyOperations;
 }
 

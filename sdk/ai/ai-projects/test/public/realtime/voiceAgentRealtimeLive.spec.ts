@@ -14,7 +14,6 @@ import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 
 const isLive = isLiveMode();
 const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
-const preview = "VoiceAgents=V1Preview" as const;
 
 describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", () => {
   let recorder: Recorder;
@@ -41,7 +40,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
       if (!isRestError(error) || error.statusCode !== 404) {
         throw error;
       }
-      await client.agents.create(agentName, definition, { foundryFeatures: preview });
+      await client.agents.create(agentName, definition);
       createdAgents.push(agentName);
     }
   }
@@ -58,7 +57,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    const connection = await client.voiceAgents.realtime.connect(agentName);
     let text = "";
     let toolCalls = 0;
     let pendingToolOutputs = 0;
@@ -127,7 +126,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    const connection = await client.voiceAgents.realtime.connect(agentName);
     let toolCalls = 0;
     let pendingToolOutputs = 0;
 
@@ -217,7 +216,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    const connection = await client.voiceAgents.realtime.connect(agentName);
     let text = "";
     let textDeltaCount = 0;
 
@@ -261,7 +260,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    const connection = await client.voiceAgents.realtime.connect(agentName);
 
     try {
       await connection.configureSession({
@@ -297,7 +296,7 @@ describe.runIf(isLive)("AIProjectClient Voice Agent realtime streaming (live)", 
 
     await ensureAgentExists(agentName, definition);
 
-    const connection = await client.beta.voiceAgents.realtime.connect(agentName);
+    const connection = await client.voiceAgents.realtime.connect(agentName);
 
     try {
       // Initial configuration

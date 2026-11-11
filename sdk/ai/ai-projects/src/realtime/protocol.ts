@@ -373,6 +373,17 @@ function serializeInterimResponse(
 }
 
 function normalizeSessionResponseUnions(session: models.VoiceAgentSessionResponseConfig): void {
+  // The generated event deserializers leave this session alias in its wire representation.
+  const expiresAt: unknown = session.expires_at;
+  if (typeof expiresAt === "number") {
+    const expiration = new Date(expiresAt * 1000);
+    if (Number.isNaN(expiration.getTime())) {
+      throw new VoiceAgentProtocolError(
+        'The service returned an invalid session "expires_at" timestamp.',
+      );
+    }
+    session.expires_at = expiration;
+  }
   const turnDetection = session.audio?.input?.turn_detection;
   if (turnDetection) {
     session.audio!.input!.turn_detection = deserializeTurnDetection(turnDetection);

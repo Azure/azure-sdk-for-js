@@ -144,7 +144,7 @@ function client(tracingOptions: GenAITracingOptions | undefined = enabled): {
   const realtime = new AIProjectClient(endpoint, credential, {
     realtimeOptions: { webSocketFactory: factory },
     tracingOptions,
-  }).beta.voiceAgents.realtime;
+  }).voiceAgents.realtime;
   return { realtime, transport };
 }
 
@@ -1030,7 +1030,7 @@ describe("Voice Agents tracing", () => {
     const realtime = new AIProjectClient(endpoint, badCredential, {
       tracingOptions: enabled,
       realtimeOptions: { webSocketFactory: { create: () => transport } },
-    }).beta.voiceAgents.realtime;
+    }).voiceAgents.realtime;
     await expect(realtime.connect("voice")).rejects.toMatchObject({ code: "authenticationFailed" });
     expect(spans.every((value) => value.endCount === 1)).toBe(true);
     expect(JSON.stringify(spans)).not.toContain("PRIVATE");

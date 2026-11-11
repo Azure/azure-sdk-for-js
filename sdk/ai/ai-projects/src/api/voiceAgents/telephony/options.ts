@@ -11,19 +11,19 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyCancelCallJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when cancelling a SIP call job. Other providers do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyGetCallJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Reading a call job, including a SIP job, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyDeleteCallJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when deleting a SIP call job. Other providers do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
@@ -59,43 +59,43 @@ export interface VoiceAgentsTelephonyListCallJobsOptionalParams extends Operatio
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyCreateCallJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only for SIP calls, including when a SIP connection uses phone-number addresses. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyReplaceTransferTargetsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when modifying SIP telephony transfer targets or configuring SIP destinations. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyGetTransferTargetsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Reading transfer targets, including SIP destinations, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyEndCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when ending a SIP call. Other providers do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyTransferCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when transferring a SIP call or using a SIP transfer destination. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyGetCallOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Reading a call, including a SIP call, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyListCallsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Listing calls, including SIP calls, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
   /** Filters calls by provider. */
   provider?: TelephonyProvider;
@@ -131,25 +131,25 @@ export interface VoiceAgentsTelephonyListCallsOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyDeleteBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when deleting a SIP binding. Twilio and Teams Phone bindings do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyUpdateBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when updating a SIP binding. Twilio and Teams Phone bindings do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyGetBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Reading a binding, including a SIP binding, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
 }
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyListBindingsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Optional preview opt-in. Listing bindings, including SIP bindings, does not require this flag. */
   foundryFeatures?: "VoiceAgents=V1Preview";
   /** Filters bindings by provider. */
   provider?: TelephonyProvider;
@@ -179,7 +179,7 @@ export interface VoiceAgentsTelephonyListBindingsOptionalParams extends Operatio
 
 /** Optional parameters. */
 export interface VoiceAgentsTelephonyCreateBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /** Required only when creating a SIP binding. Twilio and Teams Phone bindings do not require this opt-in. */
   foundryFeatures?: "VoiceAgents=V1Preview";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   repeatabilityRequestId?: string;

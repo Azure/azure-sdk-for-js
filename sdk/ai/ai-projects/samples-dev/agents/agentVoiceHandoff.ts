@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Route a Realtime voice-agent turn to an inline specialist and observe the completed handoff.
+ * @summary Route a Realtime voice-agent turn to an inline specialist using preview handoff and observe its completion.
  * @azsdk-weight 50
  */
 
@@ -18,9 +18,6 @@ export async function main(): Promise<void> {
   const model = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const agentName = `voice-handoff-${randomUUID().slice(0, 8)}`;
-  const options = {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  };
   console.log(`Creating voice agent ${agentName}...`);
   const agent = await project.agents.create(
     agentName,
@@ -76,7 +73,7 @@ export async function main(): Promise<void> {
       },
     },
     {
-      ...options,
+      foundryFeatures: "VoiceAgents=V1Preview",
       abortSignal: AbortSignal.timeout(60_000),
       onResponse: (response) => console.log(`Agent creation HTTP status: ${response.status}`),
     },
@@ -89,7 +86,9 @@ export async function main(): Promise<void> {
     ) {
       throw new Error("The saved agent did not retain the inline handoff configuration.");
     }
-    const connection = await project.beta.voiceAgents.realtime.connect(agent.name, {
+    const connection = await project.voiceAgents.realtime.connect(agent.name, {
+      // Inline handoff is preview even though ordinary Realtime sessions are GA.
+      foundryFeatures: "VoiceAgents=V1Preview",
       store: false,
     });
     let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -109,9 +108,7 @@ export async function main(): Promise<void> {
     }
   } finally {
     console.log(`Deleting sample agent ${agent.name}...`);
-    await project.agents.delete(agent.name, {
-      requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-    });
+    await project.agents.delete(agent.name);
   }
 }
 

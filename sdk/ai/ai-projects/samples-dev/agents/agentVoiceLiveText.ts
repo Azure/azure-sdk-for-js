@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send text to GPT Live and print its spoken reply as captions.
+ * @summary Send text to GPT Live (preview) and print its spoken reply as captions.
  * @azsdk-weight 100
  */
 
@@ -44,6 +44,8 @@ export async function main(): Promise<void> {
     terminal.once("line", closeInput);
     terminal.once("SIGINT", closeInput);
     process.once("SIGINT", closeInput);
+    const instructionsEventId = randomUUID();
+    let instructionsAcknowledged = false;
     console.log("Captions stream below. Press Enter after the reply, or Ctrl+C, to stop.");
     console.log("Live remains billable until stopped; this sample does not play audio.");
 
@@ -51,6 +53,12 @@ export async function main(): Promise<void> {
       for await (const event of connection) {
         if (event.type === "error" || event.type === "transport.failed") {
           throw new Error(`Live service error ${event.error.code}: ${event.error.message}`);
+        }
+        if (
+          event.type === "session.instructions.appended" &&
+          event.client_event_id === instructionsEventId
+        ) {
+          instructionsAcknowledged = true;
         }
         if (event.type === "session.output_transcript.delta") process.stdout.write(event.delta);
       }
@@ -75,11 +83,24 @@ export async function main(): Promise<void> {
       throw error;
     });
     const greet = (async () => {
+      await connection.appendInstructions(
+        "Speak the next commentary exactly as written. Do not greet or add any other speech.",
+        { eventId: instructionsEventId },
+      );
+      const deadline = Date.now() + 10_000;
+      while (!instructionsAcknowledged) {
+        if (stop.signal.aborted) return;
+        if (Date.now() >= deadline) {
+          throw new Error("Timed out waiting for the session instructions acknowledgement.");
+        }
+        await delay(25);
+      }
+      if (stop.signal.aborted) return;
       await connection.appendCommentary("Hello from Microsoft Foundry GPT Live.");
       await finished;
     })();
     try {
-      await Promise.race([receive, send, greet]);
+      await Promise.race([receive, send, greet, finished]);
     } finally {
       stop.abort();
       terminal.close();
@@ -87,7 +108,7 @@ export async function main(): Promise<void> {
       try {
         await connection.close();
       } finally {
-        await Promise.all([receive, send]);
+        await Promise.all([receive, send, greet]);
       }
     }
   } finally {

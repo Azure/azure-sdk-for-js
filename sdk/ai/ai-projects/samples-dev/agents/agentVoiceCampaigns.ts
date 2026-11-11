@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Read voice campaign preparation, validation errors, and outbound call-job status without placing calls.
+ * @summary Read preview voice campaign preparation and validation errors, plus GA outbound call-job status, without placing calls.
  * @azsdk-weight 50
  */
 

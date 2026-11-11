@@ -136,7 +136,7 @@ describe("snippets", function () {
       },
     });
 
-    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
     try {
       await connection.sendText("Hello.");
       for await (const event of connection) {
@@ -247,7 +247,8 @@ describe("snippets", function () {
   });
 
   it("voiceAgent", async function () {
-    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    // Ordinary Realtime sessions are GA and do not require a preview opt-in.
+    const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
     try {
       await connection.sendText("Hello. Please introduce yourself briefly.");
       for await (const event of connection) {
@@ -270,11 +271,20 @@ describe("snippets", function () {
     }
   });
 
+  it("ReadmeSampleVoiceAgentPreviewOptIn", async function () {
+    const connection = await project.voiceAgents.realtime.connect("<inline-handoff agent name>", {
+      foundryFeatures: "VoiceAgents=V1Preview",
+    });
+    await connection.close();
+  });
+
   it("ReadmeSampleVoiceAgentQuery", async function () {
-    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
+    const connection = await project.voiceAgents.realtime.connect("my-voice-agent", {
       query: {
         custom_key: "custom value",
         custom_flag: true,
+        // Explicit URL transport: only use non-sensitive prompt variables.
+        structured_inputs: JSON.stringify({ persona: "guide" }),
       },
     });
     await connection.close();
@@ -1109,8 +1119,8 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
   });
 
-  it("beta-agents", async function () {
-    const agentName = "MyBetaAgent";
+  it("agent-sessions", async function () {
+    const agentName = "MySessionAgent";
 
     // Create a session for the agent
     const versionIndicator: VersionRefIndicator = {
@@ -1122,7 +1132,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
     // Upload a file to the session sandbox
     const filePath = "/sandbox/hello.txt";
-    const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+    const fileContent = new TextEncoder().encode("Hello from the agent sessions sample!");
     const uploadResult = await project.agents.uploadSessionFile(
       agentName,
       session.agent_session_id,

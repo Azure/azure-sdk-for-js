@@ -4,25 +4,24 @@
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { BetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
-import type {
-  VoiceAgentRealtimeClient,
-  VoiceAgentRealtimeClientOptions,
-} from "../../../realtime/voiceAgentRealtimeClient.js";
-import { createVoiceAgentRealtimeClient } from "../../../realtime/voiceAgentRealtimeClient.js";
+import { _getBetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
+import type { VoiceAgentRealtimeClient } from "../../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../../tracing/configuration.js";
 import type { BetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { _getBetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { VoiceAgentLiveClient } from "../../../live/voiceAgentLiveClient.js";
 import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveClient.js";
-import { _getBetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 
-/** Preview voice agent Realtime/Live connections, GPT Live conversations, and telephony campaigns. */
+/** Preview GPT Live connections, stored Live conversations, and campaigns, with a legacy Realtime alias. */
 export interface BetaVoiceAgentsOperations {
   /** Operations for managing preview outbound telephony campaigns. */
   telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
-  /** Realtime voice-agent connections. */
+  /**
+   * Compatibility alias for the GA Realtime client.
+   * @deprecated Use `project.voiceAgents.realtime` instead.
+   */
   realtime: VoiceAgentRealtimeClient;
   /** Native GPT Live voice-agent connections. */
   live: VoiceAgentLiveClient;
@@ -32,17 +31,14 @@ export function _getBetaVoiceAgentsOperations(
   context: AIProjectContext,
   credential: TokenCredential,
   endpoint: string,
-  realtimeOptions?: VoiceAgentRealtimeClientOptions,
+  getRealtimeClient: () => VoiceAgentRealtimeClient,
   tracingConfig?: ResolvedTracingConfig,
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaVoiceAgentsOperations {
   return {
     telephony: _getBetaVoiceAgentsTelephonyOperations(context),
     liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context, tracingConfig),
-    // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
-    // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
-    // insecure local endpoint for the REST surface and never touch realtime connections.
-    realtime: createVoiceAgentRealtimeClient(endpoint, credential, realtimeOptions, tracingConfig),
+    realtime: getRealtimeClient(),
     live: new VoiceAgentLiveClient(endpoint, credential, liveOptions),
   };
 }

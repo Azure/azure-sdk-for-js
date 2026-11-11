@@ -40,6 +40,7 @@ import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
+import { withWholeSecondCallJobSchedules } from "./telephony/callJobSchedule.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -75,6 +76,8 @@ function resolveRealtimeOptions(
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {AgentInsightMonitorsOperations} agentInsightMonitors - The operation groups for Agent Insight monitors
+ * @property {VoiceAgentsOperations} voiceAgents - Realtime voice connections, telephony, and stored Realtime conversations
  * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
  * @property {EvaluatorsOperations} evaluators - The operation groups for evaluators
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
@@ -84,7 +87,7 @@ function resolveRealtimeOptions(
  * - Insights
  * - Schedules
  * - Red Teams
- * - agents
+ * - Voice Agents preview features
  * - skills
  * - routines
  * - models
@@ -96,7 +99,7 @@ export class AIProjectClient {
   /** The operation groups for agentInsightMonitors */
   public readonly agentInsightMonitors: AgentInsightMonitorsOperations;
 
-  /** The operation groups for voiceAgents */
+  /** Realtime voice connections, telephony, and stored Realtime conversations. */
   public readonly voiceAgents: VoiceAgentsOperations;
 
   private _cognitiveScopeClient: AIProjectContext;
@@ -140,11 +143,22 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.beta = _getBetaOperations(
+    const voiceAgents = _getVoiceAgentsOperations(
       this._cognitiveScopeClient,
       credential,
       options.endpoint ?? endpoint,
       resolveRealtimeOptions(options, prefixFromOptions),
+      this._tracingConfig,
+    );
+    this.voiceAgents = {
+      ...voiceAgents,
+      telephony: withWholeSecondCallJobSchedules(voiceAgents.telephony),
+    };
+    this.beta = _getBetaOperations(
+      this._cognitiveScopeClient,
+      credential,
+      options.endpoint ?? endpoint,
+      () => this.voiceAgents.realtime,
       this._tracingConfig,
       {
         ...options.liveOptions,
@@ -154,7 +168,6 @@ export class AIProjectClient {
       },
     );
     this.telemetry = _getTelemetryOperations(this.connections);
-    this.voiceAgents = _getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig);
     this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._cognitiveScopeClient);
   }
 

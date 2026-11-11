@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to perform session and session-file operations
- * on beta agents using the AIProjectClient.
+ * This sample demonstrates hosted agent session and session-file operations
+ * using the AIProjectClient.
  *
- * Beta agent sessions are currently a preview feature. In the JS SDK, you
- * access these operations via `project.beta.agents`.
+ * Access these operations through `project.agents` on a hosted deployment
+ * that supports sessions.
  *
- * @summary Demonstrates session CRUD and session file operations using the beta agents API.
+ * @summary Demonstrates hosted agent session CRUD and session file operations through project.agents.
  */
 
 import type {
@@ -27,7 +27,7 @@ const image = process.env["FOUNDRY_AGENT_CONTAINER_IMAGE"] || "<agent image>";
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const agentName = "MyBetaAgentsSampleWithHostedAgent13";
+  const agentName = "MyAgentSessionsSampleWithHostedAgent";
 
   // ── Create a hosted agent version ─────────────────────────────────────
 
@@ -90,7 +90,7 @@ export async function main(): Promise<void> {
 
   // Upload a file to the session sandbox
   const filePath = "/sandbox/hello.txt";
-  const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+  const fileContent = new TextEncoder().encode("Hello from the agent sessions sample!");
   const uploadResult = await project.agents.uploadSessionFile(
     agentName,
     session.agent_session_id,

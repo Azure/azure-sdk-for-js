@@ -107,6 +107,28 @@ function createClient(...responses: MockResponse[]): {
   };
 }
 
+describe("client operation group integration", () => {
+  it("keeps root Agent Insight monitors alongside the shared Realtime client", async () => {
+    const { client, requests, getToken } = createClient({
+      body: { data: [], has_more: false },
+    });
+
+    expect(client.beta).not.toHaveProperty("agentInsightMonitors");
+    expect(client.beta.voiceAgents.realtime).toBe(client.voiceAgents.realtime);
+    await expect(client.agentInsightMonitors.list().byPage().next()).resolves.toMatchObject({
+      done: false,
+      value: [],
+    });
+
+    expect(requests).toHaveLength(1);
+    const url = new URL(requests[0].url);
+    expect(url.pathname).toBe("/api/projects/test-project/agent_insight_monitors");
+    expect(url.searchParams.get("api-version")).toBe("v1");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+    expect(getToken.mock.calls[0]?.[0]).toEqual(["https://ai.azure.com/.default"]);
+  });
+});
+
 describe("gateway HTTP error preservation", () => {
   it.each([
     { status: 401, body: { statusCode: 401, message: "Unauthorized." } },
@@ -283,7 +305,7 @@ describe("campaign final resource resolution", () => {
       },
       { body: { id: operationId, kind: "delete", status: "succeeded" } },
     );
-    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
+    const poller = client.beta.voiceAgents.telephony.deleteCampaign(
       "voice agent",
       "campaign",
       '"campaign-etag"',
@@ -373,7 +395,7 @@ describe("campaign management REST contracts", () => {
       { status: 202, headers: { "operation-location": monitor, "retry-after": "0" } },
       { body: operation },
     );
-    const poller = client.beta.voiceAgents.telephony.deleteTelephony(
+    const poller = client.beta.voiceAgents.telephony.deleteCampaign(
       "voice agent",
       "campaign/name",
       '"campaign-etag"',
@@ -405,7 +427,7 @@ describe("campaign management REST contracts", () => {
     const { client, requests } = createClient({ status: 204 });
     await expect(
       client.beta.voiceAgents.telephony
-        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+        .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
           updateIntervalInMs: 0,
         })
         .pollUntilDone(),
@@ -427,7 +449,7 @@ describe("campaign management REST contracts", () => {
     );
     await expect(
       client.beta.voiceAgents.telephony
-        .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+        .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
           updateIntervalInMs: 0,
         })
         .pollUntilDone(),
@@ -470,7 +492,7 @@ describe("campaign management REST contracts", () => {
       },
     );
     const completion = client.beta.voiceAgents.telephony
-      .deleteTelephony("voice agent", "campaign/name", '"campaign-etag"', {
+      .deleteCampaign("voice agent", "campaign/name", '"campaign-etag"', {
         abortSignal: controller.signal,
         updateIntervalInMs: 0,
       })
@@ -608,7 +630,7 @@ describe("voice post-emitter integration", () => {
     };
     await expect(
       client.agents.createVersion("voice-agent", definition, {
-        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
+        foundryFeatures: "VoiceAgents=V1Preview",
       }),
     ).rejects.toMatchObject({
       statusCode: 400,
@@ -652,9 +674,8 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.liveConversations.getAudioItem).toBeTypeOf("function");
     expect(client.voiceAgents.conversations.getGeneratedAudioItem).toBeTypeOf("function");
     expect(client.beta).not.toHaveProperty("voiceAgentWebSocket");
-    // Hand-written Voice Agents realtime WebSocket client (not part of this regen); it
-    // intentionally lives alongside the generated voiceAgents operations.
-    expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
+    // The native GA connection client shares the root Voice Agents operation group.
+    expect(client.voiceAgents.realtime.connect).toBeTypeOf("function");
   });
 
   it("preserves the ErrorModel shape for failed GA calls", async () => {
@@ -918,6 +939,17 @@ describe("voice post-emitter integration", () => {
         get: (client: AIProjectClient) =>
           client.beta.voiceAgents.liveConversations.getAudio("voice agent", conversation.id),
       },
+      {
+        name: "captured Live item",
+        resource: `${livePath}/items/item%2Fid/audio`,
+        body: audioItem,
+        get: (client: AIProjectClient) =>
+          client.beta.voiceAgents.liveConversations.getAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+          ),
+      },
     ])(
       "preserves BYOS metadata for $name without fetching customer storage",
       async ({ resource, body, get }) => {
@@ -962,6 +994,27 @@ describe("voice post-emitter integration", () => {
             options,
           ),
       },
+      {
+        name: "merged Live audio",
+        resource: `${livePath}/audio/content`,
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.liveConversations.downloadAudio(
+            "voice agent",
+            conversation.id,
+            options,
+          ),
+      },
+      {
+        name: "captured Live item audio",
+        resource: `${livePath}/items/item%2Fid/audio/content`,
+        get: (client: AIProjectClient, options: OperationOptions) =>
+          client.beta.voiceAgents.liveConversations.downloadAudioItem(
+            "voice agent",
+            conversation.id,
+            item.id,
+            options,
+          ),
+      },
     ];
 
     it.each(downloads)(
@@ -991,7 +1044,9 @@ describe("voice post-emitter integration", () => {
         expect(new URL(requests[0].url).pathname).toBe(resource);
         expect(new URL(requests[0].url).searchParams.get("api-version")).toBe("v1");
         expect(requests[0].headers.get("accept")).toBe("audio/wav");
-        expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+        expect(requests[0].headers.get("foundry-features")).toBe(
+          resource.startsWith(livePath) ? "VoiceAgents=V1Preview" : undefined,
+        );
         expect(requests[0].headers.get("x-test-header")).toBe("retained");
         expect(requests[0].abortSignal).toBe(controller.signal);
       },
@@ -1160,6 +1215,18 @@ describe("voice post-emitter integration", () => {
         expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
       }
     });
+
+    it("deletes stored Live data with the required preview flag and an empty response", async () => {
+      const { client, requests } = createClient({ status: 204 });
+      await expect(
+        client.beta.voiceAgents.liveConversations.delete("voice agent", conversation.id),
+      ).resolves.toBeUndefined();
+      expect(requests).toHaveLength(1);
+      expect(requests[0].method).toBe("DELETE");
+      expect(new URL(requests[0].url).pathname).toBe(livePath);
+      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].body).toBeUndefined();
+    });
   });
 
   it.each([
@@ -1201,21 +1268,25 @@ describe("voice post-emitter integration", () => {
   const listCases = [
     {
       name: "conversations",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.conversations.list("agent", options),
     },
     {
       name: "responses",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.conversations.listResponses("agent", "conversation", options),
     },
     {
       name: "items",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.conversations.listItems("agent", "conversation", options),
     },
     {
       name: "response items",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.conversations.listResponseItems(
           "agent",
@@ -1226,76 +1297,106 @@ describe("voice post-emitter integration", () => {
     },
     {
       name: "telephony bindings",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.telephony.listBindings("agent", options),
     },
     {
       name: "telephony calls",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.telephony.listCalls("agent", options),
     },
     {
       name: "telephony call jobs",
+      previewRequired: false,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.voiceAgents.telephony.listCallJobs("agent", options),
     },
     {
       name: "campaigns",
+      previewRequired: true,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.list("agent", options),
     },
     {
       name: "campaign validation errors",
+      previewRequired: true,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.telephony.listValidationErrors("agent", "campaign", options),
     },
     {
       name: "Live conversations",
+      previewRequired: true,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.liveConversations.list("agent", options),
     },
     {
       name: "Live conversation items",
+      previewRequired: true,
       list: (client: AIProjectClient, options: VoiceAgentsConversationsListOptionalParams) =>
         client.beta.voiceAgents.liveConversations.listItems("agent", "conversation", options),
     },
   ];
 
-  it.each(listCases)("retains cursor paging and request options for $name", async ({ list }) => {
-    const { client, requests } = createClient(
-      { body: { data: [], last_id: "cursor-1", has_more: true } },
-      { body: { data: [], last_id: "cursor-2", has_more: false } },
-    );
-    const abortController = new AbortController();
-    const onResponse = vi.fn();
-    const pages = list(client, {
-      limit: 2,
-      order: "asc",
-      abortSignal: abortController.signal,
-      onResponse,
-      requestOptions: {
-        timeout: 1234,
-        headers: { "foundry-features": "VoiceAgents=V1Preview", "x-custom": "retained" },
+  for (const explicitPreview of [false, true]) {
+    it.each(listCases)(
+      `retains scoped ${explicitPreview ? "explicit" : "default"} flags and cursor request options for $name`,
+      async ({ list, previewRequired }) => {
+        const { client, requests } = createClient(
+          { body: { data: [], last_id: "cursor-1", has_more: true } },
+          { body: { data: [], last_id: "cursor-2", has_more: false } },
+          { body: { data: [], last_id: "cursor-1", has_more: true } },
+          { body: { data: [], last_id: "cursor-2", has_more: false } },
+        );
+        const abortController = new AbortController();
+        const onResponse = vi.fn();
+        const listOptions: VoiceAgentsConversationsListOptionalParams = {
+          limit: 2,
+          order: "asc",
+          abortSignal: abortController.signal,
+          onResponse,
+          requestOptions: {
+            timeout: 1234,
+            headers: {
+              ...(explicitPreview ? { "foundry-features": "VoiceAgents=V1Preview" } : {}),
+              "x-custom": "retained",
+            },
+          },
+        };
+        const pages = list(client, listOptions).byPage();
+        const first = await pages.next();
+        expect(first.value?.continuationToken).toContain("after=cursor-1");
+        await pages.next();
+        expect((await pages.next()).done).toBe(true);
+        const firstPage = await list(client, listOptions).byPage().next();
+        expect(firstPage.value?.continuationToken).toContain("after=cursor-1");
+        const resumed = list(client, listOptions).byPage({
+          continuationToken: firstPage.value?.continuationToken,
+        });
+        expect((await resumed.next()).done).toBe(false);
+        expect((await resumed.next()).done).toBe(true);
+        expect(requests).toHaveLength(4);
+        const nextUrl = new URL(requests[1].url);
+        expect(nextUrl.searchParams.get("after")).toBe("cursor-1");
+        expect(nextUrl.searchParams.get("limit")).toBe("2");
+        expect(nextUrl.searchParams.get("order")).toBe("asc");
+        expect(nextUrl.searchParams.get("api-version")).toBe("v1");
+        for (const [index, request] of requests.entries()) {
+          expect(new URL(request.url).searchParams.get("after")).toBe(
+            index % 2 ? "cursor-1" : null,
+          );
+          expect(request.abortSignal).toBe(abortController.signal);
+          expect(request.timeout).toBe(1234);
+          expect(request.headers.get("foundry-features")).toBe(
+            explicitPreview || previewRequired ? "VoiceAgents=V1Preview" : undefined,
+          );
+          expect(request.headers.get("x-custom")).toBe("retained");
+        }
+        expect(onResponse).toHaveBeenCalledTimes(4);
       },
-    }).byPage();
-    const first = await pages.next();
-    expect(first.value?.continuationToken).toContain("after=cursor-1");
-    await pages.next();
-    expect((await pages.next()).done).toBe(true);
-    expect(requests).toHaveLength(2);
-    const nextUrl = new URL(requests[1].url);
-    expect(nextUrl.searchParams.get("after")).toBe("cursor-1");
-    expect(nextUrl.searchParams.get("limit")).toBe("2");
-    expect(nextUrl.searchParams.get("order")).toBe("asc");
-    expect(nextUrl.searchParams.get("api-version")).toBe("v1");
-    for (const request of requests) {
-      expect(request.abortSignal).toBe(abortController.signal);
-      expect(request.timeout).toBe(1234);
-      expect(request.headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
-      expect(request.headers.get("x-custom")).toBe("retained");
-    }
-    expect(onResponse).toHaveBeenCalledTimes(2);
-  });
+    );
+  }
 
   it("wires campaigns separately from GA telephony without restoring legacy APIs", () => {
     const { client, requests } = createClient();
@@ -1309,7 +1410,6 @@ describe("voice post-emitter integration", () => {
       "pauseCampaign",
       "resumeCampaign",
       "cancelCampaign",
-      "deleteCampaign",
     ]) {
       expect(client.beta.voiceAgents.telephony).not.toHaveProperty(name);
     }
@@ -1346,11 +1446,18 @@ describe("voice post-emitter integration", () => {
     expect(client.beta.voiceAgents.telephony.cancel).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.listValidationErrors).toBeTypeOf("function");
     expect(client.beta.voiceAgents.telephony.getOperation).toBeTypeOf("function");
-    expect(client.beta.voiceAgents.telephony.deleteTelephony).toBeTypeOf("function");
+    expect(client.beta.voiceAgents.telephony.deleteCampaign).toBeTypeOf("function");
     expect(client.beta.voiceAgents.liveConversations.get).toBeTypeOf("function");
     expect(client.beta.voiceAgents.liveConversations).not.toHaveProperty("connect");
-    expect(client.beta.voiceAgents.realtime.connect).toBeTypeOf("function");
+    expect(client.voiceAgents.realtime.connect).toBeTypeOf("function");
     expect(requests).toHaveLength(0);
+  });
+
+  it("retains the deprecated campaign deletion alias", () => {
+    const { client } = createClient();
+    expect(client.beta.voiceAgents.telephony.deleteTelephony).toBe(
+      client.beta.voiceAgents.telephony.deleteCampaign,
+    );
   });
 
   it.each([undefined, "realtime"] as const)(

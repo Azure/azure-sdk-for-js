@@ -29,7 +29,7 @@ import {
   create,
 } from "../../../../api/beta/voiceAgents/telephony/operations.js";
 
-/** Operations for BetaVoiceAgentsTelephonyOperations. */
+/** Preview operations for managing voice-agent telephony campaigns. */
 export interface BetaVoiceAgentsTelephonyOperations {
   /** Gets the initiating operation's status. PUT/cancel pollers finish with a guarded Campaign GET; deletion completes without a resource result. */
   getOperation: (
@@ -45,6 +45,16 @@ export interface BetaVoiceAgentsTelephonyOperations {
     options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
   ) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
   /** Deletes a terminal Campaign and its recipient/task data asynchronously. Returns bodyless 202 with a monitor, not a tombstone; completion makes GET return 404 and lists omit it. Dataset, connections, Agent, independent jobs and call history are preserved. */
+  deleteCampaign: (
+    agentName: string,
+    campaignName: string,
+    ifMatch: string,
+    options?: BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /**
+   * Compatibility alias for campaign deletion.
+   * @deprecated Use `deleteCampaign` instead.
+   */
   deleteTelephony: (
     agentName: string,
     campaignName: string,
@@ -81,6 +91,12 @@ export interface BetaVoiceAgentsTelephonyOperations {
 export function _getBetaVoiceAgentsTelephonyOperations(
   context: AIProjectContext,
 ): BetaVoiceAgentsTelephonyOperations {
+  const deleteCampaign: BetaVoiceAgentsTelephonyOperations["deleteCampaign"] = (
+    agentName,
+    campaignName,
+    ifMatch,
+    options,
+  ) => deleteTelephony(context, agentName, campaignName, ifMatch, options);
   return {
     getOperation: (
       agentName: string,
@@ -93,12 +109,8 @@ export function _getBetaVoiceAgentsTelephonyOperations(
       campaignName: string,
       options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
     ) => listValidationErrors(context, agentName, campaignName, options),
-    deleteTelephony: (
-      agentName: string,
-      campaignName: string,
-      ifMatch: string,
-      options?: BetaVoiceAgentsTelephonyDeleteOptionalParams,
-    ) => deleteTelephony(context, agentName, campaignName, ifMatch, options),
+    deleteCampaign,
+    deleteTelephony: deleteCampaign,
     cancel: (
       agentName: string,
       campaignName: string,

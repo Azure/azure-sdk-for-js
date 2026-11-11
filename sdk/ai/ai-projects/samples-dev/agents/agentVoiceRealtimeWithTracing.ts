@@ -33,20 +33,16 @@ export async function main(): Promise<void> {
       tracingOptions: { experimental: true, contentRecording: false },
     });
     // Omit a greeting so the agent only responds to the question below.
-    const agent = await project.agents.create(
-      `voice-tracing-${Date.now()}`,
-      {
-        kind: "voice",
-        model_type: "managed",
-        model: "gpt-realtime",
-        instructions: "Answer questions in one short sentence.",
-        output_modalities: ["text", "audio"],
-        store: false,
-      },
-      { foundryFeatures: "VoiceAgents=V1Preview" },
-    );
+    const agent = await project.agents.create(`voice-tracing-${Date.now()}`, {
+      kind: "voice",
+      model_type: "managed",
+      model: "gpt-realtime",
+      instructions: "Answer questions in one short sentence.",
+      output_modalities: ["text", "audio"],
+      store: false,
+    });
     try {
-      const connection = await project.beta.voiceAgents.realtime.connect(agent.name);
+      const connection = await project.voiceAgents.realtime.connect(agent.name);
       const timeout = setTimeout(() => void connection.close(), 90_000);
       try {
         console.log("Asking a question. SDK traces will be printed to the console.");
@@ -73,9 +69,7 @@ export async function main(): Promise<void> {
         await connection.close();
       }
     } finally {
-      await project.agents.delete(agent.name, {
-        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-      });
+      await project.agents.delete(agent.name);
     }
   } finally {
     try {

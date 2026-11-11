@@ -79,7 +79,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("sends bearer auth as a WebSocket subprotocol and supported connection query parameters", async () => {
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent", {
       agentSessionId: "session-1",
       store: false,
       structuredInputs: { customer: "Ada" },
@@ -98,8 +98,7 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
       `azsdk-js-ai-projects/${SDK_VERSION}`,
     ]);
-    expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
-    expect(socket.url).toContain("foundry_features=VoiceAgents%3DV1Preview");
+    expect(url.searchParams.has("foundry_features")).toBe(false);
     expect(url.searchParams.get("client-request-id")).toBeTruthy();
     expect(url.searchParams.getAll("structured_inputs")).toEqual([
       JSON.stringify({ customer: "Ada" }),
@@ -139,7 +138,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("preserves custom connection query parameters alongside browser authentication", async () => {
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent", {
       query: { custom: "value + /?&=#", enabled: false, count: 0, omitted: undefined },
       structuredInputs: { customer: "Ada" },
       store: false,
@@ -154,9 +153,22 @@ describe("AIProjectClient browser realtime", () => {
       expect(url.searchParams.get("store")).toBe("false");
       expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada"}']);
       expect(url.searchParams.has("structured_input")).toBe(false);
-      expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
+      expect(url.searchParams.has("foundry_features")).toBe(false);
       expect(url.searchParams.has("authorization")).toBe(false);
       expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("maps explicit Realtime preview opt-in to one browser query parameter", async () => {
+    const connection = await createClient().voiceAgents.realtime.connect("preview-agent", {
+      foundryFeatures: "VoiceAgents=V1Preview",
+    });
+    try {
+      const url = new URL(getSocket().url);
+      expect(url.searchParams.getAll("foundry_features")).toEqual(["VoiceAgents=V1Preview"]);
+      expect(url.searchParams.has("authorization")).toBe(false);
     } finally {
       await connection.close();
     }
@@ -165,10 +177,7 @@ describe("AIProjectClient browser realtime", () => {
   it("snapshots structured inputs before loading the browser transport and acquiring a token", async () => {
     const structuredInputs = { customer: { name: "Ada" } };
     const options = { structuredInputs };
-    const pendingConnection = createClient().beta.voiceAgents.realtime.connect(
-      "browser-agent",
-      options,
-    );
+    const pendingConnection = createClient().voiceAgents.realtime.connect("browser-agent", options);
     structuredInputs.customer.name = "changed";
     options.structuredInputs = { customer: { name: "replacement" } };
 
@@ -186,7 +195,7 @@ describe("AIProjectClient browser realtime", () => {
     "rejects reserved browser query parameter %s before creating a WebSocket",
     async (name) => {
       await expect(
-        createClient().beta.voiceAgents.realtime.connect("browser-agent", {
+        createClient().voiceAgents.realtime.connect("browser-agent", {
           structuredInputs: { customer: "Ada" },
           query: { [name]: '{"customer":"Mallory"}' },
         }),
@@ -211,7 +220,7 @@ describe("AIProjectClient browser realtime", () => {
 
   it("keeps only the SDK query parameter when a custom userAgentPrefix is configured", async () => {
     const connection =
-      await createClient("custom-prefix").beta.voiceAgents.realtime.connect("browser-agent");
+      await createClient("custom-prefix").voiceAgents.realtime.connect("browser-agent");
     const url = new URL(getSocket().url);
 
     expect(url.searchParams.getAll("x-ms-client-sdk")).toEqual([
@@ -225,7 +234,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("sends client events and deserializes Blob server events", async () => {
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
     const socket = getSocket();
     const iterator = connection[Symbol.asyncIterator]();
 
@@ -260,7 +269,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("fails the iterator on malformed server data", async () => {
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
     const nextEvent = connection[Symbol.asyncIterator]().next();
 
     getSocket().receive("not-json");
@@ -272,7 +281,7 @@ describe("AIProjectClient browser realtime", () => {
   it.each([true, false])(
     "preserves unknown Blob events and continues receiving and sending (unknown first: %s)",
     async (unknownFirst) => {
-      const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+      const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
       const socket = getSocket();
       const iterator = connection[Symbol.asyncIterator]();
       const closed = vi.fn();
@@ -321,7 +330,7 @@ describe("AIProjectClient browser realtime", () => {
 
   it("finishes closing when the browser socket does not emit close", async () => {
     vi.useFakeTimers();
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
     MockBrowserWebSocket.suppressCloseEvent = true;
 
     const closePromise = connection.close();
@@ -332,7 +341,7 @@ describe("AIProjectClient browser realtime", () => {
   });
 
   it("reports wasClean: true for a normal client-initiated close", async () => {
-    const connection = await createClient().beta.voiceAgents.realtime.connect("browser-agent");
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
     const socket = getSocket();
     // Receive a Blob message right before closing so the transport's internal message chain has
     // a real pending continuation (an async Blob->ArrayBuffer conversion), widening the gap

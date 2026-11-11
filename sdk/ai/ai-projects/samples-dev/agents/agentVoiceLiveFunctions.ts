@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Answer a GPT Live function call and print the spoken reply as captions.
+ * @summary Answer a GPT Live (preview) function call and print the spoken reply as captions.
  * @azsdk-weight 100
  */
 

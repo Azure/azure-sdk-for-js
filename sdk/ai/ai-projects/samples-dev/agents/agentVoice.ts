@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Create a voice agent with a greeting, disabled conversation storage, and optional post-call notifications.
+ * @summary Create a GA voice agent with a greeting and disabled storage; optionally enable preview post-call notifications.
  * @azsdk-weight 50
  */
 
@@ -31,13 +31,9 @@ export async function main(): Promise<void> {
   if (routineName) {
     postCallDestinations.push({ type: "routine", name: routineName });
   }
-  // Post-call destinations always receive the transcript. Do not request "audio":
-  // the service rejects that include option in this preview.
+  // Post-call delivery is preview. This sample requests transcripts only, not recording URLs.
 
   console.log("Creating a voice agent version...");
-  const options = {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  };
   const agent = await project.agents.createVersion(
     `sample-voice-${Date.now()}`,
     {
@@ -50,11 +46,14 @@ export async function main(): Promise<void> {
       store: false,
       post_call: postCallDestinations.length ? { destinations: postCallDestinations } : undefined,
     },
-    options,
+    {
+      // Realtime/cascaded definitions are GA; only the optional post_call configuration needs opt-in.
+      foundryFeatures: postCallDestinations.length ? "VoiceAgents=V1Preview" : undefined,
+    },
   );
   try {
     console.log(`Created voice agent: ${agent.name}, version: ${agent.version}`);
-    const version = await project.agents.getVersion(agent.name, agent.version, options);
+    const version = await project.agents.getVersion(agent.name, agent.version);
     if ("greeting" in version.definition) {
       console.log("Voice greeting:", version.definition.greeting);
     }
@@ -67,7 +66,7 @@ export async function main(): Promise<void> {
     console.log("Agent configured. No voice session was opened.");
   } finally {
     console.log("Deleting the sample agent...");
-    await project.agents.delete(agent.name, options);
+    await project.agents.delete(agent.name);
   }
 }
 
