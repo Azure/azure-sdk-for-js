@@ -792,8 +792,17 @@ export async function _graphDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = graphQueryErrorDeserializer(result.body);
+    if (
+      typeof result.body === "object" &&
+      result.body !== null &&
+      typeof result.body.error === "object" &&
+      result.body.error !== null
+    ) {
+      try {
+        error.details = graphQueryErrorDeserializer(result.body);
+      } catch {
+        // Malformed graph diagnostics must not replace the original HTTP error.
+      }
     }
 
     throw error;

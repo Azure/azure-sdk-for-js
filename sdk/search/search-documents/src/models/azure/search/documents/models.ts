@@ -770,7 +770,7 @@ export interface GraphQueryRow {
 
 export function graphQueryRowDeserializer(item: any): GraphQueryRow {
   return {
-    additionalProperties: serializeRecord(item, ["provenance"]),
+    additionalProperties: serializeRecord(item, ["@search.graphProvenance"]),
     provenance: !item["@search.graphProvenance"]
       ? item["@search.graphProvenance"]
       : graphQueryRowProvenanceDeserializer(item["@search.graphProvenance"]),

@@ -32,6 +32,7 @@ const credential = new AzureKeyCredential("not-a-real-key");
 
 interface MockReply {
   body: unknown;
+  bodyAsText?: string;
   status?: number;
   headers?: Record<string, string>;
 }
@@ -59,7 +60,7 @@ function mockOptions(replies: MockReply[], requests: PipelineRequest[]): SearchC
                 "content-type": "application/json",
                 ...reply.headers,
               }),
-              bodyAsText: JSON.stringify(reply.body),
+              bodyAsText: reply.bodyAsText ?? JSON.stringify(reply.body),
             };
           },
         },
@@ -132,6 +133,63 @@ describe("2026-11-01-preview convenience integration", () => {
     });
   });
 
+  it.each([undefined, { kind: "ids" }])(
+    "preserves a projected provenance column alongside %s graph metadata",
+    async (provenance) => {
+      const client = new SearchClient(
+        endpoint,
+        "edges",
+        credential,
+        mockOptions(
+          [
+            {
+              body: {
+                value: [
+                  {
+                    entity: "Ada",
+                    provenance: "customer-column",
+                    ...(provenance && { "@search.graphProvenance": provenance }),
+                  },
+                ],
+              },
+            },
+          ],
+          [],
+        ),
+      );
+      const result = await client.graph("MATCH (n) RETURN n");
+      assert.deepEqual(result.value[0].additionalProperties, {
+        entity: "Ada",
+        provenance: "customer-column",
+      });
+      assert.equal(result.value[0].provenance?.kind, provenance?.kind);
+    },
+  );
+
+  it.each<MockReply>([
+    ...[401, 429, 502].map((status) => ({
+      status,
+      body: undefined,
+      bodyAsText: "Upstream error",
+      headers: { "content-type": "text/plain" },
+    })),
+    { status: 400, body: { message: "Invalid request" } },
+    { status: 400, body: { error: "Invalid request" } },
+    {
+      status: 400,
+      body: {
+        error: { code: "InvalidGraphQuery", message: "Invalid query" },
+        "@search.graphDiagnostics": { message: "Malformed diagnostics" },
+      },
+    },
+  ])("preserves HTTP $status errors with malformed graph bodies", async (reply) => {
+    const client = new SearchClient(endpoint, "edges", credential, mockOptions([reply], []));
+    await expect(client.graph("invalid")).rejects.toMatchObject({
+      name: "RestError",
+      statusCode: reply.status,
+    });
+  });
+
   it("preserves structured graph failures", async () => {
     const client = new SearchClient(
       endpoint,
@@ -145,6 +203,7 @@ describe("2026-11-01-preview convenience integration", () => {
     await expect(client.graph("invalid")).rejects.toMatchObject({
       code: "InvalidGraphQuery",
       statusCode: 400,
+      details: { error: { code: "InvalidGraphQuery", message: "Invalid query" } },
     });
   });
 

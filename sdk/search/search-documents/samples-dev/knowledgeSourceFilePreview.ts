@@ -21,6 +21,7 @@
  *     `AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME` must be set.
  */
 
+import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
@@ -49,8 +50,8 @@ const azureOpenAIEmbeddingDeployment =
 const azureOpenAIEmbeddingModelName =
   process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || KnownAzureOpenAIModelName.TextEmbeddingAda002;
 
-const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-file-preview-sample";
-const KNOWLEDGE_BASE_NAME = "example-kb-for-file-ks-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = `example-knowledge-source-file-preview-${randomUUID()}`;
+const KNOWLEDGE_BASE_NAME = `example-kb-for-file-ks-preview-${randomUUID()}`;
 
 function assertSample(condition: unknown, message: string): asserts condition {
   if (!condition) {
@@ -93,9 +94,12 @@ async function main(): Promise<void> {
     },
   };
 
+  let knowledgeSourceCreated = false;
+  let knowledgeBaseCreated = false;
   try {
     // 1. Create the KS and upload a relative-path file with custom metadata.
     const created = await client.createKnowledgeSource(fileKnowledgeSource);
+    knowledgeSourceCreated = true;
     console.log(`Created File knowledge source: ${created.name}`);
 
     const fileName = "sample.txt";
@@ -169,6 +173,7 @@ async function main(): Promise<void> {
       knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     };
     await client.createKnowledgeBase(knowledgeBase);
+    knowledgeBaseCreated = true;
     console.log(`Attached ${KNOWLEDGE_SOURCE_NAME} to ${KNOWLEDGE_BASE_NAME}`);
 
     // 5. Retrieve and look at the File-specific reference / activity shape.
@@ -194,19 +199,23 @@ async function main(): Promise<void> {
     }
   } finally {
     // 7. Tear down only resources created by this sample.
-    await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
-    try {
-      for await (const file of client.listKnowledgeSourceFiles(KNOWLEDGE_SOURCE_NAME)) {
-        if (file.fileId) {
-          await client
-            .deleteKnowledgeSourceFile(KNOWLEDGE_SOURCE_NAME, file.fileId)
-            .catch(() => {});
-        }
-      }
-    } catch {
-      // knowledge source may not exist
+    if (knowledgeBaseCreated) {
+      await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
     }
-    await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    if (knowledgeSourceCreated) {
+      try {
+        for await (const file of client.listKnowledgeSourceFiles(KNOWLEDGE_SOURCE_NAME)) {
+          if (file.fileId) {
+            await client
+              .deleteKnowledgeSourceFile(KNOWLEDGE_SOURCE_NAME, file.fileId)
+              .catch(() => {});
+          }
+        }
+      } catch {
+        // knowledge source may not exist
+      }
+      await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    }
   }
 }
 

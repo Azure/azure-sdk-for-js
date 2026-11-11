@@ -16,6 +16,8 @@
 
 ### Bugs Fixed
 
+- Prevented File, Freshness, and Knowledge Base Configuration samples from deleting unowned resources, and separated embedding/chat model names from deployment aliases in the affected examples. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
+- Preserved graph projection columns named `provenance` and original HTTP errors when graph error responses contain plain text or malformed diagnostics. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Fixed text-vector query rewrite serialization for search and graph queries, preserved AML vectorizer authentication during index read/update round trips, and corrected the documented protocol document-count return type. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Preserved additional knowledge-source kinds during convenience get/list conversion and forwarded per-operation headers, timeouts, and response callbacks through fresh and resumed File ingestion polls. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Fixed legacy semantic-field continuation tokens, preserved custom knowledge-store parameters in skillset round trips, and corrected preview sample resource cleanup and embedding-model configuration. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
