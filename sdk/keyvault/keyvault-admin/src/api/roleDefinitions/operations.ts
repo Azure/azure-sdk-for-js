@@ -180,7 +180,7 @@ export async function createOrUpdate(
   return _createOrUpdateDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteRoleDefinitionSend(
   context: Client,
   scope: string,
   roleDefinitionName: string,
@@ -206,7 +206,9 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<RoleDefinition> {
+export async function _deleteRoleDefinitionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleDefinition> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -218,17 +220,12 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a custom role definition. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteRoleDefinition(
   context: Client,
   scope: string,
   roleDefinitionName: string,
   options: RoleDefinitionsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<RoleDefinition> {
-  const result = await _$deleteSend(context, scope, roleDefinitionName, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteRoleDefinitionSend(context, scope, roleDefinitionName, options);
+  return _deleteRoleDefinitionDeserialize(result);
 }

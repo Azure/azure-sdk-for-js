@@ -85,14 +85,7 @@ export class KeyVaultClient {
     credential: TokenCredential,
     options: KeyVaultClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKeyVault(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKeyVault(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);

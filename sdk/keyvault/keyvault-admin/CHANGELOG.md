@@ -1,14 +1,23 @@
 # Release History
 
-## 4.7.3-beta.2 (Unreleased)
+## 4.7.3 (Unreleased)
 
 ### Features Added
 
+- Added support for service version `2026-04-01`.
+- (From 4.9.0-beta.1) Added `KeyVaultEkmClient` and `KeyVaultEkmAsyncClient` for managing Managed HSM External Key Manager (EKM) connections, exposing `getEkmConnection`, `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection` (and their `WithResponse` variants).
+- (From 4.9.0-beta.1) Added the `KeyVaultEkmConnection`, `KeyVaultEkmProxyClientCertificateInfo`, and `KeyVaultEkmProxyInfo` models supporting the EKM clients.
+
 ### Breaking Changes
+
+- These changes do not impact the API of stable versions such as 4.7.2. Only code written against a beta version such as 4.7.3-beta.1 may be affected.
+- Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead.
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Key Vault API version `2026-04-01` is now the default.
 
 ## 4.7.3-beta.1 (2026-07-07)
 
