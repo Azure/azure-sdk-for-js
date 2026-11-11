@@ -556,6 +556,10 @@ closes.** Live needs continuous audio input, even for text and tools, so the sam
 send silence while idle. Live has no speech-finished event; a completed backend
 response does not mean the agent has finished speaking.
 
+The text sample appends session instructions and waits for their correlated
+acknowledgement before adding commentary. That acknowledgement confirms acceptance,
+not completed speech; keep the session open until the expected reply arrives.
+
 #### Session controls and events
 
 `connect()` waits for `session.started`. Read the current settings from `connection.session`,
