@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   const options = {
     requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
   };
-  const campaigns = project.beta.voiceAgents.campaigns;
+  const campaigns = project.beta.voiceAgents.telephony;
 
   // Campaign creation can immediately authorize dialing. This sample performs reads only.
   console.log("Reading one page of voice campaigns...");

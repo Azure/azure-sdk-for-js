@@ -5,10 +5,10 @@ import type { TelephonyCampaignStatus, PageOrder } from "../../../../models/mode
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsGetOperationOptionalParams extends OperationOptions {}
+export interface BetaVoiceAgentsTelephonyGetOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -23,7 +23,7 @@ export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams exte
 }
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Optional retry key. Original If-Match/key replays 202 even after deletion/name reuse, never touching a new instance; conflicts return 409. Failed cleanup needs a fresh key/current token. */
@@ -31,7 +31,7 @@ export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationO
 }
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyCancelOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Optional retry key, generated if omitted. Original If-Match/key replays 202 even after deletion/name reuse, never touching a replacement; conflicts return 409. Failed cancellation needs a fresh key/current token. */
@@ -39,7 +39,7 @@ export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationO
 }
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -59,13 +59,13 @@ export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOpt
 }
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsGetOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyGetOptionalParams extends OperationOptions {
   /** Original response's Operation-Id guards its instance/round and survives same-round actions. Replacement/name reuse: 409 campaign_operation_mismatch; missing/expired/wrong-scope operation: 404. */
   operationId?: string;
 }
 
 /** Optional parameters. */
-export interface BetaVoiceAgentsCampaignsCreateOptionalParams extends OperationOptions {
+export interface BetaVoiceAgentsTelephonyCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Retry key: matching submitted inputs and original If-Match replay the saved monitor before current-state checks. Conflicting reuse returns 409 operation_id_conflict; retained creation keys after deletion return 409 campaign_deleted. */

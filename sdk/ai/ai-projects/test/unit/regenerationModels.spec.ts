@@ -660,7 +660,7 @@ describe("regenerated model wire contracts", () => {
 
   it("separates creation inputs from required service response fields", () => {
     expectTypeOf<
-      Parameters<Models.BetaVoiceAgentsCampaignsOperations["create"]>[2]
+      Parameters<Models.BetaVoiceAgentsTelephonyOperations["create"]>[2]
     >().toEqualTypeOf<TelephonyCampaignCreate>();
     expectTypeOf<
       Parameters<Models.VoiceAgentsTelephonyOperations["createBinding"]>[1]

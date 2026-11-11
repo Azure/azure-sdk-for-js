@@ -1139,7 +1139,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     const skillName = "sample-skill";
 
     // Create a new skill
-    const created = await project.skills.create(skillName, {
+    const created = await project.beta.skills.create(skillName, {
       inlineContent: {
         description: "Example skill created by the @azure/ai-projects sample.",
         instructions: "You are a helpful assistant that answers questions concisely.",
@@ -1149,7 +1149,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 
     // Retrieve the skill
-    const fetched = await project.skills.get(skillName);
+    const fetched = await project.beta.skills.get(skillName);
     console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
   });
 

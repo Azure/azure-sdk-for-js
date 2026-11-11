@@ -1490,7 +1490,6 @@ export class AIProjectClient {
     readonly evaluators: EvaluatorsOperations;
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
-    readonly skills: SkillsOperations;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
     readonly voiceAgents: VoiceAgentsOperations;
@@ -1961,6 +1960,7 @@ export interface BetaOperations {
     redTeams: BetaRedTeamsOperations;
     routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
+    skills: BetaSkillsOperations;
     voiceAgents: BetaVoiceAgentsOperations;
 }
 
@@ -2087,11 +2087,25 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
+export interface BetaSkillsCreateOptionalParams extends OperationOptions {
+    defaultParam?: boolean;
+    inlineContent?: SkillInlineContent;
+}
+
+// @public
 export interface BetaSkillsCreateVersionFromFilesOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaSkillsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaSkillsDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsDownloadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2105,7 +2119,19 @@ export interface BetaSkillsDownloadVersionOptionalParams extends OperationOption
 }
 
 // @public
+export interface BetaSkillsGetOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaSkillsGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
 }
 
 // @public
@@ -2117,59 +2143,22 @@ export interface BetaSkillsListVersionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaVoiceAgentsCampaignsCancelOptionalParams extends OperationOptions {
-    operationId?: string;
-    updateIntervalInMs?: number;
+export interface BetaSkillsOperations {
+    create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
+    createFromFiles: (name: string, content: CreateSkillVersionFromFilesBody, options?: BetaSkillsCreateVersionFromFilesOptionalParams) => Promise<SkillVersion>;
+    delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+    deleteVersion: (name: string, version: string, options?: BetaSkillsDeleteVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
+    download: (name: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    downloadVersion: (name: string, version: string, options?: BetaSkillsDownloadVersionOptionalParams) => Promise<DownloadVersionResponse>;
+    get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
+    getVersion: (name: string, version: string, options?: BetaSkillsGetVersionOptionalParams) => Promise<SkillVersion>;
+    list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
+    listVersions: (name: string, options?: BetaSkillsListVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
+    update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) => Promise<Skill>;
 }
 
 // @public
-export interface BetaVoiceAgentsCampaignsCreateOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsDeleteOptionalParams extends OperationOptions {
-    operationId?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsGetOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsGetOptionalParams extends OperationOptions {
-    operationId?: string;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-    status?: TelephonyCampaignStatus;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaVoiceAgentsCampaignsOperations {
-    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsCampaignsCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
-    deleteCampaign: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsCampaignsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsGetOptionalParams) => Promise<TelephonyCampaign>;
-    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
-    list: (agentName: string, options?: BetaVoiceAgentsCampaignsListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
-    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2243,11 +2232,66 @@ export interface BetaVoiceAgentsLiveConversationsOperations {
 
 // @public
 export interface BetaVoiceAgentsOperations {
-    // (undocumented)
-    campaigns: BetaVoiceAgentsCampaignsOperations;
     live: VoiceAgentLiveClient;
     liveConversations: BetaVoiceAgentsLiveConversationsOperations;
     realtime: VoiceAgentRealtimeClient;
+    telephony: BetaVoiceAgentsTelephonyOperations;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyCancelOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyCreateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyDeleteOptionalParams extends OperationOptions {
+    operationId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyGetOperationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyGetOptionalParams extends OperationOptions {
+    operationId?: string;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+    status?: TelephonyCampaignStatus;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaVoiceAgentsTelephonyOperations {
+    cancel: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyCancelOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    create: (agentName: string, campaignName: string, campaign: TelephonyCampaignCreate, options?: BetaVoiceAgentsTelephonyCreateOptionalParams) => PollerLike<OperationState_2<TelephonyCampaign>, TelephonyCampaign>;
+    deleteTelephony: (agentName: string, campaignName: string, ifMatch: string, options?: BetaVoiceAgentsTelephonyDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyGetOptionalParams) => Promise<TelephonyCampaign>;
+    getOperation: (agentName: string, campaignName: string, operationId: string, options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams) => Promise<TelephonyCampaignOperation>;
+    list: (agentName: string, options?: BetaVoiceAgentsTelephonyListOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaign>;
+    listValidationErrors: (agentName: string, campaignName: string, options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
 }
 
 // @public
@@ -7671,57 +7715,6 @@ export interface SkillReferenceParam extends ContainerSkill {
 export interface SkillReferencesOptimizationContext extends OptimizationContext {
     skill_references: AgentOptimizationSkillReferenceUnion[];
     type: "skill_references";
-}
-
-// @public
-export interface SkillsCreateOptionalParams extends OperationOptions {
-    defaultParam?: boolean;
-    inlineContent?: SkillInlineContent;
-}
-
-// @public
-export interface SkillsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SkillsDownloadOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type SkillsDownloadResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeReadableStream;
-};
-
-// @public
-export interface SkillsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SkillsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface SkillsOperations {
-    create: (name: string, options?: SkillsCreateOptionalParams) => Promise<SkillVersion>;
-    createFromFiles: (name: string, content: CreateSkillVersionFromFilesBody, options?: BetaSkillsCreateVersionFromFilesOptionalParams) => Promise<SkillVersion>;
-    delete: (name: string, options?: SkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
-    deleteVersion: (name: string, version: string, options?: BetaSkillsDeleteVersionOptionalParams) => Promise<DeleteSkillVersionResponse>;
-    download: (name: string, options?: SkillsDownloadOptionalParams) => Promise<SkillsDownloadResponse>;
-    downloadVersion: (name: string, version: string, options?: BetaSkillsDownloadVersionOptionalParams) => Promise<DownloadVersionResponse>;
-    get: (name: string, options?: SkillsGetOptionalParams) => Promise<Skill>;
-    getVersion: (name: string, version: string, options?: BetaSkillsGetVersionOptionalParams) => Promise<SkillVersion>;
-    list: (options?: SkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
-    listVersions: (name: string, options?: BetaSkillsListVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
-    update: (name: string, defaultVersion: string, options?: SkillsUpdateOptionalParams) => Promise<Skill>;
-}
-
-// @public
-export interface SkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public

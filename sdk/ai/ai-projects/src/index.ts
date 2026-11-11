@@ -1433,7 +1433,6 @@ export type {
   DimensionRemovedDiagnosticChange,
   DefinitionUpdatedDiagnosticChange,
   EvaluatorFieldChange,
-  SkillsDownloadResponse,
   AgentsDownloadOptimizationJobFileResponse,
   CreateEvalJsonlRunDataSource,
   EvalJsonlFileContentSource,
@@ -1658,13 +1657,13 @@ export type {
   GetVersionOptionalParams as BetaSkillsGetVersionOptionalParams,
   ListVersionsOptionalParams as BetaSkillsListVersionsOptionalParams,
   CreateFromFilesOptionalParams as BetaSkillsCreateVersionFromFilesOptionalParams,
-  SkillsDownloadOptionalParams,
-  SkillsCreateOptionalParams,
-  SkillsDeleteOptionalParams,
-  SkillsUpdateOptionalParams,
-  SkillsListOptionalParams,
-  SkillsGetOptionalParams,
-} from "./api/skills/options.js";
+  BetaSkillsDownloadOptionalParams,
+  BetaSkillsCreateOptionalParams,
+  BetaSkillsDeleteOptionalParams,
+  BetaSkillsUpdateOptionalParams,
+  BetaSkillsListOptionalParams,
+  BetaSkillsGetOptionalParams,
+} from "./api/beta/skills/options.js";
 export type {
   DeleteVersionOptionalParams as ToolboxesDeleteVersionOptionalParams,
   ToolboxesDeleteOptionalParams,
@@ -1701,8 +1700,8 @@ export type {
   VoiceAgentsOperations,
   VoiceAgentsConversationsOperations,
   VoiceAgentsTelephonyOperations,
-  SkillsOperations,
-  BetaVoiceAgentsCampaignsOperations,
+  BetaSkillsOperations,
+  BetaVoiceAgentsTelephonyOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator, NodeReadableStream };
 export type {
@@ -1734,14 +1733,14 @@ export type {
   VoiceAgentsTelephonyListCallJobsOptionalParams,
 } from "./api/voiceAgents/telephony/options.js";
 export type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
-} from "./api/beta/voiceAgents/campaigns/options.js";
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
+} from "./api/beta/voiceAgents/telephony/options.js";
 export type {
   BetaVoiceAgentsLiveConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsLiveConversationsGetAudioOptionalParams,

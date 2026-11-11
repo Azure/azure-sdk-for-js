@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import type {
   Skill,
   DeleteSkillResponse,
@@ -9,22 +9,22 @@ import type {
   CreateSkillVersionFromFilesBody,
   DeleteSkillVersionResponse,
   DownloadVersionResponse,
-  SkillsDownloadResponse,
-} from "../../models/models.js";
+  BetaSkillsDownloadResponse,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   DeleteVersionOptionalParams,
   DownloadVersionOptionalParams,
-  SkillsDownloadOptionalParams,
+  BetaSkillsDownloadOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
   CreateFromFilesOptionalParams,
-  SkillsCreateOptionalParams,
-  SkillsDeleteOptionalParams,
-  SkillsUpdateOptionalParams,
-  SkillsListOptionalParams,
-  SkillsGetOptionalParams,
-} from "../../api/skills/options.js";
+  BetaSkillsCreateOptionalParams,
+  BetaSkillsDeleteOptionalParams,
+  BetaSkillsUpdateOptionalParams,
+  BetaSkillsListOptionalParams,
+  BetaSkillsGetOptionalParams,
+} from "../../../api/beta/skills/options.js";
 import {
   deleteVersion,
   downloadVersion,
@@ -37,10 +37,10 @@ import {
   update,
   list,
   get,
-} from "../../api/skills/operations.js";
+} from "../../../api/beta/skills/operations.js";
 
-/** Operations for SkillsOperations. */
-export interface SkillsOperations {
+/** Operations for BetaSkillsOperations. */
+export interface BetaSkillsOperations {
   /** Removes the specified version of a skill. */
   deleteVersion: (
     name: string,
@@ -56,9 +56,9 @@ export interface SkillsOperations {
   /** Downloads the zip content for the default version of a skill. */
   download: (
     name: string,
-    options?: SkillsDownloadOptionalParams,
-  ) => Promise<SkillsDownloadResponse>;
-  /** Retrieves the specified version of a skill by public ID and version identifier. */
+    options?: BetaSkillsDownloadOptionalParams,
+  ) => Promise<BetaSkillsDownloadResponse>;
+  /** Retrieves the specified version of a skill by name and version identifier. */
   getVersion: (
     name: string,
     version: string,
@@ -76,28 +76,28 @@ export interface SkillsOperations {
     options?: CreateFromFilesOptionalParams,
   ) => Promise<SkillVersion>;
   /** Creates a new version of a skill. If the skill does not exist, it will be created. */
-  create: (name: string, options?: SkillsCreateOptionalParams) => Promise<SkillVersion>;
+  create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
   /** Removes the specified skill and its associated versions. */
-  delete: (name: string, options?: SkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+  delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
   /** Modifies the specified skill's configuration. */
   update: (
     name: string,
     defaultVersion: string,
-    options?: SkillsUpdateOptionalParams,
+    options?: BetaSkillsUpdateOptionalParams,
   ) => Promise<Skill>;
   /** Returns the skills available in the current project. */
-  list: (options?: SkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
+  list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
   /** Retrieves the specified skill and its current configuration. */
-  get: (name: string, options?: SkillsGetOptionalParams) => Promise<Skill>;
+  get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
 }
 
-export function _getSkillsOperations(context: AIProjectContext): SkillsOperations {
+export function _getBetaSkillsOperations(context: AIProjectContext): BetaSkillsOperations {
   return {
     deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) =>
       deleteVersion(context, name, version, options),
     downloadVersion: (name: string, version: string, options?: DownloadVersionOptionalParams) =>
       downloadVersion(context, name, version, options),
-    download: (name: string, options?: SkillsDownloadOptionalParams) =>
+    download: (name: string, options?: BetaSkillsDownloadOptionalParams) =>
       download(context, name, options),
     getVersion: (name: string, version: string, options?: GetVersionOptionalParams) =>
       getVersion(context, name, version, options),
@@ -108,11 +108,13 @@ export function _getSkillsOperations(context: AIProjectContext): SkillsOperation
       content: CreateSkillVersionFromFilesBody,
       options?: CreateFromFilesOptionalParams,
     ) => createFromFiles(context, name, content, options),
-    create: (name: string, options?: SkillsCreateOptionalParams) => create(context, name, options),
-    delete: (name: string, options?: SkillsDeleteOptionalParams) => $delete(context, name, options),
-    update: (name: string, defaultVersion: string, options?: SkillsUpdateOptionalParams) =>
+    create: (name: string, options?: BetaSkillsCreateOptionalParams) =>
+      create(context, name, options),
+    delete: (name: string, options?: BetaSkillsDeleteOptionalParams) =>
+      $delete(context, name, options),
+    update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) =>
       update(context, name, defaultVersion, options),
-    list: (options?: SkillsListOptionalParams) => list(context, options),
-    get: (name: string, options?: SkillsGetOptionalParams) => get(context, name, options),
+    list: (options?: BetaSkillsListOptionalParams) => list(context, options),
+    get: (name: string, options?: BetaSkillsGetOptionalParams) => get(context, name, options),
   };
 }

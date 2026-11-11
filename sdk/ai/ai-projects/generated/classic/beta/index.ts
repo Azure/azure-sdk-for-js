@@ -16,10 +16,12 @@ import { BetaModelsOperations, _getBetaModelsOperations } from "./models/index.j
 import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import { BetaRoutinesOperations, _getBetaRoutinesOperations } from "./routines/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
+import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
 import { BetaVoiceAgentsOperations, _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  skills: BetaSkillsOperations;
   schedules: BetaSchedulesOperations;
   routines: BetaRoutinesOperations;
   redTeams: BetaRedTeamsOperations;
@@ -33,6 +35,7 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    skills: _getBetaSkillsOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     routines: _getBetaRoutinesOperations(context),
     redTeams: _getBetaRedTeamsOperations(context),

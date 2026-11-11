@@ -3,7 +3,7 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { BetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
+import type { BetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 import type {
   VoiceAgentRealtimeClient,
   VoiceAgentRealtimeClientOptions,
@@ -14,11 +14,12 @@ import type { BetaVoiceAgentsLiveConversationsOperations } from "./liveConversat
 import { _getBetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
 import { VoiceAgentLiveClient } from "../../../live/voiceAgentLiveClient.js";
 import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveClient.js";
-import { _getBetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
+import { _getBetaVoiceAgentsTelephonyOperations } from "./telephony/index.js";
 
 /** Preview voice agent Realtime/Live connections, GPT Live conversations, and telephony campaigns. */
 export interface BetaVoiceAgentsOperations {
-  campaigns: BetaVoiceAgentsCampaignsOperations;
+  /** Operations for managing preview outbound telephony campaigns. */
+  telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;
   /** Realtime voice-agent connections. */
@@ -36,7 +37,7 @@ export function _getBetaVoiceAgentsOperations(
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaVoiceAgentsOperations {
   return {
-    campaigns: _getBetaVoiceAgentsCampaignsOperations(context),
+    telephony: _getBetaVoiceAgentsTelephonyOperations(context),
     liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context, tracingConfig),
     // VoiceAgentRealtimeClient defers https-only endpoint validation to connect() (not its
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an

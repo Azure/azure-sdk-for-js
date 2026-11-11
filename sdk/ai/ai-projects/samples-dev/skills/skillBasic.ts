@@ -6,7 +6,7 @@
  * using the AIProjectClient.
  *
  * Skills are currently a preview feature. In the JS SDK, you access
- * these operations via `project.skills`.
+ * these operations via `project.beta.skills`.
  *
  * @summary Demonstrates CRUD operations on Skills using the skills API.
  */
@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
 
   // Clean up any existing skill with this name
   try {
-    await project.skills.delete(skillName);
+    await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
     if (!(isRestError(e) && e.statusCode === 404)) {
@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
   }
 
   // Create a new skill
-  const created = await project.skills.create(skillName, {
+  const created = await project.beta.skills.create(skillName, {
     inlineContent: {
       description: "Example skill created by the @azure/ai-projects sample.",
       instructions: "You are a helpful assistant that answers questions concisely.",
@@ -43,12 +43,12 @@ export async function main(): Promise<void> {
   console.log(`Skill created: ${created.name} (id: ${created.id})`);
 
   // Retrieve the skill
-  const fetched = await project.skills.get(skillName);
+  const fetched = await project.beta.skills.get(skillName);
   console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id}), ${JSON.stringify(fetched)}`);
 
   // List skills
   const skills = [];
-  for await (const item of project.skills.list({ limit: 10 })) {
+  for await (const item of project.beta.skills.list({ limit: 10 })) {
     skills.push(item);
   }
   console.log(`Found ${skills.length} skill(s)`);
@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete the skill
-  const deleteResult = await project.skills.delete(skillName);
+  const deleteResult = await project.beta.skills.delete(skillName);
   console.log(`Deleted skill: ${deleteResult.name} (deleted: ${deleteResult.deleted})`);
 }
 

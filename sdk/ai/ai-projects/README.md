@@ -27,7 +27,7 @@ resources in your Microsoft Foundry Project. Use it to:
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 
 * **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
-* **Manage skills (preview)** for reusable agent capabilities, using the `.skills` operations.
+* **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
 * **Manage toolboxes** for grouping tools into reusable collections, using the `.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Manage routines (preview)** for scheduling and dispatching automated workflows, using the `.beta.routines` operations.
@@ -1584,12 +1584,12 @@ See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-f
 
 ### Skills operations (preview)
 
-The `.skills` operations let you create and manage reusable skills that define agent capabilities.
+The `.beta.skills` operations let you create and manage reusable skills that define agent capabilities.
 
 ```ts snippet:skills
 const skillName = "sample-skill";
 // Create a new skill
-const created = await project.skills.create(skillName, {
+const created = await project.beta.skills.create(skillName, {
   inlineContent: {
     description: "Example skill created by the @azure/ai-projects sample.",
     instructions: "You are a helpful assistant that answers questions concisely.",
@@ -1598,7 +1598,7 @@ const created = await project.skills.create(skillName, {
 });
 console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 // Retrieve the skill
-const fetched = await project.skills.get(skillName);
+const fetched = await project.beta.skills.get(skillName);
 console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
 ```
 

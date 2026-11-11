@@ -10,113 +10,113 @@ import type {
 } from "../../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
-} from "../../../../api/beta/voiceAgents/campaigns/options.js";
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
+} from "../../../../api/beta/voiceAgents/telephony/options.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import {
   getOperation,
   listValidationErrors,
-  deleteCampaign,
+  deleteTelephony,
   cancel,
   list,
   get,
   create,
-} from "../../../../api/beta/voiceAgents/campaigns/operations.js";
+} from "../../../../api/beta/voiceAgents/telephony/operations.js";
 
-/** Operations for BetaVoiceAgentsCampaignsOperations. */
-export interface BetaVoiceAgentsCampaignsOperations {
+/** Operations for BetaVoiceAgentsTelephonyOperations. */
+export interface BetaVoiceAgentsTelephonyOperations {
   /** Gets the initiating operation's status. PUT/cancel pollers finish with a guarded Campaign GET; deletion completes without a resource result. */
   getOperation: (
     agentName: string,
     campaignName: string,
     operationId: string,
-    options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams,
+    options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams,
   ) => Promise<TelephonyCampaignOperation>;
   /** Lists current-round row validation errors. Results may be partial during preparation; an empty page does not establish success. Execution errors are in CallJobs; non-row failures are in Campaign.error. */
   listValidationErrors: (
     agentName: string,
     campaignName: string,
-    options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
+    options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
   ) => PagedAsyncIterableIterator<TelephonyCampaignValidationError>;
   /** Deletes a terminal Campaign and its recipient/task data asynchronously. Returns bodyless 202 with a monitor, not a tombstone; completion makes GET return 404 and lists omit it. Dataset, connections, Agent, independent jobs and call history are preserved. */
-  deleteCampaign: (
+  deleteTelephony: (
     agentName: string,
     campaignName: string,
     ifMatch: string,
-    options?: BetaVoiceAgentsCampaignsDeleteOptionalParams,
+    options?: BetaVoiceAgentsTelephonyDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Cancels a validating or running Campaign using If-Match. Stops new calls and retries; connected calls finish naturally. Returns 202 with an operation monitor to track completion. */
   cancel: (
     agentName: string,
     campaignName: string,
     ifMatch: string,
-    options?: BetaVoiceAgentsCampaignsCancelOptionalParams,
+    options?: BetaVoiceAgentsTelephonyCancelOptionalParams,
   ) => PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
   /** Lists the Agent's Campaigns without inline recipients. Filters are live views, not snapshots. */
   list: (
     agentName: string,
-    options?: BetaVoiceAgentsCampaignsListOptionalParams,
+    options?: BetaVoiceAgentsTelephonyListOptionalParams,
   ) => PagedAsyncIterableIterator<TelephonyCampaign>;
   /** Gets Campaign configuration and execution state without inline recipients. Absent or deleted Campaigns return 404. */
   get: (
     agentName: string,
     campaignName: string,
-    options?: BetaVoiceAgentsCampaignsGetOptionalParams,
+    options?: BetaVoiceAgentsTelephonyGetOptionalParams,
   ) => Promise<TelephonyCampaign>;
   /** Creates a Campaign or fully replaces failed preparation; no PATCH. All recipients must validate and have CallJobs before dialing. Immediate calls may begin before the preparation poller returns. */
   create: (
     agentName: string,
     campaignName: string,
     campaign: TelephonyCampaignCreate,
-    options?: BetaVoiceAgentsCampaignsCreateOptionalParams,
+    options?: BetaVoiceAgentsTelephonyCreateOptionalParams,
   ) => PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
 }
 
-export function _getBetaVoiceAgentsCampaignsOperations(
+export function _getBetaVoiceAgentsTelephonyOperations(
   context: AIProjectContext,
-): BetaVoiceAgentsCampaignsOperations {
+): BetaVoiceAgentsTelephonyOperations {
   return {
     getOperation: (
       agentName: string,
       campaignName: string,
       operationId: string,
-      options?: BetaVoiceAgentsCampaignsGetOperationOptionalParams,
+      options?: BetaVoiceAgentsTelephonyGetOperationOptionalParams,
     ) => getOperation(context, agentName, campaignName, operationId, options),
     listValidationErrors: (
       agentName: string,
       campaignName: string,
-      options?: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
+      options?: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
     ) => listValidationErrors(context, agentName, campaignName, options),
-    deleteCampaign: (
+    deleteTelephony: (
       agentName: string,
       campaignName: string,
       ifMatch: string,
-      options?: BetaVoiceAgentsCampaignsDeleteOptionalParams,
-    ) => deleteCampaign(context, agentName, campaignName, ifMatch, options),
+      options?: BetaVoiceAgentsTelephonyDeleteOptionalParams,
+    ) => deleteTelephony(context, agentName, campaignName, ifMatch, options),
     cancel: (
       agentName: string,
       campaignName: string,
       ifMatch: string,
-      options?: BetaVoiceAgentsCampaignsCancelOptionalParams,
+      options?: BetaVoiceAgentsTelephonyCancelOptionalParams,
     ) => cancel(context, agentName, campaignName, ifMatch, options),
-    list: (agentName: string, options?: BetaVoiceAgentsCampaignsListOptionalParams) =>
+    list: (agentName: string, options?: BetaVoiceAgentsTelephonyListOptionalParams) =>
       list(context, agentName, options),
     get: (
       agentName: string,
       campaignName: string,
-      options?: BetaVoiceAgentsCampaignsGetOptionalParams,
+      options?: BetaVoiceAgentsTelephonyGetOptionalParams,
     ) => get(context, agentName, campaignName, options),
     create: (
       agentName: string,
       campaignName: string,
       campaign: TelephonyCampaignCreate,
-      options?: BetaVoiceAgentsCampaignsCreateOptionalParams,
+      options?: BetaVoiceAgentsTelephonyCreateOptionalParams,
     ) => create(context, agentName, campaignName, campaign, options),
   };
 }
