@@ -1380,7 +1380,6 @@ export type {
   DimensionRemovedDiagnosticChange,
   DefinitionUpdatedDiagnosticChange,
   EvaluatorFieldChange,
-  SkillsDownloadResponse,
   AgentsDownloadOptimizationJobFileResponse,
   CreateEvalJsonlRunDataSource,
   EvalJsonlFileContentSource,

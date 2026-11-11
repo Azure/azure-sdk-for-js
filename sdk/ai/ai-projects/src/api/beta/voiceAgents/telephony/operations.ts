@@ -23,13 +23,13 @@ import { buildPagedAsyncIterator } from "../../../../static-helpers/pagingHelper
 import { getLongRunningPoller } from "../../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -40,7 +40,7 @@ export function _getOperationSend(
   agentName: string,
   campaignName: string,
   operationId: string,
-  options: BetaVoiceAgentsCampaignsGetOperationOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyGetOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -88,7 +88,7 @@ export async function getOperation(
   agentName: string,
   campaignName: string,
   operationId: string,
-  options: BetaVoiceAgentsCampaignsGetOperationOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyGetOperationOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyCampaignOperation> {
   const result = await _getOperationSend(context, agentName, campaignName, operationId, options);
   return _getOperationDeserialize(result);
@@ -98,7 +98,7 @@ export function _listValidationErrorsSend(
   context: Client,
   agentName: string,
   campaignName: string,
-  options: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -148,7 +148,7 @@ export function listValidationErrors(
   context: Client,
   agentName: string,
   campaignName: string,
-  options: BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TelephonyCampaignValidationError> {
   return buildPagedAsyncIterator(
     context,
@@ -172,12 +172,12 @@ export function listValidationErrors(
   );
 }
 
-export function _deleteCampaignSend(
+export function _deleteTelephonySend(
   context: Client,
   agentName: string,
   campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsCampaignsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -203,7 +203,7 @@ export function _deleteCampaignSend(
   });
 }
 
-export async function _deleteCampaignDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteTelephonyDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -218,18 +218,18 @@ export async function _deleteCampaignDeserialize(result: PathUncheckedResponse):
 }
 
 /** Deletes a terminal Campaign and its recipient/task data asynchronously. Returns bodyless 202 with a monitor, not a tombstone; completion makes GET return 404 and lists omit it. Dataset, connections, Agent, independent jobs and call history are preserved. */
-export function deleteCampaign(
+export function deleteTelephony(
   context: Client,
   agentName: string,
   campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsCampaignsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteCampaignDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _deleteTelephonyDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteCampaignSend(context, agentName, campaignName, ifMatch, options),
+      _deleteTelephonySend(context, agentName, campaignName, ifMatch, options),
     apiVersion: context.apiVersion ?? "v1",
     pollHeaders: {
       "foundry-features": "VoiceAgents=V1Preview",
@@ -245,7 +245,7 @@ export function _cancelSend(
   agentName: string,
   campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsCampaignsCancelOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyCancelOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -294,7 +294,7 @@ export function cancel(
   agentName: string,
   campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsCampaignsCancelOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyCancelOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
   let initiatingOperationId: string | undefined;
   return getLongRunningPoller(
@@ -325,7 +325,7 @@ export function cancel(
 export function _listSend(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentsCampaignsListOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -374,7 +374,7 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   agentName: string,
-  options: BetaVoiceAgentsCampaignsListOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TelephonyCampaign> {
   return buildPagedAsyncIterator(
     context,
@@ -402,7 +402,7 @@ export function _getSend(
   context: Client,
   agentName: string,
   campaignName: string,
-  options: BetaVoiceAgentsCampaignsGetOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -447,7 +447,7 @@ export async function get(
   context: Client,
   agentName: string,
   campaignName: string,
-  options: BetaVoiceAgentsCampaignsGetOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyGetOptionalParams = { requestOptions: {} },
 ): Promise<TelephonyCampaign> {
   const result = await _getSend(context, agentName, campaignName, options);
   return _getDeserialize(result);
@@ -458,7 +458,7 @@ export function _createSend(
   agentName: string,
   campaignName: string,
   campaign: TelephonyCampaignCreate,
-  options: BetaVoiceAgentsCampaignsCreateOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
 
@@ -509,7 +509,7 @@ export function create(
   agentName: string,
   campaignName: string,
   campaign: TelephonyCampaignCreate,
-  options: BetaVoiceAgentsCampaignsCreateOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
   let initiatingOperationId: string | undefined;
   return getLongRunningPoller(
@@ -548,7 +548,7 @@ function getCampaignResult(
   agentName: string,
   campaignName: string,
   operationId: string | undefined,
-  options: BetaVoiceAgentsCampaignsGetOptionalParams,
+  options: BetaVoiceAgentsTelephonyGetOptionalParams,
 ): Promise<TelephonyCampaign> {
   if (!operationId) {
     throw new Error("Campaign response is missing the required Operation-Id header.");

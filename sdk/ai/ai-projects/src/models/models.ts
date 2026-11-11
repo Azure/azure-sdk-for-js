@@ -40187,23 +40187,6 @@ export function evaluatorFieldChangeDeserializer(item: any): EvaluatorFieldChang
   };
 }
 
-export type SkillsDownloadResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
 export type AgentsDownloadOptimizationJobFileResponse = {
   /**
    * BROWSER ONLY

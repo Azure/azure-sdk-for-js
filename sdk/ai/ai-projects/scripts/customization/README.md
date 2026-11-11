@@ -79,6 +79,12 @@ regeneration script falls back to it when the strict run fails.
   initialization uses the maintained beta group's authentication context, not
   the emitter's single `_client`; all other constructor customizations remain
   protected.
+- The full Skills preview reversion in `azure-rest-api-specs#48068` retires only
+  the root Skills client member, its initialization and dedicated imports.
+  Reviewed follow-up source edits restore `/skills`, query API versioning and
+  `Skills=V1Preview` headers, including pagination, on `beta.skills`. The
+  preservation guards require the complete destination surface and reject
+  unrelated client changes or stale root callers.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not

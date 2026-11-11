@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SkillInlineContent, PageOrder } from "../../models/models.js";
+import type { SkillInlineContent, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -11,7 +11,7 @@ export interface DeleteVersionOptionalParams extends OperationOptions {}
 export interface DownloadVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SkillsDownloadOptionalParams extends OperationOptions {}
+export interface BetaSkillsDownloadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetVersionOptionalParams extends OperationOptions {}
@@ -46,7 +46,7 @@ export interface ListVersionsOptionalParams extends OperationOptions {
 export interface CreateFromFilesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SkillsCreateOptionalParams extends OperationOptions {
+export interface BetaSkillsCreateOptionalParams extends OperationOptions {
   /** Inline skill content for simple skills without file uploads. Foundry-specific extension. */
   inlineContent?: SkillInlineContent;
   /** Whether to set this version as the default. */
@@ -54,13 +54,13 @@ export interface SkillsCreateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SkillsDeleteOptionalParams extends OperationOptions {}
+export interface BetaSkillsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SkillsUpdateOptionalParams extends OperationOptions {}
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SkillsListOptionalParams extends OperationOptions {
+export interface BetaSkillsListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -86,4 +86,4 @@ export interface SkillsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SkillsGetOptionalParams extends OperationOptions {}
+export interface BetaSkillsGetOptionalParams extends OperationOptions {}

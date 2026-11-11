@@ -270,17 +270,23 @@ function inventory(tree, diagnostics, replacements = new Map()) {
     }
     const scopedRenames = new Map(replacements);
     // Historical Tool* compatibility aliases coexist with the released
-    // declaration. Do not rename their binding onto that declaration.
+    // declaration. Do not rename their binding or barrel export onto that
+    // declaration: the barrel itself has no declarations to detect aliases.
+    const aliasSource =
+      file === modelBarrel
+        ? parse(tree.get(canonicalFile) ?? "", canonicalFile, diagnostics)
+        : source;
+    const aliasNames = new Set(aliasSource.statements.map(declarationName));
     for (const [from, to] of historicalToolRenames) {
-      if (scopedRenames.get(from) !== to || !names.has(from) || !names.has(to)) continue;
-      const alias = source.statements.find((node) => declarationName(node) === from);
+      if (scopedRenames.get(from) !== to || !aliasNames.has(from) || !aliasNames.has(to)) continue;
+      const alias = aliasSource.statements.find((node) => declarationName(node) === from);
       const target = ts.isTypeAliasDeclaration(alias)
         ? alias.type
         : ts.isVariableStatement(alias)
           ? alias.declarationList.declarations[0].initializer
           : undefined;
       if (
-        (target && ts.isTypeReferenceNode(target) && target.typeName.getText(source) === to) ||
+        (target && ts.isTypeReferenceNode(target) && target.typeName.getText(aliasSource) === to) ||
         (target && ts.isIdentifier(target) && target.text === to) ||
         (from === "_ToolFileSearchToolFiltersValue" && ts.isTypeAliasDeclaration(alias))
       )

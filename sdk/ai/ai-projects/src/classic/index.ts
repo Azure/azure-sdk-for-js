@@ -25,5 +25,5 @@ export type { VoiceAgentsOperations } from "./voiceAgents/index.js";
 export type { VoiceAgentsConversationsOperations } from "./voiceAgents/conversations/index.js";
 export type { VoiceAgentsTelephonyOperations } from "./voiceAgents/telephony/index.js";
 export type { AgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-export type { SkillsOperations } from "./skills/index.js";
-export type { BetaVoiceAgentsCampaignsOperations } from "./beta/voiceAgents/campaigns/index.js";
+export type { BetaSkillsOperations } from "./beta/skills/index.js";
+export type { BetaVoiceAgentsTelephonyOperations } from "./beta/voiceAgents/telephony/index.js";

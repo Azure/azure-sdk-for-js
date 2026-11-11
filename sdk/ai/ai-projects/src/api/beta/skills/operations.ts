@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
   skillDeserializer,
@@ -12,7 +12,7 @@ import {
   createSkillVersionFromFilesBodySerializer,
   _agentsPagedResultSkillVersionDeserializer,
   deleteSkillVersionResponseDeserializer,
-} from "../../models/models.js";
+} from "../../../models/models.js";
 import type {
   Skill,
   _AgentsPagedResultSkill,
@@ -22,23 +22,23 @@ import type {
   _AgentsPagedResultSkillVersion,
   DeleteSkillVersionResponse,
   DownloadVersionResponse,
-  SkillsDownloadResponse,
-} from "../../models/models.js";
+  BetaSkillsDownloadResponse,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
   DownloadVersionOptionalParams,
-  SkillsDownloadOptionalParams,
+  BetaSkillsDownloadOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
   CreateFromFilesOptionalParams,
-  SkillsCreateOptionalParams,
-  SkillsDeleteOptionalParams,
-  SkillsUpdateOptionalParams,
-  SkillsListOptionalParams,
-  SkillsGetOptionalParams,
+  BetaSkillsCreateOptionalParams,
+  BetaSkillsDeleteOptionalParams,
+  BetaSkillsUpdateOptionalParams,
+  BetaSkillsListOptionalParams,
+  BetaSkillsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -51,10 +51,11 @@ export function _deleteVersionSend(
   options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}",
+    "/skills/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +63,11 @@ export function _deleteVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -100,10 +105,11 @@ export function _downloadVersionSend(
   options: DownloadVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}/content",
+    "/skills/{name}/versions/{version}/content{?api-version}",
     {
       name: name,
       version: version,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +117,11 @@ export function _downloadVersionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/zip",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -146,12 +156,13 @@ export async function downloadVersion(
 export function _downloadSend(
   context: Client,
   name: string,
-  options: SkillsDownloadOptionalParams = { requestOptions: {} },
+  options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/content",
+    "/skills/{name}/content{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,13 +170,17 @@ export function _downloadSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/zip",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
 export async function _downloadDeserialize(
-  result: PathUncheckedResponse & SkillsDownloadResponse,
-): Promise<SkillsDownloadResponse> {
+  result: PathUncheckedResponse & BetaSkillsDownloadResponse,
+): Promise<BetaSkillsDownloadResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -183,8 +198,8 @@ export async function _downloadDeserialize(
 export async function download(
   context: Client,
   name: string,
-  options: SkillsDownloadOptionalParams = { requestOptions: {} },
-): Promise<SkillsDownloadResponse> {
+  options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
+): Promise<BetaSkillsDownloadResponse> {
   const streamableMethod = _downloadSend(context, name, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadDeserialize(result);
@@ -197,10 +212,11 @@ export function _getVersionSend(
   options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}",
+    "/skills/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +224,11 @@ export function _getVersionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -243,13 +263,14 @@ export function _listVersionsSend(
   options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions{?after,before,limit,order}",
+    "/skills/{name}/versions{?after,api-version,before,limit,order}",
     {
       name: name,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,7 +278,11 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -290,11 +315,16 @@ export function listVersions(
     ["200"],
     {
       itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: { accept: "application/json", ...options.requestOptions?.headers },
+        headers: {
+          "foundry-features": "Skills=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
       },
     },
   );
@@ -307,9 +337,10 @@ export function _createFromFilesSend(
   options: CreateFromFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions",
+    "/skills/{name}/versions{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +349,11 @@ export function _createFromFilesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: createSkillVersionFromFilesBodySerializer(content),
   });
 }
@@ -353,12 +388,13 @@ export async function createFromFiles(
 export function _createSend(
   context: Client,
   name: string,
-  options: SkillsCreateOptionalParams = { requestOptions: {} },
+  options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions",
+    "/skills/{name}/versions{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -367,7 +403,11 @@ export function _createSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: {
       inline_content: !options?.inlineContent
         ? options?.inlineContent
@@ -395,7 +435,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   name: string,
-  options: SkillsCreateOptionalParams = { requestOptions: {} },
+  options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): Promise<SkillVersion> {
   const result = await _createSend(context, name, options);
   return _createDeserialize(result);
@@ -404,12 +444,13 @@ export async function create(
 export function _$deleteSend(
   context: Client,
   name: string,
-  options: SkillsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,7 +458,11 @@ export function _$deleteSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -441,7 +486,7 @@ export async function _$deleteDeserialize(
 export async function $delete(
   context: Client,
   name: string,
-  options: SkillsDeleteOptionalParams = { requestOptions: {} },
+  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteSkillResponse> {
   const result = await _$deleteSend(context, name, options);
   return _$deleteDeserialize(result);
@@ -451,12 +496,13 @@ export function _updateSend(
   context: Client,
   name: string,
   defaultVersion: string,
-  options: SkillsUpdateOptionalParams = { requestOptions: {} },
+  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -465,7 +511,11 @@ export function _updateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: { default_version: defaultVersion },
   });
 }
@@ -489,7 +539,7 @@ export async function update(
   context: Client,
   name: string,
   defaultVersion: string,
-  options: SkillsUpdateOptionalParams = { requestOptions: {} },
+  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Skill> {
   const result = await _updateSend(context, name, defaultVersion, options);
   return _updateDeserialize(result);
@@ -497,15 +547,16 @@ export async function update(
 
 export function _listSend(
   context: Client,
-  options: SkillsListOptionalParams = { requestOptions: {} },
+  options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills{?after,before,limit,order}",
+    "/skills{?after,api-version,before,limit,order}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -513,7 +564,11 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -536,7 +591,7 @@ export async function _listDeserialize(
 /** Returns the skills available in the current project. */
 export function list(
   context: Client,
-  options: SkillsListOptionalParams = { requestOptions: {} },
+  options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Skill> {
   return buildPagedAsyncIterator(
     context,
@@ -545,11 +600,16 @@ export function list(
     ["200"],
     {
       itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
       nextPageRequestOptions: {
         ...operationOptionsToRequestParameters(options),
-        headers: { accept: "application/json", ...options.requestOptions?.headers },
+        headers: {
+          "foundry-features": "Skills=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
       },
     },
   );
@@ -558,12 +618,13 @@ export function list(
 export function _getSend(
   context: Client,
   name: string,
-  options: SkillsGetOptionalParams = { requestOptions: {} },
+  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -571,7 +632,11 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": "Skills=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -593,7 +658,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
 export async function get(
   context: Client,
   name: string,
-  options: SkillsGetOptionalParams = { requestOptions: {} },
+  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): Promise<Skill> {
   const result = await _getSend(context, name, options);
   return _getDeserialize(result);

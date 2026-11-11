@@ -12,12 +12,122 @@ import {
   findIndexInvariantViolations,
   findPromotedOptionRemovals,
   findCampaignRelocationRemovals,
+  findSkillsReversionRemovals,
 } from "./check-generated-member-parity.mjs";
 
 const scriptPath = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   "check-generated-member-parity.mjs",
 );
+
+function skillsReversionFixture() {
+  const methods = [
+    "deleteVersion",
+    "downloadVersion",
+    "download",
+    "getVersion",
+    "listVersions",
+    "createFromFiles",
+    "create",
+    "$delete",
+    "update",
+    "list",
+    "get",
+  ];
+  const shared = new Set([
+    "deleteVersion",
+    "downloadVersion",
+    "getVersion",
+    "listVersions",
+    "createFromFiles",
+  ]);
+  const make = (beta) => {
+    const prefix = beta ? "BetaSkills" : "Skills";
+    const api = beta ? "api/beta/skills" : "api/skills";
+    const options = methods.map(
+      (name) =>
+        `${shared.has(name) ? "" : prefix}${name === "$delete" ? "Delete" : name[0].toUpperCase() + name.slice(1)}OptionalParams`,
+    );
+    const members = methods
+      .map(
+        (name, i) => `${name === "$delete" ? "delete" : name}: (options?: ${options[i]}) => void;`,
+      )
+      .join("\n");
+    return new Map([
+      [
+        `${api}/operations.ts`,
+        methods
+          .map(
+            (name, i) => `
+export function _${name}Send(context: Client, options: ${options[i]} = {}) {
+  const path = expandUrlTemplate("${beta ? "/skills" : "/openai/v1/skills"}/${i}", {}, {});
+  return context.path(path).get(options);
+}
+export async function _${name}Deserialize(response: Response) { return response.body; }
+export async function ${name}(context: Client, options: ${options[i]} = {}) {
+  return _${name}Deserialize(await _${name}Send(context, options));
+}`,
+          )
+          .join("\n"),
+      ],
+      [`${api}/options.ts`, options.map((name) => `export interface ${name} {}`).join("\n")],
+      [
+        `classic/${beta ? "beta/" : ""}skills/index.ts`,
+        `export interface ${prefix}Operations { ${members} }`,
+      ],
+      [
+        "index.ts",
+        [...options, `${prefix}Operations`].map((name) => `export type { ${name} };`).join("\n"),
+      ],
+    ]);
+  };
+  const previousGenerated = make(false);
+  const currentGenerated = make(true);
+  return {
+    previousGenerated,
+    previousSource: new Map(previousGenerated),
+    currentGenerated,
+    currentSource: new Map(currentGenerated),
+  };
+}
+
+test("Skills full preview reversion allows only the verified root exports", () => {
+  assert.deepEqual(
+    [...findSkillsReversionRemovals(skillsReversionFixture())].sort(),
+    [
+      "SkillsCreateOptionalParams",
+      "SkillsDeleteOptionalParams",
+      "SkillsDownloadOptionalParams",
+      "SkillsGetOptionalParams",
+      "SkillsListOptionalParams",
+      "SkillsOperations",
+      "SkillsUpdateOptionalParams",
+    ].sort(),
+  );
+});
+
+test("Skills reversion rejects incomplete destinations, stale callers and unrelated changes", () => {
+  for (const change of [
+    (f) => f.currentSource.delete("classic/beta/skills/index.ts"),
+    (f) => f.currentGenerated.set("api/skills/index.ts", "export {};"),
+    (f) => f.currentSource.set("caller.ts", "const options: SkillsGetOptionalParams = {};"),
+    (f) =>
+      f.currentSource.set(
+        "api/beta/skills/operations.ts",
+        f.currentSource.get("api/beta/skills/operations.ts").replace("/skills/0", "/unrelated/0"),
+      ),
+    (f) => f.currentSource.set("api/beta/skills/options.ts", ""),
+    (f) =>
+      f.previousSource.set(
+        "classic/skills/index.ts",
+        f.previousSource.get("classic/skills/index.ts").replace(" {", " { custom: () => void;"),
+      ),
+  ]) {
+    const fixture = skillsReversionFixture();
+    change(fixture);
+    assert.equal(findSkillsReversionRemovals(fixture).size, 0);
+  }
+});
 
 const previousGeneratedOptions = `
 export interface AgentsCreateAgentOptionalParams {
