@@ -845,7 +845,7 @@ export function _listOptimizationJobsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      status: options?.status as any,
+      status: options?.status,
       agent_name: options?.agentName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
