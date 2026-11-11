@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -976,6 +977,25 @@ export interface AzureStorageBlobContainerEndpointProperties extends EndpointBas
   blobContainerName: string;
   /** The Endpoint resource type. */
   endpointType: "AzureStorageBlobContainer";
+  /**
+   * Opt-in flag enabling this endpoint to be used as one side of a cross-tenant
+   * data transfer pair. When set to true, RBAC for the endpoint's managed
+   * identity is granted on the customer's storage account so that authorization
+   * can be performed entirely in the tenant where this endpoint lives. Defaults
+   * to false. Can be updated via PATCH.
+   */
+  enableCrossTenantTransfer?: boolean;
+  /**
+   * Full ARM resource IDs of partner-tenant storage accounts that are allowed
+   * to be the other side of a cross-tenant data transfer pair with this
+   * endpoint. For a source endpoint this lists allowed target storage accounts;
+   * for a target endpoint this lists allowed source storage accounts.
+   * The full list is replaced on PATCH (omit an entry to remove it; include
+   * an entry to add it). Mutual presence in both endpoints' allow lists is
+   * re-validated at every job run start, so removing an entry blocks future
+   * runs that reference the removed storage account.
+   */
+  allowedStorageAccounts?: string[];
 }
 
 export function azureStorageBlobContainerEndpointPropertiesSerializer(
@@ -987,6 +1007,12 @@ export function azureStorageBlobContainerEndpointPropertiesSerializer(
     endpointKind: item["endpointKind"],
     storageAccountResourceId: item["storageAccountResourceId"],
     blobContainerName: item["blobContainerName"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1000,6 +1026,12 @@ export function azureStorageBlobContainerEndpointPropertiesDeserializer(
     provisioningState: item["provisioningState"],
     storageAccountResourceId: item["storageAccountResourceId"],
     blobContainerName: item["blobContainerName"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1013,6 +1045,8 @@ export interface NfsMountEndpointProperties extends EndpointBaseProperties {
   export: string;
   /** The Endpoint resource type. */
   endpointType: "NfsMount";
+  /** Source type to differentiate NFSMount and FSX-SMB endpoints. Default is NFSMount. */
+  sourceType?: NfsMountSourceType;
 }
 
 export function nfsMountEndpointPropertiesSerializer(item: NfsMountEndpointProperties): any {
@@ -1023,6 +1057,7 @@ export function nfsMountEndpointPropertiesSerializer(item: NfsMountEndpointPrope
     host: item["host"],
     nfsVersion: item["nfsVersion"],
     export: item["export"],
+    sourceType: item["sourceType"],
   };
 }
 
@@ -1035,6 +1070,7 @@ export function nfsMountEndpointPropertiesDeserializer(item: any): NfsMountEndpo
     host: item["host"],
     nfsVersion: item["nfsVersion"],
     export: item["export"],
+    sourceType: item["sourceType"],
   };
 }
 
@@ -1046,6 +1082,8 @@ export enum KnownNfsVersion {
   NFSv3 = "NFSv3",
   /** NFSv4 */
   NFSv4 = "NFSv4",
+  /** NFSv4_1 */
+  NFSv41 = "NFSv4_1",
 }
 
 /**
@@ -1055,9 +1093,28 @@ export enum KnownNfsVersion {
  * ### Known values supported by the service
  * **NFSauto** \
  * **NFSv3** \
- * **NFSv4**
+ * **NFSv4** \
+ * **NFSv4_1**
  */
 export type NfsVersion = string;
+
+/** Source type to differentiate NFSMount and FSX-EFS endpoints. Default is NFSMount. */
+export enum KnownNfsMountSourceType {
+  /** NfsMount */
+  NfsMount = "NfsMount",
+  /** FSX-EFS */
+  Fsxefs = "FSX-EFS",
+}
+
+/**
+ * Source type to differentiate NFSMount and FSX-EFS endpoints. Default is NFSMount. \
+ * {@link KnownNfsMountSourceType} can be used interchangeably with NfsMountSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NfsMount** \
+ * **FSX-EFS**
+ */
+export type NfsMountSourceType = string;
 
 /** The properties of S3WithHmac share endpoint. */
 export interface S3WithHmacEndpointProperties extends EndpointBaseProperties {
@@ -1170,6 +1227,25 @@ export interface AzureStorageSmbFileShareEndpointProperties extends EndpointBase
   fileShareName: string;
   /** The Endpoint resource type. */
   endpointType: "AzureStorageSmbFileShare";
+  /**
+   * Opt-in flag enabling this endpoint to be used as one side of a cross-tenant
+   * data transfer pair. When set to true, RBAC for the endpoint's managed
+   * identity is granted on the customer's storage account so that authorization
+   * can be performed entirely in the tenant where this endpoint lives. Defaults
+   * to false. Can be updated via PATCH.
+   */
+  enableCrossTenantTransfer?: boolean;
+  /**
+   * Full ARM resource IDs of partner-tenant storage accounts that are allowed
+   * to be the other side of a cross-tenant data transfer pair with this
+   * endpoint. For a source endpoint this lists allowed target storage accounts;
+   * for a target endpoint this lists allowed source storage accounts.
+   * The full list is replaced on PATCH (omit an entry to remove it; include
+   * an entry to add it). Mutual presence in both endpoints' allow lists is
+   * re-validated at every job run start, so removing an entry blocks future
+   * runs that reference the removed storage account.
+   */
+  allowedStorageAccounts?: string[];
 }
 
 export function azureStorageSmbFileShareEndpointPropertiesSerializer(
@@ -1181,6 +1257,12 @@ export function azureStorageSmbFileShareEndpointPropertiesSerializer(
     endpointKind: item["endpointKind"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1194,6 +1276,12 @@ export function azureStorageSmbFileShareEndpointPropertiesDeserializer(
     provisioningState: item["provisioningState"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1207,6 +1295,8 @@ export interface SmbMountEndpointProperties extends EndpointBaseProperties {
   credentials?: AzureKeyVaultSmbCredentials;
   /** The Endpoint resource type. */
   endpointType: "SmbMount";
+  /** Source type to differentiate SMBMount and FSX-SMB endpoints. Default is SMBMount. */
+  sourceType?: SmbMountSourceType;
 }
 
 export function smbMountEndpointPropertiesSerializer(item: SmbMountEndpointProperties): any {
@@ -1219,6 +1309,7 @@ export function smbMountEndpointPropertiesSerializer(item: SmbMountEndpointPrope
     credentials: !item["credentials"]
       ? item["credentials"]
       : azureKeyVaultSmbCredentialsSerializer(item["credentials"]),
+    sourceType: item["sourceType"],
   };
 }
 
@@ -1233,6 +1324,7 @@ export function smbMountEndpointPropertiesDeserializer(item: any): SmbMountEndpo
     credentials: !item["credentials"]
       ? item["credentials"]
       : azureKeyVaultSmbCredentialsDeserializer(item["credentials"]),
+    sourceType: item["sourceType"],
   };
 }
 
@@ -1257,6 +1349,24 @@ export function azureKeyVaultSmbCredentialsDeserializer(item: any): AzureKeyVaul
     passwordUri: item["passwordUri"],
   };
 }
+
+/** Source type to differentiate SMBMount and FSX-SMB endpoints. Default is SMBMount. */
+export enum KnownSmbMountSourceType {
+  /** SmbMount */
+  SmbMount = "SmbMount",
+  /** FSX-SMB */
+  Fsxsmb = "FSX-SMB",
+}
+
+/**
+ * Source type to differentiate SMBMount and FSX-SMB endpoints. Default is SMBMount. \
+ * {@link KnownSmbMountSourceType} can be used interchangeably with SmbMountSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SmbMount** \
+ * **FSX-SMB**
+ */
+export type SmbMountSourceType = string;
 
 /** The properties of Azure Storage NFS file share endpoint. */
 export interface AzureStorageNfsFileShareEndpointProperties extends EndpointBaseProperties {
@@ -1579,12 +1689,33 @@ export function endpointBaseUpdatePropertiesUnionSerializer(
 export interface AzureStorageBlobContainerEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureStorageBlobContainer";
+  /**
+   * Opt-in flag enabling this endpoint to be used as one side of a cross-tenant
+   * data transfer pair. Defaults to false.
+   */
+  enableCrossTenantTransfer?: boolean;
+  /**
+   * Replaces the list of partner-tenant storage account ARM IDs allowed to be
+   * the other side of a cross-tenant data transfer pair with this endpoint.
+   * Omit an entry to remove it; include an entry to add it. Removing an entry
+   * blocks future job runs that reference that storage account.
+   */
+  allowedStorageAccounts?: string[];
 }
 
 export function azureStorageBlobContainerEndpointUpdatePropertiesSerializer(
   item: AzureStorageBlobContainerEndpointUpdateProperties,
 ): any {
-  return { endpointType: item["endpointType"], description: item["description"] };
+  return {
+    endpointType: item["endpointType"],
+    description: item["description"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 /** model interface S3WithHmacEndpointUpdateProperties */
@@ -1623,12 +1754,33 @@ export function nfsMountEndpointUpdatePropertiesSerializer(
 export interface AzureStorageSmbFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureStorageSmbFileShare";
+  /**
+   * Opt-in flag enabling this endpoint to be used as one side of a cross-tenant
+   * data transfer pair. Defaults to false.
+   */
+  enableCrossTenantTransfer?: boolean;
+  /**
+   * Replaces the list of partner-tenant storage account ARM IDs allowed to be
+   * the other side of a cross-tenant data transfer pair with this endpoint.
+   * Omit an entry to remove it; include an entry to add it. Removing an entry
+   * blocks future job runs that reference that storage account.
+   */
+  allowedStorageAccounts?: string[];
 }
 
 export function azureStorageSmbFileShareEndpointUpdatePropertiesSerializer(
   item: AzureStorageSmbFileShareEndpointUpdateProperties,
 ): any {
-  return { endpointType: item["endpointType"], description: item["description"] };
+  return {
+    endpointType: item["endpointType"],
+    description: item["description"],
+    enableCrossTenantTransfer: item["enableCrossTenantTransfer"],
+    allowedStorageAccounts: !item["allowedStorageAccounts"]
+      ? item["allowedStorageAccounts"]
+      : item["allowedStorageAccounts"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 /** The properties of Azure Storage NFS file share endpoint to update. */
@@ -1866,6 +2018,30 @@ export interface JobDefinitionProperties {
   dataIntegrityValidation?: DataIntegrityValidation;
   /** Boolean to preserve permissions or not. */
   preservePermissions?: boolean;
+  /**
+   * Indicates that this Job Definition is a cross-tenant job where the
+   * counterpart endpoint resides in a different Azure AD tenant. When true,
+   * `crossTenantEndpointTenantId` and `crossTenantEndpointResourceId` must be
+   * provided. Defaults to false. Cannot be modified after the Job Definition is
+   * created.
+   */
+  isCrossTenantJob?: boolean;
+  /**
+   * The Azure AD tenant ID of the cross-tenant source endpoint. Required when
+   * `isCrossTenantJob` is true. Cannot be modified after the Job Definition is
+   * created.
+   */
+  crossTenantEndpointTenantId?: string;
+  /**
+   * Full ARM resource ID of the cross-tenant (foreign) endpoint. On the
+   * source-tenant copy this is the TARGET endpoint; on the
+   * target-tenant copy this is the SOURCE endpoint.
+   */
+  crossTenantEndpointResourceId?: string;
+  /** The synchronization mode for the Job Definition. */
+  syncMode?: string;
+  /** The last time the mover was synchronized. */
+  moverSyncedUntil?: Date;
 }
 
 export function jobDefinitionPropertiesSerializer(item: JobDefinitionProperties): any {
@@ -1889,6 +2065,13 @@ export function jobDefinitionPropertiesSerializer(item: JobDefinitionProperties)
     schedule: !item["schedule"] ? item["schedule"] : scheduleInfoSerializer(item["schedule"]),
     dataIntegrityValidation: item["dataIntegrityValidation"],
     preservePermissions: item["preservePermissions"],
+    isCrossTenantJob: item["isCrossTenantJob"],
+    crossTenantEndpointTenantId: item["crossTenantEndpointTenantId"],
+    crossTenantEndpointResourceId: item["crossTenantEndpointResourceId"],
+    syncMode: item["syncMode"],
+    moverSyncedUntil: !item["moverSyncedUntil"]
+      ? item["moverSyncedUntil"]
+      : item["moverSyncedUntil"].toISOString(),
   };
 }
 
@@ -1920,6 +2103,13 @@ export function jobDefinitionPropertiesDeserializer(item: any): JobDefinitionPro
     schedule: !item["schedule"] ? item["schedule"] : scheduleInfoDeserializer(item["schedule"]),
     dataIntegrityValidation: item["dataIntegrityValidation"],
     preservePermissions: item["preservePermissions"],
+    isCrossTenantJob: item["isCrossTenantJob"],
+    crossTenantEndpointTenantId: item["crossTenantEndpointTenantId"],
+    crossTenantEndpointResourceId: item["crossTenantEndpointResourceId"],
+    syncMode: item["syncMode"],
+    moverSyncedUntil: !item["moverSyncedUntil"]
+      ? item["moverSyncedUntil"]
+      : new Date(item["moverSyncedUntil"]),
   };
 }
 
@@ -1929,6 +2119,8 @@ export enum KnownJobType {
   OnPremToCloud = "OnPremToCloud",
   /** CloudToCloud */
   CloudToCloud = "CloudToCloud",
+  /** OnPremToCloudAgentLess */
+  OnPremToCloudAgentLess = "OnPremToCloudAgentLess",
 }
 
 /**
@@ -1937,7 +2129,8 @@ export enum KnownJobType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **OnPremToCloud** \
- * **CloudToCloud**
+ * **CloudToCloud** \
+ * **OnPremToCloudAgentLess**
  */
 export type JobType = string;
 
@@ -2121,6 +2314,8 @@ export interface ScheduleInfo {
   cronExpression?: string;
   /** End time of the schedule (in UTC) */
   endDate?: Date;
+  /** Repeat interval used for sub-daily schedules. */
+  repeatInterval?: string;
 }
 
 export function scheduleInfoSerializer(item: ScheduleInfo): any {
@@ -2143,6 +2338,7 @@ export function scheduleInfoSerializer(item: ScheduleInfo): any {
         }),
     cronExpression: item["cronExpression"],
     endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+    repeatInterval: item["repeatInterval"],
   };
 }
 
@@ -2166,6 +2362,7 @@ export function scheduleInfoDeserializer(item: any): ScheduleInfo {
         }),
     cronExpression: item["cronExpression"],
     endDate: !item["endDate"] ? item["endDate"] : new Date(item["endDate"]),
+    repeatInterval: item["repeatInterval"],
   };
 }
 
@@ -2181,6 +2378,8 @@ export enum KnownFrequency {
   Onetime = "Onetime",
   /** No schedule frequency. The job definition will not run on a schedule. */
   None = "None",
+  /** Hourly */
+  Hourly = "Hourly",
 }
 
 /**
@@ -2192,7 +2391,8 @@ export enum KnownFrequency {
  * **Weekly** \
  * **Daily** \
  * **Onetime** \
- * **None**: No schedule frequency. The job definition will not run on a schedule.
+ * **None**: No schedule frequency. The job definition will not run on a schedule. \
+ * **Hourly**
  */
 export type Frequency = string;
 
@@ -2264,6 +2464,10 @@ export interface JobDefinitionUpdateProperties {
   dataIntegrityValidation?: DataIntegrityValidation;
   /** Schedule information for the Job Definition. */
   schedule?: ScheduleInfo;
+  /** The synchronization mode for the Job Definition. */
+  syncMode?: string;
+  /** The last time the mover was synchronized. */
+  moverSyncedUntil?: Date;
 }
 
 export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdateProperties): any {
@@ -2278,6 +2482,10 @@ export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdat
         }),
     dataIntegrityValidation: item["dataIntegrityValidation"],
     schedule: !item["schedule"] ? item["schedule"] : scheduleInfoSerializer(item["schedule"]),
+    syncMode: item["syncMode"],
+    moverSyncedUntil: !item["moverSyncedUntil"]
+      ? item["moverSyncedUntil"]
+      : item["moverSyncedUntil"].toISOString(),
   };
 }
 
@@ -2686,4 +2894,6 @@ export enum KnownVersions {
   V20250801 = "2025-08-01",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
 }

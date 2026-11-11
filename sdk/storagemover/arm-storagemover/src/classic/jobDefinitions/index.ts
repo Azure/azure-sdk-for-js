@@ -3,6 +3,7 @@
 
 import type { StorageMoverContext } from "../../api/storageMoverContext.js";
 import {
+  reconcileJob,
   stopJob,
   startJob,
   list,
@@ -12,6 +13,7 @@ import {
   get,
 } from "../../api/jobDefinitions/operations.js";
 import type {
+  JobDefinitionsReconcileJobOptionalParams,
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -30,6 +32,14 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JobDefinitions operations. */
 export interface JobDefinitionsOperations {
+  /** Post action to reconcile the running job. */
+  reconcileJob: (
+    resourceGroupName: string,
+    storageMoverName: string,
+    projectName: string,
+    jobDefinitionName: string,
+    options?: JobDefinitionsReconcileJobOptionalParams,
+  ) => Promise<JobRunResourceId>;
   /** Requests the Agent of any active instance of this Job Definition to stop. */
   stopJob: (
     resourceGroupName: string,
@@ -54,11 +64,6 @@ export interface JobDefinitionsOperations {
     options?: JobDefinitionsListOptionalParams,
   ) => PagedAsyncIterableIterator<JobDefinition>;
   /** Deletes a Job Definition resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,
@@ -96,6 +101,21 @@ export interface JobDefinitionsOperations {
 
 function _getJobDefinitions(context: StorageMoverContext) {
   return {
+    reconcileJob: (
+      resourceGroupName: string,
+      storageMoverName: string,
+      projectName: string,
+      jobDefinitionName: string,
+      options?: JobDefinitionsReconcileJobOptionalParams,
+    ) =>
+      reconcileJob(
+        context,
+        resourceGroupName,
+        storageMoverName,
+        projectName,
+        jobDefinitionName,
+        options,
+      ),
     stopJob: (
       resourceGroupName: string,
       storageMoverName: string,

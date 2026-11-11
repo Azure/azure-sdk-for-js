@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface JobDefinitionsReconcileJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface JobDefinitionsStopJobOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
