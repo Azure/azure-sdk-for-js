@@ -1,0 +1,56 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "testcl"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "serverTrustCertificate": {
+          "bicepIdentifier": "serverTrustCertificate",
+          "type": "Microsoft.Sql/managedInstances/serverTrustCertificates",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "servertrustcertifica"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "publicBlob": {
+                    "kind": "string",
+                    "value": "308203AE30820296A0030201020210"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

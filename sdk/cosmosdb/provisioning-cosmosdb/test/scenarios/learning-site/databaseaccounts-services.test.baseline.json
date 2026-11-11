@@ -1,0 +1,230 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "resourceName": {
+          "bicepIdentifier": "resourceName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "acctest0001"
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "westeurope"
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "resourceName"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "GlobalDocumentDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilities": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "consistencyPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "defaultConsistencyLevel": {
+                        "kind": "string",
+                        "value": "BoundedStaleness"
+                      },
+                      "maxIntervalInSeconds": {
+                        "kind": "integer",
+                        "value": "5"
+                      },
+                      "maxStalenessPrefix": {
+                        "kind": "integer",
+                        "value": "100"
+                      }
+                    }
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "defaultIdentity": {
+                    "kind": "string",
+                    "value": "FirstPartyIdentity"
+                  },
+                  "disableKeyBasedMetadataWriteAccess": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableAnalyticalStorage": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableAutomaticFailover": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableFreeTier": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableMultipleWriteLocations": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "ipRules": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "isVirtualNetworkFilterEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "failoverPriority": {
+                            "kind": "integer",
+                            "value": "0"
+                          },
+                          "isZoneRedundant": {
+                            "kind": "boolean",
+                            "value": false
+                          },
+                          "locationName": {
+                            "kind": "string",
+                            "value": "West Europe"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "networkAclBypass": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "networkAclBypassResourceIds": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "virtualNetworkRules": {
+                    "kind": "array",
+                    "items": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "service": {
+          "bicepIdentifier": "service",
+          "type": "Microsoft.DocumentDB/databaseAccounts/services",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "SqlDedicatedGateway"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "instanceCount": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "instanceSize": {
+                    "kind": "string",
+                    "value": "Cosmos.D4s"
+                  },
+                  "serviceType": {
+                    "kind": "string",
+                    "value": "SqlDedicatedGateway"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "service"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -33,7 +33,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,7 @@ export async function _listByInstanceDeserialize(
 
   return _restorableDroppedManagedDatabaseListResultDeserializer(result.body);
 }
+
 /** Gets a list of restorable dropped managed databases. */
 export function listByInstance(
   context: Client,
@@ -75,7 +76,7 @@ export function listByInstance(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -94,7 +95,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,6 +122,7 @@ export async function _getDeserialize(
 
   return restorableDroppedManagedDatabaseDeserializer(result.body);
 }
+
 /** Gets a restorable dropped managed database. */
 export async function get(
   context: Client,

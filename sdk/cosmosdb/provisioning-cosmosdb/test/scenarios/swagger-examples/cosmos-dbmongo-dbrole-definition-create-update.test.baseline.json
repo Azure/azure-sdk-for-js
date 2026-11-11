@@ -1,0 +1,128 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "mongodbRoleDefinition": {
+          "bicepIdentifier": "mongodbRoleDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbRoleDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongoroledefinitiong-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "roleName": {
+                    "kind": "string",
+                    "value": "myRoleName"
+                  },
+                  "databaseName": {
+                    "kind": "string",
+                    "value": "sales"
+                  },
+                  "privileges": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "resource": {
+                            "kind": "object",
+                            "value": {
+                              "db": {
+                                "kind": "string",
+                                "value": "sales"
+                              },
+                              "collection": {
+                                "kind": "string",
+                                "value": "sales"
+                              }
+                            }
+                          },
+                          "actions": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "string",
+                                "value": "insert"
+                              },
+                              {
+                                "kind": "string",
+                                "value": "find"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "roles": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "role": {
+                            "kind": "string",
+                            "value": "myInheritedRole"
+                          },
+                          "db": {
+                            "kind": "string",
+                            "value": "sales"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbRoleDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

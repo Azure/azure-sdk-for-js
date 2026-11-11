@@ -1,14 +1,23 @@
 # Release History
 
-## 1.0.0-beta.47 (Unreleased)
+## 1.0.0-beta.48 (Unreleased)
+
+### Breaking Changes
+
+- Updated to OpenTelemetry SDK 3.x and the matching 0.300.x instrumentation packages. Tracing now uses `@opentelemetry/sdk-trace`, and the logs API comes from `@opentelemetry/api` 1.10.0 instead of `@opentelemetry/api-logs`. See the [OpenTelemetry migration guide](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/3.x/migration-guide.md). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+- Raised the minimum supported Node.js version to 22.15.0 to match [OpenTelemetry SDK 3.x requirements](https://github.com/open-telemetry/opentelemetry-js/issues/6420). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+### Bugs Fixed
+
+- Preserved compatible sampler attribute value types for OpenTelemetry 2.x consumers while including the numeric sample-rate attribute in the return type. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+## 1.0.0-beta.47 (2026-11-05)
 
 ### Features Added
 
 - Added opt-in multi-endpoint routing for logs, traces, and metrics, with a 64-route cache and sequential temporary senders for overflow destinations. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
 - Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
 - Added an opt-in 4 MiB limit for `gen_ai.input.messages` and `gen_ai.output.messages` through `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=gen_ai_input_output_limit_increase`. Default GenAI limits remain at 256 KiB, and all other custom dimensions remain limited to 8 KiB. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

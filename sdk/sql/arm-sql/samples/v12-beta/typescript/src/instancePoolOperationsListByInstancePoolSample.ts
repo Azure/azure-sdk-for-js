@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of operations performed on the instance pool.
  *
  * @summary gets a list of operations performed on the instance pool.
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolOperations.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolOperations.json
  */
 async function listTheInstancePoolManagementOperationsWithSomeResults(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listTheInstancePoolManagementOperationsWithSomeResults(): Promise
  * This sample demonstrates how to gets a list of operations performed on the instance pool.
  *
  * @summary gets a list of operations performed on the instance pool.
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolOperationsEmpty.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolOperationsEmpty.json
  */
 async function listTheInstancePoolManagementOperationsWithNoResults(): Promise<void> {
   const credential = new DefaultAzureCredential();

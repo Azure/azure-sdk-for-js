@@ -41,7 +41,7 @@ export function _revalidateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       encryptionProtectorName: encryptionProtectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,6 +63,7 @@ export async function _revalidateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Revalidates an existing encryption protector. */
 export function revalidate(
   context: Client,
@@ -77,7 +78,7 @@ export function revalidate(
     getInitialResponse: () =>
       _revalidateSend(context, resourceGroupName, serverName, encryptionProtectorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -93,7 +94,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,6 +121,7 @@ export async function _listByServerDeserialize(
 
   return _encryptionProtectorListResultDeserializer(result.body);
 }
+
 /** Gets a list of server encryption protectors */
 export function listByServer(
   context: Client,
@@ -135,7 +137,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -155,7 +157,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       encryptionProtectorName: encryptionProtectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,6 +186,7 @@ export async function _createOrUpdateDeserialize(
 
   return encryptionProtectorDeserializer(result.body);
 }
+
 /** Updates an existing encryption protector. */
 export function createOrUpdate(
   context: Client,
@@ -206,7 +209,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<EncryptionProtector>, EncryptionProtector>;
 }
 
@@ -224,7 +227,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       encryptionProtectorName: encryptionProtectorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,6 +252,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
 
   return encryptionProtectorDeserializer(result.body);
 }
+
 /** Gets a server encryption protector. */
 export async function get(
   context: Client,

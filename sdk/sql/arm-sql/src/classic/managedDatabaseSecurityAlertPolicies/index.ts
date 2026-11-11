@@ -45,6 +45,7 @@ export interface ManagedDatabaseSecurityAlertPoliciesOperations {
     options?: ManagedDatabaseSecurityAlertPoliciesGetOptionalParams,
   ) => Promise<ManagedDatabaseSecurityAlertPolicy>;
 }
+
 function _getManagedDatabaseSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -87,6 +88,7 @@ function _getManagedDatabaseSecurityAlertPolicies(context: SqlManagementContext)
       ),
   };
 }
+
 export function _getManagedDatabaseSecurityAlertPoliciesOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseSecurityAlertPoliciesOperations {
