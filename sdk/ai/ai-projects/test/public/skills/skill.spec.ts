@@ -30,7 +30,8 @@ describe("skills - basic operations", () => {
     }
   });
 
-  it("should create, get, list, and delete a skill", async function () {
+  // Skipped because Skills uses beta preview routes.
+  it.skip("should create, get, list, and delete a skill", async function () {
     // Create a new skill
     const created = await projectsClient.beta.skills.create(skillName, {
       inlineContent: {
