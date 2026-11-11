@@ -32,6 +32,8 @@ const config = mergeConfig(
   }),
 );
 
+// test.env supplies these values without triggering Vite's whole-object define transform.
+delete config.define?.["process.env"];
 delete config.test.fakeTimers;
 
 const unitTests = [
