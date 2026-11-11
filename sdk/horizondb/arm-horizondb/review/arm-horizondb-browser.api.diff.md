@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1697,11 +1697,12 @@
+@@ -1698,11 +1698,12 @@
      publicAccess?: PublicNetworkAccessState;
  }
  
@@ -21,7 +21,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NodeProperties {
      readonly availabilityZone: string;
-@@ -1720,10 +1721,10 @@
+@@ -1721,10 +1722,10 @@
  }
  
  // @public
