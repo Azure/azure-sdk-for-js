@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Replace `AgentOptimizationJobStatus` with shared `JobStatus` for optimization job resources and list filters, removing the optimization-specific `"skipped"` status from the typed contract. [#40756](https://github.com/Azure/azure-sdk-for-js/issues/40756)
 - Move Skills operations from `project.skills` back to `project.beta.skills`, replacing `SkillsOperations`, `Skills*OptionalParams`, and `SkillsDownloadResponse` with their corresponding `BetaSkills*` types. Keep the existing version-operation option aliases. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Move `project.beta.agents.createFromPrompt` to `project.agents.createFromPrompt`, and move Realtime conversation and non-campaign telephony operations to `project.voiceAgents.conversations` and `project.voiceAgents.telephony`. Replace their `Beta*OptionalParams` and conversation-download response types with the corresponding non-beta types, and remove the empty `BetaAgentsOperations` and `BetaVoiceAgentsConversationsOperations` groups. Keep campaigns and GPT Live under `project.beta.voiceAgents`. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Rename `VersionedDatasetReference` to `DatasetReference` for resolved evaluator-generation artifacts and require `DatasetReference.version`. Use `TelephonyCampaignDatasetReference` for `TelephonyCampaign.recipient_dataset`, retaining optional versions that resolve to latest during campaign preparation. [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
@@ -47,6 +48,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `491a64aebe41b99281425b515b1288d5e29290e8`, preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/491a64aebe41b99281425b515b1288d5e29290e8). [#40756](https://github.com/Azure/azure-sdk-for-js/issues/40756)
 - Regenerate the client from azure-rest-api-specs commit `134c3c4624ca04410c740d1230a82cba31595be9`, preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/134c3c4624ca04410c740d1230a82cba31595be9). [#40749](https://github.com/Azure/azure-sdk-for-js/issues/40749)
 - Regenerate the client from azure-rest-api-specs commit `a75562c31c8c17a88e532a127b130f052930a54a`, reconciling the Skills preview reversion and campaign relocation while preserving authentication, tracing, paging, and guarded campaign poller results. Preserve historical tool-alias barrel exports in the customization resolver. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a75562c31c8c17a88e532a127b130f052930a54a). [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Regenerate the client from azure-rest-api-specs commit `56d0a40aac679a336fce7fd8ba7dafbbac751374`, preserving tracing, cognitive authentication, cursor paging, and guarded campaign poller results across the voice GA split. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/56d0a40aac679a336fce7fd8ba7dafbbac751374). [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
