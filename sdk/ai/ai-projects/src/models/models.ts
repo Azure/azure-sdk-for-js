@@ -14435,7 +14435,7 @@ export interface AgentOptimizationJob {
   /** Result produced on success. */
   readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
-  readonly status?: AgentOptimizationJobStatus;
+  readonly status?: JobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ErrorModel;
   /** Human-readable label. Omitted when no label is needed; it has no uniqueness, routing, or idempotency semantics. */
@@ -14477,7 +14477,7 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
     result: !item["result"]
       ? item["result"]
       : agentOptimizationJobResultDeserializer(item["result"]),
-    status: agentOptimizationJobStatusDeserializer(item["status"]),
+    status: item["status"],
     error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     display_name: item["display_name"],
     target_configuration: !item["target_configuration"]
@@ -37369,17 +37369,6 @@ export type VoiceAgentsConversationsDownloadAudioItemResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
-
-/** Optimization job lifecycle, including a terminal skip when required input is unavailable. */
-export type AgentOptimizationJobStatus = JobStatus | "skipped";
-
-export function agentOptimizationJobStatusSerializer(item: AgentOptimizationJobStatus): any {
-  return item;
-}
-
-export function agentOptimizationJobStatusDeserializer(item: any): AgentOptimizationJobStatus {
-  return item;
-}
 
 /** Configuration for generating a single skill candidate from trace evidence. The candidate can contain zero or more skill outcomes; no new learnings can produce an empty skill_results array without publishing versions. Optional evaluation reuses a non-generated baseline candidate. */
 export interface SkillOptimizationConfiguration extends AgentOptimizationConfigurationBase {
