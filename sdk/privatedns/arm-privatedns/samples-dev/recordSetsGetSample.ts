@@ -8,7 +8,26 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetAAAAGet.json
+ * x-ms-original-file: 2026-06-01-preview/PTMLinkRecordSetAGet.json
+ */
+async function getPrivateDNSZonePTMLinkARecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get(
+    "resourceGroup1",
+    "privatezone1.com",
+    "A",
+    "ptmlinkrecord",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAAGet.json
  */
 async function getPrivateDNSZoneAaaaRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +46,7 @@ async function getPrivateDNSZoneAaaaRecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetAGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAGet.json
  */
 async function getPrivateDNSZoneARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +60,7 @@ async function getPrivateDNSZoneARecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEGet.json
  */
 async function getPrivateDNSZoneCnameRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +79,7 @@ async function getPrivateDNSZoneCnameRecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetMXGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXGet.json
  */
 async function getPrivateDNSZoneMXRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -79,7 +98,7 @@ async function getPrivateDNSZoneMXRecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetPTRGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRGet.json
  */
 async function getPrivateDNSZonePTRRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -93,7 +112,7 @@ async function getPrivateDNSZonePTRRecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetSOAGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSOAGet.json
  */
 async function getPrivateDNSZoneSOARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -107,7 +126,7 @@ async function getPrivateDNSZoneSOARecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetSRVGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVGet.json
  */
 async function getPrivateDNSZoneSRVRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -126,7 +145,7 @@ async function getPrivateDNSZoneSRVRecordSet(): Promise<void> {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetTXTGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTGet.json
  */
 async function getPrivateDNSZoneTXTRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -142,6 +161,7 @@ async function getPrivateDNSZoneTXTRecordSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  await getPrivateDNSZonePTMLinkARecordSet();
   await getPrivateDNSZoneAaaaRecordSet();
   await getPrivateDNSZoneARecordSet();
   await getPrivateDNSZoneCnameRecordSet();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to it are removed.
  *
  * @summary deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to it are removed.
- * x-ms-original-file: 2024-06-01/PrivateZoneDelete.json
+ * x-ms-original-file: 2026-06-01-preview/PrivateZoneDelete.json
  */
 async function deletePrivateDNSZone() {
   const credential = new DefaultAzureCredential();

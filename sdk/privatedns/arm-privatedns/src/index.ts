@@ -24,6 +24,8 @@ export type {
   SoaRecord,
   SrvRecord,
   TxtRecord,
+  SubResource,
+  ProvisioningState,
   ProxyResource,
   Resource,
   SystemData,
@@ -32,22 +34,26 @@ export type {
   CloudErrorBody,
   PrivateZone,
   PrivateZoneProperties,
-  ProvisioningState,
   VirtualNetworkLink,
   VirtualNetworkLinkProperties,
-  SubResource,
   ResolutionPolicy,
   VirtualNetworkLinkState,
+  PrivateDnsResourceReferenceRequest,
+  PrivateDnsResourceReferenceRequestProperties,
+  PrivateDnsResourceReferenceResult,
+  PrivateDnsResourceReferenceResultProperties,
+  PrivateDnsResourceReference,
   RecordType,
 } from "./models/index.js";
 export {
-  KnownCreatedByType,
   KnownProvisioningState,
+  KnownCreatedByType,
   KnownResolutionPolicy,
   KnownVirtualNetworkLinkState,
   KnownVersions,
 } from "./models/index.js";
 export type { PrivateDnsManagementClientOptionalParams } from "./api/index.js";
+export type { PrivateDnsResourceReferenceGetByTargetResourcesOptionalParams } from "./api/privateDnsResourceReference/index.js";
 export type {
   PrivateZonesListOptionalParams,
   PrivateZonesListByResourceGroupOptionalParams,
@@ -72,6 +78,7 @@ export type {
   VirtualNetworkLinksGetOptionalParams,
 } from "./api/virtualNetworkLinks/index.js";
 export type {
+  PrivateDnsResourceReferenceOperations,
   PrivateZonesOperations,
   RecordSetsOperations,
   VirtualNetworkLinksOperations,

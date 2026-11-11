@@ -8,7 +8,33 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAAAAPut.json
+ * x-ms-original-file: 2026-06-01-preview/PTMLinkRecordSetAPut.json
+ */
+async function putPrivateDNSZonePTMLinkARecordSet() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.createOrUpdate(
+    "resourceGroup1",
+    "privatezone1.com",
+    "A",
+    "ptmlinkrecord",
+    {
+      metadata: { key1: "value1" },
+      ttl: 3600,
+      trafficManagementProfile: {
+        id: "/subscriptions/subscriptionId/resourceGroups/resourceGroup1/providers/Microsoft.Network/privateTrafficManagerProfiles/ptm-profile1",
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
+ *
+ * @summary creates or updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAAPut.json
  */
 async function putPrivateDNSZoneAaaaRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +54,7 @@ async function putPrivateDNSZoneAaaaRecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAPut.json
  */
 async function putPrivateDNSZoneARecordSet() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +74,7 @@ async function putPrivateDNSZoneARecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEPut.json
  */
 async function putPrivateDNSZoneCnameRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -68,7 +94,7 @@ async function putPrivateDNSZoneCnameRecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetMXPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXPut.json
  */
 async function putPrivateDNSZoneMXRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +118,7 @@ async function putPrivateDNSZoneMXRecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetPTRPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRPut.json
  */
 async function putPrivateDNSZonePTRRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -112,7 +138,7 @@ async function putPrivateDNSZonePTRRecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSOAPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSOAPut.json
  */
 async function putPrivateDNSZoneSOARecordSet() {
   const credential = new DefaultAzureCredential();
@@ -144,7 +170,7 @@ async function putPrivateDNSZoneSOARecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSRVPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVPut.json
  */
 async function putPrivateDNSZoneSRVRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -168,7 +194,7 @@ async function putPrivateDNSZoneSRVRecordSet() {
  * This sample demonstrates how to creates or updates a record set within a Private DNS zone.
  *
  * @summary creates or updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetTXTPut.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTPut.json
  */
 async function putPrivateDNSZoneTXTRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -185,6 +211,7 @@ async function putPrivateDNSZoneTXTRecordSet() {
 }
 
 async function main() {
+  await putPrivateDNSZonePTMLinkARecordSet();
   await putPrivateDNSZoneAaaaRecordSet();
   await putPrivateDNSZoneARecordSet();
   await putPrivateDNSZoneCnameRecordSet();

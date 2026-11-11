@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetAAAADelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAADelete.json
  */
 async function deletePrivateDNSZoneAaaaRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deletePrivateDNSZoneAaaaRecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetADelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetADelete.json
  */
 async function deletePrivateDNSZoneARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function deletePrivateDNSZoneARecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEDelete.json
  */
 async function deletePrivateDNSZoneCnameRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function deletePrivateDNSZoneCnameRecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetMXDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXDelete.json
  */
 async function deletePrivateDNSZoneMXRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function deletePrivateDNSZoneMXRecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetPTRDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRDelete.json
  */
 async function deletePrivateDNSZonePTRRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -73,7 +73,7 @@ async function deletePrivateDNSZonePTRRecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetSRVDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVDelete.json
  */
 async function deletePrivateDNSZoneSRVRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,7 +86,7 @@ async function deletePrivateDNSZoneSRVRecordSet(): Promise<void> {
  * This sample demonstrates how to deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary deletes a record set from a Private DNS zone. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/RecordSetTXTDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTDelete.json
  */
 async function deletePrivateDNSZoneTXTRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

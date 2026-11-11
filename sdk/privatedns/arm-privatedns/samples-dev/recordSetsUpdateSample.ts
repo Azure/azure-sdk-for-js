@@ -8,7 +8,27 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAAAAPatch.json
+ * x-ms-original-file: 2026-06-01-preview/PTMLinkRecordSetAPatch.json
+ */
+async function patchPrivateDNSZonePTMLinkARecordSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.update(
+    "resourceGroup1",
+    "privatezone1.com",
+    "A",
+    "ptmlinkrecord",
+    { metadata: { key2: "value2" } },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates a record set within a Private DNS zone.
+ *
+ * @summary updates a record set within a Private DNS zone.
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAAPatch.json
  */
 async function patchPrivateDNSZoneAaaaRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +48,7 @@ async function patchPrivateDNSZoneAaaaRecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAPatch.json
  */
 async function patchPrivateDNSZoneARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +68,7 @@ async function patchPrivateDNSZoneARecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEPatch.json
  */
 async function patchPrivateDNSZoneCnameRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,7 +88,7 @@ async function patchPrivateDNSZoneCnameRecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetMXPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXPatch.json
  */
 async function patchPrivateDNSZoneMXRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -88,7 +108,7 @@ async function patchPrivateDNSZoneMXRecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetPTRPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRPatch.json
  */
 async function patchPrivateDNSZonePTRRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -108,7 +128,7 @@ async function patchPrivateDNSZonePTRRecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSOAPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSOAPatch.json
  */
 async function patchPrivateDNSZoneSOARecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -124,7 +144,7 @@ async function patchPrivateDNSZoneSOARecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSRVPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVPatch.json
  */
 async function patchPrivateDNSZoneSRVRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -144,7 +164,7 @@ async function patchPrivateDNSZoneSRVRecordSet(): Promise<void> {
  * This sample demonstrates how to updates a record set within a Private DNS zone.
  *
  * @summary updates a record set within a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetTXTPatch.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTPatch.json
  */
 async function patchPrivateDNSZoneTXTRecordSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,6 +181,7 @@ async function patchPrivateDNSZoneTXTRecordSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  await patchPrivateDNSZonePTMLinkARecordSet();
   await patchPrivateDNSZoneAaaaRecordSet();
   await patchPrivateDNSZoneARecordSet();
   await patchPrivateDNSZoneCnameRecordSet();
