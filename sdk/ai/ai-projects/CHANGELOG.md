@@ -33,6 +33,7 @@
 
 ### Bugs Fixed
 
+- Restore `PromptOptimizationConfiguration.context` to `OptimizationContextUnion[]`, preserving steering prompts, skill references, and agent traces during serialization and deserialization. [#40749](https://github.com/Azure/azure-sdk-for-js/issues/40749)
 - Restore the `/skills` preview routes, query API versioning, and `Skills=V1Preview` headers for Skills requests and continuation pages. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Normalize Realtime session handoff state so node descriptions use the public `display_description` property in `session.created` and `session.updated` events. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
 - Emit experimental Voice Agents tracing spans for `project.voiceAgents.telephony.deleteCallJob`, including failed and cancelled requests without recording call contents. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
@@ -46,6 +47,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `134c3c4624ca04410c740d1230a82cba31595be9`, preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/134c3c4624ca04410c740d1230a82cba31595be9). [#40749](https://github.com/Azure/azure-sdk-for-js/issues/40749)
 - Regenerate the client from azure-rest-api-specs commit `a75562c31c8c17a88e532a127b130f052930a54a`, reconciling the Skills preview reversion and campaign relocation while preserving authentication, tracing, paging, and guarded campaign poller results. Preserve historical tool-alias barrel exports in the customization resolver. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a75562c31c8c17a88e532a127b130f052930a54a). [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Regenerate the client from azure-rest-api-specs commit `56d0a40aac679a336fce7fd8ba7dafbbac751374`, preserving tracing, cognitive authentication, cursor paging, and guarded campaign poller results across the voice GA split. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/56d0a40aac679a336fce7fd8ba7dafbbac751374). [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Regenerate the client from azure-rest-api-specs commit `029ccd85da3da9a7c4a654becdad37e0d43846fe`, separating resolved dataset references from telephony campaign inputs while preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/029ccd85da3da9a7c4a654becdad37e0d43846fe). [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
