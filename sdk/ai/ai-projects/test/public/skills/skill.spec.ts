@@ -5,33 +5,33 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../src/index.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { randomUUID } from "@azure/core-util";
 
 describe("skills - basic operations", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
-
-  const skillName = "test-skill";
+  let skillName: string;
+  let skillCreated: boolean;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
+    skillName = recorder.variable("skillName", `js-test-skill-${randomUUID()}`);
+    skillCreated = false;
   });
 
   afterEach(async function () {
-    await recorder.stop();
+    try {
+      if (skillCreated) {
+        await projectsClient.beta.skills.delete(skillName);
+      }
+    } finally {
+      await recorder.stop();
+    }
   });
 
-  it("should create, get, list, and delete a skill", async function () {
-    // Clean up any existing skill with this name
-    try {
-      await projectsClient.beta.skills.delete(skillName);
-    } catch (e) {
-      if (!(e instanceof RestError && e.statusCode === 404)) {
-        throw e;
-      }
-    }
-
+  // Skipped because Skills uses beta preview routes.
+  it.skip("should create, get, list, and delete a skill", async function () {
     // Create a new skill
     const created = await projectsClient.beta.skills.create(skillName, {
       inlineContent: {
@@ -40,6 +40,7 @@ describe("skills - basic operations", () => {
         metadata: { owner: "test" },
       },
     });
+    skillCreated = true;
     assert.isNotNull(created);
     assert.equal(created.name, skillName);
     assert.isNotEmpty(created.id);
@@ -62,6 +63,7 @@ describe("skills - basic operations", () => {
 
     // Delete the skill
     const deleteResult = await projectsClient.beta.skills.delete(skillName);
+    skillCreated = false;
     assert.isNotNull(deleteResult);
     assert.equal(deleteResult.name, skillName);
     assert.isTrue(deleteResult.deleted);

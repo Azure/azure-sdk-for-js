@@ -3,10 +3,10 @@
 
 import { AIProjectClient } from "./aiProjectClient.js";
 import { _createGenerationJobDeserialize } from "./api/evaluators/operations.js";
+import { _createRunDeserialize } from "./api/agentInsightMonitors/operations.js";
 import { _createGenerationJobDeserialize as _createGenerationJobDeserializeDatasets } from "./api/datasets/operations.js";
 import { _createOptimizationJobDeserialize } from "./api/agents/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
-import { _createRunDeserialize } from "./api/beta/agentInsightMonitors/operations.js";
 import {
   _deleteTelephonyDeserialize,
   _cancelDeserialize,
@@ -90,6 +90,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _createGenerationJobDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
+  "POST /agent_insight_monitors/{monitor_id}/runs": {
+    deserializer: _createRunDeserialize,
+    expectedStatuses: ["201", "200", "202"],
+  },
   "POST /data_generation_jobs": {
     deserializer: _createGenerationJobDeserializeDatasets,
     expectedStatuses: ["201", "200", "202"],
@@ -101,10 +105,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /memory_stores/{name}:update_memories": {
     deserializer: _updateMemoriesDeserialize,
     expectedStatuses: ["202", "200", "201"],
-  },
-  "POST /agent_insight_monitors/{monitor_id}/runs": {
-    deserializer: _createRunDeserialize,
-    expectedStatuses: ["201", "200", "202"],
   },
   "DELETE /agents/{agent_name}/telephony_campaigns/{campaign_name}": {
     deserializer: _deleteTelephonyDeserialize,

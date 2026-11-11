@@ -4,7 +4,10 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
+import {
+  isUpstreamDataGenerationType,
+  matchesUpstreamDataGenerationType,
+} from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
 import { verifiedEmittedRenames } from "./models.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
@@ -532,7 +535,7 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     isUpstreamDataGenerationType(custom?.node, true) &&
     isUpstreamDataGenerationType(incoming?.node)
   ) {
-    if (!isUpstreamDataGenerationType(output?.node))
+    if (!matchesUpstreamDataGenerationType(output?.node, incoming?.node))
       report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
   } else {
     preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
@@ -1207,7 +1210,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators and Agent Insight Monitors were promoted from beta. The
+// Evaluators, Agent Insight Monitors, Skills, and voice agents were promoted from beta. The
 // customized client has two auth contexts, unlike the emitted single _client.
 // Admit only the promoted factory, using the same context as beta before
 // promotion; never substitute or rewrite the maintained constructor.
@@ -1221,6 +1224,7 @@ function preservesPromotedBetaContext(statement, before, baseGenerated, generate
   const factory = {
     evaluators: "_getEvaluatorsOperations",
     agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+    skills: "_getSkillsOperations",
     voiceAgents: "_getVoiceAgentsOperations",
   }[member];
   if (
@@ -1539,6 +1543,58 @@ function forwardsCoreLroSkipFinalGet(file, previous, next) {
   return canonicalize(before.getText()) === canonicalize(withoutAddition);
 }
 
+// azure-rest-api-specs#48068 fully reverts Skills to beta. Permit only removal
+// of the root member, its exact initialization, and its two dedicated imports.
+// Comparing the entire remaining module keeps auth, tracing and all other
+// maintained constructor behavior protected.
+function skillsPreviewClientReversion(file, previous, output, trees) {
+  if (
+    file !== "aiProjectClient.ts" ||
+    !trees.base.has("classic/skills/index.ts") ||
+    trees.incoming.has("classic/skills/index.ts") ||
+    !trees.incoming.has("classic/beta/skills/index.ts") ||
+    !trees.output.has("classic/beta/skills/index.ts")
+  )
+    return false;
+  for (const tree of [trees.incoming, trees.output]) {
+    const beta = tree.get("classic/beta/index.ts")?.byName.get("BetaOperations");
+    const skills = beta?.node.members?.find((member) => nameOf(member.name) === "skills");
+    if (!skills || skills.type?.getText() !== "BetaSkillsOperations") return false;
+  }
+  const client = previous.byName.get("AIProjectClient")?.node;
+  if (!client || !ts.isClassDeclaration(client)) return false;
+  const removals = [];
+  const member = client.members.find((item) => nameOf(item.name) === "skills");
+  if (!member || !ts.isPropertyDeclaration(member) || member.type?.getText() !== "SkillsOperations")
+    return false;
+  removals.push(member);
+  const constructor = client.members.find(ts.isConstructorDeclaration);
+  const expected = canonicalize("this.skills = _getSkillsOperations(this._cognitiveScopeClient);");
+  const initializer = constructor?.body?.statements.filter(
+    (item) => canonicalize(item.getText()) === expected,
+  );
+  if (initializer?.length !== 1) return false;
+  removals.push(initializer[0]);
+  const dedicatedImports = previous.source.statements.filter(
+    (item) =>
+      ts.isImportDeclaration(item) && item.moduleSpecifier.text === "./classic/skills/index.js",
+  );
+  const bindings = imports(previous).filter((item) => item.module === "./classic/skills/index.js");
+  if (
+    bindings.length !== 2 ||
+    !["_getSkillsOperations", "SkillsOperations"].every((name) =>
+      bindings.some((item) => item.local === name && item.imported === name),
+    )
+  )
+    return false;
+  removals.push(...dedicatedImports);
+  let retained = previous.source.text;
+  for (const node of removals.sort((a, b) => b.getStart() - a.getStart())) {
+    retained = retained.slice(0, node.getFullStart()) + retained.slice(node.end);
+  }
+  return canonicalize(retained) === canonicalize(output.source.text);
+}
+
 function checkProtected(trees, renames, report, matches = [], packageVersion) {
   checkProtectedAdditions(trees, renames, report);
   const relocations = relocationsInto(matches);
@@ -1550,6 +1606,7 @@ function checkProtected(trees, renames, report, matches = [], packageVersion) {
       continue;
     }
     if (canonicalize(previous.source.text) === canonicalize(output.source.text)) continue;
+    if (skillsPreviewClientReversion(file, previous, output, trees)) continue;
     const relocation = relocations.get(file);
     for (const entry of previous.entries) {
       const next = output.byName.get(entry.name);

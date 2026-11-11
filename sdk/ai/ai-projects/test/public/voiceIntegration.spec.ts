@@ -107,6 +107,28 @@ function createClient(...responses: MockResponse[]): {
   };
 }
 
+describe("client operation group integration", () => {
+  it("keeps root Agent Insight monitors alongside the shared Realtime client", async () => {
+    const { client, requests, getToken } = createClient({
+      body: { data: [], has_more: false },
+    });
+
+    expect(client.beta).not.toHaveProperty("agentInsightMonitors");
+    expect(client.beta.voiceAgents.realtime).toBe(client.voiceAgents.realtime);
+    await expect(client.agentInsightMonitors.list().byPage().next()).resolves.toMatchObject({
+      done: false,
+      value: [],
+    });
+
+    expect(requests).toHaveLength(1);
+    const url = new URL(requests[0].url);
+    expect(url.pathname).toBe("/api/projects/test-project/agent_insight_monitors");
+    expect(url.searchParams.get("api-version")).toBe("v1");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+    expect(getToken.mock.calls[0]?.[0]).toEqual(["https://ai.azure.com/.default"]);
+  });
+});
+
 describe("gateway HTTP error preservation", () => {
   it.each([
     { status: 401, body: { statusCode: 401, message: "Unauthorized." } },
@@ -271,7 +293,7 @@ describe("campaign final resource resolution", () => {
     });
   }
 
-  it("deletes a campaign through telephony without fetching a deleted resource", async () => {
+  it("deletes a campaign without fetching a deleted resource", async () => {
     const { client, requests } = createClient(
       {
         status: 202,
@@ -1376,7 +1398,7 @@ describe("voice post-emitter integration", () => {
     );
   }
 
-  it("keeps campaigns in preview with clear campaign deletion naming", () => {
+  it("wires campaigns separately from GA telephony without restoring legacy APIs", () => {
     const { client, requests } = createClient();
     for (const name of [
       "createCampaign",

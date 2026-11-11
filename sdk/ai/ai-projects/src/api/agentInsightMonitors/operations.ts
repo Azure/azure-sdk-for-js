@@ -1,72 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
-import type {
-  _AgentsPagedResultAgentInsightMonitorListItem,
-  AgentInsightMonitorListItem,
-  AgentInsightMonitorCreate,
-  AgentInsightMonitor,
-  AgentInsightMonitorUpdate,
-  AgentInsightRunCreate,
-  AgentInsightRun,
-  AgentInsightRunResult,
-  _AgentsPagedResultAgentInsightRun,
-  _AgentsPagedResultAgentInsight,
-  AgentInsight,
-  AgentInsightUpdate,
-} from "../../../models/models.js";
+import type { AIProjectContext as Client } from "../index.js";
 import {
   apiErrorResponseDeserializer,
   _agentsPagedResultAgentInsightMonitorListItemDeserializer,
-  agentInsightMonitorCreateSerializer,
   agentInsightMonitorDeserializer,
-  agentInsightMonitorUpdateSerializer,
-  agentInsightRunCreateSerializer,
   agentInsightRunDeserializer,
   agentInsightRunResultDeserializer,
   _agentsPagedResultAgentInsightRunDeserializer,
   _agentsPagedResultAgentInsightDeserializer,
   agentInsightDeserializer,
-  agentInsightUpdateSerializer,
-} from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import type { RunPoller } from "../../../static-helpers/pollingHelpers.js";
-import { getRunPoller } from "../../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
+  agentInsightPrioritiesSerializer,
+} from "../../models/models.js";
 import type {
-  BetaAgentInsightMonitorsUpdateInsightOptionalParams,
-  BetaAgentInsightMonitorsGetInsightOptionalParams,
-  BetaAgentInsightMonitorsListInsightsOptionalParams,
-  BetaAgentInsightMonitorsCancelRunOptionalParams,
-  BetaAgentInsightMonitorsGetRunOptionalParams,
-  BetaAgentInsightMonitorsListRunsOptionalParams,
-  BetaAgentInsightMonitorsCreateRunOptionalParams,
-  BetaAgentInsightMonitorsResetOptionalParams,
-  BetaAgentInsightMonitorsUpdateOptionalParams,
-  BetaAgentInsightMonitorsDeleteOptionalParams,
-  BetaAgentInsightMonitorsGetOptionalParams,
-  BetaAgentInsightMonitorsCreateOptionalParams,
-  BetaAgentInsightMonitorsListOptionalParams,
+  _AgentsPagedResultAgentInsightMonitorListItem,
+  AgentInsightMonitorListItem,
+  AgentInsightMonitor,
+  AgentInsightRun,
+  AgentInsightRunResult,
+  _AgentsPagedResultAgentInsightRun,
+  _AgentsPagedResultAgentInsight,
+  AgentInsight,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  AgentInsightMonitorsUpdateInsightOptionalParams,
+  AgentInsightMonitorsGetInsightOptionalParams,
+  AgentInsightMonitorsListInsightsOptionalParams,
+  AgentInsightMonitorsCancelRunOptionalParams,
+  AgentInsightMonitorsGetRunOptionalParams,
+  AgentInsightMonitorsListRunsOptionalParams,
+  AgentInsightMonitorsCreateRunOptionalParams,
+  AgentInsightMonitorsResetOptionalParams,
+  AgentInsightMonitorsUpdateOptionalParams,
+  AgentInsightMonitorsDeleteOptionalParams,
+  AgentInsightMonitorsGetOptionalParams,
+  AgentInsightMonitorsCreateOptionalParams,
+  AgentInsightMonitorsListOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { RunPoller } from "../../static-helpers/pollingHelpers.js";
+import { getRunPoller } from "../../static-helpers/pollingHelpers.js";
 
 export function _updateInsightSend(
   context: Client,
   monitorId: string,
   insightId: string,
-  insightUpdate: AgentInsightUpdate,
-  options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api-version}",
     {
       monitor_id: monitorId,
       insight_id: insightId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,12 +66,8 @@ export function _updateInsightSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: agentInsightUpdateSerializer(insightUpdate),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: { status: options?.status },
   });
 }
 
@@ -105,10 +92,9 @@ export async function updateInsight(
   context: Client,
   monitorId: string,
   insightId: string,
-  insightUpdate: AgentInsightUpdate,
-  options: BetaAgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsUpdateInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
-  const result = await _updateInsightSend(context, monitorId, insightId, insightUpdate, options);
+  const result = await _updateInsightSend(context, monitorId, insightId, options);
   return _updateInsightDeserialize(result);
 }
 
@@ -116,16 +102,15 @@ export function _getInsightSend(
   context: Client,
   monitorId: string,
   insightId: string,
-  options: BetaAgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?include_details,api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/insights/{insight_id}{?api-version,include_details}",
     {
       monitor_id: monitorId,
       insight_id: insightId,
       include_details: options?.includeDetails,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,11 +118,7 @@ export function _getInsightSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -160,7 +141,7 @@ export async function getInsight(
   context: Client,
   monitorId: string,
   insightId: string,
-  options: BetaAgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetInsightOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsight> {
   const result = await _getInsightSend(context, monitorId, insightId, options);
   return _getInsightDeserialize(result);
@@ -169,22 +150,33 @@ export async function getInsight(
 export function _listInsightsSend(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/insights{?after,before,limit,order,category,severity,status,include_details,api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/insights{?after,api-version,before,categories,include_details,limit,order,severities,statuses}",
     {
       monitor_id: monitorId,
       after: options?.after,
       before: options?.before,
       limit: options?.limit,
       order: options?.order,
-      category: options?.category,
-      severity: options?.severity,
-      status: options?.status,
+      categories: !options?.categories
+        ? options?.categories
+        : options?.categories.map((p: any) => {
+            return p;
+          }),
+      severities: !options?.severities
+        ? options?.severities
+        : options?.severities.map((p: any) => {
+            return p;
+          }),
+      statuses: !options?.statuses
+        ? options?.statuses
+        : options?.statuses.map((p: any) => {
+            return p;
+          }),
       include_details: options?.includeDetails,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,11 +184,7 @@ export function _listInsightsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -220,9 +208,8 @@ export async function _listInsightsDeserialize(
 export function listInsights(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsight> {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -234,10 +221,7 @@ export function listInsights(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         ...requestParameters,
-        headers: {
-          "foundry-features": foundryFeatures,
-          ...requestParameters.headers,
-        },
+        headers: { ...requestParameters.headers },
       },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
@@ -249,15 +233,14 @@ export function _cancelRunSend(
   context: Client,
   monitorId: string,
   runId: string,
-  options: BetaAgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs/{run_id}:cancel{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/runs/{run_id}:cancel{?api-version}",
     {
       monitor_id: monitorId,
       run_id: runId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,11 +248,7 @@ export function _cancelRunSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -294,7 +273,7 @@ export async function cancelRun(
   context: Client,
   monitorId: string,
   runId: string,
-  options: BetaAgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsCancelRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightRun> {
   const result = await _cancelRunSend(context, monitorId, runId, options);
   return _cancelRunDeserialize(result);
@@ -304,15 +283,14 @@ export function _getRunSend(
   context: Client,
   monitorId: string,
   runId: string,
-  options: BetaAgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs/{run_id}{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/runs/{run_id}{?api-version}",
     {
       monitor_id: monitorId,
       run_id: runId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -320,11 +298,7 @@ export function _getRunSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -347,7 +321,7 @@ export async function getRun(
   context: Client,
   monitorId: string,
   runId: string,
-  options: BetaAgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightRun> {
   const result = await _getRunSend(context, monitorId, runId, options);
   return _getRunDeserialize(result);
@@ -356,11 +330,10 @@ export async function getRun(
 export function _listRunsSend(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs{?after,before,limit,order,status,trigger,api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/runs{?after,api-version,before,limit,order,status,trigger}",
     {
       monitor_id: monitorId,
       after: options?.after,
@@ -369,7 +342,7 @@ export function _listRunsSend(
       order: options?.order,
       status: options?.status,
       trigger: options?.trigger,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -377,11 +350,7 @@ export function _listRunsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -405,9 +374,8 @@ export async function _listRunsDeserialize(
 export function listRuns(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightRun> {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -419,10 +387,7 @@ export function listRuns(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         ...requestParameters,
-        headers: {
-          "foundry-features": foundryFeatures,
-          ...requestParameters.headers,
-        },
+        headers: { ...requestParameters.headers },
       },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
@@ -433,15 +398,13 @@ export function listRuns(
 export function _createRunSend(
   context: Client,
   monitorId: string,
-  run: AgentInsightRunCreate,
-  options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}/runs{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}/runs{?api-version}",
     {
       monitor_id: monitorId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -451,12 +414,11 @@ export function _createRunSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: agentInsightRunCreateSerializer(run),
+    body: { lookback_hours: options?.lookbackHours },
   });
 }
 
@@ -487,47 +449,34 @@ export async function _createRunDeserialize(
 export function createRun(
   context: Client,
   monitorId: string,
-  run: AgentInsightRunCreate,
-  options: BetaAgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
 ): RunPoller<AgentInsightRunResult> {
-  const foundryFeatures = "AgentInsights=V1Preview";
   // CUSTOMIZATION: SDK-IMPROVEMENT: the emitted result omits the created run id.
   return getRunPoller(context, _createRunDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _createRunSend(context, monitorId, run, options),
+    getInitialResponse: () => _createRunSend(context, monitorId, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
-    pollHeaders: {
-      ...options?.requestOptions?.headers,
-      "foundry-features": foundryFeatures,
-    },
   });
 }
 
 export function _resetSend(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}:reset{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}:reset{?api-version}",
     {
       monitor_id: monitorId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _resetDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -548,7 +497,7 @@ export async function _resetDeserialize(result: PathUncheckedResponse): Promise<
 export async function reset(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsResetOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _resetSend(context, monitorId, options);
   return _resetDeserialize(result);
@@ -557,15 +506,13 @@ export async function reset(
 export function _updateSend(
   context: Client,
   monitorId: string,
-  monitor: AgentInsightMonitorUpdate,
-  options: BetaAgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}{?api-version}",
     {
       monitor_id: monitorId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,12 +521,15 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      enabled: options?.enabled,
+      run_interval_hours: options?.runIntervalHours,
+      model_deployment_name: options?.modelDeploymentName,
+      priorities: !options?.priorities
+        ? options?.priorities
+        : agentInsightPrioritiesSerializer(options?.priorities),
     },
-    body: agentInsightMonitorUpdateSerializer(monitor),
   });
 }
 
@@ -603,36 +553,28 @@ export async function _updateDeserialize(
 export async function update(
   context: Client,
   monitorId: string,
-  monitor: AgentInsightMonitorUpdate,
-  options: BetaAgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
-  const result = await _updateSend(context, monitorId, monitor, options);
+  const result = await _updateSend(context, monitorId, options);
   return _updateDeserialize(result);
 }
 
 export function _deleteAgentInsightMonitorSend(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}{?api-version}",
     {
       monitor_id: monitorId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _deleteAgentInsightMonitorDeserialize(
@@ -655,7 +597,7 @@ export async function _deleteAgentInsightMonitorDeserialize(
 export async function deleteAgentInsightMonitor(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _deleteAgentInsightMonitorSend(context, monitorId, options);
   return _deleteAgentInsightMonitorDeserialize(result);
@@ -664,14 +606,13 @@ export async function deleteAgentInsightMonitor(
 export function _getSend(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors/{monitor_id}{?api%2Dversion}",
+    "/agent_insight_monitors/{monitor_id}{?api-version}",
     {
       monitor_id: monitorId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,11 +620,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -705,7 +642,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 export async function get(
   context: Client,
   monitorId: string,
-  options: BetaAgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsGetOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
   const result = await _getSend(context, monitorId, options);
   return _getDeserialize(result);
@@ -713,14 +650,14 @@ export async function get(
 
 export function _createSend(
   context: Client,
-  monitor: AgentInsightMonitorCreate,
-  options: BetaAgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
+  agentName: string,
+  modelDeploymentName: string,
+  options: AgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors{?api%2Dversion}",
+    "/agent_insight_monitors{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -729,12 +666,16 @@ export function _createSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agent_name: agentName,
+      enabled: options?.enabled,
+      run_interval_hours: options?.runIntervalHours,
+      model_deployment_name: modelDeploymentName,
+      priorities: !options?.priorities
+        ? options?.priorities
+        : agentInsightPrioritiesSerializer(options?.priorities),
     },
-    body: agentInsightMonitorCreateSerializer(monitor),
   });
 }
 
@@ -757,27 +698,27 @@ export async function _createDeserialize(
 /** Create an Agent Insights monitor for an agent. */
 export async function create(
   context: Client,
-  monitor: AgentInsightMonitorCreate,
-  options: BetaAgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
+  agentName: string,
+  modelDeploymentName: string,
+  options: AgentInsightMonitorsCreateOptionalParams = { requestOptions: {} },
 ): Promise<AgentInsightMonitor> {
-  const result = await _createSend(context, monitor, options);
+  const result = await _createSend(context, agentName, modelDeploymentName, options);
   return _createDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
-  options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const path = expandUrlTemplate(
-    "/agent_insight_monitors{?after,before,limit,order,agent_name,api%2Dversion}",
+    "/agent_insight_monitors{?after,agent_name,api-version,before,limit,order}",
     {
       after: options?.after,
       before: options?.before,
       limit: options?.limit,
       order: options?.order,
       agent_name: options?.agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -785,11 +726,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -812,9 +749,8 @@ export async function _listDeserialize(
 /** List Agent Insights monitors, optionally filtered by agent name. */
 export function list(
   context: Client,
-  options: BetaAgentInsightMonitorsListOptionalParams = { requestOptions: {} },
+  options: AgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightMonitorListItem> {
-  const foundryFeatures = "AgentInsights=V1Preview";
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -826,10 +762,7 @@ export function list(
       apiVersion: context.apiVersion ?? "v1",
       nextPageRequestOptions: {
         ...requestParameters,
-        headers: {
-          "foundry-features": foundryFeatures,
-          ...requestParameters.headers,
-        },
+        headers: { ...requestParameters.headers },
       },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",

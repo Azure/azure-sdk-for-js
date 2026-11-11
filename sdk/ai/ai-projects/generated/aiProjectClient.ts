@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext, AIProjectClientOptionalParams, createAIProject } from "./api/index.js";
+import {
+  AgentInsightMonitorsOperations,
+  _getAgentInsightMonitorsOperations,
+} from "./classic/agentInsightMonitors/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
@@ -37,6 +41,7 @@ export class AIProjectClient {
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
+    this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
     this.evaluationRules = _getEvaluationRulesOperations(this._client);
     this.agents = _getAgentsOperations(this._client);
@@ -54,6 +59,8 @@ export class AIProjectClient {
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+  /** The operation groups for agentInsightMonitors */
+  public readonly agentInsightMonitors: AgentInsightMonitorsOperations;
   /** The operation groups for datasets */
   public readonly datasets: DatasetsOperations;
   /** The operation groups for evaluationRules */

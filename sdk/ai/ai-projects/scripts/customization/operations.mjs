@@ -201,23 +201,42 @@ export function indexOperations(files) {
   return result;
 }
 
+const skillsFiles = new Set(["api/beta/skills/operations.ts", "api/skills/operations.ts"]);
+
+function isSkillsOperationPair(left, right) {
+  return skillsFiles.has(left.file) && skillsFiles.has(right.file);
+}
+
+function sameOperationIdentity(left, right) {
+  if (left.identity === right.identity) return true;
+  if (!isSkillsOperationPair(left, right)) return false;
+  const previousSkillsRoute = (identity) =>
+    identity.replace(/^(GET|POST|DELETE) \/openai\/v1\/skills(?=\/|$)/, "$1 /skills");
+  return previousSkillsRoute(left.identity) === previousSkillsRoute(right.identity);
+}
+
 function chooseOperation(candidates, operation, preferredFile = operation.file) {
   const exact = candidates.filter(
     (item) =>
       item.file === preferredFile &&
       item.name === operation.name &&
-      item.identity === operation.identity,
+      sameOperationIdentity(item, operation),
   );
   if (exact.length === 1) return exact[0];
   const local = candidates.filter(
-    (item) => item.file === preferredFile && item.identity === operation.identity,
+    (item) => item.file === preferredFile && sameOperationIdentity(item, operation),
   );
   if (local.length === 1) return local[0];
-  const matches = candidates.filter((item) => item.identity === operation.identity);
-  if (matches.length > 1)
+  const matches = candidates.filter((item) => sameOperationIdentity(item, operation));
+  if (matches.length > 1 && matches.every((item) => isSkillsOperationPair(item, operation))) {
+    const namedSkills = matches.filter((item) => item.name === operation.name);
+    if (namedSkills.length === 1) return namedSkills[0];
+  }
+  if (matches.length > 1) {
     throw new Error(
       `${operation.file}::${operation.name}: ambiguous operation identity ${operation.identity}`,
     );
+  }
   return matches[0];
 }
 

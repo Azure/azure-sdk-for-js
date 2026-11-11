@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { AgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
 export type { AgentsOperations } from "./agents/index.js";
 export type { BetaOperations } from "./beta/index.js";
 export type { ConnectionsOperations } from "./connections/index.js";
@@ -11,7 +12,6 @@ export type { EvaluatorsOperations } from "./evaluators/index.js";
 export type { IndexesOperations } from "./indexes/index.js";
 export type { ToolboxesOperations } from "./toolboxes/index.js";
 export type { VoiceAgentsOperations } from "./voiceAgents/index.js";
-export type { BetaAgentInsightMonitorsOperations } from "./beta/agentInsightMonitors/index.js";
 export type { BetaEvaluationTaxonomiesOperations } from "./beta/evaluationTaxonomies/index.js";
 export type { BetaEvaluatorsOperations } from "./beta/evaluators/index.js";
 export type { BetaInsightsOperations } from "./beta/insights/index.js";

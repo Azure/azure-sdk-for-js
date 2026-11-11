@@ -370,6 +370,114 @@ export function findCampaignRelocationRemovals({
   return allowed;
 }
 
+// Full Skills preview-contract reversion in azure-rest-api-specs#48068.
+// Only allow the six renamed options and the exact relocated operation group;
+// missing destinations, changed routes, or retained callers still fail preservation.
+export function findSkillsReversionRemovals({
+  previousGenerated,
+  previousSource,
+  currentGenerated,
+  currentSource,
+}) {
+  const allowed = new Set();
+  const oldApi = "api/skills";
+  const newApi = "api/beta/skills";
+  const oldClassic = "classic/skills/index.ts";
+  const newClassic = "classic/beta/skills/index.ts";
+  const parse = (tree, file) => parseSource(tree.get(file) ?? "", file);
+  if (
+    [currentGenerated, currentSource].some((tree) =>
+      [
+        oldClassic,
+        ...["index.ts", "operations.ts", "options.ts"].map((f) => `${oldApi}/${f}`),
+      ].some((file) => tree.has(file)),
+    )
+  )
+    return allowed;
+  const operations = (tree, directory) =>
+    indexOperations(
+      new Map([[`${directory}/operations.ts`, tree.get(`${directory}/operations.ts`) ?? ""]]),
+    );
+  const previous = operations(previousGenerated, oldApi);
+  const incoming = operations(currentGenerated, newApi);
+  const customized = operations(currentSource, newApi);
+  const members = [
+    "deleteVersion",
+    "downloadVersion",
+    "download",
+    "getVersion",
+    "listVersions",
+    "createFromFiles",
+    "create",
+    "$delete",
+    "update",
+    "list",
+    "get",
+  ];
+  if (
+    previous.length !== members.length ||
+    !members.every((name) => previous.some((op) => op.name === name))
+  )
+    return allowed;
+  for (const prior of previous) {
+    const option = prior.options?.replace(/^Skills/, "BetaSkills");
+    const identity = prior.identity.replace(" /openai/v1/skills", " /skills");
+    if (!identity.includes(" /skills") || !option) return allowed;
+    for (const [tree, indexed] of [
+      [currentGenerated, incoming],
+      [currentSource, customized],
+    ]) {
+      const matches = indexed.filter((op) => op.identity === identity && op.name === prior.name);
+      const group = parse(tree, newClassic).statements.find(ts.isInterfaceDeclaration);
+      const member = group?.members.find(
+        (item) => propertyName(item.name) === (prior.name === "$delete" ? "delete" : prior.name),
+      );
+      if (
+        matches.length !== 1 ||
+        matches[0].name !== prior.name ||
+        matches[0].options !== option ||
+        !member ||
+        !identifiers(member).has(option) ||
+        !collectExportedNames(parse(tree, `${newApi}/options.ts`)).has(option) ||
+        (prior.options.startsWith("Skills") &&
+          !collectExportedNames(parse(tree, "index.ts")).has(option)) ||
+        !collectExportedNames(parse(tree, "index.ts")).has("BetaSkillsOperations")
+      )
+        return allowed;
+    }
+  }
+  const retired = members
+    .filter(
+      (name) => !name.endsWith("Version") && !["listVersions", "createFromFiles"].includes(name),
+    )
+    .map(
+      (name) =>
+        `Skills${name === "$delete" ? "Delete" : name[0].toUpperCase() + name.slice(1)}OptionalParams`,
+    );
+  const currentNames = new Set(
+    [...currentSource].flatMap(([file, text]) => [...identifiers(parseSource(text, file))]),
+  );
+  if ([...retired, "SkillsOperations"].some((name) => currentNames.has(name))) return allowed;
+  for (const tree of [previousGenerated, previousSource]) {
+    const groups = parse(tree, oldClassic).statements.filter(ts.isInterfaceDeclaration);
+    if (
+      groups.length !== 1 ||
+      groups[0].name.text !== "SkillsOperations" ||
+      groups[0].heritageClauses?.length ||
+      groups[0].members.length !== members.length ||
+      !groups[0].members.every((item) =>
+        members.some((name) => propertyName(item.name) === (name === "$delete" ? "delete" : name)),
+      )
+    )
+      return allowed;
+  }
+  for (const name of retired) {
+    if (!collectExportedNames(parse(previousGenerated, `${oldApi}/options.ts`)).has(name))
+      return allowed;
+  }
+  return new Set([...retired, "SkillsOperations"]);
+}
+
 function propertyName(name) {
   if (!name) return undefined;
   if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
@@ -847,6 +955,7 @@ function main() {
   };
   const promotedOptionRemovals = findPromotedOptionRemovals(trees);
   const campaignRelocationRemovals = findCampaignRelocationRemovals(trees);
+  const skillsReversionRemovals = findSkillsReversionRemovals(trees);
   const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
     (name) => !missingNames.has(name),
   );
@@ -855,6 +964,7 @@ function main() {
       !allowedModelRemovals.has(item.name) &&
       !promotedOptionRemovals.has(item.name) &&
       !campaignRelocationRemovals.has(item.name) &&
+      !skillsReversionRemovals.has(item.name) &&
       !options.allowedSourceRemovals.has(item.name),
   );
 
@@ -907,7 +1017,8 @@ function main() {
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
       `${allowedModelRemovals.size} generated-backed and ` +
       `${promotedOptionRemovals.size} verified promotion removal(s), ` +
-      `${campaignRelocationRemovals.size} verified campaign relocation removal(s), and ` +
+      `${campaignRelocationRemovals.size} verified campaign relocation removal(s), ` +
+      `${skillsReversionRemovals.size} verified Skills reversion removal(s), and ` +
       `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }

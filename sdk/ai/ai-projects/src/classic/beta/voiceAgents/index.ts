@@ -14,7 +14,7 @@ import type { VoiceAgentLiveClientOptions } from "../../../live/voiceAgentLiveCl
 
 /** Preview GPT Live connections, stored Live conversations, and campaigns, with a legacy Realtime alias. */
 export interface BetaVoiceAgentsOperations {
-  /** Operations for managing telephony campaigns. */
+  /** Operations for managing preview outbound telephony campaigns. */
   telephony: BetaVoiceAgentsTelephonyOperations;
   /** Operations for reading persisted GPT Live conversations and audio. */
   liveConversations: BetaVoiceAgentsLiveConversationsOperations;

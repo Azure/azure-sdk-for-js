@@ -147,12 +147,12 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`. Voice Agents have both GA and preview features; see [Voice Agent operations](#voice-agent-operations) for their opt-in requirements.
+Preview operation groups include `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`. Voice Agents have both GA and preview features; see [Voice Agent operations](#voice-agent-operations) for their opt-in requirements.
 
-Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+Use `.agentInsightMonitors` to list the monitors that analyze your agents:
 
 ```ts snippet:agent-insight-monitors
-for await (const monitor of project.beta.agentInsightMonitors.list()) {
+for await (const monitor of project.agentInsightMonitors.list()) {
   console.log(`${monitor.id}: ${monitor.agent_name}`);
 }
 ```
@@ -1669,14 +1669,16 @@ The `.beta.skills` operations let you create and manage reusable skills that def
 const skillName = "sample-skill";
 // Create a new skill
 const created = await project.beta.skills.create(skillName, {
-  description: "Example skill created by the @azure/ai-projects sample.",
-  instructions: "You are a helpful assistant that answers questions concisely.",
-  metadata: { owner: "sample" },
+  inlineContent: {
+    description: "Example skill created by the @azure/ai-projects sample.",
+    instructions: "You are a helpful assistant that answers questions concisely.",
+    metadata: { owner: "sample" },
+  },
 });
 console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 // Retrieve the skill
 const fetched = await project.beta.skills.get(skillName);
-console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
 ```
 
 See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/skills/skillBasic.ts).

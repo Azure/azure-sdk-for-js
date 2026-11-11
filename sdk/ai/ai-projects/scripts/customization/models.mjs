@@ -269,6 +269,29 @@ function inventory(tree, diagnostics, replacements = new Map()) {
       }
     }
     const scopedRenames = new Map(replacements);
+    // Historical Tool* compatibility aliases coexist with the released
+    // declaration. Do not rename their binding or barrel export onto that
+    // declaration: the barrel itself has no declarations to detect aliases.
+    const aliasSource =
+      file === modelBarrel
+        ? parse(tree.get(canonicalFile) ?? "", canonicalFile, diagnostics)
+        : source;
+    const aliasNames = new Set(aliasSource.statements.map(declarationName));
+    for (const [from, to] of historicalToolRenames) {
+      if (scopedRenames.get(from) !== to || !aliasNames.has(from) || !aliasNames.has(to)) continue;
+      const alias = aliasSource.statements.find((node) => declarationName(node) === from);
+      const target = ts.isTypeAliasDeclaration(alias)
+        ? alias.type
+        : ts.isVariableStatement(alias)
+          ? alias.declarationList.declarations[0].initializer
+          : undefined;
+      if (
+        (target && ts.isTypeReferenceNode(target) && target.typeName.getText(aliasSource) === to) ||
+        (target && ts.isIdentifier(target) && target.text === to) ||
+        (from === "_ToolFileSearchToolFiltersValue" && ts.isTypeAliasDeclaration(alias))
+      )
+        scopedRenames.delete(from);
+    }
     for (const item of importsOf(source)) {
       if (!internalModelImport(file, item.module) || item.sideEffect) continue;
       if (item.imported === "*" || item.imported === "default") {
@@ -517,7 +540,7 @@ function simpleRecord(type) {
   );
 }
 
-// Explicitly approved for the configuration-schema migration (#46941).
+// Approved for the configuration-schema migration (#46941) and conversations (#47368).
 // Only this discriminator adopts the upstream values; unrelated legacy models
 // and their dispatch registrations still use the normal retention policy.
 function upstreamDiscriminators(before, custom, incoming, diagnostics) {
@@ -615,6 +638,58 @@ function comparisonFilterText(base, custom, incoming, customModels, incomingMode
       text: nextType.getText(nextType.getSourceFile()),
     },
   ]);
+}
+
+function dailyHoursTexts(name, base, custom, incoming) {
+  if (
+    !["dailyRecurrenceScheduleSerializer", "dailyRecurrenceScheduleDeserializer"].includes(name) ||
+    !base ||
+    !custom ||
+    !incoming
+  )
+    return [base, custom, incoming];
+  const direct = 'item["hours"]';
+  const mapped = `${direct}.map((p: any) => { return p; })`;
+  const expected = [mapped, direct, `!${direct} ? ${direct} : ${mapped}`];
+  const initializers = [base, custom, incoming].map((text, index) => {
+    const source = parse(text, canonicalFile, []);
+    const node = source.statements[0];
+    if (
+      source.parseDiagnostics.length ||
+      !ts.isFunctionDeclaration(node) ||
+      node.parameters.length !== 1 ||
+      !ts.isIdentifier(node.parameters[0].name) ||
+      node.parameters[0].name.text !== "item" ||
+      node.body?.statements.length !== 1
+    )
+      return undefined;
+    const statement = node.body.statements[0];
+    if (
+      !ts.isReturnStatement(statement) ||
+      !statement.expression ||
+      !ts.isObjectLiteralExpression(statement.expression)
+    )
+      return undefined;
+    const properties = statement.expression.properties.filter(
+      (property) => ts.isPropertyAssignment(property) && nameOf(property.name) === "hours",
+    );
+    if (
+      properties.length !== 1 ||
+      canonicalize(`const value = ${properties[0].initializer.getText(source)};`) !==
+        canonicalize(`const value = ${expected[index]};`)
+    )
+      return undefined;
+    return {
+      start: properties[0].initializer.getStart(source),
+      end: properties[0].initializer.end,
+    };
+  });
+  if (initializers.some((initializer) => !initializer)) return [base, custom, incoming];
+  return [
+    edit(base, [{ ...initializers[0], text: direct }]),
+    custom,
+    edit(incoming, [{ ...initializers[2], text: direct }]),
+  ];
 }
 
 function policyText(name, text, context, diagnostics, declarations) {
@@ -1191,16 +1266,16 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
             incoming.declarations,
           )
         : ours?.text;
-    const baseText = policyText(
+    const [baseDeclaration, customDeclaration, incomingDeclaration] = dailyHoursTexts(
       name,
       retentionBases.get(name) ?? base?.text ?? null,
-      context,
-      diagnostics,
-      before.declarations,
+      (adoptedDiscriminators.has(name) ? theirs?.text : customizedText) ?? null,
+      theirs?.text ?? (ours ? base?.text : null) ?? null,
     );
+    const baseText = policyText(name, baseDeclaration, context, diagnostics, before.declarations);
     const customText = policyText(
       name,
-      (adoptedDiscriminators.has(name) ? theirs?.text : customizedText) ?? null,
+      customDeclaration,
       context,
       diagnostics,
       custom.declarations,
@@ -1208,7 +1283,7 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(
       name,
-      theirs?.text ?? (ours ? base?.text : null) ?? null,
+      incomingDeclaration,
       context,
       diagnostics,
       incoming.declarations,

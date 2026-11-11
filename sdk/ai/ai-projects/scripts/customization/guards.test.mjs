@@ -43,6 +43,55 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("Skills preview reversion removes only root client wiring and dedicated imports", () => {
+  const imports = `
+import type { SkillsOperations } from "./classic/skills/index.js";
+import { _getSkillsOperations } from "./classic/skills/index.js";
+`;
+  const retained = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._cognitiveScopeClient); }
+  }`;
+  const previous =
+    imports +
+    retained
+      .replace("constructor()", "public readonly skills: SkillsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        "this.skills = _getSkillsOperations(this._cognitiveScopeClient); this.beta =",
+      );
+  const beta = {
+    "classic/beta/skills/index.ts": "export interface BetaSkillsOperations {}",
+    "classic/beta/index.ts": "export interface BetaOperations { skills: BetaSkillsOperations; }",
+  };
+  const files = {
+    baseGenerated: tree({
+      "aiProjectClient.ts": previous,
+      "classic/skills/index.ts": "export interface SkillsOperations {}",
+    }),
+    baseSource: tree({ "aiProjectClient.ts": previous }),
+    generated: tree({ ...beta, "aiProjectClient.ts": retained }),
+    source: tree({ ...beta, "aiProjectClient.ts": retained }),
+  };
+  assert.deepEqual(validate(files), []);
+  for (const unsafe of [
+    retained.replace("_cognitiveScopeClient", "_azureScopeClient"),
+    retained.replace("this.beta = _getBetaOperations(this._cognitiveScopeClient);", ""),
+    retained.replace("constructor()", "constructor(options: unknown)"),
+  ]) {
+    has(
+      validate({ ...files, source: tree({ ...beta, "aiProjectClient.ts": unsafe }) }),
+      "AIProjectClient",
+      undefined,
+      "Protected",
+    );
+  }
+  for (const missing of ["classic/beta/skills/index.ts", "classic/beta/index.ts"]) {
+    const source = new Map(files.source);
+    source.delete(missing);
+    has(validate({ ...files, source }), "AIProjectClient", undefined, "Protected");
+  }
+});
+
 test("historical filter aliases do not override released names retained in source", () => {
   const customized = `
 export type _FileSearchToolFiltersValue = string | number;
@@ -142,19 +191,30 @@ test("data generation discriminator guards enforce upstream values without relax
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
   const legacy = upstream.replace(";", ' | "task_generation";');
+  const conversations = upstream.replace(";", ' | "conversations";');
   assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  assert.deepEqual(validate(modelFixture(upstream, legacy, conversations, conversations)), []);
+  assert.deepEqual(validate(modelFixture(conversations, conversations, upstream, upstream)), []);
   for (const output of [
-    legacy,
-    upstream.replace('"traces" | ', ""),
-    upstream.replace(";", ' | "unexpected";'),
+    upstream,
+    conversations.replace(";", ' | "task_generation";'),
+    conversations.replace('"traces" | ', ""),
+    conversations.replace(";", ' | "unexpected";'),
+    conversations.replace(";", ' | "conversations";'),
   ]) {
     has(
-      validate(modelFixture(upstream, legacy, upstream, output)),
+      validate(modelFixture(upstream, legacy, conversations, output)),
       "DataGenerationJobType",
       undefined,
       "must adopt upstream values",
     );
   }
+  has(
+    validate(modelFixture(conversations, conversations, upstream, conversations)),
+    "DataGenerationJobType",
+    undefined,
+    "must adopt upstream values",
+  );
   const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
   has(
     validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),

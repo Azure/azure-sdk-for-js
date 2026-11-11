@@ -475,7 +475,7 @@ describe("regenerated model wire contracts", () => {
 
   it("uses exactly the upstream data-generation discriminator values", () => {
     expectTypeOf<DataGenerationJobType>().toEqualTypeOf<
-      "simple_qna" | "traces" | "tool_use" | "simulation_seed"
+      "simple_qna" | "traces" | "tool_use" | "simulation_seed" | "conversations"
     >();
     expectTypeOf<
       Pick<SimulationSeedDataGenerationJobConfiguration, "max_samples">
@@ -487,10 +487,17 @@ describe("regenerated model wire contracts", () => {
     { type: "traces", max_samples: 3, redact_private_content: false },
     { type: "tool_use", max_samples: 4 },
     { type: "simulation_seed", max_samples: 5 },
+    {
+      type: "conversations",
+      max_samples: 6,
+      redact_private_content: false,
+      generate_test_case_description: true,
+      generate_test_case_rubric: true,
+    },
   ];
 
   it.each(generationConfigurations)(
-    "round-trips the renamed $type generation configuration without losing fields",
+    "round-trips the $type generation configuration without losing fields",
     (configuration) => {
       const input = {
         ...configuration,

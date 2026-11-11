@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../../../api/aiProjectContext.js";
-import {
-  getOperation,
-  listValidationErrors,
-  deleteTelephony,
-  cancel,
-  list,
-  get,
-  create,
-} from "../../../../api/beta/voiceAgents/telephony/operations.js";
+import type {
+  TelephonyCampaign,
+  TelephonyCampaignOperation,
+  TelephonyCampaignValidationError,
+  TelephonyCampaignCreate,
+} from "../../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   BetaVoiceAgentsTelephonyGetOperationOptionalParams,
   BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
@@ -20,14 +18,16 @@ import type {
   BetaVoiceAgentsTelephonyGetOptionalParams,
   BetaVoiceAgentsTelephonyCreateOptionalParams,
 } from "../../../../api/beta/voiceAgents/telephony/options.js";
-import type {
-  TelephonyCampaign,
-  TelephonyCampaignOperation,
-  TelephonyCampaignValidationError,
-  TelephonyCampaignCreate,
-} from "../../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  getOperation,
+  listValidationErrors,
+  deleteTelephony,
+  cancel,
+  list,
+  get,
+  create,
+} from "../../../../api/beta/voiceAgents/telephony/operations.js";
 
 /** Preview operations for managing voice-agent telephony campaigns. */
 export interface BetaVoiceAgentsTelephonyOperations {
@@ -88,7 +88,7 @@ export interface BetaVoiceAgentsTelephonyOperations {
   ) => PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
 }
 
-function _getBetaVoiceAgentsTelephony(
+export function _getBetaVoiceAgentsTelephonyOperations(
   context: AIProjectContext,
 ): BetaVoiceAgentsTelephonyOperations {
   const deleteCampaign: BetaVoiceAgentsTelephonyOperations["deleteCampaign"] = (
@@ -131,10 +131,4 @@ function _getBetaVoiceAgentsTelephony(
       options?: BetaVoiceAgentsTelephonyCreateOptionalParams,
     ) => create(context, agentName, campaignName, campaign, options),
   };
-}
-
-export function _getBetaVoiceAgentsTelephonyOperations(
-  context: AIProjectContext,
-): BetaVoiceAgentsTelephonyOperations {
-  return { ..._getBetaVoiceAgentsTelephony(context) };
 }

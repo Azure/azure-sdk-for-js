@@ -205,7 +205,12 @@ function promoteBetaClientGroup(
 ) {
   const file = "aiProjectClient.ts";
   const voice = group === "voiceAgents";
-  const type = voice ? "VoiceAgents" : "AgentInsightMonitors";
+  const type = {
+    agentInsightMonitors: "AgentInsightMonitors",
+    skills: "Skills",
+    voiceAgents: "VoiceAgents",
+  }[group];
+  if (!type) return customText;
   const target = `api/${group}/`;
   const promoted = matches.filter((match) => match.incoming.file.startsWith(target));
   if (
@@ -492,12 +497,10 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       if (file === "aiProjectClient.ts" && customText)
         source.set(
           file,
-          promoteBetaClientGroup(
-            baseText,
-            promoteBetaClientGroup(baseText, customText, incomingText, operations.matches),
-            incomingText,
-            operations.matches,
-            "voiceAgents",
+          ["agentInsightMonitors", "skills", "voiceAgents"].reduce(
+            (text, group) =>
+              promoteBetaClientGroup(baseText, text, incomingText, operations.matches, group),
+            customText,
           ),
         );
       continue;

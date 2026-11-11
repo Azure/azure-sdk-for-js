@@ -16,6 +16,7 @@ import {
   deleteOptimizationJob,
   cancelOptimizationJob,
   listOptimizationJobs,
+  downloadOptimizationJobFile,
   getOptimizationJob,
   estimateOptimizationJob,
   createOptimizationJob,
@@ -58,6 +59,7 @@ import {
   AgentsDeleteOptimizationJobOptionalParams,
   AgentsCancelOptimizationJobOptionalParams,
   AgentsListOptimizationJobsOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
@@ -109,6 +111,7 @@ import {
   GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
+  AgentsDownloadOptimizationJobFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -182,19 +185,19 @@ export interface AgentsOperations {
     publishScope: Microsoft365PublishScope,
     options?: PublishToMicrosoft365OptionalParams,
   ) => Promise<Microsoft365PublishResponse>;
-  /** Promotes a candidate to the Foundry agent stored in the parent job's target configuration. Promotion is unavailable when the job omitted target_configuration. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
+  /** Promotes a supported completed candidate to the Foundry agent stored in the parent job's target configuration. A skill-optimization candidate must be the evaluated learned candidate for a supported Prompt or Managed target; baseline, unevaluated, agentless, and unsupported-runtime skill candidates cannot be promoted. Skill promotion releases the exact evaluated candidate configuration without regenerating skills. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
   promoteOptimizationCandidate: (
     jobId: string,
     candidateId: string,
     options?: AgentsPromoteOptimizationCandidateOptionalParams,
   ) => Promise<AgentOptimizationCandidate>;
-  /** Retrieves a single candidate. Mutation values are always included. */
+  /** Retrieves a single candidate. Mutation values are always included. Skill optimization detail includes independent skill results, resolved context, and the persisted execution snapshot when available; these detail fields are omitted from candidate lists. */
   getOptimizationCandidate: (
     jobId: string,
     candidateId: string,
     options?: AgentsGetOptimizationCandidateOptionalParams,
   ) => Promise<AgentOptimizationCandidate>;
-  /** Lists candidates for the given optimization job with cursor pagination, including the original baseline and generated candidates. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
+  /** Lists candidates for the given optimization job with cursor pagination. Agent optimization can include the original baseline and multiple generated candidates; prompt and skill optimization generate a single candidate. Evaluated skill jobs also expose the original baseline for reporting through the existing evaluation field; the baseline is not a generated alternative. A generated skill candidate contains zero or more skill outcomes, not one candidate per skill. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
   listOptimizationCandidates: (
     jobId: string,
     options?: AgentsListOptimizationCandidatesOptionalParams,
@@ -213,6 +216,12 @@ export interface AgentsOperations {
   listOptimizationJobs: (
     options?: AgentsListOptimizationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentOptimizationJob>;
+  /** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+  downloadOptimizationJobFile: (
+    jobId: string,
+    path: string,
+    options?: AgentsDownloadOptimizationJobFileOptionalParams,
+  ) => Promise<AgentsDownloadOptimizationJobFileResponse>;
   /** Retrieves an optimization job by its identifier. */
   getOptimizationJob: (
     jobId: string,
@@ -487,6 +496,11 @@ function _getAgents(context: AIProjectContext) {
       cancelOptimizationJob(context, jobId, options),
     listOptimizationJobs: (options?: AgentsListOptimizationJobsOptionalParams) =>
       listOptimizationJobs(context, options),
+    downloadOptimizationJobFile: (
+      jobId: string,
+      path: string,
+      options?: AgentsDownloadOptimizationJobFileOptionalParams,
+    ) => downloadOptimizationJobFile(context, jobId, path, options),
     getOptimizationJob: (jobId: string, options?: AgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     estimateOptimizationJob: (

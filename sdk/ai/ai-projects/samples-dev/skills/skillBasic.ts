@@ -8,7 +8,7 @@
  * Skills are currently a preview feature. In the JS SDK, you access
  * these operations via `project.beta.skills`.
  *
- * @summary Demonstrates CRUD operations on Skills using the beta skills API.
+ * @summary Demonstrates CRUD operations on Skills using the skills API.
  */
 
 import { AIProjectClient, isRestError } from "@azure/ai-projects";
