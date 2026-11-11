@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.0-beta.2 (2026-11-09)
+## 13.0.0-beta.2 (2026-11-11)
 Compared with version 12.0.0
 
 ### Features Added
