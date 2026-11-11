@@ -95,7 +95,7 @@ Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config 
 
 ### resetDocuments Body Restructuring
 
-`resetDocuments()` restructures flat options (`documentKeys`, `datasourceDocumentIds`) into a nested `keysOrIds` object expected by the wire format.
+The November preview convenience method `resetDocuments()` maps the flat public options `documentKeys` and `dataSourceDocumentIds` to `keysOrIds.documentKeys` and `keysOrIds.datasourceDocumentIds`, respectively. Keep `overwrite` and operation options outside `keysOrIds`.
 
 ## Null Handling
 

@@ -7,7 +7,7 @@ description: 'Domain knowledge for @azure/search-documents. Covers architecture,
 
 ## Common Pitfalls
 
-- **Regeneration must pin the preview api-version** — the spec's `tspconfig.yaml` does not set an `api-version` for `@azure-tools/typespec-ts`, so `tsp-client update` without an explicit `api-version=` emitter option can regenerate a different surface and delete preview-only operations and models. The `generate:client` script selects the targeted preview; keep that override in sync when moving to a newer preview.
+- **Regeneration must pin the intended API version** — the spec's `tspconfig.yaml` does not set an `api-version` for `@azure-tools/typespec-ts`, so `tsp-client update` without an explicit `api-version=` emitter option can regenerate a different surface and drop API-specific operations and models. The checked-out package's `generate:client` script is authoritative; keep the command below in sync with it.
 - **Check the API reports for `ae-forgotten-export` after regenerating** — new spec types are frequently referenced by public members without being exported from `src/index.ts`, which leaves them unnameable by consumers. Grep `review/*.api.md` for `ae-forgotten-export` and diff against `main` to see which are newly introduced, then export them. Exporting one type often surfaces more transitively, so re-run the build until the list stops growing.
 - **`nextLinkName` in `src/searchIndex/api/operations.ts` and `src/searchIndexer/api/operations.ts` is deliberately corrected.** The emitter writes the *wire* property name (`"NextLink"` or `"@odata.nextLink"`), but `buildPagedAsyncIterator` reads the link off the **deserialized** model, where those properties are named `nextLink` and `odataNextLink`. With the generated values, `getNextLink` returns `undefined` and every paged operation silently stops after the first page. All eleven generated paged operations are corrected in `src/`; re-check them after any regeneration, and keep `test/internal/node/paging.spec.ts` green — it fails if the generated values come back.
 - **Generated types migrate between `src/models/models.ts` and the subpath barrels.** The emitter moves a type into `src/models/azure/search/documents/{indexes,knowledgeBases}/` as soon as the spec references it from that namespace, which breaks hand-authored `import ... from "./models/index.js"` statements with `TS2305: has no exported member`. The fix is to repoint the import at the subpath barrel, not to re-add the export. Check `src/index.ts`, `src/serviceModels.ts`, and `src/knowledgeBaseModels.ts` after every regeneration.
@@ -74,14 +74,16 @@ The convenience layer converts between generated and public types via `src/servi
 Generation command (from `package.json`):
 
 ```
-tsp-client update -d --emitter-options="api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
+tsp-client update -d --emitter-options="api-version=2026-11-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
 ```
 
 Run via: `npm run generate:client`. **All changes must be committed first** — the 3-way merge requires committed state.
 
+The October GA baseline in [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171) uses `2026-10-01`; this November preview branch uses `2026-11-01-preview`. Select an older API version on a client for compatibility testing rather than regenerating this branch against the older API.
+
 **Important flags:**
 
-- `api-version=2026-08-01-preview` — **required**. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; this override ensures the emitter generates the intended preview surface instead of another default version. Bump this value when moving to a newer preview.
+- `api-version=2026-11-01-preview` — **required for this branch**. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; this override matches `package.json` and selects the intended preview surface instead of another default version.
 - `ignore-nullable-on-optional=true` — mitigates TypeSpec's `T | null` on optional properties
 - `wrap-non-model-return=false` — prevents wrapping non-model return types
 - `--skip index.ts` — barrel export is manually maintained
@@ -111,6 +113,8 @@ For 3-way merge details and conflict resolution, see [references/customization.m
 ### Exposing New Operations and Models
 
 New operations and models appearing after regeneration are **not available to consumers** until explicitly wired through the hand-authored layer. Regeneration only changes `generated/` and the generated-mirrored files under `src/{subclient}/` and `src/models/` — none of those are part of the public package API. **Do not stop at regeneration.**
+
+**GA compatibility exception:** Preserve the released signatures, aliases, closed unions, and response field types from #40171. If exposing a preview alternative through an existing convenience contract would break that baseline, use the public protocol surface or a separate additive input type instead; the checklist below does not require widening GA contracts or mirroring protocol-only preview models at the package root.
 
 Before declaring a regeneration done, do a post-regeneration audit:
 
