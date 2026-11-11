@@ -75,7 +75,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
-import type { KnowledgeBase } from "./knowledgeBaseModels.js";
+import type { KnowledgeBase, KnowledgeBaseInput } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
   AzureBlobKnowledgeSourceParameters,
@@ -974,7 +974,7 @@ export function convertKnowledgeBaseToPublic(
 }
 
 export function convertKnowledgeBaseToGenerated(
-  knowledgeBase: KnowledgeBase | undefined,
+  knowledgeBase: KnowledgeBase | KnowledgeBaseInput | undefined,
 ): GeneratedKnowledgeBase | undefined {
   if (!knowledgeBase) {
     return undefined;

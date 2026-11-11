@@ -587,6 +587,8 @@ export type {
 } from "./indexModels.js";
 export type {
   KnowledgeBase,
+  KnowledgeBaseInput,
+  KnowledgeBaseModelInput,
   KnowledgeBaseActivityStartedEvent,
   KnowledgeBaseAnswerCompletedEvent,
   KnowledgeBaseResponseCompletedEvent,

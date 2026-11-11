@@ -21,7 +21,7 @@ import type {
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
 import { restorePoller } from "./searchIndex/restorePollerHelpers.js";
-import type { KnowledgeBase } from "./knowledgeBaseModels.js";
+import type { KnowledgeBase, KnowledgeBaseInput } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
 import { logger } from "./logger.js";
@@ -726,7 +726,7 @@ export class SearchIndexClient {
    * @param options - options parameters.
    */
   public async createKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options: CreateKnowledgeBaseOptions = {},
   ): Promise<KnowledgeBase> {
     return tracingClient.withSpan(
@@ -749,7 +749,7 @@ export class SearchIndexClient {
    * @returns The created or updated knowledge base.
    */
   public createOrUpdateKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options?: CreateOrUpdateKnowledgeBaseOptions,
   ): Promise<KnowledgeBase>;
   /**
@@ -758,17 +758,18 @@ export class SearchIndexClient {
    */
   public createOrUpdateKnowledgeBase(
     knowledgeBaseName: string,
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options?: CreateOrUpdateKnowledgeBaseOptions,
   ): Promise<KnowledgeBase>;
   public async createOrUpdateKnowledgeBase(
-    knowledgeBaseOrName: KnowledgeBase | string,
-    knowledgeBaseOrOptions: KnowledgeBase | CreateOrUpdateKnowledgeBaseOptions = {},
+    knowledgeBaseOrName: KnowledgeBase | KnowledgeBaseInput | string,
+    knowledgeBaseOrOptions:
+      KnowledgeBase | KnowledgeBaseInput | CreateOrUpdateKnowledgeBaseOptions = {},
     legacyOptions: CreateOrUpdateKnowledgeBaseOptions = {},
   ): Promise<KnowledgeBase> {
     const knowledgeBase =
       typeof knowledgeBaseOrName === "string"
-        ? (knowledgeBaseOrOptions as KnowledgeBase)
+        ? (knowledgeBaseOrOptions as KnowledgeBase | KnowledgeBaseInput)
         : knowledgeBaseOrName;
     const knowledgeBaseName =
       typeof knowledgeBaseOrName === "string" ? knowledgeBaseOrName : knowledgeBase.name;

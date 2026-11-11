@@ -17,6 +17,8 @@ import type {
   ChatCompletionSkill,
   IndexedOneLakeKnowledgeSource,
   KnowledgeBase,
+  KnowledgeBaseInput,
+  KnowledgeBaseModelInput,
   KnowledgeBaseOpenAICompatibleModel,
   SearchIndex,
   SearchIndexer,
@@ -796,6 +798,101 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.deepEqual(JSON.parse(requests[0].body as string).skills[0], wire);
     expect(actual.skills[0]).toMatchObject(skill);
   });
+
+  it("preserves Azure OpenAI model reads through the convenience client", async () => {
+    const wire = {
+      name: "kb",
+      knowledgeSources: [],
+      models: [
+        {
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUri: "https://example.openai.azure.com",
+            deploymentId: "chat",
+            modelName: "gpt-4o",
+          },
+        },
+      ],
+    };
+    const client = new SearchIndexClient(
+      endpoint,
+      credential,
+      mockOptions([{ body: wire }, { body: { value: [wire] } }], []),
+    );
+    const expected = {
+      models: [
+        {
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUrl: "https://example.openai.azure.com",
+            deploymentId: "chat",
+            modelName: "gpt-4o",
+          },
+        },
+      ],
+    };
+    expect(await client.getKnowledgeBase("kb")).toMatchObject(expected);
+    expect((await client.listKnowledgeBases().next()).value).toMatchObject(expected);
+  });
+
+  it.each([
+    {
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "https://example.openai.azure.com",
+        deploymentId: "chat",
+        modelName: "gpt-4o",
+      },
+    },
+    { kind: "microsoftRetriever1" },
+    {
+      kind: "openAICompatible",
+      openAICompatibleParameters: {
+        uri: "https://gateway.example.com/chat/completions",
+        modelName: "gpt-4o",
+        managedIdentityAudience: "11111111-2222-3333-4444-555555555555",
+      },
+    },
+  ] satisfies KnowledgeBaseModelInput[])(
+    "creates and updates knowledge bases with $kind inputs",
+    async (model) => {
+      const wireModel =
+        model.kind === "azureOpenAI"
+          ? {
+              kind: model.kind,
+              azureOpenAIParameters: {
+                resourceUri: model.azureOpenAIParameters.resourceUrl,
+                deploymentId: model.azureOpenAIParameters.deploymentId,
+                modelName: model.azureOpenAIParameters.modelName,
+              },
+            }
+          : model;
+      const wire = { name: "kb", knowledgeSources: [], models: [wireModel] };
+      const requests: PipelineRequest[] = [];
+      const client = new SearchIndexClient(
+        endpoint,
+        credential,
+        mockOptions([{ body: wire, status: 201 }, { body: wire }, { body: wire }], requests),
+      );
+      const input: KnowledgeBaseInput = {
+        name: "kb",
+        knowledgeSources: [],
+        models: [model],
+      };
+      expect(await client.createKnowledgeBase(input)).toMatchObject({ models: [model] });
+      expect(await client.createOrUpdateKnowledgeBase(input)).toMatchObject({ models: [model] });
+      expect(await client.createOrUpdateKnowledgeBase("kb", input)).toMatchObject({
+        models: [model],
+      });
+      for (const request of requests) {
+        assert.deepEqual(JSON.parse(request.body as string), wire);
+      }
+      assert.deepEqual(
+        requests.map((request) => request.method),
+        ["POST", "PUT", "PUT"],
+      );
+    },
+  );
 
   it("preserves Microsoft Retriever 1 configuration and agentic reasoning accounting", async () => {
     const requests: PipelineRequest[] = [];

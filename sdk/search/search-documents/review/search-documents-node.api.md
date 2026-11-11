@@ -1995,6 +1995,11 @@ export interface KnowledgeBaseIndexedSqlReference extends BaseKnowledgeBaseRefer
 }
 
 // @public
+export interface KnowledgeBaseInput extends Omit<KnowledgeBase, "models"> {
+    models?: KnowledgeBaseModelInput[];
+}
+
+// @public
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
 
 // @public
@@ -2064,6 +2069,9 @@ export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKno
     outputTokens?: number;
     type: "modelAnswerSynthesis";
 }
+
+// @public
+export type KnowledgeBaseModelInput = KnowledgeBaseModel | KnowledgeBaseMicrosoftRetriever1Model | KnowledgeBaseOpenAICompatibleModel;
 
 // @public
 export type KnowledgeBaseModelKind = string;
@@ -4648,13 +4656,13 @@ export class SearchIndexClient {
     beginReplaceKnowledgeSourceFile(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: BeginReplaceKnowledgeSourceFileOptions): KnowledgeSourceFileIngestionPoller;
     createAlias(alias: SearchIndexAlias, options?: CreateAliasOptions): Promise<SearchIndexAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
-    createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    createKnowledgeBase(knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
-    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // @deprecated
-    createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // (undocumented)
     createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;

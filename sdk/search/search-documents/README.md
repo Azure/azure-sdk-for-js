@@ -8,8 +8,9 @@ Generation is pinned to [REST API specifications PR #47300](https://github.com/A
 commit `b41ba04c0219f6622b7f5214fc020f90bad339ae`; no release date is confirmed.
 
 New capabilities include graph queries and diagnostics, topic-graph vector retrieval,
-knowledge base tools, facet-derived filter hints, protocol-level OpenAI-compatible models/vectorizers,
-ingestion caches, and asynchronous File ingestion with operation diagnostics.
+knowledge base tools, facet-derived filter hints, three-model knowledge-base inputs,
+protocol-level OpenAI-compatible vectorizers, ingestion caches, and asynchronous File
+ingestion with operation diagnostics.
 See [the November preview sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/novemberPreview.ts).
 `beginIngestKnowledgeSourceFile` and `beginReplaceKnowledgeSourceFile` return thenable
 `@azure/core-lro` pollers: do not await the initial call when retaining the poller;
@@ -476,6 +477,34 @@ const knowledgeBase = await client.createKnowledgeBase({
 knowledgeBase.outputMode = "extractiveData";
 await client.createOrUpdateKnowledgeBase(knowledgeBase);
 ```
+
+For Azure OpenAI, Microsoft Retriever 1, or OpenAI-compatible model inputs, use
+`KnowledgeBaseModelInput` and `KnowledgeBaseInput`. The legacy `KnowledgeBaseModel`
+alias and `KnowledgeBase.models` field retain their Azure OpenAI-only types.
+
+```ts snippet:ReadmeSampleConfigureKnowledgeBaseInput
+import {
+  SearchIndexClient,
+  KnowledgeBaseModelInput,
+  KnowledgeBaseInput,
+} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+
+const model: KnowledgeBaseModelInput = { kind: "microsoftRetriever1" };
+const input: KnowledgeBaseInput = {
+  name: "hotel-knowledge-base",
+  knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+  models: [model],
+  retrievalReasoningEffort: { kind: "minimal" },
+};
+await client.createOrUpdateKnowledgeBase(input);
+```
+
+Create/update methods still return the legacy `KnowledgeBase` type for compatibility.
+Use `SearchIndexClient` from `@azure/search-documents/searchIndex` when reading
+responses that need the full model union.
 
 ### Page Through Resources
 

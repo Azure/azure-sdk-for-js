@@ -7,6 +7,8 @@ import { describe, it } from "vitest";
 import {
   AzureKeyCredential,
   KnowledgeRetrievalClient,
+  type KnowledgeBaseInput,
+  type KnowledgeBaseModelInput,
   KnownSearchAudience,
   KnownIndexedSharePointContainerName,
   odata,
@@ -569,6 +571,19 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     knowledgeBase.outputMode = "extractiveData";
     await client.createOrUpdateKnowledgeBase(knowledgeBase);
+  });
+
+  it("ReadmeSampleConfigureKnowledgeBaseInput", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    const model: KnowledgeBaseModelInput = { kind: "microsoftRetriever1" };
+    const input: KnowledgeBaseInput = {
+      name: "hotel-knowledge-base",
+      knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+      models: [model],
+      retrievalReasoningEffort: { kind: "minimal" },
+    };
+    await client.createOrUpdateKnowledgeBase(input);
   });
 
   it("ReadmeSampleListResources", async () => {

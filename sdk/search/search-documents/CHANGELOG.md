@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added `KnowledgeBaseInput` and `KnowledgeBaseModelInput` for Azure OpenAI, Microsoft Retriever 1, and OpenAI-compatible model inputs to knowledge-base create/create-or-update methods. The legacy `KnowledgeBaseModel` alias, `KnowledgeBase.models` field, response types, and wire behavior remain unchanged. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Carried forward typed protocol SSE retrieval, the root `KnownContentUnderstandingSkillChunkingMethod` export, released body-first protocol operation overloads, legacy listing APIs, and legacy TypeScript protocol-subpath resolution from the `2026-10-01` GA SDK. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Added support for `2026-11-01-preview`, generated from Azure/azure-rest-api-specs commit `b41ba04c0219f6622b7f5214fc020f90bad339ae` (PR #47300). This is now the default service version; explicit stable and older preview versions remain selectable.
 - Added `SearchClient.graph` with typed graph rows, provenance, statistics, diagnostics, explain plans, and structured query errors, plus graph index profiles and knowledge source graph extraction/retrieval configuration.

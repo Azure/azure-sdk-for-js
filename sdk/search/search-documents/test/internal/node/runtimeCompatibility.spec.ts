@@ -16,7 +16,10 @@ import { createSearch, getDocumentCount } from "../../../src/search/api/index.js
 import type {
   AzureOpenAIParameters,
   BaseScoringFunction,
+  KnowledgeBase,
+  KnowledgeBaseInput,
   KnowledgeBaseModel,
+  KnowledgeBaseModelInput,
   KnowledgeSource,
   KnowledgeSourceVectorizer,
   ScoringFunction,
@@ -63,6 +66,14 @@ describe("GA runtime compatibility in the November preview", () => {
     expectTypeOf<
       KnowledgeBaseModel["azureOpenAIParameters"]
     >().toEqualTypeOf<AzureOpenAIParameters>();
+    expectTypeOf<KnowledgeBase["models"]>().toEqualTypeOf<KnowledgeBaseModel[] | undefined>();
+    expectTypeOf<KnowledgeBase>().toMatchTypeOf<KnowledgeBaseInput>();
+    expectTypeOf<ReturnType<SearchIndexClient["createKnowledgeBase"]>>().toEqualTypeOf<
+      Promise<KnowledgeBase>
+    >();
+    expectTypeOf<ReturnType<SearchIndexClient["createOrUpdateKnowledgeBase"]>>().toEqualTypeOf<
+      Promise<KnowledgeBase>
+    >();
     expectTypeOf<KnowledgeSourceVectorizer["azureOpenAIParameters"]>().toEqualTypeOf<
       AzureOpenAIParameters | undefined
     >();
@@ -79,6 +90,38 @@ describe("GA runtime compatibility in the November preview", () => {
     >();
     expectTypeOf<SearchOptions<object>["queryType"]>().toEqualTypeOf<
       "simple" | "full" | "semantic" | undefined
+    >();
+  });
+
+  it("accepts a mutable mixed-model input array without widening the GA model alias", () => {
+    const models: KnowledgeBaseModelInput[] = [
+      {
+        kind: "azureOpenAI",
+        azureOpenAIParameters: {
+          resourceUrl: "https://example.openai.azure.com",
+          deploymentId: "chat",
+          modelName: "gpt-4o",
+        },
+      },
+    ];
+    models.push(
+      { kind: "microsoftRetriever1" },
+      {
+        kind: "openAICompatible",
+        openAICompatibleParameters: {
+          uri: "https://gateway.example.com/chat/completions",
+          modelName: "gpt-4o",
+          managedIdentityAudience: "11111111-2222-3333-4444-555555555555",
+        },
+      },
+    );
+    const input: KnowledgeBaseInput = { name: "kb", knowledgeSources: [], models };
+    assert.deepEqual(
+      input.models?.map((model) => model.kind),
+      ["azureOpenAI", "microsoftRetriever1", "openAICompatible"],
+    );
+    expectTypeOf<KnowledgeBaseModelInput["kind"]>().toEqualTypeOf<
+      "azureOpenAI" | "microsoftRetriever1" | "openAICompatible"
     >();
   });
 

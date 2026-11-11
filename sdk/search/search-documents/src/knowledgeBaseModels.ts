@@ -7,6 +7,8 @@ import type {
   KnowledgeSourceReference,
   KnowledgeBaseRetrieveDefaults,
   KnowledgeBaseTool,
+  KnowledgeBaseMicrosoftRetriever1Model,
+  KnowledgeBaseOpenAICompatibleModel,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeBaseActivityRecordUnion,
@@ -163,4 +165,17 @@ export interface KnowledgeBase {
    * when present.
    */
   retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
+}
+
+/** AI model configurations accepted when creating or updating a knowledge base. */
+export type KnowledgeBaseModelInput =
+  KnowledgeBaseModel | KnowledgeBaseMicrosoftRetriever1Model | KnowledgeBaseOpenAICompatibleModel;
+
+/**
+ * Input for creating or updating a knowledge base with any of the supported AI model kinds.
+ * The legacy {@link KnowledgeBase} response type remains unchanged.
+ */
+export interface KnowledgeBaseInput extends Omit<KnowledgeBase, "models"> {
+  /** Model configurations for Azure OpenAI, Microsoft Retriever 1, or an OpenAI-compatible endpoint. */
+  models?: KnowledgeBaseModelInput[];
 }
