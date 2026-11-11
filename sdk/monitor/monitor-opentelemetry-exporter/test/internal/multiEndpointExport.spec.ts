@@ -9,7 +9,7 @@ import { ExportResultCode } from "@opentelemetry/core";
 import type { ExportResult } from "@opentelemetry/core";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import type { ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { AggregationTemporality, DataPointType } from "@opentelemetry/sdk-metrics";
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
