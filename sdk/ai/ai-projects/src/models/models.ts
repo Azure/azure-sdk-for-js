@@ -26897,7 +26897,7 @@ export interface PromptOptimizationConfiguration extends AgentOptimizationConfig
   /** Optimization type discriminator. */
   type: "prompt_optimization";
   /** Steering context for prompt optimization. Agent trace and skill reference context are supported only by skill optimization. Omitted when no context is supplied. */
-  context?: SteeringPromptOptimizationContext[];
+  context?: OptimizationContextUnion[];
 }
 
 export function promptOptimizationConfigurationSerializer(
@@ -26907,7 +26907,7 @@ export function promptOptimizationConfigurationSerializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : steeringPromptOptimizationContextArraySerializer(item["context"]),
+      : optimizationContextUnionArraySerializer(item["context"]),
   };
 }
 
@@ -26918,7 +26918,7 @@ export function promptOptimizationConfigurationDeserializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : steeringPromptOptimizationContextArrayDeserializer(item["context"]),
+      : optimizationContextUnionArrayDeserializer(item["context"]),
   };
 }
 
@@ -37379,22 +37379,6 @@ export function agentOptimizationJobStatusSerializer(item: AgentOptimizationJobS
 
 export function agentOptimizationJobStatusDeserializer(item: any): AgentOptimizationJobStatus {
   return item;
-}
-
-export function steeringPromptOptimizationContextArraySerializer(
-  result: Array<SteeringPromptOptimizationContext>,
-): any[] {
-  return result.map((item) => {
-    return steeringPromptOptimizationContextSerializer(item);
-  });
-}
-
-export function steeringPromptOptimizationContextArrayDeserializer(
-  result: Array<SteeringPromptOptimizationContext>,
-): any[] {
-  return result.map((item) => {
-    return steeringPromptOptimizationContextDeserializer(item);
-  });
 }
 
 /** Configuration for generating a single skill candidate from trace evidence. The candidate can contain zero or more skill outcomes; no new learnings can produce an empty skill_results array without publishing versions. Optional evaluation reuses a non-generated baseline candidate. */
