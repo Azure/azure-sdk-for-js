@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   // ── Create a skill ────────────────────────────────────────────────────
-  const skillVersion = await project.skills.create(skillName, {
+  const skillVersion = await project.beta.skills.create(skillName, {
     inlineContent: {
       description: "Compute shipping cost for a package given weight and destination.",
       instructions:
@@ -192,7 +192,7 @@ export async function main(): Promise<void> {
     console.log(`Agent version ${createdVersion} deleted.`);
     await project.toolboxes.delete(toolboxName);
     console.log("Toolbox deleted");
-    await project.skills.delete(skillName);
+    await project.beta.skills.delete(skillName);
     console.log("Skill deleted");
   }
 }

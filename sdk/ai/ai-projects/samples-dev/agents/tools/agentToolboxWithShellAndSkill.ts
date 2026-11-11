@@ -110,11 +110,11 @@ export async function main(): Promise<void> {
     project.toolboxes.delete(TOOLBOX_NAME),
   );
   await deleteIfExists(`pre-existing skill \`${SKILL_NAME}\``, () =>
-    project.skills.delete(SKILL_NAME),
+    project.beta.skills.delete(SKILL_NAME),
   );
 
   // ── Create an inline skill describing how to inspect the sandbox ──────
-  const skillVersion = await project.skills.create(SKILL_NAME, {
+  const skillVersion = await project.beta.skills.create(SKILL_NAME, {
     inlineContent: {
       description: "Inspect the runtime environment of a sandboxed shell container.",
       instructions:
@@ -128,7 +128,10 @@ export async function main(): Promise<void> {
 
   try {
     // ── Download the persisted skill and pull SKILL.md out of the package ──
-    const download = await project.skills.downloadVersion(skillVersion.name, skillVersion.version);
+    const download = await project.beta.skills.downloadVersion(
+      skillVersion.name,
+      skillVersion.version,
+    );
     const skillArchive = download.readableStreamBody
       ? await buffer(download.readableStreamBody)
       : Buffer.from(await (await download.blobBody!).arrayBuffer());
@@ -222,7 +225,7 @@ export async function main(): Promise<void> {
     await deleteIfExists(`toolbox \`${TOOLBOX_NAME}\``, () =>
       project.toolboxes.delete(TOOLBOX_NAME),
     );
-    await deleteIfExists(`skill \`${SKILL_NAME}\``, () => project.skills.delete(SKILL_NAME));
+    await deleteIfExists(`skill \`${SKILL_NAME}\``, () => project.beta.skills.delete(SKILL_NAME));
   }
 }
 

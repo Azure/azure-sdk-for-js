@@ -12,7 +12,7 @@
  * 5) Delete the uploaded skill.
  *
  * Skills are a preview feature. In the JS SDK, you access
- * these operations via `project.skills`.
+ * these operations via `project.beta.skills`.
  * Set `SKILL_PACKAGE_PATH` to a local ZIP file when running the published sample.
  *
  * @summary Demonstrates uploading and downloading a skill package.
@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
 
   // Clean up any existing skill with this name
   try {
-    await project.skills.delete(skillName);
+    await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
     if (!(isRestError(e) && e.statusCode === 404)) {
@@ -47,7 +47,7 @@ export async function main(): Promise<void> {
   }
 
   // Upload a skill package
-  const imported = await project.skills.createFromFiles(skillName, {
+  const imported = await project.beta.skills.createFromFiles(skillName, {
     files: [
       { contents: packageBytes, contentType: "application/zip", filename: "canvas-design.zip" },
     ],
@@ -55,13 +55,13 @@ export async function main(): Promise<void> {
   console.log(`Imported skill from package: ${imported.name} (${imported.skill_id})`);
 
   // Retrieve the uploaded skill
-  const fetched = await project.skills.get(imported.name);
+  const fetched = await project.beta.skills.get(imported.name);
   console.log(`Fetched imported skill: ${fetched.name} (${fetched.id})`);
 
   // Download the skill package
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const downloadPath = path.join(downloadFolder, `${fetched.name}_${timestamp}.zip`);
-  const downloadResult = await project.skills.download(fetched.name);
+  const downloadResult = await project.beta.skills.download(fetched.name);
 
   const content = downloadResult.readableStreamBody
     ? new Uint8Array(await buffer(downloadResult.readableStreamBody))
@@ -77,7 +77,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete the uploaded skill
-  const deleteResult = await project.skills.delete(fetched.name);
+  const deleteResult = await project.beta.skills.delete(fetched.name);
   console.log(`Deleted imported skill: ${deleteResult.name} (deleted: ${deleteResult.deleted})`);
 }
 
