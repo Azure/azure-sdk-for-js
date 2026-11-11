@@ -252,6 +252,8 @@ export interface Vault extends ProxyResource {
   location?: string;
   /** Tags assigned to the key vault resource. */
   tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
 }
 
 export function vaultDeserializer(item: any): Vault {
@@ -267,6 +269,9 @@ export function vaultDeserializer(item: any): Vault {
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -306,6 +311,23 @@ export interface VaultProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnectionItem[];
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
   publicNetworkAccess?: string;
+  /** Configuration for Token Binding for Entra tokens */
+  tokenBindingParameters?: TokenBindingParameters;
+  /** Whether cross-tenant access protection is enabled for this vault. When enabled, the vault tenant ID can only be set or changed to the subscription's home tenant ID. Once enabled, this protection cannot be disabled. If omitted when creating a vault, protection is disabled. If omitted when updating a vault, the existing value is preserved. */
+  enableCrossTenantAccessProtection?: boolean;
+  /**
+   * Configures an external Managed HSM key used to wrap the vault's protection keys.
+   * When configured, this property is returned in create, update, get, and list responses.
+   * Responses contain the persisted key reference and authentication mechanism, not key material or credentials.
+   * It can be supplied when creating a vault or enabling wrapping on an existing vault.
+   * This property is available starting with API version 2026-10-01-preview, when the protection-key wrapping capability is available for the target vault.
+   * Reapplying an equivalent configuration is supported; replacing or removing it is not.
+   * A versionless reference can match the persisted versioned reference; resubmitting it does not rotate the key.
+   * After configuration, vault availability depends on the persisted Managed HSM key version remaining usable and accessible to the service.
+   * Disabling or deleting that key version, or revoking the service's access, can make the vault unavailable.
+   * Omitting this property preserves the existing configuration.
+   */
+  protectionKeysWrappingKey?: WrappingKeyConfiguration;
 }
 
 export function vaultPropertiesSerializer(item: VaultProperties): any {
@@ -329,6 +351,13 @@ export function vaultPropertiesSerializer(item: VaultProperties): any {
       : networkRuleSetSerializer(item["networkAcls"]),
     provisioningState: item["provisioningState"],
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersSerializer(item["tokenBindingParameters"]),
+    enableCrossTenantAccessProtection: item["enableCrossTenantAccessProtection"],
+    protectionKeysWrappingKey: !item["protectionKeysWrappingKey"]
+      ? item["protectionKeysWrappingKey"]
+      : wrappingKeyConfigurationSerializer(item["protectionKeysWrappingKey"]),
   };
 }
 
@@ -357,6 +386,13 @@ export function vaultPropertiesDeserializer(item: any): VaultProperties {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionItemArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersDeserializer(item["tokenBindingParameters"]),
+    enableCrossTenantAccessProtection: item["enableCrossTenantAccessProtection"],
+    protectionKeysWrappingKey: !item["protectionKeysWrappingKey"]
+      ? item["protectionKeysWrappingKey"]
+      : wrappingKeyConfigurationDeserializer(item["protectionKeysWrappingKey"]),
   };
 }
 
@@ -992,6 +1028,216 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Configuration for Token Binding for Entra tokens */
+export interface TokenBindingParameters {
+  /** This specifies whether token binding is disabled, enabled or enforced. */
+  mode?: TokenBindingMode;
+  /** Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. */
+  minimumTokenBindingStrength?: TokenBindingStrength;
+}
+
+export function tokenBindingParametersSerializer(item: TokenBindingParameters): any {
+  return { mode: item["mode"], minimumTokenBindingStrength: item["minimumTokenBindingStrength"] };
+}
+
+export function tokenBindingParametersDeserializer(item: any): TokenBindingParameters {
+  return {
+    mode: item["mode"],
+    minimumTokenBindingStrength: item["minimumTokenBindingStrength"],
+  };
+}
+
+/** This specifies whether token binding is disabled, enabled or enforced. */
+export enum KnownTokenBindingMode {
+  /** Token binding is enforced for the vault. Only bounded tokens will be accepted. Bearer tokens will be rejected. */
+  Enforced = "Enforced",
+  /** Token binding is not enforced for the vault. Bounded tokens will be rejected. */
+  NotEnforced = "NotEnforced",
+}
+
+/**
+ * This specifies whether token binding is disabled, enabled or enforced. \
+ * {@link KnownTokenBindingMode} can be used interchangeably with TokenBindingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Token binding is enforced for the vault. Only bounded tokens will be accepted. Bearer tokens will be rejected. \
+ * **NotEnforced**: Token binding is not enforced for the vault. Bounded tokens will be rejected.
+ */
+export type TokenBindingMode = string;
+
+/** Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. */
+export enum KnownTokenBindingStrength {
+  /** This is default when token binding is not enabled. */
+  NoValidation = "NoValidation",
+  /** No attestation proof is required for the bounded token. */
+  Unattested = "Unattested",
+  /** Bounded Entra token must originate from a trusted launch VM with attestation proof from the attestation authority like Microsoft Azure Attestation. */
+  AttestedTrustedLaunch = "AttestedTrustedLaunch",
+  /** Bounded Entra token must originate from a confidential VM with attestation proof from the attestation authority like Microsoft Azure Attestation. */
+  AttestedConfidential = "AttestedConfidential",
+}
+
+/**
+ * Must be one of the following values "NoValidation", "Unattested", "AttestedTrustedLaunch", "AttestedConfidential". Strength of the token binding increases with each value in that order. \
+ * {@link KnownTokenBindingStrength} can be used interchangeably with TokenBindingStrength,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoValidation**: This is default when token binding is not enabled. \
+ * **Unattested**: No attestation proof is required for the bounded token. \
+ * **AttestedTrustedLaunch**: Bounded Entra token must originate from a trusted launch VM with attestation proof from the attestation authority like Microsoft Azure Attestation. \
+ * **AttestedConfidential**: Bounded Entra token must originate from a confidential VM with attestation proof from the attestation authority like Microsoft Azure Attestation.
+ */
+export type TokenBindingStrength = string;
+
+/**
+ * Configuration of the external key used to wrap a vault's protection keys.
+ * Unsupported properties in this configuration and its nested objects are rejected.
+ * Unsupported API versions or a feature that is not enabled result in HTTP 400 with NotSupported.
+ * Invalid configurations or attempted replacement result in HTTP 400 with BadRequest or InvalidParameter.
+ * Protection key wrapping throttling results in HTTP 429 with InternalError.
+ * Other protection key wrapping failures result in HTTP 503 with InternalError.
+ * Errors use the existing CloudError response.
+ */
+export interface WrappingKeyConfiguration {
+  /** Identifies the external wrapping key. */
+  keyValue: WrappingKeyValue;
+  /** Specifies how the service authenticates to the external wrapping key. */
+  keyAuthenticationData: WrappingKeyAuthenticationData;
+}
+
+export function wrappingKeyConfigurationSerializer(item: WrappingKeyConfiguration): any {
+  return {
+    keyValue: wrappingKeyValueSerializer(item["keyValue"]),
+    keyAuthenticationData: wrappingKeyAuthenticationDataSerializer(item["keyAuthenticationData"]),
+  };
+}
+
+export function wrappingKeyConfigurationDeserializer(item: any): WrappingKeyConfiguration {
+  return {
+    keyValue: wrappingKeyValueDeserializer(item["keyValue"]),
+    keyAuthenticationData: wrappingKeyAuthenticationDataDeserializer(item["keyAuthenticationData"]),
+  };
+}
+
+/** Reference to an external Managed HSM wrapping key. */
+export interface WrappingKeyValue {
+  /**
+   * Absolute HTTPS URL of a key on a supported Managed HSM endpoint.
+   * The path must be /keys/{key-name} or /keys/{key-name}/{key-version}.
+   * User information, query strings, fragments, and non-default ports are not supported.
+   */
+  url: string;
+  /** Wrapping key type. Only oct is supported. */
+  kty: "oct";
+}
+
+export function wrappingKeyValueSerializer(item: WrappingKeyValue): any {
+  return { url: item["url"], kty: item["kty"] };
+}
+
+export function wrappingKeyValueDeserializer(item: any): WrappingKeyValue {
+  return {
+    url: item["url"],
+    kty: item["kty"],
+  };
+}
+
+/** Authentication mechanism for accessing the external wrapping key. */
+export interface WrappingKeyAuthenticationData {
+  /**
+   * Authentication mechanism. Only ServiceIdentity is supported.
+   * A caller-supplied vault managed identity is not required.
+   */
+  authType: "ServiceIdentity";
+}
+
+export function wrappingKeyAuthenticationDataSerializer(item: WrappingKeyAuthenticationData): any {
+  return { authType: item["authType"] };
+}
+
+export function wrappingKeyAuthenticationDataDeserializer(
+  item: any,
+): WrappingKeyAuthenticationData {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -1092,6 +1338,8 @@ export type CreatedByType = string;
 
 /** Parameters for creating or updating a vault */
 export interface VaultCreateOrUpdateParameters {
+  /** Managed service identity assigned to the vault. */
+  identity?: ManagedServiceIdentity;
   /** The supported Azure location where the key vault should be created. */
   location: string;
   /** The tags that will be assigned to the key vault. */
@@ -1102,6 +1350,9 @@ export interface VaultCreateOrUpdateParameters {
 
 export function vaultCreateOrUpdateParametersSerializer(item: VaultCreateOrUpdateParameters): any {
   return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     location: item["location"],
     tags: item["tags"],
     properties: vaultPropertiesSerializer(item["properties"]),
@@ -1110,6 +1361,8 @@ export function vaultCreateOrUpdateParametersSerializer(item: VaultCreateOrUpdat
 
 /** Parameters for creating or updating a vault */
 export interface VaultPatchParameters {
+  /** Managed service identity assigned to the vault. */
+  identity?: ManagedServiceIdentity;
   /** The tags that will be assigned to the key vault. */
   tags?: Record<string, string>;
   /** Properties of the vault */
@@ -1118,6 +1371,9 @@ export interface VaultPatchParameters {
 
 export function vaultPatchParametersSerializer(item: VaultPatchParameters): any {
   return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -1153,6 +1409,23 @@ export interface VaultPatchProperties {
   networkAcls?: NetworkRuleSet;
   /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
   publicNetworkAccess?: string;
+  /** Configuration for Token Binding for Entra tokens */
+  tokenBindingParameters?: TokenBindingParameters;
+  /** Whether cross-tenant access protection is enabled for this vault. When enabled, changes to the vault tenant ID must use the subscription's home tenant ID. Once enabled, this protection cannot be disabled. If omitted, the existing value is preserved. */
+  enableCrossTenantAccessProtection?: boolean;
+  /**
+   * Configures an external Managed HSM key used to wrap the vault's protection keys.
+   * When configured, this property is returned in create, update, get, and list responses.
+   * Responses contain the persisted key reference and authentication mechanism, not key material or credentials.
+   * It can be supplied when enabling wrapping on an existing vault.
+   * This property is available starting with API version 2026-10-01-preview, when the protection-key wrapping capability is available for the target vault.
+   * Reapplying an equivalent configuration is supported; replacing or removing it is not.
+   * A versionless reference can match the persisted versioned reference; resubmitting it does not rotate the key.
+   * After configuration, vault availability depends on the persisted Managed HSM key version remaining usable and accessible to the service.
+   * Disabling or deleting that key version, or revoking the service's access, can make the vault unavailable.
+   * Omitting this property preserves the existing configuration.
+   */
+  protectionKeysWrappingKey?: WrappingKeyConfiguration;
 }
 
 export function vaultPatchPropertiesSerializer(item: VaultPatchProperties): any {
@@ -1174,6 +1447,13 @@ export function vaultPatchPropertiesSerializer(item: VaultPatchProperties): any 
       ? item["networkAcls"]
       : networkRuleSetSerializer(item["networkAcls"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    tokenBindingParameters: !item["tokenBindingParameters"]
+      ? item["tokenBindingParameters"]
+      : tokenBindingParametersSerializer(item["tokenBindingParameters"]),
+    enableCrossTenantAccessProtection: item["enableCrossTenantAccessProtection"],
+    protectionKeysWrappingKey: !item["protectionKeysWrappingKey"]
+      ? item["protectionKeysWrappingKey"]
+      : wrappingKeyConfigurationSerializer(item["protectionKeysWrappingKey"]),
   };
 }
 
@@ -1482,6 +1762,424 @@ export function privateEndpointConnectionArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return privateEndpointConnectionDeserializer(item);
+  });
+}
+
+/** Network security perimeter (NSP) configuration resource */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+export function networkSecurityPerimeterConfigurationDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkSecurityPerimeterConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Provisioning state of the network security perimeter configuration */
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /** List of provisioning issues, if any */
+  readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about the network security perimeter (NSP) */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about the resource association */
+  resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
+  profile?: NetworkSecurityProfile;
+}
+
+export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
+  item: any,
+): NetworkSecurityPerimeterConfigurationProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    provisioningIssues: !item["provisioningIssues"]
+      ? item["provisioningIssues"]
+      : provisioningIssueArrayDeserializer(item["provisioningIssues"]),
+    networkSecurityPerimeter: !item["networkSecurityPerimeter"]
+      ? item["networkSecurityPerimeter"]
+      : networkSecurityPerimeterDeserializer(item["networkSecurityPerimeter"]),
+    resourceAssociation: !item["resourceAssociation"]
+      ? item["resourceAssociation"]
+      : resourceAssociationDeserializer(item["resourceAssociation"]),
+    profile: !item["profile"]
+      ? item["profile"]
+      : networkSecurityProfileDeserializer(item["profile"]),
+  };
+}
+
+/** Provisioning state of a network security perimeter configuration that is being created or updated. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** The configuration was provisioned successfully. */
+  Succeeded = "Succeeded",
+  /** The configuration is being created. */
+  Creating = "Creating",
+  /** The configuration is being updated. */
+  Updating = "Updating",
+  /** The configuration is being deleted. */
+  Deleting = "Deleting",
+  /** The configuration request was accepted and provisioning has not started yet. */
+  Accepted = "Accepted",
+  /** The configuration failed to provision. */
+  Failed = "Failed",
+  /** The configuration provisioning was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Provisioning state of a network security perimeter configuration that is being created or updated. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The configuration was provisioned successfully. \
+ * **Creating**: The configuration is being created. \
+ * **Updating**: The configuration is being updated. \
+ * **Deleting**: The configuration is being deleted. \
+ * **Accepted**: The configuration request was accepted and provisioning has not started yet. \
+ * **Failed**: The configuration failed to provision. \
+ * **Canceled**: The configuration provisioning was canceled.
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIssue>): any[] {
+  return result.map((item) => {
+    return provisioningIssueDeserializer(item);
+  });
+}
+
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /** Name of the issue */
+  readonly name?: string;
+  /** Details of the provisioning issue */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+export function provisioningIssueDeserializer(item: any): ProvisioningIssue {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : provisioningIssuePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /** Type of issue */
+  readonly issueType?: IssueType;
+  /** Severity of the issue. */
+  readonly severity?: Severity;
+  /** Description of the issue */
+  readonly description?: string;
+  /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
+  readonly suggestedResourceIds?: string[];
+  /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+export function provisioningIssuePropertiesDeserializer(item: any): ProvisioningIssueProperties {
+  return {
+    issueType: item["issueType"],
+    severity: item["severity"],
+    description: item["description"],
+    suggestedResourceIds: !item["suggestedResourceIds"]
+      ? item["suggestedResourceIds"]
+      : item["suggestedResourceIds"].map((p: any) => {
+          return p;
+        }),
+    suggestedAccessRules: !item["suggestedAccessRules"]
+      ? item["suggestedAccessRules"]
+      : accessRuleArrayDeserializer(item["suggestedAccessRules"]),
+  };
+}
+
+/** Type of issue */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Type of issue \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Severity of the issue. */
+export enum KnownSeverity {
+  /** The issue is a warning and does not prevent the configuration from being applied. */
+  Warning = "Warning",
+  /** The issue is an error and prevents the configuration from being applied. */
+  Error = "Error",
+}
+
+/**
+ * Severity of the issue. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning**: The issue is a warning and does not prevent the configuration from being applied. \
+ * **Error**: The issue is an error and prevents the configuration from being applied.
+ */
+export type Severity = string;
+
+export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
+  return result.map((item) => {
+    return accessRuleDeserializer(item);
+  });
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
+  name?: string;
+  /** Properties of the access rule */
+  properties?: AccessRuleProperties;
+}
+
+export function accessRuleDeserializer(item: any): AccessRule {
+  return {
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : accessRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  /** Direction of the access rule */
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: {
+    id?: string;
+  }[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
+}
+
+export function accessRulePropertiesDeserializer(item: any): AccessRuleProperties {
+  return {
+    direction: item["direction"],
+    addressPrefixes: !item["addressPrefixes"]
+      ? item["addressPrefixes"]
+      : item["addressPrefixes"].map((p: any) => {
+          return p;
+        }),
+    subscriptions: !item["subscriptions"]
+      ? item["subscriptions"]
+      : _accessRulePropertiesSubscriptionArrayDeserializer(item["subscriptions"]),
+    networkSecurityPerimeters: !item["networkSecurityPerimeters"]
+      ? item["networkSecurityPerimeters"]
+      : networkSecurityPerimeterArrayDeserializer(item["networkSecurityPerimeters"]),
+    fullyQualifiedDomainNames: !item["fullyQualifiedDomainNames"]
+      ? item["fullyQualifiedDomainNames"]
+      : item["fullyQualifiedDomainNames"].map((p: any) => {
+          return p;
+        }),
+    emailAddresses: !item["emailAddresses"]
+      ? item["emailAddresses"]
+      : item["emailAddresses"].map((p: any) => {
+          return p;
+        }),
+    phoneNumbers: !item["phoneNumbers"]
+      ? item["phoneNumbers"]
+      : item["phoneNumbers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Direction of Access Rule */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Direction of Access Rule \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+export function _accessRulePropertiesSubscriptionArrayDeserializer(
+  result: Array<_AccessRulePropertiesSubscription>,
+): any[] {
+  return result.map((item) => {
+    return _accessRulePropertiesSubscriptionDeserializer(item);
+  });
+}
+
+/** model interface _AccessRulePropertiesSubscription */
+export interface _AccessRulePropertiesSubscription {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
+  id?: string;
+}
+
+export function _accessRulePropertiesSubscriptionDeserializer(
+  item: any,
+): _AccessRulePropertiesSubscription {
+  return {
+    id: item["id"],
+  };
+}
+
+export function networkSecurityPerimeterArrayDeserializer(
+  result: Array<NetworkSecurityPerimeter>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterDeserializer(item);
+  });
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
+  perimeterGuid?: string;
+  /** Location of the network security perimeter */
+  location?: string;
+}
+
+export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurityPerimeter {
+  return {
+    id: item["id"],
+    perimeterGuid: item["perimeterGuid"],
+    location: item["location"],
+  };
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+export function resourceAssociationDeserializer(item: any): ResourceAssociation {
+  return {
+    name: item["name"],
+    accessMode: item["accessMode"],
+  };
+}
+
+/** Access mode of the resource association */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Access mode of the resource association \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
+}
+
+export function networkSecurityProfileDeserializer(item: any): NetworkSecurityProfile {
+  return {
+    name: item["name"],
+    accessRulesVersion: item["accessRulesVersion"],
+    accessRules: !item["accessRules"]
+      ? item["accessRules"]
+      : accessRuleArrayDeserializer(item["accessRules"]),
+    diagnosticSettingsVersion: item["diagnosticSettingsVersion"],
+    enabledLogCategories: !item["enabledLogCategories"]
+      ? item["enabledLogCategories"]
+      : item["enabledLogCategories"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Result of a list NSP (network security perimeter) configurations request. */
+export interface _NetworkSecurityPerimeterConfigurationListResult {
+  /** Array of network security perimeter results. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The link used to get the next page of results. */
+  nextLink?: string;
+}
+
+export function _networkSecurityPerimeterConfigurationListResultDeserializer(
+  item: any,
+): _NetworkSecurityPerimeterConfigurationListResult {
+  return {
+    value: !item["value"]
+      ? item["value"]
+      : networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function networkSecurityPerimeterConfigurationArrayDeserializer(
+  result: Array<NetworkSecurityPerimeterConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return networkSecurityPerimeterConfigurationDeserializer(item);
   });
 }
 
@@ -2115,81 +2813,6 @@ export enum KnownManagedHsmSkuName {
  * **Standard_B20v2**: Standard_B20v2 SKU
  */
 export type ManagedHsmSkuName = string;
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly principalId?: string;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly tenantId?: string;
-  /** The type of managed identity assigned to this resource. */
-  type: ManagedServiceIdentityType;
-  /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
-}
-
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
-  return {
-    principalId: item["principalId"],
-    tenantId: item["tenantId"],
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
-  };
-}
-
-/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export enum KnownManagedServiceIdentityType {
-  /** No managed identity. */
-  None = "None",
-  /** System assigned managed identity. */
-  SystemAssigned = "SystemAssigned",
-  /** User assigned managed identity. */
-  UserAssigned = "UserAssigned",
-  /** System and user assigned managed identity. */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-}
-
-/**
- * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: No managed identity. \
- * **SystemAssigned**: System assigned managed identity. \
- * **UserAssigned**: User assigned managed identity. \
- * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
- */
-export type ManagedServiceIdentityType = string;
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
-}
-
-export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
-  return {};
-}
-
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
-  return {
-    principalId: item["principalId"],
-    clientId: item["clientId"],
-  };
-}
 
 /** The error exception. */
 export interface ManagedHsmError {
@@ -3597,6 +4220,8 @@ export enum KnownVersions {
   V20260201 = "2026-02-01",
   /** The 2026-05-15 API version. */
   V20260515 = "2026-05-15",
+  /** The 2026-10-01-preview API version. */
+  V20261001Preview = "2026-10-01-preview",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {

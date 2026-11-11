@@ -28,6 +28,28 @@ export interface AccessPolicyEntry {
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 
 // @public
+export interface AccessRule {
+    name?: string;
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: {
+        id?: string;
+    }[];
+}
+
+// @public
 export interface Action {
     type?: KeyRotationPolicyActionType;
 }
@@ -159,6 +181,9 @@ export interface IPRule {
 export { isRestError }
 
 // @public
+export type IssueType = string;
+
+// @public
 export type JsonWebKeyCurveName = string;
 
 // @public
@@ -272,6 +297,7 @@ export class KeyVaultManagementClient {
     readonly mhsmPrivateEndpointConnections: MhsmPrivateEndpointConnectionsOperations;
     readonly mhsmPrivateLinkResources: MhsmPrivateLinkResourcesOperations;
     readonly mhsmRegions: MhsmRegionsOperations;
+    readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
@@ -284,6 +310,12 @@ export class KeyVaultManagementClient {
 export interface KeyVaultManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -344,6 +376,14 @@ export enum KnownGeoReplicationRegionProvisioningState {
     Preprovisioning = "Preprovisioning",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -443,6 +483,17 @@ export enum KnownNetworkRuleBypassOptions {
 }
 
 // @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -485,6 +536,13 @@ export enum KnownReason {
 }
 
 // @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
 export enum KnownSecretPermissions {
     All = "all",
     Backup = "backup",
@@ -495,6 +553,12 @@ export enum KnownSecretPermissions {
     Recover = "recover",
     Restore = "restore",
     Set = "set"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -523,6 +587,20 @@ export enum KnownStoragePermissions {
 }
 
 // @public
+export enum KnownTokenBindingMode {
+    Enforced = "Enforced",
+    NotEnforced = "NotEnforced"
+}
+
+// @public
+export enum KnownTokenBindingStrength {
+    AttestedConfidential = "AttestedConfidential",
+    AttestedTrustedLaunch = "AttestedTrustedLaunch",
+    NoValidation = "NoValidation",
+    Unattested = "Unattested"
+}
+
+// @public
 export enum KnownVaultProvisioningState {
     RegisteringDns = "RegisteringDns",
     Succeeded = "Succeeded"
@@ -532,7 +610,8 @@ export enum KnownVaultProvisioningState {
 export enum KnownVersions {
     V20250501 = "2025-05-01",
     V20260201 = "2026-02-01",
-    V20260515 = "2026-05-15"
+    V20260515 = "2026-05-15",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
@@ -966,6 +1045,58 @@ export interface NetworkRuleSet {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetConfigurationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListConfigurationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsOperations {
+    getConfiguration: (resourceGroupName: string, vaultName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetConfigurationOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    listConfigurations: (resourceGroupName: string, vaultName: string, options?: NetworkSecurityPerimeterConfigurationsListConfigurationsOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    reconcileConfiguration: (resourceGroupName: string, vaultName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileConfigurationOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileConfigurationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -1120,6 +1251,21 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface ProvisioningIssue {
+    readonly name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -1139,6 +1285,15 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
 
 export { RestError }
 
@@ -1232,6 +1387,9 @@ export interface ServiceSpecification {
 }
 
 // @public
+export type Severity = string;
+
+// @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
     getOperationState(): TState;
     getResult(): TResult | undefined;
@@ -1279,6 +1437,18 @@ export interface SystemData {
 }
 
 // @public
+export type TokenBindingMode = string;
+
+// @public
+export interface TokenBindingParameters {
+    minimumTokenBindingStrength?: TokenBindingStrength;
+    mode?: TokenBindingMode;
+}
+
+// @public
+export type TokenBindingStrength = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -1298,6 +1468,7 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Vault extends ProxyResource {
+    identity?: ManagedServiceIdentity;
     location?: string;
     properties: VaultProperties;
     tags?: Record<string, string>;
@@ -1325,6 +1496,7 @@ export interface VaultCheckNameAvailabilityParameters {
 
 // @public
 export interface VaultCreateOrUpdateParameters {
+    identity?: ManagedServiceIdentity;
     location: string;
     properties: VaultProperties;
     tags?: Record<string, string>;
@@ -1332,6 +1504,7 @@ export interface VaultCreateOrUpdateParameters {
 
 // @public
 export interface VaultPatchParameters {
+    identity?: ManagedServiceIdentity;
     properties?: VaultPatchProperties;
     tags?: Record<string, string>;
 }
@@ -1340,6 +1513,7 @@ export interface VaultPatchParameters {
 export interface VaultPatchProperties {
     accessPolicies?: AccessPolicyEntry[];
     createMode?: CreateMode;
+    enableCrossTenantAccessProtection?: boolean;
     enabledForDeployment?: boolean;
     enabledForDiskEncryption?: boolean;
     enabledForTemplateDeployment?: boolean;
@@ -1347,16 +1521,19 @@ export interface VaultPatchProperties {
     enableRbacAuthorization?: boolean;
     enableSoftDelete?: boolean;
     networkAcls?: NetworkRuleSet;
+    protectionKeysWrappingKey?: WrappingKeyConfiguration;
     publicNetworkAccess?: string;
     sku?: Sku;
     softDeleteRetentionInDays?: number;
     tenantId?: string;
+    tokenBindingParameters?: TokenBindingParameters;
 }
 
 // @public
 export interface VaultProperties {
     accessPolicies?: AccessPolicyEntry[];
     createMode?: CreateMode;
+    enableCrossTenantAccessProtection?: boolean;
     enabledForDeployment?: boolean;
     enabledForDiskEncryption?: boolean;
     enabledForTemplateDeployment?: boolean;
@@ -1366,11 +1543,13 @@ export interface VaultProperties {
     readonly hsmPoolResourceId?: string;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnectionItem[];
+    protectionKeysWrappingKey?: WrappingKeyConfiguration;
     provisioningState?: VaultProvisioningState;
     publicNetworkAccess?: string;
     sku: Sku;
     softDeleteRetentionInDays?: number;
     tenantId: string;
+    tokenBindingParameters?: TokenBindingParameters;
     vaultUri?: string;
 }
 
@@ -1458,6 +1637,23 @@ export interface VaultsUpdateOptionalParams extends OperationOptions {
 export interface VirtualNetworkRule {
     id: string;
     ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+// @public
+export interface WrappingKeyAuthenticationData {
+    authType: "ServiceIdentity";
+}
+
+// @public
+export interface WrappingKeyConfiguration {
+    keyAuthenticationData: WrappingKeyAuthenticationData;
+    keyValue: WrappingKeyValue;
+}
+
+// @public
+export interface WrappingKeyValue {
+    kty: "oct";
+    url: string;
 }
 
 // (No @packageDocumentation comment for this package)

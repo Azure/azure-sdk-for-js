@@ -7,6 +7,7 @@ export type { ManagedHsmsOperations } from "./managedHsms/index.js";
 export type { MhsmPrivateEndpointConnectionsOperations } from "./mhsmPrivateEndpointConnections/index.js";
 export type { MhsmPrivateLinkResourcesOperations } from "./mhsmPrivateLinkResources/index.js";
 export type { MhsmRegionsOperations } from "./mhsmRegions/index.js";
+export type { NetworkSecurityPerimeterConfigurationsOperations } from "./networkSecurityPerimeterConfigurations/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { PrivateEndpointConnectionsOperations } from "./privateEndpointConnections/index.js";
 export type { PrivateLinkResourcesOperations } from "./privateLinkResources/index.js";
