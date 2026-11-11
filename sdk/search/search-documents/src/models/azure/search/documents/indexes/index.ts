@@ -2,6 +2,12 @@
 // Licensed under the MIT License.
 
 export type {
+  RandomScoringFunction,
+  ScoringFunctionInput,
+  ScoringProfileInput,
+  SearchIndexInput,
+} from "./inputModels.js";
+export type {
   ListDataSourcesResult,
   ListIndexersResult,
   ListSkillsetsResult,

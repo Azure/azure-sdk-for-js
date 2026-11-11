@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { SearchIndexInput } from "../models/azure/search/documents/indexes/inputModels.js";
 
 import type { SearchIndexContext, SearchIndexClientOptionalParams } from "./api/index.js";
 import { createSearchIndex } from "./api/index.js";
@@ -455,7 +456,7 @@ export class SearchIndexClient {
 
   /** Creates a new search index. */
   createIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options: CreateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
     return createIndex(this._client, index, options);
@@ -496,7 +497,7 @@ export class SearchIndexClient {
    * @remarks Preserves the body-first argument order shipped in version 13.0.0.
    */
   createOrUpdateIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     name: string,
     options?: CreateOrUpdateIndexOptionalParams,
   ): Promise<SearchIndex>;
@@ -504,17 +505,17 @@ export class SearchIndexClient {
   /** Creates or updates a search index, using the index name first. */
   createOrUpdateIndex(
     name: string,
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options?: CreateOrUpdateIndexOptionalParams,
   ): Promise<SearchIndex>;
 
   createOrUpdateIndex(
-    nameOrIndex: string | SearchIndex,
-    indexOrName: SearchIndex | string,
+    nameOrIndex: string | SearchIndex | SearchIndexInput,
+    indexOrName: SearchIndex | SearchIndexInput | string,
     options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
     const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
-    const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
+    const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndexInput) : nameOrIndex;
     return createOrUpdateIndex(this._client, name, index, options);
   }
 

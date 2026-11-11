@@ -9,7 +9,7 @@ commit `b41ba04c0219f6622b7f5214fc020f90bad339ae`; no release date is confirmed.
 
 New capabilities include graph queries and diagnostics, topic-graph vector retrieval,
 knowledge base tools, facet-derived filter hints, three-model knowledge-base inputs,
-protocol-level OpenAI-compatible vectorizers, ingestion caches, and asynchronous File
+random scoring, OpenAI-compatible vectorizer inputs, ingestion caches, and asynchronous File
 ingestion with operation diagnostics.
 See [the November preview sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/novemberPreview.ts).
 `beginIngestKnowledgeSourceFile` and `beginReplaceKnowledgeSourceFile` return thenable
@@ -19,8 +19,13 @@ use `pollUntilDone()` to wait for its typed file result.
 The preview retains the SDK-side GA behavior from `2026-10-01`, including typed
 SSE retrieval through both the root client and the `knowledgeBaseRetrieval`
 protocol subpath, conditional updates with ETags, and resumable resource paging.
-Convenience model unions retain the October GA variants; use the protocol subpaths for
-preview-only knowledge source kinds, model/vectorizer alternatives, and agentic queries.
+Convenience model unions retain the October GA variants. Use `SearchIndexInput`,
+`KnowledgeSourceInput`, and `SearchOptionsInput` for preview-only scoring functions,
+knowledge source/model/vectorizer alternatives, agentic queries, and image vector queries.
+Existing response annotations remain unchanged; protocol subpaths expose the full
+knowledge-source response models.
+See [the random scoring sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/randomScoring.ts)
+for a seeded random profile without classic `boost` or `fieldName` requirements.
 Streams require a `text/event-stream` response, close on completion or error,
 and support cancellation through `abortSignal`. Protocol index operations accept
 both the released body-first signatures and the name-first preview signatures.

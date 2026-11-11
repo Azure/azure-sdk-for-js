@@ -64,6 +64,8 @@ Each convenience client follows the same construction pattern:
 | `src/serviceModels.ts` | User-facing types for indexes, indexers, skills, data sources |
 | `src/indexModels.ts` | User-facing types for search, suggest, autocomplete operations |
 | `src/knowledgeBaseModels.ts` | User-facing types for knowledge base operations |
+| `src/inputModels.ts` | Additive preview request types; released aliases and response types remain in their existing model files |
+| `src/models/azure/search/documents/indexes/inputModels.ts` | Hand-authored protocol input types and random scoring conversion, with no counterpart under `generated/` |
 | `src/serialization.ts` | NaN/Infinity/Date/GeographyPoint serialization via `walk()` |
 | `src/walk.ts` | Recursive immutable tree walker with cycle detection |
 | `src/indexDocumentsBatch.ts` | Batch builder for document upload/merge/delete actions |

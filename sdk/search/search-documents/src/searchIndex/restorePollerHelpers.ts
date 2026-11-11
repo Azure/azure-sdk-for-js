@@ -62,6 +62,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      operationOptions: options,
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,

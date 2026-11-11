@@ -10,11 +10,13 @@ import type {
 } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
+import type { Client, OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 export interface GetLongRunningPollerOptions<TResponse> {
+  /** Per-operation request options forwarded to polling requests. */
+  operationOptions?: OperationOptions;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /**
@@ -89,7 +91,10 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
       let response;
       try {
         const pollingPath = apiVersion ? addApiVersionToUrl(path, apiVersion) : path;
-        response = await client.pathUnchecked(pollingPath).get({ abortSignal });
+        response = await client.pathUnchecked(pollingPath).get({
+          ...operationOptionsToRequestParameters(options.operationOptions ?? {}),
+          abortSignal,
+        });
       } finally {
         options.abortSignal?.removeEventListener("abort", abortListener);
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);

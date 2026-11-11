@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added input-only types for random scoring, compatible vectorizers and ingestion models, additional knowledge-source kinds, agentic queries, image vector queries, and strict post-filtering while retaining October GA aliases and response contracts. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Added `KnowledgeBaseInput` and `KnowledgeBaseModelInput` for Azure OpenAI, Microsoft Retriever 1, and OpenAI-compatible model inputs to knowledge-base create/create-or-update methods. The legacy `KnowledgeBaseModel` alias, `KnowledgeBase.models` field, response types, and wire behavior remain unchanged. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Carried forward typed protocol SSE retrieval, the root `KnownContentUnderstandingSkillChunkingMethod` export, released body-first protocol operation overloads, legacy listing APIs, and legacy TypeScript protocol-subpath resolution from the `2026-10-01` GA SDK. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Added support for `2026-11-01-preview`, generated from Azure/azure-rest-api-specs commit `b41ba04c0219f6622b7f5214fc020f90bad339ae` (PR #47300). This is now the default service version; explicit stable and older preview versions remain selectable.
@@ -15,10 +16,11 @@
 
 ### Bugs Fixed
 
+- Preserved additional knowledge-source kinds during convenience get/list conversion and forwarded per-operation headers, timeouts, and response callbacks through fresh and resumed File ingestion polls. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Fixed legacy semantic-field continuation tokens, preserved custom knowledge-store parameters in skillset round trips, and corrected preview sample resource cleanup and embedding-model configuration. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Kept `VectorQueryKind`, `BaseVectorQuery.kind`, and `VectorFilterMode` closed to October GA values while retaining preview known values and protocol models. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Preserved October GA's numeric protocol `getDocumentCount` result and legacy listing result/option exports. Body-first protocol calls remain supported alongside name-first preview calls. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
-- Preserved October GA's closed convenience unions for scoring functions, knowledge bases and sources, vectorizers, vector queries, and search query types. Excluded conflicting preview alternatives, including random scoring, rather than weakening the GA contracts. Preview-only knowledge source kinds remain available through protocol subpaths. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
+- Preserved October GA's closed convenience unions for scoring functions, knowledge bases and sources, vectorizers, vector queries, and search query types. Preview alternatives use separate additive input types rather than widening GA contracts. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Preserved GA ETag round-tripping, document fields that share metadata names, custom analyzers/vectorizers/skill aliases, dynamic indexer configuration, resource continuation tokens, search continuation parameters, delete options, and semantic query options. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)
 - Validated SSE response content types, closed terminal/invalid streams, and preserved HTTP errors for malformed JSON error bodies on Node.js and browser transports. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Restored required GA scoring fields and their protocol serialization, including unrecognized scoring-function kinds. [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171)

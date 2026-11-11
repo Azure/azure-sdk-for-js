@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { KnowledgeSourceInput, SearchIndexInput } from "./inputModels.js";
+import type { SearchIndexInput as GeneratedSearchIndexInput } from "./models/azure/search/documents/indexes/inputModels.js";
+import type { McpServerKnowledgeSource as GeneratedMcpServerKnowledgeSource } from "./models/azure/search/documents/indexes/index.js";
 
 import type {
   SearchResult as GeneratedSearchResult,
@@ -701,7 +704,9 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
   return result;
 }
 
-export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
+export function publicIndexToGeneratedIndex(
+  index: SearchIndex | SearchIndexInput,
+): GeneratedSearchIndexInput {
   const { encryptionKey, tokenFilters, analyzers, fields, similarity } = index;
 
   return {
@@ -709,11 +714,25 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     eTag: index.etag,
     vectorSearch: index.vectorSearch && {
       ...index.vectorSearch,
-      vectorizers: index.vectorSearch.vectorizers?.map((vectorizer) =>
-        vectorizer.kind === "customWebApi"
-          ? { ...vectorizer, webApiParameters: vectorizer.parameters }
-          : vectorizer,
-      ),
+      vectorizers: index.vectorSearch.vectorizers?.map((vectorizer) => {
+        switch (vectorizer.kind) {
+          case "customWebApi":
+            return { ...vectorizer, webApiParameters: vectorizer.parameters };
+          case "aml": {
+            const parameters = vectorizer.amlParameters;
+            return {
+              ...vectorizer,
+              amlParameters: parameters && {
+                ...parameters,
+                scoringUri: parameters.authKind === "token" ? null : parameters.scoringUri,
+                authenticationKey: parameters.authKind === "key" ? parameters.apiKey : undefined,
+              },
+            };
+          }
+          default:
+            return vectorizer;
+        }
+      }),
     },
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
     tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
@@ -1086,13 +1105,27 @@ export function convertKnowledgeSourceToPublic(
     }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);
-      return undefined;
+      const mcpParameters =
+        knowledgeSource.kind === "mcpServer"
+          ? (knowledgeSource as GeneratedMcpServerKnowledgeSource).mcpServerParameters
+          : undefined;
+      return {
+        ...knowledgeSource,
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(knowledgeSource.encryptionKey),
+        ...(mcpParameters && {
+          mcpServerParameters: {
+            ...mcpParameters,
+            serverUrl: mcpParameters.serverURL,
+          },
+        }),
+      } as unknown as KnowledgeSource;
     }
   }
 }
 
 export function convertKnowledgeSourceToGenerated(
-  knowledgeSource: KnowledgeSource | undefined,
+  knowledgeSource: KnowledgeSource | KnowledgeSourceInput | undefined,
 ): GeneratedKnowledgeSource | undefined {
   if (!knowledgeSource) {
     return undefined;
@@ -1102,6 +1135,12 @@ export function convertKnowledgeSourceToGenerated(
     ...knowledgeSource,
     eTag: etag,
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+    ...(knowledgeSource.kind === "mcpServer" && {
+      mcpServerParameters: {
+        ...knowledgeSource.mcpServerParameters,
+        serverURL: knowledgeSource.mcpServerParameters.serverUrl,
+      },
+    }),
   } as GeneratedKnowledgeSource;
 }
 

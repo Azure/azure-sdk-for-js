@@ -8,6 +8,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type { FileContents } from "../../../../../static-helpers/multipartHelpers.js";
+import {
+  randomScoringFunctionSerializer,
+  randomScoringFunctionDeserializer,
+} from "./inputModels.js";
+import type { RandomScoringFunction } from "./inputModels.js";
 import { createFilePartDescriptor } from "../../../../../static-helpers/multipartHelpers.js";
 import { buildNewlineCollection } from "../../../../../static-helpers/serialization/build-newline-collection.js";
 import { buildPipeCollection } from "../../../../../static-helpers/serialization/build-pipe-collection.js";
@@ -1243,6 +1248,9 @@ export type ScoringFunctionUnion =
 
 export function scoringFunctionUnionSerializer(item: ScoringFunctionUnion): any {
   switch (item.type) {
+    case "random":
+      return randomScoringFunctionSerializer(item as unknown as RandomScoringFunction);
+
     case "distance":
       return distanceScoringFunctionSerializer(item as DistanceScoringFunction);
 
@@ -1262,6 +1270,9 @@ export function scoringFunctionUnionSerializer(item: ScoringFunctionUnion): any 
 
 export function scoringFunctionUnionDeserializer(item: any): ScoringFunctionUnion {
   switch (item["type"]) {
+    case "random":
+      return randomScoringFunctionDeserializer(item) as unknown as ScoringFunctionUnion;
+
     case "distance":
       return distanceScoringFunctionDeserializer(item as DistanceScoringFunction);
 

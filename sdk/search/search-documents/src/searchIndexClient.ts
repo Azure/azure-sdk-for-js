@@ -3,6 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import type { KnowledgeSourceInput, SearchIndexInput } from "./inputModels.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
@@ -418,7 +419,7 @@ export class SearchIndexClient {
    * @param options - Additional optional arguments.
    */
   public async createIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options: CreateIndexOptions = {},
   ): Promise<SearchIndex> {
     return tracingClient.withSpan(
@@ -463,7 +464,7 @@ export class SearchIndexClient {
    * @param options - Additional optional arguments.
    */
   public async createOrUpdateIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options: CreateOrUpdateIndexOptions = {},
   ): Promise<SearchIndex> {
     return tracingClient.withSpan(
@@ -868,7 +869,7 @@ export class SearchIndexClient {
   }
 
   public async createOrUpdateKnowledgeSource(
-    knowledgeSource: KnowledgeSource,
+    knowledgeSource: KnowledgeSource | KnowledgeSourceInput,
     options: CreateOrUpdateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
     return tracingClient.withSpan(
@@ -958,7 +959,7 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createKnowledgeSource(
-    knowledgeSource: KnowledgeSource,
+    knowledgeSource: KnowledgeSource | KnowledgeSourceInput,
     options: CreateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
     return tracingClient.withSpan(

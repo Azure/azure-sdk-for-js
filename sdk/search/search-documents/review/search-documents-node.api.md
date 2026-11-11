@@ -17,6 +17,9 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AdditionalKnowledgeSourceInput = RemoteSharePointKnowledgeSourceInput | FabricDataAgentKnowledgeSourceInput | FabricOntologyKnowledgeSourceInput | WorkIQKnowledgeSourceInput | McpServerKnowledgeSourceInput;
+
+// @public
 export interface AgenticSearchDebugInfo {
     readonly subQueries?: AgenticSearchSubQuery[];
     readonly terminationReason?: AgenticSearchTerminationReason;
@@ -82,6 +85,20 @@ export interface AIServicesAccountKey extends BaseCognitiveServicesAccount {
     key: string;
     odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
     subdomainUrl: string;
+}
+
+// @public
+export interface AIServicesVisionParameters {
+    apiKey?: string;
+    authIdentity?: SearchIndexerDataIdentityUnion;
+    modelVersion: string | null;
+    resourceUri: string;
+}
+
+// @public
+export interface AIServicesVisionVectorizerInput extends Omit<BaseVectorSearchVectorizer, "kind"> {
+    aiServicesVisionParameters?: AIServicesVisionParameters;
+    kind: "aiServicesVision";
 }
 
 // @public
@@ -165,6 +182,13 @@ export interface AzureActiveDirectoryApplicationCredentials {
 export interface AzureBlobKnowledgeSource extends BaseKnowledgeSource {
     azureBlobParameters: AzureBlobKnowledgeSourceParameters;
     kind: "azureBlob";
+}
+
+// @public
+export interface AzureBlobKnowledgeSourceInput extends Omit<AzureBlobKnowledgeSource, "azureBlobParameters"> {
+    azureBlobParameters: Omit<AzureBlobKnowledgeSource["azureBlobParameters"], "ingestionParameters"> & {
+        ingestionParameters?: KnowledgeSourceIngestionParametersInput;
+    };
 }
 
 // @public
@@ -1053,6 +1077,12 @@ export interface ExtractiveQueryCaption {
 }
 
 // @public
+export interface FabricDataAgentKnowledgeSourceInput extends Omit<BaseKnowledgeSource, "kind"> {
+    fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
+    kind: "fabricDataAgent";
+}
+
+// @public
 export interface FabricDataAgentKnowledgeSourceParameters {
     dataAgentId: string;
     workspaceId: string;
@@ -1061,6 +1091,12 @@ export interface FabricDataAgentKnowledgeSourceParameters {
 // @public
 export interface FabricDataAgentKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "fabricDataAgent";
+}
+
+// @public
+export interface FabricOntologyKnowledgeSourceInput extends Omit<BaseKnowledgeSource, "kind"> {
+    fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
+    kind: "fabricOntology";
 }
 
 // @public
@@ -1113,6 +1149,13 @@ export interface FileKnowledgeSource extends BaseKnowledgeSource {
 
 // @public
 export type FileKnowledgeSourceExtractionMode = string;
+
+// @public
+export interface FileKnowledgeSourceInput extends Omit<FileKnowledgeSource, "fileParameters"> {
+    fileParameters: Omit<FileKnowledgeSource["fileParameters"], "ingestionParameters"> & {
+        ingestionParameters?: KnowledgeSourceIngestionParametersInput;
+    };
+}
 
 // @public
 export interface FileKnowledgeSourceParameters {
@@ -1255,6 +1298,11 @@ export interface GraphOptions<TModel extends object = object> extends OperationO
     querySourceAuthorization?: string;
     search?: string;
     vectorQueries?: VectorQuery<TModel>[];
+}
+
+// @public
+export interface GraphOptionsInput<TModel extends object = object> extends Omit<GraphOptions<TModel>, "vectorQueries"> {
+    vectorQueries?: VectorQueryInput<TModel>[];
 }
 
 // @public
@@ -1476,6 +1524,13 @@ export interface IndexedOneLakeKnowledgeSource extends BaseKnowledgeSource {
 }
 
 // @public
+export interface IndexedOneLakeKnowledgeSourceInput extends Omit<IndexedOneLakeKnowledgeSource, "indexedOneLakeParameters"> {
+    indexedOneLakeParameters: Omit<IndexedOneLakeKnowledgeSource["indexedOneLakeParameters"], "ingestionParameters"> & {
+        ingestionParameters?: KnowledgeSourceIngestionParametersInput;
+    };
+}
+
+// @public
 export interface IndexedOneLakeKnowledgeSourceParameters {
     readonly createdResources?: {
         [propertyName: string]: string;
@@ -1503,6 +1558,13 @@ export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
 }
 
 // @public
+export interface IndexedSharePointKnowledgeSourceInput extends Omit<IndexedSharePointKnowledgeSource, "indexedSharePointParameters"> {
+    indexedSharePointParameters: Omit<IndexedSharePointKnowledgeSource["indexedSharePointParameters"], "ingestionParameters"> & {
+        ingestionParameters?: KnowledgeSourceIngestionParametersInput;
+    };
+}
+
+// @public
 export interface IndexedSharePointKnowledgeSourceParameters {
     connectionString: string;
     containerName: IndexedSharePointContainerName;
@@ -1524,6 +1586,13 @@ export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSou
 export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
     indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
     kind: "indexedSql";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceInput extends Omit<IndexedSqlKnowledgeSource, "indexedSqlParameters"> {
+    indexedSqlParameters: Omit<IndexedSqlKnowledgeSource["indexedSqlParameters"], "ingestionParameters"> & {
+        ingestionParameters?: KnowledgeSourceIngestionParametersInput;
+    };
 }
 
 // @public
@@ -2491,7 +2560,16 @@ export interface KnowledgeSourceIngestionParameters {
 }
 
 // @public
+export interface KnowledgeSourceIngestionParametersInput extends Omit<KnowledgeSourceIngestionParameters, "embeddingModel" | "chatCompletionModel"> {
+    chatCompletionModel?: KnowledgeBaseModelInput;
+    embeddingModel?: KnowledgeSourceVectorizerInput;
+}
+
+// @public
 export type KnowledgeSourceIngestionPermissionOption = string;
+
+// @public
+export type KnowledgeSourceInput = KnowledgeSource | AzureBlobKnowledgeSourceInput | IndexedOneLakeKnowledgeSourceInput | IndexedSharePointKnowledgeSourceInput | IndexedSqlKnowledgeSourceInput | FileKnowledgeSourceInput | AdditionalKnowledgeSourceInput;
 
 // @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;
@@ -2554,6 +2632,9 @@ export type KnowledgeSourceSynchronizationStatus = string;
 
 // @public (undocumented)
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
+
+// @public
+export type KnowledgeSourceVectorizerInput = KnowledgeSourceVectorizer | KnowledgeSourceOpenAICompatibleVectorizer;
 
 // @public
 export enum KnownAgenticSearchTerminationReason {
@@ -4074,6 +4155,12 @@ export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
 }
 
 // @public
+export interface McpServerKnowledgeSourceInput extends Omit<BaseKnowledgeSource, "kind"> {
+    kind: "mcpServer";
+    mcpServerParameters: McpServerKnowledgeSourceParameters;
+}
+
+// @public
 export interface McpServerKnowledgeSourceParameters {
     authentication?: McpServerAuthenticationUnion;
     serverUrl: string;
@@ -4234,6 +4321,12 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 export interface OneLakeSecuritySource {
     fabricWorkspaceId: string;
     lakehouseId: string;
+}
+
+// @public
+export interface OpenAICompatibleVectorizerInput extends Omit<BaseVectorSearchVectorizer, "kind"> {
+    kind: "openAICompatible";
+    openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
 }
 
 // @public
@@ -4423,6 +4516,13 @@ export interface QueryRewritesValuesDebugInfo {
 export type QueryType = string;
 
 // @public
+export interface RandomScoringFunction {
+    interpolation?: ScoringFunctionInterpolation;
+    parameters?: RandomScoringParameters;
+    type: "random";
+}
+
+// @public
 export interface RandomScoringParameters {
     seedParameter: string;
 }
@@ -4432,6 +4532,12 @@ export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
+
+// @public
+export interface RemoteSharePointKnowledgeSourceInput extends Omit<BaseKnowledgeSource, "kind"> {
+    kind: "remoteSharePoint";
+    remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
+}
 
 // @public
 export interface RemoteSharePointKnowledgeSourceParameters {
@@ -4527,6 +4633,9 @@ export interface ScoringFunctionBase {
 }
 
 // @public
+export type ScoringFunctionInput = ScoringFunction | RandomScoringFunction;
+
+// @public
 export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
 
 // @public
@@ -4535,6 +4644,11 @@ export interface ScoringProfile {
     functions?: ScoringFunction[];
     name: string;
     textWeights?: TextWeights;
+}
+
+// @public
+export interface ScoringProfileInput extends Omit<ScoringProfile, "functions"> {
+    functions?: ScoringFunctionInput[];
 }
 
 // @public
@@ -4558,13 +4672,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     readonly endpoint: string;
     getDocument<TFields extends SelectFields<TModel>>(key: string, options?: GetDocumentOptions<TModel, TFields>): Promise<NarrowedModel<TModel, TFields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    graph(gql: string, options?: GraphOptions<TModel>): Promise<GraphQueryResult>;
+    graph(gql: string, options?: GraphOptions<TModel> | GraphOptionsInput<TModel>): Promise<GraphQueryResult>;
     indexDocuments(batch: IndexDocumentsBatch<TModel>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: TModel[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: TModel[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
-    search<TFields extends SelectFields<TModel>>(searchText?: string, options?: SearchOptions<TModel, TFields>): Promise<SearchDocumentsResult<TModel, TFields>>;
+    search<TFields extends SelectFields<TModel>>(searchText?: string, options?: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields>): Promise<SearchDocumentsResult<TModel, TFields>>;
     readonly serviceVersion: string;
     suggest<TFields extends SelectFields<TModel> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TModel, TFields>): Promise<SuggestDocumentsResult<TModel, TFields>>;
     uploadDocuments(documents: TModel[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -4655,16 +4769,16 @@ export class SearchIndexClient {
     beginIngestKnowledgeSourceFile(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: BeginIngestKnowledgeSourceFileOptions): KnowledgeSourceFileIngestionPoller;
     beginReplaceKnowledgeSourceFile(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: BeginReplaceKnowledgeSourceFileOptions): KnowledgeSourceFileIngestionPoller;
     createAlias(alias: SearchIndexAlias, options?: CreateAliasOptions): Promise<SearchIndexAlias>;
-    createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
+    createIndex(index: SearchIndex | SearchIndexInput, options?: CreateIndexOptions): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateKnowledgeBaseOptions): Promise<KnowledgeBase>;
-    createKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateKnowledgeSourceOptions): Promise<KnowledgeSource>;
+    createKnowledgeSource(knowledgeSource: KnowledgeSource | KnowledgeSourceInput, options?: CreateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
-    createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateIndex(index: SearchIndex | SearchIndexInput, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // @deprecated
     createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase | KnowledgeBaseInput, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // (undocumented)
-    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
+    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSource | KnowledgeSourceInput, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteAlias(aliasName: string, options?: DeleteAliasOptions): Promise<void>;
@@ -5001,6 +5115,12 @@ export interface SearchIndexingBufferedSenderOptions {
 export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
 
 // @public
+export interface SearchIndexInput extends Omit<SearchIndex, "scoringProfiles" | "vectorSearch"> {
+    scoringProfiles?: ScoringProfileInput[];
+    vectorSearch?: VectorSearchInput;
+}
+
+// @public
 export interface SearchIndexKnowledgeSource extends BaseKnowledgeSource {
     kind: "searchIndex";
     searchIndexParameters: SearchIndexKnowledgeSourceParameters;
@@ -5090,6 +5210,13 @@ export type SearchMode = "any" | "all";
 
 // @public
 export type SearchOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SearchRequestOptions<TModel, TFields>;
+
+// @public
+export type SearchOptionsInput<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & Omit<BaseSearchRequestOptions<TModel, TFields>, "queryType" | "vectorSearchOptions"> & (SearchRequestQueryTypeOptions | {
+    queryType: "agentic";
+}) & {
+    vectorSearchOptions?: VectorSearchOptionsInput<TModel>;
+};
 
 // @public
 export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false ? TModel : (<T>() => T extends TFields ? true : false) extends <T>() => T extends any ? true : false ? TModel : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false ? TModel : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
@@ -5581,6 +5708,9 @@ export type VectorEncodingFormat = string;
 export type VectorFilterMode = "postFilter" | "preFilter";
 
 // @public
+export type VectorFilterModeInput = VectorFilterMode | "strictPostFilter";
+
+// @public
 export interface VectorizableImageBinaryQuery<TModel extends object> extends Omit<BaseVectorQuery<TModel>, "kind"> {
     binaryImage: string;
     kind: "imageBinary";
@@ -5607,6 +5737,9 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
 
 // @public
 export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
+
+// @public
+export type VectorQueryInput<TModel extends object> = VectorQuery<TModel> | VectorizableImageUrlQuery<TModel> | VectorizableImageBinaryQuery<TModel>;
 
 // @public (undocumented)
 export type VectorQueryKind = "vector" | "text";
@@ -5655,9 +5788,20 @@ export type VectorSearchCompressionRescoreStorageMethod = string;
 export type VectorSearchCompressionTarget = string;
 
 // @public
+export interface VectorSearchInput extends Omit<VectorSearch, "vectorizers"> {
+    vectorizers?: VectorSearchVectorizerInput[];
+}
+
+// @public
 export interface VectorSearchOptions<TModel extends object> {
     filterMode?: VectorFilterMode;
     queries: VectorQuery<TModel>[];
+}
+
+// @public
+export interface VectorSearchOptionsInput<TModel extends object> extends Omit<VectorSearchOptions<TModel>, "queries" | "filterMode"> {
+    filterMode?: VectorFilterModeInput;
+    queries: VectorQueryInput<TModel>[];
 }
 
 // @public
@@ -5682,6 +5826,9 @@ export interface VectorSearchTopicGraphProfile {
 
 // @public
 export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
+
+// @public
+export type VectorSearchVectorizerInput = VectorSearchVectorizer | OpenAICompatibleVectorizerInput | AIServicesVisionVectorizerInput | AzureMachineLearningVectorizer;
 
 // @public
 export type VectorSearchVectorizerKind = string;
@@ -5774,6 +5921,12 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
     splitOnCaseChange?: boolean;
     splitOnNumerics?: boolean;
     stemEnglishPossessive?: boolean;
+}
+
+// @public
+export interface WorkIQKnowledgeSourceInput extends Omit<BaseKnowledgeSource, "kind"> {
+    kind: "workIQ";
+    workIQParameters: WorkIQKnowledgeSourceParameters;
 }
 
 // @public

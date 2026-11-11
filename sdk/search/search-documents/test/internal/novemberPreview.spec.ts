@@ -1197,6 +1197,7 @@ describe("2026-11-01-preview convenience integration", () => {
 
   it("polls asynchronous file ingestion to its typed result using core-lro", async () => {
     const requests: PipelineRequest[] = [];
+    let responseCount = 0;
     const operationLocation = `${endpoint}/knowledgesources('files')/ingestionOperations('op')`;
     const client = new SearchIndexClient(
       endpoint,
@@ -1230,7 +1231,11 @@ describe("2026-11-01-preview convenience integration", () => {
         metadata: { fileName: "manual.txt" },
         content: { contents: new Uint8Array([65]), contentType: "text/plain" },
       },
-      { updateIntervalInMs: 0 },
+      {
+        updateIntervalInMs: 0,
+        requestOptions: { headers: { "x-preview-poll": "fresh" }, timeout: 12345 },
+        onResponse: () => responseCount++,
+      },
     );
     const file = await poller.pollUntilDone();
     assert.equal(file.fileId, "file-1");
@@ -1239,6 +1244,9 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.include(requests[0].url, "/files:ingest");
     assert.equal(requests[1].method, "GET");
     assert.include(requests[1].url, "api-version=2026-11-01-preview");
+    assert.isTrue(requests.every((request) => request.headers.get("x-preview-poll") === "fresh"));
+    assert.isTrue(requests.every((request) => request.timeout === 12345));
+    assert.equal(responseCount, 2);
     assert.isTrue(poller.isDone);
   });
 
@@ -1297,6 +1305,7 @@ describe("2026-11-01-preview convenience integration", () => {
 
   it("resumes a serialized ingestion poller without another upload", async () => {
     const requests: PipelineRequest[] = [];
+    let responseCount = 0;
     const location = `${endpoint}/knowledgesources('files')/ingestionOperations('resume')`;
     const client = new SearchIndexClient(
       endpoint,
@@ -1324,9 +1333,14 @@ describe("2026-11-01-preview convenience integration", () => {
     const restored = client.beginIngestKnowledgeSourceFile("files", body, {
       resumeFrom,
       updateIntervalInMs: 0,
+      requestOptions: { headers: { "x-preview-poll": "resumed" }, timeout: 14567 },
+      onResponse: () => responseCount++,
     });
     assert.equal((await restored.pollUntilDone()).fileId, "resumed-file");
     assert.equal(requests.filter((request) => request.method === "POST").length, 1);
+    assert.equal(requests.at(-1)?.headers.get("x-preview-poll"), "resumed");
+    assert.equal(requests.at(-1)?.timeout, 14567);
+    assert.equal(responseCount, 1);
   });
 
   it("aborts an in-progress file ingestion poller without another upload", async () => {

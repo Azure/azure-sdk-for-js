@@ -3,6 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import type { GraphOptionsInput, SearchOptionsInput, VectorQueryInput } from "./inputModels.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import {
@@ -59,7 +60,6 @@ import type {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  VectorQuery,
 } from "./indexModels.js";
 import type { GraphQueryResult } from "./models/azure/search/documents/index.js";
 import { logger } from "./logger.js";
@@ -111,7 +111,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param gql - The graph query expression.
    * @param options - Graph constraints, provenance, and diagnostic options.
    */
-  public async graph(gql: string, options: GraphOptions<TModel> = {}): Promise<GraphQueryResult> {
+  public async graph(
+    gql: string,
+    options: GraphOptions<TModel> | GraphOptionsInput<TModel> = {},
+  ): Promise<GraphQueryResult> {
     return tracingClient.withSpan("SearchClient-graph", options, async (updatedOptions) => {
       const { vectorQueries, ...rest } = updatedOptions;
       return executeGraph(this.client, gql, {
@@ -326,7 +329,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private async searchDocuments<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
     nextPageParameters?: GeneratedSearchRequest,
   ): Promise<SearchDocumentsPageResult<TModel, TFields>> {
     const {
@@ -416,7 +419,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private async *listSearchResultsPage<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
     settings: ListSearchResultsPageSettings = {},
   ): AsyncIterableIterator<SearchDocumentsPageResult<TModel, TFields>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
@@ -444,7 +447,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private async *listSearchResultsAll<TFields extends SelectFields<TModel>>(
     firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): AsyncIterableIterator<SearchResult<TModel, TFields>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
@@ -459,7 +462,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private listSearchResults<TFields extends SelectFields<TModel>>(
     firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): SearchIterator<TModel, TFields> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
@@ -509,7 +512,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    */
   public async search<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): Promise<SearchDocumentsResult<TModel, TFields>> {
     return tracingClient.withSpan("SearchClient-search", options, async (updatedOptions) => {
       const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
@@ -929,7 +932,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return rewritesType;
   }
 
-  private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
+  private convertVectorQuery<T extends VectorQueryInput<TModel>>(
+    vectorQuery: T,
+  ): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
         const { fields, ...restFields } = vectorQuery;
@@ -938,6 +943,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           fields: this.convertVectorQueryFields(fields),
         };
       }
+      case "imageUrl":
+      case "imageBinary":
       case "vector": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
       }

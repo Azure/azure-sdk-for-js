@@ -25,7 +25,11 @@ import type {
   KnowledgeSourceVectorizer,
   ScoringFunction,
   ScoringFunctionBase,
+  SearchIndexInput,
+  KnowledgeSourceInput,
+  ScoringFunctionInput,
   SearchOptions,
+  SearchOptionsInput,
   VectorQuery,
   VectorSearchVectorizer,
 } from "../../../src/index.js";
@@ -92,6 +96,229 @@ describe("GA runtime compatibility in the November preview", () => {
     expectTypeOf<SearchOptions<object>["queryType"]>().toEqualTypeOf<
       "simple" | "full" | "semantic" | undefined
     >();
+  });
+
+  it.each([undefined, "seed"])(
+    "round-trips random scoring with seed parameter %s through both client layers",
+    async (seedParameter) => {
+      const parameters = seedParameter === undefined ? undefined : { seedParameter };
+      const input = {
+        ...index,
+        scoringProfiles: [
+          { name: "shuffle", functions: [{ type: "random" as const, parameters }] },
+        ],
+      };
+      expectTypeOf<typeof input>().toMatchTypeOf<SearchIndexInput>();
+      const wireFunction = {
+        type: "random",
+        ...(parameters ? { random: parameters } : {}),
+      };
+      const wire = {
+        ...index,
+        scoringProfiles: [{ name: "shuffle", functions: [wireFunction] }],
+      };
+      for (const protocol of [false, true]) {
+        const t = transport([wire], 201);
+        const client = protocol
+          ? new ProtocolSearchIndexClient(endpoint, credential, { httpClient: t.httpClient })
+          : new SearchIndexClient(endpoint, credential, { httpClient: t.httpClient });
+        for (const method of ["create", "update"]) {
+          const result =
+            method === "create"
+              ? await client.createIndex(input)
+              : protocol
+                ? await (client as ProtocolSearchIndexClient).createOrUpdateIndex(input, input.name)
+                : await (client as SearchIndexClient).createOrUpdateIndex(input);
+          assert.deepEqual(body(t.requests.at(-1)!).scoringProfiles[0].functions, [wireFunction]);
+          assert.containSubset(result.scoringProfiles?.[0].functions?.[0], {
+            type: "random",
+            parameters,
+          });
+        }
+      }
+    },
+  );
+
+  it("accepts compatible vectorizer and ingestion models without widening legacy aliases", async () => {
+    const connection = {
+      uri: "https://gateway.example.com/embeddings",
+      modelName: "text-embedding-3-small",
+      managedIdentityAudience: "11111111-2222-3333-4444-555555555555",
+    };
+    const input: SearchIndexInput = {
+      ...index,
+      vectorSearch: {
+        vectorizers: [
+          {
+            vectorizerName: "compatible",
+            kind: "openAICompatible",
+            openAICompatibleParameters: connection,
+          },
+          {
+            vectorizerName: "vision",
+            kind: "aiServicesVision",
+            aiServicesVisionParameters: {
+              modelVersion: "2023-04-15",
+              resourceUri: "https://example.cognitiveservices.azure.com",
+            },
+          },
+          {
+            vectorizerName: "aml",
+            kind: "aml",
+            amlParameters: {
+              authKind: "none",
+              scoringUri: "https://example.inference.ml.azure.com/score",
+            },
+          },
+          {
+            vectorizerName: "aml-key",
+            kind: "aml",
+            amlParameters: {
+              authKind: "key",
+              scoringUri: "https://example.inference.ml.azure.com/score",
+              apiKey: "key",
+            },
+          },
+          {
+            vectorizerName: "aml-identity",
+            kind: "aml",
+            amlParameters: {
+              authKind: "token",
+              resourceId: "/subscriptions/sub/services/embedding",
+            },
+          },
+        ],
+      },
+    };
+    const t = transport([index], 201);
+    const client = new SearchIndexClient(endpoint, credential, { httpClient: t.httpClient });
+    await client.createIndex(input);
+    assert.deepEqual(body(t.requests[0]).vectorSearch.vectorizers[0], {
+      name: "compatible",
+      kind: "openAICompatible",
+      openAICompatibleParameters: connection,
+    });
+    assert.containSubset(body(t.requests[0]).vectorSearch.vectorizers, [
+      { kind: "aiServicesVision", aiServicesVisionParameters: { modelVersion: "2023-04-15" } },
+      { kind: "aml", amlParameters: { uri: "https://example.inference.ml.azure.com/score" } },
+      { name: "aml-key", amlParameters: { key: "key" } },
+      {
+        name: "aml-identity",
+        amlParameters: { uri: null, resourceId: "/subscriptions/sub/services/embedding" },
+      },
+    ]);
+
+    const source: KnowledgeSourceInput = {
+      name: "files",
+      kind: "file",
+      fileParameters: {
+        ingestionParameters: {
+          embeddingModel: { kind: "openAICompatible", openAICompatibleParameters: connection },
+          chatCompletionModel: {
+            kind: "openAICompatible",
+            openAICompatibleParameters: {
+              uri: "https://gateway.example.com/chat/completions",
+              modelName: "gpt-4o",
+              managedIdentityAudience: connection.managedIdentityAudience,
+            },
+          },
+        },
+      },
+    };
+    const s = transport([{ name: "files", kind: "file", fileParameters: {} }], 201);
+    await new SearchIndexClient(endpoint, credential, {
+      httpClient: s.httpClient,
+    }).createKnowledgeSource(source);
+    assert.containSubset(body(s.requests[0]).fileParameters.ingestionParameters, {
+      embeddingModel: { kind: "openAICompatible", openAICompatibleParameters: connection },
+      chatCompletionModel: { kind: "openAICompatible" },
+    });
+    expectTypeOf<ScoringFunction>().toMatchTypeOf<ScoringFunctionInput>();
+  });
+
+  it("preserves additional source kinds and converts common read-back metadata", async () => {
+    const sources = [
+      {
+        name: "agent",
+        kind: "fabricDataAgent",
+        fabricDataAgentParameters: { workspaceId: "workspace", dataAgentId: "agent" },
+      },
+      {
+        name: "ontology",
+        kind: "fabricOntology",
+        fabricOntologyParameters: { workspaceId: "workspace", ontologyId: "ontology" },
+      },
+    ].map((source) => ({
+      ...source,
+      "@odata.etag": '"etag"',
+      encryptionKey: {
+        keyVaultKeyName: "key",
+        keyVaultKeyVersion: "version",
+        keyVaultUri: "https://vault.example.com",
+      },
+    }));
+    const t = transport([sources[0], { value: sources }]);
+    const client = new SearchIndexClient(endpoint, credential, { httpClient: t.httpClient });
+    const first = await client.getKnowledgeSource("agent");
+    const listed = [];
+    for await (const source of client.listKnowledgeSources()) listed.push(source);
+    for (const [actual, expected] of [
+      [first, sources[0]],
+      ...listed.map((s, i) => [s, sources[i]]),
+    ]) {
+      assert.containSubset(actual, { name: expected.name, kind: expected.kind, etag: '"etag"' });
+      assert.containSubset(actual.encryptionKey, {
+        keyName: "key",
+        keyVersion: "version",
+        vaultUrl: "https://vault.example.com",
+      });
+    }
+    assert.property(first, "fabricDataAgentParameters");
+    assert.property(listed[1], "fabricOntologyParameters");
+  });
+
+  it("maps preview MCP source inputs using the existing convenience serverUrl spelling", async () => {
+    const source: KnowledgeSourceInput = {
+      name: "mcp",
+      kind: "mcpServer",
+      etag: '"etag"',
+      mcpServerParameters: { serverUrl: "https://example.com/mcp", tools: [] },
+    };
+    const wire = {
+      name: "mcp",
+      kind: "mcpServer",
+      "@odata.etag": '"etag"',
+      mcpServerParameters: { serverURL: "https://example.com/mcp", tools: [] },
+    };
+    const t = transport([wire], 201);
+    const client = new SearchIndexClient(endpoint, credential, { httpClient: t.httpClient });
+    const result = await client.createKnowledgeSource(source);
+    assert.containSubset(body(t.requests[0]), wire);
+    assert.containSubset(result, {
+      name: "mcp",
+      etag: '"etag"',
+      mcpServerParameters: source.mcpServerParameters,
+    });
+  });
+
+  it("accepts agentic queries and image vector input without widening GA search options", async () => {
+    expectTypeOf<{ queryType: "semantic" }>().not.toMatchTypeOf<SearchOptionsInput<object>>();
+    const t = transport([{ value: [] }]);
+    const client = new SearchClient<{ image: number[] }>(endpoint, "idx", credential, {
+      httpClient: t.httpClient,
+    });
+    await client.search("question", {
+      queryType: "agentic",
+      vectorSearchOptions: {
+        filterMode: "strictPostFilter",
+        queries: [{ kind: "imageUrl", url: "https://example.com/image.png", fields: ["image"] }],
+      },
+    });
+    assert.containSubset(body(t.requests[0]), {
+      queryType: "agentic",
+      vectorFilterMode: "strictPostFilter",
+      vectorQueries: [{ kind: "imageUrl", url: "https://example.com/image.png", fields: "image" }],
+    });
   });
 
   it("accepts a mutable mixed-model input array without widening the GA model alias", () => {

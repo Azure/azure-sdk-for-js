@@ -314,13 +314,13 @@ export class SearchIndexClient {
     analyzeText(request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
     analyzeText(name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
     createAlias(alias: SearchAlias, options?: CreateAliasOptionalParams): Promise<SearchAlias>;
-    createIndex(index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
+    createIndex(index: SearchIndex | SearchIndexInput, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
     createKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, options?: CreateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
     createOrUpdateAlias(alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
     createOrUpdateAlias(name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
-    createOrUpdateIndex(index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
-    createOrUpdateIndex(name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+    createOrUpdateIndex(index: SearchIndex | SearchIndexInput, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+    createOrUpdateIndex(name: string, index: SearchIndex | SearchIndexInput, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
     createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createOrUpdateKnowledgeBase(name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
     createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;

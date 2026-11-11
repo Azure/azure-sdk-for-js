@@ -2,6 +2,36 @@
 // Licensed under the MIT License.
 
 export { AzureKeyCredential } from "@azure/core-auth";
+export type {
+  ScoringFunctionInput,
+  ScoringProfileInput,
+  VectorSearchVectorizerInput,
+  OpenAICompatibleVectorizerInput,
+  AIServicesVisionVectorizerInput,
+  VectorSearchInput,
+  SearchIndexInput,
+  KnowledgeSourceVectorizerInput,
+  KnowledgeSourceIngestionParametersInput,
+  AzureBlobKnowledgeSourceInput,
+  IndexedOneLakeKnowledgeSourceInput,
+  IndexedSharePointKnowledgeSourceInput,
+  IndexedSqlKnowledgeSourceInput,
+  FileKnowledgeSourceInput,
+  RemoteSharePointKnowledgeSourceInput,
+  FabricDataAgentKnowledgeSourceInput,
+  FabricOntologyKnowledgeSourceInput,
+  WorkIQKnowledgeSourceInput,
+  McpServerKnowledgeSourceInput,
+  AdditionalKnowledgeSourceInput,
+  KnowledgeSourceInput,
+  VectorQueryInput,
+  VectorFilterModeInput,
+  VectorSearchOptionsInput,
+  SearchOptionsInput,
+  GraphOptionsInput,
+} from "./inputModels.js";
+export type { RandomScoringFunction } from "./models/azure/search/documents/indexes/inputModels.js";
+export type { AIServicesVisionParameters } from "./models/azure/search/documents/indexes/index.js";
 export type { ErrorResponse, ErrorDetail, ErrorAdditionalInfo } from "./errorModels.js";
 export type { ScoringFunction as ScoringFunctionBase } from "./models/azure/search/documents/indexes/index.js";
 export { KnownOperationState, type OperationState } from "./models/index.js";

@@ -2577,6 +2577,13 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export interface RandomScoringFunction {
+    interpolation?: ScoringFunctionInterpolation;
+    parameters?: RandomScoringParameters;
+    type: "random";
+}
+
+// @public
 export interface RandomScoringParameters {
     seedParameter: string;
 }
@@ -2637,6 +2644,9 @@ export interface ScoringFunction {
 export type ScoringFunctionAggregation = "sum" | "average" | "minimum" | "maximum" | "firstMatching" | "product";
 
 // @public
+export type ScoringFunctionInput = ScoringFunctionUnion | RandomScoringFunction;
+
+// @public
 export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
 
 // @public
@@ -2648,6 +2658,11 @@ export interface ScoringProfile {
     functions?: ScoringFunctionUnion[];
     name: string;
     textWeights?: TextWeights;
+}
+
+// @public
+export interface ScoringProfileInput extends Omit<ScoringProfile, "functions"> {
+    functions?: ScoringFunctionInput[];
 }
 
 // @public
@@ -2919,6 +2934,11 @@ export interface SearchIndexerWarning {
 // @public
 export interface SearchIndexFieldReference {
     name: string;
+}
+
+// @public
+export interface SearchIndexInput extends Omit<SearchIndex, "scoringProfiles"> {
+    scoringProfiles?: ScoringProfileInput[];
 }
 
 // @public

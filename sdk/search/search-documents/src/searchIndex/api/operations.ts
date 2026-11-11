@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { SearchIndexInput } from "../../models/azure/search/documents/indexes/inputModels.js";
 
 import type { SearchIndexContext as Client } from "./index.js";
 import type {
@@ -448,6 +449,7 @@ export function ingestKnowledgeSourceFileReplacement(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      operationOptions: options,
       getInitialResponse: () =>
         _ingestKnowledgeSourceFileReplacementSend(context, name, fileId, body, options),
       resourceLocationConfig: "operation-location",
@@ -714,6 +716,7 @@ export function ingestKnowledgeSourceFileMultipart(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      operationOptions: options,
       getInitialResponse: () =>
         _ingestKnowledgeSourceFileMultipartSend(context, name, body, options),
       resourceLocationConfig: "operation-location",
@@ -2010,7 +2013,7 @@ export async function getIndexStatistics(
 
 export function _createIndexSend(
   context: Client,
-  index: SearchIndex,
+  index: SearchIndex | SearchIndexInput,
   options: CreateIndexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2036,7 +2039,7 @@ export function _createIndexSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: searchIndexSerializer(index),
+    body: searchIndexSerializer(index as SearchIndex),
   });
 }
 
@@ -2057,7 +2060,7 @@ export async function _createIndexDeserialize(result: PathUncheckedResponse): Pr
 /** Creates a new search index. */
 export async function createIndex(
   context: Client,
-  index: SearchIndex,
+  index: SearchIndex | SearchIndexInput,
   options: CreateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
   const result = await _createIndexSend(context, index, options);
@@ -2314,7 +2317,7 @@ export async function deleteIndex(
 export function _createOrUpdateIndexSend(
   context: Client,
   name: string,
-  index: SearchIndex,
+  index: SearchIndex | SearchIndexInput,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2345,7 +2348,7 @@ export function _createOrUpdateIndexSend(
       prefer: "return=representation",
       ...options.requestOptions?.headers,
     },
-    body: searchIndexSerializer(index),
+    body: searchIndexSerializer(index as SearchIndex),
   });
 }
 
@@ -2368,7 +2371,7 @@ export async function _createOrUpdateIndexDeserialize(
 /** Creates a new search index or updates an index if it already exists. */
 export function createOrUpdateIndex(
   context: Client,
-  index: SearchIndex,
+  index: SearchIndex | SearchIndexInput,
   name: string,
   options?: CreateOrUpdateIndexOptionalParams,
 ): Promise<SearchIndex>;
@@ -2377,18 +2380,18 @@ export function createOrUpdateIndex(
 export function createOrUpdateIndex(
   context: Client,
   name: string,
-  index: SearchIndex,
+  index: SearchIndex | SearchIndexInput,
   options?: CreateOrUpdateIndexOptionalParams,
 ): Promise<SearchIndex>;
 
 export async function createOrUpdateIndex(
   context: Client,
-  nameOrIndex: string | SearchIndex,
-  indexOrName: SearchIndex | string,
+  nameOrIndex: string | SearchIndex | SearchIndexInput,
+  indexOrName: SearchIndex | SearchIndexInput | string,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
   const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
-  const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
+  const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndexInput) : nameOrIndex;
   const result = await _createOrUpdateIndexSend(context, name, index, options);
   return _createOrUpdateIndexDeserialize(result);
 }

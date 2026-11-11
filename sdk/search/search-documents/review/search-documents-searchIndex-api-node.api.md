@@ -35,7 +35,7 @@ export interface CreateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createIndex(context: SearchIndexContext, index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
+export function createIndex(context: SearchIndexContext, index: SearchIndex | SearchIndexInput, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateIndexOptionalParams extends OperationOptions {
@@ -76,10 +76,10 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex | SearchIndexInput, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
-export function createOrUpdateIndex(context: SearchIndexContext, name: string, index: SearchIndex, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+export function createOrUpdateIndex(context: SearchIndexContext, name: string, index: SearchIndex | SearchIndexInput, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {

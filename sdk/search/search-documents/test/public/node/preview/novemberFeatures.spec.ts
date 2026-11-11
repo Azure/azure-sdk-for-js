@@ -87,6 +87,42 @@ describe("November deployment features", { timeout: 120_000 }, () => {
     return indexClient.getKnowledgeRetrievalClient(baseName);
   }
 
+  it("round-trips random scoring and repeats seeded scores", async () => {
+    const definition = await indexClient.getIndex(indexName);
+    await indexClient.createOrUpdateIndex({
+      ...definition,
+      scoringProfiles: [
+        ...(definition.scoringProfiles ?? []),
+        {
+          name: "shuffle",
+          functions: [{ type: "random", parameters: { seedParameter: "seed" } }],
+        },
+      ],
+    });
+    const rank = async (seed: number): Promise<Array<{ id: string; score: number }>> => {
+      const results = await searchClient.search("*", {
+        scoringProfile: "shuffle",
+        scoringParameters: [`seed-${seed}`],
+        select: ["hotelId"],
+        top: 50,
+      });
+      const ranked = [];
+      for await (const result of results.results) {
+        ranked.push({ id: result.document.hotelId, score: result.score });
+      }
+      return ranked;
+    };
+    const first = await rank(42);
+    assert.isAbove(first.length, 2);
+    assert.deepEqual(await rank(42), first);
+    const changed = await rank(43);
+    assert.sameMembers(
+      changed.map((result) => result.id),
+      first.map((result) => result.id),
+    );
+    assert.notDeepEqual(changed, first);
+  });
+
   it("retrieves through a persisted knowledge-base tool", async () => {
     await createSource();
     const definition: KnowledgeBase = {
