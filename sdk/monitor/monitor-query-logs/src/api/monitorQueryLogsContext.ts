@@ -30,7 +30,7 @@ export function createMonitorQueryLogs(
   const apiVersion = options.apiVersion ?? "v1";
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/${apiVersion}`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-monitor-query-logs/1.0.1`;
+  const userAgentInfo = `azsdk-js-monitor-query-logs/1.0.2`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

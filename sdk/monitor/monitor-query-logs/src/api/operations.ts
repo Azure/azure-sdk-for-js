@@ -71,7 +71,7 @@ export function _executeWithResourceIdSend(
   const path = expandUrlTemplate(
     "/{+resourceId}/query",
     {
-      resourceId: resourceId,
+      resourceId: resourceId.replace(/^\//, ""),
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

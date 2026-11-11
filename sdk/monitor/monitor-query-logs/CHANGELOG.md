@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed `LogsQueryClient.queryResource` producing a double slash in the request URL when the resource ID has a leading slash.
+
+### Other Changes
+
 ## 1.0.1 (Unreleased)
 
 ### Features Added
