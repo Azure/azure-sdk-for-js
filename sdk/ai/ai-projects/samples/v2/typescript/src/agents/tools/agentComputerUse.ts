@@ -11,6 +11,11 @@
  * demonstrating how to handle computer actions like typing, clicking, and
  * taking screenshots in a controlled environment.
  *
+ * Setup:
+ * - Set `COMPUTER_USE_MODEL_DEPLOYMENT_NAME` to a model deployment that supports the GA `computer`
+ *   tool, such as `gpt-5.4` (defaults to `gpt-5.4`).
+ * - Preview `computer-use-preview` deployments require the `computer_use_preview` tool instead.
+ *
  * @summary This sample demonstrates how to create a Computer Use Agent that can interact
  * with computer interfaces through simulated actions and screenshots.
  */
@@ -26,8 +31,7 @@ import {
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "gpt-5.4";
 
 export async function main(): Promise<void> {
   // Initialize state machine
@@ -52,10 +56,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
     tools: [
       {
-        type: "computer_use_preview",
-        display_width: 1026,
-        display_height: 769,
-        environment: "windows" as const,
+        type: "computer",
       },
     ],
   });
@@ -113,18 +114,23 @@ Be direct and efficient. When you reach the search results page, read and descri
 
     // Process the first computer call
     const computerCall = computerCalls[0];
-    if (!computerCall.action || !computerCall.call_id) {
+    const actions =
+      computerCall.actions && computerCall.actions.length > 0
+        ? computerCall.actions
+        : computerCall.action
+          ? [computerCall.action]
+          : [];
+    if (actions.length === 0 || !computerCall.call_id) {
       console.log("Incomplete computer call, skipping...");
       continue;
     }
-    const action = computerCall.action;
     const callId: string = computerCall.call_id;
 
     console.log(`Processing computer call (ID: ${callId})`);
 
-    // Handle the action and get the screenshot info
+    // Handle the actions and get the screenshot info
     const [screenshotInfo, updatedState] = handleComputerActionAndTakeScreenshot(
-      action,
+      actions,
       currentState,
       screenshots,
     );

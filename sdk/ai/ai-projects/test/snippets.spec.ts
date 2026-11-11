@@ -449,10 +449,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
       tools: [
         {
-          type: "computer_use_preview",
-          display_width: 1026,
-          display_height: 769,
-          environment: "windows" as const,
+          type: "computer",
         },
       ],
     });

@@ -6222,7 +6222,7 @@ export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJ
 
 // @public
 export interface PromptOptimizationConfiguration extends AgentOptimizationConfigurationBase {
-    context?: SteeringPromptOptimizationContext[];
+    context?: OptimizationContextUnion[];
     type: "prompt_optimization";
 }
 
