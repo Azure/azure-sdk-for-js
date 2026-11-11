@@ -7327,7 +7327,7 @@ export interface AgentOptimizationJob {
   /** Result produced on success. */
   readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
-  readonly status: AgentOptimizationJobStatus;
+  readonly status: JobStatus;
   /** Failure or skip reason; status distinguishes the outcomes. Omitted otherwise. */
   readonly error?: ApiError;
   /** Human-readable label. Omitted when no label is needed; it has no uniqueness, routing, or idempotency semantics. */
@@ -7369,7 +7369,7 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
     result: !item["result"]
       ? item["result"]
       : agentOptimizationJobResultDeserializer(item["result"]),
-    status: agentOptimizationJobStatusDeserializer(item["status"]),
+    status: item["status"],
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     display_name: item["display_name"],
     target_configuration: !item["target_configuration"]
@@ -7555,17 +7555,6 @@ export function agentOptimizationJobLatencyDeserializer(item: any): AgentOptimiz
 /** Reason the optimization process ended. Early termination reasons still indicate a successful job; completed candidates remain available. */
 export type AgentOptimizationTerminationReason =
   "completed" | "budget_exhausted" | "candidate_screening_stalled";
-
-/** Optimization job lifecycle, including a terminal skip when required input is unavailable. */
-export type AgentOptimizationJobStatus = JobStatus | "skipped";
-
-export function agentOptimizationJobStatusSerializer(item: AgentOptimizationJobStatus): any {
-  return item;
-}
-
-export function agentOptimizationJobStatusDeserializer(item: any): AgentOptimizationJobStatus {
-  return item;
-}
 
 /** Extensible status values shared by Foundry jobs. */
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";

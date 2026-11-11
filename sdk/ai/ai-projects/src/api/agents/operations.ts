@@ -30,8 +30,8 @@ import type {
   GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
-  AgentsDownloadAgentCodeResponse,
   AgentsDownloadOptimizationJobFileResponse,
+  AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -81,6 +81,7 @@ import type {
   AgentsDeleteOptimizationJobOptionalParams,
   AgentsCancelOptimizationJobOptionalParams,
   AgentsListOptimizationJobsOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
@@ -109,7 +110,6 @@ import type {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
-  AgentsDownloadOptimizationJobFileOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -861,7 +861,7 @@ export function _listOptimizationJobsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      status: options?.status as any,
+      status: options?.status,
       agent_name: options?.agentName,
       "api-version": context.apiVersion,
     },

@@ -767,7 +767,7 @@ export interface AgentOptimizationJob {
     optimization_model_configuration: AgentOptimizationModelConfiguration;
     readonly result?: AgentOptimizationJobResult;
     readonly run_duration_ms?: number;
-    readonly status?: AgentOptimizationJobStatus;
+    readonly status?: JobStatus;
     target_configuration?: AgentOptimizationTargetConfigurationUnion;
     readonly updated_at?: Date;
     readonly warnings?: string[];
@@ -788,9 +788,6 @@ export interface AgentOptimizationJobResult {
     termination_reason?: AgentOptimizationTerminationReason;
     token_usage: AgentOptimizationJobTokenUsage[];
 }
-
-// @public
-export type AgentOptimizationJobStatus = JobStatus | "skipped";
 
 // @public
 export interface AgentOptimizationJobTokenUsage {
@@ -1284,7 +1281,7 @@ export interface AgentsListOptimizationJobsOptionalParams extends OperationOptio
     before?: string;
     limit?: number;
     order?: PageOrder;
-    status?: AgentOptimizationJobStatus;
+    status?: JobStatus;
 }
 
 // @public

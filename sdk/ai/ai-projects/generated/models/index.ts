@@ -262,7 +262,6 @@ export type {
   AgentOptimizationStage,
   AgentOptimizationJobLatency,
   AgentOptimizationTerminationReason,
-  AgentOptimizationJobStatus,
   JobStatus,
   AgentOptimizationTargetConfiguration,
   AgentOptimizationTargetConfigurationUnion,
