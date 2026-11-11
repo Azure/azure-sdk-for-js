@@ -319,7 +319,7 @@ describe("Library/TraceHandler", () => {
       // Filter spans to only those from our test request (with custom attributes from our customSpanProcessor)
       const allSpans = exportSpy.mock.calls.flatMap((call) => call[0]);
       const spans = allSpans.filter(
-        (span: ReadableSpan) =>
+        (span) =>
           span.attributes["startAttribute"] === "SomeValue" &&
           (span.attributes[ATTR_URL_PATH] === "/test" ||
             span.attributes[ATTR_URL_FULL] === `http://localhost:${mockHttpServerPort}/test`),

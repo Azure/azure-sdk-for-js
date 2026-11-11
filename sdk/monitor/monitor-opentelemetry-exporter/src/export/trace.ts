@@ -4,7 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace";
 import { AzureMonitorBaseExporter } from "./base.js";
 import type { AzureMonitorExporterOptions } from "../config.js";
 import type { TelemetryItem as Envelope } from "../generated/index.js";
