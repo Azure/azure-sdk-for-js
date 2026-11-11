@@ -14,6 +14,7 @@
  *     otherwise the sample only prints the constructed shape and exits.
  */
 
+import { randomUUID } from "node:crypto";
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   FabricOntologyKnowledgeSource,
@@ -29,8 +30,8 @@ const endpoint = process.env.ENDPOINT || "";
 const workspaceId = process.env.FABRIC_WORKSPACE_ID || "";
 const ontologyId = process.env.FABRIC_ONTOLOGY_ID || "";
 
-const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-fabric-ontology-preview-sample";
-const KNOWLEDGE_BASE_NAME = "example-kb-for-fabric-ontology-ks-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = `example-knowledge-source-fabric-ontology-${randomUUID()}`;
+const KNOWLEDGE_BASE_NAME = `example-kb-for-fabric-ontology-${randomUUID()}`;
 
 async function main(): Promise<void> {
   console.log(`Running Knowledge Source Fabric Ontology Preview Sample....`);
@@ -61,9 +62,12 @@ async function main(): Promise<void> {
     return;
   }
 
+  let knowledgeSourceCreated = false;
+  let knowledgeBaseCreated = false;
   try {
     // 1. Create / read back.
     const created = await client.createKnowledgeSource(fabricOntology);
+    knowledgeSourceCreated = true;
     console.log(`Created ${created.kind} knowledge source: ${created.name}`);
     const fetched = await client.getKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
     console.log(`Read back: ${fetched.name}`);
@@ -75,6 +79,7 @@ async function main(): Promise<void> {
       knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     };
     await client.createKnowledgeBase(knowledgeBase);
+    knowledgeBaseCreated = true;
     console.log(`Attached ${KNOWLEDGE_SOURCE_NAME} to ${KNOWLEDGE_BASE_NAME}`);
 
     // 3. Retrieve and inspect the fabricOntology-specific reference shape.
@@ -90,8 +95,12 @@ async function main(): Promise<void> {
       }
     }
   } finally {
-    await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
-    await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    if (knowledgeBaseCreated) {
+      await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
+    }
+    if (knowledgeSourceCreated) {
+      await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    }
   }
 }
 

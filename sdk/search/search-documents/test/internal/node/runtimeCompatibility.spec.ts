@@ -13,6 +13,7 @@ import {
 import { SearchIndexClient as ProtocolSearchIndexClient } from "../../../src/searchIndex/index.js";
 import { SearchClient as ProtocolSearchClient } from "../../../src/search/index.js";
 import { createSearch, getDocumentCount } from "../../../src/search/api/index.js";
+import { encode } from "../../../src/base64.js";
 import type {
   AzureOpenAIParameters,
   BaseScoringFunction,
@@ -444,6 +445,43 @@ describe("GA runtime compatibility in the November preview", () => {
     assert.deepEqual(body(t.requests[1]).parameters.configuration, configuration);
   });
 
+  it.each([
+    {
+      name: "custom and known parameters",
+      parameters: {
+        synthesizeGeneratedKeyName: false,
+        customSetting: "enabled",
+        maxRetries: 0,
+        customFlag: false,
+        nullableSetting: null,
+        additionalProperties: "custom-value",
+      },
+    },
+    { name: "empty parameters", parameters: {} },
+    { name: "omitted parameters", parameters: undefined },
+  ])("round-trips knowledge-store $name", async ({ parameters }) => {
+    const t = transport([
+      {
+        name: "skills",
+        skills: [],
+        knowledgeStore: {
+          storageConnectionString: "ResourceId=/subscriptions/example/storageAccounts/example",
+          projections: [],
+          parameters,
+        },
+      },
+    ]);
+    const client = new SearchIndexerClient(endpoint, credential, { httpClient: t.httpClient });
+    const result = await client.getSkillset("skills");
+    if (parameters) {
+      assert.deepInclude(result.knowledgeStore?.parameters, parameters);
+    } else {
+      assert.isUndefined(result.knowledgeStore?.parameters);
+    }
+    await client.createOrUpdateSkillset(result);
+    assert.deepEqual(body(t.requests[1]).knowledgeStore.parameters, parameters);
+  });
+
   it("retains continuation tokens on mapped resource pages", async () => {
     const next = `${endpoint}/indexes?$skiptoken=second`;
     const t = transport([
@@ -491,6 +529,41 @@ describe("GA runtime compatibility in the November preview", () => {
     const resumed = await client.search("different");
     await resumed.results.byPage({ continuationToken: first.value.continuationToken }).next();
     assert.deepEqual(body(t.requests[3]), next);
+  });
+
+  it.each([
+    { name: "legacy CSV", semanticFields: "description,title" },
+    { name: "current arrays", semanticFields: ["description", "title"] },
+    { name: "omitted fields", semanticFields: undefined },
+  ])("resumes October semantic continuation tokens with $name", async ({ semanticFields }) => {
+    const apiVersion = "2026-10-01";
+    const nextPageParameters = {
+      searchText: "hotel",
+      select: "id",
+      skip: 1,
+      semanticFields,
+    };
+    const continuationToken = encode(
+      JSON.stringify({
+        apiVersion,
+        nextLink: `${endpoint}/indexes('idx')/docs/search.post.search?api-version=${apiVersion}`,
+        nextPageParameters,
+      }),
+    );
+    const t = transport([{ value: [] }]);
+    const client = new SearchClient(endpoint, "idx", credential, {
+      apiVersion,
+      httpClient: t.httpClient,
+    });
+    const result = await client.search("different");
+    await result.results.byPage({ continuationToken }).next();
+    assert.deepEqual(body(t.requests[1]), {
+      search: "hotel",
+      select: "id",
+      skip: 1,
+      ...(semanticFields === undefined ? {} : { semanticFields: "description,title" }),
+    });
+    assert.equal(new URL(t.requests[1].url).searchParams.get("api-version"), apiVersion);
   });
 
   it.each(["documents", "keys"] as const)(

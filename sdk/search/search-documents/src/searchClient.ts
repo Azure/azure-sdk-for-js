@@ -811,7 +811,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const result: {
         apiVersion: string;
         nextLink: string;
-        nextPageParameters: GeneratedSearchRequest;
+        nextPageParameters: Omit<GeneratedSearchRequest, "semanticFields"> & {
+          semanticFields?: string | string[];
+        };
       } = JSON.parse(decodedToken);
 
       if (result.apiVersion !== this.apiVersion) {
@@ -820,7 +822,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
       return {
         nextLink: result.nextLink,
-        nextPageParameters: result.nextPageParameters,
+        nextPageParameters: {
+          ...result.nextPageParameters,
+          semanticFields:
+            typeof result.nextPageParameters.semanticFields === "string"
+              ? result.nextPageParameters.semanticFields.split(",")
+              : result.nextPageParameters.semanticFields,
+        },
       };
     } catch (e: any) {
       throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`, { cause: e });

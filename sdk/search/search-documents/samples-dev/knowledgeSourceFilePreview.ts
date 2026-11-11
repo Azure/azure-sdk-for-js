@@ -46,6 +46,8 @@ const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
 const azureOpenAIEmbeddingDeployment =
   process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ||
   KnownAzureOpenAIModelName.TextEmbeddingAda002;
+const azureOpenAIEmbeddingModelName =
+  process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || KnownAzureOpenAIModelName.TextEmbeddingAda002;
 
 const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-file-preview-sample";
 const KNOWLEDGE_BASE_NAME = "example-kb-for-file-ks-preview-sample";
@@ -84,7 +86,7 @@ async function main(): Promise<void> {
           azureOpenAIParameters: {
             deploymentId: azureOpenAIEmbeddingDeployment,
             resourceUrl: azureOpenAIEndpoint,
-            modelName: azureOpenAIEmbeddingDeployment,
+            modelName: azureOpenAIEmbeddingModelName,
           },
         },
       },

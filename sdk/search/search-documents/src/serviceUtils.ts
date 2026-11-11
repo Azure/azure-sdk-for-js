@@ -749,7 +749,7 @@ export function generatedSkillsetToPublicSkillset(
 export function publicSkillsetToGeneratedSkillset(
   skillset: SearchIndexerSkillset,
 ): GeneratedSearchIndexerSkillset {
-  const { cognitiveServicesAccount, encryptionKey } = skillset;
+  const { cognitiveServicesAccount, encryptionKey, knowledgeStore } = skillset;
 
   return {
     ...skillset,
@@ -757,6 +757,13 @@ export function publicSkillsetToGeneratedSkillset(
     skills: convertSkillsToGenerated(skillset.skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(cognitiveServicesAccount),
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+    knowledgeStore: knowledgeStore && {
+      ...knowledgeStore,
+      parameters: knowledgeStore.parameters && {
+        ...knowledgeStore.parameters,
+        additionalProperties: knowledgeStore.parameters,
+      },
+    },
   };
 }
 

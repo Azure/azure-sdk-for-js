@@ -26,6 +26,8 @@ const endpoint = process.env.ENDPOINT || "";
 const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
 const azureOpenAIEmbeddingDeployment =
   process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME || "text-embedding-ada-002";
+const azureOpenAIEmbeddingModelName =
+  process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || "text-embedding-ada-002";
 
 const PROVISIONED_KNOWLEDGE_BASE_NAME = process.env.KNOWLEDGE_BASE_NAME || "";
 
@@ -67,7 +69,7 @@ async function provisionKnowledgeBase(client) {
             azureOpenAIParameters: {
               deploymentId: azureOpenAIEmbeddingDeployment,
               resourceUrl: azureOpenAIEndpoint,
-              modelName: azureOpenAIEmbeddingDeployment,
+              modelName: azureOpenAIEmbeddingModelName,
             },
           },
         },
