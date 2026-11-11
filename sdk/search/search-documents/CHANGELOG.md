@@ -16,6 +16,7 @@
 
 ### Bugs Fixed
 
+- Fixed text-vector query rewrite serialization for search and graph queries, preserved AML vectorizer authentication during index read/update round trips, and corrected the documented protocol document-count return type. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Preserved additional knowledge-source kinds during convenience get/list conversion and forwarded per-operation headers, timeouts, and response callbacks through fresh and resumed File ingestion polls. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Fixed legacy semantic-field continuation tokens, preserved custom knowledge-store parameters in skillset round trips, and corrected preview sample resource cleanup and embedding-model configuration. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Kept `VectorQueryKind`, `BaseVectorQuery.kind`, and `VectorFilterMode` closed to October GA values while retaining preview known values and protocol models. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)

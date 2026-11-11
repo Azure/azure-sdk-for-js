@@ -30,6 +30,7 @@ import type {
   ScoringFunctionInput,
   SearchOptions,
   SearchOptionsInput,
+  VectorizableTextQuery,
   VectorQuery,
   VectorSearchVectorizer,
 } from "../../../src/index.js";
@@ -236,6 +237,76 @@ describe("GA runtime compatibility in the November preview", () => {
     expectTypeOf<ScoringFunction>().toMatchTypeOf<ScoringFunctionInput>();
   });
 
+  it.each([
+    {
+      authKind: "none",
+      wire: { uri: "https://example.inference.ml.azure.com/score" },
+      publicParameters: {
+        authKind: "none",
+        scoringUri: "https://example.inference.ml.azure.com/score",
+      },
+    },
+    {
+      authKind: "key",
+      wire: { uri: "https://example.inference.ml.azure.com/score", key: "mock-key" },
+      publicParameters: {
+        authKind: "key",
+        scoringUri: "https://example.inference.ml.azure.com/score",
+        apiKey: "mock-key",
+      },
+    },
+    {
+      authKind: "token",
+      wire: {
+        uri: null,
+        resourceId: "/subscriptions/sub/services/embedding",
+        region: "eastus",
+      },
+      publicParameters: {
+        authKind: "token",
+        resourceId: "/subscriptions/sub/services/embedding",
+        region: "eastus",
+      },
+    },
+    {
+      authKind: "empty key",
+      wire: { uri: "https://example.inference.ml.azure.com/score", key: "" },
+      publicParameters: { authKind: "key", apiKey: "" },
+    },
+    {
+      authKind: "token takes precedence",
+      wire: {
+        uri: null,
+        resourceId: "/subscriptions/sub/services/embedding",
+        key: "ignored-key",
+      },
+      publicParameters: { authKind: "token", resourceId: "/subscriptions/sub/services/embedding" },
+      updateParameters: { uri: null, resourceId: "/subscriptions/sub/services/embedding" },
+    },
+    { authKind: "omitted parameters", wire: undefined, publicParameters: undefined },
+  ])(
+    "round-trips AML vectorizer authentication: $authKind",
+    async ({ wire, publicParameters, updateParameters }) => {
+      const vectorizer = {
+        name: "aml",
+        kind: "aml",
+        ...(wire && { amlParameters: wire }),
+      };
+      const t = transport([{ ...index, vectorSearch: { vectorizers: [vectorizer] } }]);
+      const client = new SearchIndexClient(endpoint, credential, { httpClient: t.httpClient });
+      const stored = await client.getIndex(index.name);
+      assert.containSubset(stored.vectorSearch?.vectorizers?.[0], {
+        kind: "aml",
+        amlParameters: publicParameters,
+      });
+      await client.createOrUpdateIndex({ ...stored, description: "updated" });
+      assert.deepEqual(body(t.requests[1]).vectorSearch.vectorizers[0], {
+        ...vectorizer,
+        ...(updateParameters && { amlParameters: updateParameters }),
+      });
+    },
+  );
+
   it("preserves additional source kinds and converts common read-back metadata", async () => {
     const sources = [
       {
@@ -319,6 +390,41 @@ describe("GA runtime compatibility in the November preview", () => {
       vectorFilterMode: "strictPostFilter",
       vectorQueries: [{ kind: "imageUrl", url: "https://example.com/image.png", fields: "image" }],
     });
+  });
+
+  it.each([
+    { queryRewrites: undefined, expected: undefined },
+    { queryRewrites: { rewritesType: "generative" as const }, expected: "generative" },
+    {
+      queryRewrites: { rewritesType: "generative" as const, count: 3 },
+      expected: "generative|count-3",
+    },
+  ])("encodes vector text query rewrites as $expected", async ({ queryRewrites, expected }) => {
+    const t = transport([{ value: [] }]);
+    const client = new SearchClient<{ embedding: number[] }>(endpoint, "idx", credential, {
+      httpClient: t.httpClient,
+    });
+    const query: VectorizableTextQuery<{ embedding: number[] }> = {
+      kind: "text",
+      text: "hotels",
+      fields: ["embedding"],
+      queryRewrites,
+    };
+    await client.search("hotels", {
+      queryType: "semantic",
+      semanticSearchOptions: { configurationName: "semantic", queryRewrites },
+      vectorSearchOptions: { queries: [query] },
+    });
+    await client.graph("MATCH (s)-[r]->(o) RETURN s", { vectorQueries: [query] });
+    assert.equal(body(t.requests[0]).queryRewrites, expected);
+    for (const request of t.requests) {
+      assert.deepEqual(body(request).vectorQueries[0], {
+        kind: "text",
+        text: "hotels",
+        fields: "embedding",
+        ...(expected !== undefined && { queryRewrites: expected }),
+      });
+    }
   });
 
   it("accepts a mutable mixed-model input array without widening the GA model alias", () => {

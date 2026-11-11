@@ -23,6 +23,7 @@ import type {
   DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
+  AzureMachineLearningVectorizer as GeneratedAzureMachineLearningVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters as GeneratedAzureBlobKnowledgeSourceParameters,
   AzureOpenAIVectorizerParameters as GeneratedAzureOpenAIParameters,
@@ -556,6 +557,25 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
     },
   };
   const defaultDeserializer = (): any => {
+    if (generatedVectorizer.kind === "aml") {
+      const { amlParameters } = generatedVectorizer as GeneratedAzureMachineLearningVectorizer;
+      const authKind =
+        amlParameters?.resourceId != null
+          ? "token"
+          : amlParameters?.authenticationKey != null
+            ? "key"
+            : amlParameters?.scoringUri != null
+              ? "none"
+              : undefined;
+      return {
+        ...generatedVectorizer,
+        amlParameters: amlParameters && {
+          ...amlParameters,
+          authKind,
+          apiKey: authKind === "key" ? amlParameters.authenticationKey : undefined,
+        },
+      };
+    }
     logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
     return generatedVectorizer as any;
   };

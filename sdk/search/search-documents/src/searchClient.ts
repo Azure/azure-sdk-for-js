@@ -937,10 +937,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   ): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
-        const { fields, ...restFields } = vectorQuery;
+        const { fields, queryRewrites, ...restFields } = vectorQuery;
         return {
           ...restFields,
           fields: this.convertVectorQueryFields(fields),
+          queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
       case "imageUrl":

@@ -29,8 +29,8 @@ for a seeded random profile without classic `boost` or `fieldName` requirements.
 Streams require a `text/event-stream` response, close on completion or error,
 and support cancellation through `abortSignal`. Protocol index operations accept
 both the released body-first signatures and the name-first preview signatures.
-The protocol `getDocumentCount` returns the GA `{ body: number }` response;
-the root `SearchClient.getDocumentsCount` continues to return a number.
+Both the protocol `getDocumentCount` and root `SearchClient.getDocumentsCount`
+return a number, preserving the GA return type.
 
 [Azure AI Search](https://learn.microsoft.com/azure/search/) (formerly known as "Azure Cognitive Search") is an AI-powered information retrieval platform that helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data.
 
