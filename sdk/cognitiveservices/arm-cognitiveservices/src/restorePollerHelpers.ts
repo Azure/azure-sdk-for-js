@@ -22,44 +22,16 @@ import {
 } from "./api/accountCapabilityHosts/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeRaiExternalSafetyProvider } from "./api/raiExternalSafetyProvider/operations.js";
 import {
-  _restartDeserialize,
-  _stopDeserialize,
-  _startDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeWorkbenches,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkbenches,
-} from "./api/workbenches/operations.js";
-import {
-  _restartDeserialize as _restartDeserializeComputes,
-  _stopDeserialize as _stopDeserializeComputes,
-  _startDeserialize as _startDeserializeComputes,
-  _$deleteDeserialize as _$deleteDeserializeComputes,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeComputes,
-} from "./api/computes/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeAdapterDeployments,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeAdapterDeployments,
-} from "./api/adapterDeployments/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeManagedComputeDeployments,
-  _updateDeserialize,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedComputeDeployments,
-} from "./api/managedComputeDeployments/operations.js";
-import {
   _$deleteDeserialize as _$deleteDeserializeAgentApplications,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAgentApplications,
 } from "./api/agentApplications/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeArcDeployments,
-  _updateDeserialize as _updateDeserializeArcDeployments,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeArcDeployments,
-} from "./api/arcDeployments/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeProjectCapabilityHosts,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeProjectCapabilityHosts,
 } from "./api/projectCapabilityHosts/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeProjects,
-  _updateDeserialize as _updateDeserializeProjects,
+  _updateDeserialize,
   _createDeserialize,
 } from "./api/projects/operations.js";
 import { _reconcileDeserialize } from "./api/networkSecurityPerimeterConfigurations/operations.js";
@@ -200,65 +172,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _$deleteDeserializeRaiExternalSafetyProvider,
       expectedStatuses: ["202", "204", "200"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}/restart":
-    { deserializer: _restartDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}/stop":
-    { deserializer: _stopDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}":
-    { deserializer: _$deleteDeserializeWorkbenches, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/workbenches/{workbenchName}":
-    {
-      deserializer: _createOrUpdateDeserializeWorkbenches,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}/restart":
-    { deserializer: _restartDeserializeComputes, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}/stop":
-    { deserializer: _stopDeserializeComputes, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}/start":
-    { deserializer: _startDeserializeComputes, expectedStatuses: ["202", "204", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
-    { deserializer: _$deleteDeserializeComputes, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/computes/{computeName}":
-    { deserializer: _createOrUpdateDeserializeComputes, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/adapterDeployments/{adapterDeploymentName}":
-    {
-      deserializer: _$deleteDeserializeAdapterDeployments,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/adapterDeployments/{adapterDeploymentName}":
-    {
-      deserializer: _createOrUpdateDeserializeAdapterDeployments,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
-    {
-      deserializer: _$deleteDeserializeManagedComputeDeployments,
-      expectedStatuses: ["200", "202", "204"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedComputeDeployments/{deploymentName}":
-    {
-      deserializer: _createOrUpdateDeserializeManagedComputeDeployments,
-      expectedStatuses: ["200", "201", "202"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}":
     { deserializer: _$deleteDeserializeAgentApplications, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}":
     {
       deserializer: _createOrUpdateDeserializeAgentApplications,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
-    { deserializer: _$deleteDeserializeArcDeployments, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
-    { deserializer: _updateDeserializeArcDeployments, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}":
-    {
-      deserializer: _createOrUpdateDeserializeArcDeployments,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts/{capabilityHostName}":
@@ -274,7 +192,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
     { deserializer: _$deleteDeserializeProjects, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
-    { deserializer: _updateDeserializeProjects, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/networkSecurityPerimeterConfigurations/{nspConfigurationName}/reconcile":

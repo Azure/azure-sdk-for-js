@@ -55,7 +55,7 @@ export function _listAssociationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,11 +95,7 @@ export function listAssociations(
     () => _listAssociationsSend(context, resourceGroupName, commitmentPlanName, options),
     _listAssociationsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -117,7 +113,7 @@ export function _deleteAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +156,7 @@ export function deleteAssociation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -179,7 +175,7 @@ export function _createOrUpdateAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,7 +231,7 @@ export function createOrUpdateAssociation(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   ) as PollerLike<
     OperationState<CommitmentPlanAccountAssociation>,
@@ -257,7 +253,7 @@ export function _getAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +307,7 @@ export function _listPlansBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,11 +345,7 @@ export function listPlansBySubscription(
     () => _listPlansBySubscriptionSend(context, options),
     _listPlansBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -367,7 +359,7 @@ export function _listPlansByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,11 +398,7 @@ export function listPlansByResourceGroup(
     () => _listPlansByResourceGroupSend(context, resourceGroupName, options),
     _listPlansByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -426,7 +414,7 @@ export function _deletePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,7 +450,7 @@ export function deletePlan(
     getInitialResponse: () =>
       _deletePlanSend(context, resourceGroupName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -479,7 +467,7 @@ export function _updatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -523,7 +511,7 @@ export function updatePlan(
     getInitialResponse: () =>
       _updatePlanSend(context, resourceGroupName, commitmentPlanName, commitmentPlan, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -540,7 +528,7 @@ export function _createOrUpdatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -590,7 +578,7 @@ export function createOrUpdatePlan(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -606,7 +594,7 @@ export function _getPlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -655,7 +643,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -695,11 +683,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -717,7 +701,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -754,7 +738,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -773,7 +757,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -837,7 +821,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
