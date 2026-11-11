@@ -15,6 +15,7 @@ import type {
   TelephonyBindingListItemUnion,
   TelephonyCallJob,
   TelephonyCallJobCreate,
+  TelephonyCallJobSchedule,
   TelephonyCallSummary,
   TelephonyTransferTarget,
   VoiceAgentDefinition,
@@ -972,6 +973,89 @@ describe("agent outbound call jobs", () => {
       },
     );
   }
+
+  it.each([
+    {
+      name: "millisecond precision",
+      notBefore: 1_794_518_258_634,
+      expiresAt: 1_794_521_858_987,
+      notBeforeSeconds: 1_794_518_258,
+      expiresAtSeconds: 1_794_521_858,
+    },
+    {
+      name: "the Unix epoch",
+      notBefore: 0,
+      expiresAt: 59_999,
+      notBeforeSeconds: 0,
+      expiresAtSeconds: 59,
+    },
+    {
+      name: "dates before the Unix epoch",
+      notBefore: -1_001,
+      expiresAt: -1,
+      notBeforeSeconds: -2,
+      expiresAtSeconds: -1,
+    },
+    {
+      name: "dates beyond the signed 32-bit timestamp range",
+      notBefore: Date.UTC(2040, 0, 1) + 987,
+      expiresAt: Date.UTC(2040, 0, 1, 0, 1) + 456,
+      notBeforeSeconds: 2_208_988_800,
+      expiresAtSeconds: 2_208_988_860,
+    },
+  ])(
+    "encodes whole-second call-job schedules for $name without mutating input",
+    async ({ notBefore, expiresAt, notBeforeSeconds, expiresAtSeconds }) => {
+      const schedule = Object.freeze({
+        not_before: new Date(notBefore),
+        expires_at: new Date(expiresAt),
+      });
+      const body: TelephonyCallJobCreate = Object.freeze({
+        ...input,
+        destination: { type: "phone_number" as const, value: "+15555550101" },
+        schedule,
+      });
+      const wireSchedule = { not_before: notBeforeSeconds, expires_at: expiresAtSeconds };
+      const { client, requests } = createClient({
+        status: 202,
+        body: { ...job, ...body, schedule: wireSchedule },
+      });
+      const result = await client.voiceAgents.telephony.createCallJob(
+        "voice agent",
+        "date-precision-key",
+        body,
+        { requestOptions: { headers: { "x-test-header": "date-precision" } } },
+      );
+      expect(JSON.parse(String(requests[0].body))).toEqual({ ...body, schedule: wireSchedule });
+      expect(requests[0].headers.get("idempotency-key")).toBe("date-precision-key");
+      expect(requests[0].headers.get("x-test-header")).toBe("date-precision");
+      expect(requests[0].headers.get("foundry-features")).toBeUndefined();
+      expect(result.schedule).toEqual({
+        not_before: new Date(notBeforeSeconds * 1000),
+        expires_at: new Date(expiresAtSeconds * 1000),
+      });
+      expect(body.schedule).toBe(schedule);
+      expect(schedule.not_before.getTime()).toBe(notBefore);
+      expect(schedule.expires_at.getTime()).toBe(expiresAt);
+    },
+  );
+
+  it.each(["not_before", "expires_at"] as const)(
+    "rejects an invalid schedule.%s before sending a call job",
+    async (field) => {
+      const schedule: TelephonyCallJobSchedule = { [field]: new Date(Number.NaN) };
+      const { client, requests } = createClient();
+      const pending = client.voiceAgents.telephony.createCallJob(
+        "voice agent",
+        "invalid-date-key",
+        { ...input, schedule },
+        options,
+      );
+      await expect(pending).rejects.toThrow(RangeError);
+      await expect(pending).rejects.toThrow(`schedule.${field}`);
+      expect(requests).toHaveLength(0);
+    },
+  );
 
   it("creates a durable job with an idempotency key and preserves nested and zero-valued inputs", async () => {
     const { client, requests } = createClient({ status: 202, body: job });

@@ -3,6 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { isNodeLike } from "@azure/core-util";
 import {
   AIProjectClient,
   KnownVoiceAgentConnectionState,
@@ -31,6 +32,7 @@ import {
   serializeVoiceAgentClientEvent,
 } from "$internal/realtime/protocol.js";
 import { SDK_VERSION } from "$internal/constants.js";
+import { buildWebSocketUrl } from "$internal/realtime/voiceAgentRealtimeClient.js";
 import { assert, describe, expect, expectTypeOf, it, vi } from "vitest";
 
 class TestCredential implements TokenCredential {
@@ -102,6 +104,20 @@ function createClient(
     credential,
     { realtimeOptions: { webSocketFactory: factory } },
   );
+}
+
+function expectStructuredInputs(
+  options: VoiceAgentWebSocketConnectOptions,
+  serialized: string,
+): void {
+  const url = new URL(options.url);
+  if (isNodeLike) {
+    expect(url.searchParams.has("structured_inputs")).toBe(false);
+    expect(options.headers["x-ms-voice-structured-inputs"]).toBe(serialized);
+  } else {
+    expect(url.searchParams.getAll("structured_inputs")).toEqual([serialized]);
+    expect(options.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+  }
 }
 
 describe("VoiceAgentRealtimeClient query options", () => {
@@ -305,7 +321,6 @@ describe("VoiceAgentRealtimeClient query options", () => {
     "client-request-id",
     "x-ms-client-request-id",
     "structured_input",
-    "structured_inputs",
     "x-ms-voice-structured-inputs",
     "h-custom-header",
     "AUTHORIZATION",
@@ -417,10 +432,7 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
     try {
       const connectOptions = factory.transport.connectOptions;
       assert.ok(connectOptions);
-      expect(new URL(connectOptions.url).searchParams.getAll("structured_inputs")).toEqual([
-        '{"customer":{"name":"Ada"}}',
-      ]);
-      expect(connectOptions.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+      expectStructuredInputs(connectOptions, '{"customer":{"name":"Ada"}}');
     } finally {
       await first.close();
     }
@@ -436,7 +448,7 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
     }
   });
 
-  it("uses one canonical structured-input query and removes the legacy spelling", async () => {
+  it("preserves the platform's input carrier and removes stale structured-input queries", async () => {
     const factory = new MockWebSocketFactory();
     const client = new VoiceAgentRealtimeClient(
       "https://example.test/api/projects/project?structured_input=legacy&structured_inputs=old",
@@ -450,13 +462,133 @@ describe("VoiceAgentRealtimeClient structured inputs", () => {
       const options = factory.transport.connectOptions;
       assert.ok(options);
       const url = new URL(options.url);
-      expect(url.searchParams.getAll("structured_inputs")).toEqual(['{"customer":"Ada & Bob"}']);
       expect(url.searchParams.has("structured_input")).toBe(false);
+      expectStructuredInputs(options, '{"customer":"Ada & Bob"}');
+      expect(options.headers).not.toHaveProperty("foundry-features");
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("requires explicit query input for URL transport in Node.js", async () => {
+    const factory = new MockWebSocketFactory();
+    const connection = await createClient(factory).voiceAgents.realtime.connect("support-agent", {
+      query: { structured_inputs: '{"customer":"Ada & Bob"}' },
+    });
+    try {
+      const options = factory.transport.connectOptions;
+      assert.ok(options);
+      expect(new URL(options.url).searchParams.getAll("structured_inputs")).toEqual([
+        '{"customer":"Ada & Bob"}',
+      ]);
       expect(options.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
       expect(options.headers).not.toHaveProperty("foundry-features");
     } finally {
       await connection.close();
     }
+  });
+
+  it("snapshots explicit query input before asynchronous authentication", async () => {
+    const factory = new MockWebSocketFactory();
+    const credential = new TestCredential();
+    let resolveToken!: (token: AccessToken) => void;
+    vi.spyOn(credential, "getToken").mockReturnValueOnce(
+      new Promise<AccessToken>((resolve) => {
+        resolveToken = resolve;
+      }),
+    );
+    const query = { structured_inputs: '{"customer":"Ada"}' };
+    const pending = createClient(factory, credential).voiceAgents.realtime.connect(
+      "support-agent",
+      { query },
+    );
+    query.structured_inputs = '{"customer":"changed"}';
+    resolveToken({ token: "test-token", expiresOnTimestamp: Date.now() + 60_000 });
+    const connection = await pending;
+    try {
+      const options = factory.transport.connectOptions;
+      assert.ok(options);
+      expect(new URL(options.url).searchParams.get("structured_inputs")).toBe('{"customer":"Ada"}');
+      expect(options.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("removes an explicit undefined structured-input query", async () => {
+    const factory = new MockWebSocketFactory();
+    const realtime = new VoiceAgentRealtimeClient(
+      "https://example.test/api/projects/project?structured_inputs=old",
+      new TestCredential(),
+      { webSocketFactory: factory },
+    );
+    const connection = await realtime.connect("support-agent", {
+      query: { structured_inputs: undefined },
+    });
+    try {
+      const options = factory.transport.connectOptions;
+      assert.ok(options);
+      expect(new URL(options.url).searchParams.has("structured_inputs")).toBe(false);
+      expect(options.headers).not.toHaveProperty("x-ms-voice-structured-inputs");
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it.each([false, 0, "null", "[]", "true", '"value"', '{"token":"private-value"'])(
+    "rejects invalid explicit query input %s without exposing its contents",
+    async (value) => {
+      const factory = new MockWebSocketFactory();
+      const credential = new TestCredential();
+      const getToken = vi.spyOn(credential, "getToken");
+      const create = vi.spyOn(factory, "create");
+      const pending = createClient(factory, credential).voiceAgents.realtime.connect(
+        "support-agent",
+        { query: { structured_inputs: value } },
+      );
+      await expect(pending).rejects.toThrow(
+        new TypeError("query.structured_inputs must be a JSON-object string."),
+      );
+      await expect(pending).rejects.not.toThrow("private-value");
+      expect(getToken).not.toHaveBeenCalled();
+      expect(create).not.toHaveBeenCalled();
+    },
+  );
+
+  it("rejects ambiguous typed and query inputs before authentication", async () => {
+    const factory = new MockWebSocketFactory();
+    const credential = new TestCredential();
+    const getToken = vi.spyOn(credential, "getToken");
+    const create = vi.spyOn(factory, "create");
+    await expect(
+      createClient(factory, credential).voiceAgents.realtime.connect("support-agent", {
+        structuredInputs: { customer: "Ada" },
+        query: { structured_inputs: '{"customer":"other"}' },
+      }),
+    ).rejects.toThrow("Use either structuredInputs or query.structured_inputs, not both.");
+    expect(getToken).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it("redacts parser causes for malformed explicit query inputs", async () => {
+    const pending = createClient(new MockWebSocketFactory()).voiceAgents.realtime.connect(
+      "support-agent",
+      { query: { structured_inputs: '{"token":"private-value"' } },
+    );
+    await expect(pending).rejects.toMatchObject({
+      cause: {
+        message: "Invalid JSON in query.structured_inputs.",
+        stack: "SyntaxError: Invalid JSON in query.structured_inputs.",
+      },
+    });
+  });
+
+  it("keeps structured-input query keys reserved in the shared URL builder", () => {
+    expect(() =>
+      buildWebSocketUrl("https://example.test/api/projects/project", "agent", "v1", {
+        query: { structured_inputs: "{}" },
+      }),
+    ).toThrow('Query parameter "structured_inputs" is reserved');
   });
 
   it.each(["circular", "bigint"])(
@@ -1082,8 +1214,7 @@ describe("AIProjectClient realtime", () => {
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], undefined);
-    assert.deepEqual(url.searchParams.getAll("structured_inputs"), ['{"customer":"Ada"}']);
-    assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], undefined);
+    expectStructuredInputs(connectOptions, '{"customer":"Ada"}');
     assert.equal(url.searchParams.get("x-ms-client-sdk"), `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["x-ms-client-sdk"], `azsdk-js-ai-projects/${SDK_VERSION}`);
     assert.equal(connectOptions.headers["user-agent"], `azsdk-js-ai-projects/${SDK_VERSION}`);

@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Send PCM speech to a Realtime voice agent and save its audio reply.
  */
-
 import {
   AIProjectClient,
   isRestError,
@@ -18,11 +16,10 @@ import { delay } from "@azure/core-util";
 import { existsSync } from "node:fs";
 import { open, readFile } from "node:fs/promises";
 import "dotenv/config";
-
 export async function main(): Promise<void> {
   const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
   if (!projectEndpoint) throw new Error("Set FOUNDRY_PROJECT_ENDPOINT.");
-  // Use an existing GA Realtime agent, or let this sample create one.
+  // Use an existing Realtime agent, or let this sample create one.
   const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-audio-${Date.now()}`;
   const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
   const adjacentInput = new URL("./assets/input.pcm", import.meta.url);
@@ -44,7 +41,6 @@ export async function main(): Promise<void> {
   }
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const { agent, created } = await getOrCreateVoiceAgent(project, agentName, modelName);
-
   try {
     const definition = agent.versions.latest.definition;
     if (!isVoiceAgentDefinition(definition)) {
@@ -53,7 +49,7 @@ export async function main(): Promise<void> {
     const turnDetection = withTurnDetectionOverrides(definition.audio?.input?.turn_detection);
     const output = await open(outputPath, "w");
     try {
-      const connection = await project.voiceAgents.realtime.connect(agentName, {
+      const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
         store: false,
       });
       let receiveEvents: Promise<void> | undefined;
@@ -73,7 +69,6 @@ export async function main(): Promise<void> {
             output: { format: pcmFormat },
           },
         });
-
         let inputComplete = false;
         let inputCommitted = false;
         let responseId: string | undefined;
@@ -111,7 +106,6 @@ export async function main(): Promise<void> {
             throw new Error("The connection closed before the reply completed.");
           }
         })();
-
         console.log("Sending speech and saving the reply...");
         sendAudio = (async () => {
           // 4800 bytes of PCM16 audio at 24 kHz is 100 ms.
@@ -148,31 +142,58 @@ export async function main(): Promise<void> {
     }
   } finally {
     // Never delete an agent that already existed.
-    if (created) await project.agents.delete(agentName);
+    if (created)
+      await project.agents.delete(agentName, {
+        requestOptions: {
+          headers: {
+            "foundry-features": "VoiceAgents=V1Preview",
+          },
+        },
+      });
   }
 }
-
 async function getOrCreateVoiceAgent(
   project: AIProjectClient,
   agentName: string,
   modelName: string,
-): Promise<{ agent: Agent; created: boolean }> {
+): Promise<{
+  agent: Agent;
+  created: boolean;
+}> {
   try {
-    return { agent: await project.agents.get(agentName), created: false };
+    return {
+      agent: await project.agents.get(agentName, {
+        requestOptions: {
+          headers: {
+            "foundry-features": "VoiceAgents=V1Preview",
+          },
+        },
+      }),
+      created: false,
+    };
   } catch (error) {
     if (!isRestError(error) || error.statusCode !== 404) throw error;
   }
-  const agent = await project.agents.create(agentName, {
-    kind: "voice",
-    model_type: "managed",
-    model: modelName,
-    instructions: "Listen carefully and answer the user's request.",
-    output_modalities: ["text", "audio"],
-    store: false,
-  });
+  const agent = await project.agents.create(
+    agentName,
+    {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "Listen carefully and answer the user's request.",
+      output_modalities: ["text", "audio"],
+      store: false,
+    },
+    {
+      requestOptions: {
+        headers: {
+          "foundry-features": "VoiceAgents=V1Preview",
+        },
+      },
+    },
+  );
   return { agent, created: true };
 }
-
 function isVoiceAgentDefinition(
   definition: AgentDefinitionUnion,
 ): definition is VoiceAgentDefinition {
@@ -187,7 +208,6 @@ function isVoiceAgentDefinition(
     typeof definition.model === "string"
   );
 }
-
 function withTurnDetectionOverrides(
   turnDetection: VoiceAgentTurnDetectionConfigUnion | null = { type: "server_vad" },
 ): VoiceAgentTurnDetectionConfigUnion | null {
@@ -198,7 +218,6 @@ function withTurnDetectionOverrides(
     ? { ...turnDetection, ...overrides }
     : { ...turnDetection, ...overrides, silence_duration_ms: 500 };
 }
-
 main().catch((error: unknown) => {
   console.error("Sample failed:", error);
   process.exitCode = 1;

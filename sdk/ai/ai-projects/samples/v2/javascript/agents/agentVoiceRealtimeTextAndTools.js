@@ -1,70 +1,98 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * @summary Send text to a Realtime voice agent, handle a weather tool, and save its audio reply.
  */
-
 const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { randomUUID } = require("node:crypto");
 const { open } = require("node:fs/promises");
 require("dotenv/config");
-
 async function main() {
   const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"]?.trim();
   if (!projectEndpoint) throw new Error("Set FOUNDRY_PROJECT_ENDPOINT.");
-  // Use an existing GA Realtime agent, or let this sample create one.
+  // Use an existing Realtime agent, or let this sample create one.
   const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-text-${Date.now()}`;
   const modelName = process.env["FOUNDRY_VOICE_MODEL"]?.trim() || "gpt-realtime";
   const outputPath =
     process.env["FOUNDRY_VOICE_AGENT_AUDIO_OUTPUT_FILE"]?.trim() || "voice-agent-output.pcm";
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const created = await getOrCreateVoiceAgent(project, agentName, modelName);
-
   try {
     const output = await open(outputPath, "w");
     try {
-      const connection = await project.voiceAgents.realtime.connect(agentName, {
+      const connection = await project.beta.voiceAgents.realtime.connect(agentName, {
         store: false,
       });
       try {
-        await connection.configureSession({
-          type: "realtime",
-          output_modalities: ["text", "audio"],
-          audio: { output: { format: { type: "audio/pcm", rate: 24000 } } },
-          tools: [
-            {
-              type: "function",
-              name: "get_weather",
-              description: "Get the current weather for a city.",
-              parameters: {
-                type: "object",
-                properties: { city: { type: "string" } },
-                required: ["city"],
-                additionalProperties: false,
-              },
-            },
-          ],
-        });
-
         // Tag our responses so an existing agent's startup greeting is not mistaken for this turn.
         const turnId = randomUUID();
         const response = { metadata: { additionalProperties: { sample_turn: turnId } } };
         let responseId;
         let needsResponse = false;
         let completed = false;
+        let configured = false;
+        let waitingForGreeting = false;
+        let greetingResponseId;
         const handledCalls = new Set();
-
-        console.log("Asking about the weather in Seattle...");
-        await connection.sendText("What is the weather in Seattle? Use get_weather.", {
-          createResponse: false,
-        });
-        await connection.requestResponse({ response });
-
+        const requestWeather = async () => {
+          console.log("Asking about the weather in Seattle...");
+          await connection.sendText("What is the weather in Seattle? Use get_weather.", {
+            createResponse: false,
+          });
+          await connection.requestResponse({ response });
+        };
         for await (const event of connection) {
           if (event.type === "error") {
             throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+          }
+          // Foundry applies the agent configuration after session.created.
+          if (event.type === "session.updated" && !configured) {
+            configured = true;
+            waitingForGreeting = event.session.greeting != null;
+            await connection.configureSession({
+              type: "realtime",
+              output_modalities: ["text", "audio"],
+              audio: { output: { format: { type: "audio/pcm", rate: 24000 } } },
+              tools: [
+                {
+                  type: "function",
+                  name: "get_weather",
+                  description: "Get the current weather for a city.",
+                  parameters: {
+                    type: "object",
+                    properties: { city: { type: "string" } },
+                    required: ["city"],
+                    additionalProperties: false,
+                  },
+                },
+              ],
+            });
+            if (!waitingForGreeting) await requestWeather();
+            continue;
+          }
+          if (
+            waitingForGreeting &&
+            event.type === "response.created" &&
+            event.response.metadata?.additionalProperties?.["microsoft.voice.trigger"] ===
+              "session_start"
+          ) {
+            greetingResponseId = event.response.id;
+            continue;
+          }
+          if (
+            waitingForGreeting &&
+            event.type === "response.done" &&
+            (event.response.id === greetingResponseId ||
+              event.response.metadata?.additionalProperties?.["microsoft.voice.trigger"] ===
+                "session_start")
+          ) {
+            if (event.response.status !== "completed") {
+              throw new Error(`Startup greeting ${event.response.status ?? "unknown"}.`);
+            }
+            waitingForGreeting = false;
+            await requestWeather();
+            continue;
           }
           if (event.type === "response.created") {
             if (event.response.metadata?.additionalProperties?.["sample_turn"] === turnId) {
@@ -123,11 +151,16 @@ async function main() {
   } finally {
     // Never delete an agent that already existed.
     if (created) {
-      await project.agents.delete(agentName);
+      await project.agents.delete(agentName, {
+        requestOptions: {
+          headers: {
+            "foundry-features": "VoiceAgents=V1Preview",
+          },
+        },
+      });
     }
   }
 }
-
 function parseCity(value) {
   const args = JSON.parse(value);
   if (
@@ -142,10 +175,15 @@ function parseCity(value) {
   }
   return args.city.trim();
 }
-
 async function getOrCreateVoiceAgent(project, agentName, modelName) {
   try {
-    const agent = await project.agents.get(agentName);
+    const agent = await project.agents.get(agentName, {
+      requestOptions: {
+        headers: {
+          "foundry-features": "VoiceAgents=V1Preview",
+        },
+      },
+    });
     const definition = agent.versions.latest.definition;
     if (
       definition.kind !== "voice" ||
@@ -157,18 +195,26 @@ async function getOrCreateVoiceAgent(project, agentName, modelName) {
   } catch (error) {
     if (!isRestError(error) || error.statusCode !== 404) throw error;
   }
-
-  await project.agents.create(agentName, {
-    kind: "voice",
-    model_type: "managed",
-    model: modelName,
-    instructions: "You are a helpful voice assistant. Use tools when appropriate.",
-    output_modalities: ["text", "audio"],
-    store: false,
-  });
+  await project.agents.create(
+    agentName,
+    {
+      kind: "voice",
+      model_type: "managed",
+      model: modelName,
+      instructions: "You are a helpful voice assistant. Use tools when appropriate.",
+      output_modalities: ["text", "audio"],
+      store: false,
+    },
+    {
+      requestOptions: {
+        headers: {
+          "foundry-features": "VoiceAgents=V1Preview",
+        },
+      },
+    },
+  );
   return true;
 }
-
 main().catch((error) => {
   console.error("Sample failed:", error);
   process.exitCode = 1;

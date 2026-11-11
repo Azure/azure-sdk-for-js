@@ -38,6 +38,7 @@ import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
+import { withWholeSecondCallJobSchedules } from "./telephony/callJobSchedule.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -136,13 +137,17 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.voiceAgents = _getVoiceAgentsOperations(
+    const voiceAgents = _getVoiceAgentsOperations(
       this._cognitiveScopeClient,
       credential,
       options.endpoint ?? endpoint,
       resolveRealtimeOptions(options, prefixFromOptions),
       this._tracingConfig,
     );
+    this.voiceAgents = {
+      ...voiceAgents,
+      telephony: withWholeSecondCallJobSchedules(voiceAgents.telephony),
+    };
     this.beta = _getBetaOperations(
       this._cognitiveScopeClient,
       credential,

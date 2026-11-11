@@ -441,6 +441,8 @@ const connection = await project.voiceAgents.realtime.connect("my-voice-agent", 
   query: {
     custom_key: "custom value",
     custom_flag: true,
+    // Explicit URL transport: only use non-sensitive prompt variables.
+    structured_inputs: JSON.stringify({ persona: "guide" }),
   },
 });
 await connection.close();
@@ -450,14 +452,19 @@ Values can be strings, finite numbers, or booleans. The SDK URL-encodes them and
 them when `connect()` is called. A value replaces a matching endpoint parameter;
 `undefined` removes it. These values are not reused for later connections.
 
-Use typed options such as `store`, `agentVersionOverride`, `structuredInputs`, and
-Realtime's `foundryFeatures` instead
-of putting SDK settings in `query`. SDK and authentication parameter names, structured-input
-names, and names starting with `h-` are reserved regardless of case; using them throws
-`TypeError` before authentication. Custom query values do not become prompt variables.
-**Never put secrets in query parameters:** URLs can appear in server or proxy logs.
-`structuredInputs` also uses the `structured_inputs` URL query parameter in every
-environment; do not include sensitive prompt-variable values.
+Use typed options such as `store`, `agentVersionOverride`, and Realtime's
+`foundryFeatures` instead of putting SDK settings in `query`. SDK/authentication
+names, noncanonical structured-input names, and names starting with `h-` remain
+reserved. Realtime explicitly permits the exact `structured_inputs` key with a
+JSON-object string, as shown above; do not combine it with `structuredInputs`.
+Other custom query values do not become prompt variables.
+
+Realtime `structuredInputs` preserves header-based transport in Node.js. Browsers
+use a URL query because they cannot send arbitrary WebSocket upgrade headers.
+If your service requires the query form, opt in explicitly through
+`query.structured_inputs` instead of `structuredInputs`.
+**Never put secrets or sensitive prompt variables in query parameters:** server
+and proxy access logs can retain URLs.
 
 ### GPT Live voice agents
 
@@ -625,13 +632,13 @@ put tokens in URLs, or embed API keys, client secrets, or long-lived tokens in b
 If direct browser authentication is unavailable, supply an authenticated backend relay
 through `webSocketFactory`.
 
-For Realtime and Live connections, the complete `structuredInputs` value is JSON-encoded in the
-`structured_inputs` WebSocket URL query parameter in **all environments, including
-Node.js, browsers, and Workers**. This includes prompt-variable values, not just
-custom query parameters. Proxy and server access logs can retain URLs: do not put
-credentials, personal data, or other sensitive information in these inputs.
-The current service contracts require the query parameter; the SDK does not
-provide a header-based alternative.
+Realtime connections keep `structuredInputs` in the
+`x-ms-voice-structured-inputs` header in Node.js and use the `structured_inputs`
+URL query in browsers and Workers. Explicit Realtime `query.structured_inputs`
+opts into URL transport on any host. GPT Live continues to use the URL query on
+all hosts and has no header-based alternative.
+Proxy and server access logs can retain URLs: do not put credentials, personal
+data, or other sensitive information in URL-carried inputs.
 
 ### Using Agent tools
 

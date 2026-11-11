@@ -283,6 +283,8 @@ describe("snippets", function () {
       query: {
         custom_key: "custom value",
         custom_flag: true,
+        // Explicit URL transport: only use non-sensitive prompt variables.
+        structured_inputs: JSON.stringify({ persona: "guide" }),
       },
     });
     await connection.close();

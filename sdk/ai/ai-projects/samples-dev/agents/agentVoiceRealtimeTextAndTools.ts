@@ -30,42 +30,76 @@ export async function main(): Promise<void> {
         store: false,
       });
       try {
-        await connection.configureSession({
-          type: "realtime",
-          output_modalities: ["text", "audio"],
-          audio: { output: { format: { type: "audio/pcm", rate: 24000 } } },
-          tools: [
-            {
-              type: "function",
-              name: "get_weather",
-              description: "Get the current weather for a city.",
-              parameters: {
-                type: "object",
-                properties: { city: { type: "string" } },
-                required: ["city"],
-                additionalProperties: false,
-              },
-            },
-          ],
-        });
-
         // Tag our responses so an existing agent's startup greeting is not mistaken for this turn.
         const turnId = randomUUID();
         const response = { metadata: { additionalProperties: { sample_turn: turnId } } };
         let responseId: string | undefined;
         let needsResponse = false;
         let completed = false;
+        let configured = false;
+        let waitingForGreeting = false;
+        let greetingResponseId: string | undefined;
         const handledCalls = new Set<string>();
 
-        console.log("Asking about the weather in Seattle...");
-        await connection.sendText("What is the weather in Seattle? Use get_weather.", {
-          createResponse: false,
-        });
-        await connection.requestResponse({ response });
+        const requestWeather = async (): Promise<void> => {
+          console.log("Asking about the weather in Seattle...");
+          await connection.sendText("What is the weather in Seattle? Use get_weather.", {
+            createResponse: false,
+          });
+          await connection.requestResponse({ response });
+        };
 
         for await (const event of connection) {
           if (event.type === "error") {
             throw new Error(`Voice Agent error ${event.error.code}: ${event.error.message}`);
+          }
+          // Foundry applies the agent configuration after session.created.
+          if (event.type === "session.updated" && !configured) {
+            configured = true;
+            waitingForGreeting = event.session.greeting != null;
+            await connection.configureSession({
+              type: "realtime",
+              output_modalities: ["text", "audio"],
+              audio: { output: { format: { type: "audio/pcm", rate: 24000 } } },
+              tools: [
+                {
+                  type: "function",
+                  name: "get_weather",
+                  description: "Get the current weather for a city.",
+                  parameters: {
+                    type: "object",
+                    properties: { city: { type: "string" } },
+                    required: ["city"],
+                    additionalProperties: false,
+                  },
+                },
+              ],
+            });
+            if (!waitingForGreeting) await requestWeather();
+            continue;
+          }
+          if (
+            waitingForGreeting &&
+            event.type === "response.created" &&
+            event.response.metadata?.additionalProperties?.["microsoft.voice.trigger"] ===
+              "session_start"
+          ) {
+            greetingResponseId = event.response.id;
+            continue;
+          }
+          if (
+            waitingForGreeting &&
+            event.type === "response.done" &&
+            (event.response.id === greetingResponseId ||
+              event.response.metadata?.additionalProperties?.["microsoft.voice.trigger"] ===
+                "session_start")
+          ) {
+            if (event.response.status !== "completed") {
+              throw new Error(`Startup greeting ${event.response.status ?? "unknown"}.`);
+            }
+            waitingForGreeting = false;
+            await requestWeather();
+            continue;
           }
           if (event.type === "response.created") {
             if (event.response.metadata?.additionalProperties?.["sample_turn"] === turnId) {

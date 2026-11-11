@@ -15,12 +15,14 @@ const examples = [
     variables: ["adjacentInput", "inputPath"],
     selected: "inputPath",
     asset: "input.pcm",
+    published: true,
   },
   {
     file: ["agents", "agentVoiceLiveAudio.ts"],
     variables: ["adjacentInput", "inputPath"],
     selected: "inputPath",
     asset: "input.pcm",
+    published: false,
   },
 ];
 const layouts = [
@@ -104,33 +106,38 @@ function selectAsset(
 
 describe("Voice sample asset paths", () => {
   for (const example of examples) {
-    it.each(layouts)(`${example.file.at(-1)} resolves its shipped asset in $name`, (layout) => {
-      const sourceSegments = [...example.file];
-      if (layout.language === "javascript") {
-        sourceSegments[sourceSegments.length - 1] = sourceSegments.at(-1)!.replace(/\.ts$/, ".js");
-      }
-      const runtimeSegments = [...sourceSegments];
-      if (layout.name === "compiled TypeScript layout") {
-        runtimeSegments[runtimeSegments.length - 1] = runtimeSegments
-          .at(-1)!
-          .replace(/\.ts$/, ".js");
-      }
-      const sourceFile = path.join(process.cwd(), ...layout.read, ...sourceSegments);
-      const runtimeFile = path.join(process.cwd(), ...layout.runtime, ...runtimeSegments);
-      const selected = selectAsset(sourceFile, runtimeFile, example);
-      const selectedPath = selected instanceof URL ? fileURLToPath(selected) : selected;
-      const assetRoot =
-        layout.language === "source"
-          ? path.join(process.cwd(), "samples-dev")
-          : path.join(process.cwd(), "samples", "v2", layout.language);
-      const expected = path.join(assetRoot, "agents", "assets", example.asset);
-      expect(existsSync(selectedPath), selectedPath).toBe(true);
-      expect(realpathSync(selectedPath)).toBe(realpathSync(expected));
-      const digest = (file: string): string =>
-        createHash("sha256").update(readFileSync(file)).digest("hex");
-      expect(digest(selectedPath)).toBe(
-        digest(path.join(process.cwd(), "samples-dev", "agents", "assets", example.asset)),
-      );
-    });
+    it.each(layouts.filter((layout) => example.published || layout.language === "source"))(
+      `${example.file.at(-1)} resolves its shipped asset in $name`,
+      (layout) => {
+        const sourceSegments = [...example.file];
+        if (layout.language === "javascript") {
+          sourceSegments[sourceSegments.length - 1] = sourceSegments
+            .at(-1)!
+            .replace(/\.ts$/, ".js");
+        }
+        const runtimeSegments = [...sourceSegments];
+        if (layout.name === "compiled TypeScript layout") {
+          runtimeSegments[runtimeSegments.length - 1] = runtimeSegments
+            .at(-1)!
+            .replace(/\.ts$/, ".js");
+        }
+        const sourceFile = path.join(process.cwd(), ...layout.read, ...sourceSegments);
+        const runtimeFile = path.join(process.cwd(), ...layout.runtime, ...runtimeSegments);
+        const selected = selectAsset(sourceFile, runtimeFile, example);
+        const selectedPath = selected instanceof URL ? fileURLToPath(selected) : selected;
+        const assetRoot =
+          layout.language === "source"
+            ? path.join(process.cwd(), "samples-dev")
+            : path.join(process.cwd(), "samples", "v2", layout.language);
+        const expected = path.join(assetRoot, "agents", "assets", example.asset);
+        expect(existsSync(selectedPath), selectedPath).toBe(true);
+        expect(realpathSync(selectedPath)).toBe(realpathSync(expected));
+        const digest = (file: string): string =>
+          createHash("sha256").update(readFileSync(file)).digest("hex");
+        expect(digest(selectedPath)).toBe(
+          digest(path.join(process.cwd(), "samples-dev", "agents", "assets", example.asset)),
+        );
+      },
+    );
   }
 });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
@@ -29,6 +29,13 @@ const gaOnlySamples = new Set([
   "agentVoiceRealtimeWithTracing",
   "agentVoiceRestWithTracing",
 ]);
+const releasedVoiceSamples = [
+  "agentGenerateVoice",
+  "agentTelephony",
+  "agentVoice",
+  "agentVoiceRealtimeAudio",
+  "agentVoiceRealtimeTextAndTools",
+];
 const gaTelephonyMethods = new Set([
   "createBinding",
   "getBinding",
@@ -61,7 +68,7 @@ const sampleLocations = [
   },
 ];
 
-function findLeaks(text: string, file: string, gaOnly = false): string[] {
+function findLeaks(text: string, file: string, gaOnly = false, releasedApi = false): string[] {
   const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   const aliases = new Map<string, string[]>();
   const leaks = new Set<string>();
@@ -89,7 +96,24 @@ function findLeaks(text: string, file: string, gaOnly = false): string[] {
     if (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) {
       const members = memberPath(node);
       const beta = members.indexOf("beta");
-      if (beta >= 0) {
+      if (releasedApi) {
+        const voice = members.indexOf("voiceAgents");
+        const agents = members.indexOf("agents");
+        if (
+          (voice >= 0 &&
+            (members[voice - 1] !== "beta" ||
+              ["live", "liveConversations"].includes(members[voice + 1]) ||
+              (members[voice + 1] === "telephony" &&
+                ["create", "get", "list", "cancel", "deleteCampaign", "getOperation"].includes(
+                  members[voice + 2],
+                )))) ||
+          (agents >= 0 &&
+            members[agents - 1] !== "beta" &&
+            members[agents + 1] === "createFromPrompt")
+        ) {
+          leaks.add(`${file}: unreleased ${members.join(".")}`);
+        }
+      } else if (beta >= 0) {
         const group = members.slice(beta + 1);
         if (
           group[0] === "agents" ||
@@ -152,15 +176,48 @@ describe("Voice Agents GA sample surface", () => {
     },
   );
 
-  it.each(sampleLocations)(
-    "uses GA entry points in all $label Voice samples",
+  it("uses GA entry points in current workspace Voice samples", () => {
+    const leaks: string[] = [];
+    for (const name of voiceSamples) {
+      const file = path.join(process.cwd(), "samples-dev", "agents", `${name}.ts`);
+      expect(existsSync(file), file).toBe(true);
+      leaks.push(...findLeaks(readFileSync(file, "utf8"), file, gaOnlySamples.has(name)));
+    }
+    expect(leaks).toEqual([]);
+  });
+
+  it("detects unreleased APIs in release-channel examples", () => {
+    for (const text of [
+      'project.voiceAgents.realtime.connect("agent");',
+      'const voice = project.beta.voiceAgents; voice.live.connect("agent");',
+      'project.beta.voiceAgents.liveConversations.list("agent");',
+      'project.beta.voiceAgents.telephony.create("agent", "campaign", {});',
+      'project.agents.createFromPrompt({ kind: "voice" });',
+    ]) {
+      expect(findLeaks(text, "unreleased.ts", false, true).length).toBeGreaterThan(0);
+    }
+    expect(
+      findLeaks(
+        'project.beta.voiceAgents.realtime.connect("agent"); project.beta.voiceAgents.telephony.getCall("agent", "call"); project.beta.agents.createFromPrompt({ kind: "voice" });',
+        "released.ts",
+        false,
+        true,
+      ),
+    ).toEqual([]);
+  });
+
+  it.each(sampleLocations.slice(1))(
+    "keeps $label Voice examples on the released 2.10.0 API",
     ({ segments, extension }) => {
-      const leaks: string[] = [];
-      for (const name of voiceSamples) {
-        const file = path.join(process.cwd(), ...segments, `${name}${extension}`);
-        expect(existsSync(file), file).toBe(true);
-        leaks.push(...findLeaks(readFileSync(file, "utf8"), file, gaOnlySamples.has(name)));
-      }
+      const directory = path.join(process.cwd(), ...segments);
+      const files = readdirSync(directory).filter((file) =>
+        /^agent(?:Voice|GenerateVoice|Telephony).*\.(?:ts|js)$/.test(file),
+      );
+      expect(files.sort()).toEqual(releasedVoiceSamples.map((name) => name + extension).sort());
+      const leaks = files.flatMap((name) => {
+        const file = path.join(directory, name);
+        return findLeaks(readFileSync(file, "utf8"), file, false, true);
+      });
       expect(leaks).toEqual([]);
     },
   );
