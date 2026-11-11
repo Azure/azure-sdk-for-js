@@ -1,15 +1,9 @@
 # JavaScript and Rust-backed item reads: latency, CPU, and memory
 
-## Table of contents
-
-1. [Test environment and measurements](#1-test-environment-and-measurements)
-2. [Read test: one read in flight](#2-read-test-one-read-in-flight)
-3. [Load test: 32 reads in flight](#3-load-test-32-reads-in-flight)
-4. [Conclusion](#4-conclusion)
 
 ## 1. Test environment and measurements
 
-Tests completed on **November 10, 2026**.
+
 
 - **VM:** `js-sdk-rust-read-perf-vm`, `Standard_D4ds_v5`, four virtual CPUs
   (vCPUs), Linux, in **East US**.
@@ -156,10 +150,7 @@ an equal-concurrency test, **not an equal-throughput test**.
 allocator, it reduced CPU work per read and CPU utilization, improved P99,
 and increased RSS in both concurrent comparisons.
 
-For a customer app handling overlapping requests, the concurrent-load result
-is more relevant than the single-read result, provided the tested load
-represents actual usage. However, **sustained, production-representative
-testing is still needed before recommending mimalloc as the default**.
+
 
 Rust + mimalloc remains faster but less CPU-efficient than legacy JS in these
 measurements. The allocator change narrowed that CPU-efficiency gap; it did
