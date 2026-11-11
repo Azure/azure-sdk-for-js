@@ -3,6 +3,7 @@
 
 import { FileContext } from "../../api/fileContext.js";
 import {
+  getHardLinks,
   createHardLink,
   getSymbolicLink,
   createSymbolicLink,
@@ -21,12 +22,13 @@ import {
   acquireLease,
   setMetadata,
   setHttpHeaders,
-  $delete,
+  deleteFile,
   getProperties,
   download,
   create,
 } from "../../api/file/operations.js";
 import {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,
@@ -54,6 +56,7 @@ import {
   ListHandlesResponse,
   ShareFileRangeList,
   ShareFileRangeListSegment,
+  HardLinkList,
   NfsFileType,
   CopyStatus,
   FileRangeWriteType,
@@ -64,6 +67,94 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a File operations. */
 export interface FileOperations {
+  /** Returns the hard links of a file, along with all user-defined metadata, content properties, and system properties for the file. NFS only. */
+  getHardLinks: (
+    options?: FileGetHardLinksOptionalParams,
+  ) => Promise<
+    {
+      lastModified: Date;
+      fileType: "File";
+      etag: string;
+      fileContentType?: string;
+      fileContentLength: number;
+      fileContentMD5?: Uint8Array;
+      fileContentEncoding?: string;
+      fileContentLanguage?: string;
+      fileCacheControl?: string;
+      fileContentDisposition?: string;
+      copyCompletedOn?: Date;
+      copyStatusDescription?: string;
+      copyId?: string;
+      copyProgress?: string;
+      copySource?: string;
+      copyStatus?: CopyStatus;
+      serverEncrypted?: boolean;
+      filePermissionKey?: string;
+      fileAttributes?: string;
+      fileCreatedOn?: Date;
+      fileLastWriteOn?: Date;
+      fileChangeOn?: Date;
+      fileId?: string;
+      fileParentId?: string;
+      fileName?: string;
+      leaseDuration?: string;
+      leaseState?: string;
+      leaseStatus?: string;
+      fileMode?: string;
+      owner?: string;
+      group?: string;
+      nfsFileType?: NfsFileType;
+      linkCount?: number;
+      version: string;
+      requestId: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/xml";
+    } & HardLinkList &
+      StorageCompatResponseInfo<
+        HardLinkList,
+        {
+          lastModified: Date;
+          fileType: "File";
+          etag: string;
+          fileContentType?: string;
+          fileContentLength: number;
+          fileContentMD5?: Uint8Array;
+          fileContentEncoding?: string;
+          fileContentLanguage?: string;
+          fileCacheControl?: string;
+          fileContentDisposition?: string;
+          copyCompletedOn?: Date;
+          copyStatusDescription?: string;
+          copyId?: string;
+          copyProgress?: string;
+          copySource?: string;
+          copyStatus?: CopyStatus;
+          serverEncrypted?: boolean;
+          filePermissionKey?: string;
+          fileAttributes?: string;
+          fileCreatedOn?: Date;
+          fileLastWriteOn?: Date;
+          fileChangeOn?: Date;
+          fileId?: string;
+          fileParentId?: string;
+          fileName?: string;
+          leaseDuration?: string;
+          leaseState?: string;
+          leaseStatus?: string;
+          fileMode?: string;
+          owner?: string;
+          group?: string;
+          nfsFileType?: NfsFileType;
+          linkCount?: number;
+          version: string;
+          requestId: string;
+          clientRequestId?: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Creates a hard link to a target file. NFS only. */
   createHardLink: (
     targetFile: string,
@@ -606,12 +697,7 @@ export interface FileOperations {
     >
   >;
   /** Removes the file from the storage account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteFile: (
     options?: FileDeleteOptionalParams,
   ) => Promise<
     {
@@ -660,6 +746,7 @@ export interface FileOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
@@ -699,6 +786,7 @@ export interface FileOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
+        fileName?: string;
         leaseDuration?: string;
         leaseState?: string;
         leaseStatus?: string;
@@ -862,6 +950,7 @@ export interface FileOperations {
 
 function _getFile(context: FileContext) {
   return {
+    getHardLinks: (options?: FileGetHardLinksOptionalParams) => getHardLinks(context, options),
     createHardLink: (targetFile: string, options?: FileCreateHardLinkOptionalParams) =>
       createHardLink(context, targetFile, options),
     getSymbolicLink: (options?: FileGetSymbolicLinkOptionalParams) =>
@@ -902,7 +991,7 @@ function _getFile(context: FileContext) {
     setMetadata: (options?: FileSetMetadataOptionalParams) => setMetadata(context, options),
     setHttpHeaders: (options?: FileSetHttpHeadersOptionalParams) =>
       setHttpHeaders(context, options),
-    delete: (options?: FileDeleteOptionalParams) => $delete(context, options),
+    deleteFile: (options?: FileDeleteOptionalParams) => deleteFile(context, options),
     getProperties: (options?: FileGetPropertiesOptionalParams) => getProperties(context, options),
     download: (options?: FileDownloadOptionalParams) => download(context, options),
     create: (fileContentLength: number, options?: FileCreateOptionalParams) =>
