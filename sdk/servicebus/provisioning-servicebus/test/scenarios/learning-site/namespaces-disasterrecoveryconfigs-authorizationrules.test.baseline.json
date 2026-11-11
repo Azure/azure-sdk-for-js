@@ -1,0 +1,62 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-servicebus"
+              }
+            }
+          }
+        },
+        "disasterRecoveryConfig": {
+          "bicepIdentifier": "disasterRecoveryConfig",
+          "type": "Microsoft.ServiceBus/namespaces/disasterRecoveryConfigs",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-alias"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              }
+            }
+          }
+        },
+        "authorizationRule": {
+          "bicepIdentifier": "authorizationRule",
+          "type": "Microsoft.ServiceBus/namespaces/disasterRecoveryConfigs/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-rule"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "disasterRecoveryConfig"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

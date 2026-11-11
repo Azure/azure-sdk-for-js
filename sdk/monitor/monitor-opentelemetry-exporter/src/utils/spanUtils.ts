@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Link, Attributes, AttributeValue } from "@opentelemetry/api";
 import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
@@ -371,7 +371,11 @@ function createRequestData(span: ReadableSpan): RequestData {
  * Span to Azure envelope parsing.
  * @internal
  */
-export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
+export function readableSpanToEnvelope(
+  span: ReadableSpan,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
@@ -448,7 +452,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       );
     }
   }
-  baseData.properties = truncateCustomDimensions(properties);
+  baseData.properties = truncateCustomDimensions(properties, increaseGenAiMessageLimit);
   baseData.measurements = {
     ...measurements,
     ...baseData.measurements,
@@ -472,7 +476,11 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
  * Span Events to Azure envelopes parsing.
  * @internal
  */
-export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelope[] {
+export function spanEventsToEnvelopes(
+  span: ReadableSpan,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope[] {
   const envelopes: Envelope[] = [];
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
@@ -532,7 +540,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "ExceptionData",
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: truncateCustomDimensions(properties),
+          properties: truncateCustomDimensions(properties, increaseGenAiMessageLimit),
           ...measurementFields,
         };
         baseData = exceptionData;
@@ -543,7 +551,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "MessageData",
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: truncateCustomDimensions(properties),
+          properties: truncateCustomDimensions(properties, increaseGenAiMessageLimit),
           ...measurementFields,
         };
         baseData = messageData;

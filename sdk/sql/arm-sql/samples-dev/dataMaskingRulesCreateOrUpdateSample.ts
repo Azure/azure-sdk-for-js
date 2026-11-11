@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a database data masking rule.
  *
  * @summary creates or updates a database data masking rule.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingRuleCreateOrUpdateDefaultMax.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingRuleCreateOrUpdateDefaultMax.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMax(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax(): Promise<void> {
  * This sample demonstrates how to creates or updates a database data masking rule.
  *
  * @summary creates or updates a database data masking rule.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingRuleCreateOrUpdateDefaultMin.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingRuleCreateOrUpdateDefaultMin.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMin(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin(): Promise<void> {
  * This sample demonstrates how to creates or updates a database data masking rule.
  *
  * @summary creates or updates a database data masking rule.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingRuleCreateOrUpdateNumber.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingRuleCreateOrUpdateNumber.json
  */
 async function createOrUpdateDataMaskingRuleForNumbers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -82,7 +82,7 @@ async function createOrUpdateDataMaskingRuleForNumbers(): Promise<void> {
  * This sample demonstrates how to creates or updates a database data masking rule.
  *
  * @summary creates or updates a database data masking rule.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingRuleCreateOrUpdateText.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingRuleCreateOrUpdateText.json
  */
 async function createOrUpdateDataMaskingRuleForText(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -27,6 +27,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isPipelineLike } from '@azure/storage-blob';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import { LayoutAwareRouting } from '@azure/storage-blob';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -53,6 +54,8 @@ import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import type { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import type { ServiceSetPropertiesResponse } from '@azure/storage-blob';
+import type { SessionMode } from '@azure/storage-blob';
+import type { SessionOptions } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-common';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
 import { StorageRetryOptions } from '@azure/storage-common';
@@ -798,6 +801,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutAwareRouting?: LayoutAwareRouting;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -1156,6 +1160,8 @@ export { HttpRequestBody }
 export { isPipelineLike }
 
 export { isRestError }
+
+export { LayoutAwareRouting }
 
 export { Lease }
 
@@ -2150,6 +2156,10 @@ export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
     destinationFileSystemName?: string;
 }
 
+export { SessionMode }
+
+export { SessionOptions }
+
 // @public (undocumented)
 export interface SignedIdentifier<T> {
     // (undocumented)
@@ -2180,6 +2190,7 @@ export interface StoragePipelineOptions {
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
+    sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 

@@ -100,7 +100,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 CommonJS and native ES modules are supported. Initialize telemetry before loading Azure clients.
 For native ESM, register the OpenTelemetry loader before the application is evaluated:
 
-```js
+```js snippet:ignore
 // loader.mjs
 import { register } from "node:module";
 register("@opentelemetry/instrumentation/hook.mjs", import.meta.url);

@@ -380,7 +380,7 @@ For a complete sample on iterating blobs please see [samples/v12/typescript/src/
 
 ### List blobs using the Apache Arrow response format
 
-Request the listing as Apache Arrow with `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
+`listBlobsFlat` and `listBlobsByHierarchy` use the Apache Arrow response format by default; set `responseFormat` to choose it explicitly, or set it to `StorageResponseFormat.Xml` to request XML. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
 
 ```ts snippet:ReadmeSampleListBlobs_ApacheArrow
 import { BlobServiceClient, StorageResponseFormat } from "@azure/storage-blob";
@@ -465,6 +465,69 @@ if (blobBody) {
 ```
 
 A complete example of simple scenarios is at [samples/v12/typescript/src/sharedKeyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/sharedKeyAuth.ts).
+
+### Authenticate downloads with a session token (Node.js)
+
+When you authenticate with a `TokenCredential`, you can opt in to session token authentication. Eligible blob downloads are then signed with a container-scoped session token instead of a bearer token, which avoids a token exchange on every request.
+
+Sessions are disabled by default. Set `sessionOptions.mode` to `"enabled"` to opt in.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+Only `GET` blob download requests are eligible; container and service operations, and any request using a structured message body, continue to use a bearer token. If a session cannot be created because the account does not have the feature enabled, the client logs a warning and falls back to bearer tokens rather than failing the download.
+
+In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
+
+```ts snippet:ReadmeSampleSessionAuthentication
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { buffer } from "node:stream/consumers";
+
+const account = "<account>";
+
+// Session token authentication is only available in the Node.js runtime. In browsers and
+// React Native these options are ignored and requests keep using a bearer token.
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+  { sessionOptions: { mode: "enabled" } },
+);
+
+// Only the download below is signed with a container-scoped session token. Container and
+// service operations continue to use a bearer token.
+const containerClient = blobServiceClient.getContainerClient("<container name>");
+const blobClient = containerClient.getBlobClient("<blob name>");
+const downloadBlockBlobResponse = await blobClient.download();
+if (downloadBlockBlobResponse.readableStreamBody) {
+  const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+  console.log(`Downloaded blob content: ${downloaded.toString()}`);
+}
+```
+
+If your endpoint URL is not in the standard `https://<account>.blob.core.windows.net` form, the account name cannot be derived from it. Set `sessionOptions.accountName` explicitly in that case.
+
+### Read blobs from the endpoints that store them (Node.js)
+
+The service can describe a blob's _layout_: which storage endpoint holds each range of the blob. When the first block that `downloadToBuffer` reads comes back with a hint that the blob has a layout, the client can fetch the layout and read the remaining blocks directly from those endpoints, rather than having the account endpoint relay them. This is off by default; set `layoutAwareRouting` to `"enabled"` to opt in. The requests stay authenticated as, and addressed to, your account. When the account doesn't support it, the blob is read from the account endpoint as usual.
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```ts snippet:ReadmeSampleLayoutAwareRouting
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const account = "<account>";
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+const containerClient = blobServiceClient.getContainerClient("<container name>");
+const blobClient = containerClient.getBlobClient("<blob name>");
+
+// Routing is off by default. Opt in to read blocks from the endpoints that hold them.
+const downloaded = await blobClient.downloadToBuffer(0, undefined, {
+  layoutAwareRouting: "enabled",
+});
+console.log(`Downloaded ${downloaded.length} bytes`);
+```
 
 ## Troubleshooting
 

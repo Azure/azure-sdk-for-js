@@ -4,7 +4,7 @@
 import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SEMATTRS_NET_PEER_NAME } from "@opentelemetry/semantic-conventions";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import type { MonitorDomain, RemoteDependencyData, RequestData } from "../generated/index.js";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights.js";
 import type { MicrosoftEventHub } from "./constants/span/azAttributes.js";

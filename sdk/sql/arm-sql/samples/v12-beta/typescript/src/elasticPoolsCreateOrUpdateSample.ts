@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/CreateElasticPoolWithAvailabilityZone.json
+ * x-ms-original-file: 2026-08-01-preview/CreateElasticPoolWithAvailabilityZone.json
  */
 async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> 
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateOrUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateOrUpdateMax.json
  */
 async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateOrUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateOrUpdateMin.json
  */
 async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -75,7 +75,7 @@ async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateOrUpdateServerlessProperties.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateOrUpdateServerlessProperties.json
  */
 async function createOrUpdateAnElasticPoolWithServerlessProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -100,7 +100,7 @@ async function createOrUpdateAnElasticPoolWithServerlessProperties(): Promise<vo
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateOrUpdateSetMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateOrUpdateSetMaintenanceConfiguration.json
  */
 async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -123,7 +123,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter():
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateWithDefaultPreferredEnclaveType.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateWithDefaultPreferredEnclaveType.json
  */
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -142,7 +142,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolCreateWithVBSPreferredEnclaveType.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolCreateWithVBSPreferredEnclaveType.json
  */
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVBS(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +161,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVBS()
  * This sample demonstrates how to creates or updates an elastic pool.
  *
  * @summary creates or updates an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/HyperscaleElasticPoolCreateOrUpdateSetHighAvailabilityReplicaCount.json
+ * x-ms-original-file: 2026-08-01-preview/HyperscaleElasticPoolCreateOrUpdateSetHighAvailabilityReplicaCount.json
  */
 async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();

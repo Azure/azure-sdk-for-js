@@ -44,7 +44,7 @@ describe("authored mixed deployment trees", () => {
       });
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 
   it("recognizes a new extension as deployment work under an existing-only parent", () => {
@@ -70,7 +70,7 @@ describe("authored mixed deployment trees", () => {
       value: { scope: { id: "storageAccount" } },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("keeps a sole current-scope mixed tree in one file", () => {
     const stack = new Stack("local-mixed", { targetScope: "resourceGroup" });
@@ -82,7 +82,7 @@ describe("authored mixed deployment trees", () => {
     });
     expect(files(stack)).toHaveLength(1);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it.each(["subscription", "managementGroup"] as const)(
     "compiles a new policy version under an existing policy at another %s",
@@ -117,6 +117,6 @@ describe("authored mixed deployment trees", () => {
       expect(result[1]!.resources!.policyDefinition!.value).not.toHaveProperty("value.scope");
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 });

@@ -68,6 +68,10 @@ export {
   type IHttpClient,
   StorageOAuthScopes,
   type ServiceClientOptions,
+  type SessionMode,
+  type SessionOptions,
+  type ExpectContinueMode,
+  type ExpectContinueOptions,
 } from "./Pipeline.js";
 export {
   AnonymousCredential,

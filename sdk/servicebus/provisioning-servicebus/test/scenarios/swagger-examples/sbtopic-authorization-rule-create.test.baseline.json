@@ -1,0 +1,47 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Namespace-6261"
+              }
+            }
+          }
+        },
+        "topic": {
+          "bicepIdentifier": "topic",
+          "type": "Microsoft.ServiceBus/namespaces/topics",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Topics-1984"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
