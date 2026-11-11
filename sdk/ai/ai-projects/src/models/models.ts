@@ -10840,7 +10840,7 @@ export function agentInsightTokenUsageDeserializer(item: any): AgentInsightToken
 }
 
 /** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled" | "skipped";
 
 /** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
 export interface EvaluatorGenerationTokenUsage {
@@ -38301,9 +38301,9 @@ export function traceEvaluationRuleActionDeserializer(item: any): TraceEvaluatio
 /** Existing trace-evaluation inputs supported by scheduled rules. */
 export type TraceEvaluationSource =
   | TracesEvalRunDataSource
-  | AzureAITraceDataSourceEvalRunDataSource
+  | TraceSourceEvalRunDataSource
   | TracesPreviewEvalRunDataSource
-  | AzureAITraceDataSourcePreviewEvalRunDataSource;
+  | TraceSourcePreviewEvalRunDataSource;
 
 export function traceEvaluationSourceSerializer(item: TraceEvaluationSource): any {
   return item;
@@ -38389,41 +38389,7 @@ export function tracesEvalRunDataSourceDeserializer(item: any): TracesEvalRunDat
   };
 }
 
-/**
- * A data source that selects traces for evaluation.
- *
- * See [create an evaluation dataset from traces](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-to-dataset?tabs=python).
- */
-export interface AzureAITraceDataSourceEvalRunDataSource extends EvalRunDataSource {
-  /** The type of data source, always `azure_ai_trace_data_source`. */
-  type: "azure_ai_trace_data_source";
-  /** The trace source that defines how traces are selected for evaluation. */
-  trace_source?: TraceSourceUnion;
-}
-
-export function azureAITraceDataSourceEvalRunDataSourceSerializer(
-  item: AzureAITraceDataSourceEvalRunDataSource,
-): any {
-  return {
-    type: item["type"],
-    trace_source: !item["trace_source"]
-      ? item["trace_source"]
-      : traceSourceUnionSerializer(item["trace_source"]),
-  };
-}
-
-export function azureAITraceDataSourceEvalRunDataSourceDeserializer(
-  item: any,
-): AzureAITraceDataSourceEvalRunDataSource {
-  return {
-    type: item["type"],
-    trace_source: !item["trace_source"]
-      ? item["trace_source"]
-      : traceSourceUnionDeserializer(item["trace_source"]),
-  };
-}
-
-/** Base class for polymorphic trace sources nested within an AzureAITraceDataSourceEvalRunDataSource. */
+/** Base class for polymorphic trace sources nested within a TraceSourceEvalRunDataSource. */
 export interface TraceSource {
   /** The discriminator that identifies which kind of trace source this is. */
   /** The discriminator possible values: trace_id_source, conversation_id_source, agent_filter */
@@ -38664,36 +38630,6 @@ export function tracesPreviewEvalRunDataSourceDeserializer(
   };
 }
 
-/** Preview form of `azure_ai_trace_data_source`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
-export interface AzureAITraceDataSourcePreviewEvalRunDataSource extends EvalRunDataSource {
-  /** The type of data source, always `azure_ai_trace_data_source_preview`. */
-  type: "azure_ai_trace_data_source_preview";
-  /** The trace source that defines how traces are selected for evaluation. */
-  trace_source?: TraceSourceUnion;
-}
-
-export function azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
-  item: AzureAITraceDataSourcePreviewEvalRunDataSource,
-): any {
-  return {
-    type: item["type"],
-    trace_source: !item["trace_source"]
-      ? item["trace_source"]
-      : traceSourceUnionSerializer(item["trace_source"]),
-  };
-}
-
-export function azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
-  item: any,
-): AzureAITraceDataSourcePreviewEvalRunDataSource {
-  return {
-    type: item["type"],
-    trace_source: !item["trace_source"]
-      ? item["trace_source"]
-      : traceSourceUnionDeserializer(item["trace_source"]),
-  };
-}
-
 /** Configures a scheduled evaluation of dataset inputs. */
 export interface DatasetEvaluationRuleAction extends EvaluationRuleAction {
   type: "datasetEvaluation";
@@ -38726,7 +38662,7 @@ export function datasetEvaluationRuleActionDeserializer(item: any): DatasetEvalu
 /** Dataset inputs supported by scheduled rules. Targets are configured within the selected source. */
 export type DatasetEvaluationSource =
   | CreateEvalJsonlRunDataSource
-  | EvalCsvRunDataSource
+  | CsvEvalRunDataSource
   | CreateEvalCompletionsRunDataSource
   | TargetCompletionEvalRunDataSource
   | UserConversationSimulationEvalRunDataSource
@@ -38738,29 +38674,6 @@ export function datasetEvaluationSourceSerializer(item: DatasetEvaluationSource)
 
 export function datasetEvaluationSourceDeserializer(item: any): DatasetEvaluationSource {
   return item;
-}
-
-/**
- * A CSV data source for evaluation runs.
- *
- * See [evaluation datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluation-datasets).
- */
-export interface EvalCsvRunDataSource extends EvalRunDataSource {
-  /** The type of data source, always `csv`. */
-  type: "csv";
-  /** The source of the CSV data, either inline content or a file reference. */
-  source: EvalCsvFileIdSource;
-}
-
-export function evalCsvRunDataSourceSerializer(item: EvalCsvRunDataSource): any {
-  return { type: item["type"], source: evalCsvFileIdSourceSerializer(item["source"]) };
-}
-
-export function evalCsvRunDataSourceDeserializer(item: any): EvalCsvRunDataSource {
-  return {
-    type: item["type"],
-    source: evalCsvFileIdSourceDeserializer(item["source"]),
-  };
 }
 
 /** Represents a reference to an uploaded CSV file used as a source for evaluation data. */
@@ -39435,11 +39348,11 @@ export function evalRunDataSourceDeserializer(item: any): EvalRunDataSource {
 export type EvalRunDataSourceUnion =
   | TracesEvalRunDataSource
   | TracesPreviewEvalRunDataSource
-  | AzureAITraceDataSourceEvalRunDataSource
-  | AzureAITraceDataSourcePreviewEvalRunDataSource
+  | TraceSourceEvalRunDataSource
+  | TraceSourcePreviewEvalRunDataSource
   | UserConversationSimulationEvalRunDataSource
   | UserConversationSimulationPreviewEvalRunDataSource
-  | EvalCsvRunDataSource
+  | CsvEvalRunDataSource
   | TargetCompletionEvalRunDataSource
   | EvalRunDataSource;
 
@@ -39452,13 +39365,11 @@ export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): 
       return tracesPreviewEvalRunDataSourceSerializer(item as TracesPreviewEvalRunDataSource);
 
     case "azure_ai_trace_data_source":
-      return azureAITraceDataSourceEvalRunDataSourceSerializer(
-        item as AzureAITraceDataSourceEvalRunDataSource,
-      );
+      return traceSourceEvalRunDataSourceSerializer(item as TraceSourceEvalRunDataSource);
 
     case "azure_ai_trace_data_source_preview":
-      return azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
-        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      return traceSourcePreviewEvalRunDataSourceSerializer(
+        item as TraceSourcePreviewEvalRunDataSource,
       );
 
     case "azure_ai_user_conversation_simulation":
@@ -39472,7 +39383,7 @@ export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): 
       );
 
     case "csv":
-      return evalCsvRunDataSourceSerializer(item as EvalCsvRunDataSource);
+      return csvEvalRunDataSourceSerializer(item as CsvEvalRunDataSource);
 
     case "azure_ai_target_completions":
       return targetCompletionEvalRunDataSourceSerializer(item as TargetCompletionEvalRunDataSource);
@@ -39491,13 +39402,11 @@ export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSource
       return tracesPreviewEvalRunDataSourceDeserializer(item as TracesPreviewEvalRunDataSource);
 
     case "azure_ai_trace_data_source":
-      return azureAITraceDataSourceEvalRunDataSourceDeserializer(
-        item as AzureAITraceDataSourceEvalRunDataSource,
-      );
+      return traceSourceEvalRunDataSourceDeserializer(item as TraceSourceEvalRunDataSource);
 
     case "azure_ai_trace_data_source_preview":
-      return azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
-        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      return traceSourcePreviewEvalRunDataSourceDeserializer(
+        item as TraceSourcePreviewEvalRunDataSource,
       );
 
     case "azure_ai_user_conversation_simulation":
@@ -39511,7 +39420,7 @@ export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSource
       );
 
     case "csv":
-      return evalCsvRunDataSourceDeserializer(item as EvalCsvRunDataSource);
+      return csvEvalRunDataSourceDeserializer(item as CsvEvalRunDataSource);
 
     case "azure_ai_target_completions":
       return targetCompletionEvalRunDataSourceDeserializer(
@@ -41280,3 +41189,86 @@ export type InputItemType =
   | "custom_tool_call_output"
   | "custom_tool_call"
   | "item_reference";
+
+/**
+ * A data source that selects traces for evaluation.
+ *
+ * See [create an evaluation dataset from traces](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-to-dataset?tabs=python).
+ */
+export interface TraceSourceEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_trace_data_source`. */
+  type: "azure_ai_trace_data_source";
+  /** The trace source that defines how traces are selected for evaluation. */
+  trace_source?: TraceSourceUnion;
+}
+
+export function traceSourceEvalRunDataSourceSerializer(item: TraceSourceEvalRunDataSource): any {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionSerializer(item["trace_source"]),
+  };
+}
+
+export function traceSourceEvalRunDataSourceDeserializer(item: any): TraceSourceEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionDeserializer(item["trace_source"]),
+  };
+}
+
+/** Preview form of `azure_ai_trace_data_source`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
+export interface TraceSourcePreviewEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_trace_data_source_preview`. */
+  type: "azure_ai_trace_data_source_preview";
+  /** The trace source that defines how traces are selected for evaluation. */
+  trace_source?: TraceSourceUnion;
+}
+
+export function traceSourcePreviewEvalRunDataSourceSerializer(
+  item: TraceSourcePreviewEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionSerializer(item["trace_source"]),
+  };
+}
+
+export function traceSourcePreviewEvalRunDataSourceDeserializer(
+  item: any,
+): TraceSourcePreviewEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionDeserializer(item["trace_source"]),
+  };
+}
+
+/**
+ * A CSV data source for evaluation runs.
+ *
+ * See [evaluation datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluation-datasets).
+ */
+export interface CsvEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `csv`. */
+  type: "csv";
+  /** The source of the CSV data, either inline content or a file reference. */
+  source: EvalCsvFileIdSource;
+}
+
+export function csvEvalRunDataSourceSerializer(item: CsvEvalRunDataSource): any {
+  return { type: item["type"], source: evalCsvFileIdSourceSerializer(item["source"]) };
+}
+
+export function csvEvalRunDataSourceDeserializer(item: any): CsvEvalRunDataSource {
+  return {
+    type: item["type"],
+    source: evalCsvFileIdSourceDeserializer(item["source"]),
+  };
+}

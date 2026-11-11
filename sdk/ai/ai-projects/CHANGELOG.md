@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Rename `AzureAITraceDataSourceEvalRunDataSource` to `TraceSourceEvalRunDataSource`, `AzureAITraceDataSourcePreviewEvalRunDataSource` to `TraceSourcePreviewEvalRunDataSource`, and `EvalCsvRunDataSource` to `CsvEvalRunDataSource`. Preserve their wire discriminators and update the evaluation source unions. [#40762](https://github.com/Azure/azure-sdk-for-js/issues/40762)
 - Replace `AgentOptimizationJobStatus` with shared `JobStatus` for optimization job resources and list filters, removing the optimization-specific `"skipped"` status from the typed contract. [#40756](https://github.com/Azure/azure-sdk-for-js/issues/40756)
 - Move Skills operations from `project.skills` back to `project.beta.skills`, replacing `SkillsOperations`, `Skills*OptionalParams`, and `SkillsDownloadResponse` with their corresponding `BetaSkills*` types. Keep the existing version-operation option aliases. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Move `project.beta.agents.createFromPrompt` to `project.agents.createFromPrompt`, and move Realtime conversation and non-campaign telephony operations to `project.voiceAgents.conversations` and `project.voiceAgents.telephony`. Replace their `Beta*OptionalParams` and conversation-download response types with the corresponding non-beta types, and remove the empty `BetaAgentsOperations` and `BetaVoiceAgentsConversationsOperations` groups. Keep campaigns and GPT Live under `project.beta.voiceAgents`. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
@@ -37,6 +38,7 @@
 
 ### Bugs Fixed
 
+- Restore `"skipped"` in shared `JobStatus` for optimization job resources and list filters. [#40762](https://github.com/Azure/azure-sdk-for-js/issues/40762)
 - Restore `PromptOptimizationConfiguration.context` to `OptimizationContextUnion[]`, preserving steering prompts, skill references, and agent traces during serialization and deserialization. [#40749](https://github.com/Azure/azure-sdk-for-js/issues/40749)
 - Restore the `/skills` preview routes, query API versioning, and `Skills=V1Preview` headers for Skills requests and continuation pages. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Normalize Realtime session handoff state so node descriptions use the public `display_description` property in `session.created` and `session.updated` events. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
@@ -56,6 +58,7 @@
 - Deprecate the beta Realtime compatibility alias in favor of `project.voiceAgents.realtime`, and deprecate `project.beta.voiceAgents.telephony.deleteTelephony` in favor of `deleteCampaign`. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
 - Rename the session and session-file sample and notebook to `agentSessions`, matching their `project.agents` usage without changing hosted deployment behavior. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
 - Keep published TypeScript and JavaScript Voice samples compatible with the released 2.10.0 SDK; retain examples requiring unreleased APIs in `samples-dev` until the corresponding release. [#40727](https://github.com/Azure/azure-sdk-for-js/pull/40727)
+- Regenerate the client from azure-rest-api-specs commit `56dfbc9e3cf89ab5fa013932d63410b8fa982098`, preserving customized client behavior and evaluation data-source serialization. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/56dfbc9e3cf89ab5fa013932d63410b8fa982098). [#40762](https://github.com/Azure/azure-sdk-for-js/issues/40762)
 - Regenerate the client from azure-rest-api-specs commit `491a64aebe41b99281425b515b1288d5e29290e8`, preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/491a64aebe41b99281425b515b1288d5e29290e8). [#40756](https://github.com/Azure/azure-sdk-for-js/issues/40756)
 - Regenerate the client from azure-rest-api-specs commit `134c3c4624ca04410c740d1230a82cba31595be9`, preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/134c3c4624ca04410c740d1230a82cba31595be9). [#40749](https://github.com/Azure/azure-sdk-for-js/issues/40749)
 - Regenerate the client from azure-rest-api-specs commit `a75562c31c8c17a88e532a127b130f052930a54a`, reconciling the Skills preview reversion and campaign relocation while preserving authentication, tracing, paging, and guarded campaign poller results. Preserve historical tool-alias barrel exports in the customization resolver. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a75562c31c8c17a88e532a127b130f052930a54a). [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
