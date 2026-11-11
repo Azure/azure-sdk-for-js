@@ -1370,7 +1370,6 @@ export type {
   TraceEvaluationRuleAction,
   TraceEvaluationSource,
   TracesEvalRunDataSource,
-  AzureAITraceDataSourceEvalRunDataSource,
   TraceSource,
   TraceSourceUnion,
   TraceSourceType,
@@ -1379,10 +1378,8 @@ export type {
   AgentFilterTraceSource,
   FilterStrategyType,
   TracesPreviewEvalRunDataSource,
-  AzureAITraceDataSourcePreviewEvalRunDataSource,
   DatasetEvaluationRuleAction,
   DatasetEvaluationSource,
-  EvalCsvRunDataSource,
   EvalCsvFileIdSource,
   TargetCompletionEvalRunDataSource,
   ItemGenerationParams,
@@ -1472,6 +1469,9 @@ export type {
   CreateChatCompletionRequestResponseFormatUnion,
   CreateChatCompletionRequestResponseFormatType,
   InputItemType,
+  TraceSourceEvalRunDataSource,
+  TraceSourcePreviewEvalRunDataSource,
+  CsvEvalRunDataSource,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";

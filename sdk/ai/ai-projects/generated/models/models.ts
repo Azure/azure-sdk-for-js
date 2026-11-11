@@ -7463,8 +7463,9 @@ export function agentOptimizationCandidatePromotionInfoDeserializer(
   };
 }
 
-/** model interface AgentReference */
+/** Identifies an agent by name and, optionally, a specific version. */
 export interface AgentReference {
+  /** Identifies this object as an agent reference. */
   type: "agent_reference";
   /** The name of the agent. */
   name: string;
@@ -7557,7 +7558,7 @@ export type AgentOptimizationTerminationReason =
   "completed" | "budget_exhausted" | "candidate_screening_stalled";
 
 /** Extensible status values shared by Foundry jobs. */
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled" | "skipped";
 
 /** Base target configuration for an optimization job. */
 export interface AgentOptimizationTargetConfiguration {
@@ -9804,6 +9805,7 @@ export function agentOptimizationCandidateOutputUnionDeserializer(
 
 /** Candidate output produced by an agent-optimization job. */
 export interface AgentOptimizationAgentCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by agent optimization. */
   type: "agent_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -9874,6 +9876,7 @@ export function agentOptimizationMutationUnionDeserializer(
 
 /** Instructions mutation. */
 export interface AgentOptimizationInstructionsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's instructions. */
   type: "instructions";
   /** Optimized agent instructions. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -9890,6 +9893,7 @@ export function agentOptimizationInstructionsMutationDeserializer(
 
 /** Model mutation. */
 export interface AgentOptimizationModelMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's model selection. */
   type: "model";
   /** Selected model name or deployment name. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -9906,6 +9910,7 @@ export function agentOptimizationModelMutationDeserializer(
 
 /** Skill mutations. */
 export interface AgentOptimizationSkillsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's skills. */
   type: "skills";
   /** Added or changed skills. Omitted on LIST unless `expand=mutations` is specified. */
   value?: AgentOptimizationSkill[];
@@ -9922,6 +9927,7 @@ export function agentOptimizationSkillsMutationDeserializer(
 
 /** Tool mutations. */
 export interface AgentOptimizationToolsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's function tools. */
   type: "tools";
   /** Added or changed function tools. Omitted on LIST unless `expand=mutations` is specified. */
   value?: ChatCompletionTool[];
@@ -9938,6 +9944,7 @@ export function agentOptimizationToolsMutationDeserializer(
 
 /** Candidate output produced by a prompt-optimization job. */
 export interface AgentOptimizationPromptCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by prompt optimization. */
   type: "prompt_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -10686,9 +10693,9 @@ export function traceEvaluationRuleActionDeserializer(item: any): TraceEvaluatio
 /** Existing trace-evaluation inputs supported by scheduled rules. */
 export type TraceEvaluationSource =
   | TracesEvalRunDataSource
-  | AzureAITraceDataSourceEvalRunDataSource
+  | TraceSourceEvalRunDataSource
   | TracesPreviewEvalRunDataSource
-  | AzureAITraceDataSourcePreviewEvalRunDataSource;
+  | TraceSourcePreviewEvalRunDataSource;
 
 export function traceEvaluationSourceSerializer(item: TraceEvaluationSource): any {
   return item;
@@ -10776,16 +10783,14 @@ export function tracesEvalRunDataSourceDeserializer(item: any): TracesEvalRunDat
  *
  * See [create an evaluation dataset from traces](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-to-dataset?tabs=python).
  */
-export interface AzureAITraceDataSourceEvalRunDataSource extends EvalRunDataSource {
+export interface TraceSourceEvalRunDataSource extends EvalRunDataSource {
   /** The type of data source, always `azure_ai_trace_data_source`. */
   type: "azure_ai_trace_data_source";
   /** The trace source that defines how traces are selected for evaluation. */
   trace_source?: TraceSourceUnion;
 }
 
-export function azureAITraceDataSourceEvalRunDataSourceSerializer(
-  item: AzureAITraceDataSourceEvalRunDataSource,
-): any {
+export function traceSourceEvalRunDataSourceSerializer(item: TraceSourceEvalRunDataSource): any {
   return {
     type: item["type"],
     trace_source: !item["trace_source"]
@@ -10794,9 +10799,7 @@ export function azureAITraceDataSourceEvalRunDataSourceSerializer(
   };
 }
 
-export function azureAITraceDataSourceEvalRunDataSourceDeserializer(
-  item: any,
-): AzureAITraceDataSourceEvalRunDataSource {
+export function traceSourceEvalRunDataSourceDeserializer(item: any): TraceSourceEvalRunDataSource {
   return {
     type: item["type"],
     trace_source: !item["trace_source"]
@@ -10805,7 +10808,7 @@ export function azureAITraceDataSourceEvalRunDataSourceDeserializer(
   };
 }
 
-/** Base class for polymorphic trace sources nested within an AzureAITraceDataSourceEvalRunDataSource. */
+/** Base class for polymorphic trace sources nested within a TraceSourceEvalRunDataSource. */
 export interface TraceSource {
   /** The discriminator that identifies which kind of trace source this is. */
   /** The discriminator possible values: trace_id_source, conversation_id_source, agent_filter */
@@ -11038,15 +11041,15 @@ export function tracesPreviewEvalRunDataSourceDeserializer(
 }
 
 /** Preview form of `azure_ai_trace_data_source`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
-export interface AzureAITraceDataSourcePreviewEvalRunDataSource extends EvalRunDataSource {
+export interface TraceSourcePreviewEvalRunDataSource extends EvalRunDataSource {
   /** The type of data source, always `azure_ai_trace_data_source_preview`. */
   type: "azure_ai_trace_data_source_preview";
   /** The trace source that defines how traces are selected for evaluation. */
   trace_source?: TraceSourceUnion;
 }
 
-export function azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
-  item: AzureAITraceDataSourcePreviewEvalRunDataSource,
+export function traceSourcePreviewEvalRunDataSourceSerializer(
+  item: TraceSourcePreviewEvalRunDataSource,
 ): any {
   return {
     type: item["type"],
@@ -11056,9 +11059,9 @@ export function azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
   };
 }
 
-export function azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
+export function traceSourcePreviewEvalRunDataSourceDeserializer(
   item: any,
-): AzureAITraceDataSourcePreviewEvalRunDataSource {
+): TraceSourcePreviewEvalRunDataSource {
   return {
     type: item["type"],
     trace_source: !item["trace_source"]
@@ -11102,7 +11105,7 @@ export function datasetEvaluationRuleActionDeserializer(item: any): DatasetEvalu
 /** Dataset inputs supported by scheduled rules. Targets are configured within the selected source. */
 export type DatasetEvaluationSource =
   | CreateEvalJsonlRunDataSource
-  | EvalCsvRunDataSource
+  | CsvEvalRunDataSource
   | CreateEvalCompletionsRunDataSource
   | TargetCompletionEvalRunDataSource
   | UserConversationSimulationEvalRunDataSource
@@ -11121,18 +11124,18 @@ export function datasetEvaluationSourceDeserializer(item: any): DatasetEvaluatio
  *
  * See [evaluation datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluation-datasets).
  */
-export interface EvalCsvRunDataSource extends EvalRunDataSource {
+export interface CsvEvalRunDataSource extends EvalRunDataSource {
   /** The type of data source, always `csv`. */
   type: "csv";
   /** The source of the CSV data, either inline content or a file reference. */
   source: EvalCsvFileIdSource;
 }
 
-export function evalCsvRunDataSourceSerializer(item: EvalCsvRunDataSource): any {
+export function csvEvalRunDataSourceSerializer(item: CsvEvalRunDataSource): any {
   return { type: item["type"], source: evalCsvFileIdSourceSerializer(item["source"]) };
 }
 
-export function evalCsvRunDataSourceDeserializer(item: any): EvalCsvRunDataSource {
+export function csvEvalRunDataSourceDeserializer(item: any): CsvEvalRunDataSource {
   return {
     type: item["type"],
     source: evalCsvFileIdSourceDeserializer(item["source"]),
@@ -12354,11 +12357,11 @@ export function evalRunDataSourceDeserializer(item: any): EvalRunDataSource {
 export type EvalRunDataSourceUnion =
   | TracesEvalRunDataSource
   | TracesPreviewEvalRunDataSource
-  | AzureAITraceDataSourceEvalRunDataSource
-  | AzureAITraceDataSourcePreviewEvalRunDataSource
+  | TraceSourceEvalRunDataSource
+  | TraceSourcePreviewEvalRunDataSource
   | UserConversationSimulationEvalRunDataSource
   | UserConversationSimulationPreviewEvalRunDataSource
-  | EvalCsvRunDataSource
+  | CsvEvalRunDataSource
   | TargetCompletionEvalRunDataSource
   | EvalRunDataSource;
 
@@ -12371,13 +12374,11 @@ export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): 
       return tracesPreviewEvalRunDataSourceSerializer(item as TracesPreviewEvalRunDataSource);
 
     case "azure_ai_trace_data_source":
-      return azureAITraceDataSourceEvalRunDataSourceSerializer(
-        item as AzureAITraceDataSourceEvalRunDataSource,
-      );
+      return traceSourceEvalRunDataSourceSerializer(item as TraceSourceEvalRunDataSource);
 
     case "azure_ai_trace_data_source_preview":
-      return azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
-        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      return traceSourcePreviewEvalRunDataSourceSerializer(
+        item as TraceSourcePreviewEvalRunDataSource,
       );
 
     case "azure_ai_user_conversation_simulation":
@@ -12391,7 +12392,7 @@ export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): 
       );
 
     case "csv":
-      return evalCsvRunDataSourceSerializer(item as EvalCsvRunDataSource);
+      return csvEvalRunDataSourceSerializer(item as CsvEvalRunDataSource);
 
     case "azure_ai_target_completions":
       return targetCompletionEvalRunDataSourceSerializer(item as TargetCompletionEvalRunDataSource);
@@ -12410,13 +12411,11 @@ export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSource
       return tracesPreviewEvalRunDataSourceDeserializer(item as TracesPreviewEvalRunDataSource);
 
     case "azure_ai_trace_data_source":
-      return azureAITraceDataSourceEvalRunDataSourceDeserializer(
-        item as AzureAITraceDataSourceEvalRunDataSource,
-      );
+      return traceSourceEvalRunDataSourceDeserializer(item as TraceSourceEvalRunDataSource);
 
     case "azure_ai_trace_data_source_preview":
-      return azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
-        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      return traceSourcePreviewEvalRunDataSourceDeserializer(
+        item as TraceSourcePreviewEvalRunDataSource,
       );
 
     case "azure_ai_user_conversation_simulation":
@@ -12430,7 +12429,7 @@ export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSource
       );
 
     case "csv":
-      return evalCsvRunDataSourceDeserializer(item as EvalCsvRunDataSource);
+      return csvEvalRunDataSourceDeserializer(item as CsvEvalRunDataSource);
 
     case "azure_ai_target_completions":
       return targetCompletionEvalRunDataSourceDeserializer(
@@ -17138,6 +17137,7 @@ export function browserAutomationPreviewToolboxToolDeserializer(
 
 /** A browser automation tool stored in a toolbox. */
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
+  /** Identifies a browser automation tool in the toolbox. */
   type: "browser_automation";
   /** The Browser Automation Tool parameters. */
   browser_automation: BrowserAutomationToolParameters;

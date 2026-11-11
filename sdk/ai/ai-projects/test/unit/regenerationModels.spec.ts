@@ -78,6 +78,8 @@ import {
   dataGenerationJobInputsUnionSerializer,
   dataGenerationJobUnionDeserializer,
   evaluatorGenerationArtifactsDeserializer,
+  evalRunDataSourceUnionDeserializer,
+  evalRunDataSourceUnionSerializer,
   errorDeserializer,
   functionToolDeserializer,
   functionToolParamDeserializer,
@@ -130,6 +132,38 @@ const timestamp = 1_789_200_000;
 const connectionName = "telephony-provider";
 
 describe("regenerated model wire contracts", () => {
+  const evaluationSources: Array<
+    | Models.TraceSourceEvalRunDataSource
+    | Models.TraceSourcePreviewEvalRunDataSource
+    | Models.CsvEvalRunDataSource
+  > = [
+    {
+      type: "azure_ai_trace_data_source",
+      trace_source: { type: "trace_id_source", trace_ids: ["trace-test"] },
+    },
+    {
+      type: "azure_ai_trace_data_source_preview",
+      trace_source: { type: "trace_id_source", trace_ids: [] },
+    },
+    { type: "azure_ai_trace_data_source" },
+    { type: "azure_ai_trace_data_source_preview" },
+    { type: "csv", source: { type: "file_id", id: "file-test" } },
+  ];
+
+  it.each(evaluationSources)(
+    "round-trips renamed evaluation data source $type through union dispatch",
+    (source) => {
+      expect(toWire(evalRunDataSourceUnionSerializer(source))).toEqual(source);
+      expect(toWire(evalRunDataSourceUnionDeserializer(source))).toEqual(source);
+    },
+  );
+
+  it("includes skipped in the shared job status contract", () => {
+    expectTypeOf<Models.JobStatus>().toEqualTypeOf<
+      "queued" | "in_progress" | "succeeded" | "failed" | "cancelled" | "skipped"
+    >();
+  });
+
   it("requires a resolved dataset version for evaluator generation artifacts", () => {
     expectTypeOf<Models.DatasetReference["version"]>().toEqualTypeOf<string>();
     expectTypeOf<

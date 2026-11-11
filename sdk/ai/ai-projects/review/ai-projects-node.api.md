@@ -1655,18 +1655,6 @@ export interface AzureAISearchToolResource {
 }
 
 // @public
-export interface AzureAITraceDataSourceEvalRunDataSource extends EvalRunDataSource {
-    trace_source?: TraceSourceUnion;
-    type: "azure_ai_trace_data_source";
-}
-
-// @public
-export interface AzureAITraceDataSourcePreviewEvalRunDataSource extends EvalRunDataSource {
-    trace_source?: TraceSourceUnion;
-    type: "azure_ai_trace_data_source_preview";
-}
-
-// @public
 export interface AzureFunctionBinding {
     storage_queue: AzureFunctionStorageQueue;
     type: "storage_queue";
@@ -2762,6 +2750,12 @@ export interface CronTrigger extends Trigger {
 }
 
 // @public
+export interface CsvEvalRunDataSource extends EvalRunDataSource {
+    source: EvalCsvFileIdSource;
+    type: "csv";
+}
+
+// @public
 export interface CustomCredential extends BaseCredentials {
     additionalProperties?: Record<string, string>;
     readonly type: "CustomKeys";
@@ -2939,7 +2933,7 @@ export interface DatasetEvaluationRuleAction extends EvaluationRuleAction {
 }
 
 // @public
-export type DatasetEvaluationSource = CreateEvalJsonlRunDataSource | EvalCsvRunDataSource | CreateEvalCompletionsRunDataSource | TargetCompletionEvalRunDataSource | UserConversationSimulationEvalRunDataSource | UserConversationSimulationPreviewEvalRunDataSource;
+export type DatasetEvaluationSource = CreateEvalJsonlRunDataSource | CsvEvalRunDataSource | CreateEvalCompletionsRunDataSource | TargetCompletionEvalRunDataSource | UserConversationSimulationEvalRunDataSource | UserConversationSimulationPreviewEvalRunDataSource;
 
 // @public
 export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
@@ -3262,12 +3256,6 @@ export interface EvalCsvFileIdSource {
 }
 
 // @public
-export interface EvalCsvRunDataSource extends EvalRunDataSource {
-    source: EvalCsvFileIdSource;
-    type: "csv";
-}
-
-// @public
 export interface EvalItem {
     // (undocumented)
     content: EvalItemContent;
@@ -3348,7 +3336,7 @@ export interface EvalRunDataSource {
 }
 
 // @public
-export type EvalRunDataSourceUnion = TracesEvalRunDataSource | TracesPreviewEvalRunDataSource | AzureAITraceDataSourceEvalRunDataSource | AzureAITraceDataSourcePreviewEvalRunDataSource | UserConversationSimulationEvalRunDataSource | UserConversationSimulationPreviewEvalRunDataSource | EvalCsvRunDataSource | TargetCompletionEvalRunDataSource | EvalRunDataSource;
+export type EvalRunDataSourceUnion = TracesEvalRunDataSource | TracesPreviewEvalRunDataSource | TraceSourceEvalRunDataSource | TraceSourcePreviewEvalRunDataSource | UserConversationSimulationEvalRunDataSource | UserConversationSimulationPreviewEvalRunDataSource | CsvEvalRunDataSource | TargetCompletionEvalRunDataSource | EvalRunDataSource;
 
 // @public
 export interface EvalRunResultCompareItem {
@@ -4500,7 +4488,7 @@ export interface JobOperationState<TResult> extends OperationState_2<TResult> {
 export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
 
 // @public
-export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled" | "skipped";
 
 // @public
 export enum KnownApiVersions {
@@ -8619,7 +8607,7 @@ export interface TraceEvaluationRuleAction extends EvaluationRuleAction {
 }
 
 // @public
-export type TraceEvaluationSource = TracesEvalRunDataSource | AzureAITraceDataSourceEvalRunDataSource | TracesPreviewEvalRunDataSource | AzureAITraceDataSourcePreviewEvalRunDataSource;
+export type TraceEvaluationSource = TracesEvalRunDataSource | TraceSourceEvalRunDataSource | TracesPreviewEvalRunDataSource | TraceSourcePreviewEvalRunDataSource;
 
 // @public
 export interface TraceIdTraceSource extends TraceSource {
@@ -8675,6 +8663,18 @@ export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJ
 // @public
 export interface TraceSource {
     type: TraceSourceType;
+}
+
+// @public
+export interface TraceSourceEvalRunDataSource extends EvalRunDataSource {
+    trace_source?: TraceSourceUnion;
+    type: "azure_ai_trace_data_source";
+}
+
+// @public
+export interface TraceSourcePreviewEvalRunDataSource extends EvalRunDataSource {
+    trace_source?: TraceSourceUnion;
+    type: "azure_ai_trace_data_source_preview";
 }
 
 // @public
