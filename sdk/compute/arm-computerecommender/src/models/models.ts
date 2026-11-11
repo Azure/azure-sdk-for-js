@@ -392,7 +392,7 @@ export function placementScoreArrayDeserializer(result: Array<PlacementScore>): 
   });
 }
 
-/** The spot placement score for sku/region/zone combination. */
+/** The placement score for a virtual machine SKU, region, and availability zone combination. */
 export interface PlacementScore {
   /** The resource's CRP virtual machine SKU size. */
   sku?: string;
@@ -400,7 +400,7 @@ export interface PlacementScore {
   region?: string;
   /** The availability zone. */
   availabilityZone?: string;
-  /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
+  /** A placement score indicating the likelihood of successfully allocating the specified virtual machines. */
   score?: PlacementScoreValue;
   /** Placement preference from 0 to 10 (inclusive). Higher is better. */
   placementPreference?: number;
@@ -491,7 +491,7 @@ export function computePlacementScoresInputSerializer(item: ComputePlacementScor
   };
 }
 
-/** ComputePlacementScores API response. */
+/** The results of scoring placement for regular virtual machines. */
 export interface ComputePlacementScoresResponse {
   /** The desired regions */
   desiredLocations?: string[];
@@ -501,7 +501,7 @@ export interface ComputePlacementScoresResponse {
   desiredCount?: number;
   /** Defines if the scope is zonal or regional. */
   availabilityZones?: boolean;
-  /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
+  /** Placement scores indicating the likelihood of successfully allocating the specified regular virtual machines. */
   placementScores?: PlacementScore[];
 }
 
