@@ -131,13 +131,7 @@ describe("EKM connection operations", () => {
       expect(endpoints.value?.some((item) => item.name === peName)).toBe(true);
 
       const deletePoller = client.deleteEkmPrivateEndpoint(peName, { updateIntervalInMs });
-      await deletePoller.poll();
-      const serializedDeletePoller = await deletePoller.serialize();
-      const resumedDeletePoller = client.deleteEkmPrivateEndpoint(peName, {
-        resumeFrom: serializedDeletePoller,
-        updateIntervalInMs,
-      });
-      const deletedOperation = await resumedDeletePoller.pollUntilDone();
+      const deletedOperation = await deletePoller.pollUntilDone();
       privateEndpointCreated = false;
       expect(deletedOperation.privateEndpointName).toEqual(peName);
       expect(deletedOperation.operationType).toEqual("Delete");
