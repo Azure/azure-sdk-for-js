@@ -1,87 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
+import { context } from "@opentelemetry/api";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
 import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-logs";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor.js";
-import { assert, describe, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-// TODO: this is failing on main, but the startActiveSpan call is not awaited
-// so mocha is not reporting it as a failure. Vitest handles unhandled rejections better and reports it as a failure.
-describe.todo("AzureBatchLogRecordProcessor", () => {
-  describe("#trace based sampling", () => {
-    it("sampled out", async () => {
-      const memoryLogExporter = new InMemoryLogRecordExporter();
-      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
-        enableTraceBasedSamplingForLogs: true,
-      });
-      const loggerProvider = new LoggerProvider({
-        processors: [processor],
-      });
-      const sampler = new ApplicationInsightsSampler(0);
-      const tracerProvider = new NodeTracerProvider({ sampler: sampler });
-      await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: {},
-          body: "testRecord",
-        };
-        loggerProvider.getLogger("testLoggere").emit(logRecord);
-        await loggerProvider.forceFlush();
-        const logRecords = memoryLogExporter.getFinishedLogRecords();
-        assert.strictEqual(logRecords.length, 0);
-        span.end();
-      });
-    });
+describe("AzureBatchLogRecordProcessor", () => {
+  beforeEach(() => {
+    context.disable();
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+  });
 
-    it("sampled in", async () => {
-      const memoryLogExporter = new InMemoryLogRecordExporter();
-      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
-        enableTraceBasedSamplingForLogs: true,
-      });
-      const loggerProvider = new LoggerProvider({
-        processors: [processor],
-      });
-      const sampler = new ApplicationInsightsSampler(1);
-      const tracerProvider = new NodeTracerProvider({ sampler: sampler });
-      await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: {},
-          body: "testRecord",
-        };
-        loggerProvider.getLogger("testLoggere").emit(logRecord);
-        await loggerProvider.forceFlush();
-        const logRecords = memoryLogExporter.getFinishedLogRecords();
-        assert.strictEqual(logRecords.length, 1);
-        span.end();
-      });
-    });
+  afterEach(() => {
+    context.disable();
+    vi.unstubAllEnvs();
+  });
 
-    it("enableTraceBasedSamplingForLogs=false", async () => {
-      const memoryLogExporter = new InMemoryLogRecordExporter();
-      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
-        enableTraceBasedSamplingForLogs: false,
-      });
+  it.each([
+    { samplingRatio: 0, enableTraceBasedSamplingForLogs: true, expected: 0 },
+    { samplingRatio: 1, enableTraceBasedSamplingForLogs: true, expected: 1 },
+    { samplingRatio: 0, enableTraceBasedSamplingForLogs: false, expected: 1 },
+  ])(
+    "exports $expected correlated logs with sampling ratio $samplingRatio and log sampling $enableTraceBasedSamplingForLogs",
+    async ({ samplingRatio, enableTraceBasedSamplingForLogs, expected }) => {
+      const exporter = new InMemoryLogRecordExporter();
       const loggerProvider = new LoggerProvider({
-        processors: [processor],
+        processors: [
+          new AzureBatchLogRecordProcessor(exporter, { enableTraceBasedSamplingForLogs }),
+        ],
       });
-      const sampler = new ApplicationInsightsSampler(1);
-      const tracerProvider = new NodeTracerProvider({ sampler: sampler });
-      await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: {},
-          body: "testRecord",
-        };
-        loggerProvider.getLogger("testLoggere").emit(logRecord);
+      const tracerProvider = new TracerProvider({
+        sampler: new ApplicationInsightsSampler(samplingRatio),
+      });
+      try {
+        await tracerProvider.getTracer("test").startActiveSpan("test", async (span) => {
+          await Promise.resolve();
+          loggerProvider.getLogger("test").emit({ body: "correlated log" });
+          await loggerProvider.forceFlush();
+          const records = exporter.getFinishedLogRecords();
+          expect(records).toHaveLength(expected);
+          if (expected > 0) {
+            expect(records[0].spanContext).toEqual(span.spanContext());
+          }
+          span.end();
+        });
+        exporter.reset();
+        loggerProvider.getLogger("test").emit({ body: "uncorrelated log" });
         await loggerProvider.forceFlush();
-        const logRecords = memoryLogExporter.getFinishedLogRecords();
-        assert.strictEqual(logRecords.length, 0);
-        span.end();
-      });
+        expect(exporter.getFinishedLogRecords()).toHaveLength(1);
+      } finally {
+        await Promise.all([loggerProvider.shutdown(), tracerProvider.shutdown()]);
+      }
+    },
+  );
+
+  it("uses OpenTelemetry batch log environment variables", async () => {
+    vi.stubEnv("OTEL_BLRP_MAX_QUEUE_SIZE", "4096");
+    vi.stubEnv("OTEL_BLRP_MAX_EXPORT_BATCH_SIZE", "1024");
+    vi.stubEnv("OTEL_BLRP_SCHEDULE_DELAY", "2500");
+    vi.stubEnv("OTEL_BLRP_EXPORT_TIMEOUT", "15000");
+    const processor = new AzureBatchLogRecordProcessor(new InMemoryLogRecordExporter(), {
+      enableTraceBasedSamplingForLogs: true,
     });
+    try {
+      expect(processor).toMatchObject({
+        _maxQueueSize: 4096,
+        _maxExportBatchSize: 1024,
+        _scheduledDelayMillis: 2500,
+        _exportTimeoutMillis: 15000,
+      });
+    } finally {
+      await processor.shutdown();
+    }
   });
 });

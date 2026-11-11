@@ -24,6 +24,15 @@ export function loadAzureFunctionCore(): ReturnType<typeof require> {
   }
 }
 
+/** Load the writable CommonJS instrumentation exports used by registration hooks. */
+export function loadOpenTelemetryInstrumentation(): typeof import("@opentelemetry/instrumentation") {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore ESM only output
+  return createRequire(import.meta.url)(
+    "@opentelemetry/instrumentation",
+  ) as typeof import("@opentelemetry/instrumentation");
+}
+
 /**
  * A polyfill for __dirname in ESM.
  *

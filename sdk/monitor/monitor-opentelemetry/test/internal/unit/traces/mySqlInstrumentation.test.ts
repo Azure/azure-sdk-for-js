@@ -3,8 +3,12 @@
 
 import { EventEmitter } from "node:events";
 import { context, trace } from "@opentelemetry/api";
-import { InMemorySpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
+import {
+  InMemorySpanExporter,
+  SimpleSpanProcessor,
+  TracerProvider,
+} from "@opentelemetry/sdk-trace";
 import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
@@ -54,7 +58,7 @@ class TestPool extends EventEmitter {
 describe("upstream MySQL instrumentation lifecycle", () => {
   let instrumentation: MySQLInstrumentation;
   let exporter: InMemorySpanExporter;
-  let provider: NodeTracerProvider;
+  let provider: TracerProvider;
   const mysql = {
     createConnection: (): TestConnection => new TestConnection(),
     createPool: (): TestPool => new TestPool(),
@@ -65,8 +69,9 @@ describe("upstream MySQL instrumentation lifecycle", () => {
     trace.disable();
     context.disable();
     exporter = new InMemorySpanExporter();
-    provider = new NodeTracerProvider({ spanProcessors: [new SimpleSpanProcessor(exporter)] });
-    provider.register();
+    provider = new TracerProvider({ spanProcessors: [new SimpleSpanProcessor({ exporter })] });
+    trace.setGlobalTracerProvider(provider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
     instrumentation = new MySQLInstrumentation();
     instrumentation.setTracerProvider(provider);
     instrumentation.getModuleDefinitions()[0].patch?.(mysql);

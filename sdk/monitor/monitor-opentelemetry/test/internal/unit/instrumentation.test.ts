@@ -6,6 +6,10 @@ import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-h
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { configureInstrumentation } from "../../../src/utils/instrumentation.js";
+import { patchOpenTelemetryInstrumentationEnable } from "../../../src/utils/opentelemetryInstrumentationPatcher.js";
+import { loadOpenTelemetryInstrumentation } from "../../../src/shared/module.js";
+import { Logger } from "../../../src/shared/logging/index.js";
+import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentation } from "../../../src/types.js";
 
 describe("configureInstrumentation", () => {
   const cache = new Map<string, Instrumentation>();
@@ -13,6 +17,62 @@ describe("configureInstrumentation", () => {
   afterEach(() => {
     for (const instrumentation of cache.values()) instrumentation.disable();
     cache.clear();
+  });
+
+  describe("instrumentation Statsbeat registration", () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+      vi.restoreAllMocks();
+    });
+
+    it("tracks SDK 3.x registrations without wrapping repeatedly or losing feature bits", () => {
+      const instrumentation = {
+        instrumentationName: "@opentelemetry/instrumentation-fs",
+        instrumentationVersion: "1.0.0",
+        enable: vi.fn(),
+        disable: vi.fn(),
+        getConfig: () => ({ enabled: false }),
+        setConfig: vi.fn(),
+        setTracerProvider: vi.fn(),
+        setMeterProvider: vi.fn(),
+        setLoggerProvider: vi.fn(),
+      } satisfies Instrumentation;
+      vi.stubEnv(
+        AZURE_MONITOR_STATSBEAT_FEATURES,
+        JSON.stringify({
+          instrumentation: StatsbeatInstrumentation.AMQPLIB,
+          feature: 8,
+        }),
+      );
+      patchOpenTelemetryInstrumentationEnable();
+      const module = loadOpenTelemetryInstrumentation();
+      const register = module.registerInstrumentations;
+      patchOpenTelemetryInstrumentationEnable();
+      expect(module.registerInstrumentations).toBe(register);
+      const disable = register({ instrumentations: [[instrumentation]] });
+      expect(instrumentation.enable).toHaveBeenCalledOnce();
+      expect(instrumentation.setTracerProvider).toHaveBeenCalledOnce();
+      expect(JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]!)).toEqual({
+        instrumentation: StatsbeatInstrumentation.AMQPLIB + StatsbeatInstrumentation.FS,
+        feature: 8,
+      });
+      disable();
+      expect(instrumentation.disable).toHaveBeenCalledOnce();
+    });
+
+    it("warns about malformed Statsbeat state without blocking registration", () => {
+      vi.stubEnv(AZURE_MONITOR_STATSBEAT_FEATURES, "invalid JSON");
+      const warn = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
+      patchOpenTelemetryInstrumentationEnable();
+      const disable = loadOpenTelemetryInstrumentation().registerInstrumentations({
+        instrumentations: [],
+      });
+      expect(warn).toHaveBeenCalledWith(
+        "Failed to parse the statsbeat environment variable",
+        expect.any(SyntaxError),
+      );
+      expect(() => disable()).not.toThrow();
+    });
   });
 
   it("defers activation until providers are registered without mutating caller options", () => {

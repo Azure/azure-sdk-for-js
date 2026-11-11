@@ -5,25 +5,33 @@ import { createRequire } from "node:module";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { AzureSdkInstrumentation } from "../../../src/traces/azureSdkInstrumentation.js";
 import type * as CoreTracing from "@azure/core-tracing";
-import { context, trace, TraceFlags } from "@opentelemetry/api";
-import { InMemorySpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { context, propagation, trace, TraceFlags } from "@opentelemetry/api";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
+import { W3CTraceContextPropagator } from "@opentelemetry/core";
+import {
+  InMemorySpanExporter,
+  SimpleSpanProcessor,
+  TracerProvider,
+} from "@opentelemetry/sdk-trace";
 import { ensureAzureSdkTracingBridge } from "../../../src/utils/azureSdkTracingBridge.js";
 
 const esmRequire = createRequire(import.meta.url);
 
 describe("ensureAzureSdkTracingBridge", () => {
   let instrumentation: AzureSdkInstrumentation;
-  let provider: NodeTracerProvider;
+  let provider: TracerProvider;
   let exporter: InMemorySpanExporter;
   beforeEach(() => {
     trace.disable();
     context.disable();
     exporter = new InMemorySpanExporter();
-    provider = new NodeTracerProvider({
-      spanProcessors: [new SimpleSpanProcessor(exporter)],
+    provider = new TracerProvider({
+      spanProcessors: [new SimpleSpanProcessor({ exporter })],
     });
-    provider.register();
+    trace.setGlobalTracerProvider(provider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+    propagation.disable();
+    propagation.setGlobalPropagator(new W3CTraceContextPropagator());
     instrumentation = new AzureSdkInstrumentation();
   });
 
@@ -32,6 +40,7 @@ describe("ensureAzureSdkTracingBridge", () => {
     await provider.shutdown();
     trace.disable();
     context.disable();
+    propagation.disable();
     vi.restoreAllMocks();
   });
 

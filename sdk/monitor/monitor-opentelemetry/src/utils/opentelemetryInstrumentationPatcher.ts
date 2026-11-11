@@ -1,50 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { StatsbeatEnvironmentConfig } from "../types.js";
 import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types.js";
 import { Logger } from "../shared/logging/index.js";
 import { addNumberFlag } from "./common.js";
+import { loadOpenTelemetryInstrumentation } from "../shared/module.js";
+
+let patched = false;
 
 /**
  * Patch OpenTelemetry Instrumentation enablement to update the statsbeat environment variable with the enabled instrumentations
  * @internal
  */
 export function patchOpenTelemetryInstrumentationEnable(): void {
-  const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
+  if (patched) {
+    return;
+  }
   try {
-    require.resolve("@opentelemetry/instrumentation");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const autoLoaderUtils = require("@opentelemetry/instrumentation/build/src/autoLoaderUtils");
+    const instrumentationModule = loadOpenTelemetryInstrumentation();
+    const originalRegisterInstrumentations = instrumentationModule.registerInstrumentations;
 
-    const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
-
-    // Parses the enabled instrumentations and then ammends the statsbeat instrumentation environment variable
-    autoLoaderUtils.enableInstrumentations = function (instrumentations: Instrumentation[]) {
+    // SDK 3.x no longer exports the private autoLoaderUtils subpath.
+    instrumentationModule.registerInstrumentations = (options) => {
       try {
         const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
-          process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig,
+          process.env[AZURE_MONITOR_STATSBEAT_FEATURES] ||
+            JSON.stringify({ instrumentation: 0, feature: 0 }),
         );
-        let updatedStatsbeat = {};
-        for (let i = 0; i < instrumentations.length; i++) {
+        for (const instrumentation of options.instrumentations?.flat() ?? []) {
           statsbeatOptions.instrumentation = addNumberFlag(
             statsbeatOptions.instrumentation,
-            StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0,
+            StatsbeatInstrumentationMap.get(instrumentation.instrumentationName) || 0,
           );
-          updatedStatsbeat = {
-            instrumentation: statsbeatOptions.instrumentation,
-            feature: statsbeatOptions.feature,
-          };
         }
-        process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify(updatedStatsbeat);
+        process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify(statsbeatOptions);
       } catch (e) {
-        Logger.getInstance().warn("Failed to parse the statsbeat environment variable");
+        Logger.getInstance().warn("Failed to parse the statsbeat environment variable", e);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, prefer-rest-params
-      return originalModuleDefinition.apply(this, arguments);
+      return originalRegisterInstrumentations(options);
     };
+    patched = true;
   } catch (e) {
-    // Fail silently if the module is not found
+    Logger.getInstance().warn("Failed to register the instrumentation Statsbeat hook", e);
   }
 }

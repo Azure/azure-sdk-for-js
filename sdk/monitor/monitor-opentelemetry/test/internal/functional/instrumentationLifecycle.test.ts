@@ -11,12 +11,24 @@ import type * as Winston from "winston";
 import { createTracingClient, useInstrumenter } from "@azure/core-tracing";
 import type * as CoreTracing from "@azure/core-tracing";
 import { createOpenTelemetryInstrumenter } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import { metrics, trace } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import {
+  context,
+  logs,
+  metrics,
+  propagation,
+  SeverityNumber,
+  SpanKind,
+  trace,
+} from "@opentelemetry/api";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { ExportResultCode } from "@opentelemetry/core";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import {
+  AggregationTemporality,
+  InMemoryMetricExporter,
+  PeriodicExportingMetricReader,
+} from "@opentelemetry/sdk-metrics";
 import {
   AzureMonitorLogExporter,
   AzureMonitorMetricExporter,
@@ -85,6 +97,81 @@ describe("instrumentation lifecycle", () => {
     metrics.disable();
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
+  });
+
+  it("preserves async correlation, propagation, custom processors, and metric readers with SDK 3.x", async () => {
+    const spanExport = vi.spyOn(AzureMonitorTraceExporter.prototype, "export");
+    const logExport = vi.spyOn(AzureMonitorLogExporter.prototype, "export");
+    const metricExporter = new InMemoryMetricExporter(AggregationTemporality.CUMULATIVE);
+    const reader = new PeriodicExportingMetricReader({
+      exporter: metricExporter,
+      exportIntervalMillis: 60000,
+    });
+    useAzureMonitor({
+      ...options,
+      resource: resourceFromAttributes({ "service.name": "sdk-3-compatibility" }),
+      spanProcessors: [
+        {
+          onStart: (span) => span.setAttribute("custom.span", true),
+          onEnd: () => {},
+          forceFlush: async () => {},
+          shutdown: async () => {},
+        },
+      ],
+      logRecordProcessors: [
+        {
+          onEmit: (record) => record.setAttribute("custom.log", true),
+          forceFlush: async () => {},
+          shutdown: async () => {},
+        },
+      ],
+      metricReaders: [reader],
+    });
+
+    const tracer = trace.getTracer("sdk-3-compatibility");
+    const parentContext = await tracer.startActiveSpan(
+      "parent",
+      { kind: SpanKind.SERVER },
+      async (parent) => {
+        await Promise.resolve();
+        logs.getLogger("sdk-3-compatibility").emit({
+          body: "correlated log",
+          severityNumber: SeverityNumber.INFO,
+        });
+        tracer.startSpan("child", { kind: SpanKind.CLIENT }).end();
+        const headers: Record<string, string> = {};
+        const baggageContext = propagation.setBaggage(
+          context.active(),
+          propagation.createBaggage({ tenant: { value: "test" } }),
+        );
+        propagation.inject(baggageContext, headers);
+        expect(headers.traceparent).toBe(
+          `00-${parent.spanContext().traceId}-${parent.spanContext().spanId}-01`,
+        );
+        expect(headers.baggage).toBe("tenant=test");
+        parent.end();
+        return parent.spanContext();
+      },
+    );
+    metrics.getMeter("sdk-3-compatibility").createCounter("custom.counter").add(7);
+    await reader.forceFlush();
+    const resourceMetrics = metricExporter.getMetrics();
+    expect(resourceMetrics).toHaveLength(1);
+    expect(resourceMetrics[0].resource.attributes["service.name"]).toBe("sdk-3-compatibility");
+    expect(resourceMetrics[0].scopeMetrics[0].metrics[0].dataPoints[0].value).toBe(7);
+
+    await shutdownAzureMonitor();
+    const spans = spanExport.mock.calls.flatMap(([batch]) => batch);
+    expect(spans.map((span) => span.name).sort()).toEqual(["child", "parent"]);
+    const child = spans.find((span) => span.name === "child")!;
+    expect(child.parentSpanContext).toEqual(parentContext);
+    expect(child.attributes["custom.span"]).toBe(true);
+    expect(child.resource.attributes["service.name"]).toBe("sdk-3-compatibility");
+    const records = logExport.mock.calls.flatMap(([batch]) => batch);
+    expect(records).toHaveLength(1);
+    expect(records[0].spanContext).toEqual(parentContext);
+    expect(records[0].attributes["custom.log"]).toBe(true);
+    expect(records[0].resource.attributes["service.name"]).toBe("sdk-3-compatibility");
   });
 
   it.each([true, false])(

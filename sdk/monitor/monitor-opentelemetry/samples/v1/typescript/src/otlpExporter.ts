@@ -7,7 +7,7 @@
 
 import { useAzureMonitor, shutdownAzureMonitor } from "@azure/monitor-opentelemetry";
 import { trace } from "@opentelemetry/api";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import "dotenv/config";
 
@@ -21,7 +21,7 @@ async function main(): Promise<void> {
       connectionString:
         process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>",
     },
-    spanProcessors: [new BatchSpanProcessor(otlpExporter)],
+    spanProcessors: [new BatchSpanProcessor({ exporter: otlpExporter })],
   };
 
   useAzureMonitor(options);
