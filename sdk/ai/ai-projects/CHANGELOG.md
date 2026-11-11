@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- Move Skills operations from `project.skills` back to `project.beta.skills`, replacing `SkillsOperations`, `Skills*OptionalParams`, and `SkillsDownloadResponse` with their corresponding `BetaSkills*` types. Keep the existing version-operation option aliases. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Move `project.beta.agents.createFromPrompt` to `project.agents.createFromPrompt`, and move Realtime conversation and non-campaign telephony operations to `project.voiceAgents.conversations` and `project.voiceAgents.telephony`. Replace their `Beta*OptionalParams` and conversation-download response types with the corresponding non-beta types, and remove the empty `BetaAgentsOperations` and `BetaVoiceAgentsConversationsOperations` groups. Keep campaigns and GPT Live under `project.beta.voiceAgents`. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Rename `VersionedDatasetReference` to `DatasetReference` for resolved evaluator-generation artifacts and require `DatasetReference.version`. Use `TelephonyCampaignDatasetReference` for `TelephonyCampaign.recipient_dataset`, retaining optional versions that resolve to latest during campaign preparation. [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Move outbound campaign operations from `project.beta.voiceAgents.campaigns` to `project.beta.voiceAgents.telephony`, renaming `deleteCampaign` to `deleteTelephony` and the `BetaVoiceAgentsCampaigns*OptionalParams` types to `BetaVoiceAgentsTelephony*OptionalParams`. Remove `BetaVoiceAgentsCampaignsOperations`. [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
@@ -32,6 +33,7 @@
 
 ### Bugs Fixed
 
+- Restore the `/skills` preview routes, query API versioning, and `Skills=V1Preview` headers for Skills requests and continuation pages. [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Normalize Realtime session handoff state so node descriptions use the public `display_description` property in `session.created` and `session.updated` events. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
 - Emit experimental Voice Agents tracing spans for `project.voiceAgents.telephony.deleteCallJob`, including failed and cancelled requests without recording call contents. [#40642](https://github.com/Azure/azure-sdk-for-js/pull/40642)
 - Allow explicit `null` turn detection in Realtime voice-agent definitions for manually controlled input, matching the documented configuration contract. [#40419](https://github.com/Azure/azure-sdk-for-js/pull/40419)
@@ -44,6 +46,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `a75562c31c8c17a88e532a127b130f052930a54a`, reconciling the Skills preview reversion and campaign relocation while preserving authentication, tracing, paging, and guarded campaign poller results. Preserve historical tool-alias barrel exports in the customization resolver. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/a75562c31c8c17a88e532a127b130f052930a54a). [#40748](https://github.com/Azure/azure-sdk-for-js/pull/40748)
 - Regenerate the client from azure-rest-api-specs commit `56d0a40aac679a336fce7fd8ba7dafbbac751374`, preserving tracing, cognitive authentication, cursor paging, and guarded campaign poller results across the voice GA split. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/56d0a40aac679a336fce7fd8ba7dafbbac751374). [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Regenerate the client from azure-rest-api-specs commit `029ccd85da3da9a7c4a654becdad37e0d43846fe`, separating resolved dataset references from telephony campaign inputs while preserving customized client behavior. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/029ccd85da3da9a7c4a654becdad37e0d43846fe). [#40698](https://github.com/Azure/azure-sdk-for-js/issues/40698)
 - Regenerate the client from azure-rest-api-specs commit `d7363f1cd9566b2a85b25b30ca5e28f893d36f2c`, moving campaign operations into telephony while preserving guarded final resource resolution, preview headers, and cursor paging. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/d7363f1cd9566b2a85b25b30ca5e28f893d36f2c). [#40692](https://github.com/Azure/azure-sdk-for-js/issues/40692)
