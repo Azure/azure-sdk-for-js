@@ -8963,9 +8963,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      rollup-plugin-copy:
-        specifier: ^3.5.0
-        version: 3.5.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -15304,9 +15301,6 @@ importers:
       chai-exclude:
         specifier: catalog:testing
         version: 3.0.1(chai@6.3.0)
-      copyfiles:
-        specifier: ^2.4.1
-        version: 2.4.1
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -39508,14 +39502,8 @@ packages:
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha1-4WqGO7iEP7qMUAQ2K1pz4XvsykU=}
 
-  '@types/fs-extra@8.1.5':
-    resolution: {integrity: sha1-M6rili07Pskhm1rKJVXuACdPWSc=}
-
   '@types/gensync@1.0.5':
     resolution: {integrity: sha1-GBnrpTfQNtz07H6MjxX7/pOOmaA=}
-
-  '@types/glob@7.2.0':
-    resolution: {integrity: sha1-vBtb86qS8lvV3TnzXFc2G9zlsus=}
 
   '@types/hast@3.0.5':
     resolution: {integrity: sha1-SAIN5MDmNJL0yp20IGjBCPaLf48=}
@@ -39558,10 +39546,6 @@ packages:
 
   '@types/mdurl@2.0.0':
     resolution: {integrity: sha1-1Dh4tbICImghY65viXsgRHIzvf0=}
-
-  '@types/minimatch@6.0.0':
-    resolution: {integrity: sha1-TSB7HMlBNnvc0ZWjp4Gn5Pw7HgM=}
-    deprecated: This is a stub types definition. minimatch provides its own type definitions, so you do not need this installed.
 
   '@types/minimist@1.2.5':
     resolution: {integrity: sha1-7BB1XocUl7zYPv6SfkPsRujAdH4=}
@@ -39979,10 +39963,6 @@ packages:
   array-timsort@1.0.3:
     resolution: {integrity: sha1-PJ5BmeVPsrnD/ll2OWohYU7w2SY=}
 
-  array-union@2.1.0:
-    resolution: {integrity: sha1-t5hCCtvrHego2ErNii4j0+/oXo0=}
-    engines: {node: '>=8'}
-
   array.prototype.findlastindex@1.2.6:
     resolution: {integrity: sha1-z6EGXIHctk40VXybgdAS9qQhxWQ=}
     engines: {node: '>= 0.4'}
@@ -40299,9 +40279,6 @@ packages:
     resolution: {integrity: sha1-95OQsbd44iL/u1QwTT2+rvYz+X8=}
     engines: {node: '>=18'}
 
-  colorette@1.4.0:
-    resolution: {integrity: sha1-UZD7uHJ2JZqGrXAL/yxtb6o/ykA=}
-
   colorette@2.0.20:
     resolution: {integrity: sha1-nreT5oMwZ/cjWQL807CZF6AAqVo=}
 
@@ -40598,10 +40575,6 @@ packages:
   diff@9.0.0:
     resolution: {integrity: sha1-KXwxzXwoDxPf4zV5HsIGO9SnOm8=}
     engines: {node: '>=0.3.1'}
-
-  dir-glob@3.0.1:
-    resolution: {integrity: sha1-Vtv3PZkqSpO6FYT0U0Bj/S5BcX8=}
-    engines: {node: '>=8'}
 
   doctrine@2.1.0:
     resolution: {integrity: sha1-XNAfwQFiG0LEzX9dGmYkNxbT850=}
@@ -41129,10 +41102,6 @@ packages:
     resolution: {integrity: sha512-KYAb4c9BJQI6QqGKthV68OHe0badztdXJWKo0WtBA9IuCFPTKvE5ZdUBglP833aMjhaSPNO4A5j/EkzZtGlKjA==}
     engines: {node: '>=14.14'}
 
-  fs-extra@8.1.0:
-    resolution: {integrity: sha1-SdQ8RaiM2Wd2aMt74bRu/bjS4cA=}
-    engines: {node: '>=6 <7 || >=8'}
-
   fs-minipass@3.0.3:
     resolution: {integrity: sha1-eahZgcTcEgBl6W9iCGv2+dwmzFQ=}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -41254,10 +41223,6 @@ packages:
   globalthis@1.0.4:
     resolution: {integrity: sha1-dDDtOpddl7+1m8zkH1yruvplEjY=}
     engines: {node: '>= 0.4'}
-
-  globby@10.0.1:
-    resolution: {integrity: sha1-R4LDTLdd1oM1EzXFgpzDQg5gayI=}
-    engines: {node: '>=8'}
 
   globby@16.2.4:
     resolution: {integrity: sha1-IQjY6VKEM2a28d+cxfbns6wkYwo=}
@@ -41590,10 +41555,6 @@ packages:
     resolution: {integrity: sha1-1lAl7ew2V84DL9fbY8l4g+rtcfA=}
     engines: {node: '>=12'}
 
-  is-plain-object@3.0.1:
-    resolution: {integrity: sha1-Zi2S0kwKpDAkB7DUXSHyJRyF+Fs=}
-    engines: {node: '>=0.10.0'}
-
   is-promise@4.0.0:
     resolution: {integrity: sha1-Qv+fhCBsGZHSbev1IN1cAQQt0vM=}
 
@@ -41772,9 +41733,6 @@ packages:
 
   jsonc-parser@3.3.1:
     resolution: {integrity: sha1-8qUktPf9EePXkeVZl3rWC5i3mLQ=}
-
-  jsonfile@4.0.0:
-    resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
 
   jsonfile@6.2.1:
     resolution: {integrity: sha1-tuMXF/Isw3MwsIHOAFHtXeU68vY=}
@@ -42636,10 +42594,6 @@ packages:
   path-to-regexp@8.4.2:
     resolution: {integrity: sha1-eVxCDE98pFxbiHNm9iLuDJhSzM0=}
 
-  path-type@4.0.0:
-    resolution: {integrity: sha1-hO0BwKe6OAr+CdkKjBgNzZ0DBDs=}
-    engines: {node: '>=8'}
-
   pathe@2.0.3:
     resolution: {integrity: sha1-PsvsVUIWhbcKnahyss/z4cvtFxY=}
 
@@ -43038,10 +42992,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  rollup-plugin-copy@3.5.0:
-    resolution: {integrity: sha1-f/oqeoMD4UOHb6ZPte7ZAi0wTus=}
-    engines: {node: '>=8.3'}
-
   rollup@4.67.4:
     resolution: {integrity: sha512-Lsv3oKcz5jgOQJej/p7nfwbVEdAbDT+z6OPf/SCdI+nF+q2ENp0pTKT35ZwXAmH8g45mfrIiJeEyAqKYSYoL9Q==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -43256,10 +43206,6 @@ packages:
 
   skin-tone@2.0.0:
     resolution: {integrity: sha1-Tjkzq0XA1PT3gXRdZLn0wgjkEjc=}
-    engines: {node: '>=8'}
-
-  slash@3.0.0:
-    resolution: {integrity: sha1-ZTm+hwwWWtvVJAIg2+Nh8bxNRjQ=}
     engines: {node: '>=8'}
 
   slash@5.1.0:
@@ -43745,10 +43691,6 @@ packages:
 
   universal-user-agent@7.0.3:
     resolution: {integrity: sha1-wFhwpYElotwAQx8t+BWnf+aXNr4=}
-
-  universalify@0.1.2:
-    resolution: {integrity: sha1-tkb2m+OULavOzJ1mOcgNwQXvqmY=}
-    engines: {node: '>= 4.0.0'}
 
   universalify@2.0.1:
     resolution: {integrity: sha1-Fo78IYCWTmOG0GHglN9hr+I5sY0=}
@@ -47226,16 +47168,7 @@ snapshots:
       '@types/jsonfile': 6.1.4
       '@types/node': 22.20.5
 
-  '@types/fs-extra@8.1.5':
-    dependencies:
-      '@types/node': 22.20.5
-
   '@types/gensync@1.0.5': {}
-
-  '@types/glob@7.2.0':
-    dependencies:
-      '@types/minimatch': 6.0.0
-      '@types/node': 22.20.5
 
   '@types/hast@3.0.5':
     dependencies:
@@ -47280,10 +47213,6 @@ snapshots:
       '@types/mdurl': 2.0.0
 
   '@types/mdurl@2.0.0': {}
-
-  '@types/minimatch@6.0.0':
-    dependencies:
-      minimatch: 11.0.4
 
   '@types/minimist@1.2.5': {}
 
@@ -47817,8 +47746,6 @@ snapshots:
 
   array-timsort@1.0.3: {}
 
-  array-union@2.1.0: {}
-
   array.prototype.findlastindex@1.2.6:
     dependencies:
       call-bind: 1.0.9
@@ -48161,8 +48088,6 @@ snapshots:
       color-convert: 3.1.3
       color-string: 2.1.4
 
-  colorette@1.4.0: {}
-
   colorette@2.0.20: {}
 
   combined-stream@1.0.8:
@@ -48477,10 +48402,6 @@ snapshots:
   diff@8.0.4: {}
 
   diff@9.0.0: {}
-
-  dir-glob@3.0.1:
-    dependencies:
-      path-type: 4.0.0
 
   doctrine@2.1.0:
     dependencies:
@@ -49165,12 +49086,6 @@ snapshots:
       jsonfile: 6.2.1
       universalify: 2.0.1
 
-  fs-extra@8.1.0:
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 4.0.0
-      universalify: 0.1.2
-
   fs-minipass@3.0.3:
     dependencies:
       minipass: 7.1.3
@@ -49304,17 +49219,6 @@ snapshots:
     dependencies:
       define-properties: 1.2.1
       gopd: 1.2.0
-
-  globby@10.0.1:
-    dependencies:
-      '@types/glob': 7.2.0
-      array-union: 2.1.0
-      dir-glob: 3.0.1
-      fast-glob: 3.3.3
-      glob: 7.2.3
-      ignore: 5.3.2
-      merge2: 1.4.1
-      slash: 3.0.0
 
   globby@16.2.4:
     dependencies:
@@ -49613,8 +49517,6 @@ snapshots:
 
   is-plain-obj@4.1.0: {}
 
-  is-plain-object@3.0.1: {}
-
   is-promise@4.0.0: {}
 
   is-regex@1.2.1:
@@ -49784,10 +49686,6 @@ snapshots:
   json5@2.2.3: {}
 
   jsonc-parser@3.3.1: {}
-
-  jsonfile@4.0.0:
-    optionalDependencies:
-      graceful-fs: 4.2.11
 
   jsonfile@6.2.1:
     dependencies:
@@ -50757,8 +50655,6 @@ snapshots:
 
   path-to-regexp@8.4.2: {}
 
-  path-type@4.0.0: {}
-
   pathe@2.0.3: {}
 
   pg-cloudflare@1.4.1:
@@ -51231,14 +51127,6 @@ snapshots:
       '@rolldown/binding-win32-arm64-msvc': 1.2.16
       '@rolldown/binding-win32-x64-msvc': 1.2.16
 
-  rollup-plugin-copy@3.5.0:
-    dependencies:
-      '@types/fs-extra': 8.1.5
-      colorette: 1.4.0
-      fs-extra: 8.1.0
-      globby: 10.0.1
-      is-plain-object: 3.0.1
-
   rollup@4.67.4:
     dependencies:
       '@types/estree': 1.0.10
@@ -51525,8 +51413,6 @@ snapshots:
   skin-tone@2.0.0:
     dependencies:
       unicode-emoji-modifier-base: 1.0.0
-
-  slash@3.0.0: {}
 
   slash@5.1.0: {}
 
@@ -51994,8 +51880,6 @@ snapshots:
   universal-github-app-jwt@2.2.2: {}
 
   universal-user-agent@7.0.3: {}
-
-  universalify@0.1.2: {}
 
   universalify@2.0.1: {}
 
