@@ -3,11 +3,20 @@
 
 import type { AIProjectContext as Client } from "../index.js";
 import type { EvaluationRule, _PagedEvaluationRule } from "../../models/models.js";
-import { evaluationRuleSerializer, evaluationRuleDeserializer, _pagedEvaluationRuleDeserializer } from "../../models/models.js";
+import {
+  evaluationRuleSerializer,
+  evaluationRuleDeserializer,
+  _pagedEvaluationRuleDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { EvaluationRulesListOptionalParams, EvaluationRulesCreateOrUpdateOptionalParams, EvaluationRulesDeleteOptionalParams, EvaluationRulesGetOptionalParams } from "./options.js";
+import type {
+  EvaluationRulesListOptionalParams,
+  EvaluationRulesCreateOrUpdateOptionalParams,
+  EvaluationRulesDeleteOptionalParams,
+  EvaluationRulesGetOptionalParams,
+} from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 

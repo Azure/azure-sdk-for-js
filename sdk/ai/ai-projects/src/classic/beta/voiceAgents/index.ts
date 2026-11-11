@@ -4,7 +4,10 @@
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { BetaVoiceAgentsCampaignsOperations } from "./campaigns/index.js";
-import type { VoiceAgentRealtimeClient, VoiceAgentRealtimeClientOptions } from "../../../realtime/voiceAgentRealtimeClient.js";
+import type {
+  VoiceAgentRealtimeClient,
+  VoiceAgentRealtimeClientOptions,
+} from "../../../realtime/voiceAgentRealtimeClient.js";
 import { createVoiceAgentRealtimeClient } from "../../../realtime/voiceAgentRealtimeClient.js";
 import type { ResolvedTracingConfig } from "../../../tracing/configuration.js";
 import type { BetaVoiceAgentsLiveConversationsOperations } from "./liveConversations/index.js";
@@ -39,6 +42,6 @@ export function _getBetaVoiceAgentsOperations(
     // constructor), so eagerly constructing it here doesn't reject callers who intentionally use an
     // insecure local endpoint for the REST surface and never touch realtime connections.
     realtime: createVoiceAgentRealtimeClient(endpoint, credential, realtimeOptions, tracingConfig),
-    live: new VoiceAgentLiveClient(endpoint, credential, liveOptions)
+    live: new VoiceAgentLiveClient(endpoint, credential, liveOptions),
   };
 }

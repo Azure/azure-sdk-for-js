@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JobStatus, AgentInsightRunTrigger, AgentInsightSeverity, AgentInsightStatus, PageOrder, AgentInsightPriorities } from "../../models/models.js";
+import type {
+  JobStatus,
+  AgentInsightRunTrigger,
+  AgentInsightSeverity,
+  AgentInsightStatus,
+  PageOrder,
+  AgentInsightPriorities,
+} from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -77,7 +84,7 @@ export interface AgentInsightMonitorsUpdateOptionalParams extends OperationOptio
   enabled?: boolean;
   /** Interval between scheduled insight runs, in hours. */
   runIntervalHours?: number;
-  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as '{connectionName}/modelDeploymentName'. */
+  /** The model deployment to use for analyzing traces. Accepts either the deployment name alone or with the connection name as `{connectionName}/modelDeploymentName`. */
   modelDeploymentName?: string;
   /** Replaces all priorities. Omit to preserve them; null clears them. */
   priorities?: AgentInsightPriorities;

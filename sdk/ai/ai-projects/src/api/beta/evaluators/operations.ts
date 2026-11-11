@@ -2,10 +2,28 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import { apiErrorResponseDeserializer, pendingUploadRequestSerializer, pendingUploadResponseDeserializer, datasetCredentialDeserializer, evaluatorCredentialRequestSerializer, _completedEvaluatorDiagnosticsPageDeserializer } from "../../../models/models.js";
-import type { PendingUploadRequest, PendingUploadResponse, DatasetCredential, EvaluatorCredentialRequest, _CompletedEvaluatorDiagnosticsPage, EvaluatorDiagnosticUnion } from "../../../models/models.js";
+import {
+  apiErrorResponseDeserializer,
+  pendingUploadRequestSerializer,
+  pendingUploadResponseDeserializer,
+  datasetCredentialDeserializer,
+  evaluatorCredentialRequestSerializer,
+  _completedEvaluatorDiagnosticsPageDeserializer,
+} from "../../../models/models.js";
+import type {
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+  EvaluatorCredentialRequest,
+  _CompletedEvaluatorDiagnosticsPage,
+  EvaluatorDiagnosticUnion,
+} from "../../../models/models.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import type { BetaEvaluatorsGetCredentialsOptionalParams, BetaEvaluatorsPendingUploadOptionalParams, BetaEvaluatorsListDiagnosticsOptionalParams } from "./options.js";
+import type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsListDiagnosticsOptionalParams,
+} from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -126,9 +144,11 @@ export async function pendingUpload(
 }
 
 export function _listDiagnosticsSend(
-  context: Client, name: string, options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+  context: Client,
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-const foundryFeatures = "Evaluations=V1Preview";
+  const foundryFeatures = "Evaluations=V1Preview";
 
   const path = expandUrlTemplate(
     "/evaluators/{name}/diagnostics{?after,api-version,before,dimension_id,end_time,evaluator_version,limit,order,start_time,type*}",
@@ -155,16 +175,14 @@ const foundryFeatures = "Evaluations=V1Preview";
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDiagnosticsDeserialize(
@@ -191,17 +209,28 @@ export async function _listDiagnosticsDeserialize(
  * Historical backfill and diagnostic calculation jobs are not included.
  */
 export function listDiagnostics(
-  context: Client, name: string, options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+  context: Client,
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorDiagnosticUnion> {
   return buildPagedAsyncIterator(
     context,
     () => _listDiagnosticsSend(context, name, options),
     _listDiagnosticsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1", cursorFieldName: "last_id", hasMoreFieldName: "has_more", nextPageRequestOptions: { ...operationOptionsToRequestParameters(options), headers: {
-        "foundry-features": "Evaluations=V1Preview",
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      } } },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: {
+          "foundry-features": "Evaluations=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
+      },
+    },
   );
 }

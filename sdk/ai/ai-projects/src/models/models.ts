@@ -6340,7 +6340,7 @@ export function evaluationRuleDeserializer(item: any): EvaluationRule {
     provisioningStatus: item["provisioningStatus"],
     error: !item["error"] ? item["error"] : item["error"],
     enabled: item["enabled"],
-    systemData: item["systemData"]
+    systemData: item["systemData"],
   };
 }
 
@@ -9958,7 +9958,7 @@ export function rubricBasedEvaluatorDefinitionDeserializer(
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     dimensions: dimensionArrayDeserializer(item["dimensions"]),
     pass_threshold: item["pass_threshold"],
-    scoring: !item["scoring"] ? item["scoring"] : rubricScoringDeserializer(item["scoring"])
+    scoring: !item["scoring"] ? item["scoring"] : rubricScoringDeserializer(item["scoring"]),
   };
 }
 
@@ -10167,7 +10167,7 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
       : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
     input_quality_warnings: !item["input_quality_warnings"]
       ? item["input_quality_warnings"]
-      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"])
+      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
   };
 }
 
@@ -10404,7 +10404,7 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
       ? item["trace_ids"]
       : item["trace_ids"].map((p: any) => {
           return p;
-        })
+        }),
   };
 }
 
@@ -10429,7 +10429,7 @@ export function tracesEvaluatorGenerationJobSourceDeserializer(
       ? item["trace_ids"]
       : item["trace_ids"].map((p: any) => {
           return p;
-        })
+        }),
   };
 }
 
@@ -10529,9 +10529,10 @@ export function agentInsightMonitorListItemDeserializer(item: any): AgentInsight
     enabled: item["enabled"],
     run_interval_hours: item["run_interval_hours"],
     model_deployment_name: item["model_deployment_name"],
-    next_scheduled_run_at: item["next_scheduled_run_at"] === undefined || item["next_scheduled_run_at"] === null
-      ? item["next_scheduled_run_at"]
-      : new Date(item["next_scheduled_run_at"] * 1000),
+    next_scheduled_run_at:
+      item["next_scheduled_run_at"] === undefined || item["next_scheduled_run_at"] === null
+        ? item["next_scheduled_run_at"]
+        : new Date(item["next_scheduled_run_at"] * 1000),
     estimated_cost: !item["estimated_cost"]
       ? item["estimated_cost"]
       : agentInsightEstimatedCostDeserializer(item["estimated_cost"]),
@@ -10637,9 +10638,10 @@ export function agentInsightMonitorDeserializer(item: any): AgentInsightMonitor 
     enabled: item["enabled"],
     run_interval_hours: item["run_interval_hours"],
     model_deployment_name: item["model_deployment_name"],
-    next_scheduled_run_at: item["next_scheduled_run_at"] === undefined || item["next_scheduled_run_at"] === null
-      ? item["next_scheduled_run_at"]
-      : new Date(item["next_scheduled_run_at"] * 1000),
+    next_scheduled_run_at:
+      item["next_scheduled_run_at"] === undefined || item["next_scheduled_run_at"] === null
+        ? item["next_scheduled_run_at"]
+        : new Date(item["next_scheduled_run_at"] * 1000),
     estimated_cost: !item["estimated_cost"]
       ? item["estimated_cost"]
       : agentInsightEstimatedCostDeserializer(item["estimated_cost"]),
@@ -10785,7 +10787,7 @@ export function agentInsightRunDeserializer(item: any): AgentInsightRun {
       item["completed_at"] === undefined || item["completed_at"] === null
         ? item["completed_at"]
         : new Date(item["completed_at"] * 1000),
-    model_deployment_name: item["model_deployment_name"]
+    model_deployment_name: item["model_deployment_name"],
   };
 }
 
@@ -14500,7 +14502,7 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
       ? item["warnings"]
       : item["warnings"].map((p: any) => {
           return p;
-        })
+        }),
   };
 }
 
@@ -38407,7 +38409,10 @@ export function tracesEvalRunDataSourceDeserializer(item: any): TracesEvalRunDat
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     lookback_hours: item["lookback_hours"],
-    end_time: item["end_time"] === undefined || item["end_time"] === null ? item["end_time"] : new Date(item["end_time"] * 1000),
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
     max_traces: item["max_traces"],
     ingestion_delay_seconds: item["ingestion_delay_seconds"],
   };
@@ -38596,8 +38601,14 @@ export function agentFilterTraceSourceDeserializer(item: any): AgentFilterTraceS
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
-    start_time: item["start_time"] === undefined || item["start_time"] === null ? item["start_time"] : new Date(item["start_time"] * 1000),
-    end_time: item["end_time"] === undefined || item["end_time"] === null ? item["end_time"] : new Date(item["end_time"] * 1000),
+    start_time:
+      item["start_time"] === undefined || item["start_time"] === null
+        ? item["start_time"]
+        : new Date(item["start_time"] * 1000),
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
     max_traces: item["max_traces"],
     filter_strategy: item["filter_strategy"],
   };
@@ -38673,7 +38684,10 @@ export function tracesPreviewEvalRunDataSourceDeserializer(
     agent_id: item["agent_id"],
     agent_name: item["agent_name"],
     lookback_hours: item["lookback_hours"],
-    end_time: item["end_time"] === undefined || item["end_time"] === null ? item["end_time"] : new Date(item["end_time"] * 1000),
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
     max_traces: item["max_traces"],
     ingestion_delay_seconds: item["ingestion_delay_seconds"],
   };
@@ -41312,6 +41326,3 @@ export type InputItemType =
   | "custom_tool_call_output"
   | "custom_tool_call"
   | "item_reference";
-
-
-

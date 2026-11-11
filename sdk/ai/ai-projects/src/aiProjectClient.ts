@@ -95,10 +95,10 @@ function resolveRealtimeOptions(
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
-/** The operation groups for skills */
+  /** The operation groups for skills */
   public readonly skills: SkillsOperations;
 
-/** The operation groups for agentInsightMonitors */
+  /** The operation groups for agentInsightMonitors */
   public readonly agentInsightMonitors: AgentInsightMonitorsOperations;
 
   /** The operation groups for voiceAgents */
@@ -160,10 +160,8 @@ export class AIProjectClient {
     );
     this.telemetry = _getTelemetryOperations(this.connections);
     this.voiceAgents = _getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig);
-this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._cognitiveScopeClient);
-this.skills = _getSkillsOperations(this._cognitiveScopeClient);
-
-
+    this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._cognitiveScopeClient);
+    this.skills = _getSkillsOperations(this._cognitiveScopeClient);
   }
 
   /** The operation groups for toolboxes */

@@ -2,12 +2,45 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import { apiErrorResponseDeserializer, _agentsPagedResultAgentInsightMonitorListItemDeserializer, agentInsightMonitorDeserializer, agentInsightRunDeserializer, agentInsightRunResultDeserializer, _agentsPagedResultAgentInsightRunDeserializer, _agentsPagedResultAgentInsightDeserializer, agentInsightDeserializer, agentInsightPrioritiesSerializer } from "../../models/models.js";
-import type { _AgentsPagedResultAgentInsightMonitorListItem, AgentInsightMonitorListItem, AgentInsightMonitor, AgentInsightRun, AgentInsightRunResult, _AgentsPagedResultAgentInsightRun, _AgentsPagedResultAgentInsight, AgentInsight } from "../../models/models.js";
+import {
+  apiErrorResponseDeserializer,
+  _agentsPagedResultAgentInsightMonitorListItemDeserializer,
+  agentInsightMonitorDeserializer,
+  agentInsightRunDeserializer,
+  agentInsightRunResultDeserializer,
+  _agentsPagedResultAgentInsightRunDeserializer,
+  _agentsPagedResultAgentInsightDeserializer,
+  agentInsightDeserializer,
+  agentInsightPrioritiesSerializer,
+} from "../../models/models.js";
+import type {
+  _AgentsPagedResultAgentInsightMonitorListItem,
+  AgentInsightMonitorListItem,
+  AgentInsightMonitor,
+  AgentInsightRun,
+  AgentInsightRunResult,
+  _AgentsPagedResultAgentInsightRun,
+  _AgentsPagedResultAgentInsight,
+  AgentInsight,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { AgentInsightMonitorsUpdateInsightOptionalParams, AgentInsightMonitorsGetInsightOptionalParams, AgentInsightMonitorsListInsightsOptionalParams, AgentInsightMonitorsCancelRunOptionalParams, AgentInsightMonitorsGetRunOptionalParams, AgentInsightMonitorsListRunsOptionalParams, AgentInsightMonitorsCreateRunOptionalParams, AgentInsightMonitorsResetOptionalParams, AgentInsightMonitorsUpdateOptionalParams, AgentInsightMonitorsDeleteOptionalParams, AgentInsightMonitorsGetOptionalParams, AgentInsightMonitorsCreateOptionalParams, AgentInsightMonitorsListOptionalParams } from "./options.js";
+import type {
+  AgentInsightMonitorsUpdateInsightOptionalParams,
+  AgentInsightMonitorsGetInsightOptionalParams,
+  AgentInsightMonitorsListInsightsOptionalParams,
+  AgentInsightMonitorsCancelRunOptionalParams,
+  AgentInsightMonitorsGetRunOptionalParams,
+  AgentInsightMonitorsListRunsOptionalParams,
+  AgentInsightMonitorsCreateRunOptionalParams,
+  AgentInsightMonitorsResetOptionalParams,
+  AgentInsightMonitorsUpdateOptionalParams,
+  AgentInsightMonitorsDeleteOptionalParams,
+  AgentInsightMonitorsGetOptionalParams,
+  AgentInsightMonitorsCreateOptionalParams,
+  AgentInsightMonitorsListOptionalParams,
+} from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { RunPoller } from "../../static-helpers/pollingHelpers.js";
@@ -30,14 +63,12 @@ export function _updateInsightSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: { status: options?.status },
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: { status: options?.status },
+  });
 }
 
 export async function _updateInsightDeserialize(
@@ -85,12 +116,10 @@ export function _getInsightSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getInsightDeserialize(result: PathUncheckedResponse): Promise<AgentInsight> {
@@ -153,12 +182,10 @@ export function _listInsightsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listInsightsDeserialize(
@@ -183,7 +210,6 @@ export function listInsights(
   monitorId: string,
   options: AgentInsightMonitorsListInsightsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsight> {
-  
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -220,12 +246,10 @@ export function _cancelRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _cancelRunDeserialize(
@@ -272,12 +296,10 @@ export function _getRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<AgentInsightRun> {
@@ -326,12 +348,10 @@ export function _listRunsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listRunsDeserialize(
@@ -356,7 +376,6 @@ export function listRuns(
   monitorId: string,
   options: AgentInsightMonitorsListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightRun> {
-  
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
@@ -391,18 +410,16 @@ export function _createRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { lookback_hours: options?.lookbackHours },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { lookback_hours: options?.lookbackHours },
+  });
 }
 
 export async function _createRunDeserialize(
@@ -434,12 +451,14 @@ export function createRun(
   monitorId: string,
   options: AgentInsightMonitorsCreateRunOptionalParams = { requestOptions: {} },
 ): RunPoller<AgentInsightRunResult> {
-  
   // CUSTOMIZATION: SDK-IMPROVEMENT: the emitted result omits the created run id.
-  return getRunPoller(context,
- _createRunDeserialize,
- ["201", "200", "202"],
- { updateIntervalInMs: options?.updateIntervalInMs, abortSignal: options?.abortSignal, getInitialResponse: () => _createRunSend(context, monitorId, options), resourceLocationConfig: "operation-location", apiVersion: context.apiVersion ?? "v1" });
+  return getRunPoller(context, _createRunDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createRunSend(context, monitorId, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+  });
 }
 
 export function _resetSend(
@@ -499,21 +518,19 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        enabled: options?.enabled,
-        run_interval_hours: options?.runIntervalHours,
-        model_deployment_name: options?.modelDeploymentName,
-        priorities: !options?.priorities
-          ? options?.priorities
-          : agentInsightPrioritiesSerializer(options?.priorities),
-      },
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      enabled: options?.enabled,
+      run_interval_hours: options?.runIntervalHours,
+      model_deployment_name: options?.modelDeploymentName,
+      priorities: !options?.priorities
+        ? options?.priorities
+        : agentInsightPrioritiesSerializer(options?.priorities),
+    },
+  });
 }
 
 export async function _updateDeserialize(
@@ -601,12 +618,10 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<AgentInsightMonitor> {
@@ -648,22 +663,20 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        agent_name: agentName,
-        enabled: options?.enabled,
-        run_interval_hours: options?.runIntervalHours,
-        model_deployment_name: modelDeploymentName,
-        priorities: !options?.priorities
-          ? options?.priorities
-          : agentInsightPrioritiesSerializer(options?.priorities),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agent_name: agentName,
+      enabled: options?.enabled,
+      run_interval_hours: options?.runIntervalHours,
+      model_deployment_name: modelDeploymentName,
+      priorities: !options?.priorities
+        ? options?.priorities
+        : agentInsightPrioritiesSerializer(options?.priorities),
+    },
+  });
 }
 
 export async function _createDeserialize(
@@ -711,12 +724,10 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listDeserialize(
@@ -740,7 +751,6 @@ export function list(
   context: Client,
   options: AgentInsightMonitorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentInsightMonitorListItem> {
-  
   const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,

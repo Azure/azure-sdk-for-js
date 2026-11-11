@@ -2,12 +2,44 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import { apiErrorResponseDeserializer, skillDeserializer, _agentsPagedResultSkillDeserializer, deleteSkillResponseDeserializer, skillInlineContentSerializer, skillVersionDeserializer, createSkillVersionFromFilesBodySerializer, _agentsPagedResultSkillVersionDeserializer, deleteSkillVersionResponseDeserializer } from "../../models/models.js";
-import type { Skill, _AgentsPagedResultSkill, DeleteSkillResponse, SkillVersion, CreateSkillVersionFromFilesBody, _AgentsPagedResultSkillVersion, DeleteSkillVersionResponse, DownloadVersionResponse, SkillsDownloadResponse } from "../../models/models.js";
+import {
+  apiErrorResponseDeserializer,
+  skillDeserializer,
+  _agentsPagedResultSkillDeserializer,
+  deleteSkillResponseDeserializer,
+  skillInlineContentSerializer,
+  skillVersionDeserializer,
+  createSkillVersionFromFilesBodySerializer,
+  _agentsPagedResultSkillVersionDeserializer,
+  deleteSkillVersionResponseDeserializer,
+} from "../../models/models.js";
+import type {
+  Skill,
+  _AgentsPagedResultSkill,
+  DeleteSkillResponse,
+  SkillVersion,
+  CreateSkillVersionFromFilesBody,
+  _AgentsPagedResultSkillVersion,
+  DeleteSkillVersionResponse,
+  DownloadVersionResponse,
+  SkillsDownloadResponse,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { DeleteVersionOptionalParams, DownloadVersionOptionalParams, SkillsDownloadOptionalParams, GetVersionOptionalParams, ListVersionsOptionalParams, CreateFromFilesOptionalParams, SkillsCreateOptionalParams, SkillsDeleteOptionalParams, SkillsUpdateOptionalParams, SkillsListOptionalParams, SkillsGetOptionalParams } from "./options.js";
+import type {
+  DeleteVersionOptionalParams,
+  DownloadVersionOptionalParams,
+  SkillsDownloadOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
+  CreateFromFilesOptionalParams,
+  SkillsCreateOptionalParams,
+  SkillsDeleteOptionalParams,
+  SkillsUpdateOptionalParams,
+  SkillsListOptionalParams,
+  SkillsGetOptionalParams,
+} from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
@@ -19,22 +51,19 @@ export function _deleteVersionSend(
   options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}{?api-version}",
+    "/openai/v1/skills/{name}/versions/{version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteVersionDeserialize(
@@ -71,22 +100,19 @@ export function _downloadVersionSend(
   options: DownloadVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}/content{?api-version}",
+    "/openai/v1/skills/{name}/versions/{version}/content",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/zip", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _downloadVersionDeserialize(
@@ -123,21 +149,18 @@ export function _downloadSend(
   options: SkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/content{?api-version}",
+    "/openai/v1/skills/{name}/content",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/zip", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _downloadDeserialize(
@@ -174,22 +197,19 @@ export function _getVersionSend(
   options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions/{version}{?api-version}",
+    "/openai/v1/skills/{name}/versions/{version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<SkillVersion> {
@@ -223,25 +243,22 @@ export function _listVersionsSend(
   options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions{?after,api-version,before,limit,order}",
+    "/openai/v1/skills/{name}/versions{?after,before,limit,order}",
     {
       name: name,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listVersionsDeserialize(
@@ -271,7 +288,15 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
+    },
   );
 }
 
@@ -282,23 +307,20 @@ export function _createFromFilesSend(
   options: CreateFromFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions{?api-version}",
+    "/openai/v1/skills/{name}/versions",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "multipart/form-data",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: createSkillVersionFromFilesBodySerializer(content),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: createSkillVersionFromFilesBodySerializer(content),
+  });
 }
 
 export async function _createFromFilesDeserialize(
@@ -334,28 +356,25 @@ export function _createSend(
   options: SkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}/versions{?api-version}",
+    "/openai/v1/skills/{name}/versions",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        inline_content: !options?.inlineContent
-          ? options?.inlineContent
-          : skillInlineContentSerializer(options?.inlineContent),
-        default: options?.defaultParam,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      inline_content: !options?.inlineContent
+        ? options?.inlineContent
+        : skillInlineContentSerializer(options?.inlineContent),
+      default: options?.defaultParam,
+    },
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<SkillVersion> {
@@ -388,21 +407,18 @@ export function _$deleteSend(
   options: SkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}{?api-version}",
+    "/openai/v1/skills/{name}",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _$deleteDeserialize(
@@ -438,23 +454,20 @@ export function _updateSend(
   options: SkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}{?api-version}",
+    "/openai/v1/skills/{name}",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: { default_version: defaultVersion },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: { default_version: defaultVersion },
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Skill> {
@@ -487,24 +500,21 @@ export function _listSend(
   options: SkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills{?after,api-version,before,limit,order}",
+    "/openai/v1/skills{?after,before,limit,order}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listDeserialize(
@@ -535,10 +545,12 @@ export function list(
     ["200"],
     {
       itemName: "data",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: {  } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
     },
   );
 }
@@ -549,21 +561,18 @@ export function _getSend(
   options: SkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/openai/v1/skills/{name}{?api-version}",
+    "/openai/v1/skills/{name}",
     {
       name: name,
-      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
-    }
+    },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Skill> {

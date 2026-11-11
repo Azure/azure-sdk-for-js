@@ -1,7 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentState, AgentKind, AgentBlueprintReferenceUnion, AgentEndpointConfig, ActivityProtocolAccessBoundary, DigitalWorkerType, AgentCard, Microsoft365PermissionScopes, AgentDefinitionOptInKeys, PageOrder, AgentOptimizationCandidateExpand, TelephonyProvider, TelephonyCallStatus, AgentOptimizationJobStatus } from "../../models/models.js";
+import type {
+  AgentState,
+  AgentKind,
+  AgentBlueprintReferenceUnion,
+  AgentEndpointConfig,
+  ActivityProtocolAccessBoundary,
+  DigitalWorkerType,
+  AgentCard,
+  Microsoft365PermissionScopes,
+  AgentDefinitionOptInKeys,
+  PageOrder,
+  AgentOptimizationCandidateExpand,
+  TelephonyProvider,
+  TelephonyCallStatus,
+  AgentOptimizationJobStatus,
+} from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
