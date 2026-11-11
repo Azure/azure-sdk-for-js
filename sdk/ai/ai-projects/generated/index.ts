@@ -550,12 +550,6 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
-  Skill,
-  DeleteSkillResponse,
-  SkillInlineContent,
-  SkillVersion,
-  CreateSkillVersionFromFilesBody,
-  DeleteSkillVersionResponse,
   EvaluatorVersion,
   EvaluatorType,
   EvaluatorCategory,
@@ -757,6 +751,12 @@ export type {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
+  Skill,
+  DeleteSkillResponse,
+  SkillInlineContent,
+  SkillVersion,
+  CreateSkillVersionFromFilesBody,
+  DeleteSkillVersionResponse,
   VoiceConversation,
   VoiceConversationStatus,
   VoiceResponse,
@@ -921,8 +921,6 @@ export type {
   MemoryStoreObjectType,
   VoiceAgentTransport,
   ToolboxesInvokeLatestToolboxMcpResponse,
-  DownloadVersionResponse,
-  SkillsDownloadResponse,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadOptimizationJobFileResponse,
@@ -930,6 +928,8 @@ export type {
   VoiceAgentsConversationsDownloadAudioResponse,
   VoiceAgentsConversationsDownloadGeneratedAudioItemResponse,
   VoiceAgentsConversationsDownloadAudioItemResponse,
+  DownloadVersionResponse,
+  BetaSkillsDownloadResponse,
   BetaVoiceAgentsLiveConversationsDownloadAudioResponse,
   BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse,
 } from "./models/index.js";
@@ -1505,24 +1505,11 @@ export type {
 } from "./api/indexes/index.js";
 export type {
   DeleteVersionOptionalParams,
-  DownloadVersionOptionalParams,
-  SkillsDownloadOptionalParams,
-  GetVersionOptionalParams,
-  ListVersionsOptionalParams,
-  CreateFromFilesOptionalParams,
-  SkillsCreateOptionalParams,
-  SkillsDeleteOptionalParams,
-  SkillsUpdateOptionalParams,
-  SkillsListOptionalParams,
-  SkillsGetOptionalParams,
-} from "./api/skills/index.js";
-export type {
-  DeleteVersionOptionalParams as AIProjectClientDeleteVersionOptionalParams,
   ToolboxesDeleteOptionalParams,
   ToolboxesUpdateOptionalParams,
   ToolboxesInvokeLatestToolboxMcpOptionalParams,
-  GetVersionOptionalParams as AIProjectClientGetVersionOptionalParams,
-  ListVersionsOptionalParams as AIProjectClientListVersionsOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   ToolboxesListOptionalParams,
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
@@ -1594,6 +1581,19 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
+  DeleteVersionOptionalParams as AIProjectClientDeleteVersionOptionalParams,
+  DownloadVersionOptionalParams,
+  BetaSkillsDownloadOptionalParams,
+  GetVersionOptionalParams as AIProjectClientGetVersionOptionalParams,
+  ListVersionsOptionalParams as AIProjectClientListVersionsOptionalParams,
+  CreateFromFilesOptionalParams,
+  BetaSkillsCreateOptionalParams,
+  BetaSkillsDeleteOptionalParams,
+  BetaSkillsUpdateOptionalParams,
+  BetaSkillsListOptionalParams,
+  BetaSkillsGetOptionalParams,
+} from "./api/beta/skills/index.js";
+export type {
   VoiceAgentsConversationsDownloadAudioOptionalParams,
   VoiceAgentsConversationsGetAudioOptionalParams,
   VoiceAgentsConversationsDownloadGeneratedAudioItemOptionalParams,
@@ -1628,15 +1628,6 @@ export type {
   VoiceAgentsTelephonyCreateBindingOptionalParams,
 } from "./api/voiceAgents/telephony/index.js";
 export type {
-  BetaVoiceAgentsCampaignsGetOperationOptionalParams,
-  BetaVoiceAgentsCampaignsListValidationErrorsOptionalParams,
-  BetaVoiceAgentsCampaignsDeleteOptionalParams,
-  BetaVoiceAgentsCampaignsCancelOptionalParams,
-  BetaVoiceAgentsCampaignsListOptionalParams,
-  BetaVoiceAgentsCampaignsGetOptionalParams,
-  BetaVoiceAgentsCampaignsCreateOptionalParams,
-} from "./api/beta/voiceAgents/campaigns/index.js";
-export type {
   BetaVoiceAgentsLiveConversationsDownloadAudioOptionalParams,
   BetaVoiceAgentsLiveConversationsGetAudioOptionalParams,
   BetaVoiceAgentsLiveConversationsDownloadAudioItemOptionalParams,
@@ -1648,6 +1639,15 @@ export type {
   BetaVoiceAgentsLiveConversationsListOptionalParams,
 } from "./api/beta/voiceAgents/liveConversations/index.js";
 export type {
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
+} from "./api/beta/voiceAgents/telephony/index.js";
+export type {
   AgentInsightMonitorsOperations,
   AgentsOperations,
   BetaOperations,
@@ -1657,7 +1657,6 @@ export type {
   EvaluationRulesOperations,
   EvaluatorsOperations,
   IndexesOperations,
-  SkillsOperations,
   ToolboxesOperations,
   VoiceAgentsOperations,
   BetaEvaluationTaxonomiesOperations,
@@ -1668,11 +1667,12 @@ export type {
   BetaRedTeamsOperations,
   BetaRoutinesOperations,
   BetaSchedulesOperations,
+  BetaSkillsOperations,
   BetaVoiceAgentsOperations,
   VoiceAgentsConversationsOperations,
   VoiceAgentsTelephonyOperations,
-  BetaVoiceAgentsCampaignsOperations,
   BetaVoiceAgentsLiveConversationsOperations,
+  BetaVoiceAgentsTelephonyOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export type { FileContents, NodeReadableStream };

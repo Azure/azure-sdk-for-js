@@ -8,10 +8,10 @@ import { _createGenerationJobDeserialize as _createGenerationJobDeserializeDatas
 import { _createOptimizationJobDeserialize } from "./api/agents/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
 import {
-  _deleteCampaignDeserialize,
+  _deleteTelephonyDeserialize,
   _cancelDeserialize,
   _createDeserialize,
-} from "./api/beta/voiceAgents/campaigns/operations.js";
+} from "./api/beta/voiceAgents/telephony/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -107,7 +107,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /agents/{agent_name}/telephony_campaigns/{campaign_name}": {
-    deserializer: _deleteCampaignDeserialize,
+    deserializer: _deleteTelephonyDeserialize,
     expectedStatuses: ["202", "204", "200"],
   },
   "POST /agents/{agent_name}/telephony_campaigns/{campaign_name}:cancel": {

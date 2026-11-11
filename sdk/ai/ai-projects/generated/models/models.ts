@@ -4885,7 +4885,7 @@ export interface VoiceAgentSystemTool extends VoiceAgentTool {
   name: VoiceAgentSystemToolName;
   /** An optional description of the system tool. */
   description?: string;
-  /** Execution timeout, from 1 to 300 seconds. If omitted, the service defaults to 60 seconds. */
+  /** The execution timeout in seconds, from 1 to 300. If omitted, the service defaults to 60 seconds. */
   timeout_seconds?: number;
 }
 
@@ -5266,7 +5266,7 @@ export type VoiceAgentTransferDestinationType = "phone_number" | "teams" | "sip"
 export interface VoiceAgentTransferRouting {
   /** The routing strategy. Current native Telephony transfer supports ACS sequential and random routing only. */
   strategy: VoiceAgentTransferStrategy;
-  /** Per-destination ring timeout in seconds, from 1 to 300. If omitted, the service defaults to 20 seconds. Must not exceed the tool's timeout_seconds. ACS allows at most 180 seconds. */
+  /** The per-destination ring timeout in seconds, from 1 to 300. If omitted, the service defaults to 20 seconds. Must not exceed the tool's execution timeout. ACS allows at most 180 seconds. */
   ring_timeout_seconds?: number;
 }
 
@@ -5465,7 +5465,7 @@ export interface VoiceAgentSubagent {
   agent_capabilities: string;
   /** Policy for acknowledging forwarded requests and filling gaps while waiting for this subagent's response. */
   response_policy?: VoiceAgentSubagentResponsePolicy;
-  /** The wall-clock timeout, in seconds, for each invocation of this subagent. When omitted, the service timeout is used. */
+  /** The wall-clock timeout in seconds for each invocation of this subagent. When omitted, the service timeout is used. */
   invoke_timeout_seconds?: number;
 }
 
@@ -15102,203 +15102,6 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
-/** A skill resource. */
-export interface Skill {
-  /** The unique identifier of the skill. */
-  id: string;
-  /** The unique name of the skill. */
-  name: string;
-  /** A human-readable description of the skill. */
-  description: string;
-  /** The Unix timestamp (seconds) when the skill was created. */
-  created_at: Date;
-  /** The default version for the skill. Can be changed via updateSkill. */
-  default_version: string;
-  /** The latest version for the skill. */
-  latest_version: string;
-}
-
-export function skillDeserializer(item: any): Skill {
-  return {
-    id: item["id"],
-    name: item["name"],
-    description: item["description"],
-    created_at: new Date(item["created_at"] * 1000),
-    default_version: item["default_version"],
-    latest_version: item["latest_version"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultSkill {
-  /** The requested list of items. */
-  data: Skill[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultSkillDeserializer(item: any): _AgentsPagedResultSkill {
-  return {
-    data: skillArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function skillArrayDeserializer(result: Array<Skill>): any[] {
-  return result.map((item) => {
-    return skillDeserializer(item);
-  });
-}
-
-/** A deleted skill. */
-export interface DeleteSkillResponse {
-  /** The unique identifier of the deleted skill. */
-  id: string;
-  /** The unique name of the skill. */
-  name: string;
-  /** Whether the skill was successfully deleted. */
-  deleted: boolean;
-}
-
-export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    deleted: item["deleted"],
-  };
-}
-
-/** Inline content for defining a simple skill without uploading files. Follows the agentskills.io SKILL.md specification. */
-export interface SkillInlineContent {
-  /** A human-readable description of what the skill does and when to use it. */
-  description: string;
-  /** The skill instructions in markdown format. This is the body content of the SKILL.md file. */
-  instructions: string;
-  /** License name or reference to a bundled license file. */
-  license?: string;
-  /** Environment requirements or compatibility notes for the skill. */
-  compatibility?: string;
-  /** Arbitrary key-value metadata for additional properties. */
-  metadata?: Record<string, string>;
-  /** List of pre-approved tools the skill may use. Experimental. */
-  allowed_tools?: string[];
-}
-
-export function skillInlineContentSerializer(item: SkillInlineContent): any {
-  return {
-    description: item["description"],
-    instructions: item["instructions"],
-    license: item["license"],
-    compatibility: item["compatibility"],
-    metadata: item["metadata"],
-    allowed_tools: !item["allowed_tools"]
-      ? item["allowed_tools"]
-      : item["allowed_tools"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** A specific version of a skill. */
-export interface SkillVersion {
-  /** The unique identifier of the skill version. */
-  id: string;
-  /** The identifier of the parent skill. */
-  skill_id: string;
-  /** The name of the skill version. */
-  name: string;
-  /** The version identifier. Skill versions are immutable. */
-  version: string;
-  /** A human-readable description of the skill version. */
-  description: string;
-  /** The Unix timestamp (seconds) when the skill version was created. */
-  created_at: Date;
-}
-
-export function skillVersionDeserializer(item: any): SkillVersion {
-  return {
-    id: item["id"],
-    skill_id: item["skill_id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    created_at: new Date(item["created_at"] * 1000),
-  };
-}
-
-/** Multipart request body for creating a skill version from files. Accepts either a single zip file or multiple individual skill files (directory upload). For zip uploads, the server extracts and validates contents. For directory uploads, files are validated as-is. */
-export interface CreateSkillVersionFromFilesBody {
-  /** Skill files to upload. Upload a single zip file or multiple individual files with relative paths. */
-  files: Array<FileContents | { contents: FileContents; contentType?: string; filename?: string }>;
-  /** Whether to set this version as the default. Defaults to false. */
-  default?: boolean;
-}
-
-export function createSkillVersionFromFilesBodySerializer(
-  item: CreateSkillVersionFromFilesBody,
-): any {
-  return [
-    ...item["files"].map((x: unknown) => createFilePartDescriptor("files", x)),
-    ...(item["default"] === undefined ? [] : [{ name: "default", body: item["default"] }]),
-  ];
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultSkillVersion {
-  /** The requested list of items. */
-  data: SkillVersion[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultSkillVersionDeserializer(
-  item: any,
-): _AgentsPagedResultSkillVersion {
-  return {
-    data: skillVersionArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function skillVersionArrayDeserializer(result: Array<SkillVersion>): any[] {
-  return result.map((item) => {
-    return skillVersionDeserializer(item);
-  });
-}
-
-/** A deleted skill version. */
-export interface DeleteSkillVersionResponse {
-  /** The unique identifier of the deleted skill version. */
-  id: string;
-  /** The name of the skill. */
-  name: string;
-  /** Whether the skill version was successfully deleted. */
-  deleted: boolean;
-  /** The version that was deleted. */
-  version: string;
-}
-
-export function deleteSkillVersionResponseDeserializer(item: any): DeleteSkillVersionResponse {
-  return {
-    id: item["id"],
-    name: item["name"],
-    deleted: item["deleted"],
-    version: item["version"],
-  };
-}
-
 /** Paged collection of EvaluatorVersion items */
 export interface _PagedEvaluatorVersion {
   /** The EvaluatorVersion items on this page */
@@ -21042,6 +20845,203 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   });
 }
 
+/** A skill resource. */
+export interface Skill {
+  /** The unique identifier of the skill. */
+  id: string;
+  /** The unique name of the skill. */
+  name: string;
+  /** A human-readable description of the skill. */
+  description: string;
+  /** The Unix timestamp (seconds) when the skill was created. */
+  created_at: Date;
+  /** The default version for the skill. Can be changed via updateSkill. */
+  default_version: string;
+  /** The latest version for the skill. */
+  latest_version: string;
+}
+
+export function skillDeserializer(item: any): Skill {
+  return {
+    id: item["id"],
+    name: item["name"],
+    description: item["description"],
+    created_at: new Date(item["created_at"] * 1000),
+    default_version: item["default_version"],
+    latest_version: item["latest_version"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultSkill {
+  /** The requested list of items. */
+  data: Skill[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultSkillDeserializer(item: any): _AgentsPagedResultSkill {
+  return {
+    data: skillArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function skillArrayDeserializer(result: Array<Skill>): any[] {
+  return result.map((item) => {
+    return skillDeserializer(item);
+  });
+}
+
+/** A deleted skill. */
+export interface DeleteSkillResponse {
+  /** The unique identifier of the deleted skill. */
+  id: string;
+  /** The unique name of the skill. */
+  name: string;
+  /** Whether the skill was successfully deleted. */
+  deleted: boolean;
+}
+
+export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse {
+  return {
+    id: item["id"],
+    name: item["name"],
+    deleted: item["deleted"],
+  };
+}
+
+/** Inline content for defining a simple skill without uploading files. Follows the agentskills.io SKILL.md specification. */
+export interface SkillInlineContent {
+  /** A human-readable description of what the skill does and when to use it. */
+  description: string;
+  /** The skill instructions in markdown format. This is the body content of the SKILL.md file. */
+  instructions: string;
+  /** License name or reference to a bundled license file. */
+  license?: string;
+  /** Environment requirements or compatibility notes for the skill. */
+  compatibility?: string;
+  /** Arbitrary key-value metadata for additional properties. */
+  metadata?: Record<string, string>;
+  /** List of pre-approved tools the skill may use. Experimental. */
+  allowed_tools?: string[];
+}
+
+export function skillInlineContentSerializer(item: SkillInlineContent): any {
+  return {
+    description: item["description"],
+    instructions: item["instructions"],
+    license: item["license"],
+    compatibility: item["compatibility"],
+    metadata: item["metadata"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : item["allowed_tools"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A specific version of a skill. */
+export interface SkillVersion {
+  /** The unique identifier of the skill version. */
+  id: string;
+  /** The identifier of the parent skill. */
+  skill_id: string;
+  /** The name of the skill version. */
+  name: string;
+  /** The version identifier. Skill versions are immutable. */
+  version: string;
+  /** A human-readable description of the skill version. */
+  description: string;
+  /** The Unix timestamp (seconds) when the skill version was created. */
+  created_at: Date;
+}
+
+export function skillVersionDeserializer(item: any): SkillVersion {
+  return {
+    id: item["id"],
+    skill_id: item["skill_id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    created_at: new Date(item["created_at"] * 1000),
+  };
+}
+
+/** Multipart request body for creating a skill version from files. Accepts either a single zip file or multiple individual skill files (directory upload). For zip uploads, the server extracts and validates contents. For directory uploads, files are validated as-is. */
+export interface CreateSkillVersionFromFilesBody {
+  /** Skill files to upload. Upload a single zip file or multiple individual files with relative paths. */
+  files: Array<FileContents | { contents: FileContents; contentType?: string; filename?: string }>;
+  /** Whether to set this version as the default. Defaults to false. */
+  default?: boolean;
+}
+
+export function createSkillVersionFromFilesBodySerializer(
+  item: CreateSkillVersionFromFilesBody,
+): any {
+  return [
+    ...item["files"].map((x: unknown) => createFilePartDescriptor("files", x)),
+    ...(item["default"] === undefined ? [] : [{ name: "default", body: item["default"] }]),
+  ];
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultSkillVersion {
+  /** The requested list of items. */
+  data: SkillVersion[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultSkillVersionDeserializer(
+  item: any,
+): _AgentsPagedResultSkillVersion {
+  return {
+    data: skillVersionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function skillVersionArrayDeserializer(result: Array<SkillVersion>): any[] {
+  return result.map((item) => {
+    return skillVersionDeserializer(item);
+  });
+}
+
+/** A deleted skill version. */
+export interface DeleteSkillVersionResponse {
+  /** The unique identifier of the deleted skill version. */
+  id: string;
+  /** The name of the skill. */
+  name: string;
+  /** Whether the skill version was successfully deleted. */
+  deleted: boolean;
+  /** The version that was deleted. */
+  version: string;
+}
+
+export function deleteSkillVersionResponseDeserializer(item: any): DeleteSkillVersionResponse {
+  return {
+    id: item["id"],
+    name: item["name"],
+    deleted: item["deleted"],
+    version: item["version"],
+  };
+}
+
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultVoiceConversation {
   /** The requested list of items. */
@@ -25612,7 +25612,7 @@ export interface VoiceAgentCollectionStartArguments {
   secret: boolean;
   /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
   output_variable_name?: string;
-  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  /** The collection timeout in seconds, from 1 to 300, including receiver setup. Overrides the agent timeout; if both are omitted, defaults to 60 seconds. Duplicate calls do not reset the timeout. */
   timeout_seconds?: number;
 }
 
@@ -25632,7 +25632,7 @@ export interface VoiceAgentCollectSmsStartArguments {
   secret: boolean;
   /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
   output_variable_name?: string;
-  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  /** The collection timeout in seconds, from 1 to 300, including receiver setup. Overrides the agent timeout; if both are omitted, defaults to 60 seconds. Duplicate calls do not reset the timeout. */
   timeout_seconds?: number;
   /** The expected SMS sender in canonical E.164 form, explicitly selected at start without Caller ID fallback. This is routing, not authenticated identity. */
   from_phone_number: string;
@@ -25655,11 +25655,11 @@ export interface VoiceAgentCollectDtmfStartArguments {
   secret: boolean;
   /** Preferred bare name for the output variable, required for `secret: true` and forbidden otherwise. */
   output_variable_name?: string;
-  /** Total deadline in seconds (1-300), including receiver setup. Overrides the Agent timeout; if both are omitted, defaults to 60. Duplicate calls do not reset it. */
+  /** The collection timeout in seconds, from 1 to 300, including receiver setup. Overrides the agent timeout; if both are omitted, defaults to 60 seconds. Duplicate calls do not reset the timeout. */
   timeout_seconds?: number;
   /** Required typed object selecting one completion policy and its parameters, not an array of simultaneous rules. */
   completion_mode: VoiceAgentDtmfCompletionMode;
-  /** The maximum wait for the first digit in integer seconds, starting at receiver readiness and bounded by the remaining total deadline. Omit for fifteen seconds. */
+  /** The maximum wait for the first digit in seconds, starting at receiver readiness and bounded by the remaining total deadline. Defaults to 15 seconds. */
   first_digit_timeout_seconds?: number;
 }
 
@@ -25687,7 +25687,7 @@ export function voiceAgentDtmfCompletionModeDeserializer(item: any): VoiceAgentD
 
 /** Complete immediately after exactly length digits. Other modes' fields are not accepted. */
 export interface VoiceAgentDtmfFixedLengthCompletionMode {
-  /** Seconds between digits, reset after each digit; defaults to 5. */
+  /** The timeout in seconds between received digits, from 1 to 300, reset after each digit. Defaults to 5 seconds. */
   inter_digit_timeout_seconds?: number;
   /** Select fixed-length completion. */
   type: "fixed_length";
@@ -25707,7 +25707,7 @@ export function voiceAgentDtmfFixedLengthCompletionModeDeserializer(
 
 /** Completes when the configured end key follows nonempty digits within service limits. No digit count or length bounds are configured. */
 export interface VoiceAgentDtmfTerminatorCompletionMode {
-  /** Seconds between digits, reset after each digit; defaults to 5. */
+  /** The timeout in seconds between received digits, from 1 to 300, reset after each digit. Defaults to 5 seconds. */
   inter_digit_timeout_seconds?: number;
   /** Select confirmation-key completion. */
   type: "terminator";
@@ -25730,7 +25730,7 @@ export type VoiceAgentDtmfTerminator = "#" | "*";
 
 /** Completes after nonempty input and an inter-digit pause, within service limits. No key or count is configured; total deadline expiry takes precedence. */
 export interface VoiceAgentDtmfInterDigitSilenceCompletionMode {
-  /** Seconds between digits, reset after each digit; defaults to 5. */
+  /** The timeout in seconds between received digits, from 1 to 300, reset after each digit. Defaults to 5 seconds. */
   inter_digit_timeout_seconds?: number;
   /** Select silence completion. */
   type: "inter_digit_silence";
@@ -26004,40 +26004,6 @@ export type VoiceAgentTransport = "websocket" | "webrtc";
 
 export type ToolboxesInvokeLatestToolboxMcpResponse = { body: any };
 
-export type DownloadVersionResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
-export type SkillsDownloadResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeReadableStream;
-};
-
 export type AgentsDownloadSessionFileResponse = {
   /**
    * BROWSER ONLY
@@ -26141,6 +26107,40 @@ export type VoiceAgentsConversationsDownloadGeneratedAudioItemResponse = {
 };
 
 export type VoiceAgentsConversationsDownloadAudioItemResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type DownloadVersionResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type BetaSkillsDownloadResponse = {
   /**
    * BROWSER ONLY
    *
