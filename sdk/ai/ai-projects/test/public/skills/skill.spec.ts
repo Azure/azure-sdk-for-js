@@ -23,7 +23,7 @@ describe("skills - basic operations", () => {
   afterEach(async function () {
     try {
       if (skillCreated) {
-        await projectsClient.skills.delete(skillName);
+        await projectsClient.beta.skills.delete(skillName);
       }
     } finally {
       await recorder.stop();
@@ -32,7 +32,7 @@ describe("skills - basic operations", () => {
 
   it("should create, get, list, and delete a skill", async function () {
     // Create a new skill
-    const created = await projectsClient.skills.create(skillName, {
+    const created = await projectsClient.beta.skills.create(skillName, {
       inlineContent: {
         description: "Test skill created by skill.spec.ts.",
         instructions: "You are a helpful assistant that answers questions concisely.",
@@ -46,7 +46,7 @@ describe("skills - basic operations", () => {
     console.log(`Created skill: ${created.name} (id: ${created.id})`);
 
     // Retrieve the skill
-    const fetched = await projectsClient.skills.get(skillName);
+    const fetched = await projectsClient.beta.skills.get(skillName);
     assert.isNotNull(fetched);
     assert.equal(fetched.name, skillName);
     assert.isNotEmpty(fetched.id);
@@ -54,14 +54,14 @@ describe("skills - basic operations", () => {
 
     // List skills
     const skills = [];
-    for await (const item of projectsClient.skills.list({ limit: 10 })) {
+    for await (const item of projectsClient.beta.skills.list({ limit: 10 })) {
       skills.push(item);
     }
     assert.isTrue(skills.length >= 1);
     console.log(`Found ${skills.length} skill(s)`);
 
     // Delete the skill
-    const deleteResult = await projectsClient.skills.delete(skillName);
+    const deleteResult = await projectsClient.beta.skills.delete(skillName);
     skillCreated = false;
     assert.isNotNull(deleteResult);
     assert.equal(deleteResult.name, skillName);

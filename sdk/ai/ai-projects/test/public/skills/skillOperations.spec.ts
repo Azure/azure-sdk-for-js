@@ -41,8 +41,8 @@ function createClient(...responses: unknown[]): {
   };
 }
 
-describe("Skills GA requests", () => {
-  it("uses versionless v1 routes for all skill operations", async () => {
+describe("Skills preview requests", () => {
+  it("uses preview routes, API versioning and opt-in headers for all skill operations", async () => {
     const response = {
       id: "skill-id",
       skill_id: "skill-id",
@@ -57,25 +57,27 @@ describe("Skills GA requests", () => {
       has_more: false,
     };
     const { client, requests } = createClient(...Array.from({ length: 11 }, () => response));
+    expect(client).not.toHaveProperty("skills");
+    expect(client.beta.skills.create).toBeTypeOf("function");
 
-    await client.skills.deleteVersion("skill", "v1");
-    await client.skills.downloadVersion("skill", "v1");
-    await client.skills.download("skill");
-    await client.skills.getVersion("skill", "v1");
-    await client.skills
+    await client.beta.skills.deleteVersion("skill", "v1");
+    await client.beta.skills.downloadVersion("skill", "v1");
+    await client.beta.skills.download("skill");
+    await client.beta.skills.getVersion("skill", "v1");
+    await client.beta.skills
       .listVersions("skill", { limit: 3, after: "v0", order: "asc" })
       .byPage()
       .next();
-    await client.skills.createFromFiles("skill", { files: [] });
-    await client.skills.create("skill", {
+    await client.beta.skills.createFromFiles("skill", { files: [] });
+    await client.beta.skills.create("skill", {
       inlineContent: { description: "Test", instructions: "Test instructions" },
     });
-    await client.skills.delete("skill");
-    await client.skills.update("skill", "v1");
-    await client.skills.list({ limit: 3, after: "v0", order: "asc" }).byPage().next();
-    await client.skills.get("skill");
+    await client.beta.skills.delete("skill");
+    await client.beta.skills.update("skill", "v1");
+    await client.beta.skills.list({ limit: 3, after: "v0", order: "asc" }).byPage().next();
+    await client.beta.skills.get("skill");
 
-    const root = "/api/projects/test-project/openai/v1/skills";
+    const root = "/api/projects/test-project/skills";
     expect(requests.map((request) => [request.method, new URL(request.url).pathname])).toEqual([
       ["DELETE", `${root}/skill/versions/v1`],
       ["GET", `${root}/skill/versions/v1/content`],
@@ -90,7 +92,8 @@ describe("Skills GA requests", () => {
       ["GET", `${root}/skill`],
     ]);
     for (const request of requests) {
-      expect(new URL(request.url).searchParams.has("api-version")).toBe(false);
+      expect(new URL(request.url).searchParams.get("api-version")).toBe("v1");
+      expect(request.headers.get("foundry-features")).toBe("Skills=V1Preview");
     }
     for (const request of [requests[4], requests[9]]) {
       const query = new URL(request.url).searchParams;
@@ -101,7 +104,7 @@ describe("Skills GA requests", () => {
   });
 
   it.each(["skills", "versions"] as const)(
-    "follows and resumes %s pages without an api-version",
+    "follows and resumes %s pages with API versioning and preview headers",
     async (kind) => {
       const { client, requests } = createClient(
         { data: [], last_id: "cursor-1", has_more: true },
@@ -116,8 +119,8 @@ describe("Skills GA requests", () => {
       };
       const iterator =
         kind === "skills"
-          ? client.skills.list(options)
-          : client.skills.listVersions("skill", options);
+          ? client.beta.skills.list(options)
+          : client.beta.skills.listVersions("skill", options);
       const pages = iterator.byPage();
       const firstPage = await pages.next();
 
@@ -130,7 +133,8 @@ describe("Skills GA requests", () => {
       expect(requests).toHaveLength(3);
       for (const request of requests) {
         const query = new URL(request.url).searchParams;
-        expect(query.has("api-version")).toBe(false);
+        expect(query.get("api-version")).toBe("v1");
+        expect(request.headers.get("foundry-features")).toBe("Skills=V1Preview");
         expect(query.get("limit")).toBe("1");
         expect(query.get("order")).toBe("asc");
         expect(request.headers.get("x-custom")).toBe("retained");
