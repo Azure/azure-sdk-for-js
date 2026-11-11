@@ -170,7 +170,7 @@ describe("snippets", function () {
   });
 
   it("agent-insight-monitors", async function () {
-    for await (const monitor of project.beta.agentInsightMonitors.list()) {
+    for await (const monitor of project.agentInsightMonitors.list()) {
       console.log(`${monitor.id}: ${monitor.agent_name}`);
     }
   });
@@ -1139,16 +1139,18 @@ Be direct and efficient. When you reach the search results page, read and descri
     const skillName = "sample-skill";
 
     // Create a new skill
-    const created = await project.beta.skills.create(skillName, {
-      description: "Example skill created by the @azure/ai-projects sample.",
-      instructions: "You are a helpful assistant that answers questions concisely.",
-      metadata: { owner: "sample" },
+    const created = await project.skills.create(skillName, {
+      inlineContent: {
+        description: "Example skill created by the @azure/ai-projects sample.",
+        instructions: "You are a helpful assistant that answers questions concisely.",
+        metadata: { owner: "sample" },
+      },
     });
     console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 
     // Retrieve the skill
-    const fetched = await project.beta.skills.get(skillName);
-    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+    const fetched = await project.skills.get(skillName);
+    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
   });
 
   it("toolboxes", async function () {

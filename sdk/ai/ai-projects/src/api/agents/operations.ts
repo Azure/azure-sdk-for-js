@@ -27,10 +27,11 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
-  GenerateAgentRequest,
+  AgentsDownloadOptimizationJobFileResponse,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -104,10 +105,11 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
-  AgentsCreateFromPromptOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -859,7 +861,7 @@ export function _listOptimizationJobsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      status: options?.status,
+      status: options?.status as any,
       agent_name: options?.agentName,
       "api-version": context.apiVersion,
     },
@@ -910,6 +912,57 @@ export function listOptimizationJobs(
       },
     },
   );
+}
+
+export function _downloadOptimizationJobFileSend(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path_1 = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/files{?api-version,candidate_id,path}",
+    {
+      jobId: jobId,
+      candidate_id: options?.candidateId,
+      path: path,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path_1).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/octet-stream", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _downloadOptimizationJobFileDeserialize(
+  result: PathUncheckedResponse & AgentsDownloadOptimizationJobFileResponse,
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+export async function downloadOptimizationJobFile(
+  context: Client,
+  jobId: string,
+  path: string,
+  options: AgentsDownloadOptimizationJobFileOptionalParams = { requestOptions: {} },
+): Promise<AgentsDownloadOptimizationJobFileResponse> {
+  const result = await _downloadOptimizationJobFileSend(context, jobId, path, options);
+  return _downloadOptimizationJobFileDeserialize(result);
 }
 
 export function _getOptimizationJobSend(

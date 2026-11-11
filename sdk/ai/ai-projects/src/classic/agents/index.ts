@@ -45,6 +45,7 @@ import {
   estimateOptimizationJob,
   createOptimizationJob,
   createFromPrompt,
+  downloadOptimizationJobFile,
 } from "../../api/agents/operations.js";
 import type {
   AgentsDeleteSessionFileOptionalParams,
@@ -88,6 +89,7 @@ import type {
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
   AgentsCreateFromPromptOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
 } from "../../api/agents/options.js";
 import type {
   Agent,
@@ -112,6 +114,7 @@ import type {
   AgentOptimizationEstimateResult,
   AgentOptimizationCandidate,
   GenerateAgentRequest,
+  AgentsDownloadOptimizationJobFileResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
@@ -216,6 +219,12 @@ export interface AgentsOperations {
   listOptimizationJobs: (
     options?: AgentsListOptimizationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentOptimizationJob>;
+  /** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+  downloadOptimizationJobFile: (
+    jobId: string,
+    path: string,
+    options?: AgentsDownloadOptimizationJobFileOptionalParams,
+  ) => Promise<AgentsDownloadOptimizationJobFileResponse>;
   /** Retrieves an optimization job by its identifier. */
   getOptimizationJob: (
     jobId: string,
@@ -495,6 +504,11 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       cancelOptimizationJob(context, jobId, options),
     listOptimizationJobs: (options?: AgentsListOptimizationJobsOptionalParams) =>
       listOptimizationJobs(context, options),
+    downloadOptimizationJobFile: (
+      jobId: string,
+      path: string,
+      options?: AgentsDownloadOptimizationJobFileOptionalParams,
+    ) => downloadOptimizationJobFile(context, jobId, path, options),
     getOptimizationJob: (jobId: string, options?: AgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     estimateOptimizationJob: (

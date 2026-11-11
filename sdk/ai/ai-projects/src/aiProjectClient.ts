@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+import type { SkillsOperations } from "./classic/skills/index.js";
+import { _getSkillsOperations } from "./classic/skills/index.js";
+import type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+import { _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
 import type { VoiceAgentsOperations } from "./classic/voiceAgents/index.js";
 import { _getVoiceAgentsOperations } from "./classic/voiceAgents/index.js";
 import OpenAI from "openai";
@@ -91,6 +95,12 @@ function resolveRealtimeOptions(
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
+  /** The operation groups for skills */
+  public readonly skills: SkillsOperations;
+
+  /** The operation groups for agentInsightMonitors */
+  public readonly agentInsightMonitors: AgentInsightMonitorsOperations;
+
   /** The operation groups for voiceAgents */
   public readonly voiceAgents: VoiceAgentsOperations;
 
@@ -150,6 +160,8 @@ export class AIProjectClient {
     );
     this.telemetry = _getTelemetryOperations(this.connections);
     this.voiceAgents = _getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig);
+    this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._cognitiveScopeClient);
+    this.skills = _getSkillsOperations(this._cognitiveScopeClient);
   }
 
   /** The operation groups for toolboxes */

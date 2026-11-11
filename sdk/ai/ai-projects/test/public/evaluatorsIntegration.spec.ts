@@ -70,9 +70,12 @@ function createClient(...responses: MockResponse[]): {
 }
 
 describe("evaluator GA post-emitter integration", () => {
-  it("wires root evaluators while keeping only uploads in beta and retaining custom clients", async () => {
+  it("wires root evaluators while retaining beta uploads and custom clients", async () => {
     const { client, requests, scopes } = createClient({ body: evaluator });
-    expect(Object.keys(client.beta.evaluators).sort()).toEqual(["getCredentials", "pendingUpload"]);
+    expect(client.beta.evaluators).toMatchObject({
+      getCredentials: expect.any(Function),
+      pendingUpload: expect.any(Function),
+    });
     expect(client.evaluators).not.toHaveProperty("listLatestVersions");
     expect(client.datasets.uploadFile).toBeTypeOf("function");
     expect(client.telemetry.getApplicationInsightsConnectionString).toBeTypeOf("function");

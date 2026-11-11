@@ -6304,6 +6304,12 @@ export interface EvaluationRule {
   filter?: EvaluationRuleFilter;
   /** Event type that the evaluation rule applies to. */
   eventType: EvaluationRuleEventType;
+  /** Timing for timerTrigger rules. Required for timerTrigger and not allowed for other event types. */
+  schedule?: TriggerUnion;
+  /** Provisioning state of the rule's schedule. Returned for timerTrigger rules only. */
+  readonly provisioningStatus?: ScheduleProvisioningStatus;
+  /** Error that caused the rule to be disabled, if any. */
+  readonly error?: ErrorModel;
   /** Indicates whether the evaluation rule is enabled. Default is true. */
   enabled: boolean;
   /** System metadata for the evaluation rule. */
@@ -6317,6 +6323,7 @@ export function evaluationRuleSerializer(item: EvaluationRule): any {
     action: evaluationRuleActionUnionSerializer(item["action"]),
     filter: !item["filter"] ? item["filter"] : evaluationRuleFilterSerializer(item["filter"]),
     eventType: item["eventType"],
+    schedule: !item["schedule"] ? item["schedule"] : triggerUnionSerializer(item["schedule"]),
     enabled: item["enabled"],
   };
 }
@@ -6329,6 +6336,9 @@ export function evaluationRuleDeserializer(item: any): EvaluationRule {
     action: evaluationRuleActionUnionDeserializer(item["action"]),
     filter: !item["filter"] ? item["filter"] : evaluationRuleFilterDeserializer(item["filter"]),
     eventType: item["eventType"],
+    schedule: !item["schedule"] ? item["schedule"] : triggerUnionDeserializer(item["schedule"]),
+    provisioningStatus: item["provisioningStatus"],
+    error: !item["error"] ? item["error"] : item["error"],
     enabled: item["enabled"],
     systemData: item["systemData"],
   };
@@ -6353,12 +6363,22 @@ export function evaluationRuleActionDeserializer(item: any): EvaluationRuleActio
 
 /** Alias for EvaluationRuleActionUnion */
 export type EvaluationRuleActionUnion =
-  ContinuousEvaluationRuleAction | HumanEvaluationPreviewRuleAction | EvaluationRuleAction;
+  | ContinuousEvaluationRuleAction
+  | TraceEvaluationRuleAction
+  | DatasetEvaluationRuleAction
+  | HumanEvaluationPreviewRuleAction
+  | EvaluationRuleAction;
 
 export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUnion): any {
   switch (item.type) {
     case "continuousEvaluation":
       return continuousEvaluationRuleActionSerializer(item as ContinuousEvaluationRuleAction);
+
+    case "traceEvaluation":
+      return traceEvaluationRuleActionSerializer(item as TraceEvaluationRuleAction);
+
+    case "datasetEvaluation":
+      return datasetEvaluationRuleActionSerializer(item as DatasetEvaluationRuleAction);
 
     case "humanEvaluationPreview":
       return humanEvaluationPreviewRuleActionSerializer(item as HumanEvaluationPreviewRuleAction);
@@ -6373,6 +6393,12 @@ export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRule
     case "continuousEvaluation":
       return continuousEvaluationRuleActionDeserializer(item as ContinuousEvaluationRuleAction);
 
+    case "traceEvaluation":
+      return traceEvaluationRuleActionDeserializer(item as TraceEvaluationRuleAction);
+
+    case "datasetEvaluation":
+      return datasetEvaluationRuleActionDeserializer(item as DatasetEvaluationRuleAction);
+
     case "humanEvaluationPreview":
       return humanEvaluationPreviewRuleActionDeserializer(item as HumanEvaluationPreviewRuleAction);
 
@@ -6382,7 +6408,8 @@ export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRule
 }
 
 /** Type of the evaluation action. */
-export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluationPreview";
+export type EvaluationRuleActionType =
+  "continuousEvaluation" | "humanEvaluationPreview" | "traceEvaluation" | "datasetEvaluation";
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
@@ -6458,7 +6485,7 @@ export function evaluationRuleFilterDeserializer(item: any): EvaluationRuleFilte
 }
 
 /** Type of the evaluation rule event. */
-export type EvaluationRuleEventType = "responseCompleted" | "manual";
+export type EvaluationRuleEventType = "responseCompleted" | "manual" | "timerTrigger";
 
 /** Paged collection of EvaluationRule items */
 export interface _PagedEvaluationRule {
@@ -8163,6 +8190,8 @@ export interface MCPToolboxTool extends ToolboxTool {
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
+  /** Bindings that supply request headers to this MCP server. */
+  request_header_bindings?: MCPToolboxRequestHeaderBinding[];
 }
 
 export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
@@ -8193,6 +8222,9 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
       : _voiceAgentMcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    request_header_bindings: !item["request_header_bindings"]
+      ? item["request_header_bindings"]
+      : mcpToolboxRequestHeaderBindingArraySerializer(item["request_header_bindings"]),
   };
 }
 
@@ -8228,6 +8260,9 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
       : _voiceAgentMcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    request_header_bindings: !item["request_header_bindings"]
+      ? item["request_header_bindings"]
+      : mcpToolboxRequestHeaderBindingArrayDeserializer(item["request_header_bindings"]),
   };
 }
 
@@ -9882,17 +9917,19 @@ export function promptBasedEvaluatorDefinitionDeserializer(
   };
 }
 
-/** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
+/** Rubric evaluator definition. Ordinary quality rubrics report one aggregate. Safety rubrics require Boolean scoring and an explicit allowed classification on every dimension, and report disallowed_behavior_violated and allowed_behavior_violated as two independent lower-is-better metrics. Safety rubrics have no weights, threshold, or combined safety score. */
 export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
   /**
    * The evaluator definition type. Always `rubric` for an evaluator that scores against rubric
    * dimensions.
    */
   type: "rubric";
-  /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
+  /** The rubric criteria. Safety dimensions require allowed and omit weight. Rating generation includes a service residual; Boolean generation does not inject a generic residual. Existing ordinary and legacy definitions retain their behavior. */
   dimensions: Dimension[];
-  /** Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any dimension scored 1 → fail' rule still applies regardless of this threshold. */
+  /** Optional normalized threshold for Likert scoring, interpreted as 0.5 when omitted. Ordinary Boolean scoring requires all applicable checks to pass: omit this field or set it to 1; its effective threshold is 1 and other values are rejected. Safety rubrics omit this field and report two separate metrics without an overall threshold. */
   pass_threshold?: number;
+  /** Simple scoring choices. Omission preserves existing legacy scoring for existing clients. No policy version is required from the caller. */
+  scoring?: RubricScoring;
 }
 
 export function rubricBasedEvaluatorDefinitionSerializer(
@@ -9905,6 +9942,7 @@ export function rubricBasedEvaluatorDefinitionSerializer(
     metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
     dimensions: dimensionArraySerializer(item["dimensions"]),
     pass_threshold: item["pass_threshold"],
+    scoring: !item["scoring"] ? item["scoring"] : rubricScoringSerializer(item["scoring"]),
   };
 }
 
@@ -9920,6 +9958,7 @@ export function rubricBasedEvaluatorDefinitionDeserializer(
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     dimensions: dimensionArrayDeserializer(item["dimensions"]),
     pass_threshold: item["pass_threshold"],
+    scoring: !item["scoring"] ? item["scoring"] : rubricScoringDeserializer(item["scoring"]),
   };
 }
 
@@ -9935,14 +9974,18 @@ export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
   });
 }
 
-/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
+/** One measurable criterion within a rubric. Quality criteria may use rating weights; safety criteria classify a behavior as allowed or disallowed. */
 export interface Dimension {
   /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
   id: string;
   /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
   description: string;
-  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
-  weight: number;
+  /** Safety behavior classification: true means allowed behavior and false means disallowed behavior. Required on every safety criterion instead of weight. This is not an evaluation verdict. Omit for ordinary quality criteria; omission never defaults a safety criterion to false. Preserved through edits and regeneration. */
+  allowed?: boolean;
+  /** Optional configured weight for legacy or Likert scoring. For Likert, omit every weight for equal contribution or supply a weight for every dimension; partially weighted definitions are rejected. Boolean scoring rejects every configured weight, including explicit unit weights. No schema default is emitted. */
+  weight?: number;
+  /** Read-only model-suggested weight (1-10) returned for unweighted Likert dimensions. */
+  readonly generated_weight?: number;
   /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. The service defaults to `false` if a value is not specified by the caller. */
   always_applicable?: boolean;
 }
@@ -9951,6 +9994,7 @@ export function dimensionSerializer(item: Dimension): any {
   return {
     id: item["id"],
     description: item["description"],
+    allowed: item["allowed"],
     weight: item["weight"],
     always_applicable: item["always_applicable"],
   };
@@ -9960,7 +10004,9 @@ export function dimensionDeserializer(item: any): Dimension {
   return {
     id: item["id"],
     description: item["description"],
+    allowed: item["allowed"],
     weight: item["weight"],
+    generated_weight: item["generated_weight"],
     always_applicable: item["always_applicable"],
   };
 }
@@ -9971,6 +10017,8 @@ export interface EndpointBasedEvaluatorDefinition extends EvaluatorDefinition {
   type: "endpoint";
   /** Name of the Project Connection that stores the endpoint URL and credentials. The connection must exist on the project and have a non-empty target URL. Supported auth types: ApiKey (sends `api-key` header) and AAD/Entra ID (acquires a bearer token via the project's Managed Identity). */
   connection_name: string;
+  /** Version of the contract between the service and the evaluator endpoint. Optional on create; if omitted, the service uses `0.0.1`, so existing clients that do not send this property are unaffected. Stored evaluator versions keep the value they were created with. Registration rejects values the service does not support; the type stays extensible so responses can return newer versions. Version `0.0.2` requires `metrics` to contain exactly one metric, of type `ordinal` or `continuous`. */
+  schema_version?: EndpointEvaluatorSchemaVersion;
 }
 
 export function endpointBasedEvaluatorDefinitionSerializer(
@@ -9982,6 +10030,7 @@ export function endpointBasedEvaluatorDefinitionSerializer(
     data_schema: item["data_schema"],
     metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
     connection_name: item["connection_name"],
+    schema_version: item["schema_version"],
   };
 }
 
@@ -10004,6 +10053,7 @@ export function endpointBasedEvaluatorDefinitionDeserializer(
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     connection_name: item["connection_name"],
+    schema_version: item["schema_version"],
   };
 }
 
@@ -10064,6 +10114,8 @@ export interface EvaluatorGenerationJob {
   readonly error?: ErrorModel;
   /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
   sources: EvaluatorGenerationJobSourceUnion[];
+  /** Generation intent selected or inherited for this generation attempt. Omitted when no category was supplied. */
+  readonly category?: EvaluatorGenerationCategory;
   /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
   model: string;
   /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
@@ -10072,6 +10124,12 @@ export interface EvaluatorGenerationJob {
   evaluator_display_name?: string;
   /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
   evaluator_description?: string;
+  /** Rubric scoring selected for this generation attempt, including an inherited saved mode. Omitted for legacy generation. */
+  readonly scoring?: RubricScoring;
+  /** Normalized pass threshold supplied or inherited for this generation attempt. Omitted when no threshold was supplied or saved. Boolean scoring always uses an effective threshold of 1. */
+  readonly pass_threshold?: number;
+  /** Caller-approved dimensions fixed for this generation attempt, not the complete generated result. Omission retains normal regeneration ownership handling; an empty list explicitly clears the fixed set. */
+  readonly dimensions?: Dimension[];
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at?: Date;
   /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
@@ -10089,10 +10147,16 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
     status: item["status"],
     error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
     evaluator_display_name: item["evaluator_display_name"],
     evaluator_description: item["evaluator_description"],
+    scoring: !item["scoring"] ? item["scoring"] : rubricScoringDeserializer(item["scoring"]),
+    pass_threshold: item["pass_threshold"],
+    dimensions: !item["dimensions"]
+      ? item["dimensions"]
+      : dimensionArrayDeserializer(item["dimensions"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at:
       item["finished_at"] === undefined || item["finished_at"] === null
@@ -10109,25 +10173,39 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
 
 /** Caller-supplied inputs for an evaluator generation job. */
 export interface EvaluatorGenerationInputs {
-  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
+  /** Source materials for generation. Safety generation requires a nonempty prompt source for the objective and at least one agent or trace source for application context. An arbitrary dataset cannot replace safety application context. Ordinary generation keeps its existing supported sources. */
   sources: EvaluatorGenerationJobSourceUnion[];
-  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
-  model: string;
+  /** Generation intent. Omission preserves the existing quality path. Explicitly select safety for safety generation and regeneration. Safety output uses Boolean scoring, allowed classifications, and two named violation metrics. */
+  category?: EvaluatorGenerationCategory;
+  /** The caller's model for quality rubric generation (e.g., 'gpt-4o'). Required by the service when category is quality or omitted. Safety generation and regeneration use centrally managed red teaming simulation capacity, ignore this field when supplied, and do not fall back to caller capacity. Safety rubric scoring separately uses centrally managed red teaming evaluator capacity. */
+  model?: string;
   /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
   evaluator_name: string;
   /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
   evaluator_display_name?: string;
   /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
   evaluator_description?: string;
+  /** Scoring choices for the generated evaluator. For quality, supplied scoring defaults to Likert; omitted weights on first creation yield equal contribution, and regeneration preserves saved choices. Omitting scoring preserves existing quality generation behavior. Safety generation resolves omitted scoring to Boolean and rejects a conflicting supplied mode; its dimensions use allowed rather than weights and its two metric results are not combined. */
+  scoring?: RubricScoring;
+  /** Optional normalized Likert threshold: omission uses 0.5 for fresh generation and inherits the saved threshold on regeneration. For ordinary Boolean generation, omit this field or set it to 1; other values are rejected and its all-pass threshold is fixed at 1. Safety generation omits this field because its two violation metrics have no overall threshold. */
+  pass_threshold?: number;
+  /** Caller-approved dimensions to preserve while generating other checks. Omission preserves prior approved dimensions on regeneration; an explicit list replaces the fixed set. Safety fixed dimensions require an explicit allowed Boolean, omit weights, and preserve classification as part of their policy meaning. */
+  dimensions?: Dimension[];
 }
 
 export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
   return {
     sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
+    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
     evaluator_display_name: item["evaluator_display_name"],
     evaluator_description: item["evaluator_description"],
+    scoring: !item["scoring"] ? item["scoring"] : rubricScoringSerializer(item["scoring"]),
+    pass_threshold: item["pass_threshold"],
+    dimensions: !item["dimensions"]
+      ? item["dimensions"]
+      : dimensionArraySerializer(item["dimensions"]),
   };
 }
 
@@ -10307,6 +10385,8 @@ export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJ
   start_time?: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
+  /** Optional explicit list of trace IDs to include. */
+  trace_ids?: string[];
 }
 
 export function tracesEvaluatorGenerationJobSourceSerializer(
@@ -10320,6 +10400,11 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
     agent_version: item["agent_version"],
     start_time: !item["start_time"] ? item["start_time"] : item["start_time"].getTime() / 1000 || 0,
     end_time: !item["end_time"] ? item["end_time"] : item["end_time"].getTime() / 1000 || 0,
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -10340,6 +10425,11 @@ export function tracesEvaluatorGenerationJobSourceDeserializer(
       item["end_time"] === undefined || item["end_time"] === null
         ? item["end_time"]
         : new Date(item["end_time"] * 1000),
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -10408,7 +10498,7 @@ export function agentInsightMonitorListItemArrayDeserializer(
   });
 }
 
-/** An Agent Insights monitor summary returned by list operations. */
+/** Monitor list item without the summary. */
 export interface AgentInsightMonitorListItem {
   /** The monitor identifier. */
   readonly id: string;
@@ -10426,6 +10516,8 @@ export interface AgentInsightMonitorListItem {
   readonly estimated_cost?: AgentInsightEstimatedCost;
   /** Why the system suspended scheduled generation. Null when the monitor is not suspended. */
   readonly suspension: AgentInsightSuspension | null;
+  /** Analysis priorities. Omitted when not configured. */
+  readonly priorities?: AgentInsightPrioritiesRead;
   /** The time when this monitor was last updated. */
   readonly updated_at: Date;
 }
@@ -10447,6 +10539,9 @@ export function agentInsightMonitorListItemDeserializer(item: any): AgentInsight
     suspension: !item["suspension"]
       ? item["suspension"]
       : agentInsightSuspensionDeserializer(item["suspension"]),
+    priorities: !item["priorities"]
+      ? item["priorities"]
+      : agentInsightPrioritiesReadDeserializer(item["priorities"]),
     updated_at: new Date(item["updated_at"] * 1000),
   };
 }
@@ -10528,8 +10623,10 @@ export interface AgentInsightMonitor {
   readonly estimated_cost?: AgentInsightEstimatedCost;
   /** Why the system suspended scheduled generation. Null when the monitor is not suspended. */
   readonly suspension: AgentInsightSuspension | null;
-  /** The effective overview, or null before an overview is available. */
-  readonly overview: AgentInsightsOverview | null;
+  /** Generated summary. Omitted when unavailable. */
+  readonly agent_summary?: AgentInsightSummary;
+  /** Analysis priorities. Omitted when not configured. */
+  readonly priorities?: AgentInsightPrioritiesRead;
   /** The time when this monitor was last updated. */
   readonly updated_at: Date;
 }
@@ -10551,9 +10648,12 @@ export function agentInsightMonitorDeserializer(item: any): AgentInsightMonitor 
     suspension: !item["suspension"]
       ? item["suspension"]
       : agentInsightSuspensionDeserializer(item["suspension"]),
-    overview: !item["overview"]
-      ? item["overview"]
-      : agentInsightsOverviewDeserializer(item["overview"]),
+    agent_summary: !item["agent_summary"]
+      ? item["agent_summary"]
+      : agentInsightSummaryDeserializer(item["agent_summary"]),
+    priorities: !item["priorities"]
+      ? item["priorities"]
+      : agentInsightPrioritiesReadDeserializer(item["priorities"]),
     updated_at: new Date(item["updated_at"] * 1000),
   };
 }
@@ -10636,7 +10736,7 @@ export interface AgentInsightRun {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Caller-supplied inputs. */
-  inputs?: AgentInsightRunCreate;
+  inputs?: AgentInsightRunInputs;
   /** Result produced on success. */
   readonly result?: AgentInsightRunResult;
   /** Current lifecycle status. */
@@ -10668,7 +10768,7 @@ export interface AgentInsightRun {
 export function agentInsightRunDeserializer(item: any): AgentInsightRun {
   return {
     id: item["id"],
-    inputs: !item["inputs"] ? item["inputs"] : agentInsightRunCreateDeserializer(item["inputs"]),
+    inputs: !item["inputs"] ? item["inputs"] : agentInsightRunInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : agentInsightRunResultDeserializer(item["result"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
@@ -13391,8 +13491,8 @@ export function hourlyRecurrenceScheduleDeserializer(item: any): HourlyRecurrenc
 export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
   /** Daily recurrence type. */
   type: "Daily";
-  /** Hours for the recurrence schedule. */
-  hours: number[];
+  /** Hours for the recurrence schedule. If omitted, the service uses the current UTC hour when the schedule is created. */
+  hours?: number[];
 }
 
 export function dailyRecurrenceScheduleSerializer(item: DailyRecurrenceSchedule): any {
@@ -14146,7 +14246,8 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
+export type DataGenerationJobType =
+  "simple_qna" | "traces" | "tool_use" | "simulation_seed" | "conversations";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -14179,6 +14280,8 @@ export interface DataGenerationJobResult {
   generated_samples: number;
   /** The token usage information for the data generation job. */
   token_usage?: DataGenerationTokenUsage;
+  /** Nonfatal warnings associated with otherwise usable output. `test_case_description_generation_incomplete` indicates that conversation rows were produced but one or more optional descriptions failed. Warning messages do not expose raw provider or model error bodies. */
+  warnings?: DataGenerationWarning[];
 }
 
 export function dataGenerationJobResultDeserializer(item: any): DataGenerationJobResult {
@@ -14190,6 +14293,9 @@ export function dataGenerationJobResultDeserializer(item: any): DataGenerationJo
     token_usage: !item["token_usage"]
       ? item["token_usage"]
       : dataGenerationTokenUsageDeserializer(item["token_usage"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : dataGenerationWarningArrayDeserializer(item["warnings"]),
   };
 }
 
@@ -14329,7 +14435,7 @@ export interface AgentOptimizationJob {
   /** Result produced on success. */
   readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
-  readonly status?: JobStatus;
+  readonly status?: AgentOptimizationJobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ErrorModel;
   /** Human-readable label. Omitted when no label is needed; it has no uniqueness, routing, or idempotency semantics. */
@@ -14371,7 +14477,7 @@ export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJo
     result: !item["result"]
       ? item["result"]
       : agentOptimizationJobResultDeserializer(item["result"]),
-    status: item["status"],
+    status: agentOptimizationJobStatusDeserializer(item["status"]),
     error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
     display_name: item["display_name"],
     target_configuration: !item["target_configuration"]
@@ -14441,15 +14547,23 @@ export interface AgentOptimizationCandidate {
   name: string;
   /** The candidate's current lifecycle state. */
   status: AgentOptimizationCandidateStatus;
+  /** Primary failure or skip reason. Omitted for other candidate statuses. */
+  error?: ErrorModel;
   /** Timestamp when work on this candidate slot began, represented in Unix time. */
   started_at: Date;
   /** Typed output generated for this candidate. The output type matches the parent job's optimization type. Omitted until output is available. */
   output?: AgentOptimizationCandidateOutputUnion;
+  /** Persisted skill execution snapshot, including partial outcomes. Populated on candidate GET when available and omitted from LIST. */
+  execution_summary?: AgentOptimizationSkillExecutionSummary;
+  /** Frozen trace cohort and discovered agent skills for skill optimization. Populated on candidate GET when available and omitted from LIST. */
+  resolved_context?: AgentOptimizationSkillResolvedContext;
   /** Human-readable explanation of why the optimizer produced this candidate. Populated on candidate GET when available and omitted from LIST. */
   rationale?: string;
+  /** Metadata for files generated for this candidate, such as trace analysis. Populated on candidate GET when available and omitted from LIST. An empty list means no files were generated; omission means the inventory is not available. Metadata does not provide file content or a download URL. */
+  files?: AgentOptimizationCandidateFile[];
   /** Foundry agent version associated with this candidate. Omitted when no temporary or evaluated agent version was created. */
   agent_version?: string;
-  /** Comparative evaluation summary. Omitted when this candidate was not comparatively evaluated. */
+  /** Evaluation summary, including reporting-only measurements for skill baseline and generated candidates. Omitted when no measurements are available. Missing scores do not imply success or zero. */
   evaluation?: AgentOptimizationCandidateEvaluation;
   /** Promotion metadata. Omitted if this candidate has not been promoted. */
   promotion?: AgentOptimizationCandidatePromotionInfo;
@@ -14461,11 +14575,21 @@ export function agentOptimizationCandidateDeserializer(item: any): AgentOptimiza
     job_id: item["job_id"],
     name: item["name"],
     status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     started_at: new Date(item["started_at"] * 1000),
     output: !item["output"]
       ? item["output"]
       : agentOptimizationCandidateOutputUnionDeserializer(item["output"]),
+    execution_summary: !item["execution_summary"]
+      ? item["execution_summary"]
+      : agentOptimizationSkillExecutionSummaryDeserializer(item["execution_summary"]),
+    resolved_context: !item["resolved_context"]
+      ? item["resolved_context"]
+      : agentOptimizationSkillResolvedContextDeserializer(item["resolved_context"]),
     rationale: item["rationale"],
+    files: !item["files"]
+      ? item["files"]
+      : agentOptimizationCandidateFileArrayDeserializer(item["files"]),
     agent_version: item["agent_version"],
     evaluation: !item["evaluation"]
       ? item["evaluation"]
@@ -14541,7 +14665,6 @@ export type FoundryFeaturesOptInKeys =
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
-  | "AgentInsights=V1Preview"
   | "MemoryStores=V1Preview"
   | "Routines=V2Preview"
   | "Skills=V1Preview"
@@ -25684,6 +25807,7 @@ export function agentOptimizationConfigurationBaseDeserializer(
 export type AgentOptimizationConfigurationBaseUnion =
   | AgentOptimizationConfiguration
   | PromptOptimizationConfiguration
+  | SkillOptimizationConfiguration
   | AgentOptimizationConfigurationBase;
 
 export function agentOptimizationConfigurationBaseUnionSerializer(
@@ -25695,6 +25819,9 @@ export function agentOptimizationConfigurationBaseUnionSerializer(
 
     case "prompt_optimization":
       return promptOptimizationConfigurationSerializer(item as PromptOptimizationConfiguration);
+
+    case "skill_optimization":
+      return skillOptimizationConfigurationSerializer(item as SkillOptimizationConfiguration);
 
     default:
       return agentOptimizationConfigurationBaseSerializer(item);
@@ -25711,13 +25838,17 @@ export function agentOptimizationConfigurationBaseUnionDeserializer(
     case "prompt_optimization":
       return promptOptimizationConfigurationDeserializer(item as PromptOptimizationConfiguration);
 
+    case "skill_optimization":
+      return skillOptimizationConfigurationDeserializer(item as SkillOptimizationConfiguration);
+
     default:
       return agentOptimizationConfigurationBaseDeserializer(item);
   }
 }
 
 /** Optimization job configuration types. */
-export type AgentOptimizationConfigurationType = "agent_optimization" | "prompt_optimization";
+export type AgentOptimizationConfigurationType =
+  "agent_optimization" | "prompt_optimization" | "skill_optimization";
 
 /** Configuration for optimizing an agent for measured quality. */
 export interface AgentOptimizationConfiguration extends AgentOptimizationConfigurationBase {
@@ -26765,8 +26896,8 @@ export type TargetAttribute = "instructions" | "model" | "skills" | "tools";
 export interface PromptOptimizationConfiguration extends AgentOptimizationConfigurationBase {
   /** Optimization type discriminator. */
   type: "prompt_optimization";
-  /** Context used to steer prompt optimization. Omitted when no context is supplied. */
-  context?: OptimizationContextUnion[];
+  /** Steering context for prompt optimization. Agent trace and skill reference context are supported only by skill optimization. Omitted when no context is supplied. */
+  context?: SteeringPromptOptimizationContext[];
 }
 
 export function promptOptimizationConfigurationSerializer(
@@ -26776,7 +26907,7 @@ export function promptOptimizationConfigurationSerializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : optimizationContextUnionArraySerializer(item["context"]),
+      : steeringPromptOptimizationContextArraySerializer(item["context"]),
   };
 }
 
@@ -26787,7 +26918,7 @@ export function promptOptimizationConfigurationDeserializer(
     type: item["type"],
     context: !item["context"]
       ? item["context"]
-      : optimizationContextUnionArrayDeserializer(item["context"]),
+      : steeringPromptOptimizationContextArrayDeserializer(item["context"]),
   };
 }
 
@@ -26825,12 +26956,24 @@ export function optimizationContextDeserializer(item: any): OptimizationContext 
 }
 
 /** Alias for OptimizationContextUnion */
-export type OptimizationContextUnion = SteeringPromptOptimizationContext | OptimizationContext;
+export type OptimizationContextUnion =
+  | SteeringPromptOptimizationContext
+  | SkillReferencesOptimizationContext
+  | AgentTracesOptimizationContext
+  | OptimizationContext;
 
 export function optimizationContextUnionSerializer(item: OptimizationContextUnion): any {
   switch (item.type) {
     case "steering_prompt":
       return steeringPromptOptimizationContextSerializer(item as SteeringPromptOptimizationContext);
+
+    case "skill_references":
+      return skillReferencesOptimizationContextSerializer(
+        item as SkillReferencesOptimizationContext,
+      );
+
+    case "agent_traces":
+      return agentTracesOptimizationContextSerializer(item as AgentTracesOptimizationContext);
 
     default:
       return optimizationContextSerializer(item);
@@ -26844,13 +26987,21 @@ export function optimizationContextUnionDeserializer(item: any): OptimizationCon
         item as SteeringPromptOptimizationContext,
       );
 
+    case "skill_references":
+      return skillReferencesOptimizationContextDeserializer(
+        item as SkillReferencesOptimizationContext,
+      );
+
+    case "agent_traces":
+      return agentTracesOptimizationContextDeserializer(item as AgentTracesOptimizationContext);
+
     default:
       return optimizationContextDeserializer(item);
   }
 }
 
 /** Type of context supplied to an optimization workflow. */
-export type OptimizationContextType = "steering_prompt";
+export type OptimizationContextType = "steering_prompt" | "agent_traces" | "skill_references";
 
 /** Natural-language guidance for the desired optimization. */
 export interface SteeringPromptOptimizationContext extends OptimizationContext {
@@ -27062,7 +27213,8 @@ export function _agentsPagedResultAgentOptimizationCandidateDeserializer(
 }
 
 /** The candidate's lifecycle state. */
-export type AgentOptimizationCandidateStatus = "generating" | "evaluating" | "completed" | "failed";
+export type AgentOptimizationCandidateStatus =
+  "generating" | "evaluating" | "completed" | "failed" | "skipped";
 
 /** Base candidate output. Job types define derived output models with their own fields. */
 export interface AgentOptimizationCandidateOutput {
@@ -27083,6 +27235,7 @@ export function agentOptimizationCandidateOutputDeserializer(
 export type AgentOptimizationCandidateOutputUnion =
   | AgentOptimizationAgentCandidateOutput
   | AgentOptimizationPromptCandidateOutput
+  | AgentOptimizationSkillCandidateOutput
   | AgentOptimizationCandidateOutput;
 
 export function agentOptimizationCandidateOutputUnionDeserializer(
@@ -27097,6 +27250,11 @@ export function agentOptimizationCandidateOutputUnionDeserializer(
     case "prompt_optimization":
       return agentOptimizationPromptCandidateOutputDeserializer(
         item as AgentOptimizationPromptCandidateOutput,
+      );
+
+    case "skill_optimization":
+      return agentOptimizationSkillCandidateOutputDeserializer(
+        item as AgentOptimizationSkillCandidateOutput,
       );
 
     default:
@@ -27659,6 +27817,7 @@ export function dataGenerationJobConfigurationDeserializer(
 export type DataGenerationJobConfigurationUnion =
   | SimpleQnADataGenerationJobConfiguration
   | TracesDataGenerationJobConfiguration
+  | ConversationsDataGenerationJobConfiguration
   | SimulationSeedDataGenerationJobConfiguration
   | ToolUseFineTuningDataGenerationJobConfiguration
   | DataGenerationJobConfiguration;
@@ -27675,6 +27834,11 @@ export function dataGenerationJobConfigurationUnionSerializer(
     case "traces":
       return tracesDataGenerationJobConfigurationSerializer(
         item as TracesDataGenerationJobConfiguration,
+      );
+
+    case "conversations":
+      return conversationsDataGenerationJobConfigurationSerializer(
+        item as ConversationsDataGenerationJobConfiguration,
       );
 
     case "simulation_seed":
@@ -27704,6 +27868,11 @@ export function dataGenerationJobConfigurationUnionDeserializer(
     case "traces":
       return tracesDataGenerationJobConfigurationDeserializer(
         item as TracesDataGenerationJobConfiguration,
+      );
+
+    case "conversations":
+      return conversationsDataGenerationJobConfigurationDeserializer(
+        item as ConversationsDataGenerationJobConfiguration,
       );
 
     case "simulation_seed":
@@ -27775,6 +27944,8 @@ export interface TracesDataGenerationJobConfiguration extends DataGenerationJobC
   max_samples?: number;
   /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
   redact_private_content?: boolean;
+  /** Whether to generate test-case rubric dimensions for each captured turn sample. This is a preview feature requiring the `Foundry-Features: DataGenerationJobs=V1Preview` request header. When true, requires a nonempty `model_options.model`. */
+  generate_test_case_rubric?: boolean;
 }
 
 export function tracesDataGenerationJobConfigurationSerializer(
@@ -27788,6 +27959,7 @@ export function tracesDataGenerationJobConfigurationSerializer(
       : dataGenerationModelOptionsSerializer(item["model_options"]),
     max_samples: item["max_samples"],
     redact_private_content: item["redact_private_content"],
+    generate_test_case_rubric: item["generate_test_case_rubric"],
   };
 }
 
@@ -27802,6 +27974,7 @@ export function tracesDataGenerationJobConfigurationDeserializer(
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
     max_samples: item["max_samples"],
     redact_private_content: item["redact_private_content"],
+    generate_test_case_rubric: item["generate_test_case_rubric"],
   };
 }
 
@@ -37196,3 +37369,3960 @@ export type VoiceAgentsConversationsDownloadAudioItemResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
+
+/** Optimization job lifecycle, including a terminal skip when required input is unavailable. */
+export type AgentOptimizationJobStatus = JobStatus | "skipped";
+
+export function agentOptimizationJobStatusSerializer(item: AgentOptimizationJobStatus): any {
+  return item;
+}
+
+export function agentOptimizationJobStatusDeserializer(item: any): AgentOptimizationJobStatus {
+  return item;
+}
+
+export function steeringPromptOptimizationContextArraySerializer(
+  result: Array<SteeringPromptOptimizationContext>,
+): any[] {
+  return result.map((item) => {
+    return steeringPromptOptimizationContextSerializer(item);
+  });
+}
+
+export function steeringPromptOptimizationContextArrayDeserializer(
+  result: Array<SteeringPromptOptimizationContext>,
+): any[] {
+  return result.map((item) => {
+    return steeringPromptOptimizationContextDeserializer(item);
+  });
+}
+
+/** Configuration for generating a single skill candidate from trace evidence. The candidate can contain zero or more skill outcomes; no new learnings can produce an empty skill_results array without publishing versions. Optional evaluation reuses a non-generated baseline candidate. */
+export interface SkillOptimizationConfiguration extends AgentOptimizationConfigurationBase {
+  /** Skill optimization discriminator. */
+  type: "skill_optimization";
+  /** At least one context item containing trace evidence, optional steering guidance, and optional exact baseline references. Supply agent_traces context; use separate steering_prompt and skill_references items for guidance and baselines. For skill optimization only, a steering prompt must be non-empty and at most 100 KiB (102,400 UTF-8 bytes), enforced by the service; oversized prompts are rejected rather than truncated. */
+  context: OptimizationContextUnion[];
+  /** Fraction of generated question groups assigned to learning, strictly greater than 0 and less than 1. Defaults to 0.7 when omitted. Normalized questions and shared source traces stay in the same group, and every generated row belongs to learning or validation. The service rejects splits that leave either side empty. Caller-provided validation data is not split. */
+  training_split_ratio?: number;
+  /** Optional historical training-trace grading and before/after comparison for supported registered targets. Requires target_configuration, evaluation_model, and one existing evaluator or evaluator_generation_configuration. Training verdicts can inform learning; separate before/after scores report impact and do not drive candidate search, selection, or publication. Omitted to skip new training grading and comparison. */
+  evaluation_configuration?: SkillOptimizationEvaluationConfiguration;
+}
+
+export function skillOptimizationConfigurationSerializer(
+  item: SkillOptimizationConfiguration,
+): any {
+  return {
+    type: item["type"],
+    context: optimizationContextUnionArraySerializer(item["context"]),
+    training_split_ratio: item["training_split_ratio"],
+    evaluation_configuration: !item["evaluation_configuration"]
+      ? item["evaluation_configuration"]
+      : skillOptimizationEvaluationConfigurationSerializer(item["evaluation_configuration"]),
+  };
+}
+
+export function skillOptimizationConfigurationDeserializer(
+  item: any,
+): SkillOptimizationConfiguration {
+  return {
+    type: item["type"],
+    context: optimizationContextUnionArrayDeserializer(item["context"]),
+    training_split_ratio: item["training_split_ratio"],
+    evaluation_configuration: !item["evaluation_configuration"]
+      ? item["evaluation_configuration"]
+      : skillOptimizationEvaluationConfigurationDeserializer(item["evaluation_configuration"]),
+  };
+}
+
+/** Explicit exact-version baselines for skill optimization. */
+export interface SkillReferencesOptimizationContext extends OptimizationContext {
+  /** Skill reference context discriminator. */
+  type: "skill_references";
+  /** Exact skill versions combined with skills discovered from Prompt or Managed targets, including toolboxes. References across context items and discovered skills are deduplicated. Without a target these are the only baselines; an empty effective inventory permits creation from selected traces. An empty list supplies no explicit baselines. */
+  skill_references: AgentOptimizationSkillReferenceUnion[];
+}
+
+export function skillReferencesOptimizationContextSerializer(
+  item: SkillReferencesOptimizationContext,
+): any {
+  return {
+    type: item["type"],
+    skill_references: agentOptimizationSkillReferenceUnionArraySerializer(item["skill_references"]),
+  };
+}
+
+export function skillReferencesOptimizationContextDeserializer(
+  item: any,
+): SkillReferencesOptimizationContext {
+  return {
+    type: item["type"],
+    skill_references: agentOptimizationSkillReferenceUnionArrayDeserializer(
+      item["skill_references"],
+    ),
+  };
+}
+
+export function agentOptimizationSkillReferenceUnionArraySerializer(
+  result: Array<AgentOptimizationSkillReferenceUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationSkillReferenceUnionSerializer(item);
+  });
+}
+
+export function agentOptimizationSkillReferenceUnionArrayDeserializer(
+  result: Array<AgentOptimizationSkillReferenceUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationSkillReferenceUnionDeserializer(item);
+  });
+}
+
+/** Base reference to a skill used by optimization. */
+export interface AgentOptimizationSkillReference {
+  /** Skill reference type. Additional types may be added in future API versions. */
+  /** The discriminator possible values: foundry_skill */
+  type: AgentOptimizationSkillReferenceType;
+}
+
+export function agentOptimizationSkillReferenceSerializer(
+  item: AgentOptimizationSkillReference,
+): any {
+  return { type: item["type"] };
+}
+
+export function agentOptimizationSkillReferenceDeserializer(
+  item: any,
+): AgentOptimizationSkillReference {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationSkillReferenceUnion */
+export type AgentOptimizationSkillReferenceUnion =
+  AgentOptimizationFoundrySkillReference | AgentOptimizationSkillReference;
+
+export function agentOptimizationSkillReferenceUnionSerializer(
+  item: AgentOptimizationSkillReferenceUnion,
+): any {
+  switch (item.type) {
+    case "foundry_skill":
+      return agentOptimizationFoundrySkillReferenceSerializer(
+        item as AgentOptimizationFoundrySkillReference,
+      );
+
+    default:
+      return agentOptimizationSkillReferenceSerializer(item);
+  }
+}
+
+export function agentOptimizationSkillReferenceUnionDeserializer(
+  item: any,
+): AgentOptimizationSkillReferenceUnion {
+  switch (item["type"]) {
+    case "foundry_skill":
+      return agentOptimizationFoundrySkillReferenceDeserializer(
+        item as AgentOptimizationFoundrySkillReference,
+      );
+
+    default:
+      return agentOptimizationSkillReferenceDeserializer(item);
+  }
+}
+
+/** Types of skill references used by optimization. */
+export type AgentOptimizationSkillReferenceType = "foundry_skill";
+
+/** Exact reference to an existing skill version in the job's project. */
+export interface AgentOptimizationFoundrySkillReference extends AgentOptimizationSkillReference {
+  /** Registered Foundry skill reference discriminator. */
+  type: "foundry_skill";
+  /** Registered skill name, from 1 to 64 characters, following the shared skill naming rules. */
+  name: string;
+  /** Non-empty opaque pinned version. The aliases latest and default are not accepted. */
+  version: string;
+}
+
+export function agentOptimizationFoundrySkillReferenceSerializer(
+  item: AgentOptimizationFoundrySkillReference,
+): any {
+  return { type: item["type"], name: item["name"], version: item["version"] };
+}
+
+export function agentOptimizationFoundrySkillReferenceDeserializer(
+  item: any,
+): AgentOptimizationFoundrySkillReference {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Trace evidence for skill optimization, selected independently of feedback availability. */
+export interface AgentTracesOptimizationContext extends OptimizationContext {
+  /** Agent trace context discriminator. */
+  type: "agent_traces";
+  /** Explicit telemetry selection. Required without a target agent. When omitted with a target, use its project-linked telemetry. Not accepted on steering_prompt context. */
+  trace_connection_configuration?: AgentOptimizationTraceConnectionConfigurationUnion;
+  /** Trace selection using a fixed half-open window or explicit trace_ids within a lookback interval ending at job creation. */
+  trace_window: AgentOptimizationTraceWindowUnion;
+}
+
+export function agentTracesOptimizationContextSerializer(
+  item: AgentTracesOptimizationContext,
+): any {
+  return {
+    type: item["type"],
+    trace_connection_configuration: !item["trace_connection_configuration"]
+      ? item["trace_connection_configuration"]
+      : agentOptimizationTraceConnectionConfigurationUnionSerializer(
+          item["trace_connection_configuration"],
+        ),
+    trace_window: agentOptimizationTraceWindowUnionSerializer(item["trace_window"]),
+  };
+}
+
+export function agentTracesOptimizationContextDeserializer(
+  item: any,
+): AgentTracesOptimizationContext {
+  return {
+    type: item["type"],
+    trace_connection_configuration: !item["trace_connection_configuration"]
+      ? item["trace_connection_configuration"]
+      : agentOptimizationTraceConnectionConfigurationUnionDeserializer(
+          item["trace_connection_configuration"],
+        ),
+    trace_window: agentOptimizationTraceWindowUnionDeserializer(item["trace_window"]),
+  };
+}
+
+/** Explicit project-authorized telemetry selection, not an arbitrary endpoint. */
+export interface AgentOptimizationTraceConnectionConfiguration {
+  /** Trace provider discriminator. */
+  /** The discriminator possible values: application_insights */
+  type: AgentOptimizationTraceConnectionType;
+}
+
+export function agentOptimizationTraceConnectionConfigurationSerializer(
+  item: AgentOptimizationTraceConnectionConfiguration,
+): any {
+  return { type: item["type"] };
+}
+
+export function agentOptimizationTraceConnectionConfigurationDeserializer(
+  item: any,
+): AgentOptimizationTraceConnectionConfiguration {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationTraceConnectionConfigurationUnion */
+export type AgentOptimizationTraceConnectionConfigurationUnion =
+  | AgentOptimizationAppInsightsTraceConnectionConfiguration
+  | AgentOptimizationTraceConnectionConfiguration;
+
+export function agentOptimizationTraceConnectionConfigurationUnionSerializer(
+  item: AgentOptimizationTraceConnectionConfigurationUnion,
+): any {
+  switch (item.type) {
+    case "application_insights":
+      return agentOptimizationAppInsightsTraceConnectionConfigurationSerializer(
+        item as AgentOptimizationAppInsightsTraceConnectionConfiguration,
+      );
+
+    default:
+      return agentOptimizationTraceConnectionConfigurationSerializer(item);
+  }
+}
+
+export function agentOptimizationTraceConnectionConfigurationUnionDeserializer(
+  item: any,
+): AgentOptimizationTraceConnectionConfigurationUnion {
+  switch (item["type"]) {
+    case "application_insights":
+      return agentOptimizationAppInsightsTraceConnectionConfigurationDeserializer(
+        item as AgentOptimizationAppInsightsTraceConnectionConfiguration,
+      );
+
+    default:
+      return agentOptimizationTraceConnectionConfigurationDeserializer(item);
+  }
+}
+
+/** Project-authorized trace providers for skill optimization. */
+export type AgentOptimizationTraceConnectionType = "application_insights";
+
+/** Selects a project-linked Application Insights component. */
+export interface AgentOptimizationAppInsightsTraceConnectionConfiguration extends AgentOptimizationTraceConnectionConfiguration {
+  /** Application Insights provider discriminator. */
+  type: "application_insights";
+  /** Non-empty ARM component resource ID of an Application Insights connection linked to this project. Invalid or unavailable explicit configuration must fail rather than fall back. */
+  resource_id: string;
+  /** Required without target_configuration and omitted with a target agent. From 1 to 256 characters. Exact, case-sensitive AppRoleName or cloud_RoleName, including any emitted OpenTelemetry namespace prefix. This is a telemetry service identity, not a Foundry agent reference. No surrounding whitespace, wildcards, or KQL. */
+  agent_name?: string;
+}
+
+export function agentOptimizationAppInsightsTraceConnectionConfigurationSerializer(
+  item: AgentOptimizationAppInsightsTraceConnectionConfiguration,
+): any {
+  return { type: item["type"], resource_id: item["resource_id"], agent_name: item["agent_name"] };
+}
+
+export function agentOptimizationAppInsightsTraceConnectionConfigurationDeserializer(
+  item: any,
+): AgentOptimizationAppInsightsTraceConnectionConfiguration {
+  return {
+    type: item["type"],
+    resource_id: item["resource_id"],
+    agent_name: item["agent_name"],
+  };
+}
+
+/** Trace selection window for a one-time skill optimization job. */
+export interface AgentOptimizationTraceWindow {
+  /** Trace window discriminator. */
+  /** The discriminator possible values: fixed, trace_ids */
+  type: AgentOptimizationTraceWindowType;
+}
+
+export function agentOptimizationTraceWindowSerializer(item: AgentOptimizationTraceWindow): any {
+  return { type: item["type"] };
+}
+
+export function agentOptimizationTraceWindowDeserializer(item: any): AgentOptimizationTraceWindow {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationTraceWindowUnion */
+export type AgentOptimizationTraceWindowUnion =
+  | AgentOptimizationFixedTraceWindow
+  | AgentOptimizationTraceIdsTraceWindow
+  | AgentOptimizationTraceWindow;
+
+export function agentOptimizationTraceWindowUnionSerializer(
+  item: AgentOptimizationTraceWindowUnion,
+): any {
+  switch (item.type) {
+    case "fixed":
+      return agentOptimizationFixedTraceWindowSerializer(item as AgentOptimizationFixedTraceWindow);
+
+    case "trace_ids":
+      return agentOptimizationTraceIdsTraceWindowSerializer(
+        item as AgentOptimizationTraceIdsTraceWindow,
+      );
+
+    default:
+      return agentOptimizationTraceWindowSerializer(item);
+  }
+}
+
+export function agentOptimizationTraceWindowUnionDeserializer(
+  item: any,
+): AgentOptimizationTraceWindowUnion {
+  switch (item["type"]) {
+    case "fixed":
+      return agentOptimizationFixedTraceWindowDeserializer(
+        item as AgentOptimizationFixedTraceWindow,
+      );
+
+    case "trace_ids":
+      return agentOptimizationTraceIdsTraceWindowDeserializer(
+        item as AgentOptimizationTraceIdsTraceWindow,
+      );
+
+    default:
+      return agentOptimizationTraceWindowDeserializer(item);
+  }
+}
+
+/** Trace selection strategies for skill optimization. */
+export type AgentOptimizationTraceWindowType = "fixed" | "trace_ids";
+
+/** Selects the latest readable trace conversations in a half-open interval, independently of feedback availability. */
+export interface AgentOptimizationFixedTraceWindow extends AgentOptimizationTraceWindow {
+  /** Fixed-window discriminator. */
+  type: "fixed";
+  /** Inclusive UTC Unix timestamp in seconds, at or after the Unix epoch. Must precede the effective end_time after truncation to job submission time. The service rejects empty or inverted effective intervals. */
+  start_time: Date;
+  /** Exclusive UTC Unix timestamp in seconds. A future value is truncated to job submission time, and the effective end is returned in the job configuration. The service does not wait for future traces. */
+  end_time: Date;
+  /** Maximum number of trace conversations to select, from 1 to 100 inclusive. If omitted, the service defaults to 100. Selects the latest matching readable traces before collecting their annotations or evaluation results; feedback availability does not affect selection priority. */
+  max_traces?: number;
+}
+
+export function agentOptimizationFixedTraceWindowSerializer(
+  item: AgentOptimizationFixedTraceWindow,
+): any {
+  return {
+    type: item["type"],
+    start_time: (item["start_time"].getTime() / 1000) | 0,
+    end_time: (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+  };
+}
+
+export function agentOptimizationFixedTraceWindowDeserializer(
+  item: any,
+): AgentOptimizationFixedTraceWindow {
+  return {
+    type: item["type"],
+    start_time: new Date(item["start_time"] * 1000),
+    end_time: new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+  };
+}
+
+/** Selects explicit trace IDs within the configured telemetry source and a lookback interval ending at job creation. */
+export interface AgentOptimizationTraceIdsTraceWindow extends AgentOptimizationTraceWindow {
+  /** Explicit trace-ID selection discriminator. */
+  type: "trace_ids";
+  /** At least one explicit trace identifier to look up within the configured telemetry source. Service support, maximum list size, duplicate handling, and missing-ID behavior are TBD. */
+  trace_ids: string[];
+  /** Telemetry lookup horizon in hours, at least 1. The half-open lookup interval starts this many hours before job creation and ends at job creation; retries do not move the anchor. */
+  lookback_hours: number;
+}
+
+export function agentOptimizationTraceIdsTraceWindowSerializer(
+  item: AgentOptimizationTraceIdsTraceWindow,
+): any {
+  return {
+    type: item["type"],
+    trace_ids: item["trace_ids"].map((p: any) => {
+      return p;
+    }),
+    lookback_hours: item["lookback_hours"],
+  };
+}
+
+export function agentOptimizationTraceIdsTraceWindowDeserializer(
+  item: any,
+): AgentOptimizationTraceIdsTraceWindow {
+  return {
+    type: item["type"],
+    trace_ids: item["trace_ids"].map((p: any) => {
+      return p;
+    }),
+    lookback_hours: item["lookback_hours"],
+  };
+}
+
+/** Skill-only evaluation inputs. Training-trace grading can inform single-shot learning; supported before/after comparison reports impact without gating publication. */
+export interface SkillOptimizationEvaluationConfiguration {
+  /** Optional target-completion validation data, limited to 500 inline test cases. When omitted, the service generates data from the selected traces and partitions it using training_split_ratio for supported before/after comparison. Both comparison runs reuse the same frozen validation dataset. Caller-provided validation data is reused without splitting. Caller-supplied training_set is not accepted. */
+  validation_set?: AgentOptimizationTargetCompletionEvaluationSet;
+  /** Existing evaluator reference. At submission, supply exactly one reference or evaluator_generation_configuration, not both; the service validates this combination. After preparation, contains the resolved exact evaluator version used for training grading and supported baseline and learned-candidate evaluation. */
+  evaluators?: AgentOptimizationEvaluator[];
+  /** Required model configuration used for evaluation. Its model also supplies evaluator-generation requests when generation is selected. */
+  evaluation_model: EvaluationModelConfiguration;
+  /** Maximum number of target-agent runs executed concurrently during each target-completion evaluation, from 1 to 10. If omitted, the service defaults to 1. */
+  max_concurrent_agent_runs?: number;
+  /** Alternative to an existing evaluator reference at submission. Generates an evaluator using evaluation_model.model. Resolved exact versions are returned in evaluators after preparation. */
+  evaluator_generation_configuration?: AgentOptimizationEvaluatorGenerationConfigurationUnion;
+}
+
+export function skillOptimizationEvaluationConfigurationSerializer(
+  item: SkillOptimizationEvaluationConfiguration,
+): any {
+  return {
+    validation_set: !item["validation_set"]
+      ? item["validation_set"]
+      : agentOptimizationTargetCompletionEvaluationSetSerializer(item["validation_set"]),
+    evaluators: !item["evaluators"]
+      ? item["evaluators"]
+      : agentOptimizationEvaluatorArraySerializer(item["evaluators"]),
+    evaluation_model: evaluationModelConfigurationSerializer(item["evaluation_model"]),
+    max_concurrent_agent_runs: item["max_concurrent_agent_runs"],
+    evaluator_generation_configuration: !item["evaluator_generation_configuration"]
+      ? item["evaluator_generation_configuration"]
+      : agentOptimizationEvaluatorGenerationConfigurationUnionSerializer(
+          item["evaluator_generation_configuration"],
+        ),
+  };
+}
+
+export function skillOptimizationEvaluationConfigurationDeserializer(
+  item: any,
+): SkillOptimizationEvaluationConfiguration {
+  return {
+    validation_set: !item["validation_set"]
+      ? item["validation_set"]
+      : agentOptimizationTargetCompletionEvaluationSetDeserializer(item["validation_set"]),
+    evaluators: !item["evaluators"]
+      ? item["evaluators"]
+      : agentOptimizationEvaluatorArrayDeserializer(item["evaluators"]),
+    evaluation_model: evaluationModelConfigurationDeserializer(item["evaluation_model"]),
+    max_concurrent_agent_runs: item["max_concurrent_agent_runs"],
+    evaluator_generation_configuration: !item["evaluator_generation_configuration"]
+      ? item["evaluator_generation_configuration"]
+      : agentOptimizationEvaluatorGenerationConfigurationUnionDeserializer(
+          item["evaluator_generation_configuration"],
+        ),
+  };
+}
+
+/** Base configuration for service-generated optimization evaluators. Currently supported for skill optimization only. Uses evaluation_configuration.evaluation_model; no separate generation model is accepted. */
+export interface AgentOptimizationEvaluatorGenerationConfiguration {
+  /** Evaluator generation source discriminator. */
+  /** The discriminator possible values: agent_traces */
+  type: AgentOptimizationEvaluatorGenerationSourceType;
+  /** Additional instructions or context to guide evaluator generation from the selected source. */
+  prompt?: string;
+}
+
+export function agentOptimizationEvaluatorGenerationConfigurationSerializer(
+  item: AgentOptimizationEvaluatorGenerationConfiguration,
+): any {
+  return { type: item["type"], prompt: item["prompt"] };
+}
+
+export function agentOptimizationEvaluatorGenerationConfigurationDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorGenerationConfiguration {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+  };
+}
+
+/** Alias for AgentOptimizationEvaluatorGenerationConfigurationUnion */
+export type AgentOptimizationEvaluatorGenerationConfigurationUnion =
+  | AgentOptimizationTraceEvaluatorGenerationConfiguration
+  | AgentOptimizationEvaluatorGenerationConfiguration;
+
+export function agentOptimizationEvaluatorGenerationConfigurationUnionSerializer(
+  item: AgentOptimizationEvaluatorGenerationConfigurationUnion,
+): any {
+  switch (item.type) {
+    case "agent_traces":
+      return agentOptimizationTraceEvaluatorGenerationConfigurationSerializer(
+        item as AgentOptimizationTraceEvaluatorGenerationConfiguration,
+      );
+
+    default:
+      return agentOptimizationEvaluatorGenerationConfigurationSerializer(item);
+  }
+}
+
+export function agentOptimizationEvaluatorGenerationConfigurationUnionDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorGenerationConfigurationUnion {
+  switch (item["type"]) {
+    case "agent_traces":
+      return agentOptimizationTraceEvaluatorGenerationConfigurationDeserializer(
+        item as AgentOptimizationTraceEvaluatorGenerationConfiguration,
+      );
+
+    default:
+      return agentOptimizationEvaluatorGenerationConfigurationDeserializer(item);
+  }
+}
+
+/** Evidence sources for generating skill-optimization evaluators. */
+export type AgentOptimizationEvaluatorGenerationSourceType = "agent_traces";
+
+/** Generates an evaluator from the job's trace evidence or a separate evaluator-only trace selection. */
+export interface AgentOptimizationTraceEvaluatorGenerationConfiguration extends AgentOptimizationEvaluatorGenerationConfiguration {
+  /** Generate evaluators from the agent_traces context. */
+  type: "agent_traces";
+  /** Optional trace selection used only to generate the evaluator. When omitted, reuses the agent_traces context window. An override does not change dataset generation, learning evidence, or validation partitioning. Uses the same fixed-window truncation and trace-ID lookup rules as the context window. */
+  trace_window?: AgentOptimizationTraceWindowUnion;
+}
+
+export function agentOptimizationTraceEvaluatorGenerationConfigurationSerializer(
+  item: AgentOptimizationTraceEvaluatorGenerationConfiguration,
+): any {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+    trace_window: !item["trace_window"]
+      ? item["trace_window"]
+      : agentOptimizationTraceWindowUnionSerializer(item["trace_window"]),
+  };
+}
+
+export function agentOptimizationTraceEvaluatorGenerationConfigurationDeserializer(
+  item: any,
+): AgentOptimizationTraceEvaluatorGenerationConfiguration {
+  return {
+    type: item["type"],
+    prompt: item["prompt"],
+    trace_window: !item["trace_window"]
+      ? item["trace_window"]
+      : agentOptimizationTraceWindowUnionDeserializer(item["trace_window"]),
+  };
+}
+
+/** Output of the single generated candidate produced by trace-driven skill optimization. It can contain zero or more independent skill outcomes. Optional reporting-only evaluation reuses a baseline candidate and each candidate's evaluation summary; the baseline is not a generated alternative. */
+export interface AgentOptimizationSkillCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Skill optimization output discriminator. */
+  type: "skill_optimization";
+  /** Independent proposed skill outcomes. A completed empty array means no changes were proposed, for example because there were no new learnings; no new versions are published in that case. Discovered but untouched skills do not require outcomes. Populated on candidate GET when available and omitted from LIST summaries. */
+  skill_results?: AgentOptimizationSkillResult[];
+}
+
+export function agentOptimizationSkillCandidateOutputDeserializer(
+  item: any,
+): AgentOptimizationSkillCandidateOutput {
+  return {
+    type: item["type"],
+    skill_results: !item["skill_results"]
+      ? item["skill_results"]
+      : agentOptimizationSkillResultArrayDeserializer(item["skill_results"]),
+  };
+}
+
+export function agentOptimizationSkillResultArrayDeserializer(
+  result: Array<AgentOptimizationSkillResult>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationSkillResultDeserializer(item);
+  });
+}
+
+/** One independent skill outcome with its input baseline and intended or confirmed output. */
+export interface AgentOptimizationSkillResult {
+  /** Validation or publication outcome. */
+  status: AgentOptimizationSkillResultStatus;
+  /** Exact input baseline when updating or retaining an existing skill, with the same name as output_skill. Omitted when creating a new skill. */
+  input_skill?: AgentOptimizationSkillReferenceUnion;
+  /** Intended identity for every result. A confirmed version appears only with status created; no_change retains the baseline version only in input_skill. */
+  output_skill: AgentOptimizationSkillOutputReferenceUnion;
+  /** Safe, human-readable explanation of why this skill was proposed or retained, grounded in the selected evidence. Omitted until available. Must not include sensitive trace excerpts or hidden model reasoning. */
+  rationale?: string;
+  /** Artifact checks, including rejections. Absence does not imply success. Candidate evaluation is reported through AgentOptimizationCandidate.evaluation and is not included in per-skill validations. */
+  validations?: AgentOptimizationSkillValidationUnion[];
+  /** Primary failure, rejection, or uncertain-publication reason. Detailed findings remain in validations. Omitted when there is no error. */
+  error?: AgentOptimizationSkillResultError;
+}
+
+export function agentOptimizationSkillResultDeserializer(item: any): AgentOptimizationSkillResult {
+  return {
+    status: item["status"],
+    input_skill: !item["input_skill"]
+      ? item["input_skill"]
+      : agentOptimizationSkillReferenceUnionDeserializer(item["input_skill"]),
+    output_skill: agentOptimizationSkillOutputReferenceUnionDeserializer(item["output_skill"]),
+    rationale: item["rationale"],
+    validations: !item["validations"]
+      ? item["validations"]
+      : agentOptimizationSkillValidationUnionArrayDeserializer(item["validations"]),
+    error: !item["error"]
+      ? item["error"]
+      : agentOptimizationSkillResultErrorDeserializer(item["error"]),
+  };
+}
+
+/** Publication or validation outcome for one skill, independent of whole-job status. */
+export type AgentOptimizationSkillResultStatus =
+  "created" | "no_change" | "rejected" | "pending" | "failed" | "publication_unknown";
+
+/** Base intended output identity, not proof that a skill version was created. */
+export interface AgentOptimizationSkillOutputReference {
+  /** Skill reference type. Additional types may be added in future API versions. */
+  /** The discriminator possible values: foundry_skill */
+  type: AgentOptimizationSkillReferenceType;
+}
+
+export function agentOptimizationSkillOutputReferenceDeserializer(
+  item: any,
+): AgentOptimizationSkillOutputReference {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationSkillOutputReferenceUnion */
+export type AgentOptimizationSkillOutputReferenceUnion =
+  AgentOptimizationFoundrySkillOutputReference | AgentOptimizationSkillOutputReference;
+
+export function agentOptimizationSkillOutputReferenceUnionDeserializer(
+  item: any,
+): AgentOptimizationSkillOutputReferenceUnion {
+  switch (item["type"]) {
+    case "foundry_skill":
+      return agentOptimizationFoundrySkillOutputReferenceDeserializer(
+        item as AgentOptimizationFoundrySkillOutputReference,
+      );
+
+    default:
+      return agentOptimizationSkillOutputReferenceDeserializer(item);
+  }
+}
+
+/** Intended output identity, not proof that a skill version was created. */
+export interface AgentOptimizationFoundrySkillOutputReference extends AgentOptimizationSkillOutputReference {
+  /** Registered Foundry skill reference discriminator. */
+  type: "foundry_skill";
+  /** Non-empty intended skill name, retained for rejected, failed, pending, and unchanged results. */
+  name: string;
+  /** Non-empty exact service-returned version, present only with status created after confirmed publication. Never copy the input version here or infer a version for an uncertain write. */
+  version?: string;
+}
+
+export function agentOptimizationFoundrySkillOutputReferenceDeserializer(
+  item: any,
+): AgentOptimizationFoundrySkillOutputReference {
+  return {
+    type: item["type"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function agentOptimizationSkillValidationUnionArrayDeserializer(
+  result: Array<AgentOptimizationSkillValidationUnion>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationSkillValidationUnionDeserializer(item);
+  });
+}
+
+/** Base validation category; reporting-only performance scores use the baseline and generated candidate evaluation summaries. */
+export interface AgentOptimizationSkillValidation {
+  /** Validation category discriminator. */
+  /** The discriminator possible values: artifact */
+  type: AgentOptimizationSkillValidationType;
+}
+
+export function agentOptimizationSkillValidationDeserializer(
+  item: any,
+): AgentOptimizationSkillValidation {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for AgentOptimizationSkillValidationUnion */
+export type AgentOptimizationSkillValidationUnion =
+  AgentOptimizationSkillArtifactValidation | AgentOptimizationSkillValidation;
+
+export function agentOptimizationSkillValidationUnionDeserializer(
+  item: any,
+): AgentOptimizationSkillValidationUnion {
+  switch (item["type"]) {
+    case "artifact":
+      return agentOptimizationSkillArtifactValidationDeserializer(
+        item as AgentOptimizationSkillArtifactValidation,
+      );
+
+    default:
+      return agentOptimizationSkillValidationDeserializer(item);
+  }
+}
+
+/** Categories of per-skill validation. */
+export type AgentOptimizationSkillValidationType = "artifact";
+
+/** Per-skill artifact validation with explicit coverage and limitations. */
+export interface AgentOptimizationSkillArtifactValidation extends AgentOptimizationSkillValidation {
+  /** Artifact validation discriminator. */
+  type: "artifact";
+  /** Check identifier. Each (type, id) pair is unique within one skill result. */
+  id: AgentOptimizationSkillValidationId;
+  /** Whether the check ran and its outcome. Unimplemented checks are omitted. */
+  status: AgentOptimizationSkillValidationStatus;
+  /** Safe explanation of coverage, limitations, or why the check did not run, at most 1,024 characters. Limited checks must not imply full-package coverage; no sensitive excerpts. */
+  details: string;
+  /** Service-authored failure or availability code. Omitted when unavailable. */
+  error_code?: string;
+  /** Advisory quality or overlap score from 0 to 1 inclusive, not a comparative candidate evaluation score. */
+  score?: number;
+}
+
+export function agentOptimizationSkillArtifactValidationDeserializer(
+  item: any,
+): AgentOptimizationSkillArtifactValidation {
+  return {
+    type: item["type"],
+    id: item["id"],
+    status: item["status"],
+    details: item["details"],
+    error_code: item["error_code"],
+    score: item["score"],
+  };
+}
+
+/** Artifact check identifier. Only implemented checks in the validation plan are reported. */
+export type AgentOptimizationSkillValidationId =
+  | "schema"
+  | "format"
+  | "pii"
+  | "lint-scripts"
+  | "quality"
+  | "security-scan"
+  | "overlap"
+  | "package_integrity"
+  | "target_compatibility"
+  | "evidence_provenance";
+
+/** Status of an artifact validation and its coverage. */
+export type AgentOptimizationSkillValidationStatus =
+  "passed" | "failed" | "warning" | "skipped" | "unavailable";
+
+/** Structured error for an independent skill outcome. */
+export interface AgentOptimizationSkillResultError {
+  /** Stable service-authored error code, from 1 to 128 characters. */
+  code: string;
+  /** Safe explanation, from 1 to 1,024 characters, never raw exceptions or sensitive trace or model content. */
+  message: string;
+}
+
+export function agentOptimizationSkillResultErrorDeserializer(
+  item: any,
+): AgentOptimizationSkillResultError {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Persisted candidate execution snapshot, including partial runs. Not exposed on the job or candidate list response. */
+export interface AgentOptimizationSkillExecutionSummary {
+  /** Time the recorded execution facts last changed, as a UTC Unix timestamp in seconds. */
+  updated_at: Date;
+  /** At most eleven distinct steps in pipeline order. Older snapshots may omit collect_feedback or evaluate_training_traces. */
+  steps: AgentOptimizationSkillExecutionStep[];
+}
+
+export function agentOptimizationSkillExecutionSummaryDeserializer(
+  item: any,
+): AgentOptimizationSkillExecutionSummary {
+  return {
+    updated_at: new Date(item["updated_at"] * 1000),
+    steps: agentOptimizationSkillExecutionStepArrayDeserializer(item["steps"]),
+  };
+}
+
+export function agentOptimizationSkillExecutionStepArrayDeserializer(
+  result: Array<AgentOptimizationSkillExecutionStep>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationSkillExecutionStepDeserializer(item);
+  });
+}
+
+/** Latest recorded state of one logical step in the persisted execution snapshot. */
+export interface AgentOptimizationSkillExecutionStep {
+  /** Service-authored logical step name, unique within the snapshot, for example resolve_inputs, collect_traces, evaluate_training_traces, or publish_skills. Consumers must tolerate unfamiliar names. */
+  name: string;
+  /** Recorded step state. */
+  status: AgentOptimizationSkillExecutionStepStatus;
+  /** Safe service-authored explanation, at most 1,024 characters, never raw model or trace content. */
+  summary?: string;
+  /** Step-specific JSON key/value details, with arbitrary JSON values rather than a fixed property schema. Omitted when unavailable. Never include sensitive trace or model content. */
+  step_details?: Record<string, any>;
+  /** Safe failure or cancellation code, cleared when a retry starts or succeeds. */
+  error_code?: string;
+}
+
+export function agentOptimizationSkillExecutionStepDeserializer(
+  item: any,
+): AgentOptimizationSkillExecutionStep {
+  return {
+    name: item["name"],
+    status: item["status"],
+    summary: item["summary"],
+    step_details: !item["step_details"]
+      ? item["step_details"]
+      : Object.fromEntries(
+          Object.entries(item["step_details"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    error_code: item["error_code"],
+  };
+}
+
+/** Latest recorded state of a logical execution step. */
+export type AgentOptimizationSkillExecutionStepStatus =
+  "not_started" | "in_progress" | "completed" | "failed" | "skipped" | "cancelled";
+
+/** Frozen evidence and discovered baselines, without duplicating requested job configuration. */
+export interface AgentOptimizationSkillResolvedContext {
+  /** Complete evidence cohort, including traces that produced no artifact. Omitted before resolution; an empty array means a resolved empty cohort. */
+  source_trace_ids?: string[];
+  /** Deduplicated exact baselines discovered from the agent and its toolboxes. Excludes skills supplied only through skill_references context items and does not imply invocation. Omitted before discovery; empty when none were discovered or the job is agentless. */
+  agent_skills?: AgentOptimizationSkillReferenceUnion[];
+}
+
+export function agentOptimizationSkillResolvedContextDeserializer(
+  item: any,
+): AgentOptimizationSkillResolvedContext {
+  return {
+    source_trace_ids: !item["source_trace_ids"]
+      ? item["source_trace_ids"]
+      : item["source_trace_ids"].map((p: any) => {
+          return p;
+        }),
+    agent_skills: !item["agent_skills"]
+      ? item["agent_skills"]
+      : agentOptimizationSkillReferenceUnionArrayDeserializer(item["agent_skills"]),
+  };
+}
+
+export function agentOptimizationCandidateFileArrayDeserializer(
+  result: Array<AgentOptimizationCandidateFile>,
+): any[] {
+  return result.map((item) => {
+    return agentOptimizationCandidateFileDeserializer(item);
+  });
+}
+
+/** Metadata for an artifact generated for an optimization candidate. */
+export interface AgentOptimizationCandidateFile {
+  /** Non-empty candidate-relative artifact path, not a local filesystem path or a download URL. */
+  path: string;
+  /** Non-empty artifact category, for example trace_analysis. Additional categories may be returned. */
+  type: string;
+  /** Artifact size in bytes, greater than or equal to 0. */
+  size_in_bytes: number;
+}
+
+export function agentOptimizationCandidateFileDeserializer(
+  item: any,
+): AgentOptimizationCandidateFile {
+  return {
+    path: item["path"],
+    type: item["type"],
+    size_in_bytes: item["size_in_bytes"],
+  };
+}
+
+/** Configures a scheduled evaluation of observed agent traces. */
+export interface TraceEvaluationRuleAction extends EvaluationRuleAction {
+  type: "traceEvaluation";
+  /** Identifier of the evaluation used to score the selected traces. */
+  evalId: string;
+  /**
+   * Trace inputs for each scheduled occurrence. The selected variant's query-window and sampling behavior is preserved.
+   *
+   * For `azure_ai_traces`, set exactly one of `agent_id` or `agent_name`; `trace_ids` is not supported.
+   * For `azure_ai_trace_data_source`, set `trace_source`.
+   * Preview source types may appear in responses for existing schedules but are rejected on create and update.
+   */
+  source: TraceEvaluationSource;
+  /** Level at which each scheduled run evaluates. Required when the evaluation uses the messages item schema. */
+  evaluation_level?: EvaluationLevel;
+}
+
+export function traceEvaluationRuleActionSerializer(item: TraceEvaluationRuleAction): any {
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    source: traceEvaluationSourceSerializer(item["source"]),
+    evaluation_level: item["evaluation_level"],
+  };
+}
+
+export function traceEvaluationRuleActionDeserializer(item: any): TraceEvaluationRuleAction {
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    source: traceEvaluationSourceDeserializer(item["source"]),
+    evaluation_level: item["evaluation_level"],
+  };
+}
+
+/** Existing trace-evaluation inputs supported by scheduled rules. */
+export type TraceEvaluationSource =
+  | TracesEvalRunDataSource
+  | AzureAITraceDataSourceEvalRunDataSource
+  | TracesPreviewEvalRunDataSource
+  | AzureAITraceDataSourcePreviewEvalRunDataSource;
+
+export function traceEvaluationSourceSerializer(item: TraceEvaluationSource): any {
+  return item;
+}
+
+export function traceEvaluationSourceDeserializer(item: any): TraceEvaluationSource {
+  return item;
+}
+
+/**
+ * A data source for evaluation runs over agent traces stored in Application Insights.
+ *
+ * See [create an evaluation dataset from traces](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-to-dataset?tabs=python).
+ */
+export interface TracesEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_traces`. */
+  type: "azure_ai_traces";
+  /** Collection of Agent trace identifiers that should be evaluated. */
+  trace_ids?: string[];
+  /** Collection of conversation identifiers to filter traces by conversation. */
+  conversation_ids?: string[];
+  /** The agent ID used to filter traces for evaluation. */
+  agent_id?: string;
+  /** The agent name used to filter traces for evaluation. */
+  agent_name?: string;
+  /**
+   * Lookback window (in hours) applied when retrieving traces from Application Insights.
+   *     For scheduled evaluations this is inferred from the recurrence interval.
+   */
+  lookback_hours?: number;
+  /** Unix timestamp (in seconds) marking the end of the trace query window. Defaults to the current time. */
+  end_time?: Date;
+  /** Sampling limit applied to traces retrieved for evaluation. */
+  max_traces?: number;
+  /** The delay to apply for ingestion when querying traces. */
+  ingestion_delay_seconds?: number;
+}
+
+export function tracesEvalRunDataSourceSerializer(item: TracesEvalRunDataSource): any {
+  return {
+    type: item["type"],
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
+    conversation_ids: !item["conversation_ids"]
+      ? item["conversation_ids"]
+      : item["conversation_ids"].map((p: any) => {
+          return p;
+        }),
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    lookback_hours: item["lookback_hours"],
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+    ingestion_delay_seconds: item["ingestion_delay_seconds"],
+  };
+}
+
+export function tracesEvalRunDataSourceDeserializer(item: any): TracesEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
+    conversation_ids: !item["conversation_ids"]
+      ? item["conversation_ids"]
+      : item["conversation_ids"].map((p: any) => {
+          return p;
+        }),
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    lookback_hours: item["lookback_hours"],
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+    ingestion_delay_seconds: item["ingestion_delay_seconds"],
+  };
+}
+
+/**
+ * A data source that selects traces for evaluation.
+ *
+ * See [create an evaluation dataset from traces](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-to-dataset?tabs=python).
+ */
+export interface AzureAITraceDataSourceEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_trace_data_source`. */
+  type: "azure_ai_trace_data_source";
+  /** The trace source that defines how traces are selected for evaluation. */
+  trace_source?: TraceSourceUnion;
+}
+
+export function azureAITraceDataSourceEvalRunDataSourceSerializer(
+  item: AzureAITraceDataSourceEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionSerializer(item["trace_source"]),
+  };
+}
+
+export function azureAITraceDataSourceEvalRunDataSourceDeserializer(
+  item: any,
+): AzureAITraceDataSourceEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionDeserializer(item["trace_source"]),
+  };
+}
+
+/** Base class for polymorphic trace sources nested within an AzureAITraceDataSourceEvalRunDataSource. */
+export interface TraceSource {
+  /** The discriminator that identifies which kind of trace source this is. */
+  /** The discriminator possible values: trace_id_source, conversation_id_source, agent_filter */
+  type: TraceSourceType;
+}
+
+export function traceSourceSerializer(item: TraceSource): any {
+  return { type: item["type"] };
+}
+
+export function traceSourceDeserializer(item: any): TraceSource {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TraceSourceUnion */
+export type TraceSourceUnion =
+  TraceIdTraceSource | ConversationIdTraceSource | AgentFilterTraceSource | TraceSource;
+
+export function traceSourceUnionSerializer(item: TraceSourceUnion): any {
+  switch (item.type) {
+    case "trace_id_source":
+      return traceIdTraceSourceSerializer(item as TraceIdTraceSource);
+
+    case "conversation_id_source":
+      return conversationIdTraceSourceSerializer(item as ConversationIdTraceSource);
+
+    case "agent_filter":
+      return agentFilterTraceSourceSerializer(item as AgentFilterTraceSource);
+
+    default:
+      return traceSourceSerializer(item);
+  }
+}
+
+export function traceSourceUnionDeserializer(item: any): TraceSourceUnion {
+  switch (item["type"]) {
+    case "trace_id_source":
+      return traceIdTraceSourceDeserializer(item as TraceIdTraceSource);
+
+    case "conversation_id_source":
+      return conversationIdTraceSourceDeserializer(item as ConversationIdTraceSource);
+
+    case "agent_filter":
+      return agentFilterTraceSourceDeserializer(item as AgentFilterTraceSource);
+
+    default:
+      return traceSourceDeserializer(item);
+  }
+}
+
+/** Specifies the type of trace source used to select traces for evaluation. */
+export type TraceSourceType = "trace_id_source" | "conversation_id_source" | "agent_filter";
+
+/** A trace source that selects traces by explicit trace IDs. */
+export interface TraceIdTraceSource extends TraceSource {
+  /** The type of trace source, always `trace_id_source`. */
+  type: "trace_id_source";
+  /** Collection of trace identifiers to evaluate. */
+  trace_ids: string[];
+}
+
+export function traceIdTraceSourceSerializer(item: TraceIdTraceSource): any {
+  return {
+    type: item["type"],
+    trace_ids: item["trace_ids"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function traceIdTraceSourceDeserializer(item: any): TraceIdTraceSource {
+  return {
+    type: item["type"],
+    trace_ids: item["trace_ids"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** A trace source that selects traces by conversation IDs. */
+export interface ConversationIdTraceSource extends TraceSource {
+  /** The type of trace source, always `conversation_id_source`. */
+  type: "conversation_id_source";
+  /** Collection of conversation identifiers to filter traces by. */
+  conversation_ids: string[];
+}
+
+export function conversationIdTraceSourceSerializer(item: ConversationIdTraceSource): any {
+  return {
+    type: item["type"],
+    conversation_ids: item["conversation_ids"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function conversationIdTraceSourceDeserializer(item: any): ConversationIdTraceSource {
+  return {
+    type: item["type"],
+    conversation_ids: item["conversation_ids"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** A trace source that selects traces by agent reference with time-based filtering. */
+export interface AgentFilterTraceSource extends TraceSource {
+  /** The type of trace source, always `agent_filter`. */
+  type: "agent_filter";
+  /** The identifier of the agent to filter traces by. */
+  agent_id?: string;
+  /** The name of the agent to filter traces by. */
+  agent_name?: string;
+  /** The version of the agent to filter traces by. */
+  agent_version?: string;
+  /** Start time for the trace query window, expressed as a Unix timestamp (seconds). */
+  start_time?: Date;
+  /** End time for the trace query window, expressed as a Unix timestamp (seconds). */
+  end_time?: Date;
+  /** Maximum number of traces to sample. Must be greater than 0. */
+  max_traces?: number;
+  /** The strategy used to filter traces. */
+  filter_strategy?: FilterStrategyType;
+}
+
+export function agentFilterTraceSourceSerializer(item: AgentFilterTraceSource): any {
+  return {
+    type: item["type"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: !item["start_time"]
+      ? item["start_time"]
+      : (item["start_time"].getTime() / 1000) | 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+    filter_strategy: item["filter_strategy"],
+  };
+}
+
+export function agentFilterTraceSourceDeserializer(item: any): AgentFilterTraceSource {
+  return {
+    type: item["type"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time:
+      item["start_time"] === undefined || item["start_time"] === null
+        ? item["start_time"]
+        : new Date(item["start_time"] * 1000),
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+    filter_strategy: item["filter_strategy"],
+  };
+}
+
+/** Specifies the type of filter strategy used to select traces for evaluation. */
+export type FilterStrategyType = "random_sampling" | "smart_filtering";
+
+/** Preview form of `azure_ai_traces`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
+export interface TracesPreviewEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_traces_preview`. */
+  type: "azure_ai_traces_preview";
+  /** Collection of Agent trace identifiers that should be evaluated. */
+  trace_ids?: string[];
+  /** Collection of conversation identifiers to filter traces by conversation. */
+  conversation_ids?: string[];
+  /** The agent ID used to filter traces for evaluation. */
+  agent_id?: string;
+  /** The agent name used to filter traces for evaluation. */
+  agent_name?: string;
+  /**
+   * Lookback window (in hours) applied when retrieving traces from Application Insights.
+   *     For scheduled evaluations this is inferred from the recurrence interval.
+   */
+  lookback_hours?: number;
+  /** Unix timestamp (in seconds) marking the end of the trace query window. Defaults to the current time. */
+  end_time?: Date;
+  /** Sampling limit applied to traces retrieved for evaluation. */
+  max_traces?: number;
+  /** The delay to apply for ingestion when querying traces. */
+  ingestion_delay_seconds?: number;
+}
+
+export function tracesPreviewEvalRunDataSourceSerializer(
+  item: TracesPreviewEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
+    conversation_ids: !item["conversation_ids"]
+      ? item["conversation_ids"]
+      : item["conversation_ids"].map((p: any) => {
+          return p;
+        }),
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    lookback_hours: item["lookback_hours"],
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+    ingestion_delay_seconds: item["ingestion_delay_seconds"],
+  };
+}
+
+export function tracesPreviewEvalRunDataSourceDeserializer(
+  item: any,
+): TracesPreviewEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_ids: !item["trace_ids"]
+      ? item["trace_ids"]
+      : item["trace_ids"].map((p: any) => {
+          return p;
+        }),
+    conversation_ids: !item["conversation_ids"]
+      ? item["conversation_ids"]
+      : item["conversation_ids"].map((p: any) => {
+          return p;
+        }),
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    lookback_hours: item["lookback_hours"],
+    end_time:
+      item["end_time"] === undefined || item["end_time"] === null
+        ? item["end_time"]
+        : new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+    ingestion_delay_seconds: item["ingestion_delay_seconds"],
+  };
+}
+
+/** Preview form of `azure_ai_trace_data_source`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
+export interface AzureAITraceDataSourcePreviewEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_trace_data_source_preview`. */
+  type: "azure_ai_trace_data_source_preview";
+  /** The trace source that defines how traces are selected for evaluation. */
+  trace_source?: TraceSourceUnion;
+}
+
+export function azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
+  item: AzureAITraceDataSourcePreviewEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionSerializer(item["trace_source"]),
+  };
+}
+
+export function azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
+  item: any,
+): AzureAITraceDataSourcePreviewEvalRunDataSource {
+  return {
+    type: item["type"],
+    trace_source: !item["trace_source"]
+      ? item["trace_source"]
+      : traceSourceUnionDeserializer(item["trace_source"]),
+  };
+}
+
+/** Configures a scheduled evaluation of dataset inputs. */
+export interface DatasetEvaluationRuleAction extends EvaluationRuleAction {
+  type: "datasetEvaluation";
+  /** Identifier of the evaluation used to score the dataset. */
+  evalId: string;
+  /** Dataset inputs for each scheduled occurrence. Preview source types may appear in responses for existing schedules but are rejected on create and update. */
+  source: DatasetEvaluationSource;
+  /** Level at which each scheduled run evaluates. Required when the evaluation uses the messages item schema. */
+  evaluation_level?: EvaluationLevel;
+}
+
+export function datasetEvaluationRuleActionSerializer(item: DatasetEvaluationRuleAction): any {
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    source: datasetEvaluationSourceSerializer(item["source"]),
+    evaluation_level: item["evaluation_level"],
+  };
+}
+
+export function datasetEvaluationRuleActionDeserializer(item: any): DatasetEvaluationRuleAction {
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    source: datasetEvaluationSourceDeserializer(item["source"]),
+    evaluation_level: item["evaluation_level"],
+  };
+}
+
+/** Dataset inputs supported by scheduled rules. Targets are configured within the selected source. */
+export type DatasetEvaluationSource =
+  | CreateEvalJsonlRunDataSource
+  | EvalCsvRunDataSource
+  | CreateEvalCompletionsRunDataSource
+  | TargetCompletionEvalRunDataSource
+  | UserConversationSimulationEvalRunDataSource
+  | UserConversationSimulationPreviewEvalRunDataSource;
+
+export function datasetEvaluationSourceSerializer(item: DatasetEvaluationSource): any {
+  return item;
+}
+
+export function datasetEvaluationSourceDeserializer(item: any): DatasetEvaluationSource {
+  return item;
+}
+
+/**
+ * A CSV data source for evaluation runs.
+ *
+ * See [evaluation datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluation-datasets).
+ */
+export interface EvalCsvRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `csv`. */
+  type: "csv";
+  /** The source of the CSV data, either inline content or a file reference. */
+  source: EvalCsvFileIdSource;
+}
+
+export function evalCsvRunDataSourceSerializer(item: EvalCsvRunDataSource): any {
+  return { type: item["type"], source: evalCsvFileIdSourceSerializer(item["source"]) };
+}
+
+export function evalCsvRunDataSourceDeserializer(item: any): EvalCsvRunDataSource {
+  return {
+    type: item["type"],
+    source: evalCsvFileIdSourceDeserializer(item["source"]),
+  };
+}
+
+/** Represents a reference to an uploaded CSV file used as a source for evaluation data. */
+export interface EvalCsvFileIdSource {
+  /** The type of source, always `file_id`. */
+  type: "file_id";
+  /** The identifier of the uploaded CSV file. */
+  id: string;
+}
+
+export function evalCsvFileIdSourceSerializer(item: EvalCsvFileIdSource): any {
+  return { type: item["type"], id: item["id"] };
+}
+
+export function evalCsvFileIdSourceDeserializer(item: any): EvalCsvFileIdSource {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/**
+ * A data source for evaluating model or agent target completions.
+ *
+ * See [evaluate conversations](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-conversations?tabs=python).
+ */
+export interface TargetCompletionEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_target_completions`. */
+  type: "azure_ai_target_completions";
+  /** Input messages configuration. */
+  input_messages?: CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
+  /** The source configuration for inline or file data. */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+  /** The target configuration for the evaluation. */
+  target: EvaluationTargetUnion;
+  /** The parameters for item generation. */
+  item_generation_params?: ItemGenerationParamsUnion;
+}
+
+export function targetCompletionEvalRunDataSourceSerializer(
+  item: TargetCompletionEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : createEvalCompletionsRunDataSourceInputMessagesItemReferenceSerializer(
+          item["input_messages"],
+        ),
+    source: _targetCompletionEvalRunDataSourceSourceSerializer(item["source"]),
+    target: evaluationTargetUnionSerializer(item["target"]),
+    item_generation_params: !item["item_generation_params"]
+      ? item["item_generation_params"]
+      : itemGenerationParamsUnionSerializer(item["item_generation_params"]),
+  };
+}
+
+export function targetCompletionEvalRunDataSourceDeserializer(
+  item: any,
+): TargetCompletionEvalRunDataSource {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : createEvalCompletionsRunDataSourceInputMessagesItemReferenceDeserializer(
+          item["input_messages"],
+        ),
+    source: _targetCompletionEvalRunDataSourceSourceDeserializer(item["source"]),
+    target: evaluationTargetUnionDeserializer(item["target"]),
+    item_generation_params: !item["item_generation_params"]
+      ? item["item_generation_params"]
+      : itemGenerationParamsUnionDeserializer(item["item_generation_params"]),
+  };
+}
+
+/** Alias for _TargetCompletionEvalRunDataSourceSource */
+export type _TargetCompletionEvalRunDataSourceSource =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+
+export function _targetCompletionEvalRunDataSourceSourceSerializer(
+  item: _TargetCompletionEvalRunDataSourceSource,
+): any {
+  return item;
+}
+
+export function _targetCompletionEvalRunDataSourceSourceDeserializer(
+  item: any,
+): _TargetCompletionEvalRunDataSourceSource {
+  return item;
+}
+
+/**
+ * Configures how the service prepares input items for an evaluation run before applying testing criteria.
+ *
+ * Depending on `type`, preparation can generate new inputs, retrieve existing responses, transform source data, or simulate conversations. Each `type` selects a workflow-specific model with the parameters required by that preparation workflow. These parameters do not define the evaluated target or the testing criteria.
+ */
+export interface ItemGenerationParams {
+  /** Preparation workflow to use. This discriminator determines which additional parameters are available. */
+  /** The discriminator possible values: red_team, red_team_seed_prompts, red_team_taxonomy, response_retrieval, synthetic_data_gen, target_completion */
+  type: ItemGenerationParamsType;
+}
+
+export function itemGenerationParamsSerializer(item: ItemGenerationParams): any {
+  return { type: item["type"] };
+}
+
+export function itemGenerationParamsDeserializer(item: any): ItemGenerationParams {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ItemGenerationParamsUnion */
+export type ItemGenerationParamsUnion =
+  | RedTeamItemGenerationParams
+  | RedTeamSeedPromptsItemGenerationParams
+  | RedTeamTaxonomyItemGenerationParams
+  | ResponseRetrievalItemGenerationParams
+  | SyntheticDataGenerationItemGenerationParams
+  | TargetCompletionItemGenerationParams
+  | ItemGenerationParams;
+
+export function itemGenerationParamsUnionSerializer(item: ItemGenerationParamsUnion): any {
+  switch (item.type) {
+    case "red_team":
+      return redTeamItemGenerationParamsSerializer(item as RedTeamItemGenerationParams);
+
+    case "red_team_seed_prompts":
+      return redTeamSeedPromptsItemGenerationParamsSerializer(
+        item as RedTeamSeedPromptsItemGenerationParams,
+      );
+
+    case "red_team_taxonomy":
+      return redTeamTaxonomyItemGenerationParamsSerializer(
+        item as RedTeamTaxonomyItemGenerationParams,
+      );
+
+    case "response_retrieval":
+      return responseRetrievalItemGenerationParamsSerializer(
+        item as ResponseRetrievalItemGenerationParams,
+      );
+
+    case "synthetic_data_gen":
+      return syntheticDataGenerationItemGenerationParamsSerializer(
+        item as SyntheticDataGenerationItemGenerationParams,
+      );
+
+    case "target_completion":
+      return targetCompletionItemGenerationParamsSerializer(
+        item as TargetCompletionItemGenerationParams,
+      );
+
+    default:
+      return itemGenerationParamsSerializer(item);
+  }
+}
+
+export function itemGenerationParamsUnionDeserializer(item: any): ItemGenerationParamsUnion {
+  switch (item["type"]) {
+    case "red_team":
+      return redTeamItemGenerationParamsDeserializer(item as RedTeamItemGenerationParams);
+
+    case "red_team_seed_prompts":
+      return redTeamSeedPromptsItemGenerationParamsDeserializer(
+        item as RedTeamSeedPromptsItemGenerationParams,
+      );
+
+    case "red_team_taxonomy":
+      return redTeamTaxonomyItemGenerationParamsDeserializer(
+        item as RedTeamTaxonomyItemGenerationParams,
+      );
+
+    case "response_retrieval":
+      return responseRetrievalItemGenerationParamsDeserializer(
+        item as ResponseRetrievalItemGenerationParams,
+      );
+
+    case "synthetic_data_gen":
+      return syntheticDataGenerationItemGenerationParamsDeserializer(
+        item as SyntheticDataGenerationItemGenerationParams,
+      );
+
+    case "target_completion":
+      return targetCompletionItemGenerationParamsDeserializer(
+        item as TargetCompletionItemGenerationParams,
+      );
+
+    default:
+      return itemGenerationParamsDeserializer(item);
+  }
+}
+
+/** Identifies how evaluation input items are prepared before evaluation. */
+export type ItemGenerationParamsType =
+  | "red_team"
+  | "response_retrieval"
+  | "red_team_seed_prompts"
+  | "red_team_taxonomy"
+  | "synthetic_data_gen"
+  | "target_completion";
+
+/** Represents the parameters for red team item generation. */
+export interface RedTeamItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters. */
+  type: "red_team";
+  /** The collection of attack strategies to be used. */
+  attack_strategies: AttackStrategy[];
+  /** The number of turns allowed in the game. */
+  num_turns: number;
+}
+
+export function redTeamItemGenerationParamsSerializer(item: RedTeamItemGenerationParams): any {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+  };
+}
+
+export function redTeamItemGenerationParamsDeserializer(item: any): RedTeamItemGenerationParams {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+  };
+}
+
+/** Represents the parameters for red team seed prompts item generation. */
+export interface RedTeamSeedPromptsItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters, always `red_team_seed_prompts`. */
+  type: "red_team_seed_prompts";
+  /** The collection of attack strategies to be used. */
+  attack_strategies: AttackStrategy[];
+  /** The number of turns allowed in the game. */
+  num_turns: number;
+  /** The source of JSONL content to be processed. */
+  source: EvalJsonlFileContentSource;
+}
+
+export function redTeamSeedPromptsItemGenerationParamsSerializer(
+  item: RedTeamSeedPromptsItemGenerationParams,
+): any {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+    source: evalJsonlFileContentSourceSerializer(item["source"]),
+  };
+}
+
+export function redTeamSeedPromptsItemGenerationParamsDeserializer(
+  item: any,
+): RedTeamSeedPromptsItemGenerationParams {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+    source: evalJsonlFileContentSourceDeserializer(item["source"]),
+  };
+}
+
+/** Represents the parameters for red team taxonomy item generation. */
+export interface RedTeamTaxonomyItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters, always `red_team_taxonomy`. */
+  type: "red_team_taxonomy";
+  /** The collection of attack strategies to be used. */
+  attack_strategies: AttackStrategy[];
+  /** The number of turns allowed in the game. */
+  num_turns: number;
+  /** The source from which JSONL content is read. */
+  source: EvalJsonlFileContentSource;
+}
+
+export function redTeamTaxonomyItemGenerationParamsSerializer(
+  item: RedTeamTaxonomyItemGenerationParams,
+): any {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+    source: evalJsonlFileContentSourceSerializer(item["source"]),
+  };
+}
+
+export function redTeamTaxonomyItemGenerationParamsDeserializer(
+  item: any,
+): RedTeamTaxonomyItemGenerationParams {
+  return {
+    type: item["type"],
+    attack_strategies: item["attack_strategies"].map((p: any) => {
+      return p;
+    }),
+    num_turns: item["num_turns"],
+    source: evalJsonlFileContentSourceDeserializer(item["source"]),
+  };
+}
+
+/**
+ * Parameters for retrieving deployed conversations for evaluation.
+ *
+ * See [evaluate deployed conversations](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-deployed-conversations?tabs=python).
+ */
+export interface ResponseRetrievalItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters, always `response_retrieval`. */
+  type: "response_retrieval";
+  /** The maximum number of turns of chat history to evaluate. */
+  max_num_turns: number;
+  /**
+   * Maps `response_id` to the source field that contains a stored Responses API
+   * response identifier. For example, `{"response_id": "{{item.resp_id}}"}`.
+   * Field names are case-sensitive.
+   */
+  data_mapping: Record<string, string>;
+  /**
+   * The inline JSONL content containing the response identifiers to retrieve.
+   * The `azure_ai_responses` data source supports `file_content` only;
+   * providing a `file_id` results in a `400 Bad Request` response.
+   */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+}
+
+export function responseRetrievalItemGenerationParamsSerializer(
+  item: ResponseRetrievalItemGenerationParams,
+): any {
+  return {
+    type: item["type"],
+    max_num_turns: item["max_num_turns"],
+    data_mapping: item["data_mapping"],
+    source: _responseRetrievalItemGenerationParamsSourceSerializer(item["source"]),
+  };
+}
+
+export function responseRetrievalItemGenerationParamsDeserializer(
+  item: any,
+): ResponseRetrievalItemGenerationParams {
+  return {
+    type: item["type"],
+    max_num_turns: item["max_num_turns"],
+    data_mapping: Object.fromEntries(
+      Object.entries(item["data_mapping"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    source: _responseRetrievalItemGenerationParamsSourceDeserializer(item["source"]),
+  };
+}
+
+/** Alias for _ResponseRetrievalItemGenerationParamsSource */
+export type _ResponseRetrievalItemGenerationParamsSource =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+
+export function _responseRetrievalItemGenerationParamsSourceSerializer(
+  item: _ResponseRetrievalItemGenerationParamsSource,
+): any {
+  return item;
+}
+
+export function _responseRetrievalItemGenerationParamsSourceDeserializer(
+  item: any,
+): _ResponseRetrievalItemGenerationParamsSource {
+  return item;
+}
+
+/** Represents the parameters for synthetic data generation item generation. */
+export interface SyntheticDataGenerationItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters. */
+  type: "synthetic_data_gen";
+  /** The maximum number of data samples to generate. */
+  samples_count: number;
+  /** The prompt used to generate synthetic data. This property is optional when the target is an agent that already has instructions. */
+  prompt?: string;
+  /** The name of the model deployment to use for generating synthetic data. */
+  model_deployment_name: string;
+  /** The name of the output dataset where generated synthetic data will be stored. If not provided, service generates dataset name automatically. */
+  output_dataset_name?: string;
+  /** The identifier of the output dataset where generated synthetic data is stored. The generated data is a jsonl file with columns id, query and test_description. */
+  readonly output_dataset_id?: string;
+  /** The optional seed data content source files for data generation. */
+  sources: EvalJsonlFileIdSource[];
+}
+
+export function syntheticDataGenerationItemGenerationParamsSerializer(
+  item: SyntheticDataGenerationItemGenerationParams,
+): any {
+  return {
+    type: item["type"],
+    samples_count: item["samples_count"],
+    prompt: item["prompt"],
+    model_deployment_name: item["model_deployment_name"],
+    output_dataset_name: item["output_dataset_name"],
+    sources: evalJsonlFileIdSourceArraySerializer(item["sources"]),
+  };
+}
+
+export function syntheticDataGenerationItemGenerationParamsDeserializer(
+  item: any,
+): SyntheticDataGenerationItemGenerationParams {
+  return {
+    type: item["type"],
+    samples_count: item["samples_count"],
+    prompt: item["prompt"],
+    model_deployment_name: item["model_deployment_name"],
+    output_dataset_name: item["output_dataset_name"],
+    output_dataset_id: item["output_dataset_id"],
+    sources: evalJsonlFileIdSourceArrayDeserializer(item["sources"]),
+  };
+}
+
+/**
+ * Parameters for generating target completions for simulated conversations.
+ *
+ * See [simulate conversations](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-simulate-conversations?tabs=python).
+ */
+export interface TargetCompletionItemGenerationParams extends ItemGenerationParams {
+  /** The type of item generation parameters, always `target_completion`. */
+  type: "target_completion";
+  /** The maximum number of target completions to execute concurrently. The services defaults to 1 if a value is not specified by the caller, which invokes the target sequentially. */
+  max_concurrency?: number;
+}
+
+export function targetCompletionItemGenerationParamsSerializer(
+  item: TargetCompletionItemGenerationParams,
+): any {
+  return { type: item["type"], max_concurrency: item["max_concurrency"] };
+}
+
+export function targetCompletionItemGenerationParamsDeserializer(
+  item: any,
+): TargetCompletionItemGenerationParams {
+  return {
+    type: item["type"],
+    max_concurrency: item["max_concurrency"],
+  };
+}
+
+/**
+ * Evaluates a model or agent by simulating user conversations against it.
+ *
+ * Each source item defines a test scenario. Use a JSONL source or an `inline_user_conversation_simulation` source with strongly typed test cases. JSONL attributes use the inline test-case property names by default; specify `data_mapping` only when the dataset uses different names. The model specified by `model_configuration` generates the simulated user's turns and drives the conversation with `target` until it reaches the desired length or maximum turn limit. The evaluation's testing criteria are then applied to the conversation.
+ */
+export interface UserConversationSimulationEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_user_conversation_simulation`. */
+  type: "azure_ai_user_conversation_simulation";
+  /** Test scenarios supplied as JSONL rows or strongly typed inline test cases. */
+  source: UserConversationSimulationSource;
+  /** Model or agent being evaluated. It receives turns from the simulated user. */
+  target: EvaluationTargetUnion;
+  /** Model used to simulate the user side of each conversation by generating turns sent to the evaluated `target`. */
+  model_configuration: EvaluationModelConfiguration;
+  /** Default configuration for generating simulated user conversations and persisting their output. Conversation properties in a test case's `simulation_configuration` override the corresponding defaults. */
+  default_simulation_configuration?: UserConversationSimulationDefaultConfiguration;
+  /** Maps JSONL dataset attributes to user conversation simulation inputs when their names differ from the defaults. The default attribute names are `test_case_id`, `test_case_category`, `test_case_description`, and `simulation_configuration`, matching `UserConversationSimulationTestCase`. Omit when the dataset uses these names or when using `inline_user_conversation_simulation`. */
+  data_mapping?: Record<string, string>;
+}
+
+export function userConversationSimulationEvalRunDataSourceSerializer(
+  item: UserConversationSimulationEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    source: userConversationSimulationSourceSerializer(item["source"]),
+    target: evaluationTargetUnionSerializer(item["target"]),
+    model_configuration: evaluationModelConfigurationSerializer(item["model_configuration"]),
+    default_simulation_configuration: !item["default_simulation_configuration"]
+      ? item["default_simulation_configuration"]
+      : userConversationSimulationDefaultConfigurationSerializer(
+          item["default_simulation_configuration"],
+        ),
+    data_mapping: item["data_mapping"],
+  };
+}
+
+export function userConversationSimulationEvalRunDataSourceDeserializer(
+  item: any,
+): UserConversationSimulationEvalRunDataSource {
+  return {
+    type: item["type"],
+    source: userConversationSimulationSourceDeserializer(item["source"]),
+    target: evaluationTargetUnionDeserializer(item["target"]),
+    model_configuration: evaluationModelConfigurationDeserializer(item["model_configuration"]),
+    default_simulation_configuration: !item["default_simulation_configuration"]
+      ? item["default_simulation_configuration"]
+      : userConversationSimulationDefaultConfigurationDeserializer(
+          item["default_simulation_configuration"],
+        ),
+    data_mapping: !item["data_mapping"]
+      ? item["data_mapping"]
+      : Object.fromEntries(
+          Object.entries(item["data_mapping"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Sources supported by user conversation simulation. */
+export type UserConversationSimulationSource =
+  | EvalJsonlFileContentSource
+  | EvalJsonlFileIdSource
+  | UserConversationSimulationInlineTestCasesSource;
+
+export function userConversationSimulationSourceSerializer(
+  item: UserConversationSimulationSource,
+): any {
+  return item;
+}
+
+export function userConversationSimulationSourceDeserializer(
+  item: any,
+): UserConversationSimulationSource {
+  return item;
+}
+
+/** Supplies strongly typed test scenarios directly in the evaluation run request. */
+export interface UserConversationSimulationInlineTestCasesSource {
+  /** The source type. Always `inline_user_conversation_simulation`. */
+  type: "inline_user_conversation_simulation";
+  /** Test scenarios from which user conversations are simulated. At least one test case is required. */
+  test_cases: UserConversationSimulationTestCase[];
+}
+
+export function userConversationSimulationInlineTestCasesSourceSerializer(
+  item: UserConversationSimulationInlineTestCasesSource,
+): any {
+  return {
+    type: item["type"],
+    test_cases: userConversationSimulationTestCaseArraySerializer(item["test_cases"]),
+  };
+}
+
+export function userConversationSimulationInlineTestCasesSourceDeserializer(
+  item: any,
+): UserConversationSimulationInlineTestCasesSource {
+  return {
+    type: item["type"],
+    test_cases: userConversationSimulationTestCaseArrayDeserializer(item["test_cases"]),
+  };
+}
+
+/** Configures default conversation behavior and optional run-wide persistence of generated conversations. */
+export interface UserConversationSimulationDefaultConfiguration {
+  /** Hard limit on turns in each conversation. When omitted, the service defaults to 20. */
+  max_num_turns?: number;
+  /** Number of independent conversation repetitions for each test case. Defaults to 1 when not specified at either the data-source or test-case level. */
+  conversation_repetitions?: number;
+  /** Target number of turns in each conversation. The effective value cannot exceed the effective `max_num_turns`. When omitted, no target is set and the simulation model determines the conversation length dynamically from the scenario. */
+  desired_num_turns?: number;
+  /** Audio effects applied to voice conversation simulations. This property is ignored for text-only simulations. */
+  audio_effects?: UserConversationSimulationAudioEffectsConfiguration;
+  /** Conversation behavior of the simulated user. */
+  user_behavior?: UserConversationSimulationUserBehaviorConfiguration;
+  /** Whether to write all generated conversations to a versioned Foundry dataset. When enabled, the completed run includes a `simulated_user_conversations` entry in `output_datasets`. When omitted, the service defaults to `false`. */
+  enable_conversation_dataset_generation?: boolean;
+  /** Name of the dataset to which generated conversations are written. This property is used only when `enable_conversation_dataset_generation` is `true`. When omitted, the service generates a dataset name. */
+  output_conversation_dataset_name?: string;
+}
+
+export function userConversationSimulationDefaultConfigurationSerializer(
+  item: UserConversationSimulationDefaultConfiguration,
+): any {
+  return {
+    max_num_turns: item["max_num_turns"],
+    conversation_repetitions: item["conversation_repetitions"],
+    desired_num_turns: item["desired_num_turns"],
+    audio_effects: !item["audio_effects"]
+      ? item["audio_effects"]
+      : userConversationSimulationAudioEffectsConfigurationSerializer(item["audio_effects"]),
+    user_behavior: !item["user_behavior"]
+      ? item["user_behavior"]
+      : userConversationSimulationUserBehaviorConfigurationSerializer(item["user_behavior"]),
+    enable_conversation_dataset_generation: item["enable_conversation_dataset_generation"],
+    output_conversation_dataset_name: item["output_conversation_dataset_name"],
+  };
+}
+
+export function userConversationSimulationDefaultConfigurationDeserializer(
+  item: any,
+): UserConversationSimulationDefaultConfiguration {
+  return {
+    max_num_turns: item["max_num_turns"],
+    conversation_repetitions: item["conversation_repetitions"],
+    desired_num_turns: item["desired_num_turns"],
+    audio_effects: !item["audio_effects"]
+      ? item["audio_effects"]
+      : userConversationSimulationAudioEffectsConfigurationDeserializer(item["audio_effects"]),
+    user_behavior: !item["user_behavior"]
+      ? item["user_behavior"]
+      : userConversationSimulationUserBehaviorConfigurationDeserializer(item["user_behavior"]),
+    enable_conversation_dataset_generation: item["enable_conversation_dataset_generation"],
+    output_conversation_dataset_name: item["output_conversation_dataset_name"],
+  };
+}
+
+/** Preview form of `azure_ai_user_conversation_simulation`. Returned only for rules backed by existing preview schedules; rejected on create and update. */
+export interface UserConversationSimulationPreviewEvalRunDataSource extends EvalRunDataSource {
+  /** The type of data source, always `azure_ai_user_conversation_simulation_preview`. */
+  type: "azure_ai_user_conversation_simulation_preview";
+  /** Test scenarios supplied as JSONL rows or strongly typed inline test cases. */
+  source: UserConversationSimulationSource;
+  /** Model or agent being evaluated. It receives turns from the simulated user. */
+  target: EvaluationTargetUnion;
+  /** Model used to simulate the user side of each conversation by generating turns sent to the evaluated `target`. */
+  model_configuration: EvaluationModelConfiguration;
+  /** Default configuration for generating simulated user conversations and persisting their output. Conversation properties in a test case's `simulation_configuration` override the corresponding defaults. */
+  default_simulation_configuration?: UserConversationSimulationDefaultConfiguration;
+  /** Maps JSONL dataset attributes to user conversation simulation inputs when their names differ from the defaults. The default attribute names are `test_case_id`, `test_case_category`, `test_case_description`, and `simulation_configuration`, matching `UserConversationSimulationTestCase`. Omit when the dataset uses these names or when using `inline_user_conversation_simulation`. */
+  data_mapping?: Record<string, string>;
+}
+
+export function userConversationSimulationPreviewEvalRunDataSourceSerializer(
+  item: UserConversationSimulationPreviewEvalRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    source: userConversationSimulationSourceSerializer(item["source"]),
+    target: evaluationTargetUnionSerializer(item["target"]),
+    model_configuration: evaluationModelConfigurationSerializer(item["model_configuration"]),
+    default_simulation_configuration: !item["default_simulation_configuration"]
+      ? item["default_simulation_configuration"]
+      : userConversationSimulationDefaultConfigurationSerializer(
+          item["default_simulation_configuration"],
+        ),
+    data_mapping: item["data_mapping"],
+  };
+}
+
+export function userConversationSimulationPreviewEvalRunDataSourceDeserializer(
+  item: any,
+): UserConversationSimulationPreviewEvalRunDataSource {
+  return {
+    type: item["type"],
+    source: userConversationSimulationSourceDeserializer(item["source"]),
+    target: evaluationTargetUnionDeserializer(item["target"]),
+    model_configuration: evaluationModelConfigurationDeserializer(item["model_configuration"]),
+    default_simulation_configuration: !item["default_simulation_configuration"]
+      ? item["default_simulation_configuration"]
+      : userConversationSimulationDefaultConfigurationDeserializer(
+          item["default_simulation_configuration"],
+        ),
+    data_mapping: !item["data_mapping"]
+      ? item["data_mapping"]
+      : Object.fromEntries(
+          Object.entries(item["data_mapping"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Base class for run data sources with discriminator support. */
+export interface EvalRunDataSource {
+  /** The data source type discriminator. */
+  /** The discriminator possible values: azure_ai_traces, azure_ai_traces_preview, azure_ai_trace_data_source, azure_ai_trace_data_source_preview, azure_ai_user_conversation_simulation, azure_ai_user_conversation_simulation_preview, csv, azure_ai_target_completions */
+  type: string;
+}
+
+export function evalRunDataSourceSerializer(item: EvalRunDataSource): any {
+  return { type: item["type"] };
+}
+
+export function evalRunDataSourceDeserializer(item: any): EvalRunDataSource {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvalRunDataSourceUnion */
+export type EvalRunDataSourceUnion =
+  | TracesEvalRunDataSource
+  | TracesPreviewEvalRunDataSource
+  | AzureAITraceDataSourceEvalRunDataSource
+  | AzureAITraceDataSourcePreviewEvalRunDataSource
+  | UserConversationSimulationEvalRunDataSource
+  | UserConversationSimulationPreviewEvalRunDataSource
+  | EvalCsvRunDataSource
+  | TargetCompletionEvalRunDataSource
+  | EvalRunDataSource;
+
+export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): any {
+  switch (item.type) {
+    case "azure_ai_traces":
+      return tracesEvalRunDataSourceSerializer(item as TracesEvalRunDataSource);
+
+    case "azure_ai_traces_preview":
+      return tracesPreviewEvalRunDataSourceSerializer(item as TracesPreviewEvalRunDataSource);
+
+    case "azure_ai_trace_data_source":
+      return azureAITraceDataSourceEvalRunDataSourceSerializer(
+        item as AzureAITraceDataSourceEvalRunDataSource,
+      );
+
+    case "azure_ai_trace_data_source_preview":
+      return azureAITraceDataSourcePreviewEvalRunDataSourceSerializer(
+        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      );
+
+    case "azure_ai_user_conversation_simulation":
+      return userConversationSimulationEvalRunDataSourceSerializer(
+        item as UserConversationSimulationEvalRunDataSource,
+      );
+
+    case "azure_ai_user_conversation_simulation_preview":
+      return userConversationSimulationPreviewEvalRunDataSourceSerializer(
+        item as UserConversationSimulationPreviewEvalRunDataSource,
+      );
+
+    case "csv":
+      return evalCsvRunDataSourceSerializer(item as EvalCsvRunDataSource);
+
+    case "azure_ai_target_completions":
+      return targetCompletionEvalRunDataSourceSerializer(item as TargetCompletionEvalRunDataSource);
+
+    default:
+      return evalRunDataSourceSerializer(item);
+  }
+}
+
+export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSourceUnion {
+  switch (item["type"]) {
+    case "azure_ai_traces":
+      return tracesEvalRunDataSourceDeserializer(item as TracesEvalRunDataSource);
+
+    case "azure_ai_traces_preview":
+      return tracesPreviewEvalRunDataSourceDeserializer(item as TracesPreviewEvalRunDataSource);
+
+    case "azure_ai_trace_data_source":
+      return azureAITraceDataSourceEvalRunDataSourceDeserializer(
+        item as AzureAITraceDataSourceEvalRunDataSource,
+      );
+
+    case "azure_ai_trace_data_source_preview":
+      return azureAITraceDataSourcePreviewEvalRunDataSourceDeserializer(
+        item as AzureAITraceDataSourcePreviewEvalRunDataSource,
+      );
+
+    case "azure_ai_user_conversation_simulation":
+      return userConversationSimulationEvalRunDataSourceDeserializer(
+        item as UserConversationSimulationEvalRunDataSource,
+      );
+
+    case "azure_ai_user_conversation_simulation_preview":
+      return userConversationSimulationPreviewEvalRunDataSourceDeserializer(
+        item as UserConversationSimulationPreviewEvalRunDataSource,
+      );
+
+    case "csv":
+      return evalCsvRunDataSourceDeserializer(item as EvalCsvRunDataSource);
+
+    case "azure_ai_target_completions":
+      return targetCompletionEvalRunDataSourceDeserializer(
+        item as TargetCompletionEvalRunDataSource,
+      );
+
+    default:
+      return evalRunDataSourceDeserializer(item);
+  }
+}
+
+export function dataGenerationWarningArrayDeserializer(
+  result: Array<DataGenerationWarning>,
+): any[] {
+  return result.map((item) => {
+    return dataGenerationWarningDeserializer(item);
+  });
+}
+
+/** A nonfatal warning associated with data generation output. */
+export interface DataGenerationWarning {
+  /** The warning code. */
+  code?: DataGenerationWarningCode;
+  /** A safe, human-readable warning message that does not include raw provider or model error bodies. */
+  message: string;
+}
+
+export function dataGenerationWarningDeserializer(item: any): DataGenerationWarning {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Known warning codes for data generation jobs. Additional codes may be returned. */
+export type DataGenerationWarningCode = "test_case_description_generation_incomplete";
+
+/** The configuration for reconstructing existing traced conversations for evaluation, not synthetic conversation simulation. This preview requires `scenario` to be `evaluation`, sources of type `traces`, and the `Foundry-Features: DataGenerationJobs=V1Preview` request header. Conversation-level sampling is implicit; `sample_level` is not supported. Existing trace selection, annotations, and output dataset row schemas are unchanged. Create, get, and list responses preserve `type: conversations`. The service enforces the scenario, source, and conditional model-options requirements. Conversation-level output rows contain `test_case_id`, `messages`, `tool_definitions`, and `metadata`. A successful optional description adds `test_case_description`. If description generation fails, the row is retained with safe row-level status and error metadata, without raw provider or model error bodies. */
+export interface ConversationsDataGenerationJobConfiguration extends DataGenerationJobConfiguration {
+  /** The data generation job type, which is Conversations for this model. */
+  type: "conversations";
+  /** Maximum number of whole conversations to generate, up to service-defined limits. If omitted, sampling is turned off. */
+  max_samples?: number;
+  /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
+  redact_private_content?: boolean;
+  /** Whether to generate an AI-authored test-case description for each reconstructed conversation. This is a preview feature. If omitted, the service defaults to `false`. When true, requires a nonempty `model_options.model`. Model options must be omitted when neither description nor rubric generation is enabled. */
+  generate_test_case_description?: boolean;
+  /** Whether to generate test-case rubric dimensions for each reconstructed conversation. This is a preview feature. When true, requires a nonempty `model_options.model`. Model options must be omitted when neither description nor rubric generation is enabled. */
+  generate_test_case_rubric?: boolean;
+  /** The model used to generate test-case descriptions or rubric dimensions. Required with a nonempty `model` when `generate_test_case_description` or `generate_test_case_rubric` is true; must be omitted otherwise. */
+  model_options?: DataGenerationModelOptions;
+}
+
+export function conversationsDataGenerationJobConfigurationSerializer(
+  item: ConversationsDataGenerationJobConfiguration,
+): any {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+    max_samples: item["max_samples"],
+    redact_private_content: item["redact_private_content"],
+    generate_test_case_description: item["generate_test_case_description"],
+    generate_test_case_rubric: item["generate_test_case_rubric"],
+  };
+}
+
+export function conversationsDataGenerationJobConfigurationDeserializer(
+  item: any,
+): ConversationsDataGenerationJobConfiguration {
+  return {
+    type: item["type"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    max_samples: item["max_samples"],
+    redact_private_content: item["redact_private_content"],
+    generate_test_case_description: item["generate_test_case_description"],
+    generate_test_case_rubric: item["generate_test_case_rubric"],
+  };
+}
+
+/** Monitor analysis priorities returned by the service. */
+export interface AgentInsightPrioritiesRead {
+  /** Up to 20 distinct normalized category identifiers. Can include legacy names containing commas. Empty uses defaults. */
+  categories: string[];
+  /** Analysis guidance. Omitted when unavailable. */
+  instructions?: string;
+}
+
+export function agentInsightPrioritiesReadDeserializer(item: any): AgentInsightPrioritiesRead {
+  return {
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    instructions: item["instructions"],
+  };
+}
+
+/** Monitor analysis priorities. */
+export interface AgentInsightPriorities {
+  /** Up to 20 distinct normalized category identifiers (128 UTF-8 bytes each). Empty uses defaults. */
+  categories: string[];
+  /** Analysis guidance, up to 2,000 UTF-8 bytes after trimming. Null or blank removes guidance. */
+  instructions?: string;
+}
+
+export function agentInsightPrioritiesSerializer(item: AgentInsightPriorities): any {
+  return {
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    instructions: item["instructions"],
+  };
+}
+
+/** Service-generated agent summary. */
+export interface AgentInsightSummary {
+  /** Summary in Markdown. */
+  readonly markdown: string;
+}
+
+export function agentInsightSummaryDeserializer(item: any): AgentInsightSummary {
+  return {
+    markdown: item["markdown"],
+  };
+}
+
+/** Inputs recorded for an Agent Insights run. */
+export interface AgentInsightRunInputs {
+  /** Optional finite positive number of hours of trace history to analyze, up to 2,160. Defaults to 168. */
+  lookback_hours?: number;
+}
+
+export function agentInsightRunInputsDeserializer(item: any): AgentInsightRunInputs {
+  return {
+    lookback_hours: item["lookback_hours"],
+  };
+}
+
+/** Simple rubric scoring choices. Omission preserves existing legacy scoring. */
+export interface RubricScoring {
+  /** Rubric-level scoring mode. Defaults to Likert when scoring is supplied. Omitting scoring preserves existing legacy behavior. */
+  mode?: RubricScoringMode;
+}
+
+export function rubricScoringSerializer(item: RubricScoring): any {
+  return { mode: item["mode"] };
+}
+
+export function rubricScoringDeserializer(item: any): RubricScoring {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** The judgment mode selected for an entire rubric. Safety rubrics use Boolean judgments with separately reported allowed and disallowed behavior metrics. */
+export type RubricScoringMode = "boolean" | "likert";
+
+/** Contract version for an endpoint-based evaluator. */
+export type EndpointEvaluatorSchemaVersion = "0.0.1" | "0.0.2";
+
+/** The requested evaluator generation category. */
+export type EvaluatorGenerationCategory = "quality" | "safety";
+
+export function mcpToolboxRequestHeaderBindingArraySerializer(
+  result: Array<MCPToolboxRequestHeaderBinding>,
+): any[] {
+  return result.map((item) => {
+    return mcpToolboxRequestHeaderBindingSerializer(item);
+  });
+}
+
+export function mcpToolboxRequestHeaderBindingArrayDeserializer(
+  result: Array<MCPToolboxRequestHeaderBinding>,
+): any[] {
+  return result.map((item) => {
+    return mcpToolboxRequestHeaderBindingDeserializer(item);
+  });
+}
+
+/** A binding that supplies a request header to an MCP server. */
+export interface MCPToolboxRequestHeaderBinding {
+  /** The name of the HTTP header to forward to the MCP server. Must be a non-empty HTTP field-name token. */
+  header_name: string;
+  /** The source of the header value, for example `client_headers`. */
+  source: MCPToolboxRequestHeaderBindingSource;
+  /** Whether the client must supply this header. */
+  required: boolean;
+}
+
+export function mcpToolboxRequestHeaderBindingSerializer(
+  item: MCPToolboxRequestHeaderBinding,
+): any {
+  return { header_name: item["header_name"], source: item["source"], required: item["required"] };
+}
+
+export function mcpToolboxRequestHeaderBindingDeserializer(
+  item: any,
+): MCPToolboxRequestHeaderBinding {
+  return {
+    header_name: item["header_name"],
+    source: item["source"],
+    required: item["required"],
+  };
+}
+
+/** The source used to resolve a request header value for an MCP server. */
+export type MCPToolboxRequestHeaderBindingSource = "client_headers";
+
+/** A flat page of recorded evaluator changes and computed health snapshots. */
+export interface _CompletedEvaluatorDiagnosticsPage {
+  /** The recorded evaluator diagnostics. */
+  data: EvaluatorDiagnosticUnion[];
+  /** The first diagnostic identifier represented in this page. */
+  first_id?: string;
+  /** The last diagnostic identifier represented in this page. */
+  last_id?: string;
+  /** Whether more diagnostic entries are available. */
+  has_more: boolean;
+}
+
+export function _completedEvaluatorDiagnosticsPageDeserializer(
+  item: any,
+): _CompletedEvaluatorDiagnosticsPage {
+  return {
+    data: evaluatorDiagnosticUnionArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function evaluatorDiagnosticUnionArrayDeserializer(
+  result: Array<EvaluatorDiagnosticUnion>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorDiagnosticUnionDeserializer(item);
+  });
+}
+
+/** The shared fields for recorded evaluator changes and health snapshots. */
+export interface EvaluatorDiagnostic {
+  /** The stable server-assigned diagnostic identifier. */
+  id: string;
+  /** The evaluator version associated with the recorded snapshot. */
+  evaluator_version: string;
+  /** The server-recorded time when the change occurred, expressed as Unix seconds. */
+  occurred_at: Date;
+  /** A stable machine-readable classification describing why the change occurred. */
+  change_type: EvaluatorDiagnosticChangeType;
+  /** A bounded deterministic summary of the change. */
+  explanation?: string;
+  /** The diagnostic change shape. */
+  /** The discriminator possible values: health_computed, version_created, dimension_added, dimension_updated, dimension_removed, definition_updated */
+  type: EvaluatorDiagnosticType;
+}
+
+export function evaluatorDiagnosticDeserializer(item: any): EvaluatorDiagnostic {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+  };
+}
+
+/** Alias for EvaluatorDiagnosticUnion */
+export type EvaluatorDiagnosticUnion =
+  | HealthComputedDiagnosticChange
+  | VersionCreatedDiagnosticChange
+  | DimensionAddedDiagnosticChange
+  | DimensionUpdatedDiagnosticChange
+  | DimensionRemovedDiagnosticChange
+  | DefinitionUpdatedDiagnosticChange
+  | EvaluatorDiagnostic;
+
+export function evaluatorDiagnosticUnionDeserializer(item: any): EvaluatorDiagnosticUnion {
+  switch (item["type"]) {
+    case "health_computed":
+      return healthComputedDiagnosticChangeDeserializer(item as HealthComputedDiagnosticChange);
+
+    case "version_created":
+      return versionCreatedDiagnosticChangeDeserializer(item as VersionCreatedDiagnosticChange);
+
+    case "dimension_added":
+      return dimensionAddedDiagnosticChangeDeserializer(item as DimensionAddedDiagnosticChange);
+
+    case "dimension_updated":
+      return dimensionUpdatedDiagnosticChangeDeserializer(item as DimensionUpdatedDiagnosticChange);
+
+    case "dimension_removed":
+      return dimensionRemovedDiagnosticChangeDeserializer(item as DimensionRemovedDiagnosticChange);
+
+    case "definition_updated":
+      return definitionUpdatedDiagnosticChangeDeserializer(
+        item as DefinitionUpdatedDiagnosticChange,
+      );
+
+    default:
+      return evaluatorDiagnosticDeserializer(item);
+  }
+}
+
+/** Known machine-readable classifications for evaluator diagnostic changes. */
+export type EvaluatorDiagnosticChangeType =
+  | "human_created"
+  | "human_added"
+  | "human_edited"
+  | "human_removed"
+  | "generated"
+  | "regenerated"
+  | "not_present_in_generated_rubric"
+  | "generation_completed";
+
+/** The supported evaluator diagnostic change shapes. */
+export type EvaluatorDiagnosticType =
+  | "version_created"
+  | "dimension_added"
+  | "dimension_updated"
+  | "dimension_removed"
+  | "definition_updated"
+  | "health_computed";
+
+/** Health computed during evaluator generation and retained as a historical snapshot. GET does not recompute these values after later edits. */
+export interface HealthComputedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "health_computed";
+  /** The generation job that produced the health snapshot. */
+  generation_job_id: string;
+  /** The computed health metrics and their availability. */
+  health: EvaluatorHealthMetrics;
+}
+
+export function healthComputedDiagnosticChangeDeserializer(
+  item: any,
+): HealthComputedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    generation_job_id: item["generation_job_id"],
+    health: evaluatorHealthMetricsDeserializer(item["health"]),
+  };
+}
+
+/** The actor responsible for an evaluator lineage diagnostic. */
+export interface EvaluatorDiagnosticActor {
+  /** The type of actor. */
+  /** The discriminator possible values: user, service */
+  type: EvaluatorDiagnosticActorType;
+  /** A stable opaque principal or service identifier, when available. */
+  id?: string;
+}
+
+export function evaluatorDiagnosticActorDeserializer(item: any): EvaluatorDiagnosticActor {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** Alias for EvaluatorDiagnosticActorUnion */
+export type EvaluatorDiagnosticActorUnion =
+  UserEvaluatorDiagnosticActor | ServiceEvaluatorDiagnosticActor | EvaluatorDiagnosticActor;
+
+export function evaluatorDiagnosticActorUnionDeserializer(
+  item: any,
+): EvaluatorDiagnosticActorUnion {
+  switch (item["type"]) {
+    case "user":
+      return userEvaluatorDiagnosticActorDeserializer(item as UserEvaluatorDiagnosticActor);
+
+    case "service":
+      return serviceEvaluatorDiagnosticActorDeserializer(item as ServiceEvaluatorDiagnosticActor);
+
+    default:
+      return evaluatorDiagnosticActorDeserializer(item);
+  }
+}
+
+/** The type of actor responsible for an evaluator lineage diagnostic. */
+export type EvaluatorDiagnosticActorType = "user" | "service";
+
+/** An authenticated user responsible for an evaluator lineage diagnostic. */
+export interface UserEvaluatorDiagnosticActor extends EvaluatorDiagnosticActor {
+  /** An authenticated user initiated the change. */
+  type: "user";
+}
+
+export function userEvaluatorDiagnosticActorDeserializer(item: any): UserEvaluatorDiagnosticActor {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** A Foundry service component responsible for an evaluator lineage diagnostic. */
+export interface ServiceEvaluatorDiagnosticActor extends EvaluatorDiagnosticActor {
+  /** A Foundry service component initiated the change. */
+  type: "service";
+}
+
+export function serviceEvaluatorDiagnosticActorDeserializer(
+  item: any,
+): ServiceEvaluatorDiagnosticActor {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** A snapshot of existing rubric-health computations. Missing components remain null and are not replaced with zeros. */
+export interface EvaluatorHealthMetrics {
+  /** The number of rubric dimensions used by the computation. */
+  n_dimensions: number;
+  /** The dimension identifiers in their order when health was computed. */
+  dimension_ids: string[];
+  /** Embedding-based dimension diversity, or null when unavailable. */
+  diversity: number | null;
+  /** Embedding-based source coverage, or null when unavailable. */
+  coverage: number | null;
+  /** Failure-path balance computed by the existing keyword heuristic. */
+  negative_vs_positive: number;
+  /** The existing weighted overall score. Null if any component is unavailable; weights are not renormalized around missing components. */
+  overall: number | null;
+  /** Provisional structural confidence: 'low', 'med', or 'high'. This is not a calibrated statistical confidence. */
+  confidence: EvaluatorHealthConfidence;
+  /** Pairs of dimension indices flagged as redundant by the existing computation. */
+  redundant_pairs: number[][];
+}
+
+export function evaluatorHealthMetricsDeserializer(item: any): EvaluatorHealthMetrics {
+  return {
+    n_dimensions: item["n_dimensions"],
+    dimension_ids: item["dimension_ids"].map((p: any) => {
+      return p;
+    }),
+    diversity: item["diversity"],
+    coverage: item["coverage"],
+    negative_vs_positive: item["negative_vs_positive"],
+    overall: item["overall"],
+    confidence: item["confidence"],
+    redundant_pairs: item["redundant_pairs"].map((p: any) => {
+      return p.map((p1: any) => {
+        return p1;
+      });
+    }),
+  };
+}
+
+/** Provisional structural confidence level for computed rubric health. */
+export type EvaluatorHealthConfidence = "low" | "med" | "high";
+
+/** A diagnostic change recording the creation of an evaluator version. */
+export interface VersionCreatedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "version_created";
+  /** The preceding published evaluator version, when one exists. */
+  prior_version?: string;
+  /** The evaluator generation job that created the version, when applicable. */
+  generation_job_id?: string;
+}
+
+export function versionCreatedDiagnosticChangeDeserializer(
+  item: any,
+): VersionCreatedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    prior_version: item["prior_version"],
+    generation_job_id: item["generation_job_id"],
+  };
+}
+
+/** A diagnostic change recording the addition of a rubric dimension. */
+export interface DimensionAddedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "dimension_added";
+  /** The public dimension identifier associated with the change. It remains stable until explicitly changed; changing an identifier produces a removal change for the prior identifier and an addition change for the new identifier. */
+  dimension_id: string;
+  /** The resulting complete dimension snapshot. */
+  after: Dimension;
+  /** The public dimension fields changed, when reported. */
+  changed_fields?: string[];
+}
+
+export function dimensionAddedDiagnosticChangeDeserializer(
+  item: any,
+): DimensionAddedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    dimension_id: item["dimension_id"],
+    after: dimensionDeserializer(item["after"]),
+    changed_fields: !item["changed_fields"]
+      ? item["changed_fields"]
+      : item["changed_fields"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A diagnostic change recording an update to a rubric dimension. */
+export interface DimensionUpdatedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "dimension_updated";
+  /** The public dimension identifier associated with the change. It remains stable until explicitly changed; changing an identifier produces a removal change for the prior identifier and an addition change for the new identifier. */
+  dimension_id: string;
+  /** The complete dimension snapshot before the update. */
+  before: Dimension;
+  /** The complete dimension snapshot after the update. */
+  after: Dimension;
+  /** The public dimension fields changed, when reported. */
+  changed_fields?: string[];
+}
+
+export function dimensionUpdatedDiagnosticChangeDeserializer(
+  item: any,
+): DimensionUpdatedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    dimension_id: item["dimension_id"],
+    before: dimensionDeserializer(item["before"]),
+    after: dimensionDeserializer(item["after"]),
+    changed_fields: !item["changed_fields"]
+      ? item["changed_fields"]
+      : item["changed_fields"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A diagnostic change recording the removal of a rubric dimension. */
+export interface DimensionRemovedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "dimension_removed";
+  /** The public dimension identifier associated with the change. It remains stable until explicitly changed; changing an identifier produces a removal change for the prior identifier and an addition change for the new identifier. */
+  dimension_id: string;
+  /** The complete dimension snapshot before removal. */
+  before: Dimension;
+  /** The public dimension fields changed, when reported. */
+  changed_fields?: string[];
+}
+
+export function dimensionRemovedDiagnosticChangeDeserializer(
+  item: any,
+): DimensionRemovedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    dimension_id: item["dimension_id"],
+    before: dimensionDeserializer(item["before"]),
+    changed_fields: !item["changed_fields"]
+      ? item["changed_fields"]
+      : item["changed_fields"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** A diagnostic change recording functional evaluator changes outside individual dimensions. */
+export interface DefinitionUpdatedDiagnosticChange extends EvaluatorDiagnostic {
+  /** The authenticated user or service responsible for the lineage event. */
+  actor: EvaluatorDiagnosticActorUnion;
+  type: "definition_updated";
+  /** The functional field changes applied. */
+  field_changes: EvaluatorFieldChange[];
+}
+
+export function definitionUpdatedDiagnosticChangeDeserializer(
+  item: any,
+): DefinitionUpdatedDiagnosticChange {
+  return {
+    id: item["id"],
+    evaluator_version: item["evaluator_version"],
+    occurred_at: new Date(item["occurred_at"] * 1000),
+    change_type: item["change_type"],
+    explanation: item["explanation"],
+    type: item["type"],
+    actor: evaluatorDiagnosticActorUnionDeserializer(item["actor"]),
+    field_changes: evaluatorFieldChangeArrayDeserializer(item["field_changes"]),
+  };
+}
+
+export function evaluatorFieldChangeArrayDeserializer(result: Array<EvaluatorFieldChange>): any[] {
+  return result.map((item) => {
+    return evaluatorFieldChangeDeserializer(item);
+  });
+}
+
+/** A change to one functional evaluator field. */
+export interface EvaluatorFieldChange {
+  /** A stable path identifying the changed field. */
+  field: string;
+  /** The prior snapshot, mapping the exact `field` path to its JSON value. The mapped value may be a scalar, array, object, or null. */
+  before: Record<string, any>;
+  /** The resulting snapshot, mapping the exact `field` path to its JSON value. The mapped value may be a scalar, array, object, or null. */
+  after: Record<string, any>;
+}
+
+export function evaluatorFieldChangeDeserializer(item: any): EvaluatorFieldChange {
+  return {
+    field: item["field"],
+    before: Object.fromEntries(
+      Object.entries(item["before"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    after: Object.fromEntries(Object.entries(item["after"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+export type SkillsDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type AgentsDownloadOptimizationJobFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+/** A JSONL dataset used as the input to an evaluation run. See [evaluate datasets](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation-datasets?tabs=python). */
+export interface CreateEvalJsonlRunDataSource {
+  /** The type of data source. Always `jsonl`. */
+  type: "jsonl";
+  /** Determines what populates the `item` namespace in the data source. */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+}
+
+export function createEvalJsonlRunDataSourceSerializer(item: CreateEvalJsonlRunDataSource): any {
+  return {
+    type: item["type"],
+    source: _datasetEvaluationRuleActionSourceSourceSerializer(item["source"]),
+  };
+}
+
+export function createEvalJsonlRunDataSourceDeserializer(item: any): CreateEvalJsonlRunDataSource {
+  return {
+    type: item["type"],
+    source: _datasetEvaluationRuleActionSourceSourceDeserializer(item["source"]),
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceSource */
+export type _DatasetEvaluationRuleActionSourceSource =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource;
+
+export function _datasetEvaluationRuleActionSourceSourceSerializer(
+  item: _DatasetEvaluationRuleActionSourceSource,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceSourceDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceSource {
+  return item;
+}
+
+/** model interface EvalJsonlFileContentSource */
+export interface EvalJsonlFileContentSource {
+  /** The type of jsonl source. Always `file_content`. */
+  type: "file_content";
+  /** The content of the jsonl file. */
+  content: EvalJsonlFileContentSourceContent[];
+}
+
+export function evalJsonlFileContentSourceSerializer(item: EvalJsonlFileContentSource): any {
+  return {
+    type: item["type"],
+    content: evalJsonlFileContentSourceContentArraySerializer(item["content"]),
+  };
+}
+
+export function evalJsonlFileContentSourceDeserializer(item: any): EvalJsonlFileContentSource {
+  return {
+    type: item["type"],
+    content: evalJsonlFileContentSourceContentArrayDeserializer(item["content"]),
+  };
+}
+
+export function evalJsonlFileContentSourceContentArraySerializer(
+  result: Array<EvalJsonlFileContentSourceContent>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileContentSourceContentSerializer(item);
+  });
+}
+
+export function evalJsonlFileContentSourceContentArrayDeserializer(
+  result: Array<EvalJsonlFileContentSourceContent>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileContentSourceContentDeserializer(item);
+  });
+}
+
+/** model interface EvalJsonlFileContentSourceContent */
+export interface EvalJsonlFileContentSourceContent {
+  item: Record<string, any>;
+  sample?: Record<string, any>;
+}
+
+export function evalJsonlFileContentSourceContentSerializer(
+  item: EvalJsonlFileContentSourceContent,
+): any {
+  return { item: item["item"], sample: item["sample"] };
+}
+
+export function evalJsonlFileContentSourceContentDeserializer(
+  item: any,
+): EvalJsonlFileContentSourceContent {
+  return {
+    item: Object.fromEntries(Object.entries(item["item"]).map(([k, p]: [string, any]) => [k, p])),
+    sample: !item["sample"]
+      ? item["sample"]
+      : Object.fromEntries(Object.entries(item["sample"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** model interface EvalJsonlFileIdSource */
+export interface EvalJsonlFileIdSource {
+  /** The type of jsonl source. Always `file_id`. */
+  type: "file_id";
+  /** The identifier of the file. */
+  id: string;
+}
+
+export function evalJsonlFileIdSourceSerializer(item: EvalJsonlFileIdSource): any {
+  return { type: item["type"], id: item["id"] };
+}
+
+export function evalJsonlFileIdSourceDeserializer(item: any): EvalJsonlFileIdSource {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** A CompletionsRunDataSource object describing a model sampling configuration. */
+export interface CreateEvalCompletionsRunDataSource {
+  /** The type of run data source. Always `completions`. */
+  type: "completions";
+  /** Used when sampling from a model. Dictates the structure of the messages passed into the model. Can either be a reference to a prebuilt trajectory (ie, `item.input_trajectory`), or a template with variable references to the `item` namespace. */
+  input_messages?:
+    | CreateEvalCompletionsRunDataSourceInputMessagesTemplate
+    | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
+  sampling_params?: CreateEvalCompletionsRunDataSourceSamplingParams;
+  /** The name of the model to use for generating completions (e.g. "o3-mini"). */
+  model?: string;
+  /** Determines what populates the `item` namespace in this run's data source. */
+  source: EvalJsonlFileContentSource | EvalJsonlFileIdSource | EvalStoredCompletionsSource;
+}
+
+export function createEvalCompletionsRunDataSourceSerializer(
+  item: CreateEvalCompletionsRunDataSource,
+): any {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : _datasetEvaluationRuleActionSourceInputMessagesSerializer(item["input_messages"]),
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : createEvalCompletionsRunDataSourceSamplingParamsSerializer(item["sampling_params"]),
+    model: item["model"],
+    source: _datasetEvaluationRuleActionSourceSource1Serializer(item["source"]),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSource {
+  return {
+    type: item["type"],
+    input_messages: !item["input_messages"]
+      ? item["input_messages"]
+      : _datasetEvaluationRuleActionSourceInputMessagesDeserializer(item["input_messages"]),
+    sampling_params: !item["sampling_params"]
+      ? item["sampling_params"]
+      : createEvalCompletionsRunDataSourceSamplingParamsDeserializer(item["sampling_params"]),
+    model: item["model"],
+    source: _datasetEvaluationRuleActionSourceSource1Deserializer(item["source"]),
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessages */
+export type _DatasetEvaluationRuleActionSourceInputMessages =
+  | CreateEvalCompletionsRunDataSourceInputMessagesTemplate
+  | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
+
+export function _datasetEvaluationRuleActionSourceInputMessagesSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessages,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessages {
+  return item;
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceInputMessagesTemplate */
+export interface CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
+  type: "template";
+  template: (EasyInputMessage | EvalItem)[];
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesTemplateSerializer(
+  item: CreateEvalCompletionsRunDataSourceInputMessagesTemplate,
+): any {
+  return {
+    type: item["type"],
+    template: _datasetEvaluationRuleActionSourceInputMessagesTemplateArraySerializer(
+      item["template"],
+    ),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesTemplateDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
+  return {
+    type: item["type"],
+    template: _datasetEvaluationRuleActionSourceInputMessagesTemplateArrayDeserializer(
+      item["template"],
+    ),
+  };
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateArraySerializer(
+  result: Array<_DatasetEvaluationRuleActionSourceInputMessagesTemplate>,
+): any[] {
+  return result.map((item) => {
+    return _datasetEvaluationRuleActionSourceInputMessagesTemplateSerializer(item);
+  });
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateArrayDeserializer(
+  result: Array<_DatasetEvaluationRuleActionSourceInputMessagesTemplate>,
+): any[] {
+  return result.map((item) => {
+    return _datasetEvaluationRuleActionSourceInputMessagesTemplateDeserializer(item);
+  });
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessagesTemplate */
+export type _DatasetEvaluationRuleActionSourceInputMessagesTemplate = EasyInputMessage | EvalItem;
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessagesTemplate,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessagesTemplate {
+  return item;
+}
+
+/**
+ * A message input to the model with a role indicating instruction following
+ * hierarchy. Instructions given with the `developer` or `system` role take
+ * precedence over instructions given with the `user` role. Messages with the
+ * `assistant` role are presumed to have been generated by the model in previous
+ * interactions.
+ */
+export interface EasyInputMessage {
+  /**
+   * The role of the message input. One of `user`, `assistant`, `system`, or
+   *   `developer`.
+   */
+  role: "user" | "assistant" | "system" | "developer";
+  /**
+   * Text, image, or audio input to the model, used to generate a response.
+   *   Can also contain previous assistant responses.
+   */
+  content: string | InputContentUnion[];
+  phase?: MessagePhase;
+  /** The type of the message input. Always `message`. */
+  type: "message";
+  /**
+   * The status of item. One of `in_progress`, `completed`, or
+   *   `incomplete`. Populated when items are returned via API.
+   */
+  status?: "in_progress" | "completed" | "incomplete";
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function easyInputMessageSerializer(item: EasyInputMessage): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    role: item["role"],
+    content: _datasetEvaluationRuleActionSourceInputMessagesTemplateContentSerializer(
+      item["content"],
+    ),
+    phase: item["phase"],
+    type: item["type"],
+    status: item["status"],
+  };
+}
+
+export function easyInputMessageDeserializer(item: any): EasyInputMessage {
+  return {
+    additionalProperties: serializeRecord(item, ["role", "content", "phase", "type", "status"]),
+    role: item["role"],
+    content: _datasetEvaluationRuleActionSourceInputMessagesTemplateContentDeserializer(
+      item["content"],
+    ),
+    phase: item["phase"],
+    type: item["type"],
+    status: item["status"],
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent */
+export type _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent =
+  string | InputContentUnion[];
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateContentSerializer(
+  item: _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceInputMessagesTemplateContentDeserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceInputMessagesTemplateContent {
+  return item;
+}
+
+export function inputContentUnionArraySerializer(result: Array<InputContentUnion>): any[] {
+  return result.map((item) => {
+    return inputContentUnionSerializer(item);
+  });
+}
+
+export function inputContentUnionArrayDeserializer(result: Array<InputContentUnion>): any[] {
+  return result.map((item) => {
+    return inputContentUnionDeserializer(item);
+  });
+}
+
+/** model interface InputContent */
+export interface InputContent {
+  type: InputContentType;
+}
+
+export function inputContentSerializer(item: InputContent): any {
+  return { type: item["type"] };
+}
+
+export function inputContentDeserializer(item: any): InputContent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for InputContentUnion */
+export type InputContentUnion =
+  | InputContentInputTextContent
+  | InputContentInputImageContent
+  | InputContentInputFileContent
+  | InputContent;
+
+export function inputContentUnionSerializer(item: InputContentUnion): any {
+  switch (item.type) {
+    case "input_text":
+      return inputContentInputTextContentSerializer(item as InputContentInputTextContent);
+
+    case "input_image":
+      return inputContentInputImageContentSerializer(item as InputContentInputImageContent);
+
+    case "input_file":
+      return inputContentInputFileContentSerializer(item as InputContentInputFileContent);
+
+    default:
+      return inputContentSerializer(item);
+  }
+}
+
+export function inputContentUnionDeserializer(item: any): InputContentUnion {
+  switch (item["type"]) {
+    case "input_text":
+      return inputContentInputTextContentDeserializer(item as InputContentInputTextContent);
+
+    case "input_image":
+      return inputContentInputImageContentDeserializer(item as InputContentInputImageContent);
+
+    case "input_file":
+      return inputContentInputFileContentDeserializer(item as InputContentInputFileContent);
+
+    default:
+      return inputContentDeserializer(item);
+  }
+}
+
+/** Type of InputContentType */
+export type InputContentType = "input_text" | "input_image" | "input_file";
+
+/** A text input to the model. */
+export interface InputContentInputTextContent extends InputContent {
+  /** The type of the input item. Always `input_text`. */
+  type: "input_text";
+  /** The text input to the model. */
+  text: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function inputContentInputTextContentSerializer(item: InputContentInputTextContent): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function inputContentInputTextContentDeserializer(item: any): InputContentInputTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+/** Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block. */
+export interface PromptCacheBreakpointConfig {
+  /** The breakpoint mode. Always `explicit`. */
+  mode: "explicit";
+  /** The minimum lifetime of this cache breakpoint. Defaults to the request TTL. */
+  ttl?: "30m" | "12h";
+}
+
+export function promptCacheBreakpointConfigSerializer(item: PromptCacheBreakpointConfig): any {
+  return { mode: item["mode"], ttl: item["ttl"] };
+}
+
+export function promptCacheBreakpointConfigDeserializer(item: any): PromptCacheBreakpointConfig {
+  return {
+    mode: item["mode"],
+    ttl: item["ttl"],
+  };
+}
+
+/** An image input to the model. Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision). */
+export interface InputContentInputImageContent extends InputContent {
+  /** The type of the input item. Always `input_image`. */
+  type: "input_image";
+  image_url?: string;
+  file_id?: string;
+  /** The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`. */
+  detail: ImageDetail;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function inputContentInputImageContentSerializer(item: InputContentInputImageContent): any {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    file_id: item["file_id"],
+    detail: item["detail"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function inputContentInputImageContentDeserializer(
+  item: any,
+): InputContentInputImageContent {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    file_id: item["file_id"],
+    detail: item["detail"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+/** Type of ImageDetail */
+export type ImageDetail = "low" | "high" | "auto" | "original";
+
+/** A file input to the model. */
+export interface InputContentInputFileContent extends InputContent {
+  /** The type of the input item. Always `input_file`. */
+  type: "input_file";
+  file_id?: string;
+  /** The name of the file to be sent to the model. */
+  filename?: string;
+  /** The content of the file to be sent to the model. */
+  file_data?: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+  /** The URL of the file to be sent to the model. */
+  file_url?: string;
+  /** The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`. */
+  detail?: FileInputDetail;
+}
+
+export function inputContentInputFileContentSerializer(item: InputContentInputFileContent): any {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    filename: item["filename"],
+    file_data: item["file_data"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+    file_url: item["file_url"],
+    detail: item["detail"],
+  };
+}
+
+export function inputContentInputFileContentDeserializer(item: any): InputContentInputFileContent {
+  return {
+    type: item["type"],
+    file_id: item["file_id"],
+    filename: item["filename"],
+    file_data: item["file_data"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+    file_url: item["file_url"],
+    detail: item["detail"],
+  };
+}
+
+/** Type of FileInputDetail */
+export type FileInputDetail = "auto" | "low" | "high";
+
+/**
+ * Labels an `assistant` message as intermediate commentary (`commentary`) or the final answer (`final_answer`).
+ * For models like `gpt-5.3-codex` and beyond, when sending follow-up requests, preserve and resend
+ * phase on all assistant messages — dropping it can degrade performance. Not used for user messages.
+ */
+export type MessagePhase = "commentary" | "final_answer";
+
+/**
+ * A message input to the model with a role indicating instruction following
+ * hierarchy. Instructions given with the `developer` or `system` role take
+ * precedence over instructions given with the `user` role. Messages with the
+ * `assistant` role are presumed to have been generated by the model in previous
+ * interactions.
+ */
+export interface EvalItem {
+  /**
+   * The role of the message input. One of `user`, `assistant`, `system`, or
+   *   `developer`.
+   */
+  role: "user" | "assistant" | "system" | "developer";
+  content: EvalItemContent;
+  /** The type of the message input. Always `message`. */
+  type?: "message";
+}
+
+export function evalItemSerializer(item: EvalItem): any {
+  return {
+    role: item["role"],
+    content: evalItemContentSerializer(item["content"]),
+    type: item["type"],
+  };
+}
+
+export function evalItemDeserializer(item: any): EvalItem {
+  return {
+    role: item["role"],
+    content: evalItemContentDeserializer(item["content"]),
+    type: item["type"],
+  };
+}
+
+/** Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items. */
+export type EvalItemContent = EvalItemContentItem | EvalItemContentItem[];
+
+export function evalItemContentSerializer(item: EvalItemContent): any {
+  return item;
+}
+
+export function evalItemContentDeserializer(item: any): EvalItemContent {
+  return item;
+}
+
+/** A single content item: input text, output text, input image, or input audio. */
+export type EvalItemContentItem = string | EvalItemContentItemObjectUnion;
+
+export function evalItemContentItemSerializer(item: EvalItemContentItem): any {
+  return item;
+}
+
+export function evalItemContentItemDeserializer(item: any): EvalItemContentItem {
+  return item;
+}
+
+/** A single content item: input text, output text, input image, or input audio. */
+export interface EvalItemContentItemObject {
+  type: EvalItemContentItemObjectType;
+}
+
+export function evalItemContentItemObjectSerializer(item: EvalItemContentItemObject): any {
+  return { type: item["type"] };
+}
+
+export function evalItemContentItemObjectDeserializer(item: any): EvalItemContentItemObject {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvalItemContentItemObjectUnion */
+export type EvalItemContentItemObjectUnion =
+  | EvalItemContentOutputText
+  | EvalItemInputImage
+  | InputAudio
+  | EvalItemContentItemObjectInputTextContent
+  | EvalItemContentItemObject;
+
+export function evalItemContentItemObjectUnionSerializer(
+  item: EvalItemContentItemObjectUnion,
+): any {
+  switch (item.type) {
+    case "output_text":
+      return evalItemContentOutputTextSerializer(item as EvalItemContentOutputText);
+
+    case "input_image":
+      return evalItemInputImageSerializer(item as EvalItemInputImage);
+
+    case "input_audio":
+      return inputAudioSerializer(item as InputAudio);
+
+    case "input_text":
+      return evalItemContentItemObjectInputTextContentSerializer(
+        item as EvalItemContentItemObjectInputTextContent,
+      );
+
+    default:
+      return evalItemContentItemObjectSerializer(item);
+  }
+}
+
+export function evalItemContentItemObjectUnionDeserializer(
+  item: any,
+): EvalItemContentItemObjectUnion {
+  switch (item["type"]) {
+    case "output_text":
+      return evalItemContentOutputTextDeserializer(item as EvalItemContentOutputText);
+
+    case "input_image":
+      return evalItemInputImageDeserializer(item as EvalItemInputImage);
+
+    case "input_audio":
+      return inputAudioDeserializer(item as InputAudio);
+
+    case "input_text":
+      return evalItemContentItemObjectInputTextContentDeserializer(
+        item as EvalItemContentItemObjectInputTextContent,
+      );
+
+    default:
+      return evalItemContentItemObjectDeserializer(item);
+  }
+}
+
+/** Type of EvalItemContentItemObjectType */
+export type EvalItemContentItemObjectType =
+  "input_text" | "output_text" | "input_image" | "input_audio";
+
+/** A text output from the model. */
+export interface EvalItemContentOutputText extends EvalItemContentItemObject {
+  /** The type of the output text. Always `output_text`. */
+  type: "output_text";
+  /** The text output from the model. */
+  text: string;
+}
+
+export function evalItemContentOutputTextSerializer(item: EvalItemContentOutputText): any {
+  return { type: item["type"], text: item["text"] };
+}
+
+export function evalItemContentOutputTextDeserializer(item: any): EvalItemContentOutputText {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** An image input block used within EvalItem content arrays. */
+export interface EvalItemInputImage extends EvalItemContentItemObject {
+  /** The type of the image input. Always `input_image`. */
+  type: "input_image";
+  /** The URL of the image input. */
+  image_url: string;
+  /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
+  detail?: string;
+}
+
+export function evalItemInputImageSerializer(item: EvalItemInputImage): any {
+  return { type: item["type"], image_url: item["image_url"], detail: item["detail"] };
+}
+
+export function evalItemInputImageDeserializer(item: any): EvalItemInputImage {
+  return {
+    type: item["type"],
+    image_url: item["image_url"],
+    detail: item["detail"],
+  };
+}
+
+/** An audio input to the model. */
+export interface InputAudio extends EvalItemContentItemObject {
+  /** The type of the input item. Always `input_audio`. */
+  type: "input_audio";
+  input_audio: InputAudioInputAudio;
+}
+
+export function inputAudioSerializer(item: InputAudio): any {
+  return { type: item["type"], input_audio: inputAudioInputAudioSerializer(item["input_audio"]) };
+}
+
+export function inputAudioDeserializer(item: any): InputAudio {
+  return {
+    type: item["type"],
+    input_audio: inputAudioInputAudioDeserializer(item["input_audio"]),
+  };
+}
+
+/** model interface InputAudioInputAudio */
+export interface InputAudioInputAudio {
+  data: string;
+  format: "mp3" | "wav";
+}
+
+export function inputAudioInputAudioSerializer(item: InputAudioInputAudio): any {
+  return { data: item["data"], format: item["format"] };
+}
+
+export function inputAudioInputAudioDeserializer(item: any): InputAudioInputAudio {
+  return {
+    data: item["data"],
+    format: item["format"],
+  };
+}
+
+/** A text input to the model. */
+export interface EvalItemContentItemObjectInputTextContent extends EvalItemContentItemObject {
+  /** The type of the input item. Always `input_text`. */
+  type: "input_text";
+  /** The text input to the model. */
+  text: string;
+  prompt_cache_breakpoint?: PromptCacheBreakpointConfig;
+}
+
+export function evalItemContentItemObjectInputTextContentSerializer(
+  item: EvalItemContentItemObjectInputTextContent,
+): any {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigSerializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function evalItemContentItemObjectInputTextContentDeserializer(
+  item: any,
+): EvalItemContentItemObjectInputTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+    prompt_cache_breakpoint: !item["prompt_cache_breakpoint"]
+      ? item["prompt_cache_breakpoint"]
+      : promptCacheBreakpointConfigDeserializer(item["prompt_cache_breakpoint"]),
+  };
+}
+
+export function evalItemContentItemArraySerializer(result: Array<EvalItemContentItem>): any[] {
+  return result.map((item) => {
+    return evalItemContentItemSerializer(item);
+  });
+}
+
+export function evalItemContentItemArrayDeserializer(result: Array<EvalItemContentItem>): any[] {
+  return result.map((item) => {
+    return evalItemContentItemDeserializer(item);
+  });
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference */
+export interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
+  type: "item_reference";
+  item_reference: string;
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceSerializer(
+  item: CreateEvalCompletionsRunDataSourceInputMessagesItemReference,
+): any {
+  return { type: item["type"], item_reference: item["item_reference"] };
+}
+
+export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
+  return {
+    type: item["type"],
+    item_reference: item["item_reference"],
+  };
+}
+
+/** model interface CreateEvalCompletionsRunDataSourceSamplingParams */
+export interface CreateEvalCompletionsRunDataSourceSamplingParams {
+  reasoning_effort?: ReasoningEffort;
+  temperature?: number;
+  max_completion_tokens?: number;
+  top_p?: number;
+  seed?: number;
+  response_format?: ResponseFormatText | ResponseFormatJsonSchema | ResponseFormatJsonObject;
+  tools?: ChatCompletionTool[];
+}
+
+export function createEvalCompletionsRunDataSourceSamplingParamsSerializer(
+  item: CreateEvalCompletionsRunDataSourceSamplingParams,
+): any {
+  return {
+    reasoning_effort: item["reasoning_effort"],
+    temperature: item["temperature"],
+    max_completion_tokens: item["max_completion_tokens"],
+    top_p: item["top_p"],
+    seed: item["seed"],
+    response_format: !item["response_format"]
+      ? item["response_format"]
+      : _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatSerializer(
+          item["response_format"],
+        ),
+    tools: !item["tools"] ? item["tools"] : chatCompletionToolArraySerializer(item["tools"]),
+  };
+}
+
+export function createEvalCompletionsRunDataSourceSamplingParamsDeserializer(
+  item: any,
+): CreateEvalCompletionsRunDataSourceSamplingParams {
+  return {
+    reasoning_effort: item["reasoning_effort"],
+    temperature: item["temperature"],
+    max_completion_tokens: item["max_completion_tokens"],
+    top_p: item["top_p"],
+    seed: item["seed"],
+    response_format: !item["response_format"]
+      ? item["response_format"]
+      : _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatDeserializer(
+          item["response_format"],
+        ),
+    tools: !item["tools"] ? item["tools"] : chatCompletionToolArrayDeserializer(item["tools"]),
+  };
+}
+
+/** Alias for _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat */
+export type _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat =
+  ResponseFormatText | ResponseFormatJsonSchema | ResponseFormatJsonObject;
+
+export function _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatSerializer(
+  item: _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat,
+): any {
+  return item;
+}
+
+export function _createEvalCompletionsRunDataSourceSamplingParamsResponseFormatDeserializer(
+  item: any,
+): _CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat {
+  return item;
+}
+
+/** Default response format. Used to generate text responses. */
+export interface ResponseFormatText {
+  /** The type of response format being defined. Always `text`. */
+  type: "text";
+}
+
+export function responseFormatTextSerializer(item: ResponseFormatText): any {
+  return { type: item["type"] };
+}
+
+export function responseFormatTextDeserializer(item: any): ResponseFormatText {
+  return {
+    type: item["type"],
+  };
+}
+
+/**
+ * JSON Schema response format. Used to generate structured JSON responses.
+ * Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+ */
+export interface ResponseFormatJsonSchema extends CreateChatCompletionRequestResponseFormat {
+  /** The type of response format being defined. Always `json_schema`. */
+  type: "json_schema";
+  /** Structured Outputs configuration options, including a JSON Schema. */
+  json_schema: ResponseFormatJsonSchemaJsonSchema;
+}
+
+export function responseFormatJsonSchemaSerializer(item: ResponseFormatJsonSchema): any {
+  return {
+    type: item["type"],
+    json_schema: responseFormatJsonSchemaJsonSchemaSerializer(item["json_schema"]),
+  };
+}
+
+export function responseFormatJsonSchemaDeserializer(item: any): ResponseFormatJsonSchema {
+  return {
+    type: item["type"],
+    json_schema: responseFormatJsonSchemaJsonSchemaDeserializer(item["json_schema"]),
+  };
+}
+
+/** model interface ResponseFormatJsonSchemaJsonSchema */
+export interface ResponseFormatJsonSchemaJsonSchema {
+  description?: string;
+  name: string;
+  schema?: Record<string, any>;
+  strict?: boolean;
+}
+
+export function responseFormatJsonSchemaJsonSchemaSerializer(
+  item: ResponseFormatJsonSchemaJsonSchema,
+): any {
+  return {
+    description: item["description"],
+    name: item["name"],
+    schema: item["schema"],
+    strict: item["strict"],
+  };
+}
+
+export function responseFormatJsonSchemaJsonSchemaDeserializer(
+  item: any,
+): ResponseFormatJsonSchemaJsonSchema {
+  return {
+    description: item["description"],
+    name: item["name"],
+    schema: !item["schema"]
+      ? item["schema"]
+      : Object.fromEntries(Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p])),
+    strict: item["strict"],
+  };
+}
+
+/**
+ * JSON object response format. An older method of generating JSON responses.
+ * Using `json_schema` is recommended for models that support it. Note that the
+ * model will not generate JSON without a system or user message instructing it
+ * to do so.
+ */
+export interface ResponseFormatJsonObject {
+  /** The type of response format being defined. Always `json_object`. */
+  type: "json_object";
+}
+
+export function responseFormatJsonObjectSerializer(item: ResponseFormatJsonObject): any {
+  return { type: item["type"] };
+}
+
+export function responseFormatJsonObjectDeserializer(item: any): ResponseFormatJsonObject {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for _DatasetEvaluationRuleActionSourceSource1 */
+export type _DatasetEvaluationRuleActionSourceSource1 =
+  EvalJsonlFileContentSource | EvalJsonlFileIdSource | EvalStoredCompletionsSource;
+
+export function _datasetEvaluationRuleActionSourceSource1Serializer(
+  item: _DatasetEvaluationRuleActionSourceSource1,
+): any {
+  return item;
+}
+
+export function _datasetEvaluationRuleActionSourceSource1Deserializer(
+  item: any,
+): _DatasetEvaluationRuleActionSourceSource1 {
+  return item;
+}
+
+/** A StoredCompletionsRunDataSource configuration describing a set of filters */
+export interface EvalStoredCompletionsSource {
+  /** The type of source. Always `stored_completions`. */
+  type: "stored_completions";
+  metadata?: Metadata;
+  model?: string;
+  created_after?: number;
+  created_before?: number;
+  limit?: number;
+}
+
+export function evalStoredCompletionsSourceSerializer(item: EvalStoredCompletionsSource): any {
+  return {
+    type: item["type"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataSerializer(item["metadata"]),
+    model: item["model"],
+    created_after: item["created_after"],
+    created_before: item["created_before"],
+    limit: item["limit"],
+  };
+}
+
+export function evalStoredCompletionsSourceDeserializer(item: any): EvalStoredCompletionsSource {
+  return {
+    type: item["type"],
+    metadata: !item["metadata"] ? item["metadata"] : metadataDeserializer(item["metadata"]),
+    model: item["model"],
+    created_after: item["created_after"],
+    created_before: item["created_before"],
+    limit: item["limit"],
+  };
+}
+
+export function evalJsonlFileIdSourceArraySerializer(result: Array<EvalJsonlFileIdSource>): any[] {
+  return result.map((item) => {
+    return evalJsonlFileIdSourceSerializer(item);
+  });
+}
+
+export function evalJsonlFileIdSourceArrayDeserializer(
+  result: Array<EvalJsonlFileIdSource>,
+): any[] {
+  return result.map((item) => {
+    return evalJsonlFileIdSourceDeserializer(item);
+  });
+}
+
+/**
+ * An object specifying the format that the model must output.
+ * Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
+ * Structured Outputs which ensures the model will match your supplied JSON
+ * schema. Learn more in the [Structured Outputs
+ * guide](https://developers.openai.com/api/docs/guides/structured-outputs).
+ * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
+ * ensures the message the model generates is valid JSON. Using `json_schema`
+ * is preferred for models that support it.
+ */
+export interface CreateChatCompletionRequestResponseFormat {
+  type: CreateChatCompletionRequestResponseFormatType;
+}
+
+export function createChatCompletionRequestResponseFormatSerializer(
+  item: CreateChatCompletionRequestResponseFormat,
+): any {
+  return { type: item["type"] };
+}
+
+export function createChatCompletionRequestResponseFormatDeserializer(
+  item: any,
+): CreateChatCompletionRequestResponseFormat {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for CreateChatCompletionRequestResponseFormatUnion */
+export type CreateChatCompletionRequestResponseFormatUnion =
+  ResponseFormatJsonSchema | CreateChatCompletionRequestResponseFormat;
+
+export function createChatCompletionRequestResponseFormatUnionSerializer(
+  item: CreateChatCompletionRequestResponseFormatUnion,
+): any {
+  switch (item.type) {
+    case "json_schema":
+      return responseFormatJsonSchemaSerializer(item as ResponseFormatJsonSchema);
+
+    default:
+      return createChatCompletionRequestResponseFormatSerializer(item);
+  }
+}
+
+export function createChatCompletionRequestResponseFormatUnionDeserializer(
+  item: any,
+): CreateChatCompletionRequestResponseFormatUnion {
+  switch (item["type"]) {
+    case "json_schema":
+      return responseFormatJsonSchemaDeserializer(item as ResponseFormatJsonSchema);
+
+    default:
+      return createChatCompletionRequestResponseFormatDeserializer(item);
+  }
+}
+
+/** Type of CreateChatCompletionRequestResponseFormatType */
+export type CreateChatCompletionRequestResponseFormatType = "text" | "json_schema" | "json_object";
+
+/** Type of InputItemType */
+export type InputItemType =
+  | "message"
+  | "output_message"
+  | "file_search_call"
+  | "computer_call"
+  | "computer_call_output"
+  | "web_search_call"
+  | "function_call"
+  | "function_call_output"
+  | "tool_search_call"
+  | "tool_search_output"
+  | "additional_tools"
+  | "configuration_update"
+  | "reasoning"
+  | "compaction"
+  | "image_generation_call"
+  | "code_interpreter_call"
+  | "local_shell_call"
+  | "local_shell_call_output"
+  | "shell_call"
+  | "shell_call_output"
+  | "apply_patch_call"
+  | "apply_patch_call_output"
+  | "mcp_list_tools"
+  | "mcp_approval_request"
+  | "mcp_approval_response"
+  | "mcp_call"
+  | "custom_tool_call_output"
+  | "custom_tool_call"
+  | "item_reference";

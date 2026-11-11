@@ -3,10 +3,6 @@
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { BetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-import { _getBetaAgentInsightMonitorsOperations } from "./agentInsightMonitors/index.js";
-import type { BetaSkillsOperations } from "./skills/index.js";
-import { _getBetaSkillsOperations } from "./skills/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import { _getBetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import type { BetaEvaluatorsOperations } from "./evaluators/index.js";
@@ -31,8 +27,6 @@ import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClien
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing skills. */
-  skills: BetaSkillsOperations;
   /** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
   /** Operations for managing routines. */
@@ -49,8 +43,6 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  /** Operations for managing Agent Insights monitors. */
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
   /** Operations for managing voice agent conversations and telephony. */
   voiceAgents: BetaVoiceAgentsOperations;
 }
@@ -64,8 +56,6 @@ export function _getBetaOperations(
   liveOptions?: VoiceAgentLiveClientOptions,
 ): BetaOperations {
   return {
-    /** Operations for managing skills. */
-    skills: _getBetaSkillsOperations(context),
     /** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
     /** Operations for managing routines. */
@@ -82,8 +72,6 @@ export function _getBetaOperations(
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    /** Operations for managing Agent Insights monitors. */
-    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
     /** Operations for managing voice agent conversations and telephony. */
     voiceAgents: _getBetaVoiceAgentsOperations(
       context,

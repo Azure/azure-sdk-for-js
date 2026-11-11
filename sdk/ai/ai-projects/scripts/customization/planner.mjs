@@ -210,6 +210,7 @@ function promoteBetaClientGroup(
     skills: "Skills",
     voiceAgents: "VoiceAgents",
   }[group];
+  if (!type) return customText;
   const target = `api/${group}/`;
   const promoted = matches.filter((match) => match.incoming.file.startsWith(target));
   if (

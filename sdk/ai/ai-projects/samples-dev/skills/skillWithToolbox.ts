@@ -13,7 +13,7 @@
  * using the skill's formula.
  *
  * Skills and Toolboxes are currently preview features. In the JS SDK, you
- * access these operations via `project.beta.skills` and
+ * access these operations via `project.skills` and
  * `project.toolboxes`.
  *
  * @summary Demonstrates adding a skill to a toolbox and invoking it via a Prompt Agent.
@@ -45,13 +45,13 @@ export async function main(): Promise<void> {
     if (!(isRestError(e) && e.statusCode === 404)) throw e;
   }
   try {
-    await project.beta.skills.delete(SKILL_NAME);
+    await project.skills.delete(SKILL_NAME);
   } catch (e) {
     if (!(isRestError(e) && e.statusCode === 404)) throw e;
   }
 
   // --- 1. Create a skill ---
-  const skill = await project.beta.skills.create(SKILL_NAME, {
+  const skill = await project.skills.create(SKILL_NAME, {
     inlineContent: {
       description: "Compute shipping cost for a package given weight and destination.",
       instructions:
@@ -145,7 +145,7 @@ export async function main(): Promise<void> {
   // --- 6. Clean up ---
   await project.toolboxes.delete(TOOLBOX_NAME);
   console.log("Toolbox deleted");
-  await project.beta.skills.delete(SKILL_NAME);
+  await project.skills.delete(SKILL_NAME);
   console.log("Skill deleted");
 }
 

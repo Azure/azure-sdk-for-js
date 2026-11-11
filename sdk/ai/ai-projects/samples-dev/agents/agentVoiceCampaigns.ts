@@ -26,11 +26,11 @@ export async function main(): Promise<void> {
   const options = {
     requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
   };
-  const telephony = project.beta.voiceAgents.telephony;
+  const campaigns = project.beta.voiceAgents.campaigns;
 
   // Campaign creation can immediately authorize dialing. This sample performs reads only.
   console.log("Reading one page of voice campaigns...");
-  for await (const page of telephony
+  for await (const page of campaigns
     .list(agentName, { ...options, limit: 5, order: "desc" })
     .byPage()) {
     for (const campaign of page) {
@@ -39,12 +39,12 @@ export async function main(): Promise<void> {
     break;
   }
   if (campaignName) {
-    const campaign = await telephony.get(agentName, campaignName, {
+    const campaign = await campaigns.get(agentName, campaignName, {
       ...options,
       operationId,
     });
     console.log(`Selected campaign ${campaign.name}: ${campaign.status}`);
-    for await (const page of telephony
+    for await (const page of campaigns
       .listValidationErrors(agentName, campaignName, { ...options, limit: 5, order: "asc" })
       .byPage()) {
       for (const entry of page) {
@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
       "Validation errors can be partial during preparation; an empty page is not success.",
     );
     if (operationId) {
-      const operation = await telephony.getOperation(agentName, campaignName, operationId, options);
+      const operation = await campaigns.getOperation(agentName, campaignName, operationId, options);
       console.log(`Campaign operation ${operation.id}: ${operation.kind} ${operation.status}`);
     }
   }
