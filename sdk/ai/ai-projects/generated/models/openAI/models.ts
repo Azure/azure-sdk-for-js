@@ -4629,6 +4629,7 @@ export function chatCompletionToolArrayDeserializer(result: Array<ChatCompletion
 export interface ChatCompletionTool {
   /** The type of the tool. Currently, only `function` is supported. */
   type: "function";
+  /** The function definition exposed to the model as a tool. */
   function: FunctionObject;
 }
 
@@ -4643,13 +4644,15 @@ export function chatCompletionToolDeserializer(item: any): ChatCompletionTool {
   };
 }
 
-/** model interface FunctionObject */
+/** Defines a function that a model can call, including its name and argument schema. */
 export interface FunctionObject {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
+  /** The function's parameters, described as a JSON Schema object. */
   parameters?: FunctionParameters;
+  /** Whether generated arguments must strictly follow the parameter schema. */
   strict?: boolean;
 }
 

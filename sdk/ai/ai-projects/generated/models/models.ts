@@ -7463,8 +7463,9 @@ export function agentOptimizationCandidatePromotionInfoDeserializer(
   };
 }
 
-/** model interface AgentReference */
+/** Identifies an agent by name and, optionally, a specific version. */
 export interface AgentReference {
+  /** Identifies this object as an agent reference. */
   type: "agent_reference";
   /** The name of the agent. */
   name: string;
@@ -9815,6 +9816,7 @@ export function agentOptimizationCandidateOutputUnionDeserializer(
 
 /** Candidate output produced by an agent-optimization job. */
 export interface AgentOptimizationAgentCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by agent optimization. */
   type: "agent_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -9885,6 +9887,7 @@ export function agentOptimizationMutationUnionDeserializer(
 
 /** Instructions mutation. */
 export interface AgentOptimizationInstructionsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's instructions. */
   type: "instructions";
   /** Optimized agent instructions. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -9901,6 +9904,7 @@ export function agentOptimizationInstructionsMutationDeserializer(
 
 /** Model mutation. */
 export interface AgentOptimizationModelMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's model selection. */
   type: "model";
   /** Selected model name or deployment name. Omitted on LIST unless `expand=mutations` is specified. */
   value?: string;
@@ -9917,6 +9921,7 @@ export function agentOptimizationModelMutationDeserializer(
 
 /** Skill mutations. */
 export interface AgentOptimizationSkillsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's skills. */
   type: "skills";
   /** Added or changed skills. Omitted on LIST unless `expand=mutations` is specified. */
   value?: AgentOptimizationSkill[];
@@ -9933,6 +9938,7 @@ export function agentOptimizationSkillsMutationDeserializer(
 
 /** Tool mutations. */
 export interface AgentOptimizationToolsMutation extends AgentOptimizationMutation {
+  /** Identifies a mutation to the agent's function tools. */
   type: "tools";
   /** Added or changed function tools. Omitted on LIST unless `expand=mutations` is specified. */
   value?: ChatCompletionTool[];
@@ -9949,6 +9955,7 @@ export function agentOptimizationToolsMutationDeserializer(
 
 /** Candidate output produced by a prompt-optimization job. */
 export interface AgentOptimizationPromptCandidateOutput extends AgentOptimizationCandidateOutput {
+  /** Identifies candidate output produced by prompt optimization. */
   type: "prompt_optimization";
   /** Typed configuration mutations applied to the baseline. Omitted for the baseline candidate. LIST without `expand=mutations` returns mutation items with only `type`; expanded LIST and candidate GET populate each mutation's `value`. */
   mutations?: AgentOptimizationMutationUnion[];
@@ -17149,6 +17156,7 @@ export function browserAutomationPreviewToolboxToolDeserializer(
 
 /** A browser automation tool stored in a toolbox. */
 export interface BrowserAutomationToolboxTool extends ToolboxTool {
+  /** Identifies a browser automation tool in the toolbox. */
   type: "browser_automation";
   /** The Browser Automation Tool parameters. */
   browser_automation: BrowserAutomationToolParameters;
