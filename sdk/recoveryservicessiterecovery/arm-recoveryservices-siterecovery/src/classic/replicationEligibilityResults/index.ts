@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, get } from "../../api/replicationEligibilityResults/operations.js";
-import {
+import type {
   ReplicationEligibilityResultsListOptionalParams,
   ReplicationEligibilityResultsGetOptionalParams,
 } from "../../api/replicationEligibilityResults/options.js";
-import {
+import type {
   ReplicationEligibilityResults,
   ReplicationEligibilityResultsCollection,
 } from "../../models/models.js";

@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   Job,
-  jobDeserializer,
   _JobCollection,
-  _jobCollectionDeserializer,
   ResumeJobParams,
-  resumeJobParamsSerializer,
   JobQueryParameter,
-  jobQueryParameterSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  jobDeserializer,
+  _jobCollectionDeserializer,
+  resumeJobParamsSerializer,
+  jobQueryParameterSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationJobsExportOptionalParams,
   ReplicationJobsResumeOptionalParams,
   ReplicationJobsRestartOptionalParams,
@@ -26,13 +26,9 @@ import {
   ReplicationJobsListOptionalParams,
   ReplicationJobsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$exportSend(
   context: Client,
@@ -47,7 +43,7 @@ export function _$exportSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +58,7 @@ export function _$exportSend(
 }
 
 export async function _$exportDeserialize(result: PathUncheckedResponse): Promise<Job> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -78,13 +74,13 @@ export function $export(
   jobQueryParameter: JobQueryParameter,
   options: ReplicationJobsExportOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Job>, Job> {
-  return getLongRunningPoller(context, _$exportDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _$exportDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$exportSend(context, resourceGroupName, resourceName, jobQueryParameter, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -103,7 +99,7 @@ export function _resumeSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +137,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, resourceName, jobName, resumeJobParams, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -159,7 +155,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +190,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, resourceName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -212,7 +208,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +243,7 @@ export function cancel(
     getInitialResponse: () =>
       _cancelSend(context, resourceGroupName, resourceName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Job>, Job>;
 }
 
@@ -263,7 +259,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "%24filter": options?.filter,
     },
     {
@@ -297,7 +293,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -315,7 +311,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
