@@ -20,6 +20,7 @@ const symbolRenames = {
   "api/agents/options.ts": {
     AgentsCreateAgentOptionalParams: "AgentsCreateOptionalParams",
     AgentsUpdateAgentOptionalParams: "AgentsUpdateOptionalParams",
+    AgentsPatchAgentObjectOptionalParams: "AgentsUpdateAgentObjectOptionalParams",
   },
 };
 

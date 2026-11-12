@@ -19,6 +19,7 @@
 
 ### Features Added
 
+- Add explicit `A2AAgents=V1Preview` opt-in for hosted-agent A2A passthrough through agent definition, code-upload, manifest, and endpoint writes. Keep prompt-agent A2A translation and ordinary agent operations free of automatic preview headers. [#40773](https://github.com/Azure/azure-sdk-for-js/issues/40773)
 - Remove the required voice preview opt-in from Realtime/cascaded definitions, delegate subagents, phone system tools, agent generation, ordinary Realtime sessions, all stored Realtime conversation operations, and TPE/Twilio telephony. Keep SIP writes conditional and campaigns, GPT Live, inline handoff, SIP models, and post-call delivery in preview. [#40720](https://github.com/Azure/azure-sdk-for-js/issues/40720)
 - Add optional `foundryFeatures` to `RealtimeConnectOptions` for explicit per-connection preview opt-in, using the `foundry-features` header in Node.js and the `foundry_features` query parameter in browsers and React Native. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
 - Expose the native Realtime client at `project.voiceAgents.realtime` and use this GA path in documentation and samples. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
@@ -55,6 +56,7 @@
 
 ### Other Changes
 
+- Regenerate the client from azure-rest-api-specs commit `204e491900807846c55f1fc0191af90706d6c199`, preserving customized client behavior and checking preview opt-ins through the maintained agent PATCH-options rename. [Upstream change](https://github.com/Azure/azure-rest-api-specs/commit/204e491900807846c55f1fc0191af90706d6c199). [#40773](https://github.com/Azure/azure-sdk-for-js/issues/40773)
 - Deprecate the beta Realtime compatibility alias in favor of `project.voiceAgents.realtime`, and deprecate `project.beta.voiceAgents.telephony.deleteTelephony` in favor of `deleteCampaign`. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
 - Rename the session and session-file sample and notebook to `agentSessions`, matching their `project.agents` usage without changing hosted deployment behavior. [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721)
 - Keep published TypeScript and JavaScript Voice samples compatible with the released 2.10.0 SDK; retain examples requiring unreleased APIs in `samples-dev` until the corresponding release. [#40727](https://github.com/Azure/azure-sdk-for-js/pull/40727)
