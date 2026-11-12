@@ -9,6 +9,7 @@
 
 ### Bugs Fixed
 
+- Closed exporter-owned connections after each temporary overflow routing request, while preserving connection reuse for cached routes and caller-owned transports. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
 - Preserved compatible sampler attribute value types for OpenTelemetry 2.x consumers while including the numeric sample-rate attribute in the return type. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
 
 ## 1.0.0-beta.47 (2026-11-05)

@@ -137,6 +137,7 @@ export class RoutingSender {
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: false,
       isRouted: true,
+      disableKeepAlive: temporary,
       storagePartition: {
         root: this.storageRoot,
         name: createHash("sha256").update(key).digest("hex"),
