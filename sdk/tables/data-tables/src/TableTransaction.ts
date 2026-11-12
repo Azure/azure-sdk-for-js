@@ -304,7 +304,7 @@ export class InternalTableTransaction {
         }
         const request = createPipelineRequest({
           ...requestOptions,
-          url: this.url,
+          url: new URL(this.url).toString(),
           method: "POST",
           body,
           headers: requestHeaders,
