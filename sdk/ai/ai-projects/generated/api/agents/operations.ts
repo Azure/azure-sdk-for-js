@@ -1634,6 +1634,9 @@ export function _createVersionFromCodeSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "multipart/form-data",
       headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         "x-ms-code-zip-sha256": codeZipSha256,
         accept: "application/json",
         ...options.requestOptions?.headers,
@@ -1702,7 +1705,13 @@ export function _patchAgentObjectSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: {
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint
@@ -1932,7 +1941,13 @@ export function _createAgentVersionFromManifestSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: {
         metadata: options?.metadata,
         description: options?.description,
@@ -2176,7 +2191,13 @@ export function _updateAgentFromManifestSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: {
         metadata: options?.metadata,
         description: options?.description,
@@ -2244,7 +2265,13 @@ export function _createAgentFromManifestSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: {
         name: name,
         metadata: options?.metadata,
