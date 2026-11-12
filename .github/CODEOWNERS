@@ -908,7 +908,7 @@
 /common/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
 /package.json @Azure/azure-sdk-js-dev
 /turbo.json @Azure/azure-sdk-js-dev
-/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev @Azure/azure-arm-sdk-reviewers
 /pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
 
 ###########
