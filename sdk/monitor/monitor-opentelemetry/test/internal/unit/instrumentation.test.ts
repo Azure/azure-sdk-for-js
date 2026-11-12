@@ -3,7 +3,11 @@
 
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
-import type { Instrumentation } from "@opentelemetry/instrumentation";
+import { InstrumentationBase, registerInstrumentations } from "@opentelemetry/instrumentation";
+import type {
+  Instrumentation,
+  InstrumentationNodeModuleDefinition,
+} from "@opentelemetry/instrumentation";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { configureInstrumentation } from "../../../src/utils/instrumentation.js";
 import { patchOpenTelemetryInstrumentationEnable } from "../../../src/utils/opentelemetryInstrumentationPatcher.js";
@@ -20,57 +24,100 @@ describe("configureInstrumentation", () => {
   });
 
   describe("instrumentation Statsbeat registration", () => {
+    const commonJsModule = loadOpenTelemetryInstrumentation();
+    const moduleForms = [
+      { name: "ESM", Base: InstrumentationBase, register: registerInstrumentations },
+      {
+        name: "CommonJS",
+        Base: commonJsModule.InstrumentationBase,
+        register: commonJsModule.registerInstrumentations,
+      },
+    ];
+
+    function createInstrumentation(
+      Base: typeof InstrumentationBase = InstrumentationBase,
+      enabled = false,
+    ): Instrumentation {
+      class TestInstrumentation extends Base {
+        protected init(): InstrumentationNodeModuleDefinition[] {
+          return [];
+        }
+      }
+      return new TestInstrumentation("@opentelemetry/instrumentation-fs", "1.0.0", { enabled });
+    }
+
     afterEach(() => {
       vi.unstubAllEnvs();
       vi.restoreAllMocks();
     });
 
-    it("tracks SDK 3.x registrations without wrapping repeatedly or losing feature bits", () => {
-      const instrumentation = {
-        instrumentationName: "@opentelemetry/instrumentation-fs",
-        instrumentationVersion: "1.0.0",
-        enable: vi.fn(),
-        disable: vi.fn(),
-        getConfig: () => ({ enabled: false }),
-        setConfig: vi.fn(),
-        setTracerProvider: vi.fn(),
-        setMeterProvider: vi.fn(),
-        setLoggerProvider: vi.fn(),
-      } satisfies Instrumentation;
-      vi.stubEnv(
-        AZURE_MONITOR_STATSBEAT_FEATURES,
-        JSON.stringify({
-          instrumentation: StatsbeatInstrumentation.AMQPLIB,
-          feature: 8,
-        }),
-      );
+    it.each(moduleForms)(
+      "tracks $name registration functions captured before initialization",
+      ({ Base, register }) => {
+        const instrumentation = createInstrumentation(Base);
+        const enable = vi.spyOn(instrumentation, "enable");
+        const disable = vi.spyOn(instrumentation, "disable");
+        vi.stubEnv(
+          AZURE_MONITOR_STATSBEAT_FEATURES,
+          JSON.stringify({
+            instrumentation: StatsbeatInstrumentation.AMQPLIB,
+            feature: 8,
+          }),
+        );
+        patchOpenTelemetryInstrumentationEnable();
+        const setTracerProvider = vi.spyOn(instrumentation, "setTracerProvider");
+        patchOpenTelemetryInstrumentationEnable();
+        const unregister = register({ instrumentations: [[instrumentation]] });
+        try {
+          expect(enable).toHaveBeenCalledOnce();
+          expect(setTracerProvider).toHaveBeenCalledOnce();
+          expect(JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]!)).toEqual({
+            instrumentation: StatsbeatInstrumentation.AMQPLIB + StatsbeatInstrumentation.FS,
+            feature: 8,
+          });
+        } finally {
+          unregister();
+        }
+        expect(disable).toHaveBeenCalledOnce();
+      },
+    );
+
+    it("tracks already enabled instrumentations when their providers are registered", () => {
+      vi.stubEnv(AZURE_MONITOR_STATSBEAT_FEATURES, undefined);
+      const instrumentation = createInstrumentation(InstrumentationBase, true);
+      const enable = vi.spyOn(instrumentation, "enable");
       patchOpenTelemetryInstrumentationEnable();
-      const module = loadOpenTelemetryInstrumentation();
-      const register = module.registerInstrumentations;
+      const unregister = registerInstrumentations({ instrumentations: [instrumentation] });
+      try {
+        expect(enable).not.toHaveBeenCalled();
+        expect(JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]!)).toEqual({
+          instrumentation: StatsbeatInstrumentation.FS,
+          feature: 0,
+        });
+      } finally {
+        unregister();
+      }
+    });
+
+    it("does not track disabled instrumentations that are never registered", () => {
+      vi.stubEnv(AZURE_MONITOR_STATSBEAT_FEATURES, undefined);
       patchOpenTelemetryInstrumentationEnable();
-      expect(module.registerInstrumentations).toBe(register);
-      const disable = register({ instrumentations: [[instrumentation]] });
-      expect(instrumentation.enable).toHaveBeenCalledOnce();
-      expect(instrumentation.setTracerProvider).toHaveBeenCalledOnce();
-      expect(JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]!)).toEqual({
-        instrumentation: StatsbeatInstrumentation.AMQPLIB + StatsbeatInstrumentation.FS,
-        feature: 8,
-      });
-      disable();
-      expect(instrumentation.disable).toHaveBeenCalledOnce();
+      createInstrumentation();
+      expect(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]).toBeUndefined();
     });
 
     it("warns about malformed Statsbeat state without blocking registration", () => {
       vi.stubEnv(AZURE_MONITOR_STATSBEAT_FEATURES, "invalid JSON");
       const warn = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
       patchOpenTelemetryInstrumentationEnable();
-      const disable = loadOpenTelemetryInstrumentation().registerInstrumentations({
-        instrumentations: [],
+      const disable = registerInstrumentations({
+        instrumentations: [createInstrumentation()],
       });
       expect(warn).toHaveBeenCalledWith(
         "Failed to parse the statsbeat environment variable",
         expect.any(SyntaxError),
       );
+      expect(warn).toHaveBeenCalledOnce();
       expect(() => disable()).not.toThrow();
     });
   });

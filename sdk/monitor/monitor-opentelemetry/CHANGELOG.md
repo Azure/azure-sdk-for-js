@@ -1,16 +1,16 @@
 # Release History
 
-## 1.22.0 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Breaking Changes
 
-- Updated to OpenTelemetry SDK 3.x, API 1.10.0, and instrumentation 0.300.x. Custom processors, metric readers, and resources must use compatible SDK versions. Tracing SDK imports now use `@opentelemetry/sdk-trace`, and log API imports now use `@opentelemetry/api`.
-- Raised the minimum supported Node.js version to 22.15.0 to match OpenTelemetry SDK 3.x.
+- Updated to OpenTelemetry SDK 3.x, API 1.10.0, and instrumentation 0.300.x. Custom processors, metric readers, and resources must use compatible SDK versions. Tracing SDK imports now use `@opentelemetry/sdk-trace`, and log API imports now use `@opentelemetry/api`. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
+- Raised the minimum supported Node.js version to 22.15.0 to match OpenTelemetry SDK 3.x. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
 
 ### Other Changes
 
-- Updated to exporter version 1.0.0-beta.48 and compatible bundled instrumentations, Azure resource detector, and Winston transport.
-- Preserved `OTEL_BSP_*` and `OTEL_BLRP_*` batch processor configuration with the new SDK APIs.
+- Updated to exporter version 1.0.0-beta.48 and compatible bundled instrumentations, Azure resource detector, and Winston transport. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
+- Preserved `OTEL_BSP_*` and `OTEL_BLRP_*` batch processor configuration with the new SDK APIs. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
 
 ## 1.21.0 (2026-11-05)
 
