@@ -8,6 +8,7 @@ import {
 } from "./api/index.js";
 import {
   SynonymMap,
+  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -16,8 +17,8 @@ import {
   SearchAlias,
   KnowledgeBase,
   KnowledgeSourceUnion,
-  KnowledgeSourceFile,
   UploadKnowledgeSourceFileMultipartRequest,
+  KnowledgeSourceFile,
   UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   IndexStatisticsSummary,
@@ -25,13 +26,13 @@ import {
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
   updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
   listKnowledgeSourceFiles,
   uploadKnowledgeSourceFileMultipart,
-  uploadKnowledgeSourceFile,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
   listKnowledgeSources,
@@ -57,19 +58,19 @@ import {
   deleteIndex,
   createOrUpdateIndex,
   createSynonymMap,
-  getSynonymMaps,
+  listSynonymMaps,
   getSynonymMap,
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
-  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
@@ -95,7 +96,7 @@ import {
   DeleteIndexOptionalParams,
   CreateOrUpdateIndexOptionalParams,
   CreateSynonymMapOptionalParams,
-  GetSynonymMapsOptionalParams,
+  ListSynonymMapsOptionalParams,
   GetSynonymMapOptionalParams,
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
@@ -119,6 +120,13 @@ export class SearchIndexClient {
     this.pipeline = this._client.pipeline;
   }
 
+  /** Lists all synonym maps available for a search service. */
+  getSynonymMaps(
+    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSynonymMapsResult> {
+    return getSynonymMaps(this._client, options);
+  }
+
   /** Retrieves a summary of statistics for all indexes in the search service. */
   listIndexStatsSummary(
     options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
@@ -135,21 +143,21 @@ export class SearchIndexClient {
 
   /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
   updateKnowledgeSourceFile(
+    name: string,
     fileId: string,
     body: UpdateKnowledgeSourceFileRequest,
-    name: string,
     options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
-    return updateKnowledgeSourceFile(this._client, fileId, body, name, options);
+    return updateKnowledgeSourceFile(this._client, name, fileId, body, options);
   }
 
   /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
   deleteKnowledgeSourceFile(
-    fileId: string,
     name: string,
+    fileId: string,
     options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteKnowledgeSourceFile(this._client, fileId, name, options);
+    return deleteKnowledgeSourceFile(this._client, name, fileId, options);
   }
 
   /** Lists all files in a File knowledge source. */
@@ -162,21 +170,11 @@ export class SearchIndexClient {
 
   /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
   uploadKnowledgeSourceFileMultipart(
-    body: UploadKnowledgeSourceFileMultipartRequest,
     name: string,
+    body: UploadKnowledgeSourceFileMultipartRequest,
     options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
-    return uploadKnowledgeSourceFileMultipart(this._client, body, name, options);
-  }
-
-  /** Uploads a file to a File knowledge source for processing and indexing. */
-  uploadKnowledgeSourceFile(
-    contentDisposition: string,
-    file: Uint8Array,
-    name: string,
-    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
-  ): Promise<KnowledgeSourceFile> {
-    return uploadKnowledgeSourceFile(this._client, contentDisposition, file, name, options);
+    return uploadKnowledgeSourceFileMultipart(this._client, name, body, options);
   }
 
   /** Retrieves the status of a knowledge source. */
@@ -380,10 +378,10 @@ export class SearchIndexClient {
   }
 
   /** Lists all synonym maps available for a search service. */
-  getSynonymMaps(
-    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  listSynonymMaps(
+    options: ListSynonymMapsOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<SynonymMap> {
-    return getSynonymMaps(this._client, options);
+    return listSynonymMaps(this._client, options);
   }
 
   /** Retrieves a synonym map definition. */

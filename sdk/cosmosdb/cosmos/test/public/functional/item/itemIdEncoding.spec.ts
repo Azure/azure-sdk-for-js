@@ -120,7 +120,8 @@ const executeTestCaseOnComputeGateway = async function (scenario: TestScenario):
   return executeTestCase(scenario, true);
 };
 
-describe("Id encoding", { timeout: 10000 }, () => {
+// Allow the SDK's default 60s request timeout to surface diagnostics before the test times out.
+describe("Id encoding", { timeout: 120000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -149,7 +150,7 @@ describe("Id encoding", { timeout: 10000 }, () => {
     };
 
     await executeTestCaseOnComputeGateway(scenario);
-  }, 15000);
+  });
 
   it("RGW_ContainerIdWithUnicode鱀", async () => {
     const scenario: TestScenario = {

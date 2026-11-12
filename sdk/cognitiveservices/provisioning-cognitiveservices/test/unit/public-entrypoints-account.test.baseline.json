@@ -1,0 +1,807 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AIServices"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "S0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "capabilityHost": {
+          "bicepIdentifier": "capabilityHost",
+          "type": "Microsoft.CognitiveServices/accounts/capabilityHosts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilityHostKind": {
+                    "kind": "string",
+                    "value": "Agents"
+                  },
+                  "enablePublicHostingEnvironment": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "commitmentPlan": {
+          "bicepIdentifier": "commitmentPlan",
+          "type": "Microsoft.CognitiveServices/accounts/commitmentPlans",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AIServices"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "autoRenew": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "hostingModel": {
+                    "kind": "string",
+                    "value": "ConnectedContainer"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "S0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "connection": {
+          "bicepIdentifier": "connection",
+          "type": "Microsoft.CognitiveServices/accounts/connections",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "authType": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "CustomKeys"
+                  },
+                  "target": {
+                    "kind": "string",
+                    "value": "https://example.invalid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "raiPolicy": {
+          "bicepIdentifier": "raiPolicy",
+          "type": "Microsoft.CognitiveServices/accounts/raiPolicies",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "basePolicyName": {
+                    "kind": "string",
+                    "value": "Microsoft.Default"
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "Blocking"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "project": {
+          "bicepIdentifier": "project",
+          "type": "Microsoft.CognitiveServices/accounts/projects",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-project"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "identity": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "SystemAssigned"
+                  }
+                }
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Cognitive Services project"
+                  },
+                  "description": {
+                    "kind": "string",
+                    "value": "Project coverage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "application": {
+          "bicepIdentifier": "application",
+          "type": "Microsoft.CognitiveServices/accounts/projects/applications",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "agent-application"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "project"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "displayName": {
+                    "kind": "string",
+                    "value": "sample application"
+                  },
+                  "description": {
+                    "kind": "string",
+                    "value": "Cognitive Services application"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "agentDeployment": {
+          "bicepIdentifier": "agentDeployment",
+          "type": "Microsoft.CognitiveServices/accounts/projects/applications/agentDeployments",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "application"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "deploymentType": {
+                    "kind": "string",
+                    "value": "Hosted"
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "value": "sample deployment"
+                  },
+                  "maxReplicas": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "minReplicas": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "capabilityHost2": {
+          "bicepIdentifier": "capabilityHost2",
+          "type": "Microsoft.CognitiveServices/accounts/projects/capabilityHosts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "project"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "aiServicesConnections": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "storageConnections": {
+                    "kind": "array",
+                    "items": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "connection2": {
+          "bicepIdentifier": "connection2",
+          "type": "Microsoft.CognitiveServices/accounts/projects/connections",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "project"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "authType": {
+                    "kind": "string",
+                    "value": "None"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "CustomKeys"
+                  },
+                  "target": {
+                    "kind": "string",
+                    "value": "https://example.invalid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "defenderForAISetting": {
+          "bicepIdentifier": "defenderForAISetting",
+          "type": "Microsoft.CognitiveServices/accounts/defenderForAISettings",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "state": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deployment": {
+          "bicepIdentifier": "deployment",
+          "type": "Microsoft.CognitiveServices/accounts/deployments",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "model": {
+                    "kind": "object",
+                    "value": {
+                      "format": {
+                        "kind": "string",
+                        "value": "OpenAI"
+                      },
+                      "name": {
+                        "kind": "string",
+                        "value": "gpt-4o"
+                      },
+                      "version": {
+                        "kind": "string",
+                        "value": "2024-08-06"
+                      }
+                    }
+                  },
+                  "versionUpgradeOption": {
+                    "kind": "string",
+                    "value": "OnceNewDefaultVersionAvailable"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "encryptionScope": {
+          "bicepIdentifier": "encryptionScope",
+          "type": "Microsoft.CognitiveServices/accounts/encryptionScopes",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "state": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "keySource": {
+                    "kind": "string",
+                    "value": "Microsoft.CognitiveServices"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "managedNetwork": {
+          "bicepIdentifier": "managedNetwork",
+          "type": "Microsoft.CognitiveServices/accounts/managedNetworks",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "managedNetwork": {
+                    "kind": "object",
+                    "value": {
+                      "isolationMode": {
+                        "kind": "string",
+                        "value": "AllowOnlyApprovedOutbound"
+                      },
+                      "firewallSku": {
+                        "kind": "string",
+                        "value": "Standard"
+                      },
+                      "managedNetworkKind": {
+                        "kind": "string",
+                        "value": "V1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "outboundRule": {
+          "bicepIdentifier": "outboundRule",
+          "type": "Microsoft.CognitiveServices/accounts/managedNetworks/outboundRules",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedNetwork"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "FQDN"
+                  },
+                  "category": {
+                    "kind": "string",
+                    "value": "UserDefined"
+                  },
+                  "destination": {
+                    "kind": "string",
+                    "value": "destination.example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "networkSecurityPerimeterConfiguration": {
+          "bicepIdentifier": "networkSecurityPerimeterConfiguration",
+          "type": "Microsoft.CognitiveServices/accounts/networkSecurityPerimeterConfigurations",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.CognitiveServices/accounts/privateEndpointConnections",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "Approved for package coverage"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "raiBlocklist": {
+          "bicepIdentifier": "raiBlocklist",
+          "type": "Microsoft.CognitiveServices/accounts/raiBlocklists",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "description": {
+                    "kind": "string",
+                    "value": "Source-backed blocklist coverage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "raiBlocklistItem": {
+          "bicepIdentifier": "raiBlocklistItem",
+          "type": "Microsoft.CognitiveServices/accounts/raiBlocklists/raiBlocklistItems",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "raiBlocklist"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isRegex": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "pattern": {
+                    "kind": "string",
+                    "value": "^[a-z0-9_-]{2,16}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "testRaiExternalSafetyProvider": {
+          "bicepIdentifier": "testRaiExternalSafetyProvider",
+          "type": "Microsoft.CognitiveServices/accounts/testRaiExternalSafetyProvider",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "keyVaultUri": {
+                    "kind": "string",
+                    "value": "https://contoso-vault.vault.azure.net/"
+                  },
+                  "managedIdentity": {
+                    "kind": "string",
+                    "value": "f3b9c2e7-4aad-4b1f-9d9c-9e9b1e9b1f9b"
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "sync"
+                  },
+                  "providerId": {
+                    "kind": "string",
+                    "value": "00000000-0000-0000-0000-000000000000"
+                  },
+                  "providerName": {
+                    "kind": "string",
+                    "value": "safetyProviderName"
+                  },
+                  "secretName": {
+                    "kind": "string",
+                    "value": "safety-provider-secret"
+                  },
+                  "url": {
+                    "kind": "string",
+                    "value": "https://example-safety-provider.contoso.com/webhook"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "raiToolLabel": {
+          "bicepIdentifier": "raiToolLabel",
+          "type": "Microsoft.CognitiveServices/accounts/raiToolLabels",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "toolConnectionName": {
+                    "kind": "string",
+                    "value": "Web_Search"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "raitopic": {
+          "bicepIdentifier": "raitopic",
+          "type": "Microsoft.CognitiveServices/accounts/raitopics",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "account"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "description": {
+                    "kind": "string",
+                    "value": "Cognitive Services RAI topic"
+                  },
+                  "topicName": {
+                    "kind": "string",
+                    "value": "RAI topic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

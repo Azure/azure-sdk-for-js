@@ -38,7 +38,7 @@ export function _attachSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,7 +99,7 @@ export function _executeCommandSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function _listLogsSend(
       resourceGroupName: resourceGroupName,
       containerGroupName: containerGroupName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       tail: options?.tail,
       timestamps: options?.timestamps,
     },

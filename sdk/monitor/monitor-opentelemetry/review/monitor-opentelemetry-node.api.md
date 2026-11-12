@@ -10,8 +10,8 @@ import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
-import type { SeverityNumber } from '@opentelemetry/api-logs';
-import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
+import type { SeverityNumber } from '@opentelemetry/api';
+import type { SpanProcessor } from '@opentelemetry/sdk-trace';
 import type { ViewOptions } from '@opentelemetry/sdk-metrics';
 
 // @public

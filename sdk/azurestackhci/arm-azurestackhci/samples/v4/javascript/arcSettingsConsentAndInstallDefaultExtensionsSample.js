@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to add consent time for default extensions and initiate extensions installation
  *
  * @summary add consent time for default extensions and initiate extensions installation
- * x-ms-original-file: 2026-04-30/ConsentAndInstallDefaultExtensions.json
+ * x-ms-original-file: 2026-10-01/ConsentAndInstallDefaultExtensions.json
  */
 async function consentAndInstallDefaultExtensions() {
   const credential = new DefaultAzureCredential();

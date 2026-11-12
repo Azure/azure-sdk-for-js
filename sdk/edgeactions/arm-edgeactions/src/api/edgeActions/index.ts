@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type EdgeActionsListBySubscriptionOptionalParams,
-  type EdgeActionsListByResourceGroupOptionalParams,
-  type EdgeActionsDeleteOptionalParams,
-  type EdgeActionsUpdateOptionalParams,
-  type EdgeActionsCreateOptionalParams,
-  type EdgeActionsGetOptionalParams,
+export type {
+  EdgeActionsListBySubscriptionOptionalParams,
+  EdgeActionsListByResourceGroupOptionalParams,
+  EdgeActionsDeleteOptionalParams,
+  EdgeActionsUpdateOptionalParams,
+  EdgeActionsCreateOptionalParams,
+  EdgeActionsGetOptionalParams,
 } from "./options.js";

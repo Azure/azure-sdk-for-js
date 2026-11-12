@@ -3,7 +3,7 @@
 
 import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
-import { logs, SeverityNumber } from "@opentelemetry/api-logs";
+import { logs, SeverityNumber } from "@opentelemetry/api";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 

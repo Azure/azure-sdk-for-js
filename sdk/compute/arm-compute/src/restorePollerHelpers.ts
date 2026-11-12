@@ -142,6 +142,7 @@ import {
   _updateDeserialize as _updateDeserializeCapacityReservations,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCapacityReservations,
 } from "./api/capacityReservations/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeCapacityReservationGroups } from "./api/capacityReservationGroups/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeRestorePoints,
   _createDeserialize,
@@ -608,6 +609,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createOrUpdateDeserializeCapacityReservations,
       expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}":
+    {
+      deserializer: _$deleteDeserializeCapacityReservationGroups,
+      expectedStatuses: ["200", "202", "204"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}":
     { deserializer: _$deleteDeserializeRestorePoints, expectedStatuses: ["200", "202", "204"] },

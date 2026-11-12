@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Connection resource.
  *
  * @summary creates or updates a Connection resource.
- * x-ms-original-file: 2025-12-01/Connections_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01/Connections_CreateOrUpdate.json
  */
 async function connectionsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

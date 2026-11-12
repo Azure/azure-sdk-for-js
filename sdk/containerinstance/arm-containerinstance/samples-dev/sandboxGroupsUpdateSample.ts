@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a SandboxGroup
  *
  * @summary update a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsUpdate.json
+ * x-ms-original-file: 2026-07-01/SandboxGroupsUpdate.json
  */
 async function updateASandboxGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

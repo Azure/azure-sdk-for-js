@@ -38,7 +38,7 @@ export function _listByPrivateLinkScopeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _listByPrivateLinkScopeDeserialize(
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
+
 /** Gets all private endpoint connections on a private link scope. */
 export function listByPrivateLinkScope(
   context: Client,
@@ -77,7 +78,7 @@ export function listByPrivateLinkScope(
     () => _listByPrivateLinkScopeSend(context, resourceGroupName, scopeName, options),
     _listByPrivateLinkScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -95,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,6 +118,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a private endpoint connection with a given name. */
 export function $delete(
   context: Client,
@@ -131,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, scopeName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,6 +181,7 @@ export async function _createOrUpdateDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Approve or reject a private endpoint connection with a given name. */
 export function createOrUpdate(
   context: Client,
@@ -201,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
@@ -219,7 +222,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,6 +249,7 @@ export async function _getDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
+
 /** Gets a private endpoint connection. */
 export async function get(
   context: Client,

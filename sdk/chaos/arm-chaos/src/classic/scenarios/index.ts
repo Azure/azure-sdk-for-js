@@ -43,6 +43,7 @@ export interface ScenariosOperations {
     options?: ScenariosGetOptionalParams,
   ) => Promise<Scenario>;
 }
+
 function _getScenarios(context: ChaosManagementContext) {
   return {
     listAll: (
@@ -71,6 +72,7 @@ function _getScenarios(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, scenarioName, options),
   };
 }
+
 export function _getScenariosOperations(context: ChaosManagementContext): ScenariosOperations {
   return {
     ..._getScenarios(context),

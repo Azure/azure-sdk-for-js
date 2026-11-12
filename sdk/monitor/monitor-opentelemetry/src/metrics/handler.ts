@@ -12,10 +12,10 @@ import {
   InstrumentType,
   PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
-import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS, HISTOGRAM_AGGREGATION_MAP } from "./types.js";
 import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
@@ -151,7 +151,7 @@ export class MetricHandler {
     this._performanceCounters?.recordSpan(span);
   }
 
-  public recordLog(logRecord: SdkLogRecord): void {
+  public recordLog(logRecord: ReadWriteLogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
     this._liveMetrics?.recordLog(logRecord);
     this._performanceCounters?.recordLog(logRecord);

@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   ReplicationProtectionCluster,
-  replicationProtectionClusterSerializer,
-  replicationProtectionClusterDeserializer,
   ApplyClusterRecoveryPointInput,
-  applyClusterRecoveryPointInputSerializer,
   ClusterTestFailoverInput,
-  clusterTestFailoverInputSerializer,
   ClusterTestFailoverCleanupInput,
-  clusterTestFailoverCleanupInputSerializer,
   ClusterUnplannedFailoverInput,
-  clusterUnplannedFailoverInputSerializer,
   _ReplicationProtectionClusterCollection,
-  _replicationProtectionClusterCollectionDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  replicationProtectionClusterSerializer,
+  replicationProtectionClusterDeserializer,
+  applyClusterRecoveryPointInputSerializer,
+  clusterTestFailoverInputSerializer,
+  clusterTestFailoverCleanupInputSerializer,
+  clusterUnplannedFailoverInputSerializer,
+  _replicationProtectionClusterCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationProtectionClustersListOptionalParams,
   ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
   ReplicationProtectionClustersGetOperationResultsOptionalParams,
@@ -38,13 +38,9 @@ import {
   ReplicationProtectionClustersCreateOptionalParams,
   ReplicationProtectionClustersGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -58,7 +54,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       skipToken: options?.skipToken,
       "%24filter": options?.filter,
     },
@@ -78,7 +74,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -98,7 +96,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -120,7 +118,7 @@ export function _listByReplicationProtectionContainersSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +136,9 @@ export async function _listByReplicationProtectionContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -170,7 +170,7 @@ export function listByReplicationProtectionContainers(
       ),
     _listByReplicationProtectionContainersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -194,7 +194,7 @@ export function _getOperationResultsSend(
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +212,9 @@ export async function _getOperationResultsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,7 +265,7 @@ export function _unplannedFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +285,9 @@ export async function _unplannedFailoverDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -317,7 +321,7 @@ export function unplannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -340,7 +344,7 @@ export function _testFailoverCleanupSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +364,9 @@ export async function _testFailoverCleanupDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -394,7 +400,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -417,7 +423,7 @@ export function _testFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -437,7 +443,9 @@ export async function _testFailoverDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -471,7 +479,7 @@ export function testFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -493,7 +501,7 @@ export function _repairReplicationSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,7 +519,9 @@ export async function _repairReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -543,7 +553,7 @@ export function repairReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -565,7 +575,7 @@ export function _failoverCommitSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -583,7 +593,9 @@ export async function _failoverCommitDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -615,7 +627,7 @@ export function failoverCommit(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -638,7 +650,7 @@ export function _applyRecoveryPointSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -658,7 +670,9 @@ export async function _applyRecoveryPointDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -692,7 +706,7 @@ export function applyRecoveryPoint(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -714,7 +728,7 @@ export function _purgeSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -727,7 +741,9 @@ export async function _purgeDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -759,7 +775,7 @@ export function purge(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -782,7 +798,7 @@ export function _createSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -802,7 +818,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -836,7 +854,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
 }
 
@@ -858,7 +876,7 @@ export function _getSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicationProtectionClusterName: replicationProtectionClusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -876,7 +894,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

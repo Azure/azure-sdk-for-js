@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel the currently running scenario execution.
  *
  * @summary cancel the currently running scenario execution.
- * x-ms-original-file: 2026-08-01-preview/ScenarioRuns_Cancel.json
+ * x-ms-original-file: 2026-11-01/ScenarioRuns_Cancel.json
  */
 async function cancelARunningScenarioRun(): Promise<void> {
   const credential = new DefaultAzureCredential();

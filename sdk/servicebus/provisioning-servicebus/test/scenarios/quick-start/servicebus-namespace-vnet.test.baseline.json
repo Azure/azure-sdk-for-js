@@ -1,0 +1,45 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "quickstart-servicebus"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

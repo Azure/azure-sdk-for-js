@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface SchedulersRestartOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface SchedulersListPrivateEndpointConnectionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

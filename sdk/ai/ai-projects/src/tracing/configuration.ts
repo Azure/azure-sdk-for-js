@@ -51,14 +51,12 @@ export interface ResolvedTracingConfig {
 }
 
 /**
- * Resolves tracing options into a frozen config object for the client instance.
+ * Resolves tracing options into a config object for the client instance.
  * For each setting not explicitly provided, the corresponding environment variable
  * is checked. If the env var is also not set, the default value is used.
  *
- * - `enabled`: defaults to `false`. Env var: `AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED`
- *   is not used for enabled — passing `tracingOptions` (even `{}`) enables tracing.
- *   Env var `AZURE_TRACING_GEN_AI_ENABLE` (accepts `"true"` or `"1"`) enables tracing
- *   when `tracingOptions` is not provided.
+ * - `enabled`: requires options and the experimental gate, resolved from
+ *   `experimental` or `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING`.
  * - `contentRecording`: defaults to `false`. Env var: `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT`
  * - `traceContextPropagation`: defaults to `true`. Env var: `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION`
  * @internal
@@ -119,5 +117,9 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
     }
   }
 
-  return { enabled, contentRecording, traceContextPropagation };
+  return {
+    enabled,
+    contentRecording,
+    traceContextPropagation,
+  };
 }

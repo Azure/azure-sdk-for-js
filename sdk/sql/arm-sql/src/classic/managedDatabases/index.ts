@@ -248,6 +248,7 @@ export interface ManagedDatabasesOperations {
     options?: ManagedDatabasesGetOptionalParams,
   ) => Promise<ManagedDatabase>;
 }
+
 function _getManagedDatabases(context: SqlManagementContext) {
   return {
     listInaccessibleByInstance: (
@@ -620,6 +621,7 @@ function _getManagedDatabases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, databaseName, options),
   };
 }
+
 export function _getManagedDatabasesOperations(
   context: SqlManagementContext,
 ): ManagedDatabasesOperations {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
  *
  * @summary disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
- * x-ms-original-file: 2025-08-01-preview/LedgerDigestUploadsDisable.json
+ * x-ms-original-file: 2026-08-01-preview/LedgerDigestUploadsDisable.json
  */
 async function disablesUploadingLedgerDigestsForADatabase() {
   const credential = new DefaultAzureCredential();

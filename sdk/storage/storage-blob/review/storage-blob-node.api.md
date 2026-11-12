@@ -658,6 +658,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
+    layoutAwareRouting?: LayoutAwareRouting;
     maxRetryRequestsPerBlock?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -2226,6 +2227,16 @@ export type DeleteSnapshotsOptionType = "include" | "only";
 export type EncryptionAlgorithmType = string;
 
 // @public
+export type ExpectContinueMode = "auto" | "always" | "never";
+
+// @public
+export interface ExpectContinueOptions {
+    autoIntervalInMs?: number;
+    minBodySizeInBytes?: number;
+    mode?: ExpectContinueMode;
+}
+
+// @public
 export type FileShareTokenIntent = string;
 
 // @public
@@ -2320,6 +2331,9 @@ export enum KnownEncryptionAlgorithmType {
     // (undocumented)
     AES256 = "AES256"
 }
+
+// @public
+export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
 
 // @public
 export interface Lease {
@@ -3239,6 +3253,15 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
 }
 
 // @public
+export type SessionMode = "auto" | "disabled" | "enabled";
+
+// @public
+export interface SessionOptions {
+    accountName?: string;
+    mode?: SessionMode;
+}
+
+// @public
 export interface SignedIdentifier {
     accessPolicy: {
         startsOn?: Date;
@@ -3284,10 +3307,12 @@ export const StorageOAuthScopes: string | string[];
 // @public
 export interface StoragePipelineOptions {
     audience?: string | string[];
+    expectContinueOptions?: ExpectContinueOptions;
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
+    sessionOptions?: SessionOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 

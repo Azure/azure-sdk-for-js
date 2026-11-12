@@ -72,7 +72,8 @@ function getExpandedValue(option: ValueOptions): string {
       // prepare the following parts: separator, varName, value
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
-        vals.push(`${encodeURIComponent(varName)}`);
+        // No need to encode varName considering it is already encoded
+        vals.push(`${varName}`);
         if (val === "") {
           vals.push(ifEmpty);
         } else {
@@ -111,7 +112,8 @@ function getNonExpandedValue(option: ValueOptions): string | undefined {
   const first = getFirstOrSep(op, isFirst);
   const [named, ifEmpty] = getNamedAndIfEmpty(op);
   if (named && varName) {
-    vals.push(encodeComponent(varName, reserved, op));
+    // No need to encode varName considering it is already encoded
+    vals.push(varName);
     if (value === "") {
       if (!ifEmpty) {
         vals.push(ifEmpty);

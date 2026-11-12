@@ -219,6 +219,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -261,13 +262,10 @@ describe("Highlevel Node.js only", () => {
           aborter.abort();
         },
         chunkSize: 4 * MB,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
-      assert.equal(
-        err.message,
-        "The operation was aborted. Request has already been canceled.",
-        "Unexpected error caught: " + err,
-      );
+      assert.equal(err.name, "AbortError", "Unexpected error caught: " + err);
     }
     assert.isDefined(eventTriggered);
   });
@@ -413,7 +411,9 @@ describe("Highlevel Node.js only", () => {
         MB,
       );
       const uploadedBuffer = fs.readFileSync(tempFile);
-      await fileClient.upload(uploadedBuffer);
+      await fileClient.upload(uploadedBuffer, {
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+      });
 
       const readResponse = await fileClient.read();
       const readFile = path.join(
@@ -583,6 +583,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -621,6 +622,7 @@ describe("Highlevel Node.js only", () => {
           eventTriggered = true;
           aborter.abort();
         },
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
       assert.equal(

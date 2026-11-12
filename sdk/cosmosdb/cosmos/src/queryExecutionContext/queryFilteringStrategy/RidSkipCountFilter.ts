@@ -3,6 +3,7 @@
 
 import type { FilterContext, FilterStrategy } from "../index.js";
 import { compareOrderByItems } from "../orderByComparator.js";
+import { ridToBigInt } from "../../utils/documentRid.js";
 
 /**
  * Implements post-fetch filtering for ORDER BY queries to handle continuation tokens correctly.
@@ -43,6 +44,18 @@ export class RidSkipCountFilter implements FilterStrategy {
       filteredDocs.push(doc);
     }
     return filteredDocs;
+  }
+
+  public getFilterContext(): FilterContext {
+    return {
+      ...this.filterContext,
+      orderByItems: [...this.filterContext.orderByItems],
+      skipCount: this.remainingSkipCount,
+      sortOrders: [...this.filterContext.sortOrders],
+      queryExecutionInfo: this.filterContext.queryExecutionInfo
+        ? { ...this.filterContext.queryExecutionInfo }
+        : undefined,
+    };
   }
 
   /**
@@ -88,8 +101,8 @@ export class RidSkipCountFilter implements FilterStrategy {
       ridOrderCompare = 0;
     } else {
       // Use BigInt comparison for accurate RID comparison
-      const continuationBigInt = this.ridToBigInt(this.filterContext.rid);
-      const docBigInt = this.ridToBigInt(docRid);
+      const continuationBigInt = ridToBigInt(this.filterContext.rid);
+      const docBigInt = ridToBigInt(docRid);
 
       if (continuationBigInt < docBigInt) {
         ridOrderCompare = -1;
@@ -135,53 +148,6 @@ export class RidSkipCountFilter implements FilterStrategy {
     }
 
     return true; // Include this document (skip count exhausted)
-  }
-
-  /**
-   * Convert RID to BigInt for accurate comparison.
-   * Decodes base64 RID and extracts the Document ID portion (8 bytes at offset 8) as BigInt.
-   *
-   * RID Structure (from Java SDK ResourceId.java):
-   * - Bytes 0-3: Database ID (4 bytes)
-   * - Bytes 4-7: Collection ID (4 bytes)
-   * - Bytes 8-15: Document ID (8 bytes, stored in Big Endian but compared in Little Endian)
-   * - Bytes 16-19: Attachment ID (4 bytes, optional)
-   */
-  private ridToBigInt(rid: string): bigint {
-    // Validate input RID
-    if (rid === null || rid === undefined) {
-      throw new Error(`RID is null or undefined`);
-    }
-    if (typeof rid !== "string") {
-      throw new Error(`RID must be a string, got ${typeof rid}`);
-    }
-    if (rid.trim().length === 0) {
-      throw new Error(`RID is empty string`);
-    }
-
-    try {
-      const normalizedRid = rid.replace(/-/g, "/");
-      const bytes = Buffer.from(normalizedRid, "base64");
-
-      // Validate RID length - must be at least 16 bytes to contain document ID
-      if (bytes.length < 16) {
-        throw new Error(`RID too short: expected at least 16 bytes, got ${bytes.length}`);
-      }
-
-      // Extract Document ID portion (8 bytes at offset 8-15)
-      // The bytes are stored as Big Endian but must be compared as Little Endian
-      let result = 0n;
-      for (let i = 15; i >= 8; i--) {
-        result = (result << 8n) | BigInt(bytes[i] & 0xff); // & 0xFF treats as unsigned
-      }
-
-      return result;
-    } catch (error) {
-      throw new Error(
-        `Failed to convert RID '${rid}' to BigInt: ${error instanceof Error ? error.message : String(error)}`,
-        { cause: error },
-      );
-    }
   }
 
   /**

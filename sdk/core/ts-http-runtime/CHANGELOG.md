@@ -1,26 +1,28 @@
 # Release History
 
-## 0.3.10 (Unreleased)
+## 0.3.10 (2026-11-06)
 
 ### Features Added
 
-- `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information.
-
-### Breaking Changes
+- Added opt-in `Expect: 100-continue` support to the Node.js HTTP/1 transport. Browser and React Native transports reject requests with an `Expect` header. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+- `azure-deprecating` response header is now included in the default set of headers logged without redaction. See [Azure API Guidelines: Deprecating Behavior Notification](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#deprecating-behavior-notification) for more information. [#39420](https://github.com/Azure/azure-sdk-for-js/pull/39420)
 
 ### Bugs Fixed
 
+- Added a `workerd` export condition so Cloudflare Workers using `nodejs_compat` resolve the Node-compatible build, including Node HTTP and proxy support, instead of the browser build. [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
+- Release discarded response streams before redirects and retries, preserve cancellation and abort-signal cleanup across buffered and streamed responses, reject prematurely closed Node upload and buffered response streams, prevent unhandled Node upload errors during teardown, and honor method overrides when converting 303 redirects to GET. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+- Binary request bodies supplied as `ArrayBuffer`, `DataView`, or typed arrays other than `Uint8Array` are now sent as their original bytes instead of being JSON serialized. [#40382](https://github.com/Azure/azure-sdk-for-js/pull/40382)
 - Client requests now look up the `content-type` and `accept` entries of the `headers` request option without regard to how the header name is capitalized. Only the all lower case spellings were found before, so `headers: { "Content-Type": "application/xml" }` and `headers: { "Accept": "text/plain" }` were replaced by the default `application/json`. Both entries are now read back from the headers that will be sent, so the same value decides the header and how the body is encoded: a header name given under two spellings resolves to the last one in the object, a `content-type` value that is not a string, such as a number, is used as its string form rather than ignored, and a padded value selects the encoding of its trimmed form. [#39791](https://github.com/Azure/azure-sdk-for-js/pull/39791)
 
 ### Other Changes
 
 - Upgraded the `http-proxy-agent` dependency to version `9.1.0`. [Issue #37669](https://github.com/Azure/azure-sdk-for-js/issues/37669)
+- Upgraded the `https-proxy-agent` dependency to version `9.1.0`. [#40259](https://github.com/Azure/azure-sdk-for-js/pull/40259)
 
 ## 0.3.9 (2026-09-03)
 
 ### Bugs Fixed
 
-- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
 - `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
 - `FetchHttpClient` now surfaces the system error code (such as `ECONNRESET` or `ETIMEDOUT`) carried by the `cause` of a failed `fetch()` call on the resulting `RestError`, so that `systemErrorRetryPolicy` retries transient network failures instead of rethrowing them immediately. [Issue #39703](https://github.com/Azure/azure-sdk-for-js/issues/39703)
 

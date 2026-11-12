@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, get } from "../../api/replicationEvents/operations.js";
-import {
+import type {
   ReplicationEventsListOptionalParams,
   ReplicationEventsGetOptionalParams,
 } from "../../api/replicationEvents/options.js";
-import { Event } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Event } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationEvents operations. */
 export interface ReplicationEventsOperations {

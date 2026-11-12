@@ -1,9 +1,10 @@
 # Release History
 
-## 7.11.0 (Unreleased)
+## 7.11.0-beta.1 (Unreleased)
 
 ### Features Added
 
+- Reintroduced the preview `deleteMessages(maxMessageCount, options?)` and `purgeMessages(options?)` receiver methods. Both return result objects containing the service's actual deleted count. Purge uses a fixed enqueue-time cutoff and supports the optional `maxMessagesPerBatch` request size, which defaults to 500. [#39309](https://github.com/Azure/azure-sdk-for-js/pull/39309)
 - Added explicitly typed AMQP application properties and the `applicationPropertiesWithAmqpTypes` view on received messages, enabling receive-to-resend scenarios to preserve AMQP scalar types. [#25014](https://github.com/Azure/azure-sdk-for-js/issues/25014)
 
 ### Breaking Changes

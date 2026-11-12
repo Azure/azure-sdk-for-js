@@ -83,7 +83,6 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "rollup-plugin-copy": "^3.5.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

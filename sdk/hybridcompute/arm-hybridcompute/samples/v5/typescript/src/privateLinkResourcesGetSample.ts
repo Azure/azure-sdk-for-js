@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
  *
  * @summary gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
- * x-ms-original-file: 2026-07-15/privateLinkScope/PrivateLinkScopePrivateLinkResource_Get.json
+ * x-ms-original-file: 2026-09-01/privateLinkScope/PrivateLinkScopePrivateLinkResource_Get.json
  */
 async function getsPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
