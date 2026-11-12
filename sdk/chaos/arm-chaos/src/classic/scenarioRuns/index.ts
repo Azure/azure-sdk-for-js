@@ -46,6 +46,7 @@ export interface ScenarioRunsOperations {
     options?: ScenarioRunsGetOptionalParams,
   ) => Promise<ScenarioRun>;
 }
+
 function _getScenarioRuns(context: ChaosManagementContext) {
   return {
     cancel: (
@@ -70,6 +71,7 @@ function _getScenarioRuns(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, scenarioName, runId, options),
   };
 }
+
 export function _getScenarioRunsOperations(
   context: ChaosManagementContext,
 ): ScenarioRunsOperations {
