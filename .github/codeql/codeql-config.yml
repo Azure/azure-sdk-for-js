@@ -1,9 +1,3 @@
-# Extend GitHub-managed CodeQL default setup without overriding its query settings.
-# After this file is merged to main, an organization administrator must create
-# github-codeql-config-file as an optional Text custom property with no default.
-# Set its value for Azure/azure-sdk-for-js only to:
-# remote=Azure/azure-sdk-for-js@main:.github/codeql/codeql-config.yml
-# Referencing main explicitly also supports branches that do not contain this file.
 paths-ignore:
   # Published ARM samples duplicate samples-dev, which remains in scope.
   - "sdk/*/arm-*/samples/v*/**"
