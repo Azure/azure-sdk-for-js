@@ -2,6 +2,15 @@
 
 This doc shows some common problems and resolution in CI.
 
+# Unit test failures
+
+In public Azure DevOps project builds, failed Node.js and browser unit tests are
+reported as pipeline errors with the results file's package path, test name, and
+failure message or stack trace. These errors are also forwarded to the GitHub
+check, alongside the shell's exit-code error. Full test results remain available
+in the Azure DevOps build's Tests tab. If a test process fails before writing its
+results file, inspect the failing test step's log for details.
+
 # Broken links
 
 ![image](./images/broken-links.png)
