@@ -390,19 +390,15 @@ function getOrInitializeClient(
   }
 
   const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-
-  const userAgentOptions = options.userAgentOptions;
-
-  options.userAgentOptions = {
-    userAgentPrefix:
-      userAgentOptions && userAgentOptions.userAgentPrefix
-        ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo,
-  };
+  const userAgentPrefix = options.userAgentOptions?.userAgentPrefix;
 
   const internalPipelineOptions: KeyVaultClientOptionalParams = {
     ...options,
     apiVersion: options.serviceVersion || LATEST_API_VERSION,
+    userAgentOptions: {
+      ...options.userAgentOptions,
+      userAgentPrefix: userAgentPrefix ? `${userAgentPrefix} ${libInfo}` : libInfo,
+    },
     loggingOptions: {
       logger: logger.info,
       additionalAllowedHeaderNames: [
