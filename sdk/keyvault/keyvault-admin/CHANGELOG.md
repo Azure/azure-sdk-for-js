@@ -5,8 +5,8 @@
 ### Features Added
 
 - Added support for service version `2026-04-01`.
-- (From 4.9.0-beta.1) Added `KeyVaultEkmClient` and `KeyVaultEkmAsyncClient` for managing Managed HSM External Key Manager (EKM) connections, exposing `getEkmConnection`, `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection` (and their `WithResponse` variants).
-- (From 4.9.0-beta.1) Added the `KeyVaultEkmConnection`, `KeyVaultEkmProxyClientCertificateInfo`, and `KeyVaultEkmProxyInfo` models supporting the EKM clients.
+- (From 4.7.3-beta.1) Added `KeyVaultEkmClient` for managing Managed HSM External Key Manager (EKM) connections, exposing `getEkmConnection`, `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection`.
+- (From 4.7.3-beta.1) Added the `EkmConnection`, `EkmProxyClientCertificateInfo`, and `EkmProxyInfo` models supporting the EKM client.
 
 ### Breaking Changes
 
