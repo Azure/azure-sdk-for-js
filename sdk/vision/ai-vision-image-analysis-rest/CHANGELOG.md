@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2024-10-18)
+## 1.0.0 (Unreleased)
 
 ### Other Changes
 Stable Release.
