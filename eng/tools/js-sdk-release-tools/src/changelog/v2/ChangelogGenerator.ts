@@ -1,7 +1,18 @@
 import template from "string-template";
 import { DetectContext, DetectResult } from "./DifferenceDetector.js";
-import { DiffLocation, DiffPair, DiffReasons } from "../../breaking-change-detector/index.js";
-import { InterfaceDeclaration, Node, PropertySignature, SyntaxKind } from "ts-morph";
+import {
+  AssignDirection,
+  AstContext,
+  DiffLocation,
+  DiffPair,
+  DiffReasons,
+  patchClass,
+  patchFunction,
+  patchInterface,
+  patchRoutes,
+  patchTypeAlias,
+} from "../../breaking-change-detector/index.js";
+import { InterfaceDeclaration, Node, Project, PropertySignature, SyntaxKind } from "ts-morph";
 import { SDKType } from "../../common/types.js";
 
 // NOTE: enum value matters for the order of output changelog items
@@ -168,19 +179,101 @@ export class ChangelogGenerator {
     private detectResult: DetectResult,
   ) {}
 
+  private contextWithoutNull: AstContext | null | undefined;
+
+  private getContextWithoutNull(): AstContext | null {
+    if (this.contextWithoutNull !== undefined) return this.contextWithoutNull;
+    const original = this.detectContext.context;
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: original.baseline.getProject().getCompilerOptions(),
+    });
+    const context = {
+      baseline: project.createSourceFile(
+        original.baseline.getFilePath(),
+        original.baseline.getFullText(),
+      ),
+      current: project.createSourceFile(
+        original.current.getFilePath(),
+        original.current.getFullText(),
+      ),
+    };
+    let changed = false;
+    for (const sourceFile of [context.baseline, context.current]) {
+      for (const union of sourceFile.getDescendantsOfKind(SyntaxKind.UnionType).reverse()) {
+        const members = union.getTypeNodes();
+        const retainedMembers = members.filter(
+          (member) =>
+            !(Node.isLiteralTypeNode(member) && member.getLiteral().isKind(SyntaxKind.NullKeyword)),
+        );
+        if (retainedMembers.length > 0 && retainedMembers.length < members.length) {
+          union.replaceWithText(retainedMembers.map((member) => member.getText()).join(" | "));
+          changed = true;
+        }
+      }
+    }
+    this.contextWithoutNull = changed ? context : null;
+    return this.contextWithoutNull;
+  }
+
+  private filterNullTypeChanges(
+    diffPairs: DiffPair[],
+    compare: (context: AstContext) => DiffPair[],
+  ): DiffPair[] {
+    if (!diffPairs.some((pair) => this.hasReasons(pair.reasons, DiffReasons.TypeChanged))) {
+      return diffPairs;
+    }
+    const context = this.getContextWithoutNull();
+    if (!context) return diffPairs;
+    const remaining = compare(context);
+    return diffPairs.map((pair) => {
+      const stillTypeChanged = remaining.some(
+        (candidate) =>
+          candidate.location === pair.location &&
+          candidate.assignDirection === pair.assignDirection &&
+          candidate.source?.name === pair.source?.name &&
+          candidate.target?.name === pair.target?.name &&
+          this.hasReasons(candidate.reasons, DiffReasons.TypeChanged),
+      );
+      return stillTypeChanged
+        ? pair
+        : { ...pair, reasons: pair.reasons & ~DiffReasons.TypeChanged };
+    });
+  }
+
   // TODO: add enum support
   public generate(): ChangelogResult {
     this.detectResult.interfaces.forEach((diffPairs, name) => {
-      this.generateForInterfaces(diffPairs, name);
+      this.generateForInterfaces(
+        this.filterNullTypeChanges(diffPairs, (context) =>
+          name === "Routes" && this.detectContext.sdkTypes.source === SDKType.RestLevelClient
+            ? patchRoutes(context)
+            : patchInterface(name, context, AssignDirection.CurrentToBaseline),
+        ),
+        name,
+      );
     });
     this.detectResult.classes.forEach((diffPairs, name) => {
-      this.generateForClasses(diffPairs, name);
+      this.generateForClasses(
+        this.filterNullTypeChanges(diffPairs, (context) =>
+          patchClass(name, context, AssignDirection.CurrentToBaseline),
+        ),
+        name,
+      );
     });
     this.detectResult.typeAliases.forEach((diffPairs, name) => {
-      this.generateForTypeAliases(diffPairs, name);
+      this.generateForTypeAliases(
+        this.filterNullTypeChanges(diffPairs, (context) =>
+          patchTypeAlias(name, context, AssignDirection.CurrentToBaseline),
+        ),
+        name,
+      );
     });
     this.detectResult.functions.forEach((diffPairs, name) => {
-      this.generateForFunctions(diffPairs, name);
+      this.generateForFunctions(
+        this.filterNullTypeChanges(diffPairs, (context) => patchFunction(name, context)),
+        name,
+      );
     });
     this.detectResult.enums.forEach((diffPairs, name) => {
       this.generateForEnums(diffPairs, name);
@@ -431,16 +524,7 @@ export class ChangelogGenerator {
       }
       if (
         p.location === DiffLocation.Property &&
-        this.hasReasons(p.reasons, DiffReasons.TypeChanged) &&
-        ([p.source?.node, p.target?.node].some(
-          (node) =>
-            node !== undefined &&
-            (Node.isGetAccessorDeclaration(node) || Node.isSetAccessorDeclaration(node)),
-        ) ||
-          (Node.isPropertyDeclaration(p.source!.node) &&
-            Node.isPropertyDeclaration(p.target!.node) &&
-            p.source!.node.getTypeNodeOrThrow().getText() !==
-              p.target!.node.getTypeNodeOrThrow().getText()))
+        this.hasReasons(p.reasons, DiffReasons.TypeChanged)
       ) {
         const message = template(this.classPropertyTypeChangedTemplate, {
           className,
