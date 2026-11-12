@@ -170,11 +170,15 @@ export class BufferScheduler {
   public async do(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.readable.on("data", (data) => {
-        data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
-        this.appendUnresolvedData(data);
+        try {
+          data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
+          this.appendUnresolvedData(data);
 
-        if (!this.resolveData()) {
-          this.readable.pause();
+          if (!this.resolveData()) {
+            this.readable.pause();
+          }
+        } catch (err: any) {
+          this.emitter.emit("error", err);
         }
       });
 
@@ -194,6 +198,12 @@ export class BufferScheduler {
       });
 
       this.emitter.on("checkEnd", () => {
+        // Handlers still in flight when the error was raised keep emitting "checkEnd";
+        // without this the queued buffers would be uploaded after do() already rejected.
+        if (this.isError) {
+          return;
+        }
+
         if (this.outgoing.length > 0) {
           this.triggerOutgoingHandlers();
           return;
@@ -201,7 +211,13 @@ export class BufferScheduler {
 
         if (this.isStreamEnd && this.executingOutgoingHandlers === 0) {
           if (this.unresolvedLength > 0 && this.unresolvedLength < this.bufferSize) {
-            const buffer = this.shiftBufferFromUnresolvedDataArray();
+            let buffer: PooledBuffer;
+            try {
+              buffer = this.shiftBufferFromUnresolvedDataArray();
+            } catch (err: any) {
+              this.emitter.emit("error", err);
+              return;
+            }
             this.outgoingHandler(() => buffer.getReadableStream(), buffer.size, this.offset)
               .then(resolve)
               .catch(reject);
@@ -325,8 +341,12 @@ export class BufferScheduler {
    */
   private reuseBuffer(buffer: PooledBuffer): void {
     this.incoming.push(buffer);
-    if (!this.isError && this.resolveData() && !this.isStreamEnd) {
-      this.readable.resume();
+    try {
+      if (!this.isError && this.resolveData() && !this.isStreamEnd) {
+        this.readable.resume();
+      }
+    } catch (err: any) {
+      this.emitter.emit("error", err);
     }
   }
 }

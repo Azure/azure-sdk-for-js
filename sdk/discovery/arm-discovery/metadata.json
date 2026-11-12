@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Discovery": "2026-02-01-preview"
+    "Microsoft.Discovery": "2026-06-01"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Discovery",
     "CrossLanguageDefinitionId": {
@@ -71,6 +71,7 @@
       "@azure/arm-discovery!Supercomputer:interface": "Microsoft.Discovery.Supercomputer",
       "@azure/arm-discovery!SupercomputerProperties:interface": "Microsoft.Discovery.SupercomputerProperties",
       "@azure/arm-discovery!SupercomputerIdentities:interface": "Microsoft.Discovery.SupercomputerIdentities",
+      "@azure/arm-discovery!SystemAssignedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentity",
       "@azure/arm-discovery!SupercomputerUpdate:interface": "SupercomputerUpdate",
       "@azure/arm-discovery!SupercomputerUpdateProperties:interface": "SupercomputerUpdateProperties",
       "@azure/arm-discovery!SupercomputerIdentitiesUpdate:interface": "SupercomputerIdentitiesUpdate",
@@ -100,11 +101,14 @@
       "@azure/arm-discovery!KnownScaleSetPriority:enum": "Microsoft.Discovery.ScaleSetPriority",
       "@azure/arm-discovery!KnownNetworkEgressType:enum": "Microsoft.Discovery.NetworkEgressType",
       "@azure/arm-discovery!KnownSystemSku:enum": "Microsoft.Discovery.SystemSku",
+      "@azure/arm-discovery!KnownSystemAssignedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityType",
       "@azure/arm-discovery!KnownStorageStoreType:enum": "Microsoft.Discovery.StorageStoreType",
+      "@azure/arm-discovery!KnownBlobStorageMountProtocol:enum": "Microsoft.Discovery.BlobStorageMountProtocol",
+      "@azure/arm-discovery!KnownNetAppMountProtocol:enum": "Microsoft.Discovery.NetAppMountProtocol",
       "@azure/arm-discovery!KnownVersions:enum": "Microsoft.Discovery.Versions",
       "@azure/arm-discovery!BookshelfPropertiesWorkloadIdentity:type": "Microsoft.Discovery.BookshelfProperties.workloadIdentity.anonymous",
       "@azure/arm-discovery!SupercomputerIdentitiesWorkloadIdentity:type": "Microsoft.Discovery.SupercomputerIdentities.workloadIdentity.anonymous",
-      "@azure/arm-discovery!:type": ".anonymous",
+      "@azure/arm-discovery!SupercomputerIdentitiesUpdateWorkloadIdentity:type": "SupercomputerIdentitiesUpdate.workloadIdentity.anonymous",
       "@azure/arm-discovery!StorageContainersOperations#listBySubscription:member": "Microsoft.Discovery.StorageContainers.listBySubscription",
       "@azure/arm-discovery!StorageContainersOperations#listByResourceGroup:member": "Microsoft.Discovery.StorageContainers.listByResourceGroup",
       "@azure/arm-discovery!StorageContainersOperations#delete:member": "Microsoft.Discovery.StorageContainers.delete",

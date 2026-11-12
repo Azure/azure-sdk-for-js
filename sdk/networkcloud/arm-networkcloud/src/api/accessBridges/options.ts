@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessBridgePatchParameters } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { AccessBridgePatchParameters } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AccessBridgesListBySubscriptionOptionalParams extends OperationOptions {

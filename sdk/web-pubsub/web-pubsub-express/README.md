@@ -49,6 +49,27 @@ app.listen(3000, () =>
 );
 ```
 
+## Authentication
+
+This package parses and dispatches CloudEvents from Azure Web PubSub. It does not
+authenticate incoming requests. The examples in this README focus on event handling and
+omit authentication for demonstration purposes. In production, authenticate requests
+before they reach `handler.getMiddleware()`.
+
+Configure authentication between Azure Web PubSub and the event handler in the hub
+settings. Azure Web PubSub supports Microsoft Entra authorization using a
+[managed identity](https://learn.microsoft.com/azure/azure-web-pubsub/howto-use-managed-identity#use-a-managed-identity-in-client-events-scenarios).
+The application or hosting platform is responsible for validating the access token.
+
+Applications can also validate the `ce-signature` header exposed as
+`request.context.signature` using a securely configured Web PubSub access key and
+`request.context.connectionId`. For the signature format and validation details, see the
+[CloudEvents protocol reference](https://learn.microsoft.com/azure/azure-web-pubsub/reference-cloud-events#web-pubsub-cloudevents-attribute-extension).
+
+The `allowedEndpoints` option participates in the CloudEvents abuse-protection handshake.
+It does not authenticate event POST requests and should not be used as an authentication
+mechanism.
+
 ## Key concepts
 
 ### Connection
@@ -136,6 +157,54 @@ import express from "express";
 const handler = new WebPubSubEventHandler("chat", {
   onConnected: (connectedRequest) => {
     // Your onConnected logic goes here
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+);
+```
+
+### Handle the `onGroupJoined` request
+
+```ts snippet:ReadmeSampleGroupJoined
+import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
+import express from "express";
+
+const handler = new WebPubSubEventHandler("chat", {
+  onGroupJoined: (groupJoinedRequest) => {
+    console.log(
+      `Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`,
+    );
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+);
+```
+
+### Handle the `onGroupLeft` request
+
+```ts snippet:ReadmeSampleGroupLeft
+import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
+import express from "express";
+
+const handler = new WebPubSubEventHandler("chat", {
+  onGroupLeft: (groupLeftRequest) => {
+    console.log(
+      `Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`,
+    );
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });

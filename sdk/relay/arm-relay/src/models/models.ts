@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -934,13 +934,24 @@ export interface RelayNamespace extends TrackedResource {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The minimum TLS version for the namespace.
+   * Supported values are 1.2 and 1.3.
+   * The service defaults to 1.2 when the property is omitted.
+   * Existing namespaces configured with TLS 1.0 or 1.1 are reported as TLS 1.2.
+   */
+  minimumTlsVersion?: TlsVersion;
 }
 
 export function relayNamespaceSerializer(item: RelayNamespace): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: areAllPropsUndefined(item, ["privateEndpointConnections", "publicNetworkAccess"])
+    properties: areAllPropsUndefined(item, [
+      "privateEndpointConnections",
+      "publicNetworkAccess",
+      "minimumTlsVersion",
+    ])
       ? undefined
       : _relayNamespacePropertiesSerializer(item),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
@@ -984,6 +995,13 @@ export interface RelayNamespaceProperties {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The minimum TLS version for the namespace.
+   * Supported values are 1.2 and 1.3.
+   * The service defaults to 1.2 when the property is omitted.
+   * Existing namespaces configured with TLS 1.0 or 1.1 are reported as TLS 1.2.
+   */
+  minimumTlsVersion?: TlsVersion;
 }
 
 export function relayNamespacePropertiesSerializer(item: RelayNamespaceProperties): any {
@@ -992,6 +1010,7 @@ export function relayNamespacePropertiesSerializer(item: RelayNamespacePropertie
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArraySerializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 
@@ -1007,6 +1026,7 @@ export function relayNamespacePropertiesDeserializer(item: any): RelayNamespaceP
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 
@@ -1030,6 +1050,24 @@ export enum KnownPublicNetworkAccess {
  * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
+
+/** TLS versions supported by Relay namespaces. */
+export enum KnownTlsVersion {
+  /** TLS version 1.2. */
+  TlsVersion12 = "1.2",
+  /** TLS version 1.3. */
+  TlsVersion13 = "1.3",
+}
+
+/**
+ * TLS versions supported by Relay namespaces. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.2**: TLS version 1.2. \
+ * **1.3**: TLS version 1.3.
+ */
+export type TlsVersion = string;
 
 /** SKU of the namespace. */
 export interface Sku {
@@ -1127,13 +1165,24 @@ export interface RelayUpdateParameters extends ResourceNamespacePatch {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The minimum TLS version for the namespace.
+   * Supported values are 1.2 and 1.3.
+   * The service defaults to 1.2 when the property is omitted.
+   * Existing namespaces configured with TLS 1.0 or 1.1 are reported as TLS 1.2.
+   */
+  minimumTlsVersion?: TlsVersion;
 }
 
 export function relayUpdateParametersSerializer(item: RelayUpdateParameters): any {
   return {
     tags: item["tags"],
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-    properties: areAllPropsUndefined(item, ["privateEndpointConnections", "publicNetworkAccess"])
+    properties: areAllPropsUndefined(item, [
+      "privateEndpointConnections",
+      "publicNetworkAccess",
+      "minimumTlsVersion",
+    ])
       ? undefined
       : _relayUpdateParametersPropertiesSerializer(item),
   };
@@ -1373,6 +1422,8 @@ export type UnavailableReason = string;
 export enum KnownVersions {
   /** The 2024-01-01 API version. */
   V20240101 = "2024-01-01",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
 }
 
 export function _authorizationRulePropertiesSerializer(item: AuthorizationRule): any {
@@ -1482,6 +1533,7 @@ export function _relayNamespacePropertiesSerializer(item: RelayNamespace): any {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArraySerializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 
@@ -1497,6 +1549,7 @@ export function _relayNamespacePropertiesDeserializer(item: any) {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 
@@ -1506,6 +1559,7 @@ export function _relayUpdateParametersPropertiesSerializer(item: RelayUpdatePara
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArraySerializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 
@@ -1521,6 +1575,7 @@ export function _relayUpdateParametersPropertiesDeserializer(item: any) {
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+    minimumTlsVersion: item["minimumTlsVersion"],
   };
 }
 

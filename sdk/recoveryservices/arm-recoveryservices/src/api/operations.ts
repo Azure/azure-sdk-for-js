@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "./index.js";
+import type { RecoveryServicesContext as Client } from "./index.js";
+import type { OperationResource, Vault } from "../models/models.js";
 import {
-  OperationResource,
   operationResourceDeserializer,
   cloudErrorDeserializer,
-  Vault,
   vaultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { GetOperationResultOptionalParams, GetOperationStatusOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  GetOperationResultOptionalParams,
+  GetOperationStatusOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getOperationResultSend(
   context: Client,
@@ -32,7 +30,7 @@ export function _getOperationResultSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +44,7 @@ export function _getOperationResultSend(
 
 export async function _getOperationResultDeserialize(
   result: PathUncheckedResponse,
-): Promise<Vault | undefined> {
+): Promise<Vault | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -57,7 +55,11 @@ export async function _getOperationResultDeserialize(
     throw error;
   }
 
-  return result.body ? vaultDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return vaultDeserializer(result.body);
 }
 
 /** Gets the operation result for a resource. */
@@ -67,7 +69,7 @@ export async function getOperationResult(
   vaultName: string,
   operationId: string,
   options: GetOperationResultOptionalParams = { requestOptions: {} },
-): Promise<Vault | undefined> {
+): Promise<Vault | void> {
   const result = await _getOperationResultSend(
     context,
     resourceGroupName,
@@ -92,7 +94,7 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

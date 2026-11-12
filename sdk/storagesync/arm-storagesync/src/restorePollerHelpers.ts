@@ -21,6 +21,7 @@ import {
   _postBackupDeserialize,
   _preBackupDeserialize,
   _$deleteDeserialize as _$deleteDeserializeCloudEndpoints,
+  _updateDeserialize as _updateDeserializeCloudEndpoints,
   _createDeserialize as _createDeserializeCloudEndpoints,
 } from "./api/cloudEndpoints/operations.js";
 import {
@@ -130,6 +131,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _preBackupDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}":
     { deserializer: _$deleteDeserializeCloudEndpoints, expectedStatuses: ["200", "202", "204"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}":
+    { deserializer: _updateDeserializeCloudEndpoints, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}":
     { deserializer: _createDeserializeCloudEndpoints, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":

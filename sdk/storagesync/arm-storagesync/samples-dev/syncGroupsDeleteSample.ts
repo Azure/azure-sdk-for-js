@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a given SyncGroup.
  *
  * @summary delete a given SyncGroup.
- * x-ms-original-file: 2022-09-01/SyncGroups_Delete.json
+ * x-ms-original-file: 2025-12-01/SyncGroups_Delete.json
  */
 async function syncGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

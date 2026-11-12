@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2026-03-01/Broker_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2026-07-01/Broker_CreateOrUpdate_Complex.json
  */
 async function brokerCreateOrUpdateComplex() {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function brokerCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2026-03-01/Broker_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Broker_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -143,6 +143,7 @@ async function brokerCreateOrUpdate() {
         },
         generateResourceLimits: { cpu: "Enabled" },
         memoryProfile: "Tiny",
+        highPriorityMessagesBackpressureHandling: "Accept",
       },
       extendedLocation: {
         name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
@@ -157,7 +158,7 @@ async function brokerCreateOrUpdate() {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2026-03-01/Broker_CreateOrUpdate_Minimal.json
+ * x-ms-original-file: 2026-07-01/Broker_CreateOrUpdate_Minimal.json
  */
 async function brokerCreateOrUpdateMinimal() {
   const credential = new DefaultAzureCredential();
@@ -182,7 +183,7 @@ async function brokerCreateOrUpdateMinimal() {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2026-03-01/Broker_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2026-07-01/Broker_CreateOrUpdate_Simple.json
  */
 async function brokerCreateOrUpdateSimple() {
   const credential = new DefaultAzureCredential();

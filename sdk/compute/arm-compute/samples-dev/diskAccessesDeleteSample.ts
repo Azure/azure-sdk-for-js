@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a disk access resource.
  *
  * @summary deletes a disk access resource.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Delete.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Delete.json
  */
 async function deleteADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

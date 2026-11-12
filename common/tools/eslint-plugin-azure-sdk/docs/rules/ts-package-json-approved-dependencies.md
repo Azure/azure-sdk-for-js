@@ -3,7 +3,7 @@
 Prevents shipped libraries from taking unapproved third-party runtime
 dependencies.
 
-Only packages with `"sdk-type": "client"` or `"sdk-type": "mgmt"` are checked.
+Packages with `"sdk-type": "client"`, `"mgmt"`, or `"provisioning"` are checked.
 Samples, tests, perf tests, and utility/tooling packages are out of scope, and
 only the `dependencies` field is checked — `devDependencies` and
 `peerDependencies` are ignored.

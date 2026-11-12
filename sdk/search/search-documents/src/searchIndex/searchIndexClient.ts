@@ -14,19 +14,23 @@ import type {
   SearchAlias,
   KnowledgeBase,
   KnowledgeSourceUnion,
+  UploadKnowledgeSourceFileMultipartRequest,
   KnowledgeSourceFile,
+  UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
 import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
-  getKnowledgeSourceStatus,
-  uploadKnowledgeSourceFile,
-  listKnowledgeSourceFiles,
+  updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
+  listKnowledgeSourceFiles,
+  uploadKnowledgeSourceFileMultipart,
+  getKnowledgeSourceStatus,
   createKnowledgeSource,
   listKnowledgeSources,
   getKnowledgeSource,
@@ -51,18 +55,20 @@ import {
   deleteIndex,
   createOrUpdateIndex,
   createSynonymMap,
-  getSynonymMaps,
+  listSynonymMaps,
   getSynonymMap,
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import type {
+  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
-  GetKnowledgeSourceStatusOptionalParams,
-  UploadKnowledgeSourceFileOptionalParams,
-  ListKnowledgeSourceFilesOptionalParams,
+  UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileMultipartOptionalParams,
+  GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
   GetKnowledgeSourceOptionalParams,
@@ -87,7 +93,7 @@ import type {
   DeleteIndexOptionalParams,
   CreateOrUpdateIndexOptionalParams,
   CreateSynonymMapOptionalParams,
-  GetSynonymMapsOptionalParams,
+  ListSynonymMapsOptionalParams,
   GetSynonymMapOptionalParams,
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
@@ -107,15 +113,15 @@ export class SearchIndexClient {
     credential: KeyCredential | TokenCredential,
     options: SearchIndexClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearchIndex(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearchIndex(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Lists all synonym maps available for a search service. */
+  getSynonymMaps(
+    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
+  ): Promise<ListSynonymMapsResult> {
+    return getSynonymMaps(this._client, options);
   }
 
   /** Retrieves a summary of statistics for all indexes in the search service. */
@@ -132,21 +138,23 @@ export class SearchIndexClient {
     return getServiceStatistics(this._client, options);
   }
 
-  /** Retrieves the status of a knowledge source. */
-  getKnowledgeSourceStatus(
+  /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+  updateKnowledgeSourceFile(
     name: string,
-    options: GetKnowledgeSourceStatusOptionalParams = { requestOptions: {} },
-  ): Promise<KnowledgeSourceStatus> {
-    return getKnowledgeSourceStatus(this._client, name, options);
+    fileId: string,
+    body: UpdateKnowledgeSourceFileRequest,
+    options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return updateKnowledgeSourceFile(this._client, name, fileId, body, options);
   }
 
   /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
   deleteKnowledgeSourceFile(
-    fileId: string,
     name: string,
+    fileId: string,
     options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteKnowledgeSourceFile(this._client, fileId, name, options);
+    return deleteKnowledgeSourceFile(this._client, name, fileId, options);
   }
 
   /** Lists all files in a File knowledge source. */
@@ -157,14 +165,21 @@ export class SearchIndexClient {
     return listKnowledgeSourceFiles(this._client, name, options);
   }
 
-  /** Uploads a file to a File knowledge source for processing and indexing. */
-  uploadKnowledgeSourceFile(
-    contentDisposition: string,
-    file: Uint8Array,
+  /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
+  uploadKnowledgeSourceFileMultipart(
     name: string,
-    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+    body: UploadKnowledgeSourceFileMultipartRequest,
+    options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
-    return uploadKnowledgeSourceFile(this._client, contentDisposition, file, name, options);
+    return uploadKnowledgeSourceFileMultipart(this._client, name, body, options);
+  }
+
+  /** Retrieves the status of a knowledge source. */
+  getKnowledgeSourceStatus(
+    name: string,
+    options: GetKnowledgeSourceStatusOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceStatus> {
+    return getKnowledgeSourceStatus(this._client, name, options);
   }
 
   /** Creates a new knowledge source. */
@@ -287,12 +302,31 @@ export class SearchIndexClient {
     return createOrUpdateAlias(this._client, alias, name, options);
   }
 
-  /** Shows how an analyzer breaks text into tokens. */
+  /**
+   * Shows how an analyzer breaks text into tokens.
+   * @remarks Preserves the body-first argument order shipped in version 13.0.0.
+   */
   analyzeText(
     request: AnalyzeTextOptions,
     name: string,
+    options?: AnalyzeTextOptionalParams,
+  ): Promise<AnalyzeResult>;
+
+  /** Shows how an analyzer breaks text into tokens, using the index name first. */
+  analyzeText(
+    name: string,
+    request: AnalyzeTextOptions,
+    options?: AnalyzeTextOptionalParams,
+  ): Promise<AnalyzeResult>;
+
+  analyzeText(
+    nameOrRequest: string | AnalyzeTextOptions,
+    requestOrName: AnalyzeTextOptions | string,
     options: AnalyzeTextOptionalParams = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
+    const name = typeof nameOrRequest === "string" ? nameOrRequest : (requestOrName as string);
+    const request =
+      typeof nameOrRequest === "string" ? (requestOrName as AnalyzeTextOptions) : nameOrRequest;
     return analyzeText(this._client, request, name, options);
   }
 
@@ -342,12 +376,30 @@ export class SearchIndexClient {
     return deleteIndex(this._client, name, options);
   }
 
-  /** Creates a new search index or updates an index if it already exists. */
+  /**
+   * Creates a new search index or updates an index if it already exists.
+   * @remarks Preserves the body-first argument order shipped in version 13.0.0.
+   */
   createOrUpdateIndex(
     index: SearchIndex,
     name: string,
+    options?: CreateOrUpdateIndexOptionalParams,
+  ): Promise<SearchIndex>;
+
+  /** Creates or updates a search index, using the index name first. */
+  createOrUpdateIndex(
+    name: string,
+    index: SearchIndex,
+    options?: CreateOrUpdateIndexOptionalParams,
+  ): Promise<SearchIndex>;
+
+  createOrUpdateIndex(
+    nameOrIndex: string | SearchIndex,
+    indexOrName: SearchIndex | string,
     options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
+    const name = typeof nameOrIndex === "string" ? nameOrIndex : (indexOrName as string);
+    const index = typeof nameOrIndex === "string" ? (indexOrName as SearchIndex) : nameOrIndex;
     return createOrUpdateIndex(this._client, index, name, options);
   }
 
@@ -360,10 +412,10 @@ export class SearchIndexClient {
   }
 
   /** Lists all synonym maps available for a search service. */
-  getSynonymMaps(
-    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSynonymMapsResult> {
-    return getSynonymMaps(this._client, options);
+  listSynonymMaps(
+    options: ListSynonymMapsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<SynonymMap> {
+    return listSynonymMaps(this._client, options);
   }
 
   /** Retrieves a synonym map definition. */

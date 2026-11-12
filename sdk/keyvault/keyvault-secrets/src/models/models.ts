@@ -393,4 +393,6 @@ export enum KnownVersions {
   V76 = "7.6",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }

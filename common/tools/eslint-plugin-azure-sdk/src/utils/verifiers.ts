@@ -149,7 +149,7 @@ export const getVerifiers = (
         fix: (fixer: TSESLint.RuleFixer): TSESLint.RuleFix =>
           fixer.replaceText(
             nodeValue,
-            typeof expected === "string" ? `"${expected}"` : (expected as string),
+            typeof expected === "string" ? `"${expected}"` : String(expected),
           ),
       });
     }
@@ -218,7 +218,7 @@ export const getVerifiers = (
         fix: (fixer: TSESLint.RuleFixer): TSESLint.RuleFix =>
           fixer.replaceText(
             nodeValue,
-            typeof expected === "string" ? `"${expected}"` : (expected as string),
+            typeof expected === "string" ? `"${expected}"` : String(expected),
           ),
       });
     }

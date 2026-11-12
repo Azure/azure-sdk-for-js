@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Workflow List
  *
  * @summary get a Workflow List
- * x-ms-original-file: 2022-09-01/Workflows_ListByStorageSyncService.json
+ * x-ms-original-file: 2025-12-01/Workflows_ListByStorageSyncService.json
  */
 async function workflowsListByStorageSyncService(): Promise<void> {
   const credential = new DefaultAzureCredential();

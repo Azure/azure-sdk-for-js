@@ -40,7 +40,13 @@ export class Mutex {
   public static async unlock(key: string): Promise<void> {
     return new Promise<void>((resolve) => {
       if (this.keys[key] === MutexLockStatus.LOCKED) {
-        this.emitUnlockEvent(key);
+        // Hand the key straight to the next waiter while it is still locked. Releasing it here
+        // would let a caller arriving before the waiter resumes take the lock as well.
+        if (this.listeners[key] !== undefined && this.listeners[key].length > 0) {
+          this.emitUnlockEvent(key);
+          resolve();
+          return;
+        }
       }
       delete this.keys[key];
       resolve();

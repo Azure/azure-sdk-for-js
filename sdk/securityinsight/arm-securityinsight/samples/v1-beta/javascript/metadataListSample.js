@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list of all metadata
  *
  * @summary list of all metadata
- * x-ms-original-file: 2025-07-01-preview/metadata/GetAllMetadata.json
+ * x-ms-original-file: 2025-10-01-preview/metadata/GetAllMetadata.json
  */
 async function getAllMetadata() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAllMetadata() {
  * This sample demonstrates how to list of all metadata
  *
  * @summary list of all metadata
- * x-ms-original-file: 2025-07-01-preview/metadata/GetAllMetadataOData.json
+ * x-ms-original-file: 2025-10-01-preview/metadata/GetAllMetadataOData.json
  */
 async function getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop() {
   const credential = new DefaultAzureCredential();

@@ -83,8 +83,8 @@ export class StandardMetrics {
   /**
    * Shutdown Meter Provider it will return no-op Meters after being called.
    */
-  public shutdown(): void {
-    this._meterProvider.shutdown();
+  public shutdown(): Promise<void> {
+    return this._meterProvider.shutdown();
   }
 
   /**

@@ -59,6 +59,14 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
+  Migration,
+  MigrationProperties,
+  MigrationPropertiesUnion,
+  SourceType,
+  MigrationProvisioningState,
+  AzureCacheForRedisMigrationProperties,
+  MigrationUndoRequest,
+  MigrationRollbackReason,
   MigrationValidationRequest,
   MigrationValidationResponse,
   MigrationValidationError,
@@ -85,6 +93,7 @@ export type {
   MaintenanceWindowType,
   MaintenanceWindowSchedule,
   MaintenanceDayOfWeek,
+  FirewallRule,
   RedundancyMode,
   TrackedResource,
   ClusterUpdate,
@@ -95,13 +104,8 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
+  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
-  Migration,
-  MigrationProperties,
-  MigrationPropertiesUnion,
-  SourceType,
-  MigrationProvisioningState,
-  AzureCacheForRedisMigrationProperties,
   OperationStatus,
 } from "./models/index.js";
 export {
@@ -120,6 +124,8 @@ export {
   KnownCreatedByType,
   KnownPrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
+  KnownSourceType,
+  KnownMigrationProvisioningState,
   KnownPublicNetworkAccess,
   KnownKind,
   KnownSkuName,
@@ -130,17 +136,16 @@ export {
   KnownMaintenanceWindowType,
   KnownMaintenanceDayOfWeek,
   KnownRedundancyMode,
-  KnownSourceType,
-  KnownMigrationProvisioningState,
   KnownVersions,
 } from "./models/index.js";
 export type { RedisEnterpriseManagementClientOptionalParams } from "./api/index.js";
 export type {
-  AccessPolicyAssignmentListOptionalParams,
-  AccessPolicyAssignmentDeleteOptionalParams,
-  AccessPolicyAssignmentCreateUpdateOptionalParams,
-  AccessPolicyAssignmentGetOptionalParams,
-} from "./api/accessPolicyAssignment/index.js";
+  AccessPolicyAssignmentOperationsListOptionalParams,
+  AccessPolicyAssignmentOperationsDeleteOptionalParams,
+  AccessPolicyAssignmentOperationsCreateUpdateOptionalParams,
+  AccessPolicyAssignmentOperationsGetOptionalParams,
+} from "./api/accessPolicyAssignmentOperations/index.js";
+export type { ClustersUnlinkMigratedEndpointOptionalParams } from "./api/clusters/index.js";
 export type {
   DatabasesUpgradeDBRedisVersionOptionalParams,
   DatabasesFlushOptionalParams,
@@ -157,12 +162,13 @@ export type {
   DatabasesGetOptionalParams,
 } from "./api/databases/index.js";
 export type {
-  MigrationCancelOptionalParams,
-  MigrationListOptionalParams,
-  MigrationStartOptionalParams,
-  MigrationGetOptionalParams,
-} from "./api/migration/index.js";
-export type { MigrationsValidateOptionalParams } from "./api/migrations/index.js";
+  MigrationsValidateOptionalParams,
+  MigrationsUnlinkMigratedEndpointOptionalParams,
+  MigrationsUndoOptionalParams,
+  MigrationsListOptionalParams,
+  MigrationsStartOptionalParams,
+  MigrationsGetOptionalParams,
+} from "./api/migrations/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type { OperationsStatusGetOptionalParams } from "./api/operationsStatus/index.js";
 export type {
@@ -182,9 +188,9 @@ export type {
   RedisEnterpriseGetOptionalParams,
 } from "./api/redisEnterprise/index.js";
 export type {
-  AccessPolicyAssignmentOperations,
+  AccessPolicyAssignmentOperationsOperations,
+  ClustersOperations,
   DatabasesOperations,
-  MigrationOperations,
   MigrationsOperations,
   OperationsOperations,
   OperationsStatusOperations,

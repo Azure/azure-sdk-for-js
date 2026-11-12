@@ -17,6 +17,15 @@ import { toHttpResponse } from "./compat/index.js";
 import { ErrorNameConditionMapper, StandardAbortMessage, delay } from "@azure/core-amqp";
 import { translateServiceBusError } from "../serviceBusError.js";
 
+/** @internal */
+export function getDeleteMessagesCutoff(beforeEnqueueTime?: Date): Date {
+  const cutoff = beforeEnqueueTime === undefined ? new Date() : beforeEnqueueTime;
+  if (!(cutoff instanceof Date) || !Number.isFinite(cutoff.getTime())) {
+    throw new TypeError("'beforeEnqueueTime' must be a valid Date.");
+  }
+  return new Date(cutoff.getTime());
+}
+
 /**
  * @internal
  * Provides a uniue name by appending a string guid to the given string in the following format:
@@ -637,7 +646,7 @@ export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpRes
  * @internal
  * Type with the service versions for the ATOM API.
  */
-export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
+export type ServiceBusAtomAPIVersion = "2024-05" | "2021-05" | "2017-04";
 
 /**
  * @internal

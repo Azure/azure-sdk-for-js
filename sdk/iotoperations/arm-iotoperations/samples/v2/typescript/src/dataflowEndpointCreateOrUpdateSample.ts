@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_ADLSv2.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_ADLSv2.json
  */
 async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_ADX.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_ADX.json
  */
 async function dataflowEndpointCreateOrUpdateADX(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function dataflowEndpointCreateOrUpdateADX(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_AIO.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_AIO.json
  */
 async function dataflowEndpointCreateOrUpdateAIO(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function dataflowEndpointCreateOrUpdateAIO(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_EventGrid.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_EventGrid.json
  */
 async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -151,7 +151,7 @@ async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_EventHub.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_EventHub.json
  */
 async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -187,7 +187,7 @@ async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_Fabric.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_Fabric.json
  */
 async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -223,7 +223,7 @@ async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_Kafka.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_Kafka.json
  */
 async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -265,7 +265,7 @@ async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_LocalStorage.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_LocalStorage.json
  */
 async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -293,7 +293,7 @@ async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
  */
 async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -335,7 +335,7 @@ async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2026-03-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowEndpointCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

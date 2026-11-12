@@ -6,16 +6,38 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export class KnowledgeBaseRetrievalClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, knowledgeBaseName: string, options?: KnowledgeBaseRetrievalClientOptionalParams);
     readonly pipeline: Pipeline;
     retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<AsyncIterable<{
+        event: "retrieval.started";
+        data: KnowledgeBaseRetrievalStartedEvent;
+    } | {
+        event: "activity.started";
+        data: KnowledgeBaseActivityStartedEvent;
+    } | {
+        event: "activity.completed";
+        data: KnowledgeBaseActivityRecordUnion;
+    } | {
+        event: "answer.completed";
+        data: KnowledgeBaseAnswerCompletedEvent;
+    } | {
+        event: "references.completed";
+        data: KnowledgeBaseReferenceUnion[];
+    } | {
+        event: "error";
+        data: KnowledgeBaseStreamErrorEvent;
+    } | {
+        event: "response.completed";
+        data: KnowledgeBaseResponseCompletedEvent;
+    }>>;
 }
 
 // @public
@@ -32,6 +54,12 @@ export interface KnowledgeBaseRetrievalContext extends Client {
 // @public
 export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    querySourceAuthorization?: string;
+}
+
+// @public
+export interface RetrieveStreamOptionalParams extends OperationOptions {
     clientRequestId?: string;
     querySourceAuthorization?: string;
 }

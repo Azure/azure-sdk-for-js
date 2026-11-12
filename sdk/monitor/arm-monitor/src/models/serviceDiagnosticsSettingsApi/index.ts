@@ -4,6 +4,5 @@
 export type {
   ServiceDiagnosticSettingsResource,
   ServiceDiagnosticSettings,
-  LogSettings,
   ServiceDiagnosticSettingsResourcePatch,
 } from "./models.js";

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get schema registry cluster by Id
  *
  * @summary get schema registry cluster by Id
- * x-ms-original-file: 2025-08-18-preview/Organization_GetSchemaRegistryClusterById_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetSchemaRegistryClusterById_MaximumSet_Gen.json
  */
 async function organizationGetSchemaRegistryClusterByIdMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function organizationGetSchemaRegistryClusterByIdMaximumSet(): Promise<voi
  * This sample demonstrates how to get schema registry cluster by Id
  *
  * @summary get schema registry cluster by Id
- * x-ms-original-file: 2025-08-18-preview/Organization_GetSchemaRegistryClusterById_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetSchemaRegistryClusterById_MinimumSet_Gen.json
  */
 async function organizationGetSchemaRegistryClusterByIdMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

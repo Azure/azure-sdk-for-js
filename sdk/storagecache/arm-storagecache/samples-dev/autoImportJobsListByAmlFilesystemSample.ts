@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all the auto import jobs the user has access to under an AML File System.
  *
  * @summary returns all the auto import jobs the user has access to under an AML File System.
- * x-ms-original-file: 2026-01-01/autoImportJobs_ListByAmlFilesystem.json
+ * x-ms-original-file: 2026-08-01/autoImportJobs_ListByAmlFilesystem.json
  */
 async function autoImportJobsListByAmlFilesystem(): Promise<void> {
   const credential = new DefaultAzureCredential();

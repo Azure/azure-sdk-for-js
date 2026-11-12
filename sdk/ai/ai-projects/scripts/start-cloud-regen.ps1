@@ -4,7 +4,6 @@
 # Usage:
 #   ./start-cloud-regen.ps1
 #   ./start-cloud-regen.ps1 -TspCommit <40-char-sha>
-#   ./start-cloud-regen.ps1 -BranchName regen/ai-projects/abc1234-20260501
 #   ./start-cloud-regen.ps1 -DryRun
 #   ./start-cloud-regen.ps1 -Repo myuser/azure-sdk-for-js -Follow
 #   ./start-cloud-regen.ps1 -SpecBranch main
@@ -25,11 +24,11 @@
 #                determines the repo the regen actually fetches from, so
 #                if you point at a fork you typically also need to update
 #                tsp-location.saved.yaml on the target branch.
-#   -BranchName  Target branch the cloud agent will push to. Default:
-#                regen/ai-projects/<short-sha>-<yyyyMMdd>.
 #   -Repo        owner/name of the azure-sdk-for-js repo to dispatch
 #                against. Default: Azure/azure-sdk-for-js.
 #   -BaseBranch  Base branch for the draft PR. Default: main.
+#                Must start with an ASCII letter or digit and contain only
+#                ASCII letters, digits, '.', '_', '/', and '-'.
 #   -Follow      Pass --follow to `gh agent-task create`.
 #   -DryRun      Render the prompt locally and exit without dispatching.
 #
@@ -38,9 +37,9 @@
 #   2. Resolves the latest commit on `$SpecRepo @ $SpecBranch` if
 #      -TspCommit was not supplied (delegates to update-tsp-commit.ps1
 #      -ResolveOnly).
-#   3. Defaults -BranchName to regen/ai-projects/<short-sha>-<yyyyMMdd>.
+#   3. Validates -BaseBranch against a conservative character set.
 #   4. Renders cloud-regen-prompt.template.md into a temp file with
-#      {{TSP_COMMIT}} and {{BRANCH_NAME}} substituted.
+#      {{TSP_COMMIT}} and {{BASE_BRANCH}} substituted.
 #   5. -DryRun: prints the rendered prompt and exits.
 #      Otherwise: invokes `gh agent-task create -R $Repo -b $BaseBranch -F <tmp>`
 #      (with --follow when requested).
@@ -57,7 +56,6 @@ param(
   [string]$TspCommit,
   [string]$SpecBranch = 'feature/foundry-release',
   [string]$SpecRepo = 'https://github.com/Azure/azure-rest-api-specs.git',
-  [string]$BranchName,
   [string]$Repo = 'Azure/azure-sdk-for-js',
   [string]$BaseBranch = 'main',
   [switch]$Follow,
@@ -70,6 +68,24 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $packageRoot = Split-Path -Parent $scriptDir
 $templatePath = Join-Path $scriptDir 'cloud-regen-prompt.template.md'
 $resolveScript = Join-Path $packageRoot '.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1'
+
+function Assert-ConservativeBranchName {
+  param(
+    [string]$Value,
+    [string]$ParameterName
+  )
+
+  if (-not $Value -or $Value -cnotmatch '^[A-Za-z0-9][A-Za-z0-9._/-]*\z') {
+    throw "$ParameterName must start with an ASCII letter or digit and contain only ASCII letters, digits, '.', '_', '/', and '-'."
+  }
+}
+
+function ConvertTo-PowerShellSingleQuotedLiteral {
+  param([string]$Value)
+
+  $escaped = $Value.Replace("'", "''")
+  return "'$escaped'"
+}
 
 if (-not (Test-Path $templatePath)) {
   throw "Prompt template not found at $templatePath"
@@ -102,23 +118,22 @@ if (-not $TspCommit) {
 if ($TspCommit -notmatch '^[0-9a-f]{40}$') {
   throw "TspCommit '$TspCommit' is not a 40-char hex SHA."
 }
-$shortSha = $TspCommit.Substring(0, 7)
 Write-Host "TypeSpec commit: $TspCommit"
 
-# 3. Default the branch name.
-if (-not $BranchName) {
-  $today = (Get-Date).ToString('yyyyMMdd')
-  $BranchName = "regen/ai-projects/$shortSha-$today"
-}
-Write-Host "Target branch:   $BranchName"
+# 3. Validate the base branch.
+Assert-ConservativeBranchName -Value $BaseBranch -ParameterName 'BaseBranch'
 Write-Host "Repo:            $Repo"
 Write-Host "Base branch:     $BaseBranch"
 
 # 4. Render the prompt template.
+$tspCommitPowerShellLiteral = ConvertTo-PowerShellSingleQuotedLiteral $TspCommit
+$baseBranchPowerShellLiteral = ConvertTo-PowerShellSingleQuotedLiteral $BaseBranch
 $template = Get-Content -Path $templatePath -Raw
 $rendered = $template.
   Replace('{{TSP_COMMIT}}', $TspCommit).
-  Replace('{{BRANCH_NAME}}', $BranchName)
+  Replace('{{BASE_BRANCH}}', $BaseBranch).
+  Replace('{{TSP_COMMIT_PS_LITERAL}}', $tspCommitPowerShellLiteral).
+  Replace('{{BASE_BRANCH_PS_LITERAL}}', $baseBranchPowerShellLiteral)
 
 if ($rendered -match '\{\{[A-Z_]+\}\}') {
   throw "Unresolved placeholders remain in rendered prompt: $($Matches[0])"

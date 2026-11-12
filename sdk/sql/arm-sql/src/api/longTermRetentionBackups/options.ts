@@ -10,6 +10,10 @@ export interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams
   onlyLatestPerDatabase?: boolean;
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
+  /** An opaque token that identifies a starting point in the collection. */
+  skiptoken?: string;
+  /** The number of elements to return from the collection. */
+  top?: number;
 }
 
 /** Optional parameters. */
@@ -18,6 +22,10 @@ export interface LongTermRetentionBackupsListByResourceGroupLocationOptionalPara
   onlyLatestPerDatabase?: boolean;
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
+  /** An opaque token that identifies a starting point in the collection. */
+  skiptoken?: string;
+  /** The number of elements to return from the collection. */
+  top?: number;
 }
 
 /** Optional parameters. */
@@ -26,6 +34,10 @@ export interface LongTermRetentionBackupsListByServerOptionalParams extends Oper
   onlyLatestPerDatabase?: boolean;
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
+  /** An opaque token that identifies a starting point in the collection. */
+  skiptoken?: string;
+  /** The number of elements to return from the collection. */
+  top?: number;
 }
 
 /** Optional parameters. */
@@ -34,6 +46,10 @@ export interface LongTermRetentionBackupsListByLocationOptionalParams extends Op
   onlyLatestPerDatabase?: boolean;
   /** Whether to query against just live databases, just deleted databases, or all databases. */
   databaseState?: DatabaseState;
+  /** An opaque token that identifies a starting point in the collection. */
+  skiptoken?: string;
+  /** The number of elements to return from the collection. */
+  top?: number;
 }
 
 /** Optional parameters. */

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a tag rule set for a given New Relic monitor resource, removing fine-grained control over observability based on resource tags
  *
  * @summary deletes a tag rule set for a given New Relic monitor resource, removing fine-grained control over observability based on resource tags
- * x-ms-original-file: 2025-05-01-preview/TagRules_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Delete_MaximumSet_Gen.json
  */
 async function tagRulesDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function tagRulesDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to deletes a tag rule set for a given New Relic monitor resource, removing fine-grained control over observability based on resource tags
  *
  * @summary deletes a tag rule set for a given New Relic monitor resource, removing fine-grained control over observability based on resource tags
- * x-ms-original-file: 2025-05-01-preview/TagRules_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Delete_MinimumSet_Gen.json
  */
 async function tagRulesDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

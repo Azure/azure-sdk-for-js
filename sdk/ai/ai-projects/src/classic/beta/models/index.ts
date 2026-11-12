@@ -5,13 +5,13 @@ import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
-  createFromSource,
   update,
   $delete,
   get,
   list,
   listVersions,
 } from "../../../api/beta/models/operations.js";
+import { createFromSource } from "#platform/api/beta/models/uploads";
 import type { BetaModelsCreateFromSourceOptions } from "../../../api/beta/models/options.js";
 import type {
   BetaModelsGetCredentialsOptionalParams,
@@ -50,7 +50,7 @@ export interface BetaModelsOperations {
     pendingUploadRequest: ModelPendingUploadRequest,
     options?: BetaModelsPendingUploadOptionalParams,
   ) => Promise<ModelPendingUploadResponse>;
-  /** Upload local model files and register a model version. Wraps pendingUpload, file upload, async creation, and polling into a single call. */
+  /** Upload local model files and register a model version. Only supported in Node.js. Wraps pendingUpload, file upload, async creation, and polling into a single call. */
   create: (
     name: string,
     version: string,

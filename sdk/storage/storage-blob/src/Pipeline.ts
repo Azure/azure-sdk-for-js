@@ -30,9 +30,10 @@ import {
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
-import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
+import { storageSessionAuthenticationPolicy } from "./policies/StorageSessionAuthenticationPolicy.js";
+import { storageExpectContinuePolicy } from "./policies/StorageExpectContinuePolicy.js";
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-common";
 import {
@@ -46,7 +47,9 @@ import {
   storageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
+  storageRedirectRangeHeaderPolicy,
 } from "@azure/storage-common";
+import { storageDataLocalityPolicy } from "./policies/StorageDataLocalityPolicy.js";
 
 import {
   StorageOAuthScopes,
@@ -184,6 +187,102 @@ export class Pipeline implements PipelineLike {
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Determines when blob requests are authenticated with a session token instead of a bearer token.
+ */
+export type SessionMode = "auto" | "disabled" | "enabled";
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Options for configuring session token authentication for blob operations.
+ *
+ * Session authentication currently applies only to blob download requests made with a
+ * `TokenCredential`. These options are exported from the browser and React Native entry points
+ * for type compatibility, but they have no effect there: signing a session requires Shared Key,
+ * which is unavailable outside Node.js, so those builds always use a bearer token.
+ */
+export interface SessionOptions {
+  /**
+   * The session authentication mode. Defaults to `auto`, whose behavior is determined by the
+   * client library and may change in future releases.
+   */
+  mode?: SessionMode;
+  /**
+   * The account name used to sign requests within a session. Optional; by default the account
+   * name is derived from the request URL. Set this explicitly when using a custom endpoint URL
+   * from which the account name cannot be derived.
+   */
+  accountName?: string;
+}
+
+/**
+ * Resolves `auto` to the behavior this release ships. Sessions are off by default for now, and
+ * this is the single place to flip that.
+ */
+export function resolveSessionMode(mode: SessionMode | undefined): Exclude<SessionMode, "auto"> {
+  return mode === undefined || mode === "auto" ? "disabled" : mode;
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Determines when requests with a body are sent with the `Expect: 100-continue` header. Only
+ * requests whose body is non-empty and at least {@link ExpectContinueOptions.minBodySizeInBytes}
+ * bytes long, or of unknown length, qualify.
+ *
+ * - `auto`: for {@link ExpectContinueOptions.autoIntervalInMs} after the latest response with
+ *   status 429, 500 or 503 to any request on the same pipeline. Clients created from one another,
+ *   for example with `getContainerClient()`, share a pipeline.
+ * - `always`: on every qualifying request.
+ * - `never`: never.
+ */
+export type ExpectContinueMode = "auto" | "always" | "never";
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Options for sending the `Expect: 100-continue` header on requests with a body, such as uploads.
+ * The header lets the service reject a request, for example while it is throttling, before the
+ * body is sent.
+ *
+ * The default HTTP client in Node.js holds the body back until the service responds with
+ * `100 Continue`, and sends it anyway if that hasn't arrived after one second, so each request
+ * sent with the header can take up to one extra round trip, or one second, longer. When the
+ * service rejects a request before its body is sent, that connection isn't reused, so the next
+ * request, such as the retry, opens a new one. An HTTP client set with `httpClient` may send the
+ * body without waiting.
+ *
+ * Setting the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true`
+ * (case-insensitive) or `1` stops the header from being sent, whatever these options say. The
+ * variable is read once per pipeline, when the first client on that pipeline is created.
+ *
+ * These options are exported from the browser and React Native entry points for type
+ * compatibility, but they have no effect there: the header is only sent in Node.js.
+ */
+export interface ExpectContinueOptions {
+  /**
+   * When to send the header. Defaults to `auto`, or to `never` when `httpClient` is set, because
+   * some HTTP clients, such as ones built on `fetch`, reject the `Expect` header.
+   */
+  mode?: ExpectContinueMode;
+  /**
+   * The smallest body size, in bytes, that is sent with the header. Requests whose body is empty
+   * or smaller than this are sent without it. A body of unknown length counts as large. Defaults
+   * to 0. Must be a finite number of 0 or more: in Node.js, creating a client with any other value
+   * throws a `RangeError`.
+   */
+  minBodySizeInBytes?: number;
+  /**
+   * In `auto` mode, how long, in milliseconds, the header is sent after a response with status
+   * 429, 500 or 503. Defaults to 60000 (one minute). Must be a finite number of 0 or more: in
+   * Node.js, creating a client with any other value throws a `RangeError`.
+   */
+  autoIntervalInMs?: number;
+}
+
+/**
  * Options interface for the {@link newPipeline} function.
  */
 export interface StoragePipelineOptions {
@@ -212,6 +311,20 @@ export interface StoragePipelineOptions {
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string | string[];
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures session token authentication for blob operations.
+   */
+  sessionOptions?: SessionOptions;
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures when requests with a body are sent with the `Expect: 100-continue` header. By
+   * default the header is only sent for a minute after the service responds with status 429, 500
+   * or 503, and never when `httpClient` is set.
+   */
+  expectContinueOptions?: ExpectContinueOptions;
 }
 
 /**
@@ -272,7 +385,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
+    const packageDetails = `azsdk-js-storageblob/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
         ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -287,31 +400,20 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       userAgentOptions: {
         userAgentPrefix,
       },
-      serializationOptions: {
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
-      deserializationOptions: {
-        parseXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
+    corePipeline.addPolicy(storageRedirectRangeHeaderPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(
+      storageExpectContinuePolicy(
+        restOptions.expectContinueOptions,
+        // Fetch-based HTTP clients reject the Expect header, so it's opt-in with a custom client.
+        v1Client ? "never" : "auto",
+      ),
+      { afterPhase: "Retry" },
+    );
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
@@ -323,12 +425,16 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     }
     const credential = getCredentialFromPipeline(pipeline);
     if (isTokenCredential(credential)) {
+      const bearerPolicy = bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: restOptions.audience ?? StorageOAuthScopes,
+        challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
+      });
+
       corePipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential,
-          scopes: restOptions.audience ?? StorageOAuthScopes,
-          challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
-        }),
+        resolveSessionMode(restOptions.sessionOptions?.mode) === "enabled"
+          ? storageSessionAuthenticationPolicy({ bearerPolicy, pipeline })
+          : bearerPolicy,
         { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
@@ -340,6 +446,9 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         { phase: "Sign" },
       );
     }
+    // After signing: the host swap must not be visible to any policy that signs or builds the
+    // request for the account's own authority.
+    corePipeline.addPolicy(storageDataLocalityPolicy(), { afterPhase: "Sign" });
     (pipeline as any)._corePipeline = corePipeline;
   }
   return {

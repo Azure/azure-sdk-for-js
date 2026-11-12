@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChildProcess, fork } from "node:child_process";
+import { fork, type ChildProcess } from "node:child_process";
 import workerThreads from "worker_threads";
 import {
   ManagerToWorkerMessage,

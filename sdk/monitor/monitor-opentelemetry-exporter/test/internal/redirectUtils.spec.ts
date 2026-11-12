@@ -40,6 +40,18 @@ describe("isSameRegisteredDomain", () => {
     ).toBe(true);
   });
 
+  it("returns true across trusted suffixes in the same cloud", () => {
+    expect(
+      isSameRegisteredDomain(
+        "dc.services.visualstudio.com",
+        "westeurope-5.in.applicationinsights.azure.com",
+      ),
+    ).toBe(true);
+    expect(isSameRegisteredDomain("foo.monitor.azure.us", "bar.applicationinsights.azure.us")).toBe(
+      true,
+    );
+  });
+
   it("rejects redirects to a completely different registered domain", () => {
     expect(
       isSameRegisteredDomain("westus-0.in.applicationinsights.azure.com", "attacker.com"),
@@ -65,11 +77,14 @@ describe("isSameRegisteredDomain", () => {
     ).toBe(false);
   });
 
-  it("rejects redirects that cross between two different trusted suffixes", () => {
+  it("rejects redirects that cross sovereign cloud boundaries", () => {
+    expect(
+      isSameRegisteredDomain("dc.services.visualstudio.com", "westus.applicationinsights.azure.us"),
+    ).toBe(false);
     expect(
       isSameRegisteredDomain(
-        "dc.services.visualstudio.com",
         "westus-0.in.applicationinsights.azure.com",
+        "chinaeast.applicationinsights.azure.cn",
       ),
     ).toBe(false);
   });
@@ -81,11 +96,29 @@ describe("isSameRegisteredDomain", () => {
     expect(isSameRegisteredDomain("applicationinsights.azure.com", undefined)).toBe(false);
   });
 
-  it("ignores user-info and port when comparing hosts", () => {
+  it("ignores user-info and treats an explicit HTTPS port as the default", () => {
     expect(
       isSameRegisteredDomain(
         "user:pass@dc.services.visualstudio.com:443",
         "westus.services.visualstudio.com:443",
+      ),
+    ).toBe(true);
+  });
+
+  it("rejects redirects that change the port or use a non-default cross-host port", () => {
+    expect(
+      isSameRegisteredDomain("dc.services.visualstudio.com", "dc.services.visualstudio.com:8443"),
+    ).toBe(false);
+    expect(
+      isSameRegisteredDomain(
+        "dc.services.visualstudio.com",
+        "westus-0.in.applicationinsights.azure.com:8443",
+      ),
+    ).toBe(false);
+    expect(
+      isSameRegisteredDomain(
+        "custom-ingestion.example.invalid:8443",
+        "custom-ingestion.example.invalid:8443",
       ),
     ).toBe(true);
   });

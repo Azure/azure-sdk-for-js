@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the resource type skus in the given resource type.
  *
  * @summary creates or updates the resource type skus in the given resource type.
- * x-ms-original-file: 2024-09-01/Skus_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/Skus_CreateOrUpdate.json
  */
 async function skusCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,8 +21,8 @@ async function skusCreateOrUpdate(): Promise<void> {
     {
       properties: {
         skuSettings: [
-          { name: "freeSku", kind: "Standard", tier: "Tier1" },
-          { name: "premiumSku", costs: [{ meterId: "xxx" }], kind: "Premium", tier: "Tier2" },
+          { name: "freeSku", tier: "Tier1", kind: "Standard" },
+          { name: "premiumSku", tier: "Tier2", kind: "Premium", costs: [{ meterId: "xxx" }] },
         ],
       },
     },

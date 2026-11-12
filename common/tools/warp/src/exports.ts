@@ -123,6 +123,15 @@ export async function writeExportsToPackageJson(
 
   pkg.exports = merged;
 
+  // Root package identity, threaded into the outDir shims so Node's package
+  // self-reference resolution (e.g. generated code doing
+  // `import pkgJson from "<pkg>/package.json"`) can succeed from the shim
+  // itself — see writeModuleTypeShims for details.
+  const pkgIdentity: PackageIdentity = {
+    name: typeof pkg.name === "string" ? pkg.name : undefined,
+    version: typeof pkg.version === "string" ? pkg.version : undefined,
+  };
+
   // Skip write if exports are unchanged — avoids unnecessary I/O and
   // prevents tools watching package.json from triggering false rebuilds.
   const newContent = `${JSON.stringify(pkg, null, 2)}\n`;
@@ -131,7 +140,7 @@ export async function writeExportsToPackageJson(
     if (existing === newContent) {
       // Exports and package.json are identical — skip write entirely.
       // Still write module-type shims below since outDirs were cleaned.
-      await writeModuleTypeShims(results);
+      await writeModuleTypeShims(results, pkgIdentity);
       return;
     }
   } catch {
@@ -153,13 +162,37 @@ export async function writeExportsToPackageJson(
 
   // Write module-type shim into each target's outDir — in parallel since
   // they write to independent directories.
-  await writeModuleTypeShims(results);
+  await writeModuleTypeShims(results, pkgIdentity);
+}
+
+/** Identity fields from the root package.json, threaded into outDir shims. */
+interface PackageIdentity {
+  name?: string;
+  version?: string;
 }
 
 /**
- * Write a `{"type": "module"|"commonjs"}` shim into each target's outDir.
+ * Write a package.json shim into each target's outDir marking the module
+ * type (`"type": "module"|"commonjs"`).
+ *
+ * The shim also carries the root package's `name`/`version` and a
+ * self-pointing `"exports": { "./package.json": "./package.json" }` entry.
+ * This is required for Node's package **self-reference** resolution: when
+ * generated code does `import pkgJson from "<pkg>/package.json"`, Node walks
+ * up from the importing file to the nearest ancestor package.json and uses
+ * *that file's* `name`/`exports` to resolve the specifier — it stops at the
+ * first ancestor found, even if it lacks a matching `name`/`exports`. Since
+ * generated files live under e.g. `dist/esm/generated/...`, this shim (not
+ * the real root package.json) is the nearest ancestor. Without `name`/
+ * `exports` here, self-reference resolution aborts and Node falls back to a
+ * `node_modules` lookup, which fails for packages that don't list
+ * themselves as a dependency.
+ * See https://github.com/Azure/azure-sdk-for-js/issues/39832.
  */
-async function writeModuleTypeShims(results: CompileResult[]): Promise<void> {
+async function writeModuleTypeShims(
+  results: CompileResult[],
+  pkgIdentity: PackageIdentity,
+): Promise<void> {
   await Promise.all(
     results.map(async (result) => {
       const shimPath = path.join(result.outDir, "package.json");
@@ -167,7 +200,14 @@ async function writeModuleTypeShims(results: CompileResult[]): Promise<void> {
 
       const moduleType: ModuleType = result.target.moduleType ?? "module";
 
-      await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
+      const shim = {
+        name: pkgIdentity.name,
+        version: pkgIdentity.version,
+        type: moduleType,
+        exports: { "./package.json": "./package.json" },
+      };
+
+      await fsp.writeFile(shimPath, `${JSON.stringify(shim, null, 2)}\n`, "utf-8");
     }),
   );
 }

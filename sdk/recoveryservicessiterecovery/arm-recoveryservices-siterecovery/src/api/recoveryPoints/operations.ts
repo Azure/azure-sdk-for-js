@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { RecoveryPoint, _RecoveryPointCollection } from "../../models/models.js";
 import {
-  RecoveryPoint,
   recoveryPointDeserializer,
-  _RecoveryPointCollection,
   _recoveryPointCollectionDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   RecoveryPointsListByReplicationProtectedItemsOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByReplicationProtectedItemsSend(
   context: Client,
@@ -42,7 +35,7 @@ export function _listByReplicationProtectedItemsSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +82,7 @@ export function listByReplicationProtectedItems(
       ),
     _listByReplicationProtectedItemsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -113,7 +106,7 @@ export function _getSend(
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
       recoveryPointName: recoveryPointName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

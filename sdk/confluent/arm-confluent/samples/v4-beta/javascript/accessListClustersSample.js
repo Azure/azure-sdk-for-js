@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cluster details
  *
  * @summary cluster details
- * x-ms-original-file: 2025-08-18-preview/Access_ListClusters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListClusters_MaximumSet_Gen.json
  */
 async function accessListClustersMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function accessListClustersMaximumSet() {
  * This sample demonstrates how to cluster details
  *
  * @summary cluster details
- * x-ms-original-file: 2025-08-18-preview/Access_ListClusters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListClusters_MinimumSet_Gen.json
  */
 async function accessListClustersMinimumSet() {
   const credential = new DefaultAzureCredential();

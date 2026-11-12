@@ -32,26 +32,19 @@ export interface ToLlmInputOptions {
    */
   includeMarkdown?: boolean;
   /**
-   * Optional user-supplied key/value pairs to include in the YAML front
-   * matter. Common keys include `"source"` (filename), `"department"`,
-   * `"batchId"`, etc. Metadata keys are placed after `contentType` and
-   * before auto-detected keys (`timeRange`, `category`, `pages`).
-   *
-   * Metadata keys must not conflict with helper-generated front matter
-   * keys: `contentType`, `timeRange`, `category`, `pages`, `fields`, or
-   * `rai_warnings`.
+   * Optional caller-supplied key/value pairs emitted under a nested
+   * `customMetadata:` YAML front-matter block. Common keys include `source`
+   * (filename), `documentId`, or `department`. Kept separate from service
+   * `AnalysisContent.metadata` (rendered under top-level `metadata:`) so
+   * caller keys never collide with helper-owned keys (`mimeType`,
+   * `fields`, `metadata`, ...).
    */
-  metadata?: Record<string, unknown>;
+  customMetadata?: Record<string, unknown>;
 }
 
-const RESERVED_METADATA_KEYS: ReadonlySet<string> = new Set([
-  "contentType",
-  "timeRange",
-  "category",
-  "pages",
-  "fields",
-  "rai_warnings",
-]);
+// YAML front-matter key for the optional caller-supplied dictionary.
+// Kept distinct from service AnalysisContent.metadata ("metadata").
+const CUSTOM_METADATA_FRONT_MATTER_KEY = "customMetadata";
 
 /**
  * Marker emitted by {@link toLlmInput} at each page boundary. Future
@@ -70,7 +63,7 @@ const INPUT_PAGE_MARKER_PREFIX = "<!-- InputPageNumber:";
  * emit into the `warnings` collection that are *not* real Responsible-AI
  * warnings (they are internal telemetry counters). The helper drops any
  * warning whose `message` starts with one of these prefixes before
- * rendering the `rai_warnings` block, so the noise never reaches the LLM.
+ * rendering the `warnings` block, so the noise never reaches the LLM.
  *
  * @internal
  */
@@ -96,13 +89,14 @@ function hasInputPageMarker(markdown: string): boolean {
  * vector database, or passing as tool output.
  *
  * The YAML front matter may include:
- * - `contentType` — document, audioVisual
+ * - `mimeType` — detected content MIME type (e.g. `application/pdf`, `audio/mpeg`, `video/mp4`)
+ * - `customMetadata` — caller-supplied key-value pairs from `options.customMetadata`
+ * - `metadata` — analysis-result metadata from `AnalysisContent.metadata`
  * - `pages` — page number or range (e.g. `1` or `1-3`)
  * - `timeRange` — media time span (multi-segment audio/video only)
  * - `category` — classification label
  * - `fields` — extracted structured fields as YAML
- * - `rai_warnings` — content safety flags
- * - any caller-supplied `metadata` entries
+ * - `warnings` — content safety flags
  *
  * The markdown body contains the extracted text with page-break markers
  * (`<!-- InputPageNumber: N -->`) inserted at page boundaries so downstream
@@ -131,7 +125,6 @@ function hasInputPageMarker(markdown: string): boolean {
  *   content. Returns an empty string when `result.contents` is empty.
  *
  * @throws TypeError when `result` is not a valid `AnalysisResult`.
- * @throws Error when `metadata` contains a reserved front matter key.
  *
  * @example Basic usage
  * ```ts snippet:ignore
@@ -154,8 +147,7 @@ export function toLlmInput(result: AnalysisResult, options: ToLlmInputOptions = 
 
   const includeFields = options.includeFields ?? true;
   const includeMarkdown = options.includeMarkdown ?? true;
-  const metadata = options.metadata;
-  validateMetadata(metadata);
+  const customMetadata = options.customMetadata;
 
   if (result.contents.length === 0) {
     return "";
@@ -177,7 +169,7 @@ export function toLlmInput(result: AnalysisResult, options: ToLlmInputOptions = 
     const block = renderContentBlock(content, result, {
       includeFields,
       includeMarkdown,
-      metadata,
+      customMetadata,
       isMultiSegment,
     });
     if (block) {
@@ -188,18 +180,27 @@ export function toLlmInput(result: AnalysisResult, options: ToLlmInputOptions = 
   return blocks.join("\n\n*****\n\n");
 }
 
-function validateMetadata(metadata: Record<string, unknown> | undefined): void {
-  if (!metadata) {
-    return;
+/**
+ * Best-effort normalization of an `AnalysisContent.metadata` value. If the raw
+ * string looks like a JSON container (`{…}` or `[…]`), it is parsed so the
+ * YAML serializer emits it as structured YAML instead of a quoted string.
+ * Any parse failure falls back to the original string.
+ */
+function tryNormalizeMetadataValue(value: string): unknown {
+  if (!value) {
+    return value;
   }
-  const reserved = Object.keys(metadata)
-    .filter((key) => RESERVED_METADATA_KEYS.has(key))
-    .sort();
-  if (reserved.length > 0) {
-    throw new Error(
-      `metadata contains reserved front matter key(s): ${reserved.join(", ")}. ` +
-        "Use custom keys such as 'source', 'documentId', or 'department' instead.",
-    );
+  const trimmed = value.trim();
+  const looksLikeJson =
+    (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
+    (trimmed.startsWith("[") && trimmed.endsWith("]"));
+  if (!looksLikeJson) {
+    return value;
+  }
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    return value;
   }
 }
 
@@ -381,7 +382,7 @@ function synthesizeSegmentContent(
 interface RenderOptions {
   includeFields: boolean;
   includeMarkdown: boolean;
-  metadata: Record<string, unknown> | undefined;
+  customMetadata: Record<string, unknown> | undefined;
   isMultiSegment: boolean;
 }
 
@@ -393,13 +394,29 @@ function renderContentBlock(
   // Build ordered front matter entries.
   const fm: [string, unknown][] = [];
 
-  // 1. contentType
-  fm.push(["contentType", content.kind ?? "unknown"]);
+  // 1. mimeType
+  fm.push([
+    "mimeType",
+    content.mimeType && content.mimeType.length > 0 ? content.mimeType : "unknown",
+  ]);
 
-  // 2. user metadata
-  if (opts.metadata) {
-    for (const [key, value] of Object.entries(opts.metadata)) {
-      fm.push([key, value]);
+  // 2. caller-supplied customMetadata, nested under a `customMetadata:` YAML block.
+  //    Kept separate from service `AnalysisContent.metadata` (rendered under `metadata:` below)
+  //    so caller keys can never collide with helper-owned front-matter keys.
+  if (opts.customMetadata && Object.keys(opts.customMetadata).length > 0) {
+    fm.push([CUSTOM_METADATA_FRONT_MATTER_KEY, opts.customMetadata]);
+  }
+
+  // 2b. Analysis metadata (preview) — AnalysisContent.metadata
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Surface document-level metadata (title, author, etc.)
+  // extracted by the analyzer as a `metadata:` front-matter block.
+  if (content.metadata && Object.keys(content.metadata).length > 0) {
+    const analysisMetadata: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(content.metadata)) {
+      analysisMetadata[key] = tryNormalizeMetadataValue(value);
+    }
+    if (Object.keys(analysisMetadata).length > 0) {
+      fm.push(["metadata", analysisMetadata]);
     }
   }
 
@@ -428,11 +445,11 @@ function renderContentBlock(
     }
   }
 
-  // 7. rai_warnings (always emitted regardless of include flags)
+  // 7. warnings (always emitted regardless of include flags)
   if (result.warnings && result.warnings.length > 0) {
     const warningsList = formatWarnings(result.warnings);
     if (warningsList.length > 0) {
-      fm.push(["rai_warnings", warningsList]);
+      fm.push(["warnings", warningsList]);
     }
   }
 
@@ -620,7 +637,7 @@ function formatWarnings(warnings: ErrorModel[]): Record<string, string>[] {
     // Skip internal service telemetry strings (e.g. `LLMStats: ...`) that
     // occasionally leak into the warnings collection. These are not
     // Responsible-AI warnings and would otherwise be rendered into the
-    // LLM-facing `rai_warnings` block.
+    // LLM-facing `warnings` block.
     if (message && isTelemetryMessage(message)) {
       continue;
     }
@@ -695,6 +712,15 @@ function yamlScalar(value: unknown): string {
 }
 
 /**
+ * Render a scalar and indent any continuation lines so a multi-line value stays nested
+ * under its key. Without this, a value containing a `---` line would place that line at
+ * column 0, where it is indistinguishable from the front matter delimiter.
+ */
+function indentScalarContinuationLines(value: unknown, indent: number): string {
+  return yamlScalar(value).replace(/\r\n?|\n/g, `\n${"  ".repeat(indent)}`);
+}
+
+/**
  * Build a `---` delimited YAML front matter string from an ordered list of entries.
  *
  * @internal
@@ -713,25 +739,29 @@ function buildFrontMatter(entries: [string, unknown][]): string {
 function emitEntries(lines: string[], entries: [string, unknown][], indent: number): void {
   const prefix = "  ".repeat(indent);
   for (const [key, value] of entries) {
-    if (value === null || value === undefined) {
-      continue;
-    }
     const safeKey = yamlScalar(key);
     if (isPlainObject(value)) {
       const nested = Object.entries(value as Record<string, unknown>);
       if (nested.length === 0) {
+        // CUSTOMIZATION: SDK-IMPROVEMENT: Empty maps render as inline `{}` rather than being
+        // silently dropped, so callers can round-trip their input shape and LLMs see the key.
+        lines.push(`${prefix}${safeKey}: {}`);
         continue;
       }
       lines.push(`${prefix}${safeKey}:`);
       emitEntries(lines, nested as [string, unknown][], indent + 1);
     } else if (Array.isArray(value)) {
       if (value.length === 0) {
+        // See empty-map note above.
+        lines.push(`${prefix}${safeKey}: []`);
         continue;
       }
       lines.push(`${prefix}${safeKey}:`);
       emitSequence(lines, value, indent);
     } else {
-      lines.push(`${prefix}${safeKey}: ${yamlScalar(value)}`);
+      // Null / undefined values render as YAML `null` via yamlScalar, preserving
+      // caller-supplied `null` customMetadata values instead of silently dropping them.
+      lines.push(`${prefix}${safeKey}: ${indentScalarContinuationLines(value, indent + 1)}`);
     }
   }
 }
@@ -740,10 +770,10 @@ function emitSequence(lines: string[], sequence: unknown[], indent: number): voi
   const prefix = "  ".repeat(indent);
   for (const item of sequence) {
     if (isPlainObject(item)) {
-      const entries = Object.entries(item as Record<string, unknown>).filter(
-        ([, v]) => v !== null && v !== undefined,
-      );
+      const entries = Object.entries(item as Record<string, unknown>);
       if (entries.length === 0) {
+        // Empty dict item renders as `- {}` inline.
+        lines.push(`${prefix}- {}`);
         continue;
       }
       let first = true;
@@ -752,22 +782,29 @@ function emitSequence(lines: string[], sequence: unknown[], indent: number): voi
         const safeKey = yamlScalar(k);
         if (isPlainObject(v)) {
           const nested = Object.entries(v as Record<string, unknown>);
-          if (nested.length > 0) {
+          if (nested.length === 0) {
+            lines.push(`${tag}${safeKey}: {}`);
+          } else {
             lines.push(`${tag}${safeKey}:`);
             emitEntries(lines, nested as [string, unknown][], indent + 2);
-          } else {
-            lines.push(`${tag}${safeKey}: ${yamlScalar(v)}`);
           }
-        } else if (Array.isArray(v) && v.length > 0) {
-          lines.push(`${tag}${safeKey}:`);
-          emitSequence(lines, v, indent + 2);
+        } else if (Array.isArray(v)) {
+          if (v.length === 0) {
+            lines.push(`${tag}${safeKey}: []`);
+          } else {
+            lines.push(`${tag}${safeKey}:`);
+            emitSequence(lines, v, indent + 2);
+          }
         } else {
-          lines.push(`${tag}${safeKey}: ${yamlScalar(v)}`);
+          // Null / undefined values render as YAML `null` so caller-supplied nulls
+          // survive into the front matter.
+          lines.push(`${tag}${safeKey}: ${indentScalarContinuationLines(v, indent + 2)}`);
         }
         first = false;
       }
     } else {
-      lines.push(`${prefix}- ${yamlScalar(item)}`);
+      // Null / undefined scalar items render as YAML `null` via yamlScalar.
+      lines.push(`${prefix}- ${indentScalarContinuationLines(item, indent + 1)}`);
     }
   }
 }

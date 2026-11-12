@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to terminates execution of a running container apps job
  *
  * @summary terminates execution of a running container apps job
- * x-ms-original-file: 2025-10-02-preview/Job_Stop_Execution.json
+ * x-ms-original-file: 2026-07-01/Job_Stop_Execution.json
  */
 async function terminateAContainerAppsJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

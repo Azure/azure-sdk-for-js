@@ -4,15 +4,15 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
-  AIFoundryModelCatalogName,
+  ListingSearchType,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureOpenAIModelName,
-  AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
+  BlobIndexerParsingMode,
   BM25Similarity,
   CharFilterName,
   ChatCompletionExtraParametersBehavior,
@@ -55,7 +55,6 @@ import type {
   KnowledgeSourceContentExtractionMode,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
-  KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
@@ -106,7 +105,6 @@ import type {
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
-  SearchIndexerCache,
   SearchIndexerDataContainer,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
@@ -124,7 +122,6 @@ import type {
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
-  SplitSkillUnit,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
@@ -143,43 +140,47 @@ import type {
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
   KnowledgeSourceIngestionPermissionOption,
-  IndexedSqlKnowledgeSourceParameters,
-  FileKnowledgeSourceParameters,
-  McpServerKnowledgeSourceParameters,
+  ContentColumnMapping,
+  EmbeddingColumnMapping,
 } from "./models/azure/search/documents/indexes/index.js";
-import type { SharePointConnectorAppRegistration } from "./models/index.js";
+import type { SharePointConnectorAppRegistration } from "./models/azure/search/documents/indexes/index.js";
 import type {
-  AssetStore,
-  FreshnessPolicy,
   AIServices,
+  KnowledgeSourceNetworkAccessMode,
   KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
-/**
- * Options for a list skillsets operation.
- */
-export type ListSkillsetsOptions = OperationOptions;
+/** Options shared by server-driven resource listing operations. */
+export interface ResourceListingOptions extends OperationOptions {
+  /** A string used to narrow the listing. */
+  search?: string;
+  /** The maximum number of resources to return in one service page. */
+  pageSize?: number;
+  /** Specifies how `search` is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 
-/**
- * Options for a list synonymMaps operation.
- */
-export type ListSynonymMapsOptions = OperationOptions;
+/** Options for a list skillsets operation. */
+export type ListSkillsetsOptions = ResourceListingOptions;
+
+/** Options for a list synonym maps operation. */
+export type ListSynonymMapsOptions = ResourceListingOptions;
 
 /**
  * Options for a list indexes operation.
  */
-export type ListIndexesOptions = OperationOptions;
+export type ListIndexesOptions = ResourceListingOptions;
 
 /**
  * Options for a list indexers operation.
  */
-export type ListIndexersOptions = OperationOptions;
+export type ListIndexersOptions = ResourceListingOptions;
 
 /**
  * Options for a list data sources operation.
  */
-export type ListDataSourceConnectionsOptions = OperationOptions;
+export type ListDataSourceConnectionsOptions = ResourceListingOptions;
 
 /**
  * Options for get index operation.
@@ -249,7 +250,7 @@ export interface SearchServiceStatistics {
   /**
    * Service level information related to indexer runtime.
    */
-  indexersRuntime: ServiceIndexersRuntime;
+  indexersRuntime?: ServiceIndexersRuntime;
 }
 
 /**
@@ -273,23 +274,6 @@ export type ResetIndexerOptions = OperationOptions;
 export type RunIndexerOptions = OperationOptions;
 
 /**
- * Options for reset skills operation.
- */
-export type ResetSkillsOptions = OperationOptions;
-
-/**
- * Options for reset documents operation.
- */
-export interface ResetDocumentsOptions extends OperationOptions {
-  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
-  overwrite?: boolean;
-  /** Document keys to be reset. */
-  documentKeys?: string[];
-  /** Datasource document identifiers to be reset. */
-  dataSourceDocumentIds?: string[];
-}
-
-/**
  * Options for resync indexer operation.
  */
 export interface ResyncIndexerOptions extends OperationOptions {
@@ -301,12 +285,18 @@ export interface ResyncIndexerOptions extends OperationOptions {
  * Options for list index stats summary operation.
  */
 export interface ListIndexStatsSummaryOptions extends OperationOptions {
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
 }
 
 /**
@@ -352,7 +342,20 @@ export type GetAliasOptions = OperationOptions;
 /**
  * Options for list aliases operation.
  */
-export type ListAliasesOptions = OperationOptions;
+export interface ListAliasesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 
 /**
  * Search Alias object.
@@ -422,7 +425,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 /**
  * Options for create/update indexer operation.
  */
-export interface CreateorUpdateIndexerOptions extends OperationOptions {
+export interface CreateOrUpdateIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be updated only if the etag matches.
    */
@@ -436,11 +439,13 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
    */
   disableCacheReprocessingChangeDetection?: boolean;
 }
+/** @deprecated Use {@link CreateOrUpdateIndexerOptions}. */
+export type CreateorUpdateIndexerOptions = CreateOrUpdateIndexerOptions;
 
 /**
  * Options for create/update datasource operation.
  */
-export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
+export interface CreateOrUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
    * If set to true, Resource will be updated only if the etag matches.
    */
@@ -450,6 +455,8 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
    */
   skipIndexerResetRequirementForCache?: boolean;
 }
+/** @deprecated Use {@link CreateOrUpdateDataSourceConnectionOptions}. */
+export type CreateorUpdateDataSourceConnectionOptions = CreateOrUpdateDataSourceConnectionOptions;
 
 /**
  * Options for delete index operation.
@@ -950,10 +957,6 @@ export interface SearchIndexerKnowledgeStore {
    * this property is cleared.
    */
   identity?: SearchIndexerDataIdentity;
-  /**
-   * Additional parameters that govern the behavior of the knowledge store.
-   */
-  parameters?: SearchIndexerKnowledgeStoreParameters;
 }
 
 /**
@@ -1172,16 +1175,17 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
-  /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
-  hasSensitivityLabel?: boolean;
-  /** A value indicating whether the field stores the sensitivity label name associated with each document for Microsoft Purview. */
-  sensitivityLabelName?: boolean;
-  /** A value indicating whether the field stores the source document ID used by Microsoft Purview to reference the underlying document. */
-  sourceDocumentId?: boolean;
   /** A value indicating whether the field stores the SharePoint site URL used by Microsoft Purview. */
   sharepointSiteUrl?: boolean;
   /** A value indicating which permission filter applies when querying this field. Used together with index-level permission filtering. */
   permissionFilter?: PermissionFilter;
+  /**
+   * Whether this field stores the expiration timestamp for organization-scoped SharePoint
+   * sharing links. At most one top-level Edm.DateTimeOffset field can enable this option.
+   * Permission-filtered queries apply it to matching `orgLink:<tenantId>` grants in a userIds
+   * permission-filter field; expired or missing timestamps do not grant access.
+   */
+  organizationAccessExpiration?: boolean;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1428,11 +1432,6 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
-  /**
-   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
-   * having to rebuild the index every time.
-   */
-  cache?: SearchIndexerCache;
 }
 
 /**
@@ -1472,10 +1471,6 @@ export interface SearchResourceEncryptionKey {
    * the value of this property is cleared.
    */
   identity?: SearchIndexerDataIdentity;
-  /**
-   * An optional value indicating whether this key is a service-level key. Default is false.
-   */
-  isServiceLevelKey?: boolean;
 }
 
 /**
@@ -2508,99 +2503,7 @@ export interface WebApiParameters {
 /**
  * Contains configuration options on how to vectorize text vector queries.
  */
-export type VectorSearchVectorizer =
-  AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
-
-/**
- * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
- * generating the vector embedding of a query string.
- */
-export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "aml";
-  /**
-   * Specifies the properties of the AML vectorizer.
-   */
-  amlParameters?: AzureMachineLearningVectorizerParameters;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer.
- */
-export type AzureMachineLearningVectorizerParameters =
-  | NoAuthAzureMachineLearningVectorizerParameters
-  | KeyAuthAzureMachineLearningVectorizerParameters
-  | TokenAuthAzureMachineLearningVectorizerParameters;
-
-/**
- * Specifies the properties common between all AML vectorizer auth types.
- */
-export interface BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * When specified, indicates the timeout for the http client making the API call.
-   */
-  timeout?: string;
-  /**
-   * The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the
-   * provided endpoint.
-   */
-  modelName?: AIFoundryModelCatalogName;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with no authentication.
- */
-export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "none";
-  /**
-   * The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI
-   * scheme is allowed.
-   */
-  scoringUri: string;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with an authentication key.
- */
-export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "key";
-  /**
-   * The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI
-   * scheme is allowed.
-   */
-  scoringUri: string;
-  /**
-   * The key for the AML service.
-   */
-  apiKey: string;
-}
-
-/**
- * Specifies the properties for connecting to an AML vectorizer with a managed identity.
- */
-export interface TokenAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-  /**
-   * Indicates how the service should attempt to identify itself to the AML instance
-   */
-  authKind: "token";
-  /**
-   * The Azure Resource Manager resource ID of the AML service. It should be in the format
-   * subscriptions/\{guid\}/resourceGroups/\{resource-group-name\}/Microsoft.MachineLearningServices/workspaces/\{workspace-name\}/services/\{service_name\}.
-   */
-  resourceId: string;
-  /**
-   * The region the AML service is deployed in.
-   */
-  region?: string;
-}
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 /**
  * Specifies the parameters for connecting to the Azure OpenAI resource.
@@ -2641,21 +2544,6 @@ export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, Azure
    * text-embedding-3 and later models.
    */
   dimensions?: number;
-}
-
-/**
- * A dictionary of knowledge store-specific configuration properties. Each name is the name of a
- * specific property. Each value must be of a primitive type.
- */
-export interface SearchIndexerKnowledgeStoreParameters {
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: unknown;
-  /**
-   * Whether or not projections should synthesize a generated key name if one isn't already present.
-   */
-  synthesizeGeneratedKeyName?: boolean;
 }
 
 /**
@@ -2759,6 +2647,12 @@ export interface IndexingParametersConfiguration {
    * specified in the format "hh:mm:ss".
    */
   queryTimeout?: string;
+  /**
+   * Whether ADLS Gen2 indexers refresh permissions for documents whose content has not changed.
+   * Defaults to true. Refreshes run at most once every 24 hours and update permission metadata
+   * without reprocessing content or enriched fields. Set to false to disable.
+   */
+  refreshAllAcls?: boolean;
 }
 
 /**
@@ -3024,17 +2918,6 @@ export interface SplitSkill extends BaseSearchIndexerSkill {
    * improve performance when only a few initial pages are needed from each document.
    */
   maximumPagesToTake?: number;
-  /**
-   * Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will
-   * choose between characters and tokens as the unit for the maxPageLength and pageOverlapLength.
-   * Default is 'characters'.
-   */
-  unit?: SplitSkillUnit;
-  /**
-   * Only applicable when unit is set to 'azureOpenAITokens'. If specified, the SplitSkill will
-   * use these settings to control how tokens are counted when splitting text.
-   */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /**
@@ -3063,29 +2946,6 @@ export interface TextTranslationSkill extends BaseSearchIndexerSkill {
   suggestedFrom?: TextTranslationSkillLanguage;
 }
 
-/**
- * A skill that analyzes image files. It extracts a rich set of visual features based on the image
- * content.
- */
-export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
-  /**
-   * A value indicating which language code to use. Default is en.
-   */
-  defaultLanguageCode?: ImageAnalysisSkillLanguage;
-  /**
-   * A list of visual features.
-   */
-  visualFeatures?: VisualFeature[];
-  /**
-   * A string indicating which domain-specific details to return.
-   */
-  details?: ImageDetail[];
-}
-
 export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
@@ -3094,12 +2954,7 @@ export type KnowledgeSource =
   | IndexedOneLakeKnowledgeSource
   | IndexedSqlKnowledgeSource
   | FileKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource
-  | WorkIQKnowledgeSource
-  | McpServerKnowledgeSource
-  | FabricDataAgentKnowledgeSource
-  | FabricOntologyKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3115,12 +2970,7 @@ export interface BaseKnowledgeSource {
     | "indexedOneLake"
     | "indexedSql"
     | "file"
-    | "web"
-    | "remoteSharePoint"
-    | "workIQ"
-    | "mcpServer"
-    | "fabricDataAgent"
-    | "fabricOntology";
+    | "web";
   /**
    * The name of the knowledge source.
    */
@@ -3272,90 +3122,9 @@ export interface IndexedSharePointKnowledgeSourceParameters {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdResources?: { [propertyName: string]: string };
-}
-
-/**
- * Configuration for a knowledge source backed by a remote (live-queried) SharePoint site.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
   /**
-   * Polymorphic discriminator, which specifies the different types this object can be
+   * Optional hints that describe how the knowledge source should be queried.
    */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the remote SharePoint knowledge source.
-   */
-  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
-}
-
-/**
- * Parameters for remote SharePoint knowledge source.
- */
-export interface RemoteSharePointKnowledgeSourceParameters {
-  /** Keyword Query Language (KQL) expression with queryable SharePoint properties and attributes to scope the retrieval before the query runs. */
-  filterExpression?: string;
-  /** A list of metadata fields to be returned for each item in the response. Only retrievable metadata properties can be included in this list. By default, no metadata is returned. */
-  resourceMetadata?: string[];
-  /** Container ID for SharePoint Embedded connection. When this is null, it will use SharePoint Online. */
-  containerTypeId?: string;
-}
-
-/**
- * Configuration for a knowledge source backed by WorkIQ.
- */
-export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "workIQ";
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Data Agent.
- */
-export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricDataAgent";
-  /**
-   * The parameters for the Fabric Data Agent knowledge source.
-   */
-  fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
-}
-
-/**
- * Parameters for Fabric Data Agent knowledge source.
- */
-export interface FabricDataAgentKnowledgeSourceParameters {
-  /** Fabric workspace ID. */
-  workspaceId: string;
-  /** Specifies which Fabric Data Agent to access. */
-  dataAgentId: string;
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Ontology.
- */
-export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricOntology";
-  /**
-   * The parameters for the Fabric Ontology knowledge source.
-   */
-  fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
-}
-
-/**
- * Parameters for Fabric Ontology knowledge source.
- */
-export interface FabricOntologyKnowledgeSourceParameters {
-  /** The Fabric workspace ID containing the ontology. */
-  workspaceId: string;
-  /** The ID of the ontology to use from the Fabric workspace. */
-  ontologyId: string;
 }
 
 /**
@@ -3372,6 +3141,17 @@ export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
   indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
 }
 
+/** Parameters for an indexed SQL knowledge source. */
+export interface IndexedSqlKnowledgeSourceParameters {
+  connectionString: string;
+  tableOrView: string;
+  highWaterMarkColumnName?: string;
+  contentColumns?: ContentColumnMapping[];
+  embeddingColumns?: EmbeddingColumnMapping[];
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  readonly createdResources?: Record<string, string>;
+}
+
 /**
  * Configuration for a knowledge source that supports direct file upload and indexing.
  */
@@ -3384,20 +3164,18 @@ export interface FileKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the File knowledge source.
    */
   fileParameters: FileKnowledgeSourceParameters;
+  /**
+   * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge source.
+   */
+  corsOptions?: CorsOptions;
 }
 
-/**
- * Configuration for a knowledge source backed by an MCP (Model Context Protocol) server.
- */
-export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "mcpServer";
-  /**
-   * The parameters for the MCP server knowledge source.
-   */
-  mcpServerParameters: McpServerKnowledgeSourceParameters;
+/** Parameters for a File knowledge source. */
+export interface FileKnowledgeSourceParameters {
+  /** Consolidated ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Names of resources created by the service. */
+  readonly createdResources?: Record<string, string>;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3418,10 +3196,11 @@ export interface KnowledgeSourceIngestionParameters {
   contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */
   aiServices?: AIServices;
-  /** Optional asset store configuration for storing extracted assets such as images. */
-  assetStore?: AssetStore;
-  /** Optional freshness policy for biasing retrieval toward newer documents. */
-  freshnessPolicy?: FreshnessPolicy;
+  /**
+   * Controls the network used by ingestion. `private` requires the Search service to have the
+   * necessary shared private links/private endpoints before the knowledge source is created.
+   */
+  networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
 
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
@@ -3462,7 +3241,23 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeBaseOptions extends OperationOptions {}
-export interface ListKnowledgeBasesOptions extends OperationOptions {}
+
+/** Options for listing knowledge bases. */
+export interface ListKnowledgeBasesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
+/** Options for creating a knowledge base. */
 export interface CreateKnowledgeBaseOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeSourceOptions extends OperationOptions {
@@ -3478,11 +3273,43 @@ export interface DeleteKnowledgeSourceOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeSourceOptions extends OperationOptions {}
-export interface ListKnowledgeSourcesOptions extends OperationOptions {}
+
+/** Options for listing knowledge sources. */
+export interface ListKnowledgeSourcesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
+/** Options for creating a knowledge source. */
 export interface CreateKnowledgeSourceOptions extends OperationOptions {}
+/** Options for retrieving knowledge source synchronization status. */
 export interface GetKnowledgeSourceStatusOptions extends OperationOptions {}
-export interface UploadKnowledgeSourceFileOptions extends OperationOptions {}
-export interface ListKnowledgeSourceFilesOptions extends OperationOptions {}
+/** Options for multipart File knowledge source upload. */
+export interface UploadKnowledgeSourceFileMultipartOptions extends OperationOptions {}
+/** Options for replacing a File knowledge source file. */
+export interface UpdateKnowledgeSourceFileOptions extends OperationOptions {}
+
+/** Options for listing files in a File knowledge source. */
+export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
+  /** Optional directory-like path prefix used to filter files. */
+  prefix?: string;
+  /** A string used to narrow the file listing. */
+  search?: string;
+  /** The maximum number of files to return in one page. */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
+/** Options for deleting a File knowledge source file. */
 export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {}
 
 /**
@@ -3587,7 +3414,6 @@ export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {}
 export type AnalyzerNames = `${KnownLexicalAnalyzerName}`;
 export type BlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
 export type BlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
-export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;

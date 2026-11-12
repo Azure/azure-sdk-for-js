@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentResourceGroup.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentResourceGroup.json
  */
 async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString():
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentResourceGroupTemplateSpecsWithId.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentResourceGroupTemplateSpecsWithId.json
  */
 async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentWithExternalInputs.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentWithExternalInputs.json
  */
 async function createDeploymentUsingExternalInputs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -82,7 +82,7 @@ async function createDeploymentUsingExternalInputs(): Promise<void> {
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
 async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -103,7 +103,7 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
  * This sample demonstrates how to you can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary you can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: 2025-04-01/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
+ * x-ms-original-file: 2026-06-01/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
 async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a resiliency policy for a Dapr component.
  *
  * @summary creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponentResiliencyPolicy_CreateOrUpdate_AllOptions.json
+ * x-ms-original-file: 2026-07-01/DaprComponentResiliencyPolicy_CreateOrUpdate_AllOptions.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions(): Prom
  * This sample demonstrates how to creates or updates a resiliency policy for a Dapr component.
  *
  * @summary creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
+ * x-ms-original-file: 2026-07-01/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly
  * This sample demonstrates how to creates or updates a resiliency policy for a Dapr component.
  *
  * @summary creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
+ * x-ms-original-file: 2026-07-01/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

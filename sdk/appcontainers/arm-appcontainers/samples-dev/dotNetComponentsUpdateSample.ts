@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a .NET Component using JSON Merge Patch
  *
  * @summary patches a .NET Component using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_Patch.json
+ * x-ms-original-file: 2026-07-01/DotNetComponents_Patch.json
  */
 async function patchNETComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function patchNETComponent(): Promise<void> {
  * This sample demonstrates how to patches a .NET Component using JSON Merge Patch
  *
  * @summary patches a .NET Component using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_Patch_ServiceBind.json
+ * x-ms-original-file: 2026-07-01/DotNetComponents_Patch_ServiceBind.json
  */
 async function patchNETComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

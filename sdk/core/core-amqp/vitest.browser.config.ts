@@ -3,7 +3,6 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import base from "../../../eng/vitestconfigs/browser.config.ts";
-import inject from "@rollup/plugin-inject";
 
 export default mergeConfig(
   base,
@@ -11,6 +10,11 @@ export default mergeConfig(
     optimizeDeps: {
       include: ["process", "buffer"],
     },
-    plugins: [inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
+    test: {
+      // Provide the `Buffer` / `process` globals expected by the runtime
+      // dependency graph. See test/browser-polyfills.ts for why this replaces
+      // the previous `@rollup/plugin-inject` based approach.
+      setupFiles: ["./test/browser-polyfills.ts"],
+    },
   }),
 );

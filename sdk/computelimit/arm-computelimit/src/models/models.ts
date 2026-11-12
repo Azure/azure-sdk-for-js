@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -361,6 +361,62 @@ export function guestSubscriptionArraySerializer(result: Array<GuestSubscription
 export function guestSubscriptionArrayDeserializer(result: Array<GuestSubscription>): any[] {
   return result.map((item) => {
     return guestSubscriptionDeserializer(item);
+  });
+}
+
+/**
+ * A host subscription that a guest subscription trusts for sharing compute limits.
+ * A guest subscription can trust multiple host subscriptions; establishing trust does
+ * not by itself associate the guest with a host. Guest-to-host association happens at
+ * check-in time, where a subscription can be a guest of at most one host per region.
+ */
+export interface TrustedHostSubscription extends ProxyResource {}
+
+export function trustedHostSubscriptionSerializer(_item: TrustedHostSubscription): any {
+  return {};
+}
+
+export function trustedHostSubscriptionDeserializer(item: any): TrustedHostSubscription {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a TrustedHostSubscription list operation. */
+export interface _TrustedHostSubscriptionListResult {
+  /** The TrustedHostSubscription items on this page */
+  value: TrustedHostSubscription[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _trustedHostSubscriptionListResultDeserializer(
+  item: any,
+): _TrustedHostSubscriptionListResult {
+  return {
+    value: trustedHostSubscriptionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function trustedHostSubscriptionArraySerializer(
+  result: Array<TrustedHostSubscription>,
+): any[] {
+  return result.map((item) => {
+    return trustedHostSubscriptionSerializer(item);
+  });
+}
+
+export function trustedHostSubscriptionArrayDeserializer(
+  result: Array<TrustedHostSubscription>,
+): any[] {
+  return result.map((item) => {
+    return trustedHostSubscriptionDeserializer(item);
   });
 }
 
@@ -894,4 +950,6 @@ export enum KnownVersions {
   V20260601 = "2026-06-01",
   /** The 2026-07-01 API version. */
   V20260701 = "2026-07-01",
+  /** The 2026-07-31 API version. */
+  V20260731 = "2026-07-31",
 }

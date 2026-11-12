@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,7 +22,6 @@ export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -30,7 +31,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -72,12 +72,6 @@ export interface AdminKeysOperations {
 export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
     // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export interface AzureActiveDirectoryApplicationCredentials {
-    applicationId?: string;
-    applicationSecret?: string;
 }
 
 // @public
@@ -129,20 +123,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export interface DataIdentity {
-    odataType: string;
-}
-
-// @public
-export type DataIdentityUnion = DataNoneIdentity | DataUserAssignedIdentity | DataIdentity;
-
-// @public
-export interface DataNoneIdentity extends DataIdentity {
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Search.DataNoneIdentity";
-}
-
-// @public
 export interface DataPlaneAadOrApiKeyAuthOption {
     aadAuthFailureMode?: AadAuthFailureMode;
 }
@@ -154,23 +134,9 @@ export interface DataPlaneAuthOptions {
 }
 
 // @public
-export interface DataUserAssignedIdentity extends DataIdentity {
-    federatedIdentityClientId?: string;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
-    userAssignedIdentity: string;
-}
-
-// @public
 export interface EncryptionWithCmk {
     readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
     enforcement?: SearchEncryptionWithCmk;
-    serviceLevelEncryptionKey?: SearchResourceEncryptionKey;
-}
-
-// @public
-export interface FeatureOffering {
-    name?: string;
 }
 
 // @public
@@ -191,6 +157,8 @@ export type IdentityType = string;
 export interface IpRule {
     value?: string;
 }
+
+export { isRestError }
 
 // @public
 export type IssueType = string;
@@ -289,7 +257,6 @@ export enum KnownResourceAssociationAccessMode {
 
 // @public
 export enum KnownSearchBypass {
-    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
 }
@@ -356,7 +323,7 @@ export enum KnownUpgradeAvailable {
 // @public
 export enum KnownVersions {
     V20250501 = "2025-05-01",
-    V20260301Preview = "2026-03-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -379,14 +346,10 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -424,28 +387,6 @@ export interface NetworkSecurityProfile {
     diagnosticSettingsVersion?: number;
     enabledLogCategories?: string[];
     name?: string;
-}
-
-// @public
-export interface OfferingsByRegion {
-    features?: FeatureOffering[];
-    regionName?: string;
-    skus?: SkuOffering[];
-}
-
-// @public
-export interface OfferingsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OfferingsListResult {
-    readonly nextLink?: string;
-    readonly value?: OfferingsByRegion[];
-}
-
-// @public
-export interface OfferingsOperations {
-    list: (options?: OfferingsListOptionalParams) => Promise<OfferingsListResult>;
 }
 
 // @public
@@ -534,7 +475,7 @@ export interface PrivateEndpointConnectionsListByServiceOptionalParams extends O
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
-    delete: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection | void>;
     get: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     listByService: (resourceGroupName: string, searchServiceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     update: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -579,7 +520,6 @@ export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -658,13 +598,14 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
 
 // @public
 export type ResourceAssociationAccessMode = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SearchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -694,7 +635,6 @@ export class SearchManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
     readonly adminKeys: AdminKeysOperations;
     readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
-    readonly offerings: OfferingsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
@@ -715,15 +655,6 @@ export interface SearchManagementClientOptionalParams extends ClientOptions {
 // @public
 export interface SearchManagementRequestOptions {
     clientRequestId?: string;
-}
-
-// @public
-export interface SearchResourceEncryptionKey {
-    accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-    identity?: DataIdentityUnion;
-    keyName?: string;
-    keyVersion?: string;
-    vaultUri?: string;
 }
 
 // @public
@@ -988,24 +919,7 @@ export interface Sku {
 }
 
 // @public
-export interface SkuLimits {
-    indexers?: number;
-    indexes?: number;
-    partitions?: number;
-    partitionStorageInGigabytes?: number;
-    partitionVectorStorageInGigabytes?: number;
-    replicas?: number;
-    searchUnits?: number;
-}
-
-// @public
 export type SkuName = string;
-
-// @public
-export interface SkuOffering {
-    limits?: SkuLimits;
-    sku?: Sku;
-}
 
 // @public
 export interface SystemData {

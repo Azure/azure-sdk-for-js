@@ -3,8 +3,12 @@
 
 import type { ContainerServiceContext, ContainerServiceClientOptionalParams } from "./api/index.js";
 import { createContainerService } from "./api/index.js";
+import type { AgentFabricMembershipsOperations } from "./classic/agentFabricMemberships/index.js";
+import { _getAgentFabricMembershipsOperations } from "./classic/agentFabricMemberships/index.js";
 import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
 import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import type { AlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
+import { _getAlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
 import type { ContainerServiceOperations } from "./classic/containerService/index.js";
 import { _getContainerServiceOperations } from "./classic/containerService/index.js";
 import type { IdentityBindingsOperations } from "./classic/identityBindings/index.js";
@@ -43,6 +47,8 @@ import type { TrustedAccessRoleBindingsOperations } from "./classic/trustedAcces
 import { _getTrustedAccessRoleBindingsOperations } from "./classic/trustedAccessRoleBindings/index.js";
 import type { TrustedAccessRolesOperations } from "./classic/trustedAccessRoles/index.js";
 import { _getTrustedAccessRolesOperations } from "./classic/trustedAccessRoles/index.js";
+import type { UpgradeInsightsOperations } from "./classic/upgradeInsights/index.js";
+import { _getUpgradeInsightsOperations } from "./classic/upgradeInsights/index.js";
 import type { VmSkusOperations } from "./classic/vmSkus/index.js";
 import { _getVmSkusOperations } from "./classic/vmSkus/index.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -76,14 +82,7 @@ export class ContainerServiceClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerService(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerService(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.vmSkus = _getVmSkusOperations(this._client);
     this.containerService = _getContainerServiceOperations(this._client);
@@ -91,7 +90,10 @@ export class ContainerServiceClient {
     this.resolvePrivateLinkServiceId = _getResolvePrivateLinkServiceIdOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.operationStatusResult = _getOperationStatusResultOperations(this._client);
+    this.upgradeInsights = _getUpgradeInsightsOperations(this._client);
+    this.alertConfigurations = _getAlertConfigurationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
+    this.agentFabricMemberships = _getAgentFabricMembershipsOperations(this._client);
     this.meshMemberships = _getMeshMembershipsOperations(this._client);
     this.jwtAuthenticators = _getJWTAuthenticatorsOperations(this._client);
     this.identityBindings = _getIdentityBindingsOperations(this._client);
@@ -120,8 +122,14 @@ export class ContainerServiceClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for operationStatusResult */
   public readonly operationStatusResult: OperationStatusResultOperations;
+  /** The operation groups for upgradeInsights */
+  public readonly upgradeInsights: UpgradeInsightsOperations;
+  /** The operation groups for alertConfigurations */
+  public readonly alertConfigurations: AlertConfigurationsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
+  /** The operation groups for agentFabricMemberships */
+  public readonly agentFabricMemberships: AgentFabricMembershipsOperations;
   /** The operation groups for meshMemberships */
   public readonly meshMemberships: MeshMembershipsOperations;
   /** The operation groups for jwtAuthenticators */

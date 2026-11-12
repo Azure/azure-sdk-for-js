@@ -8,7 +8,7 @@ import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
-import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
+import type { FileSystemOperations } from "./generated/index.js";
 import type {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -40,7 +40,6 @@ import type {
   FileSystemUndeletePathResponse,
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
-  PathUndeleteHeaders,
   DataLakeClientConfig,
   DataLakeFileSystemClientOptions,
 } from "./models.js";
@@ -50,7 +49,7 @@ import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
-  assertResponse,
+  adjustResponse,
   EscapePath,
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common.js";
@@ -71,12 +70,12 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
    */
-  private fileSystemContext: FileSystem;
+  private fileSystemContext: FileSystemOperations;
 
   /**
    * fileSystemContext provided by protocol layer.
    */
-  private fileSystemContextToBlobEndpoint: FileSystem;
+  private fileSystemContextToBlobEndpoint: FileSystemOperations;
 
   /**
    * blobContainerClient provided by `@azure/storage-blob` package.
@@ -133,8 +132,8 @@ export class DataLakeFileSystemClient extends StorageClient {
       super(url, pipeline, options);
     }
 
-    this.fileSystemContext = new FileSystem(this.storageClientContext);
-    this.fileSystemContextToBlobEndpoint = new FileSystem(this.storageClientContextToBlobEndpoint);
+    this.fileSystemContext = this.storageClientContext.fileSystem;
+    this.fileSystemContextToBlobEndpoint = this.storageClientContextToBlobEndpoint.fileSystem;
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -190,6 +189,17 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, the operation fails.
    *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
+   *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param options - Optional. Options when creating file system.
@@ -212,6 +222,20 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, it is not changed.
+   *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
+   *
+   * If a file system with the same name is still being deleted, this method throws
+   * the 409 (Conflict) error instead of returning `succeeded: false`.
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
@@ -256,6 +280,17 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system.
    *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
+   *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Optional. Options when deleting file system.
@@ -275,6 +310,17 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   /**
    * Delete current file system if it exists.
+   *
+   * When a file system is deleted, a file system with the same name can't be
+   * created for at least 30 seconds. The file system might not be available for
+   * more than 30 seconds if the service is still processing the request. While the
+   * file system is being deleted, attempts to create a file system of the same name
+   * fail with status code 409 (Conflict). The service indicates that the file
+   * system is being deleted. File and directory operations through the Data Lake
+   * (DFS) endpoint fail with status code 404 (Not Found). Reads through the Blob
+   * endpoint may continue to succeed for up to 30 seconds after the delete request
+   * is accepted. After this period, all operations on the file system and its paths
+   * fail with status code 404 (Not Found).
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
@@ -599,24 +645,27 @@ export class DataLakeFileSystemClient extends StorageClient {
       "DataLakeFileSystemClient-listPathsSegment",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
-          continuation,
-          ...updatedOptions,
-          upn: options.userPrincipalName,
-          beginFrom: options.startFrom,
-        });
+        const rawResponse = adjustResponse(
+          await this.fileSystemContext.listPaths(options.recursive || false, {
+            continuation,
+            ...updatedOptions,
+            upn: options.userPrincipalName,
+            beginFrom: options.startFrom,
+          }),
+        );
 
-        const response = rawResponse as FileSystemListPathsResponse;
+        const response = rawResponse as unknown as FileSystemListPathsResponse;
         response.pathItems = [];
         for (const path of rawResponse.paths || []) {
           response.pathItems.push({
             ...path,
+            lastModified: path.lastModified ? new Date(path.lastModified) : undefined,
             permissions: toPermissions(path.permissions),
             createdOn: windowsFileTimeTicksToTime(path.creationTime),
             expiresOn: windowsFileTimeTicksToTime(path.expiryTime),
           });
         }
-        delete rawResponse.paths;
+        delete (rawResponse as unknown as Record<string, unknown>).paths;
 
         return response;
       },
@@ -792,13 +841,16 @@ export class DataLakeFileSystemClient extends StorageClient {
       "DataLakeFileSystemClient-listDeletedPathsSegment",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
-          marker: continuation,
-          ...updatedOptions,
-          prefix: options.prefix === "" ? undefined : options.prefix,
-        });
+        const rawResponse = adjustResponse(
+          await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
+            showonly: "deleted",
+            marker: continuation,
+            ...updatedOptions,
+            prefix: options.prefix === "" ? undefined : options.prefix,
+          }),
+        );
 
-        const response = rawResponse as FileSystemListDeletedPathsResponse;
+        const response = rawResponse as unknown as FileSystemListDeletedPathsResponse;
         response.pathItems = [];
         for (const path of rawResponse.segment.blobItems || []) {
           response.pathItems.push({
@@ -843,7 +895,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           this.pipeline,
         );
 
-        const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(
+        const rawResponse = adjustResponse(
           await pathClient.blobPathContext.undelete({
             undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
             ...options,

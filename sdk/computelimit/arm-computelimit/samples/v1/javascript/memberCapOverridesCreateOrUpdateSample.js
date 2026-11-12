@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or replaces the cap override for a single member subscription.
  *
  * @summary creates or replaces the cap override for a single member subscription.
- * x-ms-original-file: 2026-07-01/MemberCapOverrides_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-31/MemberCapOverrides_CreateOrUpdate.json
  */
 async function createOrUpdateASingleMemberCapOverride() {
   const credential = new DefaultAzureCredential();

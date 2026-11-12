@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectory.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectory.json
  */
 async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtection()
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
  */
 async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNo
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
  */
 async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoLicense(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNo
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureSecurityCenter.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsAzureSecurityCenter.json
  */
 async function checkRequirementsForASC(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function checkRequirementsForASC(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsDynamics365.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsDynamics365.json
  */
 async function checkRequirementsForDynamics365(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -98,7 +98,7 @@ async function checkRequirementsForDynamics365(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsIoT.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsIoT.json
  */
 async function checkRequirementsForIoT(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function checkRequirementsForIoT(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMdatp.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsMdatp.json
  */
 async function checkRequirementsForMdatp(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -134,7 +134,7 @@ async function checkRequirementsForMdatp(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
  */
 async function checkRequirementsForMcas(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function checkRequirementsForMcas(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftPurviewInformationProtection.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsMicrosoftPurviewInformationProtection.json
  */
 async function checkRequirementsForMicrosoftPurviewInformationProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function checkRequirementsForMicrosoftPurviewInformationProtection(): Prom
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
  */
 async function checkRequirementsForMicrosoftThreatIntelligence(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -191,7 +191,7 @@ async function checkRequirementsForMicrosoftThreatIntelligence(): Promise<void> 
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
  */
 async function checkRequirementsForMicrosoftThreatProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -209,7 +209,7 @@ async function checkRequirementsForMicrosoftThreatProtection(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOffice365Project.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsOffice365Project.json
  */
 async function checkRequirementsForOffice365Project(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -227,7 +227,7 @@ async function checkRequirementsForOffice365Project(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficeATP.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsOfficeATP.json
  */
 async function checkRequirementsForOfficeATP(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -245,7 +245,7 @@ async function checkRequirementsForOfficeATP(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficeIRM.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsOfficeIRM.json
  */
 async function checkRequirementsForOfficeIRM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -263,7 +263,7 @@ async function checkRequirementsForOfficeIRM(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficePowerBI.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsOfficePowerBI.json
  */
 async function checkRequirementsForOfficePowerBI(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -281,7 +281,7 @@ async function checkRequirementsForOfficePowerBI(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsPurviewAudit.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsPurviewAudit.json
  */
 async function checkRequirementsForPurviewAudit(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -299,7 +299,7 @@ async function checkRequirementsForPurviewAudit(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsThreatIntelligence.json
  */
 async function checkRequirementsForTI(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -317,7 +317,7 @@ async function checkRequirementsForTI(): Promise<void> {
  * This sample demonstrates how to get requirements state for a data connector type.
  *
  * @summary get requirements state for a data connector type.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
  */
 async function checkRequirementsForTITaxii(): Promise<void> {
   const credential = new DefaultAzureCredential();

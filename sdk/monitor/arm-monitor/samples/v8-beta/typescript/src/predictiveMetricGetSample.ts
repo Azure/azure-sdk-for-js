@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get predictive autoscale metric future data
  *
  * @summary get predictive autoscale metric future data
- * x-ms-original-file: 2022-10-01/GetPredictiveMetric.json
+ * x-ms-original-file: 2025-09-01-preview/GetPredictiveMetric.json
  */
 async function getMetricForData(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,8 +4,8 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
   Routine,
-  _AgentsPagedResultRoutine,
-  _AgentsPagedResultRoutineRun,
+  _PagedResultWithNextLinkRoutine,
+  _PagedResultWithNextLinkRoutineRun,
   RoutineRun,
   DispatchRoutineResponse,
 } from "../../../models/models.js";
@@ -13,9 +13,10 @@ import {
   apiErrorResponseDeserializer,
   routineTriggerUnionRecordSerializer,
   routineActionUnionSerializer,
+  routineAuthorizationSerializer,
   routineDeserializer,
-  _agentsPagedResultRoutineDeserializer,
-  _agentsPagedResultRoutineRunDeserializer,
+  _pagedResultWithNextLinkRoutineDeserializer,
+  _pagedResultWithNextLinkRoutineRunDeserializer,
   routineDispatchPayloadUnionSerializer,
   dispatchRoutineResponseDeserializer,
 } from "../../../models/models.js";
@@ -54,7 +55,7 @@ export function _dispatchSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": "Routines=V1Preview",
+      "foundry-features": "Routines=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -97,16 +98,15 @@ export function _listRunsSend(
   routineName: string,
   options: BetaRoutinesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Routines=V1Preview";
+  const foundryFeatures = "Routines=V2Preview";
   const path = expandUrlTemplate(
-    "/routines/{routine_name}/runs{?filter,limit,after,before,order,api-version}",
+    "/routines/{routine_name}/runs{?filter,limit,after,order,api-version}",
     {
       routine_name: routineName,
       filter: options?.filter,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
-      before: options?.before,
       "api-version": context.apiVersion,
     },
     {
@@ -125,7 +125,7 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultRoutineRun> {
+): Promise<_PagedResultWithNextLinkRoutineRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -136,7 +136,7 @@ export async function _listRunsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultRoutineRunDeserializer(result.body);
+  return _pagedResultWithNextLinkRoutineRunDeserializer(result.body);
 }
 
 /** Returns prior runs recorded for the specified routine. */
@@ -152,10 +152,11 @@ export function listRuns(
     ["200"],
     {
       itemName: "data",
+      nextLinkName: "next_link",
       apiVersion: context.apiVersion,
       nextPageRequestOptions: {
         headers: {
-          "foundry-features": "Routines=V1Preview",
+          "foundry-features": "Routines=V2Preview",
         },
       },
     },
@@ -167,7 +168,7 @@ export function _$deleteSend(
   routineName: string,
   options: BetaRoutinesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Routines=V1Preview";
+  const foundryFeatures = "Routines=V2Preview";
   const path = expandUrlTemplate(
     "/routines/{routine_name}{?api-version}",
     {
@@ -216,11 +217,10 @@ export function _listSend(
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines{?limit,after,before,order,api-version}",
+    "/routines{?limit,after,order,api-version}",
     {
       limit: options?.limit,
       after: options?.after,
-      before: options?.before,
       order: options?.order,
       "api-version": context.apiVersion,
     },
@@ -231,7 +231,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Routines=V1Preview",
+      "foundry-features": "Routines=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -240,7 +240,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultRoutine> {
+): Promise<_PagedResultWithNextLinkRoutine> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -251,13 +251,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  const body = result.body;
-  return {
-    data: (body["value"] ?? body["data"] ?? []).map((item: any) => routineDeserializer(item)),
-    first_id: body["first_id"],
-    last_id: body["last_id"],
-    has_more: body["has_more"] ?? false,
-  };
+  return _pagedResultWithNextLinkRoutineDeserializer(result.body);
 }
 
 /** Returns the routines available in the current project. */
@@ -272,8 +266,13 @@ export function list(
     ["200"],
     {
       itemName: "data",
-      nextLinkName: "nextLink",
+      nextLinkName: "next_link",
       apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Routines=V2Preview",
+        },
+      },
     },
   );
 }
@@ -296,7 +295,7 @@ export function _disableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Routines=V1Preview",
+      "foundry-features": "Routines=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -345,7 +344,7 @@ export function _enableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Routines=V1Preview",
+      "foundry-features": "Routines=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -394,7 +393,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": "Routines=V1Preview",
+      "foundry-features": "Routines=V2Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -430,7 +429,7 @@ export function _createOrUpdateSend(
   routineName: string,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Routines=V1Preview";
+  const foundryFeatures = "Routines=V2Preview";
   const path = expandUrlTemplate(
     "/routines/{routine_name}{?api-version}",
     {
@@ -456,6 +455,9 @@ export function _createOrUpdateSend(
         ? options?.triggers
         : routineTriggerUnionRecordSerializer(options?.triggers),
       action: !options?.action ? options?.action : routineActionUnionSerializer(options?.action),
+      authorization: !options?.authorization
+        ? options?.authorization
+        : routineAuthorizationSerializer(options?.authorization),
     },
   });
 }

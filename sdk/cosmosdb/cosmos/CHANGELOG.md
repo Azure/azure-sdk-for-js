@@ -1,13 +1,45 @@
 # Release History
-## 4.9.4 (Unreleased)
+
+## 4.10.3 (Unreleased)
 
 ### Features Added
 
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed hybrid search reciprocal rank fusion (RRF) results being ranked incorrectly when component scores are tied. Each result now receives a unique ordinal rank, with deterministic tie-breaking based on the decoded document ID portion of `_rid`. [#40450](https://github.com/Azure/azure-sdk-for-js/pull/40450)
+
+### Other Changes
+
+## 4.10.2 (2026-11-05)
+
+### Bugs Fixed
+
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default and query-control queries now refresh routing, retire the parent range, and continue on intersecting replacement ranges while preserving resumable continuation state. Invalid tokens and ranges that cannot be mapped to the current topology still fail explicitly.
+
+## 4.10.1 (2026-09-14)
+
+### Bugs Fixed
+
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.10.0 (2026-07-21)
+
+### Features Added
+
+- Added a semantic reranking API. Use `Container.semanticRerank(rerankContext, documents, options)` to score and reorder documents by relevance via the Cosmos DB Inference Service. Configure it through `enablePreviewFeatures.semanticRerank` on `CosmosClientOptions`: `inferenceEndpoint` (required) and an optional `inferenceRequestTimeout` (ms, default 5000) single-attempt timeout that fails with HTTP 408 when exceeded. Requires AAD authentication. The result and any thrown error include `CosmosDiagnostics` for the operation.
 - Added `enablePreviewFeatures` to `CosmosClientOptions`, a dictionary for opting into preview features of the SDK.
 
 ### Bugs Fixed
 
 - [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
+- Fixed cross-partition queries making a redundant `/pkranges` metadata call on every query. Queries now reuse the shared partition key range cache (worst for hybrid queries, which previously fetched ranges per component query). The cache is also made failure-safe so a transient fetch error no longer poisons later lookups.
+- [#39115](https://github.com/Azure/azure-sdk-for-js/issues/39115) Fixed continuation token handling for `enableQueryControl` queries. Resuming now routes through the query plan instead of forwarding the SDK-internal composite token to the gateway, avoiding an extra failing call and the `MalformedContinuationToken` error.
 
 ## 4.9.3 (2026-04-20)
 
@@ -1523,7 +1555,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.2 (2015-05-23)
 
-- Issue [#45](https://github.com/Azure/azure-documentdb-node/issues/45) - Promises wrapper does not include header with error.
+- Issue [#45](https://github.com/Azure/azure-cosmosdb-node/issues/45) - Promises wrapper does not include headers with error.
 
 ## 1.0.1 (2015-05-15)
 

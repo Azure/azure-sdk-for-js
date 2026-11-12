@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-containerserviceaimanager": ["../src/index.ts"],
+      "@azure/arm-containerserviceaimanager/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

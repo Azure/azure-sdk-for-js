@@ -28,7 +28,7 @@ export function _recommendationSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       recommendationId: recommendationId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

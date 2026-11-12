@@ -54,6 +54,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
+    "@azure/core-process": "^1.0.0",
     "prompts": "^2.4.2",
     "tslib": "^2.8.1"
   },

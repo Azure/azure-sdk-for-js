@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
  *
  * @summary creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
- * x-ms-original-file: 2025-08-18-preview/Organization_CreateAPIKey_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_CreateAPIKey_MaximumSet_Gen.json
  */
 async function organizationCreateAPIKeyMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function organizationCreateAPIKeyMaximumSet() {
  * This sample demonstrates how to creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
  *
  * @summary creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
- * x-ms-original-file: 2025-08-18-preview/Organization_CreateAPIKey_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_CreateAPIKey_MinimumSet_Gen.json
  */
 async function organizationCreateAPIKeyMinimumSet() {
   const credential = new DefaultAzureCredential();

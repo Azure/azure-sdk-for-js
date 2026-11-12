@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to organization service accounts details
  *
  * @summary organization service accounts details
- * x-ms-original-file: 2025-08-18-preview/Access_ListServiceAccounts_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListServiceAccounts_MaximumSet_Gen.json
  */
 async function accessListServiceAccountsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function accessListServiceAccountsMaximumSet(): Promise<void> {
  * This sample demonstrates how to organization service accounts details
  *
  * @summary organization service accounts details
- * x-ms-original-file: 2025-08-18-preview/Access_ListServiceAccounts_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListServiceAccounts_MinimumSet_Gen.json
  */
 async function accessListServiceAccountsMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

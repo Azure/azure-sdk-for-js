@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Container Apps in a given subscription.
  *
  * @summary get the Container Apps in a given subscription.
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_ListBySubscription.json
  */
 async function listContainerAppsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a EdgeAction
  *
  * @summary get a EdgeAction
- * x-ms-original-file: 2025-12-01-preview/EdgeActions_Get.json
+ * x-ms-original-file: 2026-10-01/EdgeActions_Get.json
  */
 async function getEdgeAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -107,6 +107,8 @@ export function buildTopicRuntimeProperties(rawTopic: Record<string, any>): Topi
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
+    sqlFilterCount: getIntegerOrUndefined(rawTopic[Constants.SQL_FILTER_COUNT]),
+    correlationFilterCount: getIntegerOrUndefined(rawTopic[Constants.CORRELATION_FILTER_COUNT]),
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
     scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
       .scheduledMessageCount,
@@ -447,6 +449,22 @@ export interface TopicRuntimeProperties {
    *
    */
   subscriptionCount?: number;
+
+  /**
+   * The total number of SQL filters across all of the topic's subscriptions.
+   *
+   * This is only reported by the service at api-version 2024-05 or later. It is `undefined` when the
+   * client targets an older service version, or in a region that has not yet deployed the feature.
+   */
+  sqlFilterCount?: number;
+
+  /**
+   * The total number of correlation filters across all of the topic's subscriptions.
+   *
+   * This is only reported by the service at api-version 2024-05 or later. It is `undefined` when the
+   * client targets an older service version, or in a region that has not yet deployed the feature.
+   */
+  correlationFilterCount?: number;
 
   /**
    * The number of scheduled messages.

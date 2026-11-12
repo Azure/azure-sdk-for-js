@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SyncGroup List.
  *
  * @summary get a SyncGroup List.
- * x-ms-original-file: 2022-09-01/SyncGroups_ListByStorageSyncService.json
+ * x-ms-original-file: 2025-12-01/SyncGroups_ListByStorageSyncService.json
  */
 async function syncGroupsListByStorageSyncService(): Promise<void> {
   const credential = new DefaultAzureCredential();

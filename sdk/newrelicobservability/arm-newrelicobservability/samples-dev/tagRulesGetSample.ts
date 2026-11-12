@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status
  *
  * @summary retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status
- * x-ms-original-file: 2025-05-01-preview/TagRules_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Get_MaximumSet_Gen.json
  */
 async function tagRulesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function tagRulesGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status
  *
  * @summary retrieves the details of the tag rules for a specific New Relic monitor resource, providing insight into its setup and status
- * x-ms-original-file: 2025-05-01-preview/TagRules_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Get_MinimumSet_Gen.json
  */
 async function tagRulesGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

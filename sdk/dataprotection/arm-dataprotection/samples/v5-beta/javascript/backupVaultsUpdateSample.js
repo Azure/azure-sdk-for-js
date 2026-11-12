@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-03-01/VaultCRUD/PatchBackupVault.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVault.json
  */
 async function patchBackupVault() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function patchBackupVault() {
  * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: 2026-03-01/VaultCRUD/PatchBackupVaultWithCMK.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVaultWithCMK.json
  */
 async function patchBackupVaultWithCMK() {
   const credential = new DefaultAzureCredential();
@@ -54,9 +54,27 @@ async function patchBackupVaultWithCMK() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
+ *
+ * @summary updates a BackupVault resource belonging to a resource group. For example, updating tags for a resource.
+ * x-ms-original-file: 2026-07-01/VaultCRUD/PatchBackupVaultWithCostManagementSettings.json
+ */
+async function patchBackupVaultWithCostManagementSettings() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupVaults.update("SampleResourceGroup", "swaggerExample", {
+    properties: { costManagementSettings: { granularityLevel: "ProtectedItemLevel" } },
+    tags: { newKey: "newVal" },
+  });
+  console.log(result);
+}
+
 async function main() {
   await patchBackupVault();
   await patchBackupVaultWithCMK();
+  await patchBackupVaultWithCostManagementSettings();
 }
 
 main().catch(console.error);

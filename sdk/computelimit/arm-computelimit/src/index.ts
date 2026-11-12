@@ -27,6 +27,7 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  TrustedHostSubscription,
   SharedLimit,
   SharedLimitProperties,
   LimitName,
@@ -87,6 +88,12 @@ export type {
   SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
 export type {
+  TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  TrustedHostSubscriptionsDeleteOptionalParams,
+  TrustedHostSubscriptionsGetOptionalParams,
+  TrustedHostSubscriptionsCreateOptionalParams,
+} from "./api/trustedHostSubscriptions/index.js";
+export type {
   VmFamiliesListBySubscriptionLocationResourceOptionalParams,
   VmFamiliesGetOptionalParams,
 } from "./api/vmFamilies/index.js";
@@ -97,6 +104,7 @@ export type {
   OperationsOperations,
   SharedLimitCapsOperations,
   SharedLimitsOperations,
+  TrustedHostSubscriptionsOperations,
   VmFamiliesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

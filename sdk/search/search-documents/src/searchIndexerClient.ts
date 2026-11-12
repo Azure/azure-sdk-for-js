@@ -18,8 +18,8 @@ import { KnownSearchAudience } from "./searchAudience.js";
 import type {
   CreateDataSourceConnectionOptions,
   CreateIndexerOptions,
-  CreateorUpdateDataSourceConnectionOptions,
-  CreateorUpdateIndexerOptions,
+  CreateOrUpdateDataSourceConnectionOptions,
+  CreateOrUpdateIndexerOptions,
   CreateOrUpdateSkillsetOptions,
   CreateSkillsetOptions,
   DeleteDataSourceConnectionOptions,
@@ -32,9 +32,7 @@ import type {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
-  ResetDocumentsOptions,
   ResetIndexerOptions,
-  ResetSkillsOptions,
   ResyncIndexerOptions,
   RunIndexerOptions,
   SearchIndexer,
@@ -173,8 +171,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listIndexers",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getIndexers(updatedOptions);
-        return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listIndexers(updatedOptions),
+            utils.generatedSearchIndexerToPublicSearchIndexer,
+          ),
+        );
       },
     );
   }
@@ -189,11 +191,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listIndexersNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getIndexers({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.indexers.map((idx) => idx.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listIndexers({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (indexer) => indexer.name,
+          ),
+        );
       },
     );
   }
@@ -209,8 +215,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnections",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDataSourceConnections(updatedOptions);
-        return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listDataSourceConnections(updatedOptions),
+            utils.generatedDataSourceToPublicDataSource,
+          ),
+        );
       },
     );
   }
@@ -227,11 +237,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnectionsNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDataSourceConnections({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.dataSources.map((ds) => ds.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listDataSourceConnections({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (dataSource) => dataSource.name,
+          ),
+        );
       },
     );
   }
@@ -247,8 +261,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listSkillsets",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSkillsets(updatedOptions);
-        return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listSkillsets(updatedOptions),
+            utils.generatedSkillsetToPublicSkillset,
+          ),
+        );
       },
     );
   }
@@ -263,11 +281,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listSkillsetsNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSkillsets({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.skillsets.map((sks) => sks.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.listSkillsets({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (skillset) => skillset.name,
+          ),
+        );
       },
     );
   }
@@ -405,7 +427,7 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateIndexer(
     indexer: SearchIndexer,
-    options: CreateorUpdateIndexerOptions = {},
+    options: CreateOrUpdateIndexerOptions = {},
   ): Promise<SearchIndexer> {
     return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateIndexer",
@@ -433,7 +455,7 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
-    options: CreateorUpdateDataSourceConnectionOptions = {},
+    options: CreateOrUpdateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
     return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateDataSourceConnection",
@@ -619,53 +641,6 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Reset an existing skillset in a search service to selectively re-execute specified skills.
-   * @param skillsetName - The name of the skillset to reset.
-   * @param skillNames - The names of skills to be reset.
-   * @param options - Additional optional arguments.
-   */
-  public async resetSkills(
-    skillsetName: string,
-    skillNames: string[],
-    options: ResetSkillsOptions = {},
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexerClient-resetSkills",
-      options,
-      async (updatedOptions) => {
-        await this.client.resetSkills({ skillNames }, skillsetName, updatedOptions);
-      },
-    );
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName - The name of the indexer to reset documents for.
-   * @param options - Additional optional arguments, including the document keys or datasource document
-   *   identifiers to be reset, and whether to overwrite the existing pending reset state.
-   */
-  public async resetDocuments(
-    indexerName: string,
-    options: ResetDocumentsOptions = {},
-  ): Promise<void> {
-    const { overwrite, documentKeys, dataSourceDocumentIds, ...restOptions } = options;
-    return tracingClient.withSpan(
-      "SearchIndexerClient-resetDocuments",
-      restOptions,
-      async (updatedOptions) => {
-        await this.client.resetDocuments(indexerName, {
-          ...updatedOptions,
-          overwrite,
-          keysOrIds:
-            documentKeys || dataSourceDocumentIds
-              ? { documentKeys, dataSourceDocumentIds }
-              : undefined,
-        });
-      },
-    );
-  }
-
-  /**
    * Resync selective options from the datasource to be re-ingested by the indexer.
    * @param indexerName - The name of the indexer to resync.
    * @param options - Additional optional arguments, including the resync options to be executed.
@@ -679,7 +654,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-resyncIndexer",
       restOptions,
       async (updatedOptions) => {
-        await this.client.resync({ options: resyncOptions }, indexerName, updatedOptions);
+        await this.client.resync(indexerName, { options: resyncOptions }, updatedOptions);
       },
     );
   }

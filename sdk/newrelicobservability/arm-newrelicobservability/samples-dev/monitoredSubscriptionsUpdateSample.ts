@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a MonitoredSubscriptionProperties
  *
  * @summary update a MonitoredSubscriptionProperties
- * x-ms-original-file: 2025-05-01-preview/MonitoredSubscriptions_Update.json
+ * x-ms-original-file: 2026-06-01/MonitoredSubscriptions_Update.json
  */
 async function monitorsUpdateMonitoredSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

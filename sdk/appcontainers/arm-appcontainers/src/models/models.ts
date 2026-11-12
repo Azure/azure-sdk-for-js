@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** App Service error response. */
 export interface DefaultErrorResponse {
   /** Error model. */
@@ -320,12 +319,10 @@ export interface ContainerResources {
   memory?: string;
   /** Ephemeral Storage, e.g. "1Gi" */
   readonly ephemeralStorage?: string;
-  /** Required GPU in cores for GPU based app, e.g. 1.0 */
-  gpu?: number;
 }
 
 export function containerResourcesSerializer(item: ContainerResources): any {
-  return { cpu: item["cpu"], memory: item["memory"], gpu: item["gpu"] };
+  return { cpu: item["cpu"], memory: item["memory"] };
 }
 
 export function containerResourcesDeserializer(item: any): ContainerResources {
@@ -333,7 +330,6 @@ export function containerResourcesDeserializer(item: any): ContainerResources {
     cpu: item["cpu"],
     memory: item["memory"],
     ephemeralStorage: item["ephemeralStorage"],
-    gpu: item["gpu"],
   };
 }
 
@@ -588,16 +584,12 @@ export interface SessionPool extends TrackedResource {
   customContainerTemplate?: CustomContainerTemplate;
   /** The network configuration of the sessions in the session pool. */
   sessionNetworkConfiguration?: SessionNetworkConfiguration;
-  /** The template status of the session pool, showing active template, or desired template during session pool update. This is only available if the containerType is CustomContainer. */
-  readonly templateUpdateStatus?: TemplateUpdateStatus;
   /** The endpoint to manage the pool. */
   readonly poolManagementEndpoint?: string;
   /** Provisioning state of the session pool. */
   readonly provisioningState?: SessionPoolProvisioningState;
   /** Optional settings for a Managed Identity that is assigned to the Session pool. */
   managedIdentitySettings?: ManagedIdentitySetting[];
-  /** The MCP (Model Context Protocol) server settings of the session pool. */
-  mcpServerSettings?: McpServerSettings;
 }
 
 export function sessionPoolSerializer(item: SessionPool): any {
@@ -614,7 +606,6 @@ export function sessionPoolSerializer(item: SessionPool): any {
       "customContainerTemplate",
       "sessionNetworkConfiguration",
       "managedIdentitySettings",
-      "mcpServerSettings",
     ])
       ? undefined
       : _sessionPoolPropertiesSerializer(item),
@@ -665,16 +656,12 @@ export interface SessionPoolProperties {
   customContainerTemplate?: CustomContainerTemplate;
   /** The network configuration of the sessions in the session pool. */
   sessionNetworkConfiguration?: SessionNetworkConfiguration;
-  /** The template status of the session pool, showing active template, or desired template during session pool update. This is only available if the containerType is CustomContainer. */
-  readonly templateUpdateStatus?: TemplateUpdateStatus;
   /** The endpoint to manage the pool. */
   readonly poolManagementEndpoint?: string;
   /** Provisioning state of the session pool. */
   readonly provisioningState?: SessionPoolProvisioningState;
   /** Optional settings for a Managed Identity that is assigned to the Session pool. */
   managedIdentitySettings?: ManagedIdentitySetting[];
-  /** The MCP (Model Context Protocol) server settings of the session pool. */
-  mcpServerSettings?: McpServerSettings;
 }
 
 export function sessionPoolPropertiesSerializer(item: SessionPoolProperties): any {
@@ -698,9 +685,6 @@ export function sessionPoolPropertiesSerializer(item: SessionPoolProperties): an
     managedIdentitySettings: !item["managedIdentitySettings"]
       ? item["managedIdentitySettings"]
       : managedIdentitySettingArraySerializer(item["managedIdentitySettings"]),
-    mcpServerSettings: !item["mcpServerSettings"]
-      ? item["mcpServerSettings"]
-      : mcpServerSettingsSerializer(item["mcpServerSettings"]),
   };
 }
 
@@ -725,17 +709,11 @@ export function sessionPoolPropertiesDeserializer(item: any): SessionPoolPropert
     sessionNetworkConfiguration: !item["sessionNetworkConfiguration"]
       ? item["sessionNetworkConfiguration"]
       : sessionNetworkConfigurationDeserializer(item["sessionNetworkConfiguration"]),
-    templateUpdateStatus: !item["templateUpdateStatus"]
-      ? item["templateUpdateStatus"]
-      : templateUpdateStatusDeserializer(item["templateUpdateStatus"]),
     poolManagementEndpoint: item["poolManagementEndpoint"],
     provisioningState: item["provisioningState"],
     managedIdentitySettings: !item["managedIdentitySettings"]
       ? item["managedIdentitySettings"]
       : managedIdentitySettingArrayDeserializer(item["managedIdentitySettings"]),
-    mcpServerSettings: !item["mcpServerSettings"]
-      ? item["mcpServerSettings"]
-      : mcpServerSettingsDeserializer(item["mcpServerSettings"]),
   };
 }
 
@@ -745,10 +723,6 @@ export enum KnownContainerType {
   CustomContainer = "CustomContainer",
   /** PythonLTS */
   PythonLTS = "PythonLTS",
-  /** Shell */
-  Shell = "Shell",
-  /** NodeLTS */
-  NodeLTS = "NodeLTS",
 }
 
 /**
@@ -757,9 +731,7 @@ export enum KnownContainerType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CustomContainer**: CustomContainer \
- * **PythonLTS**: PythonLTS \
- * **Shell**: Shell \
- * **NodeLTS**: NodeLTS
+ * **PythonLTS**: PythonLTS
  */
 export type ContainerType = string;
 
@@ -1125,9 +1097,9 @@ export function sessionProbeDeserializer(item: any): SessionProbe {
 
 /** Denotes the type of probe. Can be Liveness or Startup, Readiness probe is not supported in sessions. Type must be unique for each probe within the context of a list of probes (SessionProbes). */
 export enum KnownSessionProbeType {
-  /** Liveness */
+  /** Checks whether the session is still running and healthy. */
   Liveness = "Liveness",
-  /** Startup */
+  /** Checks whether the session has started successfully. */
   Startup = "Startup",
 }
 
@@ -1136,8 +1108,8 @@ export enum KnownSessionProbeType {
  * {@link KnownSessionProbeType} can be used interchangeably with SessionProbeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Liveness**: Liveness \
- * **Startup**: Startup
+ * **Liveness**: Checks whether the session is still running and healthy. \
+ * **Startup**: Checks whether the session has started successfully.
  */
 export type SessionProbeType = string;
 
@@ -1305,78 +1277,6 @@ export enum KnownSessionNetworkStatus {
  */
 export type SessionNetworkStatus = string;
 
-/** Session pool template update status. */
-export interface TemplateUpdateStatus {
-  /** The status of the current active template. */
-  activeTemplate?: TemplateStatus;
-  /** The status of the desired template during session pool update. */
-  desiredTemplate?: TemplateStatus;
-}
-
-export function templateUpdateStatusDeserializer(item: any): TemplateUpdateStatus {
-  return {
-    activeTemplate: !item["activeTemplate"]
-      ? item["activeTemplate"]
-      : templateStatusDeserializer(item["activeTemplate"]),
-    desiredTemplate: !item["desiredTemplate"]
-      ? item["desiredTemplate"]
-      : templateStatusDeserializer(item["desiredTemplate"]),
-  };
-}
-
-/** The status of the session pool template. */
-export interface TemplateStatus {
-  /** The detailed status of this template. */
-  details?: string;
-  /** The creation time of this template. */
-  createdTime?: Date;
-  /** The status of this template. */
-  status?: TemplatePoolStatus;
-  /** List of container definitions for the sessions of this template. */
-  containers?: SessionContainer[];
-  /** Session pool ingress configuration of this template. */
-  ingress?: SessionIngress;
-}
-
-export function templateStatusDeserializer(item: any): TemplateStatus {
-  return {
-    details: item["details"],
-    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
-    status: !item["status"] ? item["status"] : templatePoolStatusDeserializer(item["status"]),
-    containers: !item["containers"]
-      ? item["containers"]
-      : sessionContainerArrayDeserializer(item["containers"]),
-    ingress: !item["ingress"] ? item["ingress"] : sessionIngressDeserializer(item["ingress"]),
-  };
-}
-
-/** The status of pods in the pool of this template. */
-export interface TemplatePoolStatus {
-  /** The expected count of pods in this pool */
-  expectedCount?: number;
-  /** The ready count of pods in this pool */
-  readyCount?: number;
-  /** The pending count of pods in this pool */
-  pendingCount?: number;
-  /** The image pull fail count of pods in this pool */
-  imagePullFailCount?: number;
-  /** The crash count of pods in this pool */
-  crashCount?: number;
-  /** The allocated count of pods in this pool */
-  allocatedCount?: number;
-}
-
-export function templatePoolStatusDeserializer(item: any): TemplatePoolStatus {
-  return {
-    expectedCount: item["expectedCount"],
-    readyCount: item["readyCount"],
-    pendingCount: item["pendingCount"],
-    imagePullFailCount: item["imagePullFailCount"],
-    crashCount: item["crashCount"],
-    allocatedCount: item["allocatedCount"],
-  };
-}
-
 /** Provisioning state of the session pool. */
 export enum KnownSessionPoolProvisioningState {
   /** InProgress */
@@ -1425,7 +1325,7 @@ export interface ManagedIdentitySetting {
   /** The resource ID of a user-assigned managed identity that is assigned to the Session Pool, or 'system' for system-assigned identity. */
   identity: string;
   /** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
-  lifecycle?: IdentitySettingsLifeCycle;
+  lifecycle?: SessionPoolIdentityLifeCycle;
 }
 
 export function managedIdentitySettingSerializer(item: ManagedIdentitySetting): any {
@@ -1440,53 +1340,22 @@ export function managedIdentitySettingDeserializer(item: any): ManagedIdentitySe
 }
 
 /** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
-export enum KnownIdentitySettingsLifeCycle {
-  /** None */
+export enum KnownSessionPoolIdentityLifeCycle {
+  /** Do not use managed identity during any lifecycle stage. */
   None = "None",
-  /** Main */
+  /** Use managed identity during the main stage of the Container App lifecycle. */
   Main = "Main",
-  /** Init */
-  Init = "Init",
-  /** All */
-  All = "All",
 }
 
 /**
  * Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. \
- * {@link KnownIdentitySettingsLifeCycle} can be used interchangeably with IdentitySettingsLifeCycle,
+ * {@link KnownSessionPoolIdentityLifeCycle} can be used interchangeably with SessionPoolIdentityLifeCycle,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: None \
- * **Main**: Main \
- * **Init**: Init \
- * **All**: All
+ * **None**: Do not use managed identity during any lifecycle stage. \
+ * **Main**: Use managed identity during the main stage of the Container App lifecycle.
  */
-export type IdentitySettingsLifeCycle = string;
-
-/** The settings of the MCP (Model Context Protocol) server for this session pool. */
-export interface McpServerSettings {
-  /** Indicates whether the MCP server is enabled. */
-  isMcpServerEnabled?: boolean;
-  /** Indicates whether the MCP server API key is disabled. */
-  isMcpServerApiKeyDisabled?: boolean;
-  /** The endpoint of the MCP server. */
-  readonly mcpServerEndpoint?: string;
-}
-
-export function mcpServerSettingsSerializer(item: McpServerSettings): any {
-  return {
-    isMcpServerEnabled: item["isMcpServerEnabled"],
-    isMcpServerApiKeyDisabled: item["isMcpServerApiKeyDisabled"],
-  };
-}
-
-export function mcpServerSettingsDeserializer(item: any): McpServerSettings {
-  return {
-    isMcpServerEnabled: item["isMcpServerEnabled"],
-    isMcpServerApiKeyDisabled: item["isMcpServerApiKeyDisabled"],
-    mcpServerEndpoint: item["mcpServerEndpoint"],
-  };
-}
+export type SessionPoolIdentityLifeCycle = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -1754,16 +1623,246 @@ export function sessionPoolArrayDeserializer(result: Array<SessionPool>): any[] 
   });
 }
 
-/** The credentials used for the MCP server endpoint authentication. */
-export interface McpServerCredential {
-  /** The API key for the MCP server. */
-  readonly apiKey?: string;
+/** A SandboxGroup resource, representing a group of sandboxes that share configuration defaults and quotas. */
+export interface SandboxGroup extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SandboxGroupProperties;
 }
 
-export function mcpServerCredentialDeserializer(item: any): McpServerCredential {
+export function sandboxGroupSerializer(item: SandboxGroup): any {
   return {
-    apiKey: item["apiKey"],
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : sandboxGroupPropertiesSerializer(item["properties"]),
   };
+}
+
+export function sandboxGroupDeserializer(item: any): SandboxGroup {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : sandboxGroupPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** SandboxGroup resource specific properties. */
+export interface SandboxGroupProperties {
+  /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
+  environmentId?: string;
+  /** The default domain of the linked Azure Container Apps environment. Sandbox endpoints use subdomains of this domain. This read-only property is populated by the service and is omitted when no environment is linked. */
+  readonly defaultDomain?: string;
+  readonly provisioningState?: SandboxGroupProvisioningState;
+}
+
+export function sandboxGroupPropertiesSerializer(item: SandboxGroupProperties): any {
+  return { environmentId: item["environmentId"] };
+}
+
+export function sandboxGroupPropertiesDeserializer(item: any): SandboxGroupProperties {
+  return {
+    environmentId: item["environmentId"],
+    defaultDomain: item["defaultDomain"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Provisioning state of the SandboxGroup. */
+export enum KnownSandboxGroupProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The resource is being provisioned. */
+  InProgress = "InProgress",
+  /** The resource is being updated. */
+  Updating = "Updating",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Provisioning state of the SandboxGroup. \
+ * {@link KnownSandboxGroupProvisioningState} can be used interchangeably with SandboxGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **InProgress**: The resource is being provisioned. \
+ * **Updating**: The resource is being updated. \
+ * **Deleting**: The resource is being deleted.
+ */
+export type SandboxGroupProvisioningState = string;
+
+/** A SandboxGroup resource for use in patch requests. */
+export interface SandboxGroupPatch {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** SandboxGroup properties that can be updated. */
+  properties?: SandboxGroupPatchProperties;
+}
+
+export function sandboxGroupPatchSerializer(item: SandboxGroupPatch): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : sandboxGroupPatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** SandboxGroup resource specific properties for patch requests. */
+export interface SandboxGroupPatchProperties {
+  /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
+  environmentId?: string;
+}
+
+export function sandboxGroupPatchPropertiesSerializer(item: SandboxGroupPatchProperties): any {
+  return { environmentId: item["environmentId"] };
+}
+
+/** The response of a SandboxGroup list operation. */
+export interface _SandboxGroupListResult {
+  /** The SandboxGroup items on this page */
+  value: SandboxGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _sandboxGroupListResultDeserializer(item: any): _SandboxGroupListResult {
+  return {
+    value: sandboxGroupArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function sandboxGroupArraySerializer(result: Array<SandboxGroup>): any[] {
+  return result.map((item) => {
+    return sandboxGroupSerializer(item);
+  });
+}
+
+export function sandboxGroupArrayDeserializer(result: Array<SandboxGroup>): any[] {
+  return result.map((item) => {
+    return sandboxGroupDeserializer(item);
+  });
+}
+
+/** A virtual network connection associated with a SandboxGroup. */
+export interface VnetConnection extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VnetConnectionProperties;
+}
+
+export function vnetConnectionSerializer(item: VnetConnection): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : vnetConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function vnetConnectionDeserializer(item: any): VnetConnection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : vnetConnectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** VnetConnection resource specific properties. */
+export interface VnetConnectionProperties {
+  readonly provisioningState?: VnetConnectionProvisioningState;
+  /** Resource ID of the subnet that sandboxes in the parent SandboxGroup will be connected to. */
+  subnetId?: string;
+}
+
+export function vnetConnectionPropertiesSerializer(item: VnetConnectionProperties): any {
+  return { subnetId: item["subnetId"] };
+}
+
+export function vnetConnectionPropertiesDeserializer(item: any): VnetConnectionProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    subnetId: item["subnetId"],
+  };
+}
+
+/** Provisioning state of the VnetConnection. */
+export enum KnownVnetConnectionProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The resource is being provisioned. */
+  InProgress = "InProgress",
+  /** The resource is being updated. */
+  Updating = "Updating",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Provisioning state of the VnetConnection. \
+ * {@link KnownVnetConnectionProvisioningState} can be used interchangeably with VnetConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **InProgress**: The resource is being provisioned. \
+ * **Updating**: The resource is being updated. \
+ * **Deleting**: The resource is being deleted.
+ */
+export type VnetConnectionProvisioningState = string;
+
+/** The response of a VnetConnection list operation. */
+export interface _VnetConnectionListResult {
+  /** The VnetConnection items on this page */
+  value: VnetConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vnetConnectionListResultDeserializer(item: any): _VnetConnectionListResult {
+  return {
+    value: vnetConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function vnetConnectionArraySerializer(result: Array<VnetConnection>): any[] {
+  return result.map((item) => {
+    return vnetConnectionSerializer(item);
+  });
+}
+
+export function vnetConnectionArrayDeserializer(result: Array<VnetConnection>): any[] {
+  return result.map((item) => {
+    return vnetConnectionDeserializer(item);
+  });
 }
 
 /** Container App SourceControl. */
@@ -1873,8 +1972,6 @@ export interface GithubActionConfiguration {
   azureCredentials?: AzureCredentials;
   /** Context path */
   contextPath?: string;
-  /** Dockerfile path */
-  dockerfilePath?: string;
   /** One time Github PAT to configure github environment */
   githubPersonalAccessToken?: string;
   /** Image name */
@@ -1887,8 +1984,6 @@ export interface GithubActionConfiguration {
   runtimeStack?: string;
   /** Runtime version */
   runtimeVersion?: string;
-  /** List of environment variables to be passed to the build. */
-  buildEnvironmentVariables?: EnvironmentVariable[];
 }
 
 export function githubActionConfigurationSerializer(item: GithubActionConfiguration): any {
@@ -1900,16 +1995,12 @@ export function githubActionConfigurationSerializer(item: GithubActionConfigurat
       ? item["azureCredentials"]
       : azureCredentialsSerializer(item["azureCredentials"]),
     contextPath: item["contextPath"],
-    dockerfilePath: item["dockerfilePath"],
     githubPersonalAccessToken: item["githubPersonalAccessToken"],
     image: item["image"],
     publishType: item["publishType"],
     os: item["os"],
     runtimeStack: item["runtimeStack"],
     runtimeVersion: item["runtimeVersion"],
-    buildEnvironmentVariables: !item["buildEnvironmentVariables"]
-      ? item["buildEnvironmentVariables"]
-      : environmentVariableArraySerializer(item["buildEnvironmentVariables"]),
   };
 }
 
@@ -1922,16 +2013,12 @@ export function githubActionConfigurationDeserializer(item: any): GithubActionCo
       ? item["azureCredentials"]
       : azureCredentialsDeserializer(item["azureCredentials"]),
     contextPath: item["contextPath"],
-    dockerfilePath: item["dockerfilePath"],
     githubPersonalAccessToken: item["githubPersonalAccessToken"],
     image: item["image"],
     publishType: item["publishType"],
     os: item["os"],
     runtimeStack: item["runtimeStack"],
     runtimeVersion: item["runtimeVersion"],
-    buildEnvironmentVariables: !item["buildEnvironmentVariables"]
-      ? item["buildEnvironmentVariables"]
-      : environmentVariableArrayDeserializer(item["buildEnvironmentVariables"]),
   };
 }
 
@@ -1995,37 +2082,6 @@ export function azureCredentialsDeserializer(item: any): AzureCredentials {
   };
 }
 
-export function environmentVariableArraySerializer(result: Array<EnvironmentVariable>): any[] {
-  return result.map((item) => {
-    return environmentVariableSerializer(item);
-  });
-}
-
-export function environmentVariableArrayDeserializer(result: Array<EnvironmentVariable>): any[] {
-  return result.map((item) => {
-    return environmentVariableDeserializer(item);
-  });
-}
-
-/** Model representing an environment variable. */
-export interface EnvironmentVariable {
-  /** Environment variable name. */
-  name: string;
-  /** Environment variable value. */
-  value: string;
-}
-
-export function environmentVariableSerializer(item: EnvironmentVariable): any {
-  return { name: item["name"], value: item["value"] };
-}
-
-export function environmentVariableDeserializer(item: any): EnvironmentVariable {
-  return {
-    name: item["name"],
-    value: item["value"],
-  };
-}
-
 /** SourceControl collection ARM resource. */
 export interface _SourceControlCollection {
   /** The SourceControl items on this page */
@@ -2067,16 +2123,14 @@ export interface ContainerApp extends TrackedResource {
   readonly provisioningState?: ContainerAppProvisioningState;
   /** Running status of the Container App. */
   readonly runningStatus?: ContainerAppRunningStatus;
-  /** Any errors that occurred during deployment */
-  readonly deploymentErrors?: string;
   /** Deprecated. Resource ID of the Container App's environment. */
   managedEnvironmentId?: string;
   /** Resource ID of environment. */
   environmentId?: string;
+  /** Networking configuration for the Container App. */
+  networking?: ContainerAppNetworkingConfiguration;
   /** Workload profile name to pin for container app execution. */
   workloadProfileName?: string;
-  /** Container App auto patch configuration. */
-  patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
   /** Name of the latest revision of the Container App. */
   readonly latestRevisionName?: string;
   /** Name of the latest ready revision of the Container App. */
@@ -2102,8 +2156,8 @@ export function containerAppSerializer(item: ContainerApp): any {
     properties: areAllPropsUndefined(item, [
       "managedEnvironmentId",
       "environmentId",
+      "networking",
       "workloadProfileName",
-      "patchingConfiguration",
       "configuration",
       "template",
     ])
@@ -2152,16 +2206,14 @@ export interface ContainerAppProperties {
   readonly provisioningState?: ContainerAppProvisioningState;
   /** Running status of the Container App. */
   readonly runningStatus?: ContainerAppRunningStatus;
-  /** Any errors that occurred during deployment */
-  readonly deploymentErrors?: string;
   /** Deprecated. Resource ID of the Container App's environment. */
   managedEnvironmentId?: string;
   /** Resource ID of environment. */
   environmentId?: string;
+  /** Networking configuration for the Container App. */
+  networking?: ContainerAppNetworkingConfiguration;
   /** Workload profile name to pin for container app execution. */
   workloadProfileName?: string;
-  /** Container App auto patch configuration. */
-  patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
   /** Name of the latest revision of the Container App. */
   readonly latestRevisionName?: string;
   /** Name of the latest ready revision of the Container App. */
@@ -2184,10 +2236,10 @@ export function containerAppPropertiesSerializer(item: ContainerAppProperties): 
   return {
     managedEnvironmentId: item["managedEnvironmentId"],
     environmentId: item["environmentId"],
+    networking: !item["networking"]
+      ? item["networking"]
+      : containerAppNetworkingConfigurationSerializer(item["networking"]),
     workloadProfileName: item["workloadProfileName"],
-    patchingConfiguration: !item["patchingConfiguration"]
-      ? item["patchingConfiguration"]
-      : containerAppPropertiesPatchingConfigurationSerializer(item["patchingConfiguration"]),
     configuration: !item["configuration"]
       ? item["configuration"]
       : configurationSerializer(item["configuration"]),
@@ -2199,13 +2251,12 @@ export function containerAppPropertiesDeserializer(item: any): ContainerAppPrope
   return {
     provisioningState: item["provisioningState"],
     runningStatus: item["runningStatus"],
-    deploymentErrors: item["deploymentErrors"],
     managedEnvironmentId: item["managedEnvironmentId"],
     environmentId: item["environmentId"],
+    networking: !item["networking"]
+      ? item["networking"]
+      : containerAppNetworkingConfigurationDeserializer(item["networking"]),
     workloadProfileName: item["workloadProfileName"],
-    patchingConfiguration: !item["patchingConfiguration"]
-      ? item["patchingConfiguration"]
-      : containerAppPropertiesPatchingConfigurationDeserializer(item["patchingConfiguration"]),
     latestRevisionName: item["latestRevisionName"],
     latestReadyRevisionName: item["latestReadyRevisionName"],
     latestRevisionFqdn: item["latestRevisionFqdn"],
@@ -2277,46 +2328,25 @@ export enum KnownContainerAppRunningStatus {
  */
 export type ContainerAppRunningStatus = string;
 
-/** Container App auto patch configuration. */
-export interface ContainerAppPropertiesPatchingConfiguration {
-  /** Patching mode for the container app. Null or default in this field will be interpreted as Automatic by RP. Automatic mode will automatically apply available patches. Manual mode will require the user to manually apply patches. Disabled mode will stop patch detection and auto patching. */
-  patchingMode?: PatchingMode;
+/** Networking configuration for a Container App. Only supported for Container Apps deployed into an Express managed environment. */
+export interface ContainerAppNetworkingConfiguration {
+  /** Resource ID of a subnet used for outbound (egress) traffic from this Container App. Only supported for Container Apps in an Express managed environment. Mutually exclusive with the environment-level VNet configuration and immutable after the Container App is created. */
+  outboundVnetSubnetId?: string;
 }
 
-export function containerAppPropertiesPatchingConfigurationSerializer(
-  item: ContainerAppPropertiesPatchingConfiguration,
+export function containerAppNetworkingConfigurationSerializer(
+  item: ContainerAppNetworkingConfiguration,
 ): any {
-  return { patchingMode: item["patchingMode"] };
+  return { outboundVnetSubnetId: item["outboundVnetSubnetId"] };
 }
 
-export function containerAppPropertiesPatchingConfigurationDeserializer(
+export function containerAppNetworkingConfigurationDeserializer(
   item: any,
-): ContainerAppPropertiesPatchingConfiguration {
+): ContainerAppNetworkingConfiguration {
   return {
-    patchingMode: item["patchingMode"],
+    outboundVnetSubnetId: item["outboundVnetSubnetId"],
   };
 }
-
-/** Patching mode for the container app. Null or default in this field will be interpreted as Automatic by RP. Automatic mode will automatically apply available patches. Manual mode will require the user to manually apply patches. Disabled mode will stop patch detection and auto patching. */
-export enum KnownPatchingMode {
-  /** Automatic */
-  Automatic = "Automatic",
-  /** Manual */
-  Manual = "Manual",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Patching mode for the container app. Null or default in this field will be interpreted as Automatic by RP. Automatic mode will automatically apply available patches. Manual mode will require the user to manually apply patches. Disabled mode will stop patch detection and auto patching. \
- * {@link KnownPatchingMode} can be used interchangeably with PatchingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Automatic**: Automatic \
- * **Manual**: Manual \
- * **Disabled**: Disabled
- */
-export type PatchingMode = string;
 
 /** Non versioned Container App configuration properties that define the mutable settings of a Container app */
 export interface Configuration {
@@ -2324,8 +2354,6 @@ export interface Configuration {
   secrets?: Secret[];
   /** Controls how active revisions are handled for the Container app. */
   activeRevisionsMode?: ActiveRevisionsMode;
-  /** Required in labels revisions mode. Label to apply to newly created revision. */
-  targetLabel?: string;
   /** Ingress configurations. */
   ingress?: Ingress;
   /** Collection of private container registry credentials for containers used by the Container app */
@@ -2336,8 +2364,6 @@ export interface Configuration {
   runtime?: Runtime;
   /** Optional. Max inactive revisions a Container App can have. */
   maxInactiveRevisions?: number;
-  /** Optional. The percent of the total number of replicas that must be brought up before revision transition occurs. Defaults to 100 when none is given. Value must be greater than 0 and less than or equal to 100. */
-  revisionTransitionThreshold?: number;
   /** Container App to be a dev Container App Service */
   service?: Service;
   /** Optional settings for Managed Identities that are assigned to the Container App. If a Managed Identity is not specified here, default settings will be used. */
@@ -2348,7 +2374,6 @@ export function configurationSerializer(item: Configuration): any {
   return {
     secrets: !item["secrets"] ? item["secrets"] : secretArraySerializer(item["secrets"]),
     activeRevisionsMode: item["activeRevisionsMode"],
-    targetLabel: item["targetLabel"],
     ingress: !item["ingress"] ? item["ingress"] : ingressSerializer(item["ingress"]),
     registries: !item["registries"]
       ? item["registries"]
@@ -2356,7 +2381,6 @@ export function configurationSerializer(item: Configuration): any {
     dapr: !item["dapr"] ? item["dapr"] : daprSerializer(item["dapr"]),
     runtime: !item["runtime"] ? item["runtime"] : runtimeSerializer(item["runtime"]),
     maxInactiveRevisions: item["maxInactiveRevisions"],
-    revisionTransitionThreshold: item["revisionTransitionThreshold"],
     service: !item["service"] ? item["service"] : serviceSerializer(item["service"]),
     identitySettings: !item["identitySettings"]
       ? item["identitySettings"]
@@ -2368,7 +2392,6 @@ export function configurationDeserializer(item: any): Configuration {
   return {
     secrets: !item["secrets"] ? item["secrets"] : secretArrayDeserializer(item["secrets"]),
     activeRevisionsMode: item["activeRevisionsMode"],
-    targetLabel: item["targetLabel"],
     ingress: !item["ingress"] ? item["ingress"] : ingressDeserializer(item["ingress"]),
     registries: !item["registries"]
       ? item["registries"]
@@ -2376,7 +2399,6 @@ export function configurationDeserializer(item: any): Configuration {
     dapr: !item["dapr"] ? item["dapr"] : daprDeserializer(item["dapr"]),
     runtime: !item["runtime"] ? item["runtime"] : runtimeDeserializer(item["runtime"]),
     maxInactiveRevisions: item["maxInactiveRevisions"],
-    revisionTransitionThreshold: item["revisionTransitionThreshold"],
     service: !item["service"] ? item["service"] : serviceDeserializer(item["service"]),
     identitySettings: !item["identitySettings"]
       ? item["identitySettings"]
@@ -2432,8 +2454,6 @@ export enum KnownActiveRevisionsMode {
   Multiple = "Multiple",
   /** Single */
   Single = "Single",
-  /** Labels */
-  Labels = "Labels",
 }
 
 /**
@@ -2442,8 +2462,7 @@ export enum KnownActiveRevisionsMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Multiple**: Multiple \
- * **Single**: Single \
- * **Labels**: Labels
+ * **Single**: Single
  */
 export type ActiveRevisionsMode = string;
 
@@ -2475,8 +2494,6 @@ export interface Ingress {
   corsPolicy?: CorsPolicy;
   /** Settings to expose additional ports on container app */
   additionalPortMappings?: IngressPortMapping[];
-  /** Whether an http app listens on http or https */
-  targetPortHttpScheme?: IngressTargetPortHttpScheme;
 }
 
 export function ingressSerializer(item: Ingress): any {
@@ -2501,7 +2518,6 @@ export function ingressSerializer(item: Ingress): any {
     additionalPortMappings: !item["additionalPortMappings"]
       ? item["additionalPortMappings"]
       : ingressPortMappingArraySerializer(item["additionalPortMappings"]),
-    targetPortHttpScheme: item["targetPortHttpScheme"],
   };
 }
 
@@ -2530,7 +2546,6 @@ export function ingressDeserializer(item: any): Ingress {
     additionalPortMappings: !item["additionalPortMappings"]
       ? item["additionalPortMappings"]
       : ingressPortMappingArrayDeserializer(item["additionalPortMappings"]),
-    targetPortHttpScheme: item["targetPortHttpScheme"],
   };
 }
 
@@ -2882,24 +2897,6 @@ export function ingressPortMappingDeserializer(item: any): IngressPortMapping {
   };
 }
 
-/** Whether an http app listens on http or https */
-export enum KnownIngressTargetPortHttpScheme {
-  /** http */
-  Http = "http",
-  /** https */
-  Https = "https",
-}
-
-/**
- * Whether an http app listens on http or https \
- * {@link KnownIngressTargetPortHttpScheme} can be used interchangeably with IngressTargetPortHttpScheme,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **http**: http \
- * **https**: https
- */
-export type IngressTargetPortHttpScheme = string;
-
 export function registryCredentialsArraySerializer(result: Array<RegistryCredentials>): any[] {
   return result.map((item) => {
     return registryCredentialsSerializer(item);
@@ -3078,21 +3075,15 @@ export function daprAppHealthDeserializer(item: any): DaprAppHealth {
 export interface Runtime {
   /** Java app configuration */
   java?: RuntimeJava;
-  /** .NET app configuration */
-  dotnet?: RuntimeDotnet;
 }
 
 export function runtimeSerializer(item: Runtime): any {
-  return {
-    java: !item["java"] ? item["java"] : runtimeJavaSerializer(item["java"]),
-    dotnet: !item["dotnet"] ? item["dotnet"] : runtimeDotnetSerializer(item["dotnet"]),
-  };
+  return { java: !item["java"] ? item["java"] : runtimeJavaSerializer(item["java"]) };
 }
 
 export function runtimeDeserializer(item: any): Runtime {
   return {
     java: !item["java"] ? item["java"] : runtimeJavaDeserializer(item["java"]),
-    dotnet: !item["dotnet"] ? item["dotnet"] : runtimeDotnetDeserializer(item["dotnet"]),
   };
 }
 
@@ -3100,150 +3091,15 @@ export function runtimeDeserializer(item: any): Runtime {
 export interface RuntimeJava {
   /** Enable jmx core metrics for the java app */
   enableMetrics?: boolean;
-  /** Diagnostic capabilities achieved by java agent */
-  javaAgent?: RuntimeJavaJavaAgent;
 }
 
 export function runtimeJavaSerializer(item: RuntimeJava): any {
-  return {
-    enableMetrics: item["enableMetrics"],
-    javaAgent: !item["javaAgent"]
-      ? item["javaAgent"]
-      : runtimeJavaJavaAgentSerializer(item["javaAgent"]),
-  };
+  return { enableMetrics: item["enableMetrics"] };
 }
 
 export function runtimeJavaDeserializer(item: any): RuntimeJava {
   return {
     enableMetrics: item["enableMetrics"],
-    javaAgent: !item["javaAgent"]
-      ? item["javaAgent"]
-      : runtimeJavaJavaAgentDeserializer(item["javaAgent"]),
-  };
-}
-
-/** Diagnostic capabilities achieved by java agent */
-export interface RuntimeJavaJavaAgent {
-  /** Enable java agent injection for the java app. */
-  enabled?: boolean;
-  /** Capabilities on the java logging scenario. */
-  logging?: RuntimeJavaJavaAgentLogging;
-}
-
-export function runtimeJavaJavaAgentSerializer(item: RuntimeJavaJavaAgent): any {
-  return {
-    enabled: item["enabled"],
-    logging: !item["logging"]
-      ? item["logging"]
-      : runtimeJavaJavaAgentLoggingSerializer(item["logging"]),
-  };
-}
-
-export function runtimeJavaJavaAgentDeserializer(item: any): RuntimeJavaJavaAgent {
-  return {
-    enabled: item["enabled"],
-    logging: !item["logging"]
-      ? item["logging"]
-      : runtimeJavaJavaAgentLoggingDeserializer(item["logging"]),
-  };
-}
-
-/** Capabilities on the java logging scenario. */
-export interface RuntimeJavaJavaAgentLogging {
-  /** Settings of the logger for the java app. */
-  loggerSettings?: LoggerSetting[];
-}
-
-export function runtimeJavaJavaAgentLoggingSerializer(item: RuntimeJavaJavaAgentLogging): any {
-  return {
-    loggerSettings: !item["loggerSettings"]
-      ? item["loggerSettings"]
-      : loggerSettingArraySerializer(item["loggerSettings"]),
-  };
-}
-
-export function runtimeJavaJavaAgentLoggingDeserializer(item: any): RuntimeJavaJavaAgentLogging {
-  return {
-    loggerSettings: !item["loggerSettings"]
-      ? item["loggerSettings"]
-      : loggerSettingArrayDeserializer(item["loggerSettings"]),
-  };
-}
-
-export function loggerSettingArraySerializer(result: Array<LoggerSetting>): any[] {
-  return result.map((item) => {
-    return loggerSettingSerializer(item);
-  });
-}
-
-export function loggerSettingArrayDeserializer(result: Array<LoggerSetting>): any[] {
-  return result.map((item) => {
-    return loggerSettingDeserializer(item);
-  });
-}
-
-/** Logger settings for java workloads. */
-export interface LoggerSetting {
-  /** Logger name. */
-  logger: string;
-  /** The specified logger's log level. */
-  level: Level;
-}
-
-export function loggerSettingSerializer(item: LoggerSetting): any {
-  return { logger: item["logger"], level: item["level"] };
-}
-
-export function loggerSettingDeserializer(item: any): LoggerSetting {
-  return {
-    logger: item["logger"],
-    level: item["level"],
-  };
-}
-
-/** The specified logger's log level. */
-export enum KnownLevel {
-  /** off */
-  Off = "off",
-  /** error */
-  Error = "error",
-  /** info */
-  Info = "info",
-  /** debug */
-  Debug = "debug",
-  /** trace */
-  Trace = "trace",
-  /** warn */
-  Warn = "warn",
-}
-
-/**
- * The specified logger's log level. \
- * {@link KnownLevel} can be used interchangeably with Level,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **off**: off \
- * **error**: error \
- * **info**: info \
- * **debug**: debug \
- * **trace**: trace \
- * **warn**: warn
- */
-export type Level = string;
-
-/** .NET app configuration */
-export interface RuntimeDotnet {
-  /** Auto configure the ASP.NET Core Data Protection feature */
-  autoConfigureDataProtection?: boolean;
-}
-
-export function runtimeDotnetSerializer(item: RuntimeDotnet): any {
-  return { autoConfigureDataProtection: item["autoConfigureDataProtection"] };
-}
-
-export function runtimeDotnetDeserializer(item: any): RuntimeDotnet {
-  return {
-    autoConfigureDataProtection: item["autoConfigureDataProtection"],
   };
 }
 
@@ -3293,6 +3149,30 @@ export function identitySettingsDeserializer(item: any): IdentitySettings {
     lifecycle: item["lifecycle"],
   };
 }
+
+/** Use to select the lifecycle stages of a Container App during which the Managed Identity should be available. */
+export enum KnownIdentitySettingsLifeCycle {
+  /** Do not use managed identity during any lifecycle stage. */
+  None = "None",
+  /** Use managed identity during the main stage of the Container App lifecycle. */
+  Main = "Main",
+  /** Use managed identity during the init stage of the Container App lifecycle. */
+  Init = "Init",
+  /** Use managed identity during all lifecycle stages of the Container App. */
+  All = "All",
+}
+
+/**
+ * Use to select the lifecycle stages of a Container App during which the Managed Identity should be available. \
+ * {@link KnownIdentitySettingsLifeCycle} can be used interchangeably with IdentitySettingsLifeCycle,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Do not use managed identity during any lifecycle stage. \
+ * **Main**: Use managed identity during the main stage of the Container App lifecycle. \
+ * **Init**: Use managed identity during the init stage of the Container App lifecycle. \
+ * **All**: Use managed identity during all lifecycle stages of the Container App.
+ */
+export type IdentitySettingsLifeCycle = string;
 
 /**
  * Container App versioned application definition.
@@ -3370,7 +3250,6 @@ export interface InitContainer extends BaseContainer {}
 export function initContainerSerializer(item: InitContainer): any {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -3395,7 +3274,6 @@ export function initContainerSerializer(item: InitContainer): any {
 export function initContainerDeserializer(item: any): InitContainer {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -3438,7 +3316,6 @@ export interface Container extends BaseContainer {
 export function containerSerializer(item: Container): any {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -3464,7 +3341,6 @@ export function containerSerializer(item: Container): any {
 export function containerDeserializer(item: any): Container {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -3680,10 +3556,12 @@ export interface Scale {
   minReplicas?: number;
   /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
   maxReplicas?: number;
-  /** Optional. KEDA Cooldown Period. Defaults to 300 seconds if not set. */
+  /** Optional. KEDA Cooldown Period in seconds. Defaults to 300 seconds if not set. */
   cooldownPeriod?: number;
-  /** Optional. KEDA Polling Interval. Defaults to 30 seconds if not set. */
+  /** Optional. KEDA Polling Interval in seconds. Defaults to 30 seconds if not set. */
   pollingInterval?: number;
+  /** Optional. Whether custom scale rules can override the automatic scale rules. This property is only applicable to Function Apps. */
+  allowScalingRuleOverride?: boolean;
   /** Scaling rules. */
   rules?: ScaleRule[];
 }
@@ -3694,6 +3572,7 @@ export function scaleSerializer(item: Scale): any {
     maxReplicas: item["maxReplicas"],
     cooldownPeriod: item["cooldownPeriod"],
     pollingInterval: item["pollingInterval"],
+    allowScalingRuleOverride: item["allowScalingRuleOverride"],
     rules: !item["rules"] ? item["rules"] : scaleRuleArraySerializer(item["rules"]),
   };
 }
@@ -3704,6 +3583,7 @@ export function scaleDeserializer(item: any): Scale {
     maxReplicas: item["maxReplicas"],
     cooldownPeriod: item["cooldownPeriod"],
     pollingInterval: item["pollingInterval"],
+    allowScalingRuleOverride: item["allowScalingRuleOverride"],
     rules: !item["rules"] ? item["rules"] : scaleRuleArrayDeserializer(item["rules"]),
   };
 }
@@ -3972,8 +3852,6 @@ export enum KnownStorageType {
   Secret = "Secret",
   /** NfsAzureFile */
   NfsAzureFile = "NfsAzureFile",
-  /** Smb */
-  Smb = "Smb",
 }
 
 /**
@@ -3984,8 +3862,7 @@ export enum KnownStorageType {
  * **AzureFile**: AzureFile \
  * **EmptyDir**: EmptyDir \
  * **Secret**: Secret \
- * **NfsAzureFile**: NfsAzureFile \
- * **Smb**: Smb
+ * **NfsAzureFile**: NfsAzureFile
  */
 export type StorageType = string;
 
@@ -4038,31 +3915,16 @@ export interface ServiceBind {
   serviceId?: string;
   /** Name of the service bind */
   name?: string;
-  /** Type of the client to be used to connect to the service */
-  clientType?: string;
-  /** Customized keys for customizing injected values to the app */
-  customizedKeys?: Record<string, string>;
 }
 
 export function serviceBindSerializer(item: ServiceBind): any {
-  return {
-    serviceId: item["serviceId"],
-    name: item["name"],
-    clientType: item["clientType"],
-    customizedKeys: item["customizedKeys"],
-  };
+  return { serviceId: item["serviceId"], name: item["name"] };
 }
 
 export function serviceBindDeserializer(item: any): ServiceBind {
   return {
     serviceId: item["serviceId"],
     name: item["name"],
-    clientType: item["clientType"],
-    customizedKeys: !item["customizedKeys"]
-      ? item["customizedKeys"]
-      : Object.fromEntries(
-          Object.entries(item["customizedKeys"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
   };
 }
 
@@ -4122,8 +3984,6 @@ export type Kind = string;
 export interface BaseContainer {
   /** Container image tag. */
   image?: string;
-  /** The type of the image. Set to CloudBuild to let the system manages the image, where user will not be able to update image through image field. Set to ContainerImage for user provided image. */
-  imageType?: ImageType;
   /** Custom container name. */
   name?: string;
   /** Container start command. */
@@ -4141,7 +4001,6 @@ export interface BaseContainer {
 export function baseContainerSerializer(item: BaseContainer): any {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -4166,7 +4025,6 @@ export function baseContainerSerializer(item: BaseContainer): any {
 export function baseContainerDeserializer(item: any): BaseContainer {
   return {
     image: item["image"],
-    imageType: item["imageType"],
     name: item["name"],
     command: !item["command"]
       ? item["command"]
@@ -4187,24 +4045,6 @@ export function baseContainerDeserializer(item: any): BaseContainer {
       : volumeMountArrayDeserializer(item["volumeMounts"]),
   };
 }
-
-/** The type of the image. Set to CloudBuild to let the system manages the image, where user will not be able to update image through image field. Set to ContainerImage for user provided image. */
-export enum KnownImageType {
-  /** CloudBuild */
-  CloudBuild = "CloudBuild",
-  /** ContainerImage */
-  ContainerImage = "ContainerImage",
-}
-
-/**
- * The type of the image. Set to CloudBuild to let the system manages the image, where user will not be able to update image through image field. Set to ContainerImage for user provided image. \
- * {@link KnownImageType} can be used interchangeably with ImageType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CloudBuild**: CloudBuild \
- * **ContainerImage**: ContainerImage
- */
-export type ImageType = string;
 
 export function volumeMountArraySerializer(result: Array<VolumeMount>): any[] {
   return result.map((item) => {
@@ -4478,252 +4318,6 @@ export function containerAppAuthTokenPropertiesDeserializer(
   };
 }
 
-/** Information pertaining to an individual build. */
-export interface ContainerAppsBuildResource extends ProxyResource {
-  /** Build provisioning state. */
-  readonly provisioningState?: BuildProvisioningState;
-  /** Status of the build once it has been provisioned. */
-  readonly buildStatus?: BuildStatus;
-  /** Container registry that the final image will be uploaded to. */
-  readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /** Configuration of the build. */
-  readonly configuration?: ContainerAppsBuildConfiguration;
-  /** Endpoint from which the build logs can be streamed. */
-  readonly logStreamEndpoint?: string;
-}
-
-export function containerAppsBuildResourceDeserializer(item: any): ContainerAppsBuildResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _containerAppsBuildResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** The ContainerAppBuild properties. */
-export interface ContainerAppsBuildProperties {
-  /** Build provisioning state. */
-  readonly provisioningState?: BuildProvisioningState;
-  /** Status of the build once it has been provisioned. */
-  readonly buildStatus?: BuildStatus;
-  /** Container registry that the final image will be uploaded to. */
-  readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /** Configuration of the build. */
-  readonly configuration?: ContainerAppsBuildConfiguration;
-  /** Endpoint from which the build logs can be streamed. */
-  readonly logStreamEndpoint?: string;
-}
-
-export function containerAppsBuildPropertiesDeserializer(item: any): ContainerAppsBuildProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    buildStatus: item["buildStatus"],
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageDeserializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : containerAppsBuildConfigurationDeserializer(item["configuration"]),
-    logStreamEndpoint: item["logStreamEndpoint"],
-  };
-}
-
-/** Resource instance provisioning state. */
-export enum KnownBuildProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Resource instance provisioning state. \
- * {@link KnownBuildProvisioningState} can be used interchangeably with BuildProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Canceled**: Canceled \
- * **Creating**: Creating \
- * **Updating**: Updating \
- * **Deleting**: Deleting
- */
-export type BuildProvisioningState = string;
-
-/** Status of the build once it has been provisioned. */
-export enum KnownBuildStatus {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Status of the build once it has been provisioned. \
- * {@link KnownBuildStatus} can be used interchangeably with BuildStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotStarted**: NotStarted \
- * **InProgress**: InProgress \
- * **Succeeded**: Succeeded \
- * **Canceled**: Canceled \
- * **Failed**: Failed
- */
-export type BuildStatus = string;
-
-/** Container registry that the final image will be uploaded to. */
-export interface ContainerRegistryWithCustomImage {
-  /** Login server of the container registry that the final image should be uploaded to. Builder resource needs to have this container registry defined along with an identity to use to access it. */
-  server: string;
-  /** Full name that the final image should be uploaded as, including both image name and tag. */
-  image?: string;
-}
-
-export function containerRegistryWithCustomImageSerializer(
-  item: ContainerRegistryWithCustomImage,
-): any {
-  return { server: item["server"], image: item["image"] };
-}
-
-export function containerRegistryWithCustomImageDeserializer(
-  item: any,
-): ContainerRegistryWithCustomImage {
-  return {
-    server: item["server"],
-    image: item["image"],
-  };
-}
-
-/** Configuration of the build. */
-export interface ContainerAppsBuildConfiguration {
-  /** Base OS used to build and run the app. */
-  readonly baseOs?: string;
-  /** Platform to be used to build and run the app. */
-  readonly platform?: string;
-  /** Platform version to be used to build and run the app. */
-  readonly platformVersion?: string;
-  /** List of environment variables to be passed to the build, secrets should not be used in environment variable. */
-  readonly environmentVariables?: EnvironmentVariable[];
-  /** List of steps to perform before the build. */
-  readonly preBuildSteps?: PreBuildStep[];
-}
-
-export function containerAppsBuildConfigurationDeserializer(
-  item: any,
-): ContainerAppsBuildConfiguration {
-  return {
-    baseOs: item["baseOs"],
-    platform: item["platform"],
-    platformVersion: item["platformVersion"],
-    environmentVariables: !item["environmentVariables"]
-      ? item["environmentVariables"]
-      : environmentVariableArrayDeserializer(item["environmentVariables"]),
-    preBuildSteps: !item["preBuildSteps"]
-      ? item["preBuildSteps"]
-      : preBuildStepArrayDeserializer(item["preBuildSteps"]),
-  };
-}
-
-export function preBuildStepArraySerializer(result: Array<PreBuildStep>): any[] {
-  return result.map((item) => {
-    return preBuildStepSerializer(item);
-  });
-}
-
-export function preBuildStepArrayDeserializer(result: Array<PreBuildStep>): any[] {
-  return result.map((item) => {
-    return preBuildStepDeserializer(item);
-  });
-}
-
-/** Model representing a pre-build step. */
-export interface PreBuildStep {
-  /** Description of the pre-build step. */
-  description?: string;
-  /** List of custom commands to run. */
-  scripts?: string[];
-  /** Http get request to send before the build. */
-  httpGet?: HttpGet;
-}
-
-export function preBuildStepSerializer(item: PreBuildStep): any {
-  return {
-    description: item["description"],
-    scripts: !item["scripts"]
-      ? item["scripts"]
-      : item["scripts"].map((p: any) => {
-          return p;
-        }),
-    httpGet: !item["httpGet"] ? item["httpGet"] : httpGetSerializer(item["httpGet"]),
-  };
-}
-
-export function preBuildStepDeserializer(item: any): PreBuildStep {
-  return {
-    description: item["description"],
-    scripts: !item["scripts"]
-      ? item["scripts"]
-      : item["scripts"].map((p: any) => {
-          return p;
-        }),
-    httpGet: !item["httpGet"] ? item["httpGet"] : httpGetDeserializer(item["httpGet"]),
-  };
-}
-
-/** Model representing a http get request. */
-export interface HttpGet {
-  /** URL to make HTTP GET request against. */
-  url: string;
-  /** Name of the file that the request should be saved to. */
-  fileName?: string;
-  /** List of headers to send with the request. */
-  headers?: string[];
-}
-
-export function httpGetSerializer(item: HttpGet): any {
-  return {
-    url: item["url"],
-    fileName: item["fileName"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : item["headers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function httpGetDeserializer(item: any): HttpGet {
-  return {
-    url: item["url"],
-    fileName: item["fileName"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : item["headers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** Container App Function. */
 export interface ContainerAppsFunction extends ProxyResource {
   /** Invoke URL for the function. */
@@ -4732,8 +4326,10 @@ export interface ContainerAppsFunction extends ProxyResource {
   readonly triggerType?: string;
   /** Programming language of the function. */
   readonly language?: string;
-  /** Indicates whether the function is disabled. */
+  /** Indicates whether the function is disabled. This property is deprecated; use `state` instead. */
   readonly isDisabled?: boolean;
+  /** The state of the function. */
+  readonly state?: ContainerAppsFunctionState;
 }
 
 export function containerAppsFunctionDeserializer(item: any): ContainerAppsFunction {
@@ -4758,8 +4354,10 @@ export interface ContainerAppsFunctionProperties {
   readonly triggerType?: string;
   /** Programming language of the function. */
   readonly language?: string;
-  /** Indicates whether the function is disabled. */
+  /** Indicates whether the function is disabled. This property is deprecated; use `state` instead. */
   readonly isDisabled?: boolean;
+  /** The state of the function. */
+  readonly state?: ContainerAppsFunctionState;
 }
 
 export function containerAppsFunctionPropertiesDeserializer(
@@ -4770,8 +4368,27 @@ export function containerAppsFunctionPropertiesDeserializer(
     triggerType: item["triggerType"],
     language: item["language"],
     isDisabled: item["isDisabled"],
+    state: item["state"],
   };
 }
+
+/** The state of a Container App function. */
+export enum KnownContainerAppsFunctionState {
+  /** The function is enabled. */
+  Enabled = "Enabled",
+  /** The function is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The state of a Container App function. \
+ * {@link KnownContainerAppsFunctionState} can be used interchangeably with ContainerAppsFunctionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The function is enabled. \
+ * **Disabled**: The function is disabled.
+ */
+export type ContainerAppsFunctionState = string;
 
 /** Container App Functions collection ARM resource. */
 export interface _ContainerAppsFunctionCollection {
@@ -4821,8 +4438,6 @@ export interface Revision extends ProxyResource {
   readonly replicas?: number;
   /** Traffic weight assigned to this revision */
   readonly trafficWeight?: number;
-  /** List of labels assigned to this revision. */
-  readonly labels?: string[];
   /** Optional Field - Platform Error Message */
   readonly provisioningError?: string;
   /** Current health State of the revision */
@@ -4870,8 +4485,6 @@ export interface RevisionProperties {
   readonly replicas?: number;
   /** Traffic weight assigned to this revision */
   readonly trafficWeight?: number;
-  /** List of labels assigned to this revision. */
-  readonly labels?: string[];
   /** Optional Field - Platform Error Message */
   readonly provisioningError?: string;
   /** Current health State of the revision */
@@ -4893,11 +4506,6 @@ export function revisionPropertiesDeserializer(item: any): RevisionProperties {
     active: item["active"],
     replicas: item["replicas"],
     trafficWeight: item["trafficWeight"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : item["labels"].map((p: any) => {
-          return p;
-        }),
     provisioningError: item["provisioningError"],
     healthState: item["healthState"],
     provisioningState: item["provisioningState"],
@@ -5069,11 +4677,11 @@ export function labelHistoryRecordItemDeserializer(item: any): LabelHistoryRecor
 
 /** Status of the label history record. */
 export enum KnownStatus {
-  /** Succeeded */
+  /** The label operation completed successfully. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** The label operation failed. */
   Failed = "Failed",
-  /** Starting */
+  /** The label operation is starting. */
   Starting = "Starting",
 }
 
@@ -5082,9 +4690,9 @@ export enum KnownStatus {
  * {@link KnownStatus} can be used interchangeably with Status,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Starting**: Starting
+ * **Succeeded**: The label operation completed successfully. \
+ * **Failed**: The label operation failed. \
+ * **Starting**: The label operation is starting.
  */
 export type Status = string;
 
@@ -5107,256 +4715,6 @@ export function labelHistoryArrayDeserializer(result: Array<LabelHistory>): any[
   return result.map((item) => {
     return labelHistoryDeserializer(item);
   });
-}
-
-/** Container App Patch */
-export interface ContainerAppsPatchResource extends ProxyResource {
-  /** Properties that describes current states of the patch resource. */
-  properties?: PatchProperties;
-}
-
-export function containerAppsPatchResourceDeserializer(item: any): ContainerAppsPatchResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : patchPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Top level properties that describes current states of the patch resource */
-export interface PatchProperties {
-  /** The Azure resource id of the target environment for the patch. */
-  targetEnvironmentId?: string;
-  /** The Azure resource id of the target container app for the patch. */
-  targetContainerAppId?: string;
-  /** The Azure resource id of the target revision for the patch. */
-  targetRevisionId?: string;
-  /** The status of the patch operation. */
-  readonly patchApplyStatus?: PatchApplyStatus;
-  /** The UTC timestamp that describes when the patch object was created. */
-  readonly createdAt?: Date;
-  /** The UTC timestamp that describes when the patch object was last updated. */
-  readonly lastModifiedAt?: Date;
-  /** Detailed info describes the patch operation for the target container app. */
-  readonly patchDetails?: PatchDetails[];
-}
-
-export function patchPropertiesDeserializer(item: any): PatchProperties {
-  return {
-    targetEnvironmentId: item["targetEnvironmentId"],
-    targetContainerAppId: item["targetContainerAppId"],
-    targetRevisionId: item["targetRevisionId"],
-    patchApplyStatus: item["patchApplyStatus"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-    patchDetails: !item["patchDetails"]
-      ? item["patchDetails"]
-      : patchDetailsArrayDeserializer(item["patchDetails"]),
-  };
-}
-
-/** The status of the patch once it has been provisioned */
-export enum KnownPatchApplyStatus {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** RebaseInProgress */
-  RebaseInProgress = "RebaseInProgress",
-  /** CreatingRevision */
-  CreatingRevision = "CreatingRevision",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** RebaseFailed */
-  RebaseFailed = "RebaseFailed",
-  /** RevisionCreationFailed */
-  RevisionCreationFailed = "RevisionCreationFailed",
-  /** ImagePushPullFailed */
-  ImagePushPullFailed = "ImagePushPullFailed",
-  /** ManuallySkipped */
-  ManuallySkipped = "ManuallySkipped",
-}
-
-/**
- * The status of the patch once it has been provisioned \
- * {@link KnownPatchApplyStatus} can be used interchangeably with PatchApplyStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotStarted**: NotStarted \
- * **RebaseInProgress**: RebaseInProgress \
- * **CreatingRevision**: CreatingRevision \
- * **Succeeded**: Succeeded \
- * **Canceled**: Canceled \
- * **RebaseFailed**: RebaseFailed \
- * **RevisionCreationFailed**: RevisionCreationFailed \
- * **ImagePushPullFailed**: ImagePushPullFailed \
- * **ManuallySkipped**: ManuallySkipped
- */
-export type PatchApplyStatus = string;
-
-export function patchDetailsArrayDeserializer(result: Array<PatchDetails>): any[] {
-  return result.map((item) => {
-    return patchDetailsDeserializer(item);
-  });
-}
-
-/** The detailed info of patch operation performing when applying a patch. */
-export interface PatchDetails {
-  /** The name of the target container for the patch. */
-  readonly targetContainerName: string;
-  /** The name of the target image for the patch. */
-  readonly targetImage: string;
-  /** The UTC timestamp that describes the latest detection was done. */
-  readonly lastDetectionTime: Date;
-  /** The status of the patch detection. */
-  readonly detectionStatus: DetectionStatus;
-  /** The name of the new image created by the patch. */
-  readonly newImageName?: string;
-  /** New layer update details in the target image. */
-  readonly newLayer?: PatchDetailsNewLayer;
-  /** The old layer details in the target image. */
-  readonly oldLayer?: PatchDetailsOldLayer;
-  /** The type for the patch. */
-  readonly patchType?: PatchType;
-}
-
-export function patchDetailsDeserializer(item: any): PatchDetails {
-  return {
-    targetContainerName: item["targetContainerName"],
-    targetImage: item["targetImage"],
-    lastDetectionTime: new Date(item["lastDetectionTime"]),
-    detectionStatus: item["detectionStatus"],
-    newImageName: item["newImageName"],
-    newLayer: !item["newLayer"]
-      ? item["newLayer"]
-      : patchDetailsNewLayerDeserializer(item["newLayer"]),
-    oldLayer: !item["oldLayer"]
-      ? item["oldLayer"]
-      : patchDetailsOldLayerDeserializer(item["oldLayer"]),
-    patchType: item["patchType"],
-  };
-}
-
-/** The status of the patch detection. */
-export enum KnownDetectionStatus {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** RegistryLoginFailed */
-  RegistryLoginFailed = "RegistryLoginFailed",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * The status of the patch detection. \
- * {@link KnownDetectionStatus} can be used interchangeably with DetectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **RegistryLoginFailed**: RegistryLoginFailed \
- * **Failed**: Failed
- */
-export type DetectionStatus = string;
-
-/** New layer update details in the target image. */
-export interface PatchDetailsNewLayer {
-  /** The details of the new layer for the target image. */
-  name?: string;
-  /** The framework and its version in the new run image for the target image. */
-  frameworkAndVersion?: string;
-  /** The OS name and its version in the new run image for the target image. */
-  osAndVersion?: string;
-}
-
-export function patchDetailsNewLayerDeserializer(item: any): PatchDetailsNewLayer {
-  return {
-    name: item["name"],
-    frameworkAndVersion: item["frameworkAndVersion"],
-    osAndVersion: item["osAndVersion"],
-  };
-}
-
-/** The old layer details in the target image. */
-export interface PatchDetailsOldLayer {
-  /** The details of the old layer for the target image. */
-  name?: string;
-  /** The framework and its version in the old run image for the target image. */
-  frameworkAndVersion?: string;
-  /** The OS name and its version in the old run image for the target image. */
-  osAndVersion?: string;
-}
-
-export function patchDetailsOldLayerDeserializer(item: any): PatchDetailsOldLayer {
-  return {
-    name: item["name"],
-    frameworkAndVersion: item["frameworkAndVersion"],
-    osAndVersion: item["osAndVersion"],
-  };
-}
-
-/** The type for the patch. */
-export enum KnownPatchType {
-  /** FrameworkSecurity */
-  FrameworkSecurity = "FrameworkSecurity",
-  /** OSSecurity */
-  OSSecurity = "OSSecurity",
-  /** FrameworkAndOSSecurity */
-  FrameworkAndOSSecurity = "FrameworkAndOSSecurity",
-  /** Other */
-  Other = "Other",
-}
-
-/**
- * The type for the patch. \
- * {@link KnownPatchType} can be used interchangeably with PatchType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FrameworkSecurity**: FrameworkSecurity \
- * **OSSecurity**: OSSecurity \
- * **FrameworkAndOSSecurity**: FrameworkAndOSSecurity \
- * **Other**: Other
- */
-export type PatchType = string;
-
-/** Container App patch collection */
-export interface _PatchCollection {
-  /** The ContainerAppsPatchResource items on this page */
-  value: ContainerAppsPatchResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _patchCollectionDeserializer(item: any): _PatchCollection {
-  return {
-    value: containerAppsPatchResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function containerAppsPatchResourceArrayDeserializer(
-  result: Array<ContainerAppsPatchResource>,
-): any[] {
-  return result.map((item) => {
-    return containerAppsPatchResourceDeserializer(item);
-  });
-}
-
-/** The configuration for patcher to skip a patch or not. */
-export interface PatchSkipConfig {
-  /** The flag to indicate whether to skip the patch or not. */
-  skip?: boolean;
-}
-
-export function patchSkipConfigSerializer(item: PatchSkipConfig): any {
-  return { skip: item["skip"] };
 }
 
 /** Container App Revision Replica. */
@@ -5593,7 +4951,7 @@ export function dotNetComponentPropertiesDeserializer(item: any): DotNetComponen
 
 /** Type of the .NET Component. */
 export enum KnownDotNetComponentType {
-  /** AspireDashboard */
+  /** An Aspire dashboard component. */
   AspireDashboard = "AspireDashboard",
 }
 
@@ -5602,21 +4960,21 @@ export enum KnownDotNetComponentType {
  * {@link KnownDotNetComponentType} can be used interchangeably with DotNetComponentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AspireDashboard**: AspireDashboard
+ * **AspireDashboard**: An Aspire dashboard component.
  */
 export type DotNetComponentType = string;
 
 /** Provisioning state of the .NET Component. */
 export enum KnownDotNetComponentProvisioningState {
-  /** Succeeded */
+  /** The .NET component was provisioned successfully. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** The .NET component failed to provision. */
   Failed = "Failed",
-  /** Canceled */
+  /** Provisioning of the .NET component was canceled. */
   Canceled = "Canceled",
-  /** Deleting */
+  /** The .NET component is being deleted. */
   Deleting = "Deleting",
-  /** InProgress */
+  /** The .NET component is being provisioned. */
   InProgress = "InProgress",
 }
 
@@ -5625,11 +4983,11 @@ export enum KnownDotNetComponentProvisioningState {
  * {@link KnownDotNetComponentProvisioningState} can be used interchangeably with DotNetComponentProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Canceled**: Canceled \
- * **Deleting**: Deleting \
- * **InProgress**: InProgress
+ * **Succeeded**: The .NET component was provisioned successfully. \
+ * **Failed**: The .NET component failed to provision. \
+ * **Canceled**: Provisioning of the .NET component was canceled. \
+ * **Deleting**: The .NET component is being deleted. \
+ * **InProgress**: The .NET component is being provisioned.
  */
 export type DotNetComponentProvisioningState = string;
 
@@ -5765,7 +5123,7 @@ export function javaComponentDeserializer(item: any): JavaComponent {
 /** Java Component common properties. */
 export interface JavaComponentProperties {
   /** Type of the Java Component. */
-  /** The discriminator possible values: SpringCloudGateway, SpringBootAdmin, Nacos, SpringCloudEureka, SpringCloudConfig */
+  /** The discriminator possible values: SpringBootAdmin, SpringCloudEureka, SpringCloudConfig */
   componentType: JavaComponentType;
   /** Provisioning state of the Java Component. */
   readonly provisioningState?: JavaComponentProvisioningState;
@@ -5806,23 +5164,15 @@ export function javaComponentPropertiesDeserializer(item: any): JavaComponentPro
 
 /** Alias for JavaComponentPropertiesUnion */
 export type JavaComponentPropertiesUnion =
-  | SpringCloudGatewayComponent
   | SpringBootAdminComponent
-  | NacosComponent
   | SpringCloudEurekaComponent
   | SpringCloudConfigComponent
   | JavaComponentProperties;
 
 export function javaComponentPropertiesUnionSerializer(item: JavaComponentPropertiesUnion): any {
   switch (item.componentType) {
-    case "SpringCloudGateway":
-      return springCloudGatewayComponentSerializer(item as SpringCloudGatewayComponent);
-
     case "SpringBootAdmin":
       return springBootAdminComponentSerializer(item as SpringBootAdminComponent);
-
-    case "Nacos":
-      return nacosComponentSerializer(item as NacosComponent);
 
     case "SpringCloudEureka":
       return springCloudEurekaComponentSerializer(item as SpringCloudEurekaComponent);
@@ -5837,14 +5187,8 @@ export function javaComponentPropertiesUnionSerializer(item: JavaComponentProper
 
 export function javaComponentPropertiesUnionDeserializer(item: any): JavaComponentPropertiesUnion {
   switch (item["componentType"]) {
-    case "SpringCloudGateway":
-      return springCloudGatewayComponentDeserializer(item as SpringCloudGatewayComponent);
-
     case "SpringBootAdmin":
       return springBootAdminComponentDeserializer(item as SpringBootAdminComponent);
-
-    case "Nacos":
-      return nacosComponentDeserializer(item as NacosComponent);
 
     case "SpringCloudEureka":
       return springCloudEurekaComponentDeserializer(item as SpringCloudEurekaComponent);
@@ -5865,10 +5209,6 @@ export enum KnownJavaComponentType {
   SpringCloudEureka = "SpringCloudEureka",
   /** SpringCloudConfig */
   SpringCloudConfig = "SpringCloudConfig",
-  /** SpringCloudGateway */
-  SpringCloudGateway = "SpringCloudGateway",
-  /** Nacos */
-  Nacos = "Nacos",
 }
 
 /**
@@ -5878,9 +5218,7 @@ export enum KnownJavaComponentType {
  * ### Known values supported by the service
  * **SpringBootAdmin**: SpringBootAdmin \
  * **SpringCloudEureka**: SpringCloudEureka \
- * **SpringCloudConfig**: SpringCloudConfig \
- * **SpringCloudGateway**: SpringCloudGateway \
- * **Nacos**: Nacos
+ * **SpringCloudConfig**: SpringCloudConfig
  */
 export type JavaComponentType = string;
 
@@ -6004,129 +5342,6 @@ export function javaComponentServiceBindDeserializer(item: any): JavaComponentSe
   };
 }
 
-/** Spring Cloud Gateway properties. */
-export interface SpringCloudGatewayComponent extends JavaComponentProperties {
-  /** Java Component Ingress configurations. */
-  ingress?: JavaComponentIngress;
-  /** Gateway route definition */
-  springCloudGatewayRoutes?: ScgRoute[];
-  /** Type of the Java Component. */
-  componentType: "SpringCloudGateway";
-}
-
-export function springCloudGatewayComponentSerializer(item: SpringCloudGatewayComponent): any {
-  return {
-    componentType: item["componentType"],
-    configurations: !item["configurations"]
-      ? item["configurations"]
-      : javaComponentConfigurationPropertyArraySerializer(item["configurations"]),
-    scale: !item["scale"] ? item["scale"] : javaComponentPropertiesScaleSerializer(item["scale"]),
-    serviceBinds: !item["serviceBinds"]
-      ? item["serviceBinds"]
-      : javaComponentServiceBindArraySerializer(item["serviceBinds"]),
-    ingress: !item["ingress"] ? item["ingress"] : javaComponentIngressSerializer(item["ingress"]),
-    springCloudGatewayRoutes: !item["springCloudGatewayRoutes"]
-      ? item["springCloudGatewayRoutes"]
-      : scgRouteArraySerializer(item["springCloudGatewayRoutes"]),
-  };
-}
-
-export function springCloudGatewayComponentDeserializer(item: any): SpringCloudGatewayComponent {
-  return {
-    componentType: item["componentType"],
-    provisioningState: item["provisioningState"],
-    configurations: !item["configurations"]
-      ? item["configurations"]
-      : javaComponentConfigurationPropertyArrayDeserializer(item["configurations"]),
-    scale: !item["scale"] ? item["scale"] : javaComponentPropertiesScaleDeserializer(item["scale"]),
-    serviceBinds: !item["serviceBinds"]
-      ? item["serviceBinds"]
-      : javaComponentServiceBindArrayDeserializer(item["serviceBinds"]),
-    ingress: !item["ingress"] ? item["ingress"] : javaComponentIngressDeserializer(item["ingress"]),
-    springCloudGatewayRoutes: !item["springCloudGatewayRoutes"]
-      ? item["springCloudGatewayRoutes"]
-      : scgRouteArrayDeserializer(item["springCloudGatewayRoutes"]),
-  };
-}
-
-/** Container App Ingress configuration. */
-export interface JavaComponentIngress {
-  /** Hostname of the Java Component endpoint */
-  readonly fqdn?: string;
-}
-
-export function javaComponentIngressSerializer(_item: JavaComponentIngress): any {
-  return {};
-}
-
-export function javaComponentIngressDeserializer(item: any): JavaComponentIngress {
-  return {
-    fqdn: item["fqdn"],
-  };
-}
-
-export function scgRouteArraySerializer(result: Array<ScgRoute>): any[] {
-  return result.map((item) => {
-    return scgRouteSerializer(item);
-  });
-}
-
-export function scgRouteArrayDeserializer(result: Array<ScgRoute>): any[] {
-  return result.map((item) => {
-    return scgRouteDeserializer(item);
-  });
-}
-
-/** Spring Cloud Gateway route definition */
-export interface ScgRoute {
-  /** Id of the route */
-  id: string;
-  /** Uri of the route */
-  uri: string;
-  /** Predicates of the route */
-  predicates?: string[];
-  /** Filters of the route */
-  filters?: string[];
-  /** Order of the route */
-  order?: number;
-}
-
-export function scgRouteSerializer(item: ScgRoute): any {
-  return {
-    id: item["id"],
-    uri: item["uri"],
-    predicates: !item["predicates"]
-      ? item["predicates"]
-      : item["predicates"].map((p: any) => {
-          return p;
-        }),
-    filters: !item["filters"]
-      ? item["filters"]
-      : item["filters"].map((p: any) => {
-          return p;
-        }),
-    order: item["order"],
-  };
-}
-
-export function scgRouteDeserializer(item: any): ScgRoute {
-  return {
-    id: item["id"],
-    uri: item["uri"],
-    predicates: !item["predicates"]
-      ? item["predicates"]
-      : item["predicates"].map((p: any) => {
-          return p;
-        }),
-    filters: !item["filters"]
-      ? item["filters"]
-      : item["filters"].map((p: any) => {
-          return p;
-        }),
-    order: item["order"],
-  };
-}
-
 /** Spring Boot Admin properties. */
 export interface SpringBootAdminComponent extends JavaComponentProperties {
   /** Java Component Ingress configurations. */
@@ -6164,40 +5379,19 @@ export function springBootAdminComponentDeserializer(item: any): SpringBootAdmin
   };
 }
 
-/** Nacos properties. */
-export interface NacosComponent extends JavaComponentProperties {
-  /** Java Component Ingress configurations. */
-  ingress?: JavaComponentIngress;
-  /** Type of the Java Component. */
-  componentType: "Nacos";
+/** Container App Ingress configuration. */
+export interface JavaComponentIngress {
+  /** Hostname of the Java Component endpoint */
+  readonly fqdn?: string;
 }
 
-export function nacosComponentSerializer(item: NacosComponent): any {
-  return {
-    componentType: item["componentType"],
-    configurations: !item["configurations"]
-      ? item["configurations"]
-      : javaComponentConfigurationPropertyArraySerializer(item["configurations"]),
-    scale: !item["scale"] ? item["scale"] : javaComponentPropertiesScaleSerializer(item["scale"]),
-    serviceBinds: !item["serviceBinds"]
-      ? item["serviceBinds"]
-      : javaComponentServiceBindArraySerializer(item["serviceBinds"]),
-    ingress: !item["ingress"] ? item["ingress"] : javaComponentIngressSerializer(item["ingress"]),
-  };
+export function javaComponentIngressSerializer(_item: JavaComponentIngress): any {
+  return {};
 }
 
-export function nacosComponentDeserializer(item: any): NacosComponent {
+export function javaComponentIngressDeserializer(item: any): JavaComponentIngress {
   return {
-    componentType: item["componentType"],
-    provisioningState: item["provisioningState"],
-    configurations: !item["configurations"]
-      ? item["configurations"]
-      : javaComponentConfigurationPropertyArrayDeserializer(item["configurations"]),
-    scale: !item["scale"] ? item["scale"] : javaComponentPropertiesScaleDeserializer(item["scale"]),
-    serviceBinds: !item["serviceBinds"]
-      ? item["serviceBinds"]
-      : javaComponentServiceBindArrayDeserializer(item["serviceBinds"]),
-    ingress: !item["ingress"] ? item["ingress"] : javaComponentIngressDeserializer(item["ingress"]),
+    fqdn: item["fqdn"],
   };
 }
 
@@ -6301,10 +5495,8 @@ export function javaComponentArrayDeserializer(result: Array<JavaComponent>): an
 /** A logic app extension resource */
 export interface LogicApp extends ProxyResource {}
 
-export function logicAppSerializer(item: LogicApp): any {
-  return {
-    properties: areAllPropsUndefined(item, []) ? undefined : _logicAppPropertiesSerializer(item),
-  };
+export function logicAppSerializer(_item: LogicApp): any {
+  return {};
 }
 
 export function logicAppDeserializer(item: any): LogicApp {
@@ -6315,42 +5507,6 @@ export function logicAppDeserializer(item: any): LogicApp {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _logicAppPropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** The properties of logic apps extension. */
-export interface LogicAppProperties {}
-
-export function logicAppPropertiesSerializer(_item: LogicAppProperties): any {
-  return {};
-}
-
-export function logicAppPropertiesDeserializer(item: any): LogicAppProperties {
-  return item;
-}
-
-/** The workflow filter. */
-export interface WorkflowArtifacts {
-  /** Application settings of the workflow. */
-  appSettings?: any;
-  /** Files of the app. */
-  files?: any;
-  /** Files of the app to delete. */
-  filesToDelete?: string[];
-}
-
-export function workflowArtifactsSerializer(item: WorkflowArtifacts): any {
-  return {
-    appSettings: item["appSettings"],
-    files: item["files"],
-    filesToDelete: !item["filesToDelete"]
-      ? item["filesToDelete"]
-      : item["filesToDelete"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -6508,18 +5664,6 @@ export enum KnownWorkflowKind {
  * **Agentic**: Agentic
  */
 export type WorkflowKind = string;
-
-/** Logic App call response object. */
-export interface Object {
-  /** Additional properties */
-  additionalProperties?: Record<string, any>;
-}
-
-export function objectDeserializer(item: any): Object {
-  return {
-    additionalProperties: serializeRecord(item, []),
-  };
-}
 
 /** Collection of workflow information elements. */
 export interface _WorkflowEnvelopeCollection {
@@ -7685,7 +6829,7 @@ export function tokenStoreDeserializer(item: any): TokenStore {
 
 /** The configuration settings of the storage of the tokens if blob storage is used. */
 export interface BlobStorageTokenStore {
-  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. Should not be used along with blobContainerUri. */
+  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. */
   sasUrlSettingName?: string;
   /** The URI of the blob storage containing the tokens. Should not be used along with sasUrlSettingName. */
   blobContainerUri?: string;
@@ -7879,333 +7023,6 @@ export function authConfigArrayDeserializer(result: Array<AuthConfig>): any[] {
   return result.map((item) => {
     return authConfigDeserializer(item);
   });
-}
-
-/** Information about the SourceToCloud builder resource. */
-export interface BuilderResource extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Provisioning state of a builder resource. */
-  readonly provisioningState?: BuilderProvisioningState;
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId?: string;
-  /** List of mappings of container registries and the managed identity used to connect to it. */
-  containerRegistries?: ContainerRegistry[];
-}
-
-export function builderResourceSerializer(item: BuilderResource): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: areAllPropsUndefined(item, ["environmentId", "containerRegistries"])
-      ? undefined
-      : _builderResourcePropertiesSerializer(item),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-  };
-}
-
-export function builderResourceDeserializer(item: any): BuilderResource {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _builderResourcePropertiesDeserializer(item["properties"])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** The builder properties. */
-export interface BuilderProperties {
-  /** Provisioning state of a builder resource. */
-  readonly provisioningState?: BuilderProvisioningState;
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId: string;
-  /** List of mappings of container registries and the managed identity used to connect to it. */
-  containerRegistries?: ContainerRegistry[];
-}
-
-export function builderPropertiesSerializer(item: BuilderProperties): any {
-  return {
-    environmentId: item["environmentId"],
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : containerRegistryArraySerializer(item["containerRegistries"]),
-  };
-}
-
-export function builderPropertiesDeserializer(item: any): BuilderProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    environmentId: item["environmentId"],
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : containerRegistryArrayDeserializer(item["containerRegistries"]),
-  };
-}
-
-/** Resource instance provisioning state. */
-export enum KnownBuilderProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Resource instance provisioning state. \
- * {@link KnownBuilderProvisioningState} can be used interchangeably with BuilderProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Canceled**: Canceled \
- * **Creating**: Creating \
- * **Updating**: Updating \
- * **Deleting**: Deleting
- */
-export type BuilderProvisioningState = string;
-
-export function containerRegistryArraySerializer(result: Array<ContainerRegistry>): any[] {
-  return result.map((item) => {
-    return containerRegistrySerializer(item);
-  });
-}
-
-export function containerRegistryArrayDeserializer(result: Array<ContainerRegistry>): any[] {
-  return result.map((item) => {
-    return containerRegistryDeserializer(item);
-  });
-}
-
-/** Model representing a mapping from a container registry to the identity used to connect to it. */
-export interface ContainerRegistry {
-  /** Login server of the container registry. */
-  containerRegistryServer: string;
-  /** Resource ID of the managed identity. */
-  identityResourceId: string;
-}
-
-export function containerRegistrySerializer(item: ContainerRegistry): any {
-  return {
-    containerRegistryServer: item["containerRegistryServer"],
-    identityResourceId: item["identityResourceId"],
-  };
-}
-
-export function containerRegistryDeserializer(item: any): ContainerRegistry {
-  return {
-    containerRegistryServer: item["containerRegistryServer"],
-    identityResourceId: item["identityResourceId"],
-  };
-}
-
-/** The type used for update operations of the BuilderResource. */
-export interface BuilderResourceUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId?: string;
-}
-
-export function builderResourceUpdateSerializer(item: BuilderResourceUpdate): any {
-  return {
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["environmentId"])
-      ? undefined
-      : _builderResourceUpdatePropertiesSerializer(item),
-  };
-}
-
-/** The updatable properties of the BuilderResource. */
-export interface BuilderResourceUpdateProperties {
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId?: string;
-}
-
-export function builderResourceUpdatePropertiesSerializer(
-  item: BuilderResourceUpdateProperties,
-): any {
-  return { environmentId: item["environmentId"] };
-}
-
-/** The response of a BuilderResource list operation. */
-export interface _BuilderCollection {
-  /** The BuilderResource items on this page */
-  value: BuilderResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _builderCollectionDeserializer(item: any): _BuilderCollection {
-  return {
-    value: builderResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function builderResourceArraySerializer(result: Array<BuilderResource>): any[] {
-  return result.map((item) => {
-    return builderResourceSerializer(item);
-  });
-}
-
-export function builderResourceArrayDeserializer(result: Array<BuilderResource>): any[] {
-  return result.map((item) => {
-    return builderResourceDeserializer(item);
-  });
-}
-
-/** Information pertaining to an individual build. */
-export interface BuildResource extends ProxyResource {
-  /** Build provisioning state. */
-  readonly provisioningState?: BuildProvisioningState;
-  /** Status of the build once it has been provisioned. */
-  readonly buildStatus?: BuildStatus;
-  /** Container registry that the final image will be uploaded to. */
-  destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /** Configuration of the build. */
-  configuration?: BuildConfiguration;
-  /** Endpoint to which the source code should be uploaded. */
-  readonly uploadEndpoint?: string;
-  /** Endpoint from which the build logs can be streamed. */
-  readonly logStreamEndpoint?: string;
-  /** Endpoint to use to retrieve an authentication token for log streaming and uploading source code. */
-  readonly tokenEndpoint?: string;
-}
-
-export function buildResourceSerializer(item: BuildResource): any {
-  return {
-    properties: areAllPropsUndefined(item, ["destinationContainerRegistry", "configuration"])
-      ? undefined
-      : _buildResourcePropertiesSerializer(item),
-  };
-}
-
-export function buildResourceDeserializer(item: any): BuildResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _buildResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** The build properties. */
-export interface BuildProperties {
-  /** Build provisioning state. */
-  readonly provisioningState?: BuildProvisioningState;
-  /** Status of the build once it has been provisioned. */
-  readonly buildStatus?: BuildStatus;
-  /** Container registry that the final image will be uploaded to. */
-  destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /** Configuration of the build. */
-  configuration?: BuildConfiguration;
-  /** Endpoint to which the source code should be uploaded. */
-  readonly uploadEndpoint?: string;
-  /** Endpoint from which the build logs can be streamed. */
-  readonly logStreamEndpoint?: string;
-  /** Endpoint to use to retrieve an authentication token for log streaming and uploading source code. */
-  readonly tokenEndpoint?: string;
-}
-
-export function buildPropertiesSerializer(item: BuildProperties): any {
-  return {
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageSerializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : buildConfigurationSerializer(item["configuration"]),
-  };
-}
-
-export function buildPropertiesDeserializer(item: any): BuildProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    buildStatus: item["buildStatus"],
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageDeserializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : buildConfigurationDeserializer(item["configuration"]),
-    uploadEndpoint: item["uploadEndpoint"],
-    logStreamEndpoint: item["logStreamEndpoint"],
-    tokenEndpoint: item["tokenEndpoint"],
-  };
-}
-
-/** Configuration of the build. */
-export interface BuildConfiguration {
-  /** Base OS used to build and run the app. */
-  baseOs?: string;
-  /** Platform to be used to build and run the app. */
-  platform?: string;
-  /** Platform version to be used to build and run the app. */
-  platformVersion?: string;
-  /** List of environment variables to be passed to the build, secrets should not be used in environment variable. */
-  environmentVariables?: EnvironmentVariable[];
-  /** List of steps to perform before the build. */
-  preBuildSteps?: PreBuildStep[];
-}
-
-export function buildConfigurationSerializer(item: BuildConfiguration): any {
-  return {
-    baseOs: item["baseOs"],
-    platform: item["platform"],
-    platformVersion: item["platformVersion"],
-    environmentVariables: !item["environmentVariables"]
-      ? item["environmentVariables"]
-      : environmentVariableArraySerializer(item["environmentVariables"]),
-    preBuildSteps: !item["preBuildSteps"]
-      ? item["preBuildSteps"]
-      : preBuildStepArraySerializer(item["preBuildSteps"]),
-  };
-}
-
-export function buildConfigurationDeserializer(item: any): BuildConfiguration {
-  return {
-    baseOs: item["baseOs"],
-    platform: item["platform"],
-    platformVersion: item["platformVersion"],
-    environmentVariables: !item["environmentVariables"]
-      ? item["environmentVariables"]
-      : environmentVariableArrayDeserializer(item["environmentVariables"]),
-    preBuildSteps: !item["preBuildSteps"]
-      ? item["preBuildSteps"]
-      : preBuildStepArrayDeserializer(item["preBuildSteps"]),
-  };
 }
 
 /** An environment for Kubernetes cluster specialized for web workloads by Azure App Service */
@@ -8578,8 +7395,6 @@ export interface CertificateProperties {
   readonly valid?: boolean;
   /** Public key hash. */
   readonly publicKeyHash?: string;
-  /** The type of the certificate. Allowed values are `ServerSSLCertificate` and `ImagePullTrustedCA` */
-  certificateType?: CertificateType;
 }
 
 export function certificatePropertiesSerializer(item: CertificateProperties): any {
@@ -8589,7 +7404,6 @@ export function certificatePropertiesSerializer(item: CertificateProperties): an
       : certificateKeyVaultPropertiesSerializer(item["certificateKeyVaultProperties"]),
     password: item["password"],
     value: !item["value"] ? item["value"] : uint8ArrayToString(item["value"], "base64"),
-    certificateType: item["certificateType"],
   };
 }
 
@@ -8620,7 +7434,6 @@ export function certificatePropertiesDeserializer(item: any): CertificatePropert
     thumbprint: item["thumbprint"],
     valid: item["valid"],
     publicKeyHash: item["publicKeyHash"],
-    certificateType: item["certificateType"],
   };
 }
 
@@ -8653,24 +7466,6 @@ export enum KnownCertificateProvisioningState {
  * **Deleting**: Deleting
  */
 export type CertificateProvisioningState = string;
-
-/** The type of the certificate. Allowed values are `ServerSSLCertificate` and `ImagePullTrustedCA` */
-export enum KnownCertificateType {
-  /** ServerSSLCertificate */
-  ServerSSLCertificate = "ServerSSLCertificate",
-  /** ImagePullTrustedCA */
-  ImagePullTrustedCA = "ImagePullTrustedCA",
-}
-
-/**
- * The type of the certificate. Allowed values are `ServerSSLCertificate` and `ImagePullTrustedCA` \
- * {@link KnownCertificateType} can be used interchangeably with CertificateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ServerSSLCertificate**: ServerSSLCertificate \
- * **ImagePullTrustedCA**: ImagePullTrustedCA
- */
-export type CertificateType = string;
 
 /** A certificate to update */
 export interface CertificatePatch {
@@ -8727,8 +7522,6 @@ export interface ManagedEnvironment extends TrackedResource {
   readonly deploymentErrors?: string;
   /** Default Domain Name for the cluster */
   readonly defaultDomain?: string;
-  /** Private Link Default Domain Name for the environment */
-  readonly privateLinkDefaultDomain?: string;
   /** Static IP of the Environment */
   readonly staticIp?: string;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
@@ -8739,8 +7532,6 @@ export interface ManagedEnvironment extends TrackedResource {
   openTelemetryConfiguration?: OpenTelemetryConfiguration;
   /** Whether or not this Managed Environment is zone-redundant. */
   zoneRedundant?: boolean;
-  /** The list of availability zones to use for managed environment */
-  availabilityZones?: string[];
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfiguration;
   /** The endpoint of the eventstream of the Environment. */
@@ -8759,12 +7550,12 @@ export interface ManagedEnvironment extends TrackedResource {
   peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
   /** Ingress configuration for the Managed Environment. */
   ingressConfiguration?: IngressConfiguration;
+  /** Mode of the environment. Allowed Values: 'ConsumptionOnly', 'WorkloadProfiles', 'Express', 'Archived'. */
+  environmentMode?: ManagedEnvironmentMode;
   /** Private endpoint connections to the resource. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Disk encryption configuration for the Managed Environment. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
 }
 
 export function managedEnvironmentSerializer(item: ManagedEnvironment): any {
@@ -8779,7 +7570,6 @@ export function managedEnvironmentSerializer(item: ManagedEnvironment): any {
       "appInsightsConfiguration",
       "openTelemetryConfiguration",
       "zoneRedundant",
-      "availabilityZones",
       "customDomainConfiguration",
       "workloadProfiles",
       "kedaConfiguration",
@@ -8788,8 +7578,8 @@ export function managedEnvironmentSerializer(item: ManagedEnvironment): any {
       "peerAuthentication",
       "peerTrafficConfiguration",
       "ingressConfiguration",
+      "environmentMode",
       "publicNetworkAccess",
-      "diskEncryptionConfiguration",
     ])
       ? undefined
       : _managedEnvironmentPropertiesSerializer(item),
@@ -8836,8 +7626,6 @@ export interface ManagedEnvironmentProperties {
   readonly deploymentErrors?: string;
   /** Default Domain Name for the cluster */
   readonly defaultDomain?: string;
-  /** Private Link Default Domain Name for the environment */
-  readonly privateLinkDefaultDomain?: string;
   /** Static IP of the Environment */
   readonly staticIp?: string;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
@@ -8848,8 +7636,6 @@ export interface ManagedEnvironmentProperties {
   openTelemetryConfiguration?: OpenTelemetryConfiguration;
   /** Whether or not this Managed Environment is zone-redundant. */
   zoneRedundant?: boolean;
-  /** The list of availability zones to use for managed environment */
-  availabilityZones?: string[];
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfiguration;
   /** The endpoint of the eventstream of the Environment. */
@@ -8868,12 +7654,12 @@ export interface ManagedEnvironmentProperties {
   peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
   /** Ingress configuration for the Managed Environment. */
   ingressConfiguration?: IngressConfiguration;
+  /** Mode of the environment. Allowed Values: 'ConsumptionOnly', 'WorkloadProfiles', 'Express', 'Archived'. */
+  environmentMode?: ManagedEnvironmentMode;
   /** Private endpoint connections to the resource. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Disk encryption configuration for the Managed Environment. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
 }
 
 export function managedEnvironmentPropertiesSerializer(item: ManagedEnvironmentProperties): any {
@@ -8893,11 +7679,6 @@ export function managedEnvironmentPropertiesSerializer(item: ManagedEnvironmentP
       ? item["openTelemetryConfiguration"]
       : openTelemetryConfigurationSerializer(item["openTelemetryConfiguration"]),
     zoneRedundant: item["zoneRedundant"],
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
     customDomainConfiguration: !item["customDomainConfiguration"]
       ? item["customDomainConfiguration"]
       : customDomainConfigurationSerializer(item["customDomainConfiguration"]),
@@ -8922,10 +7703,8 @@ export function managedEnvironmentPropertiesSerializer(item: ManagedEnvironmentP
     ingressConfiguration: !item["ingressConfiguration"]
       ? item["ingressConfiguration"]
       : ingressConfigurationSerializer(item["ingressConfiguration"]),
+    environmentMode: item["environmentMode"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    diskEncryptionConfiguration: !item["diskEncryptionConfiguration"]
-      ? item["diskEncryptionConfiguration"]
-      : diskEncryptionConfigurationSerializer(item["diskEncryptionConfiguration"]),
   };
 }
 
@@ -8939,7 +7718,6 @@ export function managedEnvironmentPropertiesDeserializer(item: any): ManagedEnvi
       : vnetConfigurationDeserializer(item["vnetConfiguration"]),
     deploymentErrors: item["deploymentErrors"],
     defaultDomain: item["defaultDomain"],
-    privateLinkDefaultDomain: item["privateLinkDefaultDomain"],
     staticIp: item["staticIp"],
     appLogsConfiguration: !item["appLogsConfiguration"]
       ? item["appLogsConfiguration"]
@@ -8951,11 +7729,6 @@ export function managedEnvironmentPropertiesDeserializer(item: any): ManagedEnvi
       ? item["openTelemetryConfiguration"]
       : openTelemetryConfigurationDeserializer(item["openTelemetryConfiguration"]),
     zoneRedundant: item["zoneRedundant"],
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
     customDomainConfiguration: !item["customDomainConfiguration"]
       ? item["customDomainConfiguration"]
       : customDomainConfigurationDeserializer(item["customDomainConfiguration"]),
@@ -8981,13 +7754,11 @@ export function managedEnvironmentPropertiesDeserializer(item: any): ManagedEnvi
     ingressConfiguration: !item["ingressConfiguration"]
       ? item["ingressConfiguration"]
       : ingressConfigurationDeserializer(item["ingressConfiguration"]),
+    environmentMode: item["environmentMode"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
-    diskEncryptionConfiguration: !item["diskEncryptionConfiguration"]
-      ? item["diskEncryptionConfiguration"]
-      : diskEncryptionConfigurationDeserializer(item["diskEncryptionConfiguration"]),
   };
 }
 
@@ -9099,23 +7870,16 @@ export interface LogAnalyticsConfiguration {
   customerId?: string;
   /** Log analytics customer key */
   sharedKey?: string;
-  /** Boolean indicating whether to parse json string log into dynamic json columns */
-  dynamicJsonColumns?: boolean;
 }
 
 export function logAnalyticsConfigurationSerializer(item: LogAnalyticsConfiguration): any {
-  return {
-    customerId: item["customerId"],
-    sharedKey: item["sharedKey"],
-    dynamicJsonColumns: item["dynamicJsonColumns"],
-  };
+  return { customerId: item["customerId"], sharedKey: item["sharedKey"] };
 }
 
 export function logAnalyticsConfigurationDeserializer(item: any): LogAnalyticsConfiguration {
   return {
     customerId: item["customerId"],
     sharedKey: item["sharedKey"],
-    dynamicJsonColumns: item["dynamicJsonColumns"],
   };
 }
 
@@ -9405,8 +8169,6 @@ export function workloadProfileArrayDeserializer(result: Array<WorkloadProfile>)
 export interface WorkloadProfile {
   /** Workload profile type for the workloads to run on. */
   name: string;
-  /** Whether to use a FIPS-enabled OS. Supported only for dedicated workload profiles. */
-  enableFips?: boolean;
   /** Workload profile type for the workloads to run on. */
   workloadProfileType: string;
   /** The minimum capacity. */
@@ -9418,7 +8180,6 @@ export interface WorkloadProfile {
 export function workloadProfileSerializer(item: WorkloadProfile): any {
   return {
     name: item["name"],
-    enableFips: item["enableFips"],
     workloadProfileType: item["workloadProfileType"],
     minimumCount: item["minimumCount"],
     maximumCount: item["maximumCount"],
@@ -9428,7 +8189,6 @@ export function workloadProfileSerializer(item: WorkloadProfile): any {
 export function workloadProfileDeserializer(item: any): WorkloadProfile {
   return {
     name: item["name"],
-    enableFips: item["enableFips"],
     workloadProfileType: item["workloadProfileType"],
     minimumCount: item["minimumCount"],
     maximumCount: item["maximumCount"],
@@ -9582,6 +8342,30 @@ export function ingressConfigurationDeserializer(item: any): IngressConfiguratio
     requestIdleTimeout: item["requestIdleTimeout"],
   };
 }
+
+/** Mode of the managed environment. */
+export enum KnownManagedEnvironmentMode {
+  /** The environment supports consumption-only workloads. */
+  ConsumptionOnly = "ConsumptionOnly",
+  /** The environment supports workload profiles. */
+  WorkloadProfiles = "WorkloadProfiles",
+  /** The environment uses the Express mode. */
+  Express = "Express",
+  /** The environment is archived. */
+  Archived = "Archived",
+}
+
+/**
+ * Mode of the managed environment. \
+ * {@link KnownManagedEnvironmentMode} can be used interchangeably with ManagedEnvironmentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ConsumptionOnly**: The environment supports consumption-only workloads. \
+ * **WorkloadProfiles**: The environment supports workload profiles. \
+ * **Express**: The environment uses the Express mode. \
+ * **Archived**: The environment is archived.
+ */
+export type ManagedEnvironmentMode = string;
 
 export function privateEndpointConnectionArraySerializer(
   result: Array<PrivateEndpointConnection>,
@@ -9798,78 +8582,6 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Configuration properties for disk encryption */
-export interface DiskEncryptionConfiguration {
-  /** The Key Vault that contains your key to use for disk encryption. The Key Vault must be in the same region as the Managed Environment. */
-  keyVaultConfiguration?: DiskEncryptionConfigurationKeyVaultConfiguration;
-}
-
-export function diskEncryptionConfigurationSerializer(item: DiskEncryptionConfiguration): any {
-  return {
-    keyVaultConfiguration: !item["keyVaultConfiguration"]
-      ? item["keyVaultConfiguration"]
-      : diskEncryptionConfigurationKeyVaultConfigurationSerializer(item["keyVaultConfiguration"]),
-  };
-}
-
-export function diskEncryptionConfigurationDeserializer(item: any): DiskEncryptionConfiguration {
-  return {
-    keyVaultConfiguration: !item["keyVaultConfiguration"]
-      ? item["keyVaultConfiguration"]
-      : diskEncryptionConfigurationKeyVaultConfigurationDeserializer(item["keyVaultConfiguration"]),
-  };
-}
-
-/** The Key Vault that contains your key to use for disk encryption. The Key Vault must be in the same region as the Managed Environment. */
-export interface DiskEncryptionConfigurationKeyVaultConfiguration {
-  /** Key URL pointing to a key in KeyVault. Version segment of the Url is required. */
-  keyUrl?: string;
-  /** Configuration properties for the authentication to the Key Vault */
-  auth?: DiskEncryptionConfigurationKeyVaultConfigurationAuth;
-}
-
-export function diskEncryptionConfigurationKeyVaultConfigurationSerializer(
-  item: DiskEncryptionConfigurationKeyVaultConfiguration,
-): any {
-  return {
-    keyUrl: item["keyUrl"],
-    auth: !item["auth"]
-      ? item["auth"]
-      : diskEncryptionConfigurationKeyVaultConfigurationAuthSerializer(item["auth"]),
-  };
-}
-
-export function diskEncryptionConfigurationKeyVaultConfigurationDeserializer(
-  item: any,
-): DiskEncryptionConfigurationKeyVaultConfiguration {
-  return {
-    keyUrl: item["keyUrl"],
-    auth: !item["auth"]
-      ? item["auth"]
-      : diskEncryptionConfigurationKeyVaultConfigurationAuthDeserializer(item["auth"]),
-  };
-}
-
-/** Configuration properties for the authentication to the Key Vault */
-export interface DiskEncryptionConfigurationKeyVaultConfigurationAuth {
-  /** Resource ID of a user-assigned managed identity to authenticate to the Key Vault. The identity must be assigned to the managed environment, in the same tenant as the Key Vault, and it must have the following key permissions on the Key Vault: wrapkey, unwrapkey, get. */
-  identity?: string;
-}
-
-export function diskEncryptionConfigurationKeyVaultConfigurationAuthSerializer(
-  item: DiskEncryptionConfigurationKeyVaultConfigurationAuth,
-): any {
-  return { identity: item["identity"] };
-}
-
-export function diskEncryptionConfigurationKeyVaultConfigurationAuthDeserializer(
-  item: any,
-): DiskEncryptionConfigurationKeyVaultConfigurationAuth {
-  return {
-    identity: item["identity"],
-  };
-}
-
 /** Collection of Environments */
 export interface _ManagedEnvironmentsCollection {
   /** The ManagedEnvironment items on this page */
@@ -10007,6 +8719,69 @@ export function workloadProfileStatesPropertiesDeserializer(
   };
 }
 
+/** Request body for checking whether a managed environment can migrate to a target mode. */
+export interface CheckMigrationEligibilityRequest {
+  /** The target environment mode to check migration eligibility against. */
+  targetMode: string;
+}
+
+export function checkMigrationEligibilityRequestSerializer(
+  item: CheckMigrationEligibilityRequest,
+): any {
+  return { targetMode: item["targetMode"] };
+}
+
+/** Result of a read-only managed environment migration eligibility check. */
+export interface CheckMigrationEligibilityResponse {
+  /** Whether the managed environment can migrate to the requested target mode. */
+  isEligible: boolean;
+  /** The name of the managed environment that was checked. */
+  environmentName: string;
+  /** The current mode of the managed environment. */
+  currentMode: string;
+  /** The requested target mode. */
+  targetMode: string;
+  /** The blocking reasons preventing migration. Empty when the managed environment is eligible. */
+  failureReasons: MigrationEligibilityFailureReason[];
+}
+
+export function checkMigrationEligibilityResponseDeserializer(
+  item: any,
+): CheckMigrationEligibilityResponse {
+  return {
+    isEligible: item["isEligible"],
+    environmentName: item["environmentName"],
+    currentMode: item["currentMode"],
+    targetMode: item["targetMode"],
+    failureReasons: migrationEligibilityFailureReasonArrayDeserializer(item["failureReasons"]),
+  };
+}
+
+export function migrationEligibilityFailureReasonArrayDeserializer(
+  result: Array<MigrationEligibilityFailureReason>,
+): any[] {
+  return result.map((item) => {
+    return migrationEligibilityFailureReasonDeserializer(item);
+  });
+}
+
+/** A blocking reason that prevents a managed environment migration. */
+export interface MigrationEligibilityFailureReason {
+  /** The error code identifying the blocker. */
+  code: string;
+  /** A human-readable description of the blocker. */
+  message: string;
+}
+
+export function migrationEligibilityFailureReasonDeserializer(
+  item: any,
+): MigrationEligibilityFailureReason {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
 /** Dapr Component. */
 export interface DaprComponent extends ProxyResource {
   /** Component type */
@@ -10025,8 +8800,6 @@ export interface DaprComponent extends ProxyResource {
   metadata?: DaprMetadata[];
   /** Names of container apps that can use this Dapr component */
   scopes?: string[];
-  /** List of container app services that are bound to the Dapr component */
-  serviceComponentBind?: DaprComponentServiceBinding[];
   /** Provisioning state of the Connected Environment Dapr Component. */
   readonly provisioningState?: DaprComponentProvisioningState;
   /** Any errors that occurred during deployment or deployment validation */
@@ -10044,7 +8817,6 @@ export function daprComponentSerializer(item: DaprComponent): any {
       "secretStoreComponent",
       "metadata",
       "scopes",
-      "serviceComponentBind",
     ])
       ? undefined
       : _daprComponentPropertiesSerializer(item),
@@ -10083,8 +8855,6 @@ export interface DaprComponentProperties {
   metadata?: DaprMetadata[];
   /** Names of container apps that can use this Dapr component */
   scopes?: string[];
-  /** List of container app services that are bound to the Dapr component */
-  serviceComponentBind?: DaprComponentServiceBinding[];
   /** Provisioning state of the Connected Environment Dapr Component. */
   readonly provisioningState?: DaprComponentProvisioningState;
   /** Any errors that occurred during deployment or deployment validation */
@@ -10105,9 +8875,6 @@ export function daprComponentPropertiesSerializer(item: DaprComponentProperties)
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    serviceComponentBind: !item["serviceComponentBind"]
-      ? item["serviceComponentBind"]
-      : daprComponentServiceBindingArraySerializer(item["serviceComponentBind"]),
   };
 }
 
@@ -10127,9 +8894,6 @@ export function daprComponentPropertiesDeserializer(item: any): DaprComponentPro
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    serviceComponentBind: !item["serviceComponentBind"]
-      ? item["serviceComponentBind"]
-      : daprComponentServiceBindingArrayDeserializer(item["serviceComponentBind"]),
     provisioningState: item["provisioningState"],
     deploymentErrors: item["deploymentErrors"],
   };
@@ -10166,71 +8930,6 @@ export function daprMetadataDeserializer(item: any): DaprMetadata {
     name: item["name"],
     value: item["value"],
     secretRef: item["secretRef"],
-  };
-}
-
-export function daprComponentServiceBindingArraySerializer(
-  result: Array<DaprComponentServiceBinding>,
-): any[] {
-  return result.map((item) => {
-    return daprComponentServiceBindingSerializer(item);
-  });
-}
-
-export function daprComponentServiceBindingArrayDeserializer(
-  result: Array<DaprComponentServiceBinding>,
-): any[] {
-  return result.map((item) => {
-    return daprComponentServiceBindingDeserializer(item);
-  });
-}
-
-/** Configuration to bind a Dapr Component to a dev ContainerApp Service */
-export interface DaprComponentServiceBinding {
-  /** Name of the service bind */
-  name?: string;
-  /** Resource id of the target service */
-  serviceId?: string;
-  /** Service bind metadata */
-  metadata?: DaprServiceBindMetadata;
-}
-
-export function daprComponentServiceBindingSerializer(item: DaprComponentServiceBinding): any {
-  return {
-    name: item["name"],
-    serviceId: item["serviceId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : daprServiceBindMetadataSerializer(item["metadata"]),
-  };
-}
-
-export function daprComponentServiceBindingDeserializer(item: any): DaprComponentServiceBinding {
-  return {
-    name: item["name"],
-    serviceId: item["serviceId"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : daprServiceBindMetadataDeserializer(item["metadata"]),
-  };
-}
-
-/** Dapr component metadata. */
-export interface DaprServiceBindMetadata {
-  /** Service bind metadata property name. */
-  name?: string;
-  /** Service bind metadata property value. */
-  value?: string;
-}
-
-export function daprServiceBindMetadataSerializer(item: DaprServiceBindMetadata): any {
-  return { name: item["name"], value: item["value"] };
-}
-
-export function daprServiceBindMetadataDeserializer(item: any): DaprServiceBindMetadata {
-  return {
-    name: item["name"],
-    value: item["value"],
   };
 }
 
@@ -10357,8 +9056,6 @@ export interface ConnectedEnvironmentStorageProperties {
   readonly deploymentErrors?: string;
   /** Azure file properties */
   azureFile?: AzureFileProperties;
-  /** SMB storage properties */
-  smb?: SmbStorage;
 }
 
 export function connectedEnvironmentStoragePropertiesSerializer(
@@ -10368,7 +9065,6 @@ export function connectedEnvironmentStoragePropertiesSerializer(
     azureFile: !item["azureFile"]
       ? item["azureFile"]
       : azureFilePropertiesSerializer(item["azureFile"]),
-    smb: !item["smb"] ? item["smb"] : smbStorageSerializer(item["smb"]),
   };
 }
 
@@ -10381,7 +9077,6 @@ export function connectedEnvironmentStoragePropertiesDeserializer(
     azureFile: !item["azureFile"]
       ? item["azureFile"]
       : azureFilePropertiesDeserializer(item["azureFile"]),
-    smb: !item["smb"] ? item["smb"] : smbStorageDeserializer(item["smb"]),
   };
 }
 
@@ -10486,44 +9181,6 @@ export enum KnownAccessMode {
  * **ReadWrite**: ReadWrite
  */
 export type AccessMode = string;
-
-/** SMB storage properties */
-export interface SmbStorage {
-  /** The host name or IP address of the SMB server. */
-  host?: string;
-  /** The path to the SMB shared folder. */
-  shareName?: string;
-  /** The user to log on to the SMB server. */
-  username?: string;
-  /** The domain name for the user. */
-  domain?: string;
-  /** The password for the user. */
-  password?: string;
-  /** Access mode for storage */
-  accessMode?: AccessMode;
-}
-
-export function smbStorageSerializer(item: SmbStorage): any {
-  return {
-    host: item["host"],
-    shareName: item["shareName"],
-    username: item["username"],
-    domain: item["domain"],
-    password: item["password"],
-    accessMode: item["accessMode"],
-  };
-}
-
-export function smbStorageDeserializer(item: any): SmbStorage {
-  return {
-    host: item["host"],
-    shareName: item["shareName"],
-    username: item["username"],
-    domain: item["domain"],
-    password: item["password"],
-    accessMode: item["accessMode"],
-  };
-}
 
 /** Collection of Storage for Environments */
 export interface ConnectedEnvironmentStoragesCollection {
@@ -10678,6 +9335,98 @@ export function managedCertificateArrayDeserializer(result: Array<ManagedCertifi
   return result.map((item) => {
     return managedCertificateDeserializer(item);
   });
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface _PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateEndpointConnectionListResultDeserializer(
+  item: any,
+): _PrivateEndpointConnectionListResult {
+  return {
+    value: privateEndpointConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+/** List of private link resources for a managed environment. */
+export interface _PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateLinkResourceListResultDeserializer(
+  item: any,
+): _PrivateLinkResourceListResult {
+  return {
+    value: privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
+  return result.map((item) => {
+    return privateLinkResourceDeserializer(item);
+  });
+}
+
+/** A private link resource */
+export interface PrivateLinkResource extends Resource {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+export function privateLinkResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkResourceProperties {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 /** Dapr Component Resiliency Policy. */
@@ -10937,226 +9686,6 @@ export function daprComponentResiliencyPolicyArrayDeserializer(
   });
 }
 
-/** Dapr PubSub Event Subscription. */
-export interface DaprSubscription extends ProxyResource {
-  /** Dapr PubSub component name */
-  pubsubName?: string;
-  /** Topic name */
-  topic?: string;
-  /** Deadletter topic name */
-  deadLetterTopic?: string;
-  /** Subscription routes */
-  routes?: DaprSubscriptionRoutes;
-  /** Application scopes to restrict the subscription to specific apps. */
-  scopes?: string[];
-  /** Subscription metadata */
-  metadata?: Record<string, string>;
-  /** Bulk subscription options */
-  bulkSubscribe?: DaprSubscriptionBulkSubscribeOptions;
-}
-
-export function daprSubscriptionSerializer(item: DaprSubscription): any {
-  return {
-    properties: areAllPropsUndefined(item, [
-      "pubsubName",
-      "topic",
-      "deadLetterTopic",
-      "routes",
-      "scopes",
-      "metadata",
-      "bulkSubscribe",
-    ])
-      ? undefined
-      : _daprSubscriptionPropertiesSerializer(item),
-  };
-}
-
-export function daprSubscriptionDeserializer(item: any): DaprSubscription {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _daprSubscriptionPropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Dapr PubSub Event Subscription resource specific properties */
-export interface DaprSubscriptionProperties {
-  /** Dapr PubSub component name */
-  pubsubName?: string;
-  /** Topic name */
-  topic?: string;
-  /** Deadletter topic name */
-  deadLetterTopic?: string;
-  /** Subscription routes */
-  routes?: DaprSubscriptionRoutes;
-  /** Application scopes to restrict the subscription to specific apps. */
-  scopes?: string[];
-  /** Subscription metadata */
-  metadata?: Record<string, string>;
-  /** Bulk subscription options */
-  bulkSubscribe?: DaprSubscriptionBulkSubscribeOptions;
-}
-
-export function daprSubscriptionPropertiesSerializer(item: DaprSubscriptionProperties): any {
-  return {
-    pubsubName: item["pubsubName"],
-    topic: item["topic"],
-    deadLetterTopic: item["deadLetterTopic"],
-    routes: !item["routes"] ? item["routes"] : daprSubscriptionRoutesSerializer(item["routes"]),
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : item["scopes"].map((p: any) => {
-          return p;
-        }),
-    metadata: item["metadata"],
-    bulkSubscribe: !item["bulkSubscribe"]
-      ? item["bulkSubscribe"]
-      : daprSubscriptionBulkSubscribeOptionsSerializer(item["bulkSubscribe"]),
-  };
-}
-
-export function daprSubscriptionPropertiesDeserializer(item: any): DaprSubscriptionProperties {
-  return {
-    pubsubName: item["pubsubName"],
-    topic: item["topic"],
-    deadLetterTopic: item["deadLetterTopic"],
-    routes: !item["routes"] ? item["routes"] : daprSubscriptionRoutesDeserializer(item["routes"]),
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : item["scopes"].map((p: any) => {
-          return p;
-        }),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
-    bulkSubscribe: !item["bulkSubscribe"]
-      ? item["bulkSubscribe"]
-      : daprSubscriptionBulkSubscribeOptionsDeserializer(item["bulkSubscribe"]),
-  };
-}
-
-/** Dapr PubSub Event Subscription Routes configuration. */
-export interface DaprSubscriptionRoutes {
-  /** The list of Dapr PubSub Event Subscription Route Rules. */
-  rules?: DaprSubscriptionRouteRule[];
-  /** The default path to deliver events that do not match any of the rules. */
-  default?: string;
-}
-
-export function daprSubscriptionRoutesSerializer(item: DaprSubscriptionRoutes): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : daprSubscriptionRouteRuleArraySerializer(item["rules"]),
-    default: item["default"],
-  };
-}
-
-export function daprSubscriptionRoutesDeserializer(item: any): DaprSubscriptionRoutes {
-  return {
-    rules: !item["rules"]
-      ? item["rules"]
-      : daprSubscriptionRouteRuleArrayDeserializer(item["rules"]),
-    default: item["default"],
-  };
-}
-
-export function daprSubscriptionRouteRuleArraySerializer(
-  result: Array<DaprSubscriptionRouteRule>,
-): any[] {
-  return result.map((item) => {
-    return daprSubscriptionRouteRuleSerializer(item);
-  });
-}
-
-export function daprSubscriptionRouteRuleArrayDeserializer(
-  result: Array<DaprSubscriptionRouteRule>,
-): any[] {
-  return result.map((item) => {
-    return daprSubscriptionRouteRuleDeserializer(item);
-  });
-}
-
-/** Dapr Pubsub Event Subscription Route Rule is used to specify the condition for sending a message to a specific path. */
-export interface DaprSubscriptionRouteRule {
-  /** The optional CEL expression used to match the event. If the match is not specified, then the route is considered the default. The rules are tested in the order specified, so they should be define from most-to-least specific. The default route should appear last in the list. */
-  match?: string;
-  /** The path for events that match this rule */
-  path?: string;
-}
-
-export function daprSubscriptionRouteRuleSerializer(item: DaprSubscriptionRouteRule): any {
-  return { match: item["match"], path: item["path"] };
-}
-
-export function daprSubscriptionRouteRuleDeserializer(item: any): DaprSubscriptionRouteRule {
-  return {
-    match: item["match"],
-    path: item["path"],
-  };
-}
-
-/** Dapr PubSub Bulk Subscription Options. */
-export interface DaprSubscriptionBulkSubscribeOptions {
-  /** Enable bulk subscription */
-  enabled?: boolean;
-  /** Maximum number of messages to deliver in a bulk message. */
-  maxMessagesCount?: number;
-  /** Maximum duration in milliseconds to wait before a bulk message is sent to the app. */
-  maxAwaitDurationMs?: number;
-}
-
-export function daprSubscriptionBulkSubscribeOptionsSerializer(
-  item: DaprSubscriptionBulkSubscribeOptions,
-): any {
-  return {
-    enabled: item["enabled"],
-    maxMessagesCount: item["maxMessagesCount"],
-    maxAwaitDurationMs: item["maxAwaitDurationMs"],
-  };
-}
-
-export function daprSubscriptionBulkSubscribeOptionsDeserializer(
-  item: any,
-): DaprSubscriptionBulkSubscribeOptions {
-  return {
-    enabled: item["enabled"],
-    maxMessagesCount: item["maxMessagesCount"],
-    maxAwaitDurationMs: item["maxAwaitDurationMs"],
-  };
-}
-
-/** Dapr Subscriptions ARM resource. */
-export interface _DaprSubscriptionsCollection {
-  /** The DaprSubscription items on this page */
-  value: DaprSubscription[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _daprSubscriptionsCollectionDeserializer(item: any): _DaprSubscriptionsCollection {
-  return {
-    value: daprSubscriptionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function daprSubscriptionArraySerializer(result: Array<DaprSubscription>): any[] {
-  return result.map((item) => {
-    return daprSubscriptionSerializer(item);
-  });
-}
-
-export function daprSubscriptionArrayDeserializer(result: Array<DaprSubscription>): any[] {
-  return result.map((item) => {
-    return daprSubscriptionDeserializer(item);
-  });
-}
-
 /** Information about the Maintenance Configuration resource. */
 export interface MaintenanceConfigurationResource extends ProxyResource {
   /** List of maintenance schedules for a managed environment. */
@@ -11167,7 +9696,7 @@ export function maintenanceConfigurationResourceSerializer(
   item: MaintenanceConfigurationResource,
 ): any {
   return {
-    properties: areAllPropsUndefined(item, ["ScheduledEntries"])
+    properties: areAllPropsUndefined(item, ["scheduledEntries"])
       ? undefined
       : _maintenanceConfigurationResourcePropertiesSerializer(item),
   };
@@ -11344,7 +9873,7 @@ export function managedEnvironmentStoragePropertiesDeserializer(
 
 /** NFS Azure File Properties. */
 export interface NfsAzureFileProperties {
-  /** Server for NFS azure file. */
+  /** Server for NFS azure file. Specify the Azure storage account server address. */
   server?: string;
   /** Access mode for storage */
   accessMode?: AccessMode;
@@ -11396,8 +9925,6 @@ export function managedEnvironmentStorageArrayDeserializer(
 
 /** Container App Job */
 export interface Job extends TrackedResource {
-  /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** Provisioning state of the Container Apps Job. */
@@ -11430,9 +9957,6 @@ export function jobSerializer(item: Job): any {
     ])
       ? undefined
       : _jobPropertiesSerializer(item),
-    extendedLocation: !item["extendedLocation"]
-      ? item["extendedLocation"]
-      : extendedLocationSerializer(item["extendedLocation"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -11452,9 +9976,6 @@ export function jobDeserializer(item: any): Job {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"] ? item["properties"] : _jobPropertiesDeserializer(item["properties"])),
-    extendedLocation: !item["extendedLocation"]
-      ? item["extendedLocation"]
-      : extendedLocationDeserializer(item["extendedLocation"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -11540,11 +10061,11 @@ export type JobProvisioningState = string;
 
 /** Current running state of the job */
 export enum KnownJobRunningState {
-  /** Ready */
+  /** The job is ready to run. */
   Ready = "Ready",
-  /** Progressing */
+  /** The job is transitioning to its target state. */
   Progressing = "Progressing",
-  /** Suspended */
+  /** The job is suspended. */
   Suspended = "Suspended",
 }
 
@@ -11553,9 +10074,9 @@ export enum KnownJobRunningState {
  * {@link KnownJobRunningState} can be used interchangeably with JobRunningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ready**: Ready \
- * **Progressing**: Progressing \
- * **Suspended**: Suspended
+ * **Ready**: The job is ready to run. \
+ * **Progressing**: The job is transitioning to its target state. \
+ * **Suspended**: The job is suspended.
  */
 export type JobRunningState = string;
 
@@ -11851,8 +10372,6 @@ export function jobTemplateDeserializer(item: any): JobTemplate {
 
 /** Container Apps Job resource specific properties. */
 export interface JobPatchProperties {
-  /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
   /** Managed identities needed by a container app job to interact with other Azure services to not maintain any secrets or credentials in code. */
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
@@ -11863,9 +10382,6 @@ export interface JobPatchProperties {
 
 export function jobPatchPropertiesSerializer(item: JobPatchProperties): any {
   return {
-    extendedLocation: !item["extendedLocation"]
-      ? item["extendedLocation"]
-      : extendedLocationSerializer(item["extendedLocation"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -12275,579 +10791,7 @@ export function diagnosticDataProviderMetadataPropertyBagItemDeserializer(
   };
 }
 
-/** The response of a Container Apps Build Resource list operation. */
-export interface _ContainerAppsBuildCollection {
-  /** The ContainerAppsBuildResource items on this page */
-  value: ContainerAppsBuildResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _containerAppsBuildCollectionDeserializer(
-  item: any,
-): _ContainerAppsBuildCollection {
-  return {
-    value: containerAppsBuildResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function containerAppsBuildResourceArrayDeserializer(
-  result: Array<ContainerAppsBuildResource>,
-): any[] {
-  return result.map((item) => {
-    return containerAppsBuildResourceDeserializer(item);
-  });
-}
-
-/** Configuration to setup App Resiliency */
-export interface AppResiliency extends ProxyResource {
-  /** Policy to set request timeouts */
-  timeoutPolicy?: TimeoutPolicy;
-  /** Policy that defines http request retry conditions */
-  httpRetryPolicy?: HttpRetryPolicy;
-  /** Policy that defines tcp request retry conditions */
-  tcpRetryPolicy?: TcpRetryPolicy;
-  /** Policy that defines circuit breaker conditions */
-  circuitBreakerPolicy?: CircuitBreakerPolicy;
-  /** Defines parameters for http connection pooling */
-  httpConnectionPool?: HttpConnectionPool;
-  /** Defines parameters for tcp connection pooling */
-  tcpConnectionPool?: TcpConnectionPool;
-}
-
-export function appResiliencySerializer(item: AppResiliency): any {
-  return {
-    properties: areAllPropsUndefined(item, [
-      "timeoutPolicy",
-      "httpRetryPolicy",
-      "tcpRetryPolicy",
-      "circuitBreakerPolicy",
-      "httpConnectionPool",
-      "tcpConnectionPool",
-    ])
-      ? undefined
-      : _appResiliencyPropertiesSerializer(item),
-  };
-}
-
-export function appResiliencyDeserializer(item: any): AppResiliency {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _appResiliencyPropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** App Resiliency resource specific properties */
-export interface AppResiliencyProperties {
-  /** Policy to set request timeouts */
-  timeoutPolicy?: TimeoutPolicy;
-  /** Policy that defines http request retry conditions */
-  httpRetryPolicy?: HttpRetryPolicy;
-  /** Policy that defines tcp request retry conditions */
-  tcpRetryPolicy?: TcpRetryPolicy;
-  /** Policy that defines circuit breaker conditions */
-  circuitBreakerPolicy?: CircuitBreakerPolicy;
-  /** Defines parameters for http connection pooling */
-  httpConnectionPool?: HttpConnectionPool;
-  /** Defines parameters for tcp connection pooling */
-  tcpConnectionPool?: TcpConnectionPool;
-}
-
-export function appResiliencyPropertiesSerializer(item: AppResiliencyProperties): any {
-  return {
-    timeoutPolicy: !item["timeoutPolicy"]
-      ? item["timeoutPolicy"]
-      : timeoutPolicySerializer(item["timeoutPolicy"]),
-    httpRetryPolicy: !item["httpRetryPolicy"]
-      ? item["httpRetryPolicy"]
-      : httpRetryPolicySerializer(item["httpRetryPolicy"]),
-    tcpRetryPolicy: !item["tcpRetryPolicy"]
-      ? item["tcpRetryPolicy"]
-      : tcpRetryPolicySerializer(item["tcpRetryPolicy"]),
-    circuitBreakerPolicy: !item["circuitBreakerPolicy"]
-      ? item["circuitBreakerPolicy"]
-      : circuitBreakerPolicySerializer(item["circuitBreakerPolicy"]),
-    httpConnectionPool: !item["httpConnectionPool"]
-      ? item["httpConnectionPool"]
-      : httpConnectionPoolSerializer(item["httpConnectionPool"]),
-    tcpConnectionPool: !item["tcpConnectionPool"]
-      ? item["tcpConnectionPool"]
-      : tcpConnectionPoolSerializer(item["tcpConnectionPool"]),
-  };
-}
-
-export function appResiliencyPropertiesDeserializer(item: any): AppResiliencyProperties {
-  return {
-    timeoutPolicy: !item["timeoutPolicy"]
-      ? item["timeoutPolicy"]
-      : timeoutPolicyDeserializer(item["timeoutPolicy"]),
-    httpRetryPolicy: !item["httpRetryPolicy"]
-      ? item["httpRetryPolicy"]
-      : httpRetryPolicyDeserializer(item["httpRetryPolicy"]),
-    tcpRetryPolicy: !item["tcpRetryPolicy"]
-      ? item["tcpRetryPolicy"]
-      : tcpRetryPolicyDeserializer(item["tcpRetryPolicy"]),
-    circuitBreakerPolicy: !item["circuitBreakerPolicy"]
-      ? item["circuitBreakerPolicy"]
-      : circuitBreakerPolicyDeserializer(item["circuitBreakerPolicy"]),
-    httpConnectionPool: !item["httpConnectionPool"]
-      ? item["httpConnectionPool"]
-      : httpConnectionPoolDeserializer(item["httpConnectionPool"]),
-    tcpConnectionPool: !item["tcpConnectionPool"]
-      ? item["tcpConnectionPool"]
-      : tcpConnectionPoolDeserializer(item["tcpConnectionPool"]),
-  };
-}
-
-/** Policy to set request timeouts */
-export interface TimeoutPolicy {
-  /** Timeout, in seconds, for a request to respond */
-  responseTimeoutInSeconds?: number;
-  /** Timeout, in seconds, for a request to initiate a connection */
-  connectionTimeoutInSeconds?: number;
-}
-
-export function timeoutPolicySerializer(item: TimeoutPolicy): any {
-  return {
-    responseTimeoutInSeconds: item["responseTimeoutInSeconds"],
-    connectionTimeoutInSeconds: item["connectionTimeoutInSeconds"],
-  };
-}
-
-export function timeoutPolicyDeserializer(item: any): TimeoutPolicy {
-  return {
-    responseTimeoutInSeconds: item["responseTimeoutInSeconds"],
-    connectionTimeoutInSeconds: item["connectionTimeoutInSeconds"],
-  };
-}
-
-/** Policy that defines http request retry conditions */
-export interface HttpRetryPolicy {
-  /** Maximum number of times a request will retry */
-  maxRetries?: number;
-  /** Initial delay, in milliseconds, before retrying a request */
-  initialDelayInMilliseconds?: number;
-  /** Maximum interval, in milliseconds, between retries */
-  maxIntervalInMilliseconds?: number;
-  /** Headers that must be present for a request to be retried */
-  headers?: HeaderMatch[];
-  /** Additional http status codes that can trigger a retry */
-  httpStatusCodes?: number[];
-  /** Errors that can trigger a retry */
-  errors?: string[];
-}
-
-export function httpRetryPolicySerializer(item: HttpRetryPolicy): any {
-  return {
-    maxRetries: item["maxRetries"],
-    retryBackOff: areAllPropsUndefined(item, [
-      "initialDelayInMilliseconds",
-      "maxIntervalInMilliseconds",
-    ])
-      ? undefined
-      : _httpRetryPolicyRetryBackOffSerializer(item),
-    matches: areAllPropsUndefined(item, ["headers", "httpStatusCodes", "errors"])
-      ? undefined
-      : _httpRetryPolicyMatchesSerializer(item),
-  };
-}
-
-export function httpRetryPolicyDeserializer(item: any): HttpRetryPolicy {
-  return {
-    maxRetries: item["maxRetries"],
-    ...(!item["retryBackOff"]
-      ? item["retryBackOff"]
-      : _httpRetryPolicyRetryBackOffDeserializer(item["retryBackOff"])),
-    ...(!item["matches"] ? item["matches"] : _httpRetryPolicyMatchesDeserializer(item["matches"])),
-  };
-}
-
-/** Settings for retry backoff characteristics */
-export interface HttpRetryPolicyRetryBackOff {
-  /** Initial delay, in milliseconds, before retrying a request */
-  initialDelayInMilliseconds?: number;
-  /** Maximum interval, in milliseconds, between retries */
-  maxIntervalInMilliseconds?: number;
-}
-
-export function httpRetryPolicyRetryBackOffSerializer(item: HttpRetryPolicyRetryBackOff): any {
-  return {
-    initialDelayInMilliseconds: item["initialDelayInMilliseconds"],
-    maxIntervalInMilliseconds: item["maxIntervalInMilliseconds"],
-  };
-}
-
-export function httpRetryPolicyRetryBackOffDeserializer(item: any): HttpRetryPolicyRetryBackOff {
-  return {
-    initialDelayInMilliseconds: item["initialDelayInMilliseconds"],
-    maxIntervalInMilliseconds: item["maxIntervalInMilliseconds"],
-  };
-}
-
-/** Conditions that must be met for a request to be retried */
-export interface HttpRetryPolicyMatches {
-  /** Headers that must be present for a request to be retried */
-  headers?: HeaderMatch[];
-  /** Additional http status codes that can trigger a retry */
-  httpStatusCodes?: number[];
-  /** Errors that can trigger a retry */
-  errors?: string[];
-}
-
-export function httpRetryPolicyMatchesSerializer(item: HttpRetryPolicyMatches): any {
-  return {
-    headers: !item["headers"] ? item["headers"] : headerMatchArraySerializer(item["headers"]),
-    httpStatusCodes: !item["httpStatusCodes"]
-      ? item["httpStatusCodes"]
-      : item["httpStatusCodes"].map((p: any) => {
-          return p;
-        }),
-    errors: !item["errors"]
-      ? item["errors"]
-      : item["errors"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function httpRetryPolicyMatchesDeserializer(item: any): HttpRetryPolicyMatches {
-  return {
-    headers: !item["headers"] ? item["headers"] : headerMatchArrayDeserializer(item["headers"]),
-    httpStatusCodes: !item["httpStatusCodes"]
-      ? item["httpStatusCodes"]
-      : item["httpStatusCodes"].map((p: any) => {
-          return p;
-        }),
-    errors: !item["errors"]
-      ? item["errors"]
-      : item["errors"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function headerMatchArraySerializer(result: Array<HeaderMatch>): any[] {
-  return result.map((item) => {
-    return headerMatchSerializer(item);
-  });
-}
-
-export function headerMatchArrayDeserializer(result: Array<HeaderMatch>): any[] {
-  return result.map((item) => {
-    return headerMatchDeserializer(item);
-  });
-}
-
-/** Conditions required to match a header */
-export interface HeaderMatch {
-  /** Name of the header */
-  header?: string;
-  /** Exact value of the header */
-  exactMatch?: string;
-  /** Prefix value of the header */
-  prefixMatch?: string;
-  /** Suffix value of the header */
-  suffixMatch?: string;
-  /** Regex value of the header */
-  regexMatch?: string;
-}
-
-export function headerMatchSerializer(item: HeaderMatch): any {
-  return {
-    header: item["header"],
-    match: areAllPropsUndefined(item, ["exactMatch", "prefixMatch", "suffixMatch", "regexMatch"])
-      ? undefined
-      : _headerMatchMatchSerializer(item),
-  };
-}
-
-export function headerMatchDeserializer(item: any): HeaderMatch {
-  return {
-    header: item["header"],
-    ...(!item["match"] ? item["match"] : _headerMatchMatchDeserializer(item["match"])),
-  };
-}
-
-/** Type of match to perform */
-export interface HeaderMatchMatch {
-  /** Exact value of the header */
-  exactMatch?: string;
-  /** Prefix value of the header */
-  prefixMatch?: string;
-  /** Suffix value of the header */
-  suffixMatch?: string;
-  /** Regex value of the header */
-  regexMatch?: string;
-}
-
-export function headerMatchMatchSerializer(item: HeaderMatchMatch): any {
-  return {
-    exactMatch: item["exactMatch"],
-    prefixMatch: item["prefixMatch"],
-    suffixMatch: item["suffixMatch"],
-    regexMatch: item["regexMatch"],
-  };
-}
-
-export function headerMatchMatchDeserializer(item: any): HeaderMatchMatch {
-  return {
-    exactMatch: item["exactMatch"],
-    prefixMatch: item["prefixMatch"],
-    suffixMatch: item["suffixMatch"],
-    regexMatch: item["regexMatch"],
-  };
-}
-
-/** Policy that defines tcp request retry conditions */
-export interface TcpRetryPolicy {
-  /** Maximum number of attempts to connect to the tcp service */
-  maxConnectAttempts?: number;
-}
-
-export function tcpRetryPolicySerializer(item: TcpRetryPolicy): any {
-  return { maxConnectAttempts: item["maxConnectAttempts"] };
-}
-
-export function tcpRetryPolicyDeserializer(item: any): TcpRetryPolicy {
-  return {
-    maxConnectAttempts: item["maxConnectAttempts"],
-  };
-}
-
-/** Policy that defines circuit breaker conditions */
-export interface CircuitBreakerPolicy {
-  /** Number of consecutive errors before the circuit breaker opens */
-  consecutiveErrors?: number;
-  /** The time interval, in seconds, between endpoint checks. This can result in opening the circuit breaker if the check fails as well as closing the circuit breaker if the check succeeds. Defaults to 10s. */
-  intervalInSeconds?: number;
-  /** Maximum percentage of hosts that will be ejected after failure threshold has been met */
-  maxEjectionPercent?: number;
-}
-
-export function circuitBreakerPolicySerializer(item: CircuitBreakerPolicy): any {
-  return {
-    consecutiveErrors: item["consecutiveErrors"],
-    intervalInSeconds: item["intervalInSeconds"],
-    maxEjectionPercent: item["maxEjectionPercent"],
-  };
-}
-
-export function circuitBreakerPolicyDeserializer(item: any): CircuitBreakerPolicy {
-  return {
-    consecutiveErrors: item["consecutiveErrors"],
-    intervalInSeconds: item["intervalInSeconds"],
-    maxEjectionPercent: item["maxEjectionPercent"],
-  };
-}
-
-/** Defines parameters for http connection pooling */
-export interface HttpConnectionPool {
-  /** Maximum number of pending http1 requests allowed */
-  http1MaxPendingRequests?: number;
-  /** Maximum number of http2 requests allowed */
-  http2MaxRequests?: number;
-}
-
-export function httpConnectionPoolSerializer(item: HttpConnectionPool): any {
-  return {
-    http1MaxPendingRequests: item["http1MaxPendingRequests"],
-    http2MaxRequests: item["http2MaxRequests"],
-  };
-}
-
-export function httpConnectionPoolDeserializer(item: any): HttpConnectionPool {
-  return {
-    http1MaxPendingRequests: item["http1MaxPendingRequests"],
-    http2MaxRequests: item["http2MaxRequests"],
-  };
-}
-
-/** Defines parameters for tcp connection pooling */
-export interface TcpConnectionPool {
-  /** Maximum number of tcp connections allowed */
-  maxConnections?: number;
-}
-
-export function tcpConnectionPoolSerializer(item: TcpConnectionPool): any {
-  return { maxConnections: item["maxConnections"] };
-}
-
-export function tcpConnectionPoolDeserializer(item: any): TcpConnectionPool {
-  return {
-    maxConnections: item["maxConnections"],
-  };
-}
-
-/** Collection of AppResiliency policies */
-export interface _AppResiliencyCollection {
-  /** The AppResiliency items on this page */
-  value: AppResiliency[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _appResiliencyCollectionDeserializer(item: any): _AppResiliencyCollection {
-  return {
-    value: appResiliencyArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function appResiliencyArraySerializer(result: Array<AppResiliency>): any[] {
-  return result.map((item) => {
-    return appResiliencySerializer(item);
-  });
-}
-
-export function appResiliencyArrayDeserializer(result: Array<AppResiliency>): any[] {
-  return result.map((item) => {
-    return appResiliencyDeserializer(item);
-  });
-}
-
-/** The response of a BuildResource list operation. */
-export interface _BuildCollection {
-  /** The BuildResource items on this page */
-  value: BuildResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _buildCollectionDeserializer(item: any): _BuildCollection {
-  return {
-    value: buildResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function buildResourceArraySerializer(result: Array<BuildResource>): any[] {
-  return result.map((item) => {
-    return buildResourceSerializer(item);
-  });
-}
-
-export function buildResourceArrayDeserializer(result: Array<BuildResource>): any[] {
-  return result.map((item) => {
-    return buildResourceDeserializer(item);
-  });
-}
-
-/** Build Auth Token. */
-export interface BuildToken {
-  /** Authentication token. */
-  readonly token?: string;
-  /** Token expiration date. */
-  readonly expires?: Date;
-}
-
-export function buildTokenDeserializer(item: any): BuildToken {
-  return {
-    token: item["token"],
-    expires: !item["expires"] ? item["expires"] : new Date(item["expires"]),
-  };
-}
-
-/** The response of a PrivateLinkResource list operation. */
-export interface _PrivateLinkResourceListResult {
-  /** The PrivateLinkResource items on this page */
-  value: PrivateLinkResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _privateLinkResourceListResultDeserializer(
-  item: any,
-): _PrivateLinkResourceListResult {
-  return {
-    value: privateLinkResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
-  return result.map((item) => {
-    return privateLinkResourceDeserializer(item);
-  });
-}
-
-/** A private link resource */
-export interface PrivateLinkResource extends Resource {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-export function privateLinkResourcePropertiesDeserializer(
-  item: any,
-): PrivateLinkResourceProperties {
-  return {
-    groupId: item["groupId"],
-    requiredMembers: !item["requiredMembers"]
-      ? item["requiredMembers"]
-      : item["requiredMembers"].map((p: any) => {
-          return p;
-        }),
-    requiredZoneNames: !item["requiredZoneNames"]
-      ? item["requiredZoneNames"]
-      : item["requiredZoneNames"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The response of a PrivateEndpointConnection list operation. */
-export interface _PrivateEndpointConnectionListResult {
-  /** The PrivateEndpointConnection items on this page */
-  value: PrivateEndpointConnection[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _privateEndpointConnectionListResultDeserializer(
-  item: any,
-): _PrivateEndpointConnectionListResult {
-  return {
-    value: privateEndpointConnectionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-/** Advanced Ingress routing for path/header based routing for a Container App Environment */
+/** A set of host names and http request routing rules for a Container App Environment */
 export interface HttpRouteConfig extends ProxyResource {
   /** Http Route Config properties */
   properties?: HttpRouteConfigProperties;
@@ -12953,7 +10897,7 @@ export function httpRouteProvisioningErrorsArrayDeserializer(
   });
 }
 
-/** List of provisioning errors for a http route config object */
+/** List of provisioning errors for a Http Route Config object */
 export interface HttpRouteProvisioningErrors {
   /** Timestamp error occured at */
   readonly timestamp?: Date;
@@ -12980,7 +10924,7 @@ export function httpRouteRuleArrayDeserializer(result: Array<HttpRouteRule>): an
   });
 }
 
-/** Http Route rule. */
+/** A set of routing conditions and targets. */
 export interface HttpRouteRule {
   /** Targets- container apps, revisions, labels */
   targets?: HttpRouteTarget[];
@@ -13024,19 +10968,12 @@ export interface HttpRouteTarget {
   containerApp: string;
   /** Revision to route requests to */
   revision?: string;
-  /** Label/Revision to route requests to */
+  /** Label to route requests to */
   label?: string;
-  /** Weighted routing */
-  weight?: number;
 }
 
 export function httpRouteTargetSerializer(item: HttpRouteTarget): any {
-  return {
-    containerApp: item["containerApp"],
-    revision: item["revision"],
-    label: item["label"],
-    weight: item["weight"],
-  };
+  return { containerApp: item["containerApp"], revision: item["revision"], label: item["label"] };
 }
 
 export function httpRouteTargetDeserializer(item: any): HttpRouteTarget {
@@ -13044,7 +10981,6 @@ export function httpRouteTargetDeserializer(item: any): HttpRouteTarget {
     containerApp: item["containerApp"],
     revision: item["revision"],
     label: item["label"],
-    weight: item["weight"],
   };
 }
 
@@ -13060,7 +10996,7 @@ export function httpRouteArrayDeserializer(result: Array<HttpRoute>): any[] {
   });
 }
 
-/** Http Routes configuration, including paths to match on and whether or not rewrites are to be done. */
+/** Http Routes, including paths to match on and whether or not rewrites are to be done. */
 export interface HttpRoute {
   /** Conditions route will match on */
   match?: HttpRouteMatch;
@@ -13128,7 +11064,7 @@ export function httpRouteActionDeserializer(item: any): HttpRouteAction {
   };
 }
 
-/** Collection of Advanced Ingress Routing Config resources. */
+/** Collection of rule based Http Route Config resources. */
 export interface _HttpRouteConfigCollection {
   /** The HttpRouteConfig items on this page */
   value: HttpRouteConfig[];
@@ -13250,6 +11186,71 @@ export enum KnownApplicability {
  */
 export type Applicability = string;
 
+/** Collection of environment modes available in the location. */
+export interface _AvailableEnvironmentModesCollection {
+  /** The AvailableEnvironmentMode items on this page */
+  value: AvailableEnvironmentMode[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _availableEnvironmentModesCollectionDeserializer(
+  item: any,
+): _AvailableEnvironmentModesCollection {
+  return {
+    value: availableEnvironmentModeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function availableEnvironmentModeArrayDeserializer(
+  result: Array<AvailableEnvironmentMode>,
+): any[] {
+  return result.map((item) => {
+    return availableEnvironmentModeDeserializer(item);
+  });
+}
+
+/** An environment mode available to the subscription. */
+export interface AvailableEnvironmentMode extends ProxyResource {
+  /** The Azure region in which the environment mode is available. */
+  location?: string;
+  /** The environment mode details. */
+  properties?: AvailableEnvironmentModeProperties;
+}
+
+export function availableEnvironmentModeDeserializer(item: any): AvailableEnvironmentMode {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : availableEnvironmentModePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details that describe an available environment mode. */
+export interface AvailableEnvironmentModeProperties {
+  /** The display name of the environment mode. */
+  readonly displayName?: string;
+  /** The description of the environment mode. */
+  readonly description?: string;
+}
+
+export function availableEnvironmentModePropertiesDeserializer(
+  item: any,
+): AvailableEnvironmentModeProperties {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+  };
+}
+
 /** Collection of billing meters. */
 export interface BillingMeterCollection {
   /** Collection of billing meters. */
@@ -13366,28 +11367,12 @@ export function usageNameDeserializer(item: any): UsageName {
   };
 }
 
-/** HTTP method used by the Logic Apps proxy. */
-export enum KnownLogicAppsProxyMethod {
-  /** GET */
-  GET = "GET",
-  /** POST */
-  Post = "POST",
-}
-
-/**
- * HTTP method used by the Logic Apps proxy. \
- * {@link KnownLogicAppsProxyMethod} can be used interchangeably with LogicAppsProxyMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GET**: GET \
- * **POST**: POST
- */
-export type LogicAppsProxyMethod = string;
-
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-10-02-preview API version. */
-  V20251002Preview = "2025-10-02-preview",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _jobExecutionPropertiesDeserializer(item: any) {
@@ -13427,9 +11412,6 @@ export function _sessionPoolPropertiesSerializer(item: SessionPool): any {
     managedIdentitySettings: !item["managedIdentitySettings"]
       ? item["managedIdentitySettings"]
       : managedIdentitySettingArraySerializer(item["managedIdentitySettings"]),
-    mcpServerSettings: !item["mcpServerSettings"]
-      ? item["mcpServerSettings"]
-      : mcpServerSettingsSerializer(item["mcpServerSettings"]),
   };
 }
 
@@ -13454,17 +11436,11 @@ export function _sessionPoolPropertiesDeserializer(item: any) {
     sessionNetworkConfiguration: !item["sessionNetworkConfiguration"]
       ? item["sessionNetworkConfiguration"]
       : sessionNetworkConfigurationDeserializer(item["sessionNetworkConfiguration"]),
-    templateUpdateStatus: !item["templateUpdateStatus"]
-      ? item["templateUpdateStatus"]
-      : templateUpdateStatusDeserializer(item["templateUpdateStatus"]),
     poolManagementEndpoint: item["poolManagementEndpoint"],
     provisioningState: item["provisioningState"],
     managedIdentitySettings: !item["managedIdentitySettings"]
       ? item["managedIdentitySettings"]
       : managedIdentitySettingArrayDeserializer(item["managedIdentitySettings"]),
-    mcpServerSettings: !item["mcpServerSettings"]
-      ? item["mcpServerSettings"]
-      : mcpServerSettingsDeserializer(item["mcpServerSettings"]),
   };
 }
 
@@ -13513,10 +11489,10 @@ export function _containerAppPropertiesSerializer(item: ContainerApp): any {
   return {
     managedEnvironmentId: item["managedEnvironmentId"],
     environmentId: item["environmentId"],
+    networking: !item["networking"]
+      ? item["networking"]
+      : containerAppNetworkingConfigurationSerializer(item["networking"]),
     workloadProfileName: item["workloadProfileName"],
-    patchingConfiguration: !item["patchingConfiguration"]
-      ? item["patchingConfiguration"]
-      : containerAppPropertiesPatchingConfigurationSerializer(item["patchingConfiguration"]),
     configuration: !item["configuration"]
       ? item["configuration"]
       : configurationSerializer(item["configuration"]),
@@ -13528,13 +11504,12 @@ export function _containerAppPropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
     runningStatus: item["runningStatus"],
-    deploymentErrors: item["deploymentErrors"],
     managedEnvironmentId: item["managedEnvironmentId"],
     environmentId: item["environmentId"],
+    networking: !item["networking"]
+      ? item["networking"]
+      : containerAppNetworkingConfigurationDeserializer(item["networking"]),
     workloadProfileName: item["workloadProfileName"],
-    patchingConfiguration: !item["patchingConfiguration"]
-      ? item["patchingConfiguration"]
-      : containerAppPropertiesPatchingConfigurationDeserializer(item["patchingConfiguration"]),
     latestRevisionName: item["latestRevisionName"],
     latestReadyRevisionName: item["latestReadyRevisionName"],
     latestRevisionFqdn: item["latestRevisionFqdn"],
@@ -13559,26 +11534,13 @@ export function _containerAppAuthTokenPropertiesDeserializer(item: any) {
   };
 }
 
-export function _containerAppsBuildResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    buildStatus: item["buildStatus"],
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageDeserializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : containerAppsBuildConfigurationDeserializer(item["configuration"]),
-    logStreamEndpoint: item["logStreamEndpoint"],
-  };
-}
-
 export function _containerAppsFunctionPropertiesDeserializer(item: any) {
   return {
     invokeUrlTemplate: item["invokeUrlTemplate"],
     triggerType: item["triggerType"],
     language: item["language"],
     isDisabled: item["isDisabled"],
+    state: item["state"],
   };
 }
 
@@ -13593,11 +11555,6 @@ export function _revisionPropertiesDeserializer(item: any) {
     active: item["active"],
     replicas: item["replicas"],
     trafficWeight: item["trafficWeight"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : item["labels"].map((p: any) => {
-          return p;
-        }),
     provisioningError: item["provisioningError"],
     healthState: item["healthState"],
     provisioningState: item["provisioningState"],
@@ -13644,14 +11601,6 @@ export function _dotNetComponentPropertiesDeserializer(item: any) {
   };
 }
 
-export function _logicAppPropertiesSerializer(_item: LogicApp): any {
-  return {};
-}
-
-export function _logicAppPropertiesDeserializer(item: any) {
-  return item;
-}
-
 export function _authConfigPropertiesSerializer(item: AuthConfig): any {
   return {
     platform: !item["platform"] ? item["platform"] : authPlatformSerializer(item["platform"]),
@@ -13687,56 +11636,6 @@ export function _authConfigPropertiesDeserializer(item: any) {
     encryptionSettings: !item["encryptionSettings"]
       ? item["encryptionSettings"]
       : encryptionSettingsDeserializer(item["encryptionSettings"]),
-  };
-}
-
-export function _builderResourcePropertiesSerializer(item: BuilderResource): any {
-  return {
-    environmentId: item["environmentId"],
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : containerRegistryArraySerializer(item["containerRegistries"]),
-  };
-}
-
-export function _builderResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    environmentId: item["environmentId"],
-    containerRegistries: !item["containerRegistries"]
-      ? item["containerRegistries"]
-      : containerRegistryArrayDeserializer(item["containerRegistries"]),
-  };
-}
-
-export function _builderResourceUpdatePropertiesSerializer(item: BuilderResourceUpdate): any {
-  return { environmentId: item["environmentId"] };
-}
-
-export function _buildResourcePropertiesSerializer(item: BuildResource): any {
-  return {
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageSerializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : buildConfigurationSerializer(item["configuration"]),
-  };
-}
-
-export function _buildResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    buildStatus: item["buildStatus"],
-    destinationContainerRegistry: !item["destinationContainerRegistry"]
-      ? item["destinationContainerRegistry"]
-      : containerRegistryWithCustomImageDeserializer(item["destinationContainerRegistry"]),
-    configuration: !item["configuration"]
-      ? item["configuration"]
-      : buildConfigurationDeserializer(item["configuration"]),
-    uploadEndpoint: item["uploadEndpoint"],
-    logStreamEndpoint: item["logStreamEndpoint"],
-    tokenEndpoint: item["tokenEndpoint"],
   };
 }
 
@@ -13810,11 +11709,6 @@ export function _managedEnvironmentPropertiesSerializer(item: ManagedEnvironment
       ? item["openTelemetryConfiguration"]
       : openTelemetryConfigurationSerializer(item["openTelemetryConfiguration"]),
     zoneRedundant: item["zoneRedundant"],
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
     customDomainConfiguration: !item["customDomainConfiguration"]
       ? item["customDomainConfiguration"]
       : customDomainConfigurationSerializer(item["customDomainConfiguration"]),
@@ -13839,10 +11733,8 @@ export function _managedEnvironmentPropertiesSerializer(item: ManagedEnvironment
     ingressConfiguration: !item["ingressConfiguration"]
       ? item["ingressConfiguration"]
       : ingressConfigurationSerializer(item["ingressConfiguration"]),
+    environmentMode: item["environmentMode"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    diskEncryptionConfiguration: !item["diskEncryptionConfiguration"]
-      ? item["diskEncryptionConfiguration"]
-      : diskEncryptionConfigurationSerializer(item["diskEncryptionConfiguration"]),
   };
 }
 
@@ -13856,7 +11748,6 @@ export function _managedEnvironmentPropertiesDeserializer(item: any) {
       : vnetConfigurationDeserializer(item["vnetConfiguration"]),
     deploymentErrors: item["deploymentErrors"],
     defaultDomain: item["defaultDomain"],
-    privateLinkDefaultDomain: item["privateLinkDefaultDomain"],
     staticIp: item["staticIp"],
     appLogsConfiguration: !item["appLogsConfiguration"]
       ? item["appLogsConfiguration"]
@@ -13868,11 +11759,6 @@ export function _managedEnvironmentPropertiesDeserializer(item: any) {
       ? item["openTelemetryConfiguration"]
       : openTelemetryConfigurationDeserializer(item["openTelemetryConfiguration"]),
     zoneRedundant: item["zoneRedundant"],
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
     customDomainConfiguration: !item["customDomainConfiguration"]
       ? item["customDomainConfiguration"]
       : customDomainConfigurationDeserializer(item["customDomainConfiguration"]),
@@ -13898,13 +11784,11 @@ export function _managedEnvironmentPropertiesDeserializer(item: any) {
     ingressConfiguration: !item["ingressConfiguration"]
       ? item["ingressConfiguration"]
       : ingressConfigurationDeserializer(item["ingressConfiguration"]),
+    environmentMode: item["environmentMode"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
       : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
-    diskEncryptionConfiguration: !item["diskEncryptionConfiguration"]
-      ? item["diskEncryptionConfiguration"]
-      : diskEncryptionConfigurationDeserializer(item["diskEncryptionConfiguration"]),
   };
 }
 
@@ -13929,9 +11813,6 @@ export function _daprComponentPropertiesSerializer(item: DaprComponent): any {
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    serviceComponentBind: !item["serviceComponentBind"]
-      ? item["serviceComponentBind"]
-      : daprComponentServiceBindingArraySerializer(item["serviceComponentBind"]),
   };
 }
 
@@ -13951,11 +11832,24 @@ export function _daprComponentPropertiesDeserializer(item: any) {
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    serviceComponentBind: !item["serviceComponentBind"]
-      ? item["serviceComponentBind"]
-      : daprComponentServiceBindingArrayDeserializer(item["serviceComponentBind"]),
     provisioningState: item["provisioningState"],
     deploymentErrors: item["deploymentErrors"],
+  };
+}
+
+export function _privateLinkResourcePropertiesDeserializer(item: any) {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -13980,44 +11874,6 @@ export function _daprComponentResiliencyPolicyPropertiesDeserializer(item: any) 
     outboundPolicy: !item["outboundPolicy"]
       ? item["outboundPolicy"]
       : daprComponentResiliencyPolicyConfigurationDeserializer(item["outboundPolicy"]),
-  };
-}
-
-export function _daprSubscriptionPropertiesSerializer(item: DaprSubscription): any {
-  return {
-    pubsubName: item["pubsubName"],
-    topic: item["topic"],
-    deadLetterTopic: item["deadLetterTopic"],
-    routes: !item["routes"] ? item["routes"] : daprSubscriptionRoutesSerializer(item["routes"]),
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : item["scopes"].map((p: any) => {
-          return p;
-        }),
-    metadata: item["metadata"],
-    bulkSubscribe: !item["bulkSubscribe"]
-      ? item["bulkSubscribe"]
-      : daprSubscriptionBulkSubscribeOptionsSerializer(item["bulkSubscribe"]),
-  };
-}
-
-export function _daprSubscriptionPropertiesDeserializer(item: any) {
-  return {
-    pubsubName: item["pubsubName"],
-    topic: item["topic"],
-    deadLetterTopic: item["deadLetterTopic"],
-    routes: !item["routes"] ? item["routes"] : daprSubscriptionRoutesDeserializer(item["routes"]),
-    scopes: !item["scopes"]
-      ? item["scopes"]
-      : item["scopes"].map((p: any) => {
-          return p;
-        }),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
-    bulkSubscribe: !item["bulkSubscribe"]
-      ? item["bulkSubscribe"]
-      : daprSubscriptionBulkSubscribeOptionsDeserializer(item["bulkSubscribe"]),
   };
 }
 
@@ -14066,132 +11922,6 @@ export function _jobPropertiesDeserializer(item: any) {
           return p;
         }),
     eventStreamEndpoint: item["eventStreamEndpoint"],
-  };
-}
-
-export function _httpRetryPolicyRetryBackOffSerializer(item: HttpRetryPolicy): any {
-  return {
-    initialDelayInMilliseconds: item["initialDelayInMilliseconds"],
-    maxIntervalInMilliseconds: item["maxIntervalInMilliseconds"],
-  };
-}
-
-export function _httpRetryPolicyRetryBackOffDeserializer(item: any) {
-  return {
-    initialDelayInMilliseconds: item["initialDelayInMilliseconds"],
-    maxIntervalInMilliseconds: item["maxIntervalInMilliseconds"],
-  };
-}
-
-export function _headerMatchMatchSerializer(item: HeaderMatch): any {
-  return {
-    exactMatch: item["exactMatch"],
-    prefixMatch: item["prefixMatch"],
-    suffixMatch: item["suffixMatch"],
-    regexMatch: item["regexMatch"],
-  };
-}
-
-export function _headerMatchMatchDeserializer(item: any) {
-  return {
-    exactMatch: item["exactMatch"],
-    prefixMatch: item["prefixMatch"],
-    suffixMatch: item["suffixMatch"],
-    regexMatch: item["regexMatch"],
-  };
-}
-
-export function _httpRetryPolicyMatchesSerializer(item: HttpRetryPolicy): any {
-  return {
-    headers: !item["headers"] ? item["headers"] : headerMatchArraySerializer(item["headers"]),
-    httpStatusCodes: !item["httpStatusCodes"]
-      ? item["httpStatusCodes"]
-      : item["httpStatusCodes"].map((p: any) => {
-          return p;
-        }),
-    errors: !item["errors"]
-      ? item["errors"]
-      : item["errors"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _httpRetryPolicyMatchesDeserializer(item: any) {
-  return {
-    headers: !item["headers"] ? item["headers"] : headerMatchArrayDeserializer(item["headers"]),
-    httpStatusCodes: !item["httpStatusCodes"]
-      ? item["httpStatusCodes"]
-      : item["httpStatusCodes"].map((p: any) => {
-          return p;
-        }),
-    errors: !item["errors"]
-      ? item["errors"]
-      : item["errors"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _appResiliencyPropertiesSerializer(item: AppResiliency): any {
-  return {
-    timeoutPolicy: !item["timeoutPolicy"]
-      ? item["timeoutPolicy"]
-      : timeoutPolicySerializer(item["timeoutPolicy"]),
-    httpRetryPolicy: !item["httpRetryPolicy"]
-      ? item["httpRetryPolicy"]
-      : httpRetryPolicySerializer(item["httpRetryPolicy"]),
-    tcpRetryPolicy: !item["tcpRetryPolicy"]
-      ? item["tcpRetryPolicy"]
-      : tcpRetryPolicySerializer(item["tcpRetryPolicy"]),
-    circuitBreakerPolicy: !item["circuitBreakerPolicy"]
-      ? item["circuitBreakerPolicy"]
-      : circuitBreakerPolicySerializer(item["circuitBreakerPolicy"]),
-    httpConnectionPool: !item["httpConnectionPool"]
-      ? item["httpConnectionPool"]
-      : httpConnectionPoolSerializer(item["httpConnectionPool"]),
-    tcpConnectionPool: !item["tcpConnectionPool"]
-      ? item["tcpConnectionPool"]
-      : tcpConnectionPoolSerializer(item["tcpConnectionPool"]),
-  };
-}
-
-export function _appResiliencyPropertiesDeserializer(item: any) {
-  return {
-    timeoutPolicy: !item["timeoutPolicy"]
-      ? item["timeoutPolicy"]
-      : timeoutPolicyDeserializer(item["timeoutPolicy"]),
-    httpRetryPolicy: !item["httpRetryPolicy"]
-      ? item["httpRetryPolicy"]
-      : httpRetryPolicyDeserializer(item["httpRetryPolicy"]),
-    tcpRetryPolicy: !item["tcpRetryPolicy"]
-      ? item["tcpRetryPolicy"]
-      : tcpRetryPolicyDeserializer(item["tcpRetryPolicy"]),
-    circuitBreakerPolicy: !item["circuitBreakerPolicy"]
-      ? item["circuitBreakerPolicy"]
-      : circuitBreakerPolicyDeserializer(item["circuitBreakerPolicy"]),
-    httpConnectionPool: !item["httpConnectionPool"]
-      ? item["httpConnectionPool"]
-      : httpConnectionPoolDeserializer(item["httpConnectionPool"]),
-    tcpConnectionPool: !item["tcpConnectionPool"]
-      ? item["tcpConnectionPool"]
-      : tcpConnectionPoolDeserializer(item["tcpConnectionPool"]),
-  };
-}
-
-export function _privateLinkResourcePropertiesDeserializer(item: any) {
-  return {
-    groupId: item["groupId"],
-    requiredMembers: !item["requiredMembers"]
-      ? item["requiredMembers"]
-      : item["requiredMembers"].map((p: any) => {
-          return p;
-        }),
-    requiredZoneNames: !item["requiredZoneNames"]
-      ? item["requiredZoneNames"]
-      : item["requiredZoneNames"].map((p: any) => {
-          return p;
-        }),
   };
 }
 

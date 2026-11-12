@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { get, $delete, create, list } from "../../api/annotations/operations.js";
-import {
+import type {
   AnnotationsGetOptionalParams,
   AnnotationsDeleteOptionalParams,
   AnnotationsCreateOptionalParams,
   AnnotationsListOptionalParams,
 } from "../../api/annotations/options.js";
-import { Annotation } from "../../models/componentAPIs/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Annotation } from "../../models/componentAPIs/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Annotations operations. */
 export interface AnnotationsOperations {

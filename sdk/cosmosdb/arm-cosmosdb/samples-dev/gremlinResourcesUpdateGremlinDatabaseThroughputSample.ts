@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Gremlin database
  *
  * @summary update RUs per second of an Azure Cosmos DB Gremlin database
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinDatabaseThroughputUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinDatabaseThroughputUpdate.json
  */
 async function cosmosDBGremlinDatabaseThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function cosmosDBGremlinDatabaseThroughputUpdate(): Promise<void> {
     "rg1",
     "ddb1",
     "databaseName",
-    { location: "West US", tags: {}, resource: { throughput: 400 } },
+    { location: "West US", resource: { throughput: 400 }, tags: {} },
   );
   console.log(result);
 }

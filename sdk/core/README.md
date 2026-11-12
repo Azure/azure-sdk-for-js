@@ -24,7 +24,7 @@ For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/ma
 
 ### ServiceClient
 
-Client libraries come in two flavors: authored and generated. Generated clients are produced by [AutoRest](#autorest-and-generated-clients) whereas authored clients are written by hand. Typically, authored clients wrap generated clients and extend them with custom API surface.
+Client libraries come in two flavors: authored and generated. Generated clients are produced by a [code generator](#code-generation-and-generated-clients) whereas authored clients are written by hand. Typically, authored clients wrap generated clients and extend them with custom API surface.
 
 `ServiceClient` is the base class of all generated clients. It builds on top of the HTTP Pipeline in order to make requests to services.
 
@@ -161,11 +161,9 @@ AzureLogger.log = (...args) => {
 };
 ```
 
-## AutoRest and Generated Clients
+## Code Generation and Generated Clients
 
-[AutoRest](https://github.com/Azure/autorest) is a generation tool for creating a client library using an [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification) (formerly known as "Swagger".)
-
-AutoRest is used in conjunction with the [autorest.typescript extension](https://github.com/Azure/autorest.typescript) to generate client libraries for JS/TS consumers. While the generated code tries as much as possible to fulfill the [TS design guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html), it is often necessary to wrap the generated client classes in what are known as "convenience clients."
+Client libraries for JS/TS consumers are generated from [TypeSpec](https://typespec.io) specifications using the [`@azure-tools/typespec-ts`](https://github.com/Azure/typespec-azure/tree/main/packages/typespec-ts) emitter. While the generated code tries as much as possible to fulfill the [TS design guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html), it is often necessary to wrap the generated client classes in what are known as "convenience clients."
 
 A convenience client extends the shape of a generated client in ways that make it more approachable to the consumer, such as simplifying the return shape of methods or adding helper functions for common operations.
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createConnectedCache,
-  type ConnectedCacheContext,
-  type ConnectedCacheClientOptionalParams,
+export type {
+  ConnectedCacheContext,
+  ConnectedCacheClientOptionalParams,
 } from "./connectedCacheContext.js";
+export { createConnectedCache } from "./connectedCacheContext.js";

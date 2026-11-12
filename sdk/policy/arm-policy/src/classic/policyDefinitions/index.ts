@@ -69,11 +69,6 @@ export interface PolicyDefinitionsOperations {
     options?: PolicyDefinitionsListOptionalParams,
   ) => PagedAsyncIterableIterator<PolicyDefinition>;
   /** This operation deletes the policy definition in the given subscription with the given name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     policyDefinitionName: string,
     options?: PolicyDefinitionsDeleteOptionalParams,

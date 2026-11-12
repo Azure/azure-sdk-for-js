@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the incident task.
  *
  * @summary creates or updates the incident task.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentTasks/IncidentTasks_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentTasks/IncidentTasks_CreateOrUpdate.json
  */
 async function incidentTasksCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

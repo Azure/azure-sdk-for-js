@@ -12,6 +12,7 @@ import type {
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
 import {
+  createCustomMeasurements,
   createTagsFromResource,
   hrTimeToDate,
   isSyntheticSource,
@@ -30,10 +31,17 @@ import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "..
 import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
+  ApplicationInsightsAvailabilityDuration,
+  ApplicationInsightsAvailabilityId,
   ApplicationInsightsAvailabilityBaseType,
+  ApplicationInsightsAvailabilityMessage,
   ApplicationInsightsAvailabilityName,
+  ApplicationInsightsAvailabilityNameAttribute,
+  ApplicationInsightsAvailabilityRunLocation,
+  ApplicationInsightsAvailabilitySuccess,
   ApplicationInsightsBaseType,
   ApplicationInsightsCustomEventName,
+  ApplicationInsightsCustomMeasurements,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -43,6 +51,7 @@ import {
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
   DEFAULT_BREEZE_DATA_VERSION,
+  DEFAULT_LOG_MESSAGE,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -50,7 +59,11 @@ import {
  * Log to Azure envelope parsing.
  * @internal
  */
-export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
+export function logToEnvelope(
+  log: ReadableLogRecord,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope | undefined {
   const time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
@@ -65,6 +78,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
   const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const availabilityData = getAvailabilityData(log);
   const isMessageType: boolean =
     !log.attributes[ApplicationInsightsBaseType] &&
     !log.attributes[ApplicationInsightsCustomEventName] &&
@@ -95,13 +109,21 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = eventData;
-    measurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements = {
+      ...getLegacyApplicationInsightsMeasurements(log),
+      ...measurements,
+    };
+  } else if (availabilityData) {
+    name = ApplicationInsightsAvailabilityName;
+    baseType = ApplicationInsightsAvailabilityBaseType;
+    baseData = availabilityData;
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
+    const message = log.body == null ? undefined : serializeAttribute(log.body);
     const messageData: MessageData = {
       kind: "MessageData",
-      message: serializeAttribute(log.body),
+      message: message || DEFAULT_LOG_MESSAGE,
       severityLevel: getSeverity(log.severityNumber),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
@@ -115,14 +137,20 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       // Failed to parse log
       return;
     }
-    measurements = getLegacyApplicationInsightsMeasurements(log);
+    const legacyMeasurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements =
+      baseType === ApplicationInsightsExceptionBaseType ||
+      baseType === ApplicationInsightsMessageBaseType ||
+      baseType === ApplicationInsightsEventBaseType
+        ? { ...legacyMeasurements, ...measurements }
+        : legacyMeasurements;
     baseData = legacyBaseData;
   }
   // Truncate properties
   if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  baseData.properties = truncateCustomDimensions(properties);
+  baseData.properties = truncateCustomDimensions(properties, increaseGenAiMessageLimit);
   baseData.measurements = measurements;
 
   return {
@@ -137,6 +165,41 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       baseData: baseData,
     },
   };
+}
+
+function getAvailabilityData(log: ReadableLogRecord): AvailabilityData | undefined {
+  if (
+    log.attributes[ApplicationInsightsBaseType] ||
+    log.attributes[ApplicationInsightsAvailabilityNameAttribute] === undefined
+  ) {
+    return;
+  }
+
+  const id = getAttributeString(log, ApplicationInsightsAvailabilityId);
+  const name = getAttributeString(log, ApplicationInsightsAvailabilityNameAttribute);
+  const duration = getAttributeString(log, ApplicationInsightsAvailabilityDuration);
+  const success = getAttributeString(log, ApplicationInsightsAvailabilitySuccess);
+  if (!id || !name || !duration || !success) {
+    return;
+  }
+
+  return {
+    kind: "AvailabilityData",
+    version: DEFAULT_BREEZE_DATA_VERSION,
+    id,
+    name,
+    duration,
+    success: success.toLowerCase() === "true",
+    runLocation: getAttributeString(log, ApplicationInsightsAvailabilityRunLocation),
+    message:
+      getAttributeString(log, ApplicationInsightsAvailabilityMessage) ??
+      (log.body === undefined ? undefined : serializeAttribute(log.body)),
+  };
+}
+
+function getAttributeString(log: ReadableLogRecord, attributeName: string): string | undefined {
+  const value = log.attributes[attributeName];
+  return value === undefined ? undefined : String(value);
 }
 
 function createTagsFromLog(log: ReadableLogRecord): Tags {
@@ -178,17 +241,22 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
       tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
     }
   }
+  const sessionId = attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
+  }
 
   return tags;
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
-  const measurements: Measurements = {};
+  const measurements = createCustomMeasurements(log.attributes);
   const properties: { [propertyName: string]: string } = {};
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (!(
+        key === ApplicationInsightsCustomMeasurements ||
         key.startsWith("_MS.") ||
         key.startsWith("microsoft") ||
         legacySemanticValues.includes(key) ||

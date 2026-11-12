@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to gets the specified Azure dedicated HSM.
  *
  * @summary gets the specified Azure dedicated HSM.
- * x-ms-original-file: 2025-03-31/DedicatedHsm_Get.json
+ * x-ms-original-file: 2025-12-01-preview/DedicatedHsm_Get.json
  */
-
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function getADedicatedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -23,7 +22,7 @@ async function getADedicatedHSM(): Promise<void> {
  * This sample demonstrates how to gets the specified Azure dedicated HSM.
  *
  * @summary gets the specified Azure dedicated HSM.
- * x-ms-original-file: 2025-03-31/PaymentHsm_Get.json
+ * x-ms-original-file: 2025-12-01-preview/PaymentHsm_Get.json
  */
 async function getAPaymentHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +36,7 @@ async function getAPaymentHSM(): Promise<void> {
  * This sample demonstrates how to gets the specified Azure dedicated HSM.
  *
  * @summary gets the specified Azure dedicated HSM.
- * x-ms-original-file: 2025-03-31/PaymentHsm_Get_With_2018-10-31Preview_Version.json
+ * x-ms-original-file: 2025-12-01-preview/PaymentHsm_Get_With_2018-10-31Preview_Version.json
  */
 async function getAPaymentHSMWith20181031PreviewApiVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

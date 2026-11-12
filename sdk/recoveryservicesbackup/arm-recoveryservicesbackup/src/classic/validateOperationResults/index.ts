@@ -14,7 +14,7 @@ export interface ValidateOperationResultsOperations {
     resourceGroupName: string,
     operationId: string,
     options?: ValidateOperationResultsGetOptionalParams,
-  ) => Promise<ValidateOperationsResponse>;
+  ) => Promise<ValidateOperationsResponse | void>;
 }
 
 function _getValidateOperationResults(context: RecoveryServicesBackupContext) {

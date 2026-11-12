@@ -1,36 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type { PrivateEndpointConnection } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  PrivateEndpointConnection,
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
 } from "../../models/models.js";
-import {
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
   peConnectionName: string,
-  options: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections/{peConnectionName}{?api%2Dversion}",
@@ -39,46 +33,35 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return;
 }
-
 /** Deletes the private endpoint connection for the Cloud Hsm Cluster. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
   peConnectionName: string,
-  options: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -86,6 +69,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudHsmClusterName, peConnectionName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -95,9 +79,7 @@ export function _createSend(
   cloudHsmClusterName: string,
   peConnectionName: string,
   properties: PrivateEndpointConnection,
-  options: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections/{peConnectionName}{?api%2Dversion}",
@@ -106,7 +88,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,10 +97,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: privateEndpointConnectionSerializer(properties),
   });
 }
@@ -129,13 +108,15 @@ export async function _createDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Creates or updates the private endpoint connection for the Cloud Hsm Cluster. */
 export async function create(
   context: Client,
@@ -143,9 +124,7 @@ export async function create(
   cloudHsmClusterName: string,
   peConnectionName: string,
   properties: PrivateEndpointConnection,
-  options: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnection> {
   const result = await _createSend(
     context,
@@ -163,9 +142,7 @@ export function _getSend(
   resourceGroupName: string,
   cloudHsmClusterName: string,
   peConnectionName: string,
-  options: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections/{peConnectionName}{?api%2Dversion}",
@@ -174,7 +151,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
       peConnectionName: peConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,10 +159,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -195,22 +169,22 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets the private endpoint connection for the Cloud Hsm Cluster. */
 export async function get(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
   peConnectionName: string,
-  options: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnection> {
   const result = await _getSend(
     context,

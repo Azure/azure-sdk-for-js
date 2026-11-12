@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or update a batch rule set within the specified profile along with the rules associate to it.
  *
  * @summary creates or update a batch rule set within the specified profile along with the rules associate to it.
- * x-ms-original-file: 2025-12-01/RuleSets_Create.json
+ * x-ms-original-file: 2026-10-01/RuleSets_Create.json
  */
 async function ruleSetsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes API key of a kafka or schema registry cluster
  *
  * @summary deletes API key of a kafka or schema registry cluster
- * x-ms-original-file: 2025-08-18-preview/Organization_DeleteClusterAPIKey_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_DeleteClusterAPIKey_MaximumSet_Gen.json
  */
 async function organizationDeleteClusterAPIKeyMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function organizationDeleteClusterAPIKeyMaximumSet() {
  * This sample demonstrates how to deletes API key of a kafka or schema registry cluster
  *
  * @summary deletes API key of a kafka or schema registry cluster
- * x-ms-original-file: 2025-08-18-preview/Organization_DeleteClusterAPIKey_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_DeleteClusterAPIKey_MinimumSet_Gen.json
  */
 async function organizationDeleteClusterAPIKeyMinimumSet() {
   const credential = new DefaultAzureCredential();

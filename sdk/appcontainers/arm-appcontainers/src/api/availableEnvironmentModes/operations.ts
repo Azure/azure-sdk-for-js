@@ -1,0 +1,71 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type {
+  _AvailableEnvironmentModesCollection,
+  AvailableEnvironmentMode,
+} from "../../models/models.js";
+import {
+  defaultErrorResponseDeserializer,
+  _availableEnvironmentModesCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type { AvailableEnvironmentModesListOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _listSend(
+  context: Client,
+  location: string,
+  options: AvailableEnvironmentModesListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/availableManagedEnvironmentsModes{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AvailableEnvironmentModesCollection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _availableEnvironmentModesCollectionDeserializer(result.body);
+}
+
+/** Gets the environment modes available to a subscription in a location. */
+export function list(
+  context: Client,
+  location: string,
+  options: AvailableEnvironmentModesListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AvailableEnvironmentMode> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, location, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+  );
+}

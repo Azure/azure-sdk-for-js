@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get details of a single job execution
  *
  * @summary get details of a single job execution
- * x-ms-original-file: 2025-10-02-preview/Job_Execution_Get.json
+ * x-ms-original-file: 2026-07-01/Job_Execution_Get.json
  */
 async function getASingleJobExecution(): Promise<void> {
   const credential = new DefaultAzureCredential();

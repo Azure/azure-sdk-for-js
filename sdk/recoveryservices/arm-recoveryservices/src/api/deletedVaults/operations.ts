@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "../index.js";
-import {
+import type { RecoveryServicesContext as Client } from "../index.js";
+import type {
   OperationResource,
+  _DeletedVaultList,
+  DeletedVault,
+  DeletedVaultUndeleteInput,
+} from "../../models/models.js";
+import {
   operationResourceDeserializer,
   cloudErrorDeserializer,
   errorResponseDeserializer,
-  _DeletedVaultList,
   _deletedVaultListDeserializer,
-  DeletedVault,
   deletedVaultDeserializer,
-  DeletedVaultUndeleteInput,
   deletedVaultUndeleteInputSerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DeletedVaultsGetOperationStatusOptionalParams,
   DeletedVaultsUndeleteOptionalParams,
   DeletedVaultsGetOptionalParams,
   DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getOperationStatusSend(
   context: Client,
@@ -48,7 +44,7 @@ export function _getOperationStatusSend(
       location: location,
       deletedVaultName: deletedVaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +103,7 @@ export function _undeleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       deletedVaultName: deletedVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +144,7 @@ export function undelete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _undeleteSend(context, location, deletedVaultName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +160,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       deletedVaultName: deletedVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +207,7 @@ export function _listBySubscriptionIdSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,6 +246,6 @@ export function listBySubscriptionId(
     () => _listBySubscriptionIdSend(context, location, options),
     _listBySubscriptionIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }

@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { XMsAccessSoftDeletedResources } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VolumeGroupsListByElasticSanOptionalParams extends OperationOptions {}
+export interface VolumeGroupsListByElasticSanOptionalParams extends OperationOptions {
+  /** Optional, returns only soft deleted volume groups if set to true. If set to false or if not specified, returns only active volume groups. */
+  xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
+}
 
 /** Optional parameters. */
 export interface VolumeGroupsDeleteOptionalParams extends OperationOptions {

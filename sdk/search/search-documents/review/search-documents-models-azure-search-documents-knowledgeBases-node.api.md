@@ -11,12 +11,6 @@ export interface AIServices {
 }
 
 // @public
-export interface AssetStore {
-    connectionString: string;
-    containerName: string;
-}
-
-// @public
 export interface AzureBlobKnowledgeSourceParams extends KnowledgeSourceParams {
     kind: "azureBlob";
 }
@@ -31,31 +25,8 @@ export interface CompletedSynchronizationState {
 }
 
 // @public
-export interface FabricDataAgentKnowledgeSourceParams extends KnowledgeSourceParams {
-    kind: "fabricDataAgent";
-}
-
-// @public
-export interface FabricOntologyKnowledgeSourceParams extends KnowledgeSourceParams {
-    kind: "fabricOntology";
-}
-
-// @public
 export interface FileKnowledgeSourceParams extends KnowledgeSourceParams {
     kind: "file";
-}
-
-// @public
-export interface FreshnessPolicy {
-    boostingDuration?: string;
-}
-
-// @public
-export interface ImageServingStatistics {
-    imagesRetrieved?: number;
-    imagesSentToModel?: number;
-    totalImageSizeBytes?: number;
-    verbalizationUsed?: boolean;
 }
 
 // @public
@@ -74,25 +45,61 @@ export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
 }
 
 // @public
+export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityRecordUnion;
+}
+
+// @public
 export interface KnowledgeBaseActivityRecord {
+    completedAt?: Date;
     elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
+    startedAt?: Date;
     type: KnowledgeBaseActivityRecordType;
     warning?: string;
+}
+
+// @public
+export interface KnowledgeBaseActivityRecordModel {
+    deploymentId?: string;
+    modelName: string;
 }
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+
+// @public
+export interface KnowledgeBaseActivityStartedEvent {
+    id: number;
+    knowledgeSourceName?: string;
+    startedAt: Date;
+    type: KnowledgeBaseActivityRecordType;
+}
+
+// @public
+export interface KnowledgeBaseActivityStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityStartedEvent;
+}
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
     reasoningTokens?: number;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedEvent {
+    message: KnowledgeBaseMessage;
+    messageIndex: number;
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseAnswerCompletedEvent;
 }
 
 // @public
@@ -104,7 +111,6 @@ export interface KnowledgeBaseAzureBlobActivityArguments {
 export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActivityRecord {
     azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
     count?: number;
-    imageServing?: ImageServingStatistics;
     knowledgeSourceName?: string;
     queryTime?: Date;
     type: "azureBlob";
@@ -113,7 +119,7 @@ export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActiv
 // @public
 export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference {
     blobUrl?: string;
-    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+    citationUrl?: string;
     type: "azureBlob";
 }
 
@@ -133,47 +139,8 @@ export interface KnowledgeBaseErrorDetail {
 }
 
 // @public
-export interface KnowledgeBaseFabricDataAgentActivityArguments {
-    search?: string;
-}
-
-// @public
-export interface KnowledgeBaseFabricDataAgentActivityRecord extends KnowledgeBaseActivityRecord {
-    count?: number;
-    fabricDataAgentArguments?: KnowledgeBaseFabricDataAgentActivityArguments;
-    imageServing?: ImageServingStatistics;
-    knowledgeSourceName?: string;
-    queryTime?: Date;
-    type: "fabricDataAgent";
-}
-
-// @public
-export interface KnowledgeBaseFabricDataAgentReference extends KnowledgeBaseReference {
-    dataAgentId?: string;
-    type: "fabricDataAgent";
-    workspaceId?: string;
-}
-
-// @public
-export interface KnowledgeBaseFabricOntologyActivityArguments {
-    search?: string;
-}
-
-// @public
-export interface KnowledgeBaseFabricOntologyActivityRecord extends KnowledgeBaseActivityRecord {
-    count?: number;
-    fabricOntologyArguments?: KnowledgeBaseFabricOntologyActivityArguments;
-    imageServing?: ImageServingStatistics;
-    knowledgeSourceName?: string;
-    queryTime?: Date;
-    type: "fabricOntology";
-}
-
-// @public
-export interface KnowledgeBaseFabricOntologyReference extends KnowledgeBaseReference {
-    ontologyId?: string;
-    type: "fabricOntology";
-    workspaceId?: string;
+export interface KnowledgeBaseErrorStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseStreamErrorEvent;
 }
 
 // @public
@@ -185,7 +152,6 @@ export interface KnowledgeBaseFileActivityArguments {
 export interface KnowledgeBaseFileActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
     fileArguments?: KnowledgeBaseFileActivityArguments;
-    imageServing?: ImageServingStatistics;
     knowledgeSourceName?: string;
     queryTime?: Date;
     type: "file";
@@ -193,6 +159,7 @@ export interface KnowledgeBaseFileActivityRecord extends KnowledgeBaseActivityRe
 
 // @public
 export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
+    citationUrl?: string;
     docName?: string;
     type: "file";
 }
@@ -210,7 +177,6 @@ export interface KnowledgeBaseIndexedOneLakeActivityArguments {
 // @public
 export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
-    imageServing?: ImageServingStatistics;
     indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
     knowledgeSourceName?: string;
     queryTime?: Date;
@@ -219,8 +185,8 @@ export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBase
 
 // @public
 export interface KnowledgeBaseIndexedOneLakeReference extends KnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
-    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedOneLake";
 }
 
@@ -232,7 +198,6 @@ export interface KnowledgeBaseIndexedSharePointActivityArguments {
 // @public
 export interface KnowledgeBaseIndexedSharePointActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
-    imageServing?: ImageServingStatistics;
     indexedSharePointArguments?: KnowledgeBaseIndexedSharePointActivityArguments;
     knowledgeSourceName?: string;
     queryTime?: Date;
@@ -241,8 +206,8 @@ export interface KnowledgeBaseIndexedSharePointActivityRecord extends KnowledgeB
 
 // @public
 export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
-    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedSharePoint";
 }
 
@@ -254,7 +219,6 @@ export interface KnowledgeBaseIndexedSqlActivityArguments {
 // @public
 export interface KnowledgeBaseIndexedSqlActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
-    imageServing?: ImageServingStatistics;
     indexedSqlArguments?: KnowledgeBaseIndexedSqlActivityArguments;
     knowledgeSourceName?: string;
     queryTime?: Date;
@@ -263,31 +227,9 @@ export interface KnowledgeBaseIndexedSqlActivityRecord extends KnowledgeBaseActi
 
 // @public
 export interface KnowledgeBaseIndexedSqlReference extends KnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
     type: "indexedSql";
-}
-
-// @public
-export interface KnowledgeBaseMcpServerActivityArguments {
-    toolArguments?: Record<string, any>;
-    toolName?: string;
-}
-
-// @public
-export interface KnowledgeBaseMcpServerActivityRecord extends KnowledgeBaseActivityRecord {
-    count?: number;
-    imageServing?: ImageServingStatistics;
-    knowledgeSourceName?: string;
-    mcpServerArguments?: KnowledgeBaseMcpServerActivityArguments;
-    queryTime?: Date;
-    type: "mcpServer";
-}
-
-// @public
-export interface KnowledgeBaseMcpServerReference extends KnowledgeBaseReference {
-    title?: string;
-    toolName?: string;
-    type: "mcpServer";
 }
 
 // @public
@@ -322,7 +264,7 @@ export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageCon
 // @public
 export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokens?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokens?: number;
     type: "modelAnswerSynthesis";
 }
@@ -330,7 +272,7 @@ export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends Knowled
 // @public
 export interface KnowledgeBaseModelQueryPlanningActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokens?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokens?: number;
     type: "modelQueryPlanning";
 }
@@ -338,7 +280,7 @@ export interface KnowledgeBaseModelQueryPlanningActivityRecord extends Knowledge
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokensCount?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokensCount?: number;
     type: "modelWebSummarization";
 }
@@ -353,32 +295,25 @@ export interface KnowledgeBaseReference {
 }
 
 // @public
+export interface KnowledgeBaseReferencesCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseReferenceUnion[];
+}
+
+// @public
 export type KnowledgeBaseReferenceType = string;
 
 // @public
-export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | KnowledgeBaseReference;
+export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | KnowledgeBaseReference;
 
 // @public
-export interface KnowledgeBaseRemoteSharePointActivityArguments {
-    filterExpressionAddOn?: string;
-    search?: string;
+export interface KnowledgeBaseResponseCompletedEvent {
+    response: KnowledgeBaseRetrievalResponse;
+    statusCode: KnowledgeBaseRetrievalStatusCode;
 }
 
 // @public
-export interface KnowledgeBaseRemoteSharePointActivityRecord extends KnowledgeBaseActivityRecord {
-    count?: number;
-    imageServing?: ImageServingStatistics;
-    knowledgeSourceName?: string;
-    queryTime?: Date;
-    remoteSharePointArguments?: KnowledgeBaseRemoteSharePointActivityArguments;
-    type: "remoteSharePoint";
-}
-
-// @public
-export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseReference {
-    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
-    type: "remoteSharePoint";
-    webUrl?: string;
+export interface KnowledgeBaseResponseCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseResponseCompletedEvent;
 }
 
 // @public
@@ -387,7 +322,6 @@ export interface KnowledgeBaseRetrievalRequest {
     intents?: KnowledgeRetrievalIntentUnion[];
     knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
     maxOutputDocuments?: number;
-    maxOutputSize?: number;
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
     messages?: KnowledgeBaseMessage[];
@@ -400,7 +334,26 @@ export interface KnowledgeBaseRetrievalResponse {
     activity?: KnowledgeBaseActivityRecordUnion[];
     references?: KnowledgeBaseReferenceUnion[];
     response?: KnowledgeBaseMessage[];
-    responseSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+}
+
+// @public
+export interface KnowledgeBaseRetrievalStartedEvent {
+    knowledgeBaseName: string;
+    outputMode: KnowledgeRetrievalOutputMode;
+    reasoningEffort: KnowledgeRetrievalReasoningEffortUnion;
+    requestId: string;
+}
+
+// @public
+export interface KnowledgeBaseRetrievalStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseRetrievalStartedEvent;
+}
+
+// @public
+export type KnowledgeBaseRetrievalStatusCode = number;
+
+// @public
+export interface KnowledgeBaseRetrievalStreamEvent {
 }
 
 // @public
@@ -415,7 +368,6 @@ export interface KnowledgeBaseSearchIndexActivityArguments {
 // @public
 export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
-    imageServing?: ImageServingStatistics;
     knowledgeSourceName?: string;
     queryTime?: Date;
     searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
@@ -424,9 +376,15 @@ export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseAct
 
 // @public
 export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReference {
+    citationUrl?: string;
     docKey?: string;
-    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "searchIndex";
+}
+
+// @public
+export interface KnowledgeBaseStreamErrorEvent {
+    activity?: KnowledgeBaseActivityRecordUnion[];
+    error: KnowledgeBaseErrorDetail;
 }
 
 // @public
@@ -441,7 +399,6 @@ export interface KnowledgeBaseWebActivityArguments {
 // @public
 export interface KnowledgeBaseWebActivityRecord extends KnowledgeBaseActivityRecord {
     count?: number;
-    imageServing?: ImageServingStatistics;
     knowledgeSourceName?: string;
     queryTime?: Date;
     type: "web";
@@ -453,27 +410,6 @@ export interface KnowledgeBaseWebReference extends KnowledgeBaseReference {
     title?: string;
     type: "web";
     url?: string;
-}
-
-// @public
-export interface KnowledgeBaseWorkIQActivityArguments {
-    search?: string;
-}
-
-// @public
-export interface KnowledgeBaseWorkIQActivityRecord extends KnowledgeBaseActivityRecord {
-    count?: number;
-    imageServing?: ImageServingStatistics;
-    knowledgeSourceName?: string;
-    queryTime?: Date;
-    type: "workIQ";
-    workIQArguments?: KnowledgeBaseWorkIQActivityArguments;
-}
-
-// @public
-export interface KnowledgeBaseWorkIQReference extends KnowledgeBaseReference {
-    attributions?: WorkIQAttribution[];
-    type: "workIQ";
 }
 
 // @public
@@ -531,21 +467,22 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVec
 // @public
 export interface KnowledgeSourceIngestionParameters {
     aiServices?: AIServices;
-    assetStore?: AssetStore;
     chatCompletionModel?: KnowledgeBaseModelUnion;
     contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizerUnion;
-    freshnessPolicy?: FreshnessPolicy;
     identity?: SearchIndexerDataIdentityUnion;
     ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
+    networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
+
+// @public
+export type KnowledgeSourceNetworkAccessMode = string;
 
 // @public
 export interface KnowledgeSourceParams {
     alwaysQuerySource?: boolean;
-    enableImageServing?: boolean;
     failOnError?: boolean;
     includeReferences?: boolean;
     includeReferenceSourceData?: boolean;
@@ -556,18 +493,19 @@ export interface KnowledgeSourceParams {
 }
 
 // @public
-export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | McpServerKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | KnowledgeSourceParams;
+export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | KnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceStatistics {
     averageItemsProcessedPerSynchronization: number;
     averageSynchronizationDuration: string;
-    totalSynchronizations: number;
+    totalSynchronization: number;
 }
 
 // @public
 export interface KnowledgeSourceStatus {
     currentSynchronizationState?: SynchronizationState;
+    readonly fileCapacity?: KnowledgeSourceFileCapacity;
     kind?: KnowledgeSourceKind;
     lastSynchronizationState?: CompletedSynchronizationState;
     statistics?: KnowledgeSourceStatistics;
@@ -597,20 +535,15 @@ export type KnowledgeSourceVectorizerUnion = KnowledgeSourceAzureOpenAIVectorize
 export enum KnownKnowledgeBaseActivityRecordType {
     AgenticReasoning = "agenticReasoning",
     AzureBlob = "azureBlob",
-    FabricDataAgent = "fabricDataAgent",
-    FabricOntology = "fabricOntology",
     File = "file",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
     IndexedSql = "indexedSql",
-    McpServer = "mcpServer",
     ModelAnswerSynthesis = "modelAnswerSynthesis",
     ModelQueryPlanning = "modelQueryPlanning",
     ModelWebSummarization = "modelWebSummarization",
-    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
-    Web = "web",
-    WorkIQ = "workIQ"
+    Web = "web"
 }
 
 // @public
@@ -622,17 +555,18 @@ export enum KnownKnowledgeBaseMessageContentType {
 // @public
 export enum KnownKnowledgeBaseReferenceType {
     AzureBlob = "azureBlob",
-    FabricDataAgent = "fabricDataAgent",
-    FabricOntology = "fabricOntology",
     File = "file",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
     IndexedSql = "indexedSql",
-    McpServer = "mcpServer",
-    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
-    Web = "web",
-    WorkIQ = "workIQ"
+    Web = "web"
+}
+
+// @public
+export enum KnownKnowledgeBaseRetrievalStatusCode {
+    OK = 200,
+    PartialContent = 206
 }
 
 // @public
@@ -654,24 +588,9 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
 }
 
 // @public
-export interface McpServerKnowledgeSourceParams extends KnowledgeSourceParams {
-    kind: "mcpServer";
-}
-
-// @public
-export interface PurviewSensitivityLabelInfo {
-    color?: string;
-    displayName?: string;
-    isEncrypted?: boolean;
-    priority?: number;
-    sensitivityLabelId?: string;
-    toolTip?: string;
-}
-
-// @public
-export interface RemoteSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
-    filterExpressionAddOn?: string;
-    kind: "remoteSharePoint";
+export enum KnownKnowledgeSourceNetworkAccessMode {
+    Private = "private",
+    Public = "public"
 }
 
 // @public
@@ -696,16 +615,6 @@ export interface WebKnowledgeSourceParams extends KnowledgeSourceParams {
     kind: "web";
     language?: string;
     market?: string;
-}
-
-// @public
-export interface WorkIQAttribution {
-    seeMoreWebUrl?: string;
-}
-
-// @public
-export interface WorkIQKnowledgeSourceParams extends KnowledgeSourceParams {
-    kind: "workIQ";
 }
 
 // (No @packageDocumentation comment for this package)

@@ -11,3 +11,9 @@ export interface OperationStatusResultListOptionalParams extends OperationOption
 
 /** Optional parameters. */
 export interface OperationStatusResultGetByAgentPoolOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OperationStatusResultListByAgentPoolOptionalParams extends OperationOptions {
+  /** If true, only return operations that are currently active (not terminal). */
+  activeOnly?: boolean;
+}

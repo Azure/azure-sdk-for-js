@@ -26,7 +26,6 @@ export interface WorkspacePrivateLinkResourcesOperations {
     options?: WorkspacePrivateLinkResourcesGetOptionalParams,
   ) => Promise<WorkspacePrivateLinkResource>;
 }
-
 function _getWorkspacePrivateLinkResources(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -42,7 +41,6 @@ function _getWorkspacePrivateLinkResources(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, privateLinkResourceName, options),
   };
 }
-
 export function _getWorkspacePrivateLinkResourcesOperations(
   context: DiscoveryContext,
 ): WorkspacePrivateLinkResourcesOperations {

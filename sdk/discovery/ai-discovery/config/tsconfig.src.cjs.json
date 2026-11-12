@@ -1,0 +1,14 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "include": [
+    "../src/index.ts",
+    "../src/workspace/index.ts",
+    "../src/workspace/api/index.ts",
+    "../src/bookshelf/index.ts",
+    "../src/bookshelf/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/microsoft/discovery/bookshelf/index.ts",
+    "../src/models/microsoft/discovery/common/index.ts",
+    "../src/models/microsoft/discovery/workspace/index.ts"
+  ]
+}

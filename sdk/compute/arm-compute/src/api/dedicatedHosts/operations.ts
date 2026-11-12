@@ -48,7 +48,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -103,7 +103,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +140,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -158,7 +158,7 @@ export function _listAvailableSizesSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -199,7 +199,7 @@ export function listAvailableSizes(
     () => _listAvailableSizesSend(context, resourceGroupName, hostGroupName, hostName, options),
     _listAvailableSizesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -215,7 +215,7 @@ export function _listByHostGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +255,7 @@ export function listByHostGroup(
     () => _listByHostGroupSend(context, resourceGroupName, hostGroupName, options),
     _listByHostGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -273,7 +273,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,7 +310,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -329,7 +329,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -372,7 +372,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -391,7 +391,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +436,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -454,7 +454,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

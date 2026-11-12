@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to expands an entity.
  *
  * @summary expands an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/expand/PostExpandEntity.json
+ * x-ms-original-file: 2025-10-01-preview/entities/expand/PostExpandEntity.json
  */
 async function expandAnEntity() {
   const credential = new DefaultAzureCredential();

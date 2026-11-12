@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
  *
  * @summary creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_CreateOrUpdate.json
  */
 async function createOrUpdateAnInterconnectBlockWithASpecificZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createOrUpdateAnInterconnectBlockWithASpecificZone(): Promise<voi
  * This sample demonstrates how to creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
  *
  * @summary creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_CreateOrUpdate_AnyZone.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_CreateOrUpdate_AnyZone.json
  */
 async function createOrUpdateAnInterconnectBlockWithAutomaticZonePlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();

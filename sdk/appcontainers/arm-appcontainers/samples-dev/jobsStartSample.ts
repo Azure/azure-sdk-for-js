@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to start a Container Apps Job
  *
  * @summary start a Container Apps Job
- * x-ms-original-file: 2025-10-02-preview/Job_Start.json
+ * x-ms-original-file: 2026-07-01/Job_Start.json
  */
 async function runAContainerAppsJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

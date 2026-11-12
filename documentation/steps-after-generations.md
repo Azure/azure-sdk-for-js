@@ -9,7 +9,7 @@ After this finishes, you will see the generated code in `src` folder in your **{
 
 ```shell
 pnpm install
-pnpm turbo build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>... --token 1
 ```
 
 # Customizing the generated code
@@ -18,18 +18,26 @@ If the generated code does not fit your needs, you can use the JavaScript custom
 
 # Generate CHANGELOG.md
 
-Install `js-sdk-release-tools`
+Install and build `js-sdk-release-tools` from the repository root:
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools ci
+package_manager=$(node -p "require('./package.json').packageManager")
+npm_registry=$(npm config get registry)
+npm install -g "$package_manager" --registry="$npm_registry"
+pnpm install --frozen-lockfile
+pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
 ```
 
 After you build your package, run
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool <your-package-path>
+node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js <your-package-path>
 ```
+
 Here is the example
+
 ```
-npm --prefix eng/tools/js-sdk-release-tools exec --no -- changelog-tool sdk/advisor/arm-advisor
+node eng/tools/js-sdk-release-tools/dist/changelogToolCli.js sdk/advisor/arm-advisor
 ```
 
 # Improve README.md document
@@ -49,8 +57,8 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
 
     Also, you could refer to the below examples for more cases:
-    - RLC example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
-    - DPG example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - RLC example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - DPG example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
     - MPG example: [Containerservice Fleet Testing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/test/public/)
 
 2. **Run the test**
@@ -60,14 +68,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +84,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm turbo build --filter=${PACKAGE_NAME}...
+      pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -193,8 +201,8 @@ allow-list.
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-pnpm update
-pnpm turbo build --filter=<your-package-name>...
+pnpm install
+pnpm turbo build --filter=<your-package-name>... --token 1
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test
 pnpm pack
@@ -261,7 +269,7 @@ You shall update the version number according to [semantic versioning rule](http
 
 ## Test recordings
 
-After [writing and running test cases](#how-to-write-test-for-dpgrlc), you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets). Please refer to [push recording guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#how-to-push-test-recordings-to-assets-repo) to push recordings.
+After [writing and running test cases](#how-to-write-test-for-dpgrlcmpg), you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets). Please refer to [push recording guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#how-to-push-test-recordings-to-assets-repo) to push recordings.
 
 ## Fix CI for PR
 

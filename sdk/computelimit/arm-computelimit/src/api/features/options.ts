@@ -9,7 +9,6 @@ export interface FeaturesDisableOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesEnableOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -17,9 +16,7 @@ export interface FeaturesEnableOptionalParams extends OperationOptions {
   /** The content of the action request */
   body?: FeatureEnableRequest;
 }
-
 /** Optional parameters. */
 export interface FeaturesListBySubscriptionLocationResourceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface FeaturesGetOptionalParams extends OperationOptions {}

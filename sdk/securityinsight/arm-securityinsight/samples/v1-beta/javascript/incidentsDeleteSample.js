@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a given incident.
  *
  * @summary deletes a given incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/Incidents_Delete.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/Incidents_Delete.json
  */
 async function incidentsDelete() {
   const credential = new DefaultAzureCredential();

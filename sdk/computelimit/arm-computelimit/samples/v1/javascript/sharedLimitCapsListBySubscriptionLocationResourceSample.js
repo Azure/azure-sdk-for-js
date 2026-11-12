@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all shared limit cap configurations visible to the caller's subscription.
  *
  * @summary lists all shared limit cap configurations visible to the caller's subscription.
- * x-ms-original-file: 2026-07-01/SharedLimitCaps_List.json
+ * x-ms-original-file: 2026-07-31/SharedLimitCaps_List.json
  */
 async function listSharedLimitCapsInARegionForTheCallerSubscription() {
   const credential = new DefaultAzureCredential();

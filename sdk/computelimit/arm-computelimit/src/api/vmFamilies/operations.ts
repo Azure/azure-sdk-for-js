@@ -28,7 +28,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
       "%24filter": options?.filter,
     },
     {
@@ -56,7 +56,6 @@ export async function _listBySubscriptionLocationResourceDeserialize(
 
   return _vmFamilyListResultDeserializer(result.body);
 }
-
 /** Lists all VM families for the subscription at the specified location. */
 export function listBySubscriptionLocationResource(
   context: Client,
@@ -68,7 +67,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -84,7 +83,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +108,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vm
 
   return vmFamilyDeserializer(result.body);
 }
-
 /** Gets the properties of a VM family. */
 export async function get(
   context: Client,

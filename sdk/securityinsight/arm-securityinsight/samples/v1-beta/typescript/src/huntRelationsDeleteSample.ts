@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a hunt relation.
  *
  * @summary delete a hunt relation.
- * x-ms-original-file: 2025-07-01-preview/hunts/DeleteHuntRelation.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/DeleteHuntRelation.json
  */
 async function deleteAHuntRelation(): Promise<void> {
   const credential = new DefaultAzureCredential();

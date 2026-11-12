@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new SyncGroup.
  *
  * @summary create a new SyncGroup.
- * x-ms-original-file: 2022-09-01/SyncGroups_Create.json
+ * x-ms-original-file: 2025-12-01/SyncGroups_Create.json
  */
 async function syncGroupsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

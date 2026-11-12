@@ -1,7 +1,0 @@
-{
-  "extends": "../../../tsconfig.src.build.json",
-  "compilerOptions": {
-    "skipLibCheck": true
-  },
-  "exclude": ["./src/templates"]
-}

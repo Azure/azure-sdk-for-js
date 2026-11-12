@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_ArcReg.json
+ * x-ms-original-file: 2026-03-01/Addons_CreateOrUpdate_ArcReg.json
  */
 async function addonsCreateOrUpdateArcReg(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function addonsCreateOrUpdateArcReg(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_HCX.json
+ * x-ms-original-file: 2026-03-01/Addons_CreateOrUpdate_HCX.json
  */
 async function addonsCreateOrUpdateHCX(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function addonsCreateOrUpdateHCX(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_HCX_With_Networks.json
+ * x-ms-original-file: 2026-03-01/Addons_CreateOrUpdate_HCX_With_Networks.json
  */
 async function addonsCreateOrUpdateHCXWithNetworks(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function addonsCreateOrUpdateHCXWithNetworks(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_SRM.json
+ * x-ms-original-file: 2026-03-01/Addons_CreateOrUpdate_SRM.json
  */
 async function addonsCreateOrUpdateSRM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function addonsCreateOrUpdateSRM(): Promise<void> {
  * This sample demonstrates how to create a Addon
  *
  * @summary create a Addon
- * x-ms-original-file: 2025-09-01/Addons_CreateOrUpdate_VR.json
+ * x-ms-original-file: 2026-03-01/Addons_CreateOrUpdate_VR.json
  */
 async function addonsCreateOrUpdateVR(): Promise<void> {
   const credential = new DefaultAzureCredential();

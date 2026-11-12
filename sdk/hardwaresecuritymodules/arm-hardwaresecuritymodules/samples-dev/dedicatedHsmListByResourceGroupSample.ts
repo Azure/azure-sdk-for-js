@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group.
  *
  * @summary the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group.
- * x-ms-original-file: 2025-03-31/DedicatedHsm_ListByResourceGroup.json
+ * x-ms-original-file: 2025-12-01-preview/DedicatedHsm_ListByResourceGroup.json
  */
-
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function listDedicatedHSMDevicesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -27,7 +26,7 @@ async function listDedicatedHSMDevicesInAResourceGroup(): Promise<void> {
  * This sample demonstrates how to the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group.
  *
  * @summary the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group.
- * x-ms-original-file: 2025-03-31/PaymentHsm_ListByResourceGroup.json
+ * x-ms-original-file: 2025-12-01-preview/PaymentHsm_ListByResourceGroup.json
  */
 async function listDedicatedHSMDevicesInAResourceGroupIncludingPaymentHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();

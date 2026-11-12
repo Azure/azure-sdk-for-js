@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsContext } from "../../api/deploymentsContext.js";
+import type { DeploymentsContext } from "../../api/deploymentsContext.js";
 import {
   calculateTemplateHash,
   exportTemplate,
@@ -49,7 +49,7 @@ import {
   checkExistenceAtScope,
   getAtScope,
 } from "../../api/deployments/operations.js";
-import {
+import type {
   DeploymentsCalculateTemplateHashOptionalParams,
   DeploymentsExportTemplateOptionalParams,
   DeploymentsWhatIfOptionalParams,
@@ -96,7 +96,7 @@ import {
   DeploymentsCheckExistenceAtScopeOptionalParams,
   DeploymentsGetAtScopeOptionalParams,
 } from "../../api/deployments/options.js";
-import {
+import type {
   DeploymentExtended,
   Deployment,
   DeploymentValidateResult,
@@ -112,9 +112,10 @@ import {
   DeploymentsCheckExistenceAtTenantScopeResponse,
   DeploymentsCheckExistenceAtScopeResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {

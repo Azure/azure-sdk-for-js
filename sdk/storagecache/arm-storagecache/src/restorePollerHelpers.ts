@@ -54,6 +54,10 @@ import {
   _updateDeserialize as _updateDeserializeCaches,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCaches,
 } from "./api/caches/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeRebalanceJobs,
+  _updateDeserialize as _updateDeserializeRebalanceJobs,
+} from "./api/rebalanceJobs/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -208,6 +212,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeCaches, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}":
     { deserializer: _createOrUpdateDeserializeCaches, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/rebalanceJobs/{rebalanceJobName}":
+    { deserializer: _$deleteDeserializeRebalanceJobs, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/rebalanceJobs/{rebalanceJobName}":
+    { deserializer: _updateDeserializeRebalanceJobs, expectedStatuses: ["200", "202", "201"] },
 };
 
 function getDeserializationHelper(

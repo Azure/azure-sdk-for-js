@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the plans data linked to your organization, providing an overview of the available plans
  *
  * @summary lists the plans data linked to your organization, providing an overview of the available plans
- * x-ms-original-file: 2025-05-01-preview/Plans_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Plans_List_MaximumSet_Gen.json
  */
 async function plansListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function plansListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists the plans data linked to your organization, providing an overview of the available plans
  *
  * @summary lists the plans data linked to your organization, providing an overview of the available plans
- * x-ms-original-file: 2025-05-01-preview/Plans_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Plans_List_MinimumSet_Gen.json
  */
 async function plansListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

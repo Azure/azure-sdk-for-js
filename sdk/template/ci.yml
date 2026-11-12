@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/template/
-      # eng/common code changes trigger template pipeline for basic checking.
+      # eng/common code changes trigger template related pipeline for basic checking.
       - eng/common/
 
 pr:

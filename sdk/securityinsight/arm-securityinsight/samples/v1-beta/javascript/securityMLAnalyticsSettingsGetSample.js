@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the Security ML Analytics Settings.
  *
  * @summary gets the Security ML Analytics Settings.
- * x-ms-original-file: 2025-07-01-preview/securityMLAnalyticsSettings/GetAnomalySecurityMLAnalyticsSetting.json
+ * x-ms-original-file: 2025-10-01-preview/securityMLAnalyticsSettings/GetAnomalySecurityMLAnalyticsSetting.json
  */
 async function getAAnomalySecurityMLAnalyticsSettings() {
   const credential = new DefaultAzureCredential();

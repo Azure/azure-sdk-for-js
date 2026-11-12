@@ -9,9 +9,16 @@ import {
 import {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { retrieve } from "./api/operations.js";
-import { RetrieveOptionalParams } from "./api/options.js";
+import { retrieveStream, retrieve } from "./api/operations.js";
+import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -28,15 +35,40 @@ export class KnowledgeBaseRetrievalClient {
     knowledgeBaseName: string,
     options: KnowledgeBaseRetrievalClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKnowledgeBaseRetrieval(endpointParam, credential, knowledgeBaseName, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKnowledgeBaseRetrieval(
+      endpointParam,
+      credential,
+      knowledgeBaseName,
+      options,
+    );
     this.pipeline = this._client.pipeline;
+  }
+
+  /**
+   * Retrieves relevant data from backing stores and streams progress and results as server-sent
+   * events.
+   *
+   * Process the response incrementally using server-sent event framing. Each event contains an
+   * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
+   * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
+   * clients may expose the raw response without typed event parsing. Do not deserialize the
+   * complete response body as a single JSON document.
+   */
+  retrieveStream(
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
+    options: RetrieveStreamOptionalParams = { requestOptions: {} },
+  ): Promise<
+    AsyncIterable<
+      | { event: "retrieval.started"; data: KnowledgeBaseRetrievalStartedEvent }
+      | { event: "activity.started"; data: KnowledgeBaseActivityStartedEvent }
+      | { event: "activity.completed"; data: KnowledgeBaseActivityRecordUnion }
+      | { event: "answer.completed"; data: KnowledgeBaseAnswerCompletedEvent }
+      | { event: "references.completed"; data: KnowledgeBaseReferenceUnion[] }
+      | { event: "error"; data: KnowledgeBaseStreamErrorEvent }
+      | { event: "response.completed"; data: KnowledgeBaseResponseCompletedEvent }
+    >
+  > {
+    return retrieveStream(this._client, retrievalRequest, options);
   }
 
   /** KnowledgeBase retrieves relevant data from backing stores. */

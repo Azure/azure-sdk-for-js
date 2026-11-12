@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new access bridge or update the properties of the existing access bridge.
  *
  * @summary create a new access bridge or update the properties of the existing access bridge.
- * x-ms-original-file: 2026-05-01-preview/AccessBridges_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/AccessBridges_CreateOrUpdate.json
  */
 async function createOrUpdateAccessBridge(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,7 +7,7 @@ import type {
   ExpressRoutePortsLocationsListOptionalParams,
   ExpressRoutePortsLocationsGetOptionalParams,
 } from "../../api/expressRoutePortsLocations/options.js";
-import type { ExpressRoutePortsLocation } from "../../models/microsoft/network/models.js";
+import type { ExpressRoutePortsLocation } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExpressRoutePortsLocations operations. */

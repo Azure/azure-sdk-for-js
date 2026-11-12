@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update storage for a managedEnvironment.
  *
  * @summary create or update storage for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createOrUpdateEnvironmentsStorage(): Promise<void> {
  * This sample demonstrates how to create or update storage for a managedEnvironment.
  *
  * @summary create or update storage for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
  */
 async function createOrUpdateEnvironmentsStorageForNFSAzureFile(): Promise<void> {
   const credential = new DefaultAzureCredential();

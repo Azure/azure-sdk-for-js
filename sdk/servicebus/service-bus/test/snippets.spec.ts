@@ -116,6 +116,25 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleDeleteAndPurgeMessages", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    const receiver = serviceBusClient.createReceiver("my-queue");
+    // @ts-preserve-whitespace
+    try {
+      const beforeEnqueueTime = new Date();
+      const deleted = await receiver.deleteMessages(100, { beforeEnqueueTime });
+      console.log(`Deleted ${deleted.deletedCount} messages in one batch.`);
+      // @ts-preserve-whitespace
+      const purged = await receiver.purgeMessages({ beforeEnqueueTime });
+      console.log(`Purged ${purged.deletedCount} remaining eligible messages.`);
+    } finally {
+      await receiver.close();
+      await serviceBusClient.close();
+    }
+  });
+
   it("ReadmeSampleDeadLetterQueue", async () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();
@@ -141,6 +160,33 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const message of messages) {
       console.log(`Dead lettered message: ${message.body}`);
+    }
+  });
+
+  it("ReadmeSampleListMessageSessions", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    // @ts-preserve-whitespace
+    // List all sessions with active messages or session state in a queue
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
+      console.log("Session ID:", sessionId);
+    }
+    // @ts-preserve-whitespace
+    // List sessions in a subscription
+    for await (const sessionId of serviceBusClient.listMessageSessions(
+      "my-topic",
+      "my-subscription",
+    )) {
+      console.log("Session ID:", sessionId);
+    }
+    // @ts-preserve-whitespace
+    // List only sessions whose stored session state was set or updated in the last seven days
+    const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+      sessionStateUpdatedAfter,
+    })) {
+      console.log("Recently updated session ID:", sessionId);
     }
   });
 
@@ -172,6 +218,27 @@ describe("snippets", () => {
       await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
     console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMessageCount}`);
     // @ts-preserve-whitespace
+    // Topic runtime properties additionally report the total number of SQL and correlation filters
+    // across all of the topic's subscriptions. These counts are served by the 2024-05 service API
+    // version and later; on an older version they are `undefined`.
+    const topicName = "my-topic";
+    const subscriptionName = "my-subscription";
+    await serviceBusAdministrationClient.createTopic(topicName);
+    // A new subscription carries a default rule with a SQL TrueFilter. Adding a correlation rule
+    // gives the topic one of each, so the counts below aggregate across the subscription's rules.
+    await serviceBusAdministrationClient.createSubscription(topicName, subscriptionName);
+    await serviceBusAdministrationClient.createRule(
+      topicName,
+      subscriptionName,
+      "my-correlation-rule",
+      { correlationId: "my-correlation-id" },
+    );
+    const topicRuntimeProperties =
+      await serviceBusAdministrationClient.getTopicRuntimeProperties(topicName);
+    console.log(`SQL filter count = ${topicRuntimeProperties.sqlFilterCount}`);
+    console.log(`Correlation filter count = ${topicRuntimeProperties.correlationFilterCount}`);
+    // @ts-preserve-whitespace
+    await serviceBusAdministrationClient.deleteTopic(topicName);
     await serviceBusAdministrationClient.deleteQueue(queueName);
   });
 

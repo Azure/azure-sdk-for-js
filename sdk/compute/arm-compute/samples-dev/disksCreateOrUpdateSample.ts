@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_CreateOrUpdate_AvailabilityPolicy.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_CreateOrUpdate_AvailabilityPolicy.json
  */
 async function createAManagedDiskWithAvailabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createAManagedDiskWithAvailabilityPolicy(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByCopyingASnapshot.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_ByCopyingASnapshot.json
  */
 async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
  */
 async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
  */
 async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
  */
 async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -118,7 +118,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_Empty.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_Empty.json
  */
 async function createAnEmptyManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +136,7 @@ async function createAnEmptyManagedDisk(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAPlatformImage.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAPlatformImage.json
  */
 async function createAManagedDiskFromAPlatformImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -159,7 +159,7 @@ async function createAManagedDiskFromAPlatformImage(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -183,7 +183,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Prom
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -207,7 +207,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): P
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -230,7 +230,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void>
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnElasticSanVolumeSnapshot.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAnElasticSanVolumeSnapshot.json
  */
 async function createAManagedDiskFromElasticSanVolumeSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -251,7 +251,7 @@ async function createAManagedDiskFromElasticSanVolumeSnapshot(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
  */
 async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -272,7 +272,7 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromImportSecure.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromImportSecure.json
  */
 async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -297,7 +297,7 @@ async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromImportSecure_WithVMMetadata.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromImportSecure_WithVMMetadata.json
  */
 async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForConfidentialVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -323,7 +323,7 @@ async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForC
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_FromUploadPreparedSecure.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_FromUploadPreparedSecure.json
  */
 async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -342,7 +342,7 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_InExtendedLocation.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_InExtendedLocation.json
  */
 async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -361,7 +361,7 @@ async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_PerformancePlus.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_PerformancePlus.json
  */
 async function createAManagedDiskWithPerformancePlus(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -378,7 +378,7 @@ async function createAManagedDiskWithPerformancePlus(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_UploadDisk.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_UploadDisk.json
  */
 async function createAManagedUploadDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -395,7 +395,7 @@ async function createAManagedUploadDisk(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDataAccessAuthMode.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithDataAccessAuthMode.json
  */
 async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -414,7 +414,7 @@ async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDiskAccess.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithDiskAccess.json
  */
 async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -435,7 +435,7 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<v
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithDiskEncryptionSet.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithDiskEncryptionSet.json
  */
 async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -457,7 +457,7 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<vo
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithLogicalSectorSize.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithLogicalSectorSize.json
  */
 async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -476,7 +476,7 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
  */
 async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -495,7 +495,7 @@ async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void>
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
  */
 async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -516,7 +516,7 @@ async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithSSDZRSAccountType.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithSSDZRSAccountType.json
  */
 async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -535,7 +535,7 @@ async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithSecurityProfile.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithSecurityProfile.json
  */
 async function createAManagedDiskWithSecurityProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -559,7 +559,7 @@ async function createAManagedDiskWithSecurityProfile(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk.
  *
  * @summary creates or updates a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
  */
 async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet(): Promise<void> {
   const credential = new DefaultAzureCredential();

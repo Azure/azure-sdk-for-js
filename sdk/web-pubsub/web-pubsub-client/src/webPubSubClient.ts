@@ -12,6 +12,8 @@ import type {
   JoinGroupOptions,
   LeaveGroupOptions,
   OnConnectedArgs,
+  OnRecoveringArgs,
+  OnRecoveredArgs,
   OnDisconnectedArgs,
   OnGroupDataMessageArgs,
   OnServerDataMessageArgs,
@@ -120,6 +122,8 @@ export class WebPubSubClient {
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
+  // Notification bookkeeping only; does not control recovery or shutdown.
+  private _recoveryEventGeneration = 0;
   private _pingKeepaliveTask: AbortableTask | undefined;
   private _timeoutMonitorTask: AbortableTask | undefined;
 
@@ -263,6 +267,7 @@ export class WebPubSubClient {
       return;
     }
 
+    this._recoveryEventGeneration++;
     // TODO: Maybe we need a better logic for stopping control
     this._isStopping = true;
     if (this._wsClient && this._wsClient.isOpen()) {
@@ -291,6 +296,19 @@ export class WebPubSubClient {
    * @param listener - The handler
    */
   public on(event: "connected", listener: (e: OnConnectedArgs) => void): void;
+  /**
+   * Add a handler invoked once before reliable recovery attempts begin.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public on(event: "recovering", listener: (e: OnRecoveringArgs) => void): void;
+  /**
+   * Add a handler invoked when the active recovery socket opens for the same
+   * logical connection, not when retained message replay is complete.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public on(event: "recovered", listener: (e: OnRecoveredArgs) => void): void;
   /**
    * Add handler for disconnected event
    * @param event - The event name
@@ -330,6 +348,8 @@ export class WebPubSubClient {
   public on(
     event:
       | "connected"
+      | "recovering"
+      | "recovered"
       | "disconnected"
       | "stopped"
       | "server-message"
@@ -359,6 +379,18 @@ export class WebPubSubClient {
    * @param listener - The handler
    */
   public off(event: "connected", listener: (e: OnConnectedArgs) => void): void;
+  /**
+   * Remove a handler for the recovering event.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public off(event: "recovering", listener: (e: OnRecoveringArgs) => void): void;
+  /**
+   * Remove a handler for the recovered event.
+   * @param event - The event name
+   * @param listener - The handler
+   */
+  public off(event: "recovered", listener: (e: OnRecoveredArgs) => void): void;
   /**
    * Remove handler for disconnected event
    * @param event - The event name
@@ -398,6 +430,8 @@ export class WebPubSubClient {
   public off(
     event:
       | "connected"
+      | "recovering"
+      | "recovered"
       | "disconnected"
       | "stopped"
       | "server-message"
@@ -410,6 +444,8 @@ export class WebPubSubClient {
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;
+  private _emitEvent(event: "recovering", args: OnRecoveringArgs): void;
+  private _emitEvent(event: "recovered", args: OnRecoveredArgs): void;
   private _emitEvent(event: "disconnected", args: OnDisconnectedArgs): void;
   private _emitEvent(event: "stopped", args: OnStoppedArgs): void;
   private _emitEvent(event: "server-message", args: OnServerDataMessageArgs): void;
@@ -419,6 +455,8 @@ export class WebPubSubClient {
   private _emitEvent(
     event:
       | "connected"
+      | "recovering"
+      | "recovered"
       | "disconnected"
       | "stopped"
       | "server-message"
@@ -1436,12 +1474,24 @@ export class WebPubSubClient {
     // Try recover connection
     let recovered = false;
     this._state = WebPubSubClientState.Recovering;
+    const connectionId = this._connectionId!;
+    const recoveryEventGeneration = ++this._recoveryEventGeneration;
+    this._safeEmitRecovering(connectionId);
     const abortSignal = AbortSignal.timeout(30 * 1000);
     try {
       while (!abortSignal.aborted && !this._isStopping) {
         try {
-          await this._connectCore.call(this, recoveryUri);
+          const connecting = this._connectCore.call(this, recoveryUri);
+          const recoverySocket = this._wsClient;
+          await connecting;
           recovered = true;
+          if (
+            recoveryEventGeneration === this._recoveryEventGeneration &&
+            recoverySocket === this._wsClient &&
+            recoverySocket?.isOpen()
+          ) {
+            this._safeEmitRecovered(connectionId);
+          }
           return;
         } catch {
           await delay(1000);
@@ -1473,6 +1523,22 @@ export class WebPubSubClient {
     sessions.forEach((session) => {
       session.close(reason);
     });
+  }
+
+  private _safeEmitRecovering(connectionId: string): void {
+    try {
+      this._emitEvent("recovering", { connectionId });
+    } catch (err) {
+      logger.warning("An error occurred in a recovering event listener.", err);
+    }
+  }
+
+  private _safeEmitRecovered(connectionId: string): void {
+    try {
+      this._emitEvent("recovered", { connectionId });
+    } catch (err) {
+      logger.warning("An error occurred in a recovered event listener.", err);
+    }
   }
 
   private _safeEmitConnected(connectionId: string, userId: string): void {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the properties of a specific Organization resource.
  *
  * @summary get the properties of a specific Organization resource.
- * x-ms-original-file: 2025-08-18-preview/Organization_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_Get_MaximumSet_Gen.json
  */
 async function organizationGetMaximumSet() {
   const credential = new DefaultAzureCredential();

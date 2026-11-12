@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
  *
  * @summary approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
  */
 async function approveAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

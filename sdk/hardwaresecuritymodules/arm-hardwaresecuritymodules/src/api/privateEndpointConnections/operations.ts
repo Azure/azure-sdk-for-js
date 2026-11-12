@@ -1,33 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type {
   PrivateEndpointConnection,
   _PrivateEndpointConnectionListResult,
+} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
-import { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByCloudHsmClusterSend(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections{?api%2Dversion}",
@@ -35,7 +29,7 @@ export function _listByCloudHsmClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,10 +37,7 @@ export function _listByCloudHsmClusterSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -56,27 +47,31 @@ export async function _listByCloudHsmClusterDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** The List operation gets information about the private endpoint connections associated with the Cloud HSM Cluster */
 export function listByCloudHsmCluster(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
     context,
     () => _listByCloudHsmClusterSend(context, resourceGroupName, cloudHsmClusterName, options),
     _listByCloudHsmClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
   );
 }

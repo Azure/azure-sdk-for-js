@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to tells a cache to write generate debug info for support to process.
  *
  * @summary tells a cache to write generate debug info for support to process.
- * x-ms-original-file: 2026-01-01/Caches_DebugInfo.json
+ * x-ms-original-file: 2026-08-01/Caches_DebugInfo.json
  */
 async function cachesDebugInfo(): Promise<void> {
   const credential = new DefaultAzureCredential();

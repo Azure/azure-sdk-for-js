@@ -50,6 +50,7 @@ export {
   getBlobServiceAccountAudience,
 } from "./models.js";
 export type { NodeJSReadableStream } from "@azure/storage-common";
+export { StorageResponseFormat } from "@azure/storage-common";
 export {
   Pipeline,
   type PipelineLike,
@@ -67,6 +68,10 @@ export {
   type IHttpClient,
   StorageOAuthScopes,
   type ServiceClientOptions,
+  type SessionMode,
+  type SessionOptions,
+  type ExpectContinueMode,
+  type ExpectContinueOptions,
 } from "./Pipeline.js";
 export {
   AnonymousCredential,

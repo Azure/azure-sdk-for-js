@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import * as MOCKS from "../../utils/constants.js";
 import { EnvVarKeys } from "../../utils/constants.js";
 
@@ -18,15 +18,38 @@ const trainingDataStorageAccount = process.env[EnvVarKeys.TRAINING_DATA_STORAGE_
 const trainingDataContainer = process.env[EnvVarKeys.TRAINING_DATA_CONTAINER];
 const trainingDataPrefix = process.env[EnvVarKeys.TRAINING_DATA_PREFIX];
 
+// CUSTOMIZATION: SDK-IMPROVEMENT: Mode-aware envSetupForPlayback inclusion.
+// test-recorder's handleEnvSetup builds sanitizers with `target = process.env[key]`
+// and filters only `undefined` (not empty strings). When a cross-resource env var
+// is defined-but-empty (as `sample.env` templates them), record mode sends
+// `target=""` to test-proxy which rejects with HTTP 400 "Parameter 'target' was
+// passed with no value." For each cross-resource var, include the mock only if:
+//   - we're in playback mode (tests need process.env[X] populated so `if (!X)`
+//     guards pass and the recorded HTTP flow replays), OR
+//   - the real env var is non-empty (so record mode produces a valid sanitizer).
+// In live mode there is no envSetupForPlayback processing, so this switch is a
+// no-op there.
+const includeSourceResourceId = isPlaybackMode() || Boolean(sourceResourceId);
+const includeSourceRegion = isPlaybackMode() || Boolean(sourceRegion);
+const includeTargetEndpoint = isPlaybackMode() || Boolean(targetEndpoint);
+const includeTargetResourceId = isPlaybackMode() || Boolean(targetResourceId);
+const includeTargetRegion = isPlaybackMode() || Boolean(targetRegion);
+
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     CONTENTUNDERSTANDING_ENDPOINT: MOCKS.ENDPOINT,
     ...(key ? { CONTENTUNDERSTANDING_KEY: MOCKS.KEY } : {}),
-    CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID: MOCKS.SOURCE_RESOURCE_ID,
-    CONTENTUNDERSTANDING_SOURCE_REGION: MOCKS.SOURCE_REGION,
-    CONTENTUNDERSTANDING_TARGET_ENDPOINT: MOCKS.TARGET_ENDPOINT,
-    CONTENTUNDERSTANDING_TARGET_RESOURCE_ID: MOCKS.TARGET_RESOURCE_ID,
-    CONTENTUNDERSTANDING_TARGET_REGION: MOCKS.TARGET_REGION,
+    ...(includeSourceResourceId
+      ? { CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID: MOCKS.SOURCE_RESOURCE_ID }
+      : {}),
+    ...(includeSourceRegion ? { CONTENTUNDERSTANDING_SOURCE_REGION: MOCKS.SOURCE_REGION } : {}),
+    ...(includeTargetEndpoint
+      ? { CONTENTUNDERSTANDING_TARGET_ENDPOINT: MOCKS.TARGET_ENDPOINT }
+      : {}),
+    ...(includeTargetResourceId
+      ? { CONTENTUNDERSTANDING_TARGET_RESOURCE_ID: MOCKS.TARGET_RESOURCE_ID }
+      : {}),
+    ...(includeTargetRegion ? { CONTENTUNDERSTANDING_TARGET_REGION: MOCKS.TARGET_REGION } : {}),
     ...(targetKey ? { CONTENTUNDERSTANDING_TARGET_KEY: MOCKS.TARGET_KEY } : {}),
     ...(trainingDataSasUrl
       ? { CONTENTUNDERSTANDING_TRAINING_DATA_SAS_URL: MOCKS.TRAINING_DATA_SAS_URL }
@@ -42,6 +65,11 @@ export const recorderOptions: RecorderStartOptions = {
     ...(trainingDataPrefix
       ? { CONTENTUNDERSTANDING_TRAINING_DATA_PREFIX: MOCKS.TRAINING_DATA_PREFIX }
       : {}),
+    // Lock model names during playback so recorded request bodies match assertions.
+    // Update these together with MOCKS.TEST_COMPLETION_MODEL defaults when recordings
+    // are refreshed against a new API version.
+    CU_TEST_COMPLETION_MODEL: "gpt-4.1",
+    CU_TEST_COMPLETION_MINI_MODEL: "gpt-4.1-mini",
   },
   removeCentralSanitizers: [
     "AZSDK4001", // envSetupForPlayback handles endpoint sanitization

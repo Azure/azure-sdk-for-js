@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
  *
  * @summary the operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
- * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_RetrieveBootDiagnosticsData.json
+ * x-ms-original-file: 2026-04-01/virtualMachineExamples/VirtualMachine_RetrieveBootDiagnosticsData.json
  */
 async function retrieveBootDiagnosticsDataOfAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

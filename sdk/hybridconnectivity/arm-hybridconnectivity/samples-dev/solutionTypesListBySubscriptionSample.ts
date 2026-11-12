@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list SolutionTypeResource resources by subscription ID
  *
  * @summary list SolutionTypeResource resources by subscription ID
- * x-ms-original-file: 2024-12-01/SolutionTypes_ListBySubscription.json
+ * x-ms-original-file: 2027-01-01/SolutionTypes_ListBySubscription_MaximumSet_Gen.json
  */
-
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function solutionTypesListBySubscription(): Promise<void> {
+async function solutionTypesListBySubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
@@ -24,7 +23,7 @@ async function solutionTypesListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await solutionTypesListBySubscription();
+  await solutionTypesListBySubscriptionGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

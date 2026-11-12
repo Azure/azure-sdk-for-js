@@ -15,6 +15,8 @@ export const EnvVarKeys = {
   TRAINING_DATA_STORAGE_ACCOUNT: "CONTENTUNDERSTANDING_TRAINING_DATA_STORAGE_ACCOUNT",
   TRAINING_DATA_CONTAINER: "CONTENTUNDERSTANDING_TRAINING_DATA_CONTAINER",
   TRAINING_DATA_PREFIX: "CONTENTUNDERSTANDING_TRAINING_DATA_PREFIX",
+  TEST_COMPLETION_MODEL: "CU_TEST_COMPLETION_MODEL",
+  TEST_COMPLETION_MINI_MODEL: "CU_TEST_COMPLETION_MINI_MODEL",
 } as const;
 
 export const ENDPOINT = "https://sanitized.services.ai.azure.com/";
@@ -30,3 +32,25 @@ export const TRAINING_DATA_SAS_URL =
 export const TRAINING_DATA_STORAGE_ACCOUNT = "sanitizedstorage";
 export const TRAINING_DATA_CONTAINER = "sanitizedcontainer";
 export const TRAINING_DATA_PREFIX = "sanitized-prefix/";
+
+/**
+ * Completion model used in recorded/live analyzer creation tests.
+ *
+ * Env-driven with a per-recording default. A single completion-model string is sent
+ * in analyzer creation requests, and the same string is asserted on the round-tripped
+ * response. The `envSetupForPlayback` block in `test/public/utils/recordedClient.ts`
+ * locks the value during playback so assertions stay deterministic across environments.
+ *
+ * Default `"gpt-4.1"` matches current recordings. When recordings are refreshed
+ * against a preview API version, flip this default (and the matching
+ * `envSetupForPlayback` entry) to `"gpt-5.2"` in a single commit — no per-test
+ * changes required.
+ */
+export const TEST_COMPLETION_MODEL = process.env[EnvVarKeys.TEST_COMPLETION_MODEL] ?? "gpt-4.1";
+
+/**
+ * Mini completion model used in analyzer creation tests. See
+ * {@link TEST_COMPLETION_MODEL} for the env / recording-refresh contract.
+ */
+export const TEST_COMPLETION_MINI_MODEL =
+  process.env[EnvVarKeys.TEST_COMPLETION_MINI_MODEL] ?? "gpt-4.1-mini";

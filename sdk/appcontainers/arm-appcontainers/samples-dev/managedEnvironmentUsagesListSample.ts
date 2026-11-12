@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the current usage information as well as the limits for environment.
  *
  * @summary gets the current usage information as well as the limits for environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentUsages_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentUsages_List.json
  */
 async function listManagedEnvironmentUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

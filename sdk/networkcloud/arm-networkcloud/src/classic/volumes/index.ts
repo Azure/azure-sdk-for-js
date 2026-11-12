@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/volumes/operations.js";
-import {
+import type {
   VolumesListBySubscriptionOptionalParams,
   VolumesListByResourceGroupOptionalParams,
   VolumesDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   VolumesCreateOrUpdateOptionalParams,
   VolumesGetOptionalParams,
 } from "../../api/volumes/options.js";
-import { OperationStatusResult, Volume } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, Volume } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {

@@ -480,6 +480,70 @@ describe("OpenTelemetry Resource", () => {
     }, 1000);
   });
 
+  describe("VM resource detection", () => {
+    // The spy in the VM test above is never restored, so clear its call history before each
+    // case here, and restore afterwards so these mocks do not leak into later tests.
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    // Swap in a clean environment so ambient App Service variables on the machine running
+    // the tests cannot decide the outcome.
+    function createConfigWithEnv(env: { [id: string]: string }): InternalConfig {
+      const originalEnv = process.env;
+      process.env = env;
+      try {
+        return new InternalConfig();
+      } finally {
+        process.env = originalEnv;
+      }
+    }
+
+    it("skips the IMDS probe on App Service", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on Azure Functions", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site", FUNCTIONS_EXTENSION_VERSION: "~4" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on AKS", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CLUSTER_RESOURCE_ID:
+          "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on Container Apps", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CONTAINER_APP_NAME: "test-app",
+        CONTAINER_APP_REVISION: "test-app--rev1",
+        CONTAINER_APP_HOSTNAME: "test-app.internal",
+        CONTAINER_APP_ENV_DNS_SUFFIX: "test.azurecontainerapps.io",
+        CONTAINER_APP_PORT: "80",
+        CONTAINER_APP_REPLICA_NAME: "test-app--rev1-abc",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("probes IMDS when no platform is detected", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({});
+      expect(detect).toHaveBeenCalled();
+    });
+  });
+
   it("OTEL_RESOURCE_ATTRIBUTES", () => {
     vi.stubEnv(
       "OTEL_RESOURCE_ATTRIBUTES",

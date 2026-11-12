@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -1472,6 +1472,8 @@ export function promoteReplicaRequestSerializer(item: PromoteReplicaRequest): an
 export enum KnownPromoteOption {
   /** Promote option forces the promotion without waiting for the replica to be caught up to the primary. This can result in data-loss so should only be used during disaster recovery scenarios. */
   Forced = "Forced",
+  /** Promote option waits for the replica to be caught up to the primary before promoting, guaranteeing no data loss during the promotion. */
+  Planned = "Planned",
 }
 
 /**
@@ -1479,7 +1481,8 @@ export enum KnownPromoteOption {
  * {@link KnownPromoteOption} can be used interchangeably with PromoteOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Forced**: Promote option forces the promotion without waiting for the replica to be caught up to the primary. This can result in data-loss so should only be used during disaster recovery scenarios.
+ * **Forced**: Promote option forces the promotion without waiting for the replica to be caught up to the primary. This can result in data-loss so should only be used during disaster recovery scenarios. \
+ * **Planned**: Promote option waits for the replica to be caught up to the primary before promoting, guaranteeing no data loss during the promotion.
  */
 export type PromoteOption = string;
 
@@ -2017,10 +2020,26 @@ export function userArrayDeserializer(result: Array<User>): any[] {
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-03-01-preview. */
+  V20240301Preview = "2024-03-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-06-01-preview. */
+  V20240601Preview = "2024-06-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2024-07-01. */
   V20240701 = "2024-07-01",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-10-01-preview. */
+  V20241001Preview = "2024-10-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-04-01-preview. */
+  V20250401Preview = "2025-04-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
+  V20250701Preview = "2025-07-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-08-01-preview. */
+  V20250801Preview = "2025-08-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2025-09-01. */
   V20250901 = "2025-09-01",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-02-01-preview. */
+  V20260201Preview = "2026-02-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2026-06-01. */
   V20260601 = "2026-06-01",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2026-06-15-preview. */
+  V20260615Preview = "2026-06-15-preview",
 }

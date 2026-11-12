@@ -227,25 +227,39 @@ function Invoke-Cu {
 
 # ─── Phase 2: Collect ─────────────────────────────────────────────────────────
 $EndpointFinal      = ""
-$ApiKeyFinal        = ""$UseDac             = $false$Gpt41              = ""
-$Gpt41Mini          = ""
-$Embedding          = ""
+$ApiKeyFinal        = ""
+$UseDac             = $false
+# Model names (roles) and their deployment names, aligned with Yung-Shin's
+# Python `sample_update_defaults.py`. Only the *_DEPLOYMENT vars are strictly
+# required at runtime; the model NAME vars have sensible defaults.
+$CompletionModel    = ""
+$MiniCompletionModel = ""
+$EmbeddingModel     = ""
+$CompletionDep      = ""
+$MiniCompletionDep  = ""
+$EmbeddingDep       = ""
 $SkipUpdateDefaults = $false
 
 if (-not $VerifyOnly) {
     Write-Section "Step 2: Existing configuration"
-    $existingEndpoint = Read-EnvValue "CONTENTUNDERSTANDING_ENDPOINT"
-    $existingKey      = Read-EnvValue "CONTENTUNDERSTANDING_KEY"
-    $existingG1       = Read-EnvValue "GPT_4_1_DEPLOYMENT"
-    $existingG1M      = Read-EnvValue "GPT_4_1_MINI_DEPLOYMENT"
-    $existingEmb      = Read-EnvValue "TEXT_EMBEDDING_3_LARGE_DEPLOYMENT"
+    $existingEndpoint              = Read-EnvValue "CONTENTUNDERSTANDING_ENDPOINT"
+    $existingKey                   = Read-EnvValue "CONTENTUNDERSTANDING_KEY"
+    $existingCompletionModel       = Read-EnvValue "CU_COMPLETION_MODEL"
+    $existingMiniCompletionModel   = Read-EnvValue "CU_COMPLETION_MODEL_MINI"
+    $existingEmbeddingModel        = Read-EnvValue "CU_EMBEDDING_MODEL"
+    $existingCompletionDep         = Read-EnvValue "CU_COMPLETION_MODEL_DEPLOYMENT"
+    $existingMiniCompletionDep     = Read-EnvValue "CU_COMPLETION_MINI_DEPLOYMENT"
+    $existingEmbeddingDep          = Read-EnvValue "CU_EMBEDDING_DEPLOYMENT"
     if (Test-Path $EnvFile) {
         Write-Info "Existing .env detected at $EnvFile"
-        if ($existingEndpoint) { Write-Info "  CONTENTUNDERSTANDING_ENDPOINT = $existingEndpoint" }
-        if ($existingKey)      { Write-Info ("  CONTENTUNDERSTANDING_KEY      = " + $existingKey.Substring(0,[Math]::Min(4,$existingKey.Length)) + "…(masked)") }
-        if ($existingG1)       { Write-Info "  GPT_4_1_DEPLOYMENT            = $existingG1" }
-        if ($existingG1M)      { Write-Info "  GPT_4_1_MINI_DEPLOYMENT       = $existingG1M" }
-        if ($existingEmb)      { Write-Info "  TEXT_EMBEDDING_3_LARGE_DEPLOYMENT = $existingEmb" }
+        if ($existingEndpoint)             { Write-Info "  CONTENTUNDERSTANDING_ENDPOINT   = $existingEndpoint" }
+        if ($existingKey)                  { Write-Info ("  CONTENTUNDERSTANDING_KEY        = " + $existingKey.Substring(0,[Math]::Min(4,$existingKey.Length)) + "…(masked)") }
+        if ($existingCompletionModel)      { Write-Info "  CU_COMPLETION_MODEL             = $existingCompletionModel" }
+        if ($existingMiniCompletionModel)  { Write-Info "  CU_COMPLETION_MODEL_MINI        = $existingMiniCompletionModel" }
+        if ($existingEmbeddingModel)       { Write-Info "  CU_EMBEDDING_MODEL              = $existingEmbeddingModel" }
+        if ($existingCompletionDep)        { Write-Info "  CU_COMPLETION_MODEL_DEPLOYMENT  = $existingCompletionDep" }
+        if ($existingMiniCompletionDep)    { Write-Info "  CU_COMPLETION_MINI_DEPLOYMENT   = $existingMiniCompletionDep" }
+        if ($existingEmbeddingDep)         { Write-Info "  CU_EMBEDDING_DEPLOYMENT         = $existingEmbeddingDep" }
     } elseif (Test-Path $SampleEnvFile) {
         Write-Info "No .env yet; will create from sample.env."
     }
@@ -294,9 +308,25 @@ if (-not $VerifyOnly) {
         }
     }
 
+    # ─── Collect model NAMES (used both for the probe and .env writes) ───────
+    # These are optional user-tuning knobs; defaults match Yung-Shin's Python
+    # `sample_update_defaults.py` (gpt-5.2 / mirror completion / text-embedding-3-large).
+    if ($NonInteractive) {
+        $CompletionModel     = if ($existingCompletionModel)     { $existingCompletionModel }     else { "gpt-5.2" }
+        $MiniCompletionModel = if ($existingMiniCompletionModel) { $existingMiniCompletionModel } else { $CompletionModel }
+        $EmbeddingModel      = if ($existingEmbeddingModel)      { $existingEmbeddingModel }      else { "text-embedding-3-large" }
+    } else {
+        $CompletionModel     = Read-PromptDefault "CU_COMPLETION_MODEL (default: gpt-5.2)" (if ($existingCompletionModel) { $existingCompletionModel } else { "gpt-5.2" })
+        if (-not $CompletionModel) { $CompletionModel = "gpt-5.2" }
+        $MiniCompletionModel = Read-PromptDefault "CU_COMPLETION_MODEL_MINI (default: $CompletionModel)" (if ($existingMiniCompletionModel) { $existingMiniCompletionModel } else { $CompletionModel })
+        if (-not $MiniCompletionModel) { $MiniCompletionModel = $CompletionModel }
+        $EmbeddingModel      = Read-PromptDefault "CU_EMBEDDING_MODEL (default: text-embedding-3-large)" (if ($existingEmbeddingModel) { $existingEmbeddingModel } else { "text-embedding-3-large" })
+        if (-not $EmbeddingModel) { $EmbeddingModel = "text-embedding-3-large" }
+    }
+
     Write-Section "Step 4: Probing existing model defaults"
     $probeRc = 1
-    $detectedG1 = ""; $detectedG1M = ""; $detectedEmb = ""
+    $detectedCompletionDep = ""; $detectedMiniCompletionDep = ""; $detectedEmbeddingDep = ""
     $token = $null
     if (-not $ApiKeyFinal) { $token = Get-AccessToken }
     if (-not $token -and -not $ApiKeyFinal) {
@@ -309,13 +339,14 @@ if (-not $VerifyOnly) {
                 try {
                     $deps = ($r.Body | ConvertFrom-Json).modelDeployments
                     if ($deps) {
-                        $detectedG1  = [string]$deps."gpt-4.1"
-                        $detectedG1M = [string]$deps."gpt-4.1-mini"
-                        $detectedEmb = [string]$deps."text-embedding-3-large"
+                        # Look up the caller's configured model names against the response.
+                        $detectedCompletionDep     = [string]$deps.$CompletionModel
+                        $detectedMiniCompletionDep = [string]$deps.$MiniCompletionModel
+                        $detectedEmbeddingDep      = [string]$deps.$EmbeddingModel
                     }
                 } catch { }
-                if ($detectedG1 -and $detectedG1M -and $detectedEmb) { $probeRc = 0 }
-                elseif ($detectedG1 -or $detectedG1M -or $detectedEmb) { $probeRc = 10 }
+                if ($detectedCompletionDep -and $detectedMiniCompletionDep -and $detectedEmbeddingDep) { $probeRc = 0 }
+                elseif ($detectedCompletionDep -or $detectedMiniCompletionDep -or $detectedEmbeddingDep) { $probeRc = 10 }
                 else { $probeRc = 2 }
             }
             401 { $probeRc = 3 }
@@ -326,21 +357,21 @@ if (-not $VerifyOnly) {
 
     switch ($probeRc) {
         0 {
-            Write-Pass "All defaults detected: gpt-4.1=$detectedG1, gpt-4.1-mini=$detectedG1M, text-embedding-3-large=$detectedEmb"
+            Write-Pass "All defaults detected: $CompletionModel=$detectedCompletionDep, $MiniCompletionModel=$detectedMiniCompletionDep, $EmbeddingModel=$detectedEmbeddingDep"
             if ($NonInteractive) {
-                $Gpt41 = $detectedG1; $Gpt41Mini = $detectedG1M; $Embedding = $detectedEmb
+                $CompletionDep = $detectedCompletionDep; $MiniCompletionDep = $detectedMiniCompletionDep; $EmbeddingDep = $detectedEmbeddingDep
                 $SkipUpdateDefaults = $true
             } else {
                 $useDet = Read-Host "  Use these detected values? (Y/n)"
                 if ($useDet -notmatch '^[Nn]$') {
-                    $Gpt41 = $detectedG1; $Gpt41Mini = $detectedG1M; $Embedding = $detectedEmb
+                    $CompletionDep = $detectedCompletionDep; $MiniCompletionDep = $detectedMiniCompletionDep; $EmbeddingDep = $detectedEmbeddingDep
                     $SkipUpdateDefaults = $true
                 }
             }
         }
         10 {
             Write-Info "Partial defaults detected; missing entries will be prompted."
-            $Gpt41 = $detectedG1; $Gpt41Mini = $detectedG1M; $Embedding = $detectedEmb
+            $CompletionDep = $detectedCompletionDep; $MiniCompletionDep = $detectedMiniCompletionDep; $EmbeddingDep = $detectedEmbeddingDep
         }
         2  { Write-Info "No model defaults configured on the resource yet (will be set by updateDefaults.js)." }
         3  { Write-WarnMsg "Probe authentication failed. Run 'az login' and ensure 'Cognitive Services User' role is assigned. Continuing with manual entry." }
@@ -348,17 +379,30 @@ if (-not $VerifyOnly) {
     }
 
     Write-Section "Step 5: Model deployment names"
-    $defG1  = if ($existingG1)  { $existingG1 }  else { "gpt-4.1" }
-    $defG1M = if ($existingG1M) { $existingG1M } else { "gpt-4.1-mini" }
-    $defEmb = if ($existingEmb) { $existingEmb } else { "text-embedding-3-large" }
+    $defCompletion     = if ($existingCompletionDep)     { $existingCompletionDep }     else { $CompletionModel }
+    $defMiniCompletion = if ($existingMiniCompletionDep) { $existingMiniCompletionDep } else { $CompletionDep }
+    $defEmbedding      = if ($existingEmbeddingDep)      { $existingEmbeddingDep }      else { $EmbeddingModel }
     if ($NonInteractive) {
-        if (-not $Gpt41)     { $Gpt41 = $defG1 }
-        if (-not $Gpt41Mini) { $Gpt41Mini = $defG1M }
-        if (-not $Embedding) { $Embedding = $defEmb }
+        if (-not $CompletionDep)     { $CompletionDep     = $defCompletion }
+        if (-not $MiniCompletionDep) { $MiniCompletionDep = if ($defMiniCompletion) { $defMiniCompletion } else { $CompletionDep } }
+        if (-not $EmbeddingDep)      { $EmbeddingDep      = $defEmbedding }
     } else {
-        if (-not $Gpt41)     { $Gpt41     = Read-PromptDefault "GPT_4_1_DEPLOYMENT"               $defG1 }  else { Write-Host "  Using detected GPT_4_1_DEPLOYMENT=$Gpt41" }
-        if (-not $Gpt41Mini) { $Gpt41Mini = Read-PromptDefault "GPT_4_1_MINI_DEPLOYMENT"          $defG1M } else { Write-Host "  Using detected GPT_4_1_MINI_DEPLOYMENT=$Gpt41Mini" }
-        if (-not $Embedding) { $Embedding = Read-PromptDefault "TEXT_EMBEDDING_3_LARGE_DEPLOYMENT" $defEmb } else { Write-Host "  Using detected TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=$Embedding" }
+        if (-not $CompletionDep) {
+            $CompletionDep     = Read-PromptDefault "CU_COMPLETION_MODEL_DEPLOYMENT (default: $CompletionModel)" $defCompletion
+        } else {
+            Write-Host "  Using detected CU_COMPLETION_MODEL_DEPLOYMENT=$CompletionDep"
+        }
+        if (-not $MiniCompletionDep) {
+            $miniDefault = if ($defMiniCompletion) { $defMiniCompletion } else { $CompletionDep }
+            $MiniCompletionDep = Read-PromptDefault "CU_COMPLETION_MINI_DEPLOYMENT (default: $CompletionDep)" $miniDefault
+        } else {
+            Write-Host "  Using detected CU_COMPLETION_MINI_DEPLOYMENT=$MiniCompletionDep"
+        }
+        if (-not $EmbeddingDep) {
+            $EmbeddingDep      = Read-PromptDefault "CU_EMBEDDING_DEPLOYMENT (default: $EmbeddingModel)" $defEmbedding
+        } else {
+            Write-Host "  Using detected CU_EMBEDDING_DEPLOYMENT=$EmbeddingDep"
+        }
     }
 
     Write-Section "Step 6: Writing .env"
@@ -373,9 +417,12 @@ if (-not $VerifyOnly) {
     } else {
         Set-EnvValue "CONTENTUNDERSTANDING_KEY"      $ApiKeyFinal
     }
-    Set-EnvValue "GPT_4_1_DEPLOYMENT"            $Gpt41
-    Set-EnvValue "GPT_4_1_MINI_DEPLOYMENT"       $Gpt41Mini
-    Set-EnvValue "TEXT_EMBEDDING_3_LARGE_DEPLOYMENT" $Embedding
+    Set-EnvValue "CU_COMPLETION_MODEL"            $CompletionModel
+    Set-EnvValue "CU_COMPLETION_MODEL_MINI"       $MiniCompletionModel
+    Set-EnvValue "CU_EMBEDDING_MODEL"             $EmbeddingModel
+    Set-EnvValue "CU_COMPLETION_MODEL_DEPLOYMENT" $CompletionDep
+    Set-EnvValue "CU_COMPLETION_MINI_DEPLOYMENT"  $MiniCompletionDep
+    Set-EnvValue "CU_EMBEDDING_DEPLOYMENT"        $EmbeddingDep
     Write-Pass "Wrote $EnvFile"
 }
 
@@ -511,7 +558,15 @@ if (-not $authMethod) {
 }
 
 Write-Section "[3/5] Model deployments"
-$required = @("gpt-4.1","gpt-4.1-mini","text-embedding-3-large")
+# Verify against the caller-configured model names (falling back to the
+# Yung-Shin canonical defaults gpt-5.2 / text-embedding-3-large).
+$verifyCompletion = Read-EnvValue "CU_COMPLETION_MODEL"
+if (-not $verifyCompletion) { $verifyCompletion = "gpt-5.2" }
+$verifyMini = Read-EnvValue "CU_COMPLETION_MODEL_MINI"
+if (-not $verifyMini) { $verifyMini = $verifyCompletion }
+$verifyEmb = Read-EnvValue "CU_EMBEDDING_MODEL"
+if (-not $verifyEmb) { $verifyEmb = "text-embedding-3-large" }
+$required = @($verifyCompletion, $verifyMini, $verifyEmb) | Select-Object -Unique
 if (-not $defaultsBody) {
     Write-FailMsg "Skipped — could not retrieve defaults"
 } else {

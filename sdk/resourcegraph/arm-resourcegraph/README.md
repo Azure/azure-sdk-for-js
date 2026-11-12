@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcegraph/arm-resourcegraph)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resourcegraph)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcegraph?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcegraph)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcegraph/arm-resourcegraph/samples)
 
 ## Getting started

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a given ServerEndpoint.
  *
  * @summary delete a given ServerEndpoint.
- * x-ms-original-file: 2022-09-01/ServerEndpoints_Delete.json
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Delete.json
  */
 async function serverEndpointsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

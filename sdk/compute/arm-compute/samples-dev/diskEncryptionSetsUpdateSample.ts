@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates (patches) a disk encryption set.
  *
  * @summary updates (patches) a disk encryption set.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
 async function updateADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function updateADiskEncryptionSet(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk encryption set.
  *
  * @summary updates (patches) a disk encryption set.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * This sample demonstrates how to updates (patches) a disk encryption set.
  *
  * @summary updates (patches) a disk encryption set.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
   const credential = new DefaultAzureCredential();

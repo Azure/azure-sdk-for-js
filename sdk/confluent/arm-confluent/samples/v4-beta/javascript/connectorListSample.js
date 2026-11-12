@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the connectors in a cluster
  *
  * @summary lists all the connectors in a cluster
- * x-ms-original-file: 2025-08-18-preview/Connector_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Connector_List_MaximumSet_Gen.json
  */
 async function connectorListMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -703,8 +704,6 @@ export interface ThresholdRuleV2 {
   threshold?: number;
   /** Sensitivity level for dynamic threshold detection. Only applicable when operator is Dynamic. */
   sensitivity?: DynamicThresholdSensitivity;
-  /** ISO 8601 duration for the historical look-back window used by dynamic threshold computation. Only applicable when operator is Dynamic. */
-  lookBackWindow?: LookBackWindow;
 }
 
 export function thresholdRuleV2Serializer(item: ThresholdRuleV2): any {
@@ -712,7 +711,6 @@ export function thresholdRuleV2Serializer(item: ThresholdRuleV2): any {
     operator: item["operator"],
     threshold: item["threshold"],
     sensitivity: item["sensitivity"],
-    lookBackWindow: item["lookBackWindow"],
   };
 }
 
@@ -721,7 +719,6 @@ export function thresholdRuleV2Deserializer(item: any): ThresholdRuleV2 {
     operator: item["operator"],
     threshold: item["threshold"],
     sensitivity: item["sensitivity"],
-    lookBackWindow: item["lookBackWindow"],
   };
 }
 
@@ -779,30 +776,6 @@ export enum KnownDynamicThresholdSensitivity {
  */
 export type DynamicThresholdSensitivity = string;
 
-/** Allowed look-back window durations for dynamic threshold computation */
-export enum KnownLookBackWindow {
-  /** Five minutes */
-  PT5M = "PT5M",
-  /** Fifteen minutes */
-  PT15M = "PT15M",
-  /** Thirty minutes */
-  PT30M = "PT30M",
-  /** One hour */
-  PT1H = "PT1H",
-}
-
-/**
- * Allowed look-back window durations for dynamic threshold computation \
- * {@link KnownLookBackWindow} can be used interchangeably with LookBackWindow,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PT5M**: Five minutes \
- * **PT15M**: Fifteen minutes \
- * **PT30M**: Thirty minutes \
- * **PT1H**: One hour
- */
-export type LookBackWindow = string;
-
 /** Azure Resource Metric Signal Definition properties */
 export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
   /** Kind of the signal definition */
@@ -815,7 +788,7 @@ export interface ResourceMetricSignalDefinitionProperties extends SignalDefiniti
   timeGrain: string;
   /** Type of aggregation to apply to the metric */
   aggregationType: MetricAggregationType;
-  /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
+  /** Optional: Dimension filter to apply to the dimension. */
   dimensionFilter?: string;
 }
 
@@ -1231,6 +1204,8 @@ export interface EntityProperties {
   tags?: Record<string, string>;
   /** Signal groups which are assigned to this entity */
   signalGroups?: SignalGroups;
+  /** Logical aggregation groups over the signals on this entity. Overlap is allowed: the same signal may appear in more than one group's members. Each group is evaluated independently according to its strategy, and a shared signal can contribute to multiple group states and related per-group telemetry. Group states contribute alongside any ungrouped signals and the dependency-aggregated child health to the entity's overall worst-of composite. */
+  signalAggregationGroups?: SignalAggregationGroup[];
   /** Discovered by which discovery rule. If set, the entity cannot be deleted manually. */
   readonly discoveredBy?: string;
   /** Health state of this entity */
@@ -1252,6 +1227,9 @@ export function entityPropertiesSerializer(item: EntityProperties): any {
     signalGroups: !item["signalGroups"]
       ? item["signalGroups"]
       : signalGroupsSerializer(item["signalGroups"]),
+    signalAggregationGroups: !item["signalAggregationGroups"]
+      ? item["signalAggregationGroups"]
+      : signalAggregationGroupArraySerializer(item["signalAggregationGroups"]),
     alerts: !item["alerts"] ? item["alerts"] : entityAlertsSerializer(item["alerts"]),
   };
 }
@@ -1272,6 +1250,9 @@ export function entityPropertiesDeserializer(item: any): EntityProperties {
     signalGroups: !item["signalGroups"]
       ? item["signalGroups"]
       : signalGroupsDeserializer(item["signalGroups"]),
+    signalAggregationGroups: !item["signalAggregationGroups"]
+      ? item["signalAggregationGroups"]
+      : signalAggregationGroupArrayDeserializer(item["signalAggregationGroups"]),
     discoveredBy: item["discoveredBy"],
     healthState: item["healthState"],
     alerts: !item["alerts"] ? item["alerts"] : entityAlertsDeserializer(item["alerts"]),
@@ -1454,7 +1435,7 @@ export interface AzureResourceSignal extends SignalInstanceProperties {
   timeGrain?: string;
   /** Type of aggregation to apply to the metric */
   aggregationType?: MetricAggregationType;
-  /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
+  /** Optional: Dimension filter to apply to the dimension. */
   dimensionFilter?: string;
   /** Display name */
   displayName?: string;
@@ -1606,8 +1587,6 @@ export enum KnownHealthState {
   Unhealthy = "Unhealthy",
   /** Unknown status */
   Unknown = "Unknown",
-  /** Deleted status */
-  Deleted = "Deleted",
 }
 
 /**
@@ -1618,8 +1597,7 @@ export enum KnownHealthState {
  * **Healthy**: Healthy status \
  * **Degraded**: Degraded status \
  * **Unhealthy**: Unhealthy status \
- * **Unknown**: Unknown status \
- * **Deleted**: Deleted status
+ * **Unknown**: Unknown status
  */
 export type HealthState = string;
 
@@ -1901,13 +1879,13 @@ export function prometheusMetricsSignalDeserializer(item: any): PrometheusMetric
 /** Properties for dependent entities, i.e. child entities */
 export interface DependenciesSignalGroupV2 {
   /** Aggregation type for child dependencies. */
-  aggregationType: DependenciesAggregationType;
+  aggregationType: AggregationType;
   /** Degraded threshold for aggregation. For MinHealthy: parent is degraded when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is degraded when not-healthy count/percentage reaches or exceeds this value. Optional — if not set, there is no degraded state (transitions directly from Healthy to Unhealthy). */
   degradedThreshold?: number;
   /** Unhealthy threshold for aggregation. For MinHealthy: parent is unhealthy when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is unhealthy when not-healthy count/percentage reaches or exceeds this value. Required when aggregationType is MinHealthy or MaxNotHealthy. */
   unhealthyThreshold?: number;
   /** Unit type for the aggregation thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy. */
-  unit?: DependenciesAggregationUnit;
+  unit?: AggregationUnit;
   /** If true, children with Unknown health state are excluded from aggregation calculations. Defaults to true. */
   ignoreUnknown?: boolean;
 }
@@ -1932,44 +1910,47 @@ export function dependenciesSignalGroupV2Deserializer(item: any): DependenciesSi
   };
 }
 
-/** Aggregation type for child dependencies. */
-export enum KnownDependenciesAggregationType {
-  /** Default behavior: Worst child health state is propagated. */
+/** Aggregation strategy for combining a set of health states into one. */
+export enum KnownAggregationType {
+  /** Worst health state across members is propagated. Default behavior. */
   WorstOf = "WorstOf",
-  /** Healthy if the count/percentage of healthy children meets the threshold. */
+  /** Best (least severe) health state across the non-Unknown members is propagated. Unknown members are excluded from the selection; if every member is Unknown the group resolves to Unknown. The 'ignoreUnknown' flag has no observable effect for this strategy and is documented as such. */
+  BestOf = "BestOf",
+  /** Healthy if the count/percentage of healthy members meets the threshold. */
   MinHealthy = "MinHealthy",
-  /** Healthy if the count/percentage of not-healthy children stays below the threshold. */
+  /** Healthy if the count/percentage of not-healthy members stays below the threshold. */
   MaxNotHealthy = "MaxNotHealthy",
 }
 
 /**
- * Aggregation type for child dependencies. \
- * {@link KnownDependenciesAggregationType} can be used interchangeably with DependenciesAggregationType,
+ * Aggregation strategy for combining a set of health states into one. \
+ * {@link KnownAggregationType} can be used interchangeably with AggregationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **WorstOf**: Default behavior: Worst child health state is propagated. \
- * **MinHealthy**: Healthy if the count\/percentage of healthy children meets the threshold. \
- * **MaxNotHealthy**: Healthy if the count\/percentage of not-healthy children stays below the threshold.
+ * **WorstOf**: Worst health state across members is propagated. Default behavior. \
+ * **BestOf**: Best (least severe) health state across the non-Unknown members is propagated. Unknown members are excluded from the selection; if every member is Unknown the group resolves to Unknown. The 'ignoreUnknown' flag has no observable effect for this strategy and is documented as such. \
+ * **MinHealthy**: Healthy if the count\/percentage of healthy members meets the threshold. \
+ * **MaxNotHealthy**: Healthy if the count\/percentage of not-healthy members stays below the threshold.
  */
-export type DependenciesAggregationType = string;
+export type AggregationType = string;
 
-/** Unit type for dependency aggregation thresholds. */
-export enum KnownDependenciesAggregationUnit {
-  /** Threshold is an absolute count of entities. */
+/** Unit type for the thresholds used by threshold-bearing aggregation strategies. */
+export enum KnownAggregationUnit {
+  /** Threshold is an absolute count of members. */
   Absolute = "Absolute",
-  /** Threshold is a percentage of entities (0-100). */
+  /** Threshold is a percentage of members (0-100). */
   Percentage = "Percentage",
 }
 
 /**
- * Unit type for dependency aggregation thresholds. \
- * {@link KnownDependenciesAggregationUnit} can be used interchangeably with DependenciesAggregationUnit,
+ * Unit type for the thresholds used by threshold-bearing aggregation strategies. \
+ * {@link KnownAggregationUnit} can be used interchangeably with AggregationUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Absolute**: Threshold is an absolute count of entities. \
- * **Percentage**: Threshold is a percentage of entities (0-100).
+ * **Absolute**: Threshold is an absolute count of members. \
+ * **Percentage**: Threshold is a percentage of members (0-100).
  */
-export type DependenciesAggregationUnit = string;
+export type AggregationUnit = string;
 
 /** A grouping of externally submitted signals. */
 export interface ExternalSignalGroup {
@@ -2006,6 +1987,82 @@ export function externalSignalDeserializer(item: any): ExternalSignal {
     evaluationRules: !item["evaluationRules"]
       ? item["evaluationRules"]
       : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+export function signalAggregationGroupArraySerializer(
+  result: Array<SignalAggregationGroup>,
+): any[] {
+  return result.map((item) => {
+    return signalAggregationGroupSerializer(item);
+  });
+}
+
+export function signalAggregationGroupArrayDeserializer(
+  result: Array<SignalAggregationGroup>,
+): any[] {
+  return result.map((item) => {
+    return signalAggregationGroupDeserializer(item);
+  });
+}
+
+/** A logical group of signals on an entity, evaluated under a configurable aggregation strategy. Groups are independent even when they share members. Each group's aggregated state is one of the inputs to the entity's composite health computation alongside any signals not declared in any group's members[]. */
+export interface SignalAggregationGroup {
+  /** Name of the aggregation group. Unique within the entity. */
+  name: string;
+  /** Display name */
+  displayName?: string;
+  /** Aggregation strategy applied across the members of this group. */
+  aggregationType?: AggregationType;
+  /** Names of signals on this entity which are members of the group. Members are matched by name; references to signals that do not currently exist on the entity are accepted (typically for pre-declared external signals) and surfaced via 'unresolvedMembers'. A signal may be listed in multiple groups; no duplicates within this list. */
+  members: string[];
+  /** Degraded threshold for threshold-bearing strategies (MinHealthy, MaxNotHealthy). For MinHealthy: group is degraded when the healthy member count/percentage falls to or below this value. For MaxNotHealthy: group is degraded when the not-healthy member count/percentage reaches or exceeds this value. Optional — if not set, the group transitions directly between Healthy and Unhealthy. MUST NOT be set when aggregationType is WorstOf or BestOf. */
+  degradedThreshold?: number;
+  /** Unhealthy threshold for threshold-bearing strategies. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
+  unhealthyThreshold?: number;
+  /** Unit type for the thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy; MUST NOT be set otherwise. */
+  unit?: AggregationUnit;
+  /** If true (default), members reporting Unknown are excluded from the aggregation. For MinHealthy and MaxNotHealthy this flag affects the denominator/count and is meaningful. For WorstOf and BestOf the flag has no observable effect: under WorstOf, Unknown=0 is the lowest severity and can never beat any non-Unknown member in a Max() so filtering it changes nothing observable; under BestOf, Unknown is unconditionally excluded by the strategy itself irrespective of the flag. The flag is retained on the contract for vocabulary symmetry across all four strategies. */
+  ignoreUnknown?: boolean;
+  /** Computed aggregated health state of the group as of the last entity evaluation. Unknown if no resolvable members or all members filtered out. */
+  readonly aggregatedHealthState?: HealthState;
+  /** Members listed in 'members' that do not currently resolve to a signal on this entity at the time of the last entity evaluation. Treated as Unknown during aggregation. Empty/omitted when every member resolves. */
+  readonly unresolvedMembers?: string[];
+}
+
+export function signalAggregationGroupSerializer(item: SignalAggregationGroup): any {
+  return {
+    name: item["name"],
+    displayName: item["displayName"],
+    aggregationType: item["aggregationType"],
+    members: item["members"].map((p: any) => {
+      return p;
+    }),
+    degradedThreshold: item["degradedThreshold"],
+    unhealthyThreshold: item["unhealthyThreshold"],
+    unit: item["unit"],
+    ignoreUnknown: item["ignoreUnknown"],
+  };
+}
+
+export function signalAggregationGroupDeserializer(item: any): SignalAggregationGroup {
+  return {
+    name: item["name"],
+    displayName: item["displayName"],
+    aggregationType: item["aggregationType"],
+    members: item["members"].map((p: any) => {
+      return p;
+    }),
+    degradedThreshold: item["degradedThreshold"],
+    unhealthyThreshold: item["unhealthyThreshold"],
+    unit: item["unit"],
+    ignoreUnknown: item["ignoreUnknown"],
+    aggregatedHealthState: item["aggregatedHealthState"],
+    unresolvedMembers: !item["unresolvedMembers"]
+      ? item["unresolvedMembers"]
+      : item["unresolvedMembers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2521,18 +2578,18 @@ export function signalConfigurationArrayDeserializer(result: Array<SignalConfigu
 export interface SignalConfiguration {
   /** Unique identifier of the recommended signal configuration. */
   signalId: string;
-  /** Metric namespace (e.g. 'microsoft.compute/virtualmachines'). */
-  metricNamespace?: string;
-  /** Name of the metric (e.g. 'Percentage CPU'). */
-  metricName?: string;
-  /** Type of aggregation to apply to the metric. */
-  aggregationType?: MetricAggregationType;
-  /** Unit of the metric (e.g. Percent, Bytes, Count). */
-  unit?: string;
-  /** Time range of the metric. ISO 8601 duration format (e.g. 'PT5M'). */
-  timeGrain?: string;
-  /** Optional dimension filter to apply to the metric. */
-  dimensionFilter?: string;
+  /** Display name of the recommended signal configuration. */
+  displayName?: string;
+  /** Description of the recommended signal configuration. */
+  description?: string;
+  /** Azure resource types to which the recommended signal configuration applies. */
+  applicableResourceTypes?: string[];
+  /** Interval in which the recommended signal is evaluated. */
+  refreshInterval?: RefreshInterval;
+  /** Unit of the recommended signal result (e.g. Bytes, MilliSeconds, Percent, Count). */
+  dataUnit?: string;
+  /** Kind-specific settings for the recommended signal. */
+  configuration: SignalRecommendationConfigurationUnion;
   /** Evaluation rules with recommended thresholds. */
   evaluationRules?: EvaluationRule;
 }
@@ -2540,15 +2597,186 @@ export interface SignalConfiguration {
 export function signalConfigurationDeserializer(item: any): SignalConfiguration {
   return {
     signalId: item["signalId"],
-    metricNamespace: item["metricNamespace"],
-    metricName: item["metricName"],
-    aggregationType: item["aggregationType"],
-    unit: item["unit"],
-    timeGrain: item["timeGrain"],
-    dimensionFilter: item["dimensionFilter"],
+    displayName: item["displayName"],
+    description: item["description"],
+    applicableResourceTypes: !item["applicableResourceTypes"]
+      ? item["applicableResourceTypes"]
+      : item["applicableResourceTypes"].map((p: any) => {
+          return p;
+        }),
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    configuration: signalRecommendationConfigurationUnionDeserializer(item["configuration"]),
     evaluationRules: !item["evaluationRules"]
       ? item["evaluationRules"]
       : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+/** Kind-specific signal recommendation configuration. */
+export interface SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  /** The discriminator possible values: AzureResourceMetric, LogAnalyticsQuery, PrometheusMetricsQuery */
+  signalKind: SignalRecommendationKind;
+}
+
+export function signalRecommendationConfigurationDeserializer(
+  item: any,
+): SignalRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+  };
+}
+
+/** Alias for SignalRecommendationConfigurationUnion */
+export type SignalRecommendationConfigurationUnion =
+  | AzureResourceMetricRecommendationConfiguration
+  | LogAnalyticsQueryRecommendationConfiguration
+  | PrometheusMetricsRecommendationConfiguration
+  | SignalRecommendationConfiguration;
+
+export function signalRecommendationConfigurationUnionDeserializer(
+  item: any,
+): SignalRecommendationConfigurationUnion {
+  switch (item["signalKind"]) {
+    case "AzureResourceMetric":
+      return azureResourceMetricRecommendationConfigurationDeserializer(
+        item as AzureResourceMetricRecommendationConfiguration,
+      );
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsQueryRecommendationConfigurationDeserializer(
+        item as LogAnalyticsQueryRecommendationConfiguration,
+      );
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsRecommendationConfigurationDeserializer(
+        item as PrometheusMetricsRecommendationConfiguration,
+      );
+
+    default:
+      return signalRecommendationConfigurationDeserializer(item);
+  }
+}
+
+/** Supported signal recommendation kinds. */
+export enum KnownSignalRecommendationKind {
+  /** Azure Resource Metric recommendation. */
+  AzureResourceMetric = "AzureResourceMetric",
+  /** Log Analytics Query recommendation. */
+  LogAnalyticsQuery = "LogAnalyticsQuery",
+  /** Prometheus Metrics Query recommendation. */
+  PrometheusMetricsQuery = "PrometheusMetricsQuery",
+}
+
+/**
+ * Supported signal recommendation kinds. \
+ * {@link KnownSignalRecommendationKind} can be used interchangeably with SignalRecommendationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureResourceMetric**: Azure Resource Metric recommendation. \
+ * **LogAnalyticsQuery**: Log Analytics Query recommendation. \
+ * **PrometheusMetricsQuery**: Prometheus Metrics Query recommendation.
+ */
+export type SignalRecommendationKind = string;
+
+/** Azure Resource Metric recommendation configuration. */
+export interface AzureResourceMetricRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. */
+  signalKind: "AzureResourceMetric";
+  /** Metric namespace. */
+  metricNamespace: string;
+  /** Name of the metric. */
+  metricName: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType: MetricAggregationType;
+  /** Time range of the metric in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string;
+}
+
+export function azureResourceMetricRecommendationConfigurationDeserializer(
+  item: any,
+): AzureResourceMetricRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    aggregationType: item["aggregationType"],
+    timeGrain: item["timeGrain"],
+    dimensionFilter: item["dimensionFilter"],
+  };
+}
+
+/** Log Analytics Query recommendation configuration. */
+export interface LogAnalyticsQueryRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. This value indicates that a Log Analytics workspace is required. */
+  signalKind: "LogAnalyticsQuery";
+  /** Query text in KQL syntax. Supported entity template variables, such as `{{entity.azureResourceId}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). If not specified, the KQL query must define a time range. */
+  timeGrain?: string;
+  /** Name of the numeric result column to evaluate against the thresholds. */
+  valueColumnName?: string;
+  /** Log Analytics tables required by the query. */
+  requiredTables?: string[];
+  /** Diagnostic setting categories required to populate the query's tables. */
+  requiredDiagnosticSettingCategories?: string[];
+}
+
+export function logAnalyticsQueryRecommendationConfigurationDeserializer(
+  item: any,
+): LogAnalyticsQueryRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+    requiredTables: !item["requiredTables"]
+      ? item["requiredTables"]
+      : item["requiredTables"].map((p: any) => {
+          return p;
+        }),
+    requiredDiagnosticSettingCategories: !item["requiredDiagnosticSettingCategories"]
+      ? item["requiredDiagnosticSettingCategories"]
+      : item["requiredDiagnosticSettingCategories"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Prometheus Metrics Query recommendation configuration. */
+export interface PrometheusMetricsRecommendationConfiguration extends SignalRecommendationConfiguration {
+  /** Kind of the recommended signal. This value indicates that an Azure Monitor workspace is required. */
+  signalKind: "PrometheusMetricsQuery";
+  /** Query text in PromQL syntax. Supported entity template variables, such as `{{entity.name}}`, may appear in the query. */
+  queryText: string;
+  /** Time range of the signal in ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string;
+  /** Prometheus metrics required by the query. */
+  requiredMetrics?: string[];
+  /** Prometheus scrape targets required to populate the query's metrics. */
+  requiredScrapeTargets?: string[];
+}
+
+export function prometheusMetricsRecommendationConfigurationDeserializer(
+  item: any,
+): PrometheusMetricsRecommendationConfiguration {
+  return {
+    signalKind: item["signalKind"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    requiredMetrics: !item["requiredMetrics"]
+      ? item["requiredMetrics"]
+      : item["requiredMetrics"].map((p: any) => {
+          return p;
+        }),
+    requiredScrapeTargets: !item["requiredScrapeTargets"]
+      ? item["requiredScrapeTargets"]
+      : item["requiredScrapeTargets"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2684,7 +2912,7 @@ export interface DiscoveryRuleProperties {
   /** Error details if the last discovery operation failed. */
   readonly error?: DiscoveryError;
   /** Name of the entity which represents the discovery rule. Note: It might take a few minutes after creating the discovery rule until the entity is created. */
-  readonly entityName: string;
+  readonly entityName?: string;
 }
 
 export function discoveryRulePropertiesDeserializer(item: any): DiscoveryRuleProperties {
@@ -2944,10 +3172,6 @@ export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): an
 
 /** API Versions */
 export enum KnownVersions {
-  /** 2025-05-01-preview */
-  V20250501Preview = "2025-05-01-preview",
-  /** 2026-01-01-preview */
-  V20260101Preview = "2026-01-01-preview",
-  /** 2026-05-01-preview */
-  V20260501Preview = "2026-05-01-preview",
+  /** 2026-11-01 */
+  V20261101 = "2026-11-01",
 }

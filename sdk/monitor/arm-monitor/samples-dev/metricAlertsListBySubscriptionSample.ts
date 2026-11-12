@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve alert rule definitions in a subscription.
  *
  * @summary retrieve alert rule definitions in a subscription.
- * x-ms-original-file: 2024-03-01-preview/listMetricAlert.json
+ * x-ms-original-file: 2026-01-01/listMetricAlert.json
  */
 async function listMetricAlertRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

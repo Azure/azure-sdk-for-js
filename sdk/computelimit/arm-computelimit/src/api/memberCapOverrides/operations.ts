@@ -33,7 +33,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listByParentDeserialize(
 
   return _memberCapOverrideListResultDeserializer(result.body);
 }
-
 /** Lists all per-member cap overrides configured under a SharedLimitCap. */
 export function listByParent(
   context: Client,
@@ -73,7 +72,7 @@ export function listByParent(
     () => _listByParentSend(context, location, vmFamilyName, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -91,7 +90,7 @@ export function _$deleteSend(
       location: location,
       vmFamilyName: vmFamilyName,
       memberSubscriptionId: memberSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +112,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Removes the per-member cap override for a member subscription. */
 export async function $delete(
   context: Client,
@@ -141,7 +139,7 @@ export function _createOrUpdateSend(
       location: location,
       vmFamilyName: vmFamilyName,
       memberSubscriptionId: memberSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +168,6 @@ export async function _createOrUpdateDeserialize(
 
   return memberCapOverrideDeserializer(result.body);
 }
-
 /** Creates or replaces the cap override for a single member subscription. */
 export async function createOrUpdate(
   context: Client,
@@ -205,7 +202,7 @@ export function _getSend(
       location: location,
       vmFamilyName: vmFamilyName,
       memberSubscriptionId: memberSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +227,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Me
 
   return memberCapOverrideDeserializer(result.body);
 }
-
 /** Gets the cap override configured for a single member subscription. */
 export async function get(
   context: Client,

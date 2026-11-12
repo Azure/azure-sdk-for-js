@@ -136,7 +136,7 @@ export async function execute({
         return response;
       } catch (err: any) {
         // TODO: any error
-        let retryPolicy: RetryPolicy = null;
+        let retryPolicy: RetryPolicy;
         const headers = err.headers || {};
         if (correlatedActivityId) {
           headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;

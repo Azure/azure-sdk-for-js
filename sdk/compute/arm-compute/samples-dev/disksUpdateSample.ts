@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
  */
 async function createOrUpdateABurstingEnabledManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function createOrUpdateABurstingEnabledManagedDisk(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddAcceleratedNetworking.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_AddAcceleratedNetworking.json
  */
 async function updateAManagedDiskToAddAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function updateAManagedDiskToAddAcceleratedNetworking(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddDiskControllerTypes.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_AddDiskControllerTypes.json
  */
 async function updateAManagedDiskWithDiskControllerTypes(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function updateAManagedDiskWithDiskControllerTypes(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddPurchasePlan.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_AddPurchasePlan.json
  */
 async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_AddSupportsHibernation.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_AddSupportsHibernation.json
  */
 async function updateAManagedDiskToAddSupportsHibernation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,7 @@ async function updateAManagedDiskToAddSupportsHibernation(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_ChangeTier.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_ChangeTier.json
  */
 async function updateAManagedDiskToChangeTier(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -108,7 +108,7 @@ async function updateAManagedDiskToChangeTier(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_DisableBursting.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_DisableBursting.json
  */
 async function updateAManagedDiskToDisableBursting(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function updateAManagedDiskToDisableBursting(): Promise<void> {
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
  */
 async function updateAManagedDiskToDisableOptimizedForFrequentAttach(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach(): Promise<
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_RemoveDiskAccess.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_RemoveDiskAccess.json
  */
 async function updateManagedDiskToRemoveDiskAccessResourceAssociation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -154,7 +154,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation(): Promise
  * This sample demonstrates how to updates (patches) a disk.
  *
  * @summary updates (patches) a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_Update_ToAddArchitecture.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_Update_ToAddArchitecture.json
  */
 async function updateAManagedDiskToAddArchitecture(): Promise<void> {
   const credential = new DefaultAzureCredential();

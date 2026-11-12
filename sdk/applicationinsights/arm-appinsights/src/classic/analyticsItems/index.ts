@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { $delete, put, get, list } from "../../api/analyticsItems/operations.js";
-import {
+import type {
   AnalyticsItemsDeleteOptionalParams,
   AnalyticsItemsPutOptionalParams,
   AnalyticsItemsGetOptionalParams,
   AnalyticsItemsListOptionalParams,
 } from "../../api/analyticsItems/options.js";
-import {
+import type {
   ApplicationInsightsComponentAnalyticsItem,
   ItemScopePath,
 } from "../../models/analyticsItems/models.js";

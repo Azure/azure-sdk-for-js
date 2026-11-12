@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2026-03-01/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowProfileCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function dataflowProfileCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2026-03-01/DataflowProfile_CreateOrUpdate_Minimal.json
+ * x-ms-original-file: 2026-07-01/DataflowProfile_CreateOrUpdate_Minimal.json
  */
 async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2026-03-01/DataflowProfile_CreateOrUpdate_Multi.json
+ * x-ms-original-file: 2026-07-01/DataflowProfile_CreateOrUpdate_Multi.json
  */
 async function dataflowProfileCreateOrUpdateMulti(): Promise<void> {
   const credential = new DefaultAzureCredential();

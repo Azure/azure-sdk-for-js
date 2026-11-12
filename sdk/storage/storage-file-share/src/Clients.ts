@@ -47,6 +47,7 @@ import type {
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
   ShareDeleteResponse,
+  ShareFileRange,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
   ShareGetPropertiesResponseModel,
@@ -115,6 +116,7 @@ import type {
   DirectoryOperations,
   FileOperations,
   ListFilesIncludeType,
+  ShareFileRangeListSegment,
   FileDownloadOptionalParams as FileDownloadOptionalParamsInternal,
 } from "./generated/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
@@ -143,10 +145,15 @@ import {
   assertResponse,
   adjustResponse,
   removeEmptyString,
+  extractShareFileRangeItems,
   asSharePermission,
   parseOctalFileMode,
   toOctalFileMode,
   setUploadChecksumParameters,
+  assertNotFileIdAddressed,
+  getFileIdFromURL,
+  setFileIdOnShareURL,
+  StringEncodedToString,
 } from "./utils/utils.common.js";
 import { Credential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
@@ -275,6 +282,19 @@ export interface ShareCreateOptions extends CommonOptions {
 
   /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
   shareProvisionedBandwidthMibps?: number;
+
+  /**
+   * Optional. Specifies whether change feed is enabled on the share. If not specified, change feed
+   * is not enabled.
+   */
+  enableChangeFeed?: boolean;
+
+  /**
+   * Optional. Specifies the number of days that the share's change feed records are retained.
+   * Valid values are between 1 and 365. Requires `enableChangeFeed` to be true. If change feed is
+   * enabled without this value, the default is 7 days.
+   */
+  changeFeedRetentionInDays?: number;
 }
 
 /**
@@ -450,6 +470,20 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula.
    */
   shareProvisionedBandwidthMibps?: number;
+
+  /**
+   * Optional. Specifies whether change feed is enabled on the share. If not specified, the share's
+   * current setting is unchanged.
+   */
+  enableChangeFeed?: boolean;
+
+  /**
+   * Optional. Specifies the number of days that the share's change feed records are retained.
+   * Valid values are between 1 and 365. Once change feed is enabled on the share, this value can be
+   * updated on its own. If not specified, the share keeps its current retention, which defaults to
+   * 7 days.
+   */
+  changeFeedRetentionInDays?: number;
 }
 
 /**
@@ -895,6 +929,41 @@ export class ShareClient extends StorageClient {
   }
 
   /**
+   * Creates a {@link ShareFileClient} that addresses a file in an SMB file share by its file ID instead of its path.
+   * Only {@link ShareFileClient.getProperties}, {@link ShareFileClient.getFileLinks} and
+   * {@link ShareFileClient.withShareSnapshot} are supported on it; its other methods throw an error
+   * without sending a request.
+   *
+   * @param fileId - The file ID of the file, such as the `fileId` returned by {@link ShareFileClient.getProperties}.
+   *                 A `RangeError` is thrown when it's empty or only whitespace.
+   * @returns A ShareFileClient that addresses the file by its file ID.
+   */
+  public getShareFileClient(fileId: string): ShareFileClient {
+    return new ShareFileClient(
+      setFileIdOnShareURL(this.url, fileId),
+      this.pipeline,
+      this.shareClientConfig,
+    );
+  }
+
+  /**
+   * Creates a {@link ShareDirectoryClient} that addresses a directory in an SMB file share by its file ID instead of
+   * its path. Only {@link ShareDirectoryClient.getProperties} is supported on it; its other methods throw an error
+   * without sending a request.
+   *
+   * @param fileId - The file ID of the directory, such as the `fileId` returned by {@link ShareDirectoryClient.getProperties}.
+   *                 A `RangeError` is thrown when it's empty or only whitespace.
+   * @returns A ShareDirectoryClient that addresses the directory by its file ID.
+   */
+  public getShareDirectoryClient(fileId: string): ShareDirectoryClient {
+    return new ShareDirectoryClient(
+      setFileIdOnShareURL(this.url, fileId),
+      this.pipeline,
+      this.shareClientConfig,
+    );
+  }
+
+  /**
    * Creates a new subdirectory under this share.
    * @see https://learn.microsoft.com/rest/api/storageservices/create-directory
    *
@@ -1080,7 +1149,7 @@ export class ShareClient extends StorageClient {
     return tracingClient.withSpan("ShareClient-delete", options, async (updatedOptions) => {
       return assertResponse<ShareDeleteHeaders, ShareDeleteHeaders>(
         adjustResponse(
-          await this.context.delete({
+          await this.context.deleteShare({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
@@ -1838,6 +1907,7 @@ export class ShareDirectoryClient extends StorageClient {
   private _shareName: string;
   private _path: string;
   private _name: string;
+  private _fileId?: string;
 
   private shareClientConfig?: ShareClientConfig;
 
@@ -1849,17 +1919,25 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * The full path of the directory
+   * The full path of the directory. Empty when the client addresses the directory by its file ID.
    */
   public get path(): string {
     return this._path;
   }
 
   /**
-   * The name of the directory
+   * The name of the directory. Empty when the client addresses the directory by its file ID.
    */
   public get name(): string {
     return this._name;
+  }
+
+  /**
+   * The file ID the client addresses the directory by, such as for a client created with
+   * {@link ShareClient.getShareDirectoryClient}. Undefined when the client addresses the directory by its path.
+   */
+  public get fileId(): string | undefined {
+    return this._fileId;
   }
 
   /**
@@ -1873,6 +1951,9 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
+   *                     A share URL with a "fileid" query parameter, such as
+   *                     "https://myaccount.file.core.windows.net/myshare?fileid=13835128424026472451", addresses the
+   *                     directory by its file ID (see {@link ShareClient.getShareDirectoryClient}).
    * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -1895,6 +1976,9 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
+   *                     A share URL with a "fileid" query parameter, such as
+   *                     "https://myaccount.file.core.windows.net/myshare?fileid=13835128424026472451", addresses the
+   *                     directory by its file ID (see {@link ShareClient.getShareDirectoryClient}).
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
@@ -1925,6 +2009,11 @@ export class ShareDirectoryClient extends StorageClient {
       shareName: this._shareName,
       path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
+    this._fileId = getFileIdFromURL(this.url);
+    if (this._fileId) {
+      this._name = "";
+      this._path = "";
+    }
     this.shareClientConfig = options;
     this.context = this.storageClientContext.directory;
   }
@@ -1937,6 +2026,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns Response data for the Directory  operation.
    */
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
+    assertNotFileIdAddressed(this._fileId, "create");
     if (!options.fileAttributes) {
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
     }
@@ -1987,6 +2077,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async createIfNotExists(
     options: DirectoryCreateOptions = {},
   ): Promise<DirectoryCreateIfNotExistsResponse> {
+    assertNotFileIdAddressed(this._fileId, "createIfNotExists");
     return tracingClient.withSpan(
       "ShareDirectoryClient-createIfNotExists",
       options,
@@ -2022,6 +2113,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async setProperties(
     properties: DirectoryProperties = {},
   ): Promise<DirectorySetPropertiesResponse> {
+    assertNotFileIdAddressed(this._fileId, "setProperties");
     properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
     return tracingClient.withSpan(
       "ShareDirectoryClient-setProperties",
@@ -2086,6 +2178,7 @@ export class ShareDirectoryClient extends StorageClient {
    * ```
    */
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
+    assertNotFileIdAddressed(this._fileId, "getDirectoryClient");
     return new ShareDirectoryClient(
       appendToURLPath(this.url, EscapePath(subDirectoryName)),
       this.pipeline,
@@ -2108,6 +2201,7 @@ export class ShareDirectoryClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
+    assertNotFileIdAddressed(this._fileId, "createSubdirectory");
     return tracingClient.withSpan(
       "ShareDirectoryClient-createSubdirectory",
       options,
@@ -2135,6 +2229,7 @@ export class ShareDirectoryClient extends StorageClient {
     directoryName: string,
     options: DirectoryDeleteOptions = {},
   ): Promise<DirectoryDeleteResponse> {
+    assertNotFileIdAddressed(this._fileId, "deleteSubdirectory");
     return tracingClient.withSpan(
       "ShareDirectoryClient-deleteSubdirectory",
       options,
@@ -2159,6 +2254,7 @@ export class ShareDirectoryClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {},
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
+    assertNotFileIdAddressed(this._fileId, "createFile");
     return tracingClient.withSpan(
       "ShareDirectoryClient-createFile",
       options,
@@ -2195,6 +2291,7 @@ export class ShareDirectoryClient extends StorageClient {
     fileName: string,
     options: FileDeleteOptions = {},
   ): Promise<FileDeleteResponse> {
+    assertNotFileIdAddressed(this._fileId, "deleteFile");
     return tracingClient.withSpan(
       "ShareDirectoryClient-deleteFile",
       options,
@@ -2243,6 +2340,7 @@ export class ShareDirectoryClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): ShareFileClient {
+    assertNotFileIdAddressed(this._fileId, "getFileClient");
     return new ShareFileClient(
       appendToURLPath(this.url, EscapePath(fileName)),
       this.pipeline,
@@ -2260,6 +2358,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: DirectoryExistsOptions = {}): Promise<boolean> {
+    assertNotFileIdAddressed(this._fileId, "exists");
     return tracingClient.withSpan(
       "ShareDirectoryClient-exists",
       options,
@@ -2326,13 +2425,14 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns Response data for the Directory Delete operation.
    */
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
+    assertNotFileIdAddressed(this._fileId, "delete");
     return tracingClient.withSpan(
       "ShareDirectoryClient-delete",
       options,
       async (updatedOptions) => {
         return assertResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>(
           adjustResponse(
-            await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
+            await this.context.deleteDirectory({ ...updatedOptions, ...this.shareClientConfig }),
           ),
         );
       },
@@ -2349,6 +2449,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async deleteIfExists(
     options: DirectoryDeleteOptions = {},
   ): Promise<DirectoryDeleteIfExistsResponse> {
+    assertNotFileIdAddressed(this._fileId, "deleteIfExists");
     return tracingClient.withSpan(
       "ShareDirectoryClient-deleteIfExists",
       options,
@@ -2389,6 +2490,7 @@ export class ShareDirectoryClient extends StorageClient {
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {},
   ): Promise<DirectorySetMetadataResponse> {
+    assertNotFileIdAddressed(this._fileId, "setMetadata");
     return tracingClient.withSpan(
       "ShareDirectoryClient-setMetadata",
       options,
@@ -2449,9 +2551,8 @@ export class ShareDirectoryClient extends StorageClient {
       options.prefix = undefined;
     }
 
-    let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
-      marker,
+      undefined,
       options,
     )) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
@@ -2618,6 +2719,7 @@ export class ShareDirectoryClient extends StorageClient {
     ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem),
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
+    assertNotFileIdAddressed(this._fileId, "listFilesAndDirectories");
     const include: ListFilesIncludeType[] = [];
     if (options.includeTimestamps) {
       include.push("Timestamps");
@@ -2748,8 +2850,7 @@ export class ShareDirectoryClient extends StorageClient {
   private async *listHandleItems(
     options: DirectoryListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;
@@ -2884,6 +2985,7 @@ export class ShareDirectoryClient extends StorageClient {
   public listHandles(
     options: DirectoryListHandlesOptions = {},
   ): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse> {
+    assertNotFileIdAddressed(this._fileId, "listHandles");
     // an AsyncIterableIterator to iterate over handles
     const iter = this.listHandleItems(options);
     return {
@@ -3015,6 +3117,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async forceCloseAllHandles(
     options: DirectoryForceCloseHandlesSegmentOptions = {},
   ): Promise<CloseHandlesInfo> {
+    assertNotFileIdAddressed(this._fileId, "forceCloseAllHandles");
     return tracingClient.withSpan(
       "ShareDirectoryClient-forceCloseAllHandles",
       options,
@@ -3056,6 +3159,7 @@ export class ShareDirectoryClient extends StorageClient {
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {},
   ): Promise<DirectoryForceCloseHandlesResponse> {
+    assertNotFileIdAddressed(this._fileId, "forceCloseHandle");
     return tracingClient.withSpan(
       "ShareDirectoryClient-forceCloseHandle",
       options,
@@ -3117,6 +3221,7 @@ export class ShareDirectoryClient extends StorageClient {
     destinationDirectoryClient: ShareDirectoryClient;
     directoryRenameResponse: DirectoryRenameResponse;
   }> {
+    assertNotFileIdAddressed(this._fileId, "rename");
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
     if (split.length === 2) {
@@ -3451,6 +3556,56 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ShareFileClient.getFileLinks} operation.
+ */
+export interface FileGetFileLinksOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * A hard link to a file, returned by {@link ShareFileClient.getFileLinks}.
+ */
+export interface FileLink {
+  /**
+   * The name of the hard link. Unlike the `fileName` returned by {@link ShareFileClient.getProperties}, it isn't
+   * percent-encoded.
+   */
+  name: string;
+  /**
+   * The file ID of the directory that contains the hard link. The root directory of a share has the file ID "0".
+   */
+  parentId: string;
+}
+
+/**
+ * The file properties returned by the {@link ShareFileClient.getFileLinks} operation. They have the same names
+ * as the ones returned by {@link ShareFileClient.getProperties}.
+ */
+export type FileGetFileLinksHeaders = FileGetPropertiesHeaders;
+
+/**
+ * Contains response data for the {@link ShareFileClient.getFileLinks} operation.
+ */
+export type FileGetFileLinksResponse = WithResponse<
+  FileGetFileLinksHeaders & {
+    /**
+     * The hard links of the file.
+     */
+    links: FileLink[];
+  },
+  FileGetFileLinksHeaders,
+  FileLink[]
+>;
+
+/**
  * Contains response data for the {@link ShareFileClient.getRangeList} operation.
  */
 export type FileGetRangeListResponse = WithResponse<
@@ -3462,6 +3617,122 @@ export type FileGetRangeListResponse = WithResponse<
   },
   FileGetRangeListHeaders,
   RangeModel[]
+>;
+
+/**
+ * Options to configure the {@link ShareFileClient.listRanges} operation.
+ */
+export interface FileListRangesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Options to configure the {@link ShareFileClient.listRangesDiff} operation.
+ */
+export interface FileListRangesDiffOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
+}
+
+/**
+ * Options to configure listing range segments, used internally by
+ * {@link ShareFileClient.listRanges} and {@link ShareFileClient.listRangesDiff}.
+ */
+interface FileListRangesSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
+  /**
+   * The previous share snapshot to compare with, when listing range diffs.
+   */
+  prevShareSnapshot?: string;
+  /**
+   * Specifies the maximum number of ranges to return per page.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * The body of a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export interface FileListRangesSegment {
+  /**
+   * The valid data ranges for the file.
+   */
+  ranges?: RangeModel[];
+  /**
+   * The cleared ranges for the file. Present when listing range diffs.
+   */
+  clearRanges?: RangeModel[];
+  /**
+   * The next marker returned by the service if there are more ranges to list.
+   */
+  nextMarker?: string;
+}
+
+/**
+ * Contains a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export type FileListRangesSegmentResponse = WithResponse<
+  FileGetRangeListHeaders &
+    FileListRangesSegment & {
+      /**
+       * A token that identifies the portion of the list to be returned with the next list operation.
+       * The value is opaque to the client.
+       */
+      continuationToken?: string;
+    },
+  FileGetRangeListHeaders,
+  FileListRangesSegment
 >;
 
 /**
@@ -4077,6 +4348,7 @@ export class ShareFileClient extends StorageClient {
   private _shareName: string;
   private _path: string;
   private _name: string;
+  private _fileId?: string;
 
   private shareClientConfig?: ShareClientConfig;
 
@@ -4088,17 +4360,25 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
-   * The full path of the file
+   * The full path of the file. Empty when the client addresses the file by its file ID.
    */
   public get path(): string {
     return this._path;
   }
 
   /**
-   * The name of the file
+   * The name of the file. Empty when the client addresses the file by its file ID.
    */
   public get name(): string {
     return this._name;
+  }
+
+  /**
+   * The file ID the client addresses the file by, such as for a client created with
+   * {@link ShareClient.getShareFileClient}. Undefined when the client addresses the file by its path.
+   */
+  public get fileId(): string | undefined {
+    return this._fileId;
   }
 
   /**
@@ -4112,6 +4392,9 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
+   *                     A share URL with a "fileid" query parameter, such as
+   *                     "https://myaccount.file.core.windows.net/myshare?fileid=13835128424026472451", addresses the
+   *                     file by its file ID (see {@link ShareClient.getShareFileClient}).
    * @param credential - Such as , StorageSharedKeyCredential or TokenCredential,
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -4134,6 +4417,9 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
+   *                     A share URL with a "fileid" query parameter, such as
+   *                     "https://myaccount.file.core.windows.net/myshare?fileid=13835128424026472451", addresses the
+   *                     file by its file ID (see {@link ShareClient.getShareFileClient}).
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
@@ -4164,6 +4450,11 @@ export class ShareFileClient extends StorageClient {
       shareName: this._shareName,
       path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
+    this._fileId = getFileIdFromURL(this.url);
+    if (this._fileId) {
+      this._name = "";
+      this._path = "";
+    }
     this.shareClientConfig = options;
     this.context = this.storageClientContext.file;
   }
@@ -4225,6 +4516,7 @@ export class ShareFileClient extends StorageClient {
    * ```
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
+    assertNotFileIdAddressed(this._fileId, "create");
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
@@ -4366,6 +4658,7 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {},
   ): Promise<FileDownloadResponseModel> {
+    assertNotFileIdAddressed(this._fileId, "download");
     return tracingClient.withSpan("ShareFileClient-download", options, async (updatedOptions) => {
       let contentChecksumAlgorithm =
         options.contentChecksumAlgorithm ??
@@ -4497,6 +4790,7 @@ export class ShareFileClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: FileExistsOptions = {}): Promise<boolean> {
+    assertNotFileIdAddressed(this._fileId, "exists");
     return tracingClient.withSpan("ShareFileClient-exists", options, async (updatedOptions) => {
       try {
         await this.getProperties(updatedOptions);
@@ -4555,6 +4849,94 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Returns the hard links of the file, along with all user-defined metadata, standard HTTP properties,
+   * and system properties for the file. It does not return the content of the file.
+   *
+   * Only supported when the client addresses the file by its file ID, such as a client created with
+   * {@link ShareClient.getShareFileClient}; otherwise it throws an error before sending a request. Addressing by
+   * file ID is supported only on SMB file shares, where a file has a single link: its own name in the directory
+   * that contains it.
+   *
+   * @param options - Options to File Get File Links operation.
+   * @returns Response data for the File Get File Links operation.
+   */
+  public async getFileLinks(
+    options: FileGetFileLinksOptions = {},
+  ): Promise<FileGetFileLinksResponse> {
+    if (!this._fileId) {
+      throw new Error(
+        "getFileLinks is only supported when the client addresses the resource by file ID.",
+      );
+    }
+    return tracingClient.withSpan(
+      "ShareFileClient-getFileLinks",
+      options,
+      async (updatedOptions) => {
+        const response = adjustResponse(
+          await this.context.getHardLinks({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        );
+        // The file's content properties come in x-ms-content-* headers; Content-Type describes the XML body.
+        const {
+          fileContentType,
+          fileContentLength,
+          fileContentMD5,
+          fileContentEncoding,
+          fileContentLanguage,
+          fileCacheControl,
+          fileContentDisposition,
+          serverEncrypted,
+          hardLinks,
+          _response: rawResponse,
+          ...properties
+        } = response;
+        const headers: FileGetFileLinksHeaders = {
+          ...properties,
+          contentType: fileContentType,
+          contentLength: fileContentLength,
+          contentMD5: fileContentMD5,
+          contentEncoding: fileContentEncoding,
+          contentLanguage: fileContentLanguage,
+          cacheControl: fileCacheControl,
+          contentDisposition: fileContentDisposition,
+          isServerEncrypted: serverEncrypted,
+          metadata: rawHeadersToMetadata(rawResponse.headers.rawHeaders()),
+          posixProperties: {
+            fileMode: parseOctalFileMode(response.fileMode),
+            fileType: response.nfsFileType,
+            owner: response.owner,
+            group: response.group,
+            linkCount: response.linkCount,
+          },
+          leaseDuration: response.leaseDuration
+            ? (response.leaseDuration as LeaseDurationType)
+            : undefined,
+          leaseState: response.leaseState ? (response.leaseState as LeaseStateType) : undefined,
+          leaseStatus: response.leaseStatus ? (response.leaseStatus as LeaseStatusType) : undefined,
+        };
+        // An empty <HardLinks/> body deserializes without the list.
+        const links = (hardLinks ?? []).map((link): FileLink => ({
+          name: StringEncodedToString(link.fileName),
+          parentId: link.parentId,
+        }));
+        const wrappedRes = {
+          ...headers,
+          links,
+          _response: { ...rawResponse, parsedHeaders: headers, parsedBody: links },
+        };
+        return assertResponse<
+          FileGetFileLinksHeaders & { links: FileLink[] },
+          FileGetFileLinksHeaders,
+          FileLink[]
+        >(wrappedRes);
+      },
+    );
+  }
+
+  /**
    * Sets properties on the file.
    * @see https://learn.microsoft.com/rest/api/storageservices/set-file-properties
    *
@@ -4564,6 +4946,7 @@ export class ShareFileClient extends StorageClient {
    *                                       existing values will be preserved.
    */
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
+    assertNotFileIdAddressed(this._fileId, "setProperties");
     properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
     properties.fileHttpHeaders = properties.fileHttpHeaders || {};
     return tracingClient.withSpan(
@@ -4621,10 +5004,11 @@ export class ShareFileClient extends StorageClient {
    * @returns Response data for the File Delete operation.
    */
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
+    assertNotFileIdAddressed(this._fileId, "delete");
     return tracingClient.withSpan("ShareFileClient-delete", options, async (updatedOptions) => {
       return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
         adjustResponse(
-          await this.context.delete({
+          await this.context.deleteFile({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
@@ -4653,6 +5037,7 @@ export class ShareFileClient extends StorageClient {
   public async deleteIfExists(
     options: FileDeleteOptions = {},
   ): Promise<FileDeleteIfExistsResponse> {
+    assertNotFileIdAddressed(this._fileId, "deleteIfExists");
     return tracingClient.withSpan(
       "ShareFileClient-deleteIfExists",
       options,
@@ -4697,6 +5082,7 @@ export class ShareFileClient extends StorageClient {
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {},
   ): Promise<FileSetHTTPHeadersResponse> {
+    assertNotFileIdAddressed(this._fileId, "setHttpHeaders");
     // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     return tracingClient.withSpan(
@@ -4750,6 +5136,7 @@ export class ShareFileClient extends StorageClient {
     length: number,
     options: FileResizeOptions = {},
   ): Promise<FileSetHTTPHeadersResponse> {
+    assertNotFileIdAddressed(this._fileId, "resize");
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
@@ -4800,6 +5187,7 @@ export class ShareFileClient extends StorageClient {
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {},
   ): Promise<FileSetMetadataResponse> {
+    assertNotFileIdAddressed(this._fileId, "setMetadata");
     return tracingClient.withSpan(
       "ShareFileClient-setMetadata",
       options,
@@ -4867,6 +5255,7 @@ export class ShareFileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {},
   ): Promise<FileUploadRangeResponse> {
+    assertNotFileIdAddressed(this._fileId, "uploadRange");
     return tracingClient.withSpan(
       "ShareFileClient-uploadRange",
       options,
@@ -4934,6 +5323,7 @@ export class ShareFileClient extends StorageClient {
     count: number,
     options: FileUploadRangeFromURLOptions = {},
   ): Promise<FileUploadRangeFromURLResponse> {
+    assertNotFileIdAddressed(this._fileId, "uploadRangeFromURL");
     return tracingClient.withSpan(
       "ShareFileClient-uploadRangeFromURL",
       options,
@@ -4991,6 +5381,7 @@ export class ShareFileClient extends StorageClient {
     contentLength: number,
     options: FileClearRangeOptions = {},
   ): Promise<FileUploadRangeResponse> {
+    assertNotFileIdAddressed(this._fileId, "clearRange");
     return tracingClient.withSpan("ShareFileClient-clearRange", options, async (updatedOptions) => {
       if (offset < 0 || contentLength <= 0) {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
@@ -5016,11 +5407,15 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
+   * @deprecated Use {@link ShareFileClient.listRanges} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
+   *
    * @param options - Options to File Get range List operation.
    */
   public async getRangeList(
     options: FileGetRangeListOptions = {},
   ): Promise<FileGetRangeListResponse> {
+    assertNotFileIdAddressed(this._fileId, "getRangeList");
     return tracingClient.withSpan(
       "ShareFileClient-getRangeList",
       options,
@@ -5056,6 +5451,9 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of ranges that differ between a previous share snapshot and this file.
    *
+   * @deprecated Use {@link ShareFileClient.listRangesDiff} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
+   *
    * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
    * @param options -
    */
@@ -5063,6 +5461,7 @@ export class ShareFileClient extends StorageClient {
     prevShareSnapshot: string,
     options: FileGetRangeListOptions = {},
   ): Promise<FileGetRangeListDiffResponse> {
+    assertNotFileIdAddressed(this._fileId, "getRangeListDiff");
     return tracingClient.withSpan(
       "ShareFileClient-getRangeListDiff",
       options,
@@ -5088,6 +5487,163 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Returns the list of valid ranges for a file, as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param options - Options to the File List Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRanges(
+    options: FileListRangesOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    assertNotFileIdAddressed(this._fileId, "listRanges");
+    const iter = this.listRangeItems(options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns the list of ranges that differ between a previous share snapshot and this file,
+   * as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
+   * @param options - Options to the File List Ranges Diff operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRangesDiff(
+    prevShareSnapshot: string,
+    options: FileListRangesDiffOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    assertNotFileIdAddressed(this._fileId, "listRangesDiff");
+    const iter = this.listRangeItems({ ...options, prevShareSnapshot });
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+          prevShareSnapshot,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link ShareFileRange} items.
+   *
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *listRangeItems(
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<ShareFileRange> {
+    for await (const segment of this.iterateRangeSegments(undefined, options)) {
+      yield* extractShareFileRangeItems(segment.ranges, segment.clearRanges);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link FileListRangesSegmentResponse} objects.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *iterateRangeSegments(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<FileListRangesSegmentResponse> {
+    let rangeSegment;
+    do {
+      rangeSegment = await this.listRangeSegment(marker, options);
+      marker = rangeSegment.continuationToken;
+      yield await rangeSegment;
+    } while (marker);
+  }
+
+  /**
+   * Returns a single segment of ranges for a file, starting from the specified marker.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async listRangeSegment(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): Promise<FileListRangesSegmentResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-listRangeSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          FileGetRangeListHeaders & ShareFileRangeListSegment,
+          FileGetRangeListHeaders,
+          ShareFileRangeListSegment
+        >(
+          adjustResponse(
+            await this.context.listAllRanges({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              marker: marker === "" ? undefined : marker,
+              maxResults: updatedOptions.maxPageSize,
+              prevsharesnapshot: updatedOptions.prevShareSnapshot,
+              supportRename: updatedOptions.includeRenames,
+              range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+              ...this.shareClientConfig,
+            }),
+          ),
+        );
+
+        const wrappedResponse: FileListRangesSegmentResponse = {
+          ...response,
+          continuationToken: response.nextMarker ? response.nextMarker : undefined,
+        };
+        return wrappedResponse;
+      },
+    );
+  }
+
+  /**
    * Copies a blob or file to a destination file within the storage account.
    *
    * @param copySource - Specifies the URL of the source file or blob, up to 2 KB in length.
@@ -5103,6 +5659,7 @@ export class ShareFileClient extends StorageClient {
     copySource: string,
     options: FileStartCopyOptions = {},
   ): Promise<FileStartCopyResponse> {
+    assertNotFileIdAddressed(this._fileId, "startCopyFromURL");
     return tracingClient.withSpan(
       "ShareFileClient-startCopyFromURL",
       options,
@@ -5139,6 +5696,7 @@ export class ShareFileClient extends StorageClient {
     copyId: string,
     options: FileAbortCopyFromURLOptions = {},
   ): Promise<FileAbortCopyResponse> {
+    assertNotFileIdAddressed(this._fileId, "abortCopyFromURL");
     return tracingClient.withSpan(
       "ShareFileClient-abortCopyFromURL",
       options,
@@ -5168,6 +5726,7 @@ export class ShareFileClient extends StorageClient {
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
+    assertNotFileIdAddressed(this._fileId, "uploadData");
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
       if (isNodeLike) {
         let buffer: Buffer;
@@ -5211,6 +5770,7 @@ export class ShareFileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
+    assertNotFileIdAddressed(this._fileId, "uploadSeekableBlob");
     return tracingClient.withSpan(
       "ShareFileClient-UploadSeekableBlob",
       options,
@@ -5233,6 +5793,7 @@ export class ShareFileClient extends StorageClient {
     filePath: string,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
+    assertNotFileIdAddressed(this._fileId, "uploadFile");
     return tracingClient.withSpan("ShareFileClient-uploadFile", options, async (updatedOptions) => {
       const size = (await fsStat(filePath)).size;
       return this.uploadSeekableInternal(
@@ -5268,6 +5829,7 @@ export class ShareFileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
+    assertNotFileIdAddressed(this._fileId, "uploadResetableStream");
     return tracingClient.withSpan(
       "ShareFileClient-uploadResetableStream",
       options,
@@ -5401,6 +5963,7 @@ export class ShareFileClient extends StorageClient {
     countOrOptions?: FileDownloadToBufferOptions | number,
     optOptions: FileDownloadToBufferOptions = {},
   ): Promise<Buffer> {
+    assertNotFileIdAddressed(this._fileId, "downloadToBuffer");
     let buffer: Buffer | undefined = undefined;
     let offset: number;
     let count: number;
@@ -5465,6 +6028,7 @@ export class ShareFileClient extends StorageClient {
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
                 'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
                 `\t ${error.message}`,
+              { cause: error },
             );
           }
         }
@@ -5536,6 +6100,7 @@ export class ShareFileClient extends StorageClient {
     maxBuffers: number,
     options: FileUploadStreamOptions = {},
   ): Promise<void> {
+    assertNotFileIdAddressed(this._fileId, "uploadStream");
     return tracingClient.withSpan(
       "ShareFileClient-uploadStream",
       options,
@@ -5620,6 +6185,7 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {},
   ): Promise<FileDownloadResponseModel> {
+    assertNotFileIdAddressed(this._fileId, "downloadToFile");
     return tracingClient.withSpan(
       "ShareFileClient-downloadToFile",
       options,
@@ -5722,8 +6288,7 @@ export class ShareFileClient extends StorageClient {
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;
@@ -5745,6 +6310,7 @@ export class ShareFileClient extends StorageClient {
   public listHandles(
     options: FileListHandlesOptions = {},
   ): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse> {
+    assertNotFileIdAddressed(this._fileId, "listHandles");
     // an AsyncIterableIterator to iterate over handles
     const iter = this.listHandleItems(options);
     return {
@@ -5816,6 +6382,7 @@ export class ShareFileClient extends StorageClient {
   public async forceCloseAllHandles(
     options: FileForceCloseHandlesOptions = {},
   ): Promise<CloseHandlesInfo> {
+    assertNotFileIdAddressed(this._fileId, "forceCloseAllHandles");
     return tracingClient.withSpan(
       "ShareFileClient-forceCloseAllHandles",
       options,
@@ -5858,6 +6425,7 @@ export class ShareFileClient extends StorageClient {
     handleId: string,
     options: FileForceCloseHandlesOptions = {},
   ): Promise<FileForceCloseHandlesResponse> {
+    assertNotFileIdAddressed(this._fileId, "forceCloseHandle");
     return tracingClient.withSpan(
       "ShareFileClient-forceCloseHandle",
       options,
@@ -5892,6 +6460,7 @@ export class ShareFileClient extends StorageClient {
     targetFile: string,
     options: FileCreateHardLinkOptions = {},
   ): Promise<FileCreateHardLinkResponse> {
+    assertNotFileIdAddressed(this._fileId, "createHardLink");
     return tracingClient.withSpan(
       "ShareFileClient-createHardLink",
       options,
@@ -5930,6 +6499,7 @@ export class ShareFileClient extends StorageClient {
     linkText: string,
     options: FileCreateSymbolicLinkOptions = {},
   ): Promise<FileCreateSymbolicLinkResponse> {
+    assertNotFileIdAddressed(this._fileId, "createSymbolicLink");
     return tracingClient.withSpan(
       "ShareFileClient-createSymbolicLink",
       options,
@@ -5967,6 +6537,7 @@ export class ShareFileClient extends StorageClient {
   public async getSymbolicLink(
     options: FileGetSymbolicLinkOptions = {},
   ): Promise<FileGetSymbolicLinkResponse> {
+    assertNotFileIdAddressed(this._fileId, "getSymbolicLink");
     return tracingClient.withSpan(
       "ShareFileClient-getSymbolicLink",
       options,
@@ -5990,6 +6561,7 @@ export class ShareFileClient extends StorageClient {
    * @returns A new ShareLeaseClient object for managing leases on the file.
    */
   public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
+    assertNotFileIdAddressed(this._fileId, "getShareLeaseClient");
     return new ShareLeaseClient(this, proposeLeaseId);
   }
 
@@ -6005,6 +6577,7 @@ export class ShareFileClient extends StorageClient {
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): string {
+    assertNotFileIdAddressed(this._fileId, "generateSasUrl");
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
         "Can only generate the SAS when the client is initialized with a shared key credential",
@@ -6036,6 +6609,7 @@ export class ShareFileClient extends StorageClient {
    */
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
+    assertNotFileIdAddressed(this._fileId, "generateSasStringToSign");
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
         "Can only generate the SAS when the client is initialized with a shared key credential",
@@ -6067,6 +6641,7 @@ export class ShareFileClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
+    assertNotFileIdAddressed(this._fileId, "generateUserDelegationSasUrl");
     const sas = generateFileSASQueryParameters(
       {
         shareName: this.shareName,
@@ -6095,6 +6670,7 @@ export class ShareFileClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
+    assertNotFileIdAddressed(this._fileId, "generateUserDelegationStringToSign");
     return generateFileSASQueryParametersInternal(
       {
         shareName: this.shareName,
@@ -6147,6 +6723,7 @@ export class ShareFileClient extends StorageClient {
     destinationFileClient: ShareFileClient;
     fileRenameResponse: FileRenameResponse;
   }> {
+    assertNotFileIdAddressed(this._fileId, "rename");
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
     if (split.length === 2) {
@@ -6282,7 +6859,8 @@ export class ShareLeaseClient {
 
   /**
    * Creates an instance of ShareLeaseClient.
-   * @param client - The client to make the lease operation requests.
+   * @param client - The client to make the lease operation requests. A {@link ShareFileClient} that
+   *                 addresses its file by file ID isn't supported and makes the constructor throw an error.
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ShareFileClient | ShareClient, leaseId?: string) {
@@ -6292,6 +6870,7 @@ export class ShareLeaseClient {
       this.fileOrShare = clientContext.share;
       this.shareClientConfig = client["shareClientConfig"];
     } else {
+      assertNotFileIdAddressed(client.fileId, "ShareLeaseClient");
       this.fileOrShare = clientContext.file;
       this.shareClientConfig = client["shareClientConfig"];
     }

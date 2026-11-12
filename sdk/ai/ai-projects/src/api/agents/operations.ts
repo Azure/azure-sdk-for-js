@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import type {
   Agent,
   AgentVersion,
@@ -15,11 +14,22 @@ import type {
   VersionIndicatorUnion,
   AgentSessionResource,
   _AgentsPagedResultAgentSessionResource,
-  SessionDirectoryListResponse,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
   SessionFileWriteResponse,
+  SessionDirectoryListResponse,
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
   AgentsDownloadAgentCodeResponse,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationEstimateInputs,
+  AgentOptimizationEstimateResult,
+  _AgentsPagedResultAgentOptimizationJob,
+  _AgentsPagedResultAgentOptimizationCandidate,
+  AgentOptimizationCandidate,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -37,8 +47,19 @@ import {
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
+  microsoft365PermissionScopesArraySerializer,
+  microsoft365PublishResponseDeserializer,
+  microsoft365PublishDefaultsDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
+  agentOptimizationJobSerializer,
+  agentOptimizationJobDeserializer,
+  agentOptimizationJobResultDeserializer,
+  agentOptimizationEstimateInputsSerializer,
+  agentOptimizationEstimateResultDeserializer,
+  _agentsPagedResultAgentOptimizationJobDeserializer,
+  _agentsPagedResultAgentOptimizationCandidateDeserializer,
+  agentOptimizationCandidateDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,6 +69,9 @@ import type {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -71,17 +95,24 @@ import type {
   AgentsUpdateOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
+  AgentsPromoteOptimizationCandidateOptionalParams,
+  AgentsGetOptimizationCandidateOptionalParams,
+  AgentsListOptimizationCandidatesOptionalParams,
+  AgentsDeleteOptimizationJobOptionalParams,
+  AgentsCancelOptimizationJobOptionalParams,
+  AgentsListOptimizationJobsOptionalParams,
+  AgentsGetOptimizationJobOptionalParams,
+  AgentsEstimateOptimizationJobOptionalParams,
+  AgentsCreateOptimizationJobOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
-import { startSpan } from "../../tracing/tracingClient.js";
-import {
-  setAgentAttributes,
-  setAgentVersionAttributes,
-  setCommonAttributes,
-} from "../../tracing/attributes.js";
-import { OperationName } from "../../tracing/constants.js";
+import { traceAgentCreate, traceAgentVersionCreate } from "../../tracing/agentTracing.js";
+import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../static-helpers/pollingHelpers.js";
 
 export function _deleteSessionFileSend(
   context: Client,
@@ -91,7 +122,7 @@ export function _deleteSessionFileSend(
   options: AgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,recursive,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?api-version,path,recursive}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -147,7 +178,7 @@ export function _listSessionFilesSend(
   options: AgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?after,api-version,before,limit,order,path}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -219,7 +250,7 @@ export function _downloadSessionFileSend(
   options: AgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -286,7 +317,7 @@ export function _uploadSessionFileSend(
   options: AgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api-version}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?api-version,path}",
     {
       agent_name: agentName,
       agent_session_id: agentSessionId,
@@ -345,6 +376,703 @@ export async function uploadSessionFile(
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _getMicrosoft365PublishDefaultsSend(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publishdefaults{?api-version,publishAsDigitalWorker}",
+    {
+      agent_name: agentName,
+      publishAsDigitalWorker: options?.publishAsDigitalWorker,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getMicrosoft365PublishDefaultsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishDefaults> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishDefaultsDeserializer(result.body);
+}
+
+/**
+ * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+ * request for a Foundry agent.
+ */
+export async function getMicrosoft365PublishDefaults(
+  context: Client,
+  agentName: string,
+  options: GetMicrosoft365PublishDefaultsOptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishDefaults> {
+  const result = await _getMicrosoft365PublishDefaultsSend(context, agentName, options);
+  return _getMicrosoft365PublishDefaultsDeserialize(result);
+}
+
+export function _getMicrosoft365PackageSend(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/zip{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/zip", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _getMicrosoft365PackageDeserialize(
+  result: PathUncheckedResponse & GetMicrosoft365PackageResponse,
+): Promise<GetMicrosoft365PackageResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+ * request, without publishing it. Returns the app package as `application/zip`.
+ */
+export async function getMicrosoft365Package(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: GetMicrosoft365PackageOptionalParams = { requestOptions: {} },
+): Promise<GetMicrosoft365PackageResponse> {
+  const streamableMethod = _getMicrosoft365PackageSend(context, agentName, publishScope, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _getMicrosoft365PackageDeserialize(result);
+}
+
+export function _publishToMicrosoft365Send(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/microsoft365/publish{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      agentDisplayName: options?.agentDisplayName,
+      botServiceArmId: options?.botServiceArmId,
+      publishAsAutopilot: options?.publishAsAutopilot,
+      accessBoundaries: !options?.accessBoundaries
+        ? options?.accessBoundaries
+        : options?.accessBoundaries.map((p: any) => {
+            return p;
+          }),
+      optionalPermissionScopes: !options?.optionalPermissionScopes
+        ? options?.optionalPermissionScopes
+        : microsoft365PermissionScopesArraySerializer(options?.optionalPermissionScopes),
+      publishScope: publishScope,
+      canRespondWithoutMention: options?.canRespondWithoutMention,
+      appVersion: options?.appVersion,
+      shortDescription: options?.shortDescription,
+      fullDescription: options?.fullDescription,
+      developerName: options?.developerName,
+      developerWebsiteUrl: options?.developerWebsiteUrl,
+      privacyUrl: options?.privacyUrl,
+      termsOfUseUrl: options?.termsOfUseUrl,
+      colorIconBase64: options?.colorIconBase64,
+      outlineIconBase64: options?.outlineIconBase64,
+    },
+  });
+}
+
+export async function _publishToMicrosoft365Deserialize(
+  result: PathUncheckedResponse,
+): Promise<Microsoft365PublishResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return microsoft365PublishResponseDeserializer(result.body);
+}
+
+/**
+ * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+ * Teams app ids.
+ */
+export async function publishToMicrosoft365(
+  context: Client,
+  agentName: string,
+  publishScope: Microsoft365PublishScope,
+  options: PublishToMicrosoft365OptionalParams = { requestOptions: {} },
+): Promise<Microsoft365PublishResponse> {
+  const result = await _publishToMicrosoft365Send(context, agentName, publishScope, options);
+  return _publishToMicrosoft365Deserialize(result);
+}
+
+export function _promoteOptimizationCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsPromoteOptimizationCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}:promote{?api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _promoteOptimizationCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Promotes a candidate to the Foundry agent stored in the parent job's target configuration. Promotion is unavailable when the job omitted target_configuration. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
+export async function promoteOptimizationCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsPromoteOptimizationCandidateOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationCandidate> {
+  const result = await _promoteOptimizationCandidateSend(context, jobId, candidateId, options);
+  return _promoteOptimizationCandidateDeserialize(result);
+}
+
+export function _getOptimizationCandidateSend(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates/{candidateId}{?api-version}",
+    {
+      jobId: jobId,
+      candidateId: candidateId,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getOptimizationCandidateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Retrieves a single candidate. Mutation values are always included. */
+export async function getOptimizationCandidate(
+  context: Client,
+  jobId: string,
+  candidateId: string,
+  options: AgentsGetOptimizationCandidateOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationCandidate> {
+  const result = await _getOptimizationCandidateSend(context, jobId, candidateId, options);
+  return _getOptimizationCandidateDeserialize(result);
+}
+
+export function _listOptimizationCandidatesSend(
+  context: Client,
+  jobId: string,
+  options: AgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}/candidates{?after,api-version,before,expand,limit,order}",
+    {
+      jobId: jobId,
+      expand: !options?.expand
+        ? options?.expand
+        : options?.expand.map((p: any) => {
+            return p;
+          }),
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listOptimizationCandidatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentOptimizationCandidate> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentOptimizationCandidateDeserializer(result.body);
+}
+
+/** Lists candidates for the given optimization job with cursor pagination, including the original baseline and generated candidates. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
+export function listOptimizationCandidates(
+  context: Client,
+  jobId: string,
+  options: AgentsListOptimizationCandidatesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentOptimizationCandidate> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listOptimizationCandidatesSend(context, jobId, options),
+    _listOptimizationCandidatesDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
+    },
+  );
+}
+
+export function _deleteOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+export async function deleteOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsDeleteOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteOptimizationJobSend(context, jobId, options);
+  return _deleteOptimizationJobDeserialize(result);
+}
+
+export function _cancelOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}:cancel{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _cancelOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationJobDeserializer(result.body);
+}
+
+/** Request cancellation of a running or queued job. Returns an error if the job is already in a terminal state. */
+export async function cancelOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationJob> {
+  const result = await _cancelOptimizationJobSend(context, jobId, options);
+  return _cancelOptimizationJobDeserialize(result);
+}
+
+export function _listOptimizationJobsSend(
+  context: Client,
+  options: AgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?after,agent_name,api-version,before,limit,order,status}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      agent_name: options?.agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listOptimizationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentOptimizationJobDeserializer(result.body);
+}
+
+/** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
+export function listOptimizationJobs(
+  context: Client,
+  options: AgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentOptimizationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listOptimizationJobsSend(context, options),
+    _listOptimizationJobsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: { accept: "application/json", ...options.requestOptions?.headers },
+      },
+    },
+  );
+}
+
+export function _getOptimizationJobSend(
+  context: Client,
+  jobId: string,
+  options: AgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationJobDeserializer(result.body);
+}
+
+/** Get an optimization job by id. */
+export async function getOptimizationJob(
+  context: Client,
+  jobId: string,
+  options: AgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationJob> {
+  const result = await _getOptimizationJobSend(context, jobId, options);
+  return _getOptimizationJobDeserialize(result);
+}
+
+export function _estimateOptimizationJobSend(
+  context: Client,
+  inputs: AgentOptimizationEstimateInputs,
+  options: AgentsEstimateOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs:estimate{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: agentOptimizationEstimateInputsSerializer(inputs),
+  });
+}
+
+export async function _estimateOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationEstimateResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentOptimizationEstimateResultDeserializer(result.body);
+}
+
+/** Estimates validation-set rows, per-stage model call volumes, and cost bands without submitting the job. */
+export async function estimateOptimizationJob(
+  context: Client,
+  inputs: AgentOptimizationEstimateInputs,
+  options: AgentsEstimateOptimizationJobOptionalParams = { requestOptions: {} },
+): Promise<AgentOptimizationEstimateResult> {
+  const result = await _estimateOptimizationJobSend(context, inputs, options);
+  return _estimateOptimizationJobDeserialize(result);
+}
+
+export function _createOptimizationJobSend(
+  context: Client,
+  job: AgentOptimizationJob,
+  options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agent_optimization_jobs{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agentOptimizationJobSerializer(job),
+  });
+}
+
+export async function _createOptimizationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentOptimizationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return agentOptimizationJobResultDeserializer(result.body.result);
+}
+
+/** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
+export function createOptimizationJob(
+  context: Client,
+  job: AgentOptimizationJob,
+  options: AgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
+): JobPoller<AgentOptimizationJobResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createOptimizationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: Object.fromEntries(
+      Object.entries(options?.requestOptions?.headers ?? {}).map(([name, value]) => [
+        name,
+        String(value),
+      ]),
+    ),
+  });
 }
 
 export function _getSessionLogStreamSend(
@@ -435,7 +1163,7 @@ export function _listSessionsSend(
   options: AgentsListSessionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/endpoint/sessions{?after,api-version,before,limit,order}",
     {
       agent_name: agentName,
       limit: options?.limit,
@@ -986,13 +1714,14 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/versions{?after,api-version,before,include_drafts,limit,order}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      include_drafts: options?.includeDrafts,
       "api-version": context.apiVersion,
     },
     {
@@ -1001,7 +1730,13 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -1027,6 +1762,7 @@ export function listVersions(
   agentName: string,
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentVersion> {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return buildPagedAsyncIterator(
     context,
     () => _listVersionsSend(context, agentName, options),
@@ -1037,6 +1773,15 @@ export function listVersions(
       apiVersion: context.apiVersion,
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...requestParameters,
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+          ...requestParameters.headers,
+        },
+      },
     },
   );
 }
@@ -1048,7 +1793,7 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?force,api-version}",
+    "/agents/{agent_name}/versions/{agent_version}{?api-version,force}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
@@ -1199,7 +1944,7 @@ export async function createAgentVersionFromManifest(
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
     const result = await _createAgentVersionFromManifestSend(
       context,
       agentName,
@@ -1208,23 +1953,7 @@ export async function createAgentVersionFromManifest(
       options,
     );
     return _createAgentVersionFromManifestDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createAgentVersionFromManifestSend(
-      context,
-      agentName,
-      manifestId,
-      parameterValues,
-      options,
-    );
-    const version = await _createAgentVersionFromManifestDeserialize(result);
-    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
-    return version;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _createVersionSend(
@@ -1260,6 +1989,8 @@ export function _createVersionSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
     },
   });
 }
@@ -1288,20 +2019,10 @@ export async function createVersion(
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentVersionCreate(agentName, context.endpoint, tracingConfig, async () => {
     const result = await _createVersionSend(context, agentName, definition, options);
     return _createVersionDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createVersionSend(context, agentName, definition, options);
-    const version = await _createVersionDeserialize(result);
-    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
-    return version;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _listSend(
@@ -1309,7 +2030,7 @@ export function _listSend(
   options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?kind,limit,order,after,before,api-version}",
+    "/agents{?after,api-version,before,kind,limit,order}",
     {
       kind: options?.kind,
       limit: options?.limit,
@@ -1369,7 +2090,7 @@ export function _$deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?force,api-version}",
+    "/agents/{agent_name}{?api-version,force}",
     {
       agent_name: agentName,
       force: options?.force,
@@ -1538,7 +2259,7 @@ export async function createAgentFromManifest(
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
     const result = await _createAgentFromManifestSend(
       context,
       name,
@@ -1547,23 +2268,7 @@ export async function createAgentFromManifest(
       options,
     );
     return _createAgentFromManifestDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createAgentFromManifestSend(
-      context,
-      name,
-      manifestId,
-      parameterValues,
-      options,
-    );
-    const agent = await _createAgentFromManifestDeserialize(result);
-    setAgentAttributes(span, agent, tracingConfig.contentRecording);
-    return agent;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _updateSend(
@@ -1666,6 +2371,8 @@ export function _createSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
+      draft: options?.draft,
       agent_endpoint: !options?.agentEndpoint
         ? options?.agentEndpoint
         : agentEndpointConfigSerializer(options?.agentEndpoint),
@@ -1698,20 +2405,10 @@ export async function create(
   options: AgentsCreateOptionalParams = { requestOptions: {} },
   tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!tracingConfig?.enabled) {
+  return traceAgentCreate(name, context.endpoint, tracingConfig, async () => {
     const result = await _createSend(context, name, definition, options);
     return _createDeserialize(result);
-  }
-  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
-  try {
-    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-    const result = await _createSend(context, name, definition, options);
-    const agent = await _createDeserialize(result);
-    setAgentAttributes(span, agent, tracingConfig.contentRecording);
-    return agent;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function _getSend(
@@ -1757,4 +2454,13 @@ export async function get(
 ): Promise<Agent> {
   const result = await _getSend(context, agentName, options);
   return _getDeserialize(result);
+}
+
+/** Modifies an existing agent. */
+export async function patchAgentObject(
+  context: Client,
+  agentName: string,
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  return updateAgentObject(context, agentName, options);
 }

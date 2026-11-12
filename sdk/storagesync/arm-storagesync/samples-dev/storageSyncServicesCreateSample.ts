@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new StorageSyncService.
  *
  * @summary create a new StorageSyncService.
- * x-ms-original-file: 2022-09-01/StorageSyncServices_Create.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_Create.json
  */
 async function storageSyncServicesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

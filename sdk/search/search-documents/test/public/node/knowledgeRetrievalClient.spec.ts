@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { SearchClient, SearchIndexClient } from "../../../src/index.js";
-import { KnowledgeRetrievalClient } from "../../../src/index.js";
+import type { SearchClient, SearchIndexClient, WebKnowledgeSource } from "../../../src/index.js";
+import {
+  KnowledgeRetrievalClient,
+  KnownKnowledgeBaseRetrievalStatusCode,
+  KnownKnowledgeRetrievalOutputMode,
+} from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../utils/interfaces.js";
@@ -81,11 +85,14 @@ describe("Knowledge", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeBase(TEST_BASE_NAME);
-    await indexClient.deleteKnowledgeSource(TEST_KS_NAME);
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteKnowledgeBase(TEST_BASE_NAME).catch(() => {});
+      await indexClient.deleteKnowledgeSource(TEST_KS_NAME).catch(() => {});
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   describe("KnowledgeRetrievalClient", () => {
@@ -107,5 +114,102 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       assert.exists(result.response);
       assert.isTrue(result.response.length > 0);
     });
+
+    it.runIf(isLiveMode())(
+      "streams typed retrieval events (live only)",
+      { timeout: 60000 },
+      async () => {
+        let started = false;
+        let completed = false;
+        const activities = new Set<number>();
+
+        for await (const event of await knowledgeRetrievalClient.retrieveStream({
+          intents: [{ type: "semantic", search: "What is the most luxurious hotel?" }],
+          includeActivity: true,
+          retrievalReasoningEffort: { kind: "minimal" },
+        })) {
+          if (event.event === "retrieval.started") {
+            started = true;
+          } else if (event.event === "activity.started") {
+            activities.add(event.data.id);
+          } else if (event.event === "activity.completed") {
+            assert.isTrue(activities.delete(event.data.id));
+          } else if (event.event === "response.completed") {
+            assert.include(
+              [
+                KnownKnowledgeBaseRetrievalStatusCode.OK,
+                KnownKnowledgeBaseRetrievalStatusCode.PartialContent,
+              ],
+              event.data.statusCode,
+            );
+            completed = true;
+          } else if (event.event === "error") {
+            throw new Error(event.data.error.message ?? "Streaming retrieval failed");
+          }
+        }
+
+        assert.isTrue(started);
+        assert.isTrue(completed);
+        assert.equal(activities.size, 0);
+      },
+    );
+
+    it.runIf(isLiveMode())(
+      "create webKnowledgeSource and query knowledge base",
+      { timeout: 60000 },
+      async () => {
+        const webKnowledgeSource: WebKnowledgeSource = {
+          kind: "web",
+          name: `web-ks-${TEST_INDEX_NAME}`,
+        };
+        const webBaseName = `${TEST_BASE_NAME}-web`;
+        const chatAzureOpenAIParameters = {
+          deploymentId: assertEnvironmentVariable("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"),
+          resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+          modelName: "gpt-4o",
+        };
+
+        try {
+          await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource);
+          await indexClient.createKnowledgeBase({
+            name: webBaseName,
+            models: [
+              {
+                kind: "azureOpenAI",
+                azureOpenAIParameters: chatAzureOpenAIParameters,
+              },
+            ],
+            knowledgeSources: [{ name: webKnowledgeSource.name }],
+            outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+          });
+          await delay(WAIT_TIME);
+
+          const webKnowledgeRetrievalClient = new KnowledgeRetrievalClient(
+            knowledgeRetrievalClient.endpoint,
+            webBaseName,
+            createTestCredential(),
+            recorder.configureClientOptions({ serviceVersion: defaultServiceVersion }),
+          );
+          const result = await webKnowledgeRetrievalClient.retrieve({
+            messages: [
+              {
+                role: "user",
+                content: [{ type: "text", text: "What is the weather in redmond today?" }],
+              },
+            ],
+            outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
+            retrievalReasoningEffort: { kind: "low" },
+          });
+
+          assert.exists(result.activity);
+          assert.exists(result.references);
+          assert.exists(result.response);
+          assert.isTrue(result.response.length > 0);
+        } finally {
+          await indexClient.deleteKnowledgeBase(webBaseName).catch(() => {});
+          await indexClient.deleteKnowledgeSource(webKnowledgeSource.name).catch(() => {});
+        }
+      },
+    );
   });
 });

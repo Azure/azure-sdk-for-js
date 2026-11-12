@@ -780,7 +780,7 @@ export function createMsalClient(
     return {
       openBrowser: async (url) => {
         const open = await import("open");
-        await open.default(url, { newInstance: true });
+        await open.default(url);
       },
       scopes,
       authority: calculateRequestAuthority(options),

@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a .NET Component.
+ * This sample demonstrates how to gets the details of a .NET component in a managed environment.
  *
- * @summary get a .NET Component.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_Get.json
+ * @summary gets the details of a .NET component in a managed environment.
+ * x-ms-original-file: 2026-07-01/DotNetComponents_Get.json
  */
 async function getNETComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,10 +23,10 @@ async function getNETComponent(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to get a .NET Component.
+ * This sample demonstrates how to gets the details of a .NET component in a managed environment.
  *
- * @summary get a .NET Component.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_Get_ServiceBind.json
+ * @summary gets the details of a .NET component in a managed environment.
+ * x-ms-original-file: 2026-07-01/DotNetComponents_Get_ServiceBind.json
  */
 async function getNETComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

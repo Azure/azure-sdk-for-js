@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the containers registered to Recovery Services Vault.
  *
  * @summary lists the containers registered to Recovery Services Vault.
- * x-ms-original-file: 2026-01-31-preview/AzureStorage/ProtectionContainers_List.json
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectionContainers_List.json
  */
 async function listBackupProtectionContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,8 +24,31 @@ async function listBackupProtectionContainers(): Promise<void> {
   console.log(resArray);
 }
 
+/**
+ * This sample demonstrates how to lists the containers registered to Recovery Services Vault.
+ *
+ * @summary lists the containers registered to Recovery Services Vault.
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectionContainers_List_WithAccessType.json
+ */
+async function listBackupProtectionContainersWithAccessType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.backupProtectionContainers.list(
+    "swaggertestvault",
+    "SwaggerTestRg",
+    { filter: "backupManagementType eq 'AzureStorage'" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
 async function main(): Promise<void> {
   await listBackupProtectionContainers();
+  await listBackupProtectionContainersWithAccessType();
 }
 
 main().catch(console.error);

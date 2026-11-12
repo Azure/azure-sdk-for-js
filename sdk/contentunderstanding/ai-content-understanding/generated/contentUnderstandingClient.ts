@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createContentUnderstanding,
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
+  createContentUnderstanding,
 } from "./api/index.js";
 import {
   updateDefaults,
@@ -20,6 +20,8 @@ import {
   deleteAnalyzer,
   createAnalyzer,
   copyAnalyzer,
+  analyzeBinaryInline,
+  analyzeInline,
   analyzeBinary,
   analyze,
 } from "./api/operations.js";
@@ -37,6 +39,8 @@ import {
   DeleteAnalyzerOptionalParams,
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
+  AnalyzeBinaryInlineOptionalParams,
+  AnalyzeInlineOptionalParams,
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./api/options.js";
@@ -44,6 +48,7 @@ import {
   AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   AnalysisResult,
+  ContentAnalyzerInlineResponse,
   ContentAnalyzer,
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
@@ -54,7 +59,7 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
+export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 export class ContentUnderstandingClient {
   private _client: ContentUnderstandingContext;
@@ -66,14 +71,7 @@ export class ContentUnderstandingClient {
     credential: KeyCredential | TokenCredential,
     options: ContentUnderstandingClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContentUnderstanding(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContentUnderstanding(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
@@ -182,6 +180,34 @@ export class ContentUnderstandingClient {
     options: CopyAnalyzerOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
     return copyAnalyzer(this._client, analyzerId, sourceAnalyzerId, options);
+  }
+
+  /** Extract content and fields from binary input. The analysis result is embedded inline in the JSON response body (HTTP 200) without creating a long-running operation — no polling or separate result retrieval is needed. Intended for lightweight analysis scenarios (e.g., document analyzers without field extraction, small page counts). The result is not persisted on the server. See service documentation for current constraints. */
+  analyzeBinaryInline(
+    analyzerId: string,
+    input: Uint8Array,
+    stringEncoding: string,
+    contentType: string,
+    options: AnalyzeBinaryInlineOptionalParams = { requestOptions: {} },
+  ): Promise<ContentAnalyzerInlineResponse> {
+    return analyzeBinaryInline(
+      this._client,
+      analyzerId,
+      input,
+      stringEncoding,
+      contentType,
+      options,
+    );
+  }
+
+  /** Extract content and fields from input. The analysis result is embedded inline in the JSON response body (HTTP 200) without creating a long-running operation — no polling or separate result retrieval is needed. Intended for lightweight analysis scenarios (e.g., document analyzers without field extraction, small page counts). The result is not persisted on the server. See service documentation for current constraints. */
+  analyzeInline(
+    analyzerId: string,
+    inputs: AnalysisInput[],
+    stringEncoding: string,
+    options: AnalyzeInlineOptionalParams = { requestOptions: {} },
+  ): Promise<ContentAnalyzerInlineResponse> {
+    return analyzeInline(this._client, analyzerId, inputs, stringEncoding, options);
   }
 
   /** Extract content and fields from input. */

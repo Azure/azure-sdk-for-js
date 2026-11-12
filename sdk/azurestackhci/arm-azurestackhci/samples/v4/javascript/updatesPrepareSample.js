@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to prepare Update
  *
  * @summary prepare Update
- * x-ms-original-file: 2026-04-30/Updates_Prepare.json
+ * x-ms-original-file: 2026-10-01/Updates_Prepare.json
  */
 async function prepareUpdate() {
   const credential = new DefaultAzureCredential();

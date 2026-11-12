@@ -40,7 +40,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { MICROSOFT_LEARN_MCP_SERVER } from "../infrastructure/index.js";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
 
-const apiVersions = ["2025-10-01", "2026-04-10"];
+const apiVersions = ["2025-10-01", "2026-07-15"];
 
 describe.runIf(isLiveMode()).each(apiVersions)(
   "MCP Approval Workflow - Live (api %s)",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a RegistryEndpointResource
  *
  * @summary delete a RegistryEndpointResource
- * x-ms-original-file: 2026-03-01/RegistryEndpoint_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/RegistryEndpoint_Delete_MaximumSet_Gen.json
  */
 async function registryEndpointDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { BlockClient } from "@azure/arm-purestorageblock";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update a volume in an AVS storage container
  *
  * @summary update a volume in an AVS storage container
- * x-ms-original-file: 2024-11-01/AvsStorageContainerVolumes_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/AvsStorageContainerVolumes_Update_MaximumSet_Gen.json
  */
-
-import { BlockClient } from "@azure/arm-purestorageblock";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function avsStorageContainerVolumesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new BlockClient(credential, subscriptionId);
   const result = await client.avsStorageContainerVolumes.update(
     "rgpurestorage",
-    "storagePoolname",
-    "name",
-    "cbdec-ddbb",
+    "storagepool-01",
+    "container-01",
+    "a1b2c3d4-e5f6",
     { properties: { softDeletion: { destroyed: true } } },
   );
   console.log(result);

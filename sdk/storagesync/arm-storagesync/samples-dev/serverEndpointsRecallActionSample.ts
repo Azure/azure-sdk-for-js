@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to recall a server endpoint.
  *
  * @summary recall a server endpoint.
- * x-ms-original-file: 2022-09-01/ServerEndpoints_Recall.json
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Recall.json
  */
 async function serverEndpointsRecallAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

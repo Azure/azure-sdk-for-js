@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the disk access resources under a subscription.
  *
  * @summary lists all the disk access resources under a subscription.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_ListBySubscription.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_ListBySubscription.json
  */
 async function listAllDiskAccessResourcesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

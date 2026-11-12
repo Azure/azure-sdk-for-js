@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list private endpoint connections for a given managed environment.
  *
  * @summary list private endpoint connections for a given managed environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentPrivateEndpointConnections_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentPrivateEndpointConnections_List.json
  */
 async function listPrivateEndpointConnectionsByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

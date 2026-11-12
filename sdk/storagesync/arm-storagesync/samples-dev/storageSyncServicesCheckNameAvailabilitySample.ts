@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the give namespace name availability.
  *
  * @summary check the give namespace name availability.
- * x-ms-original-file: 2022-09-01/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
  */
 async function storageSyncServiceCheckNameAvailabilityAlreadyExists(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function storageSyncServiceCheckNameAvailabilityAlreadyExists(): Promise<v
  * This sample demonstrates how to check the give namespace name availability.
  *
  * @summary check the give namespace name availability.
- * x-ms-original-file: 2022-09-01/StorageSyncServiceCheckNameAvailability_Available.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServiceCheckNameAvailability_Available.json
  */
 async function storageSyncServiceCheckNameAvailabilityAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();

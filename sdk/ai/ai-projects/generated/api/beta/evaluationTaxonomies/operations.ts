@@ -70,7 +70,7 @@ export async function _updateDeserialize(
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Update an evaluation taxonomy. */
+/** Modifies the specified evaluation taxonomy with the provided changes. */
 export async function update(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
@@ -170,11 +170,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Removes the specified evaluation taxonomy from the project. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   name: string,

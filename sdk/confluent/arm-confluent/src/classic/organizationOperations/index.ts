@@ -14,13 +14,11 @@ export interface OrganizationOperationsOperations {
     options?: OrganizationOperationsListOptionalParams,
   ) => PagedAsyncIterableIterator<OperationResult>;
 }
-
 function _getOrganizationOperations(context: ConfluentManagementContext) {
   return {
     list: (options?: OrganizationOperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOrganizationOperationsOperations(
   context: ConfluentManagementContext,
 ): OrganizationOperationsOperations {

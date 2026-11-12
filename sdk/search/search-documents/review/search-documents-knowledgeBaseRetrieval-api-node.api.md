@@ -34,6 +34,36 @@ export interface RetrieveOptionalParams extends OperationOptions {
     querySourceAuthorization?: string;
 }
 
+// @public
+export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<AsyncIterable<{
+    event: "retrieval.started";
+    data: KnowledgeBaseRetrievalStartedEvent;
+} | {
+    event: "activity.started";
+    data: KnowledgeBaseActivityStartedEvent;
+} | {
+    event: "activity.completed";
+    data: KnowledgeBaseActivityRecordUnion;
+} | {
+    event: "answer.completed";
+    data: KnowledgeBaseAnswerCompletedEvent;
+} | {
+    event: "references.completed";
+    data: KnowledgeBaseReferenceUnion[];
+} | {
+    event: "error";
+    data: KnowledgeBaseStreamErrorEvent;
+} | {
+    event: "response.completed";
+    data: KnowledgeBaseResponseCompletedEvent;
+}>>;
+
+// @public
+export interface RetrieveStreamOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    querySourceAuthorization?: string;
+}
+
 // (No @packageDocumentation comment for this package)
 
 ```

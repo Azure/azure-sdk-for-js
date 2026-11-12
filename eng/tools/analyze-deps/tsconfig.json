@@ -4,7 +4,8 @@
     "noEmit": true,
     "target": "ES2023",
     "module": "NodeNext",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "types": ["node"]
   },
   "include": ["index.js"]
 }

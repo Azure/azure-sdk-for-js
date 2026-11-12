@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deactivates a revision for a Container App
  *
  * @summary deactivates a revision for a Container App
- * x-ms-original-file: 2025-10-02-preview/Revisions_Deactivate.json
+ * x-ms-original-file: 2026-07-01/Revisions_Deactivate.json
  */
 async function deactivateContainerAppRevision(): Promise<void> {
   const credential = new DefaultAzureCredential();

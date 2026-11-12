@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type ElasticSansListBySubscriptionOptionalParams,
-  type ElasticSansListByResourceGroupOptionalParams,
-  type ElasticSansDeleteOptionalParams,
-  type ElasticSansUpdateOptionalParams,
-  type ElasticSansCreateOptionalParams,
-  type ElasticSansGetOptionalParams,
+export type {
+  ElasticSansListBySubscriptionOptionalParams,
+  ElasticSansListByResourceGroupOptionalParams,
+  ElasticSansDeleteOptionalParams,
+  ElasticSansUpdateOptionalParams,
+  ElasticSansCreateOptionalParams,
+  ElasticSansGetOptionalParams,
 } from "./options.js";

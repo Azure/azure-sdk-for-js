@@ -53,7 +53,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    return this.priorityQueueBufferSize > 0 && this.executionContext.hasMoreResults();
+    return (
+      !this.isCompleted &&
+      this.priorityQueueBufferSize > 0 &&
+      this.executionContext.hasMoreResults()
+    );
   }
 
   /**
@@ -89,11 +93,12 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       }
 
       resHeaders = response.headers;
-      if (
+      const pageIsEmpty =
         response.result === undefined ||
         !response.result.buffer ||
-        response.result.buffer.length === 0
-      ) {
+        response.result.buffer.length === 0;
+
+      if (pageIsEmpty && !this.executionContext.hasMoreResults()) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
           return this.buildFinalResultArray(resHeaders);
@@ -101,13 +106,15 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      const parallelResult = response.result as ParallelQueryResult;
-      const dataToProcess: NonStreamingOrderByResult[] =
-        parallelResult.buffer as NonStreamingOrderByResult[];
+      if (!pageIsEmpty) {
+        const parallelResult = response.result as ParallelQueryResult;
+        const dataToProcess: NonStreamingOrderByResult[] =
+          parallelResult.buffer as NonStreamingOrderByResult[];
 
-      for (const item of dataToProcess) {
-        if (item !== undefined) {
-          this.nonStreamingOrderByPQ.enqueue(item);
+        for (const item of dataToProcess) {
+          if (item !== undefined) {
+            this.nonStreamingOrderByPQ.enqueue(item);
+          }
         }
       }
     }

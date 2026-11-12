@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the Skillset Operations.
+ * @summary Demonstrates skillset operations and optional GA Content Understanding
+ * image-description model configuration with semantic chunking.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -11,6 +12,9 @@ import { SearchIndexerClient } from "@azure/search-documents";
 import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
+const aiServicesEndpoint = process.env.AZURE_AI_SERVICES_ENDPOINT || "";
+const contentUnderstandingDeployment = process.env.CONTENT_UNDERSTANDING_MODEL_DEPLOYMENT || "";
+const contentUnderstandingModel = process.env.CONTENT_UNDERSTANDING_MODEL_NAME || "gpt-5.4-mini";
 
 const TEST_SKILLSET_NAME = "example-skillset-sample-1";
 
@@ -105,6 +109,51 @@ async function deleteSkillset(skillsetName: string, client: SearchIndexerClient)
   await client.deleteSkillset(skillsetName);
 }
 
+async function demonstrateContentUnderstanding(client: SearchIndexerClient): Promise<void> {
+  if (!aiServicesEndpoint || !contentUnderstandingDeployment) {
+    console.log(
+      "Set AZURE_AI_SERVICES_ENDPOINT and CONTENT_UNDERSTANDING_MODEL_DEPLOYMENT to configure Content Understanding.",
+    );
+    return;
+  }
+
+  const name = "example-content-understanding-skillset";
+  await client.createSkillset({
+    name,
+    cognitiveServicesAccount: {
+      odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity",
+      subdomainUrl: aiServicesEndpoint,
+    },
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Util.ContentUnderstandingSkill",
+        name: "understand-content",
+        context: "/document",
+        inputs: [{ name: "file_data", source: "/document/file_data" }],
+        outputs: [
+          { name: "text_sections", targetName: "sections" },
+          { name: "normalized_images", targetName: "images" },
+        ],
+        extractionOptions: ["images", "locationMetadata"],
+        modelName: contentUnderstandingModel,
+        modelDeployment: contentUnderstandingDeployment,
+        chunkingProperties: {
+          method: "semantic",
+          unit: "characters",
+          maximumLength: 500,
+          overlapLength: 50,
+        },
+      },
+    ],
+  });
+  try {
+    const skillset = await client.getSkillset(name);
+    console.log(`Configured Content Understanding skill: ${skillset.skills[0].name}`);
+  } finally {
+    await client.deleteSkillset(name);
+  }
+}
+
 async function main(): Promise<void> {
   console.log(`Running Skillset Operations Sample....`);
   if (!endpoint) {
@@ -116,6 +165,7 @@ async function main(): Promise<void> {
     await createSkillset(TEST_SKILLSET_NAME, client);
     await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);
     await listSkillsets(client);
+    await demonstrateContentUnderstanding(client);
   } finally {
     await deleteSkillset(TEST_SKILLSET_NAME, client);
   }

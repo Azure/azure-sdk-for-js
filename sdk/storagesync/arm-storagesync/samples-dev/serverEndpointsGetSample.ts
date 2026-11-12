@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ServerEndpoint.
  *
  * @summary get a ServerEndpoint.
- * x-ms-original-file: 2022-09-01/ServerEndpoints_Get.json
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Get.json
  */
 async function serverEndpointsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

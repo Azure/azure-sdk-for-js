@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Workspace
  *
  * @summary get a Workspace
- * x-ms-original-file: 2026-02-01-preview/Workspaces_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Workspaces_Get_MaximumSet_Gen.json
  */
 async function workspacesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
-  const result = await client.workspaces.get("rgdiscovery", "0e6a06e55e7efe8f07");
+  const result = await client.workspaces.get("rgdiscovery", "7c14ca107f929876a0");
   console.log(result);
 }
 

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resiliencemanagement/arm-resiliencemanagement)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resiliencemanagement)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resiliencemanagement/arm-resiliencemanagement/samples)
 
 ## Getting started

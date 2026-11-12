@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get confluent topic by Name
  *
  * @summary get confluent topic by Name
- * x-ms-original-file: 2025-08-18-preview/Topics_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Topics_Get_MaximumSet_Gen.json
  */
 async function topicsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -16,14 +16,12 @@ export interface AccountsOperations {
     options?: AccountsListOptionalParams,
   ) => PagedAsyncIterableIterator<AccountResource>;
 }
-
 function _getAccounts(context: NewRelicObservabilityContext) {
   return {
     list: (userEmail: string, location: string, options?: AccountsListOptionalParams) =>
       list(context, userEmail, location, options),
   };
 }
-
 export function _getAccountsOperations(context: NewRelicObservabilityContext): AccountsOperations {
   return {
     ..._getAccounts(context),

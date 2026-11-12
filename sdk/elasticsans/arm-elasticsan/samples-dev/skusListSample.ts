@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the available Skus in the region and information related to them
  *
  * @summary list all the available Skus in the region and information related to them
- * x-ms-original-file: 2025-09-01/Skus_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Skus_List_MaximumSet_Gen.json
  */
 async function skusListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function skusListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list all the available Skus in the region and information related to them
  *
  * @summary list all the available Skus in the region and information related to them
- * x-ms-original-file: 2025-09-01/Skus_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Skus_List_MinimumSet_Gen.json
  */
 async function skusListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

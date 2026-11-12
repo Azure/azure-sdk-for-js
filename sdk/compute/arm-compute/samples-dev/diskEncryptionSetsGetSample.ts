@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a disk encryption set.
  *
  * @summary gets information about a disk encryption set.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
 async function getInformationAboutADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getInformationAboutADiskEncryptionSet(): Promise<void> {
  * This sample demonstrates how to gets information about a disk encryption set.
  *
  * @summary gets information about a disk encryption set.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
 async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();

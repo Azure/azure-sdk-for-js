@@ -20,7 +20,12 @@ import type {
   ScenarioConfigurationsCreateOrUpdateOptionalParams,
   ScenarioConfigurationsGetOptionalParams,
 } from "../../api/scenarioConfigurations/options.js";
-import type { ScenarioConfiguration, Validation, PermissionsFix } from "../../models/models.js";
+import type {
+  ScenarioConfiguration,
+  ScenarioRun,
+  Validation,
+  PermissionsFix,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -49,7 +54,7 @@ export interface ScenarioConfigurationsOperations {
     scenarioName: string,
     scenarioConfigurationName: string,
     options?: ScenarioConfigurationsExecuteOptionalParams,
-  ) => Promise<void>;
+  ) => PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
   /** Get a list of scenario definitions. */
   listAll: (
     resourceGroupName: string,

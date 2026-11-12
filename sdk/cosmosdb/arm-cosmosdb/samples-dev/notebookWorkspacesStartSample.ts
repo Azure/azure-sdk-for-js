@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts the notebook workspace
  *
  * @summary starts the notebook workspace
- * x-ms-original-file: 2026-03-15/CosmosDBNotebookWorkspaceStart.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBNotebookWorkspaceStart.json
  */
 async function cosmosDBNotebookWorkspaceStart(): Promise<void> {
   const credential = new DefaultAzureCredential();

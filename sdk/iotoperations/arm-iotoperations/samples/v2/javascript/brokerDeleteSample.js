@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a BrokerResource
  *
  * @summary delete a BrokerResource
- * x-ms-original-file: 2026-03-01/Broker_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Broker_Delete_MaximumSet_Gen.json
  */
 async function brokerDelete() {
   const credential = new DefaultAzureCredential();

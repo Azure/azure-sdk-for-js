@@ -74,7 +74,7 @@ describe(`ShortCodesClient - manage Attachments`, () => {
     expectedAttachments.forEach((attachment) => {
       expectedAttachmentMap[attachment.id] = { attachment: attachment, found: false };
     });
-    let actualAttachments = [];
+    let actualAttachments: ProgramBriefAttachment[];
     if (byPage) {
       actualAttachments = await getProgramBriefAttachmentsWithIdByPage(
         client,

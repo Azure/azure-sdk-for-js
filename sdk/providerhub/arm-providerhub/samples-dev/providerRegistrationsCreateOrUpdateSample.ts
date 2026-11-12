@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the provider registration.
  *
  * @summary creates or updates the provider registration.
- * x-ms-original-file: 2024-09-01/DirectProviderRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/DirectProviderRegistrations_CreateOrUpdate.json
  */
 async function directProviderRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,35 +17,26 @@ async function directProviderRegistrationsCreateOrUpdate(): Promise<void> {
   const result = await client.providerRegistrations.createOrUpdate("Microsoft.Contoso", {
     kind: "Direct",
     properties: {
-      capabilities: [
-        { effect: "Allow", quotaId: "CSP_2015-05-01" },
-        { effect: "Allow", quotaId: "CSP_MG_2017-12-01" },
-      ],
-      customManifestVersion: "2.0",
-      dstsConfiguration: { serviceDnsName: "prds.sparta.azure.com", serviceName: "prds-shim" },
-      legacyNamespace: "legacyNamespace",
-      legacyRegistrations: ["legacyRegistration"],
+      providerType: "Internal",
+      providerVersion: "2.0",
+      serviceName: "root",
+      services: [{ serviceName: "tags", status: "Inactive" }],
       management: {
-        incidentContactEmail: "helpme@contoso.com",
         incidentRoutingService: "Contoso Resource Provider",
         incidentRoutingTeam: "Contoso Triage",
-        serviceTreeInfos: [
-          {
-            componentId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-            readiness: "InDevelopment",
-            serviceId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-          },
-        ],
+        incidentContactEmail: "helpme@contoso.com",
       },
-      managementGroupGlobalNotificationEndpoints: [
-        { endpointUri: "{your_management_group_notification_endpoint}" },
+      capabilities: [
+        { quotaId: "CSP_2015-05-01", effect: "Allow" },
+        { quotaId: "CSP_MG_2017-12-01", effect: "Allow" },
       ],
-      notificationOptions: "EmitSpendingLimit",
       notificationSettings: {
         subscriberSettings: [
           {
             filterRules: [
               {
+                filterQuery:
+                  "Resources | where event.eventType in ('Microsoft.Network/IpAddresses/write', 'Microsoft.KeyVault/vaults/move/action')",
                 endpointInformation: [
                   {
                     endpoint: "https://userrp.azure.com/arnnotify",
@@ -58,30 +49,31 @@ async function directProviderRegistrationsCreateOrUpdate(): Promise<void> {
                     schemaVersion: "3.0",
                   },
                 ],
-                filterQuery:
-                  "Resources | where event.eventType in ('Microsoft.Network/IpAddresses/write', 'Microsoft.KeyVault/vaults/move/action')",
               },
             ],
           },
         ],
       },
-      optionalFeatures: ["Microsoft.Resources/PlatformSubscription"],
-      providerType: "Internal",
-      providerVersion: "2.0",
-      resourceGroupLockOptionDuringMove: { blockActionVerb: "Action" },
+      notificationOptions: "EmitSpendingLimit",
       resourceHydrationAccounts: [
         {
-          accountName: "classichydrationprodsn01",
           subscriptionId: "e4eae963-2d15-43e6-a097-98bd75b33edd",
+          accountName: "classichydrationprodsn01",
         },
         {
-          accountName: "classichydrationprodch01",
           subscriptionId: "69e69ecb-e69c-41d4-99b8-87dd12781067",
+          accountName: "classichydrationprodch01",
         },
       ],
+      managementGroupGlobalNotificationEndpoints: [
+        { endpointUri: "{your_management_group_notification_endpoint}" },
+      ],
+      optionalFeatures: ["Microsoft.Resources/PlatformSubscription"],
+      resourceGroupLockOptionDuringMove: { blockActionVerb: "Action" },
       responseOptions: { serviceClientOptionsType: "DisableAutomaticDecompression" },
-      serviceName: "root",
-      services: [{ serviceName: "tags", status: "Inactive" }],
+      legacyNamespace: "legacyNamespace",
+      legacyRegistrations: ["legacyRegistration"],
+      customManifestVersion: "2.0",
     },
   });
   console.log(result);
@@ -91,7 +83,7 @@ async function directProviderRegistrationsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to creates or updates the provider registration.
  *
  * @summary creates or updates the provider registration.
- * x-ms-original-file: 2024-09-01/ProviderRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/ProviderRegistrations_CreateOrUpdate.json
  */
 async function providerRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -99,33 +91,26 @@ async function providerRegistrationsCreateOrUpdate(): Promise<void> {
   const client = new ProviderHubClient(credential, subscriptionId);
   const result = await client.providerRegistrations.createOrUpdate("Microsoft.Contoso", {
     properties: {
-      capabilities: [
-        { effect: "Allow", quotaId: "CSP_2015-05-01" },
-        { effect: "Allow", quotaId: "CSP_MG_2017-12-01" },
-      ],
-      crossTenantTokenValidation: "EnsureSecureValidation",
-      management: {
-        canaryManifestOwners: ["SPARTA-PlatformServiceAdmin"],
-        errorResponseMessageOptions: { serverFailureResponseMessageType: "OutageReporting" },
-        expeditedRolloutMetadata: { enabled: false, expeditedRolloutIntent: "Hotfix" },
-        expeditedRolloutSubmitters: ["SPARTA-PlatformServiceOperator"],
-        incidentContactEmail: "helpme@contoso.com",
-        incidentRoutingService: "Contoso Resource Provider",
-        incidentRoutingTeam: "Contoso Triage",
-        pcCode: "P1234",
-        profitCenterProgramId: "1234",
-        serviceTreeInfos: [
-          {
-            componentId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-            readiness: "InDevelopment",
-            serviceId: "d1b7d8ba-05e2-48e6-90d6-d781b99c6e69",
-          },
-        ],
-      },
       providerType: "Internal",
       providerVersion: "2.0",
       serviceName: "root",
       services: [{ serviceName: "tags", status: "Inactive" }],
+      crossTenantTokenValidation: "EnsureSecureValidation",
+      management: {
+        incidentRoutingService: "Contoso Resource Provider",
+        incidentRoutingTeam: "Contoso Triage",
+        incidentContactEmail: "helpme@contoso.com",
+        expeditedRolloutSubmitters: ["Contoso-PlatformServiceOperator"],
+        expeditedRolloutMetadata: { enabled: false, expeditedRolloutIntent: "Hotfix" },
+        errorResponseMessageOptions: { serverFailureResponseMessageType: "OutageReporting" },
+        canaryManifestOwners: ["Contoso-PlatformServiceAdmin"],
+        pcCode: "P1234",
+        profitCenterProgramId: "1234",
+      },
+      capabilities: [
+        { quotaId: "CSP_2015-05-01", effect: "Allow" },
+        { quotaId: "CSP_MG_2017-12-01", effect: "Allow" },
+      ],
     },
   });
   console.log(result);

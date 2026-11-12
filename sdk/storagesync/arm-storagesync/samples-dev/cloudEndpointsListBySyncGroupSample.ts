@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a CloudEndpoint List.
  *
  * @summary get a CloudEndpoint List.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_ListBySyncGroup.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_ListBySyncGroup.json
  */
 async function cloudEndpointsListBySyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

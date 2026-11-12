@@ -91,7 +91,7 @@ describe("http request related tests", () => {
     it("custom client request ID", async () => {
       const iterator = client.listConfigurationSettings({
         requestOptions: {
-          customHeaders: {
+          headers: {
             "x-ms-client-request-id": "this is my custom client request id",
           },
         },

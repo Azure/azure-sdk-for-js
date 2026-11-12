@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to resumes a suspended job
+ * This sample demonstrates how to resumes execution for a suspended Container Apps job.
  *
- * @summary resumes a suspended job
- * x-ms-original-file: 2025-10-02-preview/Jobs_Resume.json
+ * @summary resumes execution for a suspended Container Apps job.
+ * x-ms-original-file: 2026-07-01/Jobs_Resume.json
  */
 async function resumeJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,27 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ExascaleDbStorageVault resources by resource group
  *
  * @summary list ExascaleDbStorageVault resources by resource group
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/ExascaleDbStorageVaults_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function exascaleDbStorageVaultsListByResourceGroupMaximumSet(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.exascaleDbStorageVaults.listByResourceGroup("rgopenapi")) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
-}
-
-/**
- * This sample demonstrates how to list ExascaleDbStorageVault resources by resource group
- *
- * @summary list ExascaleDbStorageVault resources by resource group
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_ListByResourceGroup_MinimumSet_Gen.json
- */
-async function exascaleDbStorageVaultsListByResourceGroupMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
+async function exascaleDbStorageVaultsListByResourceGroupMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
@@ -41,8 +23,7 @@ async function exascaleDbStorageVaultsListByResourceGroupMaximumSetGeneratedByMi
 }
 
 async function main(): Promise<void> {
-  await exascaleDbStorageVaultsListByResourceGroupMaximumSet();
-  await exascaleDbStorageVaultsListByResourceGroupMaximumSetGeneratedByMinimumSetRule();
+  await exascaleDbStorageVaultsListByResourceGroupMaximumSetGenGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -32,9 +32,9 @@ describe("AnalysisResultPoller usage", () => {
     videoHours: 0,
     contextualizationTokens: 1234,
     tokens: {
-      "gpt-4.1-input": 500,
-      "gpt-4.1-cached_input": 200,
-      "gpt-4.1-output": 100,
+      "gpt-5.2-input": 500,
+      "gpt-5.2-cached_input": 200,
+      "gpt-5.2-output": 100,
     },
   };
 
@@ -84,9 +84,9 @@ describe("AnalysisResultPoller usage", () => {
     assert.equal(usage!.documentPagesBasic, 1);
     assert.equal(usage!.contextualizationTokens, 1234);
     assert.deepEqual(usage!.tokens, {
-      "gpt-4.1-input": 500,
-      "gpt-4.1-cached_input": 200,
-      "gpt-4.1-output": 100,
+      "gpt-5.2-input": 500,
+      "gpt-5.2-cached_input": 200,
+      "gpt-5.2-output": 100,
     });
   });
 
@@ -166,8 +166,8 @@ describe("AnalysisResultPoller usage", () => {
       videoHours: 1.25,
       contextualizationTokens: 5000,
       tokens: {
-        "gpt-4.1-input": 1000,
-        "gpt-4.1-output": 500,
+        "gpt-5.2-input": 1000,
+        "gpt-5.2-output": 500,
         "text-embedding-3-large-input": 2000,
       },
     };

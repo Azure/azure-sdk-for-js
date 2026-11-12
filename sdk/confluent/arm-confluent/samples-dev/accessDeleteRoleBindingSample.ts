@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_DeleteRoleBinding_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_DeleteRoleBinding_MaximumSet_Gen.json
  */
 async function accessDeleteRoleBindingMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function accessDeleteRoleBindingMaximumSet(): Promise<void> {
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_DeleteRoleBinding_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_DeleteRoleBinding_MinimumSet_Gen.json
  */
 async function accessDeleteRoleBindingMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

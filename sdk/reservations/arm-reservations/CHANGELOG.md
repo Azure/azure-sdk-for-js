@@ -1,14 +1,58 @@
 # Release History
 
-## 10.0.0-beta.2 (Unreleased)
+## 10.0.0 (2026-07-16)
 
 ### Features Added
+  - Added operation CalculateExchangeOperations.post
+  - Added operation ExchangeOperations.post
+  - Added operation QuotaOperations.createOrUpdate
+  - Added operation QuotaOperations.update
+  - Added operation ReservationOperations.availableScopes
+  - Added operation ReservationOperations.merge
+  - Added operation ReservationOperations.split
+  - Added operation ReservationOperations.update
+  - Added operation ReservationOrderOperations.purchase
+  - Added operation ReturnOperations.post
+  - Added operation AzureReservationAPI.getCatalog
+  - Class AzureReservationAPI has a new constructor "constructor(credential: TokenCredential, options?: AzureReservationAPIOptionalParams);"
+  - Added Interface AppliedReservationsProperties
+  - Added Interface MergeProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PatchProperties
+  - Added Interface PurchaseRequestProperties
+  - Added Interface ReservationOrderProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SavingsPlanPurchaseRequestProperties
+  - Added Interface SimplePollerLike
+  - Added Interface SplitProperties
+  - Interface CurrentQuotaLimitBase has a new optional parameter systemData
+  - Interface QuotaRequestDetails has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Class AzureReservationAPI has a new signature
+  - Removed Interface CreateGenericQuotaRequestParameters
+  - Removed Interface CurrentQuotaLimit
+  - Removed Interface OperationList
+  - Removed Interface QuotaLimits
+  - Removed Interface QuotaLimitsResponse
+  - Removed Interface QuotaRequestDetailsList
+  - Removed Interface QuotaRequestOneResourceSubmitResponse
+  - Removed Interface QuotaRequestSubmitResponse
+  - Removed Interface QuotaRequestSubmitResponse201
+  - Removed Interface RefundResponse
+  - Removed Interface ReservationList
+  - Removed Interface ReservationOrderList
+  - Removed Type Alias DisplayProvisioningState
+  - Removed Type Alias Location_2
+  - Removed Type Alias UserFriendlyAppliedScopeType
+  - Removed Type Alias UserFriendlyRenewState
+  - Removed Enum KnownDisplayProvisioningState
+  - Removed Enum KnownLocation
+  - Removed Enum KnownUserFriendlyAppliedScopeType
+  - Removed Enum KnownUserFriendlyRenewState
 
 ## 10.0.0-beta.1 (2026-06-08)
 Compared with version 9.0.0

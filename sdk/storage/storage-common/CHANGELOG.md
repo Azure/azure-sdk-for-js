@@ -1,18 +1,35 @@
 # Release History
 
-## 12.5.0 (Unreleased)
+## 12.6.0-beta.1 (2026-11-11)
+
+### Features Added
+
+- Added `buildStorageSharedKeyStringToSign`, which sets the request headers that the Shared Key signature covers and returns the string to sign, for use by other Azure Storage client libraries.
+
+### Bugs Fixed
+
+- Fixed the Shared Key string to sign including a caller-supplied `Date` header. Storage always sends `x-ms-date`, which requires the `Date` slot to be empty, so signing both produced a signature the service rejects. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
+- Fixed the Shared Key signature dropping query parameter values when a name repeated. Values for a repeated name, whether spelled identically or differing only by case, are now sorted and comma-joined into one lowercase entry as the canonicalized resource requires. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
+- Fixed the Shared Key signature omitting query parameters that the service still canonicalizes. A value containing an unescaped `=`, an empty value, and a name carried without a value were all dropped, producing a signature the service rejects. [PR #39827](https://github.com/Azure/azure-sdk-for-js/pull/39827)
+- Fixed the Shared Key signature placing `Content-Language` before `Content-Encoding` in the string to sign. A request that set either raw header was signed against the wrong canonical string and could be rejected with 403. [PR #39853](https://github.com/Azure/azure-sdk-for-js/pull/39853)
+- Fixed `BufferScheduler` letting a failed buffer allocation (`RangeError: Failed to allocate memory`) escape as an uncaught exception during large uploads. Allocation failures in the stream and internal event listeners are now routed through the scheduler's error handling so the upload promise rejects cleanly. `BufferScheduler` also no longer starts queued block uploads after the upload promise has been rejected. Issue [#39102](https://github.com/Azure/azure-sdk-for-js/issues/39102).
+- Fixed `storageRetryPolicy` leaving a connection busy for each response it retries, such as a download that got a 500 or 503. The streamed body of a retried response is now released before the next attempt. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
+
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
+
+## 12.5.0 (2026-08-03)
 
 ### Features Added
 
 - add `storageRedirectRangeHeaderPolicy`
-
-### Breaking Changes
+- Added the `StorageResponseFormat` enum (`Auto`, `Xml`, `Arrow`), re-exported by `@azure/storage-blob` to opt into the Apache Arrow response format when listing blobs.
 
 ### Bugs Fixed
 
 - Fixed the ESM build of the CRC64 checksum calculator crashing (`TypeError [ERR_INVALID_ARG_VALUE]` from `import.meta.url`) when an ESM consumer is bundled to CommonJS with a Node-targeted bundler such as esbuild. Because the WebAssembly module is base64-embedded, none of the Emscripten-generated filesystem/URL machinery is reachable, so the `import.meta.url` polyfill, `node:*` imports, `require('fs')`/`require('path')` reads, and the shell/web read hooks have been removed from `crc64.js`. The ESM, browser, and react-native builds are now identical, and the CommonJS copy differs only by its export statement. Issue [#39057](https://github.com/Azure/azure-sdk-for-js/issues/39057).
-
-### Other Changes
 
 ## 12.4.1 (2026-06-22)
 

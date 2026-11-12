@@ -45,27 +45,52 @@ The client name is derived from the service `namespace`, not from the `@service`
 namespace Microsoft.Advisor;
 ```
 
-**Breaking**: The generated client class is named after the namespace (e.g. `AdvisorClient`),
-so the previously released client (`AdvisorManagementClient`) is deleted, breaking any code that
-imported or constructed it.
+**Breaking**: The generated client class is named after the namespace (e.g. `AdvisorClient`), so the previously released client (`AdvisorManagementClient`) is deleted, breaking any code that imported or constructed it.
 
-**Reason**: Naming convention difference. TypeSpec derives the client class name from the
-`namespace` name rather than the `@service` title that the Swagger emitter used.
+**Reason**: Naming convention difference. TypeSpec derives the client class name from the `namespace` name rather than the `@service` title that the Swagger emitter used.
 
 **Resolution**:
 
-Use the client name from the removal entry (the name after `Deleted Class`) as the target name to
-restore:
+Use the client name from the removal entry (the name after `Deleted Class`) as the target name to restore:
 
 ```tsp
 @@clientName(Microsoft.Advisor, "AdvisorManagementClient", "javascript");
 ```
 
-### 2. Renamed Model or Enum
+### 2. Renamed Model
 
 **Changelog Pattern**:
 
-Paired removal/addition (or a removed type alias / enum) for a model or enum:
+A model emits a single TypeScript `interface`, so a rename is a paired removal/addition of an interface:
+
+```md
+- Removed Interface Vm
+- Added Interface VM
+```
+
+**Spec Pattern**:
+
+Find the model using the added name; casing or namespace differences cause the rename.
+
+```tsp
+model VM extends Common.Resource {}
+```
+
+**Breaking**: A model is renamed (e.g. `Vm` → `VM`), so code referencing the old exported interface name breaks.
+
+**Reason**: Naming convention difference. The TypeSpec emitter preserves the original spec casing (`VM`), while the Swagger emitter produced the de-cased `Vm`. This also applies to models renamed by namespace changes.
+
+**Resolution**:
+
+```tsp
+@@clientName(VM, "Vm", "javascript");
+```
+
+### 3. Renamed Enum
+
+**Changelog Pattern**:
+
+An extensible enum emits both a `string`-typed type alias and a `Known*` values enum, so a rename is a paired removal/addition of both:
 
 ```md
 - Removed Type Alias IpFamily
@@ -76,7 +101,7 @@ Paired removal/addition (or a removed type alias / enum) for a model or enum:
 
 **Spec Pattern**:
 
-Find the type using the added name; casing or namespace differences cause the rename.
+Find the enum using the added name; casing or namespace differences cause the rename.
 
 ```tsp
 union IPFamily {
@@ -86,12 +111,9 @@ union IPFamily {
 }
 ```
 
-**Breaking**: A model/enum/type-alias is renamed (e.g. `IpFamily` → `IPFamily`), so code
-referencing the old exported name breaks.
+**Breaking**: An enum (and its paired `Known*` type) is renamed (e.g. `IpFamily` → `IPFamily`), so code referencing the old exported name breaks.
 
-**Reason**: Naming convention difference. The TypeSpec emitter preserves the original spec casing
-(`IPFamily`), while the Swagger emitter produced the de-cased `IpFamily`. This also applies to
-models and enums renamed by namespace changes.
+**Reason**: Naming convention difference. The TypeSpec emitter preserves the original spec casing (`IPFamily`), while the Swagger emitter produced the de-cased `IpFamily`. This also applies to enums renamed by namespace changes.
 
 **Resolution**:
 
@@ -99,12 +121,11 @@ models and enums renamed by namespace changes.
 @@clientName(Microsoft.ContainerService.IPFamily, "IpFamily", "javascript");
 ```
 
-### 3. Naming Changes with Numbers
+### 4. Naming Changes with Numbers
 
 **Changelog Pattern**:
 
-Enum values whose names are numbers get an emitter-generated prefix instead of the word-based
-name:
+Enum values whose names are numbers get an emitter-generated prefix instead of the word-based name:
 
 ```md
 - Enum KnownAlertSeverity no longer has value Zero
@@ -123,12 +144,9 @@ union AlertSeverity {
 }
 ```
 
-**Breaking**: Numeric enum member names (`0`, `1`) are not valid identifiers, so the emitter
-prefixes them with the enum type name (`AlertSeverity0`, `AlertSeverity1`), replacing the
-word-based names (`Zero`, `One`) the Swagger emitter produced.
+**Breaking**: Numeric enum member names (`0`, `1`) are not valid identifiers, so the emitter prefixes them with the enum type name (`AlertSeverity0`, `AlertSeverity1`), replacing the word-based names (`Zero`, `One`) the Swagger emitter produced.
 
-**Reason**: Emitter change. The Swagger emitter converted numeric names to words; the TypeSpec
-emitter preserves the numeric source name and prefixes it to make a valid identifier.
+**Reason**: Emitter change. The Swagger emitter converted numeric names to words; the TypeSpec emitter preserves the numeric source name and prefixes it to make a valid identifier.
 
 **Resolution**:
 
@@ -137,12 +155,11 @@ emitter preserves the numeric source name and prefixes it to make a valid identi
 @@clientName(AlertSeverity.`1`, "One", "javascript");
 ```
 
-### 4. Operation Naming Changes
+### 5. Operation Naming Changes
 
 **Changelog Pattern**:
 
-An operation is renamed: the released name is removed (breaking) and the new emitter-generated name
-is added (Features Added), confirming a rename rather than a deletion:
+An operation is renamed: the released name is removed (breaking) and the new emitter-generated name is added (Features Added), confirming a rename rather than a deletion:
 
 ```md
 # Breaking Changes
@@ -165,11 +182,9 @@ interface ManagementGroups {
 }
 ```
 
-**Breaking**: The released SDK exposed the operation as `listDescendants`; the TypeSpec emitter names
-it after the spec op (`getDescendants`), so callers of `ManagementGroups.listDescendants` break.
+**Breaking**: The released SDK exposed the operation as `listDescendants`; the TypeSpec emitter names it after the spec op (`getDescendants`), so callers of `ManagementGroups.listDescendants` break.
 
-**Reason**: Emitter change. The TypeSpec emitter generates the operation name from the spec op name,
-which may differ from the name the Swagger-based SDK exposed.
+**Reason**: Emitter change. The TypeSpec emitter generates the operation name from the spec op name, which may differ from the name the Swagger-based SDK exposed.
 
 **Resolution**:
 
@@ -179,8 +194,7 @@ Restore the released operation name (from the removal entry) with `@@clientName`
 @@clientName(ManagementGroups.getDescendants, "listDescendants", "javascript");
 ```
 
-
-### 5. Removal of Flattened Properties
+### 6. Removal of Flattened Properties
 
 **Changelog Pattern**:
 
@@ -207,12 +221,9 @@ model IdentityProperties {
 }
 ```
 
-**Breaking**: Convenience properties that used to be flattened onto the model (e.g.
-`identity.clientId`) are now nested under `identity.properties.clientId`, so direct property
-access breaks.
+**Breaking**: Convenience properties that used to be flattened onto the model (e.g. `identity.clientId`) are now nested under `identity.properties.clientId`, so direct property access breaks.
 
-**Reason**: Emitter/spec-structure change. TypeSpec preserves the real REST API hierarchy instead
-of flattening the `properties` bag as the Swagger emitter did.
+**Reason**: Emitter/spec-structure change. TypeSpec preserves the real REST API hierarchy instead of flattening the `properties` bag as the Swagger emitter did.
 
 **Resolution**:
 
@@ -223,7 +234,7 @@ Restore the flattened surface with `Legacy.flattenProperty`:
 @@Azure.ClientGenerator.Core.Legacy.flattenProperty(Identity.properties, "javascript");
 ```
 
-### 6. Removal of `begin*` Long-Running Operation Methods
+### 7. Removal of `begin*` Long-Running Operation Methods
 
 **Changelog Pattern**:
 
@@ -238,19 +249,13 @@ Each long-running operation loses its released `begin<Op>` and `begin<Op>AndWait
 - Removed operation Services.beginExportMetadataSchemaAndWait
 ```
 
-**Breaking**: The released SDK exposed each long-running operation through the
-`begin<Op>` / `begin<Op>AndWait` method pair (returning `SimplePollerLike<OperationState<T>, T>`
-and `Promise<T>`). By default the TypeSpec emitter generates only the new single-method form
-(e.g. `exportMetadataSchema`), so callers of the `begin*` methods break.
+**Breaking**: The released SDK exposed each long-running operation through the `begin<Op>` / `begin<Op>AndWait` method pair (returning `SimplePollerLike<OperationState<T>, T>` and `Promise<T>`). By default the TypeSpec emitter generates only the new single-method form (e.g. `exportMetadataSchema`), so callers of the `begin*` methods break.
 
-**Reason**: Emitter change. The TypeSpec (`@azure-tools/typespec-ts`) emitter no longer emits the
-`begin*` poller methods by default.
+**Reason**: Emitter change. The TypeSpec (`@azure-tools/typespec-ts`) emitter no longer emits the `begin*` poller methods by default.
 
 **Resolution**:
 
-Set `compatibility-lro: true` in the `@azure-tools/typespec-ts` options of `tspconfig.yaml`. This
-re-emits the deprecated `begin<Op>` / `begin<Op>AndWait` methods (and `beginList<Op>AndWait` for
-LRO + paging operations) alongside the new method, restoring the released API surface:
+Set `compatibility-lro: true` in the `@azure-tools/typespec-ts` options of `tspconfig.yaml`. This re-emits the deprecated `begin<Op>` / `begin<Op>AndWait` methods (and `beginList<Op>AndWait` for LRO + paging operations) alongside the new method, restoring the released API surface:
 
 ```yaml
 options:
@@ -262,8 +267,7 @@ options:
 
 ## Breaking Changes That Can Be Accepted
 
-These generally cannot (or should not) be resolved through client customizations or configurations
-and are shipped in a new major version.
+These generally cannot (or should not) be resolved through client customizations or configurations and are shipped in a new major version.
 
 ### 1. Common Types Upgrade
 
@@ -276,10 +280,7 @@ and are shipped in a new major version.
 - Type of parameter error of interface ErrorResponse is changed from ErrorDefinition to ErrorDetail
 ```
 
-**Breaking**: Common infrastructure types (`Resource`, `Operation`, `OperationDisplay`, error
-models, etc.) are replaced by their latest ARM common-types equivalents. Some properties move to a
-different base type (e.g. `etag`/`location`/`tags` move from `Resource` to `TrackedResource`), and
-some type names change (e.g. `ErrorDefinition` → `ErrorDetail`, `Display` → `OperationDisplay`).
+**Breaking**: Common infrastructure types (`Resource`, `Operation`, `OperationDisplay`, error models, etc.) are replaced by their latest ARM common-types equivalents. Some properties move to a different base type (e.g. `etag`/`location`/`tags` move from `Resource` to `TrackedResource`), and some type names change (e.g. `ErrorDefinition` → `ErrorDetail`, `Display` → `OperationDisplay`).
 
 **Reason**: Common types are upgraded to their latest versions during TypeSpec migration.
 
@@ -311,12 +312,9 @@ some type names change (e.g. `ErrorDefinition` → `ErrorDetail`, `Display` → 
 - Removed Interface OutboundEnvironmentEndpointCollection
 ```
 
-**Breaking**: Response-wrapper models for list/paging operations (whose only properties are `value`
-and optionally `nextLink`) are no longer generated. In addition, `maxPageSize` is removed from
-`PageSettings`, and the continuation token is now returned directly from the `byPage()` result.
+**Breaking**: Response-wrapper models for list/paging operations (whose only properties are `value` and optionally `nextLink`) are no longer generated. In addition, `maxPageSize` is removed from `PageSettings`, and the continuation token is now returned directly from the `byPage()` result.
 
-**Reason**: Emitter change. The new JS SDK exposes list operations via
-`PagedAsyncIterableIterator` and does not emit the wrapper model.
+**Reason**: Emitter change. The new JS SDK exposes list operations via `PagedAsyncIterableIterator` and does not emit the wrapper model.
 
 **Resolution**: Accept these breaking changes.
 
@@ -344,8 +342,7 @@ and optionally `nextLink`) are no longer generated. In addition, `maxPageSize` i
 - Removed Interface XxxNextResponse
 ```
 
-**Breaking**: The old SDK generated `XxxResponse` wrapper types (including response headers) plus
-`XxxHeaders` and `XxxNextResponse` types. The new SDK returns the raw model directly.
+**Breaking**: The old SDK generated `XxxResponse` wrapper types (including response headers) plus `XxxHeaders` and `XxxNextResponse` types. The new SDK returns the raw model directly.
 
 **Reason**: Emitter change.
 
@@ -360,14 +357,7 @@ and optionally `nextLink`) are no longer generated. In addition, `maxPageSize` i
 - Type alias "ActivityUnion" has been changed
 ```
 
-**Breaking**: Two related effects share one root cause. First, the old SDK generated inline literal
-unions for discriminator properties (e.g., `type: "KeyVault" | "AppConfig"`); the new SDK
-generates `string` or a named type alias (e.g., `type: AzureResourceType` where
-`AzureResourceType = string`). This also applies when Swagger had `type: string` without
-`x-ms-enum` but AutoRest inferred a fixed union from discriminator subtypes. Second, **cascading**
-from that change, every union type alias that includes the affected discriminator base as a
-constituent (e.g. `ActivityUnion`) also changes, surfacing as `Type alias "XxxUnion" has been
-changed`.
+**Breaking**: Two related effects share one root cause. First, the old SDK generated inline literal unions for discriminator properties (e.g., `type: "KeyVault" | "AppConfig"`); the new SDK generates `string` or a named type alias (e.g., `type: AzureResourceType` where `AzureResourceType = string`). This also applies when Swagger had `type: string` without `x-ms-enum` but AutoRest inferred a fixed union from discriminator subtypes. Second, **cascading** from that change, every union type alias that includes the affected discriminator base as a constituent (e.g. `ActivityUnion`) also changes, surfacing as `Type alias "XxxUnion" has been changed`.
 
 **Reason**: Emitter change.
 
@@ -384,12 +374,8 @@ changed`.
 - Removed Enum KnownAvroCompressionCodec
 ```
 
-**Breaking**: The old SDK generated a named type alias (e.g. `type XxxOption = string`) for
-constrained string properties, plus a companion `KnownXxx` enum listing the known values. The
-new SDK inlines these properties as `string` directly, so both the type alias and its paired
-`Known*` enum are removed together.
+**Breaking**: The old SDK generated a named type alias (e.g. `type XxxOption = string`) for constrained string properties, plus a companion `KnownXxx` enum listing the known values. The new SDK inlines these properties as `string` directly, so both the type alias and its paired `Known*` enum are removed together.
 
-**Reason**: Emitter change. The TypeSpec emitter represents extensible/constrained string values as
-plain `string` rather than a named alias + `Known*` enum pair.
+**Reason**: Emitter change. The TypeSpec emitter represents extensible/constrained string values as plain `string` rather than a named alias + `Known*` enum pair.
 
 **Resolution**: Accept these breaking changes.

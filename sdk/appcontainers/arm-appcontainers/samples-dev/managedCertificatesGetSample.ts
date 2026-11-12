@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified Managed Certificate.
  *
  * @summary get the specified Managed Certificate.
- * x-ms-original-file: 2025-10-02-preview/ManagedCertificate_Get.json
+ * x-ms-original-file: 2026-07-01/ManagedCertificate_Get.json
  */
 async function getCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

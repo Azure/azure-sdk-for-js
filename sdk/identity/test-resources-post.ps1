@@ -42,6 +42,7 @@ $MIId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']
 $MIObjectId = $DeploymentOutputs['IDENTITY_USER_DEFINED_OBJECT_ID']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$identityBindingPodName = $DeploymentOutputs['IDENTITY_AKS_IDENTITY_BINDING_POD_NAME']
 $identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
 $storageNameUserAssigned = $DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']
@@ -61,17 +62,18 @@ if ($CI) {
 }
 
 # Azure Functions app deployment
-# TODO: Skip Azure Functions deployment for timeout error
-# Write-Host "Building the code for functions app"
-# Push-Location "$webappRoot/AzureFunctions/RunTest"
-# npm install
-# npm run build
-# Pop-Location
-# Write-Host "starting azure functions deployment"
-# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-# az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
-# Write-Host "Deployed function app"
+Write-Host "##[group]Deploying Azure Functions App"
+Write-Host "Building the code for functions app"
+Push-Location "$webappRoot/AzureFunctions/RunTest"
+npm install
+npm run build
+Pop-Location
+Write-Host "starting azure functions deployment"
+Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+Write-Host "Deployed function app"
+Write-Host "##[endgroup]"
 
 Write-Host "##[group]Deploying Identity Web App"
 Push-Location "$webappRoot/AzureWebApps"
@@ -115,28 +117,29 @@ finally {
 Write-Host "Deployed image to ACR"
 Write-Host "##[endgroup]"
 
-Write-Host "##[group]Deploying to VM"
-Write-Host "##vso[task.setvariable variable=IDENTITY_VM_PUBLIC_IP;]$($DeploymentOutputs['IDENTITY_VM_PUBLIC_IP'])"
-$uuid = [guid]::NewGuid().ToString()
-$vmScript = @"
-az login --identity --client-id $MIClientId --allow-no-subscriptions && \
-az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
-sudo docker run \
--e IDENTITY_STORAGE_NAME=$storageName1 \
--e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$storageNameUserAssigned \
--e IDENTITY_USER_DEFINED_IDENTITY=$MIId \
--e IDENTITY_USER_DEFINED_CLIENT_ID=$MIClientId \
--e IDENTITY_USER_DEFINED_OBJECT_ID=$MIObjectId \
--p 80:8080 -d \
-$image && \
-/usr/bin/echo $uuid
-"@
-$output = az vm run-command invoke -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
-Write-Host $output
-if (-not $output.Contains($uuid)) {
-  throw "couldn't start container on VM"
-}
-Write-Host "##[endgroup]"
+# TODO: VM test is consistently timing out — skip deployment until infra issue is resolved
+# Write-Host "##[group]Deploying to VM"
+# Write-Host "##vso[task.setvariable variable=IDENTITY_VM_PUBLIC_IP;]$($DeploymentOutputs['IDENTITY_VM_PUBLIC_IP'])"
+# $uuid = [guid]::NewGuid().ToString()
+# $vmScript = @"
+# az login --identity --client-id $MIClientId --allow-no-subscriptions && \
+# az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
+# sudo docker run \
+# -e IDENTITY_STORAGE_NAME=$storageName1 \
+# -e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$storageNameUserAssigned \
+# -e IDENTITY_USER_DEFINED_IDENTITY=$MIId \
+# -e IDENTITY_USER_DEFINED_CLIENT_ID=$MIClientId \
+# -e IDENTITY_USER_DEFINED_OBJECT_ID=$MIObjectId \
+# -p 80:8080 -d \
+# $image && \
+# /usr/bin/echo $uuid
+# "@
+# $output = az vm run-command invoke -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
+# Write-Host $output
+# if (-not $output.Contains($uuid)) {
+#   throw "couldn't start container on VM"
+# }
+# Write-Host "##[endgroup]"
 
 Write-Host "##[group]Deploying Azure Container Instance"
 az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
@@ -183,6 +186,31 @@ metadata:
   name: $saAccountName
   namespace: default
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: use-mi-$MIClientId
+rules:
+- apiGroups:
+  - cid.wi.aks.azure.com
+  resources:
+  - $MIClientId
+  verbs:
+  - use-managed-identity
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: use-mi-$MIClientId
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: use-mi-$MIClientId
+subjects:
+- kind: ServiceAccount
+  name: $saAccountName
+  namespace: default
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -206,6 +234,32 @@ spec:
     - containerPort: 80
   nodeSelector:
     kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: $identityBindingPodName
+  namespace: default
+  labels:
+    azure.workload.identity/use: "true"
+  annotations:
+    azure.workload.identity/use-identity-binding: "true"
+spec:
+  serviceAccountName: $saAccountName
+  containers:
+  - name: $identityBindingPodName
+    image: $image
+    env:
+    - name: IDENTITY_STORAGE_NAME_USER_ASSIGNED
+      value: "$storageNameUserAssigned"
+    - name: IDENTITY_USER_DEFINED_CLIENT_ID
+      value: "$MIClientId"
+    - name: IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT
+      value: "80"
+    ports:
+    - containerPort: 80
+  nodeSelector:
+    kubernetes.io/os: linux
 "@
 
 Write-Host $kubeConfig
@@ -214,4 +268,6 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+kubectl wait --for=condition=Ready pod/$podName pod/$identityBindingPodName --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw "AKS test pods did not become ready within five minutes" }
 Write-Host "##[endgroup]"

@@ -28,7 +28,7 @@ Breaking changes are acceptable in mgmt SDKs with proper CHANGELOG documentation
 **Root-cause analysis:** Trace breaking changes to their source:
 - API version change in spec → expected, document in changelog
 - TypeSpec migration artifact → may be approved pattern, check with architects
-- Emitter/tooling bug → report to autorest.typescript
+- Emitter/tooling bug → report to typespec-azure
 - Do NOT flag cosmetic changes: `XxxOptionalParams→XxxOptions`, response wrapper removal
 
 **Changelog alignment:** Public API changes in `review/*.api.md` must be documented:
@@ -40,7 +40,7 @@ Breaking changes are acceptable in mgmt SDKs with proper CHANGELOG documentation
 | Client name changed | ❌ Not allowed. Use `@clientName` decorator in TypeSpec spec repo |
 | Stable versions removed from `KnownVersions` | ❌ Not allowed (preview versions may be removed) |
 | `subscriptionId` or similar constructor params removed | ⚠️ Flag, discuss migration path on spec side |
-| Last major release <6 months ago | ⚠️ Flag frequent breakage, discuss justification |
+| New stable (GA) release increases the major version <6 months after the previous stable major release | ⚠️ Flag frequent stable breakage, discuss justification. Compare stable (GA) releases only; do NOT flag preview/beta targets (e.g., `8.0.0` to `9.0.0-beta.1`), regardless of the major-version increase |
 | Method parameters re-ordered | ❌ Restore original order. Use `@override` decorator in TypeSpec |
 
 ## Naming Validation (Spec Issues)
@@ -76,6 +76,6 @@ Flag patterns indicating spec problems:
 - Do NOT post the same comment on every file that has the same issue
 
 ## Issue Types
-**🔴 Tool Issue:** Generation bug → fix + report to [autorest.typescript](https://github.com/Azure/autorest.typescript/issues)
+**🔴 Tool Issue:** Generation bug → fix + report to [typespec-azure](https://github.com/Azure/typespec-azure/issues)
 **🔴 Design Issue:** API problem → `@clientName`/`@override` in spec repo
 **🔵 Suggestion:** Optional improvement

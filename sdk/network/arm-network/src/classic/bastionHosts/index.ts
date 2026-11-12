@@ -6,7 +6,7 @@ import {
   list,
   listByResourceGroup,
   $delete,
-  updateTags,
+  update,
   createOrUpdate,
   get,
 } from "../../api/bastionHosts/operations.js";
@@ -14,11 +14,11 @@ import type {
   BastionHostsListOptionalParams,
   BastionHostsListByResourceGroupOptionalParams,
   BastionHostsDeleteOptionalParams,
-  BastionHostsUpdateTagsOptionalParams,
+  BastionHostsUpdateOptionalParams,
   BastionHostsCreateOrUpdateOptionalParams,
   BastionHostsGetOptionalParams,
 } from "../../api/bastionHosts/options.js";
-import type { TagsObject, BastionHost } from "../../models/microsoft/network/models.js";
+import type { BastionHost, BastionHostUpdate } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -51,26 +51,26 @@ export interface BastionHostsOperations {
     bastionHostName: string,
     options?: BastionHostsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates Tags for BastionHost resource */
-  updateTags: (
+  /** Updates Tags or identity for BastionHost resource */
+  update: (
     resourceGroupName: string,
     bastionHostName: string,
-    parameters: TagsObject,
-    options?: BastionHostsUpdateTagsOptionalParams,
+    parameters: BastionHostUpdate,
+    options?: BastionHostsUpdateOptionalParams,
   ) => PollerLike<OperationState<BastionHost>, BastionHost>;
-  /** @deprecated use updateTags instead */
-  beginUpdateTags: (
+  /** @deprecated use update instead */
+  beginUpdate: (
     resourceGroupName: string,
     bastionHostName: string,
-    parameters: TagsObject,
-    options?: BastionHostsUpdateTagsOptionalParams,
+    parameters: BastionHostUpdate,
+    options?: BastionHostsUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<BastionHost>, BastionHost>>;
-  /** @deprecated use updateTags instead */
-  beginUpdateTagsAndWait: (
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
     resourceGroupName: string,
     bastionHostName: string,
-    parameters: TagsObject,
-    options?: BastionHostsUpdateTagsOptionalParams,
+    parameters: BastionHostUpdate,
+    options?: BastionHostsUpdateOptionalParams,
   ) => Promise<BastionHost>;
   /** Creates or updates the specified Bastion Host. */
   createOrUpdate: (
@@ -129,29 +129,29 @@ function _getBastionHosts(context: NetworkManagementContext) {
     ) => {
       return await $delete(context, resourceGroupName, bastionHostName, options);
     },
-    updateTags: (
+    update: (
       resourceGroupName: string,
       bastionHostName: string,
-      parameters: TagsObject,
-      options?: BastionHostsUpdateTagsOptionalParams,
-    ) => updateTags(context, resourceGroupName, bastionHostName, parameters, options),
-    beginUpdateTags: async (
+      parameters: BastionHostUpdate,
+      options?: BastionHostsUpdateOptionalParams,
+    ) => update(context, resourceGroupName, bastionHostName, parameters, options),
+    beginUpdate: async (
       resourceGroupName: string,
       bastionHostName: string,
-      parameters: TagsObject,
-      options?: BastionHostsUpdateTagsOptionalParams,
+      parameters: BastionHostUpdate,
+      options?: BastionHostsUpdateOptionalParams,
     ) => {
-      const poller = updateTags(context, resourceGroupName, bastionHostName, parameters, options);
+      const poller = update(context, resourceGroupName, bastionHostName, parameters, options);
       await poller.submitted();
       return getSimplePoller(poller);
     },
-    beginUpdateTagsAndWait: async (
+    beginUpdateAndWait: async (
       resourceGroupName: string,
       bastionHostName: string,
-      parameters: TagsObject,
-      options?: BastionHostsUpdateTagsOptionalParams,
+      parameters: BastionHostUpdate,
+      options?: BastionHostsUpdateOptionalParams,
     ) => {
-      return await updateTags(context, resourceGroupName, bastionHostName, parameters, options);
+      return await update(context, resourceGroupName, bastionHostName, parameters, options);
     },
     createOrUpdate: (
       resourceGroupName: string,

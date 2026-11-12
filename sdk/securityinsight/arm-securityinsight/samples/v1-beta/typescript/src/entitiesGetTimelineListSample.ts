@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to timeline for an entity.
  *
  * @summary timeline for an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/timeline/PostTimelineEntity.json
+ * x-ms-original-file: 2025-10-01-preview/entities/timeline/PostTimelineEntity.json
  */
 async function entityTimeline(): Promise<void> {
   const credential = new DefaultAzureCredential();

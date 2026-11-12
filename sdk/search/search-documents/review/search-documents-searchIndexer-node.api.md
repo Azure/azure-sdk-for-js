@@ -29,27 +29,22 @@ export interface CreateOrUpdateDataSourceConnectionOptionalParams extends Operat
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
-    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
-    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
-    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -92,6 +87,9 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -105,6 +103,9 @@ export interface GetIndexerOptionalParams extends OperationOptions {
 export interface GetIndexersOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -124,25 +125,44 @@ export interface GetSkillsetOptionalParams extends OperationOptions {
 export interface GetSkillsetsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
 // @public
-export interface ResetDocumentsOptionalParams extends OperationOptions {
+export interface ListDataSourceConnectionsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    keysOrIds?: DocumentKeysOrIds;
-    overwrite?: boolean;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export interface ListIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export interface ListSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
 }
 
 // @public
 export interface ResetIndexerOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
-    clientRequestId?: string;
-}
-
-// @public
-export interface ResetSkillsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
@@ -178,11 +198,12 @@ export class SearchIndexerClient {
     getIndexerStatus(name: string, options?: GetIndexerStatusOptionalParams): Promise<SearchIndexerStatus>;
     getSkillset(name: string, options?: GetSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
     getSkillsets(options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
+    listDataSourceConnections(options?: ListDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
+    listIndexers(options?: ListIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
+    listSkillsets(options?: ListSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
     readonly pipeline: Pipeline;
-    resetDocuments(name: string, options?: ResetDocumentsOptionalParams): Promise<void>;
     resetIndexer(name: string, options?: ResetIndexerOptionalParams): Promise<void>;
-    resetSkills(skillNames: SkillNames, name: string, options?: ResetSkillsOptionalParams): Promise<void>;
-    resync(indexerResync: IndexerResyncBody, name: string, options?: ResyncOptionalParams): Promise<void>;
+    resync(name: string, indexerResync: IndexerResyncBody, options?: ResyncOptionalParams): Promise<void>;
     runIndexer(name: string, options?: RunIndexerOptionalParams): Promise<void>;
 }
 

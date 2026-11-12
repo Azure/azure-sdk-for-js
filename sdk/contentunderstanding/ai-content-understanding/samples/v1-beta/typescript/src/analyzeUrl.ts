@@ -2,19 +2,53 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Analyze content from URLs across modalities (Document, Video, Audio, Image),
- * including content range examples for targeting specific pages or time ranges.
+ * @summary Analyze content from URLs across modalities.
  *
- * This sample demonstrates how to analyze content from publicly accessible URLs using
- * prebuilt RAG analyzers:
- * - prebuilt-documentSearch: For documents
- * - prebuilt-videoSearch: For videos
- * - prebuilt-audioSearch: For audio
- * - prebuilt-imageSearch: For images
+ * Another great value of Content Understanding is its rich set of prebuilt analyzers. Great
+ * examples of these are the RAG analyzers that work for all modalities
+ * (`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, and
+ * `prebuilt-videoSearch`). For brief descriptions of these RAG analyzers, see the "Prebuilt
+ * analyzers" section in analyzeBinary.ts. This sample demonstrates these RAG analyzers.
+ * Many more prebuilt analyzers are available (for example, `prebuilt-invoice`); see the
+ * invoice sample or the prebuilt analyzer documentation to explore the full list.
+ *
+ * ## About analyzing URLs across modalities
+ *
+ * Content Understanding supports both local binary inputs (see analyzeBinary.ts) and URL
+ * inputs across all modalities. This sample focuses on prebuilt RAG analyzers (the
+ * `prebuilt-*Search` analyzers, such as `prebuilt-documentSearch`) with URL inputs.
+ *
+ * **Important**: For URL inputs, use `analyze()` with `AnalysisInput` objects that wrap the
+ * URL. For binary data (local files), use `analyzeBinary()` instead. This sample demonstrates
+ * `analyze()` with URL inputs.
+ *
+ * Documents, HTML, and images with text are returned as `DocumentContent` (derived from
+ * `AnalysisContent`), while audio and video are returned as `AudioVisualContent` (also
+ * derived from `AnalysisContent`). These prebuilt RAG analyzers return markdown and a
+ * one-paragraph summary for each content item; `prebuilt-videoSearch` can return multiple
+ * segments, so iterate over all contents rather than just the first.
  *
  * It also demonstrates content range usage with plain strings:
- * - Document: "1", "1-3", "3-", "1-3,5,9-"
- * - Video/Audio: "0-5000", "10000-", "1200-3651", "0-3000,30000-"
+ * - Document: `"1"`, `"1-3"`, `"3-"`, `"1-3,5,9-"`
+ * - Video/Audio: `"0-5000"`, `"10000-"`, `"1200-3651"`, `"0-3000,30000-"`
+ *
+ * ## `analyze` vs `analyzeInline`
+ *
+ * `analyzeInline` is available only in `2026-06-01-preview`.
+ *
+ * - Use `analyze` (LRO) for larger files/pages (see
+ *   [document limits](https://aka.ms/cu-doc-limits)), broader analyzer coverage, and results
+ *   retained for up to **24 hours** (or until deleted).
+ * - Use `analyzeInline` (available only in `2026-06-01-preview`) for a single request/response
+ *   with no polling on smaller inputs. With no polling and no wait tied to a polling interval,
+ *   the inline path is faster than the corresponding `analyze*` LRO APIs under the inline
+ *   size/analyzer limits. Results are not persisted. In this preview, inline supports
+ *   document analyzers without field schemas and without figure analysis enabled:
+ *   `prebuilt-digitalParse`, `prebuilt-read`, `prebuilt-layout`, or custom document analyzers
+ *   without fields.
+ *
+ * For current limits, see https://aka.ms/cu-doc-limits. For a dedicated inline example,
+ * see [analyzeInline.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/src/analyzeInline.ts).
  */
 
 import "dotenv/config";

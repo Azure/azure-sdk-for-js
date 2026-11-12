@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new CloudEndpoint.
  *
  * @summary create a new CloudEndpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_Create.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_Create.json
  */
 async function cloudEndpointsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

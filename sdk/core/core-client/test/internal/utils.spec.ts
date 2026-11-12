@@ -7,6 +7,7 @@ import type {
   FullOperationResponse,
   OperationResponseMap,
 } from "../../src/index.js";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { flattenResponse } from "../../src/utils.js";
 
@@ -69,7 +70,7 @@ describe("flattenResponse", () => {
 
 describe("flattenResponse - Stream response", () => {
   it("should return stream properties for Stream body type", () => {
-    const mockStream = { pipe: () => {} } as unknown as NodeJS.ReadableStream;
+    const mockStream = { pipe: () => {} } as unknown as NodeReadableStream;
     const fullResponse: FullOperationResponse = {
       request: defaultRequest(),
       status: 200,

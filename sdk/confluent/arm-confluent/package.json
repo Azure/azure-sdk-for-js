@@ -254,6 +254,34 @@
         "default": "./dist/commonjs/api/organizationOperations/index.js"
       }
     },
+    "./api/accessPointResources": {
+      "browser": {
+        "types": "./dist/browser/api/accessPointResources/index.d.ts",
+        "default": "./dist/browser/api/accessPointResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accessPointResources/index.d.ts",
+        "default": "./dist/esm/api/accessPointResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accessPointResources/index.d.ts",
+        "default": "./dist/commonjs/api/accessPointResources/index.js"
+      }
+    },
+    "./api/networkGatewayResources": {
+      "browser": {
+        "types": "./dist/browser/api/networkGatewayResources/index.d.ts",
+        "default": "./dist/browser/api/networkGatewayResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkGatewayResources/index.d.ts",
+        "default": "./dist/esm/api/networkGatewayResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkGatewayResources/index.d.ts",
+        "default": "./dist/commonjs/api/networkGatewayResources/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",

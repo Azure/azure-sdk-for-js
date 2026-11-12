@@ -4,17 +4,35 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export type AuthorizationScopeFilter = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureExtensionResourceType = string;
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public (undocumented)
 export class AzureTerraformClient {
@@ -27,11 +45,17 @@ export class AzureTerraformClient {
 // @public
 export interface AzureTerraformClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface BaseExportModel {
+    excludeAzureResource?: string[];
+    excludeTerraformResource?: string[];
     fullProperties?: boolean;
+    includeExtensions?: AzureExtensionResourceType[];
+    includeManagedResource?: boolean;
+    includeRoleAssignment?: boolean;
     maskSensitive?: boolean;
     targetProvider?: TargetProvider;
     type: Type;
@@ -47,7 +71,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -61,16 +85,26 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExportQuery extends BaseExportModel {
+    authorizationScopeFilter?: AuthorizationScopeFilter;
+    includeResourceGroup?: boolean;
     namePattern?: string;
     query: string;
     recursive?: boolean;
+    table?: string;
     type: "ExportQuery";
 }
 
 // @public
 export interface ExportResource extends BaseExportModel {
+    includeResourceGroup?: boolean;
     namePattern?: string;
+    recursive?: boolean;
     resourceIds: string[];
     resourceName?: string;
     resourceType?: string;
@@ -88,12 +122,30 @@ export interface ExportResourceGroup extends BaseExportModel {
 export interface ExportResult {
     configuration?: string;
     errors?: ErrorDetail[];
+    import?: string;
     skippedResources?: string[];
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthorizationScopeFilter {
+    AtScopeAboveAndBelow = "AtScopeAboveAndBelow",
+    AtScopeAndAbove = "AtScopeAndAbove",
+    AtScopeAndBelow = "AtScopeAndBelow",
+    AtScopeExact = "AtScopeExact"
+}
+
+// @public
+export enum KnownAzureExtensionResourceType {
+    DiagnosticSettings = "diagnostic-settings",
+    Locks = "locks",
+    RoleAssignments = "role-assignments"
 }
 
 // @public
@@ -112,29 +164,29 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownTargetProvider {
-    azapi = "azapi",
-    azurerm = "azurerm"
+    Azapi = "azapi",
+    Azurerm = "azurerm"
 }
 
 // @public
 export enum KnownType {
-    // (undocumented)
     ExportQuery = "ExportQuery",
-    // (undocumented)
     ExportResource = "ExportResource",
-    // (undocumented)
     ExportResourceGroup = "ExportResourceGroup"
 }
 
 // @public
 export enum KnownVersions {
-    v2023_07_01_preview = "2023-07-01-preview"
+    V20230701Preview = "2023-07-01-preview",
+    V20250601Preview = "2025-06-01-preview",
+    V20250901Preview = "2025-09-01-preview",
+    V20260901Preview = "2026-09-01-preview"
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -175,6 +227,8 @@ export interface PageSettings {
 // @public
 export type ResourceProvisioningState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureTerraformClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -202,6 +256,7 @@ export interface TerraformOperations {
 export interface TerraformOperationStatus {
     readonly endTime?: Date;
     readonly error?: ErrorDetail;
+    id: string;
     readonly name?: string;
     readonly percentComplete?: number;
     readonly properties?: ExportResult;

@@ -305,6 +305,16 @@ export interface OnGroupStreamOptions {
 }
 
 // @public
+export interface OnRecoveredArgs {
+    connectionId: string;
+}
+
+// @public
+export interface OnRecoveringArgs {
+    connectionId: string;
+}
+
+// @public
 export interface OnRejoinGroupFailedArgs {
     error: Error;
     group: string;
@@ -582,6 +592,8 @@ export class WebPubSubClient {
     leaveGroup(groupName: string, options?: LeaveGroupOptions): Promise<WebPubSubResult>;
     listGroupStates(groupName: string): readonly GroupStateRecord[];
     off(event: "connected", listener: (e: OnConnectedArgs) => void): void;
+    off(event: "recovering", listener: (e: OnRecoveringArgs) => void): void;
+    off(event: "recovered", listener: (e: OnRecoveredArgs) => void): void;
     off(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     off(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     off(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
@@ -589,6 +601,8 @@ export class WebPubSubClient {
     off(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
     off(event: "group-states-changed", listener: (e: OnGroupStatesChangedArgs) => void): void;
     on(event: "connected", listener: (e: OnConnectedArgs) => void): void;
+    on(event: "recovering", listener: (e: OnRecoveringArgs) => void): void;
+    on(event: "recovered", listener: (e: OnRecoveredArgs) => void): void;
     on(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     on(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;

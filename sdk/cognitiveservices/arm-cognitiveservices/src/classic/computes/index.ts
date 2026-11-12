@@ -8,7 +8,6 @@ import {
   start,
   list,
   $delete,
-  update,
   createOrUpdate,
   get,
 } from "../../api/computes/operations.js";
@@ -18,7 +17,6 @@ import type {
   ComputesStartOptionalParams,
   ComputesListOptionalParams,
   ComputesDeleteOptionalParams,
-  ComputesUpdateOptionalParams,
   ComputesCreateOrUpdateOptionalParams,
   ComputesGetOptionalParams,
 } from "../../api/computes/options.js";
@@ -132,30 +130,6 @@ export interface ComputesOperations {
     computeName: string,
     options?: ComputesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates a compute associated with the Cognitive Services account. */
-  update: (
-    resourceGroupName: string,
-    accountName: string,
-    computeName: string,
-    properties: Compute,
-    options?: ComputesUpdateOptionalParams,
-  ) => PollerLike<OperationState<Compute>, Compute>;
-  /** @deprecated use update instead */
-  beginUpdate: (
-    resourceGroupName: string,
-    accountName: string,
-    computeName: string,
-    properties: Compute,
-    options?: ComputesUpdateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<Compute>, Compute>>;
-  /** @deprecated use update instead */
-  beginUpdateAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    computeName: string,
-    properties: Compute,
-    options?: ComputesUpdateOptionalParams,
-  ) => Promise<Compute>;
   /** Creates or updates a compute associated with the Cognitive Services account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -288,47 +262,6 @@ function _getComputes(context: CognitiveServicesManagementContext) {
       options?: ComputesDeleteOptionalParams,
     ) => {
       return await $delete(context, resourceGroupName, accountName, computeName, options);
-    },
-    update: (
-      resourceGroupName: string,
-      accountName: string,
-      computeName: string,
-      properties: Compute,
-      options?: ComputesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, accountName, computeName, properties, options),
-    beginUpdate: async (
-      resourceGroupName: string,
-      accountName: string,
-      computeName: string,
-      properties: Compute,
-      options?: ComputesUpdateOptionalParams,
-    ) => {
-      const poller = update(
-        context,
-        resourceGroupName,
-        accountName,
-        computeName,
-        properties,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      computeName: string,
-      properties: Compute,
-      options?: ComputesUpdateOptionalParams,
-    ) => {
-      return await update(
-        context,
-        resourceGroupName,
-        accountName,
-        computeName,
-        properties,
-        options,
-      );
     },
     createOrUpdate: (
       resourceGroupName: string,

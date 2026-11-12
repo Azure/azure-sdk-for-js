@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByEndpointResource, $delete, update, createOrupdate, get } from "./operations.js";
-export {
-  type ServiceConfigurationsListByEndpointResourceOptionalParams,
-  type ServiceConfigurationsDeleteOptionalParams,
-  type ServiceConfigurationsUpdateOptionalParams,
-  type ServiceConfigurationsCreateOrupdateOptionalParams,
-  type ServiceConfigurationsGetOptionalParams,
+export type {
+  ServiceConfigurationsListByEndpointResourceOptionalParams,
+  ServiceConfigurationsDeleteOptionalParams,
+  ServiceConfigurationsUpdateOptionalParams,
+  ServiceConfigurationsCreateOrupdateOptionalParams,
+  ServiceConfigurationsGetOptionalParams,
 } from "./options.js";

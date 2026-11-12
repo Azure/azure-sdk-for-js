@@ -108,7 +108,6 @@ export async function parseXMLError(bodyText: string): Promise<string | undefine
     return;
   }
 
-  let result: string | undefined;
   try {
     const xmlError = await parseXML(bodyText, { includeRoot: true });
     if (
@@ -121,5 +120,5 @@ export async function parseXMLError(bodyText: string): Promise<string | undefine
     // nothing to do
   }
 
-  return result;
+  return undefined;
 }

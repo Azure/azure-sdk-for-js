@@ -22,6 +22,7 @@ export interface AnalysisContent {
     fields?: Record<string, ContentFieldUnion>;
     kind: AnalysisContentKind;
     markdown?: string;
+    metadata?: Record<string, string>;
     mimeType: string;
     path?: string;
 }
@@ -57,7 +58,9 @@ export interface AnalysisResult {
     apiVersion?: string;
     contents: AnalysisContentUnion[];
     createdAt?: Date;
+    infos?: ErrorModel[];
     stringEncoding?: string;
+    usage?: UsageDetails;
     warnings?: ErrorModel[];
 }
 
@@ -68,14 +71,32 @@ export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState,
 }
 
 // @public
-export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+export interface AnalyzeBinaryInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     contentRange?: string;
+    contentType?: string;
+    processingLocation?: ProcessingLocation;
+}
+
+// @public
+export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    contentRange?: string;
+    contentType?: string;
     processingLocation?: ProcessingLocation;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface AnalyzeInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    modelDeployments?: Record<string, string>;
+    processingLocation?: ProcessingLocation;
+}
+
+// @public
 export interface AnalyzeOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     modelDeployments?: Record<string, string>;
     processingLocation?: ProcessingLocation;
     updateIntervalInMs?: number;
@@ -122,6 +143,17 @@ export interface BooleanField extends ContentField {
 export type ChartFormat = "chartJs" | "markdown";
 
 // @public
+export interface ChunkingStrategy {
+    kind: ChunkingStrategyKind;
+}
+
+// @public
+export type ChunkingStrategyKind = "semantic";
+
+// @public
+export type ChunkingStrategyUnion = SemanticChunkingStrategy | ChunkingStrategy;
+
+// @public
 export interface ContentAnalyzer {
     readonly analyzerId: string;
     baseAnalyzerId?: string;
@@ -151,8 +183,11 @@ export interface ContentAnalyzerAnalyzeOperationStatus {
 
 // @public
 export interface ContentAnalyzerConfig {
+    allowInPageSegments?: boolean;
+    allowInputTruncation?: boolean;
     annotationFormat?: AnnotationFormat;
     chartFormat?: ChartFormat;
+    chunkingStrategy?: ChunkingStrategyUnion;
     contentCategories?: Record<string, ContentCategoryDefinition>;
     disableFaceBlurring?: boolean;
     enableFigureAnalysis?: boolean;
@@ -167,6 +202,14 @@ export interface ContentAnalyzerConfig {
     returnDetails?: boolean;
     segmentPerPage?: boolean;
     tableFormat?: TableFormat;
+    workflow?: ContentAnalyzerWorkflow;
+}
+
+// @public
+export interface ContentAnalyzerInlineResponse {
+    result: AnalysisResult;
+    status: OperationState;
+    usage?: UsageDetails;
 }
 
 // @public
@@ -180,6 +223,9 @@ export interface ContentAnalyzerOperationStatus {
 
 // @public
 export type ContentAnalyzerStatus = "creating" | "ready" | "deleting" | "failed";
+
+// @public
+export type ContentAnalyzerWorkflow = "default" | "agentic";
 
 // @public
 export interface ContentCategoryDefinition {
@@ -235,7 +281,11 @@ export interface ContentSpan {
 export class ContentUnderstandingClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
     analyze(analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeOptionalParams): AnalysisResultPoller;
-    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalysisResultPoller;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, options?: AnalyzeBinaryOptionalParams): AnalysisResultPoller;
+    // @deprecated
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType: string | undefined, options?: AnalyzeBinaryOptionalParams): AnalysisResultPoller;
+    analyzeBinaryInline(analyzerId: string, binaryInput: Uint8Array, options?: AnalyzeBinaryInlineOptionalParams): Promise<AnalysisResult>;
+    analyzeInline(analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeInlineOptionalParams): Promise<AnalysisResult>;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;
@@ -355,8 +405,15 @@ export interface DocumentChartFigure extends DocumentFigure {
 }
 
 // @public
+export interface DocumentChunk {
+    source?: string;
+    spans: ContentSpan[];
+}
+
+// @public
 export interface DocumentContent extends AnalysisContent {
     annotations?: DocumentAnnotation[];
+    chunks?: DocumentChunk[];
     endPageNumber: number;
     figures?: DocumentFigureUnion[];
     hyperlinks?: DocumentHyperlink[];
@@ -365,6 +422,7 @@ export interface DocumentContent extends AnalysisContent {
     paragraphs?: DocumentParagraph[];
     sections?: DocumentSection[];
     segments?: DocumentContentSegment[];
+    signatures?: DocumentSignature[];
     startPageNumber: number;
     tables?: DocumentTable[];
     unit?: LengthUnit;
@@ -373,8 +431,10 @@ export interface DocumentContent extends AnalysisContent {
 // @public
 export interface DocumentContentSegment {
     category: string;
+    confidence?: number;
     endPageNumber: number;
     segmentId: string;
+    source?: string;
     span: ContentSpan;
     startPageNumber: number;
 }
@@ -463,6 +523,15 @@ export interface DocumentParagraph {
 // @public
 export interface DocumentSection {
     elements?: string[];
+    span?: ContentSpan;
+}
+
+// @public
+export interface DocumentSignature {
+    elements?: string[];
+    id: string;
+    role?: SemanticRole;
+    source?: string;
     span?: ContentSpan;
 }
 
@@ -559,7 +628,8 @@ export type KnowledgeSourceUnion = LabeledDataKnowledgeSource | KnowledgeSource;
 
 // @public
 export enum KnownVersions {
-    V20251101 = "2025-11-01"
+    V20251101 = "2025-11-01",
+    V20260601Preview = "2026-06-01-preview"
 }
 
 // @public
@@ -616,6 +686,12 @@ export interface RecordMergePatchUpdate {
 export { RestError }
 
 // @public
+export interface SemanticChunkingStrategy extends ChunkingStrategy {
+    kind: "semantic";
+    maxTokens?: number;
+}
+
+// @public
 export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" | "sectionHeading" | "footnote" | "formulaBlock";
 
 // @public
@@ -644,9 +720,9 @@ export function toLlmInput(result: AnalysisResult, options?: ToLlmInputOptions):
 
 // @public
 export interface ToLlmInputOptions {
+    customMetadata?: Record<string, unknown>;
     includeFields?: boolean;
     includeMarkdown?: boolean;
-    metadata?: Record<string, unknown>;
 }
 
 // @public
@@ -681,11 +757,15 @@ export interface UpdateDefaultsOptionalParams extends OperationOptions {
 
 // @public
 export interface UsageDetails {
+    advancedContextualizationTokens?: number;
     audioHours?: number;
     contextualizationTokens?: number;
     documentPagesBasic?: number;
+    documentPagesBasicInline?: number;
     documentPagesMinimal?: number;
+    documentPagesMinimalInline?: number;
     documentPagesStandard?: number;
+    documentPagesStandardInline?: number;
     tokens?: Record<string, number>;
     videoHours?: number;
 }

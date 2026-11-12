@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an entity query.
  *
  * @summary gets an entity query.
- * x-ms-original-file: 2025-07-01-preview/entityQueries/GetActivityEntityQueryById.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueries/GetActivityEntityQueryById.json
  */
 async function getAnActivityEntityQuery() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAnActivityEntityQuery() {
  * This sample demonstrates how to gets an entity query.
  *
  * @summary gets an entity query.
- * x-ms-original-file: 2025-07-01-preview/entityQueries/GetExpansionEntityQueryById.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueries/GetExpansionEntityQueryById.json
  */
 async function getAnExpansionEntityQuery() {
   const credential = new DefaultAzureCredential();

@@ -4,7 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace";
 import { AzureMonitorBaseExporter } from "./base.js";
 import type { AzureMonitorExporterOptions } from "../config.js";
 import type { TelemetryItem as Envelope } from "../generated/index.js";
@@ -72,13 +72,20 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         spans[0].resource,
         this.instrumentationKey,
         this.applicationId,
+        this._increaseGenAiMessageLimit,
       );
       if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {
-        envelopes.push(readableSpanToEnvelope(span, this.instrumentationKey));
-        const spanEventEnvelopes = spanEventsToEnvelopes(span, this.instrumentationKey);
+        envelopes.push(
+          readableSpanToEnvelope(span, this.instrumentationKey, this._increaseGenAiMessageLimit),
+        );
+        const spanEventEnvelopes = spanEventsToEnvelopes(
+          span,
+          this.instrumentationKey,
+          this._increaseGenAiMessageLimit,
+        );
         if (spanEventEnvelopes.length > 0) {
           envelopes.push(...spanEventEnvelopes);
         }

@@ -44,7 +44,6 @@ export interface SharedLimitsOperations {
     options?: SharedLimitsGetOptionalParams,
   ) => Promise<SharedLimit>;
 }
-
 function _getSharedLimits(context: ComputeLimitContext) {
   return {
     listBySubscriptionLocationResource: (
@@ -63,7 +62,6 @@ function _getSharedLimits(context: ComputeLimitContext) {
       get(context, location, name, options),
   };
 }
-
 export function _getSharedLimitsOperations(context: ComputeLimitContext): SharedLimitsOperations {
   return {
     ..._getSharedLimits(context),

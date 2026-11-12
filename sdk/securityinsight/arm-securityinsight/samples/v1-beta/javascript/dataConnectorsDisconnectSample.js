@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disconnect a data connector.
  *
  * @summary disconnect a data connector.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/DisconnectAPIPolling.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/DisconnectAPIPolling.json
  */
 async function disconnectAnAPIPollingDataConnector() {
   const credential = new DefaultAzureCredential();

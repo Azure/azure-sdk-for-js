@@ -1,15 +1,53 @@
 # Release History
-    
-## 2.1.0-beta.2 (Unreleased)
+
+## 3.0.0 (2026-08-27)
 
 ### Features Added
+  - Added operation group PrivateEndpointConnectionsInterfaceOperations
+  - Added operation group PrivateLinkResourcesInterfaceOperations
+  - Added Interface FrontendAssociation
+  - Added Interface FrontendUpdateProperties
+  - Added Interface IpAccessRule
+  - Added Interface IpAccessRulesPolicy
+  - Added Interface IpAccessRulesSecurityPolicy
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsInterfaceDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsInterfaceGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsInterfaceListByTrafficControllerOptionalParams
+  - Added Interface PrivateEndpointConnectionsInterfaceUpdateOptionalParams
+  - Added Interface PrivateEndpointReference
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesInterfaceGetOptionalParams
+  - Added Interface PrivateLinkResourcesInterfaceListByTrafficControllerOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Interface FrontendProperties has a new optional parameter association
+  - Interface FrontendProperties has a new optional parameter publicNetworkAccess
+  - Interface FrontendProperties has a new optional parameter securityPolicyConfigurations
+  - Interface FrontendUpdate has a new optional parameter properties
+  - Interface SecurityPolicyConfigurations has a new optional parameter ipAccessRulesSecurityPolicy
+  - Interface SecurityPolicyProperties has a new optional parameter ipAccessRulesPolicy
+  - Interface SecurityPolicyUpdateProperties has a new optional parameter ipAccessRulesPolicy
+  - Interface ServiceNetworkingManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Interface TrafficControllerProperties has a new optional parameter privateEndpointConnections
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias IpAccessRuleAction
+  - Added Type Alias PrivateLinkServiceConnectionStatus
+  - Added Type Alias PublicNetworkAccess
+  - Added Enum AzureClouds
+  - Added Enum KnownIpAccessRuleAction
+  - Added Enum KnownPrivateLinkServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Enum KnownPolicyType has a new value IpAccessRules
+  - Enum KnownVersions has a new value V2026_03_01
 
 ### Breaking Changes
+  - Operation AssociationsInterfaceOperations.update has a new signature
+  - Parameter id of interface AssociationSubnetUpdate is now optional
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 2.1.0-beta.1 (2025-04-23)
 Compared with version 2.0.0
     

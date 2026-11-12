@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Schedulers by subscription
  *
  * @summary list Schedulers by subscription
- * x-ms-original-file: 2026-02-01/Schedulers_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01-preview/Schedulers_ListBySubscription.json
  */
 async function schedulersListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,21 +5,17 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface TagRulesListByNewRelicMonitorResourceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TagRulesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface TagRulesUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TagRulesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface TagRulesGetOptionalParams extends OperationOptions {}

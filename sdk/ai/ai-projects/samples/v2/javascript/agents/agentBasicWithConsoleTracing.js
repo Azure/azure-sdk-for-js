@@ -8,33 +8,20 @@
  * Set the following environment variables before running:
  *   FOUNDRY_PROJECT_ENDPOINT - Your Microsoft Foundry project endpoint URL
  *   FOUNDRY_MODEL_NAME       - The deployment name of the model to use
+ *   FOUNDRY_AGENT_NAME       - Optional agent name. Defaults to "MyAgent"
  *
  * @summary Demonstrates agent operations with OpenTelemetry console tracing.
  */
 
-// Set up OpenTelemetry and Azure SDK instrumentation BEFORE importing Azure SDK packages.
-const {
-  NodeTracerProvider,
-  ConsoleSpanExporter,
-  SimpleSpanProcessor,
-} = require("@opentelemetry/sdk-trace-node");
-const { context, trace } = require("@opentelemetry/api");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
-
-const provider = new NodeTracerProvider({
-  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
-});
-provider.register();
-registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
-
-// Import Azure SDK packages (after instrumentation is registered)
+// Import tracing setup first so instrumentation is registered before Azure SDK modules load.
+const { provider, context, trace } = require("./consoleTracingSetup.js");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   const tracer = trace.getTracer("AgentBasicWithConsoleTraces");
@@ -63,7 +50,7 @@ async function main() {
   await context.with(ctx, async () => {
     // Create agent
     console.log("Creating agent...");
-    const agent = await project.agents.createVersion("my-agent-console-tracing", {
+    const agent = await project.agents.createVersion(agentName, {
       kind: "prompt",
       model: deploymentName,
       instructions: "You are a helpful assistant that answers general questions",

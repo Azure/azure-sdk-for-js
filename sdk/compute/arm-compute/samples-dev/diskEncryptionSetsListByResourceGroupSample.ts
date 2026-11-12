@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the disk encryption sets under a resource group.
  *
  * @summary lists all the disk encryption sets under a resource group.
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
  */
 async function listAllDiskEncryptionSetsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

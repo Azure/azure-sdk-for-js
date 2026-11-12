@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import { ErrorModel } from "@azure-rest/core-client";
-import { uint8ArrayToString } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { ErrorModel } from "@azure-rest/core-client";
+import { uint8ArrayToString } from "@azure/core-util";
+
+export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
+  return result.map((item) => {
+    return analysisInputSerializer(item);
+  });
+}
+
 /** Additional input to analyze. */
 export interface AnalysisInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
@@ -33,12 +39,6 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     mimeType: item["mimeType"],
     range: item["contentRange"],
   };
-}
-
-export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
-  return result.map((item) => {
-    return analysisInputSerializer(item);
-  });
 }
 
 /** Provides status details for analyze operations. */
@@ -80,6 +80,8 @@ export interface AnalysisResult {
   createdAt?: Date;
   /** Warnings encountered while analyzing the document. */
   warnings?: ErrorModel[];
+  /** Additional diagnostic information about the analysis. */
+  infos?: ErrorModel[];
   /**
    *   The string encoding format for content spans in the response.
    *   Possible values are 'codePoint', 'utf16', and `utf8`.  Default is `codePoint`.")
@@ -97,6 +99,11 @@ export function analysisResultDeserializer(item: any): AnalysisResult {
     warnings: !item["warnings"]
       ? item["warnings"]
       : item["warnings"].map((p: any) => {
+          return p;
+        }),
+    infos: !item["infos"]
+      ? item["infos"]
+      : item["infos"].map((p: any) => {
           return p;
         }),
     stringEncoding: item["stringEncoding"],
@@ -127,6 +134,8 @@ export interface AnalysisContent {
   markdown?: string;
   /** Extracted fields from the content. */
   fields?: Record<string, ContentFieldUnion>;
+  /** Metadata extracted from the input as string key/value pairs, such as author, title, creation date, or media properties. Keys and values are strings. Only keys with extracted values are present. */
+  metadata?: Record<string, string>;
 }
 
 export function analysisContentDeserializer(item: any): AnalysisContent {
@@ -138,6 +147,9 @@ export function analysisContentDeserializer(item: any): AnalysisContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -241,15 +253,7 @@ export function contentFieldUnionDeserializer(item: any): ContentFieldUnion {
 
 /** Semantic data type of the field value. */
 export type ContentFieldType =
-  | "string"
-  | "date"
-  | "time"
-  | "number"
-  | "integer"
-  | "boolean"
-  | "array"
-  | "object"
-  | "json";
+  "string" | "date" | "time" | "number" | "integer" | "boolean" | "array" | "object" | "json";
 
 export function contentSpanArrayDeserializer(result: Array<ContentSpan>): any[] {
   return result.map((item) => {
@@ -478,10 +482,14 @@ export interface DocumentContent extends AnalysisContent {
   figures?: DocumentFigureUnion[];
   /** List of annotations in the document.  Only if enableAnnotations and returnDetails are true. */
   annotations?: DocumentAnnotation[];
+  /** List of signatures in the document.  Only if enableLayout and returnDetails are true. */
+  signatures?: DocumentSignature[];
   /** List of hyperlinks in the document.  Only if returnDetails are true. */
   hyperlinks?: DocumentHyperlink[];
   /** List of detected content segments.  Only if enableSegment is true. */
   segments?: DocumentContentSegment[];
+  /** List of document chunks.  Only if chunkingStrategy is configured on the analyzer. */
+  chunks?: DocumentChunk[];
 }
 
 export function documentContentDeserializer(item: any): DocumentContent {
@@ -493,6 +501,9 @@ export function documentContentDeserializer(item: any): DocumentContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     startPageNumber: item["startPageNumber"],
     endPageNumber: item["endPageNumber"],
     unit: item["unit"],
@@ -510,12 +521,16 @@ export function documentContentDeserializer(item: any): DocumentContent {
     annotations: !item["annotations"]
       ? item["annotations"]
       : documentAnnotationArrayDeserializer(item["annotations"]),
+    signatures: !item["signatures"]
+      ? item["signatures"]
+      : documentSignatureArrayDeserializer(item["signatures"]),
     hyperlinks: !item["hyperlinks"]
       ? item["hyperlinks"]
       : documentHyperlinkArrayDeserializer(item["hyperlinks"]),
     segments: !item["segments"]
       ? item["segments"]
       : documentContentSegmentArrayDeserializer(item["segments"]),
+    chunks: !item["chunks"] ? item["chunks"] : documentChunkArrayDeserializer(item["chunks"]),
   };
 }
 
@@ -864,11 +879,7 @@ export function documentTableCellDeserializer(item: any): DocumentTableCell {
 
 /** Table cell kind. */
 export type DocumentTableCellKind =
-  | "content"
-  | "rowHeader"
-  | "columnHeader"
-  | "stubHead"
-  | "description";
+  "content" | "rowHeader" | "columnHeader" | "stubHead" | "description";
 
 /** Caption of a table or figure. */
 export interface DocumentCaption {
@@ -1106,13 +1117,7 @@ export function documentAnnotationDeserializer(item: any): DocumentAnnotation {
 
 /** Document annotation kind. */
 export type DocumentAnnotationKind =
-  | "highlight"
-  | "strikethrough"
-  | "underline"
-  | "italic"
-  | "bold"
-  | "circle"
-  | "note";
+  "highlight" | "strikethrough" | "underline" | "italic" | "bold" | "circle" | "note";
 
 export function documentAnnotationCommentArrayDeserializer(
   result: Array<DocumentAnnotationComment>,
@@ -1149,6 +1154,40 @@ export function documentAnnotationCommentDeserializer(item: any): DocumentAnnota
       : item["tags"].map((p: any) => {
           return p;
         }),
+  };
+}
+
+export function documentSignatureArrayDeserializer(result: Array<DocumentSignature>): any[] {
+  return result.map((item) => {
+    return documentSignatureDeserializer(item);
+  });
+}
+
+/** Signature detected in a document. */
+export interface DocumentSignature {
+  /** Signature identifier. */
+  id: string;
+  /** Encoded source that identifies the position of the signature in the content. */
+  source?: string;
+  /** Span of the signature in the markdown content. */
+  span?: ContentSpan;
+  /** Child elements of the signature, such as paragraphs containing text within the signature region. */
+  elements?: string[];
+  /** Semantic role of the signature. */
+  role?: SemanticRole;
+}
+
+export function documentSignatureDeserializer(item: any): DocumentSignature {
+  return {
+    id: item["id"],
+    source: item["source"],
+    span: !item["span"] ? item["span"] : contentSpanDeserializer(item["span"]),
+    elements: !item["elements"]
+      ? item["elements"]
+      : item["elements"].map((p: any) => {
+          return p;
+        }),
+    role: item["role"],
   };
 }
 
@@ -1199,6 +1238,10 @@ export interface DocumentContentSegment {
   startPageNumber: number;
   /** End page number (1-indexed) of the segment. */
   endPageNumber: number;
+  /** Confidence of the segmentation and category classification. */
+  confidence?: number;
+  /** Encoded source that identifies the position of the segment in the content. Can be used as the 'range' input to route this segment to a sub-analyzer. */
+  source?: string;
 }
 
 export function documentContentSegmentDeserializer(item: any): DocumentContentSegment {
@@ -1208,6 +1251,29 @@ export function documentContentSegmentDeserializer(item: any): DocumentContentSe
     span: contentSpanDeserializer(item["span"]),
     startPageNumber: item["startPageNumber"],
     endPageNumber: item["endPageNumber"],
+    confidence: item["confidence"],
+    source: item["source"],
+  };
+}
+
+export function documentChunkArrayDeserializer(result: Array<DocumentChunk>): any[] {
+  return result.map((item) => {
+    return documentChunkDeserializer(item);
+  });
+}
+
+/** A chunk of document content, defined by one or more spans in the markdown. */
+export interface DocumentChunk {
+  /** List of spans defining the chunk's position(s) in the markdown content. */
+  spans: ContentSpan[];
+  /** Encoded source expression describing the visual bounding polygons of the chunk's content on the page. Derived from the union of layout objects (paragraphs, tables, figures) that compose the chunk. */
+  source?: string;
+}
+
+export function documentChunkDeserializer(item: any): DocumentChunk {
+  return {
+    spans: contentSpanArrayDeserializer(item["spans"]),
+    source: item["source"],
   };
 }
 
@@ -1242,6 +1308,9 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     startTimeMs: item["startTimeMs"],
     endTimeMs: item["endTimeMs"],
     width: item["width"],
@@ -1380,12 +1449,29 @@ export interface UsageDetails {
    * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
    */
   documentPagesStandard?: number;
+  /**
+   * The number of document pages processed at the minimal level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesMinimalInline?: number;
+  /**
+   * The number of document pages processed at the basic level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesBasicInline?: number;
+  /**
+   * The number of document pages processed at the standard level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesStandardInline?: number;
   /** The hours of audio processed. */
   audioHours?: number;
   /** The hours of video processed. */
   videoHours?: number;
   /** The number of contextualization tokens consumed for preparing context, generating confidence scores, source grounding, and output formatting. */
   contextualizationTokens?: number;
+  /** The number of advanced contextualization tokens consumed for preparing context, generating confidence scores, source grounding, and output formatting. */
+  advancedContextualizationTokens?: number;
   /** The number of LLM and embedding tokens consumed, grouped by model (ex. GTP 4.1) and type (ex. input, cached input, output). */
   tokens?: Record<string, number>;
 }
@@ -1395,12 +1481,36 @@ export function usageDetailsDeserializer(item: any): UsageDetails {
     documentPagesMinimal: item["documentPagesMinimal"],
     documentPagesBasic: item["documentPagesBasic"],
     documentPagesStandard: item["documentPagesStandard"],
+    documentPagesMinimalInline: item["documentPagesMinimalInline"],
+    documentPagesBasicInline: item["documentPagesBasicInline"],
+    documentPagesStandardInline: item["documentPagesStandardInline"],
     audioHours: item["audioHours"],
     videoHours: item["videoHours"],
     contextualizationTokens: item["contextualizationTokens"],
+    advancedContextualizationTokens: item["advancedContextualizationTokens"],
     tokens: !item["tokens"]
       ? item["tokens"]
       : Object.fromEntries(Object.entries(item["tokens"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Provides inline response details for analyze operations. */
+export interface ContentAnalyzerInlineResponse {
+  /** The status of the inline analyze request. */
+  status: OperationState;
+  /** The result of the inline analyze request. */
+  result: AnalysisResult;
+  /** Usage details of the inline analyze request. */
+  usage?: UsageDetails;
+}
+
+export function contentAnalyzerInlineResponseDeserializer(
+  item: any,
+): ContentAnalyzerInlineResponse {
+  return {
+    status: item["status"],
+    result: analysisResultDeserializer(item["result"]),
+    usage: !item["usage"] ? item["usage"] : usageDetailsDeserializer(item["usage"]),
   };
 }
 
@@ -1533,6 +1643,19 @@ export interface ContentAnalyzerConfig {
    * Only return content(s) from additional analyzers specified in contentCategories, if any.
    */
   omitContent?: boolean;
+  /** Workflow used for content analysis. */
+  workflow?: ContentAnalyzerWorkflow;
+  /**
+   * When true, input that exceeds the service's processable-unit limit is truncated to the limit and returned as a
+   * partial result with a warning, instead of failing. Field extraction and segmentation, where configured, run over
+   * the processed content and may be inaccurate. Defaults to false. Overridable per request by the allowInputTruncation
+   * query parameter.
+   */
+  allowInputTruncation?: boolean;
+  /** Enable sub-page segmentation. When true, segments may cover a portion of a page instead of full pages. */
+  allowInPageSegments?: boolean;
+  /** Strategy for chunking document content into smaller units for RAG scenarios. When omitted, chunking is disabled. */
+  chunkingStrategy?: ChunkingStrategyUnion;
 }
 
 export function contentAnalyzerConfigSerializer(item: ContentAnalyzerConfig): any {
@@ -1559,6 +1682,12 @@ export function contentAnalyzerConfigSerializer(item: ContentAnalyzerConfig): an
     enableSegment: item["enableSegment"],
     segmentPerPage: item["segmentPerPage"],
     omitContent: item["omitContent"],
+    workflow: item["workflow"],
+    allowInputTruncation: item["allowInputTruncation"],
+    allowInPageSegments: item["allowInPageSegments"],
+    chunkingStrategy: !item["chunkingStrategy"]
+      ? item["chunkingStrategy"]
+      : chunkingStrategyUnionSerializer(item["chunkingStrategy"]),
   };
 }
 
@@ -1586,13 +1715,21 @@ export function contentAnalyzerConfigDeserializer(item: any): ContentAnalyzerCon
     enableSegment: item["enableSegment"],
     segmentPerPage: item["segmentPerPage"],
     omitContent: item["omitContent"],
+    workflow: item["workflow"],
+    allowInputTruncation: item["allowInputTruncation"],
+    allowInPageSegments: item["allowInPageSegments"],
+    chunkingStrategy: !item["chunkingStrategy"]
+      ? item["chunkingStrategy"]
+      : chunkingStrategyUnionDeserializer(item["chunkingStrategy"]),
   };
 }
 
 /** Representation format of tables in analyze result markdown. */
 export type TableFormat = "html" | "markdown";
+
 /** Representation format of charts in analyze result markdown. */
 export type ChartFormat = "chartJs" | "markdown";
+
 /** Representation format of annotations in analyze result markdown. */
 export type AnnotationFormat = "none" | "markdown";
 
@@ -1639,6 +1776,71 @@ export function contentCategoryDefinitionDeserializer(item: any): ContentCategor
     description: item["description"],
     analyzerId: item["analyzerId"],
     analyzer: !item["analyzer"] ? item["analyzer"] : contentAnalyzerDeserializer(item["analyzer"]),
+  };
+}
+
+/** Workflow used for document analysis. */
+export type ContentAnalyzerWorkflow = "default" | "agentic";
+
+/** Strategy for chunking document content. The `kind` property serves as the discriminator. */
+export interface ChunkingStrategy {
+  /** The chunking strategy kind. */
+  /** The discriminator possible values: semantic */
+  kind: ChunkingStrategyKind;
+}
+
+export function chunkingStrategySerializer(item: ChunkingStrategy): any {
+  return { kind: item["kind"] };
+}
+
+export function chunkingStrategyDeserializer(item: any): ChunkingStrategy {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for ChunkingStrategyUnion */
+export type ChunkingStrategyUnion = SemanticChunkingStrategy | ChunkingStrategy;
+
+export function chunkingStrategyUnionSerializer(item: ChunkingStrategyUnion): any {
+  switch (item.kind) {
+    case "semantic":
+      return semanticChunkingStrategySerializer(item as SemanticChunkingStrategy);
+
+    default:
+      return chunkingStrategySerializer(item);
+  }
+}
+
+export function chunkingStrategyUnionDeserializer(item: any): ChunkingStrategyUnion {
+  switch (item["kind"]) {
+    case "semantic":
+      return semanticChunkingStrategyDeserializer(item as SemanticChunkingStrategy);
+
+    default:
+      return chunkingStrategyDeserializer(item);
+  }
+}
+
+/** The kind of chunking strategy. */
+export type ChunkingStrategyKind = "semantic";
+
+/** Semantic chunking strategy that splits content into semantically meaningful, size-controlled chunks. */
+export interface SemanticChunkingStrategy extends ChunkingStrategy {
+  /** The chunking strategy kind. */
+  kind: "semantic";
+  /** Target chunk size expressed in tokens. Interpreted as a soft limit; the chunking process may slightly exceed this value to respect semantic or structural boundaries. */
+  maxTokens?: number;
+}
+
+export function semanticChunkingStrategySerializer(item: SemanticChunkingStrategy): any {
+  return { kind: item["kind"], maxTokens: item["maxTokens"] };
+}
+
+export function semanticChunkingStrategyDeserializer(item: any): SemanticChunkingStrategy {
+  return {
+    kind: item["kind"],
+    maxTokens: item["maxTokens"],
   };
 }
 
@@ -1780,6 +1982,7 @@ export function contentFieldDefinitionDeserializer(item: any): ContentFieldDefin
 
 /** Generation method. */
 export type GenerationMethod = "generate" | "extract" | "classify";
+
 /** The location where the data may be processed. */
 export type ProcessingLocation = "geography" | "dataZone" | "global";
 
@@ -1990,4 +2193,6 @@ export function recordMergePatchUpdateSerializer(item: RecordMergePatchUpdate): 
 export enum KnownVersions {
   /** The 2025-11-01 version of the Content Understanding service. */
   V20251101 = "2025-11-01",
+  /** The 2026-06-01-preview version of the Content Understanding service. */
+  V20260601Preview = "2026-06-01-preview",
 }

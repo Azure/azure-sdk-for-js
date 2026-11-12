@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export type {
+  ArmErrorResponse,
+  ArmErrorDetail,
+  ErrorAdditionalInfo,
   PrivateLinkResourceProperties,
   Resource,
   SystemData,
   CreatedByType,
-  ArmErrorResponse,
-  ArmErrorDetail,
-  ErrorAdditionalInfo,
   PrivateLinkResourceListResult,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,

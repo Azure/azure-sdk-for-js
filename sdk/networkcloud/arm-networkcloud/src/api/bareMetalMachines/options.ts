@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BareMetalMachinePatchParameters,
   BareMetalMachineCordonParameters,
   BareMetalMachinePowerOffParameters,
   BareMetalMachineReimageParameters,
   BareMetalMachineReplaceParameters,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BareMetalMachinesUncordonOptionalParams extends OperationOptions {

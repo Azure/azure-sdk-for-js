@@ -1,6 +1,14 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/edgeActionExecutionFilters/index.ts",
+    "../src/api/edgeActionVersions/index.ts",
+    "../src/api/edgeActions/index.ts",
+    "../src/models/index.ts"
   ]
 }

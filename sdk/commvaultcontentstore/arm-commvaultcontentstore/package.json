@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-commvaultcontentstore",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for ContentStoreClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -187,6 +187,20 @@
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
       }
+    },
+    "./models/liftrBase": {
+      "browser": {
+        "types": "./dist/browser/models/liftrBase/index.d.ts",
+        "default": "./dist/browser/models/liftrBase/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/liftrBase/index.d.ts",
+        "default": "./dist/esm/models/liftrBase/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/liftrBase/index.d.ts",
+        "default": "./dist/commonjs/models/liftrBase/index.js"
+      }
     }
   },
   "keywords": [
@@ -226,11 +240,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -268,7 +282,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-commvaultcontentstore",
@@ -276,6 +291,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore"
   }
 }

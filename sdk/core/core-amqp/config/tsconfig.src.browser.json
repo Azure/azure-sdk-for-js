@@ -1,4 +1,10 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "include": ["../src/index.ts"],
+  "compilerOptions": {
+    // rhea and rhea-promise no longer include `/// <reference types="node" />` in their .d.ts, but they still use NodeJS types.
+    // Since our base browser tsconfig sets `"types": []`, we explicitly include @types/node here.
+    "types": ["node"]
+  }
+
 }

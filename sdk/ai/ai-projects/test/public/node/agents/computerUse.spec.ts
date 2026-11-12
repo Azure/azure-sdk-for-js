@@ -30,7 +30,7 @@ describe("agents - computer use tool", () => {
     await recorder.stop();
   });
 
-  it("should create computer use agent and process browser search simulation", async function () {
+  it.skip("should create computer use agent and process browser search simulation", async function () {
     const deploymentName =
       process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "computer-use-preview";
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve alert rule definitions in a resource group.
  *
  * @summary retrieve alert rule definitions in a resource group.
- * x-ms-original-file: 2024-03-01-preview/listByResourceGroupMetricAlert.json
+ * x-ms-original-file: 2026-01-01/listByResourceGroupMetricAlert.json
  */
 async function listMetricAlertRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all alerts for an incident.
  *
  * @summary gets all alerts for an incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentAlerts/Incidents_ListAlerts.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentAlerts/Incidents_ListAlerts.json
  */
 async function incidentsListAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();

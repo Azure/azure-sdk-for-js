@@ -104,7 +104,7 @@
     "constantPaths": [
       {
         "path": "src/models/constants.ts",
-        "prefix": "packageVersion"
+        "prefix": "SDK_VERSION"
       },
       {
         "path": "src/generated/src/callAutomationApiClient.ts",

@@ -36,7 +36,7 @@ export function _disableSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _disableDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
-
 /** Disables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function disable(
   context: Client,
@@ -76,7 +75,7 @@ export function disable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _disableSend(context, location, featureName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-07-31",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -92,7 +91,7 @@ export function _enableSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +120,6 @@ export async function _enableDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
-
 /** Enables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function enable(
   context: Client,
@@ -134,7 +132,7 @@ export function enable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _enableSend(context, location, featureName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-07-31",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -148,7 +146,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +173,6 @@ export async function _listBySubscriptionLocationResourceDeserialize(
 
   return _featureListResultDeserializer(result.body);
 }
-
 /** Lists all compute limit features for the subscription at the specified location. */
 export function listBySubscriptionLocationResource(
   context: Client,
@@ -187,7 +184,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -203,7 +200,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +225,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fe
 
   return featureDeserializer(result.body);
 }
-
 /** Gets the properties of a compute limit feature. */
 export async function get(
   context: Client,

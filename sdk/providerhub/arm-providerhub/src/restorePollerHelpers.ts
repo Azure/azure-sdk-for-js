@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubClient } from "./providerHubClient.js";
+import type { ProviderHubClient } from "./providerHubClient.js";
 import { _deleteResourcesDeserialize } from "./api/resourceActions/operations.js";
 import { _createDeserialize } from "./api/providerMonitorSettings/operations.js";
 import { _createOrUpdateDeserialize } from "./api/authorizedApplications/operations.js";
@@ -13,14 +13,10 @@ import { _createOrUpdateDeserialize as _createOrUpdateDeserializeDefaultRollouts
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeProviderRegistrations } from "./api/providerRegistrations/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeCustomRollouts } from "./api/customRollouts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

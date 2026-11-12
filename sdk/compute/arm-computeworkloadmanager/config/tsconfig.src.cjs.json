@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/capabilities/index.ts",
+    "../src/api/runtimeLinks/index.ts",
+    "../src/api/runtimeBindings/index.ts",
+    "../src/api/workloadSpaces/index.ts",
+    "../src/models/index.ts"
+  ]
+}

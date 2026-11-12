@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { type DataLakeFileClient, type DataLakeFileSystemClient } from "../../src/index.js";
 import {
   bodyToString,
+  createAndStartRecorder,
   createRandomLocalFile,
   getDataLakeServiceClient,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import { MB, FILE_MAX_SINGLE_UPLOAD_THRESHOLD } from "../../src/utils/constants.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
@@ -31,8 +32,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -148,6 +148,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -190,6 +191,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           aborter.abort();
         },
         chunkSize: 4 * MB,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
       assert.ok(
@@ -236,7 +238,9 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         MB,
       );
       const uploadedBuffer = fs.readFileSync(tempFile);
-      await fileClient.upload(uploadedBuffer);
+      await fileClient.upload(uploadedBuffer, {
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+      });
 
       const readResponse = await fileClient.read();
       const readFile = path.join(
@@ -388,6 +392,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -426,6 +431,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           eventTriggered = true;
           aborter.abort();
         },
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
       assert.ok(

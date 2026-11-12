@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the fleetspaces under a fleet.
  *
  * @summary lists all the fleetspaces under a fleet.
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetspaceList.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetspaceList.json
  */
 async function cosmosDBFleetspaceList(): Promise<void> {
   const credential = new DefaultAzureCredential();

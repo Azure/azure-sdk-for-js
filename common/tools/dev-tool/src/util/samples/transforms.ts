@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 import ts from "typescript";
+import { builtinModules } from "node:module";
 
 import nodeBuiltins from "builtin-modules";
+
+// Retain deprecated built-ins supported by the running Node.js version.
+const supportedNodeBuiltins = new Set([...nodeBuiltins, ...builtinModules]);
 
 /**
  * A TypeScript API transformer that replaces imports with CommonJS `require` calls.
@@ -230,7 +234,7 @@ export function resolveModule(specifier: string): string {
  */
 export function isNodeBuiltin(moduleSpecifier: string): boolean {
   return (
-    moduleSpecifier.startsWith("node:") || nodeBuiltins.includes(resolveModule(moduleSpecifier))
+    moduleSpecifier.startsWith("node:") || supportedNodeBuiltins.has(resolveModule(moduleSpecifier))
   );
 }
 

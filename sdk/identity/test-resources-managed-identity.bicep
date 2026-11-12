@@ -6,6 +6,9 @@ param baseName string = resourceGroup().name
 @description('The location of the resource. By default, this is the same as the resource group.')
 param location string = resourceGroup().location
 
+@description('The AKS cluster location. Defaults to eastus2 to avoid capacity constraints in the resource group region.')
+param aksLocation string = 'eastus2'
+
 @description('The client OID to grant access to test resources.')
 param testApplicationOid string
 
@@ -220,6 +223,7 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
       alwaysOn: true
       http20Enabled: true
       minTlsVersion: '1.2'
+      linuxFxVersion: 'Node|22'
       appSettings: [
         {
           name: 'IDENTITY_STORAGE_NAME_1'
@@ -252,10 +256,6 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'node'
-        }
-        {
-          name: 'DOCKER_CUSTOM_IMAGE_NAME'
-          value: 'mcr.microsoft.com/azure-functions/node:4-node24-appservice'
         }
       ]
     }
@@ -293,7 +293,7 @@ resource acrResource 'Microsoft.ContainerRegistry/registries@2023-01-01-preview'
 
 resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-01' = {
   name: baseName
-  location: location
+  location: aksLocation
   identity: {
     type: 'SystemAssigned'
   }
@@ -305,7 +305,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v3'
+        vmSize: 'Standard_D2s_v5'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
@@ -338,6 +338,15 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
   }
 }
 
+resource identityBinding 'Microsoft.ContainerService/managedClusters/identityBindings@2026-06-01' = {
+  parent: kubernetesCluster
+  name: 'identitybinding'
+  properties: {
+    managedIdentity: {
+      resourceId: userAssignedIdentity.id
+    }
+  }
+}
 
 resource publicIP 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
   name: '${baseName}PublicIP'
@@ -487,6 +496,7 @@ output IdentityStorageIdUserAssigned string = storageAccountUserAssigned.id
 output IdentityFunctionName string = azureFunction.name
 output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'
+output IdentityAksIdentityBindingPodName string = 'javascript-identity-binding-test-app'
 output IdentityContainerInstanceName string = 'javascript-container-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer

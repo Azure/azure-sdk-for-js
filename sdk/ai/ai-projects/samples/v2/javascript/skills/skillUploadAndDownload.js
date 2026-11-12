@@ -13,13 +13,13 @@
  *
  * Skills are a preview feature. In the JS SDK, you access
  * these operations via `project.beta.skills`.
+ * Set `SKILL_PACKAGE_PATH` to a local ZIP file when running the published sample.
  *
  * @summary Demonstrates uploading and downloading a skill package.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
+const { AIProjectClient, isRestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { RestError } = require("@azure/core-rest-pipeline");
 const { readFileSync, writeFileSync } = require("node:fs");
 const path = require("node:path");
 const { buffer } = require("node:stream/consumers");
@@ -27,10 +27,13 @@ require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const skillName = "canvas-design";
-const skillFilePath = path.resolve(__dirname, "../assets/canvas-design.zip");
+const skillFilePath = path.resolve(
+  process.env["SKILL_PACKAGE_PATH"] || "samples-dev/assets/canvas-design.zip",
+);
 const downloadFolder = path.dirname(skillFilePath);
 
 async function main() {
+  const packageBytes = readFileSync(skillFilePath);
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   // Clean up any existing skill with this name
@@ -38,13 +41,12 @@ async function main() {
     await project.beta.skills.delete(skillName);
     console.log(`Skill \`${skillName}\` deleted`);
   } catch (e) {
-    if (!(e instanceof RestError && e.statusCode === 404)) {
+    if (!(isRestError(e) && e.statusCode === 404)) {
       throw e;
     }
   }
 
   // Upload a skill package
-  const packageBytes = readFileSync(skillFilePath);
   const imported = await project.beta.skills.createFromFiles(skillName, {
     files: [
       { contents: packageBytes, contentType: "application/zip", filename: "canvas-design.zip" },

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pre Restore a given CloudEndpoint.
  *
  * @summary pre Restore a given CloudEndpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_PreRestore.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_PreRestore.json
  */
 async function cloudEndpointsPreRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();

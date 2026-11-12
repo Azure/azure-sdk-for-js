@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Dapr Component from a Managed Environment.
  *
  * @summary delete a Dapr Component from a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_Delete.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_Delete.json
  */
 async function deleteDaprComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();

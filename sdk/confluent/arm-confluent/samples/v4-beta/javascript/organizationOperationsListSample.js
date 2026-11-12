@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-08-18-preview/OrganizationOperations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/OrganizationOperations_List_MaximumSet_Gen.json
  */
 async function organizationOperationsListMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function organizationOperationsListMaximumSet() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-08-18-preview/OrganizationOperations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/OrganizationOperations_List_MinimumSet_Gen.json
  */
 async function organizationOperationsListMinimumSet() {
   const credential = new DefaultAzureCredential();

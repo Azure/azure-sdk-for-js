@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the given registered server.
  *
  * @summary delete the given registered server.
- * x-ms-original-file: 2022-09-01/RegisteredServers_Delete.json
+ * x-ms-original-file: 2025-12-01/RegisteredServers_Delete.json
  */
 async function registeredServersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

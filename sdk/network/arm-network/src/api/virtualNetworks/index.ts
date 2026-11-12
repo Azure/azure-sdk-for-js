@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  moveIpConfigurations,
   listDdosProtectionStatus,
   listUsage,
   checkIPAddressAvailability,
@@ -13,6 +14,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  VirtualNetworksMoveIpConfigurationsOptionalParams,
   VirtualNetworksListDdosProtectionStatusOptionalParams,
   VirtualNetworksListUsageOptionalParams,
   VirtualNetworksCheckIPAddressAvailabilityOptionalParams,

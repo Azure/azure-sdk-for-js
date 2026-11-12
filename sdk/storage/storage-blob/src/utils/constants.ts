@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.33.1";
-export const SERVICE_VERSION: string = "2026-06-06";
+export const SDK_VERSION: string = "12.35.0-beta.1";
+export const SERVICE_VERSION: string = "2026-10-06";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
@@ -17,6 +17,13 @@ export const REQUEST_TIMEOUT: number = 100 * 1000; // In ms
  */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
+/**
+ * The media type returned by the List Blobs Apache Arrow operation when Apache Arrow
+ * is enabled for the account. When the response Content-Type differs from this value,
+ * the service has fallen back to XML.
+ */
+export const ApacheArrowContentType: string = "application/vnd.apache.arrow.stream";
+
 export const URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",
@@ -29,6 +36,7 @@ export const URLConstants = {
 
 export const HTTPURLConnection = {
   HTTP_ACCEPTED: 202,
+  HTTP_UNAUTHORIZED: 401,
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
@@ -47,6 +55,7 @@ export const HeaderConstants = {
   CONTENT_TYPE: "Content-Type",
   COOKIE: "Cookie",
   DATE: "date",
+  EXPECT: "Expect",
   IF_MATCH: "if-match",
   IF_MODIFIED_SINCE: "if-modified-since",
   IF_NONE_MATCH: "if-none-match",
@@ -58,6 +67,7 @@ export const HeaderConstants = {
   X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
+  X_MS_STRUCTURED_BODY: "x-ms-structured-body",
   X_MS_VERSION: "x-ms-version",
   X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code",
 };

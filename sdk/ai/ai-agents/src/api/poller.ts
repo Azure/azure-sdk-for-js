@@ -14,7 +14,7 @@ export function deserializeState<T>(serializedState: string): OperationState<T> 
   try {
     return JSON.parse(serializedState).state;
   } catch (e) {
-    throw new Error(`Unable to deserialize input state: ${serializedState}`);
+    throw new Error(`Unable to deserialize input state: ${serializedState}`, { cause: e });
   }
 }
 

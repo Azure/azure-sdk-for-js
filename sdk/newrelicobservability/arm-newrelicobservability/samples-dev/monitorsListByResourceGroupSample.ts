@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves a list of all New Relic monitor resources either a specific resource group
  *
  * @summary retrieves a list of all New Relic monitor resources either a specific resource group
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function monitorsListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

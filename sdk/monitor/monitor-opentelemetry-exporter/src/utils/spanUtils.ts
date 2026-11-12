@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Link, Attributes, AttributeValue } from "@opentelemetry/api";
 import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
+  ATTR_DB_NAMESPACE,
+  ATTR_DB_OPERATION_NAME,
+  ATTR_DB_QUERY_TEXT,
+  ATTR_DB_SYSTEM_NAME,
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
   DBSYSTEMVALUES_POSTGRESQL,
@@ -47,6 +51,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 import {
+  createCustomMeasurements,
   createTagsFromResource,
   getDependencyTarget,
   getUrl,
@@ -68,6 +73,7 @@ import {
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
+  ApplicationInsightsCustomMeasurements,
   DEFAULT_BREEZE_DATA_VERSION,
   DependencyTypes,
   MicrosoftClientIp,
@@ -101,6 +107,11 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   const endUserPseudoId = span.attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID];
   if (endUserPseudoId) {
     tags[KnownContextTagKeys.AiUserId] = String(endUserPseudoId);
+  }
+
+  const sessionId = span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
   }
 
   const httpUserAgent = getUserAgent(span.attributes);
@@ -159,20 +170,37 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   return tags;
 }
 
-function createPropertiesFromSpanAttributes(attributes?: Attributes): {
+function createPropertiesFromSpanAttributes(
+  attributes?: Attributes,
+  spanKind?: SpanKind,
+): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
   if (attributes) {
+    const isDatabase = !getHttpMethod(attributes) && !!getDbSystem(attributes);
+    const isDatabaseDependency =
+      isDatabase &&
+      (spanKind === SpanKind.CLIENT ||
+        spanKind === SpanKind.PRODUCER ||
+        spanKind === SpanKind.INTERNAL);
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
         // We need to not ignore the _MS.ProcessedByMetricExtractors key as it's used to identify standard metrics
         !(
+          key === ApplicationInsightsCustomMeasurements ||
           (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
           (key.startsWith("microsoft.") && !allowedMicrosoftAttributes.includes(key)) ||
           legacySemanticValues.includes(key) ||
-          httpSemanticValues.includes(key as any) ||
+          (isDatabaseDependency &&
+            (key === ATTR_DB_SYSTEM_NAME ||
+              key === ATTR_DB_NAMESPACE ||
+              key === ATTR_DB_QUERY_TEXT ||
+              key === ATTR_DB_OPERATION_NAME)) ||
+          (httpSemanticValues.includes(key as any) &&
+            // Database targets omit ports and may use peer.service instead of the server address.
+            !(isDatabase && (key === ATTR_SERVER_ADDRESS || key === ATTR_SERVER_PORT))) ||
           key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
@@ -184,8 +212,8 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
 }
 
 function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
-  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
-  const measurements: Measurements = {};
+  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes, span.kind);
+  const measurements = createCustomMeasurements(span.attributes);
 
   const links: MSLink[] = span.links.map((link: Link) => ({
     operation_Id: link.context.traceId,
@@ -216,7 +244,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
 
   const httpMethod = getHttpMethod(span.attributes);
-  const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
+  const dbSystem = getDbSystem(span.attributes);
   const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
@@ -274,15 +302,17 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     } else {
       remoteDependencyData.type = String(dbSystem);
     }
-    const dbStatement = span.attributes[SEMATTRS_DB_STATEMENT];
-    const dbOperation = span.attributes[SEMATTRS_DB_OPERATION];
+    const dbStatement =
+      span.attributes[ATTR_DB_QUERY_TEXT] || span.attributes[SEMATTRS_DB_STATEMENT];
+    const dbOperation =
+      span.attributes[ATTR_DB_OPERATION_NAME] || span.attributes[SEMATTRS_DB_OPERATION];
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
     const target = getDependencyTarget(span.attributes);
-    const dbName = span.attributes[SEMATTRS_DB_NAME];
+    const dbName = span.attributes[ATTR_DB_NAMESPACE] || span.attributes[SEMATTRS_DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
     } else {
@@ -341,7 +371,11 @@ function createRequestData(span: ReadableSpan): RequestData {
  * Span to Azure envelope parsing.
  * @internal
  */
-export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
+export function readableSpanToEnvelope(
+  span: ReadableSpan,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
@@ -418,8 +452,11 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       );
     }
   }
-  baseData.properties = truncateCustomDimensions(properties);
-  baseData.measurements = measurements;
+  baseData.properties = truncateCustomDimensions(properties, increaseGenAiMessageLimit);
+  baseData.measurements = {
+    ...measurements,
+    ...baseData.measurements,
+  };
 
   return {
     name,
@@ -439,21 +476,35 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
  * Span Events to Azure envelopes parsing.
  * @internal
  */
-export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelope[] {
+export function spanEventsToEnvelopes(
+  span: ReadableSpan,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope[] {
   const envelopes: Envelope[] = [];
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
       const time = hrTimeToDate(event.time);
-      let name = "";
+      let name: string;
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
+      const measurements = createCustomMeasurements(event.attributes);
+      const measurementFields = Object.keys(measurements).length > 0 ? { measurements } : {};
 
       const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
       const spanId = span.spanContext().spanId;
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+      }
+      const eventSessionId = event.attributes?.[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      const sessionId =
+        typeof eventSessionId === "string"
+          ? eventSessionId
+          : span.attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+      if (typeof sessionId === "string") {
+        tags[KnownContextTagKeys.AiSessionId] = sessionId;
       }
 
       // Only generate exception telemetry for incoming requests
@@ -489,7 +540,8 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "ExceptionData",
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: truncateCustomDimensions(properties),
+          properties: truncateCustomDimensions(properties, increaseGenAiMessageLimit),
+          ...measurementFields,
         };
         baseData = exceptionData;
       } else {
@@ -499,7 +551,8 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "MessageData",
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: truncateCustomDimensions(properties),
+          properties: truncateCustomDimensions(properties, increaseGenAiMessageLimit),
+          ...measurementFields,
         };
         baseData = messageData;
       }
@@ -549,6 +602,10 @@ export function getLocationIp(tags: Tags, attributes: Attributes): void {
       tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
     }
   }
+}
+
+function getDbSystem(attributes: Attributes): AttributeValue | undefined {
+  return attributes[ATTR_DB_SYSTEM_NAME] || attributes[SEMATTRS_DB_SYSTEM];
 }
 
 export function getHttpClientIp(attributes: Attributes): AttributeValue | undefined {

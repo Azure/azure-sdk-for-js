@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post Backup a given CloudEndpoint.
  *
  * @summary post Backup a given CloudEndpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_PostBackup.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_PostBackup.json
  */
 async function cloudEndpointsPostBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

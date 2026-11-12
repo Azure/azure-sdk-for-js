@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listWorkflows,
   getWorkflow,
-  invoke,
   listWorkflowsConnections,
-  deployWorkflowArtifacts,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/logicApps/operations.js";
-import {
+import type {
   LogicAppsListWorkflowsOptionalParams,
   LogicAppsGetWorkflowOptionalParams,
-  LogicAppsInvokeOptionalParams,
   LogicAppsListWorkflowsConnectionsOptionalParams,
-  LogicAppsDeployWorkflowArtifactsOptionalParams,
   LogicAppsDeleteOptionalParams,
   LogicAppsCreateOrUpdateOptionalParams,
   LogicAppsGetOptionalParams,
 } from "../../api/logicApps/options.js";
-import { LogicApp, WorkflowEnvelope, Object, LogicAppsProxyMethod } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LogicApp, WorkflowEnvelope } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LogicApps operations. */
 export interface LogicAppsOperations {
@@ -42,15 +38,6 @@ export interface LogicAppsOperations {
     workflowName: string,
     options?: LogicAppsGetWorkflowOptionalParams,
   ) => Promise<WorkflowEnvelope>;
-  /** Proxies a the API call to the logic app backed by the container app. */
-  invoke: (
-    resourceGroupName: string,
-    containerAppName: string,
-    logicAppName: string,
-    xMsLogicAppsProxyPath: string,
-    xMsLogicAppsProxyMethod: LogicAppsProxyMethod,
-    options?: LogicAppsInvokeOptionalParams,
-  ) => Promise<Object>;
   /** Gets logic app's connections. */
   listWorkflowsConnections: (
     resourceGroupName: string,
@@ -58,13 +45,6 @@ export interface LogicAppsOperations {
     logicAppName: string,
     options?: LogicAppsListWorkflowsConnectionsOptionalParams,
   ) => Promise<WorkflowEnvelope>;
-  /** Creates or updates the artifacts for the logic app */
-  deployWorkflowArtifacts: (
-    resourceGroupName: string,
-    containerAppName: string,
-    logicAppName: string,
-    options?: LogicAppsDeployWorkflowArtifactsOptionalParams,
-  ) => Promise<void>;
   /** Deletes a Logic App extension resource */
   delete: (
     resourceGroupName: string,
@@ -77,7 +57,6 @@ export interface LogicAppsOperations {
     resourceGroupName: string,
     containerAppName: string,
     logicAppName: string,
-    resource: LogicApp,
     options?: LogicAppsCreateOrUpdateOptionalParams,
   ) => Promise<LogicApp>;
   /** Gets a logic app extension resource. */
@@ -112,23 +91,6 @@ function _getLogicApps(context: ContainerAppsAPIContext) {
         workflowName,
         options,
       ),
-    invoke: (
-      resourceGroupName: string,
-      containerAppName: string,
-      logicAppName: string,
-      xMsLogicAppsProxyPath: string,
-      xMsLogicAppsProxyMethod: LogicAppsProxyMethod,
-      options?: LogicAppsInvokeOptionalParams,
-    ) =>
-      invoke(
-        context,
-        resourceGroupName,
-        containerAppName,
-        logicAppName,
-        xMsLogicAppsProxyPath,
-        xMsLogicAppsProxyMethod,
-        options,
-      ),
     listWorkflowsConnections: (
       resourceGroupName: string,
       containerAppName: string,
@@ -136,13 +98,6 @@ function _getLogicApps(context: ContainerAppsAPIContext) {
       options?: LogicAppsListWorkflowsConnectionsOptionalParams,
     ) =>
       listWorkflowsConnections(context, resourceGroupName, containerAppName, logicAppName, options),
-    deployWorkflowArtifacts: (
-      resourceGroupName: string,
-      containerAppName: string,
-      logicAppName: string,
-      options?: LogicAppsDeployWorkflowArtifactsOptionalParams,
-    ) =>
-      deployWorkflowArtifacts(context, resourceGroupName, containerAppName, logicAppName, options),
     delete: (
       resourceGroupName: string,
       containerAppName: string,
@@ -153,10 +108,8 @@ function _getLogicApps(context: ContainerAppsAPIContext) {
       resourceGroupName: string,
       containerAppName: string,
       logicAppName: string,
-      resource: LogicApp,
       options?: LogicAppsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(context, resourceGroupName, containerAppName, logicAppName, resource, options),
+    ) => createOrUpdate(context, resourceGroupName, containerAppName, logicAppName, options),
     get: (
       resourceGroupName: string,
       containerAppName: string,

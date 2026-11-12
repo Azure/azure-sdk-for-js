@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available RP operations.
  *
  * @summary lists all of the available RP operations.
- * x-ms-original-file: 2025-10-02-preview/Operations_List.json
+ * x-ms-original-file: 2026-07-01/Operations_List.json
  */
 async function listAllOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();

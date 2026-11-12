@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { update, list, get } from "./operations.js";
+export { getRPExtendedInfoOperationResult, getRPExtendedInfo, list, get } from "./operations.js";
 export type {
-  RecoveryPointsUpdateOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./options.js";

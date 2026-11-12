@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listByContainerApp,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/containerAppsAuthConfigs/operations.js";
-import {
+import type {
   ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ContainerAppsAuthConfigsDeleteOptionalParams,
   ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ContainerAppsAuthConfigsGetOptionalParams,
 } from "../../api/containerAppsAuthConfigs/options.js";
-import { AuthConfig } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AuthConfig } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerAppsAuthConfigs operations. */
 export interface ContainerAppsAuthConfigsOperations {

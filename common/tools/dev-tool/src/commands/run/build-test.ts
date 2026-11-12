@@ -6,9 +6,10 @@ import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:
 import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { createPrinter } from "../../util/printer.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
-import { spawnSync } from "node:child_process";
+import { spawnSync } from "@azure/core-process";
 
 const log = createPrinter("build-test");
 
@@ -133,15 +134,23 @@ export default leafCommand(commandInfo, async (options) => {
   return true;
 });
 
-async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
+export async function runTypeScript(tsConfig: string): Promise<boolean> {
+  const typeScriptCli = resolveNodeModuleBin("typescript", "tsc", process.cwd());
+  const res = spawnSync(process.execPath, ["--", typeScriptCli, "-b", tsConfig], {
     stdio: "inherit",
-    shell: true,
     cwd: process.cwd(),
   });
 
+  if (res.error) {
+    log.error(`Failed to run the TypeScript compiler for ${tsConfig}: ${res.error.message}`);
+    return false;
+  }
+
   if (res.status || res.signal) {
-    log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
+    const detail = res.signal ? `signal ${res.signal}` : `exit code ${res.status}`;
+    log.error(
+      `TypeScript compilation failed for ${tsConfig} (${detail}). See the tsc errors above.`,
+    );
     return false;
   }
 

@@ -4,36 +4,30 @@
 
 ```ts
 
-// @public
-export type ContentUnderstandingSkillChunkingMethod = string;
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokensCount?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokensCount?: number;
     type: "modelWebSummarization";
 }
 
 // @public
-export enum KnownContentUnderstandingSkillChunkingMethod {
-    FixedSize = "fixedSize",
-    Semantic = "semantic"
-}
+export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedStreamEvent | KnowledgeBaseActivityStartedStreamEvent | KnowledgeBaseActivityCompletedStreamEvent | KnowledgeBaseAnswerCompletedStreamEvent | KnowledgeBaseReferencesCompletedStreamEvent | KnowledgeBaseErrorStreamEvent | KnowledgeBaseResponseCompletedStreamEvent;
 
 // @public
 export enum KnownVersions {
-    V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
-    V20260501Preview = "2026-05-01-preview"
+    V20261001 = "2026-10-01"
 }
 
-// @public
-export interface SharePointConnectorAppRegistration {
-    applicationId: string;
-    federatedCredentialId: string;
-    tenantId?: string;
-}
+// @public (undocumented)
+export type RetrieveStreamResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
 
 // (No @packageDocumentation comment for this package)
 

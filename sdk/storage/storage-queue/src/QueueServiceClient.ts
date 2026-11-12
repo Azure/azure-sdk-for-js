@@ -473,8 +473,7 @@ export class QueueServiceClient extends StorageClient {
       options.prefix = undefined;
     }
 
-    let marker: string | undefined;
-    for await (const segment of this.listSegments(marker, options)) {
+    for await (const segment of this.listSegments(undefined, options)) {
       if (segment.queueItems) {
         yield* segment.queueItems;
       }

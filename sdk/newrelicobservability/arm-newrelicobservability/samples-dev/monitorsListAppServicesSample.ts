@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring
  *
  * @summary lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListAppServices_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListAppServices_MaximumSet_Gen.json
  */
 async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring
  *
  * @summary lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListAppServices_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListAppServices_MinimumSet_Gen.json
  */
 async function monitorsListAppServicesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

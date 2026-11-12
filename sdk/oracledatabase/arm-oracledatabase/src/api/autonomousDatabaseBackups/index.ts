@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByParent, update, $delete, get, createOrUpdate } from "./operations.js";
-export {
-  type AutonomousDatabaseBackupsListByParentOptionalParams,
-  type AutonomousDatabaseBackupsUpdateOptionalParams,
-  type AutonomousDatabaseBackupsDeleteOptionalParams,
-  type AutonomousDatabaseBackupsGetOptionalParams,
-  type AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
+export type {
+  AutonomousDatabaseBackupsListByParentOptionalParams,
+  AutonomousDatabaseBackupsUpdateOptionalParams,
+  AutonomousDatabaseBackupsDeleteOptionalParams,
+  AutonomousDatabaseBackupsGetOptionalParams,
+  AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
 } from "./options.js";

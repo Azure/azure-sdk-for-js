@@ -22,6 +22,8 @@ export interface FirewallPoliciesUpdateTagsOptionalParams extends OperationOptio
 export interface FirewallPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Indicates that the write originates from AFC (Azure Firewall for Containers) and is permitted to modify an AFC-managed Firewall Policy. */
+  afcManagedSync?: boolean;
 }
 
 /** Optional parameters. */

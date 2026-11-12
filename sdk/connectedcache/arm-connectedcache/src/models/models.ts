@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -52,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -135,8 +135,8 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
+export function errorDetailSerializer(_item: ErrorDetail): any {
+  return {};
 }
 
 export function errorDetailDeserializer(item: any): ErrorDetail {
@@ -572,8 +572,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -815,6 +815,8 @@ export interface CacheNodeEntity {
   cidrCsv?: string[];
   /** Cache node resource last Cidr Csv update timestamp */
   readonly cidrCsvLastUpdateTime?: Date;
+  /** Cache node resource Bgp network interface. */
+  bgpNetworkInterface?: string;
   /** Cache node resource last Bgp Cidr Csv update timestamp */
   readonly bgpCidrCsvLastUpdateTime?: Date;
   /** Cache node resource last Bgp report timestamp. */
@@ -863,7 +865,7 @@ export interface CacheNodeEntity {
   readonly imageUri?: string;
   /** FQDN(fully qualified domain name) value of the mcc cache node */
   fullyQualifiedDomainName?: string;
-  /** Auto Update Ring Type which is slow or fast etc. */
+  /** Auto Update Ring Type which is stable or beta as new values. slow or fast are legacy from version 2026-06-01. */
   autoUpdateRingType?: AutoUpdateRingType;
   /** Customer requested week of month for mcc install of auto update cycle. 0 is default no selection. 1-5 are valid weeks of month, 1 is first week, 2 is second week, etc. */
   autoUpdateRequestedWeek?: number;
@@ -871,6 +873,16 @@ export interface CacheNodeEntity {
   autoUpdateRequestedDay?: number;
   /** Customer requested time of the day for mcc install of auto update cycle, should be hh:mm */
   autoUpdateRequestedTime?: string;
+  /** Cache node port firewall rule creation opt-in for port 80 property */
+  openFirewallPort80?: boolean;
+  /** Cache node port firewall rule creation opt-in for port 443 property */
+  openFirewallPort443?: boolean;
+  /** Cache node port firewall rule creation opt-in for port 5000 property */
+  openFirewallPort5000?: boolean;
+  /** Cache node port firewall rule creation opt-in for port 5001 property */
+  openFirewallPort5001?: boolean;
+  /** Connected Cache runtime account type */
+  runtimeAccountType?: string;
 }
 
 export function cacheNodeEntitySerializer(item: CacheNodeEntity): any {
@@ -890,6 +902,7 @@ export function cacheNodeEntitySerializer(item: CacheNodeEntity): any {
       : item["cidrCsv"].map((p: any) => {
           return p;
         }),
+    bgpNetworkInterface: item["bgpNetworkInterface"],
     shouldMigrate: item["shouldMigrate"],
     cidrSelectionType: item["cidrSelectionType"],
     fullyQualifiedDomainName: item["fullyQualifiedDomainName"],
@@ -897,6 +910,11 @@ export function cacheNodeEntitySerializer(item: CacheNodeEntity): any {
     autoUpdateRequestedWeek: item["autoUpdateRequestedWeek"],
     autoUpdateRequestedDay: item["autoUpdateRequestedDay"],
     autoUpdateRequestedTime: item["autoUpdateRequestedTime"],
+    openFirewallPort80: item["openFirewallPort80"],
+    openFirewallPort443: item["openFirewallPort443"],
+    openFirewallPort5000: item["openFirewallPort5000"],
+    openFirewallPort5001: item["openFirewallPort5001"],
+    runtimeAccountType: item["runtimeAccountType"],
   };
 }
 
@@ -936,6 +954,7 @@ export function cacheNodeEntityDeserializer(item: any): CacheNodeEntity {
     cidrCsvLastUpdateTime: !item["cidrCsvLastUpdateTime"]
       ? item["cidrCsvLastUpdateTime"]
       : new Date(item["cidrCsvLastUpdateTime"]),
+    bgpNetworkInterface: item["bgpNetworkInterface"],
     bgpCidrCsvLastUpdateTime: !item["bgpCidrCsvLastUpdateTime"]
       ? item["bgpCidrCsvLastUpdateTime"]
       : new Date(item["bgpCidrCsvLastUpdateTime"]),
@@ -970,6 +989,11 @@ export function cacheNodeEntityDeserializer(item: any): CacheNodeEntity {
     autoUpdateRequestedWeek: item["autoUpdateRequestedWeek"],
     autoUpdateRequestedDay: item["autoUpdateRequestedDay"],
     autoUpdateRequestedTime: item["autoUpdateRequestedTime"],
+    openFirewallPort80: item["openFirewallPort80"],
+    openFirewallPort443: item["openFirewallPort443"],
+    openFirewallPort5000: item["openFirewallPort5000"],
+    openFirewallPort5001: item["openFirewallPort5001"],
+    runtimeAccountType: item["runtimeAccountType"],
   };
 }
 
@@ -1023,6 +1047,10 @@ export enum KnownAutoUpdateRingType {
   Slow = "Slow",
   /** customer selection of fast / auto update to install mcc on their physical vm */
   Fast = "Fast",
+  /** customer selection of stable update to install mcc on their physical vm */
+  Stable = "Stable",
+  /** customer selection of beta update to install mcc on their physical vm */
+  Beta = "Beta",
 }
 
 /**
@@ -1032,7 +1060,9 @@ export enum KnownAutoUpdateRingType {
  * ### Known values supported by the service
  * **Preview**: customer selection of preview update install mcc on their physical vm \
  * **Slow**: customer selection of slow update to install mcc on their physical vm \
- * **Fast**: customer selection of fast \/ auto update to install mcc on their physical vm
+ * **Fast**: customer selection of fast \/ auto update to install mcc on their physical vm \
+ * **Stable**: customer selection of stable update to install mcc on their physical vm \
+ * **Beta**: customer selection of beta update to install mcc on their physical vm
  */
 export type AutoUpdateRingType = string;
 
@@ -1098,6 +1128,30 @@ export interface AdditionalCacheNodeProperties {
   creationMethod?: number;
   /** Cache node tls certificate status. */
   readonly tlsStatus?: string;
+  /** Operating system edition of the cache node host machine */
+  readonly hostOsEdition?: string;
+  /** Operating system version of the cache node host machine */
+  readonly hostOsVersion?: string;
+  /** Operating system build of the cache node host machine */
+  readonly hostOsBuild?: string;
+  /** Operating system edition of the WSL Linux distribution used to run the cache node on Windows host machines */
+  readonly distroOsEditionWsl?: string;
+  /** Operating system version of the WSL Linux distribution used to run the cache node on Windows host machines */
+  readonly distroOsVersionWsl?: string;
+  /** Operating system build of the WSL Linux distribution used to run the cache node on Windows host machines */
+  readonly distroOsBuildWsl?: string;
+  /** Operating system edition of container used to run the cache node */
+  readonly containerOsEdition?: string;
+  /** Operating system version of the container used to run the cache node */
+  readonly containerOsVersion?: string;
+  /** Operating system build of the container used to run the cache node */
+  readonly containerOsBuild?: string;
+  /** Version of the Windows deployment application used to deploy the cache node */
+  readonly installVersionMsix?: string;
+  /** Version of the installation scripts used to deploy the cache node */
+  readonly installVersionScript?: string;
+  /** Version of the Windows Subsystem for Linux application version used to run the cache node on the Windows host machine */
+  readonly appVersionWsl?: string;
   /** Optional property #1 of Mcc response object */
   optionalProperty1?: string;
   /** Optional property #2 of Mcc response object */
@@ -1202,6 +1256,18 @@ export function additionalCacheNodePropertiesDeserializer(
       : new Date(item["autoUpdateLastTriggeredDateTime"]),
     creationMethod: item["creationMethod"],
     tlsStatus: item["tlsStatus"],
+    hostOsEdition: item["hostOsEdition"],
+    hostOsVersion: item["hostOsVersion"],
+    hostOsBuild: item["hostOsBuild"],
+    distroOsEditionWsl: item["distroOsEditionWsl"],
+    distroOsVersionWsl: item["distroOsVersionWsl"],
+    distroOsBuildWsl: item["distroOsBuildWsl"],
+    containerOsEdition: item["containerOsEdition"],
+    containerOsVersion: item["containerOsVersion"],
+    containerOsBuild: item["containerOsBuild"],
+    installVersionMsix: item["installVersionMsix"],
+    installVersionScript: item["installVersionScript"],
+    appVersionWsl: item["appVersionWsl"],
     optionalProperty1: item["optionalProperty1"],
     optionalProperty2: item["optionalProperty2"],
     optionalProperty3: item["optionalProperty3"],
@@ -1216,6 +1282,8 @@ export interface MccCacheNodeTlsCertificate {
   readonly actionRequired?: string;
   /** Mcc cache node Tls certificate file name. */
   readonly certificateFileName?: string;
+  /** Mcc cache node Tls certificate Type. */
+  readonly certType?: string;
   /** Mcc cache node Tls certificate thumbprint. */
   readonly thumbprint?: string;
   /** Mcc cache node Tls certificate expiry date. */
@@ -1232,6 +1300,7 @@ export function mccCacheNodeTlsCertificateDeserializer(item: any): MccCacheNodeT
   return {
     actionRequired: item["actionRequired"],
     certificateFileName: item["certificateFileName"],
+    certType: item["certType"],
     thumbprint: item["thumbprint"],
     expiryDate: !item["expiryDate"] ? item["expiryDate"] : new Date(item["expiryDate"]),
     notBeforeDate: !item["notBeforeDate"] ? item["notBeforeDate"] : new Date(item["notBeforeDate"]),
@@ -1888,8 +1957,6 @@ export function mccCacheNodeTlsCertificateArrayDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** Microsoft Connected Cache Rest Api version 2023-05-01-preview */
-  V20230501Preview = "2023-05-01-preview",
-  /** Microsoft Connected Cache Rest Api version 2024-11-30-preview */
-  V20241130Preview = "2024-11-30-preview",
+  /** Microsoft Connected Cache Rest Api version 2026-06-01 */
+  V20260601 = "2026-06-01",
 }

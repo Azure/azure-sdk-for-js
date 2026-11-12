@@ -21,14 +21,12 @@ export interface MarketplaceAgreementsOperations {
     options?: MarketplaceAgreementsListOptionalParams,
   ) => PagedAsyncIterableIterator<ConfluentAgreementResource>;
 }
-
 function _getMarketplaceAgreements(context: ConfluentManagementContext) {
   return {
     create: (options?: MarketplaceAgreementsCreateOptionalParams) => create(context, options),
     list: (options?: MarketplaceAgreementsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getMarketplaceAgreementsOperations(
   context: ConfluentManagementContext,
 ): MarketplaceAgreementsOperations {

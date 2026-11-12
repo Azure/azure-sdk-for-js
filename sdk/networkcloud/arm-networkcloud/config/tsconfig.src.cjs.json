@@ -1,6 +1,33 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/metricsConfigurations/index.ts",
+    "../src/api/consoles/index.ts",
+    "../src/api/kubernetesClusterFeatures/index.ts",
+    "../src/api/agentPools/index.ts",
+    "../src/api/bmcKeySets/index.ts",
+    "../src/api/bareMetalMachineKeySets/index.ts",
+    "../src/api/volumes/index.ts",
+    "../src/api/virtualMachines/index.ts",
+    "../src/api/trunkedNetworks/index.ts",
+    "../src/api/storageAppliances/index.ts",
+    "../src/api/racks/index.ts",
+    "../src/api/rackSkus/index.ts",
+    "../src/api/l3Networks/index.ts",
+    "../src/api/l2Networks/index.ts",
+    "../src/api/kubernetesVersions/index.ts",
+    "../src/api/kubernetesClusters/index.ts",
+    "../src/api/clusters/index.ts",
+    "../src/api/clusterManagers/index.ts",
+    "../src/api/cloudServicesNetworks/index.ts",
+    "../src/api/bareMetalMachines/index.ts",
+    "../src/api/accessBridges/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

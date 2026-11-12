@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get workflow information by its name
  *
  * @summary get workflow information by its name
- * x-ms-original-file: 2025-10-02-preview/LogicApps_GetWorkflow.json
+ * x-ms-original-file: 2026-07-01/LogicApps_GetWorkflow.json
  */
 async function getAWorkflow(): Promise<void> {
   const credential = new DefaultAzureCredential();

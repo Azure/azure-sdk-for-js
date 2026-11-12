@@ -47,14 +47,7 @@ export class DiscoveryClient {
     subscriptionId: string,
     options: DiscoveryClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDiscovery(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDiscovery(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.storageContainers = _getStorageContainersOperations(this._client);
     this.storageAssets = _getStorageAssetsOperations(this._client);

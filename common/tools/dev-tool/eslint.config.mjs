@@ -1,4 +1,5 @@
 import eslint from "@eslint/js";
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 import typescriptEsLint from "typescript-eslint";
 
 export default typescriptEsLint.config(
@@ -21,6 +22,15 @@ export default typescriptEsLint.config(
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/consistent-type-imports": "error",
+    },
+  },
+  {
+    files: ["src/**/*.ts", "dtx.ts"],
+    plugins: {
+      "@azure/azure-sdk": azsdkEslint,
+    },
+    rules: {
+      "@azure/azure-sdk/ts-no-direct-child-process": "error",
     },
   },
 );

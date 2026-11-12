@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_AggregatorOrSingleRackDefinition.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_AggregatorOrSingleRackDefinition.json
  */
 async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_AnalyticsOutput.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_AnalyticsOutput.json
  */
 async function patchClusterAnalyticsOutput(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -99,7 +99,7 @@ async function patchClusterAnalyticsOutput(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_CommandOutput.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_CommandOutput.json
  */
 async function patchClusterCommandOutput(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -145,7 +145,7 @@ async function patchClusterCommandOutput(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_Location.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_Location.json
  */
 async function patchClusterLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -164,7 +164,7 @@ async function patchClusterLocation(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_RuntimeProtectionConfiguration.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_RuntimeProtectionConfiguration.json
  */
 async function patchRuntimeProtectionConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -186,7 +186,7 @@ async function patchRuntimeProtectionConfiguration(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_SecretArchive.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_SecretArchive.json
  */
 async function patchSecretArchive(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -212,7 +212,7 @@ async function patchSecretArchive(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_UpdateStrategy.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_UpdateStrategy.json
  */
 async function patchUpdateStrategy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -237,7 +237,7 @@ async function patchUpdateStrategy(): Promise<void> {
  * This sample demonstrates how to patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/Clusters_Patch_VulnerabilityScanning.json
+ * x-ms-original-file: 2026-07-01/Clusters_Patch_VulnerabilityScanning.json
  */
 async function patchVulnerabilityScanning(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -65,10 +65,10 @@ export interface CertificateListDescription {
 // @public
 export interface CertificateProperties {
     certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -77,10 +77,10 @@ export interface CertificateProperties {
 // @public
 export interface CertificatePropertiesWithNonce {
     readonly certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     readonly isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -144,6 +144,9 @@ export interface CloudToDeviceProperties {
 }
 
 // @public
+export type ConnectionProfile = string;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -156,9 +159,30 @@ export type DefaultAction = string;
 
 // @public
 export interface DeviceRegistry {
-    identityResourceId?: string;
+    dataPlaneHostName?: string;
+    identity?: DeviceRegistryIdentity;
+    readonly linkingProperties?: DeviceRegistryLinkingProperties;
     namespaceResourceId?: string;
+    namespaceUuid?: string;
 }
+
+// @public
+export interface DeviceRegistryIdentity {
+    type?: DeviceRegistryIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type DeviceRegistryIdentityType = string;
+
+// @public
+export interface DeviceRegistryLinkingProperties {
+    readonly error?: ErrorDetails;
+    readonly state?: DeviceRegistryLinkingState;
+}
+
+// @public
+export type DeviceRegistryLinkingState = string;
 
 // @public
 export interface EncryptionPropertiesDescription {
@@ -218,6 +242,9 @@ export interface EventHubProperties {
     readonly path?: string;
     retentionTimeInDays?: number;
 }
+
+// @public
+export type EventStreamAuthenticationType = string;
 
 // @public
 export interface ExportDevicesRequest {
@@ -358,8 +385,9 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    connectionProfile?: ConnectionProfile;
     readonly deviceHostName?: string;
-    deviceRegistry?: DeviceRegistry;
+    readonly deviceRegistry?: DeviceRegistry;
     deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
@@ -376,6 +404,7 @@ export interface IotHubProperties {
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: Record<string, MessagingEndpointProperties>;
     minTlsVersion?: string;
+    mqttV5Settings?: MqttV5Settings;
     networkRuleSets?: NetworkRuleSetProperties;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
@@ -559,7 +588,7 @@ export interface IotHubSkuInfo {
 }
 
 // @public
-export type IotHubSkuTier = "Free" | "Standard" | "Basic" | "Generation2";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
 // @public
 export type IpFilterActionType = "Accept" | "Reject";
@@ -613,6 +642,12 @@ export enum KnownCapabilities {
 }
 
 // @public
+export enum KnownConnectionProfile {
+    Classic = "Classic",
+    MqttV5 = "MqttV5"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -627,12 +662,31 @@ export enum KnownDefaultAction {
 }
 
 // @public
+export enum KnownDeviceRegistryIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownDeviceRegistryLinkingState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Orphaned = "Orphaned",
+    Success = "Success"
+}
+
+// @public
 export enum KnownEndpointHealthStatus {
     Dead = "dead",
     Degraded = "degraded",
     Healthy = "healthy",
     Unhealthy = "unhealthy",
     Unknown = "unknown"
+}
+
+// @public
+export enum KnownEventStreamAuthenticationType {
+    IdentityBased = "identityBased"
 }
 
 // @public
@@ -653,7 +707,6 @@ export enum KnownIotHubSku {
     B2 = "B2",
     B3 = "B3",
     F1 = "F1",
-    GEN2 = "GEN2",
     S1 = "S1",
     S2 = "S2",
     S3 = "S3"
@@ -678,6 +731,12 @@ export enum KnownJobType {
     Unknown = "unknown",
     UpdateDeviceConfiguration = "updateDeviceConfiguration",
     WriteDeviceProperties = "writeDeviceProperties"
+}
+
+// @public
+export enum KnownMessagePayloadFormat {
+    DOObservationV1 = "DOObservationV1",
+    None = "None"
 }
 
 // @public
@@ -733,7 +792,9 @@ export enum KnownTestResultStatus {
 
 // @public
 export enum KnownVersions {
-    V20260301Preview = "2026-03-01-preview"
+    V20260301Preview = "2026-03-01-preview",
+    V20260501Preview = "2026-05-01-preview",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
@@ -747,10 +808,18 @@ export interface MatchedRoute {
 }
 
 // @public
+export type MessagePayloadFormat = string;
+
+// @public
 export interface MessagingEndpointProperties {
     lockDurationAsIso8601?: string;
     maxDeliveryCount?: number;
     ttlAsIso8601?: string;
+}
+
+// @public
+export interface MqttV5Settings {
+    topicGroups?: TopicGroup[];
 }
 
 // @public
@@ -972,6 +1041,7 @@ export type RouteErrorSeverity = string;
 // @public
 export interface RouteProperties {
     condition?: string;
+    dataSchema?: string;
     endpointNames: string[];
     isEnabled: boolean;
     name: string;
@@ -986,6 +1056,7 @@ export interface RoutingCosmosDBSqlApiProperties {
     endpointUri: string;
     readonly id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     partitionKeyName?: string;
     partitionKeyTemplate?: string;
@@ -999,6 +1070,7 @@ export interface RoutingCosmosDBSqlApiProperties {
 export interface RoutingEndpoints {
     cosmosDBSqlContainers?: RoutingCosmosDBSqlApiProperties[];
     eventHubs?: RoutingEventHubProperties[];
+    eventStreams?: RoutingEventStreamProperties[];
     serviceBusQueues?: RoutingServiceBusQueueEndpointProperties[];
     serviceBusTopics?: RoutingServiceBusTopicEndpointProperties[];
     storageContainers?: RoutingStorageContainerProperties[];
@@ -1012,9 +1084,24 @@ export interface RoutingEventHubProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
+}
+
+// @public
+export interface RoutingEventStreamProperties {
+    authenticationType?: EventStreamAuthenticationType;
+    endpointUri: string;
+    entityPath: string;
+    eventStreamId?: string;
+    readonly id?: string;
+    identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
+    name: string;
+    sourceId?: string;
+    workspaceId?: string;
 }
 
 // @public
@@ -1040,6 +1127,7 @@ export interface RoutingServiceBusQueueEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1053,6 +1141,7 @@ export interface RoutingServiceBusTopicEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1073,6 +1162,7 @@ export interface RoutingStorageContainerProperties {
     id?: string;
     identity?: ManagedIdentity;
     maxChunkSizeInBytes?: number;
+    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1085,13 +1175,13 @@ export type RoutingStorageContainerPropertiesEncoding = string;
 export interface RoutingTwin {
     // (undocumented)
     properties?: RoutingTwinProperties;
-    tags?: any;
+    tags?: Record<string, any>;
 }
 
 // @public
 export interface RoutingTwinProperties {
-    desired?: any;
-    reported?: any;
+    desired?: Record<string, any>;
+    reported?: Record<string, any>;
 }
 
 // @public
@@ -1179,6 +1269,12 @@ export interface TestRouteResult {
 // @public
 export interface TestRouteResultDetails {
     compilationErrors?: RouteCompilationError[];
+}
+
+// @public
+export interface TopicGroup {
+    topicGroupId?: string;
+    topicTemplates?: string[];
 }
 
 // @public

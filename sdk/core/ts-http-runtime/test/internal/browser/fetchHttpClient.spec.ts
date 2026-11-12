@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "../../../src/fetchHttpClient.js";
-import { createPipelineRequest, createHttpHeaders, AbortError } from "../../../src/index.js";
+import {
+  createPipelineRequest,
+  createHttpHeaders,
+  AbortError,
+  RestError,
+  isRestError,
+} from "../../../src/index.js";
+import { systemErrorRetryPolicy } from "../../../src/policies/internal.js";
 import { png } from "./mocks/encodedPng.js";
 import { delay } from "../../../src/util/helpers.js";
 import { arrayBufferViewToArrayBuffer } from "../../../src/util/arrayBuffer.js";
+import { logger } from "../../../src/log.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -63,6 +71,171 @@ describe("FetchHttpClient", function () {
       vi.useRealTimers();
     }
   });
+
+  it("rejects the Expect header before calling fetch", async function () {
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({
+      url: "https://localhost/upload",
+      headers: createHttpHeaders({ Expect: "100-continue" }),
+    });
+
+    await expect(client.sendRequest(request)).rejects.toThrow(
+      "The Expect header is not supported by the Fetch HttpClient.",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { format: "object", createHeaders: () => ({ eXpEcT: "100-continue" }) },
+    { format: "Headers", createHeaders: () => new Headers({ Expect: "100-continue" }) },
+    { format: "Map", createHeaders: () => new Map([["Expect", "100-continue"]]) },
+    { format: "pair array", createHeaders: () => [["Expect", "100-continue"]] },
+    {
+      format: "generator",
+      createHeaders: function* (): Generator<[string, string]> {
+        yield ["Expect", "100-continue"];
+      },
+    },
+  ])("rejects Expect supplied through $format header overrides", async ({ createHeaders }) => {
+    const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+    const request = createPipelineRequest({
+      url: "https://localhost/upload",
+      body: bodyFactory,
+      requestOverrides: { headers: createHeaders() },
+    });
+
+    await expect(createFetchHttpClient().sendRequest(request)).rejects.toThrow(
+      "The Expect header is not supported by the Fetch HttpClient.",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+    expect(bodyFactory).not.toHaveBeenCalled();
+  });
+
+  it("uses replacement Map headers instead of discarded pipeline headers", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    const overrideHeaders = new Map([["X-Test", "override"]]);
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue", "X-Pipeline": "discarded" }),
+      requestOverrides: { headers: overrideHeaders },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([["x-test", "override"]]);
+    expect(request.requestOverrides?.headers).toBe(overrideHeaders);
+  });
+
+  it("normalizes one-shot header iterators once and reuses them for sending", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    let iterations = 0;
+    function* headerPairs(): Generator<[string, string]> {
+      iterations++;
+      yield ["X-Test", "first"];
+      yield ["x-test", "second"];
+      yield ["X-Other", "value"];
+    }
+    const overrideHeaders = headerPairs();
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue", "X-Pipeline": "discarded" }),
+      requestOverrides: { headers: overrideHeaders },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([
+      ["x-other", "value"],
+      ["x-test", "first, second"],
+    ]);
+    expect(iterations).toBe(1);
+    expect(overrideHeaders.next().done).toBe(true);
+    expect(request.requestOverrides?.headers).toBe(overrideHeaders);
+  });
+
+  it("honors explicitly undefined header overrides", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue" }),
+      requestOverrides: { headers: undefined },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([]);
+  });
+
+  it.each([
+    { format: "null", headers: null },
+    { format: "invalid name", headers: { "invalid name": "value" } },
+    { format: "invalid value", headers: { "x-test": "line\r\nvalue" } },
+    { format: "invalid pair", headers: [["name-without-value"]] },
+    {
+      format: "throwing iterator",
+      headers: (function* (): Generator<[string, string]> {
+        yield ["x-test", "value"];
+        throw new Error("header iteration failed");
+      })(),
+    },
+  ])(
+    "normalizes $format header override errors before creating a body or calling fetch",
+    async ({ headers }) => {
+      const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+      const request = createPipelineRequest({
+        url: "https://localhost/headers",
+        body: bodyFactory,
+        requestOverrides: { headers },
+      });
+
+      const promise = createFetchHttpClient().sendRequest(request);
+      await expect(promise).rejects.toBeInstanceOf(RestError);
+      await expect(promise).rejects.toMatchObject({
+        code: RestError.REQUEST_SEND_ERROR,
+        message: expect.stringContaining("Error sending request: "),
+        request,
+      });
+      expect(fetch).not.toHaveBeenCalled();
+      expect(bodyFactory).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([false, true])(
+    "normalizes invalid pipeline headers before checking Expect (hasExpect=%s)",
+    async (hasExpect) => {
+      const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+      const controller = new AbortController();
+      const addEventListener = vi.spyOn(controller.signal, "addEventListener");
+      const headers = createHttpHeaders({ "invalid name": "value" });
+      if (hasExpect) {
+        headers.set("Expect", "100-continue");
+      }
+      const request = createPipelineRequest({
+        url: "https://localhost/headers",
+        headers,
+        body: bodyFactory,
+        abortSignal: controller.signal,
+      });
+
+      const promise = createFetchHttpClient().sendRequest(request);
+
+      await expect(promise).rejects.toBeInstanceOf(RestError);
+      await expect(promise).rejects.toMatchObject({
+        code: RestError.REQUEST_SEND_ERROR,
+        message: expect.stringContaining("Error sending request: "),
+        request,
+      });
+      expect(fetch).not.toHaveBeenCalled();
+      expect(bodyFactory).not.toHaveBeenCalled();
+      expect(addEventListener).not.toHaveBeenCalled();
+    },
+  );
 
   it("shouldn't throw on 404", async function () {
     const mockedResponse = createResponse(404);
@@ -174,6 +347,461 @@ describe("FetchHttpClient", function () {
     assert.strictEqual(response.status, 200);
   });
 
+  it("removes the abort listener from the signal used for the request", async function () {
+    const controller = new AbortController();
+    const addEventListener = vi.spyOn(controller.signal, "addEventListener");
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const request = createPipelineRequest({
+      url: "https://localhost/abort-cleanup",
+      abortSignal: controller.signal,
+    });
+    vi.mocked(fetch).mockImplementation(async () => {
+      request.abortSignal = new AbortController().signal;
+      return createResponse(200);
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const abortListener = addEventListener.mock.calls.find(([event]) => event === "abort")?.[1];
+    expect(abortListener).toBeDefined();
+    expect(removeEventListener).toHaveBeenCalledWith("abort", abortListener);
+  });
+
+  it("removes the abort listener when a browser response stream is canceled", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseBody = new ReadableStream({
+      pull(): void {
+        // Keep the response pending until the caller cancels it.
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/cancel-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    expect(removeEventListener).not.toHaveBeenCalled();
+    await response.browserStreamBody?.cancel();
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("removes the abort listener when a browser response stream errors", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const responseBody = new ReadableStream({
+      pull(streamController) {
+        streamController.error(new Error("response failed"));
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/error-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    await expect(reader.read()).rejects.toThrow("response failed");
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it.each([false, true])(
+    "removes the abort listener when reading a buffered response fails (fallback=%s)",
+    async function (fallback) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const responseBody = new ReadableStream<Uint8Array>({
+        pull(streamController) {
+          streamController.error(new Error("response failed"));
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const request = createPipelineRequest({
+        url: "https://localhost/error-buffered",
+        abortSignal: controller.signal,
+      });
+
+      await expect(createFetchHttpClient().sendRequest(request)).rejects.toMatchObject({
+        name: "RestError",
+        code: RestError.REQUEST_SEND_ERROR,
+      });
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    },
+  );
+
+  it("removes the abort listener when a streamed response has no body", async function () {
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/empty-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    expect(response.browserStreamBody).toBeUndefined();
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
+  it("cleans up an errored browser response without reading ahead", async function () {
+    let streamController!: ReadableStreamDefaultController<Uint8Array>;
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        streamController = controller;
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const request = createPipelineRequest({
+      url: "https://localhost/unread-error-stream",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+
+    streamController.error(new Error("response failed"));
+    await delay(0);
+    expect(removeEventListener).toHaveBeenCalledOnce();
+    const reader = response.browserStreamBody!.getReader();
+    await expect(reader.read()).rejects.toThrow("response failed");
+    reader.releaseLock();
+  });
+
+  it.each([
+    { fallback: false, abort: false, queued: false },
+    { fallback: false, abort: true, queued: false },
+    { fallback: true, abort: false, queued: false },
+    { fallback: true, abort: true, queued: false },
+    { fallback: false, abort: false, queued: true },
+    { fallback: false, abort: true, queued: true },
+    { fallback: true, abort: false, queued: true },
+    { fallback: true, abort: true, queued: true },
+  ])(
+    "rejects browser reader.closed without a pending read on upstream failure (fallback=$fallback, abort=$abort, queued=$queued)",
+    async function ({ fallback, abort, queued }) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      let streamController!: ReadableStreamDefaultController<Uint8Array>;
+      const responseBody = new ReadableStream<Uint8Array>({
+        start(controller) {
+          streamController = controller;
+        },
+      });
+      const failure = abort ? new AbortError() : new Error("response failed");
+      vi.mocked(fetch).mockImplementation(async (_url, options) => {
+        options?.signal?.addEventListener("abort", () => streamController.error(failure), {
+          once: true,
+        });
+        return new Response(responseBody);
+      });
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const onDownloadProgress = vi.fn();
+      const request = createPipelineRequest({
+        url: "https://localhost/unread-closed-error",
+        abortSignal: controller.signal,
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+        onDownloadProgress,
+      });
+      const response = await createFetchHttpClient().sendRequest(request);
+      const reader = response.browserStreamBody!.getReader();
+      const onClosed = vi.fn();
+      const onError = vi.fn();
+      void reader.closed.then(onClosed, onError);
+
+      try {
+        if (queued) {
+          streamController.enqueue(Uint8Array.of(1));
+          await delay(0);
+        }
+        if (abort) controller.abort();
+        else streamController.error(failure);
+        await delay(0);
+
+        expect(onError).toHaveBeenCalledExactlyOnceWith(failure);
+        expect(onClosed).not.toHaveBeenCalled();
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(onDownloadProgress).not.toHaveBeenCalled();
+        await expect(reader.read()).rejects.toBe(failure);
+      } finally {
+        await reader.cancel().then(
+          () => undefined,
+          (error: unknown) => expect(error).toBe(failure),
+        );
+        reader.releaseLock();
+      }
+    },
+  );
+
+  it.each([
+    { fallback: false, completion: "empty" },
+    { fallback: true, completion: "empty" },
+    { fallback: false, completion: "before final read" },
+    { fallback: true, completion: "before final read" },
+    { fallback: false, completion: "after final read" },
+    { fallback: true, completion: "after final read" },
+  ])(
+    "resolves browser reader.closed without an extra read (fallback=$fallback, completion=$completion)",
+    async function ({ fallback, completion }) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      const chunk = Uint8Array.of(1, 2, 3);
+      let streamController!: ReadableStreamDefaultController<Uint8Array>;
+      const responseBody = new ReadableStream<Uint8Array>({
+        start(controller) {
+          streamController = controller;
+          if (completion !== "empty") controller.enqueue(chunk);
+          if (completion !== "after final read") controller.close();
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const controller = new AbortController();
+      const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+      const response = await createFetchHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://localhost/unread-closed-success",
+          abortSignal: controller.signal,
+          enableBrowserStreams: true,
+          streamResponseStatusCodes: new Set([200]),
+        }),
+      );
+      const reader = response.browserStreamBody!.getReader();
+      const onClosed = vi.fn();
+      const onError = vi.fn();
+      void reader.closed.then(onClosed, onError);
+
+      try {
+        if (completion !== "empty") {
+          expect(await reader.read()).toEqual({ value: chunk, done: false });
+        }
+        if (completion === "after final read") streamController.close();
+        await delay(0);
+
+        expect(onClosed).toHaveBeenCalledExactlyOnceWith(undefined);
+        expect(onError).not.toHaveBeenCalled();
+        expect(removeEventListener).toHaveBeenCalledOnce();
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        await reader.cancel();
+        reader.releaseLock();
+      }
+    },
+  );
+
+  it.each([false, true])(
+    "resolves browser reader.closed when canceled without reading (fallback=%s)",
+    async function (fallback) {
+      if (fallback) vi.stubGlobal("TransformStream", undefined);
+      vi.mocked(fetch).mockResolvedValue(new Response(new ReadableStream<Uint8Array>()));
+      const response = await createFetchHttpClient().sendRequest(
+        createPipelineRequest({
+          url: "https://localhost/unread-closed-cancel",
+          enableBrowserStreams: true,
+          streamResponseStatusCodes: new Set([200]),
+        }),
+      );
+      const reader = response.browserStreamBody!.getReader();
+      const closed = reader.closed;
+
+      await reader.cancel();
+
+      await expect(closed).resolves.toBeUndefined();
+      reader.releaseLock();
+    },
+  );
+
+  it("cancels the source while a browser read is pending", async function () {
+    let resolvePull!: () => void;
+    const pulling = new Promise<void>((resolve) => {
+      resolvePull = resolve;
+    });
+    const cancel = vi.fn();
+    const responseBody = new ReadableStream<Uint8Array>(
+      {
+        pull() {
+          resolvePull();
+        },
+        cancel(reason: unknown) {
+          cancel(reason);
+        },
+      },
+      { highWaterMark: 0 },
+    );
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const response = await createFetchHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://localhost/pending-read-cancel",
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+      }),
+    );
+    const reader = response.browserStreamBody!.getReader();
+    const closed = expect(reader.closed).resolves.toBeUndefined();
+    const pending = reader.read();
+    await pulling;
+
+    await reader.cancel("stop");
+
+    expect(await pending).toEqual({ value: undefined, done: true });
+    await closed;
+    expect(cancel).toHaveBeenCalledExactlyOnceWith("stop");
+    expect(responseBody.locked).toBe(false);
+    reader.releaseLock();
+  });
+
+  it("cancels the source when browser download progress reporting throws", async function () {
+    const cancel = vi.fn();
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(Uint8Array.of(1));
+      },
+      cancel(reason: unknown) {
+        cancel(reason);
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const failure = new Error("progress failed");
+    const response = await createFetchHttpClient().sendRequest(
+      createPipelineRequest({
+        url: "https://localhost/progress-error",
+        enableBrowserStreams: true,
+        streamResponseStatusCodes: new Set([200]),
+        onDownloadProgress: () => {
+          throw failure;
+        },
+      }),
+    );
+    const reader = response.browserStreamBody!.getReader();
+    const closed = expect(reader.closed).rejects.toBe(failure);
+
+    await expect(reader.read()).rejects.toBe(failure);
+    await closed;
+    await delay(0);
+
+    expect(cancel).toHaveBeenCalledExactlyOnceWith(failure);
+    expect(responseBody.locked).toBe(false);
+    reader.releaseLock();
+  });
+
+  it.each([false, true])(
+    "does not cancel or warn on a failed source read (delayedClosed=%s)",
+    async function (delayedClosed) {
+      const failure = new Error("source failed");
+      const responseBody = new ReadableStream<Uint8Array>(
+        {
+          pull(controller) {
+            controller.error(failure);
+          },
+        },
+        { highWaterMark: 0 },
+      );
+      const response = new Response(responseBody);
+      const getReader = responseBody.getReader.bind(responseBody);
+      let cancellations = 0;
+      vi.spyOn(responseBody, "getReader").mockImplementation(() => {
+        const reader = getReader();
+        const cancel = reader.cancel.bind(reader);
+        vi.spyOn(reader, "cancel").mockImplementation((reason) => {
+          cancellations++;
+          return cancel(reason);
+        });
+        if (delayedClosed) {
+          // Exercise read failure independently of the closed-notification ordering.
+          Object.defineProperty(reader, "closed", { value: reader.closed.then(() => undefined) });
+        }
+        return reader;
+      });
+      vi.mocked(fetch).mockResolvedValue(response);
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+
+      try {
+        const result = await createFetchHttpClient().sendRequest(
+          createPipelineRequest({
+            url: "https://localhost/read-failure-cleanup",
+            enableBrowserStreams: true,
+            streamResponseStatusCodes: new Set([200]),
+          }),
+        );
+        reader = result.browserStreamBody!.getReader();
+
+        await expect(reader.read()).rejects.toBe(failure);
+        await delay(0);
+
+        expect(cancellations).toBe(0);
+        expect(warning).not.toHaveBeenCalled();
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        reader?.releaseLock();
+        warning.mockRestore();
+      }
+    },
+  );
+
+  it.each(["progress", "null chunk"])(
+    "logs a cancellation failure without replacing the original outcome (%s)",
+    async function (cause) {
+      const failure = new Error("progress failed");
+      const cancelFailure = new Error("cancel failed");
+      const responseBody = new ReadableStream<Uint8Array | null>({
+        start(controller) {
+          controller.enqueue(cause === "progress" ? Uint8Array.of(1) : null);
+        },
+        cancel() {
+          return Promise.reject(cancelFailure);
+        },
+      });
+      vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+      const warning = vi.spyOn(logger, "warning").mockImplementation(() => {});
+      let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+
+      try {
+        const response = await createFetchHttpClient().sendRequest(
+          createPipelineRequest({
+            url: "https://localhost/cancel-failure",
+            enableBrowserStreams: true,
+            streamResponseStatusCodes: new Set([200]),
+            onDownloadProgress: () => {
+              throw failure;
+            },
+          }),
+        );
+        reader = response.browserStreamBody!.getReader();
+        if (cause === "progress") {
+          const closed = expect(reader.closed).rejects.toBe(failure);
+          await expect(reader.read()).rejects.toBe(failure);
+          await closed;
+        } else {
+          expect(await reader.read()).toEqual({ value: undefined, done: true });
+          await expect(reader.closed).resolves.toBeUndefined();
+        }
+        await delay(0);
+
+        expect(warning).toHaveBeenCalledExactlyOnceWith(
+          "Error canceling body stream",
+          cancelFailure,
+        );
+        expect(responseBody.locked).toBe(false);
+      } finally {
+        reader?.releaseLock();
+        warning.mockRestore();
+      }
+    },
+  );
+
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });
@@ -247,6 +875,66 @@ describe("FetchHttpClient", function () {
     const response = await client.sendRequest(request);
     assert.isDefined(response.bodyAsText);
     assert.isTrue(downloadCalled, "no download progress");
+  });
+
+  it("does not prefetch browser response chunks ahead of the reader", async function () {
+    const responseBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(Uint8Array.of(1));
+        controller.enqueue(Uint8Array.of(2));
+        controller.enqueue(Uint8Array.of(3));
+        controller.close();
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const onDownloadProgress = vi.fn();
+    const request = createPipelineRequest({
+      url: "https://localhost/backpressure",
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress,
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    try {
+      await delay(0);
+      expect(onDownloadProgress).not.toHaveBeenCalled();
+      expect(await reader.read()).toEqual({ done: false, value: Uint8Array.of(1) });
+      await delay(0);
+      expect(onDownloadProgress).toHaveBeenCalledExactlyOnceWith({ loadedBytes: 1 });
+    } finally {
+      await reader.cancel();
+    }
+  });
+
+  it("treats a null browser stream chunk as completion", async function () {
+    const responseBody = new ReadableStream<Uint8Array | null>({
+      start(controller) {
+        controller.enqueue(null);
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody));
+    const controller = new AbortController();
+    const removeEventListener = vi.spyOn(controller.signal, "removeEventListener");
+    const onDownloadProgress = vi.fn();
+    const request = createPipelineRequest({
+      url: "https://localhost/null-chunk",
+      abortSignal: controller.signal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+      onDownloadProgress,
+    });
+    const response = await createFetchHttpClient().sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    try {
+      expect(await reader.read()).toEqual({ done: true, value: undefined });
+      expect(onDownloadProgress).not.toHaveBeenCalled();
+      expect(removeEventListener).toHaveBeenCalledOnce();
+    } finally {
+      await reader.cancel();
+    }
   });
 
   it("should report download progress and decode chunks without TransformStream", async function () {
@@ -512,6 +1200,50 @@ describe("FetchHttpClient", function () {
     });
     const response = await client.sendRequest(request);
     assert.strictEqual(response.status, 200);
+  });
+
+  it("should surface the system error code carried by the cause of a failed fetch", async function () {
+    // Native fetch implementations such as undici throw a TypeError whose errno lives on the cause
+    const cause = Object.assign(new Error("read ECONNRESET"), { code: "ECONNRESET" });
+    vi.mocked(fetch).mockRejectedValue(new TypeError("fetch failed", { cause }));
+
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    try {
+      await client.sendRequest(request);
+      assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.isTrue(isRestError(e));
+      assert.strictEqual(e.code, "ECONNRESET");
+    }
+  });
+
+  it("should fall back to REQUEST_SEND_ERROR when neither the error nor its cause has a code", async function () {
+    vi.mocked(fetch).mockRejectedValue(new TypeError("fetch failed"));
+
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    try {
+      await client.sendRequest(request);
+      assert.fail("Expected await to throw");
+    } catch (e: any) {
+      assert.isTrue(isRestError(e));
+      assert.strictEqual(e.code, RestError.REQUEST_SEND_ERROR);
+    }
+  });
+
+  it("should let systemErrorRetryPolicy retry a fetch failure caused by a system error", async function () {
+    const cause = Object.assign(new Error("read ECONNRESET"), { code: "ECONNRESET" });
+    vi.mocked(fetch)
+      .mockRejectedValueOnce(new TypeError("fetch failed", { cause }))
+      .mockResolvedValueOnce(createResponse(200));
+
+    const client = createFetchHttpClient();
+    const policy = systemErrorRetryPolicy({ retryDelayInMs: 1, maxRetryDelayInMs: 1 });
+    const request = createPipelineRequest({ url: "https://localhost/reset" });
+    const response = await policy.sendRequest(request, (req) => client.sendRequest(req));
+    assert.strictEqual(response.status, 200);
+    expect(fetch).toHaveBeenCalledTimes(2);
   });
 });
 

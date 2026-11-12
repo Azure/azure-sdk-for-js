@@ -305,7 +305,7 @@ export class ManagementClient {
       const msg = `an error occurred while closing the management session: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
-      throw new Error(msg);
+      throw new Error(msg, { cause: err });
     }
   }
 

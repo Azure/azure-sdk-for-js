@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a License
  *
  * @summary delete a License
- * x-ms-original-file: 2025-09-01/Licenses_Delete.json
+ * x-ms-original-file: 2026-03-01/Licenses_Delete.json
  */
 async function licensesDelete() {
   const credential = new DefaultAzureCredential();

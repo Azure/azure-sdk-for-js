@@ -50,9 +50,6 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
-  VaultStorageConfigOperationResultResponse,
-  VaultStorageConfigOperationResultResponseUnion,
-  PrepareDataMoveResponse,
   BackupResourceVaultConfigResource,
   BackupResourceVaultConfig,
   EnhancedSecurityState,
@@ -87,6 +84,7 @@ export type {
   AzureIaaSVMProtectedItemExtendedInfo,
   ExtendedProperties,
   DiskExclusionProperties,
+  ExistingBasicVMProtection,
   AzureIaaSComputeVMProtectedItem,
   AzureSqlProtectedItem,
   ProtectedItemState,
@@ -116,6 +114,8 @@ export type {
   AzureWorkloadBackupRequest,
   BackupType,
   IaasVMBackupRequest,
+  ProtectedItemConfigureSourceScanRequest,
+  SourceScanAction,
   ListRecoveryPointsRecommendedForMoveRequest,
   RecoveryPointResource,
   RecoveryPoint,
@@ -126,6 +126,7 @@ export type {
   ThreatSeverity,
   AzureFileShareRecoveryPoint,
   RecoveryPointProperties,
+  RecoveryPointImmutabilityProperties,
   RecoveryPointTierInformation,
   RecoveryPointTierStatus,
   AzureWorkloadPointInTimeRecoveryPoint,
@@ -147,6 +148,10 @@ export type {
   SQLDataDirectory,
   SQLDataDirectoryType,
   DatabaseInRP,
+  SnapshotRecoveryPointInfo,
+  FilesystemInfo,
+  StorageSpaceInfo,
+  DiskInfo,
   GenericRecoveryPoint,
   IaasVMRecoveryPoint,
   KeyAndSecretDetails,
@@ -155,6 +160,8 @@ export type {
   RecoveryPointDiskConfiguration,
   DiskInformation,
   ExtendedLocation,
+  DataDiskDetails,
+  DiskDetails,
   ResourceList,
   ProtectionContainerResource,
   ProtectionContainer,
@@ -181,6 +188,8 @@ export type {
   AzureSqlContainer,
   AzureStorageContainer,
   AcquireStorageAccountLock,
+  AccessType,
+  IdentityInfo,
   GenericContainer,
   GenericContainerExtendedInfo,
   ContainerIdentityInfo,
@@ -200,9 +209,13 @@ export type {
   AzureVmWorkloadSAPHanaSystemWorkloadItem,
   AzureVmWorkloadSQLDatabaseWorkloadItem,
   AzureVmWorkloadSQLInstanceWorkloadItem,
-  UpdateRecoveryPointRequest,
-  PatchRecoveryPointInput,
-  PatchRecoveryPointPropertiesInput,
+  GetRPExtendedInfoRequestResource,
+  GetRPExtendedInfoRequest,
+  RPExtendedInfoResourceList,
+  RPExtendedInfoResource,
+  RPExtendedInfo,
+  RPExtendedInfoUnion,
+  IaasVmrpExtendedInfo,
   RestoreRequestResource,
   RestoreRequest,
   RestoreRequestUnion,
@@ -242,9 +255,10 @@ export type {
   IaasVMRestoreRequest,
   IaasVMRestoreRequestUnion,
   EncryptionDetails,
-  IdentityInfo,
   IdentityBasedRestoreDetails,
   SecuredVMDetails,
+  DataDiskEncryptionSettings,
+  PerDiskEncryptionSetId,
   TargetDiskNetworkAccessSettings,
   TargetDiskNetworkAccessOption,
   IaasVMRestoreWithRehydrationRequest,
@@ -253,6 +267,7 @@ export type {
   ILRRequestUnion,
   AzureFileShareProvisionILRRequest,
   IaasVmilrRegistrationRequest,
+  InstantItemRecoveryOperationResultRequest,
   ProtectionPolicyResource,
   ProtectionPolicy,
   ProtectionPolicyUnion,
@@ -378,6 +393,7 @@ export type {
   ValidateIaasVMRestoreOperationRequest,
   ValidateRestoreOperationRequest,
   ValidateRestoreOperationRequestUnion,
+  ValidateAzureWorkloadRestoreOperationRequest,
   ValidateOperationsResponse,
   ProtectableContainerResource,
   ProtectableContainer,
@@ -403,7 +419,6 @@ export type {
   AzureVmWorkloadSAPHanaSystemProtectableItem,
   AzureVmWorkloadSAPHanaDBInstance,
   AzureVmWorkloadSAPHanaHSRProtectableItem,
-  AzureVmWorkloadSAPHanaScaleoutProtectableItem,
   AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   AzureVmWorkloadSQLDatabaseProtectableItem,
   AzureVmWorkloadSQLInstanceProtectableItem,
@@ -419,6 +434,9 @@ export type {
   TieringCostInfoUnion,
   TieringCostRehydrationInfo,
   TieringCostSavingInfo,
+  VaultStorageConfigOperationResultResponse,
+  VaultStorageConfigOperationResultResponseUnion,
+  PrepareDataMoveResponse,
   PreValidateEnableBackupRequest,
   PreValidateEnableBackupResponse,
   ValidationStatus,
@@ -433,6 +451,7 @@ export type {
 export {
   KnownDataMoveLevel,
   KnownOperationStatusValues,
+  KnownRecoveryPointTierType,
   KnownStorageType,
   KnownStorageTypeState,
   KnownDedupState,
@@ -451,12 +470,14 @@ export {
   KnownProtectionState,
   KnownResourceHealthStatus,
   KnownHealthStatus,
+  KnownExistingBasicVMProtection,
   KnownProtectedItemState,
   KnownLastBackupStatus,
   KnownProtectedItemHealthStatus,
   KnownProtectionLevel,
   KnownInstanceProtectionReadiness,
   KnownBackupType,
+  KnownSourceScanAction,
   KnownThreatStatus,
   KnownThreatState,
   KnownThreatSeverity,
@@ -466,6 +487,7 @@ export {
   KnownWorkloadType,
   KnownOperationType,
   KnownAcquireStorageAccountLock,
+  KnownAccessType,
   KnownBackupItemType,
   KnownProtectionStatus,
   KnownRecoveryType,
@@ -534,13 +556,15 @@ export type { BackupsTriggerOptionalParams } from "./api/backups/index.js";
 export type { BackupStatusGetOptionalParams } from "./api/backupStatus/index.js";
 export type { BackupUsageSummariesListOptionalParams } from "./api/backupUsageSummaries/index.js";
 export type { BackupWorkloadItemsListOptionalParams } from "./api/backupWorkloadItems/index.js";
-export type { BMSPrepareDataMoveOperationResultGetOptionalParams } from "./api/bmsPrepareDataMoveOperationResult/index.js";
+export type { bMSPrepareDataMoveOperationResultGetOptionalParams } from "./api/bMSPrepareDataMoveOperationResult/index.js";
+export type { ConfigureSourceScanExecuteOptionalParams } from "./api/configureSourceScan/index.js";
 export type { DeletedProtectionContainersListOptionalParams } from "./api/deletedProtectionContainers/index.js";
 export type { ExportJobsOperationResultsGetOptionalParams } from "./api/exportJobsOperationResults/index.js";
 export type { FeatureSupportValidateOptionalParams } from "./api/featureSupport/index.js";
 export type { FetchTieringCostPostOptionalParams } from "./api/fetchTieringCost/index.js";
 export type { GetTieringCostOperationResultGetOptionalParams } from "./api/getTieringCostOperationResult/index.js";
 export type {
+  ItemLevelRecoveryConnectionsListInstantItemRecoveryOperationResultOptionalParams,
   ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
 } from "./api/itemLevelRecoveryConnections/index.js";
@@ -550,12 +574,12 @@ export type { JobOperationResultsGetOptionalParams } from "./api/jobOperationRes
 export type { JobsExportOptionalParams } from "./api/jobs/index.js";
 export type { OperationValidateOptionalParams } from "./api/operation/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
-export type { PrivateEndpointGetOperationStatusOptionalParams } from "./api/privateEndpoint/index.js";
 export type {
-  PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionPutOptionalParams,
-  PrivateEndpointConnectionGetOptionalParams,
-} from "./api/privateEndpointConnection/index.js";
+  PrivateEndpointConnectionOperationsDeleteOptionalParams,
+  PrivateEndpointConnectionOperationsPutOptionalParams,
+  PrivateEndpointConnectionOperationsGetOptionalParams,
+} from "./api/privateEndpointConnectionOperations/index.js";
+export type { PrivateEndpointOperationsGetOperationStatusOptionalParams } from "./api/privateEndpointOperations/index.js";
 export type { ProtectableContainersListOptionalParams } from "./api/protectableContainers/index.js";
 export type { ProtectedItemOperationResultsGetOptionalParams } from "./api/protectedItemOperationResults/index.js";
 export type { ProtectedItemOperationStatusesGetOptionalParams } from "./api/protectedItemOperationStatuses/index.js";
@@ -566,6 +590,7 @@ export type {
 } from "./api/protectedItems/index.js";
 export type { ProtectionContainerOperationResultsGetOptionalParams } from "./api/protectionContainerOperationResults/index.js";
 export type { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "./api/protectionContainerRefreshOperationResults/index.js";
+export type { ProtectionContainerRefreshOperationStatusesGetOptionalParams } from "./api/protectionContainerRefreshOperationStatuses/index.js";
 export type {
   ProtectionContainersRefreshOptionalParams,
   ProtectionContainersInquireOptionalParams,
@@ -574,11 +599,11 @@ export type {
   ProtectionContainersGetOptionalParams,
 } from "./api/protectionContainers/index.js";
 export type {
-  ProtectionIntentValidateOptionalParams,
-  ProtectionIntentDeleteOptionalParams,
-  ProtectionIntentCreateOrUpdateOptionalParams,
-  ProtectionIntentGetOptionalParams,
-} from "./api/protectionIntent/index.js";
+  ProtectionIntentOperationsValidateOptionalParams,
+  ProtectionIntentOperationsDeleteOptionalParams,
+  ProtectionIntentOperationsCreateOrUpdateOptionalParams,
+  ProtectionIntentOperationsGetOptionalParams,
+} from "./api/protectionIntentOperations/index.js";
 export type {
   ProtectionPoliciesDeleteOptionalParams,
   ProtectionPoliciesCreateOrUpdateOptionalParams,
@@ -587,7 +612,8 @@ export type {
 export type { ProtectionPolicyOperationResultsGetOptionalParams } from "./api/protectionPolicyOperationResults/index.js";
 export type { ProtectionPolicyOperationStatusesGetOptionalParams } from "./api/protectionPolicyOperationStatuses/index.js";
 export type {
-  RecoveryPointsUpdateOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
@@ -622,7 +648,8 @@ export type {
   BackupStatusOperations,
   BackupUsageSummariesOperations,
   BackupWorkloadItemsOperations,
-  BMSPrepareDataMoveOperationResultOperations,
+  bMSPrepareDataMoveOperationResultOperations,
+  ConfigureSourceScanOperations,
   DeletedProtectionContainersOperations,
   ExportJobsOperationResultsOperations,
   FeatureSupportOperations,
@@ -635,16 +662,17 @@ export type {
   JobsOperations,
   OperationOperations,
   OperationsOperations,
-  PrivateEndpointOperations,
-  PrivateEndpointConnectionOperations,
+  PrivateEndpointConnectionOperationsOperations,
+  PrivateEndpointOperationsOperations,
   ProtectableContainersOperations,
   ProtectedItemOperationResultsOperations,
   ProtectedItemOperationStatusesOperations,
   ProtectedItemsOperations,
   ProtectionContainerOperationResultsOperations,
   ProtectionContainerRefreshOperationResultsOperations,
+  ProtectionContainerRefreshOperationStatusesOperations,
   ProtectionContainersOperations,
-  ProtectionIntentOperations,
+  ProtectionIntentOperationsOperations,
   ProtectionPoliciesOperations,
   ProtectionPolicyOperationResultsOperations,
   ProtectionPolicyOperationStatusesOperations,
@@ -662,3 +690,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

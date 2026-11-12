@@ -1,23 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import {
   getOperationStatus,
   undelete,
   get,
   listBySubscriptionId,
 } from "../../api/deletedVaults/operations.js";
-import {
+import type {
   DeletedVaultsGetOperationStatusOptionalParams,
   DeletedVaultsUndeleteOptionalParams,
   DeletedVaultsGetOptionalParams,
   DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "../../api/deletedVaults/options.js";
-import { OperationResource, DeletedVault, DeletedVaultUndeleteInput } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  OperationResource,
+  DeletedVault,
+  DeletedVaultUndeleteInput,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeletedVaults operations. */
 export interface DeletedVaultsOperations {

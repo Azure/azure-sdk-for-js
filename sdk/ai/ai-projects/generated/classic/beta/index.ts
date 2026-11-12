@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
+import {
+  BetaAgentInsightMonitorsOperations,
+  _getBetaAgentInsightMonitorsOperations,
+} from "./agentInsightMonitors/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
-import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
@@ -19,13 +22,11 @@ import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/i
 import { BetaRoutinesOperations, _getBetaRoutinesOperations } from "./routines/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
 import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
-import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxes/index.js";
+import { BetaVoiceAgentsOperations, _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
-  toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
   routines: BetaRoutinesOperations;
   redTeams: BetaRedTeamsOperations;
@@ -34,14 +35,14 @@ export interface BetaOperations {
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
   agents: BetaAgentsOperations;
+  voiceAgents: BetaVoiceAgentsOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
-    toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     routines: _getBetaRoutinesOperations(context),
     redTeams: _getBetaRedTeamsOperations(context),
@@ -50,6 +51,8 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
+    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
     agents: _getBetaAgentsOperations(context),
+    voiceAgents: _getBetaVoiceAgentsOperations(context),
   };
 }

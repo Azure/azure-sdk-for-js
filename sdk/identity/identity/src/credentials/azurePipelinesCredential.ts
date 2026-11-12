@@ -150,17 +150,16 @@ export class AzurePipelinesCredential implements TokenCredential {
 export function handleOidcResponse(response: PipelineResponse): string {
   // OIDC token is present in `bodyAsText` field
   const text = response.bodyAsText;
+  const responseDetails = stringifyOidcResponse(response);
   if (!text) {
     logger.error(
       `${credentialName}: Authentication Failed. Received null token from OIDC request. Response status- ${
         response.status
-      }. Complete response - ${JSON.stringify(response)}`,
+      }. Complete response - ${responseDetails}`,
     );
     throw new AuthenticationError(response.status, {
       error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
-      error_description: `${JSON.stringify(
-        response,
-      )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+      error_description: `Complete response - ${responseDetails}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
   try {
@@ -171,7 +170,7 @@ export function handleOidcResponse(response: PipelineResponse): string {
       const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
       let errorDescription = ``;
       if (response.status !== 200) {
-        errorDescription = `Response body = ${text}. Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
+        errorDescription = `${responseDetails}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
       logger.error(errorMessage);
       logger.error(errorDescription);
@@ -182,14 +181,22 @@ export function handleOidcResponse(response: PipelineResponse): string {
     }
   } catch (e: any) {
     const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
-    logger.error(
-      `Response from service = ${text}, Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} 
-      and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}, error message = ${e.message}`,
-    );
+    logger.error(`Response from service = ${responseDetails}, error message = ${e.message}`);
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `Response = ${text}. Response headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] =  ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+      error_description: `Response from service = ${responseDetails}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
+}
+
+function stringifyOidcResponse(response: PipelineResponse): string {
+  return JSON.stringify({
+    status: response.status,
+    bodyAsText: response.bodyAsText,
+    headers: {
+      "x-vss-e2eid": response.headers.get("x-vss-e2eid"),
+      "x-msedge-ref": response.headers.get("x-msedge-ref"),
+    },
+  });
 }

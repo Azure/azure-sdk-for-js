@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 export {
-  refreshRecommendations,
+  evaluate,
+  discover,
   listAll,
   list,
   $delete,
@@ -11,7 +12,8 @@ export {
   get,
 } from "./operations.js";
 export type {
-  WorkspacesRefreshRecommendationsOptionalParams,
+  WorkspacesEvaluateOptionalParams,
+  WorkspacesDiscoverOptionalParams,
   WorkspacesListAllOptionalParams,
   WorkspacesListOptionalParams,
   WorkspacesDeleteOptionalParams,

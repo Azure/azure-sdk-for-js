@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PackageManager } from "../common/types.js";
+import type { PackageManager, ProcessCommand } from "../common/types.js";
 
 export class NPM implements PackageManager {
-  runCommand = (command: string, args: string): string => {
-    return `npx ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "npx", args: [command, ...args] };
   };
   getVersionFromStdout = (stdout: string): string => {
     const match = stdout.match(/Version\s(\d+\.\d+\.\d+(-\w+-\d{4}-\d{2}-\d{2})?)/);
@@ -14,8 +14,8 @@ export class NPM implements PackageManager {
 }
 
 export class PNPM implements PackageManager {
-  runCommand = (command: string, args: string): string => {
-    return `pnpm ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "pnpm", args: [command, ...args] };
   };
   getVersionFromStdout = (stdout: string): string => {
     const match = stdout.match(/Version\s(\d+\.\d+\.\d+(-\w+-\d{4}-\d{2}-\d{2})?)/);
@@ -24,8 +24,8 @@ export class PNPM implements PackageManager {
 }
 
 export class Yarn implements PackageManager {
-  runCommand = (command: string, args: string): string => {
-    return `yarn ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "yarn", args: [command, ...args] };
   };
   getVersionFromStdout = (stdout: string): string => {
     const match = stdout.match(/Version\s(\d+\.\d+\.\d+(-\w+-\d{4}-\d{2}-\d{2})?)/);

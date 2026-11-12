@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Certificate.
  *
  * @summary create or Update a Certificate.
- * x-ms-original-file: 2025-10-02-preview/Certificate_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/Certificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,11 +21,7 @@ async function createOrUpdateCertificate(): Promise<void> {
     {
       certificateEnvelope: {
         location: "East US",
-        properties: {
-          certificateType: "ImagePullTrustedCA",
-          password: "private key password",
-          value: Buffer.from("Y2VydA==", "base64"),
-        },
+        properties: { password: "private key password", value: Buffer.from("Y2VydA==", "base64") },
       },
     },
   );
@@ -36,7 +32,7 @@ async function createOrUpdateCertificate(): Promise<void> {
  * This sample demonstrates how to create or Update a Certificate.
  *
  * @summary create or Update a Certificate.
- * x-ms-original-file: 2025-10-02-preview/Certificate_CreateOrUpdate_FromKeyVault.json
+ * x-ms-original-file: 2026-07-01/Certificate_CreateOrUpdate_FromKeyVault.json
  */
 async function createOrUpdateCertificateUsingManagedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -55,7 +51,6 @@ async function createOrUpdateCertificateUsingManagedIdentity(): Promise<void> {
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/test-rg/providers/microsoft.managedidentity/userassignedidentities/test-user-mi",
             keyVaultUrl: "https://xxxxxxxx.vault.azure.net/certificates/certName",
           },
-          certificateType: "ServerSSLCertificate",
         },
       },
     },

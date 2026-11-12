@@ -3,6 +3,7 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
+  apiErrorResponseDeserializer,
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
   datasetVersionUnionSerializer,
@@ -14,13 +15,27 @@ import {
   pendingUploadResponseDeserializer,
   DatasetCredential,
   datasetCredentialDeserializer,
+  dataGenerationJobUnionDeserializer,
+  DataGenerationJobUnion,
+  DataGenerationJobResult,
+  dataGenerationJobResultDeserializer,
+  _AgentsPagedResultDataGenerationJob,
+  _agentsPagedResultDataGenerationJobDeserializer,
+  dataGenerationJobInputsUnionSerializer,
+  DataGenerationJobInputsUnion,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -35,6 +50,301 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _deleteGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: DatasetsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/data_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Removes the specified data generation job and its associated output. */
+export async function deleteGenerationJob(
+  context: Client,
+  jobId: string,
+  options: DatasetsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteGenerationJobSend(context, jobId, options);
+  return _deleteGenerationJobDeserialize(result);
+}
+
+export function _cancelGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: DatasetsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/data_generation_jobs/{jobId}:cancel{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _cancelGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DataGenerationJobUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return dataGenerationJobUnionDeserializer(result.body);
+}
+
+/** Cancels the specified data generation job if it is still in progress. */
+export async function cancelGenerationJob(
+  context: Client,
+  jobId: string,
+  options: DatasetsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<DataGenerationJobUnion> {
+  const result = await _cancelGenerationJobSend(context, jobId, options);
+  return _cancelGenerationJobDeserialize(result);
+}
+
+export function _createGenerationJobSend(
+  context: Client,
+  job: DataGenerationJobInputsUnion,
+  options: DatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/data_generation_jobs{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: dataGenerationJobInputsUnionSerializer(job),
+    });
+}
+
+export async function _createGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DataGenerationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return dataGenerationJobResultDeserializer(result.body.result);
+}
+
+/** Submits a new data generation job for asynchronous execution. */
+export function createGenerationJob(
+  context: Client,
+  job: DataGenerationJobInputsUnion,
+  options: DatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult> {
+  return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
+}
+
+export function _listGenerationJobsSend(
+  context: Client,
+  options: DatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/data_generation_jobs{?limit,order,after,before,api%2Dversion}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listGenerationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultDataGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultDataGenerationJobDeserializer(result.body);
+}
+
+/** Returns a list of data generation jobs. */
+export function listGenerationJobs(
+  context: Client,
+  options: DatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<DataGenerationJobUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGenerationJobsSend(context, options),
+    _listGenerationJobsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _getGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: DatasetsGetGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/data_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DataGenerationJobUnion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return dataGenerationJobUnionDeserializer(result.body);
+}
+
+/** Retrieves the specified data generation job and its current status. */
+export async function getGenerationJob(
+  context: Client,
+  jobId: string,
+  options: DatasetsGetGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<DataGenerationJobUnion> {
+  const result = await _getGenerationJobSend(context, jobId, options);
+  return _getGenerationJobDeserialize(result);
+}
 
 export function _getCredentialsSend(
   context: Client,
@@ -72,7 +382,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Gets the SAS credential to access the storage account associated with a Dataset version. */
+/** Retrieves the SAS credential to access the storage account associated with a dataset version. */
 export async function getCredentials(
   context: Client,
   name: string,
@@ -215,11 +525,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   name: string,

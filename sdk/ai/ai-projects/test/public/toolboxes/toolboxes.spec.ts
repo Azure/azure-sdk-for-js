@@ -67,6 +67,31 @@ describe("toolboxes - basic operations", () => {
     console.log(`Deleted toolbox: ${toolboxName}`);
   });
 
+  // TODO(invokeLatestToolboxMcp): unskip after recording added.
+  it.skip("should initialize MCP through the latest toolbox endpoint", async function () {
+    await projectsClient.toolboxes.createVersion(toolboxName, [webSearchTool]);
+    try {
+      const response = await projectsClient.toolboxes.invokeLatestToolboxMcp(
+        toolboxName,
+        "application/json",
+        {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "initialize",
+          params: {
+            protocolVersion: "2025-03-26",
+            capabilities: {},
+            clientInfo: { name: "ai-projects-test", version: "1.0.0" },
+          },
+        },
+        { requestOptions: { headers: { accept: "application/json, text/event-stream" } } },
+      );
+      assert.isDefined(response.body);
+    } finally {
+      await projectsClient.toolboxes.delete(toolboxName);
+    }
+  });
+
   it("should manage toolbox versions", async function () {
     // Create first version
     const v1 = await projectsClient.toolboxes.createVersion(toolboxName, [webSearchTool], {

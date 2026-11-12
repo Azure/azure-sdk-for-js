@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a given registered server.
  *
  * @summary get a given registered server.
- * x-ms-original-file: 2022-09-01/RegisteredServers_Get.json
+ * x-ms-original-file: 2025-12-01/RegisteredServers_Get.json
  */
 async function registeredServersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

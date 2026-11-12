@@ -1,36 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listLabelHistory,
   deleteLabelHistory,
   getLabelHistory,
 } from "../../api/containerAppsLabelHistory/operations.js";
-import {
+import type {
   ContainerAppsLabelHistoryListLabelHistoryOptionalParams,
   ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams,
   ContainerAppsLabelHistoryGetLabelHistoryOptionalParams,
 } from "../../api/containerAppsLabelHistory/options.js";
-import { LabelHistory } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LabelHistory } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerAppsLabelHistory operations. */
 export interface ContainerAppsLabelHistoryOperations {
-  /** Get the Label History for a given Container App. */
+  /** Lists the label revision histories for a Container App. */
   listLabelHistory: (
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsLabelHistoryListLabelHistoryOptionalParams,
   ) => PagedAsyncIterableIterator<LabelHistory>;
-  /** Delete the history of a label. */
+  /** Deletes the revision history associated with a Container App label. */
   deleteLabelHistory: (
     resourceGroupName: string,
     containerAppName: string,
     labelName: string,
     options?: ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams,
   ) => Promise<void>;
-  /** Get the history of a label. */
+  /** Gets the revision history associated with a Container App label. */
   getLabelHistory: (
     resourceGroupName: string,
     containerAppName: string,

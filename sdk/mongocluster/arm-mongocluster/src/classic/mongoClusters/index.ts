@@ -90,7 +90,6 @@ export interface MongoClustersOperations {
     options?: MongoClustersGetOptionalParams,
   ) => Promise<MongoCluster>;
 }
-
 function _getMongoClusters(context: MongoClusterManagementContext) {
   return {
     promote: (
@@ -138,7 +137,6 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
     ) => get(context, resourceGroupName, mongoClusterName, options),
   };
 }
-
 export function _getMongoClustersOperations(
   context: MongoClusterManagementContext,
 ): MongoClustersOperations {

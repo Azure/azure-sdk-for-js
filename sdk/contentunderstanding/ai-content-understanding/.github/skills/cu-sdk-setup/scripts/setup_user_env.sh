@@ -262,25 +262,37 @@ http_get() {
 ENDPOINT=""
 APIKEY=""
 USE_DAC=0
-GPT41=""
-GPT41MINI=""
-EMBEDDING=""
+# Model names (roles) and their deployment names, aligned with Yung-Shin's
+# Python `sample_update_defaults.py`. Only the *_DEPLOYMENT vars are strictly
+# required at runtime; the model NAME vars have sensible defaults.
+COMPLETION_MODEL=""
+MINI_COMPLETION_MODEL=""
+EMBEDDING_MODEL=""
+COMPLETION_DEP=""
+MINI_COMPLETION_DEP=""
+EMBEDDING_DEP=""
 SKIP_UPDATE_DEFAULTS=0
 
 if [ "$VERIFY_ONLY" -eq 0 ]; then
     section "Step 2: Existing configuration"
     EXISTING_ENDPOINT="$(read_env CONTENTUNDERSTANDING_ENDPOINT)"
     EXISTING_KEY="$(read_env CONTENTUNDERSTANDING_KEY)"
-    EXISTING_G1="$(read_env GPT_4_1_DEPLOYMENT)"
-    EXISTING_G1M="$(read_env GPT_4_1_MINI_DEPLOYMENT)"
-    EXISTING_EMB="$(read_env TEXT_EMBEDDING_3_LARGE_DEPLOYMENT)"
+    EXISTING_COMPLETION_MODEL="$(read_env CU_COMPLETION_MODEL)"
+    EXISTING_MINI_COMPLETION_MODEL="$(read_env CU_COMPLETION_MODEL_MINI)"
+    EXISTING_EMBEDDING_MODEL="$(read_env CU_EMBEDDING_MODEL)"
+    EXISTING_COMPLETION_DEP="$(read_env CU_COMPLETION_MODEL_DEPLOYMENT)"
+    EXISTING_MINI_COMPLETION_DEP="$(read_env CU_COMPLETION_MINI_DEPLOYMENT)"
+    EXISTING_EMBEDDING_DEP="$(read_env CU_EMBEDDING_DEPLOYMENT)"
     if [ -f "$ENV_FILE" ]; then
         info "Existing .env detected at $ENV_FILE"
-        [ -n "$EXISTING_ENDPOINT" ] && info "  CONTENTUNDERSTANDING_ENDPOINT = $EXISTING_ENDPOINT"
-        [ -n "$EXISTING_KEY" ] && info "  CONTENTUNDERSTANDING_KEY      = ${EXISTING_KEY:0:4}…(masked)"
-        [ -n "$EXISTING_G1" ] && info "  GPT_4_1_DEPLOYMENT            = $EXISTING_G1"
-        [ -n "$EXISTING_G1M" ] && info "  GPT_4_1_MINI_DEPLOYMENT       = $EXISTING_G1M"
-        [ -n "$EXISTING_EMB" ] && info "  TEXT_EMBEDDING_3_LARGE_DEPLOYMENT = $EXISTING_EMB"
+        [ -n "$EXISTING_ENDPOINT" ] && info "  CONTENTUNDERSTANDING_ENDPOINT   = $EXISTING_ENDPOINT"
+        [ -n "$EXISTING_KEY" ] && info "  CONTENTUNDERSTANDING_KEY        = ${EXISTING_KEY:0:4}…(masked)"
+        [ -n "$EXISTING_COMPLETION_MODEL" ] && info "  CU_COMPLETION_MODEL             = $EXISTING_COMPLETION_MODEL"
+        [ -n "$EXISTING_MINI_COMPLETION_MODEL" ] && info "  CU_COMPLETION_MODEL_MINI        = $EXISTING_MINI_COMPLETION_MODEL"
+        [ -n "$EXISTING_EMBEDDING_MODEL" ] && info "  CU_EMBEDDING_MODEL              = $EXISTING_EMBEDDING_MODEL"
+        [ -n "$EXISTING_COMPLETION_DEP" ] && info "  CU_COMPLETION_MODEL_DEPLOYMENT  = $EXISTING_COMPLETION_DEP"
+        [ -n "$EXISTING_MINI_COMPLETION_DEP" ] && info "  CU_COMPLETION_MINI_DEPLOYMENT   = $EXISTING_MINI_COMPLETION_DEP"
+        [ -n "$EXISTING_EMBEDDING_DEP" ] && info "  CU_EMBEDDING_DEPLOYMENT         = $EXISTING_EMBEDDING_DEP"
     elif [ -f "$SAMPLE_ENV_FILE" ]; then
         info "No .env yet; will create from sample.env."
     fi
@@ -330,10 +342,26 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
         fi
     fi
 
+    # ─── Collect model NAMES (used both for the probe and .env writes) ──────
+    # These are optional user-tuning knobs; defaults match Yung-Shin's Python
+    # `sample_update_defaults.py` (gpt-5.2 / mirror completion / text-embedding-3-large).
+    if [ "$NON_INTERACTIVE" -eq 1 ]; then
+        COMPLETION_MODEL="${EXISTING_COMPLETION_MODEL:-gpt-5.2}"
+        MINI_COMPLETION_MODEL="${EXISTING_MINI_COMPLETION_MODEL:-$COMPLETION_MODEL}"
+        EMBEDDING_MODEL="${EXISTING_EMBEDDING_MODEL:-text-embedding-3-large}"
+    else
+        prompt "CU_COMPLETION_MODEL (default: gpt-5.2)" COMPLETION_MODEL "${EXISTING_COMPLETION_MODEL:-gpt-5.2}"
+        [ -z "$COMPLETION_MODEL" ] && COMPLETION_MODEL="gpt-5.2"
+        prompt "CU_COMPLETION_MODEL_MINI (default: $COMPLETION_MODEL)" MINI_COMPLETION_MODEL "${EXISTING_MINI_COMPLETION_MODEL:-$COMPLETION_MODEL}"
+        [ -z "$MINI_COMPLETION_MODEL" ] && MINI_COMPLETION_MODEL="$COMPLETION_MODEL"
+        prompt "CU_EMBEDDING_MODEL (default: text-embedding-3-large)" EMBEDDING_MODEL "${EXISTING_EMBEDDING_MODEL:-text-embedding-3-large}"
+        [ -z "$EMBEDDING_MODEL" ] && EMBEDDING_MODEL="text-embedding-3-large"
+    fi
+
     # ─── Probe existing model defaults via az + curl ────────────────────────
     section "Step 4: Probing existing model defaults"
     PROBE_RC=1
-    DETECTED_G1=""; DETECTED_G1M=""; DETECTED_EMB=""
+    DETECTED_COMPLETION_DEP=""; DETECTED_MINI_COMPLETION_DEP=""; DETECTED_EMBEDDING_DEP=""
     AZ_TOKEN=""
     if [ -z "$APIKEY" ] && command -v az >/dev/null 2>&1; then
         AZ_TOKEN="$(az account get-access-token --resource https://cognitiveservices.azure.com --query accessToken -o tsv 2>/dev/null || true)"
@@ -346,23 +374,24 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
         case "$HTTP_CODE" in
             200)
                 if command -v node >/dev/null 2>&1; then
-                    OUT="$(printf '%s' "$HTTP_BODY" | node -e '
+                    OUT="$(printf '%s' "$HTTP_BODY" | COMPLETION_MODEL="$COMPLETION_MODEL" MINI_COMPLETION_MODEL="$MINI_COMPLETION_MODEL" EMBEDDING_MODEL="$EMBEDDING_MODEL" node -e '
                         let s=""; process.stdin.on("data",c=>s+=c); process.stdin.on("end",()=>{
                             try { const d=(JSON.parse(s).modelDeployments||{});
-                                const keys=["gpt-4.1","gpt-4.1-mini","text-embedding-3-large"];
-                                console.log(keys.map(k=>k+"="+(d[k]||"" )).join(";"));
+                                const keys=[process.env.COMPLETION_MODEL, process.env.MINI_COMPLETION_MODEL, process.env.EMBEDDING_MODEL];
+                                const labels=["completion","mini","embedding"];
+                                console.log(labels.map((l,i)=>l+"="+(d[keys[i]]||"" )).join(";"));
                             } catch(e){ process.exit(1); }
                         });
                     ' 2>/dev/null || true)"
                     if [ -n "$OUT" ]; then
-                        DETECTED_G1="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^gpt-4\.1=//p' | head -n1)"
-                        DETECTED_G1M="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^gpt-4\.1-mini=//p' | head -n1)"
-                        DETECTED_EMB="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^text-embedding-3-large=//p' | head -n1)"
+                        DETECTED_COMPLETION_DEP="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^completion=//p' | head -n1)"
+                        DETECTED_MINI_COMPLETION_DEP="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^mini=//p' | head -n1)"
+                        DETECTED_EMBEDDING_DEP="$(echo "$OUT" | tr ';' '\n' | sed -n 's/^embedding=//p' | head -n1)"
                     fi
                 fi
-                if [ -n "$DETECTED_G1" ] && [ -n "$DETECTED_G1M" ] && [ -n "$DETECTED_EMB" ]; then
+                if [ -n "$DETECTED_COMPLETION_DEP" ] && [ -n "$DETECTED_MINI_COMPLETION_DEP" ] && [ -n "$DETECTED_EMBEDDING_DEP" ]; then
                     PROBE_RC=0
-                elif [ -n "$DETECTED_G1$DETECTED_G1M$DETECTED_EMB" ]; then
+                elif [ -n "$DETECTED_COMPLETION_DEP$DETECTED_MINI_COMPLETION_DEP$DETECTED_EMBEDDING_DEP" ]; then
                     PROBE_RC=10
                 else
                     PROBE_RC=2
@@ -375,18 +404,18 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
 
     case "$PROBE_RC" in
         0)
-            pass "All defaults detected: gpt-4.1=$DETECTED_G1, gpt-4.1-mini=$DETECTED_G1M, text-embedding-3-large=$DETECTED_EMB"
+            pass "All defaults detected: $COMPLETION_MODEL=$DETECTED_COMPLETION_DEP, $MINI_COMPLETION_MODEL=$DETECTED_MINI_COMPLETION_DEP, $EMBEDDING_MODEL=$DETECTED_EMBEDDING_DEP"
             if [ "$NON_INTERACTIVE" -eq 1 ]; then
-                GPT41="$DETECTED_G1"; GPT41MINI="$DETECTED_G1M"; EMBEDDING="$DETECTED_EMB"; SKIP_UPDATE_DEFAULTS=1
+                COMPLETION_DEP="$DETECTED_COMPLETION_DEP"; MINI_COMPLETION_DEP="$DETECTED_MINI_COMPLETION_DEP"; EMBEDDING_DEP="$DETECTED_EMBEDDING_DEP"; SKIP_UPDATE_DEFAULTS=1
             else
                 read -r -p "  Use these detected values? (Y/n): " use_det || use_det="y"
                 if [[ ! "$use_det" =~ ^[Nn]$ ]]; then
-                    GPT41="$DETECTED_G1"; GPT41MINI="$DETECTED_G1M"; EMBEDDING="$DETECTED_EMB"; SKIP_UPDATE_DEFAULTS=1
+                    COMPLETION_DEP="$DETECTED_COMPLETION_DEP"; MINI_COMPLETION_DEP="$DETECTED_MINI_COMPLETION_DEP"; EMBEDDING_DEP="$DETECTED_EMBEDDING_DEP"; SKIP_UPDATE_DEFAULTS=1
                 fi
             fi
             ;;
         10) info "Partial defaults detected; missing entries will be prompted."
-            GPT41="$DETECTED_G1"; GPT41MINI="$DETECTED_G1M"; EMBEDDING="$DETECTED_EMB" ;;
+            COMPLETION_DEP="$DETECTED_COMPLETION_DEP"; MINI_COMPLETION_DEP="$DETECTED_MINI_COMPLETION_DEP"; EMBEDDING_DEP="$DETECTED_EMBEDDING_DEP" ;;
         2)  info "No model defaults configured on the resource yet (will be set by updateDefaults.js)." ;;
         3)  warn "Probe authentication failed. Run 'az login' and ensure 'Cognitive Services User' role is assigned. Continuing with manual entry." ;;
         *)  warn "Probe failed. Continuing with manual entry." ;;
@@ -394,13 +423,25 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
 
     section "Step 5: Model deployment names"
     if [ "$NON_INTERACTIVE" -eq 1 ]; then
-        [ -z "$GPT41" ]     && GPT41="${EXISTING_G1:-gpt-4.1}"
-        [ -z "$GPT41MINI" ] && GPT41MINI="${EXISTING_G1M:-gpt-4.1-mini}"
-        [ -z "$EMBEDDING" ] && EMBEDDING="${EXISTING_EMB:-text-embedding-3-large}"
+        [ -z "$COMPLETION_DEP" ]      && COMPLETION_DEP="${EXISTING_COMPLETION_DEP:-$COMPLETION_MODEL}"
+        [ -z "$MINI_COMPLETION_DEP" ] && MINI_COMPLETION_DEP="${EXISTING_MINI_COMPLETION_DEP:-$COMPLETION_DEP}"
+        [ -z "$EMBEDDING_DEP" ]       && EMBEDDING_DEP="${EXISTING_EMBEDDING_DEP:-$EMBEDDING_MODEL}"
     else
-        if [ -z "$GPT41" ]; then prompt "GPT_4_1_DEPLOYMENT" GPT41 "${EXISTING_G1:-gpt-4.1}"; else echo "  Using detected GPT_4_1_DEPLOYMENT=$GPT41"; fi
-        if [ -z "$GPT41MINI" ]; then prompt "GPT_4_1_MINI_DEPLOYMENT" GPT41MINI "${EXISTING_G1M:-gpt-4.1-mini}"; else echo "  Using detected GPT_4_1_MINI_DEPLOYMENT=$GPT41MINI"; fi
-        if [ -z "$EMBEDDING" ]; then prompt "TEXT_EMBEDDING_3_LARGE_DEPLOYMENT" EMBEDDING "${EXISTING_EMB:-text-embedding-3-large}"; else echo "  Using detected TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=$EMBEDDING"; fi
+        if [ -z "$COMPLETION_DEP" ]; then
+            prompt "CU_COMPLETION_MODEL_DEPLOYMENT (default: $COMPLETION_MODEL)" COMPLETION_DEP "${EXISTING_COMPLETION_DEP:-$COMPLETION_MODEL}"
+        else
+            echo "  Using detected CU_COMPLETION_MODEL_DEPLOYMENT=$COMPLETION_DEP"
+        fi
+        if [ -z "$MINI_COMPLETION_DEP" ]; then
+            prompt "CU_COMPLETION_MINI_DEPLOYMENT (default: $COMPLETION_DEP)" MINI_COMPLETION_DEP "${EXISTING_MINI_COMPLETION_DEP:-$COMPLETION_DEP}"
+        else
+            echo "  Using detected CU_COMPLETION_MINI_DEPLOYMENT=$MINI_COMPLETION_DEP"
+        fi
+        if [ -z "$EMBEDDING_DEP" ]; then
+            prompt "CU_EMBEDDING_DEPLOYMENT (default: $EMBEDDING_MODEL)" EMBEDDING_DEP "${EXISTING_EMBEDDING_DEP:-$EMBEDDING_MODEL}"
+        else
+            echo "  Using detected CU_EMBEDDING_DEPLOYMENT=$EMBEDDING_DEP"
+        fi
     fi
 
     section "Step 6: Writing .env"
@@ -415,9 +456,12 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
     else
         write_env_value CONTENTUNDERSTANDING_KEY      "$APIKEY"
     fi
-    write_env_value GPT_4_1_DEPLOYMENT             "$GPT41"
-    write_env_value GPT_4_1_MINI_DEPLOYMENT        "$GPT41MINI"
-    write_env_value TEXT_EMBEDDING_3_LARGE_DEPLOYMENT "$EMBEDDING"
+    write_env_value CU_COMPLETION_MODEL            "$COMPLETION_MODEL"
+    write_env_value CU_COMPLETION_MODEL_MINI       "$MINI_COMPLETION_MODEL"
+    write_env_value CU_EMBEDDING_MODEL             "$EMBEDDING_MODEL"
+    write_env_value CU_COMPLETION_MODEL_DEPLOYMENT "$COMPLETION_DEP"
+    write_env_value CU_COMPLETION_MINI_DEPLOYMENT  "$MINI_COMPLETION_DEP"
+    write_env_value CU_EMBEDDING_DEPLOYMENT        "$EMBEDDING_DEP"
     pass "Wrote $ENV_FILE"
 fi
 
@@ -555,7 +599,15 @@ section "[3/5] Model deployments"
 if [ -z "$DEFAULTS_BODY" ]; then
     fail "Skipped — could not retrieve defaults"
 else
-    for m in gpt-4.1 gpt-4.1-mini text-embedding-3-large; do
+    # Verify against the caller-configured model names (falling back to the
+    # Yung-Shin canonical defaults gpt-5.2 / text-embedding-3-large).
+    VERIFY_COMPLETION="$(read_env CU_COMPLETION_MODEL)"
+    VERIFY_COMPLETION="${VERIFY_COMPLETION:-gpt-5.2}"
+    VERIFY_MINI="$(read_env CU_COMPLETION_MODEL_MINI)"
+    VERIFY_MINI="${VERIFY_MINI:-$VERIFY_COMPLETION}"
+    VERIFY_EMB="$(read_env CU_EMBEDDING_MODEL)"
+    VERIFY_EMB="${VERIFY_EMB:-text-embedding-3-large}"
+    for m in "$VERIFY_COMPLETION" "$VERIFY_MINI" "$VERIFY_EMB"; do
         dep=""
         if command -v node >/dev/null 2>&1; then
             dep="$(printf '%s' "$DEFAULTS_BODY" | node -e "

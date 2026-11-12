@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Gremlin graph
  *
  * @summary create or update an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinGraphCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphCreateUpdate.json
  */
 async function cosmosDBGremlinGraphCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,29 +21,29 @@ async function cosmosDBGremlinGraphCreateUpdate(): Promise<void> {
     "graphName",
     {
       location: "West US",
-      tags: {},
+      options: {},
       resource: {
+        conflictResolutionPolicy: { conflictResolutionPath: "/path", mode: "LastWriterWins" },
+        defaultTtl: 100,
         id: "graphName",
         indexingPolicy: {
-          indexingMode: "consistent",
           automatic: true,
+          excludedPaths: [],
           includedPaths: [
             {
               path: "/*",
               indexes: [
-                { kind: "Range", dataType: "String", precision: -1 },
-                { kind: "Range", dataType: "Number", precision: -1 },
+                { dataType: "String", kind: "Range", precision: -1 },
+                { dataType: "Number", kind: "Range", precision: -1 },
               ],
             },
           ],
-          excludedPaths: [],
+          indexingMode: "consistent",
         },
-        partitionKey: { paths: ["/AccountNumber"], kind: "Hash" },
-        defaultTtl: 100,
+        partitionKey: { kind: "Hash", paths: ["/AccountNumber"] },
         uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/testPath"] }] },
-        conflictResolutionPolicy: { mode: "LastWriterWins", conflictResolutionPath: "/path" },
       },
-      options: {},
+      tags: {},
     },
   );
   console.log(result);

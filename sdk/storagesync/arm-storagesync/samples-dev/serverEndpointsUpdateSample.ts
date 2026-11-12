@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a given ServerEndpoint.
  *
  * @summary patch a given ServerEndpoint.
- * x-ms-original-file: 2022-09-01/ServerEndpoints_Update.json
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Update.json
  */
 async function serverEndpointsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,31 +2,65 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Analyze a PDF file from disk using the prebuilt-documentSearch analyzer.
+ * @summary Analyze a document from binary data.
  *
- * This sample demonstrates how to analyze a PDF file from disk using the prebuilt-documentSearch
- * analyzer and convert the result to LLM-friendly text. The prebuilt-documentSearch analyzer
- * transforms unstructured documents into structured, machine-readable data optimized for RAG
- * scenarios.
+ * This sample demonstrates how to analyze a PDF file from disk using the `prebuilt-documentSearch`
+ * analyzer and convert the result to LLM-friendly text.
  *
- * Content Understanding provides prebuilt RAG analyzers (the prebuilt-*Search analyzers) that return
- * markdown and a one-paragraph Summary for each content item:
- * - prebuilt-documentSearch: Extracts content from documents with layout preservation
- * - prebuilt-audioSearch: Transcribes audio content with speaker diarization
- * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
- * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
+ * ## About analyzing documents from binary data
  *
- * The markdown returned by Content Understanding can be directly consumed by large language models
- * (LLMs) for summarization, question answering, and other generative AI tasks. To make this even
- * easier, the SDK provides a convenient `toLlmInput()` helper that converts an AnalysisResult
- * into a single text block with YAML front matter (content type, page numbers, extracted fields)
- * followed by the markdown body — ready for injection into LLM prompts, vector databases, or
- * agentic tool outputs. For advanced usage (output options, content ranges, video/audio,
- * metadata), see toLlmInput.ts.
+ * One of the key values of Content Understanding is taking a content file and extracting the
+ * content for you in one call. The service returns an `AnalysisResult` that contains an array
+ * of `AnalysisContent` items in `AnalysisResult.contents`. This sample starts with a document
+ * file, so each item is a `DocumentContent` (a subtype of `AnalysisContent`) that exposes
+ * markdown plus detailed structure such as pages, tables, figures, and paragraphs.
+ *
+ * ## Using results with LLMs
+ *
+ * The markdown returned by Content Understanding can be directly consumed by large language
+ * models (LLMs) for summarization, question answering, and other generative AI tasks. To make
+ * this even easier, the SDK provides a convenient `toLlmInput()` helper that converts an
+ * `AnalysisResult` into a single text block with YAML front matter (content type, page numbers,
+ * extracted fields) followed by the markdown body — ready for injection into LLM prompts, vector
+ * databases, or agentic tool outputs. For advanced usage (output options, content ranges,
+ * video/audio, metadata), see toLlmInput.ts.
+ *
+ * This sample focuses on **document analysis**. For prebuilt RAG analyzers covering images,
+ * audio, and video, see analyzeUrl.ts.
+ *
+ * ## Prebuilt analyzers
+ *
+ * Content Understanding provides prebuilt RAG analyzers (the `prebuilt-*Search` analyzers,
+ * such as `prebuilt-documentSearch`) that return markdown and a one-paragraph summary for each
+ * content item, making them useful for retrieval-augmented generation (RAG) and other
+ * downstream applications:
+ *
+ * - **`prebuilt-documentSearch`** — Extracts content from documents (PDF, images, Office
+ *   documents) with layout preservation, table detection, figure analysis, and structured
+ *   markdown output. Optimized for RAG scenarios.
+ * - **`prebuilt-audioSearch`** — Transcribes audio content with speaker diarization, timing
+ *   information, and conversation summaries. Supports multilingual transcription.
+ * - **`prebuilt-videoSearch`** — Analyzes video content with visual frame extraction, audio
+ *   transcription, and structured summaries. Provides temporal alignment of visual and audio
+ *   content.
+ * - **`prebuilt-imageSearch`** — Analyzes standalone images and returns a one-paragraph
+ *   summary of the image content. For images that contain text (including hand-written text),
+ *   use `prebuilt-documentSearch`.
+ *
+ * This sample uses **`prebuilt-documentSearch`** to extract structured content from PDF documents.
  *
  * It also demonstrates content range filtering to target specific pages:
- * - "3-": Pages 3 onward
- * - "1-3,5,9-": Pages 1-3, page 5, and pages 9 onward
+ * - `"3-"`: Pages 3 onward.
+ * - `"1-3,5,9-"`: Pages 1-3, page 5, and pages 9 onward.
+ *
+ * ## Choose the right analyze method
+ *
+ * By default, analysis is a **long-running operation (LRO)**: the client starts the
+ * request and polls until the result is ready. In `2026-06-01-preview`, you can also
+ * use **inline** analyze APIs (`analyzeInline` / `analyzeBinaryInline`) that return
+ * `AnalysisResult` in a single call without polling. For when to use each path, limits,
+ * and billing differences, see analyzeInline.ts, analyzeBinaryInline.ts, and
+ * [document limits](https://aka.ms/cu-doc-limits).
  */
 
 import "dotenv/config";
@@ -66,7 +100,7 @@ export async function main(): Promise<void> {
   console.log(`  File size: ${pdfBytes.length.toLocaleString()} bytes`);
 
   // Analyze the document using analyzeBinary
-  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf");
+  const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes);
   const result = await poller.pollUntilDone();
 
   // ======================================================================
@@ -82,7 +116,6 @@ export async function main(): Promise<void> {
   const rangePoller = client.analyzeBinary(
     "prebuilt-documentSearch",
     multiPageBytes,
-    "application/pdf",
     { contentRange: "3-" },
   );
   const rangeResult = await rangePoller.pollUntilDone();
@@ -97,7 +130,6 @@ export async function main(): Promise<void> {
   const combinePoller = client.analyzeBinary(
     "prebuilt-documentSearch",
     multiPageBytes,
-    "application/pdf",
     { contentRange: "1-3,5,9-" },
   );
   const combineResult = await combinePoller.pollUntilDone();

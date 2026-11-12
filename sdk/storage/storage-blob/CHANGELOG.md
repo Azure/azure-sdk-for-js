@@ -1,26 +1,58 @@
 # Release History
 
-## 12.33.1 (Unreleased)
+## 12.35.0-beta.1 (2026-11-11)
 
 ### Features Added
 
+- Added support for service version 2027-03-07.
+- Added opt-in session token authentication for blob downloads with a `TokenCredential`. Set `sessionOptions.mode` to `"enabled"` to sign eligible downloads with a container-scoped session token instead of a bearer token; disabled by default and Node.js only.
+- Added opt-in data locality support to `downloadToBuffer`. Set `layoutAwareRouting` to `"enabled"` to read blocks from the endpoints that hold them when the service hints at it; disabled by default and Node.js only.
+- `listBlobsFlat` and `listBlobsByHierarchy` now use the Apache Arrow response format by default (`StorageResponseFormat.Auto` now resolves to `StorageResponseFormat.Arrow`), so `endBefore` no longer requires setting `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow. Set `responseFormat` to `StorageResponseFormat.Xml` to keep requesting XML.
+- Added `expectContinueOptions` to the client options. By default, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as uploads, for one minute after the service responds with status 429, 500 or 503. Set `expectContinueOptions.mode` to `"auto"`, `"always"` or `"never"` to choose when the header is sent, or set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
+
 ### Breaking Changes
+
+- `BlockBlobClient.uploadData`, `uploadFile` and `uploadBrowserData` now default `maxSingleShotSize` to 4MB instead of 256MB; set it to `256 * 1024 * 1024` to restore the previous behavior. Data larger than 4MB is now staged in parallel blocks of `blockSize` (4MB by default) with `stageBlock` and committed with `commitBlockList`, instead of being sent in a single `upload` call. For data between 4MB and 256MB this means: [#40286](https://github.com/Azure/azure-sdk-for-js/pull/40286)
+  - More requests are sent, and `onProgress` is called once per block.
+  - The service doesn't compute a Content-MD5 property for the blob, so `getProperties`, `download` and blob listings return no `contentMD5` unless `blobHTTPHeaders.blobContentMD5` is set.
+  - The response comes from `commitBlockList`: it has no `contentMD5` or `structuredBodyType`, and its `xMsContentCrc64` covers the block list rather than the data.
+  - Blob created events report the `PutBlockList` operation instead of `PutBlob`.
+  - When another upload to the same blob finishes while this one is still staging blocks, the service discards this upload's staged blocks, so it fails with a 400 error (`InvalidBlockList` or `InvalidBlobOrBlock`) instead of overwriting the blob.
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+- `BlobBatch` now defensively rejects sub request header names or values that reach its `multipart/mixed` serializer with a carriage return (`\r`) or line feed (`\n`), preventing unintended header injection. A rejected sub request no longer leaves the batch pinned to its operation type. [#39952](https://github.com/Azure/azure-sdk-for-js/pull/39952)
+
 ### Other Changes
+
+- Migrate to Typespec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+- Added a note to the create and delete methods of `ContainerClient` and `BlobServiceClient` about what happens after a container is deleted: a container with the same name can't be created for at least 30 seconds, and blob operations may keep succeeding for up to 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
+
+## 12.34.0 (2026-09-24)
+
+### Features Added
+
+- Includes all features released in 12.34.0-beta.1.
+
+## 12.34.0-beta.1 (2026-08-03)
+
+### Features Added
+
+- Added support for service version 2026-10-06.
+- Added `accessTier`, `accessTierInferred`, `accessTierChangedOn`, and `smartAccessTier` to the blob download response.
+- Added an opt-in Apache Arrow response format for `listBlobsFlat` and `listBlobsByHierarchy` (set `responseFormat` to `StorageResponseFormat.Arrow`), plus a new `endBefore` list option. The default remains XML.
+
+### Other Changes
+
+- For service version 2026-10-06 and later, upload operations now return the service-computed CRC64 checksum (`xMsContentCrc64`) in addition to `contentMD5` when a Content-MD5 is provided. This applies to `stageBlock`, `stageBlockFromURL`, `uploadPages`, `uploadPagesFromURL`, `appendBlock`, `appendBlockFromURL`, `upload`, and `syncUploadFromURL`.
 
 ## 12.33.0 (2026-06-24)
 
 ### Features Added
 
 - Includes all features released in 12.33.0-beta.1.
-
-## 12.32.0 (2026-05-22)
-
-### Features Added
-
-- Includes all features released in 12.32.0-beta.1.
 
 ## 12.33.0-beta.1 (2026-04-29)
 
@@ -29,6 +61,12 @@
 - Added support for service version 2026-06-06.
 - Added support for Blob Smart Tier.
 - Added support for Directory-level SAS and User Delegation SAS.
+
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
 
 ## 12.32.0-beta.1 (2026-03-05)
 

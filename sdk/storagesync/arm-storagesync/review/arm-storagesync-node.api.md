@@ -51,6 +51,7 @@ export interface CheckNameAvailabilityResult {
 export interface CloudEndpoint extends ProxyResource {
     azureFileShareName?: string;
     readonly backupEnabled?: string;
+    changeEnumerationIntervalDays?: number;
     readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
     friendlyName?: string;
     lastOperationName?: string;
@@ -100,6 +101,7 @@ export type CloudEndpointChangeEnumerationTotalCountsState = string;
 // @public
 export interface CloudEndpointCreateParameters extends ProxyResource {
     azureFileShareName?: string;
+    changeEnumerationIntervalDays?: number;
     friendlyName?: string;
     storageAccountResourceId?: string;
     storageAccountTenantId?: string;
@@ -108,6 +110,7 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
 // @public
 export interface CloudEndpointCreateParametersProperties {
     azureFileShareName?: string;
+    changeEnumerationIntervalDays?: number;
     friendlyName?: string;
     storageAccountResourceId?: string;
     storageAccountTenantId?: string;
@@ -127,6 +130,7 @@ export interface CloudEndpointLastChangeEnumerationStatus {
 export interface CloudEndpointProperties {
     azureFileShareName?: string;
     readonly backupEnabled?: string;
+    changeEnumerationIntervalDays?: number;
     readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
     friendlyName?: string;
     lastOperationName?: string;
@@ -190,6 +194,10 @@ export interface CloudEndpointsOperations {
     beginTriggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginTriggerChangeDetectionAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, properties: CloudEndpointUpdateParameters, options?: CloudEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CloudEndpoint>, CloudEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, properties: CloudEndpointUpdateParameters, options?: CloudEndpointsUpdateOptionalParams) => Promise<CloudEndpoint>;
     create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
     delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsGetOptionalParams) => Promise<CloudEndpoint>;
@@ -200,6 +208,7 @@ export interface CloudEndpointsOperations {
     preRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
     restoreheartbeat: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams) => Promise<void>;
     triggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, properties: CloudEndpointUpdateParameters, options?: CloudEndpointsUpdateOptionalParams) => PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
 }
 
 // @public
@@ -229,6 +238,21 @@ export interface CloudEndpointsRestoreheartbeatOptionalParams extends OperationO
 // @public
 export interface CloudEndpointsTriggerChangeDetectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CloudEndpointsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CloudEndpointUpdateParameters {
+    properties?: CloudEndpointUpdateProperties;
+}
+
+// @public
+export interface CloudEndpointUpdateProperties {
+    changeEnumerationIntervalDays?: number;
 }
 
 // @public
@@ -465,6 +489,12 @@ export enum KnownServerEndpointSyncMode {
 }
 
 // @public
+export enum KnownServerEndpointSyncSessionWarningType {
+    BlockedByLargeFile = "BlockedByLargeFile",
+    NoWarning = "NoWarning"
+}
+
+// @public
 export enum KnownServerProvisioningStatus {
     Error = "Error",
     InProgress = "InProgress",
@@ -475,7 +505,8 @@ export enum KnownServerProvisioningStatus {
 
 // @public
 export enum KnownVersions {
-    V20220901 = "2022-09-01"
+    V20220901 = "2022-09-01",
+    V20251201 = "2025-12-01"
 }
 
 // @public
@@ -1172,12 +1203,23 @@ export type ServerEndpointSyncActivityState = string;
 export interface ServerEndpointSyncActivityStatus {
     readonly appliedBytes?: number;
     readonly appliedItemCount?: number;
+    readonly inProgressLargeFilePath?: string;
+    readonly inProgressLargeFilePercentComplete?: number;
+    readonly inProgressLargeFileSizeBytes?: number;
+    readonly isRemainingFinal?: boolean;
     readonly perItemErrorCount?: number;
+    readonly recentItemsPerSecond?: number;
+    readonly recentMegabytesPerSecond?: number;
+    readonly remainingDeleteCount?: number;
+    readonly remainingDirectoryCount?: number;
+    readonly remainingFileCount?: number;
+    readonly remainingLogicalSizeBytes?: number;
     readonly sessionMinutesRemaining?: number;
     readonly syncMode?: ServerEndpointSyncMode;
     readonly timestamp?: Date;
     readonly totalBytes?: number;
     readonly totalItemCount?: number;
+    readonly warning?: ServerEndpointSyncSessionWarningType;
 }
 
 // @public
@@ -1194,6 +1236,9 @@ export interface ServerEndpointSyncSessionStatus {
     readonly persistentFilesNotSyncingCount?: number;
     readonly transientFilesNotSyncingCount?: number;
 }
+
+// @public
+export type ServerEndpointSyncSessionWarningType = string;
 
 // @public
 export interface ServerEndpointSyncStatus {

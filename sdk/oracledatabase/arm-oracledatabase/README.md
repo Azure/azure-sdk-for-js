@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/oracledatabase/arm-oracledatabase)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-oracledatabase)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-oracledatabase)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/oracledatabase/arm-oracledatabase/samples)
 
 ## Getting started
