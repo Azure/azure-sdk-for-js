@@ -1029,13 +1029,15 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     return thing;
   }
 
-  // When 'thing' is a Date, return the number representation
-  if (
-    typeof thing === "object" &&
-    isObjectWithProperties(thing, ["getTime"]) &&
-    typeof thing.getTime === "function"
-  ) {
-    return thing.getTime();
+  if (typeof thing === "object" && Object.prototype.toString.call(thing) === "[object Date]") {
+    try {
+      return Date.prototype.getTime.call(thing) as T;
+    } catch (error) {
+      // Symbol.toStringTag can label ordinary objects as Dates without Date internal slots.
+      if (!(error instanceof TypeError)) {
+        throw error;
+      }
+    }
   }
 
   /*

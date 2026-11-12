@@ -246,6 +246,35 @@ describe("message", function () {
       assert.equal(resentValue.descriptor?.value, "example:described-long");
     });
 
+    it("preserves timestamp-valued application-property keys as own properties", function () {
+      const timestamp = new Date(0);
+      const decoded = decode({
+        body: "timestamp properties",
+        application_properties: {
+          ["__proto__"]: timestamp,
+          createdAt: timestamp,
+        },
+      });
+
+      assert.strictEqual(Object.getPrototypeOf(decoded.application_properties), Object.prototype);
+      assert.deepEqual(
+        Object.getOwnPropertyDescriptor(decoded.application_properties, "__proto__"),
+        {
+          configurable: true,
+          enumerable: true,
+          value: timestamp,
+          writable: true,
+        },
+      );
+
+      const received = AmqpAnnotatedMessage.fromRheaMessage(decoded);
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes?.["__proto__"], {
+        type: "timestamp",
+        value: timestamp,
+      });
+      assert.deepEqual(received.applicationProperties?.createdAt, timestamp);
+    });
+
     it("uses edited values and does not restore deleted properties on resend", function () {
       const applicationProperties: Record<string, AmqpApplicationProperty> = Object.create(null);
       applicationProperties.edited = { type: "ubyte", value: 200 };

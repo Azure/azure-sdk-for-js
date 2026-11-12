@@ -107,6 +107,43 @@ describe("AMQP message encoding", () => {
     assert.isUndefined(receivedProperties);
   });
 
+  describe("fromRheaMessage", () => {
+    for (const skipConvertingDate of [false, true]) {
+      it(`preserves own timestamp-valued property keys with skipConvertingDate=${skipConvertingDate}`, () => {
+        const timestamp = new Date(0);
+        const decoded = rheaMessageUtil.decode(
+          rheaMessageUtil.encode({
+            body: "timestamp properties",
+            application_properties: {
+              ["__proto__"]: timestamp,
+              createdAt: timestamp,
+            },
+          }),
+        ) as unknown as Message;
+        const received = fromRheaMessage(decoded, {
+          skipParsingBodyAsJson: false,
+          skipConvertingDate,
+        });
+        const expectedValue = skipConvertingDate ? timestamp : timestamp.getTime();
+
+        assert.strictEqual(Object.getPrototypeOf(received.applicationProperties), Object.prototype);
+        assert.deepEqual(
+          Object.getOwnPropertyDescriptor(received.applicationProperties, "__proto__")?.value,
+          expectedValue,
+        );
+        assert.deepEqual(received.applicationProperties?.createdAt, expectedValue);
+        assert.deepEqual(received.applicationPropertiesWithAmqpTypes?.["__proto__"], {
+          type: "timestamp",
+          value: timestamp,
+        });
+        assert.deepEqual(
+          received._rawAmqpMessage.applicationProperties,
+          received.applicationProperties,
+        );
+      });
+    }
+  });
+
   describe("toRheaMessage", () => {
     it("AmqpAnnotatedMessage (explicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
