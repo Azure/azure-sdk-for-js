@@ -101,14 +101,7 @@ export class KeyVaultClient {
     credential: TokenCredential,
     options: KeyVaultClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKeyVault(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKeyVault(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
@@ -203,19 +196,21 @@ export class KeyVaultClient {
    */
   secureUnwrapKey(
     keyName: string,
+    keyVersion: string,
     parameters: SecureKeyUnWrapOperationParameters,
     options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
   ): Promise<SecureKeyOperationResult> {
-    return secureUnwrapKey(this._client, keyName, parameters, options);
+    return secureUnwrapKey(this._client, keyName, keyVersion, parameters, options);
   }
 
   /** The SECURE WRAP operation creates a new 256 bit AES key within the trusted execution environment(TEE) and encrypts the same with a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
   secureWrapKey(
     keyName: string,
+    keyVersion: string,
     parameters: SecureKeyWrapOperationParameters,
     options: SecureWrapKeyOptionalParams = { requestOptions: {} },
   ): Promise<SecureKeyOperationResult> {
-    return secureWrapKey(this._client, keyName, parameters, options);
+    return secureWrapKey(this._client, keyName, keyVersion, parameters, options);
   }
 
   /** The WRAP operation supports encryption of a symmetric key using a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
