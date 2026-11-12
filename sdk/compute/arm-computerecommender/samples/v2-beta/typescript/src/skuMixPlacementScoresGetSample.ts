@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeRecommenderManagementClient } = require("@azure/arm-computerecommender");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ComputeRecommenderManagementClient } from "@azure/arm-computerecommender";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to gets SkuMixPlacement scoring metadata.
  *
  * @summary gets SkuMixPlacement scoring metadata.
- * x-ms-original-file: 2026-09-05-preview/GetSkuMixPlacementScores.json
+ * x-ms-original-file: 2026-10-05-preview/GetSkuMixPlacementScores.json
  */
-async function getsTheMetadataOfSkuMixPlacementScores() {
+async function getsTheMetadataOfSkuMixPlacementScores(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function getsTheMetadataOfSkuMixPlacementScores() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheMetadataOfSkuMixPlacementScores();
 }
 

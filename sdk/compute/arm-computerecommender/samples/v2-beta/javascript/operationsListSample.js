@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeRecommenderManagementClient } from "@azure/arm-computerecommender";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeRecommenderManagementClient } = require("@azure/arm-computerecommender");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-09-05-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-05-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGen(): Promise<void> {
+async function operationsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
@@ -26,9 +26,9 @@ async function operationsListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-09-05-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-10-05-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGen(): Promise<void> {
+async function operationsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function operationsListMinimumSetGen(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await operationsListMaximumSetGen();
   await operationsListMinimumSetGen();
 }
