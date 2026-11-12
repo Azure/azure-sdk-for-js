@@ -26,6 +26,7 @@ export interface ActionVersionsOperations {
     options?: ActionVersionsGetOptionalParams,
   ) => Promise<ActionVersion>;
 }
+
 function _getActionVersions(context: ChaosManagementContext) {
   return {
     list: (location: string, actionName: string, options?: ActionVersionsListOptionalParams) =>
@@ -38,6 +39,7 @@ function _getActionVersions(context: ChaosManagementContext) {
     ) => get(context, location, actionName, versionName, options),
   };
 }
+
 export function _getActionVersionsOperations(
   context: ChaosManagementContext,
 ): ActionVersionsOperations {

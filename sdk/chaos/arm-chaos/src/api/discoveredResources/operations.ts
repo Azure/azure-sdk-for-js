@@ -30,7 +30,7 @@ export function _listByWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,6 +57,7 @@ export async function _listByWorkspaceDeserialize(
 
   return _discoveredResourceListResultDeserializer(result.body);
 }
+
 /** Get a list of discovered resources for a workspace. */
 export function listByWorkspace(
   context: Client,
@@ -69,11 +70,7 @@ export function listByWorkspace(
     () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
     _listByWorkspaceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -91,7 +88,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       discoveredResourceName: discoveredResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +113,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return discoveredResourceDeserializer(result.body);
 }
+
 /** Get a discovered resource. */
 export async function get(
   context: Client,
