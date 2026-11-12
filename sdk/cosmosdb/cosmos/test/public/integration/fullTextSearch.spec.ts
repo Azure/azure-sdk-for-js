@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import type { ContainerDefinition, Container, SqlQuerySpec } from "../../../src/index.js";
-import {
-  getTestContainer,
-  removeAllDatabases,
-  readAndParseJSONFile,
-} from "../common/TestHelpers.js";
-import { describe, it, assert, beforeAll } from "vitest";
+import { getTestContainer, readAndParseJSONFile } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("FTSQuery", { timeout: 20000 }, () => {
-  const partitionKey = "id";
+  // Stable partition placement keeps document RID tie-breaking reproducible across runs.
+  const partitionKey = "index";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
@@ -170,8 +167,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 57, 85],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22, 85, 57],
+        expected1: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80, 22, 85, 57],
+        expected2: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80, 22, 85, 57],
       },
     ],
     [
@@ -180,8 +177,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected1: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
+        expected2: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
       },
     ],
     [
@@ -191,8 +188,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 5 LIMIT 10`,
       {
-        expected1: [24, 77, 76, 80, 2, 22, 57, 85],
-        expected2: [24, 77, 76, 80, 2, 22, 85, 57],
+        expected1: [2, 24, 76, 54, 80, 22, 85, 57],
+        expected2: [2, 24, 76, 54, 80, 22, 85, 57],
       },
     ],
     [
@@ -200,8 +197,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         FROM c
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected1: [51, 98, 97, 93, 90, 83, 74, 55, 47, 75],
+        expected2: [51, 98, 97, 93, 90, 83, 74, 55, 47, 75],
       },
     ],
     [
@@ -210,8 +207,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 0 LIMIT 11`,
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2, 22],
+        expected1: [51, 98, 97, 93, 90, 83, 74, 55, 47, 75, 49],
+        expected2: [51, 98, 97, 93, 90, 83, 74, 55, 47, 75, 49],
       },
     ],
     [
@@ -222,8 +219,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         parameters: [{ name: "@inputVector", value: sampleVector }],
       },
       {
-        expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
-        expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
+        expected1: [98, 55, 75, 93, 26, 49, 24, 90, 51, 41],
+        expected2: [98, 55, 75, 93, 26, 49, 24, 90, 51, 41],
       },
     ],
     [
@@ -247,8 +244,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         ],
       },
       {
-        expected1: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
-        expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
+        expected1: [98, 93, 55, 90, 97, 51, 74, 26, 41, 83],
+        expected2: [98, 93, 55, 90, 97, 51, 74, 26, 41, 83],
       },
     ],
     [
@@ -263,8 +260,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         ],
       },
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected1: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
+        expected2: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
       },
     ],
     [
@@ -298,8 +295,8 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         ],
       },
       {
-        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
-        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected1: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
+        expected2: [51, 49, 61, 75, 77, 2, 24, 76, 54, 80],
       },
     ],
     // TODO: Add test case of just RRF with vector search no FullTextScore
@@ -352,7 +349,6 @@ describe("FTSQuery", { timeout: 20000 }, () => {
   const containerOptions = { offerThroughput: 25000 };
 
   beforeAll(async () => {
-    await removeAllDatabases();
     container = await getTestContainer(
       "Validate FTS Query",
       undefined,
@@ -371,6 +367,10 @@ describe("FTSQuery", { timeout: 20000 }, () => {
     } catch (error) {
       console.error("Error inserting items:", error);
     }
+  });
+
+  afterAll(async () => {
+    await container.database.delete();
   });
 
   it("FetchNext: should return correct expected values for all the queries", async () => {

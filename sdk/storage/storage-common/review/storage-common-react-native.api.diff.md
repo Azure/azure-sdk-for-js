@@ -7,13 +7,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -7,19 +7,19 @@
+@@ -7,20 +7,19 @@
  import type { CompatResponse } from '@azure/core-http-compat';
  import type { HttpClient } from '@azure/core-rest-pipeline';
  import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
  import type { NodeBuffer } from '@azure/core-rest-pipeline';
 +import type { NodeReadableStream } from '@azure/core-rest-pipeline';
  import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+-import type { PipelineRequest } from '@azure/core-rest-pipeline';
 -import { Readable } from 'node:stream';
  import type { RequestBodyType } from '@azure/core-rest-pipeline';
  import type { RequestPolicy } from '@azure/core-http-compat';
@@ -29,7 +30,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class AnonymousCredential extends Credential {
      create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
-@@ -42,13 +42,14 @@
+@@ -43,20 +42,18 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -47,7 +48,14 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -68,28 +69,29 @@
+-export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
+-
+-// @public
+ export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
+ 
+ // @public
+ export abstract class Credential implements RequestPolicyFactory {
+@@ -72,28 +69,29 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -85,7 +93,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -180,42 +182,35 @@
+@@ -184,42 +182,35 @@
  }
  
  // @public
@@ -139,7 +147,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -224,13 +219,8 @@
+@@ -228,13 +219,8 @@
      encodedContentLength: number;
  }>;
  
@@ -153,7 +161,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -243,10 +233,13 @@
+@@ -247,10 +233,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

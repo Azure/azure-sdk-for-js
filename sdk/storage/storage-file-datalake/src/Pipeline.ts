@@ -62,6 +62,7 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
+import type { SessionMode, SessionOptions } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -78,12 +79,20 @@ export {
   type ServiceClientOptions,
   type PipelineOptions,
   type PipelineLike,
+  type SessionMode,
+  type SessionOptions,
   Pipeline,
   isPipelineLike,
 };
 
 /**
  * Options interface for the {@link newPipeline} function.
+ *
+ * In Node.js, Data Lake clients send requests that have a body, such as appends, with the
+ * `Expect: 100-continue` header for a minute after the service responds with status 429, 500 or
+ * 503, unless `httpClient` is set, as `@azure/storage-blob` clients do by default. Data Lake
+ * clients have no option to change this. To turn it off, set the environment variable
+ * `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1`.
  */
 export interface StoragePipelineOptions {
   /**
@@ -111,6 +120,13 @@ export interface StoragePipelineOptions {
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string;
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Configures session token authentication. Sessions apply only to requests that reach the blob
+   * endpoint, so within Data Lake this affects file reads and nothing else.
+   */
+  sessionOptions?: SessionOptions;
 }
 
 /**

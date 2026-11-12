@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2024-10-18)
+## 1.0.0 (Unreleased)
 
 ### Other Changes
 Stable Release.
@@ -18,4 +18,4 @@ The type names for AnalyzeFromBuffer* have changed to AnalyzeFromImageData*
 ## 1.0.0-beta.1 (2024-01-09)
 
 ### Features Added
-Initial release of Image Analysis SDK. Uses the generally available [Computer Vision REST API (2023-10-01)](https://eastus.dev.cognitive.microsoft.com/docs/services/Cognitive_Services_Unified_Vision_API_2023-10-01).
+Initial release of Image Analysis SDK. Uses the generally available [Computer Vision REST API (2023-10-01)](https://learn.microsoft.com/rest/api/computervision/operation-groups?view=rest-computervision-v4.0%20(2023-10-01)).

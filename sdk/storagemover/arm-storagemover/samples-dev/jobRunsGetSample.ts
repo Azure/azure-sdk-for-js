@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Job Run resource.
  *
  * @summary gets a Job Run resource.
- * x-ms-original-file: 2025-12-01/JobRuns_Get.json
+ * x-ms-original-file: 2026-05-01/JobRuns_Get.json
  */
 async function jobRunsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function jobRunsGet(): Promise<void> {
  * This sample demonstrates how to gets a Job Run resource.
  *
  * @summary gets a Job Run resource.
- * x-ms-original-file: 2025-12-01/JobRuns_Get_With_Schedule.json
+ * x-ms-original-file: 2026-05-01/JobRuns_Get_With_Schedule.json
  */
 async function jobRunsGetWithSchedule(): Promise<void> {
   const credential = new DefaultAzureCredential();

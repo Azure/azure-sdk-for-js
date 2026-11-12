@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { listByReplicationFabrics, get } from "../../api/replicationLogicalNetworks/operations.js";
-import {
+import type {
   ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
   ReplicationLogicalNetworksGetOptionalParams,
 } from "../../api/replicationLogicalNetworks/options.js";
-import { LogicalNetwork } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LogicalNetwork } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationLogicalNetworks operations. */
 export interface ReplicationLogicalNetworksOperations {

@@ -6,7 +6,7 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { getDefaultProxySettings, isRestError } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { isNodeLike, stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
@@ -216,8 +216,11 @@ import {
   toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
+  totalSizeFromContentRange,
   toTags,
 } from "./utils/utils.common.js";
+import { BlobLayoutRouter, resolveLayoutAwareRouting } from "./utils/BlobLayoutRouter.js";
+import { LAYOUT_ENDPOINT_HEADER } from "./policies/StorageDataLocalityPolicy.js";
 import {
   fsCreateReadStream,
   fsStat,
@@ -263,6 +266,15 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
  */
 export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
+
+/**
+ * Whether a download may route its range requests to the endpoints that physically hold them, as
+ * reported by Get Blob Layout.
+ *
+ * `auto` leaves the choice to the SDK, which today resolves to `disabled` and may change in a later
+ * version. Set `enabled` to opt in.
+ */
+export type LayoutAwareRouting = "auto" | "enabled" | "disabled";
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -322,6 +334,25 @@ export interface BlobDownloadOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
 }
+
+/**
+ * Options of one of the range reads {@link BlobClient.downloadToBuffer} sends. Only it routes
+ * reads, so the endpoint to read from is not a public option.
+ */
+interface BlobDownloadRoutedOptions extends BlobDownloadOptions {
+  /**
+   * The endpoint to read this range from, as reported by Get Blob Layout. The account endpoint is
+   * read instead when the endpoint cannot be parsed or the client's URL is not `https://` with a
+   * host name. An endpoint that cannot be reached fails the read.
+   */
+  layoutEndpoint?: string;
+}
+
+/**
+ * A download response with the service's hint on how to read the rest of the blob, which only
+ * layout-aware routing reads.
+ */
+type BlobDownloadResponseWithHint = BlobDownloadResponseParsed & { downloadHint?: string };
 
 /**
  * Options to configure the {@link BlobClient.exists} operation.
@@ -798,6 +829,21 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * Whether the blocks of this download may be read from the endpoints that physically hold
+   * them. Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
+   * Routing is only ever an optimization: the bytes returned are the same either way.
+   *
+   * With routing enabled, the first block is read from the account endpoint, and the rest are
+   * routed only if the service hints that the blob has a layout. If the service answers the
+   * layout request with 400 or a 5xx status, the rest is read from the account endpoint too. Any
+   * other failure fails the download as it would without routing, including a layout request that
+   * is cancelled or times out, and a routed read that still fails after the pipeline's retries,
+   * which is not retried through the account endpoint.
+   */
+  layoutAwareRouting?: LayoutAwareRouting;
 }
 
 /**
@@ -1304,6 +1350,12 @@ export class BlobClient extends StorageClient {
         await StorageCRC64Calculator.init();
       }
 
+      // Consumed and removed by storageDataLocalityPolicy; never reaches the wire.
+      const layoutEndpoint = (options as BlobDownloadRoutedOptions).layoutEndpoint;
+      const layoutHeaders = layoutEndpoint
+        ? { [LAYOUT_ENDPOINT_HEADER]: layoutEndpoint }
+        : undefined;
+
       const response = adjustResponse(
         await this.blobContext.download({
           abortSignal: options.abortSignal,
@@ -1311,6 +1363,7 @@ export class BlobClient extends StorageClient {
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
             onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            headers: layoutHeaders,
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1409,6 +1462,7 @@ export class BlobClient extends StorageClient {
             snapshot: options.snapshot,
             structuredBodyType:
               contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+            requestOptions: { headers: layoutHeaders },
           });
           const resBody = response2.readableStreamBody! as NodeJSReadableStream;
 
@@ -2071,55 +2125,133 @@ export class BlobClient extends StorageClient {
       "BlobClient-downloadToBuffer",
       options,
       async (updatedOptions) => {
-        // Customer doesn't specify length, get it
-        if (!count) {
-          const response = await this.getProperties({
-            ...options,
-            tracingOptions: updatedOptions.tracingOptions,
-          });
-          count = response.contentLength! - offset;
-          if (count < 0) {
+        const chunkOptions = {
+          abortSignal: options.abortSignal,
+          conditions: options.conditions,
+          maxRetryRequests: options.maxRetryRequestsPerBlock,
+          customerProvidedKey: options.customerProvidedKey,
+          contentChecksumAlgorithm: options.contentChecksumAlgorithm,
+          tracingOptions: updatedOptions.tracingOptions,
+        };
+
+        const routed = resolveLayoutAwareRouting(options.layoutAwareRouting) === "enabled";
+        let firstChunk: BlobDownloadResponseParsed | undefined;
+        try {
+          if (!count && !routed) {
+            const response = await this.getProperties({
+              ...options,
+              tracingOptions: updatedOptions.tracingOptions,
+            });
+            count = response.contentLength! - offset;
+            if (count < 0) {
+              throw new RangeError(
+                `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`,
+              );
+            }
+          } else if (!count) {
+            // Routing needs the first chunk's download hint anyway, so its Content-Range gives the
+            // blob's size and saves the Get Blob Properties round trip.
+            let blobSize: number | undefined;
+            try {
+              firstChunk = await this.download(offset, blockSize, chunkOptions);
+              blobSize = totalSizeFromContentRange(firstChunk.contentRange);
+            } catch (error) {
+              // 416 means the offset is at or past the end of the blob, which an empty blob always
+              // is. The error still reports the size, which is all that is left to learn.
+              if (!isRestError(error) || error.statusCode !== 416) {
+                throw error;
+              }
+              blobSize = totalSizeFromContentRange(error.response?.headers.get("content-range"));
+              // A 416 that does not say how big the blob is leaves nothing to recover from, and the
+              // original error describes the failure better than anything synthesized here would.
+              if (blobSize === undefined) {
+                throw error;
+              }
+            }
+
+            if (blobSize === undefined) {
+              throw new Error(
+                "Unable to determine the blob size because the service returned no Content-Range header.",
+              );
+            }
+            if (offset > blobSize) {
+              throw new RangeError(
+                `offset ${offset} shouldn't be larger than blob size ${blobSize}`,
+              );
+            }
+            count = blobSize - offset;
+          }
+
+          // Allocate the buffer of size = count if the buffer is not provided
+          if (!buffer) {
+            try {
+              buffer = Buffer.alloc(count);
+            } catch (error: any) {
+              throw new Error(
+                `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
+                { cause: error },
+              );
+            }
+          }
+
+          if (buffer.length < count) {
             throw new RangeError(
-              `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`,
+              `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
             );
           }
+        } catch (error) {
+          // Nothing has read the first chunk yet, and its unread body would hold the connection.
+          (firstChunk?.readableStreamBody as Readable | undefined)?.destroy();
+          throw error;
         }
 
-        // Allocate the buffer of size = count if the buffer is not provided
-        if (!buffer) {
-          try {
-            buffer = Buffer.alloc(count);
-          } catch (error: any) {
-            throw new Error(
-              `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
-              { cause: error },
-            );
-          }
-        }
-
-        if (buffer.length < count) {
-          throw new RangeError(
-            `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
-          );
+        // The first block is read alone only when its download hint can still turn on routing.
+        if (!firstChunk && count > 0 && routed) {
+          firstChunk = await this.download(offset, Math.min(blockSize, count), chunkOptions);
         }
 
         let transferProgress: number = 0;
+        const firstChunkLength = firstChunk ? Math.min(blockSize, count) : 0;
+        if (firstChunk) {
+          await streamToBuffer(firstChunk.readableStreamBody!, buffer, 0, firstChunkLength);
+          transferProgress = firstChunkLength;
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
+          }
+        }
+
+        // The layout describes only what is left to read, and is pinned to the version the first
+        // chunk came from so the rest of the transfer cannot be stitched across a rewrite.
+        const remaining = count - firstChunkLength;
+        const router = BlobLayoutRouter.forDownload(this.blobContext, {
+          routing: options.layoutAwareRouting ?? "auto",
+          downloadHint: (firstChunk as BlobDownloadResponseWithHint | undefined)?.downloadHint,
+          etag: firstChunk?.etag,
+          offset: offset + firstChunkLength,
+          count: remaining,
+          customerProvidedKey: options.customerProvidedKey,
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+        // The first chunk's exact ETag replaces the caller's If-Match, which may be a wildcard.
+        const chunkConditions = router
+          ? { ...options.conditions, ifMatch: firstChunk?.etag }
+          : options.conditions;
+
         const batch = new Batch(options.concurrency);
-        for (let off = offset; off < offset + count; off = off + blockSize) {
+        for (let off = offset + firstChunkLength; off < offset + count; off = off + blockSize) {
           batch.addOperation(async () => {
             // Exclusive chunk end position
             let chunkEnd = offset + count!;
             if (off + blockSize < chunkEnd) {
               chunkEnd = off + blockSize;
             }
-            const response = await this.download(off, chunkEnd - off, {
-              abortSignal: options.abortSignal,
-              conditions: options.conditions,
-              maxRetryRequests: options.maxRetryRequestsPerBlock,
-              customerProvidedKey: options.customerProvidedKey,
-              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
-              tracingOptions: updatedOptions.tracingOptions,
-            });
+            const chunkDownloadOptions: BlobDownloadRoutedOptions = {
+              ...chunkOptions,
+              conditions: chunkConditions,
+              layoutEndpoint: await router?.endpointFor(off, options.abortSignal),
+            };
+            const response = await this.download(off, chunkEnd - off, chunkDownloadOptions);
             const stream = response.readableStreamBody!;
             await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
             // Update progress after block is downloaded, in case of block trying
@@ -3767,9 +3899,11 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Blob size threshold in bytes to start concurrency uploading.
-   * Default value is 256MB, blob size less than this option will
-   * be uploaded via one I/O operation without concurrency.
-   * You can customize a value less equal than the default value.
+   * Blobs up to this size are uploaded in one request. Larger blobs are uploaded in blocks, and the
+   * service doesn't compute a Content-MD5 property for them; set `blobHTTPHeaders.blobContentMD5` to
+   * store one.
+   * Default value is 4MB and doesn't depend on blockSize. You can customize a value less than or
+   * equal to 256MB.
    */
   maxSingleShotSize?: number;
 
@@ -3798,6 +3932,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Concurrency of parallel uploading. Must be greater than or equal to 0.
+   * If set to 0 or undefined, it defaults to 5.
    */
   concurrency?: number;
 
@@ -4496,7 +4631,7 @@ export class BlockBlobClient extends BlobClient {
    * Uploads a Buffer(Node.js)/Blob(browsers)/ArrayBuffer/ArrayBufferView object to a BlockBlob.
    *
    * When data length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
-   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * 4MB), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
@@ -4545,7 +4680,8 @@ export class BlockBlobClient extends BlobClient {
    *
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
    *
-   * When buffer length lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
+   * When buffer length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize}
+   * (default is 4MB), this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
    *
@@ -4584,7 +4720,7 @@ export class BlockBlobClient extends BlobClient {
    * which need to return a {@link HttpRequestBody} object with the offset and size provided.
    *
    * When data length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
-   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * 4MB), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
@@ -4605,7 +4741,8 @@ export class BlockBlobClient extends BlobClient {
       );
     }
 
-    const maxSingleShotSize = options.maxSingleShotSize ?? BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+    // Default to the default block size rather than the 256MB maximum.
+    const maxSingleShotSize = options.maxSingleShotSize ?? DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
 
     if (maxSingleShotSize < 0 || maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       throw new RangeError(
@@ -4651,7 +4788,8 @@ export class BlockBlobClient extends BlobClient {
         const blockIDPrefix = randomUUID();
         let transferProgress: number = 0;
 
-        const batch = new Batch(options.concurrency);
+        // 0 uses the default concurrency.
+        const batch = new Batch(options.concurrency || undefined);
         for (let i = 0; i < numBlocks; i++) {
           batch.addOperation(async (): Promise<any> => {
             const blockID = generateBlockID(blockIDPrefix, i);
@@ -4686,9 +4824,10 @@ export class BlockBlobClient extends BlobClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a local file in blocks to a block blob.
+   * Uploads a local file to a block blob.
    *
-   * When file size lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
+   * When file size is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize}
+   * (default is 4MB), this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
    * to commit the block list.
    *

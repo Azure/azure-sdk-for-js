@@ -1,6 +1,19 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/jobRuns/index.ts",
+    "../src/api/connections/index.ts",
+    "../src/api/jobDefinitions/index.ts",
+    "../src/api/projects/index.ts",
+    "../src/api/endpoints/index.ts",
+    "../src/api/agents/index.ts",
+    "../src/api/storageMovers/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }
