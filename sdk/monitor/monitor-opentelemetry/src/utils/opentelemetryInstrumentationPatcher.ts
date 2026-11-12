@@ -1,50 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { InstrumentationBase } from "../shared/instrumentation.mjs";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { StatsbeatEnvironmentConfig } from "../types.js";
 import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types.js";
 import { Logger } from "../shared/logging/index.js";
 import { addNumberFlag } from "./common.js";
+import { loadOpenTelemetryInstrumentation } from "../shared/module.js";
+
+const patchedPrototypes = new WeakSet<Instrumentation>();
 
 /**
- * Patch OpenTelemetry Instrumentation enablement to update the statsbeat environment variable with the enabled instrumentations
+ * Track instrumentation provider registration in both ESM and CommonJS Statsbeat hooks.
  * @internal
  */
 export function patchOpenTelemetryInstrumentationEnable(): void {
-  const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
   try {
-    require.resolve("@opentelemetry/instrumentation");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const autoLoaderUtils = require("@opentelemetry/instrumentation/build/src/autoLoaderUtils");
-
-    const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
-
-    // Parses the enabled instrumentations and then ammends the statsbeat instrumentation environment variable
-    autoLoaderUtils.enableInstrumentations = function (instrumentations: Instrumentation[]) {
-      try {
-        const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
-          process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig,
-        );
-        let updatedStatsbeat = {};
-        for (let i = 0; i < instrumentations.length; i++) {
-          statsbeatOptions.instrumentation = addNumberFlag(
-            statsbeatOptions.instrumentation,
-            StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0,
-          );
-          updatedStatsbeat = {
-            instrumentation: statsbeatOptions.instrumentation,
-            feature: statsbeatOptions.feature,
-          };
-        }
-        process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify(updatedStatsbeat);
-      } catch (e) {
-        Logger.getInstance().warn("Failed to parse the statsbeat environment variable");
+    const prototypes: Instrumentation[] = [
+      InstrumentationBase.prototype,
+      loadOpenTelemetryInstrumentation().InstrumentationBase.prototype,
+    ];
+    for (const prototype of prototypes) {
+      if (patchedPrototypes.has(prototype)) {
+        continue;
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, prefer-rest-params
-      return originalModuleDefinition.apply(this, arguments);
-    };
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- Preserve the receiver with .call below.
+      const originalSetTracerProvider = prototype.setTracerProvider;
+
+      // Registration binds providers even when the instrumentation is already enabled.
+      // Hook the instance lifecycle so previously captured registration functions still work.
+      prototype.setTracerProvider = function (tracerProvider) {
+        originalSetTracerProvider.call(this, tracerProvider);
+        const flag = StatsbeatInstrumentationMap.get(this.instrumentationName);
+        if (flag === undefined) {
+          return;
+        }
+        try {
+          const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
+            process.env[AZURE_MONITOR_STATSBEAT_FEATURES] ||
+              JSON.stringify({ instrumentation: 0, feature: 0 }),
+          );
+          statsbeatOptions.instrumentation = addNumberFlag(statsbeatOptions.instrumentation, flag);
+          process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify(statsbeatOptions);
+        } catch (e) {
+          Logger.getInstance().warn("Failed to parse the statsbeat environment variable", e);
+        }
+      };
+      patchedPrototypes.add(prototype);
+    }
   } catch (e) {
-    // Fail silently if the module is not found
+    Logger.getInstance().warn("Failed to register the instrumentation Statsbeat hook", e);
   }
 }

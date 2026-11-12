@@ -9,11 +9,11 @@ import {
   HttpInstrumentation,
   type HttpInstrumentationConfig,
 } from "@opentelemetry/instrumentation-http";
-import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { AlwaysOnSampler } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace";
+import { AlwaysOnSampler } from "@opentelemetry/sdk-trace";
 import type { Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import type { MockInstance } from "vitest";
 import {
   expect,
@@ -50,7 +50,7 @@ describe("Library/TraceHandler", () => {
   let metricHandler: MetricHandler;
   let mockHttpServer: ReturnType<typeof Http.createServer> | undefined;
   const mockHttpServerPort = 8085;
-  let tracerProvider: NodeTracerProvider;
+  let tracerProvider: TracerProvider;
   let exportSpy: MockInstance<AzureMonitorTraceExporter["export"]>;
   let activeInstrumentations: Instrumentation[] = [];
 
@@ -211,6 +211,21 @@ describe("Library/TraceHandler", () => {
       assert.propertyVal(processor, "_scheduledDelayMillis", 2500);
       assert.propertyVal(processor, "_exportTimeoutMillis", 15000);
     });
+
+    it.each(["0", "-1", "invalid"])("ignores invalid batch settings: %s", (value) => {
+      vi.stubEnv("OTEL_BSP_MAX_QUEUE_SIZE", value);
+      vi.stubEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE", value);
+      vi.stubEnv("OTEL_BSP_SCHEDULE_DELAY", value);
+      vi.stubEnv("OTEL_BSP_EXPORT_TIMEOUT", value);
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      expect(handler.getBatchSpanProcessor()).toMatchObject({
+        _maxQueueSize: 2048,
+        _maxExportBatchSize: 512,
+        _scheduledDelayMillis: 5000,
+        _exportTimeoutMillis: 30000,
+      });
+    });
   });
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -302,7 +317,7 @@ describe("Library/TraceHandler", () => {
 
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
-      tracerProvider = new NodeTracerProvider({
+      tracerProvider = new TracerProvider({
         spanProcessors: [
           handler.getAzureMonitorSpanProcessor(),
           customSpanProcessor,
@@ -418,7 +433,7 @@ describe("Library/TraceHandler", () => {
     // scenario). With the instrumenter wired and a recording tracer provider registered,
     // spans started through @azure/core-tracing must be recording.
     it("wires the Azure SDK instrumenter so core-tracing produces recording spans", () => {
-      tracerProvider = new NodeTracerProvider({ sampler: new AlwaysOnSampler() });
+      tracerProvider = new TracerProvider({ sampler: new AlwaysOnSampler() });
       trace.setGlobalTracerProvider(tracerProvider);
 
       metricHandler = new MetricHandler(_config);

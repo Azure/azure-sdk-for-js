@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { Attributes } from "@opentelemetry/api";
 import { SpanStatusCode } from "@opentelemetry/api";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_PEER_SERVICE,
   SEMATTRS_EXCEPTION_MESSAGE,
@@ -46,6 +46,7 @@ import { Logger } from "../shared/logging/logger.js";
 import os from "node:os";
 import process from "node:process";
 import { readFileSync } from "node:fs";
+import { getStringAttribute } from "../utils/common.js";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -102,7 +103,7 @@ export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const peerService = attributes[SEMATTRS_PEER_SERVICE];
+  const peerService = getStringAttribute(attributes, SEMATTRS_PEER_SERVICE);
   const hostPort = getNetHostPort(attributes);
   const netPeerName = getNetPeerName(attributes);
   if (peerService) {
@@ -129,7 +130,7 @@ export function isSqlDB(dbSystem: string): boolean {
   );
 }
 
-export function isExceptionTelemetry(logRecord: SdkLogRecord): boolean {
+export function isExceptionTelemetry(logRecord: ReadWriteLogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -143,7 +144,7 @@ export function isExceptionTelemetry(logRecord: SdkLogRecord): boolean {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: SdkLogRecord): boolean {
+export function isTraceTelemetry(logRecord: ReadWriteLogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
@@ -157,8 +158,8 @@ export function isTraceTelemetry(logRecord: SdkLogRecord): boolean {
   return false;
 }
 
-export function isSyntheticLoad(record: SdkLogRecord | ReadableSpan): boolean {
-  const userAgent = String(getUserAgent(record.attributes as Attributes));
+export function isSyntheticLoad(record: ReadWriteLogRecord | ReadableSpan): boolean {
+  const userAgent = String(getUserAgent(record.attributes));
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }
 
@@ -248,8 +249,8 @@ export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsa
 export function getCloudRole(resource: Resource): string {
   let cloudRole = "";
   // Service attributes
-  const serviceName: string = resource.attributes[SEMRESATTRS_SERVICE_NAME] as string;
-  const serviceNamespace: string = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] as string;
+  const serviceName = getStringAttribute(resource.attributes, SEMRESATTRS_SERVICE_NAME);
+  const serviceNamespace = getStringAttribute(resource.attributes, SEMRESATTRS_SERVICE_NAMESPACE);
   if (serviceName) {
     // Custom Service name provided by customer is highest precedence
     if (!String(serviceName).startsWith("unknown_service")) {
@@ -268,27 +269,42 @@ export function getCloudRole(resource: Resource): string {
     }
   }
   // Kubernetes attributes should take precedence
-  const kubernetesDeploymentName = resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
+  const kubernetesDeploymentName = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_K8S_DEPLOYMENT_NAME,
+  );
   if (kubernetesDeploymentName) {
     return String(kubernetesDeploymentName);
   }
-  const kuberneteReplicasetName = resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
+  const kuberneteReplicasetName = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_K8S_REPLICASET_NAME,
+  );
   if (kuberneteReplicasetName) {
     return String(kuberneteReplicasetName);
   }
-  const kubernetesStatefulSetName = resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
+  const kubernetesStatefulSetName = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_K8S_STATEFULSET_NAME,
+  );
   if (kubernetesStatefulSetName) {
     return String(kubernetesStatefulSetName);
   }
-  const kubernetesJobName = resource.attributes[SEMRESATTRS_K8S_JOB_NAME];
+  const kubernetesJobName = getStringAttribute(resource.attributes, SEMRESATTRS_K8S_JOB_NAME);
   if (kubernetesJobName) {
     return String(kubernetesJobName);
   }
-  const kubernetesCronjobName = resource.attributes[SEMRESATTRS_K8S_CRONJOB_NAME];
+  const kubernetesCronjobName = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_K8S_CRONJOB_NAME,
+  );
   if (kubernetesCronjobName) {
     return String(kubernetesCronjobName);
   }
-  const kubernetesDaemonsetName = resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
+  const kubernetesDaemonsetName = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_K8S_DAEMONSET_NAME,
+  );
   if (kubernetesDaemonsetName) {
     return String(kubernetesDaemonsetName);
   }
@@ -300,12 +316,15 @@ export function getCloudRole(resource: Resource): string {
  */
 export function getCloudRoleInstance(resource: Resource): string {
   // Kubernetes attributes should take precedence
-  const kubernetesPodName = resource.attributes[SEMRESATTRS_K8S_POD_NAME];
+  const kubernetesPodName = getStringAttribute(resource.attributes, SEMRESATTRS_K8S_POD_NAME);
   if (kubernetesPodName) {
     return String(kubernetesPodName);
   }
   // Service attributes
-  const serviceInstanceId = resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
+  const serviceInstanceId = getStringAttribute(
+    resource.attributes,
+    SEMRESATTRS_SERVICE_INSTANCE_ID,
+  );
   if (serviceInstanceId) {
     return String(serviceInstanceId);
   }

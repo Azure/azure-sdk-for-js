@@ -9,7 +9,7 @@
 
 import { createRequire } from "node:module";
 import { trace, metrics } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
+import { logs } from "@opentelemetry/api";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 

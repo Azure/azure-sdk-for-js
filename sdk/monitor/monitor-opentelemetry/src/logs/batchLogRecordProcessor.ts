@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { TraceFlags } from "@opentelemetry/api";
-import type { LogRecordExporter, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { LogRecordExporter, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { getPositiveNumberFromEnv } from "../shared/envConfig.js";
 
 /**
  * Azure Monitor BatchLogRecord Processor.
@@ -16,11 +17,17 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     exporter: LogRecordExporter,
     options: { enableTraceBasedSamplingForLogs: boolean | undefined },
   ) {
-    super({ exporter });
+    super({
+      exporter,
+      maxQueueSize: getPositiveNumberFromEnv("OTEL_BLRP_MAX_QUEUE_SIZE"),
+      maxExportBatchSize: getPositiveNumberFromEnv("OTEL_BLRP_MAX_EXPORT_BATCH_SIZE"),
+      scheduledDelayMillis: getPositiveNumberFromEnv("OTEL_BLRP_SCHEDULE_DELAY"),
+      exportTimeoutMillis: getPositiveNumberFromEnv("OTEL_BLRP_EXPORT_TIMEOUT"),
+    });
     this._options = options;
   }
 
-  public onEmit(logRecord: SdkLogRecord): void {
+  public onEmit(logRecord: ReadWriteLogRecord): void {
     // Trace based sampling for logs
     if (this._options.enableTraceBasedSamplingForLogs) {
       if (logRecord.spanContext && logRecord.spanContext.spanId) {
