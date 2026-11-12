@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0 (2026-10-23)
+## 7.0.0 (2026-11-12)
 
 ### Features Added
   - Added operation IotHubOperations.manualFailover
