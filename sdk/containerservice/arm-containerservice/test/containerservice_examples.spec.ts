@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
@@ -23,6 +23,13 @@ const recorderOptions: RecorderStartOptions = {
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: "api-version=2026-09-01",
+      value: "api-version=2026-09-01",
+    },
   ],
 };
 
@@ -186,3 +193,4 @@ describe("ContainerService test", () => {
     assert.equal(resArray.length, 0);
   });
 });
+
