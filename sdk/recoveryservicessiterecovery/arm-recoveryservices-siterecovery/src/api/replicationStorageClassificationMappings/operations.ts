@@ -1,35 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   StorageClassificationMapping,
-  storageClassificationMappingDeserializer,
   StorageClassificationMappingInput,
-  storageClassificationMappingInputSerializer,
   _StorageClassificationMappingCollection,
-  _storageClassificationMappingCollectionDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  storageClassificationMappingDeserializer,
+  storageClassificationMappingInputSerializer,
+  _storageClassificationMappingCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationStorageClassificationMappingsListOptionalParams,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
   ReplicationStorageClassificationMappingsDeleteOptionalParams,
   ReplicationStorageClassificationMappingsCreateOptionalParams,
   ReplicationStorageClassificationMappingsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -43,7 +39,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +74,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -100,7 +96,7 @@ export function _listByReplicationStorageClassificationsSend(
       resourceName: resourceName,
       fabricName: fabricName,
       storageClassificationName: storageClassificationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +143,7 @@ export function listByReplicationStorageClassifications(
       ),
     _listByReplicationStorageClassificationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -169,7 +165,7 @@ export function _$deleteSend(
       fabricName: fabricName,
       storageClassificationName: storageClassificationName,
       storageClassificationMappingName: storageClassificationMappingName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +207,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -234,7 +230,7 @@ export function _createSend(
       fabricName: fabricName,
       storageClassificationName: storageClassificationName,
       storageClassificationMappingName: storageClassificationMappingName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +281,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<StorageClassificationMapping>, StorageClassificationMapping>;
 }
 
@@ -307,7 +303,7 @@ export function _getSend(
       fabricName: fabricName,
       storageClassificationName: storageClassificationName,
       storageClassificationMappingName: storageClassificationMappingName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

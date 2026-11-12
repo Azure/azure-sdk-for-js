@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { listByReplicationProtectedItems } from "../../api/targetComputeSizes/operations.js";
-import { TargetComputeSizesListByReplicationProtectedItemsOptionalParams } from "../../api/targetComputeSizes/options.js";
-import { TargetComputeSize } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TargetComputeSizesListByReplicationProtectedItemsOptionalParams } from "../../api/targetComputeSizes/options.js";
+import type { TargetComputeSize } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TargetComputeSizes operations. */
 export interface TargetComputeSizesOperations {

@@ -33,13 +33,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {
-  /** Triggers scenario evaluation for the workspace. */
+  /** Starts evaluation of published scenario-template versions, including when the workspace has no scenarios. Acceptance fixes the selected template membership and total count, qualified resource snapshot and canonical discovery result reference. Without a usable discovery snapshot or valid catalog input, the request is rejected synchronously with an Azure error and no evaluation result is created. A valid empty catalog completes successfully with zero counts and an empty results array. Outcome counts reflect processing after acceptance. The initial 202 has no body. Poll the operation-bound Location URL until completion: a completed successful or partially successful assessment returns the typed result; failed or canceled processing returns an Azure error whose target identifies the evaluation resource. Ordinary evaluation reads return the current resource, including failed or canceled results, while retained. */
   evaluate: (
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesEvaluateOptionalParams,
   ) => PollerLike<OperationState<WorkspaceEvaluation>, WorkspaceEvaluation>;
-  /** Triggers resource discovery for the workspace. */
+  /** Starts discovery for the workspace. The initial 202 has no body. Poll the operation-bound Location URL until completion: a successful or partially successful discovery returns the typed result; failed or canceled processing returns an Azure error whose target identifies the discovery resource. Ordinary discovery reads return the current resource, including failed or canceled results, while retained. */
   discover: (
     resourceGroupName: string,
     workspaceName: string,
@@ -79,6 +79,7 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
+
 function _getWorkspaces(context: ChaosManagementContext) {
   return {
     evaluate: (
@@ -118,6 +119,7 @@ function _getWorkspaces(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
+
 export function _getWorkspacesOperations(context: ChaosManagementContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),
