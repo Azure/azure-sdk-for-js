@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list SandboxGroup resources by subscription ID
  *
  * @summary list SandboxGroup resources by subscription ID
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsListBySubscription.json
+ * x-ms-original-file: 2026-07-01/SandboxGroupsListBySubscription.json
  */
 async function listSandboxGroupsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a SandboxGroup
  *
  * @summary delete a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsDelete.json
+ * x-ms-original-file: 2026-07-01/SandboxGroupsDelete.json
  */
 async function deleteASandboxGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
