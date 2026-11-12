@@ -25,7 +25,6 @@
 
 - Named request body parameters `role`, `room`, `member`, `user`, `topic`, and `message` consistently across the client and operation functions. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Documented message-ID pagination cursors and resuming message pages with the returned continuation token. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
-- Moved lifecycle request model and serializer customizations into TypeSpec, sharing the request-model helper with Python. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 
 - Removed the dependency on `@azure/web-pubsub` by implementing client access token generation directly. [#39855](https://github.com/Azure/azure-sdk-for-js/pull/39855)
 
