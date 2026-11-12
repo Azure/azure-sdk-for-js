@@ -586,6 +586,51 @@ describe("snippets", () => {
     await client.createOrUpdateKnowledgeBase(input);
   });
 
+  it("ReadmeSampleAutomaticFilterHints", async () => {
+    const endpoint = "<endpoint>";
+    const credential = new DefaultAzureCredential();
+    const indexClient = new SearchIndexClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const source = await indexClient.createKnowledgeSource({
+      name: "<newKnowledgeSourceName>",
+      kind: "searchIndex",
+      searchIndexParameters: {
+        searchIndexName: "<existingIndexName>",
+        semanticConfigurationName: "<semanticConfigurationName>",
+        queryHints: {
+          filters: [
+            {
+              field: "category",
+              autoConfiguration: { cacheTtl: 60, maxFacetValueCount: 50 },
+            },
+          ],
+        },
+      },
+    });
+    const base = await indexClient.createKnowledgeBase({
+      name: "<newKnowledgeBaseName>",
+      knowledgeSources: [{ name: source.name }],
+      models: [
+        {
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUrl: "<azureOpenAIEndpoint>",
+            deploymentId: "<chatDeploymentName>",
+            modelName: "gpt-5.4-mini",
+          },
+        },
+      ],
+      retrievalReasoningEffort: { kind: "low" },
+    });
+    // @ts-preserve-whitespace
+    const retrievalClient = new KnowledgeRetrievalClient(endpoint, base.name, credential);
+    const response = await retrievalClient.retrieve({
+      intents: [{ type: "semantic", search: "Find product manuals." }],
+      includeActivity: true,
+    });
+    console.log(response.response, response.activity);
+  });
+
   it("ReadmeSampleListResources", async () => {
     const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace

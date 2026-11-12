@@ -392,6 +392,26 @@ describe("GA runtime compatibility in the November preview", () => {
     });
   });
 
+  it("sends binary image content through search and graph queries", async () => {
+    const t = transport([{ value: [] }]);
+    const client = new SearchClient<{ image: number[] }>(endpoint, "idx", credential, {
+      httpClient: t.httpClient,
+    });
+    const query = {
+      kind: "imageBinary" as const,
+      binaryImage: "aW1hZ2U=",
+      fields: ["image"] as ["image"],
+    };
+    await client.search("*", { vectorSearchOptions: { queries: [query] } });
+    await client.graph("MATCH (n:Person) RETURN n LIMIT 1", { vectorQueries: [query] });
+    assert.lengthOf(t.requests, 2);
+    for (const request of t.requests) {
+      assert.deepEqual(body(request).vectorQueries, [
+        { kind: "imageBinary", fields: "image", base64Image: query.binaryImage },
+      ]);
+    }
+  });
+
   it.each([
     { queryRewrites: undefined, expected: undefined },
     { queryRewrites: { rewritesType: "generative" as const }, expected: "generative" },

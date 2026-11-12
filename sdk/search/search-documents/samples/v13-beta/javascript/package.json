@@ -25,7 +25,8 @@
     "@azure/search-documents": "beta",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0",
-    "@azure/core-util": "^1.12.0"
+    "@azure/core-util": "^1.12.0",
+    "openai": "^7.28.0"
   },
   "devDependencies": {
     "cross-env": "latest"

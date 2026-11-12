@@ -5,6 +5,12 @@
  * @summary Graph diagnostics, topic-graph retrieval and asynchronous File ingestion
  * using the 2026-11-01-preview API. Requires existing graph/vector indexes, a knowledge
  * base with a configured tool and a File knowledge source. No resources are provisioned.
+ * GRAPH_QUERY must constrain the graph using labels or names from the graph index.
+ * The vector index needs a text vectorizer and a populated topic-graph profile on
+ * contentVector. The knowledge base needs a model supporting low reasoning, a
+ * topic-graph-enabled search-index source and a filterable category field containing
+ * "manual". Automatic hints belong in the source's stored queryHints; request-time
+ * queryHintOverrides below use explicit fieldValues instead.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -16,6 +22,10 @@ const {
 require("dotenv").config();
 
 async function main() {
+  const graphQuery = process.env.GRAPH_QUERY;
+  if (!graphQuery) {
+    throw new Error("Set GRAPH_QUERY to a constrained query matching the graph index's schema.");
+  }
   const endpoint = process.env.ENDPOINT || "";
   const credential = new DefaultAzureCredential();
   const options = { serviceVersion: "2026-11-01-preview" };
@@ -26,11 +36,11 @@ async function main() {
     options,
   );
 
-  const graph = await graphClient.graph(process.env.GRAPH_QUERY || "MATCH (n) RETURN n", {
+  const graph = await graphClient.graph(graphQuery, {
     executionMode: "execute",
     includeStatistics: true,
     includeDiagnostics: true,
-    provenance: { kind: "none" },
+    provenance: { kind: "ids" },
   });
   for (const row of graph.value) {
     console.log(row.additionalProperties, row.provenance);
@@ -50,7 +60,7 @@ async function main() {
           kind: "text",
           text: "Explain the connected topics",
           fields: ["contentVector"],
-          topicGraph: { kind: "diverse", diversityFactor: 0.5, minDiversityPoolSize: 30 },
+          topicGraph: { kind: "diverse", diversityFactor: 0.5, minDiversityPoolSize: 500 },
         },
       ],
     },
@@ -68,16 +78,15 @@ async function main() {
   const response = await retrievalClient.retrieve({
     toolName: process.env.KNOWLEDGE_BASE_TOOL_NAME || "",
     intents: [{ type: "semantic", search: "What facts connect these topics?" }],
+    retrievalReasoningEffort: { kind: "low" },
     includeActivity: true,
     knowledgeSourceParams: [
       {
         kind: "searchIndex",
         knowledgeSourceName: process.env.KNOWLEDGE_SOURCE_NAME || "",
-        topicGraph: { kind: "balanced", minDiversityPoolSize: 20 },
+        topicGraph: { kind: "balanced", minDiversityPoolSize: 500 },
         queryHintOverrides: {
-          filters: [
-            { field: "category", autoConfiguration: { cacheTtl: 60, maxFacetValueCount: 50 } },
-          ],
+          filters: [{ field: "category", fieldValues: ["manual"] }],
         },
       },
     ],

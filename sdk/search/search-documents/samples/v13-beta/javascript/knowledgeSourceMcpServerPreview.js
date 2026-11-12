@@ -21,6 +21,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
+const { randomUUID } = require("node:crypto");
 const { SearchIndexClient } = require("@azure/search-documents/searchIndex");
 const {
   KnowledgeRetrievalClient,
@@ -34,8 +35,8 @@ const endpoint = process.env.ENDPOINT || "";
 const mcpServerUrl = process.env.MCP_SERVER_URL || "";
 const mcpApiKey = process.env.MCP_API_KEY || "";
 
-const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-mcp-server-preview-sample";
-const KNOWLEDGE_BASE_NAME = "example-kb-for-mcp-server-ks-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = `example-knowledge-source-mcp-server-${randomUUID()}`;
+const KNOWLEDGE_BASE_NAME = `example-kb-for-mcp-server-${randomUUID()}`;
 
 async function main() {
   console.log(`Running Knowledge Source MCP Server Preview Sample....`);
@@ -90,9 +91,12 @@ async function main() {
     return;
   }
 
+  let knowledgeSourceCreated = false;
+  let knowledgeBaseCreated = false;
   try {
     // 1. Create / read back.
     const created = await client.createKnowledgeSource(mcpKnowledgeSource);
+    knowledgeSourceCreated = true;
     console.log(`Created MCP server knowledge source: ${created.name} (kind=${created.kind})`);
     const fetched = await client.getKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
     console.log(`Read back: ${fetched.name}`);
@@ -104,6 +108,7 @@ async function main() {
       knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     };
     await client.createKnowledgeBase(knowledgeBase);
+    knowledgeBaseCreated = true;
     console.log(`Attached ${KNOWLEDGE_SOURCE_NAME} to ${KNOWLEDGE_BASE_NAME}`);
 
     // 3. Retrieve and look at the mcpServer reference / activity shape.
@@ -119,8 +124,12 @@ async function main() {
       }
     }
   } finally {
-    await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
-    await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    if (knowledgeBaseCreated) {
+      await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
+    }
+    if (knowledgeSourceCreated) {
+      await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    }
   }
 }
 

@@ -944,8 +944,15 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
+      case "imageBinary": {
+        const { binaryImage, fields, ...restFields } = vectorQuery;
+        return {
+          ...restFields,
+          fields: this.convertVectorQueryFields(fields),
+          base64Image: binaryImage,
+        };
+      }
       case "imageUrl":
-      case "imageBinary":
       case "vector": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
       }

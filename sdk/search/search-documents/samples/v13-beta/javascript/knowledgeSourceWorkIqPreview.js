@@ -26,6 +26,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
+const { randomUUID } = require("node:crypto");
 const { KnowledgeRetrievalClient } = require("@azure/search-documents");
 const { SearchIndexClient } = require("@azure/search-documents/searchIndex");
 
@@ -38,8 +39,8 @@ const tenantId = process.env.WORKIQ_TENANT_ID || undefined;
 const workIQUserAssertion = process.env.WORK_IQ_USER_ASSERTION || "";
 const searchAuthorization = process.env.SEARCH_QUERY_SOURCE_AUTHORIZATION || undefined;
 
-const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-workiq-preview-sample";
-const KNOWLEDGE_BASE_NAME = "example-kb-for-workiq-ks-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = `example-knowledge-source-workiq-${randomUUID()}`;
+const KNOWLEDGE_BASE_NAME = `example-kb-for-workiq-${randomUUID()}`;
 
 async function main() {
   console.log(`Running Knowledge Source Work IQ Preview Sample....`);
@@ -66,9 +67,12 @@ async function main() {
     },
   };
 
+  let knowledgeSourceCreated = false;
+  let knowledgeBaseCreated = false;
   try {
     // 1. Create / read back.
     const created = await client.createKnowledgeSource(workIQ);
+    knowledgeSourceCreated = true;
     console.log(`Created ${created.kind} knowledge source: ${created.name}`);
     const fetched = await client.getKnowledgeSource(KNOWLEDGE_SOURCE_NAME);
     console.log(`Read back: ${fetched.name}`);
@@ -80,6 +84,7 @@ async function main() {
       knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
     };
     await client.createKnowledgeBase(knowledgeBase);
+    knowledgeBaseCreated = true;
     console.log(`Attached ${KNOWLEDGE_SOURCE_NAME} to ${KNOWLEDGE_BASE_NAME}`);
 
     // 3. Retrieve. Work IQ needs a delegated user token.
@@ -106,8 +111,12 @@ async function main() {
       `Work IQ references: ${(response.references ?? []).filter((ref) => ref.type === "workIQ").length}`,
     );
   } finally {
-    await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
-    await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    if (knowledgeBaseCreated) {
+      await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
+    }
+    if (knowledgeSourceCreated) {
+      await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    }
   }
 }
 

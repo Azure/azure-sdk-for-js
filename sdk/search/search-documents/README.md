@@ -12,6 +12,14 @@ knowledge base tools, facet-derived filter hints, three-model knowledge-base inp
 random scoring, OpenAI-compatible vectorizer inputs, ingestion caches, and asynchronous File
 ingestion with operation diagnostics.
 See [the November preview sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/novemberPreview.ts).
+For a complete Topic Graph setup, see
+[the diverse-search walkthrough](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/topicGraphDiverseSearch.ts).
+It creates a corpus and sidecar with synthetic content, links them with an
+ETag-guarded update, and compares ordinary, diverse, balanced, and inherited
+search with stored and runtime knowledge-source settings. It uses real embeddings
+and requires a compatible embedding deployment, semantic ranker, and Search
+managed-identity access to that deployment. The small fixture demonstrates the
+API, not production topic discovery or retrieval quality.
 `beginIngestKnowledgeSourceFile` and `beginReplaceKnowledgeSourceFile` return thenable
 `@azure/core-lro` pollers: do not await the initial call when retaining the poller;
 use `pollUntilDone()` to wait for its typed file result.
@@ -510,6 +518,72 @@ await client.createOrUpdateKnowledgeBase(input);
 Create/update methods still return the legacy `KnowledgeBase` type for compatibility.
 Use `SearchIndexClient` from `@azure/search-documents/searchIndex` when reading
 responses that need the full model union.
+
+### Configure Automatic Filter Hints
+
+Automatic hints are stored on the knowledge-source resource in Azure AI Search,
+under `searchIndexParameters.queryHints`. They are not a portal-only setting and
+must not be placed in request-time `queryHintOverrides`. Retrieval inherits stored
+hints; request overrides may instead supply explicit `fieldValues`.
+
+This example creates a source for an existing populated index and attaches it to
+a knowledge base. The index needs a filterable, facetable `category` field and the
+specified semantic configuration. Use a model that supports hints and low or
+medium reasoning; Microsoft Retriever 1's minimal reasoning is not suitable.
+Automatic hints are not supported with document-level permissions or Purview
+sensitivity labels. Use new resource names; the example leaves the source and
+knowledge base available for subsequent retrievals.
+
+```ts snippet:ReadmeSampleAutomaticFilterHints
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexClient, KnowledgeRetrievalClient } from "@azure/search-documents";
+
+const endpoint = "<endpoint>";
+const credential = new DefaultAzureCredential();
+const indexClient = new SearchIndexClient(endpoint, credential);
+
+const source = await indexClient.createKnowledgeSource({
+  name: "<newKnowledgeSourceName>",
+  kind: "searchIndex",
+  searchIndexParameters: {
+    searchIndexName: "<existingIndexName>",
+    semanticConfigurationName: "<semanticConfigurationName>",
+    queryHints: {
+      filters: [
+        {
+          field: "category",
+          autoConfiguration: { cacheTtl: 60, maxFacetValueCount: 50 },
+        },
+      ],
+    },
+  },
+});
+const base = await indexClient.createKnowledgeBase({
+  name: "<newKnowledgeBaseName>",
+  knowledgeSources: [{ name: source.name }],
+  models: [
+    {
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "<azureOpenAIEndpoint>",
+        deploymentId: "<chatDeploymentName>",
+        modelName: "gpt-5.4-mini",
+      },
+    },
+  ],
+  retrievalReasoningEffort: { kind: "low" },
+});
+
+const retrievalClient = new KnowledgeRetrievalClient(endpoint, base.name, credential);
+const response = await retrievalClient.retrieve({
+  intents: [{ type: "semantic", search: "Find product manuals." }],
+  includeActivity: true,
+});
+console.log(response.response, response.activity);
+```
+
+When updating an existing source instead, read its definition first and preserve
+its other settings before calling `createOrUpdateKnowledgeSource`.
 
 ### Page Through Resources
 

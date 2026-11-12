@@ -16,6 +16,7 @@
 
 ### Bugs Fixed
 
+- Preserved binary-image vector query content through search and graph requests, guarded MCP and Work IQ sample cleanup, and corrected graph provenance and request-time query hints in the November sample. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Prevented File, Freshness, and Knowledge Base Configuration samples from deleting unowned resources, and separated embedding/chat model names from deployment aliases in the affected examples. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Preserved graph projection columns named `provenance` and original HTTP errors when graph error responses contain plain text or malformed diagnostics. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Fixed text-vector query rewrite serialization for search and graph queries, preserved AML vectorizer authentication during index read/update round trips, and corrected the documented protocol document-count return type. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
@@ -32,6 +33,7 @@
 
 ### Other Changes
 
+- Added an end-to-end synthetic Topic Graph sample covering sidecar linkage, search modes, and stored/runtime knowledge-source overrides; corrected sample diversity pool sizes. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Added the preview activity duration name `elapsedMs` while retaining `elapsedInMs` for existing callers. Retained optional indexed-ingestion query hints, request-time overrides, and their wire mappings for older preview versions even though the November service contract no longer includes them. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
 - Added offline HTTP/serialization/polling coverage and a November preview sample. Release date remains unconfirmed.
 - Refreshed November preview test recordings and re-enabled four semantic search and knowledge retrieval cases after successful PPE re-recording. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
