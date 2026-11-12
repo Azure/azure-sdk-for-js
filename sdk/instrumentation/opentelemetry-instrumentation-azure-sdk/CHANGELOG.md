@@ -1,5 +1,16 @@
 # Release History
 
+## 1.1.0-beta.2 (Unreleased)
+
+### Breaking Changes
+
+- Require OpenTelemetry SDK 3.x, API 1.10.x, and Node.js >=22.15.0. SDK 2 consumers must remain on `1.1.0-beta.1`. [#40577](https://github.com/Azure/azure-sdk-for-js/pull/40577)
+
+### Other Changes
+
+- Align instrumentation dependencies with the SDK 3 loader generation and add native ESM/CommonJS Azure-operation regression coverage.
+- Remove the unused production dependency on `@opentelemetry/sdk-trace-web` and migrate test providers to `@opentelemetry/sdk-trace`.
+
 ## 1.1.0-beta.1 (2026-05-28)
 
 ### Features Added

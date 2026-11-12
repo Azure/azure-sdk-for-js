@@ -3,10 +3,10 @@
 
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
-import { SpanKind, context, trace } from "@opentelemetry/api";
+import { ROOT_CONTEXT, SpanKind, context, propagation, trace } from "@opentelemetry/api";
 import type { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
 import type { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
-import type { Span } from "@opentelemetry/sdk-trace-base";
+import type { Span } from "@opentelemetry/sdk-trace";
 import { environmentCache } from "../../src/configuration.js";
 import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";
@@ -17,6 +17,27 @@ function unwrap(span: TracingSpan): Span {
 
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
+
+  describe("test provider registration", () => {
+    it("propagates the active span through the global W3C propagator", () => {
+      const span = trace.getTracer("test").startSpan("registered-provider");
+      const activeContext = trace.setSpan(context.active(), span);
+      const headers: Record<string, string> = {};
+
+      context.with(activeContext, () => {
+        assert.equal(trace.getSpan(context.active()), span);
+        propagation.inject(context.active(), headers);
+      });
+
+      assert.equal(
+        headers.traceparent,
+        `00-${span.spanContext().traceId}-${span.spanContext().spanId}-01`,
+      );
+      const extractedContext = propagation.extract(ROOT_CONTEXT, headers);
+      assert.equal(trace.getSpanContext(extractedContext)?.spanId, span.spanContext().spanId);
+      span.end();
+    });
+  });
 
   describe("#createRequestHeaders", () => {
     afterEach(() => {

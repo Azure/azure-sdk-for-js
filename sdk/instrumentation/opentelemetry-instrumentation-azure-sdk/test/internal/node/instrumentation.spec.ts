@@ -11,9 +11,8 @@ describe("instrumentation end-to-end tests", () => {
     inMemoryExporter.reset();
   });
 
-  // This is node-only since we use the BasicTracerProvider in the browser
-  // which does not set up a context manager. Alternatively we can always pull in
-  // @opentelemetry/sdk-trace-web but it did not feel necessary at this time.
+  // This is node-only because the browser's StackContextManager does not
+  // propagate context across asynchronous operations.
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {
       await new TestClient().exampleOperation();
