@@ -217,6 +217,55 @@ describe("tokenCycler", function () {
     expect(getToken).toHaveBeenCalledTimes(2);
   });
 
+  it("does not republish a superseded claims epoch", async function () {
+    const resolvers: Array<{
+      resolve: (token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void;
+      reject: (reason?: unknown) => void;
+    }> = [];
+    const getToken = vi.fn<TokenCredential["getToken"]>(
+      () =>
+        new Promise<Awaited<ReturnType<TokenCredential["getToken"]>>>((resolve, reject) => {
+          resolvers.push({ resolve, reject });
+        }),
+    );
+    const getAccessToken = createTokenCycler({ getToken });
+
+    const claimsA = getAccessToken(["scope"], { claims: "claims-a" });
+    const claimsB = getAccessToken(["scope"], { claims: "claims-b" });
+    resolvers[1]!.resolve({
+      token: "claims-b",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(claimsB).resolves.toMatchObject({ token: "claims-b" });
+
+    const claimsC = getAccessToken(["scope"], { claims: "claims-c" });
+    expect(getToken).toHaveBeenCalledTimes(3);
+
+    resolvers[0]!.reject(new Error("older claims failed"));
+    await expect(claimsA).rejects.toThrow("older claims failed");
+
+    // The old epoch's successful result must not be restored while C is the
+    // active newer challenge. A fresh ordinary acquisition proves that B was
+    // not republished into the settled cache.
+    const ordinary = getAccessToken(["scope"], {});
+    expect(getToken).toHaveBeenCalledTimes(4);
+    resolvers[3]!.resolve({
+      token: "ordinary",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(ordinary).resolves.toMatchObject({ token: "ordinary" });
+
+    resolvers[2]!.resolve({
+      token: "claims-c",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
+    await expect(claimsC).resolves.toMatchObject({ token: "claims-c" });
+    await expect(getAccessToken(["scope"], {})).resolves.toMatchObject({
+      token: "claims-c",
+    });
+    expect(getToken).toHaveBeenCalledTimes(4);
+  });
+
   it("does not let an old worker remove a replacement worker", async function () {
     const resolvers: Array<(token: Awaited<ReturnType<TokenCredential["getToken"]>>) => void> = [];
     const getToken = vi.fn<TokenCredential["getToken"]>(
