@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added support for service version `2026-04-01`.
-- (From 4.11.0-beta.1) Added the `KeyClient.createExternalKey` method and the `ExternalKey` model to create a Managed HSM key backed by a key stored in an external key management system, along with the `externalKey` property on `KeyProperties` and `CreateKeyOptions` and the read-only `keySize` property on `KeyProperties`.
+- (From 4.11.0-beta.1) Added the `KeyClient.createExternalKey` method and the `ExternalKey` model to create a Managed HSM key backed by a key stored in an external key management system, along with the `externalKey` and read-only `keySize` properties on `KeyProperties`.
 - (From 4.11.0-beta.1) Added the `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods, along with the `SecureKeyWrapAlgorithm`, `SecureKeyOperationResult`, `SecureWrapKeyOptions`, and `SecureUnwrapKeyOptions` types. Only supported on Managed HSM.
 - (From 4.11.0-beta.1) Added the `SecureWrapKey` and `SecureUnwrapKey` values to `KnownKeyOperations`.
 
