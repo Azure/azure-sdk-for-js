@@ -18,6 +18,11 @@
  *  - `AZURE_MANAGEDHSM_URI`           e.g. https://my-mhsm.managedhsm.azure.net
  *  - `AZURE_KEYVAULT_ATTESTATION_URI` MAA endpoint trusted by the HSM
  *
+ * When running the samples against a regular vault (`KEYVAULT_URI`), this
+ * HSM-only sample is skipped unless `AZURE_MANAGEDHSM_URI` is also configured.
+ * The attestation endpoint alone does not select an HSM; it is also used by
+ * regular vault tests. A configured HSM still requires the attestation endpoint.
+ *
  * The MAA endpoint is expected to expose a `/generate-test-token` route that
  * returns `{ "token": "<jwt>" }` (this matches the
  * `keyvault-mock-attestation` service used by Key Vault SDK tests).
@@ -41,6 +46,12 @@ async function fetchAttestationToken(attestationUri: string): Promise<string> {
 export async function main(): Promise<void> {
   const url = process.env["AZURE_MANAGEDHSM_URI"];
   const attestationUri = process.env["AZURE_KEYVAULT_ATTESTATION_URI"];
+  if (!url && process.env["KEYVAULT_URI"]) {
+    console.log(
+      "Skipping secure wrap/unwrap sample: Managed HSM is not configured for this vault.",
+    );
+    return;
+  }
   if (!url || !attestationUri) {
     throw new Error("AZURE_MANAGEDHSM_URI and AZURE_KEYVAULT_ATTESTATION_URI must be set.");
   }
