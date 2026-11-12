@@ -212,14 +212,14 @@ export function createTokenCycler(
       return;
     }
     epoch.finalized = true;
-    if (epoch.hasSuccessfulClaims) {
-      if (epoch.successfulResult !== undefined) {
-        cacheToken(epoch.successfulResult);
-      }
-    } else if (epoch.ordinaryResult !== undefined) {
-      cacheToken(epoch.ordinaryResult);
-    }
     if (activeClaimsEpoch === epoch) {
+      if (epoch.hasSuccessfulClaims) {
+        if (epoch.successfulResult !== undefined) {
+          cacheToken(epoch.successfulResult);
+        }
+      } else if (epoch.ordinaryResult !== undefined) {
+        cacheToken(epoch.ordinaryResult);
+      }
       activeClaimsEpoch = undefined;
     }
   }
@@ -327,7 +327,13 @@ export function createTokenCycler(
             epoch.hasSuccessfulClaims = true;
             epoch.latestSuccessfulSequence = worker.sequence;
             epoch.successfulResult = result;
-            cacheToken(result);
+            // A newer claims epoch revokes the older epoch's authority to
+            // publish to the settled cache. The result is still returned to
+            // its own callers, but must not be restored after a newer
+            // challenge has taken ownership.
+            if (activeClaimsEpoch === epoch) {
+              cacheToken(result);
+            }
             for (const activeWorker of refreshWorkers.values()) {
               if (activeWorker.claimsEpoch === epoch && !activeWorker.isClaimsRefresh) {
                 activeWorker.canJoin = false;
