@@ -412,6 +412,11 @@ describe("helper methods", () => {
         expected: "https://appconfig-staging.azure.com/.default",
       },
       {
+        name: "recognizes the regional staging domain",
+        endpoint: "https://example.s1.westus2.appconfig-stage.azure.com",
+        expected: "https://appconfig-staging.azure.com/.default",
+      },
+      {
         name: "derives an audience for a sovereign cloud",
         endpoint: "https://example.appconfig.sovereign.cloud",
         expected: "https://appconfig.sovereign.cloud/.default",
