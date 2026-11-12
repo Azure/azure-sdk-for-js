@@ -2,29 +2,27 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { LoadBalancer } from "../../models/common/models.js";
-import {
-  cloudErrorDeserializer,
-  loadBalancerSerializer,
-  loadBalancerDeserializer,
-} from "../../models/common/models.js";
-import type { _LoadBalancerListResult } from "../../models/models.js";
-import { _loadBalancerListResultDeserializer } from "../../models/models.js";
 import type {
   TagsObject,
+  LoadBalancer,
+  _LoadBalancerListResult,
   MigratedPools,
   QueryInboundNatRulePortMappingRequest,
   BackendAddressInboundNatRulePortMappings,
   LoadBalancerVipSwapRequest,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   tagsObjectSerializer,
+  loadBalancerSerializer,
+  loadBalancerDeserializer,
+  _loadBalancerListResultDeserializer,
   migrateLoadBalancerToIpBasedRequestSerializer,
   migratedPoolsDeserializer,
   queryInboundNatRulePortMappingRequestSerializer,
   backendAddressInboundNatRulePortMappingsDeserializer,
   loadBalancerVipSwapRequestSerializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -55,7 +53,7 @@ export function _swapPublicIpAddressesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +94,7 @@ export function swapPublicIpAddresses(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _swapPublicIpAddressesSend(context, location, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -115,7 +113,7 @@ export function _listInboundNatRulePortMappingsSend(
       groupName: groupName,
       loadBalancerName: loadBalancerName,
       backendPoolName: backendPoolName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +172,7 @@ export function listInboundNatRulePortMappings(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<
     OperationState<BackendAddressInboundNatRulePortMappings>,
@@ -194,7 +192,7 @@ export function _migrateToIpBasedSend(
       subscriptionId: context.subscriptionId,
       groupName: groupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +243,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +281,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -297,7 +295,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,7 +334,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -352,7 +350,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -387,7 +385,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, loadBalancerName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -404,7 +402,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -463,7 +461,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,7 +505,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, loadBalancerName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
 }
 
@@ -523,7 +521,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       loadBalancerName: loadBalancerName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
       detailLevel: options?.detailLevel,
     },

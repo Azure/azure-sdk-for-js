@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { BgpConnection } from "../../models/network/models.js";
-import { bgpConnectionSerializer, bgpConnectionDeserializer } from "../../models/network/models.js";
+import type { BgpConnection } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  bgpConnectionSerializer,
+  bgpConnectionDeserializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -30,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +70,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualHubName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -86,7 +89,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +141,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<BgpConnection>, BgpConnection>;
 }
 
@@ -156,7 +159,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualHubName: virtualHubName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

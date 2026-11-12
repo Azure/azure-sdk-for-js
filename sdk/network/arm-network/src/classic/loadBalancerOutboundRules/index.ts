@@ -7,7 +7,7 @@ import type {
   LoadBalancerOutboundRulesListOptionalParams,
   LoadBalancerOutboundRulesGetOptionalParams,
 } from "../../api/loadBalancerOutboundRules/options.js";
-import type { OutboundRule } from "../../models/common/models.js";
+import type { OutboundRule } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LoadBalancerOutboundRules operations. */

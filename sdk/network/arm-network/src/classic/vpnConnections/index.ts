@@ -19,10 +19,10 @@ import type {
   VpnConnectionsGetOptionalParams,
 } from "../../api/vpnConnections/options.js";
 import type {
+  VpnConnection,
   VpnConnectionsStopPacketCaptureResponse,
   VpnConnectionsStartPacketCaptureResponse,
 } from "../../models/models.js";
-import type { VpnConnection } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

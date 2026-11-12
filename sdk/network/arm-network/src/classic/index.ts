@@ -159,6 +159,8 @@ export type { VirtualNetworkTapsOperations } from "./virtualNetworkTaps/index.js
 export type { VirtualRouterPeeringsOperations } from "./virtualRouterPeerings/index.js";
 export type { VirtualRoutersOperations } from "./virtualRouters/index.js";
 export type { VirtualWansOperations } from "./virtualWans/index.js";
+export type { VmssNetworkInterfacesOperations } from "./vmssNetworkInterfaces/index.js";
+export type { VmssPublicIPAddressesOperations } from "./vmssPublicIPAddresses/index.js";
 export type { VpnConnectionsOperations } from "./vpnConnections/index.js";
 export type { VpnGatewaysOperations } from "./vpnGateways/index.js";
 export type { VpnLinkConnectionsOperations } from "./vpnLinkConnections/index.js";

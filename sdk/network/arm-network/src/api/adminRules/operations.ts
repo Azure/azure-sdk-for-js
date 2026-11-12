@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { BaseAdminRuleUnion, _AdminRuleListResult } from "../../models/network/models.js";
+import type { BaseAdminRuleUnion, _AdminRuleListResult } from "../../models/models.js";
 import {
   commonErrorResponseDeserializer,
   baseAdminRuleUnionSerializer,
   baseAdminRuleUnionDeserializer,
   _adminRuleListResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -39,7 +39,7 @@ export function _listSend(
       networkManagerName: networkManagerName,
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -91,7 +91,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -113,7 +113,7 @@ export function _$deleteSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       force: options?.force,
     },
     {
@@ -161,7 +161,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -184,7 +184,7 @@ export function _createOrUpdateSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +256,7 @@ export function _getSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

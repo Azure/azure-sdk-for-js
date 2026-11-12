@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _NetworkManagerConnectionListResult } from "../../models/models.js";
-import { _networkManagerConnectionListResultDeserializer } from "../../models/models.js";
-import type { NetworkManagerConnection } from "../../models/network/models.js";
+import type {
+  NetworkManagerConnection,
+  _NetworkManagerConnectionListResult,
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   networkManagerConnectionSerializer,
   networkManagerConnectionDeserializer,
-} from "../../models/network/models.js";
+  _networkManagerConnectionListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -31,7 +33,7 @@ export function _listSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections{?api%2Dversion,%24top,%24skipToken}",
     {
       managementGroupId: managementGroupId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -72,7 +74,7 @@ export function list(
     () => _listSend(context, managementGroupId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -87,7 +89,7 @@ export function _$deleteSend(
     {
       managementGroupId: managementGroupId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +142,7 @@ export function _createOrUpdateSend(
     {
       managementGroupId: managementGroupId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +203,7 @@ export function _getSend(
     {
       managementGroupId: managementGroupId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

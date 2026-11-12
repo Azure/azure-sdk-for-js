@@ -7200,7 +7200,11 @@ export interface IntentContent {
 // @public
 export interface InterconnectGroup extends Resource {
     readonly etag?: string;
-    properties?: InterconnectGroupPropertiesFormat;
+    readonly provisioningState?: CommonProvisioningState;
+    readonly resourceGuid?: string;
+    scope?: InterconnectGroupScope;
+    subgroupProfile?: SubgroupProfile;
+    readonly subgroups?: Subgroup[];
 }
 
 // @public
@@ -9539,6 +9543,15 @@ export enum KnownVerbosityLevel {
 }
 
 // @public
+export enum KnownVersions {
+    V20250501 = "2025-05-01",
+    V20250701 = "2025-07-01",
+    V20250901 = "2025-09-01",
+    V20260101 = "2026-01-01",
+    V20260301 = "2026-03-01"
+}
+
+// @public
 export enum KnownVirtualNetworkApplianceCapabilityIpVersion {
     DualStack = "DualStack",
     IPv6 = "IPv6"
@@ -10921,11 +10934,6 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOption
 }
 
 // @public
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends OperationOptions {
-    expand?: string;
-}
-
-// @public
 export interface NetworkInterfacesListAllOptionalParams extends OperationOptions {
 }
 
@@ -10956,10 +10964,6 @@ export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOpt
 }
 
 // @public
-export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NetworkInterfacesOperations {
     // @deprecated (undocumented)
     beginCreateOrUpdate: (resourceGroupName: string, networkInterfaceName: string, parameters: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkInterface>, NetworkInterface>>;
@@ -10983,7 +10987,6 @@ export interface NetworkInterfacesOperations {
     getCloudServiceNetworkInterface: (resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, networkInterfaceName: string, options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams) => Promise<NetworkInterface>;
     getEffectiveRouteTable: (resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams) => PollerLike<OperationState<EffectiveRouteListResult>, EffectiveRouteListResult>;
     getVirtualMachineScaleSetIpConfiguration: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams) => Promise<NetworkInterfaceIPConfiguration>;
-    getVirtualMachineScaleSetNetworkInterface: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams) => Promise<NetworkInterface>;
     list: (resourceGroupName: string, options?: NetworkInterfacesListOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
     listAll: (options?: NetworkInterfacesListAllOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
     listCloudServiceNetworkInterfaces: (resourceGroupName: string, cloudServiceName: string, options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
@@ -10991,7 +10994,6 @@ export interface NetworkInterfacesOperations {
     listEffectiveNetworkSecurityGroups: (resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams) => PollerLike<OperationState<EffectiveNetworkSecurityGroupListResult>, EffectiveNetworkSecurityGroupListResult>;
     listVirtualMachineScaleSetIpConfigurations: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams) => PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration>;
     listVirtualMachineScaleSetNetworkInterfaces: (resourceGroupName: string, virtualMachineScaleSetName: string, options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
-    listVirtualMachineScaleSetVMNetworkInterfaces: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
     updateTags: (resourceGroupName: string, networkInterfaceName: string, parameters: TagsObject, options?: NetworkInterfacesUpdateTagsOptionalParams) => Promise<NetworkInterface>;
 }
 
@@ -11239,6 +11241,8 @@ export class NetworkManagementClient {
     readonly virtualRouterPeerings: VirtualRouterPeeringsOperations;
     readonly virtualRouters: VirtualRoutersOperations;
     readonly virtualWans: VirtualWansOperations;
+    readonly vmssNetworkInterfaces: VmssNetworkInterfacesOperations;
+    readonly vmssPublicIPAddresses: VmssPublicIPAddressesOperations;
     readonly vpnConnections: VpnConnectionsOperations;
     readonly vpnGateways: VpnGatewaysOperations;
     readonly vpnLinkConnections: VpnLinkConnectionsOperations;
@@ -11254,6 +11258,7 @@ export class NetworkManagementClient {
 
 // @public
 export interface NetworkManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
@@ -13717,11 +13722,6 @@ export interface ProxyResource {
 }
 
 // @public
-export interface ProxyResourceVirtualNetworkApplianceCapabilityProperties extends ArmProxyResource {
-    properties?: VirtualNetworkApplianceCapabilityProperties;
-}
-
-// @public
 export interface ProxyResourceWithReadOnlyID {
     readonly id?: string;
     readonly name?: string;
@@ -13802,11 +13802,6 @@ export interface PublicIPAddressesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends OperationOptions {
-    expand?: string;
-}
-
-// @public
 export interface PublicIPAddressesListAllOptionalParams extends OperationOptions {
 }
 
@@ -13824,10 +13819,6 @@ export interface PublicIPAddressesListOptionalParams extends OperationOptions {
 
 // @public
 export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -13858,13 +13849,11 @@ export interface PublicIPAddressesOperations {
     disassociateCloudServiceReservedPublicIp: (resourceGroupName: string, publicIpAddressName: string, parameters: DisassociateCloudServicePublicIpRequest, options?: PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams) => PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
     get: (resourceGroupName: string, publicIpAddressName: string, options?: PublicIPAddressesGetOptionalParams) => Promise<PublicIPAddress>;
     getCloudServicePublicIPAddress: (resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams) => Promise<PublicIPAddress>;
-    getVirtualMachineScaleSetPublicIPAddress: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams) => Promise<PublicIPAddress>;
     list: (resourceGroupName: string, options?: PublicIPAddressesListOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
     listAll: (options?: PublicIPAddressesListAllOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
     listCloudServicePublicIPAddresses: (resourceGroupName: string, cloudServiceName: string, options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
     listCloudServiceRoleInstancePublicIPAddresses: (resourceGroupName: string, cloudServiceName: string, roleInstanceName: string, networkInterfaceName: string, ipConfigurationName: string, options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
     listVirtualMachineScaleSetPublicIPAddresses: (resourceGroupName: string, virtualMachineScaleSetName: string, options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
-    listVirtualMachineScaleSetVMPublicIPAddresses: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
     reserveCloudServicePublicIpAddress: (resourceGroupName: string, publicIpAddressName: string, parameters: ReserveCloudServicePublicIpAddressRequest, options?: PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams) => PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
     updateTags: (resourceGroupName: string, publicIpAddressName: string, parameters: TagsObject, options?: PublicIPAddressesUpdateTagsOptionalParams) => Promise<PublicIPAddress>;
 }
@@ -15877,7 +15866,10 @@ export interface StorageAccountSettings {
 
 // @public
 export interface Subgroup extends SubResourceModel {
-    properties?: SubgroupProperties;
+    readonly interconnectBlock?: SubResource;
+    readonly internalSubgroupId?: string;
+    readonly provisioningState?: CommonProvisioningState;
+    readonly virtualMachines?: SubResource[];
 }
 
 // @public
@@ -16917,8 +16909,9 @@ export interface VirtualNetworkApplianceCapabilitiesOperations {
 }
 
 // @public
-export interface VirtualNetworkApplianceCapability extends ProxyResourceVirtualNetworkApplianceCapabilityProperties {
+export interface VirtualNetworkApplianceCapability extends ArmProxyResource {
     kind: VirtualNetworkApplianceCapabilityKind;
+    properties?: VirtualNetworkApplianceCapabilityProperties;
 }
 
 // @public
@@ -18368,6 +18361,36 @@ export interface VirtualWanVpnProfileParameters {
 
 // @public
 export interface Vm extends Resource {
+}
+
+// @public
+export interface VmssNetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends OperationOptions {
+    expand?: string;
+}
+
+// @public
+export interface VmssNetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VmssNetworkInterfacesOperations {
+    getVirtualMachineScaleSetNetworkInterface: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, options?: VmssNetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams) => Promise<NetworkInterface>;
+    listVirtualMachineScaleSetVMNetworkInterfaces: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, options?: VmssNetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams) => PagedAsyncIterableIterator<NetworkInterface>;
+}
+
+// @public
+export interface VmssPublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends OperationOptions {
+    expand?: string;
+}
+
+// @public
+export interface VmssPublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VmssPublicIPAddressesOperations {
+    getVirtualMachineScaleSetPublicIPAddress: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: VmssPublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams) => Promise<PublicIPAddress>;
+    listVirtualMachineScaleSetVMPublicIPAddresses: (resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: VmssPublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
 }
 
 // @public

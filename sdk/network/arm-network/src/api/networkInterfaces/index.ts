@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export {
-  listVirtualMachineScaleSetNetworkInterfaces,
   listCloudServiceNetworkInterfaces,
   listVirtualMachineScaleSetIpConfigurations,
   getVirtualMachineScaleSetIpConfiguration,
+  listVirtualMachineScaleSetNetworkInterfaces,
   listEffectiveNetworkSecurityGroups,
   getEffectiveRouteTable,
   listAll,
@@ -14,16 +14,14 @@ export {
   updateTags,
   createOrUpdate,
   get,
-  listVirtualMachineScaleSetVMNetworkInterfaces,
-  getVirtualMachineScaleSetNetworkInterface,
   listCloudServiceRoleInstanceNetworkInterfaces,
   getCloudServiceNetworkInterface,
 } from "./operations.js";
 export type {
-  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
   NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   NetworkInterfacesListAllOptionalParams,
@@ -32,8 +30,6 @@ export type {
   NetworkInterfacesUpdateTagsOptionalParams,
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesGetOptionalParams,
-  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
-  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
   NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
   NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams,
 } from "./options.js";

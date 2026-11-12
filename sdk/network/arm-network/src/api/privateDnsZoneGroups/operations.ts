@@ -2,16 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  PrivateDnsZoneGroup,
-  _PrivateDnsZoneGroupListResult,
-} from "../../models/network/models.js";
+import type { PrivateDnsZoneGroup, _PrivateDnsZoneGroupListResult } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   privateDnsZoneGroupSerializer,
   privateDnsZoneGroupDeserializer,
   _privateDnsZoneGroupListResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, privateEndpointName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -97,7 +94,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateEndpointName: privateEndpointName,
       privateDnsZoneGroupName: privateDnsZoneGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +146,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<PrivateDnsZoneGroup>, PrivateDnsZoneGroup>;
 }
 
@@ -167,7 +164,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateEndpointName: privateEndpointName,
       privateDnsZoneGroupName: privateDnsZoneGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +222,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateEndpointName: privateEndpointName,
       privateDnsZoneGroupName: privateDnsZoneGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,6 +265,6 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }

@@ -14,7 +14,7 @@ import type {
   LoadBalancerBackendAddressPoolsCreateOrUpdateOptionalParams,
   LoadBalancerBackendAddressPoolsGetOptionalParams,
 } from "../../api/loadBalancerBackendAddressPools/options.js";
-import type { BackendAddressPool } from "../../models/common/models.js";
+import type { BackendAddressPool } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
