@@ -9,13 +9,13 @@ import type {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
   AgentOptimizationCandidateExpand,
   TelephonyProvider,
   TelephonyCallStatus,
-  JobStatus,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -340,10 +340,15 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /** The endpoint configuration for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
@@ -391,6 +396,8 @@ export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -468,6 +475,8 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -483,6 +492,8 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured

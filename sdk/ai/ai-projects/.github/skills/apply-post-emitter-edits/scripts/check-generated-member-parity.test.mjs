@@ -369,6 +369,42 @@ export interface AgentsCreateOptionalParams {
   assert.deepEqual(missing, []);
 });
 
+test("checks conditional preview opt-ins on the customized agent PATCH options", () => {
+  const fixture = {
+    previousGenerated: "export interface AgentsPatchAgentObjectOptionalParams {}",
+    currentGenerated: `export interface AgentsPatchAgentObjectOptionalParams {
+      foundryFeatures?: "A2AAgents=V1Preview";
+    }`,
+    file: "api/agents/options.ts",
+  };
+  assert.deepEqual(
+    findMissingAdditions({
+      ...fixture,
+      currentSource: `export interface AgentsUpdateAgentObjectOptionalParams {
+        foundryFeatures?: "A2AAgents=V1Preview";
+      }`,
+    }),
+    [],
+  );
+  assert.deepEqual(
+    findMissingAdditions({
+      ...fixture,
+      currentSource: "export interface AgentsUpdateAgentObjectOptionalParams {}",
+    }).map(({ kind, member }) => [kind, member]),
+    [["interface member", "foundryFeatures"]],
+  );
+  assert.equal(
+    findMissingAdditions({
+      ...fixture,
+      currentSource: `export interface AgentsUpdateAgentObjectOptionalParams {
+        foundryFeatures?: "A2AAgents=V1Preview";
+      }`,
+      file: "api/unrelated/options.ts",
+    }).length,
+    1,
+  );
+});
+
 test("reports new request properties missing from renamed send helpers", () => {
   const currentSource = `
 export function _createSend() {

@@ -388,7 +388,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
   environment_variables?: Record<string, string>;
   /** Container-based deployment configuration. Provide this for image-based deployments. Mutually exclusive with code_configuration — the service validates that exactly one is set. */
   container_configuration?: ContainerConfiguration;
-  /** The protocols that the agent supports for ingress communication. */
+  /** The protocols that the agent supports for ingress communication. (Preview) Declaring the `a2a` protocol enables A2A passthrough to the hosted agent and requires `Foundry-Features: A2AAgents=V1Preview` when creating or modifying the hosted agent definition. */
   protocol_versions?: ProtocolVersionRecord[];
   /** Code-based deployment configuration. Provide this for code-based deployments. Mutually exclusive with container_configuration — the service validates that exactly one is set. */
   code_configuration?: CodeConfiguration;
@@ -14647,6 +14647,7 @@ export type AgentType =
 
 /** Feature opt-in keys for agent definition operations supporting conditional preview features. */
 export type AgentDefinitionOptInKeys =
+  | "A2AAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
   | "ExternalAgents=V1Preview"
   | "DraftAgents=V1Preview"

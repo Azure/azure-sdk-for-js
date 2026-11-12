@@ -145,7 +145,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview" | "MicrosoftCopilot=V1Preview";
+export type AgentDefinitionOptInKeys = "A2AAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview" | "GitHubCopilot=V1Preview" | "Skills=V1Preview" | "MicrosoftCopilot=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | VoiceAgentBaseDefinitionUnion | AgentDefinition;
@@ -1092,12 +1092,14 @@ export interface AgentsCancelOptimizationJobOptionalParams extends OperationOpti
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
+    foundryFeatures?: "A2AAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
     description?: string;
+    foundryFeatures?: "A2AAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -1138,6 +1140,7 @@ export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOpt
 
 // @public
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -1409,6 +1412,7 @@ export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
+    foundryFeatures?: "A2AAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -1416,6 +1420,7 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
     agentCard?: AgentCard;
     agentEndpoint?: AgentEndpointConfig;
+    foundryFeatures?: "A2AAgents=V1Preview";
 }
 
 // @public
