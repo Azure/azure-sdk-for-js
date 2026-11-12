@@ -24,13 +24,6 @@ const recorderOptions: RecorderStartOptions = {
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
-  uriSanitizers: [
-    {
-      regex: true,
-      target: "api-version=2026-01-01",
-      value: "api-version=2026-09-01",
-    },
-  ],
 };
 
 export const testPollingOptions = {
@@ -57,12 +50,8 @@ describe("ContainerService test", () => {
       {
         uriSanitizers: [
           {
-            target: "api-version=2026-08-01",
-            value: "api-version=2026-07-01",
-          },
-          {
-            target: "api-version=2026-08-02-preview",
-            value: "api-version=2026-07-01",
+            target: "api-version=2026-01-01",
+            value: "api-version=2026-09-01",
           },
         ],
       },
