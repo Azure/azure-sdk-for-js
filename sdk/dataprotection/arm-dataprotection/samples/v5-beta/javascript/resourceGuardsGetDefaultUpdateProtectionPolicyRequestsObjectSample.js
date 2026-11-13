@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
  *
  * @summary returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
- * x-ms-original-file: 2026-07-01/ResourceGuardCRUD/GetDefaultUpdateProtectionPolicyRequests.json
+ * x-ms-original-file: 2026-08-31-preview/ResourceGuardCRUD/GetDefaultUpdateProtectionPolicyRequests.json
  */
 async function getDefaultOperationsRequestObject() {
   const credential = new DefaultAzureCredential();

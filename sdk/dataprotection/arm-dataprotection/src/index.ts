@@ -162,11 +162,43 @@ export type {
   ResourceGuardOperation,
   PatchResourceGuardInput,
   DppTrackedResourceList,
+  CrossTenantVaultMapping,
+  CrossTenantVaultMappingProperties,
+  CrossTenantVaultMappingRemoveRequest,
+  CrossTenantVaultMappingRemoveRequestProperties,
+  CrossTenantVaultMappingStatusResponse,
+  VaultMappingState,
+  CrossTenantBackupInstanceResource,
+  CrossTenantBackupInstance,
+  CrossTenantAuthCredentials,
+  CrossTenantAuthCredentialsUnion,
+  CrossTenantSecretStoreBasedAuthCredentials,
+  CrossTenantSecretStoreResource,
+  AzureBackupFindRestorableTimeRangesRequest,
+  RestoreSourceDataStoreType,
+  AzureBackupFindRestorableTimeRangesResponseResource,
+  AzureBackupFindRestorableTimeRangesResponse,
+  RestorableTimeRange,
+  DppResource,
+  AzureBackupRecoveryPointResource,
+  AzureBackupRecoveryPoint,
+  AzureBackupRecoveryPointUnion,
+  AzureBackupDiscreteRecoveryPoint,
+  RecoveryPointDataStoreDetails,
+  RehydrationStatus,
+  RecoveryPointCompletionState,
+  RecoveryPointImmutabilityProperties,
+  AzureBackupJobResource,
+  AzureBackupJob,
+  JobExtendedInfo,
+  RestoreJobRecoveryPointDetails,
+  JobSubTask,
+  UserFacingWarningDetail,
+  OperationResource,
   PatchResourceRequestInput,
   PatchBackupVaultInput,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResult,
-  OperationResource,
   ExportJobsResult,
   BaseBackupPolicyResource,
   BaseBackupPolicy,
@@ -206,26 +238,6 @@ export type {
   CopyOnExpiryOption,
   CustomCopyOption,
   ImmediateCopyOption,
-  AzureBackupFindRestorableTimeRangesRequest,
-  RestoreSourceDataStoreType,
-  AzureBackupFindRestorableTimeRangesResponseResource,
-  AzureBackupFindRestorableTimeRangesResponse,
-  RestorableTimeRange,
-  DppResource,
-  AzureBackupRecoveryPointResource,
-  AzureBackupRecoveryPoint,
-  AzureBackupRecoveryPointUnion,
-  AzureBackupDiscreteRecoveryPoint,
-  RecoveryPointDataStoreDetails,
-  RehydrationStatus,
-  RecoveryPointCompletionState,
-  RecoveryPointImmutabilityProperties,
-  AzureBackupJobResource,
-  AzureBackupJob,
-  JobExtendedInfo,
-  RestoreJobRecoveryPointDetails,
-  JobSubTask,
-  UserFacingWarningDetail,
   DeletedBackupInstanceResource,
   DeletedBackupInstance,
   DeletionInfo,
@@ -284,18 +296,22 @@ export {
   KnownCrossRegionRestoreState,
   KnownSecureScoreLevel,
   KnownBcdrSecurityLevel,
+  KnownVaultMappingState,
+  KnownRestoreSourceDataStoreType,
+  KnownRehydrationStatus,
+  KnownRecoveryPointCompletionState,
   KnownAbsoluteMarker,
   KnownDayOfWeek,
   KnownMonth,
   KnownWeekNumber,
-  KnownRestoreSourceDataStoreType,
-  KnownRehydrationStatus,
-  KnownRecoveryPointCompletionState,
   KnownFeatureType,
   KnownFeatureSupportStatus,
   KnownVersions,
 } from "./models/index.js";
 export type { DataProtectionClientOptionalParams } from "./api/index.js";
+export type { BackupInstanceFromDppCrossTenantVaultGetOptionalParams } from "./api/backupInstanceFromDppCrossTenantVault/index.js";
+export type { BackupInstanceOperationResultFromDppCrossTenantVaultGetOptionalParams } from "./api/backupInstanceOperationResultFromDppCrossTenantVault/index.js";
+export type { BackupInstanceOperationStatusFromDppCrossTenantVaultGetOptionalParams } from "./api/backupInstanceOperationStatusFromDppCrossTenantVault/index.js";
 export type {
   BackupInstancesValidateCrossRegionRestoreOptionalParams,
   BackupInstancesTriggerCrossRegionRestoreOptionalParams,
@@ -317,6 +333,8 @@ export type {
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
 } from "./api/backupInstances/index.js";
 export type { BackupInstancesExtensionRoutingListOptionalParams } from "./api/backupInstancesExtensionRouting/index.js";
+export type { BackupInstancesFromDppCrossTenantVaultListOptionalParams } from "./api/backupInstancesFromDppCrossTenantVault/index.js";
+export type { BackupJobsFromDppCrossTenantVaultListOptionalParams } from "./api/backupJobsFromDppCrossTenantVault/index.js";
 export type {
   BackupPoliciesListOptionalParams,
   BackupPoliciesDeleteOptionalParams,
@@ -345,6 +363,13 @@ export type {
   DeletedBackupVaultsGetOptionalParams,
 } from "./api/deletedBackupVaults/index.js";
 export type {
+  DppCrossTenantVaultMappingsRemoveOptionalParams,
+  DppCrossTenantVaultMappingsListOptionalParams,
+  DppCrossTenantVaultMappingsCreateOrUpdateOptionalParams,
+  DppCrossTenantVaultMappingsGetOptionalParams,
+} from "./api/dppCrossTenantVaultMappings/index.js";
+export type { DppCrossTenantVaultMappingStatusCheckOptionalParams } from "./api/dppCrossTenantVaultMappingStatus/index.js";
+export type {
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyListOptionalParams,
   DppResourceGuardProxyDeleteOptionalParams,
@@ -356,15 +381,18 @@ export type { ExportJobsOperationResultGetOptionalParams } from "./api/exportJob
 export type { FetchCrossRegionRestoreJobGetOptionalParams } from "./api/fetchCrossRegionRestoreJob/index.js";
 export type { FetchCrossRegionRestoreJobsListOptionalParams } from "./api/fetchCrossRegionRestoreJobs/index.js";
 export type { FetchSecondaryRecoveryPointsListOptionalParams } from "./api/fetchSecondaryRecoveryPoints/index.js";
+export type { JobFromDppCrossTenantVaultGetOptionalParams } from "./api/jobFromDppCrossTenantVault/index.js";
 export type { JobsListOptionalParams, JobsGetOptionalParams } from "./api/jobs/index.js";
 export type { OperationResultGetOptionalParams } from "./api/operationResult/index.js";
 export type { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export type { OperationStatusBackupVaultContextGetOptionalParams } from "./api/operationStatusBackupVaultContext/index.js";
 export type { OperationStatusResourceGroupContextGetOptionalParams } from "./api/operationStatusResourceGroupContext/index.js";
+export type { RecoveryPointFromDppCrossTenantVaultGetOptionalParams } from "./api/recoveryPointFromDppCrossTenantVault/index.js";
 export type {
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
+export type { RecoveryPointsFromDppCrossTenantVaultListOptionalParams } from "./api/recoveryPointsFromDppCrossTenantVault/index.js";
 export type {
   ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
@@ -386,9 +414,17 @@ export type {
   ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
 } from "./api/resourceGuards/index.js";
 export type { RestorableTimeRangesFindOptionalParams } from "./api/restorableTimeRanges/index.js";
+export type { RestorableTimeRangesFromDppCrossTenantVaultFindOptionalParams } from "./api/restorableTimeRangesFromDppCrossTenantVault/index.js";
+export type { RestoresFromDppCrossTenantVaultTriggerOptionalParams } from "./api/restoresFromDppCrossTenantVault/index.js";
+export type { ValidateRestoreFromDppCrossTenantVaultTriggerOptionalParams } from "./api/validateRestoreFromDppCrossTenantVault/index.js";
 export type {
+  BackupInstanceFromDppCrossTenantVaultOperations,
+  BackupInstanceOperationResultFromDppCrossTenantVaultOperations,
+  BackupInstanceOperationStatusFromDppCrossTenantVaultOperations,
   BackupInstancesOperations,
   BackupInstancesExtensionRoutingOperations,
+  BackupInstancesFromDppCrossTenantVaultOperations,
+  BackupJobsFromDppCrossTenantVaultOperations,
   BackupPoliciesOperations,
   BackupVaultOperationResultsOperations,
   BackupVaultsOperations,
@@ -396,20 +432,28 @@ export type {
   DataProtectionOperationsOperations,
   DeletedBackupInstancesOperations,
   DeletedBackupVaultsOperations,
+  DppCrossTenantVaultMappingsOperations,
+  DppCrossTenantVaultMappingStatusOperations,
   DppResourceGuardProxyOperations,
   ExportJobsOperations,
   ExportJobsOperationResultOperations,
   FetchCrossRegionRestoreJobOperations,
   FetchCrossRegionRestoreJobsOperations,
   FetchSecondaryRecoveryPointsOperations,
+  JobFromDppCrossTenantVaultOperations,
   JobsOperations,
   OperationResultOperations,
   OperationStatusOperations,
   OperationStatusBackupVaultContextOperations,
   OperationStatusResourceGroupContextOperations,
+  RecoveryPointFromDppCrossTenantVaultOperations,
   RecoveryPointsOperations,
+  RecoveryPointsFromDppCrossTenantVaultOperations,
   ResourceGuardsOperations,
   RestorableTimeRangesOperations,
+  RestorableTimeRangesFromDppCrossTenantVaultOperations,
+  RestoresFromDppCrossTenantVaultOperations,
+  ValidateRestoreFromDppCrossTenantVaultOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  *
  * @summary this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/SuspendBackup_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/SuspendBackup_ResourceGuardEnabled.json
  */
 async function suspendBackupsWithMUA() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function suspendBackupsWithMUA() {
  * This sample demonstrates how to this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  *
  * @summary this operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/SuspendBackups.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/SuspendBackups.json
  */
 async function suspendBackups() {
   const credential = new DefaultAzureCredential();

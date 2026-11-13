@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers Cross Region Restore for BackupInstance.
  *
  * @summary triggers Cross Region Restore for BackupInstance.
- * x-ms-original-file: 2026-07-01/CrossRegionRestore/TriggerCrossRegionRestore.json
+ * x-ms-original-file: 2026-08-31-preview/CrossRegionRestore/TriggerCrossRegionRestore.json
  */
 async function triggerCrossRegionRestore() {
   const credential = new DefaultAzureCredential();

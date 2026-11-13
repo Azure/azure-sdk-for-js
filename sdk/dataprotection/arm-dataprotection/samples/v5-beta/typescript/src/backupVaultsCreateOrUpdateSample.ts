@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/PutBackupVaultWithUndelete.json
+ * x-ms-original-file: 2026-08-31-preview/PutBackupVaultWithUndelete.json
  */
 async function restoreASoftDeletedBackupVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function restoreASoftDeletedBackupVault(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVault.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/PutBackupVault.json
  */
 async function createBackupVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,7 +68,7 @@ async function createBackupVault(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVaultCMKSettings_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/PutBackupVaultCMKSettings_ResourceGuardEnabled.json
  */
 async function createOrUpdateBackupVaultWithCMKAndResourceGuardEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function createOrUpdateBackupVaultWithCMKAndResourceGuardEnabled(): Promis
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVaultWithCMK.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/PutBackupVaultWithCMK.json
  */
 async function createBackupVaultWithCMK(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -143,7 +143,7 @@ async function createBackupVaultWithCMK(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVaultWithCostManagementSettings.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/PutBackupVaultWithCostManagementSettings.json
  */
 async function createBackupVaultWithCostManagementSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -167,7 +167,7 @@ async function createBackupVaultWithCostManagementSettings(): Promise<void> {
  * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVaultWithMSI.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/PutBackupVaultWithMSI.json
  */
 async function createBackupVaultWithMSI(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -186,34 +186,6 @@ async function createBackupVaultWithMSI(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to creates or updates a BackupVault resource belonging to a resource group.
- *
- * @summary creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/PutBackupVaultWithTimedImmutability.json
- */
-async function createBackupVaultWithTimedImmutability(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupVaults.createOrUpdate("SampleResourceGroup", "swaggerExample", {
-    location: "WestUS",
-    properties: {
-      securitySettings: {
-        immutabilitySettings: {
-          state: "Unlocked",
-          configuration: { type: "TimeBased", durationInDays: 30 },
-        },
-        softDeleteSettings: { retentionDurationInDays: 14, state: "On" },
-      },
-      storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
-    },
-    tags: { key1: "val1" },
-    identity: { type: "None" },
-  });
-  console.log(result);
-}
-
 async function main(): Promise<void> {
   await restoreASoftDeletedBackupVault();
   await createBackupVault();
@@ -221,7 +193,6 @@ async function main(): Promise<void> {
   await createBackupVaultWithCMK();
   await createBackupVaultWithCostManagementSettings();
   await createBackupVaultWithMSI();
-  await createBackupVaultWithTimedImmutability();
 }
 
 main().catch(console.error);

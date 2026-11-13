@@ -9,6 +9,8 @@ import {
   _updateDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/backupVaults/operations.js";
+import { _triggerDeserialize as _triggerDeserializeValidateRestoreFromDppCrossTenantVault } from "./api/validateRestoreFromDppCrossTenantVault/operations.js";
+import { _triggerDeserialize as _triggerDeserializeRestoresFromDppCrossTenantVault } from "./api/restoresFromDppCrossTenantVault/operations.js";
 import {
   _validateCrossRegionRestoreDeserialize,
   _triggerCrossRegionRestoreDeserialize,
@@ -106,6 +108,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/crossTenantVaultMappings/{mappingName}/backupInstances/{backupInstanceName}/validateRestore":
+    {
+      deserializer: _triggerDeserializeValidateRestoreFromDppCrossTenantVault,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/crossTenantVaultMappings/{mappingName}/backupInstances/{backupInstanceName}/restore":
+    {
+      deserializer: _triggerDeserializeRestoresFromDppCrossTenantVault,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/validateCrossRegionRestore":
     {
       deserializer: _validateCrossRegionRestoreDeserialize,
