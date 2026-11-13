@@ -1,0 +1,22 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/workspaces/index.ts",
+    "../src/api/services/index.ts",
+    "../src/api/projects/index.ts",
+    "../src/api/jobs/index.ts",
+    "../src/api/containerImages/index.ts",
+    "../src/api/computeConfigs/index.ts",
+    "../src/api/cloudResources/index.ts",
+    "../src/api/clouds/index.ts",
+    "../src/api/agreements/index.ts",
+    "../src/api/operationStatuses/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}
