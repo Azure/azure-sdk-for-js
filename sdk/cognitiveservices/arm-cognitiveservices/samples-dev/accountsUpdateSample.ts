@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-11-01/UpdateAccount.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateAccount.json
  */
 async function updateAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,7 +16,12 @@ async function updateAccount(): Promise<void> {
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const result = await client.accounts.update("bvttest", "bingSearch", {
     location: "global",
-    properties: {},
+    properties: {
+      costControlConnections: {
+        appInsightsConnectionId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch/connections/myAppInsightsConnection",
+      },
+    },
     sku: { name: "S2" },
   });
   console.log(result);
@@ -26,7 +31,7 @@ async function updateAccount(): Promise<void> {
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-11-01/UpdateAccountClearTrustedCertificateSources.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateAccountClearTrustedCertificateSources.json
  */
 async function clearAccountPrivateCATrustUsingAnEmptyArray(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +47,7 @@ async function clearAccountPrivateCATrustUsingAnEmptyArray(): Promise<void> {
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-11-01/UpdateAccountPreserveTrustedCertificateSources.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateAccountPreserveTrustedCertificateSources.json
  */
 async function updateAccountTagsWhilePreservingPrivateCATrustWithNull(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +64,7 @@ async function updateAccountTagsWhilePreservingPrivateCATrustWithNull(): Promise
  * This sample demonstrates how to updates a Cognitive Services account
  *
  * @summary updates a Cognitive Services account
- * x-ms-original-file: 2026-11-01/UpdateAccountRotateTrustedCertificateSources.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateAccountRotateTrustedCertificateSources.json
  */
 async function rotateAPinnedCABundleWhileRetainingOtherReferences(): Promise<void> {
   const credential = new DefaultAzureCredential();

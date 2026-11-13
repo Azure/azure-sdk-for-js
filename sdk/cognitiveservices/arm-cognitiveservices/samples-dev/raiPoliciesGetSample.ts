@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary gets the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-11-01/GetRaiPolicy.json
+ * x-ms-original-file: 2026-11-15-preview/GetRaiPolicy.json
  */
 async function getRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getRaiPolicy(): Promise<void> {
  * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary gets the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-11-01/GetRaiPolicyAcs.json
+ * x-ms-original-file: 2026-11-15-preview/GetRaiPolicyAcs.json
  */
 async function getAnACSPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,9 +32,28 @@ async function getAnACSPolicy(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to gets the specified Content Filters associated with the Azure OpenAI account.
+ *
+ * @summary gets the specified Content Filters associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-11-15-preview/GetRaiPolicyAcsWithAnnotationsAndEgress.json
+ */
+async function getAnACSPolicyWithOptionalAnnotationsAndAnEgressCompanion(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.raiPolicies.get(
+    "resource-group",
+    "safety-account",
+    "annotated-egress-guard",
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await getRaiPolicy();
   await getAnACSPolicy();
+  await getAnACSPolicyWithOptionalAnnotationsAndAnEgressCompanion();
 }
 
 main().catch(console.error);
