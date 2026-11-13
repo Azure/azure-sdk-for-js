@@ -42,7 +42,7 @@ export function _listAvailableStacksOnPremSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks{?api%2Dversion,osTypeSelected}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       osTypeSelected: options?.osTypeSelected,
     },
     {
@@ -61,7 +61,9 @@ export async function _listAvailableStacksOnPremDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -79,7 +81,7 @@ export function listAvailableStacksOnPrem(
     () => _listAvailableStacksOnPremSend(context, options),
     _listAvailableStacksOnPremDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -90,7 +92,7 @@ export function _listWebAppStacksSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/webAppStacks{?api%2Dversion,stackOsType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       stackOsType: options?.stackOsType,
     },
     {
@@ -109,7 +111,9 @@ export async function _listWebAppStacksDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -127,7 +131,7 @@ export function listWebAppStacks(
     () => _listWebAppStacksSend(context, options),
     _listWebAppStacksDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -140,7 +144,7 @@ export function _listWebAppStacksForLocationSend(
     "/providers/Microsoft.Web/locations/{location}/webAppStacks{?api%2Dversion,stackOsType}",
     {
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       stackOsType: options?.stackOsType,
     },
     {
@@ -159,7 +163,9 @@ export async function _listWebAppStacksForLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,7 +184,7 @@ export function listWebAppStacksForLocation(
     () => _listWebAppStacksForLocationSend(context, location, options),
     _listWebAppStacksForLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -191,7 +197,7 @@ export function _listFunctionAppStacksForLocationSend(
     "/providers/Microsoft.Web/locations/{location}/functionAppStacks{?api%2Dversion,stackOsType}",
     {
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       stackOsType: options?.stackOsType,
     },
     {
@@ -210,7 +216,9 @@ export async function _listFunctionAppStacksForLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -229,7 +237,7 @@ export function listFunctionAppStacksForLocation(
     () => _listFunctionAppStacksForLocationSend(context, location, options),
     _listFunctionAppStacksForLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -240,7 +248,7 @@ export function _listFunctionAppStacksSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/functionAppStacks{?api%2Dversion,stackOsType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       stackOsType: options?.stackOsType,
     },
     {
@@ -259,7 +267,9 @@ export async function _listFunctionAppStacksDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,7 +287,7 @@ export function listFunctionAppStacks(
     () => _listFunctionAppStacksSend(context, options),
     _listFunctionAppStacksDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -288,7 +298,7 @@ export function _listAvailableStacksSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/availableStacks{?api%2Dversion,osTypeSelected}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       osTypeSelected: options?.osTypeSelected,
     },
     {
@@ -307,7 +317,9 @@ export async function _listAvailableStacksDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -325,7 +337,7 @@ export function listAvailableStacks(
     () => _listAvailableStacksSend(context, options),
     _listAvailableStacksDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -336,7 +348,7 @@ export function _listOperationsSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +366,9 @@ export async function _listOperationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -372,6 +386,6 @@ export function listOperations(
     () => _listOperationsSend(context, options),
     _listOperationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }

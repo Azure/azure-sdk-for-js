@@ -116,7 +116,7 @@ function _getKubeEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: KubeEnvironmentsDeleteOptionalParams,
     ) => {
-      return $delete(context, resourceGroupName, name, options);
+      return await $delete(context, resourceGroupName, name, options);
     },
     update: (
       resourceGroupName: string,
@@ -152,7 +152,13 @@ function _getKubeEnvironments(context: WebSiteManagementContext) {
       kubeEnvironmentEnvelope: KubeEnvironment,
       options?: KubeEnvironmentsCreateOrUpdateOptionalParams,
     ) => {
-      return createOrUpdate(context, resourceGroupName, name, kubeEnvironmentEnvelope, options);
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        name,
+        kubeEnvironmentEnvelope,
+        options,
+      );
     },
     get: (resourceGroupName: string, name: string, options?: KubeEnvironmentsGetOptionalParams) =>
       get(context, resourceGroupName, name, options),

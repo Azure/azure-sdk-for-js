@@ -8,6 +8,7 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -39,6 +40,69 @@ export interface AddressResponseProperties {
     outboundIpAddresses?: string[];
     serviceIpAddress?: string;
     vipMappings?: VirtualIPMapping[];
+}
+
+// @public
+export interface AiGateway extends TrackedResource {
+    properties?: AiGatewayProperties;
+}
+
+// @public
+export interface AiGatewayProperties {
+    readonly aiGatewayId?: string;
+}
+
+// @public
+export interface AiGatewaysCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewaysDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewaysGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewaysListByResourceGroupOptionalParams extends OperationOptions {
+    expand?: string[];
+    filter?: string;
+    maxpagesize?: number;
+    orderby?: string[];
+    select?: string[];
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface AiGatewaysListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewaysOperations {
+    createOrUpdate: (resourceGroupName: string, name: string, resource: AiGateway, options?: AiGatewaysCreateOrUpdateOptionalParams) => Promise<AiGateway>;
+    delete: (resourceGroupName: string, name: string, options?: AiGatewaysDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, options?: AiGatewaysGetOptionalParams) => Promise<AiGateway>;
+    listByResourceGroup: (resourceGroupName: string, options?: AiGatewaysListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AiGateway>;
+    listBySubscription: (options?: AiGatewaysListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AiGateway>;
+    patch: (resourceGroupName: string, name: string, properties: AiGatewayTagsUpdate, options?: AiGatewaysPatchOptionalParams) => Promise<AiGateway>;
+}
+
+// @public
+export interface AiGatewaysPatchOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AiIntegration {
+    apiSpecPath?: string;
+    mcp?: McpSettings;
+    siteAuth?: SiteAuthInfo;
 }
 
 // @public
@@ -816,6 +880,8 @@ export interface AppServicePlansOperations {
     rebootWorker: (resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRebootWorkerOptionalParams) => Promise<void>;
     recycleManagedInstanceWorker: (resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRecycleManagedInstanceWorkerOptionalParams) => Promise<Operation>;
     restartWebApps: (resourceGroupName: string, name: string, options?: AppServicePlansRestartWebAppsOptionalParams) => Promise<void>;
+    startWebApps: (resourceGroupName: string, name: string, options?: AppServicePlansStartWebAppsOptionalParams) => Promise<void>;
+    stopWebApps: (resourceGroupName: string, name: string, options?: AppServicePlansStopWebAppsOptionalParams) => Promise<void>;
     update: (resourceGroupName: string, name: string, appServicePlan: AppServicePlanPatchResource, options?: AppServicePlansUpdateOptionalParams) => Promise<AppServicePlan>;
     updateVnetGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: AppServicePlansUpdateVnetGatewayOptionalParams) => Promise<VnetGateway>;
     updateVnetRoute: (resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansUpdateVnetRouteOptionalParams) => Promise<VnetRoute>;
@@ -832,6 +898,14 @@ export interface AppServicePlansRecycleManagedInstanceWorkerOptionalParams exten
 // @public
 export interface AppServicePlansRestartWebAppsOptionalParams extends OperationOptions {
     softRestart?: boolean;
+}
+
+// @public
+export interface AppServicePlansStartWebAppsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServicePlansStopWebAppsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -862,6 +936,11 @@ export interface ArcConfiguration {
     frontEndServiceConfiguration?: FrontEndConfiguration;
     // (undocumented)
     kubeConfig?: string;
+}
+
+// @public
+export interface ArmErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -2319,12 +2398,35 @@ export interface EndpointDetail {
 }
 
 // @public
+export interface EndpointTrafficConfig {
+    isWeightAutoComputed?: boolean;
+    priority?: number;
+    region: string;
+    weight?: number;
+}
+
+// @public
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
 export interface EnvironmentVariable {
     name: string;
     value: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -3186,6 +3288,13 @@ export enum KnownParameterType {
 }
 
 // @public
+export enum KnownPlatformReleaseChannel {
+    Extended = "Extended",
+    Latest = "Latest",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownProviderOsTypeSelected {
     All = "All",
     Linux = "Linux",
@@ -3248,6 +3357,7 @@ export enum KnownRouteType {
 export enum KnownRuntimeName {
     Custom = "custom",
     DotnetIsolated = "dotnet-isolated",
+    Go = "go",
     Java = "java",
     Node = "node",
     Powershell = "powershell",
@@ -3270,6 +3380,23 @@ export enum KnownScmType {
     Tfs = "Tfs",
     VSO = "VSO",
     Vstsrm = "VSTSRM"
+}
+
+// @public
+export enum KnownSiloFailOverMode {
+    Active = "Active",
+    Passive = "Passive",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSiloProvisioningState {
+    Canceled = "Canceled",
+    Degraded = "Degraded",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3362,7 +3489,10 @@ export enum KnownValidateResourceTypes {
 // @public
 export enum KnownVersions {
     V20250301 = "2025-03-01",
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    V20260315 = "2026-03-15",
+    V20260715 = "2026-07-15",
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -3565,6 +3695,37 @@ export interface KubeEnvironmentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface LastKnownGoodProperties {
+    readonly createdTime?: Date;
+    readonly revisionNumber?: number;
+    readonly siteName?: string;
+}
+
+// @public
+export interface LastKnownGoodResource extends ProxyResource {
+    properties?: LastKnownGoodProperties;
+}
+
+// @public
+export interface LastKnownGoodResourcesGetLastKnownGoodOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LastKnownGoodResourcesListLastKnownGoodsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LastKnownGoodResourcesMarkLastKnownGoodOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LastKnownGoodResourcesOperations {
+    getLastKnownGood: (resourceGroupName: string, name: string, options?: LastKnownGoodResourcesGetLastKnownGoodOptionalParams) => Promise<LastKnownGoodResource>;
+    listLastKnownGoods: (resourceGroupName: string, name: string, options?: LastKnownGoodResourcesListLastKnownGoodsOptionalParams) => PagedAsyncIterableIterator<LastKnownGoodResource>;
+    markLastKnownGood: (resourceGroupName: string, name: string, options?: LastKnownGoodResourcesMarkLastKnownGoodOptionalParams) => Promise<LastKnownGoodResource>;
+}
+
+// @public
 export interface LegacyMicrosoftAccount {
     enabled?: boolean;
     login?: LoginScopes;
@@ -3689,6 +3850,51 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
+export interface ManagedTrafficConfigProperties {
+    endpoints?: EndpointTrafficConfig[];
+    trafficMode?: SiloFailOverMode;
+}
+
+// @public
+export interface ManagedTrafficConfigResource extends ProxyResource {
+    properties?: ManagedTrafficConfigProperties;
+}
+
+// @public
+export interface ManagedTrafficConfigResourcesGetManagedTrafficConfigOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedTrafficConfigResourcesListManagedTrafficConfigsOptionalParams extends OperationOptions {
+    expand?: string;
+}
+
+// @public
+export interface ManagedTrafficConfigResourcesOperations {
+    getManagedTrafficConfig: (resourceGroupName: string, name: string, options?: ManagedTrafficConfigResourcesGetManagedTrafficConfigOptionalParams) => Promise<ManagedTrafficConfigResource>;
+    listManagedTrafficConfigs: (resourceGroupName: string, name: string, options?: ManagedTrafficConfigResourcesListManagedTrafficConfigsOptionalParams) => PagedAsyncIterableIterator<ManagedTrafficConfigResource>;
+    updateManagedTrafficConfig: (resourceGroupName: string, name: string, resource: ManagedTrafficConfigResource, options?: ManagedTrafficConfigResourcesUpdateManagedTrafficConfigOptionalParams) => Promise<ManagedTrafficConfigResource>;
+}
+
+// @public
+export interface ManagedTrafficConfigResourcesUpdateManagedTrafficConfigOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface McpServerConfig {
+    description?: string;
+    enabled?: boolean;
+    endpoint?: string;
+    name?: string;
+    toolList?: string[];
+}
+
+// @public
+export interface McpSettings {
+    servers?: McpServerConfig[];
+}
 
 // @public
 export interface MetricAvailability {
@@ -3869,6 +4075,27 @@ export interface NetworkFeaturesProperties {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyOnlyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NspProfile;
+    provisioningIssues?: NspProvisioningIssue[];
+    readonly provisioningState?: string;
+    resourceAssociations?: NspResourceAssociation;
+}
+
+// @public
 export interface NetworkTrace {
     message?: string;
     path?: string;
@@ -3883,6 +4110,66 @@ export interface Nonce {
 
 // @public
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
+
+// @public
+export interface NspProfile {
+    accessRules?: NspProfileAccessRule[];
+    accessRulesVersion?: string;
+    diagnosticSettingsVersion?: string;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface NspProfileAccessRule {
+    name?: string;
+    properties?: NspProfileAccessRuleProperties;
+}
+
+// @public
+export interface NspProfileAccessRuleGranularFeature {
+    features?: string[];
+    resourceType?: string;
+}
+
+// @public
+export interface NspProfileAccessRuleProperties {
+    addressPrefixes?: string[];
+    appliesTo?: NspProfileAccessRuleGranularFeature[];
+    direction?: string;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    serviceTags?: string[];
+    subscriptions?: NspSubscription[];
+}
+
+// @public
+export interface NspProvisioningIssue {
+    name?: string;
+    properties?: NspProvisioningIssueProperties;
+}
+
+// @public
+export interface NspProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
+    severity?: string;
+    suggestedAccessRules?: string[];
+    suggestedResourceIds?: string[];
+}
+
+// @public
+export interface NspResourceAssociation {
+    accessMode?: string;
+    name?: string;
+}
+
+// @public
+export interface NspSubscription {
+    id?: string;
+}
 
 // @public
 export interface OpenAuthenticationAccessPolicies {
@@ -3983,6 +4270,7 @@ export interface OutboundVnetRouting {
     backupRestoreTraffic?: boolean;
     contentShareTraffic?: boolean;
     imagePullTraffic?: boolean;
+    managedIdentityTraffic?: boolean;
 }
 
 // @public
@@ -4022,6 +4310,9 @@ export interface PerfMonSet {
     timeGrain?: string;
     values?: PerfMonSample[];
 }
+
+// @public
+export type PlatformReleaseChannel = string;
 
 // @public
 export interface PremierAddOn extends TrackedResource {
@@ -5006,12 +5297,119 @@ export interface ServerFarmRdpDetails {
 }
 
 // @public
+export interface ServerFarmSilo extends TrackedResource {
+    properties?: ServerFarmSiloProperties;
+}
+
+// @public
+export interface ServerFarmSiloProperties {
+    readonly createdTime?: Date;
+    readonly errorCode?: string;
+    instanceNumberOverride?: number;
+    readonly lastModifiedTime?: Date;
+    primaryLocation: string;
+    primaryServerFarmName?: string;
+    readonly provisioningDetails?: string;
+    readonly provisioningState?: SiloProvisioningState;
+    siloLocation?: string;
+    zoneRedundantOverride?: boolean;
+}
+
+// @public
+export interface ServerFarmSiloResourceAllocation {
+    readonly connectedServerFarmsId?: string[];
+    readonly connectedSitesId?: string[];
+}
+
+// @public
+export interface ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServerFarmSiloResourcesDeleteServerFarmSiloOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServerFarmSiloResourcesGetServerFarmSiloOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServerFarmSiloResourcesGetServerFarmSiloVnetIntegrationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServerFarmSiloResourcesListServerFarmSilosOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServerFarmSiloResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, resource: ServerFarmSilo, options?: ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloOptionalParams) => Promise<SimplePollerLike<OperationState<ServerFarmSilo>, ServerFarmSilo>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateServerFarmSiloAndWait: (resourceGroupName: string, name: string, siloName: string, resource: ServerFarmSilo, options?: ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloOptionalParams) => Promise<ServerFarmSilo>;
+    // @deprecated (undocumented)
+    beginDeleteServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, options?: ServerFarmSiloResourcesDeleteServerFarmSiloOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteServerFarmSiloAndWait: (resourceGroupName: string, name: string, siloName: string, options?: ServerFarmSiloResourcesDeleteServerFarmSiloOptionalParams) => Promise<void>;
+    createOrUpdateServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, resource: ServerFarmSilo, options?: ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloOptionalParams) => PollerLike<OperationState<ServerFarmSilo>, ServerFarmSilo>;
+    deleteServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, options?: ServerFarmSiloResourcesDeleteServerFarmSiloOptionalParams) => PollerLike<OperationState<void>, void>;
+    getServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, options?: ServerFarmSiloResourcesGetServerFarmSiloOptionalParams) => Promise<ServerFarmSilo>;
+    getServerFarmSiloVnetIntegrations: (resourceGroupName: string, name: string, siloName: string, options?: ServerFarmSiloResourcesGetServerFarmSiloVnetIntegrationsOptionalParams) => Promise<ServerFarmSiloVnetIntegrationsResult>;
+    listServerFarmSilos: (resourceGroupName: string, name: string, options?: ServerFarmSiloResourcesListServerFarmSilosOptionalParams) => PagedAsyncIterableIterator<ServerFarmSilo>;
+    updateServerFarmSilo: (resourceGroupName: string, name: string, siloName: string, properties: ServerFarmSiloTagsUpdate, options?: ServerFarmSiloResourcesUpdateServerFarmSiloOptionalParams) => Promise<ServerFarmSilo>;
+}
+
+// @public
+export interface ServerFarmSiloResourcesUpdateServerFarmSiloOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServerFarmSiloSubnetIpAllocation {
+    readonly subnetIpAddressesAvailable?: number;
+    readonly subnetIpAddressesUsed?: number;
+}
+
+// @public
+export interface ServerFarmSiloTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ServerFarmSiloVnetIntegration {
+    readonly resourceAllocation?: ServerFarmSiloResourceAllocation;
+    readonly subnetIpAllocation?: ServerFarmSiloSubnetIpAllocation;
+    readonly subnetResourceId?: string;
+}
+
+// @public
+export interface ServerFarmSiloVnetIntegrationsResult {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly properties?: ServerFarmSiloVnetIntegration[];
+    readonly type?: string;
+}
+
+// @public
 export interface ServiceSpecification {
     // (undocumented)
     logSpecifications?: LogSpecification[];
     // (undocumented)
     metricSpecifications?: MetricSpecification[];
 }
+
+// @public
+export type SiloFailOverMode = string;
+
+// @public
+export interface SiloNetworkingOverride {
+    vnetIntegrationOverride?: string;
+}
+
+// @public
+export type SiloProvisioningState = string;
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
@@ -5037,6 +5435,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 
 // @public
 export interface Site extends TrackedResource {
+    aiIntegration?: AiIntegration;
     autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly availabilityState?: SiteAvailabilityState;
     clientAffinityEnabled?: boolean;
@@ -5071,10 +5470,12 @@ export interface Site extends TrackedResource {
     keyVaultReferenceIdentity?: string;
     kind?: string;
     readonly lastModifiedTimeUtc?: Date;
+    maintenanceEnabled?: boolean;
     managedEnvironmentId?: string;
     readonly maxNumberOfWorkers?: number;
     readonly outboundIpAddresses?: string;
     outboundVnetRouting?: OutboundVnetRouting;
+    platformReleaseChannel?: PlatformReleaseChannel;
     readonly possibleOutboundIpAddresses?: string;
     publicNetworkAccess?: string;
     redundancyMode?: RedundancyMode;
@@ -5085,6 +5486,7 @@ export interface Site extends TrackedResource {
     scmSiteAlsoStopped?: boolean;
     serverFarmId?: string;
     siteConfig?: SiteConfig;
+    siteScopedCertificatesEnabled?: boolean;
     readonly sku?: string;
     readonly slotSwapStatus?: SlotSwapStatus;
     sshEnabled?: boolean;
@@ -5096,6 +5498,15 @@ export interface Site extends TrackedResource {
     readonly usageState?: UsageState;
     virtualNetworkSubnetId?: string;
     workloadProfileName?: string;
+}
+
+// @public
+export interface SiteAuthInfo {
+    audience?: string;
+    issuer?: string;
+    jwksUri?: string;
+    scopes?: string[];
+    wellKnownOpenIdConfiguration?: string;
 }
 
 // @public
@@ -5510,7 +5921,7 @@ export interface SiteExtensionInfo extends ProxyResource {
     localIsLatestVersion?: boolean;
     localPath?: string;
     projectUrl?: string;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publishedDateTime?: Date;
     summary?: string;
     // (undocumented)
@@ -5535,7 +5946,7 @@ export interface SiteExtensionInfoProperties {
     localIsLatestVersion?: boolean;
     localPath?: string;
     projectUrl?: string;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publishedDateTime?: Date;
     summary?: string;
     // (undocumented)
@@ -5583,6 +5994,7 @@ export interface SiteMachineKey {
 
 // @public
 export interface SitePatchResource extends ProxyOnlyResource {
+    aiIntegration?: AiIntegration;
     readonly availabilityState?: SiteAvailabilityState;
     clientAffinityEnabled?: boolean;
     clientAffinityProxyEnabled?: boolean;
@@ -5620,6 +6032,7 @@ export interface SitePatchResource extends ProxyOnlyResource {
     scmSiteAlsoStopped?: boolean;
     serverFarmId?: string;
     siteConfig?: SiteConfig;
+    siteScopedCertificatesEnabled?: boolean;
     readonly slotSwapStatus?: SlotSwapStatus;
     readonly state?: string;
     storageAccountRequired?: boolean;
@@ -5632,6 +6045,7 @@ export interface SitePatchResource extends ProxyOnlyResource {
 
 // @public
 export interface SitePatchResourceProperties {
+    aiIntegration?: AiIntegration;
     readonly availabilityState?: SiteAvailabilityState;
     clientAffinityEnabled?: boolean;
     clientAffinityProxyEnabled?: boolean;
@@ -5668,6 +6082,7 @@ export interface SitePatchResourceProperties {
     scmSiteAlsoStopped?: boolean;
     serverFarmId?: string;
     siteConfig?: SiteConfig;
+    siteScopedCertificatesEnabled?: boolean;
     readonly slotSwapStatus?: SlotSwapStatus;
     readonly state?: string;
     storageAccountRequired?: boolean;
@@ -5696,6 +6111,7 @@ export interface SitePhpErrorLogFlagProperties {
 
 // @public
 export interface SiteProperties {
+    aiIntegration?: AiIntegration;
     autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly availabilityState?: SiteAvailabilityState;
     clientAffinityEnabled?: boolean;
@@ -5727,10 +6143,12 @@ export interface SiteProperties {
     isXenon?: boolean;
     keyVaultReferenceIdentity?: string;
     readonly lastModifiedTimeUtc?: Date;
+    maintenanceEnabled?: boolean;
     managedEnvironmentId?: string;
     readonly maxNumberOfWorkers?: number;
     readonly outboundIpAddresses?: string;
     outboundVnetRouting?: OutboundVnetRouting;
+    platformReleaseChannel?: PlatformReleaseChannel;
     readonly possibleOutboundIpAddresses?: string;
     publicNetworkAccess?: string;
     redundancyMode?: RedundancyMode;
@@ -5741,6 +6159,7 @@ export interface SiteProperties {
     scmSiteAlsoStopped?: boolean;
     serverFarmId?: string;
     siteConfig?: SiteConfig;
+    siteScopedCertificatesEnabled?: boolean;
     readonly sku?: string;
     readonly slotSwapStatus?: SlotSwapStatus;
     sshEnabled?: boolean;
@@ -5756,6 +6175,131 @@ export interface SiteProperties {
 
 // @public
 export type SiteRuntimeState = "READY" | "STOPPED" | "UNKNOWN";
+
+// @public
+export interface SitesGetNetworkSecurityPerimeterConfigurationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSilo extends TrackedResource {
+    properties?: SiteSiloProperties;
+}
+
+// @public
+export interface SiteSiloProperties {
+    readonly createdTime?: Date;
+    readonly defaultHostName?: string;
+    endpointStatus?: string;
+    readonly errorCode?: string;
+    followLastKnownGood?: boolean;
+    readonly globalHostName?: string;
+    readonly inboundIpAddress?: string;
+    readonly inboundIpv6Address?: string;
+    readonly lastModifiedTime?: Date;
+    readonly monitorStatus?: string;
+    networkingOverride?: SiloNetworkingOverride;
+    readonly outboundIpAddresses?: string;
+    readonly outboundIpv6Addresses?: string;
+    readonly possibleInboundIpAddresses?: string;
+    readonly possibleInboundIpv6Addresses?: string;
+    readonly possibleOutboundIpAddresses?: string;
+    readonly possibleOutboundIpv6Addresses?: string;
+    primaryLocation: string;
+    primarySiteName?: string;
+    readonly provisioningDetails?: string;
+    readonly provisioningState?: SiloProvisioningState;
+    readonly revisionNumber?: number;
+    siloLocation?: string;
+    trafficMode?: SiloFailOverMode;
+}
+
+// @public
+export interface SiteSiloResourcesCreateOrUpdateSiteSiloOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SiteSiloResourcesDeleteSiteSiloOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SiteSiloResourcesGetSiteSiloOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloResourcesListSiteSilosOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSiteSilo: (resourceGroupName: string, name: string, siloName: string, resource: SiteSilo, options?: SiteSiloResourcesCreateOrUpdateSiteSiloOptionalParams) => Promise<SimplePollerLike<OperationState<SiteSilo>, SiteSilo>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSiteSiloAndWait: (resourceGroupName: string, name: string, siloName: string, resource: SiteSilo, options?: SiteSiloResourcesCreateOrUpdateSiteSiloOptionalParams) => Promise<SiteSilo>;
+    // @deprecated (undocumented)
+    beginDeleteSiteSilo: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloResourcesDeleteSiteSiloOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteSiteSiloAndWait: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloResourcesDeleteSiteSiloOptionalParams) => Promise<void>;
+    createOrUpdateSiteSilo: (resourceGroupName: string, name: string, siloName: string, resource: SiteSilo, options?: SiteSiloResourcesCreateOrUpdateSiteSiloOptionalParams) => PollerLike<OperationState<SiteSilo>, SiteSilo>;
+    deleteSiteSilo: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloResourcesDeleteSiteSiloOptionalParams) => PollerLike<OperationState<void>, void>;
+    getSiteSilo: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloResourcesGetSiteSiloOptionalParams) => Promise<SiteSilo>;
+    listSiteSilos: (resourceGroupName: string, name: string, options?: SiteSiloResourcesListSiteSilosOptionalParams) => PagedAsyncIterableIterator<SiteSilo>;
+    refreshSiteSilos: (resourceGroupName: string, name: string, options?: SiteSiloResourcesRefreshSiteSilosOptionalParams) => Promise<void>;
+    updateSiteSilo: (resourceGroupName: string, name: string, siloName: string, properties: SiteSiloTagsUpdate, options?: SiteSiloResourcesUpdateSiteSiloOptionalParams) => Promise<SiteSilo>;
+}
+
+// @public
+export interface SiteSiloResourcesRefreshSiteSilosOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloResourcesUpdateSiteSiloOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsDeleteSiteSiloVnetConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsGetSiteSiloVnetConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsListSiteSiloVnetConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsOperations {
+    createOrUpdateSiteSiloVnetConnection: (resourceGroupName: string, name: string, siloName: string, resource: SwiftVirtualNetwork, options?: SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnectionOptionalParams) => Promise<SwiftVirtualNetwork>;
+    deleteSiteSiloVnetConnection: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloVirtualNetworkConnectionsDeleteSiteSiloVnetConnectionOptionalParams) => Promise<void>;
+    getSiteSiloVnetConnection: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloVirtualNetworkConnectionsGetSiteSiloVnetConnectionOptionalParams) => Promise<SwiftVirtualNetwork>;
+    listSiteSiloVnetConnections: (resourceGroupName: string, name: string, siloName: string, options?: SiteSiloVirtualNetworkConnectionsListSiteSiloVnetConnectionsOptionalParams) => PagedAsyncIterableIterator<SwiftVirtualNetwork>;
+    updateSiteSiloVnetConnection: (resourceGroupName: string, name: string, siloName: string, properties: SwiftVirtualNetwork, options?: SiteSiloVirtualNetworkConnectionsUpdateSiteSiloVnetConnectionOptionalParams) => Promise<SwiftVirtualNetwork>;
+}
+
+// @public
+export interface SiteSiloVirtualNetworkConnectionsUpdateSiteSiloVnetConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SitesListNetworkSecurityPerimeterConfigurationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SitesOperations {
+    getNetworkSecurityPerimeterConfiguration: (resourceGroupName: string, name: string, networkSecurityPerimeterReference: string, options?: SitesGetNetworkSecurityPerimeterConfigurationOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    listNetworkSecurityPerimeterConfigurations: (resourceGroupName: string, name: string, options?: SitesListNetworkSecurityPerimeterConfigurationsOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
 
 // @public
 export interface SiteSourceControl extends ProxyResource {
@@ -6207,6 +6751,25 @@ export interface StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalPara
 }
 
 // @public
+export interface StaticSitesAsyncOperationsGetOperationResultOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StaticSitesAsyncOperationsGetOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesAsyncOperationsOperations {
+    // @deprecated (undocumented)
+    beginGetOperationResult: (location: string, operationId: string, options?: StaticSitesAsyncOperationsGetOperationResultOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginGetOperationResultAndWait: (location: string, operationId: string, options?: StaticSitesAsyncOperationsGetOperationResultOptionalParams) => Promise<void>;
+    getOperationResult: (location: string, operationId: string, options?: StaticSitesAsyncOperationsGetOperationResultOptionalParams) => PollerLike<OperationState<void>, void>;
+    getOperationStatus: (location: string, operationId: string, options?: StaticSitesAsyncOperationsGetOperationStatusOptionalParams) => Promise<StaticSitesOperationStatus>;
+}
+
+// @public
 export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams extends OperationOptions {
 }
 
@@ -6606,6 +7169,23 @@ export interface StaticSitesOperations {
     validateBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => PollerLike<OperationState<void>, void>;
     validateBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => PollerLike<OperationState<void>, void>;
     validateCustomDomainCanBeAddedToStaticSite: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface StaticSitesOperationStatus {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: StaticSitesOperationStatusProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface StaticSitesOperationStatusProperties {
+    endTime?: string;
+    error?: ErrorResponse;
+    startTime?: string;
+    staticSiteProperties?: StaticSite;
+    readonly status?: string;
 }
 
 // @public
@@ -9777,6 +10357,7 @@ export interface WebSiteInstanceStatusProperties {
 export class WebSiteManagementClient {
     constructor(credential: TokenCredential, options?: WebSiteManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    readonly aiGateways: AiGatewaysOperations;
     readonly appServiceEnvironments: AppServiceEnvironmentsOperations;
     readonly appServicePlans: AppServicePlansOperations;
     readonly certificates: CertificatesOperations;
@@ -9789,6 +10370,7 @@ export class WebSiteManagementClient {
     readonly getUsagesInLocation: GetUsagesInLocationOperations;
     readonly global: GlobalOperations;
     readonly kubeEnvironments: KubeEnvironmentsOperations;
+    readonly lastKnownGoodResources: LastKnownGoodResourcesOperations;
     listAseRegions(options?: ListAseRegionsOptionalParams): PagedAsyncIterableIterator<AseRegion>;
     listBillingMeters(options?: ListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
     listCustomHostNameSites(options?: ListCustomHostNameSitesOptionalParams): PagedAsyncIterableIterator<CustomHostnameSites>;
@@ -9797,14 +10379,20 @@ export class WebSiteManagementClient {
     listSiteIdentifiersAssignedToHostName(nameIdentifier: NameIdentifier, options?: ListSiteIdentifiersAssignedToHostNameOptionalParams): PagedAsyncIterableIterator<Identifier>;
     listSkus(options?: ListSkusOptionalParams): Promise<SkuInfos>;
     listSourceControls(options?: ListSourceControlsOptionalParams): PagedAsyncIterableIterator<SourceControl>;
+    readonly managedTrafficConfigResources: ManagedTrafficConfigResourcesOperations;
     move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: MoveOptionalParams): Promise<void>;
     readonly pipeline: Pipeline;
     readonly provider: ProviderOperations;
     readonly recommendations: RecommendationsOperations;
     regionalCheckNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, options?: RegionalCheckNameAvailabilityOptionalParams): Promise<DnlResourceNameAvailability>;
     readonly resourceHealthMetadata: ResourceHealthMetadataOperations;
+    readonly serverFarmSiloResources: ServerFarmSiloResourcesOperations;
     readonly siteCertificates: SiteCertificatesOperations;
+    readonly sites: SitesOperations;
+    readonly siteSiloResources: SiteSiloResourcesOperations;
+    readonly siteSiloVirtualNetworkConnections: SiteSiloVirtualNetworkConnectionsOperations;
     readonly staticSites: StaticSitesOperations;
+    readonly staticSitesAsyncOperations: StaticSitesAsyncOperationsOperations;
     updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<User>;
     updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: UpdateSourceControlOptionalParams): Promise<SourceControl>;
     validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateResponse>;
@@ -10376,10 +10964,6 @@ export interface WorkflowVersionsOperations {
     get: (resourceGroupName: string, name: string, workflowName: string, versionId: string, options?: WorkflowVersionsGetOptionalParams) => Promise<WorkflowVersion>;
     list: (resourceGroupName: string, name: string, workflowName: string, options?: WorkflowVersionsListOptionalParams) => PagedAsyncIterableIterator<WorkflowVersion>;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/models/models.ts:26039:3 - (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
