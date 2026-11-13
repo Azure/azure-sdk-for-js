@@ -1,0 +1,3 @@
+paths-ignore:
+  # Published ARM samples duplicate samples-dev, which remains in scope.
+  - "sdk/*/arm-*/samples/v*/**"
