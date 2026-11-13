@@ -92,6 +92,12 @@ steps:
     condition: and(always(),eq(variables['TestType'], 'browser'))
     displayName: "Publish browser unit test results"
 
+  - ${{ if eq(variables['System.TeamProject'], 'public') }}:
+    - pwsh: |
+        ./eng/scripts/report-test-failures.ps1 -SearchFolder "$(System.DefaultWorkingDirectory)/sdk" -TestType "$(TestType)"
+      condition: and(failed(),in(variables['TestType'], 'node', 'browser'))
+      displayName: "Report test failures in pipeline errors"
+
   - template: /eng/common/pipelines/templates/steps/upload-llm-artifacts.yml
     parameters:
       TestResultsGlob: 'test-results*.xml'
