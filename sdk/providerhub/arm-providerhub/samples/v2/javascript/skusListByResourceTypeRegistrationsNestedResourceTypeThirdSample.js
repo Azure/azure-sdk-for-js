@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of skus for the given resource type.
  *
  * @summary gets the list of skus for the given resource type.
- * x-ms-original-file: 2025-10-01/Skus_ListByResourceTypeRegistrationsNestedResourceTypeThird.json
+ * x-ms-original-file: 2026-10-01/Skus_ListByResourceTypeRegistrationsNestedResourceTypeThird.json
  */
 async function skusListByResourceTypeRegistrationsNestedResourceTypeThird() {
   const credential = new DefaultAzureCredential();

@@ -5,6 +5,7 @@ exports:
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/resourceActions": "./src/api/resourceActions/index.ts"
+  "./api/endpointRegistrations": "./src/api/endpointRegistrations/index.ts"
   "./api/manifests": "./src/api/manifests/index.ts"
   "./api/providerMonitorSettings": "./src/api/providerMonitorSettings/index.ts"
   "./api/authorizedApplications": "./src/api/authorizedApplications/index.ts"

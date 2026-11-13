@@ -6,6 +6,8 @@ import { _deleteResourcesDeserialize } from "./api/resourceActions/operations.js
 import { _createDeserialize } from "./api/providerMonitorSettings/operations.js";
 import { _createOrUpdateDeserialize } from "./api/authorizedApplications/operations.js";
 import {
+  _deleteNestedResourceTypeFirstDeserialize,
+  _createOrUpdateNestedResourceTypeFirstDeserialize,
   _$deleteDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeResourceTypeRegistrations,
 } from "./api/resourceTypeRegistrations/operations.js";
@@ -88,6 +90,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/authorizedApplications/{applicationId}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}/resourcetypeRegistrations/{nestedResourceTypeFirst}":
+    {
+      deserializer: _deleteNestedResourceTypeFirstDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}/resourcetypeRegistrations/{nestedResourceTypeFirst}":
+    {
+      deserializer: _createOrUpdateNestedResourceTypeFirstDeserialize,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}":

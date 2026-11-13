@@ -1965,6 +1965,11 @@ export function resourceProviderManifestManagementDeserializer(
       : item["featureManagementOwners"].map((p: any) => {
           return p;
         }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2276,6 +2281,10 @@ export enum KnownOptInHeaderType {
   ClientPrincipalNameEncoded = "ClientPrincipalNameEncoded",
   /** MSIResourceIdEncoded */
   MSIResourceIdEncoded = "MSIResourceIdEncoded",
+  /** Includes user context information from the incoming token. */
+  UserContext = "UserContext",
+  /** Includes user context information from incoming auxiliary tokens. */
+  AuxiliaryUserContext = "AuxiliaryUserContext",
 }
 
 /**
@@ -2294,7 +2303,9 @@ export enum KnownOptInHeaderType {
  * **PrivateLinkVnetTrafficTag** \
  * **ResourceGroupLocation** \
  * **ClientPrincipalNameEncoded** \
- * **MSIResourceIdEncoded**
+ * **MSIResourceIdEncoded** \
+ * **UserContext**: Includes user context information from the incoming token. \
+ * **AuxiliaryUserContext**: Includes user context information from incoming auxiliary tokens.
  */
 export type OptInHeaderType = string;
 
@@ -2514,6 +2525,8 @@ export interface ResourceProviderManagement {
   profitCenterProgramId?: string;
   /** List of feature management owners. */
   featureManagementOwners?: string[];
+  /** List of claims to approve or reject feature registration. */
+  featureApprovalClaims?: string[];
 }
 
 export function resourceProviderManagementSerializer(item: ResourceProviderManagement): any {
@@ -2565,6 +2578,11 @@ export function resourceProviderManagementSerializer(item: ResourceProviderManag
     featureManagementOwners: !item["featureManagementOwners"]
       ? item["featureManagementOwners"]
       : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
           return p;
         }),
   };
@@ -2619,6 +2637,11 @@ export function resourceProviderManagementDeserializer(item: any): ResourceProvi
     featureManagementOwners: !item["featureManagementOwners"]
       ? item["featureManagementOwners"]
       : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
           return p;
         }),
   };
@@ -2856,12 +2879,18 @@ export interface CheckinManifestParams {
   environment: string;
   /** The baseline ARM manifest location supplied to the checkin manifest operation. */
   baselineArmManifestLocation: string;
+  /** The URI of the signed-off OpenAPI specification pull request associated with the manifest check-in. */
+  swaggerUri?: string;
+  /** The comment associated with the manifest check-in. */
+  checkinComment?: string;
 }
 
 export function checkinManifestParamsSerializer(item: CheckinManifestParams): any {
   return {
     environment: item["environment"],
     baselineArmManifestLocation: item["baselineArmManifestLocation"],
+    swaggerUri: item["swaggerUri"],
+    checkinComment: item["checkinComment"],
   };
 }
 
@@ -2869,6 +2898,8 @@ export function checkinManifestParamsDeserializer(item: any): CheckinManifestPar
   return {
     environment: item["environment"],
     baselineArmManifestLocation: item["baselineArmManifestLocation"],
+    swaggerUri: item["swaggerUri"],
+    checkinComment: item["checkinComment"],
   };
 }
 
@@ -3999,6 +4030,9 @@ export function customRolloutPropertiesSpecificationSerializer(
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArraySerializer(item["resourceTypeRegistrations"]),
     rolloutId: item["rolloutId"],
+    rolloutOrchestrationMetadata: !item["rolloutOrchestrationMetadata"]
+      ? item["rolloutOrchestrationMetadata"]
+      : rolloutOrchestrationMetadataSerializer(item["rolloutOrchestrationMetadata"]),
     manifestCheckinSpecification: !item["manifestCheckinSpecification"]
       ? item["manifestCheckinSpecification"]
       : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
@@ -4029,6 +4063,9 @@ export function customRolloutPropertiesSpecificationDeserializer(
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArrayDeserializer(item["resourceTypeRegistrations"]),
     rolloutId: item["rolloutId"],
+    rolloutOrchestrationMetadata: !item["rolloutOrchestrationMetadata"]
+      ? item["rolloutOrchestrationMetadata"]
+      : rolloutOrchestrationMetadataDeserializer(item["rolloutOrchestrationMetadata"]),
     manifestCheckinSpecification: !item["manifestCheckinSpecification"]
       ? item["manifestCheckinSpecification"]
       : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
@@ -4096,6 +4133,8 @@ export interface CustomRolloutSpecification {
   resourceTypeRegistrations?: ResourceTypeRegistration[];
   /** The rollout id. */
   rolloutId?: string;
+  /** Orchestration metadata associated with the rollout. */
+  rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata;
   /** The manifest checkin specification. */
   manifestCheckinSpecification?: ManifestCheckinSpecification;
 }
@@ -4122,6 +4161,9 @@ export function customRolloutSpecificationSerializer(item: CustomRolloutSpecific
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArraySerializer(item["resourceTypeRegistrations"]),
     rolloutId: item["rolloutId"],
+    rolloutOrchestrationMetadata: !item["rolloutOrchestrationMetadata"]
+      ? item["rolloutOrchestrationMetadata"]
+      : rolloutOrchestrationMetadataSerializer(item["rolloutOrchestrationMetadata"]),
     manifestCheckinSpecification: !item["manifestCheckinSpecification"]
       ? item["manifestCheckinSpecification"]
       : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
@@ -4150,6 +4192,9 @@ export function customRolloutSpecificationDeserializer(item: any): CustomRollout
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArrayDeserializer(item["resourceTypeRegistrations"]),
     rolloutId: item["rolloutId"],
+    rolloutOrchestrationMetadata: !item["rolloutOrchestrationMetadata"]
+      ? item["rolloutOrchestrationMetadata"]
+      : rolloutOrchestrationMetadataDeserializer(item["rolloutOrchestrationMetadata"]),
     manifestCheckinSpecification: !item["manifestCheckinSpecification"]
       ? item["manifestCheckinSpecification"]
       : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
@@ -4356,6 +4401,8 @@ export interface ResourceTypeRegistrationProperties {
   writeLock?: WriteLockConfiguration;
   /** Indicates whether super scale is enabled. */
   superScaleEnabled?: boolean;
+  /** The resource type lifecycle information. */
+  lifecycleInfo?: ResourceTypeLifecycleInfo;
   /** The resource concurrency control options. */
   resourceConcurrencyControlOptions?: Record<string, ResourceConcurrencyControlOption>;
   /** The resource graph configuration. */
@@ -4549,6 +4596,9 @@ export function resourceTypeRegistrationPropertiesSerializer(
       ? item["writeLock"]
       : writeLockConfigurationSerializer(item["writeLock"]),
     superScaleEnabled: item["superScaleEnabled"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : resourceTypeLifecycleInfoSerializer(item["lifecycleInfo"]),
     resourceConcurrencyControlOptions: !item["resourceConcurrencyControlOptions"]
       ? item["resourceConcurrencyControlOptions"]
       : resourceConcurrencyControlOptionRecordSerializer(item["resourceConcurrencyControlOptions"]),
@@ -4780,6 +4830,9 @@ export function resourceTypeRegistrationPropertiesDeserializer(
       ? item["writeLock"]
       : writeLockConfigurationDeserializer(item["writeLock"]),
     superScaleEnabled: item["superScaleEnabled"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : resourceTypeLifecycleInfoDeserializer(item["lifecycleInfo"]),
     resourceConcurrencyControlOptions: !item["resourceConcurrencyControlOptions"]
       ? item["resourceConcurrencyControlOptions"]
       : resourceConcurrencyControlOptionRecordDeserializer(
@@ -5293,6 +5346,8 @@ export interface SwaggerSpecification {
   apiVersions?: string[];
   /** The swagger spec folder uri. */
   swaggerSpecFolderUri?: string;
+  /** The swagger specification lifecycle information. */
+  lifecycleInfo?: SwaggerSpecificationLifecycleInfo;
 }
 
 export function swaggerSpecificationSerializer(item: SwaggerSpecification): any {
@@ -5303,6 +5358,9 @@ export function swaggerSpecificationSerializer(item: SwaggerSpecification): any 
           return p;
         }),
     swaggerSpecFolderUri: item["swaggerSpecFolderUri"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : swaggerSpecificationLifecycleInfoSerializer(item["lifecycleInfo"]),
   };
 }
 
@@ -5314,8 +5372,58 @@ export function swaggerSpecificationDeserializer(item: any): SwaggerSpecificatio
           return p;
         }),
     swaggerSpecFolderUri: item["swaggerSpecFolderUri"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : swaggerSpecificationLifecycleInfoDeserializer(item["lifecycleInfo"]),
   };
 }
+
+/** Swagger specification lifecycle information. */
+export interface SwaggerSpecificationLifecycleInfo {
+  /** The lifecycle stage. */
+  lifecycleStage?: LifecycleStage;
+}
+
+export function swaggerSpecificationLifecycleInfoSerializer(
+  item: SwaggerSpecificationLifecycleInfo,
+): any {
+  return { lifecycleStage: item["lifecycleStage"] };
+}
+
+export function swaggerSpecificationLifecycleInfoDeserializer(
+  item: any,
+): SwaggerSpecificationLifecycleInfo {
+  return {
+    lifecycleStage: item["lifecycleStage"],
+  };
+}
+
+/** The lifecycle stage. */
+export enum KnownLifecycleStage {
+  /** In Development lifecycle stage. */
+  InDevelopment = "InDevelopment",
+  /** Private Preview lifecycle stage. */
+  PrivatePreview = "PrivatePreview",
+  /** Public Preview lifecycle stage. */
+  PublicPreview = "PublicPreview",
+  /** General Availability lifecycle stage. */
+  GA = "GA",
+  /** Retired lifecycle stage. */
+  Retired = "Retired",
+}
+
+/**
+ * The lifecycle stage. \
+ * {@link KnownLifecycleStage} can be used interchangeably with LifecycleStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InDevelopment**: In Development lifecycle stage. \
+ * **PrivatePreview**: Private Preview lifecycle stage. \
+ * **PublicPreview**: Public Preview lifecycle stage. \
+ * **GA**: General Availability lifecycle stage. \
+ * **Retired**: Retired lifecycle stage.
+ */
+export type LifecycleStage = string;
 
 /** The features rule. */
 export interface ResourceTypeRegistrationPropertiesFeaturesRule extends FeaturesRule {}
@@ -5724,6 +5832,22 @@ export enum KnownWriteLockState {
  */
 export type WriteLockState = string;
 
+/** Resource type lifecycle information. */
+export interface ResourceTypeLifecycleInfo {
+  /** The lifecycle stage. */
+  lifecycleStage?: LifecycleStage;
+}
+
+export function resourceTypeLifecycleInfoSerializer(item: ResourceTypeLifecycleInfo): any {
+  return { lifecycleStage: item["lifecycleStage"] };
+}
+
+export function resourceTypeLifecycleInfoDeserializer(item: any): ResourceTypeLifecycleInfo {
+  return {
+    lifecycleStage: item["lifecycleStage"],
+  };
+}
+
 export function resourceConcurrencyControlOptionRecordSerializer(
   item: Record<string, ResourceConcurrencyControlOption>,
 ): Record<string, any> {
@@ -5856,6 +5980,11 @@ export function resourceTypeRegistrationPropertiesManagementSerializer(
       : item["featureManagementOwners"].map((p: any) => {
           return p;
         }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5910,6 +6039,11 @@ export function resourceTypeRegistrationPropertiesManagementDeserializer(
     featureManagementOwners: !item["featureManagementOwners"]
       ? item["featureManagementOwners"]
       : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
           return p;
         }),
   };
@@ -6738,6 +6872,40 @@ export enum KnownResourceTypeRegistrationKind {
  */
 export type ResourceTypeRegistrationKind = string;
 
+/** Orchestration metadata associated with a rollout. */
+export interface RolloutOrchestrationMetadata {
+  /** Whether the rollout is used for manifest buildout. */
+  isForManifestBuildout?: boolean;
+  /** The deployment type associated with the rollout. */
+  deploymentType?: string;
+  /** The traffic ring associated with the rollout. */
+  trafficRing?: string;
+  /** The service group associated with the rollout. */
+  serviceGroup?: string;
+  /** The identifier of the service associated with the rollout. */
+  serviceIdentifier?: string;
+}
+
+export function rolloutOrchestrationMetadataSerializer(item: RolloutOrchestrationMetadata): any {
+  return {
+    isForManifestBuildout: item["isForManifestBuildout"],
+    deploymentType: item["deploymentType"],
+    trafficRing: item["trafficRing"],
+    serviceGroup: item["serviceGroup"],
+    serviceIdentifier: item["serviceIdentifier"],
+  };
+}
+
+export function rolloutOrchestrationMetadataDeserializer(item: any): RolloutOrchestrationMetadata {
+  return {
+    isForManifestBuildout: item["isForManifestBuildout"],
+    deploymentType: item["deploymentType"],
+    trafficRing: item["trafficRing"],
+    serviceGroup: item["serviceGroup"],
+    serviceIdentifier: item["serviceIdentifier"],
+  };
+}
+
 /** The manifest checkin specification. */
 export interface ManifestCheckinSpecification {
   /** The manifest checkin option. */
@@ -6854,6 +7022,8 @@ export interface ProviderRegistrationProperties extends ResourceProviderManifest
   oboSubscriptionId?: string;
   /** Indicates whether automatic registration for the preset resource types is enabled or disabled. */
   enablePresetResourceTypes?: boolean;
+  /** The resource provider lifecycle information. */
+  lifecycleInfo?: ResourceProviderLifecycleInfo;
 }
 
 export function providerRegistrationPropertiesSerializer(
@@ -6966,6 +7136,9 @@ export function providerRegistrationPropertiesSerializer(
       : tokenAuthConfigurationSerializer(item["tokenAuthConfiguration"]),
     oboSubscriptionId: item["oboSubscriptionId"],
     enablePresetResourceTypes: item["enablePresetResourceTypes"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : resourceProviderLifecycleInfoSerializer(item["lifecycleInfo"]),
   };
 }
 
@@ -7082,6 +7255,9 @@ export function providerRegistrationPropertiesDeserializer(
       : tokenAuthConfigurationDeserializer(item["tokenAuthConfiguration"]),
     oboSubscriptionId: item["oboSubscriptionId"],
     enablePresetResourceTypes: item["enablePresetResourceTypes"],
+    lifecycleInfo: !item["lifecycleInfo"]
+      ? item["lifecycleInfo"]
+      : resourceProviderLifecycleInfoDeserializer(item["lifecycleInfo"]),
   };
 }
 
@@ -7181,6 +7357,82 @@ export function providerRegistrationPropertiesPrivateResourceProviderConfigurati
         }),
   };
 }
+
+/** Resource provider lifecycle information. */
+export interface ResourceProviderLifecycleInfo {
+  /** The isolation type. */
+  isolationType?: IsolationType;
+  /** The partner category. */
+  partnerCategory?: PartnerCategory;
+  /** The lifecycle stage. */
+  lifecycleStage?: LifecycleStage;
+  /** The list of allowed subscriptions for this resource provider. */
+  allowedSubscriptions?: string[];
+}
+
+export function resourceProviderLifecycleInfoSerializer(item: ResourceProviderLifecycleInfo): any {
+  return {
+    isolationType: item["isolationType"],
+    partnerCategory: item["partnerCategory"],
+    lifecycleStage: item["lifecycleStage"],
+    allowedSubscriptions: !item["allowedSubscriptions"]
+      ? item["allowedSubscriptions"]
+      : item["allowedSubscriptions"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function resourceProviderLifecycleInfoDeserializer(
+  item: any,
+): ResourceProviderLifecycleInfo {
+  return {
+    isolationType: item["isolationType"],
+    partnerCategory: item["partnerCategory"],
+    lifecycleStage: item["lifecycleStage"],
+    allowedSubscriptions: !item["allowedSubscriptions"]
+      ? item["allowedSubscriptions"]
+      : item["allowedSubscriptions"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The isolation type. */
+export enum KnownIsolationType {
+  /** Private isolation type. */
+  Private = "Private",
+  /** Public isolation type. */
+  Public = "Public",
+}
+
+/**
+ * The isolation type. \
+ * {@link KnownIsolationType} can be used interchangeably with IsolationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Private**: Private isolation type. \
+ * **Public**: Public isolation type.
+ */
+export type IsolationType = string;
+
+/** The partner category. */
+export enum KnownPartnerCategory {
+  /** First party partner category. */
+  FirstParty = "FirstParty",
+  /** Third party partner category. */
+  ThirdParty = "ThirdParty",
+}
+
+/**
+ * The partner category. \
+ * {@link KnownPartnerCategory} can be used interchangeably with PartnerCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FirstParty**: First party partner category. \
+ * **ThirdParty**: Third party partner category.
+ */
+export type PartnerCategory = string;
 
 /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export enum KnownProviderRegistrationKind {
@@ -7916,6 +8168,11 @@ export function resourceProviderManifestPropertiesManagementSerializer(
       : item["featureManagementOwners"].map((p: any) => {
           return p;
         }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -7970,6 +8227,11 @@ export function resourceProviderManifestPropertiesManagementDeserializer(
     featureManagementOwners: !item["featureManagementOwners"]
       ? item["featureManagementOwners"]
       : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
+    featureApprovalClaims: !item["featureApprovalClaims"]
+      ? item["featureApprovalClaims"]
+      : item["featureApprovalClaims"].map((p: any) => {
           return p;
         }),
   };
@@ -8784,6 +9046,8 @@ export interface AppliedManifestInfo {
   previousCommitId?: string;
   /** Commit id of manifest being applied. */
   appliedCommitId?: string;
+  /** The root resource provider namespace. */
+  readonly rootProviderNamespace?: string;
 }
 
 export function appliedManifestInfoSerializer(item: AppliedManifestInfo): any {
@@ -8805,6 +9069,7 @@ export function appliedManifestInfoDeserializer(item: any): AppliedManifestInfo 
       : new Date(item["manifestAppliedAt"]),
     previousCommitId: item["previousCommitId"],
     appliedCommitId: item["appliedCommitId"],
+    rootProviderNamespace: item["rootProviderNamespace"],
   };
 }
 
@@ -10722,6 +10987,181 @@ export function manifestInfoPropertiesDeserializer(item: any): ManifestInfoPrope
   };
 }
 
+/** An independently managed endpoint definition for a Resource Type Registration. */
+export interface EndpointRegistration extends ProxyResource {
+  /** The endpoint configuration. */
+  properties: EndpointRegistrationProperties;
+  /** The endpoint kind used to select the routing behavior. */
+  kind?: ResourceTypeEndpointKind;
+}
+
+export function endpointRegistrationSerializer(item: EndpointRegistration): any {
+  return {
+    properties: endpointRegistrationPropertiesSerializer(item["properties"]),
+    kind: item["kind"],
+  };
+}
+
+export function endpointRegistrationDeserializer(item: any): EndpointRegistration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: endpointRegistrationPropertiesDeserializer(item["properties"]),
+    kind: item["kind"],
+  };
+}
+
+/** Properties of an independently managed endpoint definition. */
+export interface EndpointRegistrationProperties {
+  /** Whether the endpoint is enabled. */
+  enabled?: boolean;
+  /** The api versions. */
+  apiVersions?: string[];
+  /** The locations. */
+  locations?: string[];
+  /** The required features. */
+  requiredFeatures?: string[];
+  /** The features rule. */
+  featuresRule?: ResourceTypeEndpointFeaturesRule;
+  /** The extensions. */
+  extensions?: ResourceTypeExtension[];
+  /** The timeout. */
+  timeout?: string;
+  /** The endpoint type. */
+  endpointType?: EndpointTypeResourceType;
+  /** The token auth configuration. */
+  tokenAuthConfiguration?: TokenAuthConfiguration;
+  /** The sku link. */
+  skuLink?: string;
+  /** Api version. */
+  apiVersion?: string;
+  /** List of zones. */
+  zones?: string[];
+  /** The data boundary. */
+  dataBoundary?: DataBoundary;
+  /** The URI of the endpoint. */
+  endpointUri?: string;
+}
+
+export function endpointRegistrationPropertiesSerializer(
+  item: EndpointRegistrationProperties,
+): any {
+  return {
+    enabled: item["enabled"],
+    apiVersions: !item["apiVersions"]
+      ? item["apiVersions"]
+      : item["apiVersions"].map((p: any) => {
+          return p;
+        }),
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    requiredFeatures: !item["requiredFeatures"]
+      ? item["requiredFeatures"]
+      : item["requiredFeatures"].map((p: any) => {
+          return p;
+        }),
+    featuresRule: !item["featuresRule"]
+      ? item["featuresRule"]
+      : resourceTypeEndpointFeaturesRuleSerializer(item["featuresRule"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : resourceTypeExtensionArraySerializer(item["extensions"]),
+    timeout: item["timeout"],
+    endpointType: item["endpointType"],
+    tokenAuthConfiguration: !item["tokenAuthConfiguration"]
+      ? item["tokenAuthConfiguration"]
+      : tokenAuthConfigurationSerializer(item["tokenAuthConfiguration"]),
+    skuLink: item["skuLink"],
+    apiVersion: item["apiVersion"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    dataBoundary: item["dataBoundary"],
+    endpointUri: item["endpointUri"],
+  };
+}
+
+export function endpointRegistrationPropertiesDeserializer(
+  item: any,
+): EndpointRegistrationProperties {
+  return {
+    enabled: item["enabled"],
+    apiVersions: !item["apiVersions"]
+      ? item["apiVersions"]
+      : item["apiVersions"].map((p: any) => {
+          return p;
+        }),
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    requiredFeatures: !item["requiredFeatures"]
+      ? item["requiredFeatures"]
+      : item["requiredFeatures"].map((p: any) => {
+          return p;
+        }),
+    featuresRule: !item["featuresRule"]
+      ? item["featuresRule"]
+      : resourceTypeEndpointFeaturesRuleDeserializer(item["featuresRule"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : resourceTypeExtensionArrayDeserializer(item["extensions"]),
+    timeout: item["timeout"],
+    endpointType: item["endpointType"],
+    tokenAuthConfiguration: !item["tokenAuthConfiguration"]
+      ? item["tokenAuthConfiguration"]
+      : tokenAuthConfigurationDeserializer(item["tokenAuthConfiguration"]),
+    skuLink: item["skuLink"],
+    apiVersion: item["apiVersion"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    dataBoundary: item["dataBoundary"],
+    endpointUri: item["endpointUri"],
+  };
+}
+
+/** A page of endpoint registrations. */
+export interface _EndpointRegistrationArrayResponseWithContinuation {
+  /** The endpoint registrations in this page. */
+  value?: EndpointRegistration[];
+  /** The link to the next page of endpoint registrations. */
+  readonly nextLink?: string;
+}
+
+export function _endpointRegistrationArrayResponseWithContinuationDeserializer(
+  item: any,
+): _EndpointRegistrationArrayResponseWithContinuation {
+  return {
+    value: !item["value"] ? item["value"] : endpointRegistrationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function endpointRegistrationArraySerializer(result: Array<EndpointRegistration>): any[] {
+  return result.map((item) => {
+    return endpointRegistrationSerializer(item);
+  });
+}
+
+export function endpointRegistrationArrayDeserializer(result: Array<EndpointRegistration>): any[] {
+  return result.map((item) => {
+    return endpointRegistrationDeserializer(item);
+  });
+}
+
 /** model interface ResourceManagementAction */
 export interface ResourceManagementAction {
   /** resource management action content. */
@@ -10770,4 +11210,6 @@ export enum KnownVersions {
   V20240901 = "2024-09-01",
   /** The 2025-10-01 API version. */
   V20251001 = "2025-10-01",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }

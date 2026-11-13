@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the provider registration.
  *
  * @summary creates or updates the provider registration.
- * x-ms-original-file: 2025-10-01/DirectProviderRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/DirectProviderRegistrations_CreateOrUpdate.json
  */
 async function directProviderRegistrationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -83,7 +83,7 @@ async function directProviderRegistrationsCreateOrUpdate() {
  * This sample demonstrates how to creates or updates the provider registration.
  *
  * @summary creates or updates the provider registration.
- * x-ms-original-file: 2025-10-01/ProviderRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01/ProviderRegistrations_CreateOrUpdate.json
  */
 async function providerRegistrationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -111,6 +111,12 @@ async function providerRegistrationsCreateOrUpdate() {
         { quotaId: "CSP_2015-05-01", effect: "Allow" },
         { quotaId: "CSP_MG_2017-12-01", effect: "Allow" },
       ],
+      lifecycleInfo: {
+        isolationType: "Public",
+        partnerCategory: "FirstParty",
+        lifecycleStage: "InDevelopment",
+        allowedSubscriptions: ["00000000-0000-0000-0000-000000000000"],
+      },
     },
   });
   console.log(result);

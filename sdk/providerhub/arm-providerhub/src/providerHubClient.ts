@@ -14,6 +14,8 @@ import type { CustomRolloutsOperations } from "./classic/customRollouts/index.js
 import { _getCustomRolloutsOperations } from "./classic/customRollouts/index.js";
 import type { DefaultRolloutsOperations } from "./classic/defaultRollouts/index.js";
 import { _getDefaultRolloutsOperations } from "./classic/defaultRollouts/index.js";
+import type { EndpointRegistrationsOperations } from "./classic/endpointRegistrations/index.js";
+import { _getEndpointRegistrationsOperations } from "./classic/endpointRegistrations/index.js";
 import type { ManifestsOperations } from "./classic/manifests/index.js";
 import { _getManifestsOperations } from "./classic/manifests/index.js";
 import type { NotificationRegistrationsOperations } from "./classic/notificationRegistrations/index.js";
@@ -69,6 +71,7 @@ export class ProviderHubClient {
     this._client = createProviderHub(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.resourceActions = _getResourceActionsOperations(this._client);
+    this.endpointRegistrations = _getEndpointRegistrationsOperations(this._client);
     this.manifests = _getManifestsOperations(this._client);
     this.providerMonitorSettings = _getProviderMonitorSettingsOperations(this._client);
     this.authorizedApplications = _getAuthorizedApplicationsOperations(this._client);
@@ -100,6 +103,8 @@ export class ProviderHubClient {
 
   /** The operation groups for resourceActions */
   public readonly resourceActions: ResourceActionsOperations;
+  /** The operation groups for endpointRegistrations */
+  public readonly endpointRegistrations: EndpointRegistrationsOperations;
   /** The operation groups for manifests */
   public readonly manifests: ManifestsOperations;
   /** The operation groups for providerMonitorSettings */

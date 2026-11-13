@@ -29,7 +29,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       environment: environment,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       environment: environment,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

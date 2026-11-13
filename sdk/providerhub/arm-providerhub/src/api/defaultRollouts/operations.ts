@@ -39,7 +39,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       rolloutName: rolloutName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function _listByProviderRegistrationSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,7 +122,7 @@ export function listByProviderRegistration(
     () => _listByProviderRegistrationSend(context, providerNamespace, options),
     _listByProviderRegistrationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -138,7 +138,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       rolloutName: rolloutName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +185,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       rolloutName: rolloutName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +229,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, providerNamespace, rolloutName, properties, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-10-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<DefaultRollout>, DefaultRollout>;
 }
 
@@ -245,7 +245,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       rolloutName: rolloutName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
