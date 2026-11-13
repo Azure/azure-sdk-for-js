@@ -8,6 +8,72 @@ import { TableClient } from "../../src/TableClient.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
 describe("TableTransaction", () => {
+  describe("batch URL", () => {
+    const actions: TableTransaction["actions"] = [
+      ["upsert", { partitionKey: "partition", rowKey: "row" }, "Merge"],
+    ];
+
+    it("normalizes a leading CRLF before token authentication", async () => {
+      const getToken = vi.fn(async () => ({
+        token: "test-token",
+        expiresOnTimestamp: Date.now() + 60_000,
+      }));
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
+        assert.equal(request.url, "https://example.table.core.windows.net/$batch");
+        assert.equal(request.headers.get("authorization"), "Bearer test-token");
+        return { status: 202, headers: createHttpHeaders(), request };
+      });
+      const client = new TableClient(
+        "\r\nhttps://example.table.core.windows.net",
+        "TestTable",
+        { getToken },
+        { httpClient: { sendRequest } },
+      );
+
+      await client.submitTransaction(actions);
+      expect(getToken).toHaveBeenCalled();
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it("preserves an encoded SAS query when normalizing the batch URL", async () => {
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
+        assert.equal(
+          request.url,
+          "https://example.table.core.windows.net/$batch?sv=1&sig=a%2Bb%2Fc%3D",
+        );
+        return { status: 202, headers: createHttpHeaders(), request };
+      });
+      const client = new TableClient(
+        "\r\nhttps://example.table.core.windows.net?sv=1&sig=a%2Bb%2Fc%3D",
+        "TestTable",
+        { httpClient: { sendRequest } },
+      );
+
+      await client.submitTransaction(actions);
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it("continues to reject HTTP URLs with token authentication", async () => {
+      const getToken = vi.fn(async () => ({
+        token: "test-token",
+        expiresOnTimestamp: Date.now() + 60_000,
+      }));
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>();
+      const client = new TableClient(
+        "\r\nhttp://example.table.core.windows.net",
+        "TestTable",
+        { getToken },
+        { httpClient: { sendRequest }, allowInsecureConnection: true },
+      );
+
+      await expect(client.submitTransaction(actions)).rejects.toThrow(
+        "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
+      );
+      expect(getToken).not.toHaveBeenCalled();
+      expect(sendRequest).not.toHaveBeenCalled();
+    });
+  });
+
   describe("submitTransaction options", () => {
     const actions: TableTransaction["actions"] = [
       ["create", { partitionKey: "partition", rowKey: "row" }],
