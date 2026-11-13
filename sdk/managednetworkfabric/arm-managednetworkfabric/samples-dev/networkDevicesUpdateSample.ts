@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update certain properties of the Network Device resource.
  *
  * @summary update certain properties of the Network Device resource.
- * x-ms-original-file: 2025-07-15/NetworkDevices_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkDevices_Update.json
  */
 async function networkDevicesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the Access Control List resource.
  *
  * @summary aPI to update certain properties of the Access Control List resource.
- * x-ms-original-file: 2025-07-15/AccessControlLists_Update.json
+ * x-ms-original-file: 2026-01-15-preview/AccessControlLists_Update.json
  */
 async function accessControlListsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

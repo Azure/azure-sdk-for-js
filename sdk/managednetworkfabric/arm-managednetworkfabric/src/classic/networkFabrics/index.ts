@@ -58,7 +58,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   OperationStatusResult,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   NetworkFabricResyncCertificatesResponse,
   NetworkFabric,
   NetworkFabricPatch,
@@ -374,7 +374,7 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: ValidateConfigurationProperties,
     options?: NetworkFabricsValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
@@ -382,7 +382,10 @@ export interface NetworkFabricsOperations {
     body: ValidateConfigurationProperties,
     options?: NetworkFabricsValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
@@ -390,7 +393,7 @@ export interface NetworkFabricsOperations {
     networkFabricName: string,
     body: ValidateConfigurationProperties,
     options?: NetworkFabricsValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Updates the Infra Management BFD Configuration of the underlying resources in the given Network Fabric instance. */
   updateInfraManagementBfdConfiguration: (
     resourceGroupName: string,

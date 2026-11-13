@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the administrative state of the L3 Isolation Domain resource.
  *
  * @summary updates the administrative state of the L3 Isolation Domain resource.
- * x-ms-original-file: 2025-07-15/L3IsolationDomains_UpdateAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/L3IsolationDomains_UpdateAdministrativeState.json
  */
 async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

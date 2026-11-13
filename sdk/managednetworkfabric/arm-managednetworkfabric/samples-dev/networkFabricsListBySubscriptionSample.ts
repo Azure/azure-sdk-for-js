@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the Network Fabric resources in the given subscription.
  *
  * @summary list all the Network Fabric resources in the given subscription.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ListBySubscription.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ListBySubscription.json
  */
 async function networkFabricsListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

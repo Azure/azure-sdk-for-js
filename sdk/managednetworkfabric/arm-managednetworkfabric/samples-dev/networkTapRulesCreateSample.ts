@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Network Tap Rule resource.
  *
  * @summary create Network Tap Rule resource.
- * x-ms-original-file: 2025-07-15/NetworkTapRules_Create.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkTapRules_Create.json
  */
 async function networkTapRulesCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

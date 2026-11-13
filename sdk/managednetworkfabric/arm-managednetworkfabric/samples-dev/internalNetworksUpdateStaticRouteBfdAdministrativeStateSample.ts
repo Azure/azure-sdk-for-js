@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update Static Route BFD administrative state for internalNetwork.
  *
  * @summary update Static Route BFD administrative state for internalNetwork.
- * x-ms-original-file: 2025-07-15/InternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/InternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
  */
 async function internalNetworksUpdateStaticRouteBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

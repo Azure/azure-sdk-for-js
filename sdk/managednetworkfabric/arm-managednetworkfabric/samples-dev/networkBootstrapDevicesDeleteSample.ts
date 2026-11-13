@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Network Bootstrap Device resource.
  *
  * @summary deletes a Network Bootstrap Device resource.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_Delete.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_Delete.json
  */
 async function networkBootstrapDevicesDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

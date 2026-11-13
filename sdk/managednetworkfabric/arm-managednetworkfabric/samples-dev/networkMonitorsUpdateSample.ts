@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the NetworkMonitor resource.
  *
  * @summary aPI to update certain properties of the NetworkMonitor resource.
- * x-ms-original-file: 2025-07-15/NetworkMonitors_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkMonitors_Update.json
  */
 async function networkMonitorsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
