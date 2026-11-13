@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/arm-deviceregistrysoftwareupdate-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-deviceregistrysoftwareupdate client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/deviceregistry/arm-deviceregistrysoftwareupdate"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistrysoftwareupdate",
+  "dependencies": {
+    "@azure/arm-deviceregistrysoftwareupdate": "beta",
+    "dotenv": "latest",
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}

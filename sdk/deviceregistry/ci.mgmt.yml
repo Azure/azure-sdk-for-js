@@ -13,6 +13,7 @@ trigger:
     include:
       - sdk/deviceregistry/arm-deviceregistry
       - sdk/deviceregistry/ci.mgmt.yml
+      - sdk/deviceregistry/arm-deviceregistrysoftwareupdate
 pr:
   branches:
     include:
@@ -26,6 +27,7 @@ pr:
     include:
       - sdk/deviceregistry/arm-deviceregistry
       - sdk/deviceregistry/ci.mgmt.yml
+      - sdk/deviceregistry/arm-deviceregistrysoftwareupdate
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +35,5 @@ extends:
     Artifacts:
       - name: azure-arm-deviceregistry
         safeName: azurearmdeviceregistry
+      - name: azure-arm-deviceregistrysoftwareupdate
+        safeName: azurearmdeviceregistrysoftwareupdate
