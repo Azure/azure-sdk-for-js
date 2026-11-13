@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -155,9 +155,9 @@
+@@ -167,9 +167,9 @@
  }
  
  // @public
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export function formDataPolicy(): PipelinePolicy;
-@@ -165,9 +165,10 @@
+@@ -177,9 +177,10 @@
  // @public
  export const formDataPolicyName = "formDataPolicy";
  
