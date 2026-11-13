@@ -912,7 +912,7 @@ describe("ContainerClient", () => {
 
     let i = 0;
     for (const blob of blobClients.slice(1)) {
-      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+      assert.notStrictEqual(blob.url.indexOf(result.segment.blobPrefixes![i++].name), -1);
     }
 
     for (const blob of blobClients) {
