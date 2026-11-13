@@ -5,7 +5,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ChildAvailabilityStatusesListOptionalParams extends OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -13,7 +13,7 @@ export interface ChildAvailabilityStatusesListOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface ChildAvailabilityStatusesGetByResourceOptionalParams extends OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
  *
  * @summary lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
- * x-ms-original-file: 2025-05-01/ChildResources_List.json
+ * x-ms-original-file: 2026-07-01/ChildResources_List.json
  */
 async function getCurrentChildHealthByResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

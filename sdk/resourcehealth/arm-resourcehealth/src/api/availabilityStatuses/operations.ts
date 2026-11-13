@@ -37,7 +37,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -57,7 +57,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -76,7 +78,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -89,7 +91,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses{?api%2Dversion,%24filter,%24expand}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -109,7 +111,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -128,7 +132,7 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -140,7 +144,7 @@ export function _listBySubscriptionIdSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses{?api%2Dversion,%24filter,%24expand}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -160,7 +164,9 @@ export async function _listBySubscriptionIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,7 +184,7 @@ export function listBySubscriptionId(
     () => _listBySubscriptionIdSend(context, options),
     _listBySubscriptionIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -191,7 +197,7 @@ export function _getByResourceSend(
     "/{+resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current{?api%2Dversion,%24filter,%24expand}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       "%24expand": options?.expand,
     },
@@ -211,7 +217,9 @@ export async function _getByResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

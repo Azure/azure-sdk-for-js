@@ -34,7 +34,7 @@ export function _listBySingleResourceSend(
     "/{+resourceUri}/providers/Microsoft.ResourceHealth/events{?api%2Dversion,%24filter}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -53,7 +53,9 @@ export async function _listBySingleResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -72,7 +74,7 @@ export function listBySingleResource(
     () => _listBySingleResourceSend(context, resourceUri, options),
     _listBySingleResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -83,7 +85,7 @@ export function _listByTenantIdSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.ResourceHealth/events{?api%2Dversion,%24filter,queryStartTime}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       queryStartTime: options?.queryStartTime,
     },
@@ -101,7 +103,9 @@ export async function _listByTenantIdDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -119,7 +123,7 @@ export function listByTenantId(
     () => _listByTenantIdSend(context, options),
     _listByTenantIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -131,7 +135,7 @@ export function _listBySubscriptionIdSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events{?api%2Dversion,%24filter,queryStartTime}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
       queryStartTime: options?.queryStartTime,
     },
@@ -151,7 +155,9 @@ export async function _listBySubscriptionIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -169,6 +175,6 @@ export function listBySubscriptionId(
     () => _listBySubscriptionIdSend(context, options),
     _listBySubscriptionIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }

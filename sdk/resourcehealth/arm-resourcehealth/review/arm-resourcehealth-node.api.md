@@ -12,6 +12,13 @@ import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface ApiOperationLink {
+    readonly description?: string;
+    readonly httpMethod: string;
+    readonly url: string;
+}
+
+// @public
 export type AvailabilityStateValues = string;
 
 // @public
@@ -183,6 +190,7 @@ export interface ErrorResponse {
 // @public
 interface Event_2 extends ProxyResource {
     additionalInformation?: EventPropertiesAdditionalInformation;
+    readonly advisorRecommendations?: ApiOperationLink;
     article?: EventPropertiesArticle;
     billingId?: string;
     currencyType?: string;
@@ -275,6 +283,7 @@ export interface EventOperations {
 // @public
 export interface EventProperties {
     additionalInformation?: EventPropertiesAdditionalInformation;
+    readonly advisorRecommendations?: ApiOperationLink;
     article?: EventPropertiesArticle;
     billingId?: string;
     currencyType?: string;
@@ -542,7 +551,8 @@ export enum KnownStageValues {
 
 // @public
 export enum KnownVersions {
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
