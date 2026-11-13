@@ -3,8 +3,6 @@
 
 import type * as http from "http";
 import type * as https from "https";
-import { HttpsProxyAgent } from "https-proxy-agent";
-import { HttpProxyAgent } from "http-proxy-agent";
 import type {
   PipelineRequest,
   PipelineResponse,
@@ -162,11 +160,35 @@ function getUrlFromProxySettings(settings: ProxySettings): URL {
   return parsedProxyUrl;
 }
 
-function setProxyAgentOnRequest(
+/**
+ * Creates a cached agent lazily. The proxy agent packages are ESM-only, so they are
+ * loaded with a native dynamic import() to keep the CommonJS build loadable in
+ * environments where require(esm) is disabled. A failed load is not cached.
+ */
+function getOrCreateAgent<K extends keyof CachedAgents>(
+  cachedAgents: CachedAgents,
+  key: K,
+  create: () => NonNullable<CachedAgents[K]>,
+): NonNullable<CachedAgents[K]> {
+  let agent = cachedAgents[key];
+  if (!agent) {
+    const created = create();
+    cachedAgents[key] = created;
+    created.catch(() => {
+      if (cachedAgents[key] === created) {
+        cachedAgents[key] = undefined;
+      }
+    });
+    agent = created;
+  }
+  return agent as NonNullable<CachedAgents[K]>;
+}
+
+async function setProxyAgentOnRequest(
   request: PipelineRequest,
   cachedAgents: CachedAgents,
   proxyUrl: URL,
-): void {
+): Promise<void> {
   // Custom Agent should take precedence so if one is present
   // we should skip to avoid overwriting it.
   if (request.agent) {
@@ -184,21 +206,21 @@ function setProxyAgentOnRequest(
   }
 
   if (isInsecure) {
-    if (!cachedAgents.httpProxyAgent) {
-      cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl);
-    }
-    request.agent = cachedAgents.httpProxyAgent;
+    request.agent = await getOrCreateAgent(cachedAgents, "httpProxyAgent", async () => {
+      const { HttpProxyAgent } = await import("http-proxy-agent");
+      return new HttpProxyAgent(proxyUrl);
+    });
   } else {
-    if (!cachedAgents.httpsProxyAgent) {
-      cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl);
-    }
-    request.agent = cachedAgents.httpsProxyAgent;
+    request.agent = await getOrCreateAgent(cachedAgents, "httpsProxyAgent", async () => {
+      const { HttpsProxyAgent } = await import("https-proxy-agent");
+      return new HttpsProxyAgent(proxyUrl);
+    });
   }
 }
 
 interface CachedAgents {
-  httpsProxyAgent?: https.Agent;
-  httpProxyAgent?: http.Agent;
+  httpsProxyAgent?: Promise<https.Agent>;
+  httpProxyAgent?: Promise<http.Agent>;
 }
 
 /**
@@ -237,9 +259,9 @@ export function proxyPolicy(
           options?.customNoProxyList ? undefined : globalBypassedMap,
         )
       ) {
-        setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
+        await setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
       } else if (request.proxySettings) {
-        setProxyAgentOnRequest(
+        await setProxyAgentOnRequest(
           request,
           cachedAgents,
           getUrlFromProxySettings(request.proxySettings),
