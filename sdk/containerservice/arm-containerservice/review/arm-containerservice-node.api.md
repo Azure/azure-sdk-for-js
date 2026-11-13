@@ -1197,7 +1197,8 @@ export enum KnownVersions {
     V20260501 = "2026-05-01",
     V20260601 = "2026-06-01",
     V20260701 = "2026-07-01",
-    V20260801 = "2026-08-01"
+    V20260801 = "2026-08-01",
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -2490,6 +2491,7 @@ export interface PrivateEndpointConnection extends ProxyResource {
 
 // @public
 export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
     value?: PrivateEndpointConnection[];
 }
 
@@ -2548,6 +2550,7 @@ export interface PrivateLinkResourcesListOptionalParams extends OperationOptions
 
 // @public
 export interface PrivateLinkResourcesListResult {
+    nextLink?: string;
     value?: PrivateLinkResource[];
 }
 

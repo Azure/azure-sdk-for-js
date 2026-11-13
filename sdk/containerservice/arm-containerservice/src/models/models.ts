@@ -8352,6 +8352,8 @@ export type ConnectionStatus = string;
 export interface PrivateEndpointConnectionListResult {
   /** The collection value. */
   value?: PrivateEndpointConnection[];
+  /** The link to the next page, if any. Omitted when all results are returned in a single response. */
+  nextLink?: string;
 }
 
 export function privateEndpointConnectionListResultDeserializer(
@@ -8361,6 +8363,7 @@ export function privateEndpointConnectionListResultDeserializer(
     value: !item["value"]
       ? item["value"]
       : privateEndpointConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -8860,6 +8863,8 @@ export function operationValueDisplayDeserializer(item: any): OperationValueDisp
 export interface PrivateLinkResourcesListResult {
   /** The collection value. */
   value?: PrivateLinkResource[];
+  /** The link to the next page, if any. Omitted when all results are returned in a single response. */
+  nextLink?: string;
 }
 
 export function privateLinkResourcesListResultDeserializer(
@@ -8867,6 +8872,7 @@ export function privateLinkResourcesListResultDeserializer(
 ): PrivateLinkResourcesListResult {
   return {
     value: !item["value"] ? item["value"] : privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -8999,6 +9005,8 @@ export enum KnownVersions {
   V20260701 = "2026-07-01",
   /** The 2026-08-01 API version. */
   V20260801 = "2026-08-01",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {

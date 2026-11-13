@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, create, get } from "../../api/replicationProtectionIntents/operations.js";
-import {
+import type {
   ReplicationProtectionIntentsListOptionalParams,
   ReplicationProtectionIntentsCreateOptionalParams,
   ReplicationProtectionIntentsGetOptionalParams,
 } from "../../api/replicationProtectionIntents/options.js";
-import { ReplicationProtectionIntent, CreateProtectionIntentInput } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  ReplicationProtectionIntent,
+  CreateProtectionIntentInput,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationProtectionIntents operations. */
 export interface ReplicationProtectionIntentsOperations {

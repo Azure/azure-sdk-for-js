@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the long term retention backups for a given location.
  *
  * @summary lists the long term retention backups for a given location.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionBackupListByLocation.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionBackupListByLocation.json
  */
 async function getAllLongTermRetentionBackupsUnderTheLocation() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocation() {
  * This sample demonstrates how to lists the long term retention backups for a given location.
  *
  * @summary lists the long term retention backups for a given location.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionBackupListByLocationWithPagination.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionBackupListByLocationWithPagination.json
  */
 async function getLongTermRetentionBackupsUnderTheLocationWithPagination() {
   const credential = new DefaultAzureCredential();

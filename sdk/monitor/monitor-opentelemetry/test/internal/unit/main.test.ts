@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Context, TracerProvider } from "@opentelemetry/api";
-import { metrics, trace } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
+import { logs, metrics, trace } from "@opentelemetry/api";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
 import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
 import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -19,8 +18,8 @@ import {
 } from "../../../src/types.js";
 import { getOsPrefix, hasNumberFlag } from "../../../src/utils/common.js";
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace";
+import type { LogRecordProcessor, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll } from "vitest";
@@ -286,7 +285,7 @@ describe("Main functions", () => {
       forceFlush: () => {
         return Promise.resolve();
       },
-      onEmit(_logRecord: SdkLogRecord, _context?: Context) {
+      onEmit(_logRecord: ReadWriteLogRecord, _context?: Context) {
         /* no-op */
       },
       shutdown: () => {

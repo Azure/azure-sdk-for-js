@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing server Active Directory only authentication property.
  *
  * @summary deletes an existing server Active Directory only authentication property.
- * x-ms-original-file: 2025-08-01-preview/AzureADOnlyAuthDelete.json
+ * x-ms-original-file: 2026-08-01-preview/AzureADOnlyAuthDelete.json
  */
 async function deletesAzureActiveDirectoryOnlyAuthenticationObject() {
   const credential = new DefaultAzureCredential();

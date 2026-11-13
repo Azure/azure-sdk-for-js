@@ -9,14 +9,14 @@ import type {
   ObservableResult,
 } from "@opentelemetry/api";
 import { SpanKind, ValueType } from "@opentelemetry/api";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type {
   MeterProviderOptions,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace";
 import { PerformanceCounterMetricNames } from "./types.js";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
@@ -225,7 +225,7 @@ export class PerformanceCounterMetrics {
    * Record Log metrics
    * @internal
    */
-  public recordLog(logRecord: SdkLogRecord): void {
+  public recordLog(logRecord: ReadWriteLogRecord): void {
     const columns: TraceData | ExceptionData = getLogData(logRecord);
     if (isExceptionData(columns)) {
       this.totalExceptionCount++;

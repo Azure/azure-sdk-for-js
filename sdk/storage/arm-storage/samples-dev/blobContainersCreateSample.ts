@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2026-06-01/BlobContainersPut.json
+ * x-ms-original-file: 2026-09-01/BlobContainersPut.json
  */
 async function putContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,26 @@ async function putContainers(): Promise<void> {
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2026-06-01/BlobContainersPutDefaultEncryptionScope.json
+ * x-ms-original-file: 2026-09-01/BlobContainersPutBlobAccessPointConfiguration.json
+ */
+async function putContainerWithBlobAccessPointConfiguration(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.blobContainers.create("res3376", "sto328", "container6185", {
+    blobAccessPointConfiguration: {
+      blobAccessPointConfigurationName: "myAccessPointConfig",
+      blobAccessPointConfigurationUniqueId: "00000000-0000-0000-0000-000000000000",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ *
+ * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ * x-ms-original-file: 2026-09-01/BlobContainersPutDefaultEncryptionScope.json
  */
 async function putContainerWithDefaultEncryptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +58,7 @@ async function putContainerWithDefaultEncryptionScope(): Promise<void> {
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2026-06-01/BlobContainersPutObjectLevelWorm.json
+ * x-ms-original-file: 2026-09-01/BlobContainersPutObjectLevelWorm.json
  */
 async function putContainerWithObjectLevelWorm(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,6 +72,7 @@ async function putContainerWithObjectLevelWorm(): Promise<void> {
 
 async function main(): Promise<void> {
   await putContainers();
+  await putContainerWithBlobAccessPointConfiguration();
   await putContainerWithDefaultEncryptionScope();
   await putContainerWithObjectLevelWorm();
 }

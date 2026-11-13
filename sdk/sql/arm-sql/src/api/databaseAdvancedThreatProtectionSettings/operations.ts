@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByDatabaseDeserialize(
 
   return _databaseAdvancedThreatProtectionListResultDeserializer(result.body);
 }
+
 /** Gets a list of database's Advanced Threat Protection states. */
 export function listByDatabase(
   context: Client,
@@ -85,7 +86,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -109,7 +110,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       advancedThreatProtectionName: advancedThreatProtectionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,6 +139,7 @@ export async function _createOrUpdateDeserialize(
 
   return databaseAdvancedThreatProtectionDeserializer(result.body);
 }
+
 /** Creates or updates a database's Advanced Threat Protection state. */
 export async function createOrUpdate(
   context: Client,
@@ -178,7 +180,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       advancedThreatProtectionName: advancedThreatProtectionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,6 +207,7 @@ export async function _getDeserialize(
 
   return databaseAdvancedThreatProtectionDeserializer(result.body);
 }
+
 /** Gets a database's Advanced Threat Protection state. */
 export async function get(
   context: Client,

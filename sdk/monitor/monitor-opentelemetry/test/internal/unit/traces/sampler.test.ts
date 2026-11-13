@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { context, SpanKind } from "@opentelemetry/api";
-import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace";
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import { assert, describe, it } from "vitest";
 

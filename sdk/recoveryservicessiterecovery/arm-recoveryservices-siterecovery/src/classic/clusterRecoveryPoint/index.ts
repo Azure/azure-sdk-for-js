@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { get } from "../../api/clusterRecoveryPoint/operations.js";
-import { ClusterRecoveryPointGetOptionalParams } from "../../api/clusterRecoveryPoint/options.js";
-import { ClusterRecoveryPoint } from "../../models/models.js";
+import type { ClusterRecoveryPointGetOptionalParams } from "../../api/clusterRecoveryPoint/options.js";
+import type { ClusterRecoveryPoint } from "../../models/models.js";
 
 /** Interface representing a ClusterRecoveryPoint operations. */
 export interface ClusterRecoveryPointOperations {

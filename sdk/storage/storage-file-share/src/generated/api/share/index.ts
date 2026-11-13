@@ -16,7 +16,7 @@ export {
   changeLease,
   releaseLease,
   acquireLease,
-  $delete,
+  deleteShare,
   getProperties,
   create,
 } from "./operations.js";

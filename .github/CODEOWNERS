@@ -36,10 +36,10 @@
 # ServiceLabel: %AgriFood
 
 # PRLabel: %AI Agents
-/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
+/sdk/ai/ai-agents    @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Agents
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
+# ServiceOwners: @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Model Inference
 /sdk/ai/ai-inference-rest    @dargilco @glharper @Azure/ai-foundry-devex
@@ -48,10 +48,10 @@
 # ServiceOwners: @dargilco @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %AI Projects
-/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
+/sdk/ai/ai-projects    @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
+# ServiceOwners: @dargilco @ganeshyb @glharper @Azure/ai-foundry-devex
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms @mrm9084
@@ -124,11 +124,11 @@
 
 # ServiceLabel: %Communication - Alpha IDs
 # PRLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/    @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
+/sdk/communication/communication-alpha-ids/    @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
 
 # ServiceLabel: %Communication - Call Automation
 # PRLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/    @juntuchen-msft @khannavikas @minwoolee-msft @v-dharmarajv
+/sdk/communication/communication-call-automation/    @juntuchen-msft @minwoolee-msft @v-dharmarajv
 
 # ServiceLabel: %Communication - Chat
 # PRLabel: %Communication - Chat
@@ -136,15 +136,15 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
-/sdk/communication/communication-email/    @kagbakpem @natekimball-msft @yogeshmo
+/sdk/communication/communication-email/    @kagbakpem
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -152,19 +152,19 @@
 
 # ServiceLabel: %Communication - Messages
 # PRLabel: %Communication - Messages
-/sdk/communication/communication-messages-rest/    @arifibrahim4 @glorialimicrosoft @juancamilor @Shamkh
+/sdk/communication/communication-messages-rest/    @arifibrahim4 @glorialimicrosoft @Shamkh
 
 # ServiceLabel: %Communication - Phone Numbers
 # PRLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/    @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
+/sdk/communication/communication-phone-numbers/    @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
 
 # ServiceLabel: %Communication - Rooms
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/    @allchiang-msft @mayssamm @minnieliu @paolamvhz
+/sdk/communication/communication-rooms/    @mayssamm @minnieliu @paolamvhz
 
 # ServiceLabel: %Communication - Short Codes
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/    @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
+/sdk/communication/communication-short-codes/    @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
 
 # ServiceLabel: %Communication - SMS
 # PRLabel: %Communication - SMS
@@ -172,7 +172,7 @@
 
 # ServiceLabel: %Communication - Toll Free Verification
 # PRLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/    @besh2014 @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
+/sdk/communication/communication-toll-free-verification/    @gfeitosa-msft @ihuseynov-msft @ilyapaliakou-msft @kirill-linnik @phermanov-msft
 
 # PRLabel: %Confidential Ledger
 /sdk/confidentialledger/    @taicchoumsft
@@ -209,10 +209,10 @@
 # ServiceLabel: %DocumentTranslator
 
 # PRLabel: %Durable Task Scheduler
-/sdk/durabletask/    @berndverst @cgillum @kaibocai @philliphoff @torosent
+/sdk/durabletask/    @berndverst @kaibocai @torosent
 
 # ServiceLabel: %Durable Task Scheduler
-# ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
+# ServiceOwners: @berndverst @kaibocai @torosent
 
 # PRLabel: %EngSys
 /sdk/template/    @Azure/azure-sdk-eng
@@ -223,9 +223,9 @@
 # PRLabel: %Event Grid
 /sdk/eventgrid/    @shankarsama @Nishanth-MS
 
-# AzureSdkOwners: @rajeshka @shankarsama
+# AzureSdkOwners: @shankarsama
 # ServiceLabel: %Event Grid
-# ServiceOwners: @rajeshka @shankarsama
+# ServiceOwners: @shankarsama
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/    @axisc @hmlam @j7nw4r @SwayGom @sagar0207 @sjkwak
@@ -307,10 +307,10 @@
 # ServiceOwners: @efrainretana @lc48t @mattgotteiner
 
 # PRLabel: %Service Bus
-/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+/sdk/servicebus/    @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @pranz1996
 
 # ServiceLabel: %Service Bus
-# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @skarri-microsoft
+# ServiceOwners: @EldertGrootenboer @j7nw4r @SwayGom @sagar0207 @pranz1996
 
 # PRLabel: %Speech Transcription
 /sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
@@ -320,7 +320,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
+/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -355,7 +355,13 @@
 ####################
 
 # PRLabel: %Mgmt
-/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803
+/sdk/*/arm-*/ @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
+
+# PRLabel: %Mgmt
+/sdk/*/provisioning-*/ @qiaozha @RodgeFu
+
+# PRLabel: %Azure.Core
+/sdk/core/provisioning-core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
@@ -734,7 +740,7 @@
 # ServiceOwners:          @derek1ee
 
 # ServiceLabel: %Search %Service Attention
-# ServiceOwners:          @kuanlu95 @mattgotteiner
+# ServiceOwners:          @mattgotteiner
 
 # ServiceLabel: %Security %Service Attention
 # ServiceOwners:          @chlahav
@@ -892,6 +898,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 # ServiceOwners:          @ccmshowbackdevs
 
+# PRLabel: %Mgmt %mgmt-review-needed
+/sdk/edgeoperator/arm-edgeoperator/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -899,7 +908,7 @@
 /common/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
 /package.json @Azure/azure-sdk-js-dev
 /turbo.json @Azure/azure-sdk-js-dev
-/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev @Azure/azure-arm-sdk-reviewers
 /pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
 
 ###########
@@ -931,7 +940,7 @@
 /vitest.workspace.ts @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
-/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803
+/**/ci.mgmt.yml   @qiaozha @MaryGao @JialinHuang803 @Azure/azure-arm-sdk-reviewers
 
 
 # Make sure to not check in anymore test-resources.json files
@@ -972,7 +981,6 @@
 /.github/workflows/tester.lock.yml       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.md       @Azure/azure-sdk-for-js-core
 /.github/workflows/issue-triage.lock.yml @Azure/azure-sdk-for-js-core
-/.github/agents/agentic-workflows.agent.md @Azure/azure-sdk-for-js-core
 /.github/agents/archie.agent.md          @maorleger @Azure/azure-sdk-for-js-core
 /.github/agents/dash.agent.md            @Azure/azure-sdk-for-js-core
 /.github/agents/dexter.agent.md          @Azure/azure-sdk-for-js-core
@@ -997,6 +1005,7 @@
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
+/eng/provisioning-emitter-package.json @qiaozha @RodgeFu 
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core

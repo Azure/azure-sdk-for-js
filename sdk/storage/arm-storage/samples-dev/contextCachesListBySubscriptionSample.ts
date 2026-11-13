@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Context Caches by subscription.
  *
  * @summary list Context Caches by subscription.
- * x-ms-original-file: 2026-06-01/StorageContextCacheCRUD/ContextCaches_ListBySubscription.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheCRUD/ContextCaches_ListBySubscription.json
  */
 async function listContextCachesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

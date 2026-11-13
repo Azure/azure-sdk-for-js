@@ -1,5 +1,25 @@
 # Release History
 
+## 1.13.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Improved Microsoft Entra ID authentication audience inference for additional App Configuration endpoint formats. [#40781](https://github.com/Azure/azure-sdk-for-js/pull/40781)
+- Removed the direct dependency on `@azure/core-client` while preserving the existing client options. [#40645](https://github.com/Azure/azure-sdk-for-js/pull/40645)
+
+## 1.13.1 (2026-10-27)
+
+### Bugs Fixed
+
+- Fixed `deleteConfigurationSetting` ignoring the caller's `onResponse` callback. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable.
+- Fixed `getConfigurationSetting` ignoring the caller's `onResponse` callback, including for conditional reads returning 304. Previously ignored callbacks now execute with the existing runtime timing and arguments, making their side effects and exceptions observable. Callback exceptions are propagated rather than treated as conditional-read 304 responses.
+
 ## 1.13.0 (2026-09-23)
 
 ### Bugs Fixed

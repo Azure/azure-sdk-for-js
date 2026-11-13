@@ -1173,7 +1173,7 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
     assert.doesNotMatch(compiled, /^\s+pull_request_target:/m);
     assert.match(
       compiled,
-      /^  safe_outputs:\n    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m,
+      /^  safe_outputs:\n(?:    .*\n)*?    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m,
     );
     const jobStart = compiled.indexOf("\n  safe_outputs:\n");
     const guard = compiled.indexOf("- name: Reject stale review outputs", jobStart);

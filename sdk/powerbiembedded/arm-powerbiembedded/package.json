@@ -46,7 +46,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbiembedded/arm-powerbiembedded",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/powerbiembedded/arm-powerbiembedded"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

@@ -4,49 +4,31 @@
 import { AIProjectContext as Client } from "../../../index.js";
 import {
   apiErrorResponseDeserializer,
-  createTelephonyBindingRequestUnionSerializer,
-  CreateTelephonyBindingRequestUnion,
-  telephonyBindingUnionDeserializer,
-  TelephonyBindingUnion,
-  _AgentsPagedResultTelephonyBindingListItem,
-  _agentsPagedResultTelephonyBindingListItemDeserializer,
-  TelephonyBindingListItemUnion,
-  UpdateTelephonyBindingRequest,
-  updateTelephonyBindingRequestSerializer,
-  _AgentsPagedResultTelephonyCallSummary,
-  _agentsPagedResultTelephonyCallSummaryDeserializer,
-  TelephonyCallSummary,
-  TelephonyCallRecord,
-  telephonyCallRecordDeserializer,
-  TelephonyTransferTargets,
-  telephonyTransferTargetsDeserializer,
-  telephonyTransferTargetArraySerializer,
-  TelephonyTransferTarget,
-  CreateTelephonyCallJobRequest,
-  createTelephonyCallJobRequestSerializer,
-  TelephonyCallJob,
-  telephonyCallJobDeserializer,
+  TelephonyCampaign,
+  telephonyCampaignSerializer,
+  telephonyCampaignDeserializer,
+  TelephonyCampaignOperation,
+  telephonyCampaignOperationDeserializer,
+  _TelephonyCampaignPageTelephonyCampaign,
+  _telephonyCampaignPageTelephonyCampaignDeserializer,
+  _TelephonyCampaignValidationErrorPage,
+  _telephonyCampaignValidationErrorPageDeserializer,
+  TelephonyCampaignValidationError,
 } from "../../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../../static-helpers/urlTemplate.js";
 import {
-  BetaVoiceAgentsTelephonyCancelCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyGetCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyCreateCallJobOptionalParams,
-  BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams,
-  BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams,
-  BetaVoiceAgentsTelephonyEndCallOptionalParams,
-  BetaVoiceAgentsTelephonyTransferCallOptionalParams,
-  BetaVoiceAgentsTelephonyGetCallOptionalParams,
-  BetaVoiceAgentsTelephonyListCallsOptionalParams,
-  BetaVoiceAgentsTelephonyDeleteBindingOptionalParams,
-  BetaVoiceAgentsTelephonyUpdateBindingOptionalParams,
-  BetaVoiceAgentsTelephonyGetBindingOptionalParams,
-  BetaVoiceAgentsTelephonyListBindingsOptionalParams,
-  BetaVoiceAgentsTelephonyCreateBindingOptionalParams,
+  BetaVoiceAgentsTelephonyGetOperationOptionalParams,
+  BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams,
+  BetaVoiceAgentsTelephonyDeleteOptionalParams,
+  BetaVoiceAgentsTelephonyCancelOptionalParams,
+  BetaVoiceAgentsTelephonyListOptionalParams,
+  BetaVoiceAgentsTelephonyGetOptionalParams,
+  BetaVoiceAgentsTelephonyCreateOptionalParams,
 } from "./options.js";
 import {
   StreamableMethod,
@@ -54,79 +36,22 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _cancelCallJobSend(
+export function _getOperationSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  callJobId: string,
-  ifMatch: string,
-  options: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams = { requestOptions: {} },
+  campaignName: string,
+  operationId: string,
+  options: BetaVoiceAgentsTelephonyGetOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}:cancel{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}/operations/{operation_id}{?api%2Dversion}",
     {
       agent_name: agentName,
-      call_job_id: callJobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _cancelCallJobDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyCallJob> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyCallJobDeserializer(result.body);
-}
-
-/** Requests cancellation of a durable outbound call job. A connected call is allowed to finish. */
-export async function cancelCallJob(
-  context: Client,
-  agentName: string,
-  callJobId: string,
-  ifMatch: string,
-  options: BetaVoiceAgentsTelephonyCancelCallJobOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallJob> {
-  const result = await _cancelCallJobSend(context, agentName, callJobId, ifMatch, options);
-  return _cancelCallJobDeserialize(result);
-}
-
-export function _getCallJobSend(
-  context: Client,
-  agentName: string,
-  callJobId: string,
-  options: BetaVoiceAgentsTelephonyGetCallJobOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs/{call_job_id}{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      call_job_id: callJobId,
+      campaign_name: campaignName,
+      operation_id: operationId,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -138,18 +63,16 @@ export function _getCallJobSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _getCallJobDeserialize(
+export async function _getOperationDeserialize(
   result: PathUncheckedResponse,
-): Promise<TelephonyCallJob> {
+): Promise<TelephonyCampaignOperation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -160,404 +83,45 @@ export async function _getCallJobDeserialize(
     throw error;
   }
 
-  return telephonyCallJobDeserializer(result.body);
+  return telephonyCampaignOperationDeserializer(result.body);
 }
 
-/** Retrieves a durable direct or campaign-created outbound call job. */
-export async function getCallJob(
+/** Gets the initiating operation's status. PUT/cancel pollers finish with a guarded Campaign GET; deletion completes without a resource result. */
+export async function getOperation(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  callJobId: string,
-  options: BetaVoiceAgentsTelephonyGetCallJobOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallJob> {
-  const result = await _getCallJobSend(context, agentName, callJobId, options);
-  return _getCallJobDeserialize(result);
-}
-
-export function _createCallJobSend(
-  context: Client,
-  agentName: string,
-  idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
-  options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/call_jobs{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "idempotency-key": idempotencyKey,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: createTelephonyCallJobRequestSerializer(body),
-    });
-}
-
-export async function _createCallJobDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyCallJob> {
-  const expectedStatuses = ["202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyCallJobDeserializer(result.body);
-}
-
-/** Creates one durable direct outbound call job. The latest agent definition is resolved when each attempt executes. */
-export async function createCallJob(
-  context: Client,
-  agentName: string,
-  idempotencyKey: string,
-  body: CreateTelephonyCallJobRequest,
-  options: BetaVoiceAgentsTelephonyCreateCallJobOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallJob> {
-  const result = await _createCallJobSend(context, agentName, idempotencyKey, body, options);
-  return _createCallJobDeserialize(result);
-}
-
-export function _replaceTransferTargetsSend(
-  context: Client,
-  agentName: string,
-  ifMatch: string,
-  transferTargets: TelephonyTransferTarget[],
-  options: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { transfer_targets: telephonyTransferTargetArraySerializer(transferTargets) },
-    });
-}
-
-export async function _replaceTransferTargetsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyTransferTargets> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyTransferTargetsDeserializer(result.body);
-}
-
-/** Replaces all transfer targets configured for the voice agent named in the path. */
-export async function replaceTransferTargets(
-  context: Client,
-  agentName: string,
-  ifMatch: string,
-  transferTargets: TelephonyTransferTarget[],
-  options: BetaVoiceAgentsTelephonyReplaceTransferTargetsOptionalParams = { requestOptions: {} },
-): Promise<TelephonyTransferTargets> {
-  const result = await _replaceTransferTargetsSend(
+  campaignName: string,
+  operationId: string,
+  options: BetaVoiceAgentsTelephonyGetOperationOptionalParams = { requestOptions: {} },
+): Promise<TelephonyCampaignOperation> {
+  const result = await _getOperationSend(
     context,
+    foundryFeatures,
     agentName,
-    ifMatch,
-    transferTargets,
+    campaignName,
+    operationId,
     options,
   );
-  return _replaceTransferTargetsDeserialize(result);
+  return _getOperationDeserialize(result);
 }
 
-export function _getTransferTargetsSend(
+export function _listValidationErrorsSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  options: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams = { requestOptions: {} },
+  campaignName: string,
+  options: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/transfer_targets{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}/validation_errors{?limit,after,before,order,api%2Dversion}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getTransferTargetsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyTransferTargets> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyTransferTargetsDeserializer(result.body);
-}
-
-/** Returns all transfer targets configured for the voice agent named in the path. */
-export async function getTransferTargets(
-  context: Client,
-  agentName: string,
-  options: BetaVoiceAgentsTelephonyGetTransferTargetsOptionalParams = { requestOptions: {} },
-): Promise<TelephonyTransferTargets> {
-  const result = await _getTransferTargetsSend(context, agentName, options);
-  return _getTransferTargetsDeserialize(result);
-}
-
-export function _endCallSend(
-  context: Client,
-  agentName: string,
-  callId: string,
-  options: BetaVoiceAgentsTelephonyEndCallOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:end{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _endCallDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyCallRecord> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyCallRecordDeserializer(result.body);
-}
-
-/** Ends an active inbound call owned by the voice agent named in the path. */
-export async function endCall(
-  context: Client,
-  agentName: string,
-  callId: string,
-  options: BetaVoiceAgentsTelephonyEndCallOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallRecord> {
-  const result = await _endCallSend(context, agentName, callId, options);
-  return _endCallDeserialize(result);
-}
-
-export function _transferCallSend(
-  context: Client,
-  agentName: string,
-  callId: string,
-  target: string,
-  options: BetaVoiceAgentsTelephonyTransferCallOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}:transfer{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { target: target },
-    });
-}
-
-export async function _transferCallDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyCallRecord> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyCallRecordDeserializer(result.body);
-}
-
-/** Transfers an active inbound call to a configured target for the voice agent named in the path. */
-export async function transferCall(
-  context: Client,
-  agentName: string,
-  callId: string,
-  target: string,
-  options: BetaVoiceAgentsTelephonyTransferCallOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallRecord> {
-  const result = await _transferCallSend(context, agentName, callId, target, options);
-  return _transferCallDeserialize(result);
-}
-
-export function _getCallSend(
-  context: Client,
-  agentName: string,
-  callId: string,
-  options: BetaVoiceAgentsTelephonyGetCallOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls/{call_id}{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      call_id: callId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getCallDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyCallRecord> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyCallRecordDeserializer(result.body);
-}
-
-/** Retrieves a durable inbound call record owned by the voice agent named in the path. */
-export async function getCall(
-  context: Client,
-  agentName: string,
-  callId: string,
-  options: BetaVoiceAgentsTelephonyGetCallOptionalParams = { requestOptions: {} },
-): Promise<TelephonyCallRecord> {
-  const result = await _getCallSend(context, agentName, callId, options);
-  return _getCallDeserialize(result);
-}
-
-export function _listCallsSend(
-  context: Client,
-  agentName: string,
-  options: BetaVoiceAgentsTelephonyListCallsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/calls{?provider,status,started_after,started_before,limit,order,after,before,api%2Dversion}",
-    {
-      agent_name: agentName,
-      provider: options?.provider,
-      status: options?.status,
-      started_after: !options?.startedAfterTime
-        ? options?.startedAfterTime
-        : (options?.startedAfterTime.getTime() / 1000) | 0,
-      started_before: !options?.startedBeforeTime
-        ? options?.startedBeforeTime
-        : (options?.startedBeforeTime.getTime() / 1000) | 0,
+      campaign_name: campaignName,
       limit: options?.limit,
-      order: options?.order,
       after: options?.after,
       before: options?.before,
+      order: options?.order,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -569,18 +133,16 @@ export function _listCallsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _listCallsDeserialize(
+export async function _listValidationErrorsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultTelephonyCallSummary> {
+): Promise<_TelephonyCampaignValidationErrorPage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -591,36 +153,39 @@ export async function _listCallsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultTelephonyCallSummaryDeserializer(result.body);
+  return _telephonyCampaignValidationErrorPageDeserializer(result.body);
 }
 
-/** Returns the durable inbound call history for the voice agent named in the path. */
-export function listCalls(
+/** Lists current-round row validation errors. Results may be partial during preparation; an empty page does not establish success. Execution errors are in CallJobs; non-row failures are in Campaign.error. */
+export function listValidationErrors(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  options: BetaVoiceAgentsTelephonyListCallsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TelephonyCallSummary> {
+  campaignName: string,
+  options: BetaVoiceAgentsTelephonyListValidationErrorsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyCampaignValidationError> {
   return buildPagedAsyncIterator(
     context,
-    () => _listCallsSend(context, agentName, options),
-    _listCallsDeserialize,
+    () => _listValidationErrorsSend(context, foundryFeatures, agentName, campaignName, options),
+    _listValidationErrorsDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
-export function _deleteBindingSend(
+export function _deleteTelephonySend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  bindingId: string,
+  campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}{?api%2Dversion}",
     {
       agent_name: agentName,
-      binding_id: bindingId,
+      campaign_name: campaignName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -632,17 +197,16 @@ export function _deleteBindingSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
+        "foundry-features": foundryFeatures,
         "if-match": ifMatch,
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _deleteBindingDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+export async function _deleteTelephonyDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -655,217 +219,38 @@ export async function _deleteBindingDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Deletes a telephony binding owned by the voice agent named in the path. */
-export async function deleteBinding(
+/** Deletes a terminal Campaign and its recipient/task data asynchronously. Returns bodyless 202 with a monitor, not a tombstone; completion makes GET return 404 and lists omit it. Dataset, connections, Agent, independent jobs and call history are preserved. */
+export function deleteTelephony(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  bindingId: string,
+  campaignName: string,
   ifMatch: string,
-  options: BetaVoiceAgentsTelephonyDeleteBindingOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteBindingSend(context, agentName, bindingId, ifMatch, options);
-  return _deleteBindingDeserialize(result);
+  options: BetaVoiceAgentsTelephonyDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _deleteTelephonyDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _deleteTelephonySend(context, foundryFeatures, agentName, campaignName, ifMatch, options),
+
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _updateBindingSend(
+export function _cancelSend(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  bindingId: string,
+  campaignName: string,
   ifMatch: string,
-  body: UpdateTelephonyBindingRequest,
-  options: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentsTelephonyCancelOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}:cancel{?api%2Dversion}",
     {
       agent_name: agentName,
-      binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/merge-patch+json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        "if-match": ifMatch,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: updateTelephonyBindingRequestSerializer(body),
-    });
-}
-
-export async function _updateBindingDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyBindingUnion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyBindingUnionDeserializer(result.body);
-}
-
-/** Updates a telephony binding owned by the voice agent named in the path. */
-export async function updateBinding(
-  context: Client,
-  agentName: string,
-  bindingId: string,
-  ifMatch: string,
-  body: UpdateTelephonyBindingRequest,
-  options: BetaVoiceAgentsTelephonyUpdateBindingOptionalParams = { requestOptions: {} },
-): Promise<TelephonyBindingUnion> {
-  const result = await _updateBindingSend(context, agentName, bindingId, ifMatch, body, options);
-  return _updateBindingDeserialize(result);
-}
-
-export function _getBindingSend(
-  context: Client,
-  agentName: string,
-  bindingId: string,
-  options: BetaVoiceAgentsTelephonyGetBindingOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings/{binding_id}{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      binding_id: bindingId,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getBindingDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TelephonyBindingUnion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return telephonyBindingUnionDeserializer(result.body);
-}
-
-/** Retrieves a telephony binding owned by the voice agent named in the path. */
-export async function getBinding(
-  context: Client,
-  agentName: string,
-  bindingId: string,
-  options: BetaVoiceAgentsTelephonyGetBindingOptionalParams = { requestOptions: {} },
-): Promise<TelephonyBindingUnion> {
-  const result = await _getBindingSend(context, agentName, bindingId, options);
-  return _getBindingDeserialize(result);
-}
-
-export function _listBindingsSend(
-  context: Client,
-  agentName: string,
-  options: BetaVoiceAgentsTelephonyListBindingsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?provider,status,limit,order,after,before,api%2Dversion}",
-    {
-      agent_name: agentName,
-      provider: options?.provider,
-      status: options?.status,
-      limit: options?.limit,
-      order: options?.order,
-      after: options?.after,
-      before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _listBindingsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultTelephonyBindingListItem> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = apiErrorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _agentsPagedResultTelephonyBindingListItemDeserializer(result.body);
-}
-
-/** Returns the telephony bindings owned by the voice agent named in the path. */
-export function listBindings(
-  context: Client,
-  agentName: string,
-  options: BetaVoiceAgentsTelephonyListBindingsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TelephonyBindingListItemUnion> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listBindingsSend(context, agentName, options),
-    _listBindingsDeserialize,
-    ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
-  );
-}
-
-export function _createBindingSend(
-  context: Client,
-  agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
-  options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/telephony/bindings{?api%2Dversion}",
-    {
-      agent_name: agentName,
+      campaign_name: campaignName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -876,32 +261,20 @@ export function _createBindingSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
       headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.repeatabilityRequestId !== undefined
-          ? { "repeatability-request-id": options?.repeatabilityRequestId }
-          : {}),
-        ...(options?.repeatabilityFirstSent !== undefined
-          ? {
-              "repeatability-first-sent": !options?.repeatabilityFirstSent
-                ? options?.repeatabilityFirstSent
-                : options?.repeatabilityFirstSent.toUTCString(),
-            }
-          : {}),
+        "foundry-features": foundryFeatures,
+        "if-match": ifMatch,
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: createTelephonyBindingRequestUnionSerializer(telephonyBinding),
     });
 }
 
-export async function _createBindingDeserialize(
+export async function _cancelDeserialize(
   result: PathUncheckedResponse,
-): Promise<TelephonyBindingUnion> {
-  const expectedStatuses = ["201"];
+): Promise<TelephonyCampaign> {
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -911,16 +284,216 @@ export async function _createBindingDeserialize(
     throw error;
   }
 
-  return telephonyBindingUnionDeserializer(result.body);
+  return telephonyCampaignDeserializer(result.body);
 }
 
-/** Creates a telephony binding for the voice agent named in the path. */
-export async function createBinding(
+/** Cancels a validating or running Campaign using If-Match. Stops new calls and retries; connected calls finish naturally. Returns 202 with an operation monitor to track completion. */
+export function cancel(
   context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
-  telephonyBinding: CreateTelephonyBindingRequestUnion,
-  options: BetaVoiceAgentsTelephonyCreateBindingOptionalParams = { requestOptions: {} },
-): Promise<TelephonyBindingUnion> {
-  const result = await _createBindingSend(context, agentName, telephonyBinding, options);
-  return _createBindingDeserialize(result);
+  campaignName: string,
+  ifMatch: string,
+  options: BetaVoiceAgentsTelephonyCancelOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
+  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _cancelSend(context, foundryFeatures, agentName, campaignName, ifMatch, options),
+
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
+}
+
+export function _listSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_campaigns{?limit,order,after,before,status,api%2Dversion}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      status: options?.status,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_TelephonyCampaignPageTelephonyCampaign> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _telephonyCampaignPageTelephonyCampaignDeserializer(result.body);
+}
+
+/** Lists the Agent's Campaigns without inline recipients. Filters are live views, not snapshots. */
+export function list(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  options: BetaVoiceAgentsTelephonyListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<TelephonyCampaign> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, foundryFeatures, agentName, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _getSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  campaignName: string,
+  options: BetaVoiceAgentsTelephonyGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}{?operation_id,api%2Dversion}",
+    {
+      agent_name: agentName,
+      campaign_name: campaignName,
+      operation_id: options?.operationId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<TelephonyCampaign> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyCampaignDeserializer(result.body);
+}
+
+/** Gets Campaign configuration and execution state without inline recipients. Absent or deleted Campaigns return 404. */
+export async function get(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  campaignName: string,
+  options: BetaVoiceAgentsTelephonyGetOptionalParams = { requestOptions: {} },
+): Promise<TelephonyCampaign> {
+  const result = await _getSend(context, foundryFeatures, agentName, campaignName, options);
+  return _getDeserialize(result);
+}
+
+export function _createSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  campaignName: string,
+  campaign: TelephonyCampaign,
+  options: BetaVoiceAgentsTelephonyCreateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/telephony_campaigns/{campaign_name}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      campaign_name: campaignName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: telephonyCampaignSerializer(campaign),
+    });
+}
+
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TelephonyCampaign> {
+  const expectedStatuses = ["201", "200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return telephonyCampaignDeserializer(result.body);
+}
+
+/** Creates a Campaign or fully replaces failed preparation; no PATCH. All recipients must validate and have CallJobs before dialing. Immediate calls may begin before the preparation poller returns. */
+export function create(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  agentName: string,
+  campaignName: string,
+  campaign: TelephonyCampaign,
+  options: BetaVoiceAgentsTelephonyCreateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign> {
+  return getLongRunningPoller(context, _createDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createSend(context, foundryFeatures, agentName, campaignName, campaign, options),
+    resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<TelephonyCampaign>, TelephonyCampaign>;
 }

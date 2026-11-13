@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update domains, use the Update Custom Domain operation.
  *
  * @summary updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update domains, use the Update Custom Domain operation.
- * x-ms-original-file: 2025-12-01/AFDEndpoints_Update.json
+ * x-ms-original-file: 2026-10-01/AFDEndpoints_Update.json
  */
 async function afdEndpointsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validate a Secret in the profile.
  *
  * @summary validate a Secret in the profile.
- * x-ms-original-file: 2025-12-01/AFDProfiles_ValidateSecret.json
+ * x-ms-original-file: 2026-10-01/AFDProfiles_ValidateSecret.json
  */
 async function validateSecret(): Promise<void> {
   const credential = new DefaultAzureCredential();

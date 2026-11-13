@@ -14,7 +14,6 @@ import {
   errorResponseDeserializer,
   searchDocumentsResultDeserializer,
   vectorQueryUnionArraySerializer,
-  hybridSearchSerializer,
   lookupDocumentDeserializer,
   suggestDocumentsResultDeserializer,
   indexDocumentsBatchSerializer,
@@ -47,7 +46,7 @@ export function _autocompletePostSend(
     "/indexes('{indexName}')/docs/search.post.autocomplete{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,11 +56,11 @@ export function _autocompletePostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -123,7 +122,7 @@ export function _autocompleteGetSend(
     "/indexes('{indexName}')/docs/search.autocomplete{?api%2Dversion,search,suggesterName,autocompleteMode,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,searchFields,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       search: searchText,
       suggesterName: suggesterName,
       autocompleteMode: options?.autocompleteMode,
@@ -146,11 +145,11 @@ export function _autocompleteGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -193,7 +192,7 @@ export function _indexSend(
     "/indexes('{indexName}')/docs/search.index{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,11 +202,11 @@ export function _indexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -251,7 +250,7 @@ export function _suggestPostSend(
     "/indexes('{indexName}')/docs/search.post.suggest{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -261,11 +260,11 @@ export function _suggestPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -322,7 +321,7 @@ export function _suggestGetSend(
     "/indexes('{indexName}')/docs/search.suggest{?api%2Dversion,search,suggesterName,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,searchFields,%24select,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       search: searchText,
       suggesterName: suggesterName,
       "%24filter": options?.filter,
@@ -342,11 +341,11 @@ export function _suggestGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -388,9 +387,9 @@ export function _getDocumentSend(
   const path = expandUrlTemplate(
     "/indexes('{indexName}')/docs('{key}'){?api%2Dversion,%24select}",
     {
-      key: key,
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      key: key,
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24select": options?.selectedFields,
     },
     {
@@ -400,6 +399,9 @@ export function _getDocumentSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
@@ -408,9 +410,6 @@ export function _getDocumentSend(
         : {}),
       ...(options?.enableElevatedRead !== undefined
         ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -451,7 +450,7 @@ export function _searchPostSend(
     "/indexes('{indexName}')/docs/search.post.search{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -461,6 +460,9 @@ export function _searchPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
@@ -469,9 +471,6 @@ export function _searchPostSend(
         : {}),
       ...(options?.enableElevatedRead !== undefined
         ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -493,6 +492,7 @@ export function _searchPostSend(
       highlightPostTag: options?.highlightPostTag,
       highlightPreTag: options?.highlightPreTag,
       minimumCoverage: options?.minimumCoverage,
+      moreLikeThis: options?.moreLikeThis,
       orderby: options?.orderBy,
       queryType: options?.queryType,
       scoringStatistics: options?.scoringStatistics,
@@ -507,8 +507,6 @@ export function _searchPostSend(
       search: options?.searchText,
       searchFields: options?.searchFields,
       searchMode: options?.searchMode,
-      queryLanguage: options?.queryLanguage,
-      speller: options?.querySpeller,
       select: options?.select,
       skip: options?.skip,
       top: options?.top,
@@ -518,21 +516,10 @@ export function _searchPostSend(
       semanticQuery: options?.semanticQuery,
       answers: options?.answers,
       captions: options?.captions,
-      queryRewrites: options?.queryRewrites,
-      semanticFields: !options?.semanticFields
-        ? options?.semanticFields
-        : buildCsvCollection(
-            options?.semanticFields.map((p: any) => {
-              return p;
-            }),
-          ),
       vectorQueries: !options?.vectorQueries
         ? options?.vectorQueries
         : vectorQueryUnionArraySerializer(options?.vectorQueries),
       vectorFilterMode: options?.vectorFilterMode,
-      hybridSearch: !options?.hybridSearch
-        ? options?.hybridSearch
-        : hybridSearchSerializer(options?.hybridSearch),
     },
   });
 }
@@ -567,10 +554,10 @@ export function _searchGetSend(
   options: SearchGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes('{indexName}')/docs{?api%2Dversion,search,%24count,facet*,%24filter,highlight,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,queryType,scoringParameter*,scoringProfile,searchFields,searchMode,scoringStatistics,sessionId,%24select,%24skip,%24top,semanticConfiguration,semanticErrorHandling,semanticMaxWaitInMilliseconds,answers,captions,semanticQuery,queryRewrites,debug,queryLanguage,speller,semanticFields}",
+    "/indexes('{indexName}')/docs{?api%2Dversion,search,%24count,facet*,%24filter,highlight,highlightPostTag,highlightPreTag,minimumCoverage,moreLikeThis,%24orderby,queryType,scoringParameter*,scoringProfile,searchFields,searchMode,scoringStatistics,sessionId,%24select,%24skip,%24top,semanticConfiguration,semanticErrorHandling,semanticMaxWaitInMilliseconds,answers,captions,semanticQuery,debug}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       search: options?.searchText,
       "%24count": options?.includeTotalResultCount,
       facet: !options?.facets
@@ -587,6 +574,7 @@ export function _searchGetSend(
       highlightPostTag: options?.highlightPostTag,
       highlightPreTag: options?.highlightPreTag,
       minimumCoverage: options?.minimumCoverage,
+      moreLikeThis: options?.moreLikeThis,
       "%24orderby": options?.orderBy,
       queryType: options?.queryType,
       scoringParameter: !options?.scoringParameters
@@ -608,15 +596,7 @@ export function _searchGetSend(
       answers: options?.answers,
       captions: options?.captions,
       semanticQuery: options?.semanticQuery,
-      queryRewrites: options?.queryRewrites,
       debug: options?.debug,
-      queryLanguage: options?.queryLanguage,
-      speller: options?.speller,
-      semanticFields: !options?.semanticFields
-        ? options?.semanticFields
-        : options?.semanticFields.map((p: any) => {
-            return p;
-          }),
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -625,6 +605,9 @@ export function _searchGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       ...(options?.accept !== undefined
         ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
@@ -633,9 +616,6 @@ export function _searchGetSend(
         : {}),
       ...(options?.enableElevatedRead !== undefined
         ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -675,7 +655,7 @@ export function _getDocumentCountSend(
     "/indexes('{indexName}')/docs/$count{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -684,11 +664,11 @@ export function _getDocumentCountSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -706,7 +686,7 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
     throw error;
   }
 
-  return result.body;
+  return Number(result.body);
 }
 
 /** Queries the number of documents in the index. */

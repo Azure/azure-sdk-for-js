@@ -1,24 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
-  _TargetComputeSizeCollection,
-  _targetComputeSizeCollectionDeserializer,
-  TargetComputeSize,
-} from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type { _TargetComputeSizeCollection, TargetComputeSize } from "../../models/models.js";
+import { _targetComputeSizeCollectionDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { TargetComputeSizesListByReplicationProtectedItemsOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { TargetComputeSizesListByReplicationProtectedItemsOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByReplicationProtectedItemsSend(
   context: Client,
@@ -38,7 +29,7 @@ export function _listByReplicationProtectedItemsSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,6 +76,6 @@ export function listByReplicationProtectedItems(
       ),
     _listByReplicationProtectedItemsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }

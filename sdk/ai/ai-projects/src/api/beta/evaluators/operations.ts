@@ -8,20 +8,26 @@ import {
   pendingUploadResponseDeserializer,
   datasetCredentialDeserializer,
   evaluatorCredentialRequestSerializer,
+  _completedEvaluatorDiagnosticsPageDeserializer,
 } from "../../../models/models.js";
 import type {
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
   EvaluatorCredentialRequest,
+  _CompletedEvaluatorDiagnosticsPage,
+  EvaluatorDiagnosticUnion,
 } from "../../../models/models.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaEvaluatorsGetCredentialsOptionalParams,
   BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsListDiagnosticsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 
 export function _getCredentialsSend(
   context: Client,
@@ -135,4 +141,96 @@ export async function pendingUpload(
 ): Promise<PendingUploadResponse> {
   const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
+}
+
+export function _listDiagnosticsSend(
+  context: Client,
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
+
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/diagnostics{?after,api-version,before,dimension_id,end_time,evaluator_version,limit,order,start_time,type*}",
+    {
+      name: name,
+      after: options?.after,
+      before: options?.before,
+      limit: options?.limit,
+      order: options?.order,
+      start_time: !options?.startTime
+        ? options?.startTime
+        : (options?.startTime.getTime() / 1000) | 0,
+      end_time: !options?.endTime ? options?.endTime : (options?.endTime.getTime() / 1000) | 0,
+      evaluator_version: options?.evaluatorVersion,
+      dimension_id: options?.dimensionId,
+      type: !options?.typeParam
+        ? options?.typeParam
+        : options?.typeParam.map((p: any) => {
+            return p;
+          }),
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listDiagnosticsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_CompletedEvaluatorDiagnosticsPage> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _completedEvaluatorDiagnosticsPageDeserializer(result.body);
+}
+
+/**
+ * Returns immutable publication lineage for the specified evaluator.
+ *
+ * Time, evaluator-version, dimension, and type filters are intersected.
+ * Returns recorded changes from completed evaluator version writes.
+ * Historical backfill and diagnostic calculation jobs are not included.
+ */
+export function listDiagnostics(
+  context: Client,
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluatorDiagnosticUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listDiagnosticsSend(context, name, options),
+    _listDiagnosticsDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: {
+          "foundry-features": "Evaluations=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
+      },
+    },
+  );
 }

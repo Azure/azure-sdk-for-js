@@ -10,7 +10,7 @@ import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index.js"
 import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js";
 import { getOsPrefix } from "../../../../src/utils/common.js";
 import { metrics, trace } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
+import { logs } from "@opentelemetry/api";
 import { assert, vi, describe, beforeEach, afterEach, afterAll, it, expect } from "vitest";
 import { Logger } from "../../../../src/shared/logging/logger.js";
 

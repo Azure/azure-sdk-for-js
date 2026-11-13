@@ -9,10 +9,32 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   setURLParameter,
+  totalSizeFromContentRange,
+  setUploadChecksumParameters,
 } from "../src/utils/utils.common.js";
 import { addStorageCompatResponse } from "../src/generated/static-helpers/storageCompatResponse.js";
 import type { FullOperationResponse } from "@azure-rest/core-client";
 import { describe, it, assert } from "vitest";
+
+describe("totalSizeFromContentRange", () => {
+  it("reads the total from a partial content range", () => {
+    assert.equal(totalSizeFromContentRange("bytes 0-4194303/20971520"), 20971520);
+    assert.equal(totalSizeFromContentRange("bytes 0-99/100"), 100);
+  });
+
+  // What a 416 carries for an empty blob, which is the only way downloadToBuffer learns its size.
+  it("reads the total from an unsatisfied range", () => {
+    assert.equal(totalSizeFromContentRange("bytes */0"), 0);
+  });
+
+  it("returns undefined when the total is absent or unknown", () => {
+    assert.isUndefined(totalSizeFromContentRange(undefined));
+    assert.isUndefined(totalSizeFromContentRange(""));
+    assert.isUndefined(totalSizeFromContentRange("bytes 0-99/*"));
+    assert.isUndefined(totalSizeFromContentRange("bytes 0-99"));
+    assert.isUndefined(totalSizeFromContentRange("nonsense"));
+  });
+});
 
 describe("Utility Helpers", () => {
   const protocol = "https";
@@ -275,5 +297,22 @@ describe("Utility Helpers", () => {
     );
     assert.equal(isIpEndpointStyle(new URL("https://[::1]")), true);
     assert.equal(isIpEndpointStyle(new URL("https://a.b.c.d")), false);
+  });
+
+  it("setUploadChecksumParameters passes ArrayBuffer and typed array bodies on as Uint8Array", async () => {
+    const bytes = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+    const bodies: [ArrayBuffer | ArrayBufferView, number[]][] = [
+      [bytes.buffer, [1, 2, 3, 4, 5, 6, 7, 8]],
+      [new DataView(bytes.buffer, 2, 3), [3, 4, 5]],
+      [new Float32Array(bytes.buffer, 4, 1), [5, 6, 7, 8]],
+    ];
+    for (const [body, expected] of bodies) {
+      const result = await setUploadChecksumParameters(body, expected.length, {}, {});
+      assert.instanceOf(result.body, Uint8Array);
+      assert.strictEqual((result.body as Uint8Array).buffer, bytes.buffer);
+      assert.deepEqual(Array.from(result.body as Uint8Array), expected);
+    }
+    const unchanged = await setUploadChecksumParameters(bytes, bytes.length, {}, {});
+    assert.strictEqual(unchanged.body, bytes);
   });
 });

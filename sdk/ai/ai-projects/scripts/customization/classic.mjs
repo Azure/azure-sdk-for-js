@@ -304,7 +304,7 @@ function typeKey(node) {
 function parameterKeys(parameters) {
   return parameters.map((parameter) =>
     JSON.stringify([
-      ts.isIdentifier(parameter.name) ? parameter.name.text : null,
+      ts.isIdentifier(parameter.name) ? "<parameter>" : null,
       Boolean(parameter.questionToken || parameter.initializer),
       typeKey(parameter.type),
     ]),
@@ -345,7 +345,34 @@ function mirrorsOperation(members, properties, contextName, api, callee) {
   if (!api || !callee || !isSimpleMember(members, properties, contextName)) return false;
   const [member] = members;
   const arrow = properties[0].initializer;
-  if (arrow.body.expression.text !== callee) return false;
+  const local = arrow.body.expression.text;
+  const source = member.getSourceFile();
+  if (
+    !importsOf(source).some(
+      (item) =>
+        item.local === local &&
+        item.imported === callee &&
+        resolveImport(source.fileName, item.module) ===
+          classicApiFile(source.fileName).replace(/\.ts$/, ".js"),
+    )
+  )
+    return false;
+  let shadowed = false;
+  function visit(node) {
+    if (
+      ts.isIdentifier(node) &&
+      node.text === local &&
+      node.parent?.name === node &&
+      !ts.isImportSpecifier(node.parent) &&
+      !ts.isPropertyAssignment(node.parent) &&
+      !ts.isPropertySignature(node.parent) &&
+      !ts.isPropertyAccessExpression(node.parent)
+    )
+      shadowed = true;
+    ts.forEachChild(node, visit);
+  }
+  visit(source);
+  if (shadowed) return false;
   const node = api.get(callee);
   if (!node || !ts.isFunctionDeclaration(node) || !node.type) return false;
   const expected = parameterKeys(node.parameters.slice(1));
@@ -400,6 +427,131 @@ function mergeNodes(kind, file, name, base, custom, incoming) {
     text: list.map((node) => textOf(node, source)).join(kind === "member" ? "\n" : ",\n"),
     diagnostics: [],
   };
+}
+
+function mergeWrappedProperty(file, base, custom, incoming, callee) {
+  if (
+    !base ||
+    !custom ||
+    !incoming ||
+    !callee ||
+    base.length !== 1 ||
+    custom.length !== 1 ||
+    incoming.length !== 1
+  )
+    return undefined;
+  const arrowOf = (property) =>
+    property && ts.isPropertyAssignment(property) && ts.isArrowFunction(property.initializer)
+      ? property.initializer
+      : undefined;
+  const [before, current, after] = [base[0], custom[0], incoming[0]].map(arrowOf);
+  if (!before || !current || !after) return undefined;
+  const direct = (arrow) =>
+    ts.isCallExpression(arrow.body) &&
+    ts.isIdentifier(arrow.body.expression) &&
+    arrow.body.expression.text === callee
+      ? arrow.body
+      : undefined;
+  const oldCall = direct(before);
+  const newCall = direct(after);
+  if (!oldCall || !newCall || direct(current)) return undefined;
+  const parameterEqual = (left, right) =>
+    left.length === right.length &&
+    left.every(
+      (parameter, index) =>
+        ts.isIdentifier(parameter.name) &&
+        ts.isIdentifier(right[index].name) &&
+        parameter.name.text === right[index].name.text &&
+        typeKey(parameter.type) === typeKey(right[index].type) &&
+        Boolean(parameter.questionToken || parameter.initializer) ===
+          Boolean(right[index].questionToken || right[index].initializer),
+    );
+  if (
+    !parameterEqual(before.parameters, current.parameters) ||
+    before.parameters.length !== after.parameters.length ||
+    [...before.parameters, ...current.parameters, ...after.parameters].some(
+      (parameter) =>
+        !ts.isIdentifier(parameter.name) || parameter.initializer || parameter.dotDotDotToken,
+    )
+  )
+    return undefined;
+  const signature = (arrow) =>
+    JSON.stringify([
+      arrow.modifiers?.map((modifier) => modifier.kind) ?? [],
+      arrow.typeParameters?.map((parameter) =>
+        layoutless(parameter.getText(parameter.getSourceFile())),
+      ) ?? [],
+      arrow.type ? layoutless(arrow.type.getText(arrow.getSourceFile())) : null,
+    ]);
+  const baselineSignature = signature(before);
+  if ([current, after].some((arrow) => signature(arrow) !== baselineSignature)) return undefined;
+  const renames = new Map();
+  for (let index = 0; index < before.parameters.length; index++) {
+    const oldName = before.parameters[index].name.text;
+    const newName = after.parameters[index].name.text;
+    if (oldName !== newName) renames.set(oldName, newName);
+  }
+  const targets = new Set(renames.values());
+  let collision = false;
+  function checkCollision(node) {
+    if (
+      ts.isIdentifier(node) &&
+      targets.has(node.text) &&
+      !(
+        (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) ||
+        ((ts.isPropertyAssignment(node.parent) || ts.isPropertySignature(node.parent)) &&
+          node.parent.name === node)
+      )
+    )
+      collision = true;
+    ts.forEachChild(node, checkCollision);
+  }
+  checkCollision(current);
+  if (collision) return undefined;
+  const normalized = renameSymbols(
+    wrap("property", textOf(custom[0], custom[0].getSourceFile())),
+    renames,
+    file,
+    (node) =>
+      ts.isParameter(node.parent) &&
+      ts.isArrowFunction(node.parent.parent) &&
+      nameOf(node.parent.parent.parent?.name) === nameOf(custom[0].name),
+  );
+  let source = parse(normalized, file);
+  let declaration = source.statements[0]?.declarationList?.declarations[0];
+  let property = declaration?.initializer?.properties[0];
+  const normalizedArrow = arrowOf(property);
+  if (!normalizedArrow) return undefined;
+  const calls = [];
+  function visit(node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === callee
+    )
+      calls.push(node);
+    ts.forEachChild(node, visit);
+  }
+  visit(normalizedArrow.body);
+  if (
+    calls.length !== 1 ||
+    canonicalize(`const call = ${calls[0].getText(source)};`) !==
+      canonicalize(`const call = ${newCall.getText(after.getSourceFile())};`)
+  )
+    return undefined;
+  const updated = edit(normalized, [
+    {
+      start: normalizedArrow.parameters.pos,
+      end: normalizedArrow.parameters.end,
+      text: after.parameters
+        .map((parameter) => parameter.getText(after.getSourceFile()))
+        .join(", "),
+    },
+  ]);
+  source = parse(updated, file);
+  declaration = source.statements[0]?.declarationList?.declarations[0];
+  property = declaration?.initializer?.properties[0];
+  return property ? textOf(property, source) : undefined;
 }
 
 function place(slots, name, text, anchors) {
@@ -467,6 +619,211 @@ export function relocatedMemberDiagnostics(oldFile, customText, baseText, matche
     }
   }
   return diagnostics;
+}
+
+// Reviewed GA promotions from azure-rest-api-specs#47930. Other wrappers and
+// destinations continue to require review, even when their routes match.
+const tracingPromotions = new Map([
+  ["classic/beta/agents/index.ts", ["classic/agents/index.ts", ["createFromPrompt"]]],
+  [
+    "classic/beta/voiceAgents/conversations/index.ts",
+    ["classic/voiceAgents/conversations/index.ts", ["delete"]],
+  ],
+  [
+    "classic/beta/voiceAgents/telephony/index.ts",
+    [
+      "classic/voiceAgents/telephony/index.ts",
+      [
+        "cancelCallJob",
+        "createCallJob",
+        "replaceTransferTargets",
+        "endCall",
+        "transferCall",
+        "deleteBinding",
+        "updateBinding",
+        "createBinding",
+      ],
+    ],
+  ],
+]);
+
+function replaceClassicSlots(text, file, members, properties) {
+  const shape = shapeOf(parse(text, file));
+  if (!shape) throw new Error(`${file}: unrecognized reviewed classic template`);
+  return edit(text, [
+    {
+      start: shape.interfaceNode.members.pos,
+      end: shape.interfaceNode.end - 1,
+      text: `\n${members.join("\n")}\n`,
+    },
+    {
+      start: shape.factory.object.properties.pos,
+      end: shape.factory.object.end - 1,
+      text: properties.length ? `\n${properties.join(",\n")},\n` : "\n",
+    },
+  ]);
+}
+
+/**
+ * Carry the reviewed tracing wrappers across GA promotion, retaining their
+ * factory parameters and local tracing helper. Route matching alone never
+ * authorizes moving a customized classic member.
+ */
+export function prepareTracingPromotions(baseGenerated, baseSource, matches) {
+  const sources = new Map(baseSource);
+  const destinations = new Map();
+  const removedModules = new Set();
+  for (const [oldFile, [file, names]] of tracingPromotions) {
+    const moved = matches.filter(
+      (match) =>
+        match.base &&
+        classicFile(match.base.file) === oldFile &&
+        classicFile(match.incoming.file) === file,
+    );
+    if (!moved.length || moved.some((match) => !match.customized) || !baseSource.has(oldFile))
+      continue;
+    const current = shapeOf(parse(baseSource.get(oldFile), oldFile));
+    const before = shapeOf(parse(baseGenerated.get(oldFile), oldFile));
+    if (!current || !before) continue;
+    const renames = new Map();
+    for (const match of moved) {
+      renames.set(match.customized.options, match.names.options);
+      renames.set(match.customized.name, match.names.publicNode);
+    }
+    const approved = new Set();
+    const destination = baseSource.has(file) && shapeOf(parse(baseSource.get(file), file));
+    for (const match of moved) {
+      const name = classicMemberName(match.base.name);
+      if (!names.includes(name)) continue;
+      if (destination && (group(destination.members, name) || group(destination.properties, name)))
+        continue;
+      const callee = match.customized.name;
+      const normalize = (nodes) =>
+        nodes?.map((node) => {
+          const text = renameSymbols(
+            wrap("property", textOf(node, node.getSourceFile())),
+            renames,
+            file,
+          );
+          return parse(text, file).statements[0].declarationList.declarations[0].initializer
+            .properties[0];
+        });
+      // The one baseline delegate call must survive unchanged inside the
+      // wrapper. Altered forwarding and duplicate calls are not approved.
+      const delegate = classicMember(
+        oldFile,
+        {
+          ...match,
+          incoming: { ...match.incoming, name: match.base.name },
+          names: { ...match.names, publicNode: callee },
+        },
+        parse(baseSource.get(classicApiFile(oldFile)), classicApiFile(oldFile)),
+        current.interfaceNode,
+        current.source,
+        contextParameter(current.factory),
+      );
+      const delegateProperty = parse(wrap("property", delegate.property), oldFile).statements[0]
+        .declarationList.declarations[0].initializer.properties[0];
+      if (
+        mergeWrappedProperty(
+          file,
+          normalize([delegateProperty]),
+          normalize(group(current.properties, name)),
+          normalize([delegateProperty]),
+          renames.get(callee) ?? callee,
+        )
+      )
+        approved.add(name);
+    }
+    if (!approved.size) continue;
+    const snippets = (slots) =>
+      slots.flatMap((slot) => slot.nodes.map((node) => textOf(node, current.source)));
+    sources.set(
+      oldFile,
+      replaceClassicSlots(
+        baseSource.get(oldFile),
+        oldFile,
+        snippets(current.members.filter((slot) => !approved.has(slot.name))),
+        snippets(current.properties.filter((slot) => !approved.has(slot.name))),
+      ),
+    );
+    const allMoved = new Set(moved.map((match) => classicMemberName(match.base.name)));
+    if (
+      current.members.every((slot) => allMoved.has(slot.name)) &&
+      current.properties.every((slot) => allMoved.has(slot.name)) &&
+      [...declarations(current.source).keys()].every((name) =>
+        declarations(before.source).has(name),
+      ) &&
+      relocatedMemberDiagnostics(
+        oldFile,
+        baseSource.get(oldFile),
+        baseGenerated.get(oldFile),
+        moved,
+        baseSource.get(classicApiFile(oldFile)),
+      ).every((item) => approved.has(item.declaration))
+    )
+      removedModules.add(oldFile);
+    destinations.set(file, { oldFile, current, approved, renames });
+  }
+  return {
+    sources,
+    removedModules,
+    apply(file, text) {
+      const policy = destinations.get(file);
+      if (!policy) return text;
+      const { oldFile, current, approved, renames } = policy;
+      const emitted = shapeOf(parse(text, file));
+      if (!emitted) throw new Error(`${file}: unrecognized promoted classic module`);
+      let template = text;
+      if (!baseSource.has(file)) {
+        renames.set(current.interfaceNode.name.text, emitted.interfaceNode.name.text);
+        const oldFunctions = current.source.statements.filter(ts.isFunctionDeclaration);
+        for (const node of oldFunctions)
+          renames.set(node.name.text, node.name.text.replace("_getBeta", "_get"));
+        template = renameSymbols(baseSource.get(oldFile), renames, file);
+      }
+      const normalizedCurrent = shapeOf(
+        parse(renameSymbols(current.source.text, renames, file), file),
+      );
+      const slots = (kind) =>
+        emitted[kind].map((slot) => {
+          const nodes = approved.has(slot.name)
+            ? group(normalizedCurrent[kind], slot.name)
+            : slot.nodes;
+          return nodes.map((node) => textOf(node, node.getSourceFile())).join("\n");
+        });
+      const body = replaceClassicSlots(template, file, slots("members"), slots("properties"));
+      const source = parse(body, file);
+      const withoutImports = edit(
+        body,
+        source.statements
+          .filter(ts.isImportDeclaration)
+          .map((node) => ({ start: node.getFullStart(), end: node.end, text: "" })),
+      ).replace(
+        /^\s*\/\/ Copyright \(c\) Microsoft Corporation\.\r?\n\/\/ Licensed under the MIT License\.\s*/,
+        "",
+      );
+      const candidates = [
+        ...importsOf(parse(text, file)),
+        ...importsOf(current.source).map((item) => {
+          let target = item.module.startsWith(".")
+            ? resolveImport(oldFile, item.module)
+            : item.module;
+          if (target === classicApiFile(oldFile).replace(/\.ts$/, ".js"))
+            target = classicApiFile(file).replace(/\.ts$/, ".js");
+          if (target === classicApiFile(oldFile).replace(/operations\.ts$/, "options.js"))
+            target = classicApiFile(file).replace(/operations\.ts$/, "options.js");
+          return {
+            ...item,
+            imported: renames.get(item.imported) ?? item.imported,
+            local: renames.get(item.local) ?? item.local,
+            module: item.module.startsWith(".") ? relativeImport(file, target) : target,
+          };
+        }),
+      ];
+      return `${header}${renderImports(file, withoutImports, candidates)}\n\n${withoutImports}\n`;
+    },
+  };
 }
 
 /**
@@ -654,6 +1011,19 @@ export function mergeCustomizedClassic({
     }
     for (const kind of ["member", "property"]) {
       if (sameNodes(kind, before[kind], after[kind])) continue;
+      if (kind === "property") {
+        const wrapped = mergeWrappedProperty(
+          file,
+          before[kind],
+          current[kind],
+          after[kind],
+          callees.get(name) ?? calleeOf(before.property),
+        );
+        if (wrapped) {
+          place(slots[kind], name, wrapped, []);
+          continue;
+        }
+      }
       const merged = mergeNodes(kind, file, name, before[kind], current[kind], after[kind]);
       diagnostics.push(...merged.diagnostics);
       if (merged.text) place(slots[kind], name, merged.text, []);

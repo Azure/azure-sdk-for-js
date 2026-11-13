@@ -8,7 +8,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "./realtime/webSocketTransportLike.js";
+} from "./realtime/webSocketTransport.js";
 
 /** The `CloseEvent` fields this transport forwards; the DOM lib is not in scope here. */
 interface NativeCloseEvent {
@@ -18,7 +18,7 @@ interface NativeCloseEvent {
 }
 
 /**
- * Default browser transport for the Voice Agents realtime client.
+ * Default browser transport for the Voice Agents WebSocket clients.
  *
  * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. This transport sends
  * the Microsoft Entra bearer token as the `authorization.bearer.<token>` WebSocket subprotocol,
@@ -222,7 +222,7 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
         target.searchParams.set("client-request-id", value);
         break;
       case "x-ms-voice-structured-inputs":
-        target.searchParams.set("structured_input", value);
+        target.searchParams.set("structured_inputs", value);
         break;
     }
   }

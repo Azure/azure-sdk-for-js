@@ -4,25 +4,24 @@
 import type { VoiceAgentServerEvent } from "../models/models.js";
 
 /**
- * A server event whose wire type is not recognized by this version of the SDK.
+ * A service event this SDK version does not recognize.
  *
- * The SDK delivers these events without closing the connection or applying known-event
- * validation or normalization. Inspect and validate raw fields before using them.
+ * These events do not close the connection. The SDK does not validate or transform
+ * their payloads, so validate rawEvent before using its fields.
  */
 export interface VoiceAgentUnknownEvent {
-  /** SDK fallback discriminator, distinct from every known server event type. */
+  /** Identifies an unrecognized event. */
   type: "unknown";
-  /** Original `type` discriminator received from the service. */
+  /** Original event type sent by the service. */
   eventType: string;
-  /** Complete parsed JSON event, including its original `type` and all other wire fields. */
+  /** Complete event payload, including the original type. */
   rawEvent: Record<string, unknown>;
 }
 
 /**
- * An event received from a voice-agent realtime connection.
+ * An event received from a Realtime voice session.
  *
- * Known events retain their generated types and normalization. Unrecognized wire types
- * are wrapped in {@link VoiceAgentUnknownEvent}. Switch on `type` to narrow known events,
- * or exclude `type === "unknown"` before passing an event to a known-event handler.
+ * Check type to handle a known event or {@link VoiceAgentUnknownEvent}.
+ * Exclude "unknown" before passing an event to a handler for known events only.
  */
 export type VoiceAgentRealtimeEvent = VoiceAgentServerEvent | VoiceAgentUnknownEvent;
