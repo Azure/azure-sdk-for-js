@@ -10,9 +10,12 @@ import type { AzureMonitorExporterOptions } from "../config.js";
 import type { TelemetryItem as Envelope } from "../generated/index.js";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils.js";
 import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common.js";
-import { HttpSender } from "../platform/index.js";
+import { HttpSender } from "../platform/nodejs/httpSender.js";
 import { ConnectionStringParser } from "../utils/connectionStringParser.js";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants.js";
+import type { RoutingGroups } from "../utils/routing.js";
+import { addToRoutingGroups, getTelemetryRoute } from "../utils/routing.js";
+import { RoutingSender } from "../platform/nodejs/routingSender.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -23,6 +26,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   private isShutdown = false;
   private readonly sender: HttpSender;
+  private readonly routingSender?: RoutingSender;
   private shouldCreateResourceMetric: boolean = shouldCreateResourceMetric();
   private readonly applicationId: string | undefined;
 
@@ -32,6 +36,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
+    if (this.multiEndpointRouting) {
+      this.routingSender = new RoutingSender(options, this.instrumentationKey, this.aadAudience);
+    }
 
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     if (connectionString) {
@@ -44,6 +51,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
       exporterOptions: options,
+      disableOfflineStorage: !!this.routingSender,
       aadAudience: this.aadAudience,
     });
     diag.debug("AzureMonitorTraceExporter was successfully setup");
@@ -65,6 +73,25 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     }
 
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
+
+    if (this.routingSender) {
+      const groups: RoutingGroups = new Map();
+      for (const span of spans) {
+        const route = getTelemetryRoute(span.attributes);
+        if (route) {
+          addToRoutingGroups(groups, route, [
+            readableSpanToEnvelope(span, route.instrumentationKey, this._increaseGenAiMessageLimit),
+            ...spanEventsToEnvelopes(
+              span,
+              route.instrumentationKey,
+              this._increaseGenAiMessageLimit,
+            ),
+          ]);
+        }
+      }
+      resultCallback(await this.routingSender.export(groups));
+      return;
+    }
 
     if (spans.length > 0) {
       const envelopes: Envelope[] = [];
@@ -91,6 +118,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         }
       });
       resultCallback(await this.sender.exportEnvelopes(envelopes));
+      return;
     }
     // No data to export
     resultCallback({ code: ExportResultCode.SUCCESS });
@@ -102,6 +130,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   async shutdown(): Promise<void> {
     this.isShutdown = true;
     diag.info("AzureMonitorTraceExporter shutting down");
+    await this.routingSender?.shutdown();
     return this.sender.shutdown();
   }
 }

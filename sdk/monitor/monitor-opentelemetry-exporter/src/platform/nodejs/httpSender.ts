@@ -8,8 +8,8 @@ import {
   createDefaultHttpClient,
   redirectPolicyName,
 } from "@azure/core-rest-pipeline";
-import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
-import type { SenderResult } from "../../types.js";
+import type { HttpClient, Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { SenderResult, StoragePartition } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
@@ -28,6 +28,7 @@ const applicationInsightsResource = "https://monitor.azure.com/.default";
 export class HttpSender extends BaseSender {
   private appInsightsClient: ApplicationInsightsClient;
   private readonly credential?: TokenCredential;
+  private readonly disableKeepAlive: boolean;
   public appInsightsClientOptions: AzureMonitorExporterOptions;
 
   constructor(options: {
@@ -35,10 +36,17 @@ export class HttpSender extends BaseSender {
     instrumentationKey: string;
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
+    /** Disables persistence only for this sender, not its statistics exporters. */
+    disableOfflineStorage?: boolean;
+    /** Disables connection reuse for this sender's default transport only. */
+    disableKeepAlive?: boolean;
     aadAudience?: string;
     isStatsbeatSender?: boolean;
+    isRouted?: boolean;
+    storagePartition?: StoragePartition;
   }) {
     super(options);
+    this.disableKeepAlive = options.disableKeepAlive ?? false;
     // Build endpoint using provided configuration or default values
     this.appInsightsClientOptions = {
       host: options.endpointUrl,
@@ -72,10 +80,23 @@ export class HttpSender extends BaseSender {
     // but the TypeSpec-generated REST client always creates its own. If a user passed one,
     // we adopt its policies onto the generated client's pipeline for backward compatibility.
     const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
+    const transport = clientOptions.httpClient ?? createDefaultHttpClient();
+    let httpClient: HttpClient = transport;
+    if (this.disableKeepAlive && !clientOptions.httpClient && !clientOptions.agent) {
+      httpClient = {
+        sendRequest(request) {
+          request.disableKeepAlive = true;
+          // The runtime can select Node's keep-alive global agent or a proxy agent.
+          // Close each connection explicitly, including on retries and redirects.
+          request.headers.set("Connection", "close");
+          return transport.sendRequest(request);
+        },
+      };
+    }
 
     const client = new ApplicationInsightsClient(this.credential as any, {
       ...clientOptions,
-      httpClient: createGzipHttpClient(clientOptions.httpClient ?? createDefaultHttpClient()),
+      httpClient: createGzipHttpClient(httpClient),
     });
 
     // Expose host for tests and redirect handling

@@ -48,6 +48,7 @@ export abstract class AzureMonitorBaseExporter {
     // @internal
     protected readonly _increaseGenAiMessageLimit: boolean;
     protected instrumentationKey: string;
+    protected readonly multiEndpointRouting: boolean;
     protected trackStatsbeat: boolean;
 }
 
