@@ -727,9 +727,6 @@ importers:
       '@typespec/compiler':
         specifier: ^1.14.0
         version: 1.17.0(@types/node@22.20.5)
-      copyfiles:
-        specifier: ^2.4.1
-        version: 2.4.1
       prettier:
         specifier: 'catalog:'
         version: 3.9.10
@@ -40519,10 +40516,6 @@ packages:
     resolution: {integrity: sha1-fSB0JxufAy6L4TqmuuGitJegFzE=}
     engines: {node: '>=18'}
 
-  copyfiles@2.4.1:
-    resolution: {integrity: sha1-0tz/YKqtEBXwnQtm5/Dxxc08XaU=}
-    hasBin: true
-
   core-util-is@1.0.3:
     resolution: {integrity: sha1-pgQtNjTCsn6TKPg3uWX6yDgI24U=}
 
@@ -41342,10 +41335,6 @@ packages:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
-  glob@7.2.3:
-    resolution: {integrity: sha1-uN8PuAK7+o6JvR2Ti04WV47UTys=}
-    deprecated: Glob versions prior to v9 are no longer supported
-
   glob@8.1.0:
     resolution: {integrity: sha1-04j2Vlk+9wjuPjRkD9+5mp/Rwz4=}
     engines: {node: '>=12'}
@@ -41771,9 +41760,6 @@ packages:
   is-wsl@3.1.1:
     resolution: {integrity: sha1-MniXsmgyo+sRfabCdJLQTKEyWU8=}
     engines: {node: '>=16'}
-
-  isarray@0.0.1:
-    resolution: {integrity: sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=}
 
   isarray@1.0.0:
     resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
@@ -42471,9 +42457,6 @@ packages:
     resolution: {integrity: sha512-6li2QanLsAXpIH2R6j77MzRyvOyrvdTqlKtO4CgBdHGNvN99ZZfyxszHc5o5+IZBWD5u6Hzwg83JoGXmqZNG9Q==}
     engines: {node: '>=18'}
 
-  noms@0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
-
   normalize-package-data@3.0.3:
     resolution: {integrity: sha1-28w+LaWVCaCYNCKITNFy7v36Ul4=}
     engines: {node: '>=10'}
@@ -43026,9 +43009,6 @@ packages:
     resolution: {integrity: sha1-xYZnEtue9TQ7TQLCQTutpTxBxKk=}
     engines: {node: '>=10.13'}
 
-  readable-stream@1.0.34:
-    resolution: {integrity: sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=}
-
   readable-stream@2.3.8:
     resolution: {integrity: sha1-kRJegEK7obmIf0k0X2J3Anzovps=}
 
@@ -43496,9 +43476,6 @@ packages:
     resolution: {integrity: sha1-fug03ajHwX7/MRhHK7Nb/tqjTd4=}
     engines: {node: '>= 0.4'}
 
-  string_decoder@0.10.31:
-    resolution: {integrity: sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=}
-
   string_decoder@1.1.1:
     resolution: {integrity: sha1-nPFhG6YmhdcDCunkujQUnDrwP8g=}
 
@@ -43618,9 +43595,6 @@ packages:
 
   throat@5.0.0:
     resolution: {integrity: sha1-xRmSNYA6rRh1SmZ9ZZtecs4Wdks=}
-
-  through2@2.0.5:
-    resolution: {integrity: sha1-AcHjnrMdB8t9A6lqcIIyYLIxMs0=}
 
   tinybench@6.2.3:
     resolution: {integrity: sha512-Al01C2JIBnO2CXCAPbpAl6sUiOZHeThGtHYNTa51JRw9PyWOCdr+9Ong05R4qg/Sk3+H645E8ov1h2c58ityNw==}
@@ -43854,10 +43828,6 @@ packages:
   unpipe@1.0.0:
     resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
-
-  untildify@4.0.0:
-    resolution: {integrity: sha1-K8lHuVNlJIfkYAlJ+wkeOujNkZs=}
-    engines: {node: '>=8'}
 
   unzipper@0.12.5:
     resolution: {integrity: sha1-f8a0hi84MiAtH1zDrb7iZ53qr2w=}
@@ -48570,16 +48540,6 @@ snapshots:
       graceful-fs: 4.2.11
       p-event: 6.0.1
 
-  copyfiles@2.4.1:
-    dependencies:
-      glob: 7.2.3
-      minimatch: 3.1.5
-      mkdirp: 1.0.4
-      noms: 0.0.0
-      through2: 2.0.5
-      untildify: 4.0.0
-      yargs: 16.2.2
-
   core-util-is@1.0.3: {}
 
   cors@2.8.6:
@@ -49589,15 +49549,6 @@ snapshots:
       path-is-absolute: 1.0.1
     optional: true
 
-  glob@7.2.3:
-    dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 3.1.5
-      once: 1.4.0
-      path-is-absolute: 1.0.1
-
   glob@8.1.0:
     dependencies:
       fs.realpath: 1.0.0
@@ -49980,8 +49931,6 @@ snapshots:
   is-wsl@3.1.1:
     dependencies:
       is-inside-container: 1.0.0
-
-  isarray@0.0.1: {}
 
   isarray@1.0.0: {}
 
@@ -50774,11 +50723,6 @@ snapshots:
 
   node-releases@2.0.63: {}
 
-  noms@0.0.0:
-    dependencies:
-      inherits: 2.0.4
-      readable-stream: 1.0.34
-
   normalize-package-data@3.0.3:
     dependencies:
       hosted-git-info: 4.1.0
@@ -51032,7 +50976,8 @@ snapshots:
 
   path-expression-matcher@1.6.2: {}
 
-  path-is-absolute@1.0.1: {}
+  path-is-absolute@1.0.1:
+    optional: true
 
   path-key@3.1.1: {}
 
@@ -51377,13 +51322,6 @@ snapshots:
     dependencies:
       js-yaml: 4.3.2
       strip-bom: 4.0.0
-
-  readable-stream@1.0.34:
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 0.0.1
-      string_decoder: 0.10.31
 
   readable-stream@2.3.8:
     dependencies:
@@ -51966,8 +51904,6 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.2
 
-  string_decoder@0.10.31: {}
-
   string_decoder@1.1.1:
     dependencies:
       safe-buffer: 5.1.2
@@ -52081,11 +52017,6 @@ snapshots:
       real-require: 1.0.0
 
   throat@5.0.0: {}
-
-  through2@2.0.5:
-    dependencies:
-      readable-stream: 2.3.8
-      xtend: 4.0.2
 
   tinybench@6.2.3: {}
 
@@ -52291,8 +52222,6 @@ snapshots:
   unpartial@1.0.8: {}
 
   unpipe@1.0.0: {}
-
-  untildify@4.0.0: {}
 
   unzipper@0.12.5:
     dependencies:
