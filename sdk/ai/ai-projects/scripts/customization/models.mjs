@@ -38,6 +38,129 @@ const emittedModelRenames = new Map([
   ["PhoneNumber", "TelephonyPhoneNumber"],
   ["TeamsAddress", "TelephonyTeamsAddress"],
   ["SipAddress", "TelephonySipAddress"],
+  // azure-rest-api-specs#48159 renames these evaluation run data sources; discriminators are unchanged.
+  ["AzureAITraceDataSourceEvalRunDataSource", "TraceSourceEvalRunDataSource"],
+  ["AzureAITraceDataSourcePreviewEvalRunDataSource", "TraceSourcePreviewEvalRunDataSource"],
+  ["EvalCsvRunDataSource", "CsvEvalRunDataSource"],
+]);
+// azure-rest-api-specs#47872 restores these released identities. Source keeps
+// Tool* compatibility aliases, so structural rename discovery cannot identify them.
+const historicalToolNames = [
+  ["ToolFunctionTool", "FunctionTool", "toolFunctionTool", "functionTool"],
+  ["ToolFileSearchTool", "FileSearchTool", "toolFileSearchTool", "fileSearchTool"],
+  ["ToolComputerTool", "ComputerTool", "toolComputerTool", "computerTool"],
+  [
+    "ToolComputerUsePreviewTool",
+    "ComputerUsePreviewTool",
+    "toolComputerUsePreviewTool",
+    "computerUsePreviewTool",
+  ],
+  ["ToolWebSearchTool", "WebSearchTool", "toolWebSearchTool", "webSearchTool"],
+  ["ToolMcpTool", "MCPTool", "toolMcpTool", "mcpTool"],
+  [
+    "ToolCodeInterpreterTool",
+    "CodeInterpreterTool",
+    "toolCodeInterpreterTool",
+    "codeInterpreterTool",
+  ],
+  [
+    "ToolProgrammaticToolCallingParam",
+    "ProgrammaticToolCallingParam",
+    "toolProgrammaticToolCallingParam",
+    "programmaticToolCallingParam",
+  ],
+  ["ToolImageGenTool", "ImageGenTool", "toolImageGenTool", "imageGenTool"],
+  [
+    "ToolLocalShellToolParam",
+    "LocalShellToolParam",
+    "toolLocalShellToolParam",
+    "localShellToolParam",
+  ],
+  [
+    "ToolFunctionShellToolParam",
+    "FunctionShellToolParam",
+    "toolFunctionShellToolParam",
+    "functionShellToolParam",
+  ],
+  ["ToolCustomToolParam", "CustomToolParam", "toolCustomToolParam", "customToolParam"],
+  [
+    "ToolToolSearchToolParam",
+    "ToolSearchToolParam",
+    "toolToolSearchToolParam",
+    "toolSearchToolParam",
+  ],
+  [
+    "ToolWebSearchPreviewTool",
+    "WebSearchPreviewTool",
+    "toolWebSearchPreviewTool",
+    "webSearchPreviewTool",
+  ],
+  [
+    "ToolApplyPatchToolParam",
+    "ApplyPatchToolParam",
+    "toolApplyPatchToolParam",
+    "applyPatchToolParam",
+  ],
+  [
+    "_ToolCodeInterpreterToolContainer",
+    "_CodeInterpreterToolContainer",
+    "_toolCodeInterpreterToolContainer",
+    "_codeInterpreterToolContainer",
+  ],
+  [
+    "_ToolFileSearchToolFiltersValue",
+    "FileSearchToolFiltersValue",
+    "_toolFileSearchToolFiltersValue",
+    "_fileSearchToolFiltersValue",
+  ],
+  [
+    "_ToolFileSearchToolFiltersValue1",
+    "_FileSearchToolFiltersValue",
+    "_toolFileSearchToolFiltersValue1",
+    "_fileSearchToolFiltersValue1",
+  ],
+  [
+    "_ToolFileSearchToolFiltersFilter",
+    "_FileSearchToolFiltersFilter",
+    "_toolFileSearchToolFiltersFilter",
+    "_fileSearchToolFiltersFilter",
+  ],
+  [
+    "_ToolMcpToolAllowedTools",
+    "_MCPToolAllowedTools",
+    "_toolMcpToolAllowedTools",
+    "_mcpToolAllowedTools",
+  ],
+  [
+    "_ToolMcpToolRequireApproval",
+    "_MCPToolRequireApproval",
+    "_toolMcpToolRequireApproval",
+    "_mcpToolRequireApproval",
+  ],
+];
+const converterSuffixes = ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"];
+const historicalToolRenames = new Map([
+  ...historicalToolNames.flatMap(([original, released, oldPrefix, prefix]) => [
+    [original, released],
+    ...converterSuffixes.map((suffix) => [oldPrefix + suffix, prefix + suffix]),
+  ]),
+  ...[
+    ["_CodeInterpreterToolContainer", "_codeInterpreterToolContainer"],
+    ["_MCPToolAllowedTools", "_mcpToolAllowedTools"],
+    ["_MCPToolRequireApproval", "_mcpToolRequireApproval"],
+    ["fileSearchToolFiltersValue", "_fileSearchToolFiltersValue"],
+    ["_FileSearchToolFiltersValue", "_fileSearchToolFiltersValue1"],
+    ["_FileSearchToolFiltersFilter", "_fileSearchToolFiltersFilter"],
+  ].flatMap(([emitted, custom]) =>
+    converterSuffixes.map((suffix) => [emitted + suffix, custom + suffix]),
+  ),
+]);
+const inlineToolProperties = new Map([
+  ["CodeInterpreterTool.container", "_CodeInterpreterToolContainer"],
+  ["ComparisonFilter.value", "FileSearchToolFiltersValue"],
+  ["CompoundFilter.filters", "_FileSearchToolFiltersFilter"],
+  ["MCPTool.allowed_tools", "_MCPToolAllowedTools"],
+  ["MCPTool.require_approval", "_MCPToolRequireApproval"],
 ]);
 
 function isModel(file) {
@@ -92,6 +215,33 @@ function parse(text, file, diagnostics) {
   return source;
 }
 
+function toolDefinitionKey({ node, text }) {
+  if (!ts.isInterfaceDeclaration(node)) return canonicalize(text);
+  const clauses = node.heritageClauses ?? [];
+  if (
+    clauses.some((clause) =>
+      clause.types.some(
+        (type) =>
+          clause.token !== ts.SyntaxKind.ExtendsKeyword ||
+          !ts.isIdentifier(type.expression) ||
+          type.expression.text !== "Tool" ||
+          type.typeArguments?.length,
+      ),
+    )
+  )
+    return undefined;
+  return canonicalize(
+    edit(
+      node.getText(),
+      clauses.map((clause) => ({
+        start: clause.getStart() - node.getStart(),
+        end: clause.end - node.getStart(),
+        text: "",
+      })),
+    ),
+  );
+}
+
 function inventory(tree, diagnostics, replacements = new Map()) {
   const modules = new Map();
   const declarations = new Map();
@@ -110,7 +260,42 @@ function inventory(tree, diagnostics, replacements = new Map()) {
     }
     const source = parse(original, file, diagnostics);
     if (source.parseDiagnostics.length) continue;
+    const names = new Set(source.statements.map(declarationName));
+    const coalesced = new Set();
+    // The upstream alternateType unifies only these two wrapper/definition pairs.
+    for (const [wrapper, released, oldPrefix, prefix] of historicalToolNames) {
+      if (!["ToolMcpTool", "ToolCustomToolParam"].includes(wrapper)) continue;
+      for (const [from, to] of [
+        [wrapper, released],
+        ...converterSuffixes.map((suffix) => [oldPrefix + suffix, prefix + suffix]),
+      ]) {
+        if (replacements.get(from) === to && names.has(from) && names.has(to)) coalesced.add(to);
+      }
+    }
     const scopedRenames = new Map(replacements);
+    // Historical Tool* compatibility aliases coexist with the released
+    // declaration. Do not rename their binding or barrel export onto that
+    // declaration: the barrel itself has no declarations to detect aliases.
+    const aliasSource =
+      file === modelBarrel
+        ? parse(tree.get(canonicalFile) ?? "", canonicalFile, diagnostics)
+        : source;
+    const aliasNames = new Set(aliasSource.statements.map(declarationName));
+    for (const [from, to] of historicalToolRenames) {
+      if (scopedRenames.get(from) !== to || !aliasNames.has(from) || !aliasNames.has(to)) continue;
+      const alias = aliasSource.statements.find((node) => declarationName(node) === from);
+      const target = ts.isTypeAliasDeclaration(alias)
+        ? alias.type
+        : ts.isVariableStatement(alias)
+          ? alias.declarationList.declarations[0].initializer
+          : undefined;
+      if (
+        (target && ts.isTypeReferenceNode(target) && target.typeName.getText(aliasSource) === to) ||
+        (target && ts.isIdentifier(target) && target.text === to) ||
+        (from === "_ToolFileSearchToolFiltersValue" && ts.isTypeAliasDeclaration(alias))
+      )
+        scopedRenames.delete(from);
+    }
     for (const item of importsOf(source)) {
       if (!internalModelImport(file, item.module) || item.sideEffect) continue;
       if (item.imported === "*" || item.imported === "default") {
@@ -148,7 +333,15 @@ function inventory(tree, diagnostics, replacements = new Map()) {
         });
         continue;
       }
+      const declaration = { file, node, text: sourceText(node, normalized) };
       if (declarations.has(name)) {
+        const previous = declarations.get(name);
+        const key = coalesced.has(name) && toolDefinitionKey(previous);
+        if (key && key === toolDefinitionKey(declaration)) {
+          if (ts.isInterfaceDeclaration(node) && node.heritageClauses?.length)
+            declarations.set(name, declaration);
+          continue;
+        }
         diagnostics.push({
           file,
           declaration: name,
@@ -156,7 +349,7 @@ function inventory(tree, diagnostics, replacements = new Map()) {
         });
         continue;
       }
-      declarations.set(name, { file, node, text: sourceText(node, normalized) });
+      declarations.set(name, declaration);
     }
   }
   return { modules, declarations };
@@ -200,6 +393,34 @@ export function verifiedEmittedRenames({ baseGenerated, baseSource, generated })
 
 function discoverRenames(baseGenerated, baseSource, incoming, diagnostics) {
   const renames = new Map();
+  for (const [original, released] of historicalToolRenames) {
+    const generated =
+      baseGenerated.declarations.get(original) ?? incoming.declarations.get(original);
+    if (!generated || !baseSource.declarations.has(released)) continue;
+    const alias = baseSource.declarations.get(original)?.node;
+    const target =
+      alias &&
+      (ts.isTypeAliasDeclaration(alias) &&
+      ts.isTypeReferenceNode(alias.type) &&
+      !alias.type.typeArguments?.length
+        ? alias.type.typeName
+        : ts.isVariableStatement(alias)
+          ? alias.declarationList.declarations[0].initializer
+          : undefined);
+    const retainedValueUnion =
+      original === "_ToolFileSearchToolFiltersValue" &&
+      alias &&
+      ts.isTypeAliasDeclaration(alias) &&
+      ts.isTypeAliasDeclaration(generated.node) &&
+      canonicalize(`type Value = ${alias.type.getText()};`) ===
+        canonicalize(`type Value = ${generated.node.type.getText()};`);
+    if (
+      !alias ||
+      (target && ts.isIdentifier(target) && target.text === released) ||
+      retainedValueUnion
+    )
+      renames.set(original, released);
+  }
   for (const [generated, custom] of documentedRenames) {
     if (
       !baseSource.declarations.has(generated) &&
@@ -323,7 +544,7 @@ function simpleRecord(type) {
   );
 }
 
-// Explicitly approved for the configuration-schema migration (#46941).
+// Approved for the configuration-schema migration (#46941) and conversations (#47368).
 // Only this discriminator adopts the upstream values; unrelated legacy models
 // and their dispatch registrations still use the normal retention policy.
 function upstreamDiscriminators(before, custom, incoming, diagnostics) {
@@ -423,7 +644,59 @@ function comparisonFilterText(base, custom, incoming, customModels, incomingMode
   ]);
 }
 
-function policyText(name, text, context, diagnostics) {
+function dailyHoursTexts(name, base, custom, incoming) {
+  if (
+    !["dailyRecurrenceScheduleSerializer", "dailyRecurrenceScheduleDeserializer"].includes(name) ||
+    !base ||
+    !custom ||
+    !incoming
+  )
+    return [base, custom, incoming];
+  const direct = 'item["hours"]';
+  const mapped = `${direct}.map((p: any) => { return p; })`;
+  const expected = [mapped, direct, `!${direct} ? ${direct} : ${mapped}`];
+  const initializers = [base, custom, incoming].map((text, index) => {
+    const source = parse(text, canonicalFile, []);
+    const node = source.statements[0];
+    if (
+      source.parseDiagnostics.length ||
+      !ts.isFunctionDeclaration(node) ||
+      node.parameters.length !== 1 ||
+      !ts.isIdentifier(node.parameters[0].name) ||
+      node.parameters[0].name.text !== "item" ||
+      node.body?.statements.length !== 1
+    )
+      return undefined;
+    const statement = node.body.statements[0];
+    if (
+      !ts.isReturnStatement(statement) ||
+      !statement.expression ||
+      !ts.isObjectLiteralExpression(statement.expression)
+    )
+      return undefined;
+    const properties = statement.expression.properties.filter(
+      (property) => ts.isPropertyAssignment(property) && nameOf(property.name) === "hours",
+    );
+    if (
+      properties.length !== 1 ||
+      canonicalize(`const value = ${properties[0].initializer.getText(source)};`) !==
+        canonicalize(`const value = ${expected[index]};`)
+    )
+      return undefined;
+    return {
+      start: properties[0].initializer.getStart(source),
+      end: properties[0].initializer.end,
+    };
+  });
+  if (initializers.some((initializer) => !initializer)) return [base, custom, incoming];
+  return [
+    edit(base, [{ ...initializers[0], text: direct }]),
+    custom,
+    edit(incoming, [{ ...initializers[2], text: direct }]),
+  ];
+}
+
+function policyText(name, text, context, diagnostics, declarations) {
   if (text === null) return null;
   const source = parse(text, context.file, diagnostics);
   if (source.parseDiagnostics.length) return text;
@@ -457,6 +730,32 @@ function policyText(name, text, context, diagnostics) {
       ts.forEachChild(child, visit);
     }
     visit(node);
+  }
+  if (ts.isInterfaceDeclaration(node)) {
+    for (const member of node.members) {
+      if (!ts.isPropertySignature(member) || !member.type) continue;
+      const helper = inlineToolProperties.get(`${name}.${member.name.getText(source)}`);
+      if (!helper) continue;
+      const alias = declarations.get(helper)?.node;
+      const array = ts.isArrayTypeNode(member.type);
+      const type = array ? member.type.elementType : member.type;
+      if (
+        ts.isTypeReferenceNode(type) &&
+        ts.isIdentifier(type.typeName) &&
+        type.typeName.text === helper &&
+        !type.typeArguments?.length &&
+        alias &&
+        ts.isTypeAliasDeclaration(alias)
+      ) {
+        // The restored helper names the same type that the released property
+        // spells inline. Merge its actual emitted variants, not a syntax change.
+        changes.push({
+          start: member.type.getStart(source),
+          end: member.type.end,
+          text: array ? `(${alias.type.getText()})[]` : alias.type.getText(),
+        });
+      }
+    }
   }
   if (name === "RealtimeFunctionToolParameters") {
     const empty =
@@ -971,24 +1270,27 @@ export function reconcileModels({ baseGenerated, baseSource, generated, mergeDec
             incoming.declarations,
           )
         : ours?.text;
-    const baseText = policyText(
+    const [baseDeclaration, customDeclaration, incomingDeclaration] = dailyHoursTexts(
       name,
       retentionBases.get(name) ?? base?.text ?? null,
-      context,
-      diagnostics,
+      (adoptedDiscriminators.has(name) ? theirs?.text : customizedText) ?? null,
+      theirs?.text ?? (ours ? base?.text : null) ?? null,
     );
+    const baseText = policyText(name, baseDeclaration, context, diagnostics, before.declarations);
     const customText = policyText(
       name,
-      (adoptedDiscriminators.has(name) ? theirs?.text : customizedText) ?? null,
+      customDeclaration,
       context,
       diagnostics,
+      custom.declarations,
     );
     // Top-level removals are not implied by disappearance from an emitted module.
     const incomingText = policyText(
       name,
-      theirs?.text ?? (ours ? base?.text : null) ?? null,
+      incomingDeclaration,
       context,
       diagnostics,
+      incoming.declarations,
     );
     const planned = mergeDeclaration(baseText, customText, incomingText, context);
     diagnostics.push(...planned.diagnostics);

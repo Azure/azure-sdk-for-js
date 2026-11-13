@@ -14,6 +14,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -26,7 +27,13 @@ export async function main(): Promise<void> {
   const openAIClient = project.getOpenAIClient();
 
   // Upload a CSV file for the code interpreter
-  const assetFilePath = path.join(__dirname, "..", "assets", "synthetic_500_quarterly_results.csv");
+  const sampleDirectory = path.dirname(fileURLToPath(import.meta.url));
+  const assetFilePath = path.join(
+    sampleDirectory,
+    "..",
+    "assets",
+    "synthetic_500_quarterly_results.csv",
+  );
   console.log("Uploading CSV file...");
   const file = await openAIClient.files.create({
     purpose: "assistants",

@@ -2,17 +2,24 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
-import { getCredentials, pendingUpload } from "../../../api/beta/evaluators/operations.js";
+import {
+  getCredentials,
+  pendingUpload,
+  listDiagnostics,
+} from "../../../api/beta/evaluators/operations.js";
 import {
   BetaEvaluatorsGetCredentialsOptionalParams,
   BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsListDiagnosticsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
 import {
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
+  EvaluatorDiagnosticUnion,
   EvaluatorCredentialRequest,
 } from "../../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -30,6 +37,18 @@ export interface BetaEvaluatorsOperations {
     pendingUploadRequest: PendingUploadRequest,
     options?: BetaEvaluatorsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
+  /**
+   * Returns immutable publication lineage for the specified evaluator.
+   *
+   * Time, evaluator-version, dimension, and type filters are intersected.
+   * Returns recorded changes from completed evaluator version writes.
+   * Historical backfill and diagnostic calculation jobs are not included.
+   */
+  listDiagnostics: (
+    foundryFeatures: "Evaluations=V1Preview",
+    name: string,
+    options?: BetaEvaluatorsListDiagnosticsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorDiagnosticUnion>;
 }
 
 function _getBetaEvaluators(context: AIProjectContext) {
@@ -46,6 +65,11 @@ function _getBetaEvaluators(context: AIProjectContext) {
       pendingUploadRequest: PendingUploadRequest,
       options?: BetaEvaluatorsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
+    listDiagnostics: (
+      foundryFeatures: "Evaluations=V1Preview",
+      name: string,
+      options?: BetaEvaluatorsListDiagnosticsOptionalParams,
+    ) => listDiagnostics(context, foundryFeatures, name, options),
   };
 }
 

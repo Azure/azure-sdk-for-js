@@ -65,15 +65,26 @@ regeneration script falls back to it when the strict run fails.
   identical baseline signatures are aligned before merging, including when
   an emitted body parameter moves into options. Binding-aware alignment keeps
   wire keys, literals, and nested bindings intact and refuses name capture.
+  The reviewed Skills route migration in azure-rest-api-specs#47858 matches
+  `/skills` to `/openai/v1/skills` only within Skills modules, including
+  beta-to-root promotion;
+  operations sharing a route still require unambiguous name matches.
   Renamed public/send/deserialize declarations covered by a verified operation
   match follow that operation when its old module disappears; they are not
   custom-only methods. Unaccounted custom-only declarations in a removed
   module still require an explicit relocation policy. Incoming API barrel
   exports also follow the resolved operation names.
-- Verified Agent Insight Monitor beta-to-root promotion adds only the new root
-  client's field, imports, and factory initialization. The initialization uses
-  the maintained beta group's authentication context, not the emitter's single
-  `_client`; all other constructor customizations remain protected.
+- Verified Agent Insight Monitor and Skills beta-to-root promotions add only
+  the new root client's field, imports, and factory initialization. The
+  initialization uses the maintained beta group's authentication context, not
+  the emitter's single `_client`; all other constructor customizations remain
+  protected.
+- The full Skills preview reversion in `azure-rest-api-specs#48068` retires only
+  the root Skills client member, its initialization and dedicated imports.
+  Reviewed follow-up source edits restore `/skills`, query API versioning and
+  `Skills=V1Preview` headers, including pagination, on `beta.skills`. The
+  preservation guards require the complete destination surface and reject
+  unrelated client changes or stale root callers.
 - Classic modules that are plain delegating factories are regenerated from
   their resolved operations. A customized classic module (custom-only members,
   overloads, signature customizations, or factory behavior) is not
@@ -93,8 +104,13 @@ regeneration script falls back to it when the strict run fails.
   wrapper is retained, while the emitted parameter types and operation
   argument names are adopted. Altered forwarding or multiple matching calls
   still require review.
-  Relocating a customized member
-  out of its classic module requires review. A module whose API operations or
+  The reviewed voice GA split in `azure-rest-api-specs#47930` carries only the
+  existing `createFromPrompt`, conversation delete, and telephony write tracing
+  wrappers into their verified root destinations. Each wrapper must still call
+  its own customized baseline delegate exactly once with unchanged forwarding.
+  Factory tracing parameters and the local telephony `run` helper follow the
+  wrappers; campaigns and their `getCampaignResult` helper stay in beta telephony.
+  Other customized member relocations require review. A module whose API operations or
   options have unresolved changes is not rendered; the unresolved change is
   reported rather than a secondary `missing resolved operation` error from the
   classic module.
@@ -107,6 +123,18 @@ regeneration script falls back to it when the strict run fails.
   request variants still use the two prior values; other full-union replacements
   require an explicit policy. Equivalent filter-alias and wire-discriminator
   representation fixes are similarly limited to their known schemas.
+  The evaluation run data-source renames from `azure-rest-api-specs#48159`
+  (`AzureAITraceDataSourceEvalRunDataSource`,
+  `AzureAITraceDataSourcePreviewEvalRunDataSource`, and `EvalCsvRunDataSource`
+  to `TraceSourceEvalRunDataSource`, `TraceSourcePreviewEvalRunDataSource`, and
+  `CsvEvalRunDataSource`) are approved the same way: their union dispatch cases
+  follow the renamed converters, and the maintained root and model barrel
+  exports follow the new names. Only an approved, verified rename waives the
+  lost-export guard; the renamed export must still be present.
+  An unapproved rename of a discriminated model whose discriminator is unchanged
+  still fails on that union converter case with
+  `Conflicting additions with no common baseline`: retention keeps the old
+  model's dispatch while the emitter adds the new model's dispatch.
 - Preview opt-ins are sent as constant `foundry-features` headers rather than
   the emitter's optional `foundryFeatures` option. The emitted optional header
   is normalized into the customized constant form before merging, so a changed
@@ -116,10 +144,21 @@ regeneration script falls back to it when the strict run fails.
   the opt-in beside the forwarded `options.requestOptions.headers` return to
   the emitted poller shape, and other maintained poll headers are kept. A
   preview header the emitter never sent is a customization and stays.
+  The reviewed GA call-job deletion promotion is a scoped exception: its old
+  required constant becomes the emitted optional SIP opt-in, while custom
+  headers continue to be forwarded. Unreviewed required-to-optional transitions
+  still use the standing constant-header policy.
 - A custom-only declaration or export may reuse a generated name the
   customization renamed away, for example a compatibility alias. It is retained
   beside the renamed declaration rather than collapsed into it, and a
   custom-only alias of an emitted model follows that model's emitted shape.
+  The historical `Tool*` identities restored by
+  [Azure/azure-rest-api-specs#47872](https://github.com/Azure/azure-rest-api-specs/pull/47872)
+  have explicit model, converter, and helper mappings because those aliases
+  prevent structural rename discovery. A reused name must be the corresponding
+  compatibility alias, not an independent declaration. Restored tool helpers
+  merge their actual union variants into the released inline property types;
+  customized toolbox and voice converter calls remain unchanged.
 - Models are inventoried across the entire emitted model tree. Moving a model
   into another generated module does not mean it was removed. The customized
   model module `src/models/models.ts` remains canonical and `src/models/index.ts`
@@ -134,8 +173,10 @@ regeneration script falls back to it when the strict run fails.
   The explicitly approved exception for the data-generation configuration
   migration (azure-rest-api-specs#46941) adopts the upstream
   `DataGenerationJobType` values: `simple_qna`, `traces`, `tool_use`, and
-  `simulation_seed`, without the customized `task_generation` value. The policy
-  validates these exact values; future discriminator changes still require review.
+  `simulation_seed`, plus `conversations` when emitted
+  (azure-rest-api-specs#47368), without the customized `task_generation` value.
+  The output must match the emitted values exactly; other discriminator changes
+  still require review.
   Retire renamed options/output-target declarations with the generated-model
   removal synchronizer, including dependent legacy task-generation models.
 - Existing package-specific naming, error-model, streaming, JSON Schema,
@@ -151,6 +192,11 @@ regeneration script falls back to it when the strict run fails.
   unmodified generated export of a group module the emitter removed, for
   example when its operations were merged into another group, is removed rather
   than retained as a compatibility alias.
+- Root voice-agent client wiring uses the maintained beta cognitive authentication
+  context and tracing configuration. The constructor, OpenAI setup, and user-agent
+  tokens are otherwise unchanged. The parity guard permits only verified unused
+  promoted voice options and fully promoted group removals; campaign and Live
+  options remain beta.
 
 The guard phase checks syntax/conflict markers, declaration/member completeness,
 customized exports, and protected behavior. These structural checks complement,
