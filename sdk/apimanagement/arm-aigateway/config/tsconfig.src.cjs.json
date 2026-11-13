@@ -6,7 +6,18 @@
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
+    "../src/api/aiGatewayWorkspaceModelOperations/index.ts",
+    "../src/api/aiGatewayApiKeyResources/index.ts",
+    "../src/api/aiGatewayToolServerResources/index.ts",
+    "../src/api/aiGatewayModelResources/index.ts",
+    "../src/api/aiGatewayModelProviderResources/index.ts",
+    "../src/api/aiGatewayWorkspaceResources/index.ts",
+    "../src/api/aiGatewayPrivateLinkResources/index.ts",
+    "../src/api/aiGatewayPrivateEndpointConnections/index.ts",
     "../src/api/aiGatewayResources/index.ts",
+    "../src/api/aiGatewayAliasResources/index.ts",
+    "../src/api/aiGatewayTelemetryExporterResources/index.ts",
+    "../src/api/aiGatewayNameAvailabilityOperations/index.ts",
     "../src/api/operations/index.ts",
     "../src/models/index.ts"
   ]

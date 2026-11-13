@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a AiGatewayResource
  *
  * @summary update a AiGatewayResource
- * x-ms-original-file: 2026-09-01-preview/AiGatewayUpdate.json
+ * x-ms-original-file: 2026-11-01/AiGatewayUpdate.json
  */
 async function updateAIGatewayTagsAndSKU(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,7 +16,8 @@ async function updateAIGatewayTagsAndSKU(): Promise<void> {
   const client = new ApiManagementClient(credential, subscriptionId);
   const result = await client.aiGatewayResources.update("example-rg", "example-gateway", "*", {
     tags: { environment: "production" },
-    sku: { name: "AIGateway" },
+    sku: { name: "Standard" },
+    properties: { publicNetworkAccess: "Disabled" },
   });
   console.log(result);
 }

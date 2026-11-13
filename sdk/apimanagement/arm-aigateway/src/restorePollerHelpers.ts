@@ -4,8 +4,12 @@
 import type { ApiManagementClient } from "./apiManagementClient.js";
 import {
   _$deleteDeserialize,
-  _updateDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/aiGatewayPrivateEndpointConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeAiGatewayResources,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAiGatewayResources,
 } from "./api/aiGatewayResources/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -77,12 +81,22 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}/privateEndpointConnections/{privateEndpointConnectionName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}":
+    {
+      deserializer: _$deleteDeserializeAiGatewayResources,
+      expectedStatuses: ["202", "204", "200"],
+    },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/aigateways/{aiGatewayName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+    {
+      deserializer: _createOrUpdateDeserializeAiGatewayResources,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apimanagement/arm-aigateway)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-aigateway)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-aigateway?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-aigateway)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apimanagement/arm-aigateway/samples)
 
 ## Getting started
