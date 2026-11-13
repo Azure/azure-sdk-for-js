@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of racks in the provided subscription.
  *
  * @summary get a list of racks in the provided subscription.
- * x-ms-original-file: 2026-07-01/Racks_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/Racks_ListBySubscription.json
  */
 async function listRacksForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided storage appliance.
  *
  * @summary get properties of the provided storage appliance.
- * x-ms-original-file: 2026-07-01/StorageAppliances_Get.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_Get.json
  */
 async function getStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided virtual machine console.
  *
  * @summary delete the provided virtual machine console.
- * x-ms-original-file: 2026-07-01/Consoles_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/Consoles_Delete.json
  */
 async function deleteVirtualMachineConsole(): Promise<void> {
   const credential = new DefaultAzureCredential();

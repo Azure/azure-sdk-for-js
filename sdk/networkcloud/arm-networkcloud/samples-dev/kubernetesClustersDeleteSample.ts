@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided Kubernetes cluster.
  *
  * @summary delete the provided Kubernetes cluster.
- * x-ms-original-file: 2026-07-01/KubernetesClusters_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusters_Delete.json
  */
 async function deleteKubernetesCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

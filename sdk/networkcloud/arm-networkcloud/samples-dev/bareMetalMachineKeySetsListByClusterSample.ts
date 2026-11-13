@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of bare metal machine key sets for the provided cluster.
  *
  * @summary get a list of bare metal machine key sets for the provided cluster.
- * x-ms-original-file: 2026-07-01/BareMetalMachineKeySets_ListByCluster.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachineKeySets_ListByCluster.json
  */
 async function listBareMetalMachineKeySetsOfTheCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

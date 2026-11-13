@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to run the command or the script on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
  *
  * @summary run the command or the script on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_RunCommand.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_RunCommand.json
  */
 async function runCommandOnBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

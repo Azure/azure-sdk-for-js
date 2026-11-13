@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of baseboard management controller key sets for the provided cluster.
  *
  * @summary get a list of baseboard management controller key sets for the provided cluster.
- * x-ms-original-file: 2026-07-01/BmcKeySets_ListByCluster.json
+ * x-ms-original-file: 2026-08-01-preview/BmcKeySets_ListByCluster.json
  */
 async function listBaseboardManagementControllerKeySetsOfTheCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
