@@ -144,9 +144,6 @@ export interface CloudToDeviceProperties {
 }
 
 // @public
-export type ConnectionProfile = string;
-
-// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -183,12 +180,6 @@ export interface DeviceRegistryLinkingProperties {
 
 // @public
 export type DeviceRegistryLinkingState = string;
-
-// @public
-export interface EncryptionPropertiesDescription {
-    keySource?: string;
-    keyVaultProperties?: KeyVaultKeyProperties[];
-}
 
 // @public
 export interface EndpointHealthData {
@@ -268,8 +259,11 @@ export interface FallbackRouteProperties {
     endpointNames: string[];
     isEnabled: boolean;
     name?: string;
-    source: RoutingSource;
+    source: FallbackRouteSource;
 }
+
+// @public
+export type FallbackRouteSource = string;
 
 // @public
 export interface FeedbackProperties {
@@ -385,41 +379,30 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
-    connectionProfile?: ConnectionProfile;
     readonly deviceHostName?: string;
     readonly deviceRegistry?: DeviceRegistry;
-    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
-    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: Record<string, EventHubProperties>;
     features?: Capabilities;
     readonly hostName?: string;
     readonly iotHubDetails?: IotHubDetails;
     ipFilterRules?: IpFilterRule[];
-    ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: Record<string, MessagingEndpointProperties>;
     minTlsVersion?: string;
-    mqttV5Settings?: MqttV5Settings;
     networkRuleSets?: NetworkRuleSetProperties;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
-    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly serviceHostName?: string;
     readonly state?: string;
     storageEndpoints?: Record<string, StorageEndpointProperties>;
-}
-
-// @public
-export interface IotHubPropertiesDeviceStreams {
-    streamingEndpoints?: string[];
 }
 
 // @public
@@ -600,9 +583,6 @@ export interface IpFilterRule {
     ipMask: string;
 }
 
-// @public
-export type IpVersion = string;
-
 export { isRestError }
 
 // @public
@@ -624,12 +604,6 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 export type JobType = string;
 
 // @public
-export interface KeyVaultKeyProperties {
-    identity?: ManagedIdentity;
-    keyIdentifier?: string;
-}
-
-// @public
 export enum KnownAuthenticationType {
     IdentityBased = "identityBased",
     KeyBased = "keyBased"
@@ -639,12 +613,6 @@ export enum KnownAuthenticationType {
 export enum KnownCapabilities {
     DeviceManagement = "DeviceManagement",
     None = "None"
-}
-
-// @public
-export enum KnownConnectionProfile {
-    Classic = "Classic",
-    MqttV5 = "MqttV5"
 }
 
 // @public
@@ -690,6 +658,11 @@ export enum KnownEventStreamAuthenticationType {
 }
 
 // @public
+export enum KnownFallbackRouteSource {
+    DeviceMessages = "DeviceMessages"
+}
+
+// @public
 export enum KnownGatewayVersion {
     V1 = "V1",
     V2 = "V2"
@@ -713,13 +686,6 @@ export enum KnownIotHubSku {
 }
 
 // @public
-export enum KnownIpVersion {
-    Ipv4 = "ipv4",
-    Ipv4Ipv6 = "ipv4ipv6",
-    Ipv6 = "ipv6"
-}
-
-// @public
 export enum KnownJobType {
     Backup = "backup",
     Export = "export",
@@ -731,12 +697,6 @@ export enum KnownJobType {
     Unknown = "unknown",
     UpdateDeviceConfiguration = "updateDeviceConfiguration",
     WriteDeviceProperties = "writeDeviceProperties"
-}
-
-// @public
-export enum KnownMessagePayloadFormat {
-    DOObservationV1 = "DOObservationV1",
-    None = "None"
 }
 
 // @public
@@ -770,9 +730,7 @@ export enum KnownRoutingSource {
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
     DeviceMessages = "DeviceMessages",
-    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
-    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
@@ -792,9 +750,7 @@ export enum KnownTestResultStatus {
 
 // @public
 export enum KnownVersions {
-    V20260301Preview = "2026-03-01-preview",
-    V20260501Preview = "2026-05-01-preview",
-    V20261001Preview = "2026-10-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -808,18 +764,10 @@ export interface MatchedRoute {
 }
 
 // @public
-export type MessagePayloadFormat = string;
-
-// @public
 export interface MessagingEndpointProperties {
     lockDurationAsIso8601?: string;
     maxDeliveryCount?: number;
     ttlAsIso8601?: string;
-}
-
-// @public
-export interface MqttV5Settings {
-    topicGroups?: TopicGroup[];
 }
 
 // @public
@@ -1011,12 +959,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export interface RootCertificateProperties {
-    enableRootCertificateV2?: boolean;
-    readonly lastUpdatedTimeUtc?: Date;
-}
-
-// @public
 export interface RouteCompilationError {
     location?: RouteErrorRange;
     message?: string;
@@ -1041,7 +983,6 @@ export type RouteErrorSeverity = string;
 // @public
 export interface RouteProperties {
     condition?: string;
-    dataSchema?: string;
     endpointNames: string[];
     isEnabled: boolean;
     name: string;
@@ -1056,7 +997,6 @@ export interface RoutingCosmosDBSqlApiProperties {
     endpointUri: string;
     readonly id?: string;
     identity?: ManagedIdentity;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     partitionKeyName?: string;
     partitionKeyTemplate?: string;
@@ -1084,7 +1024,6 @@ export interface RoutingEventHubProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1098,7 +1037,6 @@ export interface RoutingEventStreamProperties {
     eventStreamId?: string;
     readonly id?: string;
     identity?: ManagedIdentity;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     sourceId?: string;
     workspaceId?: string;
@@ -1127,7 +1065,6 @@ export interface RoutingServiceBusQueueEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1141,7 +1078,6 @@ export interface RoutingServiceBusTopicEndpointProperties {
     entityPath?: string;
     id?: string;
     identity?: ManagedIdentity;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1162,7 +1098,6 @@ export interface RoutingStorageContainerProperties {
     id?: string;
     identity?: ManagedIdentity;
     maxChunkSizeInBytes?: number;
-    messagePayloadFormat?: MessagePayloadFormat;
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
@@ -1269,12 +1204,6 @@ export interface TestRouteResult {
 // @public
 export interface TestRouteResultDetails {
     compilationErrors?: RouteCompilationError[];
-}
-
-// @public
-export interface TopicGroup {
-    topicGroupId?: string;
-    topicTemplates?: string[];
 }
 
 // @public

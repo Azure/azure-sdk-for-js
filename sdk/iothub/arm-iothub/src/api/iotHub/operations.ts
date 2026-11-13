@@ -24,7 +24,7 @@ export function _manualFailoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       iotHubName: iotHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,6 @@ export function manualFailover(
     getInitialResponse: () =>
       _manualFailoverSend(context, iotHubName, resourceGroupName, failoverInput, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }

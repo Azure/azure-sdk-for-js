@@ -20,7 +20,7 @@ export function _getSubscriptionQuotaSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/usages{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
