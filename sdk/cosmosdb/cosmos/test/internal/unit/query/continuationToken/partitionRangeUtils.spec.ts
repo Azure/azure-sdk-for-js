@@ -353,18 +353,46 @@ describe("PartitionRangeUtils", () => {
         assert.equal(range2.hashedLastResult, "hash_2");
       });
 
-      it("should handle null items in buffer", async () => {
+      it("should hash null last item for resume (falsy value regression)", async () => {
         const bufferWithNull = [{ id: 1, value: "a" }, null, { id: 3, value: "c" }];
         mockPartitionKeyRangeMap.set("range1", { ...mockRangeMapping, itemCount: 2 });
 
+        // Range covers indices 0 and 1, last item is null
         const result = await processDistinctQueryAndUpdateRangeMap(
           bufferWithNull,
           mockPartitionKeyRangeMap,
-          mockHashFunction,
+          async (item: any) => (item === null ? "hash_null" : `hash_${item.id}`),
         );
         const range = result.get("range1");
 
-        assert.isUndefined(range.hashedLastResult); // null item should not generate hash
+        assert.equal(range.hashedLastResult, "hash_null"); // null now generates hash
+      });
+
+      it("should hash falsy last items (0, false, '') for resume regression", async () => {
+        const falsyCases: [any[], any][] = [
+          [[0, 0], 0],
+          [[false, false], false],
+          [["", ""], ""],
+        ];
+
+        for (const [buffer, lastItem] of falsyCases) {
+          mockPartitionKeyRangeMap.set("range1", { ...mockRangeMapping, itemCount: buffer.length });
+
+          const result = await processDistinctQueryAndUpdateRangeMap(
+            buffer,
+            mockPartitionKeyRangeMap,
+            async (item: any) => `hash_${String(item)}`,
+          );
+          const range = result.get("range1");
+
+          assert.equal(
+            range.hashedLastResult,
+            `hash_${String(lastItem)}`,
+            `Expected hash for falsy last item ${String(lastItem)}`,
+          );
+
+          mockPartitionKeyRangeMap.clear();
+        }
       });
 
       it("should handle async hash function errors gracefully", async () => {
