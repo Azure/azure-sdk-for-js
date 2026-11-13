@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2026-11-01/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: 2026-11-02-preview/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,10 +23,12 @@ async function createAnUpdateRun(): Promise<void> {
           {
             name: "stage1",
             maxConcurrency: "10",
+            maxAllowedFailures: "2",
             groups: [
               {
                 name: "group-a",
                 maxConcurrency: "2",
+                maxAllowedFailures: "1",
                 memberSelector: { byLabel: "tier=frontend" },
                 beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
                 afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
@@ -39,6 +41,7 @@ async function createAnUpdateRun(): Promise<void> {
           {
             name: "stage2",
             maxConcurrency: "50%",
+            maxAllowedFailures: "25%",
             memberSelector: { byLabel: "env=production" },
             beforeGates: [
               {

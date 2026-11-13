@@ -18,6 +18,11 @@ import {
   _$deleteDeserialize as _$deleteDeserializeUpdateRuns,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeUpdateRuns,
 } from "./api/updateRuns/operations.js";
+import {
+  _applyDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeIdentityBindingProfiles,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeIdentityBindingProfiles,
+} from "./api/identityBindingProfiles/operations.js";
 import { _updateDeserialize } from "./api/gates/operations.js";
 import {
   _updateDeserialize as _updateDeserializeFleetManagedNamespaces,
@@ -35,7 +40,7 @@ import {
   _createDeserialize as _createDeserializeFleets,
 } from "./api/fleets/operations.js";
 import {
-  _applyDeserialize,
+  _applyDeserialize as _applyDeserializeClusterMeshProfiles,
   _$deleteDeserialize as _$deleteDeserializeClusterMeshProfiles,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeClusterMeshProfiles,
 } from "./api/clusterMeshProfiles/operations.js";
@@ -135,6 +140,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeUpdateRuns, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}":
     { deserializer: _createOrUpdateDeserializeUpdateRuns, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/identityBindingProfiles/{identityBindingProfileName}/apply":
+    { deserializer: _applyDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/identityBindingProfiles/{identityBindingProfileName}":
+    {
+      deserializer: _$deleteDeserializeIdentityBindingProfiles,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/identityBindingProfiles/{identityBindingProfileName}":
+    {
+      deserializer: _createOrUpdateDeserializeIdentityBindingProfiles,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/gates/{gateName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/managedNamespaces/{managedNamespaceName}":
@@ -165,7 +182,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}":
     { deserializer: _createDeserializeFleets, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}/apply":
-    { deserializer: _applyDeserialize, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _applyDeserializeClusterMeshProfiles, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/clusterMeshProfiles/{clusterMeshProfileName}":
     {
       deserializer: _$deleteDeserializeClusterMeshProfiles,

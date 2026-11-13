@@ -1,5 +1,48 @@
 # Release History
 
+## 2.3.0-beta.1 (2026-11-13)
+Compared with version 2.2.0
+
+### Features Added
+  - Added operation group IdentityBindingProfilesOperations
+  - Added Interface AllowedSubject
+  - Added Interface IdentityBindingLabelSelector
+  - Added Interface IdentityBindingLabelSelectorRequirement
+  - Added Interface IdentityBindingManagedIdentityProfile
+  - Added Interface IdentityBindingOidcIssuerProfile
+  - Added Interface IdentityBindingProfile
+  - Added Interface IdentityBindingProfileProperties
+  - Added Interface IdentityBindingProfilesApplyOptionalParams
+  - Added Interface IdentityBindingProfilesCreateOrUpdateOptionalParams
+  - Added Interface IdentityBindingProfilesDeleteOptionalParams
+  - Added Interface IdentityBindingProfilesGetOptionalParams
+  - Added Interface IdentityBindingProfilesListByFleetOptionalParams
+  - Added Interface IdentityBindingProfileStatus
+  - Added Interface IdentityBindingProperties
+  - Interface UpdateGroup has a new optional parameter maxAllowedFailures
+  - Interface UpdateGroupStatus has a new optional parameter failureCount
+  - Interface UpdateGroupStatus has a new optional parameter maxAllowedFailures
+  - Interface UpdateRunStatus has a new optional parameter failureCount
+  - Interface UpdateStage has a new optional parameter maxAllowedFailures
+  - Interface UpdateStageStatus has a new optional parameter failureCount
+  - Interface UpdateStageStatus has a new optional parameter maxAllowedFailures
+  - Added Type Alias IdentityBindingLabelSelectorOperator
+  - Added Type Alias IdentityBindingProfileProvisioningState
+  - Added Enum KnownIdentityBindingLabelSelectorOperator
+  - Added Enum KnownIdentityBindingProfileProvisioningState
+  - Enum KnownVersions has a new value V20220902Preview
+  - Enum KnownVersions has a new value V20230315Preview
+  - Enum KnownVersions has a new value V20230615Preview
+  - Enum KnownVersions has a new value V20230815Preview
+  - Enum KnownVersions has a new value V20240202Preview
+  - Enum KnownVersions has a new value V20240502Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20260201Preview
+  - Enum KnownVersions has a new value V20260302Preview
+  - Enum KnownVersions has a new value V20260602Preview
+  - Enum KnownVersions has a new value V20261102Preview
+
 ## 2.2.0 (2026-11-11)
 
 ### Features Added

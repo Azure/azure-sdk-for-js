@@ -8,6 +8,7 @@ exports:
   "./api/autoUpgradeProfiles": "./src/api/autoUpgradeProfiles/index.ts"
   "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts"
   "./api/updateRuns": "./src/api/updateRuns/index.ts"
+  "./api/identityBindingProfiles": "./src/api/identityBindingProfiles/index.ts"
   "./api/gates": "./src/api/gates/index.ts"
   "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts"
   "./api/fleetMembers": "./src/api/fleetMembers/index.ts"

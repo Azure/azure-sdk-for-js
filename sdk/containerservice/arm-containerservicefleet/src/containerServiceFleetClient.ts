@@ -22,6 +22,8 @@ import type { FleetsOperations } from "./classic/fleets/index.js";
 import { _getFleetsOperations } from "./classic/fleets/index.js";
 import type { GatesOperations } from "./classic/gates/index.js";
 import { _getGatesOperations } from "./classic/gates/index.js";
+import type { IdentityBindingProfilesOperations } from "./classic/identityBindingProfiles/index.js";
+import { _getIdentityBindingProfilesOperations } from "./classic/identityBindingProfiles/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { UpdateRunsOperations } from "./classic/updateRuns/index.js";
@@ -48,6 +50,7 @@ export class ContainerServiceFleetClient {
     this.autoUpgradeProfiles = _getAutoUpgradeProfilesOperations(this._client);
     this.fleetUpdateStrategies = _getFleetUpdateStrategiesOperations(this._client);
     this.updateRuns = _getUpdateRunsOperations(this._client);
+    this.identityBindingProfiles = _getIdentityBindingProfilesOperations(this._client);
     this.gates = _getGatesOperations(this._client);
     this.fleetManagedNamespaces = _getFleetManagedNamespacesOperations(this._client);
     this.fleetMembers = _getFleetMembersOperations(this._client);
@@ -64,6 +67,8 @@ export class ContainerServiceFleetClient {
   public readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
   /** The operation groups for updateRuns */
   public readonly updateRuns: UpdateRunsOperations;
+  /** The operation groups for identityBindingProfiles */
+  public readonly identityBindingProfiles: IdentityBindingProfilesOperations;
   /** The operation groups for gates */
   public readonly gates: GatesOperations;
   /** The operation groups for fleetManagedNamespaces */
