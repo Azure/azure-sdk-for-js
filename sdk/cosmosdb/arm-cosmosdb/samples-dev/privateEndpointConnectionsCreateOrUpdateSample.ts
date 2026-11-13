@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve or reject a private endpoint connection with a given name.
  *
  * @summary approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBPrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBPrivateEndpointConnectionUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,8 +20,8 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promis
     "privateEndpointConnectionName",
     {
       privateLinkServiceConnectionState: {
-        description: "Approved by johndoe@contoso.com",
         status: "Approved",
+        description: "Approved by johndoe@contoso.com",
       },
     },
   );
