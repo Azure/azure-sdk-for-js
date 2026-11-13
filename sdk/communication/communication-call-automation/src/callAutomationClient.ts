@@ -121,7 +121,7 @@ export class CallAutomationClient {
 
     this.credential = credential;
     this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy, { phase: "Sign" });
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }

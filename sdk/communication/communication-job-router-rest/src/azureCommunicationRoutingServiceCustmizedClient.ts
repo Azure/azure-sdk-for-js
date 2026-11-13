@@ -59,7 +59,7 @@ export default function createClient(
   const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
   const client = createGeneratedClient(url, options);
   const authPolicy = createCommunicationAuthPolicy(credential);
-  client.pipeline.addPolicy(authPolicy);
+  client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
 
   return client;
 }

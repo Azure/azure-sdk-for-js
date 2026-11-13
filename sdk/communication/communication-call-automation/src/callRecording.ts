@@ -38,7 +38,7 @@ export class CallRecording {
   ) {
     this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy, { phase: "Sign" });
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);

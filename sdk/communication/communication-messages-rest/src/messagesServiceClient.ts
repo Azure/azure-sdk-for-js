@@ -56,7 +56,7 @@ export default function createClient(
 
   if (!isTokenCredential(credential)) {
     const authPolicy = createCommunicationAuthPolicy(credential);
-    client.pipeline.addPolicy(authPolicy);
+    client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
   }
 
   return client;
