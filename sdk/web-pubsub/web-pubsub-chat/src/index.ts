@@ -3,12 +3,12 @@
 
 /**
  * The Azure Web PubSub Chat client library enables server applications to manage chat roles,
- * users, rooms, room membership, conversations, and messages in an Azure Web PubSub Chat hub.
+ * users, rooms, topics, room membership, conversations, and messages in an Azure Web PubSub Chat hub.
  *
  * @packageDocumentation
  */
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -21,28 +21,41 @@ export { BuiltInChatRoles } from "./builtInChatRoles.js";
 export type {
   ChatConversation,
   ChatMessage,
-  ChatMessageInput,
+  ChatMessageUpdate,
   MessageContent,
   ChatRole,
-  ChatRoleInput,
+  ChatRoleCreateOrReplace,
   ChatPermission,
   ChatRoom,
-  ChatRoomInput,
+  ChatRoomCreateOrReplace,
+  ChatTopic,
+  ChatTopicCreateOrReplace,
+  ChatTopicUpdate,
+  ChatTopicState,
+  ChatUserRoom,
   ChatRoomMember,
-  ChatRoomMemberInput,
+  ChatRoomMemberCreateOrReplace,
   ChatUser,
-  ChatUserInput,
-  ChatUserInputUnion,
   ChatUserUnion,
   ChatUserKind,
-  HumanChatUserInput,
+  HumanChatUserCreateOrReplace,
+  ChatUserCreateOrReplace,
+  ChatUserCreateOrReplaceUnion,
   HumanChatUser,
 } from "./models/index.js";
-export { KnownChatPermission, KnownVersions } from "./models/index.js";
+export { KnownChatPermission, KnownChatTopicState, KnownVersions } from "./models/index.js";
 export type {
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
+  ListUsersOptionalParams,
+  ListRoomsOptionalParams,
+  ListRoomsForUserOptionalParams,
+  ListTopicsOptionalParams,
+  CreateOrReplaceTopicOptionalParams,
+  GetTopicOptionalParams,
+  UpdateTopicOptionalParams,
+  DeleteTopicOptionalParams,
   DeleteRoomMemberOptionalParams,
   CreateOrReplaceRoomMemberOptionalParams,
   ListRoomMembersOptionalParams,
