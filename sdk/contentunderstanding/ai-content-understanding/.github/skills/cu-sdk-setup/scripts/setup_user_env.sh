@@ -189,7 +189,7 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
         pass "pnpm $(pnpm --version)"
     else
         warn "pnpm not found (only required for --local build path)."
-        info "  Install with: npm install -g pnpm"
+        info "  Install with: npm install -g --allow-scripts=pnpm pnpm"
     fi
 fi
 
@@ -480,7 +480,7 @@ install_npm() {
 install_local() {
     if ! command -v pnpm >/dev/null 2>&1; then
         fail "pnpm is required for local build but was not found."
-        info "  Install with: npm install -g pnpm"
+        info "  Install with: npm install -g --allow-scripts=pnpm pnpm"
         return 1
     fi
     info "  Building $PACKAGE_NAME locally..."

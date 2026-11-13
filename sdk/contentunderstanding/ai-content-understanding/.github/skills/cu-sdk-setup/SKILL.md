@@ -439,7 +439,7 @@ cp .env samples/v1/javascript/.env
 | `Access denied due to invalid subscription key`                   | Verify `CONTENTUNDERSTANDING_ENDPOINT` URL is correct. Check API key or run `az login`.                                     |
 | `Model deployment not found`                                      | Deploy required models in Microsoft Foundry. Run `updateDefaults.js`.                                                       |
 | `Cognitive Services User role not assigned`                       | Add the role in Azure Portal → Your resource → Access Control (IAM).                                                        |
-| `pnpm: command not found` (only on `--local` install path)        | Install with `npm install -g pnpm`.                                                                                         |
+| `pnpm: command not found` (only on `--local` install path)        | Install with `npm install -g --allow-scripts=pnpm pnpm`.                                                                                         |
 
 ## Related Skills
 
