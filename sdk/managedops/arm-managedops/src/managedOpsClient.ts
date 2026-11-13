@@ -10,7 +10,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
+export type { ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
 
 export class ManagedOpsClient {
   private _client: ManagedOpsContext;
@@ -23,14 +23,7 @@ export class ManagedOpsClient {
     subscriptionId: string,
     options: ManagedOpsClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createManagedOps(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createManagedOps(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.managedOps = _getManagedOpsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
