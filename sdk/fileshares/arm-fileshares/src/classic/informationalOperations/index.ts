@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileSharesContext } from "../../api/fileSharesContext.js";
+import type { FileSharesContext } from "../../api/fileSharesContext.js";
 import {
   getProvisioningRecommendation,
   getLimits,
   getUsageData,
 } from "../../api/informationalOperations/operations.js";
-import {
+import type {
   InformationalOperationsGetProvisioningRecommendationOptionalParams,
   InformationalOperationsGetLimitsOptionalParams,
   InformationalOperationsGetUsageDataOptionalParams,
 } from "../../api/informationalOperations/options.js";
-import {
+import type {
   FileShareUsageDataResponse,
   FileShareLimitsResponse,
   FileShareProvisioningRecommendationRequest,

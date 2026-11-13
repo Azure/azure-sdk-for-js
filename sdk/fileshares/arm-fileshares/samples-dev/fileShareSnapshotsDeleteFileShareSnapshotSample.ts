@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a FileShareSnapshot.
  *
  * @summary delete a FileShareSnapshot.
- * x-ms-original-file: 2026-06-01/FileShareSnapshot_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShareSnapshot_Delete_MaximumSet_Gen.json
  */
 async function fileShareSnapshotDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

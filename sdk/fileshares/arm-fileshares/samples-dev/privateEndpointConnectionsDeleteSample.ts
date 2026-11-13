@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the file share.
  *
  * @summary deletes the specified private endpoint connection associated with the file share.
- * x-ms-original-file: 2026-06-01/PrivateEndpointConnections_Delete.json
+ * x-ms-original-file: 2026-09-01/PrivateEndpointConnections_Delete.json
  */
 async function privateEndpointConnectionsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

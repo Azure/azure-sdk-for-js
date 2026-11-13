@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface FileSharesGetRedundancyConversionStatusOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface FileSharesStartRedundancyConversionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FileSharesCheckNameAvailabilityOptionalParams extends OperationOptions {}

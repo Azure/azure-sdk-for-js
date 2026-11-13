@@ -1,37 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileSharesContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { FileSharesContext as Client } from "../index.js";
+import type {
   FileShareSnapshot,
-  fileShareSnapshotSerializer,
-  fileShareSnapshotDeserializer,
   FileShareSnapshotUpdate,
-  fileShareSnapshotUpdateSerializer,
   _FileShareSnapshotListResult,
-  _fileShareSnapshotListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  fileShareSnapshotSerializer,
+  fileShareSnapshotDeserializer,
+  fileShareSnapshotUpdateSerializer,
+  _fileShareSnapshotListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FileShareSnapshotsListByFileShareOptionalParams,
   FileShareSnapshotsDeleteFileShareSnapshotOptionalParams,
   FileShareSnapshotsUpdateFileShareSnapshotOptionalParams,
   FileShareSnapshotsCreateOrUpdateFileShareSnapshotOptionalParams,
   FileShareSnapshotsGetFileShareSnapshotOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByFileShareSend(
   context: Client,
@@ -45,7 +41,7 @@ export function _listByFileShareSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +59,9 @@ export async function _listByFileShareDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -83,7 +81,7 @@ export function listByFileShare(
     () => _listByFileShareSend(context, resourceGroupName, resourceName, options),
     _listByFileShareDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -101,7 +99,7 @@ export function _deleteFileShareSnapshotSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +114,9 @@ export async function _deleteFileShareSnapshotDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -138,7 +138,7 @@ export function deleteFileShareSnapshot(
     getInitialResponse: () =>
       _deleteFileShareSnapshotSend(context, resourceGroupName, resourceName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +157,7 @@ export function _updateFileShareSnapshotSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +177,9 @@ export async function _updateFileShareSnapshotDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -207,7 +209,7 @@ export function updateFileShareSnapshot(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<FileShareSnapshot>, FileShareSnapshot>;
 }
 
@@ -226,7 +228,7 @@ export function _createOrUpdateFileShareSnapshotSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +247,9 @@ export async function _createOrUpdateFileShareSnapshotDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,7 +283,7 @@ export function createOrUpdateFileShareSnapshot(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-06-01",
+      apiVersion: context.apiVersion ?? "2026-09-01",
     },
   ) as PollerLike<OperationState<FileShareSnapshot>, FileShareSnapshot>;
 }
@@ -298,7 +302,7 @@ export function _getFileShareSnapshotSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +320,9 @@ export async function _getFileShareSnapshotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
