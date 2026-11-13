@@ -141,6 +141,42 @@ export function retainedModelBases(
     });
     if (kept.length === types.length) continue;
     if (!kept.length) {
+      // #46465 replaces telephony resource models, not these discriminator
+      // contracts. No virtual ancestor rewrite is needed when all three
+      // inputs retain exactly the approved literals. Changed values still
+      // require an explicit policy rather than silently retaining old values.
+      const telephonyValues = new Map([
+        ["TelephonyProvider", ["teams_phone_extensibility", "twilio", "sip"]],
+        ["TelephonyOutboundRetryPolicyType", ["fixed_interval"]],
+      ]);
+      const expected = telephonyValues.get(name);
+      if (
+        expected &&
+        !typeMembers.has(name) &&
+        [before, custom, incoming].every((declarations) => {
+          const declaration = declarations.get(name)?.node;
+          if (!declaration || !ts.isTypeAliasDeclaration(declaration)) return false;
+          const values = alternatives(declaration.type);
+          return (
+            values.length === expected.length &&
+            expected.every((value) =>
+              values.some(
+                (type) =>
+                  ts.isLiteralTypeNode(type) &&
+                  ts.isStringLiteral(type.literal) &&
+                  type.literal.text === value,
+              ),
+            ) &&
+            values.every(
+              (type) =>
+                ts.isLiteralTypeNode(type) &&
+                ts.isStringLiteral(type.literal) &&
+                expected.includes(type.literal.text),
+            )
+          );
+        })
+      )
+        continue;
       diagnostics.push({
         file: "models/models.ts",
         declaration: name,

@@ -3,11 +3,6 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  BetaAgentInsightMonitorsOperations,
-  _getBetaAgentInsightMonitorsOperations,
-} from "./agentInsightMonitors/index.js";
-import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
-import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
 } from "./evaluationTaxonomies/index.js";
@@ -35,8 +30,6 @@ export interface BetaOperations {
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
-  agents: BetaAgentsOperations;
   voiceAgents: BetaVoiceAgentsOperations;
 }
 
@@ -51,8 +44,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
-    agents: _getBetaAgentsOperations(context),
     voiceAgents: _getBetaVoiceAgentsOperations(context),
   };
 }

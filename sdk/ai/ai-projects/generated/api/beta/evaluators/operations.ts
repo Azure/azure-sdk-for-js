@@ -10,13 +10,21 @@ import {
   pendingUploadResponseDeserializer,
   DatasetCredential,
   datasetCredentialDeserializer,
+  _CompletedEvaluatorDiagnosticsPage,
+  _completedEvaluatorDiagnosticsPageDeserializer,
+  EvaluatorDiagnosticUnion,
   EvaluatorCredentialRequest,
   evaluatorCredentialRequestSerializer,
 } from "../../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   BetaEvaluatorsGetCredentialsOptionalParams,
   BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsListDiagnosticsOptionalParams,
 } from "./options.js";
 import {
   StreamableMethod,
@@ -135,4 +143,85 @@ export async function pendingUpload(
 ): Promise<PendingUploadResponse> {
   const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
+}
+
+export function _listDiagnosticsSend(
+  context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/diagnostics{?after,before,limit,order,start_time,end_time,evaluator_version,dimension_id,type*,api%2Dversion}",
+    {
+      name: name,
+      after: options?.after,
+      before: options?.before,
+      limit: options?.limit,
+      order: options?.order,
+      start_time: !options?.startTime
+        ? options?.startTime
+        : (options?.startTime.getTime() / 1000) | 0,
+      end_time: !options?.endTime ? options?.endTime : (options?.endTime.getTime() / 1000) | 0,
+      evaluator_version: options?.evaluatorVersion,
+      dimension_id: options?.dimensionId,
+      type: !options?.typeParam
+        ? options?.typeParam
+        : options?.typeParam.map((p: any) => {
+            return p;
+          }),
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listDiagnosticsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_CompletedEvaluatorDiagnosticsPage> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _completedEvaluatorDiagnosticsPageDeserializer(result.body);
+}
+
+/**
+ * Returns immutable publication lineage for the specified evaluator.
+ *
+ * Time, evaluator-version, dimension, and type filters are intersected.
+ * Returns recorded changes from completed evaluator version writes.
+ * Historical backfill and diagnostic calculation jobs are not included.
+ */
+export function listDiagnostics(
+  context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
+  name: string,
+  options: BetaEvaluatorsListDiagnosticsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluatorDiagnosticUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listDiagnosticsSend(context, foundryFeatures, name, options),
+    _listDiagnosticsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
 }
