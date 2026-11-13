@@ -1,3 +1,5 @@
 paths-ignore:
   # Published ARM samples duplicate samples-dev, which remains in scope.
   - "sdk/*/arm-*/samples/v*/**"
+  # Checked-in test recordings are fixtures, not SDK source.
+  - "sdk/*/*/recordings/**"
