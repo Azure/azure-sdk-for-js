@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  evaluateDeploymentPolicies,
   listModels,
   listUsages,
   listSkus,
@@ -16,7 +15,6 @@ export {
   get,
 } from "./operations.js";
 export type {
-  AccountsEvaluateDeploymentPoliciesOptionalParams,
   AccountsListModelsOptionalParams,
   AccountsListUsagesOptionalParams,
   AccountsListSkusOptionalParams,
