@@ -1,15 +1,24 @@
 # Release History
 
-## 4.11.0-beta.2 (Unreleased)
+## 4.11.0 (Unreleased)
 
 ### Features Added
 
+- Added support for service version `2026-04-01`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.11.0-beta.1) Added the `KeyClient.createExternalKey` method and the `ExternalKey` model to create a Managed HSM key backed by a key stored in an external key management system, along with the `externalKey` and read-only `keySize` properties on `KeyProperties`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.11.0-beta.1) Added the `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods, along with the `SecureKeyWrapAlgorithm`, `SecureKeyOperationResult`, `SecureWrapKeyOptions`, and `SecureUnwrapKeyOptions` types. Only supported on Managed HSM. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.11.0-beta.1) Added the `SecureWrapKey` and `SecureUnwrapKey` values to `KnownKeyOperations`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+
 ### Breaking Changes
+
+- These changes do not impact the API of stable versions such as 4.10.2. Only code written against a beta version such as 4.11.0-beta.1 may be affected. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 
 ### Bugs Fixed
 
 ### Other Changes
 
+- Key Vault API version `2026-04-01` is now the default. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
 
 ## 4.11.0-beta.1 (2026-07-07)

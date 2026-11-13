@@ -15,7 +15,7 @@ import { URL } from "url";
 import { describe, it, expect, beforeEach, afterEach, vi, type MockInstance } from "vitest";
 
 // Adding this to the source would change the public API.
-type ApiVersions = "7.2" | "7.3";
+type ApiVersions = "7.2" | "7.3" | "2026-04-01";
 
 const baseUrl = "https://managed_hsm.managedhsm.azure.net/";
 
@@ -72,7 +72,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async () => {
-      const serviceVersion = "7.2";
+      const serviceVersion = "2026-04-01";
       const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,
         httpClient: mockHttpClient,

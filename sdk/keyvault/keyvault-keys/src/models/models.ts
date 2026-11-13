@@ -88,6 +88,10 @@ export enum KnownJsonWebKeyOperation {
   WrapKey = "wrapKey",
   /** Indicates that the key can be used to unwrap another key. */
   UnwrapKey = "unwrapKey",
+  /** Indicates that the key can be used to securely wrap another key. */
+  SecureWrapKey = "secureWrapKey",
+  /** Indicates that the key can be used to securely unwrap another key. */
+  SecureUnwrapKey = "secureUnwrapKey",
   /** Indicates that the key can be imported during creation. */
   Import = "import",
   /** Indicates that the private component of the key can be exported. */
@@ -105,6 +109,8 @@ export enum KnownJsonWebKeyOperation {
  * **verify**: Indicates that the key can be used to verify. \
  * **wrapKey**: Indicates that the key can be used to wrap another key. \
  * **unwrapKey**: Indicates that the key can be used to unwrap another key. \
+ * **secureWrapKey**: Indicates that the key can be used to securely wrap another key. \
+ * **secureUnwrapKey**: Indicates that the key can be used to securely unwrap another key. \
  * **import**: Indicates that the key can be imported during creation. \
  * **export**: Indicates that the private component of the key can be exported.
  */
@@ -1209,10 +1215,8 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
-  /** The 2025-06-01-preview API version. */
-  V20250601Preview = "2025-06-01-preview",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
-  /** The 2026-01-01-preview API version. */
-  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }
