@@ -1311,7 +1311,13 @@ describe("2026-11-01-preview convenience integration", () => {
   });
 
   it("keeps explicit stable and earlier preview API versions", async () => {
-    for (const serviceVersion of ["2024-07-01", "2026-04-01", "2026-08-01-preview"]) {
+    for (const serviceVersion of [
+      "2024-07-01",
+      "2025-11-01-preview",
+      "2026-04-01",
+      "2026-05-01-preview",
+      "2026-08-01-preview",
+    ]) {
       const requests: PipelineRequest[] = [];
       const client = new SearchIndexClient(endpoint, credential, {
         ...mockOptions([{ body: { value: [] } }], requests),

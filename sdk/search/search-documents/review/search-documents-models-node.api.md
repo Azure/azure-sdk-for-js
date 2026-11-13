@@ -31,10 +31,7 @@ export enum KnownOperationState {
 
 // @public
 export enum KnownVersions {
-    V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
-    V20260501Preview = "2026-05-01-preview",
-    V20260801Preview = "2026-08-01-preview",
     V20261001 = "2026-10-01",
     V20261101Preview = "2026-11-01-preview"
 }

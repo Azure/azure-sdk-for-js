@@ -68,14 +68,8 @@ export function knowledgeBaseRetrievalStreamEventsDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-11-01-preview API version. */
-  V20251101Preview = "2025-11-01-preview",
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
-  /** The 2026-08-01-preview API version. */
-  V20260801Preview = "2026-08-01-preview",
   /** The 2026-10-01 API version. */
   V20261001 = "2026-10-01",
   /** The 2026-11-01-preview API version. */

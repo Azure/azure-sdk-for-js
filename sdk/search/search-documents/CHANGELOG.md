@@ -14,6 +14,10 @@
 - Added asynchronous File ingestion and replacement pollers, paged ingestion operation diagnostics, and file capacity/graph ingestion statistics. Pollers use `@azure/core-lro`; keep the poller unawaited to observe progress or call `pollUntilDone`.
 - Added protocol-level agentic queries, query options/diagnostics, `moreLikeThis`, GPT-6 model names, Content Understanding model options, OneLake security fields, ACL refresh settings, and expanded SharePoint content containers.
 
+### Breaking Changes
+
+- Removed the older preview constants `KnownVersions.V20251101Preview`, `V20260501Preview`, and `V20260801Preview` from `@azure/search-documents/models`. Callers using these constants must pass the corresponding API-version strings instead. The April and October GA constants remain available, and explicit older preview API-version strings remain accepted by the clients. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
+
 ### Bugs Fixed
 
 - Preserved binary-image vector query content through search and graph requests, guarded MCP and Work IQ sample cleanup, and corrected graph provenance and request-time query hints in the November sample. [#40458](https://github.com/Azure/azure-sdk-for-js/pull/40458)
