@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create the rai safety provider associated with the subscription.
  *
  * @summary create the rai safety provider associated with the subscription.
- * x-ms-original-file: 2026-11-01/PutRaiExternalSafetyProvider.json
+ * x-ms-original-file: 2026-11-15-preview/PutRaiExternalSafetyProvider.json
  */
 async function putRaiExternalSafetyProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list available SKUs for the requested Cognitive Services account
  *
  * @summary list available SKUs for the requested Cognitive Services account
- * x-ms-original-file: 2026-11-01/ListSkus.json
+ * x-ms-original-file: 2026-11-15-preview/ListSkus.json
  */
 async function listSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();

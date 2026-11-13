@@ -47,7 +47,7 @@ export function _batchDeleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +111,7 @@ export function _batchAddSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +173,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, raiBlocklistName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
+    },
   );
 }
 
@@ -234,7 +238,7 @@ export function _$deleteSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +283,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -300,7 +304,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,7 +372,7 @@ export function _getSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

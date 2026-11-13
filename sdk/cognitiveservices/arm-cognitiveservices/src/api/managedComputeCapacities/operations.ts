@@ -26,7 +26,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/managedComputeCapacities{?api%2Dversion,offer,acceleratorType,deploymentId,location}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
       offer: offer,
       acceleratorType: options?.acceleratorType,
       deploymentId: options?.deploymentId,
@@ -72,6 +72,10 @@ export function list(
     () => _listSend(context, offer, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
+    },
   );
 }

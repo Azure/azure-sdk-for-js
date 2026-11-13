@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Cognitive Services account specified by the parameters.
  *
  * @summary returns a Cognitive Services account specified by the parameters.
- * x-ms-original-file: 2026-11-01/GetAccount.json
+ * x-ms-original-file: 2026-11-15-preview/GetAccount.json
  */
 async function getAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAccount(): Promise<void> {
  * This sample demonstrates how to returns a Cognitive Services account specified by the parameters.
  *
  * @summary returns a Cognitive Services account specified by the parameters.
- * x-ms-original-file: 2026-11-01/GetAccountWithTrustedCertificateSources.json
+ * x-ms-original-file: 2026-11-15-preview/GetAccountWithTrustedCertificateSources.json
  */
 async function getAnAccountWithPrivateCATrust(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,289 @@
 # Release History
 
+## 9.1.0-beta.1 (2026-11-13)
+Compared with version 9.0.0
+
+### Features Added
+  - Added operation group AccountCostControlsOperations
+  - Added operation group AdapterDeploymentsOperations
+  - Added operation group ArcDeploymentsOperations
+  - Added operation group AttachedAksClustersOperations
+  - Added operation group ComputeOperationsOperations
+  - Added operation group ComputesOperations
+  - Added operation group ManagedComputeDeploymentsOperations
+  - Added operation group ManagedComputeUsagesOperationGroupOperations
+  - Added operation group ProjectCostControlsOperations
+  - Added operation group RaiBindingsOperations
+  - Added operation group RaiRegosOperations
+  - Added operation group WorkbenchesOperations
+  - Added operation AccountsOperations.evaluateDeploymentPolicies
+  - Added Interface AccountCostControl
+  - Added Interface AccountCostControlsCheckExistenceOptionalParams
+  - Added Interface AccountCostControlsCreateOrUpdateOptionalParams
+  - Added Interface AccountCostControlsDeleteOptionalParams
+  - Added Interface AccountCostControlsGetOptionalParams
+  - Added Interface AccountCostControlsListOptionalParams
+  - Added Interface AccountCostControlsUpdateOptionalParams
+  - Added Interface AccountsEvaluateDeploymentPoliciesOptionalParams
+  - Added Interface AdapterDeployment
+  - Added Interface AdapterDeploymentLastOperation
+  - Added Interface AdapterDeploymentProperties
+  - Added Interface AdapterDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface AdapterDeploymentsDeleteOptionalParams
+  - Added Interface AdapterDeploymentsGetOptionalParams
+  - Added Interface AdapterDeploymentsListOptionalParams
+  - Added Interface AgentHostingConfiguration
+  - Added Interface ArcDeployment
+  - Added Interface ArcDeploymentCpuMemoryResourceRequirements
+  - Added Interface ArcDeploymentCreateOrUpdateContent
+  - Added Interface ArcDeploymentKubernetesResources
+  - Added Interface ArcDeploymentModel
+  - Added Interface ArcDeploymentPatchCpuMemoryResourceRequirements
+  - Added Interface ArcDeploymentPatchKubernetesResources
+  - Added Interface ArcDeploymentProperties
+  - Added Interface ArcDeploymentProvisioningDetails
+  - Added Interface ArcDeploymentResourceRequirements
+  - Added Interface ArcDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface ArcDeploymentsDeleteOptionalParams
+  - Added Interface ArcDeploymentsGetOptionalParams
+  - Added Interface ArcDeploymentSku
+  - Added Interface ArcDeploymentsListOptionalParams
+  - Added Interface ArcDeploymentsUpdateOptionalParams
+  - Added Interface ArcDeploymentUpdate
+  - Added Interface ArcDeploymentUpdateProperties
+  - Added Interface ArcDeploymentVllmParameters
+  - Added Interface AttachedAksCluster
+  - Added Interface AttachedAksClusterAccountIdentityStatus
+  - Added Interface AttachedAksClusterAiManagerStatus
+  - Added Interface AttachedAksClusterCapabilityStatus
+  - Added Interface AttachedAksClusterConnectorRegistration
+  - Added Interface AttachedAksClusterExtensionConfiguration
+  - Added Interface AttachedAksClusterExtensionProfile
+  - Added Interface AttachedAksClusterHealthComponent
+  - Added Interface AttachedAksClusterHealthReason
+  - Added Interface AttachedAksClusterHealthStatus
+  - Added Interface AttachedAksClusterIdentityStatus
+  - Added Interface AttachedAksClusterIntegrationResourceStatus
+  - Added Interface AttachedAksClusterListItem
+  - Added Interface AttachedAksClusterListProperties
+  - Added Interface AttachedAksClusterProjectBinding
+  - Added Interface AttachedAksClusterProperties
+  - Added Interface AttachedAksClusterReadinessStatus
+  - Added Interface AttachedAksClusterRoleAssignmentStatus
+  - Added Interface AttachedAksClustersCreateOrUpdateOptionalParams
+  - Added Interface AttachedAksClustersDeleteOptionalParams
+  - Added Interface AttachedAksClustersGetOptionalParams
+  - Added Interface AttachedAksClustersListOptionalParams
+  - Added Interface AttachedAksClusterStatus
+  - Added Interface CapabilitySettings
+  - Added Interface ClusterComputeProperties
+  - Added Interface Compute
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationStatus
+  - Added Interface ComputeOperationStatusProperties
+  - Added Interface ComputeProperties
+  - Added Interface ComputesCreateOrUpdateOptionalParams
+  - Added Interface ComputesDeleteOptionalParams
+  - Added Interface ComputesGetOptionalParams
+  - Added Interface ComputesListOptionalParams
+  - Added Interface ComputesRestartOptionalParams
+  - Added Interface ComputesStartOptionalParams
+  - Added Interface ComputesStopOptionalParams
+  - Added Interface ConnectivityEndpoints
+  - Added Interface ContainerInstanceComputeProperties
+  - Added Interface CostControlAction
+  - Added Interface CostControlActionPatch
+  - Added Interface CostControlAdditionalInfoFilter
+  - Added Interface CostControlConnections
+  - Added Interface CostControlFilter
+  - Added Interface CostControlGrouping
+  - Added Interface CostControlNotification
+  - Added Interface CostControlNotificationPatch
+  - Added Interface CostControlPatch
+  - Added Interface CostControlPatchProperties
+  - Added Interface CostControlProperties
+  - Added Interface CostControlProviderProperties
+  - Added Interface CostControlProviderPropertiesPatch
+  - Added Interface CostControlTimePeriod
+  - Added Interface CostControlTimePeriodPatch
+  - Added Interface CreateOrUpdateArcDeploymentModel
+  - Added Interface CreateOrUpdateArcDeploymentProperties
+  - Added Interface DeploymentPolicyEvaluationResult
+  - Added Interface DeploymentSpeculativeDecoding
+  - Added Interface EvaluateDeploymentPoliciesDeployment
+  - Added Interface EvaluateDeploymentPoliciesDeploymentProperties
+  - Added Interface EvaluateDeploymentPoliciesRequest
+  - Added Interface EvaluateDeploymentPoliciesResponse
+  - Added Interface FoundryAutoUpgrade
+  - Added Interface GatedModelAccessProperties
+  - Added Interface ManagedClusterAgentHostingConfiguration
+  - Added Interface ManagedComputeDeployment
+  - Added Interface ManagedComputeDeploymentInfo
+  - Added Interface ManagedComputeDeploymentProperties
+  - Added Interface ManagedComputeDeploymentProvisioningDetails
+  - Added Interface ManagedComputeDeploymentRoutes
+  - Added Interface ManagedComputeDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface ManagedComputeDeploymentsDeleteOptionalParams
+  - Added Interface ManagedComputeDeploymentsGetOptionalParams
+  - Added Interface ManagedComputeDeploymentsListOptionalParams
+  - Added Interface ManagedComputeDeploymentsUpdateOptionalParams
+  - Added Interface ManagedComputeUsage
+  - Added Interface ManagedComputeUsagesOperationGroupListOptionalParams
+  - Added Interface PatchResourceSku
+  - Added Interface PolicyAssignmentEvaluationDetails
+  - Added Interface PolicyExpressionEvaluationDetails
+  - Added Interface Pool
+  - Added Interface ProjectCostControl
+  - Added Interface ProjectCostControlsCheckExistenceOptionalParams
+  - Added Interface ProjectCostControlsCreateOrUpdateOptionalParams
+  - Added Interface ProjectCostControlsDeleteOptionalParams
+  - Added Interface ProjectCostControlsGetOptionalParams
+  - Added Interface ProjectCostControlsListOptionalParams
+  - Added Interface ProjectCostControlsUpdateOptionalParams
+  - Added Interface RaiAcsAgentShutdownInterventionPoint
+  - Added Interface RaiAcsAgentStartupInterventionPoint
+  - Added Interface RaiAcsAnnotationBinding
+  - Added Interface RaiAcsAnnotatorDefinition
+  - Added Interface RaiAcsHarmConfiguration
+  - Added Interface RaiAcsInterventionPoint
+  - Added Interface RaiAcsInterventionPoints
+  - Added Interface RaiAcsManifest
+  - Added Interface RaiAcsModerationBindingExtension
+  - Added Interface RaiAcsPolicyBinding
+  - Added Interface RaiAcsPostModelCallInterventionPoint
+  - Added Interface RaiAcsPreModelCallInterventionPoint
+  - Added Interface RaiAcsRegoPolicyDefinition
+  - Added Interface RaiAcsToolDefinition
+  - Added Interface RaiAcsToolInterventionPoint
+  - Added Interface RaiBinding
+  - Added Interface RaiBindingProperties
+  - Added Interface RaiBindingsCreateOrUpdateOptionalParams
+  - Added Interface RaiBindingsDeleteOptionalParams
+  - Added Interface RaiBindingsGetOptionalParams
+  - Added Interface RaiBindingsListOptionalParams
+  - Added Interface RaiPolicyCustomExternalSafetyProviderReference
+  - Added Interface RaiRego
+  - Added Interface RaiRegoProperties
+  - Added Interface RaiRegoReference
+  - Added Interface RaiRegosCreateOrUpdateOptionalParams
+  - Added Interface RaiRegosDeleteOptionalParams
+  - Added Interface RaiRegosGetOptionalParams
+  - Added Interface RaiRegosListOptionalParams
+  - Added Interface SshSettings
+  - Added Interface ToolControlEntry
+  - Added Interface ToolControls
+  - Added Interface Workbench
+  - Added Interface WorkbenchesCreateOrUpdateOptionalParams
+  - Added Interface WorkbenchesDeleteOptionalParams
+  - Added Interface WorkbenchesGetOptionalParams
+  - Added Interface WorkbenchesListOptionalParams
+  - Added Interface WorkbenchesRestartOptionalParams
+  - Added Interface WorkbenchesStartOptionalParams
+  - Added Interface WorkbenchesStopOptionalParams
+  - Added Interface WorkbenchesUpdateOptionalParams
+  - Added Interface WorkbenchProperties
+  - Added Interface WorkbenchUpdate
+  - Added Interface WorkbenchUpdateProperties
+  - Interface AccountProperties has a new optional parameter agentHostingConfigurations
+  - Interface AccountProperties has a new optional parameter capabilitySettings
+  - Interface AccountProperties has a new optional parameter costControlConnections
+  - Interface AccountProperties has a new optional parameter foundryAutoUpgrade
+  - Interface DeploymentProperties has a new optional parameter speculativeDecoding
+  - Interface ProjectProperties has a new optional parameter capabilitySettings
+  - Interface ProjectProperties has a new optional parameter toolControls
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface RaiPoliciesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface RaiPoliciesDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface RaiPolicyProperties has a new optional parameter acs
+  - Interface RaiPolicyProperties has a new optional parameter acsRegos
+  - Interface RaiPolicyProperties has a new optional parameter customExternalSafetyProviders
+  - Interface RaiPolicyProperties has a new optional parameter format
+  - Added Type Alias AdapterDeploymentOperationState
+  - Added Type Alias AdapterDeploymentOperationType
+  - Added Type Alias AgentHostingConfigurationUnion
+  - Added Type Alias AgentHostingType
+  - Added Type Alias ArcDeploymentComputeType
+  - Added Type Alias ArcDeploymentRuntime
+  - Added Type Alias ArcDeploymentSkuName
+  - Added Type Alias AttachedAksClusterCapability
+  - Added Type Alias AttachedAksClusterExtensionInstallationMode
+  - Added Type Alias AttachedAksClusterHealthState
+  - Added Type Alias AttachedAksClusterProjectBindingStage
+  - Added Type Alias AttachedAksClusterProvisioningStage
+  - Added Type Alias ComputeOperationStatusType
+  - Added Type Alias ComputePropertiesUnion
+  - Added Type Alias ComputeProvisioningState
+  - Added Type Alias ComputeType
+  - Added Type Alias CostControlCategory
+  - Added Type Alias CostControlFilterName
+  - Added Type Alias CostControlGroupingName
+  - Added Type Alias CostControlThresholdType
+  - Added Type Alias CostControlTimeGrain
+  - Added Type Alias FoundryAutoUpgradeMode
+  - Added Type Alias PolicyEvaluationOutcome
+  - Added Type Alias RaiAcsAnnotatorType
+  - Added Type Alias RaiAcsHarmCategory
+  - Added Type Alias RaiAcsModerationSubjectFormat
+  - Added Type Alias RaiAcsPolicyDefinitionType
+  - Added Type Alias RaiAcsPolicyTarget
+  - Added Type Alias RaiAcsPolicyTargetKind
+  - Added Type Alias RaiAcsToolNameSelector
+  - Added Type Alias RaiPolicyFormat
+  - Added Type Alias RaiRegoEncoding
+  - Added Type Alias ToolControlsDefaultAction
+  - Added Type Alias ToolControlType
+  - Added Type Alias VmPriority
+  - Added Type Alias WorkbenchProvisioningState
+  - Added Type Alias WorkbenchStatus
+  - Added Enum KnownAdapterDeploymentOperationState
+  - Added Enum KnownAdapterDeploymentOperationType
+  - Added Enum KnownAgentHostingType
+  - Added Enum KnownArcDeploymentComputeType
+  - Added Enum KnownArcDeploymentRuntime
+  - Added Enum KnownArcDeploymentSkuName
+  - Added Enum KnownAttachedAksClusterCapability
+  - Added Enum KnownAttachedAksClusterExtensionInstallationMode
+  - Added Enum KnownAttachedAksClusterHealthState
+  - Added Enum KnownAttachedAksClusterProjectBindingStage
+  - Added Enum KnownAttachedAksClusterProvisioningStage
+  - Added Enum KnownComputeOperationStatusType
+  - Added Enum KnownComputeProvisioningState
+  - Added Enum KnownComputeType
+  - Added Enum KnownCostControlCategory
+  - Added Enum KnownCostControlFilterName
+  - Added Enum KnownCostControlGroupingName
+  - Added Enum KnownCostControlThresholdType
+  - Added Enum KnownCostControlTimeGrain
+  - Added Enum KnownFoundryAutoUpgradeMode
+  - Added Enum KnownPolicyEvaluationOutcome
+  - Added Enum KnownRaiAcsAnnotatorType
+  - Added Enum KnownRaiAcsHarmCategory
+  - Added Enum KnownRaiAcsModerationSubjectFormat
+  - Added Enum KnownRaiAcsPolicyDefinitionType
+  - Added Enum KnownRaiAcsPolicyTarget
+  - Added Enum KnownRaiAcsPolicyTargetKind
+  - Added Enum KnownRaiAcsToolNameSelector
+  - Added Enum KnownRaiPolicyFormat
+  - Added Enum KnownRaiRegoEncoding
+  - Added Enum KnownToolControlsDefaultAction
+  - Added Enum KnownToolControlType
+  - Added Enum KnownVmPriority
+  - Added Enum KnownWorkbenchProvisioningState
+  - Added Enum KnownWorkbenchStatus
+  - Enum KnownConnectionCategory has a new value OpenAPI
+  - Enum KnownProvisioningState has a new value ExtensionUnreachable
+  - Enum KnownRaiPolicyContentSource has a new value AgentShutdown
+  - Enum KnownRaiPolicyContentSource has a new value AgentStartup
+  - Enum KnownRaiPolicyContentSource has a new value PostModelCall
+  - Enum KnownRaiPolicyContentSource has a new value PreModelCall
+  - Enum KnownVersions has a new value V20251001Preview
+  - Enum KnownVersions has a new value V20260115Preview
+  - Enum KnownVersions has a new value V20260315Preview
+  - Enum KnownVersions has a new value V20260515Preview
+  - Enum KnownVersions has a new value V20260715Preview
+  - Enum KnownVersions has a new value V20260915Preview
+  - Enum KnownVersions has a new value V20261115Preview
+
 ## 9.0.0 (2026-11-11)
 
 ### Features Added
