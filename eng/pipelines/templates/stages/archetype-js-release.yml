@@ -47,6 +47,14 @@ stages:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
+              # Post-merge CI is an auto-release, so the AutoReleasePrepare stage exists. Pass its SDK PR on
+              # so completion updates the release plan linked to it. Manual releases have no SDK PR.
+              - ${{ if in(variables['Build.Reason'], 'Manual', '') }}:
+                - name: AutoReleaseSdkPullRequestUrl
+                  value: ''
+              - ${{ else }}:
+                - name: AutoReleaseSdkPullRequestUrl
+                  value: $[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs['resolve.AutoReleaseSdkPullRequestUrl'] ]
             displayName: 'Release: ${{artifact.name}}'
             # Manual runs release the queue-time artifact selection unchanged. Post-merge CI runs
             # additionally gate on the auto-release resolution: only release packages the labeled PR changed.
@@ -241,6 +249,16 @@ stages:
                           ArtifactName: ${{ parameters.ArtifactName }}
                           PackageName: ${{ artifact.name }}
 
+                      # Log whether this is an auto-release or a manual release, and the auto-release SDK PR.
+                      - pwsh: |
+                          $type = if ($env:BUILD_REASON -eq 'IndividualCI') { 'auto-release' } else { 'manual release' }
+                          $pr = if ($env:AUTO_RELEASE_SDK_PR) { $env:AUTO_RELEASE_SDK_PR } else { 'none' }
+                          Write-Host "Release type: $type"
+                          Write-Host "Auto-release SDK PR: $pr"
+                        displayName: Show release type and auto-release SDK PR
+                        env:
+                          BUILD_REASON: $(Build.Reason)
+                          AUTO_RELEASE_SDK_PR: $(AutoReleaseSdkPullRequestUrl)
                       - template: /eng/common/pipelines/templates/steps/mark-release-completion.yml
                         parameters:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
