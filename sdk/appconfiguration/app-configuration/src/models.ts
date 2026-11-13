@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompatResponse } from "@azure/core-http-compat";
+import type { CompatResponse } from "./compatibility.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { HttpClient, PipelineOptions } from "@azure/core-rest-pipeline";
 import type { AdditionalPolicyConfig, OperationOptions } from "@azure-rest/core-client";
