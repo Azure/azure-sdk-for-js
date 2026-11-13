@@ -3,7 +3,7 @@
 
 import type { LogsUploadFailure } from "../../src/index.js";
 import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
-import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { AdditionalPolicyConfig } from "@azure-rest/core-client";
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {
   createClientAndStartRecorder,
