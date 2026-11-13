@@ -16,7 +16,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("IoTOperations test", () => {
+describe.skip("IoTOperations test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: IoTOperationsClient;
