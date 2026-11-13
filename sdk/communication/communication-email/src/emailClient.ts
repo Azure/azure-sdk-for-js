@@ -68,7 +68,7 @@ export class EmailClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.generatedClient = new EmailRestApiClient(url, internalPipelineOptions);
-    this.generatedClient.pipeline.addPolicy(authPolicy);
+    this.generatedClient.pipeline.addPolicy(authPolicy, { phase: "Sign" });
   }
 
   /**

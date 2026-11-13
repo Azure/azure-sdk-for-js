@@ -30,12 +30,20 @@ export class ContentDownloaderImpl {
     const signUrlPolicy = {
       name: "CustomSignUrlPolicy",
       async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-        if (request.headers.has("OriginalUrl")) {
-          request.url = `${request.headers.get("OriginalUrl")}`;
-          const originalRequest = new URL(request.url);
-          request.headers.set("Host", originalRequest.host);
+        if (!request.headers.has("OriginalUrl")) {
+          return next(request);
         }
-        return next(request);
+        // The auth policy signs the endpoint URL. Restore it after each attempt so
+        // retries are re-signed against the endpoint URL, not the original URL.
+        const signedUrl = request.url;
+        request.url = `${request.headers.get("OriginalUrl")}`;
+        const originalRequest = new URL(request.url);
+        request.headers.set("Host", originalRequest.host);
+        try {
+          return await next(request);
+        } finally {
+          request.url = signedUrl;
+        }
       },
     };
 

@@ -2,6 +2,10 @@
 
 ## 1.6.1 (Unreleased)
 
+### Bugs Fixed
+
+- Fixed the authentication policy being applied before the retry policy. Retried requests are now re-authenticated on every attempt. [#40786](https://github.com/Azure/azure-sdk-for-js/issues/40786)
+
 ### Other Changes
 
 - Declared `@azure/core-util` as a runtime dependency. It is imported at runtime by the package (e.g. `randomUUID`) but was previously only a `devDependency`, which could fail to resolve for consumers.

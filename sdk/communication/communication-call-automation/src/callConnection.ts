@@ -72,7 +72,7 @@ export class CallConnection {
   ) {
     this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
