@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
+import {
+  RSA_PKCS1_OAEP_PADDING,
+  RSA_PKCS1_PADDING,
+  RSA_PKCS1_PSS_PADDING,
+  RSA_PSS_SALTLEN_DIGEST,
+} from "constants";
 import { publicEncrypt } from "node:crypto";
 import { createVerify } from "#platform/cryptography/crypto";
 import type {
@@ -135,8 +140,16 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     const keyPEM = convertJWKtoPEM(this.key);
 
     const verifier = createVerify(algorithm, data);
+    const verificationKey = algorithm.startsWith("PS")
+      ? {
+          key: keyPEM,
+          padding: RSA_PKCS1_PSS_PADDING,
+          // JOSE requires the PSS salt length to match the digest length.
+          saltLength: RSA_PSS_SALTLEN_DIGEST,
+        }
+      : { key: keyPEM, padding: RSA_PKCS1_PADDING };
     return Promise.resolve({
-      result: verifier.verify(keyPEM, Buffer.from(signature)),
+      result: verifier.verify(verificationKey, Buffer.from(signature)),
       keyID: this.key.kid,
     });
   }

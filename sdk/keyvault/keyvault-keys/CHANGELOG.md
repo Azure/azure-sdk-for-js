@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Corrected local RSA signature verification to use the padding and salt length required by the requested algorithm.
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
