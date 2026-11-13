@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refresh storage state from partner. Fetches latest compliance lock status from Commvault and updates the ARM resource.
  *
  * @summary refresh storage state from partner. Fetches latest compliance lock status from Commvault and updates the ARM resource.
- * x-ms-original-file: 2026-09-30/Storages_Refresh_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/Storages_Refresh_MaximumSet_Gen.json
  */
 async function storagesRefreshMaximumSetRefreshStorageStateFromCommvault(): Promise<void> {
   const credential = new DefaultAzureCredential();

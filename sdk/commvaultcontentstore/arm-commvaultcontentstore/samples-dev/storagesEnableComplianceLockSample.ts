@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enable compliance lock on the storage. Synchronous operation.
  *
  * @summary enable compliance lock on the storage. Synchronous operation.
- * x-ms-original-file: 2026-09-30/Storages_EnableComplianceLock_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/Storages_EnableComplianceLock_MaximumSet_Gen.json
  */
 async function storagesEnableComplianceLockMaximumSetEnableComplianceLockOnStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
