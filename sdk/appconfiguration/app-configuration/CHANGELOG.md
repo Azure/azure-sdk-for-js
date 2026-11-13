@@ -10,6 +10,7 @@
 
 ### Other Changes
 
+- Added Microsoft Entra audience inference for App Configuration staging endpoints that use regional DNS (`*.appconfig-stage.azure.com`). These endpoints now use the staging audience instead of falling back to the Azure Public Cloud audience. [#40781](https://github.com/Azure/azure-sdk-for-js/pull/40781)
 - Removed the direct dependency on `@azure/core-client` while preserving the existing client options. [#40645](https://github.com/Azure/azure-sdk-for-js/pull/40645)
 
 ## 1.13.1 (2026-10-27)
