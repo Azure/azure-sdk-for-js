@@ -213,3 +213,7 @@ describe("Keyvault test", () => {
     assert.equal(resArray.length, 0);
   });
 });
+
+it("intentional check-reporting failure", () => {
+  assert.fail("Reporting probe: 100%\nExpected detailed GitHub check error");
+});
