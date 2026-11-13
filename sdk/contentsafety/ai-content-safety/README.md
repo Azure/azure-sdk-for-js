@@ -86,18 +86,29 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 `ContentSafetyClient` analyzes text and images, detects protected material and prompt injection, and evaluates content against an Agent Control Specification policy.
 
+In `2026-10-15-preview`, `unifiedModerate` accepts an Agent Hooks context and returns a closed native Verdict plus a separate policy-evaluation receipt. Use `policyId` for a named-policy gateway evaluation. A governed Foundry request requires `targetResourceId` plus the exact all-or-none `selectedPolicyId`, `selectedPolicyRevision`, and `selectedPolicySemanticDigest` tuple. The target may resolve additional explicit administrator policies bound in its resource hierarchy. Do not combine the named-policy and Foundry selectors. The receipt identifies the selected Guardrail with the `selected` policy-layer kind, preserves each layer's `activatedArtifactDigest`, and binds its metadata to the exact context and selectors through `requestBinding`. Both profiles retain the authenticated producer identity; the Foundry profile also retains the target resource and project incarnation. The SDK transports and decodes this evidence but is not itself an enforcement boundary. The host validates the receipt, applies transforms, and owns approval and final enforcement. HTTP 200 means evaluation completed, not that the action was allowed.
+
 ```ts snippet:ReadmeSampleUnifiedModerate
 import { ContentSafetyClient } from "@azure/ai-content-safety";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new ContentSafetyClient("<endpoint>", new DefaultAzureCredential());
 async function moderateInput(): Promise<void> {
-  const result = await client.unifiedModerate({
-    policyId: "<policy-id>",
-    source: "input",
-    content: "Text to evaluate",
-  });
-  console.log(result.verdict);
+  const input = { content: "Text to evaluate", role: "user" as const };
+  const result = await client.unifiedModerate(
+    {
+      spec: "agent-hooks/0.1",
+      interceptionPoint: "input",
+      timestamp: new Date(),
+      sequence: 1,
+      agent: { id: "<agent-id>", framework: "custom" },
+      session: { id: "<session-id>" },
+      input,
+      target: input,
+    },
+    { policyId: "<policy-id>" },
+  );
+  console.log(result.verdict.decision, result.receipt.profile);
 }
 void moderateInput;
 ```
