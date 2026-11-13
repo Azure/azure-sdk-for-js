@@ -38,6 +38,12 @@ export interface AgentProfile {
 }
 
 // @public
+export interface AllowedSubject {
+    namespaceSelector: IdentityBindingLabelSelector;
+    serviceAccountSelector?: IdentityBindingLabelSelector;
+}
+
+// @public
 export interface APIServerAccessProfile {
     enablePrivateCluster?: boolean;
     enableVnetIntegration?: boolean;
@@ -267,6 +273,7 @@ export class ContainerServiceFleetClient {
     readonly fleets: FleetsOperations;
     readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
     readonly gates: GatesOperations;
+    readonly identityBindingProfiles: IdentityBindingProfilesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly updateRuns: UpdateRunsOperations;
@@ -691,6 +698,104 @@ export interface GenerateResponse {
     readonly id: string;
 }
 
+// @public
+export interface IdentityBindingLabelSelector {
+    matchExpressions?: IdentityBindingLabelSelectorRequirement[];
+    matchLabels?: string[];
+}
+
+// @public
+export type IdentityBindingLabelSelectorOperator = string;
+
+// @public
+export interface IdentityBindingLabelSelectorRequirement {
+    key?: string;
+    operator?: IdentityBindingLabelSelectorOperator;
+    values?: string[];
+}
+
+// @public
+export interface IdentityBindingManagedIdentityProfile {
+    readonly clientId?: string;
+    readonly objectId?: string;
+    resourceId: string;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface IdentityBindingOidcIssuerProfile {
+    readonly oidcIssuerUrl?: string;
+}
+
+// @public
+export interface IdentityBindingProfile extends ProxyResource {
+    readonly eTag?: string;
+    identityBindingProperties?: IdentityBindingProperties;
+    memberSelector?: MemberSelector;
+    readonly provisioningState?: IdentityBindingProfileProvisioningState;
+    readonly status?: IdentityBindingProfileStatus;
+}
+
+// @public
+export interface IdentityBindingProfileProperties {
+    identityBindingProperties: IdentityBindingProperties;
+    memberSelector?: MemberSelector;
+    readonly provisioningState?: IdentityBindingProfileProvisioningState;
+    readonly status?: IdentityBindingProfileStatus;
+}
+
+// @public
+export type IdentityBindingProfileProvisioningState = string;
+
+// @public
+export interface IdentityBindingProfilesApplyOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IdentityBindingProfilesListByFleetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IdentityBindingProfilesOperations {
+    apply: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesApplyOptionalParams) => PollerLike<OperationState<IdentityBindingProfile>, IdentityBindingProfile>;
+    createOrUpdate: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, resource: IdentityBindingProfile, options?: IdentityBindingProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<IdentityBindingProfile>, IdentityBindingProfile>;
+    delete: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesGetOptionalParams) => Promise<IdentityBindingProfile>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: IdentityBindingProfilesListByFleetOptionalParams) => PagedAsyncIterableIterator<IdentityBindingProfile>;
+}
+
+// @public
+export interface IdentityBindingProfileStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
+
+// @public
+export interface IdentityBindingProperties {
+    allowedSubjects?: AllowedSubject[];
+    managedIdentity: IdentityBindingManagedIdentityProfile;
+    readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
+}
+
 export { isRestError }
 
 // @public
@@ -820,6 +925,22 @@ export enum KnownGateState {
 export enum KnownGateType {
     Approval = "Approval",
     ScheduledStart = "ScheduledStart"
+}
+
+// @public
+export enum KnownIdentityBindingLabelSelectorOperator {
+    DoesNotExist = "DoesNotExist",
+    Exists = "Exists",
+    In = "In",
+    NotIn = "NotIn"
+}
+
+// @public
+export enum KnownIdentityBindingProfileProvisioningState {
+    Applying = "Applying",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -956,11 +1077,23 @@ export enum KnownUpgradeChannel {
 
 // @public
 export enum KnownVersions {
+    V20220902Preview = "2022-09-02-preview",
+    V20230315Preview = "2023-03-15-preview",
+    V20230615Preview = "2023-06-15-preview",
+    V20230815Preview = "2023-08-15-preview",
     V20231015 = "2023-10-15",
+    V20240202Preview = "2024-02-02-preview",
     V20240401 = "2024-04-01",
+    V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
+    V20250401Preview = "2025-04-01-preview",
+    V20250801Preview = "2025-08-01-preview",
+    V20260201Preview = "2026-02-01-preview",
+    V20260302Preview = "2026-03-02-preview",
     V20260601 = "2026-06-01",
-    V20261101 = "2026-11-01"
+    V20260602Preview = "2026-06-02-preview",
+    V20261101 = "2026-11-01",
+    V20261102Preview = "2026-11-02-preview"
 }
 
 // @public
@@ -1305,6 +1438,7 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
+    maxAllowedFailures?: string;
     maxConcurrency?: string;
     memberSelector?: MemberSelector;
     name: string;
@@ -1314,6 +1448,8 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly failureCount?: number;
+    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
@@ -1408,6 +1544,7 @@ export interface UpdateRunsStopOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateRunStatus {
+    readonly failureCount?: number;
     readonly nodeImageSelection?: NodeImageSelectionStatus;
     readonly stages?: UpdateStageStatus[];
     readonly status?: UpdateStatus;
@@ -1424,6 +1561,7 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
+    maxAllowedFailures?: string;
     maxConcurrency?: string;
     memberSelector?: MemberSelector;
     name: string;
@@ -1434,7 +1572,9 @@ export interface UpdateStageStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly failureCount?: number;
     readonly groups?: UpdateGroupStatus[];
+    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;

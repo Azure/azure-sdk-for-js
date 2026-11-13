@@ -38,7 +38,7 @@ export function _applySend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       clusterMeshProfileName: clusterMeshProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function apply(
     getInitialResponse: () =>
       _applySend(context, resourceGroupName, fleetName, clusterMeshProfileName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<ClusterMeshProfile>, ClusterMeshProfile>;
 }
 
@@ -100,7 +100,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +140,11 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-02-preview",
+    },
   );
 }
 
@@ -158,7 +162,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       clusterMeshProfileName: clusterMeshProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +205,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, clusterMeshProfileName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -220,7 +224,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       clusterMeshProfileName: clusterMeshProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,7 +281,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<ClusterMeshProfile>, ClusterMeshProfile>;
 }
 
@@ -295,7 +299,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       clusterMeshProfileName: clusterMeshProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

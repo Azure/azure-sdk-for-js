@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.2.0",
+  "version": "2.3.0-beta.1",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -97,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -183,6 +183,20 @@
       "require": {
         "types": "./dist/commonjs/api/updateRuns/index.d.ts",
         "default": "./dist/commonjs/api/updateRuns/index.js"
+      }
+    },
+    "./api/identityBindingProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/identityBindingProfiles/index.d.ts",
+        "default": "./dist/browser/api/identityBindingProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/identityBindingProfiles/index.d.ts",
+        "default": "./dist/esm/api/identityBindingProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/identityBindingProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/identityBindingProfiles/index.js"
       }
     },
     "./api/gates": {

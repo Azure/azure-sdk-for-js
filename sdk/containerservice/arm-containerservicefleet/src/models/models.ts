@@ -1879,6 +1879,416 @@ export function gateArrayDeserializer(result: Array<Gate>): any[] {
   });
 }
 
+/** A fleet identity binding profile. */
+export interface IdentityBindingProfile extends ProxyResource {
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+  /** The status of the last operation. */
+  readonly provisioningState?: IdentityBindingProfileProvisioningState;
+  /**
+   * Select the fleet members that this identity binding profile is applied to.
+   *   * Only key/value pairs with the `=` operator are accepted in the label selector.
+   *   * If empty or not specified, no fleet members will be selected.
+   */
+  memberSelector?: MemberSelector;
+  /** The identity binding properties applied to each selected fleet member. */
+  identityBindingProperties?: IdentityBindingProperties;
+  /** The identity binding profile status. */
+  readonly status?: IdentityBindingProfileStatus;
+}
+
+export function identityBindingProfileSerializer(item: IdentityBindingProfile): any {
+  return {
+    properties: areAllPropsUndefined(item, ["memberSelector", "identityBindingProperties"])
+      ? undefined
+      : _identityBindingProfilePropertiesSerializer(item),
+  };
+}
+
+export function identityBindingProfileDeserializer(item: any): IdentityBindingProfile {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _identityBindingProfilePropertiesDeserializer(item["properties"])),
+    eTag: item["eTag"],
+  };
+}
+
+/** The properties of an identity binding profile. */
+export interface IdentityBindingProfileProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: IdentityBindingProfileProvisioningState;
+  /**
+   * Select the fleet members that this identity binding profile is applied to.
+   *   * Only key/value pairs with the `=` operator are accepted in the label selector.
+   *   * If empty or not specified, no fleet members will be selected.
+   */
+  memberSelector?: MemberSelector;
+  /** The identity binding properties applied to each selected fleet member. */
+  identityBindingProperties: IdentityBindingProperties;
+  /** The identity binding profile status. */
+  readonly status?: IdentityBindingProfileStatus;
+}
+
+export function identityBindingProfilePropertiesSerializer(
+  item: IdentityBindingProfileProperties,
+): any {
+  return {
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorSerializer(item["memberSelector"]),
+    identityBindingProperties: identityBindingPropertiesSerializer(
+      item["identityBindingProperties"],
+    ),
+  };
+}
+
+export function identityBindingProfilePropertiesDeserializer(
+  item: any,
+): IdentityBindingProfileProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorDeserializer(item["memberSelector"]),
+    identityBindingProperties: identityBindingPropertiesDeserializer(
+      item["identityBindingProperties"],
+    ),
+    status: !item["status"]
+      ? item["status"]
+      : identityBindingProfileStatusDeserializer(item["status"]),
+  };
+}
+
+/** The provisioning state of the identity binding profile resource. */
+export enum KnownIdentityBindingProfileProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The identity binding profile is being applied to the selected fleet members. */
+  Applying = "Applying",
+}
+
+/**
+ * The provisioning state of the identity binding profile resource. \
+ * {@link KnownIdentityBindingProfileProvisioningState} can be used interchangeably with IdentityBindingProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Applying**: The identity binding profile is being applied to the selected fleet members.
+ */
+export type IdentityBindingProfileProvisioningState = string;
+
+/** The properties of the identity bindings created on each selected fleet member. */
+export interface IdentityBindingProperties {
+  /** Managed identity profile for the identity binding. */
+  managedIdentity: IdentityBindingManagedIdentityProfile;
+  /**
+   * Optional list of subjects authorized to use this identity binding for
+   * token exchange. Each entry pairs a required namespace label selector
+   * with an optional service account label selector; selectors within an
+   * entry are AND'd, and multiple entries are OR'd. When omitted or empty,
+   * authorization falls back exclusively to ClusterRole/ClusterRoleBinding
+   * evaluation. Maximum 100 entries.
+   */
+  allowedSubjects?: AllowedSubject[];
+  /** The OIDC issuer profile of the identity binding profile. */
+  readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
+}
+
+export function identityBindingPropertiesSerializer(item: IdentityBindingProperties): any {
+  return {
+    managedIdentity: identityBindingManagedIdentityProfileSerializer(item["managedIdentity"]),
+    allowedSubjects: !item["allowedSubjects"]
+      ? item["allowedSubjects"]
+      : allowedSubjectArraySerializer(item["allowedSubjects"]),
+  };
+}
+
+export function identityBindingPropertiesDeserializer(item: any): IdentityBindingProperties {
+  return {
+    managedIdentity: identityBindingManagedIdentityProfileDeserializer(item["managedIdentity"]),
+    allowedSubjects: !item["allowedSubjects"]
+      ? item["allowedSubjects"]
+      : allowedSubjectArrayDeserializer(item["allowedSubjects"]),
+    oidcIssuer: !item["oidcIssuer"]
+      ? item["oidcIssuer"]
+      : identityBindingOidcIssuerProfileDeserializer(item["oidcIssuer"]),
+  };
+}
+
+/** Managed identity profile for the identity binding. */
+export interface IdentityBindingManagedIdentityProfile {
+  /** The resource ID of the user-assigned managed identity. */
+  resourceId: string;
+  /** The object ID of the managed identity. */
+  readonly objectId?: string;
+  /** The client ID of the managed identity. */
+  readonly clientId?: string;
+  /** The tenant ID of the managed identity. */
+  readonly tenantId?: string;
+}
+
+export function identityBindingManagedIdentityProfileSerializer(
+  item: IdentityBindingManagedIdentityProfile,
+): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function identityBindingManagedIdentityProfileDeserializer(
+  item: any,
+): IdentityBindingManagedIdentityProfile {
+  return {
+    resourceId: item["resourceId"],
+    objectId: item["objectId"],
+    clientId: item["clientId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function allowedSubjectArraySerializer(result: Array<AllowedSubject>): any[] {
+  return result.map((item) => {
+    return allowedSubjectSerializer(item);
+  });
+}
+
+export function allowedSubjectArrayDeserializer(result: Array<AllowedSubject>): any[] {
+  return result.map((item) => {
+    return allowedSubjectDeserializer(item);
+  });
+}
+
+/**
+ * A subject authorized to use the identity binding for token exchange.
+ * The namespace selector is required and must be non-empty. The service
+ * account selector is optional; when omitted, all service accounts in
+ * matching namespaces are authorized. Selectors within a single
+ * AllowedSubject are AND'd; multiple AllowedSubjects on an identity
+ * binding profile are OR'd.
+ */
+export interface AllowedSubject {
+  /**
+   * Label selector matching the namespaces in which this identity may be
+   * used. Must be non-empty: an empty selector would match every namespace
+   * and is rejected to prevent overly permissive bindings. Use the built-in
+   * `kubernetes.io/metadata.name` label to target specific namespaces by
+   * name.
+   */
+  namespaceSelector: IdentityBindingLabelSelector;
+  /**
+   * Optional label selector matching the service accounts (within the
+   * namespaces matched by `namespaceSelector`) that may use this identity.
+   * When omitted, all service accounts in matching namespaces are
+   * authorized. When provided, it must be non-empty.
+   */
+  serviceAccountSelector?: IdentityBindingLabelSelector;
+}
+
+export function allowedSubjectSerializer(item: AllowedSubject): any {
+  return {
+    namespaceSelector: identityBindingLabelSelectorSerializer(item["namespaceSelector"]),
+    serviceAccountSelector: !item["serviceAccountSelector"]
+      ? item["serviceAccountSelector"]
+      : identityBindingLabelSelectorSerializer(item["serviceAccountSelector"]),
+  };
+}
+
+export function allowedSubjectDeserializer(item: any): AllowedSubject {
+  return {
+    namespaceSelector: identityBindingLabelSelectorDeserializer(item["namespaceSelector"]),
+    serviceAccountSelector: !item["serviceAccountSelector"]
+      ? item["serviceAccountSelector"]
+      : identityBindingLabelSelectorDeserializer(item["serviceAccountSelector"]),
+  };
+}
+
+/** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
+export interface IdentityBindingLabelSelector {
+  /** matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed. */
+  matchLabels?: string[];
+  /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
+  matchExpressions?: IdentityBindingLabelSelectorRequirement[];
+}
+
+export function identityBindingLabelSelectorSerializer(item: IdentityBindingLabelSelector): any {
+  return {
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : item["matchLabels"].map((p: any) => {
+          return p;
+        }),
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : identityBindingLabelSelectorRequirementArraySerializer(item["matchExpressions"]),
+  };
+}
+
+export function identityBindingLabelSelectorDeserializer(item: any): IdentityBindingLabelSelector {
+  return {
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : item["matchLabels"].map((p: any) => {
+          return p;
+        }),
+    matchExpressions: !item["matchExpressions"]
+      ? item["matchExpressions"]
+      : identityBindingLabelSelectorRequirementArrayDeserializer(item["matchExpressions"]),
+  };
+}
+
+export function identityBindingLabelSelectorRequirementArraySerializer(
+  result: Array<IdentityBindingLabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return identityBindingLabelSelectorRequirementSerializer(item);
+  });
+}
+
+export function identityBindingLabelSelectorRequirementArrayDeserializer(
+  result: Array<IdentityBindingLabelSelectorRequirement>,
+): any[] {
+  return result.map((item) => {
+    return identityBindingLabelSelectorRequirementDeserializer(item);
+  });
+}
+
+/** A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
+export interface IdentityBindingLabelSelectorRequirement {
+  /** key is the label key that the selector applies to. */
+  key?: string;
+  /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
+  operator?: IdentityBindingLabelSelectorOperator;
+  /** values is an array of string values. For In or NotIn, the array must be non-empty. For Exists or DoesNotExist, the array must be empty or omitted. */
+  values?: string[];
+}
+
+export function identityBindingLabelSelectorRequirementSerializer(
+  item: IdentityBindingLabelSelectorRequirement,
+): any {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function identityBindingLabelSelectorRequirementDeserializer(
+  item: any,
+): IdentityBindingLabelSelectorRequirement {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: !item["values"]
+      ? item["values"]
+      : item["values"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
+export enum KnownIdentityBindingLabelSelectorOperator {
+  /** The value of the key should be in the given list. */
+  In = "In",
+  /** The value of the key should not be in the given list. */
+  NotIn = "NotIn",
+  /** The value of the key should exist. */
+  Exists = "Exists",
+  /** The value of the key should not exist. */
+  DoesNotExist = "DoesNotExist",
+}
+
+/**
+ * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. \
+ * {@link KnownIdentityBindingLabelSelectorOperator} can be used interchangeably with IdentityBindingLabelSelectorOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In**: The value of the key should be in the given list. \
+ * **NotIn**: The value of the key should not be in the given list. \
+ * **Exists**: The value of the key should exist. \
+ * **DoesNotExist**: The value of the key should not exist.
+ */
+export type IdentityBindingLabelSelectorOperator = string;
+
+/** The OIDC issuer profile of the identity binding profile. */
+export interface IdentityBindingOidcIssuerProfile {
+  /** The OIDC issuer URL of the identity binding profile. */
+  readonly oidcIssuerUrl?: string;
+}
+
+export function identityBindingOidcIssuerProfileDeserializer(
+  item: any,
+): IdentityBindingOidcIssuerProfile {
+  return {
+    oidcIssuerUrl: item["oidcIssuerUrl"],
+  };
+}
+
+/** Status of the identity binding profile. */
+export interface IdentityBindingProfileStatus {
+  /** The last operation ID for the identity binding profile. */
+  readonly lastOperationId?: string;
+  /** The last operation error of the identity binding profile. */
+  readonly lastOperationError?: ErrorDetail;
+}
+
+export function identityBindingProfileStatusDeserializer(item: any): IdentityBindingProfileStatus {
+  return {
+    lastOperationId: item["lastOperationId"],
+    lastOperationError: !item["lastOperationError"]
+      ? item["lastOperationError"]
+      : errorDetailDeserializer(item["lastOperationError"]),
+  };
+}
+
+/** The response of a IdentityBindingProfile list operation. */
+export interface _IdentityBindingProfileListResult {
+  /** The IdentityBindingProfile items on this page */
+  value: IdentityBindingProfile[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _identityBindingProfileListResultDeserializer(
+  item: any,
+): _IdentityBindingProfileListResult {
+  return {
+    value: identityBindingProfileArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function identityBindingProfileArraySerializer(
+  result: Array<IdentityBindingProfile>,
+): any[] {
+  return result.map((item) => {
+    return identityBindingProfileSerializer(item);
+  });
+}
+
+export function identityBindingProfileArrayDeserializer(
+  result: Array<IdentityBindingProfile>,
+): any[] {
+  return result.map((item) => {
+    return identityBindingProfileDeserializer(item);
+  });
+}
+
 /** A multi-stage process to perform update operations across members of a Fleet. */
 export interface UpdateRun extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2037,6 +2447,19 @@ export interface UpdateStage {
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
   /**
+   * Limits the number of member (cluster) upgrade failures tolerated within this stage.
+   * Failures are evaluated over all members within all groups within this stage.
+   * Accepts either:
+   *   • A fixed count n, where n >= 0
+   *   • A percentage p%, where 0 <= p <= 100
+   *     Percentage resolves at stage start using: resolvedThreshold = ceil(p * N),
+   *     where p is the percentage as a decimal and N is the number of members in this stage at scope start.
+   * Examples:
+   *   • "3"   --> up to 3 member upgrade failures are tolerated within this stage. The 4th failure would cause the entire stage to fail.
+   *   • "25%" --> up to 25% of the members in this stage can fail their upgrade before the stage is considered failed.
+   */
+  maxAllowedFailures?: string;
+  /**
    * The max number of upgrades that can run concurrently across all groups in this stage.
    * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the stage you want to tolerate at a time.
    * Actual concurrency may be lower depending on group-level concurrency limits or individual member conditions.
@@ -2065,6 +2488,7 @@ export function updateStageSerializer(item: UpdateStage): any {
       ? item["memberSelector"]
       : memberSelectorSerializer(item["memberSelector"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
@@ -2083,6 +2507,7 @@ export function updateStageDeserializer(item: any): UpdateStage {
       ? item["memberSelector"]
       : memberSelectorDeserializer(item["memberSelector"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
@@ -2112,6 +2537,19 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
+  /**
+   * Limits the number of member (cluster) upgrade failures tolerated within this group.
+   * Failures are evaluated over members within this group only.
+   * Accepts either:
+   *   • A fixed count n, where n >= 0
+   *   • A percentage p%, where 0 <= p <= 100
+   *     Percentage resolves at stage start using: resolvedThreshold = ceil(p * N),
+   *     where p is the percentage as a decimal and N is the number of members in this group at scope start.
+   * Examples:
+   *   • "3"   --> up to 3 member upgrade failures are tolerated within this group. The 4th failure causes the group to fail.
+   *   • "25%" --> up to 25% of the members in this group can fail their upgrade before the group is considered failed.
+   */
+  maxAllowedFailures?: string;
   /**
    * The max number of upgrades that can run concurrently in this specific group.
    * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the group you want to tolerate at a time.
@@ -2145,6 +2583,7 @@ export interface UpdateGroup {
 export function updateGroupSerializer(item: UpdateGroup): any {
   return {
     name: item["name"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     memberSelector: !item["memberSelector"]
       ? item["memberSelector"]
@@ -2161,6 +2600,7 @@ export function updateGroupSerializer(item: UpdateGroup): any {
 export function updateGroupDeserializer(item: any): UpdateGroup {
   return {
     name: item["name"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     memberSelector: !item["memberSelector"]
       ? item["memberSelector"]
@@ -2387,6 +2827,8 @@ export interface UpdateRunStatus {
   readonly stages?: UpdateStageStatus[];
   /** The node image upgrade specs for the update run. It is only set in update run when `NodeImageSelection.type` is `Consistent`. */
   readonly nodeImageSelection?: NodeImageSelectionStatus;
+  /** Total member upgrade failures across the entire UpdateRun. */
+  readonly failureCount?: number;
 }
 
 export function updateRunStatusDeserializer(item: any): UpdateRunStatus {
@@ -2396,6 +2838,7 @@ export function updateRunStatusDeserializer(item: any): UpdateRunStatus {
     nodeImageSelection: !item["nodeImageSelection"]
       ? item["nodeImageSelection"]
       : nodeImageSelectionStatusDeserializer(item["nodeImageSelection"]),
+    failureCount: item["failureCount"],
   };
 }
 
@@ -2468,6 +2911,10 @@ export interface UpdateStageStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateStage. */
   readonly name?: string;
+  /** The total member upgrade failures within the stage. */
+  readonly failureCount?: number;
+  /** The max number of member upgrade failures allowed within this stage, resolved from the UpdateStrategy.UpdateStage.maxAllowedFailures value. */
+  readonly maxAllowedFailures?: number;
   /** The max number of upgrades that can run concurrently across all groups in this stage, resolved from the UpdateStrategy.UpdateStage.maxConcurrency value. */
   readonly maxConcurrency?: number;
   /** The list of groups to be updated as part of this UpdateStage. */
@@ -2484,6 +2931,8 @@ export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    failureCount: item["failureCount"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
     beforeGates: !item["beforeGates"]
@@ -2510,6 +2959,10 @@ export interface UpdateGroupStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateGroup. */
   readonly name?: string;
+  /** The total member upgrade failures within the group. */
+  readonly failureCount?: number;
+  /** The max number of member upgrade failures allowed within this group, resolved from the UpdateStrategy.UpdateGroup.maxAllowedFailures value. */
+  readonly maxAllowedFailures?: number;
   /**   The max number of upgrades that can run concurrently in this group, resolved from the UpdateStrategy.UpdateGroup.maxConcurrency value. If no value was provided, this value defaults to "1". */
   readonly maxConcurrency?: number;
   /** The list of member this UpdateGroup updates. */
@@ -2524,6 +2977,8 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    failureCount: item["failureCount"],
+    maxAllowedFailures: item["maxAllowedFailures"],
     maxConcurrency: item["maxConcurrency"],
     members: !item["members"]
       ? item["members"]
@@ -3102,16 +3557,40 @@ export function generateResponseDeserializer(item: any): GenerateResponse {
 
 /** Azure Kubernetes Fleet Manager api versions. */
 export enum KnownVersions {
+  /** Azure Kubernetes Fleet Manager api version 2022-09-02-preview. */
+  V20220902Preview = "2022-09-02-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-03-15-preview. */
+  V20230315Preview = "2023-03-15-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-06-15-preview. */
+  V20230615Preview = "2023-06-15-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-08-15-preview. */
+  V20230815Preview = "2023-08-15-preview",
   /** Azure Kubernetes Fleet Manager api version 2023-10-15. */
   V20231015 = "2023-10-15",
+  /** Azure Kubernetes Fleet Manager api version 2024-02-02-preview. */
+  V20240202Preview = "2024-02-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2024-04-01. */
   V20240401 = "2024-04-01",
+  /** Azure Kubernetes Fleet Manager api version 2024-05-02-preview. */
+  V20240502Preview = "2024-05-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-03-01. */
   V20250301 = "2025-03-01",
+  /** Azure Kubernetes Fleet Manager api version 2025-04-01-preview. */
+  V20250401Preview = "2025-04-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
+  V20250801Preview = "2025-08-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-02-01-preview. */
+  V20260201Preview = "2026-02-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-03-02-preview. */
+  V20260302Preview = "2026-03-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2026-06-01. */
   V20260601 = "2026-06-01",
+  /** Azure Kubernetes Fleet Manager api version 2026-06-02-preview. */
+  V20260602Preview = "2026-06-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2026-11-01. */
   V20261101 = "2026-11-01",
+  /** Azure Kubernetes Fleet Manager api version 2026-11-02-preview. */
+  V20261102Preview = "2026-11-02-preview",
 }
 
 export function _clusterMeshProfilePropertiesSerializer(item: ClusterMeshProfile): any {
@@ -3160,5 +3639,31 @@ export function _fleetManagedNamespacePropertiesDeserializer(item: any) {
       ? item["status"]
       : fleetManagedNamespaceStatusDeserializer(item["status"]),
     portalFqdn: item["portalFqdn"],
+  };
+}
+
+export function _identityBindingProfilePropertiesSerializer(item: IdentityBindingProfile): any {
+  return {
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorSerializer(item["memberSelector"]),
+    identityBindingProperties: !item["identityBindingProperties"]
+      ? item["identityBindingProperties"]
+      : identityBindingPropertiesSerializer(item["identityBindingProperties"]),
+  };
+}
+
+export function _identityBindingProfilePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    memberSelector: !item["memberSelector"]
+      ? item["memberSelector"]
+      : memberSelectorDeserializer(item["memberSelector"]),
+    identityBindingProperties: !item["identityBindingProperties"]
+      ? item["identityBindingProperties"]
+      : identityBindingPropertiesDeserializer(item["identityBindingProperties"]),
+    status: !item["status"]
+      ? item["status"]
+      : identityBindingProfileStatusDeserializer(item["status"]),
   };
 }

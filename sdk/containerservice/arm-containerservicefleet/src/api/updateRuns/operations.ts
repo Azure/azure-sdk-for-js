@@ -42,7 +42,7 @@ export function _skipSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,7 @@ export function skip(
     getInitialResponse: () =>
       _skipSend(context, resourceGroupName, fleetName, updateRunName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -107,7 +107,7 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,7 +151,7 @@ export function stop(
     getInitialResponse: () =>
       _stopSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -169,7 +169,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +213,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -229,7 +229,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -271,7 +271,11 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-02-preview",
+    },
   );
 }
 
@@ -289,7 +293,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,7 +336,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, updateRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -351,7 +355,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,7 +405,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, fleetName, updateRunName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
@@ -419,7 +423,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       updateRunName: updateRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
