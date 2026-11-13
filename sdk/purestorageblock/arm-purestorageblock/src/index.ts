@@ -20,15 +20,6 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  Reservation,
-  ReservationPropertiesBaseResourceProperties,
-  MarketplaceDetails,
-  MarketplaceSubscriptionStatus,
-  OfferDetails,
-  UserDetails,
-  CompanyDetails,
-  Address,
-  ProvisioningState,
   TrackedResource,
   Resource,
   SystemData,
@@ -135,8 +126,6 @@ export type {
 export {
   KnownOrigin,
   KnownActionType,
-  KnownMarketplaceSubscriptionStatus,
-  KnownProvisioningState,
   KnownCreatedByType,
   KnownResourceProvisioningState,
   KnownUsageSeverity,
@@ -151,6 +140,23 @@ export {
   KnownVolumeSourceType,
   KnownVersions,
 } from "./models/index.js";
+export type {
+  MarketplaceDetails,
+  MarketplaceSubscriptionStatus,
+  OfferDetails,
+  UserDetails,
+  CompanyDetails,
+  Address,
+  ProvisioningState,
+} from "./models/liftrBase/index.js";
+export {
+  KnownMarketplaceSubscriptionStatus,
+  KnownProvisioningState,
+} from "./models/liftrBase/index.js";
+export type {
+  Reservation,
+  ReservationPropertiesBaseResourceProperties,
+} from "./models/liftrBase/storage/index.js";
 export type { BlockClientOptionalParams } from "./api/index.js";
 export type {
   AvsStorageContainersListByStoragePoolOptionalParams,

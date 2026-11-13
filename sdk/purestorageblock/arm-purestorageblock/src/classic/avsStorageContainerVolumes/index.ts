@@ -56,6 +56,7 @@ export interface AvsStorageContainerVolumesOperations {
     options?: AvsStorageContainerVolumesUpdateOptionalParams,
   ) => PollerLike<OperationState<AvsStorageContainerVolume>, AvsStorageContainerVolume>;
 }
+
 function _getAvsStorageContainerVolumes(context: BlockContext) {
   return {
     listByAvsStorageContainer: (
@@ -105,6 +106,7 @@ function _getAvsStorageContainerVolumes(context: BlockContext) {
       ),
   };
 }
+
 export function _getAvsStorageContainerVolumesOperations(
   context: BlockContext,
 ): AvsStorageContainerVolumesOperations {

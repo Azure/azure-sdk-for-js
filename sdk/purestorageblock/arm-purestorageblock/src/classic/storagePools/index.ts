@@ -146,6 +146,7 @@ export interface StoragePoolsOperations {
     options?: StoragePoolsGetOptionalParams,
   ) => Promise<StoragePool>;
 }
+
 function _getStoragePools(context: BlockContext) {
   return {
     configurePlatformConsoleAuth: (
@@ -226,6 +227,7 @@ function _getStoragePools(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, options),
   };
 }
+
 export function _getStoragePoolsOperations(context: BlockContext): StoragePoolsOperations {
   return {
     ..._getStoragePools(context),

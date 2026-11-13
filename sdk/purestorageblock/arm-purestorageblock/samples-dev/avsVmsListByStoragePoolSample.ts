@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AVS VMs by storage pool
  *
  * @summary list AVS VMs by storage pool
- * x-ms-original-file: 2026-05-01-preview/AvsVms_ListByStoragePool_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsVms_ListByStoragePool_MaximumSet_Gen.json
  */
 async function avsVmsListByStoragePool(): Promise<void> {
   const credential = new DefaultAzureCredential();

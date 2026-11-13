@@ -35,6 +35,7 @@ export interface AvsStorageContainersOperations {
     options?: AvsStorageContainersGetOptionalParams,
   ) => Promise<AvsStorageContainer>;
 }
+
 function _getAvsStorageContainers(context: BlockContext) {
   return {
     listByStoragePool: (
@@ -56,6 +57,7 @@ function _getAvsStorageContainers(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, storageContainerName, options),
   };
 }
+
 export function _getAvsStorageContainersOperations(
   context: BlockContext,
 ): AvsStorageContainersOperations {

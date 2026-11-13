@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a volume in an AVS VM
  *
  * @summary delete a volume in an AVS VM
- * x-ms-original-file: 2026-05-01-preview/AvsVmVolumes_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsVmVolumes_Delete_MaximumSet_Gen.json
  */
 async function avsVmVolumesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

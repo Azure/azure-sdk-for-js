@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to test and repair, if needed, all configuration elements of the storage pool connection to the AVS instance
  *
  * @summary test and repair, if needed, all configuration elements of the storage pool connection to the AVS instance
- * x-ms-original-file: 2026-05-01-preview/StoragePools_RepairAvsConnection_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_RepairAvsConnection_MaximumSet_Gen.json
  */
 async function storagePoolsRepairAvsConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

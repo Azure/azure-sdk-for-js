@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a manual snapshot of a volume group, or recover from an existing snapshot by providing sourceSnapshotResourceId
  *
  * @summary create a manual snapshot of a volume group, or recover from an existing snapshot by providing sourceSnapshotResourceId
- * x-ms-original-file: 2026-05-01-preview/VolumeGroupSnapshots_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroupSnapshots_Create_MaximumSet_Gen.json
  */
 async function volumeGroupSnapshotsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

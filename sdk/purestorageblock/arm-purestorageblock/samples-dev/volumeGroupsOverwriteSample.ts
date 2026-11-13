@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restores a volume group to a specific snapshot state, including volume structure and data
  *
  * @summary restores a volume group to a specific snapshot state, including volume structure and data
- * x-ms-original-file: 2026-05-01-preview/VolumeGroups_Overwrite_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroups_Overwrite_MaximumSet_Gen.json
  */
 async function volumeGroupsOverwrite(): Promise<void> {
   const credential = new DefaultAzureCredential();

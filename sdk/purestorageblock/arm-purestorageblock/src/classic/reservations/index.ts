@@ -28,8 +28,8 @@ import type {
   ReservationsCreateOptionalParams,
   ReservationsGetOptionalParams,
 } from "../../api/reservations/options.js";
+import type { Reservation } from "../../models/liftrBase/storage/models.js";
 import type {
-  Reservation,
   ReservationUpdate,
   LimitDetails,
   ReservationBillingStatus,
@@ -109,6 +109,7 @@ export interface ReservationsOperations {
     options?: ReservationsGetOptionalParams,
   ) => Promise<Reservation>;
 }
+
 function _getReservations(context: BlockContext) {
   return {
     latestLinkedSaaS: (
@@ -167,6 +168,7 @@ function _getReservations(context: BlockContext) {
     ) => get(context, resourceGroupName, reservationName, options),
   };
 }
+
 export function _getReservationsOperations(context: BlockContext): ReservationsOperations {
   return {
     ..._getReservations(context),

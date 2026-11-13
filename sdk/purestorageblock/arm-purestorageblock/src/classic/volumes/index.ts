@@ -75,6 +75,7 @@ export interface VolumesOperations {
     options?: VolumesGetOptionalParams,
   ) => Promise<Volume>;
 }
+
 function _getVolumes(context: BlockContext) {
   return {
     overwrite: (
@@ -150,6 +151,7 @@ function _getVolumes(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, volumeGroupName, volumeName, options),
   };
 }
+
 export function _getVolumesOperations(context: BlockContext): VolumesOperations {
   return {
     ..._getVolumes(context),

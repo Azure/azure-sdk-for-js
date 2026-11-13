@@ -46,7 +46,7 @@ export function _listSnapshotsSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,6 +75,7 @@ export async function _listSnapshotsDeserialize(
 
   return volumeGroupSnapshotPostListResultDeserializer(result.body);
 }
+
 /** List all snapshots for a given volume group using POST with the same request and response contract */
 export async function listSnapshots(
   context: Client,
@@ -109,7 +110,7 @@ export function _listByVolumeGroupSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24filter": options?.filter,
       "%24orderby": options?.orderby,
       "%24top": options?.top,
@@ -140,6 +141,7 @@ export async function _listByVolumeGroupDeserialize(
 
   return _volumeGroupSnapshotListResultDeserializer(result.body);
 }
+
 /** List all snapshots for a given volume group */
 export function listByVolumeGroup(
   context: Client,
@@ -154,11 +156,7 @@ export function listByVolumeGroup(
       _listByVolumeGroupSend(context, resourceGroupName, storagePoolName, volumeGroupName, options),
     _listByVolumeGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -178,7 +176,7 @@ export function _$deleteSend(
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,6 +198,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a volume group snapshot */
 export function $delete(
   context: Client,
@@ -222,7 +221,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -243,7 +242,7 @@ export function _createSend(
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,6 +271,7 @@ export async function _createDeserialize(
 
   return volumeGroupSnapshotDeserializer(result.body);
 }
+
 /** Create a manual snapshot of a volume group, or recover from an existing snapshot by providing sourceSnapshotResourceId */
 export function create(
   context: Client,
@@ -296,7 +296,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<VolumeGroupSnapshot>, VolumeGroupSnapshot>;
 }
 
@@ -316,7 +316,7 @@ export function _getSend(
       storagePoolName: storagePoolName,
       volumeGroupName: volumeGroupName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,6 +341,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
 
   return volumeGroupSnapshotDeserializer(result.body);
 }
+
 /** Get a volume group snapshot */
 export async function get(
   context: Client,

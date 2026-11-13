@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list storage pools by Azure subscription ID
  *
  * @summary list storage pools by Azure subscription ID
- * x-ms-original-file: 2026-05-01-preview/StoragePools_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_ListBySubscription_MaximumSet_Gen.json
  */
 async function storagePoolsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

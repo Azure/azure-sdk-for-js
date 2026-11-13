@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all snapshots for a given volume group
  *
  * @summary list all snapshots for a given volume group
- * x-ms-original-file: 2026-05-01-preview/VolumeGroupSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroupSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumeGroupSnapshotsListByVolumeGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

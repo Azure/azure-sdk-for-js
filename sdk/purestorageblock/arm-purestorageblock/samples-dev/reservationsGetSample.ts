@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a reservation
  *
  * @summary get a reservation
- * x-ms-original-file: 2026-05-01-preview/Reservations_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_Get_MaximumSet_Gen.json
  */
 async function reservationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

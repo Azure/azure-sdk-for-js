@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get connection parameters for ISCSI connection to the volume group
  *
  * @summary get connection parameters for ISCSI connection to the volume group
- * x-ms-original-file: 2026-05-01-preview/VolumeGroups_ListConnectionParameters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroups_ListConnectionParameters_MaximumSet_Gen.json
  */
 async function volumeGroupsListConnectionParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
