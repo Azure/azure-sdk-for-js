@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available REST API operations of the Microsoft.ApiManagement provider.
  *
  * @summary lists all of the available REST API operations of the Microsoft.ApiManagement provider.
- * x-ms-original-file: 2026-09-01-preview/AIGatewayListOperations.json
+ * x-ms-original-file: 2026-11-01/AIGatewayListOperations.json
  */
 async function listAIGatewayOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
