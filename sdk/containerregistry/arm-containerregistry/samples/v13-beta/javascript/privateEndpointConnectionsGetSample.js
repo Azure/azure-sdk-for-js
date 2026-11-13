@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the specified private endpoint connection associated with the container registry.
  *
  * @summary get the specified private endpoint connection associated with the container registry.
- * x-ms-original-file: 2026-09-01-preview/PrivateEndpointConnectionGet.json
+ * x-ms-original-file: 2026-10-15-preview/PrivateEndpointConnectionGet.json
  */
 async function privateEndpointConnectionGet() {
   const credential = new DefaultAzureCredential();

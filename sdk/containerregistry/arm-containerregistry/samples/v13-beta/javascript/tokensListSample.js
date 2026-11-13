@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the tokens for the specified container registry.
  *
  * @summary lists all the tokens for the specified container registry.
- * x-ms-original-file: 2026-09-01-preview/TokenList.json
+ * x-ms-original-file: 2026-10-15-preview/TokenList.json
  */
 async function tokenList() {
   const credential = new DefaultAzureCredential();
