@@ -7,6 +7,7 @@ import { tryReadNpmPackageChangelog } from "../../common/utils.js";
 import { removeSync, outputFileSync } from "fs-extra";
 import { getFirstReleaseContent } from "../../common/changelog/modifyChangelogFileAndBumpVersion.js";
 import { DifferenceDetector, ApiViewOptions } from "../../changelog/v2/DifferenceDetector.js";
+import { DiffReasons } from "../../breaking-change-detector/index.js";
 import {
   ChangelogGenerator,
   ChangelogItemCategory,
@@ -1204,6 +1205,158 @@ export class DataProductClient {
       expect(items).toHaveLength(1);
       expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
     });
+
+    test.each([
+      ["null removed", "UserAssignedIdentity | null", false],
+      ["undefined removed", "UserAssignedIdentity | undefined", true],
+      ["incompatible value type", "number", true],
+    ])("operation group dictionary: %s", async (_description, baselineValueType, breaking) => {
+      const createApiView = (valueType: string) => `
+\`\`\`ts
+export interface UserAssignedIdentity {
+    clientId?: string;
+}
+export interface ManagedServiceIdentity {
+    userAssignedIdentities?: Record<string, ${valueType}>;
+}
+export interface Experiment {
+    identity?: ManagedServiceIdentity;
+}
+export interface ExperimentsOperations {
+    createOrUpdate: (resource: Experiment) => void;
+}
+export class ChaosManagementClient {
+    readonly experiments: ExperimentsOperations;
+}
+\`\`\`
+`;
+      const detector = new DifferenceDetector(
+        { apiView: createApiView(baselineValueType), sdkType: SDKType.ModularClient },
+        { apiView: createApiView("UserAssignedIdentity"), sdkType: SDKType.ModularClient },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(diff.classes.get("ChaosManagementClient")).toHaveLength(1);
+      expect(diff.classes.get("ChaosManagementClient")![0].reasons & DiffReasons.TypeChanged).toBe(
+        DiffReasons.TypeChanged,
+      );
+      expect(detector.getDetectContext().context.baseline.getFullText()).toContain(
+        baselineValueType,
+      );
+      expect(changelog.hasBreakingChange).toBe(breaking);
+      expect(
+        changelog.changelogItems.breakingChanges.get(
+          ChangelogItemCategory.ClassPropertyTypeChanged,
+        ),
+      ).toEqual(
+        breaking
+          ? ["Type of property experiments of class ChaosManagementClient has changed"]
+          : undefined,
+      );
+    });
+
+    test.each([
+      ["model property", "export interface Model { value: string | null; }"],
+      ["optional model property", "export interface Model { value?: string | null; }"],
+      ["class property", "export class Client { value: string | null; }"],
+      ["readonly class property", "export class Client { readonly value: string | null; }"],
+      ["model getter", "export interface Model { get value(): string | null; }"],
+      ["class getter", "export class Client { get value(): string | null; }"],
+      ["model setter", "export interface Model { set value(input: string | null); }"],
+      ["class setter", "export class Client { set value(input: string | null); }"],
+      [
+        "model getter and setter",
+        "export interface Model { get value(): string | null; set value(input: string | null); }",
+      ],
+      [
+        "class getter and setter",
+        "export class Client { get value(): string | null; set value(input: string | null); }",
+      ],
+      ["function parameter", "export function run(value: string | null): void;"],
+      [
+        "operation parameter",
+        "export interface TestOperations { run: (value: string | null) => void; }",
+      ],
+      ["function return", "export function run(): string | null;"],
+      [
+        "callback parameter",
+        "export function run(callback: (value: string | null) => void): void;",
+      ],
+      ["type alias", "export type Value = string | null;"],
+      [
+        "model dictionary value",
+        "export interface Model { values?: Record<string, string | null>; }",
+      ],
+    ])("removing null is not breaking: %s", async (_description, baseline) => {
+      const createApiView = (code: string) => `\`\`\`ts\n${code}\n\`\`\``;
+      const detector = new DifferenceDetector(
+        { apiView: createApiView(baseline), sdkType: SDKType.ModularClient },
+        {
+          apiView: createApiView(baseline.replaceAll("string | null", "string")),
+          sdkType: SDKType.ModularClient,
+        },
+      );
+      const diff = await detector.detect();
+      const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+      expect(changelog.hasBreakingChange).toBe(false);
+      expect(changelog.breakingChangeItems).toEqual([]);
+    });
+
+    test.each([
+      ["incompatible type", "name: string | null;", "name: number;"],
+      [
+        "setter removed",
+        "get name(): string | null; set name(value: string | null);",
+        "get name(): string;",
+      ],
+    ])(
+      "removing null preserves other breaking changes: %s",
+      async (_description, baseline, current) => {
+        const createApiView = (members: string) =>
+          `\`\`\`ts\nexport class Client { ${members} }\n\`\`\``;
+        const detector = new DifferenceDetector(
+          { apiView: createApiView(baseline), sdkType: SDKType.ModularClient },
+          { apiView: createApiView(current), sdkType: SDKType.ModularClient },
+        );
+        const diff = await detector.detect();
+        const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+        expect(changelog.hasBreakingChange).toBe(true);
+        expect(
+          changelog.changelogItems.breakingChanges.get(
+            ChangelogItemCategory.ClassPropertyTypeChanged,
+          ),
+        ).toEqual(["Type of property name of class Client has changed"]);
+      },
+    );
+
+    test.each(["name: string;", "readonly name: string;"])(
+      "direct ordinary class property type changes are reported: %s",
+      async (baselineProperty) => {
+        const detector = new DifferenceDetector(
+          {
+            apiView: `\`\`\`ts\nexport class KeyVault { ${baselineProperty} }\n\`\`\``,
+            sdkType: SDKType.ModularClient,
+          },
+          {
+            apiView: `\`\`\`ts\nexport class KeyVault { ${baselineProperty.replace("string", "number")} }\n\`\`\``,
+            sdkType: SDKType.ModularClient,
+          },
+        );
+        const diff = await detector.detect();
+        const changelog = new ChangelogGenerator(detector.getDetectContext(), diff).generate();
+
+        expect(diff.classes.get("KeyVault")).toHaveLength(1);
+        expect(changelog.hasBreakingChange).toBe(true);
+        expect(
+          changelog.changelogItems.breakingChanges.get(
+            ChangelogItemCategory.ClassPropertyTypeChanged,
+          ),
+        ).toEqual(["Type of property name of class KeyVault has changed"]);
+      },
+    );
 
     test("accessor type change is a breaking class property change", async () => {
       const baselineApiView = `
