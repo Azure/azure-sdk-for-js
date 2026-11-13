@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
-import type { Sampler } from "@opentelemetry/sdk-trace-base";
+import { getNumberFromEnv } from "@opentelemetry/core";
+import type { Sampler } from "@opentelemetry/sdk-trace";
 import {
   AlwaysOffSampler,
   AlwaysOnSampler,
   ParentBasedSampler,
   TraceIdRatioBasedSampler,
-} from "@opentelemetry/sdk-trace-base";
+} from "@opentelemetry/sdk-trace";
 import { Logger } from "./logging/index.js";
 const TRACES_SAMPLER = "OTEL_TRACES_SAMPLER";
 const TRACES_SAMPLER_ARG = "OTEL_TRACES_SAMPLER_ARG";
@@ -30,6 +31,15 @@ const SUPPORTED_OTEL_SAMPLERS = [
   PARENT_BASED_ALWAYS_OFF_SAMPLER,
   PARENT_BASED_TRACE_ID_RATIO_SAMPLER,
 ];
+
+export function getPositiveNumberFromEnv(name: string): number | undefined {
+  const value = getNumberFromEnv(name);
+  if (value !== undefined && value <= 0) {
+    Logger.getInstance().warn(`${name} must be greater than 0. Using the default value.`);
+    return undefined;
+  }
+  return value;
+}
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration through Env variables

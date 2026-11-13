@@ -2,17 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type {
-  Skill,
-  DeleteSkillResponse,
-  BetaSkillsDownloadResponse,
-  _AgentsPagedResultSkill,
-  SkillVersion,
-  CreateSkillVersionFromFilesBody,
-  _AgentsPagedResultSkillVersion,
-  DeleteSkillVersionResponse,
-  DownloadVersionResponse,
-} from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   skillDeserializer,
@@ -24,9 +13,19 @@ import {
   _agentsPagedResultSkillVersionDeserializer,
   deleteSkillVersionResponseDeserializer,
 } from "../../../models/models.js";
+import type {
+  Skill,
+  _AgentsPagedResultSkill,
+  DeleteSkillResponse,
+  SkillVersion,
+  CreateSkillVersionFromFilesBody,
+  _AgentsPagedResultSkillVersion,
+  DeleteSkillVersionResponse,
+  DownloadVersionResponse,
+  BetaSkillsDownloadResponse,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
@@ -43,6 +42,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 
 export function _deleteVersionSend(
   context: Client,
@@ -50,13 +50,12 @@ export function _deleteVersionSend(
   version: string,
   options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +64,7 @@ export function _deleteVersionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -105,13 +104,12 @@ export function _downloadVersionSend(
   version: string,
   options: DownloadVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/versions/{version}/content{?api-version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +118,7 @@ export function _downloadVersionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/zip",
       ...options.requestOptions?.headers,
     },
@@ -160,12 +158,11 @@ export function _downloadSend(
   name: string,
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/content{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +171,7 @@ export function _downloadSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/zip",
       ...options.requestOptions?.headers,
     },
@@ -214,13 +211,12 @@ export function _getVersionSend(
   version: string,
   options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +225,7 @@ export function _getVersionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -266,16 +262,15 @@ export function _listVersionsSend(
   name: string,
   options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{name}/versions{?limit,order,after,before,api-version}",
+    "/skills/{name}/versions{?after,api-version,before,limit,order}",
     {
       name: name,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +279,7 @@ export function _listVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -318,7 +313,20 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion ?? "v1",
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: {
+          "foundry-features": "Skills=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
+      },
+    },
   );
 }
 
@@ -328,12 +336,11 @@ export function _createFromFilesSend(
   content: CreateSkillVersionFromFilesBody,
   options: CreateFromFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/versions{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -343,7 +350,7 @@ export function _createFromFilesSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -383,12 +390,11 @@ export function _createSend(
   name: string,
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}/versions{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -398,7 +404,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -440,12 +446,11 @@ export function _$deleteSend(
   name: string,
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -454,7 +459,7 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -493,12 +498,11 @@ export function _updateSend(
   defaultVersion: string,
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -508,7 +512,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -545,15 +549,14 @@ export function _listSend(
   context: Client,
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills{?limit,order,after,before,api-version}",
+    "/skills{?after,api-version,before,limit,order}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -562,7 +565,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -597,10 +600,17 @@ export function list(
     ["200"],
     {
       itemName: "data",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: { "foundry-features": "Skills=V1Preview" } },
+      apiVersion: context.apiVersion ?? "v1",
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
+      nextPageRequestOptions: {
+        ...operationOptionsToRequestParameters(options),
+        headers: {
+          "foundry-features": "Skills=V1Preview",
+          accept: "application/json",
+          ...options.requestOptions?.headers,
+        },
+      },
     },
   );
 }
@@ -610,12 +620,11 @@ export function _getSend(
   name: string,
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{name}{?api-version}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -624,7 +633,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
+      "foundry-features": "Skills=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

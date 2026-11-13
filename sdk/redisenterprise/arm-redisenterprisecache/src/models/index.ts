@@ -92,6 +92,7 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
+  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
   OperationStatus,
 } from "./models.js";

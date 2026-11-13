@@ -6,21 +6,19 @@ import type {
   ScoringStatistics,
   QueryDebugMode,
   SearchMode,
-  QueryLanguage,
-  QuerySpellerType,
   SemanticErrorMode,
   QueryAnswerType,
   QueryCaptionType,
-  QueryRewritesType,
   VectorQueryUnion,
   VectorFilterMode,
-  HybridSearch,
   AutocompleteMode,
 } from "../../models/azure/search/documents/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
@@ -39,12 +37,12 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
   searchFields?: string[];
   /** The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
@@ -63,20 +61,20 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
   searchFields?: string[];
   /** The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface IndexOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
 }
 
 /** Optional parameters. */
 export interface SuggestPostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
@@ -97,12 +95,12 @@ export interface SuggestPostOptionalParams extends OperationOptions {
   select?: string;
   /** The number of suggestions to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SuggestGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
@@ -123,12 +121,12 @@ export interface SuggestGetOptionalParams extends OperationOptions {
   select?: string;
   /** The number of suggestions to retrieve. The value must be a number between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetDocumentOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -137,12 +135,12 @@ export interface GetDocumentOptionalParams extends OperationOptions {
   enableElevatedRead?: boolean;
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SearchPostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -163,6 +161,8 @@ export interface SearchPostOptionalParams extends OperationOptions {
   highlightPreTag?: string;
   /** A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. This parameter can be useful for ensuring search availability even for services with only one replica. The default is 100. */
   minimumCoverage?: number;
+  /** The key of the document to use as the basis for finding similar documents. This parameter cannot be used together with search text. */
+  moreLikeThis?: string;
   /** The comma-separated list of OData $orderby expressions by which to sort the results. Each expression can be either a field name or a call to either the geo.distance() or the search.score() functions. Each expression can be followed by asc to indicate ascending, or desc to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no $orderby is specified, the default sort order is descending by document match score. There can be at most 32 $orderby clauses. */
   orderBy?: string;
   /** A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if your query uses the Lucene query syntax. */
@@ -183,10 +183,6 @@ export interface SearchPostOptionalParams extends OperationOptions {
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
-  /** A value that specifies the language of the search query. */
-  queryLanguage?: QueryLanguage;
-  /** A value that specifies the type of the speller to use to spell-correct individual search query terms. */
-  querySpeller?: QuerySpellerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -205,22 +201,16 @@ export interface SearchPostOptionalParams extends OperationOptions {
   answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
   captions?: QueryCaptionType;
-  /** A value that specifies whether query rewrites should be generated to augment the search query. */
-  queryRewrites?: QueryRewritesType;
-  /** The comma-separated list of field names used for semantic ranking. */
-  semanticFields?: string[];
   /** The query parameters for vector and hybrid search queries. */
   vectorQueries?: VectorQueryUnion[];
   /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter' for new indexes. */
   vectorFilterMode?: VectorFilterMode;
-  /** The query parameters to configure hybrid search behaviors. */
-  hybridSearch?: HybridSearch;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SearchGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -243,6 +233,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
   highlightPreTag?: string;
   /** A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. This parameter can be useful for ensuring search availability even for services with only one replica. The default is 100. */
   minimumCoverage?: number;
+  /** The key of the document to use as the basis for finding similar documents. This parameter cannot be used together with search text. */
+  moreLikeThis?: string;
   /** The list of OData $orderby expressions by which to sort the results. Each expression can be either a field name or a call to either the geo.distance() or the search.score() functions. Each expression can be followed by asc to indicate ascending, and desc to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no OrderBy is specified, the default sort order is descending by document match score. There can be at most 32 $orderby clauses. */
   orderBy?: string;
   /** A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if your query uses the Lucene query syntax. */
@@ -277,24 +269,14 @@ export interface SearchGetOptionalParams extends OperationOptions {
   captions?: QueryCaptionType;
   /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
   semanticQuery?: string;
-  /** When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will produce 10 (default) rewrites to help increase the recall of the request. The requested count can be configured by appending the pipe character `|` followed by the `count-<number of rewrites>` option, such as `generative|count-3`. Defaults to `None`. This parameter is only valid if the query type is `semantic`. */
-  queryRewrites?: QueryRewritesType;
   /** Enables a debugging tool that can be used to further explore your search results. */
   debug?: QueryDebugMode;
-  /** The language of the query. */
-  queryLanguage?: QueryLanguage;
-  /** Improve search recall by spell-correcting individual search query terms. */
-  speller?: QuerySpellerType;
-  /** The list of field names used for semantic ranking. */
-  semanticFields?: string[];
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetDocumentCountOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
 }

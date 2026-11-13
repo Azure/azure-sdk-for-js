@@ -31,7 +31,7 @@ import {
   KnownRequestColumns,
   KnownDependencyColumns,
 } from "../../../../src/metrics/quickpulse/types.js";
-import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { millisToHrTime } from "@opentelemetry/core";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { createMockSdkLogRecord } from "../../../utils/breezeTestUtils.js";
@@ -42,8 +42,34 @@ import {
   getSpanDocument,
   getLogDocument,
   getMsFromFilterTimestampString,
+  getHttpUrl,
+  getHttpTarget,
 } from "../../../../src/metrics/quickpulse/utils.js";
-import { assert, describe, it } from "vitest";
+import { assert, describe, expect, it, vi } from "vitest";
+
+describe("Live Metrics SDK 3.x attributes", () => {
+  it("ignores structured URL attributes and uses valid scalar fallbacks", () => {
+    const warn = vi.spyOn(diag, "warn").mockImplementation(() => {});
+    try {
+      expect(
+        getHttpUrl({
+          "url.full": { url: "invalid" },
+          "http.url": "https://example.com/valid",
+        }),
+      ).toBe("https://example.com/valid");
+      expect(
+        getHttpTarget({
+          "url.path": { path: "invalid" },
+          "url.query": ["invalid"],
+          "http.target": "/valid",
+        }),
+      ).toBe("/valid");
+      expect(warn).toHaveBeenCalledTimes(3);
+    } finally {
+      warn.mockRestore();
+    }
+  });
+});
 
 describe("Live Metrics filtering - Validator", () => {
   const validator: Validator = new Validator();

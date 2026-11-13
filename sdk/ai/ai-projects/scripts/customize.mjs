@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { retainCustomizedOnConflict } from "./customization/ast-merge.mjs";
@@ -59,6 +59,9 @@ function main() {
         source: proposed,
         matches: plan.matches,
         modelRenames: plan.modelRenames,
+        packageVersion: JSON.parse(
+          readFileSync(path.join(options.packageRoot, "package.json"), "utf8"),
+        ).version,
         ...(options.recover ? { retained: new Set(retained.map(key)), unapplied } : {}),
       });
   if (diagnostics.length) {

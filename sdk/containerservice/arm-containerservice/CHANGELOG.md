@@ -1,5 +1,12 @@
 # Release History
 
+## 25.8.0 (2026-11-11)
+
+### Features Added
+  - Interface PrivateEndpointConnectionListResult has a new optional parameter nextLink
+  - Interface PrivateLinkResourcesListResult has a new optional parameter nextLink
+  - Enum KnownVersions has a new value V20260901
+
 ## 25.8.0-beta.1 (2026-10-23)
 Compared with version 25.7.0
 

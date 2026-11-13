@@ -65,13 +65,6 @@ describe("knowledge retrieval stream", () => {
           startedAt: "2026-08-01T00:00:00Z",
           completedAt: "2026-08-01T00:00:01Z",
           elapsedMs: 1000,
-          imageServing: {
-            servedImages: [{ imageId: "image-1", imagePath: "/images/1", sizeBytes: 42 }],
-          },
-          queryHintProcessing: {
-            generatedBoost: "manual",
-            generatedFilter: "category eq 'manual'",
-          },
         }),
       },
     ]);
@@ -87,14 +80,11 @@ describe("knowledge retrieval stream", () => {
       startedAt?: Date;
       completedAt?: Date;
       elapsedInMs?: number;
-      imageServing?: { servedImages?: unknown[] };
-      queryHintProcessing?: { generatedFilter?: string };
     };
     assert.deepEqual(completed.startedAt, new Date("2026-08-01T00:00:00Z"));
     assert.deepEqual(completed.completedAt, new Date("2026-08-01T00:00:01Z"));
     assert.equal(completed.elapsedInMs, 1000);
-    assert.equal(completed.imageServing?.servedImages?.length, 1);
-    assert.equal(completed.queryHintProcessing?.generatedFilter, "category eq 'manual'");
+    assert.notProperty(completed, "elapsedMs");
   });
 
   it("deserializes answer and reference completion events", async () => {

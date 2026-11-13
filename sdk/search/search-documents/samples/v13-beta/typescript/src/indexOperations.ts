@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the Index Operations.
+ * @summary Demonstrates index operations and optional SharePoint connector registration
+ * with organization-scoped sharing-link expiration in the `2026-10-01` GA API.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,6 +13,8 @@ import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
 const INDEX_NAME = "example-index-sample-1";
+const sharePointApplicationId = process.env.SHAREPOINT_APPLICATION_ID || "";
+const sharePointFederatedCredentialId = process.env.SHAREPOINT_FEDERATED_CREDENTIAL_ID || "";
 
 async function createIndex(indexName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Creating Index Operation`);
@@ -53,6 +56,29 @@ async function createIndex(indexName: string, client: SearchIndexClient): Promis
       },
     ],
   };
+  if (sharePointApplicationId || sharePointFederatedCredentialId) {
+    if (!sharePointApplicationId || !sharePointFederatedCredentialId) {
+      throw new Error("Set both SHAREPOINT_APPLICATION_ID and SHAREPOINT_FEDERATED_CREDENTIAL_ID.");
+    }
+    index.permissionFilterOption = "enabled";
+    index.sharePointConnectorAppRegistration = {
+      applicationId: sharePointApplicationId,
+      federatedCredentialId: sharePointFederatedCredentialId,
+    };
+    index.fields.push(
+      {
+        name: "userIds",
+        type: "Collection(Edm.String)",
+        filterable: true,
+        permissionFilter: "userIds",
+      },
+      {
+        name: "organizationLinkExpiresAt",
+        type: "Edm.DateTimeOffset",
+        organizationAccessExpiration: true,
+      },
+    );
+  }
   await client.createIndex(index);
 }
 
@@ -76,7 +102,11 @@ async function getIndexStatistics(indexName: string, client: SearchIndexClient):
 
 async function getServiceStatistics(client: SearchIndexClient): Promise<void> {
   console.log(`Get Service Statistics Operation`);
-  const { counters, limits } = await client.getServiceStatistics();
+  const { counters, limits, indexersRuntime } = await client.getServiceStatistics();
+  if (indexersRuntime) {
+    console.log(`Service indexer runtime used: ${indexersRuntime.usedSeconds} seconds`);
+    console.log(`Service indexer runtime remaining: ${indexersRuntime.remainingSeconds} seconds`);
+  }
   console.log(`Counters`);
   console.log(`========`);
   console.log(`\tDocument Counter`);
@@ -101,6 +131,7 @@ async function getServiceStatistics(client: SearchIndexClient): Promise<void> {
   console.log(`Limits`);
   console.log(`======`);
   console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
+  console.log(`\tCumulative indexer runtime limit: ${limits.maxCumulativeIndexerRuntimeSeconds}`);
   console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
   console.log(
     `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`,

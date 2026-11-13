@@ -6,6 +6,8 @@ import type {
   ComputeRecommenderManagementClientOptionalParams,
 } from "./api/index.js";
 import { createComputeRecommenderManagement } from "./api/index.js";
+import type { ComputePlacementScoresOperations } from "./classic/computePlacementScores/index.js";
+import { _getComputePlacementScoresOperations } from "./classic/computePlacementScores/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { SkuMixPlacementScoresOperations } from "./classic/skuMixPlacementScores/index.js";
@@ -30,15 +32,18 @@ export class ComputeRecommenderManagementClient {
   ) {
     this._client = createComputeRecommenderManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
-    this.spotPlacementScores = _getSpotPlacementScoresOperations(this._client);
     this.skuMixPlacementScores = _getSkuMixPlacementScoresOperations(this._client);
+    this.computePlacementScores = _getComputePlacementScoresOperations(this._client);
+    this.spotPlacementScores = _getSpotPlacementScoresOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for spotPlacementScores */
-  public readonly spotPlacementScores: SpotPlacementScoresOperations;
   /** The operation groups for skuMixPlacementScores */
   public readonly skuMixPlacementScores: SkuMixPlacementScoresOperations;
+  /** The operation groups for computePlacementScores */
+  public readonly computePlacementScores: ComputePlacementScoresOperations;
+  /** The operation groups for spotPlacementScores */
+  public readonly spotPlacementScores: SpotPlacementScoresOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

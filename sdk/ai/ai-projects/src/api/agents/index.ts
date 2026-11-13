@@ -42,6 +42,8 @@ export {
   getOptimizationJob,
   estimateOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
+  downloadOptimizationJobFile,
 } from "./operations.js";
 export type {
   AgentsDeleteSessionFileOptionalParams,
@@ -90,4 +92,6 @@ export type {
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
 } from "./options.js";

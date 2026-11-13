@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-12-01/JobDefinitions_Update.json
+ * x-ms-original-file: 2026-05-01/JobDefinitions_Update.json
  */
 async function jobDefinitionsUpdate() {
   const credential = new DefaultAzureCredential();

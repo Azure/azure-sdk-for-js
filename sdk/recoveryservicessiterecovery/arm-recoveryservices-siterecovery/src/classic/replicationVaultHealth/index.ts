@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { refresh, get } from "../../api/replicationVaultHealth/operations.js";
-import {
+import type {
   ReplicationVaultHealthRefreshOptionalParams,
   ReplicationVaultHealthGetOptionalParams,
 } from "../../api/replicationVaultHealth/options.js";
-import { VaultHealthDetails } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { VaultHealthDetails } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationVaultHealth operations. */
 export interface ReplicationVaultHealthOperations {

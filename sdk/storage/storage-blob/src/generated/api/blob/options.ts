@@ -14,6 +14,42 @@ import {
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface BlobGetLayoutOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** Specifies the snapshot of the blob. */
+  snapshot?: string;
+  /** Specifies the version ID of the blob. */
+  versionId?: string;
+  /** An opaque string value that identifies the portion of the result set to return with this operation. */
+  marker?: string;
+  /** Specifies the maximum number of resources to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
+  maxPageSize?: number;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
+  timeout?: number;
+  /** Specifies the range of the blob to operate on. */
+  range?: string;
+  /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
+  leaseId?: string;
+  /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
+  ifTags?: string;
+  /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
+  ifModifiedSince?: Date;
+  /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
+  ifUnmodifiedSince?: Date;
+  /** Specify this value to operate only on a blob with a matching Etag value. */
+  ifMatch?: string;
+  /** Specify this value to operate only on a blob with a non-matching Etag value. */
+  ifNoneMatch?: string;
+  /** Specifies the encryption key to use to encrypt the data provided in the request. */
+  encryptionKey?: string;
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the encryption key is provided. */
+  encryptionKeySha256?: string;
+  /** The algorithm used to produce the encryption key hash. Must be provided if the encryption key is provided. */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
+}
+
+/** Optional parameters. */
 export interface BlobSetTagsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;

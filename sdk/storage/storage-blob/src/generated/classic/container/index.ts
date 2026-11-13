@@ -15,6 +15,7 @@ import {
   acquireLease,
   findBlobsByTags,
   submitBatch,
+  createSession,
   rename,
   restore,
   setAccessPolicy,
@@ -37,6 +38,7 @@ import {
   ContainerAcquireLeaseOptionalParams,
   ContainerFindBlobsByTagsOptionalParams,
   ContainerSubmitBatchOptionalParams,
+  ContainerCreateSessionOptionalParams,
   ContainerRenameOptionalParams,
   ContainerRestoreOptionalParams,
   ContainerSetAccessPolicyOptionalParams,
@@ -53,6 +55,8 @@ import {
   PublicAccessType,
   FilterBlobSegment,
   SignedIdentifiers,
+  CreateSessionConfiguration,
+  CreateSessionResponse,
   ListBlobsResponse,
   ListBlobsHierarchicalResponse,
   SkuName,
@@ -347,6 +351,29 @@ export interface ContainerOperations {
         { requestId?: string; version: string; contentType: "multipart/mixed" }
       >
   >;
+  /** The Create Session operation enables users to create a session scoped to a container. */
+  createSession: (
+    createSessionConfiguration: CreateSessionConfiguration,
+    options?: ContainerCreateSessionOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & CreateSessionResponse &
+      StorageCompatResponseInfo<
+        CreateSessionResponse,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Renames the specified existing container. */
   rename: (
     sourceContainerName: string,
@@ -566,6 +593,10 @@ function _getContainer(context: BlobContext) {
       body: string,
       options?: ContainerSubmitBatchOptionalParams,
     ) => submitBatch(context, contentType, contentLength, body, options),
+    createSession: (
+      createSessionConfiguration: CreateSessionConfiguration,
+      options?: ContainerCreateSessionOptionalParams,
+    ) => createSession(context, createSessionConfiguration, options),
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>
       rename(context, sourceContainerName, options),
     restore: (options?: ContainerRestoreOptionalParams) => restore(context, options),

@@ -4,7 +4,7 @@
 import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MockInstance } from "vitest";
 import { SpanKind, trace } from "@opentelemetry/api";
-import { logs } from "@opentelemetry/api-logs";
+import { logs } from "@opentelemetry/api";
 import {
   AzureMonitorLogExporter,
   AzureMonitorMetricExporter,
@@ -14,10 +14,10 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import {
-  BasicTracerProvider,
+  TracerProvider,
   InMemorySpanExporter,
   SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-base";
+} from "@opentelemetry/sdk-trace";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { MetricHandler } from "../../../../src/metrics/handler.js";
 import { InternalConfig } from "../../../../src/shared/config.js";
@@ -150,8 +150,8 @@ describe("OneSettings Live Metrics", () => {
     const collector = await startCollecting();
     await callback()(false);
     const exporter = new InMemorySpanExporter();
-    const provider = new BasicTracerProvider({
-      spanProcessors: [new SimpleSpanProcessor(exporter)],
+    const provider = new TracerProvider({
+      spanProcessors: [new SimpleSpanProcessor({ exporter })],
     });
     try {
       const span = provider

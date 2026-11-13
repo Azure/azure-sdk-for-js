@@ -7,6 +7,7 @@ import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
 import { classicApiFile, classicMember, resolvedOperationImports } from "./classic.mjs";
 import { customizeNewOperation, modelMemberIndex } from "./new-operations.mjs";
 import {
+  adoptConditionalPreviewHeader,
   applyPreviewHeaderPolicy,
   previewLiteral,
   retirePreviewHeaders,
@@ -15,6 +16,7 @@ import {
 import {
   declarations,
   edit,
+  exportEntries,
   header,
   importsOf,
   nameOf,
@@ -199,23 +201,42 @@ export function indexOperations(files) {
   return result;
 }
 
+const skillsFiles = new Set(["api/beta/skills/operations.ts", "api/skills/operations.ts"]);
+
+function isSkillsOperationPair(left, right) {
+  return skillsFiles.has(left.file) && skillsFiles.has(right.file);
+}
+
+function sameOperationIdentity(left, right) {
+  if (left.identity === right.identity) return true;
+  if (!isSkillsOperationPair(left, right)) return false;
+  const previousSkillsRoute = (identity) =>
+    identity.replace(/^(GET|POST|DELETE) \/openai\/v1\/skills(?=\/|$)/, "$1 /skills");
+  return previousSkillsRoute(left.identity) === previousSkillsRoute(right.identity);
+}
+
 function chooseOperation(candidates, operation, preferredFile = operation.file) {
   const exact = candidates.filter(
     (item) =>
       item.file === preferredFile &&
       item.name === operation.name &&
-      item.identity === operation.identity,
+      sameOperationIdentity(item, operation),
   );
   if (exact.length === 1) return exact[0];
   const local = candidates.filter(
-    (item) => item.file === preferredFile && item.identity === operation.identity,
+    (item) => item.file === preferredFile && sameOperationIdentity(item, operation),
   );
   if (local.length === 1) return local[0];
-  const matches = candidates.filter((item) => item.identity === operation.identity);
-  if (matches.length > 1)
+  const matches = candidates.filter((item) => sameOperationIdentity(item, operation));
+  if (matches.length > 1 && matches.every((item) => isSkillsOperationPair(item, operation))) {
+    const namedSkills = matches.filter((item) => item.name === operation.name);
+    if (namedSkills.length === 1) return namedSkills[0];
+  }
+  if (matches.length > 1) {
     throw new Error(
       `${operation.file}::${operation.name}: ambiguous operation identity ${operation.identity}`,
     );
+  }
   return matches[0];
 }
 
@@ -334,6 +355,45 @@ function alignParameterNames(snippets, file) {
   const normalizedIncoming = aligned(snippets[2]);
   if (!normalizedIncoming) return snippets;
   return [normalizedBase, snippets[1], normalizedIncoming];
+}
+
+function localReferences(source, nodes) {
+  const options = { noLib: true, target: ts.ScriptTarget.Latest };
+  const host = ts.createCompilerHost(options);
+  host.getSourceFile = (file) => (file === source.fileName ? source : undefined);
+  host.fileExists = (file) => file === source.fileName;
+  host.readFile = (file) => (file === source.fileName ? source.text : undefined);
+  const checker = ts.createProgram([source.fileName], options, host).getTypeChecker();
+  const bindings = new Map();
+  for (const [name, node] of nodes) {
+    const names = ts.isVariableStatement(node)
+      ? node.declarationList.declarations.map((declaration) => declaration.name)
+      : node.name
+        ? [node.name]
+        : [];
+    for (const binding of names) {
+      const symbol = checker.getSymbolAtLocation(binding);
+      if (symbol) bindings.set(symbol, name);
+    }
+  }
+  const references = new Map();
+  for (const [name, node] of nodes) {
+    const referenced = new Set();
+    const visit = (child) => {
+      if (ts.isIdentifier(child) && child !== node.name) {
+        const symbol =
+          ts.isShorthandPropertyAssignment(child.parent) && child.parent.name === child
+            ? checker.getShorthandAssignmentValueSymbol(child.parent)
+            : checker.getSymbolAtLocation(child);
+        const target = bindings.get(symbol);
+        if (target && target !== name) referenced.add(target);
+      }
+      ts.forEachChild(child, visit);
+    };
+    visit(node);
+    references.set(name, referenced);
+  }
+  return references;
 }
 
 export function planOperations({ baseGenerated, baseSource, generated, modelRenames = new Map() }) {
@@ -528,11 +588,28 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
             snippets[1],
             previewLiteral(optionsOf(baseGenerated, baseMaps, base.file, "base")),
           );
-        snippets[2] = applyPreviewHeaderPolicy(
-          snippets[2],
-          snippets[1],
-          previewLiteral(optionsOf(generated, incomingMaps, incoming.file, "incoming")),
+        const incomingPreview = previewLiteral(
+          optionsOf(generated, incomingMaps, incoming.file, "incoming"),
         );
+        // #47930 makes call-job deletion's previously required opt-in
+        // conditional for SIP. Do not turn that new optional header back into
+        // an unconditional opt-in merely because the old wrapper used a constant.
+        const conditionalCallJobPreview =
+          base?.file === "api/beta/voiceAgents/telephony/operations.ts" &&
+          incoming.file === "api/voiceAgents/telephony/operations.ts" &&
+          base.name === "deleteCallJob" &&
+          incoming.name === "deleteCallJob" &&
+          declarations(parse(baseGenerated.get(base.file), base.file))
+            .get(base.send.name.text)
+            ?.parameters.some((parameter) => nameOf(parameter.name) === "foundryFeatures") &&
+          !incoming.send.parameters.some(
+            (parameter) => nameOf(parameter.name) === "foundryFeatures",
+          ) &&
+          incomingPreview === "VoiceAgents=V1Preview";
+        if (conditionalCallJobPreview) {
+          snippets[0] = adoptConditionalPreviewHeader(snippets[0], snippets[2]);
+          snippets[1] = adoptConditionalPreviewHeader(snippets[1], snippets[2]);
+        } else snippets[2] = applyPreviewHeaderPolicy(snippets[2], snippets[1], incomingPreview);
       }
       const merged = mergeDeclaration(...snippets, { file: outputFile, declaration: outputName });
       diagnostics.push(...merged.diagnostics);
@@ -591,6 +668,87 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       module: item.module.startsWith(".") ? relativeImport(toFile, resolved) : item.module,
     };
   }
+  const relocatedHelpers = new Map();
+  const helperDestinations = new Set();
+  for (const oldFile of new Set(matches.map((match) => match.customized?.file).filter(Boolean))) {
+    if (generated.has(oldFile)) continue;
+    const custom = moduleFor(baseSource, sourceMaps, oldFile, "custom");
+    const original = moduleFor(baseGenerated, baseMaps, oldFile, "base");
+    const helpers = new Map([...custom.nodes].filter(([name]) => !original.nodes.has(name)));
+    if (!helpers.size) continue;
+    const references = localReferences(custom.source, custom.nodes);
+    const destinations = new Map();
+    for (const match of matches.filter((item) => item.customized?.file === oldFile)) {
+      const visit = (name, visited = new Set()) => {
+        if (visited.has(name)) return;
+        visited.add(name);
+        for (const target of references.get(name) ?? []) {
+          if (!helpers.has(target)) continue;
+          if (!destinations.has(target)) destinations.set(target, new Set());
+          destinations.get(target).add(match.incoming.file);
+          visit(target, visited);
+        }
+      };
+      for (const member of ["send", "deserialize", "publicNode"]) visit(match.names[member]);
+    }
+    const exports = new Set(
+      exportEntries(custom.source)
+        .filter((entry) => !entry.module)
+        .map((entry) => entry.imported),
+    );
+    const exportAssignments = new Set(
+      custom.source.statements
+        .filter(ts.isExportAssignment)
+        .map(({ expression }) => (ts.isIdentifier(expression) ? expression.text : undefined))
+        .filter(Boolean),
+    );
+    for (const [name, targets] of destinations) {
+      const node = helpers.get(name);
+      const file = [...targets][0];
+      const output = outputDeclarations.get(file);
+      const dependencyMovesToDestination = (dependency) =>
+        matches.some(
+          (match) =>
+            match.customized?.file === oldFile &&
+            match.incoming.file === file &&
+            ["send", "deserialize", "publicNode"].some(
+              (member) => match.names[member] === dependency,
+            ),
+        );
+      const collides = [generated, baseSource].some(
+        (tree) =>
+          tree.has(file) &&
+          (declarations(parse(tree.get(file), file)).has(name) ||
+            importsOf(parse(tree.get(file), file)).some((item) => item.local === name)),
+      );
+      if (
+        targets.size !== 1 ||
+        !ts.isFunctionDeclaration(node) ||
+        node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword) ||
+        exports.has(name) ||
+        exportAssignments.has(name) ||
+        output?.has(name) ||
+        helperDestinations.has(`${file}::${name}`) ||
+        collides ||
+        [...(references.get(name) ?? [])].some(
+          (target) =>
+            !helpers.has(target) && (!dependencyMovesToDestination(target) || !output?.has(target)),
+        )
+      ) {
+        diagnostics.push({
+          file: oldFile,
+          declaration: name,
+          message:
+            "Custom helper relocation requires a private function, a unique destination, and all local dependencies without collisions",
+        });
+        continue;
+      }
+      const move = { file, name };
+      helperDestinations.add(`${file}::${name}`);
+      relocatedHelpers.set(`${oldFile}::${name}`, move);
+      moves.set(`${oldFile}::${name}`, move);
+    }
+  }
   for (const [file, nodes] of outputDeclarations) {
     if (baseGenerated.get(file) === generated.get(file) && baseSource.has(file)) {
       files.set(file, baseSource.get(file));
@@ -620,7 +778,12 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
       const generatedBacked = (name) =>
         mapped.has(name) || (oldGenerated.has(name) && (renamed.get(name) ?? name) === name);
       for (const [name, node] of custom.nodes) {
-        if (!generatedBacked(name) && !nodes.has(name)) {
+        if (
+          !generatedBacked(name) &&
+          !nodes.has(name) &&
+          ((oldFile === file && generated.has(oldFile)) ||
+            relocatedHelpers.get(`${oldFile}::${name}`)?.file === file)
+        ) {
           nodes.set(name, textOf(node, custom.source));
         }
       }
@@ -632,7 +795,7 @@ export function planOperations({ baseGenerated, baseSource, generated, modelRena
     const imports = renderImports(file, body, candidates);
     files.set(file, `${header}${imports}\n\n${body}\n`);
   }
-  return { files, diagnostics, matches, moves };
+  return { files, diagnostics, matches, moves, relocatedHelpers };
 }
 
 export function classicFromOperations(file, incomingText, operations, sourceOperations) {

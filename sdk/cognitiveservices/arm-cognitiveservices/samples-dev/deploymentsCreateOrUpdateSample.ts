@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified deployments associated with the Cognitive Services account.
  *
  * @summary update the state of specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: 2026-09-15-preview/PutDeployment.json
+ * x-ms-original-file: 2026-11-01/PutDeployment.json
  */
 async function putDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function putDeployment(): Promise<void> {
  * This sample demonstrates how to update the state of specified deployments associated with the Cognitive Services account.
  *
  * @summary update the state of specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: 2026-09-15-preview/PutDeploymentWithSpeculativeDecoding.json
+ * x-ms-original-file: 2026-11-01/PutDeploymentWithSpeculativeDecoding.json
  */
 async function putDeploymentWithSpeculativeDecoding(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,16 +48,6 @@ async function putDeploymentWithSpeculativeDecoding(): Promise<void> {
       properties: {
         deploymentState: "Running",
         model: { format: "Fireworks", name: "FW-Qwen3-14B", version: "1" },
-        speculativeDecoding: {
-          draftModel: {
-            format: "FireworksCustom",
-            name: "testDraftModel",
-            version: "1",
-            source:
-              "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/projects/projectName",
-          },
-          draftTokenCount: 4,
-        },
         serviceTier: "Default",
       },
       sku: { name: "GlobalProvisionedManaged", capacity: 80 },

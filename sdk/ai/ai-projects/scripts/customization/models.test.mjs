@@ -9,6 +9,8 @@ import test from "node:test";
 import ts from "typescript";
 import { mergeDeclaration } from "./ast-merge.mjs";
 import { reconcileModels } from "./models.mjs";
+import { planCustomization } from "./planner.mjs";
+import { validateCustomization } from "./guards.mjs";
 import { readBaseline, readTree } from "./trees.mjs";
 
 const modelFile = "models/models.ts";
@@ -48,6 +50,7 @@ const dataGenerationValues = '"simple_qna" | "traces" | "tool_use" | "simulation
 
 test("data generation schema renames adopt only the explicitly approved upstream discriminator", () => {
   const discriminator = `export type DataGenerationJobType = ${dataGenerationValues};`;
+  const conversations = discriminator.replace(";", ' | "conversations";');
   const options = `
 export interface DataGenerationJobOptions { type: DataGenerationJobType; }
 ${["simple_qna", "traces", "tool_use", "simulation_seed"]
@@ -63,26 +66,38 @@ ${["simple_qna", "traces", "tool_use", "simulation_seed"]
       'export type Unrelated = "kept";',
   );
   const incoming = tree(
-    discriminator +
+    conversations +
       "export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }",
   );
   const result = succeeded(base, custom, incoming);
   const text = result.files.get(modelFile);
   assert.doesNotMatch(text, /"task_generation"/);
   assert.match(text, /type Unrelated = "kept"/);
-  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed"])
+  for (const value of ["simple_qna", "traces", "tool_use", "simulation_seed", "conversations"])
     assert.ok(text.includes(`"${value}"`));
   assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
 
   // A subsequent regeneration must not resurrect the customized discriminator.
   const repeated = succeeded(incoming, result.files, incoming);
   assert.doesNotMatch(repeated.files.get(modelFile), /"task_generation"/);
+  assert.match(repeated.files.get(modelFile), /"conversations"/);
+});
+
+test("data generation discriminator follows the exact approved incoming values", () => {
+  const previous = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  const expanded = tree(
+    `export type DataGenerationJobType = ${dataGenerationValues} | "conversations";`,
+  );
+  const result = succeeded(expanded, expanded, previous);
+  assert.doesNotMatch(result.files.get(modelFile), /"conversations"/);
 });
 
 test("unapproved data generation values and unrelated full-union retention still require review", () => {
   const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
   for (const incoming of [
     tree(`export type DataGenerationJobType = ${dataGenerationValues} | "future";`),
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "task_generation";`),
+    tree(`export type DataGenerationJobType = ${dataGenerationValues} | "traces";`),
     tree('export type DataGenerationJobType = "simple_qna";'),
     tree("export type DataGenerationJobType = string;"),
   ]) {
@@ -98,6 +113,95 @@ export interface Legacy extends Other { kind: "legacy"; }
   const result = plan(unrelated, unrelated, tree('export type OtherKind = "new";'));
   assert.equal(result.files.size, 0);
   assert.ok(result.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)));
+});
+
+test("reviewed conversation data generation adds only the new discriminator", () => {
+  const base = tree(`export type DataGenerationJobType = ${dataGenerationValues};`);
+  const incoming = tree(
+    `export type DataGenerationJobType = ${dataGenerationValues} | "conversations";`,
+  );
+  const result = succeeded(base, base, incoming);
+  assert.match(result.files.get(modelFile), /"conversations"/);
+  for (const extra of [' | "future"', ' | "conversations"']) {
+    const unsafe = plan(
+      base,
+      base,
+      tree(
+        `export type DataGenerationJobType = ${dataGenerationValues} | "conversations"${extra};`,
+      ),
+    );
+    assert.ok(unsafe.diagnostics.length > 0);
+  }
+});
+
+test("retained telephony provider variants merge with an upstream provider addition", () => {
+  const base = tree(`
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio";
+export interface Binding { provider: TelephonyProvider; }
+export interface TeamsRequest extends Binding { provider: "teams_phone_extensibility"; }
+export interface TwilioRequest extends Binding { provider: "twilio"; }
+export type BindingUnion = TeamsRequest | TwilioRequest | Binding;
+`);
+  const custom = tree(
+    base.get(modelFile).replace('provider: "twilio";', 'provider: "twilio"; custom?: boolean;'),
+  );
+  const incoming = tree(`
+export type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";
+export interface Binding { provider: TelephonyProvider; }
+export interface SipBinding extends Binding { provider: "sip"; }
+export type BindingUnion = SipBinding | Binding;
+`);
+  const result = succeeded(base, custom, incoming);
+  const text = result.files.get(modelFile);
+  assert.match(text, /type TelephonyProvider =[\s\S]*"sip"/);
+  assert.match(text, /interface TwilioRequest[\s\S]*custom\?: boolean/);
+  assert.match(text, /BindingUnion =[\s\S]*SipBinding/);
+  for (const providers of [
+    '"sip"',
+    '"twilio" | "twilio" | "sip"',
+    '"teams_phone_extensibility" | "twilio" | boolean | "sip"',
+  ]) {
+    const unsafe = plan(
+      base,
+      custom,
+      tree(
+        incoming
+          .get(modelFile)
+          .replace(
+            'type TelephonyProvider = "teams_phone_extensibility" | "twilio" | "sip";',
+            `type TelephonyProvider = ${providers};`,
+          ),
+      ),
+    );
+    assert.ok(
+      unsafe.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+    );
+  }
+});
+
+test("uses the emitted snake-case voice discriminator in the union serializer", () => {
+  const incoming = tree(`
+export interface VoiceAgentBaseDefinition { sub_protocol: "realtime" | "live"; }
+export interface Other { subProtocol: string; }
+export function voiceAgentBaseDefinitionUnionSerializer(
+  item: VoiceAgentBaseDefinition,
+): VoiceAgentBaseDefinition {
+  const byOptions = (options: Other) => {
+    switch (options.subProtocol) { default: return item; }
+  };
+  const nested = (item: Other) => {
+    switch (item.subProtocol) { default: return item; }
+  };
+  switch (item.subProtocol) {
+    default: return item;
+  }
+}
+`);
+  const result = succeeded(new Map(), new Map(), incoming);
+  const text = result.files.get(modelFile);
+  assert.match(text, /switch \(item\.sub_protocol\)/);
+  assert.match(text, /switch \(options\.subProtocol\)/);
+  assert.equal((text.match(/switch \(item\.subProtocol\)/g) ?? []).length, 1);
 });
 
 function assertModelTypes(files, packageRoot) {
@@ -156,6 +260,73 @@ function assertModelTypes(files, packageRoot) {
     }),
   );
 }
+
+test("daily schedule converters keep their direct array when hours become optional", () => {
+  const mapped = 'item["hours"].map((p: any) => { return p; })';
+  const direct = 'item["hours"]';
+  const model = (optional, hours) => `
+export interface DailyRecurrenceSchedule { hours${optional ? "?" : ""}: number[]; }
+export function dailyRecurrenceScheduleSerializer(item: DailyRecurrenceSchedule): any {
+  return { hours: ${hours} };
+}
+export function dailyRecurrenceScheduleDeserializer(item: any): DailyRecurrenceSchedule {
+  return { hours: ${hours} };
+}`;
+  const base = tree(model(false, mapped));
+  const custom = tree(model(false, direct));
+  const incoming = tree(model(true, `!${direct} ? ${direct} : ${mapped}`));
+  const result = succeeded(base, custom, incoming);
+  const output = result.files.get(modelFile);
+  assert.match(output, /hours\?: number\[\]/);
+  assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
+  const converters = evaluate(output);
+  for (const name of ["dailyRecurrenceScheduleSerializer", "dailyRecurrenceScheduleDeserializer"]) {
+    const hours = [0, 5, 23];
+    assert.equal(converters[name]({ hours }).hours, hours);
+    assert.equal(converters[name]({}).hours, undefined);
+  }
+  const changed = tree(
+    model(true, `!${direct} ? ${direct} : ${mapped.replace("return p", "return p + 1")}`),
+  );
+  assert.ok(plan(base, custom, changed).diagnostics.length);
+});
+
+test("telephony resource replacement preserves only unchanged approved discriminator contracts", () => {
+  for (const [name, values] of [
+    ["TelephonyProvider", ["teams_phone_extensibility", "twilio", "sip"]],
+    ["TelephonyOutboundRetryPolicyType", ["fixed_interval"]],
+  ]) {
+    const alias = `export type ${name} = ${values.map(JSON.stringify).join(" | ")};`;
+    const baseText = `${alias}
+export interface Parent { kind: ${name}; }
+${values.map((value, index) => `export interface Legacy${index} extends Parent { kind: ${JSON.stringify(value)}; }`).join("\n")}`;
+    const base = tree(baseText);
+    const incoming = tree(`${alias}
+export interface Replacement { kind: ${name}; }`);
+    const result = succeeded(base, base, incoming);
+    assert.ok(result.files.get(modelFile).includes(alias));
+    for (const changed of [
+      `export type ${name} = "future";`,
+      alias.replace(";", ' | "future";'),
+      `export type ${name} = string;`,
+    ]) {
+      const rejected = plan(base, base, tree(changed));
+      assert.equal(rejected.files.size, 0);
+      assert.ok(
+        rejected.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+      );
+    }
+    const unrelated = baseText.replaceAll(name, "UnrelatedKind");
+    const rejected = plan(
+      tree(unrelated),
+      tree(unrelated),
+      tree(alias.replaceAll(name, "UnrelatedKind")),
+    );
+    assert.ok(
+      rejected.diagnostics.some((item) => /explicit compatibility policy/.test(item.message)),
+    );
+  }
+});
 
 const publicExample = 'export type { Example } from "./models.js";';
 
@@ -322,6 +493,329 @@ test("retained legacy models keep their discriminator and dispatch registrations
   assert.equal(api.deserializeTools({ kind: "added" }).kind, "added");
   assertModelTypes(result.files, path.resolve(fileURLToPath(new URL("../..", import.meta.url))));
 });
+
+test("approved emitted telephony model renames adopt the new client names", () => {
+  function telephonyModels(renamed) {
+    const address = renamed
+      ? ["TelephonyPhoneNumber", "TelephonyTeamsAddress", "TelephonySipAddress"]
+      : ["PhoneNumber", "TeamsAddress", "SipAddress"];
+    const schedule = renamed
+      ? [
+          "TelephonyCampaignImmediateSchedule",
+          "TelephonyCampaignAtTimeSchedule",
+          "TelephonyCampaignPerRecipientSchedule",
+        ]
+      : ["ImmediateSchedule", "AtTimeSchedule", "PerRecipientSchedule"];
+    const lower = (name) => name[0].toLowerCase() + name.slice(1);
+    const model = (name, kind, parent) => `
+export interface ${name} extends ${parent} {
+  type: "${kind}";
+  value: string;
+}
+export function ${lower(name)}Serializer(item: ${name}): any {
+  return { type: item.type, value: item.value };
+}
+export function ${lower(name)}Deserializer(item: any): ${name} {
+  return { type: item.type, value: item.value };
+}`;
+    return `
+export type TelephonyAddressType = "phone_number" | "teams" | "sip";
+export interface TelephonyAddress { type: TelephonyAddressType; }
+${model(address[0], "phone_number", "TelephonyAddress")}
+${model(address[1], "teams", "TelephonyAddress")}
+${model(address[2], "sip", "TelephonyAddress")}
+export type TelephonyAddressUnion = ${address.join(" | ")} | TelephonyAddress;
+export type TelephonyCampaignScheduleType = "immediate" | "scheduled" | "recipient";
+export interface TelephonyCampaignSchedule { type: TelephonyCampaignScheduleType; }
+${model(schedule[0], "immediate", "TelephonyCampaignSchedule")}
+${model(schedule[1], "scheduled", "TelephonyCampaignSchedule")}
+${model(schedule[2], "recipient", "TelephonyCampaignSchedule")}
+export type TelephonyCampaignScheduleUnion =
+  ${schedule.join(" | ")} | TelephonyCampaignSchedule;`;
+  }
+  const base = tree(telephonyModels(false));
+  const custom = tree(
+    telephonyModels(false)
+      .replace(
+        'export interface PhoneNumber extends TelephonyAddress {\n  type: "phone_number";\n  value: string;',
+        'export interface PhoneNumber extends TelephonyAddress {\n  type: "phone_number";\n  value: string;\n  custom?: boolean;',
+      )
+      .replace(
+        "return { type: item.type, value: item.value };",
+        "return { type: item.type, value: item.value, custom: item.custom };",
+      ),
+  );
+  const generated = tree(telephonyModels(true));
+  const result = succeeded(base, custom, generated);
+  const text = result.files.get(modelFile);
+  for (const [before, after] of [
+    ["PhoneNumber", "TelephonyPhoneNumber"],
+    ["TeamsAddress", "TelephonyTeamsAddress"],
+    ["SipAddress", "TelephonySipAddress"],
+    ["ImmediateSchedule", "TelephonyCampaignImmediateSchedule"],
+    ["AtTimeSchedule", "TelephonyCampaignAtTimeSchedule"],
+    ["PerRecipientSchedule", "TelephonyCampaignPerRecipientSchedule"],
+  ]) {
+    assert.equal(result.renames.get(before), after);
+    assert.doesNotMatch(text, new RegExp(`\\b${before}\\b`));
+    assert.match(text, new RegExp(`interface ${after}\\b`));
+  }
+  assert.match(text, /custom\?: boolean/);
+  assert.match(text, /custom: item.custom/);
+  const planned = planCustomization({ baseGenerated: base, baseSource: custom, generated });
+  assert.deepEqual(planned.diagnostics, []);
+  const guardInputs = {
+    baseGenerated: base,
+    baseSource: custom,
+    generated,
+    source: planned.source,
+    matches: planned.matches,
+    modelRenames: planned.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  const tampered = new Map(planned.source);
+  tampered.set(modelFile, text.replace(", custom: item.custom", ""));
+  assert.ok(validateCustomization({ ...guardInputs, source: tampered }).length > 0);
+});
+
+const entryScaffold = `import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
+`;
+
+// Mirrors the evaluation run data sources renamed by azure-rest-api-specs#48159.
+function evaluationDataSources(names = {}) {
+  const variants = [
+    [names.traces ?? "TracesEvalRunDataSource", "azure_ai_traces", "trace_ids"],
+    [
+      names.trace ?? "AzureAITraceDataSourceEvalRunDataSource",
+      "azure_ai_trace_data_source",
+      "trace_source",
+    ],
+    [
+      names.preview ?? "AzureAITraceDataSourcePreviewEvalRunDataSource",
+      "azure_ai_trace_data_source_preview",
+      "trace_source",
+    ],
+    [names.csv ?? "EvalCsvRunDataSource", "csv", "source"],
+  ];
+  const lower = (name) => name[0].toLowerCase() + name.slice(1);
+  const dispatch = (suffix) =>
+    variants
+      .map(
+        ([name, type]) =>
+          `    case "${type}":\n      return ${lower(name)}${suffix}(item as ${name});`,
+      )
+      .join("\n");
+  const models = `export interface EvalRunDataSource {
+  type: string;
+}
+export function evalRunDataSourceSerializer(item: EvalRunDataSource): any {
+  return { type: item["type"] };
+}
+export function evalRunDataSourceDeserializer(item: any): EvalRunDataSource {
+  return { type: item["type"] };
+}
+${variants
+  .map(
+    ([name, type, property]) => `export interface ${name} extends EvalRunDataSource {
+  type: "${type}";
+  ${property}?: string;
+}
+export function ${lower(name)}Serializer(item: ${name}): any {
+  return { type: item["type"], ${property}: item["${property}"] };
+}
+export function ${lower(name)}Deserializer(item: any): ${name} {
+  return { type: item["type"], ${property}: item["${property}"] };
+}`,
+  )
+  .join("\n")}
+export type EvalRunDataSourceUnion = ${variants.map(([name]) => name).join(" | ")} | EvalRunDataSource;
+export function evalRunDataSourceUnionSerializer(item: EvalRunDataSourceUnion): any {
+  switch (item.type) {
+${dispatch("Serializer")}
+    default:
+      return evalRunDataSourceSerializer(item);
+  }
+}
+export function evalRunDataSourceUnionDeserializer(item: any): EvalRunDataSourceUnion {
+  switch (item["type"]) {
+${dispatch("Deserializer")}
+    default:
+      return evalRunDataSourceDeserializer(item);
+  }
+}`;
+  const exported = [
+    "EvalRunDataSource",
+    "EvalRunDataSourceUnion",
+    ...variants.map(([name]) => name),
+  ].join(", ");
+  return new Map([
+    [modelFile, models],
+    [barrelFile, `export type { ${exported} } from "./models.js";`],
+    [
+      "index.ts",
+      `${entryScaffold}export type { ${exported} } from "./models/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };`,
+    ],
+    ["static-helpers/pagingHelpers.ts", "export interface ContinuablePage {}"],
+  ]);
+}
+
+const evaluationRenames = [
+  ["AzureAITraceDataSourceEvalRunDataSource", "TraceSourceEvalRunDataSource"],
+  ["AzureAITraceDataSourcePreviewEvalRunDataSource", "TraceSourcePreviewEvalRunDataSource"],
+  ["EvalCsvRunDataSource", "CsvEvalRunDataSource"],
+];
+
+test("approved evaluation data source renames carry union dispatch and root exports", () => {
+  const baseGenerated = evaluationDataSources();
+  const baseSource = evaluationDataSources();
+  const generated = evaluationDataSources({
+    trace: "TraceSourceEvalRunDataSource",
+    preview: "TraceSourcePreviewEvalRunDataSource",
+    csv: "CsvEvalRunDataSource",
+  });
+  const planned = planCustomization({ baseGenerated, baseSource, generated });
+  assert.deepEqual(planned.diagnostics, []);
+  const text = planned.source.get(modelFile);
+  for (const [before, after] of evaluationRenames) {
+    const lower = (name) => name[0].toLowerCase() + name.slice(1);
+    assert.equal(planned.modelRenames.get(before), after);
+    assert.equal(
+      planned.modelRenames.get(`${lower(before)}Serializer`),
+      `${lower(after)}Serializer`,
+    );
+    for (const file of [modelFile, barrelFile, "index.ts"]) {
+      assert.doesNotMatch(planned.source.get(file), new RegExp(before, "i"));
+      assert.match(planned.source.get(file), new RegExp(`\\b${after}\\b`));
+    }
+    assert.match(text, new RegExp(`return ${lower(after)}Serializer\\(item as ${after}\\)`));
+    assert.match(text, new RegExp(`return ${lower(after)}Deserializer\\(item as ${after}\\)`));
+  }
+  const api = evaluate(text);
+  for (const item of [
+    { type: "azure_ai_traces", trace_ids: "unchanged" },
+    { type: "azure_ai_trace_data_source", trace_source: "renamed" },
+    { type: "azure_ai_trace_data_source_preview", trace_source: "renamed" },
+    { type: "csv", source: "renamed" },
+  ]) {
+    assert.deepEqual({ ...api.evalRunDataSourceUnionSerializer(item) }, item);
+    assert.deepEqual({ ...api.evalRunDataSourceUnionDeserializer(item) }, item);
+  }
+  assertModelTypes(
+    new Map([modelFile, barrelFile].map((file) => [file, planned.source.get(file)])),
+    path.resolve(fileURLToPath(new URL("../..", import.meta.url))),
+  );
+  const guardInputs = {
+    baseGenerated,
+    baseSource,
+    generated,
+    source: planned.source,
+    matches: planned.matches,
+    modelRenames: planned.modelRenames,
+  };
+  assert.deepEqual(validateCustomization(guardInputs), []);
+  // The rename carries the maintained export; it does not license dropping it.
+  const tampered = new Map(planned.source);
+  tampered.set("index.ts", tampered.get("index.ts").replace(/,\s*CsvEvalRunDataSource\b/, ""));
+  assert.notEqual(tampered.get("index.ts"), planned.source.get("index.ts"));
+  assert.ok(
+    validateCustomization({ ...guardInputs, source: tampered }).some(
+      (item) =>
+        item.file === "index.ts" &&
+        item.declaration === "EvalCsvRunDataSource" &&
+        /Lost maintained root export/.test(item.message),
+    ),
+  );
+});
+
+test("an unapproved discriminator-preserving model rename still fails closed", () => {
+  const baseGenerated = evaluationDataSources();
+  const generated = evaluationDataSources({ traces: "RenamedTracesEvalRunDataSource" });
+  const result = plan(baseGenerated, evaluationDataSources(), generated);
+  assert.equal(result.files.size, 0);
+  for (const declaration of [
+    "evalRunDataSourceUnionSerializer",
+    "evalRunDataSourceUnionDeserializer",
+  ])
+    assert.ok(
+      result.diagnostics.some(
+        (item) =>
+          item.declaration === declaration &&
+          item.member?.endsWith('["string","azure_ai_traces"]') &&
+          /Conflicting additions with no common baseline/.test(item.message),
+      ),
+      JSON.stringify(result.diagnostics, null, 2),
+    );
+  // Guard inputs cannot approve the rename either: the old root export is still lost.
+  assert.ok(
+    validateCustomization({
+      baseGenerated,
+      baseSource: evaluationDataSources(),
+      generated,
+      source: generated,
+      matches: [],
+      modelRenames: new Map([["TracesEvalRunDataSource", "RenamedTracesEvalRunDataSource"]]),
+    }).some(
+      (item) =>
+        item.declaration === "TracesEvalRunDataSource" &&
+        /Lost maintained root export/.test(item.message),
+    ),
+  );
+});
+
+for (const suffix of ["Serializer", "Deserializer", "ArraySerializer", "ArrayDeserializer"]) {
+  test(`rejects an emitted model rename when its customized ${suffix} cannot follow`, () => {
+    const baseText = `
+export interface PhoneNumber { value: string; }
+export function phoneNumber${suffix}(item: PhoneNumber): any {
+  return { value: item.value };
+}`;
+    const customText = baseText.replace(
+      "return { value: item.value };",
+      "return { value: item.value, custom: true };",
+    );
+    const incomingText = baseText
+      .replaceAll("PhoneNumber", "TelephonyPhoneNumber")
+      .replaceAll("phoneNumber", "telephonyPhoneNumber");
+    for (const generated of [
+      tree(incomingText.replace("value: item.value", "value: String(item.value)")),
+      tree(incomingText.slice(0, incomingText.indexOf("export function"))),
+      tree(incomingText),
+    ]) {
+      const base = tree(baseText);
+      const custom = tree(
+        customText +
+          (generated.get(modelFile) === incomingText
+            ? `\nexport function telephonyPhoneNumber${suffix}(): any { return {}; }`
+            : ""),
+      );
+      const result = plan(base, custom, generated);
+      assert.equal(result.files.size, 0);
+      assert.ok(
+        result.diagnostics.some(
+          (item) =>
+            item.declaration === `phoneNumber${suffix}` &&
+            /cannot preserve converter/.test(item.message),
+        ),
+      );
+      if (generated.get(modelFile) !== incomingText)
+        assert.ok(
+          validateCustomization({
+            baseGenerated: base,
+            baseSource: custom,
+            generated,
+            source: generated,
+            matches: [],
+            modelRenames: new Map([
+              ["PhoneNumber", "TelephonyPhoneNumber"],
+              [`phoneNumber${suffix}`, `telephonyPhoneNumber${suffix}`],
+            ]),
+          }).length > 0,
+        );
+    }
+  });
+}
 
 test("legacy registration retention does not resurrect a model removed by customization", () => {
   const result = succeeded(
@@ -787,6 +1281,282 @@ export function ${prefix}ArrayDeserializer(items: ${model}[]): ${model}[] {
   });
   assert.equal(decoded.context, "new field");
   assert.equal(decoded.details[0].code, "inner");
+});
+
+test("historical Tool identities merge restored names without replacing compatibility aliases", () => {
+  for (const [original, released, oldPrefix, prefix] of [
+    ["ToolFunctionTool", "FunctionTool", "toolFunctionTool", "functionTool"],
+    [
+      "ToolCodeInterpreterTool",
+      "CodeInterpreterTool",
+      "toolCodeInterpreterTool",
+      "codeInterpreterTool",
+    ],
+    ["ToolWebSearchTool", "WebSearchTool", "toolWebSearchTool", "webSearchTool"],
+    ["ToolMcpTool", "MCPTool", "toolMcpTool", "mcpTool"],
+    ["ToolCustomToolParam", "CustomToolParam", "toolCustomToolParam", "customToolParam"],
+  ]) {
+    const fixture = (name, converter, { custom = false, added = false } = {}) =>
+      tree(
+        `
+export interface Tool {}
+export interface ${name} extends Tool { name${custom ? "" : "?"}: string; ${added ? "strict?: boolean;" : ""} }
+export function ${converter}Serializer(item: ${name}): any {
+  return { name: ${custom ? "item.name.toUpperCase()" : "item.name"}, ${added ? "strict: item.strict," : ""} };
+}
+export function ${converter}Deserializer(item: any): ${name} {
+  return { name: item.name, ${added ? "strict: item.strict," : ""} };
+}
+${
+  ["ToolMcpTool", "ToolCustomToolParam"].includes(name)
+    ? `
+export interface ${released} { name?: string; }
+export function ${prefix}Serializer(item: ${released}): any { return { name: item.name, }; }
+export function ${prefix}Deserializer(item: any): ${released} { return { name: item.name, }; }
+`
+    : ""
+}
+${
+  custom
+    ? `
+export type ${original} = ${released};
+export const ${oldPrefix}Serializer = ${prefix}Serializer;
+export const ${oldPrefix}Deserializer = ${prefix}Deserializer;
+`
+    : ""
+}
+`,
+        `export type { ${name}${custom ? `, ${original}` : ""} } from "./models.js";`,
+      );
+    const incoming = fixture(released, prefix, { added: true });
+    const result = succeeded(
+      fixture(original, oldPrefix),
+      fixture(released, prefix, { custom: true }),
+      incoming,
+    );
+    const output = result.files.get(modelFile);
+    assert.match(output, new RegExp(`type ${original} = ${released}`));
+    assert.match(output, /name: string/);
+    assert.ok(result.exports.some((entry) => entry.name === original));
+    const converters = evaluate(output);
+    assert.equal(converters[oldPrefix + "Serializer"], converters[prefix + "Serializer"]);
+    assert.equal(converters[oldPrefix + "Deserializer"], converters[prefix + "Deserializer"]);
+    assert.deepEqual(
+      JSON.parse(
+        JSON.stringify(converters[oldPrefix + "Serializer"]({ name: "kept", strict: true })),
+      ),
+      { name: "KEPT", strict: true },
+    );
+    const repeated = succeeded(incoming, result.files, incoming);
+    assert.equal(
+      evaluate(repeated.files.get(modelFile))[prefix + "Serializer"]({ name: "kept" }).name,
+      "KEPT",
+    );
+  }
+});
+
+test("restored filter helpers reconcile alias syntax and retain established converter names", () => {
+  const fixture = ({ old = false, custom = false, added = false } = {}) => {
+    const value = old ? "_ToolFileSearchToolFiltersValue" : "FileSearchToolFiltersValue";
+    const items = old ? "_ToolFileSearchToolFiltersValue1" : "_FileSearchToolFiltersValue";
+    const converter = old
+      ? "_toolFileSearchToolFiltersValue"
+      : custom
+        ? "_fileSearchToolFiltersValue"
+        : "fileSearchToolFiltersValue";
+    const itemConverter = old
+      ? "_toolFileSearchToolFiltersValue1"
+      : custom
+        ? "_fileSearchToolFiltersValue1"
+        : "_FileSearchToolFiltersValue";
+    const union = `string | number | boolean | ${old ? "(string | number)" : items}[]${added ? " | null" : ""}`;
+    return tree(`
+export interface ComparisonFilter { value: ${old || custom ? union : value}; }
+export type ${value} = ${union};
+export type ${items} = string | number;
+export function ${converter}Serializer(item: ${value}): any { return item; }
+export function ${converter}Deserializer(item: any): ${value} { return item; }
+export function ${itemConverter}Serializer(item: ${items}): any { return item; }
+export function ${itemConverter}Deserializer(item: any): ${items} { return item; }
+export function ${itemConverter}ArraySerializer(items: ${items}[]): any[] { return items.map(${itemConverter}Serializer); }
+export function comparisonFilterSerializer(item: ComparisonFilter): any {
+  return { value: ${converter}Serializer(item.value) };
+}
+${
+  custom
+    ? `
+export type ComparisonFilterValueItems = string | number;
+export type _ToolFileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export const _toolFileSearchToolFiltersValueSerializer = _fileSearchToolFiltersValueSerializer;
+export const _toolFileSearchToolFiltersValueDeserializer = _fileSearchToolFiltersValueDeserializer;
+export const _toolFileSearchToolFiltersValue1Serializer = _fileSearchToolFiltersValue1Serializer;
+export const _toolFileSearchToolFiltersValue1Deserializer = _fileSearchToolFiltersValue1Deserializer;
+export const _toolFileSearchToolFiltersValue1ArraySerializer = _fileSearchToolFiltersValue1ArraySerializer;
+`
+    : ""
+}
+`);
+  };
+  const incoming = fixture({ added: true });
+  const result = succeeded(fixture({ old: true }), fixture({ custom: true }), incoming);
+  const output = result.files.get(modelFile);
+  assert.match(
+    output.replace(/\s+/g, " "),
+    /value: string \| number \| boolean \| _FileSearchToolFiltersValue\[\] \| null/,
+  );
+  assert.match(output, /export type ComparisonFilterValueItems = string \| number;/);
+  assert.ok(result.exports.some((entry) => entry.name === "ComparisonFilterValueItems"));
+  const converters = evaluate(output);
+  assert.equal(
+    converters._toolFileSearchToolFiltersValueSerializer,
+    converters._fileSearchToolFiltersValueSerializer,
+  );
+  assert.equal(
+    converters._toolFileSearchToolFiltersValue1ArraySerializer,
+    converters._fileSearchToolFiltersValue1ArraySerializer,
+  );
+  const values = ["kept", 0];
+  assert.equal(converters.comparisonFilterSerializer({ value: values }).value, values);
+  assert.equal(converters.comparisonFilterSerializer({ value: null }).value, null);
+  const repeated = succeeded(incoming, result.files, incoming);
+  assert.match(
+    repeated.files.get(modelFile),
+    /export type ComparisonFilterValueItems = string \| number;/,
+  );
+});
+
+test("restored helper references retain released inline property types and emitted variants", () => {
+  for (const [model, property, original, released, array] of [
+    [
+      "CodeInterpreterTool",
+      "container",
+      "_ToolCodeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+      false,
+    ],
+    ["MCPTool", "allowed_tools", "_ToolMcpToolAllowedTools", "_MCPToolAllowedTools", false],
+    [
+      "MCPTool",
+      "require_approval",
+      "_ToolMcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+      false,
+    ],
+    [
+      "CompoundFilter",
+      "filters",
+      "_ToolFileSearchToolFiltersFilter",
+      "_FileSearchToolFiltersFilter",
+      true,
+    ],
+  ]) {
+    const fixture = ({ old = false, custom = false, added = false } = {}) => {
+      const helper = old ? original : released;
+      const union = `string | number${added ? " | boolean" : ""}`;
+      const type = custom ? (array ? `(${union})[]` : union) : helper + (array ? "[]" : "");
+      return tree(`
+export interface ${model} { ${property}?: ${type}; ${custom ? "customized?: boolean;" : ""} }
+export type ${helper} = ${union};
+${custom ? `export type ${original} = ${released};` : ""}
+`);
+    };
+    const incoming = fixture({ added: true });
+    const result = succeeded(fixture({ old: true }), fixture({ custom: true }), incoming);
+    const output = result.files.get(modelFile);
+    assert.match(
+      output.replace(/\s+/g, " "),
+      new RegExp(
+        `${property}\\?: ${array ? "\\(" : ""}string \\| number \\| boolean${array ? "\\)\\[\\]" : ""}`,
+      ),
+    );
+    assert.match(output, /customized\?: boolean/);
+    assert.deepEqual(succeeded(incoming, result.files, incoming).diagnostics, []);
+  }
+});
+
+test("shared emitted tool helpers do not replace customized toolbox and voice converter calls", () => {
+  for (const [original, released, oldPrefix, prefix, emittedPrefix] of [
+    [
+      "_ToolCodeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+      "_toolCodeInterpreterToolContainer",
+      "_codeInterpreterToolContainer",
+      "_CodeInterpreterToolContainer",
+    ],
+    [
+      "_ToolMcpToolAllowedTools",
+      "_MCPToolAllowedTools",
+      "_toolMcpToolAllowedTools",
+      "_mcpToolAllowedTools",
+      "_MCPToolAllowedTools",
+    ],
+    [
+      "_ToolMcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+      "_toolMcpToolRequireApproval",
+      "_mcpToolRequireApproval",
+      "_MCPToolRequireApproval",
+    ],
+  ]) {
+    const fixture = (name, converter, custom = false) =>
+      tree(`
+export type ${name} = string | number;
+export function ${converter}Serializer(item: ${name}): any { return item; }
+export function toolboxSerializer(item: { value: ${name} }): any {
+  return { value: ${custom ? "customToolboxSerializer" : converter + "Serializer"}(item.value) };
+}
+${
+  custom
+    ? `
+export function customToolboxSerializer(item: ${name}): any { return String(item).toUpperCase(); }
+export type ${original} = ${released};
+export const ${oldPrefix}Serializer = ${prefix}Serializer;
+`
+    : ""
+}
+`);
+    const incoming = fixture(released, emittedPrefix);
+    const result = succeeded(
+      fixture(original, oldPrefix),
+      fixture(released, prefix, true),
+      incoming,
+    );
+    assert.equal(
+      evaluate(result.files.get(modelFile)).toolboxSerializer({ value: "kept" }).value,
+      "KEPT",
+    );
+    assert.equal(
+      evaluate(succeeded(incoming, result.files, incoming).files.get(modelFile)).toolboxSerializer({
+        value: "kept",
+      }).value,
+      "KEPT",
+    );
+  }
+});
+
+test("historical tool policy does not collapse independent declarations into released identities", () => {
+  const base = tree("export interface ToolFunctionTool { name?: string; }");
+  const custom = tree(`
+export interface ToolFunctionTool { name: string; }
+export interface FunctionTool { independent: boolean; }
+`);
+  const incoming = tree("export interface FunctionTool { name?: string; strict?: boolean; }");
+  const result = plan(base, custom, incoming);
+  assert.equal(result.renames.has("ToolFunctionTool"), false);
+  assert.ok(result.diagnostics.some((entry) => entry.declaration === "FunctionTool"));
+  const conflictingDefinitions = plan(
+    tree(
+      "export interface ToolMcpTool { name: string; } export interface MCPTool { independent: boolean; }",
+    ),
+    tree("export interface MCPTool { name: string; } export type ToolMcpTool = MCPTool;"),
+    tree("export interface MCPTool { name: string; }"),
+  );
+  assert.ok(
+    conflictingDefinitions.diagnostics.some((entry) =>
+      entry.message.includes("Ambiguous model declaration"),
+    ),
+  );
 });
 
 test("arbitrary JSON Schema is preserved in types and actual converter content", () => {

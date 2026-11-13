@@ -6,7 +6,7 @@
  */
 export const StorageResponseFormat = {
   /**
-   * Default. Currently maps to {@link StorageResponseFormat.Xml}, but may be updated in future releases.
+   * Default. Currently maps to {@link StorageResponseFormat.Arrow}, but may be updated in future releases.
    */
   Auto: "Auto",
   /**

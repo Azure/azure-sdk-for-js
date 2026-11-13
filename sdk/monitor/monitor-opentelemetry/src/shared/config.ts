@@ -13,7 +13,7 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
-import type { Sampler } from "@opentelemetry/sdk-trace-base";
+import type { Sampler } from "@opentelemetry/sdk-trace";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";

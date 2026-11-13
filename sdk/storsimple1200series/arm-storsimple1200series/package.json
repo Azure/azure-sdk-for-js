@@ -46,7 +46,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storsimple1200series/arm-storsimple1200series",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storsimple1200series/arm-storsimple1200series"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

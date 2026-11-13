@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iothub/arm-iothub)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iothub)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iothub?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iothub)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iothub/arm-iothub/samples)
 
 ## Getting started

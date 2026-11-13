@@ -10,17 +10,6 @@ export interface AgentPoolsGetUpgradeProfileOptionalParams extends OperationOpti
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentPoolsUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** The request should only proceed if an entity matches this string. */
-  ifMatch?: string;
-}
-
-/** Optional parameters. */
-export interface AgentPoolsListBootstrapDataOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -28,12 +17,6 @@ export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends Operati
 
 /** Optional parameters. */
 export interface AgentPoolsDeleteMachinesOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface AgentPoolsCompleteUpgradeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

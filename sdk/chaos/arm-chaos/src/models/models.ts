@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Model that represents a Capability resource. */
 export interface Capability extends ProxyResource {
   /** The properties of a capability resource. */
@@ -1661,320 +1662,6 @@ export function experimentExecutionActionTargetDetailsErrorDeserializer(
   };
 }
 
-/** PrivateAccesses tracked resource. */
-export interface PrivateAccess extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties: PrivateAccessProperties;
-}
-
-export function privateAccessSerializer(item: PrivateAccess): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: privateAccessPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function privateAccessDeserializer(item: any): PrivateAccess {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: privateAccessPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of a private access resource */
-export interface PrivateAccessProperties {
-  /** Most recent provisioning state for the given privateAccess resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** A readonly collection of private endpoint connection. Currently only one endpoint connection is supported. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Public Network Access Control for PrivateAccess resource. */
-  publicNetworkAccess?: PublicNetworkAccessOption;
-}
-
-export function privateAccessPropertiesSerializer(item: PrivateAccessProperties): any {
-  return { publicNetworkAccess: item["publicNetworkAccess"] };
-}
-
-export function privateAccessPropertiesDeserializer(item: any): PrivateAccessProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    privateEndpointConnections: !item["privateEndpointConnections"]
-      ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    publicNetworkAccess: item["publicNetworkAccess"],
-  };
-}
-
-export function privateEndpointConnectionArrayDeserializer(
-  result: Array<PrivateEndpointConnection>,
-): any[] {
-  return result.map((item) => {
-    return privateEndpointConnectionDeserializer(item);
-  });
-}
-
-/** The private endpoint connection resource. */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
-export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of the private endpoint connection. */
-export interface PrivateEndpointConnectionProperties {
-  /** The group ids for the private endpoint resource. */
-  readonly groupIds?: string[];
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function privateEndpointConnectionPropertiesDeserializer(
-  item: any,
-): PrivateEndpointConnectionProperties {
-  return {
-    groupIds: !item["groupIds"]
-      ? item["groupIds"]
-      : item["groupIds"].map((p: any) => {
-          return p;
-        }),
-    privateEndpoint: !item["privateEndpoint"]
-      ? item["privateEndpoint"]
-      : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
-      item["privateLinkServiceConnectionState"],
-    ),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** The private endpoint resource. */
-export interface PrivateEndpoint {
-  /** The Azure identifier for private endpoint. */
-  readonly id?: string;
-}
-
-export function privateEndpointDeserializer(item: any): PrivateEndpoint {
-  return {
-    id: item["id"],
-  };
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
-export function privateLinkServiceConnectionStateDeserializer(
-  item: any,
-): PrivateLinkServiceConnectionState {
-  return {
-    status: item["status"],
-    description: item["description"],
-    actionsRequired: item["actionsRequired"],
-  };
-}
-
-/** The private endpoint connection status. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending status. */
-  Pending = "Pending",
-  /** Approved status. */
-  Approved = "Approved",
-  /** Rejected status. */
-  Rejected = "Rejected",
-}
-
-/**
- * The private endpoint connection status. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending**: Pending status. \
- * **Approved**: Approved status. \
- * **Rejected**: Rejected status.
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Public Network Access Control for PrivateAccess resource. */
-export enum KnownPublicNetworkAccessOption {
-  /** Enabled access. */
-  Enabled = "Enabled",
-  /** Disabled access. */
-  Disabled = "Disabled",
-}
-
-/**
- * Public Network Access Control for PrivateAccess resource. \
- * {@link KnownPublicNetworkAccessOption} can be used interchangeably with PublicNetworkAccessOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Enabled access. \
- * **Disabled**: Disabled access.
- */
-export type PublicNetworkAccessOption = string;
-
-/** Describes a private access update. */
-export interface PrivateAccessPatch {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function privateAccessPatchSerializer(item: PrivateAccessPatch): any {
-  return { tags: item["tags"] };
-}
-
-/** Model that represents a list of private access resources and a link for pagination. */
-export interface _PrivateAccessListResult {
-  /** The PrivateAccess items on this page */
-  value: PrivateAccess[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _privateAccessListResultDeserializer(item: any): _PrivateAccessListResult {
-  return {
-    value: privateAccessArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function privateAccessArraySerializer(result: Array<PrivateAccess>): any[] {
-  return result.map((item) => {
-    return privateAccessSerializer(item);
-  });
-}
-
-export function privateAccessArrayDeserializer(result: Array<PrivateAccess>): any[] {
-  return result.map((item) => {
-    return privateAccessDeserializer(item);
-  });
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** The PrivateLinkResource items on this page */
-  value: PrivateLinkResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function privateLinkResourceListResultDeserializer(
-  item: any,
-): PrivateLinkResourceListResult {
-  return {
-    value: privateLinkResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
-  return result.map((item) => {
-    return privateLinkResourceDeserializer(item);
-  });
-}
-
-/** A private link resource. */
-export interface PrivateLinkResource extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties: PrivateLinkResourceProperties;
-}
-
-export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: privateLinkResourcePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-  /** Resource provisioning state. Not currently in use. */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function privateLinkResourcePropertiesDeserializer(
-  item: any,
-): PrivateLinkResourceProperties {
-  return {
-    groupId: item["groupId"],
-    requiredMembers: !item["requiredMembers"]
-      ? item["requiredMembers"]
-      : item["requiredMembers"].map((p: any) => {
-          return p;
-        }),
-    requiredZoneNames: !item["requiredZoneNames"]
-      ? item["requiredZoneNames"]
-      : item["requiredZoneNames"].map((p: any) => {
-          return p;
-        }),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** A list of private link resources */
-export interface _PrivateEndpointConnectionListResult {
-  /** The PrivateEndpointConnection items on this page */
-  value: PrivateEndpointConnection[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _privateEndpointConnectionListResultDeserializer(
-  item: any,
-): _PrivateEndpointConnectionListResult {
-  return {
-    value: privateEndpointConnectionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
 /** Model that represents an Action resource. */
 export interface Action extends ProxyResource {
   /** The properties of the action resource. */
@@ -2306,10 +1993,16 @@ export function workspaceDeserializer(item: any): Workspace {
 export interface WorkspaceProperties {
   /** Most recent provisioning state for the given Workspace resource. */
   readonly provisioningState?: ProvisioningState;
-  /** The communication endpoint used to connect and communicate with the workspace for fault-injection orchestration. */
-  readonly communicationEndpoint?: string;
   /** The intended workspace-level resource scope to be used by child scenarios. */
   scopes: string[];
+  /**
+   * The requested customer key and service observations. Accepted creation fixes
+   * whether customerManagedKeyEncryption is present. On PUT, omission of
+   * encryption or its CMK object, or an empty encryption object, is valid for
+   * Microsoft-managed Workspaces but rejected for CMK-created Workspaces.
+   * Null is not a valid PUT value. A CMK-created Workspace can replace its key.
+   */
+  encryption?: WorkspaceEncryption;
 }
 
 export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
@@ -2317,18 +2010,215 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
     scopes: item["scopes"].map((p: any) => {
       return p;
     }),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : workspaceEncryptionSerializer(item["encryption"]),
   };
 }
 
 export function workspacePropertiesDeserializer(item: any): WorkspaceProperties {
   return {
     provisioningState: item["provisioningState"],
-    communicationEndpoint: item["communicationEndpoint"],
     scopes: item["scopes"].map((p: any) => {
       return p;
     }),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : workspaceEncryptionDeserializer(item["encryption"]),
   };
 }
+
+/** The validated requested key and vault reference, onboarding information, and service observations. */
+export interface WorkspaceEncryption {
+  /**
+   * The requested customer-managed key. Its presence is fixed by accepted
+   * Workspace creation: adding CMK to a Microsoft-managed Workspace or removing
+   * CMK from a CMK-created Workspace is rejected with InvalidEncryptionConfiguration.
+   * The key pair remains updateable on CMK-created Workspaces, including after
+   * a failed creation. A present object requires a coherent keyEncryptionKeyUrl and
+   * keyVaultResourceId pair. After synchronous caller and vault validation,
+   * the accepted pair can be returned while configuration is Pending.
+   * It does not prove that active data already uses the requested key.
+   */
+  customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryption;
+  /** The service application to authorize before creating a new CMK Workspace; also returned for existing Workspaces. */
+  readonly customerManagedKeyOnboarding?: WorkspaceCustomerManagedKeyOnboarding;
+  /** The observed result, separate from the requested setting. */
+  readonly status?: WorkspaceEncryptionStatus;
+}
+
+export function workspaceEncryptionSerializer(item: WorkspaceEncryption): any {
+  return {
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : workspaceCustomerManagedKeyEncryptionSerializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+export function workspaceEncryptionDeserializer(item: any): WorkspaceEncryption {
+  return {
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : workspaceCustomerManagedKeyEncryptionDeserializer(item["customerManagedKeyEncryption"]),
+    customerManagedKeyOnboarding: !item["customerManagedKeyOnboarding"]
+      ? item["customerManagedKeyOnboarding"]
+      : workspaceCustomerManagedKeyOnboardingDeserializer(item["customerManagedKeyOnboarding"]),
+    status: !item["status"]
+      ? item["status"]
+      : workspaceEncryptionStatusDeserializer(item["status"]),
+  };
+}
+
+/** A customer-managed key reference, not key material. */
+export interface WorkspaceCustomerManagedKeyEncryption {
+  /**
+   * The versionless HTTPS Key Vault key URI in the supported cloud and Workspace
+   * tenant. The key vault must belong to the same Microsoft Entra tenant as
+   * the Workspace. Its HTTPS origin must match the vault referenced by
+   * keyVaultResourceId. The service validates the effective pair and caller
+   * vault-read permission synchronously through Azure Resource Manager before
+   * creating public operation metadata, accepting the configuration operation,
+   * persisting requested encryption, or changing Storage or customer data.
+   * Supports RSA keys in Azure Key Vault and RSA-HSM keys in Premium Key Vault,
+   * with key sizes of 2048, 3072, or 4096 bits. Premium RSA-HSM keys use the same
+   * vault URL. The separate Azure Managed HSM service is not supported;
+   * Managed HSM endpoints are rejected before operation acceptance.
+   * A key version, query string, or fragment is not permitted.
+   * Azure Storage follows key versions automatically. Keep the previous version
+   * available for at least 24 hours after rotation.
+   */
+  keyEncryptionKeyUrl: string;
+  /**
+   * The fully qualified Azure resource ID of the key vault that contains the key.
+   * Use /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName},
+   * not a key child resource, Managed HSM, or URL. Full PUT with CMK and PATCH
+   * that changes either CMK member require Microsoft.KeyVault/vaults/read on
+   * the effective vault. The service compares its canonical ID, tenant, and
+   * vault URI with the requested pair before accepting the operation.
+   */
+  keyVaultResourceId: string;
+}
+
+export function workspaceCustomerManagedKeyEncryptionSerializer(
+  item: WorkspaceCustomerManagedKeyEncryption,
+): any {
+  return {
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+    keyVaultResourceId: item["keyVaultResourceId"],
+  };
+}
+
+export function workspaceCustomerManagedKeyEncryptionDeserializer(
+  item: any,
+): WorkspaceCustomerManagedKeyEncryption {
+  return {
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+    keyVaultResourceId: item["keyVaultResourceId"],
+  };
+}
+
+/** The service application that the customer authorizes to use the key. */
+export interface WorkspaceCustomerManagedKeyOnboarding {
+  /**
+   * The Microsoft Entra application ID used for customer consent, returned for
+   * existing Workspaces, including Microsoft-managed Workspaces. This does not
+   * permit adding CMK to an existing Microsoft-managed Workspace. Before
+   * creating a Workspace with a customer key, obtain the application name and
+   * ID for the target cloud from the service onboarding documentation or Portal,
+   * then consent and grant key access. The configuring caller separately needs
+   * Microsoft.KeyVault/vaults/read on the referenced vault.
+   * GET returns the same application ID.
+   * This is not a service principal object ID or an identity selector.
+   * The Workspace's top-level identity does not select this application.
+   */
+  readonly applicationId: string;
+}
+
+export function workspaceCustomerManagedKeyOnboardingDeserializer(
+  item: any,
+): WorkspaceCustomerManagedKeyOnboarding {
+  return {
+    applicationId: item["applicationId"],
+  };
+}
+
+/** Service observations of protection and access for customer data under the Workspace encryption scope. */
+export interface WorkspaceEncryptionStatus {
+  /** The result of configuration or the most recent usable health observation. */
+  readonly state: WorkspaceEncryptionState;
+  /** The last directly observed active protection. Omitted when unknown. */
+  readonly observedProtection?: WorkspaceEncryptionProtection;
+  /**
+   * The active key URI reported by Azure Storage, including its version when
+   * available. Omitted when unknown or when protection is Microsoft-managed.
+   * This value is not inferred from the requested key.
+   */
+  readonly observedKeyEncryptionKeyUrl?: string;
+  /** The UTC time of the observation, including a failed check. */
+  readonly lastCheckedAt?: Date;
+  /**
+   * The configuration or health error. Failed state includes a code and message.
+   * CustomerKeyAccessFailed means Azure Storage cannot use the customer key.
+   * EncryptionConfigurationFailed means a service-side configuration step failed.
+   * A more specific cause is included only when the platform response identifies it.
+   */
+  readonly error?: ErrorDetail;
+}
+
+export function workspaceEncryptionStatusDeserializer(item: any): WorkspaceEncryptionStatus {
+  return {
+    state: item["state"],
+    observedProtection: item["observedProtection"],
+    observedKeyEncryptionKeyUrl: item["observedKeyEncryptionKeyUrl"],
+    lastCheckedAt: !item["lastCheckedAt"] ? item["lastCheckedAt"] : new Date(item["lastCheckedAt"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The observed encryption state; this does not replace Workspace provisioningState. */
+export enum KnownWorkspaceEncryptionState {
+  /** No per-Workspace encryption configuration exists. Microsoft-managed protection applies. */
+  NotConfigured = "NotConfigured",
+  /** An encryption configuration operation is in progress. */
+  Pending = "Pending",
+  /** A fresh check confirms the requested customer key and scoped customer-data access. */
+  Applied = "Applied",
+  /** An encryption configuration step or health check failed. See the error for corrective action. */
+  Failed = "Failed",
+  /** No usable fresh observation is available. */
+  Unknown = "Unknown",
+}
+
+/**
+ * The observed encryption state; this does not replace Workspace provisioningState. \
+ * {@link KnownWorkspaceEncryptionState} can be used interchangeably with WorkspaceEncryptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotConfigured**: No per-Workspace encryption configuration exists. Microsoft-managed protection applies. \
+ * **Pending**: An encryption configuration operation is in progress. \
+ * **Applied**: A fresh check confirms the requested customer key and scoped customer-data access. \
+ * **Failed**: An encryption configuration step or health check failed. See the error for corrective action. \
+ * **Unknown**: No usable fresh observation is available.
+ */
+export type WorkspaceEncryptionState = string;
+
+/** The last directly observed protection of active Workspace customer data. */
+export enum KnownWorkspaceEncryptionProtection {
+  /** Active customer data uses customer-managed key protection. */
+  CustomerManaged = "CustomerManaged",
+  /** Active customer data uses Microsoft-managed key protection. */
+  MicrosoftManaged = "MicrosoftManaged",
+}
+
+/**
+ * The last directly observed protection of active Workspace customer data. \
+ * {@link KnownWorkspaceEncryptionProtection} can be used interchangeably with WorkspaceEncryptionProtection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomerManaged**: Active customer data uses customer-managed key protection. \
+ * **MicrosoftManaged**: Active customer data uses Microsoft-managed key protection.
+ */
+export type WorkspaceEncryptionProtection = string;
 
 /** Describes a workspace update. */
 export interface WorkspaceUpdate {
@@ -2336,6 +2226,8 @@ export interface WorkspaceUpdate {
   tags?: Record<string, string>;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /** The resource-specific fields to update. Omitted fields are unchanged. */
+  properties?: WorkspaceUpdateProperties;
 }
 
 export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
@@ -2344,6 +2236,87 @@ export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspaceUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The Workspace properties supported by partial updates. */
+export interface WorkspaceUpdateProperties {
+  /**
+   * A JSON Merge Patch of the requested encryption setting. Omission leaves the
+   * setting unchanged. Null deletion is rejected on a CMK-created Workspace
+   * and is a no-op only when the setting is already absent on a Microsoft-managed
+   * Workspace. The service validates the creation choice and merged pair first.
+   */
+  encryption?: WorkspaceEncryptionPatchMergePatchUpdateOrCreate;
+}
+
+export function workspaceUpdatePropertiesSerializer(item: WorkspaceUpdateProperties): any {
+  return {
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : workspaceEncryptionPatchMergePatchUpdateOrCreateSerializer(item["encryption"]),
+  };
+}
+
+/**
+ * A partial encryption setting. Omitted fields are unchanged and null deletes a
+ * writable field. A remaining customerManagedKeyEncryption object must have a
+ * coherent key URL and vault resource ID. Read-only onboarding and status
+ * inputs are ignored. The accepted creation choice cannot change. Only a
+ * CMK-created Workspace can update the pair. Changing either member requires synchronous caller and
+ * vault validation of the merged pair, including any retained member.
+ */
+export interface WorkspaceEncryptionPatchMergePatchUpdateOrCreate {
+  /**
+   * The customer key configuration to merge on a CMK-created Workspace.
+   * Null deletion is rejected on CMK and is a no-op only when already absent
+   * on a Microsoft-managed Workspace. An empty object retains an existing
+   * complete pair without a lookup when neither member changes, but is invalid
+   * when the merged pair is incomplete. Unsupported mode changes are rejected
+   * before vault lookup, operation creation, desired mutation, or Storage effects.
+   */
+  customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate;
+}
+
+export function workspaceEncryptionPatchMergePatchUpdateOrCreateSerializer(
+  item: WorkspaceEncryptionPatchMergePatchUpdateOrCreate,
+): any {
+  return {
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : workspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreateSerializer(
+          item["customerManagedKeyEncryption"],
+        ),
+  };
+}
+
+/** A partial customer key reference, validated after merging with the stored setting. */
+export interface WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate {
+  /**
+   * The replacement versionless key URI. Omission retains the URI; null deletes
+   * it. A same-vault replacement retains the stored vault ID. The effective
+   * pair is authorized and validated before acceptance; an incomplete or
+   * mismatched pair is rejected. Key path and name casing is preserved.
+   */
+  keyEncryptionKeyUrl?: string;
+  /**
+   * The vault resource ID to merge with the key URL. Omission retains the ID,
+   * but does not bypass caller authorization when the URL changes. Null deletes
+   * the ID; a remaining CMK object without both members is invalid. Changing
+   * vault requires a coherent new URL and ID pair.
+   */
+  keyVaultResourceId?: string;
+}
+
+export function workspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreateSerializer(
+  item: WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate,
+): any {
+  return {
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+    keyVaultResourceId: item["keyVaultResourceId"],
   };
 }
 
@@ -2374,7 +2347,7 @@ export function workspaceArrayDeserializer(result: Array<Workspace>): any[] {
   });
 }
 
-/** Model that represents the latest workspace discovery result. */
+/** A retained workspace discovery result and its accepted coverage facts. */
 export interface WorkspaceDiscovery extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: WorkspaceDiscoveryProperties;
@@ -2408,6 +2381,16 @@ export interface WorkspaceDiscoveryProperties {
   readonly workspaceId: string;
   /** The resource snapshot ID produced by this discovery. */
   readonly resourceSnapshotId?: string;
+  /** The coverage established by the accepted discovery result for Azure Resource Manager scopes. Present with coverageSummary on newly produced snapshot results; absence is not Established or a known zero. */
+  readonly completeness?: WorkspaceDiscoveryCompleteness;
+  /** Coverage facts for the accepted result. Scope counts, resource-occurrence counts, warning counts, and returned inventory-row counts are different units and must not be combined. */
+  readonly coverageSummary?: WorkspaceDiscoveryCoverageSummary;
+  /** Confirmed access, missing-resource, or access-indeterminate guidance. System verification failures are reported in errors, not as permission warnings. The returned array may be a subset; use warningsTotalCount and warningsTruncated. */
+  readonly warnings?: WorkspaceDiscoveryWarningUnion[];
+  /** The deduplicated number of warning identities before sampling. Identity consists of the expanded scope, affected resource, and reason. Absent means no accepted warning population was recorded, not zero warnings. */
+  readonly warningsTotalCount?: number;
+  /** Whether warnings contains fewer entries than warningsTotalCount. False requires equality; true requires a smaller returned array. An accepted empty warning population is an empty array, zero total, and false. */
+  readonly warningsTruncated?: boolean;
 }
 
 export function workspaceDiscoveryPropertiesDeserializer(item: any): WorkspaceDiscoveryProperties {
@@ -2418,6 +2401,15 @@ export function workspaceDiscoveryPropertiesDeserializer(item: any): WorkspaceDi
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
     workspaceId: item["workspaceId"],
     resourceSnapshotId: item["resourceSnapshotId"],
+    completeness: item["completeness"],
+    coverageSummary: !item["coverageSummary"]
+      ? item["coverageSummary"]
+      : workspaceDiscoveryCoverageSummaryDeserializer(item["coverageSummary"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : workspaceDiscoveryWarningUnionArrayDeserializer(item["warnings"]),
+    warningsTotalCount: item["warningsTotalCount"],
+    warningsTruncated: item["warningsTruncated"],
   };
 }
 
@@ -2431,6 +2423,8 @@ export enum KnownWorkspaceDiscoveryStatus {
   InProgress = "InProgress",
   /** The discovery completed successfully. */
   Succeeded = "Succeeded",
+  /** Discovery produced an admissible result with an observed coverage shortfall. This status does not itself block scenario runs or evaluations; consumers requiring established coverage must also check completeness. */
+  PartiallySucceeded = "PartiallySucceeded",
   /** The discovery failed. */
   Failed = "Failed",
   /** The discovery was canceled. */
@@ -2446,6 +2440,7 @@ export enum KnownWorkspaceDiscoveryStatus {
  * **Queued**: The discovery has been accepted and is queued for execution. \
  * **InProgress**: The discovery is in progress. \
  * **Succeeded**: The discovery completed successfully. \
+ * **PartiallySucceeded**: Discovery produced an admissible result with an observed coverage shortfall. This status does not itself block scenario runs or evaluations; consumers requiring established coverage must also check completeness. \
  * **Failed**: The discovery failed. \
  * **Canceled**: The discovery was canceled.
  */
@@ -2472,7 +2467,297 @@ export function operationErrorDeserializer(item: any): OperationError {
   };
 }
 
-/** Model that represents the latest workspace evaluation result. */
+/** The coverage classification of the accepted Azure Resource Manager discovery result, independent of operation status and cause. */
+export enum KnownWorkspaceDiscoveryCompleteness {
+  /** All attainable expected resource occurrences were classified and represented, with no observed shortfall. */
+  Established = "Established",
+  /** Required work completed without an observed gap, but a complete inventory denominator is structurally unavailable. */
+  BaselineUnknown = "BaselineUnknown",
+  /** Required system verification did not complete or a proven accessible required resource was not represented. */
+  VerificationIncomplete = "VerificationIncomplete",
+  /** Confirmed undelivered obligations remain and no required system-verification gap remains. */
+  KnownPartial = "KnownPartial",
+}
+
+/**
+ * The coverage classification of the accepted Azure Resource Manager discovery result, independent of operation status and cause. \
+ * {@link KnownWorkspaceDiscoveryCompleteness} can be used interchangeably with WorkspaceDiscoveryCompleteness,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Established**: All attainable expected resource occurrences were classified and represented, with no observed shortfall. \
+ * **BaselineUnknown**: Required work completed without an observed gap, but a complete inventory denominator is structurally unavailable. \
+ * **VerificationIncomplete**: Required system verification did not complete or a proven accessible required resource was not represented. \
+ * **KnownPartial**: Confirmed undelivered obligations remain and no required system-verification gap remains.
+ */
+export type WorkspaceDiscoveryCompleteness = string;
+
+/** Aggregate coverage of expanded Azure Resource Manager scope occurrences. Non-Azure Resource Manager discovery ingress is outside this population. VerificationIncomplete dominates KnownPartial, then BaselineUnknown, then Established. */
+export interface WorkspaceDiscoveryCoverageSummary {
+  /** The scope-occurrence coverage partitions for this discovery result. */
+  readonly scopes: WorkspaceDiscoveryScopeCoverageSummary;
+  /** Required resource occurrences only from scopes with a known complete expected inventory set. Absent exactly when knownExpectedSetCount is zero. Unknown is not a known empty set. */
+  readonly resources?: WorkspaceDiscoveryResourceCoverageSummary;
+}
+
+export function workspaceDiscoveryCoverageSummaryDeserializer(
+  item: any,
+): WorkspaceDiscoveryCoverageSummary {
+  return {
+    scopes: workspaceDiscoveryScopeCoverageSummaryDeserializer(item["scopes"]),
+    resources: !item["resources"]
+      ? item["resources"]
+      : workspaceDiscoveryResourceCoverageSummaryDeserializer(item["resources"]),
+  };
+}
+
+/** Two independent partitions of expanded scope occurrences after normalized-scope deduplication. Distinct service groups remain distinct even if their members coincide. The known/unknown counts and the four completeness counts each sum to totalCount. */
+export interface WorkspaceDiscoveryScopeCoverageSummary {
+  /** The number of expanded Azure Resource Manager scope occurrences represented by the result. */
+  readonly totalCount: number;
+  /** The number of scopes with an authoritative complete expected resource-occurrence set, including authoritatively empty sets. */
+  readonly knownExpectedSetCount: number;
+  /** The number of scopes whose complete expected inventory set is unavailable. A service group's known subscription or resource-group membership does not establish its descendant-resource denominator. */
+  readonly unknownExpectedSetCount: number;
+  /** The number of scopes with Established coverage. */
+  readonly establishedCount: number;
+  /** The number of scopes with a structurally unavailable denominator and no observed shortfall, including successful observed-empty container scans. */
+  readonly baselineUnknownCount: number;
+  /** The number of scopes with required verification failure, unavailable required child enumeration, or a proven accessible required resource absent from the snapshot. */
+  readonly verificationIncompleteCount: number;
+  /** The number of scopes with confirmed undelivered obligations and no remaining system-verification gap. */
+  readonly knownPartialCount: number;
+}
+
+export function workspaceDiscoveryScopeCoverageSummaryDeserializer(
+  item: any,
+): WorkspaceDiscoveryScopeCoverageSummary {
+  return {
+    totalCount: item["totalCount"],
+    knownExpectedSetCount: item["knownExpectedSetCount"],
+    unknownExpectedSetCount: item["unknownExpectedSetCount"],
+    establishedCount: item["establishedCount"],
+    baselineUnknownCount: item["baselineUnknownCount"],
+    verificationIncompleteCount: item["verificationIncompleteCount"],
+    knownPartialCount: item["knownPartialCount"],
+  };
+}
+
+/** Required resource occurrences from known-set scopes, keyed by normalized scope and resource before global inventory-row deduplication. classifiedCount plus unclassifiedCount equals expectedCount, and coveredCount does not exceed classifiedCount. */
+export interface WorkspaceDiscoveryResourceCoverageSummary {
+  /** The number of unique required resource occurrences across known-set scopes, not the number of service-group container members or listed inventory rows. */
+  readonly expectedCount: number;
+  /** The number of expected occurrences with a terminal access or presence classification. */
+  readonly classifiedCount: number;
+  /** The number of expected occurrences that required system verification could not classify. */
+  readonly unclassifiedCount: number;
+  /** The number of classified expected occurrences actually represented in the produced snapshot. Access to a container or its descendants does not invent a resource occurrence. */
+  readonly coveredCount: number;
+}
+
+export function workspaceDiscoveryResourceCoverageSummaryDeserializer(
+  item: any,
+): WorkspaceDiscoveryResourceCoverageSummary {
+  return {
+    expectedCount: item["expectedCount"],
+    classifiedCount: item["classifiedCount"],
+    unclassifiedCount: item["unclassifiedCount"],
+    coveredCount: item["coveredCount"],
+  };
+}
+
+export function workspaceDiscoveryWarningUnionArrayDeserializer(
+  result: Array<WorkspaceDiscoveryWarningUnion>,
+): any[] {
+  return result.map((item) => {
+    return workspaceDiscoveryWarningUnionDeserializer(item);
+  });
+}
+
+/** The common fields of a discovery guidance warning, discriminated by reason. Known reasons use their corresponding subtype; unknown future reasons retain these base fields. */
+export interface WorkspaceDiscoveryWarning {
+  /** The normalized expanded source scope where the affected obligation was encountered. */
+  readonly scopeId: string;
+  /** The source scope kind, such as Subscription, ResourceGroup, ServiceGroup, or Resource. */
+  readonly scopeKind: string;
+  /** The confirmed guidance reason, not a system-verification failure. */
+  /** The discriminator possible values: RbacValidationFailed, TargetNotFound, AccessIndeterminate */
+  readonly reason: WorkspaceDiscoveryWarningReason;
+  /** Human-readable guidance with attribution appropriate to the reason. */
+  readonly message: string;
+}
+
+export function workspaceDiscoveryWarningDeserializer(item: any): WorkspaceDiscoveryWarning {
+  return {
+    scopeId: item["scopeId"],
+    scopeKind: item["scopeKind"],
+    reason: item["reason"],
+    message: item["message"],
+  };
+}
+
+/** Alias for WorkspaceDiscoveryWarningUnion */
+export type WorkspaceDiscoveryWarningUnion =
+  | WorkspaceDiscoveryPermissionWarning
+  | WorkspaceDiscoveryResourceWarning
+  | WorkspaceDiscoveryAccessWarning
+  | WorkspaceDiscoveryWarning;
+
+export function workspaceDiscoveryWarningUnionDeserializer(
+  item: any,
+): WorkspaceDiscoveryWarningUnion {
+  switch (item["reason"]) {
+    case "RbacValidationFailed":
+      return workspaceDiscoveryPermissionWarningDeserializer(
+        item as WorkspaceDiscoveryPermissionWarning,
+      );
+
+    case "TargetNotFound":
+      return workspaceDiscoveryResourceWarningDeserializer(
+        item as WorkspaceDiscoveryResourceWarning,
+      );
+
+    case "AccessIndeterminate":
+      return workspaceDiscoveryAccessWarningDeserializer(item as WorkspaceDiscoveryAccessWarning);
+
+    default:
+      return workspaceDiscoveryWarningDeserializer(item);
+  }
+}
+
+/** The confirmed guidance reason. Unknown future reasons preserve the common warning fields and must not be interpreted as a permission denial. */
+export enum KnownWorkspaceDiscoveryWarningReason {
+  /** The affected resource could not be read because of a confirmed authorization denial. */
+  RbacValidationFailed = "RbacValidationFailed",
+  /** The affected resource or configured membership was confirmed missing. */
+  TargetNotFound = "TargetNotFound",
+  /** Access versus absence could not be determined; guidance must state both possibilities. */
+  AccessIndeterminate = "AccessIndeterminate",
+}
+
+/**
+ * The confirmed guidance reason. Unknown future reasons preserve the common warning fields and must not be interpreted as a permission denial. \
+ * {@link KnownWorkspaceDiscoveryWarningReason} can be used interchangeably with WorkspaceDiscoveryWarningReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RbacValidationFailed**: The affected resource could not be read because of a confirmed authorization denial. \
+ * **TargetNotFound**: The affected resource or configured membership was confirmed missing. \
+ * **AccessIndeterminate**: Access versus absence could not be determined; guidance must state both possibilities.
+ */
+export type WorkspaceDiscoveryWarningReason = string;
+
+/** Confirmed read-authorization guidance. Permission details are required composition, not an optional shell reused for other causes. */
+export interface WorkspaceDiscoveryPermissionWarning extends WorkspaceDiscoveryWarning {
+  /** Identifies confirmed read-authorization guidance. */
+  readonly reason: "RbacValidationFailed";
+  /** The affected resource, required permissions, recommended roles, and optional identity details. */
+  readonly permission: PermissionError;
+}
+
+export function workspaceDiscoveryPermissionWarningDeserializer(
+  item: any,
+): WorkspaceDiscoveryPermissionWarning {
+  return {
+    scopeId: item["scopeId"],
+    scopeKind: item["scopeKind"],
+    reason: item["reason"],
+    message: item["message"],
+    permission: permissionErrorDeserializer(item["permission"]),
+  };
+}
+
+/** Model that represents the permission error. */
+export interface PermissionError {
+  /** The resource id for the affected resource. */
+  readonly resourceId: string;
+  /** The missing permissions. */
+  readonly missingPermissions: string[];
+  /** The required permissions. */
+  readonly requiredPermissions: string[];
+  /** The recommended roles. */
+  readonly recommendedRoles: string[];
+  /** The identity. */
+  readonly identity?: EntraIdentity;
+  /**
+   * The error message describing the permission validation failure, when the
+   * failure carries a distinct message (for example, when the target could not
+   * be read to evaluate access).
+   */
+  readonly errorMessage?: string;
+}
+
+export function permissionErrorDeserializer(item: any): PermissionError {
+  return {
+    resourceId: item["resourceId"],
+    missingPermissions: item["missingPermissions"].map((p: any) => {
+      return p;
+    }),
+    requiredPermissions: item["requiredPermissions"].map((p: any) => {
+      return p;
+    }),
+    recommendedRoles: item["recommendedRoles"].map((p: any) => {
+      return p;
+    }),
+    identity: !item["identity"] ? item["identity"] : entraIdentityDeserializer(item["identity"]),
+    errorMessage: item["errorMessage"],
+  };
+}
+
+/** Model that represents the Azure Entra identity. */
+export interface EntraIdentity {
+  /** The identity object id. */
+  readonly objectId: string;
+  /** The identity tenant id. */
+  readonly tenantId: string;
+}
+
+export function entraIdentityDeserializer(item: any): EntraIdentity {
+  return {
+    objectId: item["objectId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+/** Guidance for a resource or membership confirmed missing. */
+export interface WorkspaceDiscoveryResourceWarning extends WorkspaceDiscoveryWarning {
+  /** Identifies confirmed missing-resource guidance. */
+  readonly reason: "TargetNotFound";
+  /** The affected resource or member identity. */
+  readonly resourceId: string;
+}
+
+export function workspaceDiscoveryResourceWarningDeserializer(
+  item: any,
+): WorkspaceDiscoveryResourceWarning {
+  return {
+    scopeId: item["scopeId"],
+    scopeKind: item["scopeKind"],
+    reason: item["reason"],
+    message: item["message"],
+    resourceId: item["resourceId"],
+  };
+}
+
+/** Neutral guidance when access versus absence could not be established. */
+export interface WorkspaceDiscoveryAccessWarning extends WorkspaceDiscoveryWarning {
+  /** Identifies neutral access-versus-absence guidance. */
+  readonly reason: "AccessIndeterminate";
+  /** The affected resource or member identity. */
+  readonly resourceId: string;
+}
+
+export function workspaceDiscoveryAccessWarningDeserializer(
+  item: any,
+): WorkspaceDiscoveryAccessWarning {
+  return {
+    scopeId: item["scopeId"],
+    scopeKind: item["scopeKind"],
+    reason: item["reason"],
+    message: item["message"],
+    resourceId: item["resourceId"],
+  };
+}
+
+/** A retained workspace evaluation of published scenario-template versions. */
 export interface WorkspaceEvaluation extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: WorkspaceEvaluationProperties;
@@ -2505,17 +2790,17 @@ export interface WorkspaceEvaluationProperties {
   /** The workspace ID this evaluation belongs to. */
   readonly workspaceId: string;
   /** The resource snapshot ID used for this evaluation. */
-  readonly resourceSnapshotId?: string;
+  readonly resourceSnapshotId: string;
+  /** The canonical Azure resource ID of the retained discovery result that supplied resourceSnapshotId. This reference does not change when the latest discovery changes and never identifies the latest alias or a protected LRO polling handle. */
+  readonly discoveryResultId: string;
   /** The number of templates to evaluate. */
-  readonly numTemplatesToEvaluate?: number;
+  readonly numTemplatesToEvaluate: number;
   /** The number of templates that evaluated successfully. */
-  readonly numTemplatesEvaluatedSucceeded?: number;
+  readonly numTemplatesEvaluatedSucceeded: number;
   /** The number of templates that failed evaluation. */
-  readonly numTemplatesEvaluatedFailed?: number;
+  readonly numTemplatesEvaluatedFailed: number;
   /** The number of templates that were cancelled during evaluation. */
-  readonly numTemplatesEvaluatedCancelled?: number;
-  /** The overall evaluation result. */
-  readonly evaluationResult?: RecommendationStatus;
+  readonly numTemplatesEvaluatedCancelled: number;
   /** Per-template evaluation results. */
   readonly results?: TemplateEvaluationResultItem[];
 }
@@ -2530,11 +2815,11 @@ export function workspaceEvaluationPropertiesDeserializer(
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
     workspaceId: item["workspaceId"],
     resourceSnapshotId: item["resourceSnapshotId"],
+    discoveryResultId: item["discoveryResultId"],
     numTemplatesToEvaluate: item["numTemplatesToEvaluate"],
     numTemplatesEvaluatedSucceeded: item["numTemplatesEvaluatedSucceeded"],
     numTemplatesEvaluatedFailed: item["numTemplatesEvaluatedFailed"],
     numTemplatesEvaluatedCancelled: item["numTemplatesEvaluatedCancelled"],
-    evaluationResult: item["evaluationResult"],
     results: !item["results"]
       ? item["results"]
       : templateEvaluationResultItemArrayDeserializer(item["results"]),
@@ -2551,11 +2836,11 @@ export enum KnownWorkspaceEvaluationStatus {
   InProgress = "InProgress",
   /** The evaluation completed successfully. */
   Succeeded = "Succeeded",
-  /** The evaluation partially succeeded — some scenarios succeeded while others failed. */
+  /** Unless cancellation won terminal settlement, at least one template applicability test completed and at least one failed or was canceled. Discovery completeness does not determine this processing status. The first terminal settlement is authoritative; a later cancellation does not replace it. */
   PartiallySucceeded = "PartiallySucceeded",
-  /** The evaluation failed. */
+  /** No template applicability test completed and at least one failed, unless cancellation won terminal settlement. The accepted resource snapshot and discovery result reference remain present; an admission failure creates no evaluation result. */
   Failed = "Failed",
-  /** The evaluation was canceled. */
+  /** Cancellation won terminal settlement, or all admitted template tests were canceled. Previously recorded outcomes may remain. A later callback cannot replace this terminal result, and cancellation cannot replace an already settled result. */
   Canceled = "Canceled",
 }
 
@@ -2568,11 +2853,37 @@ export enum KnownWorkspaceEvaluationStatus {
  * **Queued**: The evaluation has been accepted and is queued for execution. \
  * **InProgress**: The evaluation is in progress. \
  * **Succeeded**: The evaluation completed successfully. \
- * **PartiallySucceeded**: The evaluation partially succeeded — some scenarios succeeded while others failed. \
- * **Failed**: The evaluation failed. \
- * **Canceled**: The evaluation was canceled.
+ * **PartiallySucceeded**: Unless cancellation won terminal settlement, at least one template applicability test completed and at least one failed or was canceled. Discovery completeness does not determine this processing status. The first terminal settlement is authoritative; a later cancellation does not replace it. \
+ * **Failed**: No template applicability test completed and at least one failed, unless cancellation won terminal settlement. The accepted resource snapshot and discovery result reference remain present; an admission failure creates no evaluation result. \
+ * **Canceled**: Cancellation won terminal settlement, or all admitted template tests were canceled. Previously recorded outcomes may remain. A later callback cannot replace this terminal result, and cancellation cannot replace an already settled result.
  */
 export type WorkspaceEvaluationStatus = string;
+
+export function templateEvaluationResultItemArrayDeserializer(
+  result: Array<TemplateEvaluationResultItem>,
+): any[] {
+  return result.map((item) => {
+    return templateEvaluationResultItemDeserializer(item);
+  });
+}
+
+/** Model that represents a single template evaluation result. */
+export interface TemplateEvaluationResultItem {
+  /** The canonical ARM ID of the evaluated scenario-template version. Scenario IDs and versionless template aliases are not valid substitutes. */
+  readonly templateId: string;
+  /** The stable catalog name of the evaluated scenario template, not a localized display name. */
+  readonly templateName: string;
+  /** The evaluation result for this template. */
+  evaluationResult: RecommendationStatus;
+}
+
+export function templateEvaluationResultItemDeserializer(item: any): TemplateEvaluationResultItem {
+  return {
+    templateId: item["templateId"],
+    templateName: item["templateName"],
+    evaluationResult: item["evaluationResult"],
+  };
+}
 
 /** Enum of the scenario validation state. */
 export enum KnownRecommendationStatus {
@@ -2604,35 +2915,50 @@ export enum KnownRecommendationStatus {
  */
 export type RecommendationStatus = string;
 
-export function templateEvaluationResultItemArrayDeserializer(
-  result: Array<TemplateEvaluationResultItem>,
-): any[] {
+/** The response of a WorkspaceDiscovery list operation. */
+export interface _WorkspaceDiscoveryListResult {
+  /** The WorkspaceDiscovery items on this page */
+  value: WorkspaceDiscovery[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _workspaceDiscoveryListResultDeserializer(
+  item: any,
+): _WorkspaceDiscoveryListResult {
+  return {
+    value: workspaceDiscoveryArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function workspaceDiscoveryArrayDeserializer(result: Array<WorkspaceDiscovery>): any[] {
   return result.map((item) => {
-    return templateEvaluationResultItemDeserializer(item);
+    return workspaceDiscoveryDeserializer(item);
   });
 }
 
-/** Model that represents a single template evaluation result. */
-export interface TemplateEvaluationResultItem {
-  /**
-   * The template ID that was evaluated. Optional because the underlying BE field may
-   * be null for legacy evaluations created before template-centric persistence landed;
-   * the GW falls back to `scenarioName` in that case (`scenario.Id == templateId` by BE
-   * convention), so ARM responses are typically populated in practice.
-   */
-  templateId?: string;
-  /** The template name that was evaluated. Optional for the same reason as `templateId`. */
-  templateName?: string;
-  /** The evaluation result for this template. */
-  evaluationResult: RecommendationStatus;
+/** The response of a WorkspaceEvaluation list operation. */
+export interface _WorkspaceEvaluationListResult {
+  /** The WorkspaceEvaluation items on this page */
+  value: WorkspaceEvaluation[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-export function templateEvaluationResultItemDeserializer(item: any): TemplateEvaluationResultItem {
+export function _workspaceEvaluationListResultDeserializer(
+  item: any,
+): _WorkspaceEvaluationListResult {
   return {
-    templateId: item["templateId"],
-    templateName: item["templateName"],
-    evaluationResult: item["evaluationResult"],
+    value: workspaceEvaluationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
+}
+
+export function workspaceEvaluationArrayDeserializer(result: Array<WorkspaceEvaluation>): any[] {
+  return result.map((item) => {
+    return workspaceEvaluationDeserializer(item);
+  });
 }
 
 /** Model that represents a discovered resource. */
@@ -2669,6 +2995,10 @@ export interface DiscoveredResourceProperties {
   readonly discoveredAt: Date;
   /** The scope of the discovered resource. */
   readonly scope: string;
+  /** The Azure region the discovered resource is deployed to, in lowercase with no spaces. Absent when no single deployment region was captured, including global and multi-region resources. */
+  readonly location?: string;
+  /** The availability zones the discovered resource occupies. Values are logical zone identifiers, such as `["1", "2"]` for a zone-pinned resource, or the single value `zone-redundant` when redundancy is expressed as a flag or SKU rather than a zone list. Absent, and never empty, when no zone information was captured; a non-zone-aware resource and a zone-aware resource without an assigned zone are not distinguished. */
+  readonly zones?: string[];
 }
 
 export function discoveredResourcePropertiesDeserializer(item: any): DiscoveredResourceProperties {
@@ -2679,6 +3009,12 @@ export function discoveredResourcePropertiesDeserializer(item: any): DiscoveredR
     fullyQualifiedIdentifier: item["fullyQualifiedIdentifier"],
     discoveredAt: new Date(item["discoveredAt"]),
     scope: item["scope"],
+    location: item["location"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2737,25 +3073,59 @@ export function scenarioDeserializer(item: any): Scenario {
 export interface ScenarioProperties {
   /** Most recent provisioning state for the given scenario resource. */
   readonly provisioningState?: ProvisioningState;
-  /** Resource ID of the template version this scenario was created from (optional). */
-  readonly createdFrom?: string;
-  /** Version of the scenario. */
-  readonly version?: string;
+  /**
+   * Resource ID of the template version this scenario was created from (optional).
+   * The ID has the form
+   * `/providers/Microsoft.Chaos/scenarioTemplates/{scenarioTemplateName}/versions/{version}`.
+   * This property retains its existing string representation for compatibility
+   * with earlier API versions and SDKs.
+   *
+   * A scenario's structure comes from exactly one of two mutually exclusive sources.
+   * When `createdFrom` is supplied on create, the referenced template version is the
+   * authoritative source for the scenario's structure; inline `parameters` and
+   * `actions` are not used. When `createdFrom` is absent, the structure comes from
+   * the inline `parameters` and `actions` supplied in the request.
+   * Supplying neither source is rejected by request validation.
+   */
+  createdFrom?: string;
+  /**
+   * Version of the scenario, supplied by the author. Defaults to `1.0` when not
+   * supplied on create. This is the scenario's own version and is independent of
+   * the version of any template it was created from.
+   */
+  version?: string;
   /** Description of what this scenario does (optional). */
   description?: string;
   /** Parameter definitions for the scenario. */
-  parameters: ScenarioParameter[];
+  parameters?: ScenarioParameter[];
   /** Array of actions that define the scenario's orchestration. */
-  actions: ScenarioAction[];
+  actions?: ScenarioAction[];
+  /**
+   * Scenario-wide default for how a scenario run reacts when one of its actions fails.
+   * An action that does not supply its own `failureBehavior` inherits this value; when
+   * neither is supplied the effective behavior is `Stop`.
+   *
+   * Not used when `createdFrom` is supplied, for the same reason as `parameters` and
+   * `actions`: the referenced template version is then the authoritative source for the
+   * scenario's structure, and it supplies this policy too. A value sent in the request is
+   * ignored in that case — on create the referenced template's policy is used, and on update
+   * the policy of the already persisted template is preserved.
+   */
+  failureBehavior?: FailureBehavior;
   /** The recommendation information for this scenario. */
   readonly recommendation?: Recommendation;
 }
 
 export function scenarioPropertiesSerializer(item: ScenarioProperties): any {
   return {
+    createdFrom: item["createdFrom"],
+    version: item["version"],
     description: item["description"],
-    parameters: scenarioParameterArraySerializer(item["parameters"]),
-    actions: scenarioActionArraySerializer(item["actions"]),
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : scenarioParameterArraySerializer(item["parameters"]),
+    actions: !item["actions"] ? item["actions"] : scenarioActionArraySerializer(item["actions"]),
+    failureBehavior: item["failureBehavior"],
   };
 }
 
@@ -2765,8 +3135,11 @@ export function scenarioPropertiesDeserializer(item: any): ScenarioProperties {
     createdFrom: item["createdFrom"],
     version: item["version"],
     description: item["description"],
-    parameters: scenarioParameterArrayDeserializer(item["parameters"]),
-    actions: scenarioActionArrayDeserializer(item["actions"]),
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : scenarioParameterArrayDeserializer(item["parameters"]),
+    actions: !item["actions"] ? item["actions"] : scenarioActionArrayDeserializer(item["actions"]),
+    failureBehavior: item["failureBehavior"],
     recommendation: !item["recommendation"]
       ? item["recommendation"]
       : recommendationDeserializer(item["recommendation"]),
@@ -2797,6 +3170,8 @@ export interface ScenarioParameter {
   required?: boolean;
   /** Description of the parameter. */
   description?: string;
+  /** Format validation applied to the parameter's value, and examples of values that satisfy it. */
+  format?: ScenarioParameterFormat;
 }
 
 export function scenarioParameterSerializer(item: ScenarioParameter): any {
@@ -2806,6 +3181,7 @@ export function scenarioParameterSerializer(item: ScenarioParameter): any {
     default: item["default"],
     required: item["required"],
     description: item["description"],
+    format: !item["format"] ? item["format"] : scenarioParameterFormatSerializer(item["format"]),
   };
 }
 
@@ -2816,6 +3192,7 @@ export function scenarioParameterDeserializer(item: any): ScenarioParameter {
     default: item["default"],
     required: item["required"],
     description: item["description"],
+    format: !item["format"] ? item["format"] : scenarioParameterFormatDeserializer(item["format"]),
   };
 }
 
@@ -2846,6 +3223,63 @@ export enum KnownParameterType {
  */
 export type ParameterType = string;
 
+/** Model that represents the format validation applied to a scenario parameter's value. */
+export interface ScenarioParameterFormat {
+  /** The built-in format the value is validated against. */
+  formatType?: ParameterFormatType;
+  /** Human-readable examples of values that satisfy the format. */
+  examples?: string[];
+}
+
+export function scenarioParameterFormatSerializer(item: ScenarioParameterFormat): any {
+  return {
+    formatType: item["formatType"],
+    examples: !item["examples"]
+      ? item["examples"]
+      : item["examples"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function scenarioParameterFormatDeserializer(item: any): ScenarioParameterFormat {
+  return {
+    formatType: item["formatType"],
+    examples: !item["examples"]
+      ? item["examples"]
+      : item["examples"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Enum of the built-in formats a scenario parameter's value can be validated against. */
+export enum KnownParameterFormatType {
+  /** The value must be an Azure resource ID. */
+  AzureResourceId = "AzureResourceId",
+  /** The value must be an Azure region name. */
+  AzureRegion = "AzureRegion",
+  /** The value must be an Azure availability zone. */
+  AzureZone = "AzureZone",
+  /** The value must be an ISO 8601 duration. */
+  Duration = "Duration",
+  /** The value must be well-formed JSON. */
+  Json = "Json",
+}
+
+/**
+ * Enum of the built-in formats a scenario parameter's value can be validated against. \
+ * {@link KnownParameterFormatType} can be used interchangeably with ParameterFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureResourceId**: The value must be an Azure resource ID. \
+ * **AzureRegion**: The value must be an Azure region name. \
+ * **AzureZone**: The value must be an Azure availability zone. \
+ * **Duration**: The value must be an ISO 8601 duration. \
+ * **Json**: The value must be well-formed JSON.
+ */
+export type ParameterFormatType = string;
+
 export function scenarioActionArraySerializer(result: Array<ScenarioAction>): any[] {
   return result.map((item) => {
     return scenarioActionSerializer(item);
@@ -2870,6 +3304,13 @@ export interface ScenarioAction {
   duration: string;
   /** Action-specific parameter values. */
   parameters?: KeyValuePair[];
+  /**
+   * Action-specific target selectors evaluated during execution. When provided,
+   * the collection must contain either `logicalZone` and `location`, or `physicalZone`.
+   * Selector names must be unique, the two modes cannot be combined, and the service
+   * enforces the cross-item combination at runtime.
+   */
+  selectors?: ScenarioActionSelector[];
   /** Action dependencies that control when this action starts. */
   runAfter?: RunAfter;
   /** ISO 8601 duration to wait before action starts (e.g., PT30S for 30 seconds). Supports template macro syntax. */
@@ -2878,6 +3319,12 @@ export interface ScenarioAction {
   timeout?: string;
   /** External resource reference for the action. */
   externalResource?: ExternalResource;
+  /**
+   * Per-action override for how the scenario run reacts when this action fails. When omitted,
+   * the action inherits the scenario-level `failureBehavior`; when neither is supplied the
+   * effective behavior is `Stop`.
+   */
+  failureBehavior?: FailureBehavior;
 }
 
 export function scenarioActionSerializer(item: ScenarioAction): any {
@@ -2889,12 +3336,16 @@ export function scenarioActionSerializer(item: ScenarioAction): any {
     parameters: !item["parameters"]
       ? item["parameters"]
       : keyValuePairArraySerializer(item["parameters"]),
+    selectors: !item["selectors"]
+      ? item["selectors"]
+      : scenarioActionSelectorArraySerializer(item["selectors"]),
     runAfter: !item["runAfter"] ? item["runAfter"] : runAfterSerializer(item["runAfter"]),
     waitBefore: item["waitBefore"],
     timeout: item["timeout"],
     externalResource: !item["externalResource"]
       ? item["externalResource"]
       : externalResourceSerializer(item["externalResource"]),
+    failureBehavior: item["failureBehavior"],
   };
 }
 
@@ -2907,14 +3358,74 @@ export function scenarioActionDeserializer(item: any): ScenarioAction {
     parameters: !item["parameters"]
       ? item["parameters"]
       : keyValuePairArrayDeserializer(item["parameters"]),
+    selectors: !item["selectors"]
+      ? item["selectors"]
+      : scenarioActionSelectorArrayDeserializer(item["selectors"]),
     runAfter: !item["runAfter"] ? item["runAfter"] : runAfterDeserializer(item["runAfter"]),
     waitBefore: item["waitBefore"],
     timeout: item["timeout"],
     externalResource: !item["externalResource"]
       ? item["externalResource"]
       : externalResourceDeserializer(item["externalResource"]),
+    failureBehavior: item["failureBehavior"],
   };
 }
+
+export function scenarioActionSelectorArraySerializer(
+  result: Array<ScenarioActionSelector>,
+): any[] {
+  return result.map((item) => {
+    return scenarioActionSelectorSerializer(item);
+  });
+}
+
+export function scenarioActionSelectorArrayDeserializer(
+  result: Array<ScenarioActionSelector>,
+): any[] {
+  return result.map((item) => {
+    return scenarioActionSelectorDeserializer(item);
+  });
+}
+
+/** Model that represents an action-specific target selector. */
+export interface ScenarioActionSelector {
+  /** The selector name, such as `logicalZone`, `physicalZone`, or `location`. */
+  name: ScenarioActionSelectorName;
+  /** The value that targets must match. Supports template macro syntax. */
+  value: string;
+}
+
+export function scenarioActionSelectorSerializer(item: ScenarioActionSelector): any {
+  return { name: item["name"], value: item["value"] };
+}
+
+export function scenarioActionSelectorDeserializer(item: any): ScenarioActionSelector {
+  return {
+    name: item["name"],
+    value: item["value"],
+  };
+}
+
+/** The supported action selector names. */
+export enum KnownScenarioActionSelectorName {
+  /** Select targets by logical availability zone. */
+  LogicalZone = "logicalZone",
+  /** Select targets by physical availability zone. */
+  PhysicalZone = "physicalZone",
+  /** Select targets by Azure location. */
+  Location = "location",
+}
+
+/**
+ * The supported action selector names. \
+ * {@link KnownScenarioActionSelectorName} can be used interchangeably with ScenarioActionSelectorName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **logicalZone**: Select targets by logical availability zone. \
+ * **physicalZone**: Select targets by physical availability zone. \
+ * **location**: Select targets by Azure location.
+ */
+export type ScenarioActionSelectorName = string;
 
 /** Model that represents action dependencies. */
 export interface RunAfter {
@@ -3051,6 +3562,44 @@ export function externalResourceDeserializer(item: any): ExternalResource {
   };
 }
 
+/** Enum of how a scenario run reacts when an action fails. */
+export enum KnownFailureBehavior {
+  /**
+   * The action failure stops the scenario run and drives it to the `Failed` terminal state.
+   * This is the effective behavior when no `failureBehavior` is supplied.
+   */
+  Stop = "Stop",
+  /**
+   * The action failure is suppressed: it does not by itself end the scenario run, and the run
+   * continues with its remaining actions. Suppression affects the run's result only. It does not
+   * change dependency scheduling, which stays under the control of each action's `runAfter` —
+   * an action that should still start after a failed dependency says so there.
+   *
+   * A run that completes normally and whose action failures were all suppressed terminates as
+   * `PartiallySucceeded`. Any failure that is not suppressed still drives the run to `Failed`,
+   * and cancellation keeps its existing result.
+   */
+  Continue = "Continue",
+}
+
+/**
+ * Enum of how a scenario run reacts when an action fails. \
+ * {@link KnownFailureBehavior} can be used interchangeably with FailureBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Stop**: The action failure stops the scenario run and drives it to the `Failed` terminal state.
+ * This is the effective behavior when no `failureBehavior` is supplied. \
+ * **Continue**: The action failure is suppressed: it does not by itself end the scenario run, and the run
+ * continues with its remaining actions. Suppression affects the run's result only. It does not
+ * change dependency scheduling, which stays under the control of each action's `runAfter` —
+ * an action that should still start after a failed dependency says so there.
+ *
+ * A run that completes normally and whose action failures were all suppressed terminates as
+ * `PartiallySucceeded`. Any failure that is not suppressed still drives the run to `Failed`,
+ * and cancellation keeps its existing result.
+ */
+export type FailureBehavior = string;
+
 /** Model that represents a scenario recommendation. */
 export interface Recommendation {
   /** The recommendation status. */
@@ -3092,6 +3641,230 @@ export function scenarioArraySerializer(result: Array<Scenario>): any[] {
 export function scenarioArrayDeserializer(result: Array<Scenario>): any[] {
   return result.map((item) => {
     return scenarioDeserializer(item);
+  });
+}
+
+/**
+ * Model that represents a built-in scenario template. A scenario template is a versioned,
+ * read-only blueprint published by Microsoft that can be used to create a scenario. Templates
+ * are the same shape as the scenarios they produce, so an action read from a template is valid
+ * input to a scenario create.
+ *
+ * The template is addressed without a version, and always describes its newest published
+ * version. Address a specific version through the child versions resource.
+ */
+export interface ScenarioTemplate extends ProxyResource {
+  /** The properties of the scenario template's newest published version. */
+  properties: ScenarioTemplateProperties;
+}
+
+export function scenarioTemplateDeserializer(item: any): ScenarioTemplate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: scenarioTemplatePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Model that represents the properties of a scenario template. These are the properties of the
+ * template's newest published version, together with the version number that identifies it.
+ */
+export interface ScenarioTemplateProperties {
+  /**
+   * The newest published version of the template, for example 1.2. This is the version whose
+   * content the remaining properties describe, and the version a scenario records when it is
+   * created from the template without naming one.
+   */
+  readonly latestVersion: string;
+  /** Localized display name of the template. */
+  readonly displayName?: string;
+  /** Description of what the template does, and what resilience question it answers. */
+  readonly description?: string;
+  /**
+   * Parameter definitions the template accepts. Values are supplied when the scenario created
+   * from this template is configured, and are referenced from an action through the
+   * `%%\{parameters.\<name\>\}%%` macro.
+   */
+  readonly parameters?: ScenarioParameter[];
+  /**
+   * The actions that define the template's orchestration. These are the same model a scenario
+   * publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the
+   * scenario runs, not when it is read or created.
+   *
+   * Three macro namespaces may appear:
+   *
+   * - `%%\{parameters.\<name\>\}%%` — resolves from the parameter values supplied when the
+   * scenario is configured. The accepted names are declared by `parameters`.
+   * - `%%\{resourceTargeting.include.\<dimension\>\}%%` — resolves from the resource targeting
+   * of the scenario's configuration (for example `zones`, `locations`). The template does not
+   * declare these; they are dimensions of the configuration supplied at run time.
+   * - `%%\{filters.\<dimension\>\}%%` — deprecated spelling of `resourceTargeting.include.`,
+   * retained only so that superseded template versions keep resolving. Do not depend on it;
+   * the newest version of every template uses `resourceTargeting.include.`.
+   *
+   * An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action
+   * alone; an action that does not carry one inherits the template-wide value.
+   */
+  readonly actions: ScenarioAction[];
+  /**
+   * Template-wide default for how a scenario run reacts when one of this template's actions
+   * fails. An action that does not carry its own `failureBehavior` inherits this value; when
+   * neither is present the effective behavior is `Stop`.
+   *
+   * A scenario created from this template takes this policy with the rest of the template's
+   * structure, so it is also the scenario's resolved `failureBehavior`. Template versions
+   * published before this policy existed do not carry one and report it as absent, which the
+   * run resolves as `Stop`.
+   */
+  readonly failureBehavior?: FailureBehavior;
+}
+
+export function scenarioTemplatePropertiesDeserializer(item: any): ScenarioTemplateProperties {
+  return {
+    latestVersion: item["latestVersion"],
+    displayName: item["displayName"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : scenarioParameterArrayDeserializer(item["parameters"]),
+    actions: scenarioActionArrayDeserializer(item["actions"]),
+    failureBehavior: item["failureBehavior"],
+  };
+}
+
+/** Model that represents a list of scenario templates and a link for pagination. */
+export interface _ScenarioTemplateListResult {
+  /** The ScenarioTemplate items on this page */
+  value: ScenarioTemplate[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioTemplateListResultDeserializer(item: any): _ScenarioTemplateListResult {
+  return {
+    value: scenarioTemplateArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioTemplateArrayDeserializer(result: Array<ScenarioTemplate>): any[] {
+  return result.map((item) => {
+    return scenarioTemplateDeserializer(item);
+  });
+}
+
+/**
+ * Model that represents a single published version of a scenario template. A published version
+ * is immutable: corrections are shipped as a new version rather than by changing an existing
+ * one, so a scenario that records the version it was created from always resolves to the same
+ * content.
+ */
+export interface ScenarioTemplateVersion extends ProxyResource {
+  /** The properties of the scenario template version. */
+  properties: ScenarioTemplateVersionProperties;
+}
+
+export function scenarioTemplateVersionDeserializer(item: any): ScenarioTemplateVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: scenarioTemplateVersionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Model that represents the properties of a single published version of a scenario template —
+ * the blueprint content itself.
+ */
+export interface ScenarioTemplateVersionProperties {
+  /** Localized display name of the template. */
+  readonly displayName?: string;
+  /** Description of what the template does, and what resilience question it answers. */
+  readonly description?: string;
+  /**
+   * Parameter definitions the template accepts. Values are supplied when the scenario created
+   * from this template is configured, and are referenced from an action through the
+   * `%%\{parameters.\<name\>\}%%` macro.
+   */
+  readonly parameters?: ScenarioParameter[];
+  /**
+   * The actions that define the template's orchestration. These are the same model a scenario
+   * publishes, and carry unresolved `%%\{...\}%%` macros; the macros are substituted when the
+   * scenario runs, not when it is read or created.
+   *
+   * Three macro namespaces may appear:
+   *
+   * - `%%\{parameters.\<name\>\}%%` — resolves from the parameter values supplied when the
+   * scenario is configured. The accepted names are declared by `parameters`.
+   * - `%%\{resourceTargeting.include.\<dimension\>\}%%` — resolves from the resource targeting
+   * of the scenario's configuration (for example `zones`, `locations`). The template does not
+   * declare these; they are dimensions of the configuration supplied at run time.
+   * - `%%\{filters.\<dimension\>\}%%` — deprecated spelling of `resourceTargeting.include.`,
+   * retained only so that superseded template versions keep resolving. Do not depend on it;
+   * the newest version of every template uses `resourceTargeting.include.`.
+   *
+   * An action's `failureBehavior` overrides the template-wide `failureBehavior` for that action
+   * alone; an action that does not carry one inherits the template-wide value.
+   */
+  readonly actions: ScenarioAction[];
+  /**
+   * Template-wide default for how a scenario run reacts when one of this template's actions
+   * fails. An action that does not carry its own `failureBehavior` inherits this value; when
+   * neither is present the effective behavior is `Stop`.
+   *
+   * A scenario created from this template takes this policy with the rest of the template's
+   * structure, so it is also the scenario's resolved `failureBehavior`. Template versions
+   * published before this policy existed do not carry one and report it as absent, which the
+   * run resolves as `Stop`.
+   */
+  readonly failureBehavior?: FailureBehavior;
+}
+
+export function scenarioTemplateVersionPropertiesDeserializer(
+  item: any,
+): ScenarioTemplateVersionProperties {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : scenarioParameterArrayDeserializer(item["parameters"]),
+    actions: scenarioActionArrayDeserializer(item["actions"]),
+    failureBehavior: item["failureBehavior"],
+  };
+}
+
+/** Model that represents a list of scenario template versions and a link for pagination. */
+export interface _ScenarioTemplateVersionListResult {
+  /** The ScenarioTemplateVersion items on this page */
+  value: ScenarioTemplateVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioTemplateVersionListResultDeserializer(
+  item: any,
+): _ScenarioTemplateVersionListResult {
+  return {
+    value: scenarioTemplateVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioTemplateVersionArrayDeserializer(
+  result: Array<ScenarioTemplateVersion>,
+): any[] {
+  return result.map((item) => {
+    return scenarioTemplateVersionDeserializer(item);
   });
 }
 
@@ -3398,6 +4171,8 @@ export interface ScenarioRunProperties {
   readonly excludedResources?: ScenarioRunResource[];
   /** System or infrastructure errors encountered during the scenario run. */
   readonly errors?: OperationError[];
+  /** Customer-actionable warnings encountered during the scenario run. */
+  readonly warnings?: ScenarioRunWarning[];
   /** Business errors from fault injection — permission and resource state issues. */
   readonly executionErrors?: ScenarioErrors;
   /** The scenario run json. */
@@ -3429,6 +4204,9 @@ export function scenarioRunPropertiesDeserializer(item: any): ScenarioRunPropert
       ? item["excludedResources"]
       : scenarioRunResourceArrayDeserializer(item["excludedResources"]),
     errors: !item["errors"] ? item["errors"] : operationErrorArrayDeserializer(item["errors"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : scenarioRunWarningArrayDeserializer(item["warnings"]),
     executionErrors: !item["executionErrors"]
       ? item["executionErrors"]
       : scenarioErrorsDeserializer(item["executionErrors"]),
@@ -3470,6 +4248,11 @@ export enum KnownScenarioRunState {
   Canceled = "Canceled",
   /** The scenario run has completed successfully. */
   Succeeded = "Succeeded",
+  /**
+   * The scenario run completed, but one or more actions failed and every one of those
+   * failures was suppressed by the effective `failureBehavior`.
+   */
+  PartiallySucceeded = "PartiallySucceeded",
   /** The scenario run has failed. */
   Failed = "Failed",
 }
@@ -3491,6 +4274,8 @@ export enum KnownScenarioRunState {
  * **Canceling**: The scenario run is in the process of being canceled. \
  * **Canceled**: The scenario run has been canceled. \
  * **Succeeded**: The scenario run has completed successfully. \
+ * **PartiallySucceeded**: The scenario run completed, but one or more actions failed and every one of those
+ * failures was suppressed by the effective `failureBehavior`. \
  * **Failed**: The scenario run has failed.
  */
 export type ScenarioRunState = string;
@@ -3510,6 +4295,58 @@ export interface ScenarioRunResource {
 export function scenarioRunResourceDeserializer(item: any): ScenarioRunResource {
   return {
     id: item["id"],
+  };
+}
+
+export function scenarioRunWarningArrayDeserializer(result: Array<ScenarioRunWarning>): any[] {
+  return result.map((item) => {
+    return scenarioRunWarningDeserializer(item);
+  });
+}
+
+/** Customer-actionable warning associated with a scenario run. */
+export interface ScenarioRunWarning {
+  /** The stable code that identifies the warning. */
+  readonly code: string;
+  /** The customer-safe description of the warning. */
+  readonly message: string;
+  /** Additional customer-safe details about the warning. */
+  readonly details?: ScenarioRunWarningDetail[];
+}
+
+export function scenarioRunWarningDeserializer(item: any): ScenarioRunWarning {
+  return {
+    code: item["code"],
+    message: item["message"],
+    details: !item["details"]
+      ? item["details"]
+      : scenarioRunWarningDetailArrayDeserializer(item["details"]),
+  };
+}
+
+export function scenarioRunWarningDetailArrayDeserializer(
+  result: Array<ScenarioRunWarningDetail>,
+): any[] {
+  return result.map((item) => {
+    return scenarioRunWarningDetailDeserializer(item);
+  });
+}
+
+/** Additional information about a scenario run warning. */
+export interface ScenarioRunWarningDetail {
+  /** The stable code that identifies the warning detail. */
+  readonly code: string;
+  /** The customer-safe description of the warning detail. */
+  readonly message: string;
+  /** The target associated with the warning detail. */
+  readonly target?: string;
+}
+
+export function scenarioRunWarningDetailDeserializer(item: any): ScenarioRunWarningDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
   };
 }
 
@@ -3540,58 +4377,6 @@ export function permissionErrorArrayDeserializer(result: Array<PermissionError>)
   });
 }
 
-/** Model that represents the permission error. */
-export interface PermissionError {
-  /** The resource id for the affected resource. */
-  readonly resourceId: string;
-  /** The missing permissions. */
-  readonly missingPermissions: string[];
-  /** The required permissions. */
-  readonly requiredPermissions: string[];
-  /** The recommended roles. */
-  readonly recommendedRoles: string[];
-  /** The identity. */
-  readonly identity?: EntraIdentity;
-  /**
-   * The error message describing the permission validation failure, when the
-   * failure carries a distinct message (for example, when the target could not
-   * be read to evaluate access).
-   */
-  readonly errorMessage?: string;
-}
-
-export function permissionErrorDeserializer(item: any): PermissionError {
-  return {
-    resourceId: item["resourceId"],
-    missingPermissions: item["missingPermissions"].map((p: any) => {
-      return p;
-    }),
-    requiredPermissions: item["requiredPermissions"].map((p: any) => {
-      return p;
-    }),
-    recommendedRoles: item["recommendedRoles"].map((p: any) => {
-      return p;
-    }),
-    identity: !item["identity"] ? item["identity"] : entraIdentityDeserializer(item["identity"]),
-    errorMessage: item["errorMessage"],
-  };
-}
-
-/** Model that represents the Azure Entra identity. */
-export interface EntraIdentity {
-  /** The identity object id. */
-  readonly objectId: string;
-  /** The identity tenant id. */
-  readonly tenantId: string;
-}
-
-export function entraIdentityDeserializer(item: any): EntraIdentity {
-  return {
-    objectId: item["objectId"],
-    tenantId: item["tenantId"],
-  };
-}
-
 export function resourceStateErrorArrayDeserializer(result: Array<ResourceStateError>): any[] {
   return result.map((item) => {
     return resourceStateErrorDeserializer(item);
@@ -3603,7 +4388,7 @@ export interface ResourceStateError {
   /** The resource id for the affected resource. */
   readonly resourceId: string;
   /** The error code. */
-  readonly errorCode: number;
+  readonly errorCode: string;
   /** The error message. */
   readonly errorMessage: string;
   /** The remediation uri. */
@@ -3629,8 +4414,11 @@ export function scenarioRunSummaryActionArrayDeserializer(
 
 /** Model that represents the scenario run action. */
 export interface ScenarioRunSummaryAction {
-  /** The resources associated with the specified action. */
-  readonly resources: ScenarioRunResource[];
+  /**
+   * The resources associated with the specified action, including the concrete targets
+   * evaluated during execution.
+   */
+  readonly resources: ScenarioRunSummaryResource[];
   /** The urn for the given chaos action. */
   readonly actionUrn: string;
   /** The state of the action. */
@@ -3639,17 +4427,117 @@ export interface ScenarioRunSummaryAction {
   readonly startedAt?: Date;
   /** When the action was completed. */
   readonly completedAt?: Date;
+  /** Structured information about the action failure. */
+  readonly error?: ActionError;
+  /**
+   * Whether this action's failure was suppressed by the effective `failureBehavior`
+   * and therefore did not fail the scenario run. Present only for actions in the
+   * `Failed` state; absent otherwise.
+   */
+  readonly failureSuppressed?: boolean;
 }
 
 export function scenarioRunSummaryActionDeserializer(item: any): ScenarioRunSummaryAction {
   return {
-    resources: scenarioRunResourceArrayDeserializer(item["resources"]),
+    resources: scenarioRunSummaryResourceArrayDeserializer(item["resources"]),
     actionUrn: item["actionUrn"],
+    state: item["state"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    error: !item["error"] ? item["error"] : actionErrorDeserializer(item["error"]),
+    failureSuppressed: item["failureSuppressed"],
+  };
+}
+
+export function scenarioRunSummaryResourceArrayDeserializer(
+  result: Array<ScenarioRunSummaryResource>,
+): any[] {
+  return result.map((item) => {
+    return scenarioRunSummaryResourceDeserializer(item);
+  });
+}
+
+/** Model that represents a resource associated with a scenario run action. */
+export interface ScenarioRunSummaryResource {
+  /** The resource ID. */
+  readonly id: string;
+  /** The resources affected during action execution. */
+  readonly affectedResources?: ScenarioRunEffectiveTarget[];
+}
+
+export function scenarioRunSummaryResourceDeserializer(item: any): ScenarioRunSummaryResource {
+  return {
+    id: item["id"],
+    affectedResources: !item["affectedResources"]
+      ? item["affectedResources"]
+      : scenarioRunEffectiveTargetArrayDeserializer(item["affectedResources"]),
+  };
+}
+
+export function scenarioRunEffectiveTargetArrayDeserializer(
+  result: Array<ScenarioRunEffectiveTarget>,
+): any[] {
+  return result.map((item) => {
+    return scenarioRunEffectiveTargetDeserializer(item);
+  });
+}
+
+/** Model that represents the outcome for a concrete action target. */
+export interface ScenarioRunEffectiveTarget {
+  /** The target resource ID. */
+  readonly id: string;
+  /** The target execution state. */
+  readonly state: ScenarioRunTargetState;
+  /** When target processing started. */
+  readonly startedAt?: Date;
+  /** When target processing completed. */
+  readonly completedAt?: Date;
+}
+
+export function scenarioRunEffectiveTargetDeserializer(item: any): ScenarioRunEffectiveTarget {
+  return {
+    id: item["id"],
     state: item["state"],
     startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
     completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
   };
 }
+
+/** Enum of the execution states for a concrete action target. */
+export enum KnownScenarioRunTargetState {
+  /** The action completed successfully for the target. */
+  Succeeded = "Succeeded",
+  /**
+   * Evaluation determined that the action cannot apply because the target lacks required
+   * properties or capabilities, or does not satisfy the action criteria. For example,
+   * a SQL server without failover configured.
+   */
+  NotApplicable = "NotApplicable",
+  /**
+   * The action applies, but execution intentionally made no change because the target is
+   * already in the desired state or the change would not be safely recoverable. For example,
+   * a virtual machine that is already shut down.
+   */
+  Skipped = "Skipped",
+  /** Evaluation, authorization, lookup, mutation, or cleanup failed for the target. */
+  Failed = "Failed",
+}
+
+/**
+ * Enum of the execution states for a concrete action target. \
+ * {@link KnownScenarioRunTargetState} can be used interchangeably with ScenarioRunTargetState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The action completed successfully for the target. \
+ * **NotApplicable**: Evaluation determined that the action cannot apply because the target lacks required
+ * properties or capabilities, or does not satisfy the action criteria. For example,
+ * a SQL server without failover configured. \
+ * **Skipped**: The action applies, but execution intentionally made no change because the target is
+ * already in the desired state or the change would not be safely recoverable. For example,
+ * a virtual machine that is already shut down. \
+ * **Failed**: Evaluation, authorization, lookup, mutation, or cleanup failed for the target.
+ */
+export type ScenarioRunTargetState = string;
 
 /** Enum of the scenario run summary action state. */
 export enum KnownScenarioSummaryState {
@@ -3692,6 +4580,50 @@ export enum KnownScenarioSummaryState {
  * **Skipped**: The action was skipped.
  */
 export type ScenarioSummaryState = string;
+
+/** Structured information about a scenario action failure. */
+export interface ActionError {
+  /** The stable code that identifies the action failure. */
+  readonly code: string;
+  /** The customer-safe description of the action failure. */
+  readonly message: string;
+  /** Additional customer-safe details about the action failure. */
+  readonly details?: ActionErrorDetail[];
+}
+
+export function actionErrorDeserializer(item: any): ActionError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    details: !item["details"]
+      ? item["details"]
+      : actionErrorDetailArrayDeserializer(item["details"]),
+  };
+}
+
+export function actionErrorDetailArrayDeserializer(result: Array<ActionErrorDetail>): any[] {
+  return result.map((item) => {
+    return actionErrorDetailDeserializer(item);
+  });
+}
+
+/** Additional information about a scenario action failure. */
+export interface ActionErrorDetail {
+  /** The stable code that identifies the failure detail. */
+  readonly code: string;
+  /** The customer-safe description of the failure detail. */
+  readonly message: string;
+  /** The target associated with the failure detail. */
+  readonly target?: string;
+}
+
+export function actionErrorDetailDeserializer(item: any): ActionErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+  };
+}
 
 /**
  * Information about how physical zones were resolved to logical zones
@@ -4172,8 +5104,6 @@ export interface ConnectionProperties {
   certificateSubjectName?: string;
   /** The issuer of the certificate used to authenticate the connection. */
   certificateIssuer?: string;
-  /** The dSTS principal name used to authenticate the connection. */
-  dstsPrincipal?: string;
   /**
    * The regional Chaos Studio data-plane endpoint assigned to this connection.
    * Clients and agents use this endpoint to reach the Chaos Studio data plane
@@ -4194,7 +5124,6 @@ export function connectionPropertiesSerializer(item: ConnectionProperties): any 
     tenantId: item["tenantId"],
     certificateSubjectName: item["certificateSubjectName"],
     certificateIssuer: item["certificateIssuer"],
-    dstsPrincipal: item["dstsPrincipal"],
   };
 }
 
@@ -4206,7 +5135,6 @@ export function connectionPropertiesDeserializer(item: any): ConnectionPropertie
     tenantId: item["tenantId"],
     certificateSubjectName: item["certificateSubjectName"],
     certificateIssuer: item["certificateIssuer"],
-    dstsPrincipal: item["dstsPrincipal"],
     dataPlaneEndpoint: item["dataPlaneEndpoint"],
     status: item["status"],
     provisioningState: item["provisioningState"],
@@ -4219,8 +5147,6 @@ export enum KnownConnectionKind {
   AksExtension = "AksExtension",
   /** A connection backed by the Chaos agent installed on the target resource. */
   ChaosAgent = "ChaosAgent",
-  /** A connection backed by Cloud Service Fault Injection (CSFI). */
-  Csfi = "Csfi",
 }
 
 /**
@@ -4229,8 +5155,7 @@ export enum KnownConnectionKind {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AksExtension**: A connection backed by the Chaos AKS cluster extension. \
- * **ChaosAgent**: A connection backed by the Chaos agent installed on the target resource. \
- * **Csfi**: A connection backed by Cloud Service Fault Injection (CSFI).
+ * **ChaosAgent**: A connection backed by the Chaos agent installed on the target resource.
  */
 export type ConnectionKind = string;
 
@@ -4289,8 +5214,6 @@ export function connectionArrayDeserializer(result: Array<Connection>): any[] {
 export enum KnownVersions {
   /** The 2025-01-01 API version. */
   V20250101 = "2025-01-01",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
-  /** The 2026-08-01-preview API version. */
-  V20260801Preview = "2026-08-01-preview",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api";
 import type { Resource } from "@opentelemetry/resources";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { gunzipSync } from "node:zlib";
 import { assert } from "vitest";
@@ -61,7 +61,7 @@ export function createMockSdkLogRecord(
   resource?: Resource,
   instrumentationScope?: { name: string; version?: string },
   initialData: any = {},
-): SdkLogRecord {
+): ReadWriteLogRecord {
   const { body, ...otherData } = initialData;
   return {
     resource: resource || { attributes: {} },
@@ -74,5 +74,5 @@ export function createMockSdkLogRecord(
     attributes: otherData.attributes || {},
     droppedAttributesCount: otherData.droppedAttributesCount || 0,
     spanContext: otherData.spanContext,
-  } as SdkLogRecord;
+  } as ReadWriteLogRecord;
 }
