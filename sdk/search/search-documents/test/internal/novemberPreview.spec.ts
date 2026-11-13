@@ -20,6 +20,7 @@ import type {
   KnowledgeBaseInput,
   KnowledgeBaseModelInput,
   KnowledgeBaseOpenAICompatibleModel,
+  KnowledgeSourceFileIngestionPoller,
   SearchIndex,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
@@ -1362,45 +1363,58 @@ describe("2026-11-01-preview convenience integration", () => {
     assert.equal(poller.operationState?.status, "failed");
   });
 
-  it("resumes a serialized ingestion poller without another upload", async () => {
-    const requests: PipelineRequest[] = [];
-    let responseCount = 0;
-    const location = `${endpoint}/knowledgesources('files')/ingestionOperations('resume')`;
-    const client = new SearchIndexClient(
-      endpoint,
-      credential,
-      mockOptions(
-        [
-          {
-            status: 202,
-            headers: { "operation-location": location, "retry-after": "0" },
-            body: { status: "Running" },
-          },
-          { body: { status: "Running" } },
-          { body: { status: "Succeeded", result: { fileId: "resumed-file" } } },
-        ],
-        requests,
-      ),
-    );
-    const body = {
-      metadata: { fileName: "resume.txt" },
-      content: { contents: new Uint8Array([65]), contentType: "text/plain" },
-    };
-    const poller = client.beginIngestKnowledgeSourceFile("files", body, { updateIntervalInMs: 0 });
-    await poller.poll();
-    const resumeFrom = await poller.serialize();
-    const restored = client.beginIngestKnowledgeSourceFile("files", body, {
-      resumeFrom,
-      updateIntervalInMs: 0,
-      requestOptions: { headers: { "x-preview-poll": "resumed" }, timeout: 14567 },
-      onResponse: () => responseCount++,
-    });
-    assert.equal((await restored.pollUntilDone()).fileId, "resumed-file");
-    assert.equal(requests.filter((request) => request.method === "POST").length, 1);
-    assert.equal(requests.at(-1)?.headers.get("x-preview-poll"), "resumed");
-    assert.equal(requests.at(-1)?.timeout, 14567);
-    assert.equal(responseCount, 1);
-  });
+  it.each(["ingestion", "replacement"] as const)(
+    "resumes a serialized %s poller without another upload",
+    async (operation) => {
+      const requests: PipelineRequest[] = [];
+      let responseCount = 0;
+      const location = `${endpoint}/knowledgesources('files')/ingestionOperations('resume')`;
+      const client = new SearchIndexClient(
+        endpoint,
+        credential,
+        mockOptions(
+          [
+            {
+              status: 202,
+              headers: { "operation-location": location, "retry-after": "0" },
+              body: { status: "Running" },
+            },
+            { body: { status: "Running" } },
+            { body: { status: "Succeeded", result: { fileId: "resumed-file" } } },
+          ],
+          requests,
+        ),
+      );
+      const body = {
+        metadata: { fileName: "resume.txt" },
+        content: { contents: new Uint8Array([65]), contentType: "text/plain" },
+      };
+      const begin = (
+        options: Parameters<typeof client.beginIngestKnowledgeSourceFile>[2],
+      ): KnowledgeSourceFileIngestionPoller =>
+        operation === "ingestion"
+          ? client.beginIngestKnowledgeSourceFile("files", body, options)
+          : client.beginReplaceKnowledgeSourceFile("files", "file-1", body, options);
+      const poller = begin({ updateIntervalInMs: 0 });
+      await poller.poll();
+      const resumeFrom = await poller.serialize();
+      const restored = begin({
+        resumeFrom,
+        updateIntervalInMs: 0,
+        requestOptions: { headers: { "x-preview-poll": "resumed" }, timeout: 14567 },
+        onResponse: () => responseCount++,
+      });
+      assert.equal((await restored.pollUntilDone()).fileId, "resumed-file");
+      assert.equal(requests.filter((request) => request.method === "POST").length, 1);
+      assert.include(
+        requests[0].url,
+        operation === "ingestion" ? "/files:ingest" : "/files('file-1'):ingest",
+      );
+      assert.equal(requests.at(-1)?.headers.get("x-preview-poll"), "resumed");
+      assert.equal(requests.at(-1)?.timeout, 14567);
+      assert.equal(responseCount, 1);
+    },
+  );
 
   it("aborts an in-progress file ingestion poller without another upload", async () => {
     const requests: PipelineRequest[] = [];

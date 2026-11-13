@@ -166,6 +166,7 @@ export async function retrieveStream(
     {
       eventName: "retrieval.started",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "retrieval.started",
         data: knowledgeBaseRetrievalStartedEventDeserializer(data),
@@ -174,6 +175,7 @@ export async function retrieveStream(
     {
       eventName: "activity.started",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "activity.started",
         data: knowledgeBaseActivityStartedEventDeserializer(data),
@@ -182,6 +184,7 @@ export async function retrieveStream(
     {
       eventName: "activity.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "activity.completed",
         data: knowledgeBaseActivityRecordUnionDeserializer(data),
@@ -190,6 +193,7 @@ export async function retrieveStream(
     {
       eventName: "answer.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "answer.completed",
         data: knowledgeBaseAnswerCompletedEventDeserializer(data),
@@ -198,6 +202,7 @@ export async function retrieveStream(
     {
       eventName: "references.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "references.completed",
         data: knowledgeBaseReferenceUnionArrayDeserializer(data),
@@ -206,6 +211,7 @@ export async function retrieveStream(
     {
       eventName: "error",
       isTerminal: true,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "error",
         data: knowledgeBaseStreamErrorEventDeserializer(data),
@@ -214,6 +220,7 @@ export async function retrieveStream(
     {
       eventName: "response.completed",
       isTerminal: true,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "response.completed",
         data: knowledgeBaseResponseCompletedEventDeserializer(data),

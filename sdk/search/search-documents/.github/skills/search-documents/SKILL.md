@@ -71,19 +71,17 @@ The convenience layer converts between generated and public types via `src/servi
 
 ## Regeneration
 
-Generation command (from `package.json`):
+Run the generation script from the package's `package.json`:
 
 ```
-tsp-client update -d --emitter-options="api-version=2026-11-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
+npm run generate:client
 ```
 
-Run via: `npm run generate:client`. **All changes must be committed first** — the 3-way merge requires committed state.
-
-The October GA baseline in [#40171](https://github.com/Azure/azure-sdk-for-js/pull/40171) uses `2026-10-01`; this November preview branch uses `2026-11-01-preview`. Select an older API version on a client for compatibility testing rather than regenerating this branch against the older API.
+**All changes must be committed first** — the 3-way merge requires committed state.
 
 **Important flags:**
 
-- `api-version=2026-11-01-preview` — **required for this branch**. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; this override matches `package.json` and selects the intended preview surface instead of another default version.
+- `api-version` — use the value in the checked-out package's `generate:client` script. The spec's `tspconfig.yaml` does not select an API version for `@azure-tools/typespec-ts`; an explicit override selects the intended surface instead of another default version.
 - `ignore-nullable-on-optional=true` — mitigates TypeSpec's `T | null` on optional properties
 - `wrap-non-model-return=false` — prevents wrapping non-model return types
 - `--skip index.ts` — barrel export is manually maintained
