@@ -50,8 +50,12 @@ describe("ContainerService test", () => {
       {
         uriSanitizers: [
           {
-            target: "api-version=2026-01-01",
-            value: "api-version=2026-09-01",
+            target: "api-version=2026-09-01",
+            value: "api-version=2026-01-01",
+          },
+          {
+            target: "api-version=2026-09-01",
+            value: "api-version=2026-07-01",
           },
         ],
       },
@@ -182,4 +186,3 @@ describe("ContainerService test", () => {
     assert.equal(resArray.length, 0);
   });
 });
-
