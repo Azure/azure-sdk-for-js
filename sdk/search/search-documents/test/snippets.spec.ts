@@ -7,9 +7,10 @@ import { describe, it } from "vitest";
 import {
   AzureKeyCredential,
   KnowledgeRetrievalClient,
+  type KnowledgeBaseInput,
+  type KnowledgeBaseModelInput,
   KnownSearchAudience,
   KnownIndexedSharePointContainerName,
-  KnownKnowledgeRetrievalReasoningEffortKind,
   odata,
   SearchClient,
   SearchFieldArray,
@@ -404,11 +405,65 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const response = await client.retrieve({
       intents: [{ type: "semantic", search: "What information is available?" }],
-      retrievalReasoningEffort: { kind: KnownKnowledgeRetrievalReasoningEffortKind.Low },
+      retrievalReasoningEffort: { kind: "auto" },
       includeActivity: true,
     });
     // @ts-preserve-whitespace
     console.log(response.response);
+  });
+
+  it("ReadmeSampleRetrieveKnowledgeStream", async () => {
+    const client = new KnowledgeRetrievalClient(
+      "<endpoint>",
+      "<knowledgeBaseName>",
+      new AzureKeyCredential("<apiKey>"),
+    );
+    // @ts-preserve-whitespace
+    const controller = new AbortController();
+    for await (const event of await client.retrieveStream(
+      {
+        intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+        includeActivity: true,
+      },
+      { abortSignal: controller.signal },
+    )) {
+      if (event.event === "activity.completed") {
+        console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
+      } else if (event.event === "response.completed") {
+        console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
+        console.log(event.data.response.response);
+      } else if (event.event === "error") {
+        throw new Error(event.data.error.message);
+      }
+    }
+  });
+
+  it("ReadmeSampleManageKnowledgeSourceFile", async () => {
+    const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+    const body = {
+      metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+      content: {
+        contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+        contentType: "text/plain",
+        filename: "example.txt",
+      },
+    };
+    // @ts-preserve-whitespace
+    const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+    if (!uploaded.fileId) {
+      throw new Error("The service did not return an uploaded file ID.");
+    }
+    // @ts-preserve-whitespace
+    await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
+      ...body,
+      metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+    });
+    for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+      prefix: "manuals/",
+      pageSize: 10,
+    })) {
+      console.log(file.fileName, file.parsingMode, file.extractionMode);
+    }
   });
 
   it("ReadmeSampleSearchMoreLikeThis", async () => {
@@ -476,10 +531,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     indexer.parameters = {
       ...indexer.parameters,
-      configuration: {
-        ...indexer.parameters?.configuration,
-        refreshAllAcls: true,
-      },
+      configuration: { ...indexer.parameters?.configuration, refreshAllAcls: true },
     };
     await client.createOrUpdateIndexer(indexer);
   });
@@ -521,6 +573,64 @@ describe("snippets", () => {
     await client.createOrUpdateKnowledgeBase(knowledgeBase);
   });
 
+  it("ReadmeSampleConfigureKnowledgeBaseInput", async () => {
+    const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    const model: KnowledgeBaseModelInput = { kind: "microsoftRetriever1" };
+    const input: KnowledgeBaseInput = {
+      name: "hotel-knowledge-base",
+      knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+      models: [model],
+      retrievalReasoningEffort: { kind: "minimal" },
+    };
+    await client.createOrUpdateKnowledgeBase(input);
+  });
+
+  it("ReadmeSampleAutomaticFilterHints", async () => {
+    const endpoint = "<endpoint>";
+    const credential = new DefaultAzureCredential();
+    const indexClient = new SearchIndexClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const source = await indexClient.createKnowledgeSource({
+      name: "<newKnowledgeSourceName>",
+      kind: "searchIndex",
+      searchIndexParameters: {
+        searchIndexName: "<existingIndexName>",
+        semanticConfigurationName: "<semanticConfigurationName>",
+        queryHints: {
+          filters: [
+            {
+              field: "category",
+              autoConfiguration: { cacheTtl: 60, maxFacetValueCount: 50 },
+            },
+          ],
+        },
+      },
+    });
+    const base = await indexClient.createKnowledgeBase({
+      name: "<newKnowledgeBaseName>",
+      knowledgeSources: [{ name: source.name }],
+      models: [
+        {
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUrl: "<azureOpenAIEndpoint>",
+            deploymentId: "<chatDeploymentName>",
+            modelName: "gpt-5.4-mini",
+          },
+        },
+      ],
+      retrievalReasoningEffort: { kind: "low" },
+    });
+    // @ts-preserve-whitespace
+    const retrievalClient = new KnowledgeRetrievalClient(endpoint, base.name, credential);
+    const response = await retrievalClient.retrieve({
+      intents: [{ type: "semantic", search: "Find product manuals." }],
+      includeActivity: true,
+    });
+    console.log(response.response, response.activity);
+  });
+
   it("ReadmeSampleListResources", async () => {
     const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
@@ -532,60 +642,6 @@ describe("snippets", () => {
       })
       .byPage()) {
       console.log(page.map((index) => index.name));
-    }
-  });
-
-  it("ReadmeSampleRetrieveKnowledgeStream", async () => {
-    const client = new KnowledgeRetrievalClient(
-      "<endpoint>",
-      "<knowledgeBaseName>",
-      new AzureKeyCredential("<apiKey>"),
-    );
-    // @ts-preserve-whitespace
-    const controller = new AbortController();
-    for await (const event of await client.retrieveStream(
-      {
-        intents: [{ type: "semantic", search: "Summarize the indexed information." }],
-        includeActivity: true,
-      },
-      { abortSignal: controller.signal },
-    )) {
-      if (event.event === "activity.completed") {
-        console.log(`Activity ${event.data.id} took ${event.data.elapsedInMs}ms`);
-      } else if (event.event === "response.completed") {
-        console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
-        console.log(event.data.response.response);
-      } else if (event.event === "error") {
-        throw new Error(event.data.error.message);
-      }
-    }
-  });
-
-  it("ReadmeSampleManageKnowledgeSourceFile", async () => {
-    const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-    const body = {
-      metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-      content: {
-        contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
-        contentType: "text/plain",
-        filename: "example.txt",
-      },
-    };
-    // @ts-preserve-whitespace
-    const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
-    if (!uploaded.fileId) {
-      throw new Error("The service did not return an uploaded file ID.");
-    }
-    // @ts-preserve-whitespace
-    await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
-      ...body,
-      metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
-    });
-    for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
-      prefix: "manuals/",
-      pageSize: 10,
-    })) {
-      console.log(file.fileName, file.parsingMode, file.extractionMode);
     }
   });
 

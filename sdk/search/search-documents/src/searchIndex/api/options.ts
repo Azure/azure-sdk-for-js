@@ -5,22 +5,6 @@ import type { ListingSearchType } from "../../models/azure/search/documents/inde
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GetSynonymMapsOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=minimal";
-  /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
-  select?: string;
-  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
-  search?: string;
-  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
-  pageSize?: number;
-  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
-  searchType?: ListingSearchType;
-}
-
-/** Optional parameters. */
 export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
@@ -40,6 +24,34 @@ export interface GetServiceStatisticsOptionalParams extends OperationOptions {
   clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+}
+
+/** Optional parameters. */
+export interface ListKnowledgeSourceFileIngestionOperationsOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** The maximum number of operations to return. */
+  pageSize?: number;
+  /** An opaque continuation token returned by the service. */
+  continuationToken?: string;
+}
+
+/** Optional parameters. */
+export interface GetKnowledgeSourceFileIngestionOperationOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+}
+
+/** Optional parameters. */
+export interface IngestKnowledgeSourceFileReplacementOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
 }
 
 /** Optional parameters. */
@@ -73,7 +85,21 @@ export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
+export interface IngestKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
 export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -390,4 +416,20 @@ export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface GetSynonymMapsOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
+  select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
 }

@@ -8,7 +8,6 @@ import {
 } from "./api/index.js";
 import {
   SynonymMap,
-  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -17,8 +16,9 @@ import {
   SearchAlias,
   KnowledgeBase,
   KnowledgeSourceUnion,
-  UploadKnowledgeSourceFileMultipartRequest,
   KnowledgeSourceFile,
+  UploadKnowledgeSourceFileMultipartRequest,
+  KnowledgeSourceFileIngestionOperation,
   UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   IndexStatisticsSummary,
@@ -26,13 +26,17 @@ import {
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
-  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
+  listKnowledgeSourceFileIngestionOperations,
+  getKnowledgeSourceFileIngestionOperation,
+  ingestKnowledgeSourceFileReplacement,
   updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
   listKnowledgeSourceFiles,
+  ingestKnowledgeSourceFileMultipart,
   uploadKnowledgeSourceFileMultipart,
+  uploadKnowledgeSourceFile,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
   listKnowledgeSources,
@@ -64,13 +68,17 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import {
-  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  ListKnowledgeSourceFileIngestionOperationsOptionalParams,
+  GetKnowledgeSourceFileIngestionOperationOptionalParams,
+  IngestKnowledgeSourceFileReplacementOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  IngestKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
@@ -102,6 +110,7 @@ import {
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
@@ -120,13 +129,6 @@ export class SearchIndexClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /** Lists all synonym maps available for a search service. */
-  getSynonymMaps(
-    options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSynonymMapsResult> {
-    return getSynonymMaps(this._client, options);
-  }
-
   /** Retrieves a summary of statistics for all indexes in the search service. */
   listIndexStatsSummary(
     options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
@@ -139,6 +141,33 @@ export class SearchIndexClient {
     options: GetServiceStatisticsOptionalParams = { requestOptions: {} },
   ): Promise<SearchServiceStatistics> {
     return getServiceStatistics(this._client, options);
+  }
+
+  /** Lists retained file ingestion operations for this knowledge source. */
+  listKnowledgeSourceFileIngestionOperations(
+    name: string,
+    options: ListKnowledgeSourceFileIngestionOperationsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<KnowledgeSourceFileIngestionOperation> {
+    return listKnowledgeSourceFileIngestionOperations(this._client, name, options);
+  }
+
+  /** Gets the status and, when successful, the result of a file ingestion operation. */
+  getKnowledgeSourceFileIngestionOperation(
+    name: string,
+    operationId: string,
+    options: GetKnowledgeSourceFileIngestionOperationOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFileIngestionOperation> {
+    return getKnowledgeSourceFileIngestionOperation(this._client, name, operationId, options);
+  }
+
+  /** Starts asynchronous ingestion that replaces an existing file in a File knowledge source, processed on a Content Processor. Poll the returned operation to retrieve the updated file. */
+  ingestKnowledgeSourceFileReplacement(
+    name: string,
+    fileId: string,
+    body: UpdateKnowledgeSourceFileRequest,
+    options: IngestKnowledgeSourceFileReplacementOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile> {
+    return ingestKnowledgeSourceFileReplacement(this._client, name, fileId, body, options);
   }
 
   /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
@@ -168,6 +197,15 @@ export class SearchIndexClient {
     return listKnowledgeSourceFiles(this._client, name, options);
   }
 
+  /** Starts asynchronous ingestion of a new file into a File knowledge source, processed on a Content Processor. Poll the returned operation to retrieve the created file. */
+  ingestKnowledgeSourceFileMultipart(
+    name: string,
+    body: UploadKnowledgeSourceFileMultipartRequest,
+    options: IngestKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile> {
+    return ingestKnowledgeSourceFileMultipart(this._client, name, body, options);
+  }
+
   /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
   uploadKnowledgeSourceFileMultipart(
     name: string,
@@ -175,6 +213,16 @@ export class SearchIndexClient {
     options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
     return uploadKnowledgeSourceFileMultipart(this._client, name, body, options);
+  }
+
+  /** Uploads a file to a File knowledge source for processing and indexing. */
+  uploadKnowledgeSourceFile(
+    name: string,
+    contentDisposition: string,
+    file: Uint8Array,
+    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return uploadKnowledgeSourceFile(this._client, name, contentDisposition, file, options);
   }
 
   /** Retrieves the status of a knowledge source. */
@@ -218,11 +266,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge source or updates an knowledge source if it already exists. */
   createOrUpdateKnowledgeSource(
-    knowledgeSource: KnowledgeSourceUnion,
     name: string,
+    knowledgeSource: KnowledgeSourceUnion,
     options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceUnion> {
-    return createOrUpdateKnowledgeSource(this._client, knowledgeSource, name, options);
+    return createOrUpdateKnowledgeSource(this._client, name, knowledgeSource, options);
   }
 
   /** Creates a new knowledge base. */
@@ -258,11 +306,11 @@ export class SearchIndexClient {
 
   /** Creates a new knowledge base or updates a knowledge base if it already exists. */
   createOrUpdateKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
     name: string,
+    knowledgeBase: KnowledgeBase,
     options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBase> {
-    return createOrUpdateKnowledgeBase(this._client, knowledgeBase, name, options);
+    return createOrUpdateKnowledgeBase(this._client, name, knowledgeBase, options);
   }
 
   /** Creates a new search alias. */
@@ -298,20 +346,20 @@ export class SearchIndexClient {
 
   /** Creates a new search alias or updates an alias if it already exists. */
   createOrUpdateAlias(
-    alias: SearchAlias,
     name: string,
+    alias: SearchAlias,
     options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
   ): Promise<SearchAlias> {
-    return createOrUpdateAlias(this._client, alias, name, options);
+    return createOrUpdateAlias(this._client, name, alias, options);
   }
 
   /** Shows how an analyzer breaks text into tokens. */
   analyzeText(
-    request: AnalyzeTextOptions,
     name: string,
+    request: AnalyzeTextOptions,
     options: AnalyzeTextOptionalParams = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
-    return analyzeText(this._client, request, name, options);
+    return analyzeText(this._client, name, request, options);
   }
 
   /** Returns statistics for the given index, including a document count and storage usage. */
@@ -362,11 +410,11 @@ export class SearchIndexClient {
 
   /** Creates a new search index or updates an index if it already exists. */
   createOrUpdateIndex(
-    index: SearchIndex,
     name: string,
+    index: SearchIndex,
     options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndex> {
-    return createOrUpdateIndex(this._client, index, name, options);
+    return createOrUpdateIndex(this._client, name, index, options);
   }
 
   /** Creates a new synonym map. */
@@ -402,10 +450,10 @@ export class SearchIndexClient {
 
   /** Creates a new synonym map or updates a synonym map if it already exists. */
   createOrUpdateSynonymMap(
-    synonymMap: SynonymMap,
     name: string,
+    synonymMap: SynonymMap,
     options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
   ): Promise<SynonymMap> {
-    return createOrUpdateSynonymMap(this._client, synonymMap, name, options);
+    return createOrUpdateSynonymMap(this._client, name, synonymMap, options);
   }
 }

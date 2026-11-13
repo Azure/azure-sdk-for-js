@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PathUncheckedResponse, StreamableMethod } from "@azure-rest/core-client";
+import type { PathUncheckedResponse, StreamableMethod } from "@azure-rest/core-client";
 import type { NodeJSReadableStream } from "@azure/core-sse";
 import { text } from "node:stream/consumers";
 
@@ -39,7 +39,6 @@ function parseErrorBody(body: string, contentType: string | undefined): unknown 
       return body;
     }
   }
-
   return body;
 }
 

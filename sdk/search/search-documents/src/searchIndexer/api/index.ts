@@ -3,8 +3,9 @@
 
 export {
   getDataSourceConnections,
-  getSkillsets,
   getIndexers,
+  getSkillsets,
+  resetSkills,
   createSkillset,
   listSkillsets,
   getSkillset,
@@ -17,6 +18,7 @@ export {
   deleteIndexer,
   createOrUpdateIndexer,
   runIndexer,
+  resetDocuments,
   resync,
   resetIndexer,
   createDataSourceConnection,
@@ -27,8 +29,9 @@ export {
 } from "./operations.js";
 export type {
   GetDataSourceConnectionsOptionalParams,
-  GetSkillsetsOptionalParams,
   GetIndexersOptionalParams,
+  GetSkillsetsOptionalParams,
+  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -41,6 +44,7 @@ export type {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
+  ResetDocumentsOptionalParams,
   ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PathUncheckedResponse, StreamableMethod } from "@azure-rest/core-client";
+import type { PathUncheckedResponse, StreamableMethod } from "@azure-rest/core-client";
 
 export type SseResponse = PathUncheckedResponse & {
   body?: ReadableStream<Uint8Array>;
@@ -51,7 +51,6 @@ function parseErrorBody(body: string, contentType: string | undefined): unknown 
       return body;
     }
   }
-
   return body;
 }
 

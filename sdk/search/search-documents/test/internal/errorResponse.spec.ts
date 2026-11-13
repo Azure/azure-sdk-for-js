@@ -13,11 +13,7 @@ import { SearchIndexerClient } from "../../src/searchIndexerClient.js";
 const endpoint = "https://example.search.windows.net";
 const credential = new AzureKeyCredential("key");
 const serviceError = { code: "NotFound", message: "Resource not found" };
-const emptyError = {
-  message: "Unexpected status code: 404",
-  code: undefined,
-  details: undefined,
-};
+const emptyError = { message: "Unexpected status code: 404", code: undefined, details: undefined };
 
 describe.each([
   { name: "missing", bodyAsText: undefined, expectedError: emptyError },
@@ -63,9 +59,7 @@ describe.each([
         };
       },
     };
-
     const result = run(httpClient);
-
     await expect(result).rejects.toBeInstanceOf(RestError);
     await expect(result).rejects.toMatchObject({
       ...expectedError,

@@ -7,12 +7,17 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function analyzeText(context: SearchIndexContext, request: AnalyzeTextOptions, name: string, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
+
+// @public
+export function analyzeText(context: SearchIndexContext, name: string, request: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeResult>;
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
@@ -30,7 +35,7 @@ export interface CreateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createIndex(context: SearchIndexContext, index: SearchIndex, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
+export function createIndex(context: SearchIndexContext, index: SearchIndex | SearchIndexInput, options?: CreateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateIndexOptionalParams extends OperationOptions {
@@ -60,6 +65,9 @@ export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
 export function createOrUpdateAlias(context: SearchIndexContext, alias: SearchAlias, name: string, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
 
 // @public
+export function createOrUpdateAlias(context: SearchIndexContext, name: string, alias: SearchAlias, options?: CreateOrUpdateAliasOptionalParams): Promise<SearchAlias>;
+
+// @public
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -68,7 +76,10 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIndex | SearchIndexInput, name: string, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
+
+// @public
+export function createOrUpdateIndex(context: SearchIndexContext, name: string, index: SearchIndex | SearchIndexInput, options?: CreateOrUpdateIndexOptionalParams): Promise<SearchIndex>;
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
@@ -83,6 +94,9 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
 export function createOrUpdateKnowledgeBase(context: SearchIndexContext, knowledgeBase: KnowledgeBase, name: string, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
 
 // @public
+export function createOrUpdateKnowledgeBase(context: SearchIndexContext, name: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptionalParams): Promise<KnowledgeBase>;
+
+// @public
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -94,6 +108,9 @@ export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOpti
 export function createOrUpdateKnowledgeSource(context: SearchIndexContext, knowledgeSource: KnowledgeSourceUnion, name: string, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
 
 // @public
+export function createOrUpdateKnowledgeSource(context: SearchIndexContext, name: string, knowledgeSource: KnowledgeSourceUnion, options?: CreateOrUpdateKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
+
+// @public
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -103,6 +120,9 @@ export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOp
 
 // @public
 export function createOrUpdateSynonymMap(context: SearchIndexContext, synonymMap: SynonymMap, name: string, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
+
+// @public
+export function createOrUpdateSynonymMap(context: SearchIndexContext, name: string, synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptionalParams): Promise<SynonymMap>;
 
 // @public
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
@@ -228,6 +248,15 @@ export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
 export function getKnowledgeSource(context: SearchIndexContext, name: string, options?: GetKnowledgeSourceOptionalParams): Promise<KnowledgeSourceUnion>;
 
 // @public
+export function getKnowledgeSourceFileIngestionOperation(context: SearchIndexContext, name: string, operationId: string, options?: GetKnowledgeSourceFileIngestionOperationOptionalParams): Promise<KnowledgeSourceFileIngestionOperation>;
+
+// @public
+export interface GetKnowledgeSourceFileIngestionOperationOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -271,6 +300,24 @@ export interface GetSynonymMapsOptionalParams extends OperationOptions {
     search?: string;
     searchType?: ListingSearchType;
     select?: string;
+}
+
+// @public
+export function ingestKnowledgeSourceFileMultipart(context: SearchIndexContext, name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: IngestKnowledgeSourceFileMultipartOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
+
+// @public
+export interface IngestKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export function ingestKnowledgeSourceFileReplacement(context: SearchIndexContext, name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: IngestKnowledgeSourceFileReplacementOptionalParams): PollerLike<OperationState_2<KnowledgeSourceFile>, KnowledgeSourceFile>;
+
+// @public
+export interface IngestKnowledgeSourceFileReplacementOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -335,6 +382,17 @@ export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
 }
 
 // @public
+export function listKnowledgeSourceFileIngestionOperations(context: SearchIndexContext, name: string, options?: ListKnowledgeSourceFileIngestionOperationsOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFileIngestionOperation>;
+
+// @public
+export interface ListKnowledgeSourceFileIngestionOperationsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    continuationToken?: string;
+    pageSize?: number;
+}
+
+// @public
 export function listKnowledgeSourceFiles(context: SearchIndexContext, name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
 
 // @public
@@ -391,10 +449,18 @@ export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOption
 }
 
 // @public
+export function uploadKnowledgeSourceFile(context: SearchIndexContext, name: string, contentDisposition: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+
+// @public
 export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
 

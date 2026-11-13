@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates indexer operations, including automatic permission refresh
- * for ADLS Gen2 data sources in the `2026-10-01` GA API.
+ * @summary Demonstrates indexer operations, including automatic permission
+ * refresh for ADLS Gen2 data sources.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";

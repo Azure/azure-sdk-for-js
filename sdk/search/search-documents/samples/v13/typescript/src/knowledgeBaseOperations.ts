@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates `2026-10-01` GA Knowledge Base CRUD operations,
- * including a create/get/update round trip of the stored description.
+ * @summary Demonstrates the Knowledge Base Operations.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -75,8 +74,13 @@ async function getAndUpdateKnowledgeBase(
   console.log(`Get And Update Knowledge Base Operation`);
   const knowledgeBase: KnowledgeBase = await client.getKnowledgeBase(knowledgeBaseName);
   console.log(`Retrieved knowledge base: ${knowledgeBase.name}`);
+
+  // Update the description
   knowledgeBase.description = "Updated description for the sample knowledge base";
-  const updatedKnowledgeBase = await client.createOrUpdateKnowledgeBase(knowledgeBase);
+  const updatedKnowledgeBase = await client.createOrUpdateKnowledgeBase(
+    knowledgeBaseName,
+    knowledgeBase,
+  );
   console.log(`Updated knowledge base description: ${updatedKnowledgeBase.description}`);
 }
 

@@ -36,53 +36,48 @@ function createProtocolClient(
     new AzureKeyCredential("key"),
     "base",
     {
-      additionalPolicies: [
-        {
-          position: "perCall",
-          policy: { name: "mock-response", sendRequest },
-        },
-      ],
+      additionalPolicies: [{ position: "perCall", policy: { name: "mock-response", sendRequest } }],
     },
   );
 }
 
 describe("knowledge retrieval stream HTTP transport", () => {
   it.each(["application/json", "text/plain", undefined])(
-    "rejects a non-SSE convenience response (%s) and destroys its stream without reading it",
+    "rejects a non-SSE response (%s) and closes both client streams",
     async (contentType) => {
-      const body = new Readable({ read() {} });
-      const client = createClient(async (request) => ({
-        request,
-        status: 200,
-        headers: createHttpHeaders(contentType ? { "content-type": contentType } : {}),
-        readableStreamBody: body,
-      }));
-      await expect(
-        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
-      ).rejects.toMatchObject({ statusCode: 200 });
-      assert.isTrue(body.destroyed);
-      assert.isTrue(body.readableFlowing !== true);
+      for (const factory of [createClient, createProtocolClient]) {
+        const body = new Readable({ read() {} });
+        const client = factory(async (request) => ({
+          request,
+          status: 200,
+          headers: createHttpHeaders(contentType ? { "content-type": contentType } : {}),
+          readableStreamBody: body,
+        }));
+        await expect(
+          client.retrieveStream({
+            intents: [{ type: "semantic", search: "status" }],
+          }),
+        ).rejects.toMatchObject({ statusCode: 200 });
+        assert.isTrue(body.destroyed);
+        assert.isTrue(body.readableFlowing !== true);
+      }
     },
   );
 
   it.each(["response.completed", "error"])(
-    "streams typed protocol events and stops after %s",
+    "streams typed protocol events and closes before yielding %s",
     async (terminalEvent) => {
       const requests: PipelineRequest[] = [];
       const body = Readable.from([
         Buffer.from(
           [
-            `event: activity.started\ndata: ${JSON.stringify({
-              id: 1,
-              type: "searchIndex",
-              startedAt: "2026-10-01T00:00:00Z",
-            })}\n\n`,
             `event: activity.completed\ndata: ${JSON.stringify({
               id: 1,
               type: "searchIndex",
-              startedAt: "2026-10-01T00:00:00Z",
-              completedAt: "2026-10-01T00:00:01Z",
+              startedAt: "2026-11-01T00:00:00Z",
+              completedAt: "2026-11-01T00:00:01Z",
               elapsedMs: 1000,
+              queryHintProcessing: { generatedFilter: "category eq 'manual'" },
             })}\n\n`,
             `event: ${terminalEvent}\ndata: ${JSON.stringify(
               terminalEvent === "error"
@@ -98,7 +93,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
         return {
           request,
           status: 200,
-          headers: createHttpHeaders({ "content-type": "text/event-stream" }),
+          headers: createHttpHeaders({ "content-type": "text/event-stream; charset=utf-8" }),
           readableStreamBody: body,
         };
       });
@@ -106,56 +101,40 @@ describe("knowledge retrieval stream HTTP transport", () => {
       const events: KnowledgeBaseRetrievalStreamEvent[] = [];
       for await (const event of await client.retrieveStream(
         { intents: [{ type: "semantic", search: "status" }] },
-        { querySourceAuthorization: "assertion", abortSignal: controller.signal },
+        {
+          querySourceAuthorization: "search",
+          queryWorkIQSourceAuthorization: "workiq",
+          abortSignal: controller.signal,
+        },
       )) {
+        if (event.event === terminalEvent) assert.isTrue(body.destroyed);
         events.push(event);
       }
-
       assert.deepEqual(
         events.map((event) => event.event),
-        ["activity.started", "activity.completed", terminalEvent],
+        ["activity.completed", terminalEvent],
       );
-      const completed = events[1];
-      assert.equal(completed.event, "activity.completed");
+      const completed = events[0];
       if (completed.event === "activity.completed") {
-        assert.deepEqual(completed.data.startedAt, new Date("2026-10-01T00:00:00Z"));
-        assert.deepEqual(completed.data.completedAt, new Date("2026-10-01T00:00:01Z"));
-        assert.equal(completed.data.elapsedInMs, 1000);
-        assert.notProperty(completed.data, "elapsedMs");
+        assert.deepEqual(completed.data.startedAt, new Date("2026-11-01T00:00:00Z"));
+        assert.equal(completed.data.elapsedMs, 1000);
       }
-      assert.isTrue(body.destroyed);
       assert.equal(requests[0].abortSignal, controller.signal);
       assert.equal(requests[0].headers.get("accept"), "text/event-stream");
-      assert.equal(requests[0].headers.get("x-ms-query-source-authorization"), "assertion");
-      assert.include(requests[0].url, "api-version=2026-10-01");
+      assert.equal(requests[0].headers.get("x-ms-query-source-authorization"), "search");
+      assert.equal(requests[0].headers.get("x-ms-query-work-iq-source-authorization"), "workiq");
+      assert.include(requests[0].url, "api-version=2026-11-01-preview");
     },
   );
 
-  it("rejects a non-SSE protocol response and closes its stream", async () => {
-    const body = Readable.from([Buffer.from("{}")]);
-    const client = createProtocolClient(async (request) => ({
-      request,
-      status: 200,
-      headers: createHttpHeaders({ "content-type": "application/json" }),
-      readableStreamBody: body,
-    }));
-
-    await expect(
-      client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
-    ).rejects.toMatchObject({ statusCode: 200 });
-    assert.isTrue(body.destroyed);
-  });
-
-  it("rejects malformed protocol event data", async () => {
+  it("reports malformed protocol event data and closes the stream", async () => {
+    const body = Readable.from([Buffer.from("event: retrieval.started\ndata: not-json\n\n")]);
     const client = createProtocolClient(async (request) => ({
       request,
       status: 200,
       headers: createHttpHeaders({ "content-type": "text/event-stream" }),
-      readableStreamBody: Readable.from([
-        Buffer.from("event: retrieval.started\ndata: not-json\n\n"),
-      ]),
+      readableStreamBody: body,
     }));
-
     await expect(async () => {
       for await (const event of await client.retrieveStream({
         intents: [{ type: "semantic", search: "status" }],
@@ -163,7 +142,48 @@ describe("knowledge retrieval stream HTTP transport", () => {
         assert.fail(`Unexpected event: ${event.event}`);
       }
     }).rejects.toThrow('Unable to deserialize event "retrieval.started".');
+    assert.isTrue(body.destroyed);
   });
+
+  it("closes protocol streaming when iteration ends early", async () => {
+    const body = Readable.from([
+      Buffer.from(
+        'event: retrieval.started\ndata: {"requestId":"first","reasoningEffort":{"kind":"auto"}}\n\n',
+      ),
+    ]);
+    const client = createProtocolClient(async (request) => ({
+      request,
+      status: 200,
+      headers: createHttpHeaders({ "content-type": "text/event-stream" }),
+      readableStreamBody: body,
+    }));
+    for await (const event of await client.retrieveStream({
+      intents: [{ type: "semantic", search: "status" }],
+    })) {
+      assert.equal(event.event, "retrieval.started");
+      break;
+    }
+    assert.isTrue(body.destroyed);
+  });
+
+  it.each(["", "   ", "{ invalid"])(
+    "preserves HTTP errors for malformed JSON body %j",
+    async (text) => {
+      for (const factory of [createClient, createProtocolClient]) {
+        const client = factory(async (request) => ({
+          request,
+          status: 404,
+          headers: createHttpHeaders({ "content-type": "application/json" }),
+          readableStreamBody: Readable.from([Buffer.from(text)]),
+        }));
+        await expect(
+          client.retrieveStream({
+            intents: [{ type: "semantic", search: "status" }],
+          }),
+        ).rejects.toMatchObject({ statusCode: 404, response: { status: 404 }, name: "RestError" });
+      }
+    },
+  );
 
   it("streams typed events through the public HTTP client", async () => {
     const requests: PipelineRequest[] = [];
@@ -184,7 +204,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
       return {
         request,
         status: 200,
-        headers: createHttpHeaders({ "content-type": "text/event-stream; charset=utf-8" }),
+        headers: createHttpHeaders({ "content-type": "text/event-stream" }),
         readableStreamBody: Readable.from([Buffer.from(payload.join(""))]),
       };
     });
@@ -192,7 +212,7 @@ describe("knowledge retrieval stream HTTP transport", () => {
     const events: KnowledgeBaseRetrievalStreamEvent[] = [];
     for await (const event of await client.retrieveStream(
       { intents: [{ type: "semantic", search: "status" }] },
-      { querySourceAuthorization: "assertion" },
+      { queryWorkIQSourceAuthorization: "assertion" },
     )) {
       events.push(event);
     }
@@ -201,9 +221,9 @@ describe("knowledge retrieval stream HTTP transport", () => {
       events.map((event) => event.event),
       ["retrieval.started", "response.completed"],
     );
-    assert.include(requests[0].url, "api-version=2026-10-01");
+    assert.include(requests[0].url, "api-version=2026-11-01-preview");
     assert.equal(requests[0].headers.get("accept"), "text/event-stream");
-    assert.equal(requests[0].headers.get("x-ms-query-source-authorization"), "assertion");
+    assert.equal(requests[0].headers.get("x-ms-query-work-iq-source-authorization"), "assertion");
   });
 
   it("rejects JSON preflight errors before returning an event iterator", async () => {
@@ -226,26 +246,6 @@ describe("knowledge retrieval stream HTTP transport", () => {
       message: "Knowledge base not found",
     });
   });
-
-  it.each(["   ", "{ invalid"])(
-    "preserves the HTTP error for malformed JSON preflight body %j",
-    async (body) => {
-      const client = createProtocolClient(async (request) => ({
-        request,
-        status: 404,
-        headers: createHttpHeaders({ "content-type": "application/json" }),
-        readableStreamBody: Readable.from([Buffer.from(body)]),
-      }));
-
-      await expect(
-        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
-      ).rejects.toMatchObject({
-        statusCode: 404,
-        response: { status: 404 },
-        name: "RestError",
-      });
-    },
-  );
 
   it("preserves streamed errors from the raw protocol client", async () => {
     const client = new ProtocolKnowledgeBaseRetrievalClient(

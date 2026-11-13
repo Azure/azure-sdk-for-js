@@ -37,6 +37,8 @@ function createRecorderStartOptions(): RecorderStartOptions {
     ENDPOINT: "https://subdomain.search.windows.net/",
     AZURE_OPENAI_ENDPOINT: "https://subdomain.openai.azure.com/",
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME: "deployment-name",
+    AZURE_OPENAI_CHAT_DEPLOYMENT_NAME: "deployment-name",
+    AZURE_OPENAI_CHAT_MODEL_NAME: "gpt-4o",
   };
 
   appendTrailingSlashesToEnvironment(envSetupForPlayback);
@@ -47,7 +49,7 @@ function createRecorderStartOptions(): RecorderStartOptions {
   };
   return {
     envSetupForPlayback,
-    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493"],
+    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493", "AZSDK2030"],
     sanitizerOptions: {
       generalSanitizers,
       bodyKeySanitizers: [bodyKeySanitizer],
@@ -56,8 +58,9 @@ function createRecorderStartOptions(): RecorderStartOptions {
 }
 
 function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
-  const uriDomainMap: Pick<Env, (typeof uriEnvVars)[number]> = {
-    ENDPOINT: "search.windows.net",
+  const uriDomainMap = {
+    ENDPOINT: String.raw`(?:search\.windows\.net|search-ppe\.windows-int\.net)`,
+    AZURE_OPENAI_ENDPOINT: String.raw`openai\.azure\.com`,
   };
 
   const subdomains = Object.entries(uriDomainMap)
@@ -76,7 +79,13 @@ function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
     };
   });
 
-  return generalSanitizers;
+  return [
+    ...generalSanitizers,
+    {
+      target: "search-ppe.windows-int.net",
+      value: "search.windows.net",
+    },
+  ];
 }
 
 export async function createClients<IndexModel extends object>(

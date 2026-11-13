@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 export {
-  getSynonymMaps,
   listIndexStatsSummary,
   getServiceStatistics,
+  listKnowledgeSourceFileIngestionOperations,
+  getKnowledgeSourceFileIngestionOperation,
+  ingestKnowledgeSourceFileReplacement,
   updateKnowledgeSourceFile,
   deleteKnowledgeSourceFile,
   listKnowledgeSourceFiles,
+  ingestKnowledgeSourceFileMultipart,
   uploadKnowledgeSourceFileMultipart,
+  uploadKnowledgeSourceFile,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
   listKnowledgeSources,
@@ -40,13 +44,17 @@ export {
   createOrUpdateSynonymMap,
 } from "./operations.js";
 export type {
-  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  ListKnowledgeSourceFileIngestionOperationsOptionalParams,
+  GetKnowledgeSourceFileIngestionOperationOptionalParams,
+  IngestKnowledgeSourceFileReplacementOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  IngestKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,

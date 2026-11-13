@@ -32,33 +32,47 @@ export interface CreateIndexerOptionalParams extends OperationOptions {
 export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, dataSource: SearchIndexerDataSourceConnection, name: string, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
 
 // @public
+export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, name: string, dataSource: SearchIndexerDataSourceConnection, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
+
+// @public
 export interface CreateOrUpdateDataSourceConnectionOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export function createOrUpdateIndexer(context: SearchIndexerContext, indexer: SearchIndexer, name: string, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
 
 // @public
+export function createOrUpdateIndexer(context: SearchIndexerContext, name: string, indexer: SearchIndexer, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
+
+// @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export function createOrUpdateSkillset(context: SearchIndexerContext, skillset: SearchIndexerSkillset, name: string, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
 
 // @public
+export function createOrUpdateSkillset(context: SearchIndexerContext, name: string, skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
+
+// @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public (undocumented)
@@ -221,10 +235,30 @@ export interface ListSkillsetsOptionalParams extends OperationOptions {
 }
 
 // @public
+export function resetDocuments(context: SearchIndexerContext, name: string, options?: ResetDocumentsOptionalParams): Promise<void>;
+
+// @public
+export interface ResetDocumentsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    keysOrIds?: DocumentKeysOrIds;
+    overwrite?: boolean;
+}
+
+// @public
 export function resetIndexer(context: SearchIndexerContext, name: string, options?: ResetIndexerOptionalParams): Promise<void>;
 
 // @public
 export interface ResetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
+export function resetSkills(context: SearchIndexerContext, name: string, skillNames: SkillNames, options?: ResetSkillsOptionalParams): Promise<void>;
+
+// @public
+export interface ResetSkillsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }

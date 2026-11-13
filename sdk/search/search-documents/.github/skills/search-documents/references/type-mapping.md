@@ -93,6 +93,10 @@ Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config 
 - Generated type: `synonyms` as string (newline-delimited). Public type: `synonyms` as `string[]`.
 - Generated type: `eTag`. Public type: `etag` (lowercase).
 
+### resetDocuments Body Restructuring
+
+The November preview convenience method `resetDocuments()` maps the flat public options `documentKeys` and `dataSourceDocumentIds` to `keysOrIds.documentKeys` and `keysOrIds.datasourceDocumentIds`, respectively. Keep `overwrite` and operation options outside `keysOrIds`.
+
 ## Null Handling
 
 TypeSpec marks many optional properties as `T | null`. Mitigation:

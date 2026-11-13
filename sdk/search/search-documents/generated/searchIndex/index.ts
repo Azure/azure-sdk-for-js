@@ -2,14 +2,20 @@
 // Licensed under the MIT License.
 
 export { SearchIndexClient } from "./searchIndexClient.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
 export type {
-  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  ListKnowledgeSourceFileIngestionOperationsOptionalParams,
+  GetKnowledgeSourceFileIngestionOperationOptionalParams,
+  IngestKnowledgeSourceFileReplacementOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  IngestKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,

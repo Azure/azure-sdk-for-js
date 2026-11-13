@@ -2,15 +2,23 @@
 // Licensed under the MIT License.
 
 import {
+  VectorQueryUnion,
+  QueryRewritesType,
+  GraphQueryExecutionMode,
+  GraphQueryExplainStage,
+  GraphQueryProvenanceParameters,
   QueryType,
+  AgenticSearchOptions,
   ScoringStatistics,
   QueryDebugMode,
   SearchMode,
+  QueryLanguage,
+  QuerySpellerType,
   SemanticErrorMode,
   QueryAnswerType,
   QueryCaptionType,
-  VectorQueryUnion,
   VectorFilterMode,
+  HybridSearch,
   AutocompleteMode,
 } from "../../models/azure/search/documents/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
@@ -167,6 +175,8 @@ export interface SearchPostOptionalParams extends OperationOptions {
   orderBy?: string;
   /** A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if your query uses the Lucene query syntax. */
   queryType?: QueryType;
+  /** Request-scoped runtime options when queryType is set to 'agentic'. Not supported with other query modes. Use the existing debug selector for diagnostics. */
+  agenticOptions?: AgenticSearchOptions;
   /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. The default is 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global scoring statistics can increase latency of search queries. */
   scoringStatistics?: ScoringStatistics;
   /** A value to be used to create a sticky session, which can help getting more consistent results. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. */
@@ -183,6 +193,10 @@ export interface SearchPostOptionalParams extends OperationOptions {
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
+  /** A value that specifies the language of the search query. */
+  queryLanguage?: QueryLanguage;
+  /** A value that specifies the type of the speller to use to spell-correct individual search query terms. */
+  querySpeller?: QuerySpellerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -201,10 +215,16 @@ export interface SearchPostOptionalParams extends OperationOptions {
   answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
   captions?: QueryCaptionType;
+  /** A value that specifies whether query rewrites should be generated to augment the search query. */
+  queryRewrites?: QueryRewritesType;
+  /** The comma-separated list of field names used for semantic ranking. */
+  semanticFields?: string[];
   /** The query parameters for vector and hybrid search queries. */
   vectorQueries?: VectorQueryUnion[];
   /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter' for new indexes. */
   vectorFilterMode?: VectorFilterMode;
+  /** The query parameters to configure hybrid search behaviors. */
+  hybridSearch?: HybridSearch;
 }
 
 /** Optional parameters. */
@@ -269,8 +289,18 @@ export interface SearchGetOptionalParams extends OperationOptions {
   captions?: QueryCaptionType;
   /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
   semanticQuery?: string;
+  /** When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will produce 10 (default) rewrites to help increase the recall of the request. The requested count can be configured by appending the pipe character `|` followed by the `count-<number of rewrites>` option, such as `generative|count-3`. Defaults to `None`. This parameter is only valid if the query type is `semantic`. */
+  queryRewrites?: QueryRewritesType;
   /** Enables a debugging tool that can be used to further explore your search results. */
   debug?: QueryDebugMode;
+  /** The language of the query. */
+  queryLanguage?: QueryLanguage;
+  /** Improve search recall by spell-correcting individual search query terms. */
+  speller?: QuerySpellerType;
+  /** The list of field names used for semantic ranking. */
+  semanticFields?: string[];
+  /** Maximum duration in seconds for the complete agentic search request, including retrieval, ranking and retries. Not supported with other query modes. */
+  agenticMaxRuntimeInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -279,4 +309,32 @@ export interface GetDocumentCountOptionalParams extends OperationOptions {
   clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
+}
+
+/** Optional parameters. */
+export interface GraphOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
+  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
+  querySourceAuthorization?: string;
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  enableElevatedRead?: boolean;
+  /** Full-text search text used to constrain graph backend requests. */
+  search?: string;
+  /** An OData filter over graph-index fields applied throughout graph execution. */
+  filter?: string;
+  /** Vector queries used to constrain the graph's backend searches. */
+  vectorQueries?: VectorQueryUnion[];
+  /** Executes the query by default. planOnly builds the plan without backend query execution and requires at least one explain stage. */
+  executionMode?: GraphQueryExecutionMode;
+  /** Diagnostic plan stages to include in the response. Plan representations are diagnostic information rather than an executable client contract. */
+  explain?: GraphQueryExplainStage[];
+  /** Whether to include graph execution statistics. Defaults to true. */
+  includeStatistics?: boolean;
+  /** Whether to include informational diagnostics. Errors and warnings are returned regardless of this setting. */
+  includeDiagnostics?: boolean;
+  /** Controls bounded assertion evidence and optional source-document hydration. */
+  provenance?: GraphQueryProvenanceParameters;
 }

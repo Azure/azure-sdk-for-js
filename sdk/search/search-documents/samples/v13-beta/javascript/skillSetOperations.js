@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates skillset operations and optional GA Content Understanding
+ * @summary Demonstrates skillset operations and optional Content Understanding
  * image-description model configuration with semantic chunking.
  */
 
@@ -112,7 +112,6 @@ async function demonstrateContentUnderstanding(client) {
     );
     return;
   }
-
   const name = "example-content-understanding-skillset";
   await client.createSkillset({
     name,

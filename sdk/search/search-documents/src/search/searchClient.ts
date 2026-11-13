@@ -3,7 +3,9 @@
 
 import type { SearchContext, SearchClientOptionalParams } from "./api/index.js";
 import { createSearch } from "./api/index.js";
+import type { GetDocumentCountResponse } from "../models/models.js";
 import type {
+  GraphQueryResult,
   SearchDocumentsResult,
   LookupDocument,
   SuggestDocumentsResult,
@@ -21,6 +23,7 @@ import {
   searchPost,
   searchGet,
   getDocumentCount,
+  graph,
 } from "./api/operations.js";
 import type {
   AutocompletePostOptionalParams,
@@ -32,6 +35,7 @@ import type {
   SearchPostOptionalParams,
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
+  GraphOptionalParams,
 } from "./api/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
@@ -122,7 +126,15 @@ export class SearchClient {
   /** Queries the number of documents in the index. */
   getDocumentCount(
     options: GetDocumentCountOptionalParams = { requestOptions: {} },
-  ): Promise<number> {
+  ): Promise<GetDocumentCountResponse> {
     return getDocumentCount(this._client, options);
+  }
+
+  /** Executes a graph query over an index with an edge-list graph profile. */
+  graph(
+    gql: string,
+    options: GraphOptionalParams = { requestOptions: {} },
+  ): Promise<GraphQueryResult> {
+    return graph(this._client, gql, options);
   }
 }
