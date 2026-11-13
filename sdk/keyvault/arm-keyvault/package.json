@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-keyvault",
-  "version": "6.0.0",
+  "version": "6.1.0-beta.1",
   "description": "A generated SDK for KeyVaultManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -154,6 +154,20 @@
         "default": "./dist/commonjs/api/managedHsms/index.js"
       }
     },
+    "./api/networkSecurityPerimeterConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.js"
+      }
+    },
     "./api/privateEndpointConnections": {
       "browser": {
         "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
@@ -299,7 +313,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-keyvault"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview"
   },
   "imports": {
     "#platform/*": {

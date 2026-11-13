@@ -1,5 +1,51 @@
 # Release History
 
+## 6.1.0-beta.1 (2026-11-11)
+Compared with version 6.0.0
+
+### Features Added
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added Interface AccessRule
+  - Added Interface AccessRuleProperties
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetConfigurationOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListConfigurationsOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileConfigurationOptionalParams
+  - Added Interface NetworkSecurityProfile
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ResourceAssociation
+  - Added Interface TokenBindingParameters
+  - Added Interface WrappingKeyAuthenticationData
+  - Added Interface WrappingKeyConfiguration
+  - Added Interface WrappingKeyValue
+  - Interface Vault has a new optional parameter identity
+  - Interface VaultCreateOrUpdateParameters has a new optional parameter identity
+  - Interface VaultPatchParameters has a new optional parameter identity
+  - Interface VaultPatchProperties has a new optional parameter enableCrossTenantAccessProtection
+  - Interface VaultPatchProperties has a new optional parameter protectionKeysWrappingKey
+  - Interface VaultPatchProperties has a new optional parameter tokenBindingParameters
+  - Interface VaultProperties has a new optional parameter enableCrossTenantAccessProtection
+  - Interface VaultProperties has a new optional parameter protectionKeysWrappingKey
+  - Interface VaultProperties has a new optional parameter tokenBindingParameters
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias IssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias Severity
+  - Added Type Alias TokenBindingMode
+  - Added Type Alias TokenBindingStrength
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownIssueType
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownSeverity
+  - Added Enum KnownTokenBindingMode
+  - Added Enum KnownTokenBindingStrength
+  - Enum KnownVersions has a new value V20261001Preview
+
 ## 6.0.0 (2026-10-06)
 
 ### Features Added

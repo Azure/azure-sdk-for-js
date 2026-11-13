@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1008,14 +1008,15 @@
+@@ -1139,14 +1139,15 @@
      continuationToken?: string;
  }
  
