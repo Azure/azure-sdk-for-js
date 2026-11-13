@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list LocalRulesResource resources by LocalRulestacks
  *
  * @summary list LocalRulesResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/LocalRules_ListByLocalRulestacks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_ListByLocalRulestacks_MaximumSet_Gen.json
  */
 async function localRulesListByLocalRulestacksMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function localRulesListByLocalRulestacksMaximumSetGen() {
  * This sample demonstrates how to list LocalRulesResource resources by LocalRulestacks
  *
  * @summary list LocalRulesResource resources by LocalRulestacks
- * x-ms-original-file: 2026-05-11-preview/LocalRules_ListByLocalRulestacks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_ListByLocalRulestacks_MinimumSet_Gen.json
  */
 async function localRulesListByLocalRulestacksMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a LocalRulestackResource
  *
  * @summary delete a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Delete_MaximumSet_Gen.json
  */
 async function localRulestacksDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function localRulestacksDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete a LocalRulestackResource
  *
  * @summary delete a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Delete_MinimumSet_Gen.json
  */
 async function localRulestacksDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

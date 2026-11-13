@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FqdnListGlobalRulestackResource
  *
  * @summary create a FqdnListGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to create a FqdnListGlobalRulestackResource
  *
  * @summary create a FqdnListGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();

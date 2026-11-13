@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the current Custom Capture Configuration for a firewall. Always returns 200 OK + body. Caller reads properties.pcapStatus to know whether to keep polling. Body field properties.nextCheckInSeconds advises when to poll next (omitted on terminal states).
  *
  * @summary get the current Custom Capture Configuration for a firewall. Always returns 200 OK + body. Caller reads properties.pcapStatus to know whether to keep polling. Body field properties.nextCheckInSeconds advises when to poll next (omitted on terminal states).
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_Get_MaximumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function customCaptureConfigurationsFirewallResourcesGetMaximumSetGen(): P
  * This sample demonstrates how to get the current Custom Capture Configuration for a firewall. Always returns 200 OK + body. Caller reads properties.pcapStatus to know whether to keep polling. Body field properties.nextCheckInSeconds advises when to poll next (omitted on terminal states).
  *
  * @summary get the current Custom Capture Configuration for a firewall. Always returns 200 OK + body. Caller reads properties.pcapStatus to know whether to keep polling. Body field properties.nextCheckInSeconds advises when to poll next (omitted on terminal states).
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_Get_MinimumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

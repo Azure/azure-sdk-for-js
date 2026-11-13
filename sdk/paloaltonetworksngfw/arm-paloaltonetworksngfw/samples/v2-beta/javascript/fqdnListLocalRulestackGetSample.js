@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FqdnListLocalRulestackResource
  *
  * @summary get a FqdnListLocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListLocalRulestack_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListLocalRulestack_Get_MaximumSet_Gen.json
  */
 async function fqdnListLocalRulestackGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function fqdnListLocalRulestackGetMaximumSetGen() {
  * This sample demonstrates how to get a FqdnListLocalRulestackResource
  *
  * @summary get a FqdnListLocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListLocalRulestack_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListLocalRulestack_Get_MinimumSet_Gen.json
  */
 async function fqdnListLocalRulestackGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();

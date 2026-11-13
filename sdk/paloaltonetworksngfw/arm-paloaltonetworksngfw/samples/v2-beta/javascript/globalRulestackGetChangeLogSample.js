@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get changelog
  *
  * @summary get changelog
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_getChangeLog_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_getChangeLog_MaximumSet_Gen.json
  */
 async function globalRulestackGetChangeLogMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function globalRulestackGetChangeLogMaximumSetGen() {
  * This sample demonstrates how to get changelog
  *
  * @summary get changelog
- * x-ms-original-file: 2026-05-11-preview/GlobalRulestack_getChangeLog_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/GlobalRulestack_getChangeLog_MinimumSet_Gen.json
  */
 async function globalRulestackGetChangeLogMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -72,7 +72,7 @@ export function _revertSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,7 +94,6 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Revert rulestack configuration */
 export async function revert(
   context: Client,
@@ -119,7 +118,7 @@ export function _listSecurityServicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
       type: typeParam,
@@ -149,7 +148,6 @@ export async function _listSecurityServicesDeserialize(
 
   return securityServicesResponseDeserializer(result.body);
 }
-
 /** List the security services for rulestack */
 export async function listSecurityServices(
   context: Client,
@@ -180,7 +178,7 @@ export function _listPredefinedUrlCategoriesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
     },
@@ -209,7 +207,6 @@ export async function _listPredefinedUrlCategoriesDeserialize(
 
   return predefinedUrlCategoriesResponseDeserializer(result.body);
 }
-
 /** List predefined URL categories for rulestack */
 export function listPredefinedUrlCategories(
   context: Client,
@@ -226,7 +223,7 @@ export function listPredefinedUrlCategories(
       itemName: "value",
       nextLinkName: "nextLink",
       nextLinkMethod: "POST",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -243,7 +240,7 @@ export function _listFirewallsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,7 +267,6 @@ export async function _listFirewallsDeserialize(
 
   return listFirewallsResponseDeserializer(result.body);
 }
-
 /** List of Firewalls associated with Rulestack */
 export async function listFirewalls(
   context: Client,
@@ -294,7 +290,7 @@ export function _listCountriesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
     },
@@ -323,7 +319,6 @@ export async function _listCountriesDeserialize(
 
   return countriesResponseDeserializer(result.body);
 }
-
 /** List of countries for Rulestack */
 export function listCountries(
   context: Client,
@@ -340,7 +335,7 @@ export function listCountries(
       itemName: "value",
       nextLinkName: "nextLink",
       nextLinkMethod: "POST",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -357,7 +352,7 @@ export function _listAppIdsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       appIdVersion: options?.appIdVersion,
       appPrefix: options?.appPrefix,
       skip: options?.skip,
@@ -388,7 +383,6 @@ export async function _listAppIdsDeserialize(
 
   return listAppIdResponseDeserializer(result.body);
 }
-
 /** List of AppIds for LocalRulestack ApiVersion */
 export function listAppIds(
   context: Client,
@@ -405,7 +399,7 @@ export function listAppIds(
       itemName: "value",
       nextLinkName: "nextLink",
       nextLinkMethod: "POST",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -423,7 +417,7 @@ export function _listAdvancedSecurityObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
       type: typeParam,
@@ -453,7 +447,6 @@ export async function _listAdvancedSecurityObjectsDeserialize(
 
   return advSecurityObjectListResponseDeserializer(result.body);
 }
-
 /** Get the list of advanced security objects */
 export async function listAdvancedSecurityObjects(
   context: Client,
@@ -484,7 +477,7 @@ export function _getSupportInfoSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       email: options?.email,
     },
     {
@@ -512,7 +505,6 @@ export async function _getSupportInfoDeserialize(
 
   return supportInfoDeserializer(result.body);
 }
-
 /** support info for rulestack. */
 export async function getSupportInfo(
   context: Client,
@@ -536,7 +528,7 @@ export function _getChangeLogSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -561,7 +553,6 @@ export async function _getChangeLogDeserialize(result: PathUncheckedResponse): P
 
   return changelogDeserializer(result.body);
 }
-
 /** Get changelog */
 export async function getChangeLog(
   context: Client,
@@ -585,7 +576,7 @@ export function _commitSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -607,7 +598,6 @@ export async function _commitDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Commit rulestack configuration */
 export function commit(
   context: Client,
@@ -620,7 +610,7 @@ export function commit(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _commitSend(context, resourceGroupName, localRulestackName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -632,7 +622,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -659,7 +649,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _localRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List LocalRulestackResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -673,7 +662,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -688,7 +677,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -715,7 +704,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _localRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List LocalRulestackResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -730,7 +718,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -747,7 +735,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -769,7 +757,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a LocalRulestackResource */
 export function $delete(
   context: Client,
@@ -782,7 +769,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, localRulestackName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -799,7 +786,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -828,7 +815,6 @@ export async function _updateDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Update a LocalRulestackResource */
 export async function update(
   context: Client,
@@ -860,7 +846,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -889,7 +875,6 @@ export async function _createOrUpdateDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Create a LocalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -904,7 +889,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, localRulestackName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>;
 }
 
@@ -920,7 +905,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -947,7 +932,6 @@ export async function _getDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Get a LocalRulestackResource */
 export async function get(
   context: Client,
