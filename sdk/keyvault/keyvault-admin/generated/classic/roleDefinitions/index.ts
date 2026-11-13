@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { KeyVaultContext } from "../../api/keyVaultContext.js";
-import { list, get, createOrUpdate, $delete } from "../../api/roleDefinitions/operations.js";
+import {
+  list,
+  get,
+  createOrUpdate,
+  deleteRoleDefinition,
+} from "../../api/roleDefinitions/operations.js";
 import {
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsGetOptionalParams,
@@ -33,12 +38,7 @@ export interface RoleDefinitionsOperations {
     options?: RoleDefinitionsCreateOrUpdateOptionalParams,
   ) => Promise<RoleDefinition>;
   /** Deletes a custom role definition. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteRoleDefinition: (
     scope: string,
     roleDefinitionName: string,
     options?: RoleDefinitionsDeleteOptionalParams,
@@ -57,11 +57,11 @@ function _getRoleDefinitions(context: KeyVaultContext) {
       parameters: RoleDefinitionCreateParameters,
       options?: RoleDefinitionsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scope, roleDefinitionName, parameters, options),
-    delete: (
+    deleteRoleDefinition: (
       scope: string,
       roleDefinitionName: string,
       options?: RoleDefinitionsDeleteOptionalParams,
-    ) => $delete(context, scope, roleDefinitionName, options),
+    ) => deleteRoleDefinition(context, scope, roleDefinitionName, options),
   };
 }
 

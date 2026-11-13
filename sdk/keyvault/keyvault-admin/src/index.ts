@@ -11,7 +11,7 @@ export * from "./settingsClient.js";
 export type * from "./settingsClientModels.js";
 
 export * from "./ekmClient.js";
-export type * from "./ekmClientModels.js";
+export * from "./ekmClientModels.js";
 
 export { LATEST_API_VERSION, SDK_VERSION, type SUPPORTED_API_VERSIONS } from "./constants.js";
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
