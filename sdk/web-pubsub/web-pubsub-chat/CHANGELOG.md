@@ -13,8 +13,6 @@
 - Changed `createOrReplaceUser` to accept `HumanChatUserCreateOrReplace`, requiring `kind: "Human"`, `nickname`, and `roleName`. Removed the generic `ChatUserInput` and `ChatUserInputUnion` request types; response models continue to support unknown user kinds. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Changed `ChatUserKind` to an extensible string type to match the response contract. Human creation inputs still require the literal `"Human"`. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 
-- Changed the default Chat service API version from `2026-02-01-preview` to `2026-08-01-preview`. Set `apiVersion` in the client options to explicitly select the previous version. [API specification](https://github.com/Azure/azure-rest-api-specs/pull/46545)
-
 ### Bugs Fixed
 
 - Preserved request headers and cancellation when following message pagination links or resuming message pages. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
@@ -23,6 +21,7 @@
 
 ### Other Changes
 
+- Changed the default Chat service API version from `2026-02-01-preview` to `2026-08-01-preview`. Set `apiVersion` in the client options to explicitly select the previous version. [API specification](https://github.com/Azure/azure-rest-api-specs/pull/46545)
 - Named request body parameters `role`, `room`, `member`, `user`, `topic`, and `message` consistently across the client and operation functions. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Documented message-ID pagination cursors and resuming message pages with the returned continuation token. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 
