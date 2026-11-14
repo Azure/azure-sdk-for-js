@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
       "%24top": options?.top,
     },
     {
@@ -77,7 +77,11 @@ export function list(
     () => _listSend(context, resourceGroupName, privateZoneName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
   );
 }
 
@@ -95,7 +99,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
       virtualNetworkLinkName: virtualNetworkLinkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, privateZoneName, virtualNetworkLinkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +161,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
       virtualNetworkLinkName: virtualNetworkLinkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +217,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
 }
 
@@ -232,7 +236,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
       virtualNetworkLinkName: virtualNetworkLinkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +293,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-01",
+    apiVersion: context.apiVersion ?? "2026-06-01-preview",
   }) as PollerLike<OperationState<VirtualNetworkLink>, VirtualNetworkLink>;
 }
 
@@ -307,7 +311,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
       virtualNetworkLinkName: virtualNetworkLinkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

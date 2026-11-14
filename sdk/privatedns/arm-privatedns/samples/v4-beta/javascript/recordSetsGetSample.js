@@ -8,7 +8,26 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetAAAAGet.json
+ * x-ms-original-file: 2026-06-01-preview/PTMLinkRecordSetAGet.json
+ */
+async function getPrivateDNSZonePTMLinkARecordSet() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionId";
+  const client = new PrivateDnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get(
+    "resourceGroup1",
+    "privatezone1.com",
+    "A",
+    "ptmlinkrecord",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a record set.
+ *
+ * @summary gets a record set.
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAAGet.json
  */
 async function getPrivateDNSZoneAaaaRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +46,7 @@ async function getPrivateDNSZoneAaaaRecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetAGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAGet.json
  */
 async function getPrivateDNSZoneARecordSet() {
   const credential = new DefaultAzureCredential();
@@ -41,7 +60,7 @@ async function getPrivateDNSZoneARecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEGet.json
  */
 async function getPrivateDNSZoneCnameRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -60,7 +79,7 @@ async function getPrivateDNSZoneCnameRecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetMXGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXGet.json
  */
 async function getPrivateDNSZoneMXRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -79,7 +98,7 @@ async function getPrivateDNSZoneMXRecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetPTRGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRGet.json
  */
 async function getPrivateDNSZonePTRRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -93,7 +112,7 @@ async function getPrivateDNSZonePTRRecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetSOAGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSOAGet.json
  */
 async function getPrivateDNSZoneSOARecordSet() {
   const credential = new DefaultAzureCredential();
@@ -107,7 +126,7 @@ async function getPrivateDNSZoneSOARecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetSRVGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVGet.json
  */
 async function getPrivateDNSZoneSRVRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -126,7 +145,7 @@ async function getPrivateDNSZoneSRVRecordSet() {
  * This sample demonstrates how to gets a record set.
  *
  * @summary gets a record set.
- * x-ms-original-file: 2024-06-01/RecordSetTXTGet.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTGet.json
  */
 async function getPrivateDNSZoneTXTRecordSet() {
   const credential = new DefaultAzureCredential();
@@ -142,6 +161,7 @@ async function getPrivateDNSZoneTXTRecordSet() {
 }
 
 async function main() {
+  await getPrivateDNSZonePTMLinkARecordSet();
   await getPrivateDNSZoneAaaaRecordSet();
   await getPrivateDNSZoneARecordSet();
   await getPrivateDNSZoneCnameRecordSet();

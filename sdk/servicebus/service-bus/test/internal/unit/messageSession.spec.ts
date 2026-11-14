@@ -14,7 +14,7 @@ import type {
   Message as RheaMessage,
   Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
-import { ReceiverEvents, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, SessionEvents, message as rheaMessageUtil } from "rhea-promise";
 import type { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
 import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
 import type { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
@@ -424,6 +424,67 @@ describe("Message session unit tests - errors", () => {
       stored.message,
       "The session lock has expired on the session with id session id",
     );
+  });
+
+  it("continues a subscription after timestamp-valued application-property keys", async () => {
+    const messages: ServiceBusMessageImpl[] = [];
+    const errors: ProcessErrorArgs[] = [];
+    const addCreditSpy = vi.spyOn(messageSession["_receiverHelper"], "addCredit");
+    messageSession.subscribe(
+      async (message) => {
+        messages.push(message);
+      },
+      async (error) => {
+        errors.push(error);
+      },
+      { maxConcurrentCalls: 1 },
+    );
+    addCreditSpy.mockClear();
+
+    const link = messageSession["_link"];
+    assert.exists(link);
+    const listeners = link!.listeners(ReceiverEvents.message);
+    assert.lengthOf(listeners, 1);
+    const onMessage = listeners[0] as OnAmqpEventAsPromise;
+    const timestamp = new Date(0);
+
+    await onMessage({
+      ...eventContextWithMessage,
+      message: rheaMessageUtil.decode(
+        rheaMessageUtil.encode({
+          body: "timestamp properties",
+          application_properties: {
+            ["__proto__"]: timestamp,
+          },
+        }),
+      ) as unknown as RheaMessage,
+    });
+    assert.lengthOf(messages, 1);
+    assert.strictEqual(Object.getPrototypeOf(messages[0].applicationProperties), Object.prototype);
+    assert.strictEqual(
+      Object.getOwnPropertyDescriptor(messages[0].applicationProperties, "__proto__")?.value,
+      timestamp.getTime(),
+    );
+    expect(addCreditSpy).toHaveBeenCalledExactlyOnceWith(1);
+
+    await onMessage({
+      ...eventContextWithMessage,
+      message: rheaMessageUtil.decode(
+        rheaMessageUtil.encode({
+          body: "following message",
+          application_properties: { category: "orders" },
+        }),
+      ) as unknown as RheaMessage,
+    });
+    assert.deepEqual(
+      messages.map((message) => message.body),
+      ["timestamp properties", "following message"],
+    );
+    assert.strictEqual(messages[1].applicationProperties?.category, "orders");
+    assert.deepEqual(Object.keys(messages[1].applicationProperties!), ["category"]);
+    expect(addCreditSpy).toHaveBeenCalledTimes(2);
+    assert.isEmpty(errors);
+    expect(processCreditErrorSpy).not.toHaveBeenCalled();
   });
 
   it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {

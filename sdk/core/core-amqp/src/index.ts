@@ -18,6 +18,7 @@ export { CbsClient, type CbsResponse } from "./cbs.js";
 export { Constants, StandardAbortMessage } from "./util/constants.js";
 export { AmqpMessageHeader } from "./messageHeader.js";
 export { AmqpMessageProperties } from "./messageProperties.js";
+export { type AmqpApplicationProperty } from "./amqpApplicationProperties.js";
 export {
   ConnectionContextBase,
   type ConnectionProperties,
