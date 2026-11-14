@@ -15,6 +15,7 @@
 
 ### Bugs Fixed
 
+- Fixed `ManagedIdentityCredential` reporting "Network unreachable" when the managed identity endpoint answered with a body that is not the JSON its `Content-Type` header claims. The error now gives the HTTP status code. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
 - Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#40547](https://github.com/Azure/azure-sdk-for-js/pull/40547)
 
 ### Other Changes
