@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Preserve legacy integer values inside unknown described message-body containers and exact application-property types when the section uses a symbolic descriptor.
+
 ### Other Changes
 
 ## 4.5.1 (2026-09-03)
