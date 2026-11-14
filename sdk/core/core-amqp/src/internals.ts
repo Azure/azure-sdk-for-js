@@ -6,3 +6,10 @@ import { createSasTokenProvider } from "./auth/tokenProvider.js";
 import { isSasTokenProvider } from "./util/typeGuards.js";
 
 export { type SasTokenProvider, createSasTokenProvider, isSasTokenProvider };
+export {
+  type _ApplicationPropertiesWithTypes,
+  _decodeRheaMessage,
+  _defineApplicationPropertiesWithAmqpTypes,
+  _getApplicationPropertiesWithAmqpTypes,
+  _toRheaApplicationProperties,
+} from "./amqpApplicationProperties.js";
