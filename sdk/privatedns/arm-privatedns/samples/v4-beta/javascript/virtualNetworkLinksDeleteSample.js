@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
  *
  * @summary deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration virtual network, all auto-registered DNS records in the zone for the virtual network will also be deleted. This operation cannot be undone.
- * x-ms-original-file: 2024-06-01/VirtualNetworkLinkDelete.json
+ * x-ms-original-file: 2026-06-01-preview/VirtualNetworkLinkDelete.json
  */
 async function deletePrivateDNSZoneVirtualNetworkLink() {
   const credential = new DefaultAzureCredential();

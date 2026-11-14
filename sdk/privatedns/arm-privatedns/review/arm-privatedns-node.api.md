@@ -90,7 +90,8 @@ export enum KnownResolutionPolicy {
 
 // @public
 export enum KnownVersions {
-    V20240601 = "2024-06-01"
+    V20240601 = "2024-06-01",
+    V20260601Preview = "2026-06-01-preview"
 }
 
 // @public
@@ -121,6 +122,7 @@ export interface PageSettings {
 export class PrivateDnsManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: PrivateDnsManagementClientOptionalParams);
     readonly pipeline: Pipeline;
+    readonly privateDnsResourceReference: PrivateDnsResourceReferenceOperations;
     readonly privateZones: PrivateZonesOperations;
     readonly recordSets: RecordSetsOperations;
     readonly virtualNetworkLinks: VirtualNetworkLinksOperations;
@@ -130,6 +132,41 @@ export class PrivateDnsManagementClient {
 export interface PrivateDnsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface PrivateDnsResourceReference {
+    privateDnsResources?: SubResource[];
+    targetResource?: SubResource;
+}
+
+// @public
+export interface PrivateDnsResourceReferenceGetByTargetResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateDnsResourceReferenceOperations {
+    getByTargetResources: (parameters: PrivateDnsResourceReferenceRequest, options?: PrivateDnsResourceReferenceGetByTargetResourcesOptionalParams) => Promise<PrivateDnsResourceReferenceResult>;
+}
+
+// @public
+export interface PrivateDnsResourceReferenceRequest {
+    targetResources?: SubResource[];
+}
+
+// @public
+export interface PrivateDnsResourceReferenceRequestProperties {
+    targetResources?: SubResource[];
+}
+
+// @public
+export interface PrivateDnsResourceReferenceResult {
+    privateDnsResourceReferences?: PrivateDnsResourceReference[];
+}
+
+// @public
+export interface PrivateDnsResourceReferenceResultProperties {
+    privateDnsResourceReferences?: PrivateDnsResourceReference[];
 }
 
 // @public
@@ -236,9 +273,11 @@ export interface RecordSet extends ProxyResource {
     readonly isAutoRegistered?: boolean;
     metadata?: Record<string, string>;
     mxRecords?: MxRecord[];
+    readonly provisioningState?: ProvisioningState;
     ptrRecords?: PtrRecord[];
     soaRecord?: SoaRecord;
     srvRecords?: SrvRecord[];
+    trafficManagementProfile?: SubResource;
     ttl?: number;
     txtRecords?: TxtRecord[];
 }
@@ -252,9 +291,11 @@ export interface RecordSetProperties {
     readonly isAutoRegistered?: boolean;
     metadata?: Record<string, string>;
     mxRecords?: MxRecord[];
+    readonly provisioningState?: ProvisioningState;
     ptrRecords?: PtrRecord[];
     soaRecord?: SoaRecord;
     srvRecords?: SrvRecord[];
+    trafficManagementProfile?: SubResource;
     ttl?: number;
     txtRecords?: TxtRecord[];
 }

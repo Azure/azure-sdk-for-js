@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all record sets in a Private DNS zone.
  *
  * @summary lists all record sets in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetALLList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetALLList.json
  */
 async function getPrivateDNSZoneALLRecordSets(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
  *
  * @summary gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
- * x-ms-original-file: 2024-06-01/PrivateZoneGet.json
+ * x-ms-original-file: 2026-06-01-preview/PrivateZoneGet.json
  */
 async function getPrivateDNSZone(): Promise<void> {
   const credential = new DefaultAzureCredential();

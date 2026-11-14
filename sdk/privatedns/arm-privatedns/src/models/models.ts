@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone. */
 export interface RecordSet extends ProxyResource {
   /** The ETag of the record set. */
@@ -37,6 +37,10 @@ export interface RecordSet extends ProxyResource {
   srvRecords?: SrvRecord[];
   /** The list of TXT records in the record set. */
   txtRecords?: TxtRecord[];
+  /** A reference to an azure private traffic manager profile resource from where the record set value is taken. Cannot be combined with aRecords, aaaaRecords, or cnameRecord. */
+  trafficManagementProfile?: SubResource;
+  /** The provisioning state of the record set. This is a read-only property and any attempt to set this value will be ignored. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function recordSetSerializer(item: RecordSet): any {
@@ -52,6 +56,7 @@ export function recordSetSerializer(item: RecordSet): any {
       "soaRecord",
       "srvRecords",
       "txtRecords",
+      "trafficManagementProfile",
     ])
       ? undefined
       : _recordSetPropertiesSerializer(item),
@@ -100,6 +105,10 @@ export interface RecordSetProperties {
   srvRecords?: SrvRecord[];
   /** The list of TXT records in the record set. */
   txtRecords?: TxtRecord[];
+  /** A reference to an azure private traffic manager profile resource from where the record set value is taken. Cannot be combined with aRecords, aaaaRecords, or cnameRecord. */
+  trafficManagementProfile?: SubResource;
+  /** The provisioning state of the record set. This is a read-only property and any attempt to set this value will be ignored. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function recordSetPropertiesSerializer(item: RecordSetProperties): any {
@@ -124,6 +133,9 @@ export function recordSetPropertiesSerializer(item: RecordSetProperties): any {
     txtRecords: !item["txtRecords"]
       ? item["txtRecords"]
       : txtRecordArraySerializer(item["txtRecords"]),
+    trafficManagementProfile: !item["trafficManagementProfile"]
+      ? item["trafficManagementProfile"]
+      : subResourceSerializer(item["trafficManagementProfile"]),
   };
 }
 
@@ -155,6 +167,10 @@ export function recordSetPropertiesDeserializer(item: any): RecordSetProperties 
     txtRecords: !item["txtRecords"]
       ? item["txtRecords"]
       : txtRecordArrayDeserializer(item["txtRecords"]),
+    trafficManagementProfile: !item["trafficManagementProfile"]
+      ? item["trafficManagementProfile"]
+      : subResourceDeserializer(item["trafficManagementProfile"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -410,6 +426,52 @@ export function txtRecordDeserializer(item: any): TxtRecord {
         }),
   };
 }
+
+/** Reference to another subresource. */
+export interface SubResource {
+  /** Resource ID. */
+  id?: string;
+}
+
+export function subResourceSerializer(item: SubResource): any {
+  return { id: item["id"] };
+}
+
+export function subResourceDeserializer(item: any): SubResource {
+  return {
+    id: item["id"],
+  };
+}
+
+/** The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. */
+export enum KnownProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
@@ -668,36 +730,6 @@ export function privateZonePropertiesDeserializer(item: any): PrivateZonePropert
   };
 }
 
-/** The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. */
-export enum KnownProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ProvisioningState = string;
-
 /** The response of a PrivateZone list operation. */
 export interface _PrivateZoneListResult {
   /** The PrivateZone items on this page */
@@ -815,22 +847,6 @@ export function virtualNetworkLinkPropertiesDeserializer(item: any): VirtualNetw
   };
 }
 
-/** Reference to another subresource. */
-export interface SubResource {
-  /** Resource ID. */
-  id?: string;
-}
-
-export function subResourceSerializer(item: SubResource): any {
-  return { id: item["id"] };
-}
-
-export function subResourceDeserializer(item: any): SubResource {
-  return {
-    id: item["id"],
-  };
-}
-
 /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
 export enum KnownResolutionPolicy {
   /** Default */
@@ -896,6 +912,109 @@ export function virtualNetworkLinkArrayDeserializer(result: Array<VirtualNetwork
   });
 }
 
+/** Represents the properties of the private DNS Resource Reference Request. */
+export interface PrivateDnsResourceReferenceRequest {
+  /** A list of references to azure resources for which referencing private DNS records need to be queried. */
+  targetResources?: SubResource[];
+}
+
+export function privateDnsResourceReferenceRequestSerializer(
+  item: PrivateDnsResourceReferenceRequest,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["targetResources"])
+      ? undefined
+      : _privateDnsResourceReferenceRequestPropertiesSerializer(item),
+  };
+}
+
+/** Represents the properties of the private DNS Resource Reference Request. */
+export interface PrivateDnsResourceReferenceRequestProperties {
+  /** A list of references to azure resources for which referencing private DNS records need to be queried. */
+  targetResources?: SubResource[];
+}
+
+export function privateDnsResourceReferenceRequestPropertiesSerializer(
+  item: PrivateDnsResourceReferenceRequestProperties,
+): any {
+  return {
+    targetResources: !item["targetResources"]
+      ? item["targetResources"]
+      : subResourceArraySerializer(item["targetResources"]),
+  };
+}
+
+export function subResourceArraySerializer(result: Array<SubResource>): any[] {
+  return result.map((item) => {
+    return subResourceSerializer(item);
+  });
+}
+
+export function subResourceArrayDeserializer(result: Array<SubResource>): any[] {
+  return result.map((item) => {
+    return subResourceDeserializer(item);
+  });
+}
+
+/** Represents the properties of the private DNS Resource Reference Result. */
+export interface PrivateDnsResourceReferenceResult {
+  /** The result of private dns resource reference request. A list of private dns resource references for each of the azure resource in the request */
+  privateDnsResourceReferences?: PrivateDnsResourceReference[];
+}
+
+export function privateDnsResourceReferenceResultDeserializer(
+  item: any,
+): PrivateDnsResourceReferenceResult {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _privateDnsResourceReferenceResultPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The result of private dns resource reference request. Returns a list of private dns resource references for each of the azure resource in the request. */
+export interface PrivateDnsResourceReferenceResultProperties {
+  /** The result of private dns resource reference request. A list of private dns resource references for each of the azure resource in the request */
+  privateDnsResourceReferences?: PrivateDnsResourceReference[];
+}
+
+export function privateDnsResourceReferenceResultPropertiesDeserializer(
+  item: any,
+): PrivateDnsResourceReferenceResultProperties {
+  return {
+    privateDnsResourceReferences: !item["privateDnsResourceReferences"]
+      ? item["privateDnsResourceReferences"]
+      : privateDnsResourceReferenceArrayDeserializer(item["privateDnsResourceReferences"]),
+  };
+}
+
+export function privateDnsResourceReferenceArrayDeserializer(
+  result: Array<PrivateDnsResourceReference>,
+): any[] {
+  return result.map((item) => {
+    return privateDnsResourceReferenceDeserializer(item);
+  });
+}
+
+/** Represents a single Azure resource and its referencing private DNS record sets. */
+export interface PrivateDnsResourceReference {
+  /** A list of private DNS record sets that reference the target resource. */
+  privateDnsResources?: SubResource[];
+  /** A reference to an azure resource from where the private DNS resource value is taken. */
+  targetResource?: SubResource;
+}
+
+export function privateDnsResourceReferenceDeserializer(item: any): PrivateDnsResourceReference {
+  return {
+    privateDnsResources: !item["privateDnsResources"]
+      ? item["privateDnsResources"]
+      : subResourceArrayDeserializer(item["privateDnsResources"]),
+    targetResource: !item["targetResource"]
+      ? item["targetResource"]
+      : subResourceDeserializer(item["targetResource"]),
+  };
+}
+
 /** Type of RecordType */
 export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "PTR" | "SOA" | "SRV" | "TXT";
 
@@ -903,6 +1022,8 @@ export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "PTR" | "SOA" | "SRV" |
 export enum KnownVersions {
   /** The 2024-06-01 API version. */
   V20240601 = "2024-06-01",
+  /** The 2026-06-01-preview API version. */
+  V20260601Preview = "2026-06-01-preview",
 }
 
 export function _recordSetPropertiesSerializer(item: RecordSet): any {
@@ -927,6 +1048,9 @@ export function _recordSetPropertiesSerializer(item: RecordSet): any {
     txtRecords: !item["txtRecords"]
       ? item["txtRecords"]
       : txtRecordArraySerializer(item["txtRecords"]),
+    trafficManagementProfile: !item["trafficManagementProfile"]
+      ? item["trafficManagementProfile"]
+      : subResourceSerializer(item["trafficManagementProfile"]),
   };
 }
 
@@ -958,6 +1082,10 @@ export function _recordSetPropertiesDeserializer(item: any) {
     txtRecords: !item["txtRecords"]
       ? item["txtRecords"]
       : txtRecordArrayDeserializer(item["txtRecords"]),
+    trafficManagementProfile: !item["trafficManagementProfile"]
+      ? item["trafficManagementProfile"]
+      : subResourceDeserializer(item["trafficManagementProfile"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -999,5 +1127,23 @@ export function _virtualNetworkLinkPropertiesDeserializer(item: any) {
     resolutionPolicy: item["resolutionPolicy"],
     virtualNetworkLinkState: item["virtualNetworkLinkState"],
     provisioningState: item["provisioningState"],
+  };
+}
+
+export function _privateDnsResourceReferenceRequestPropertiesSerializer(
+  item: PrivateDnsResourceReferenceRequest,
+): any {
+  return {
+    targetResources: !item["targetResources"]
+      ? item["targetResources"]
+      : subResourceArraySerializer(item["targetResources"]),
+  };
+}
+
+export function _privateDnsResourceReferenceResultPropertiesDeserializer(item: any) {
+  return {
+    privateDnsResourceReferences: !item["privateDnsResourceReferences"]
+      ? item["privateDnsResourceReferences"]
+      : privateDnsResourceReferenceArrayDeserializer(item["privateDnsResourceReferences"]),
   };
 }

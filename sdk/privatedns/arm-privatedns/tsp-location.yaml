@@ -1,4 +1,4 @@
 directory: specification/privatedns/resource-manager/Microsoft.Network/PrivateDns
-commit: 8409d9ffeca520f92e0235d2fda4a7c8fd4470fd
+commit: 20f54bc0008e83da963412c67397b17ed52b4f29
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

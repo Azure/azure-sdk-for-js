@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a virtual network link to the specified Private DNS zone.
  *
  * @summary creates or updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: 2024-06-01/VirtualNetworkLinkPut.json
+ * x-ms-original-file: 2026-06-01-preview/VirtualNetworkLinkPut.json
  */
 async function putPrivateDNSZoneVirtualNetworkLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
