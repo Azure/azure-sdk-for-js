@@ -4,6 +4,7 @@
 import {
   ServiceBusAdministrationClient,
   ServiceBusClient,
+  type RetryOptions,
   type ServiceBusMessage,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,6 +20,15 @@ describe("snippets", () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();
     const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+  });
+
+  it("ReadmeSampleConfigureRetries", async () => {
+    const retryOptions: RetryOptions = {
+      maxRetries: 5,
+      retryDelayInMs: 1000,
+      maxRetryDelayInMs: 60000,
+    };
+    const serviceBusClient = new ServiceBusClient("<connectionString>", { retryOptions });
   });
 
   it("ReadmeSampleSendMessage", async () => {
