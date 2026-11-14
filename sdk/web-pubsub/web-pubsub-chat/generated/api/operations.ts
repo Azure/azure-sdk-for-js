@@ -3,31 +3,51 @@
 
 import { WebPubSubChatServiceContext as Client } from "./index.js";
 import {
+  GenerateClientTokenResponse,
+  generateClientTokenResponseDeserializer,
+  ChatTopicCreateCustomizedCreateOrUpdate,
+  ChatTopicUpdateCustomizedUpdate,
+} from "../models/customizations/models.js";
+import {
   ChatConversation,
   chatConversationDeserializer,
   _PagedChatMessage,
   _pagedChatMessageDeserializer,
   ChatMessage,
-  chatMessageSerializer,
   chatMessageDeserializer,
   _PagedChatRole,
   _pagedChatRoleDeserializer,
   ChatRole,
-  chatRoleSerializer,
   chatRoleDeserializer,
+  _PagedChatRoom,
+  _pagedChatRoomDeserializer,
   ChatRoom,
-  chatRoomSerializer,
   chatRoomDeserializer,
+  _PagedChatTopic,
+  _pagedChatTopicDeserializer,
+  ChatTopic,
+  chatTopicDeserializer,
   _PagedChatRoomMember,
   _pagedChatRoomMemberDeserializer,
   ChatRoomMember,
-  chatRoomMemberSerializer,
   chatRoomMemberDeserializer,
-  chatUserUnionSerializer,
+  _PagedChatUser,
+  _pagedChatUserDeserializer,
   chatUserUnionDeserializer,
   ChatUserUnion,
-  GenerateClientTokenResponse,
-  generateClientTokenResponseDeserializer,
+  _PagedChatUserRoom,
+  _pagedChatUserRoomDeserializer,
+  ChatUserRoom,
+  ChatMessageUpdate,
+  chatMessageUpdateSerializer,
+  ChatRoleCreateOrUpdate,
+  chatRoleCreateOrUpdateSerializer,
+  ChatRoomCreateOrUpdate,
+  chatRoomCreateOrUpdateSerializer,
+  ChatRoomMemberCreateOrUpdate,
+  chatRoomMemberCreateOrUpdateSerializer,
+  chatUserCreateOrUpdateUnionSerializer,
+  ChatUserCreateOrUpdateUnion,
 } from "../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -36,15 +56,23 @@ import {
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   GenerateClientTokenOptionalParams,
+  ListRoomsForUserOptionalParams,
   DeleteUserOptionalParams,
   CreateOrReplaceUserOptionalParams,
   GetUserOptionalParams,
+  ListUsersOptionalParams,
   DeleteRoomMemberOptionalParams,
   CreateOrReplaceRoomMemberOptionalParams,
   ListRoomMembersOptionalParams,
+  DeleteTopicOptionalParams,
+  UpdateTopicOptionalParams,
+  GetTopicOptionalParams,
+  CreateOrReplaceTopicOptionalParams,
+  ListTopicsOptionalParams,
   DeleteRoomOptionalParams,
   GetRoomOptionalParams,
   CreateOrReplaceRoomOptionalParams,
+  ListRoomsOptionalParams,
   DeleteRoleOptionalParams,
   CreateOrReplaceRoleOptionalParams,
   GetRoleOptionalParams,
@@ -110,6 +138,62 @@ export async function generateClientToken(
   return _generateClientTokenDeserialize(result);
 }
 
+export function _listRoomsForUserSend(
+  context: Client,
+  userId: string,
+  options: ListRoomsForUserOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/users/{userId}/rooms{?api%2Dversion,maxpagesize,continuationToken}",
+    {
+      hub: context.hub,
+      userId: userId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      maxpagesize: options?.maxPageSize,
+      continuationToken: options?.continuationToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _listRoomsForUserDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedChatUserRoom> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedChatUserRoomDeserializer(result.body);
+}
+
+/** List rooms for a user with pagination. */
+export function listRoomsForUser(
+  context: Client,
+  userId: string,
+  options: ListRoomsForUserOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ChatUserRoom> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listRoomsForUserSend(context, userId, options),
+    _listRoomsForUserDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
+}
+
 export function _deleteUserSend(
   context: Client,
   userId: string,
@@ -120,7 +204,7 @@ export function _deleteUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +244,7 @@ export async function deleteUser(
 export function _createOrReplaceUserSend(
   context: Client,
   userId: string,
-  resource: ChatUserUnion,
+  resource: ChatUserCreateOrUpdateUnion,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -168,7 +252,7 @@ export function _createOrReplaceUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +269,7 @@ export function _createOrReplaceUserSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatUserUnionSerializer(resource),
+      body: chatUserCreateOrUpdateUnionSerializer(resource),
     });
 }
 
@@ -204,7 +288,7 @@ export async function _createOrReplaceUserDeserialize(
 export async function createOrReplaceUser(
   context: Client,
   userId: string,
-  resource: ChatUserUnion,
+  resource: ChatUserCreateOrUpdateUnion,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): Promise<ChatUserUnion> {
   const result = await _createOrReplaceUserSend(context, userId, resource, options);
@@ -221,7 +305,7 @@ export function _getUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,6 +338,59 @@ export async function getUser(
   return _getUserDeserialize(result);
 }
 
+export function _listUsersSend(
+  context: Client,
+  options: ListUsersOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/users{?api%2Dversion,maxpagesize,continuationToken}",
+    {
+      hub: context.hub,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      maxpagesize: options?.maxPageSize,
+      continuationToken: options?.continuationToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _listUsersDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedChatUser> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedChatUserDeserializer(result.body);
+}
+
+/** List all users with pagination. */
+export function listUsers(
+  context: Client,
+  options: ListUsersOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ChatUserUnion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listUsersSend(context, options),
+    _listUsersDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
+}
+
 export function _deleteRoomMemberSend(
   context: Client,
   roomId: string,
@@ -266,7 +403,7 @@ export function _deleteRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +445,7 @@ export function _createOrReplaceRoomMemberSend(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMember,
+  resource: ChatRoomMemberCreateOrUpdate,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -317,7 +454,7 @@ export function _createOrReplaceRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -334,7 +471,7 @@ export function _createOrReplaceRoomMemberSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoomMemberSerializer(resource),
+      body: chatRoomMemberCreateOrUpdateSerializer(resource),
     });
 }
 
@@ -354,7 +491,7 @@ export async function createOrReplaceRoomMember(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMember,
+  resource: ChatRoomMemberCreateOrUpdate,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoomMember> {
   const result = await _createOrReplaceRoomMemberSend(context, roomId, userId, resource, options);
@@ -371,7 +508,7 @@ export function _listRoomMembersSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
       continuationToken: options?.continuationToken,
     },
@@ -412,7 +549,271 @@ export function listRoomMembers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
+}
+
+export function _deleteTopicSend(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  options: DeleteTopicOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics/{topicId}{?api%2Dversion}",
+    {
+      hub: context.hub,
+      roomId: roomId,
+      topicId: topicId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteTopicDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Soft delete a topic. */
+export async function deleteTopic(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  options: DeleteTopicOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteTopicSend(context, roomId, topicId, options);
+  return _deleteTopicDeserialize(result);
+}
+
+export function _updateTopicSend(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  resource: ChatTopicUpdateCustomizedUpdate,
+  options: UpdateTopicOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics/{topicId}{?api%2Dversion}",
+    {
+      hub: context.hub,
+      roomId: roomId,
+      topicId: topicId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { title: title, state: state },
+    });
+}
+
+export async function _updateTopicDeserialize(result: PathUncheckedResponse): Promise<ChatTopic> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return chatTopicDeserializer(result.body);
+}
+
+/** Update a topic. */
+export async function updateTopic(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  resource: ChatTopicUpdateCustomizedUpdate,
+  options: UpdateTopicOptionalParams = { requestOptions: {} },
+): Promise<ChatTopic> {
+  const result = await _updateTopicSend(context, roomId, topicId, resource, options);
+  return _updateTopicDeserialize(result);
+}
+
+export function _getTopicSend(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  options: GetTopicOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics/{topicId}{?api%2Dversion}",
+    {
+      hub: context.hub,
+      roomId: roomId,
+      topicId: topicId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _getTopicDeserialize(result: PathUncheckedResponse): Promise<ChatTopic> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return chatTopicDeserializer(result.body);
+}
+
+/** Get topic information. */
+export async function getTopic(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  options: GetTopicOptionalParams = { requestOptions: {} },
+): Promise<ChatTopic> {
+  const result = await _getTopicSend(context, roomId, topicId, options);
+  return _getTopicDeserialize(result);
+}
+
+export function _createOrReplaceTopicSend(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  resource: ChatTopicCreateCustomizedCreateOrUpdate,
+  options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics/{topicId}{?api%2Dversion}",
+    {
+      hub: context.hub,
+      roomId: roomId,
+      topicId: topicId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { title: title, state: state },
+    });
+}
+
+export async function _createOrReplaceTopicDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ChatTopic> {
+  const expectedStatuses = ["201", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return chatTopicDeserializer(result.body);
+}
+
+/** Create or replace a topic with a client-specified ID. */
+export async function createOrReplaceTopic(
+  context: Client,
+  roomId: string,
+  topicId: string,
+  resource: ChatTopicCreateCustomizedCreateOrUpdate,
+  options: CreateOrReplaceTopicOptionalParams = { requestOptions: {} },
+): Promise<ChatTopic> {
+  const result = await _createOrReplaceTopicSend(context, roomId, topicId, resource, options);
+  return _createOrReplaceTopicDeserialize(result);
+}
+
+export function _listTopicsSend(
+  context: Client,
+  roomId: string,
+  options: ListTopicsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics{?api%2Dversion,maxpagesize,continuationToken}",
+    {
+      hub: context.hub,
+      roomId: roomId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      maxpagesize: options?.maxPageSize,
+      continuationToken: options?.continuationToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _listTopicsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedChatTopic> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedChatTopicDeserializer(result.body);
+}
+
+/** List topics in a room with pagination. */
+export function listTopics(
+  context: Client,
+  roomId: string,
+  options: ListTopicsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ChatTopic> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listTopicsSend(context, roomId, options),
+    _listTopicsDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -427,7 +828,7 @@ export function _deleteRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -474,7 +875,7 @@ export function _getRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -510,7 +911,7 @@ export async function getRoom(
 export function _createOrReplaceRoomSend(
   context: Client,
   roomId: string,
-  resource: ChatRoom,
+  resource: ChatRoomCreateOrUpdate,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -518,7 +919,7 @@ export function _createOrReplaceRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -535,7 +936,7 @@ export function _createOrReplaceRoomSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoomSerializer(resource),
+      body: chatRoomCreateOrUpdateSerializer(resource),
     });
 }
 
@@ -554,11 +955,64 @@ export async function _createOrReplaceRoomDeserialize(
 export async function createOrReplaceRoom(
   context: Client,
   roomId: string,
-  resource: ChatRoom,
+  resource: ChatRoomCreateOrUpdate,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoom> {
   const result = await _createOrReplaceRoomSend(context, roomId, resource, options);
   return _createOrReplaceRoomDeserialize(result);
+}
+
+export function _listRoomsSend(
+  context: Client,
+  options: ListRoomsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms{?api%2Dversion,maxpagesize,continuationToken}",
+    {
+      hub: context.hub,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      maxpagesize: options?.maxPageSize,
+      continuationToken: options?.continuationToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
+}
+
+export async function _listRoomsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedChatRoom> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedChatRoomDeserializer(result.body);
+}
+
+/** List rooms with pagination. */
+export function listRooms(
+  context: Client,
+  options: ListRoomsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ChatRoom> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listRoomsSend(context, options),
+    _listRoomsDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _deleteRoleSend(
@@ -571,7 +1025,7 @@ export function _deleteRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,7 +1065,7 @@ export async function deleteRole(
 export function _createOrReplaceRoleSend(
   context: Client,
   roleName: string,
-  resource: ChatRole,
+  resource: ChatRoleCreateOrUpdate,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -619,7 +1073,7 @@ export function _createOrReplaceRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -636,7 +1090,7 @@ export function _createOrReplaceRoleSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatRoleSerializer(resource),
+      body: chatRoleCreateOrUpdateSerializer(resource),
     });
 }
 
@@ -655,7 +1109,7 @@ export async function _createOrReplaceRoleDeserialize(
 export async function createOrReplaceRole(
   context: Client,
   roleName: string,
-  resource: ChatRole,
+  resource: ChatRoleCreateOrUpdate,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): Promise<ChatRole> {
   const result = await _createOrReplaceRoleSend(context, roleName, resource, options);
@@ -672,7 +1126,7 @@ export function _getRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -713,7 +1167,7 @@ export function _listRolesSend(
     "/api/hubs/{hub}/chat/roles{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
       continuationToken: options?.continuationToken,
     },
@@ -753,7 +1207,7 @@ export function listRoles(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -762,7 +1216,7 @@ export function _updateMessageSend(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessage,
+  message: ChatMessageUpdate,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -771,7 +1225,7 @@ export function _updateMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -788,7 +1242,7 @@ export function _updateMessageSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: chatMessageSerializer(resource),
+      body: chatMessageUpdateSerializer(message),
     });
 }
 
@@ -808,10 +1262,10 @@ export async function updateMessage(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessage,
+  message: ChatMessageUpdate,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ChatMessage> {
-  const result = await _updateMessageSend(context, conversationId, messageId, resource, options);
+  const result = await _updateMessageSend(context, conversationId, messageId, message, options);
   return _updateMessageDeserialize(result);
 }
 
@@ -827,7 +1281,7 @@ export function _deleteMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -875,7 +1329,7 @@ export function _listMessagesSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       latestMessageId: options?.latestMessageId,
       earliestMessageId: options?.earliestMessageId,
       maxpagesize: options?.maxPageSize,
@@ -917,7 +1371,7 @@ export function listMessages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -932,7 +1386,7 @@ export function _getConversationSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
