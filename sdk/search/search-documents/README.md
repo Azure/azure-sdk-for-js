@@ -2,7 +2,7 @@
 
 ## November 2026 preview
 
-The unreleased `13.1.0-beta.3` targets `2026-11-01-preview` by default. Set
+The unreleased `13.2.0-beta.1` targets `2026-11-01-preview` by default. Set
 `serviceVersion` in client options to continue using a supported earlier API.
 Generation is pinned to [REST API specifications PR #47300](https://github.com/Azure/azure-rest-api-specs/pull/47300),
 commit `b41ba04c0219f6622b7f5214fc020f90bad339ae`; no release date is confirmed.
