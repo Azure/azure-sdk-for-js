@@ -1105,10 +1105,42 @@ const workflowText = (name) =>
   readFileSync(path.join(repoRoot, ".github", "workflows", name), "utf8").replace(/\r\n/g, "\n");
 
 function assertIssueEventReadPermission(job) {
-  const permissions = job.match(/^    permissions:\n((?:      [\w-]+: \w+\n)+)/m)?.[1];
+  const permissions = job.match(
+    /^    permissions:\n((?:      [\w-]+: \w+(?:[ \t]+#[^\n]*)?\n)+)/m,
+  )?.[1];
   // https://docs.github.com/en/rest/issues/events#list-issue-events accepts either scope.
-  assert.ok(permissions && /^      (issues|pull-requests): (read|write)$/m.test(permissions));
+  assert.ok(
+    permissions &&
+      /^      (issues|pull-requests): (read|write)(?:[ \t]+#[^\n]*)?$/m.test(permissions),
+  );
 }
+
+test("issue-event permission assertions accept inline YAML comments", () => {
+  for (const scope of ["issues", "pull-requests"]) {
+    for (const access of ["read", "write"]) {
+      for (const comment of ["", " # Required to list issue events"]) {
+        assertIssueEventReadPermission(
+          `    permissions:\n      actions: read # Required to inspect runs\n      ${scope}: ${access}${comment}\n`,
+        );
+      }
+    }
+  }
+});
+
+test("issue-event permission assertions reject missing or insufficient job permissions", () => {
+  for (const job of [
+    "    permissions:\n      actions: read # issues: read\n",
+    "    permissions:\n      issues: none # pull-requests: write\n",
+    "    permissions:\n      pull-requests: none # issues: read\n",
+    "    permissions:\n      issues: reader # Not a valid permission level\n",
+    "    permissions:\n      issues: read#not-a-comment\n",
+    "    permissions:\n      contents: read\n    steps:\n      issues: write\n",
+    "    steps:\n      permissions:\n        issues: write\n",
+    "    permissions: {}\n",
+  ]) {
+    assert.throws(() => assertIssueEventReadPermission(job), assert.AssertionError);
+  }
+});
 
 test("the shared intake and router preserve the trust boundary", () => {
   const intake = workflowText("pr-review-intake.yml");
