@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EnclaveEndpointResource resources by EnclaveResource
  *
  * @summary list EnclaveEndpointResource resources by EnclaveResource
- * x-ms-original-file: 2026-03-01-preview/EnclaveEndpoints_ListByEnclaveResource.json
+ * x-ms-original-file: 2026-04-01/EnclaveEndpoints_ListByEnclaveResource.json
  */
 async function enclaveEndpointsListByEnclaveResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

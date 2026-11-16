@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of an connectedEnvironment.
  *
  * @summary get the properties of an connectedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironments_Get.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironments_Get.json
  */
 async function getConnectedEnvironmentByConnectedEnvironmentName(): Promise<void> {
   const credential = new DefaultAzureCredential();

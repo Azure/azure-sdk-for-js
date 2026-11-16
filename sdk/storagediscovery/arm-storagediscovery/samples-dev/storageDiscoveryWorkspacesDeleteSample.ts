@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a StorageDiscoveryWorkspace
  *
  * @summary delete a StorageDiscoveryWorkspace
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_Delete.json
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_Delete.json
  */
 async function deleteAStorageDiscoveryWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

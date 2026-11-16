@@ -11,16 +11,32 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { SearchIndexKnowledgeSource } from "@azure/search-documents";
-import { SearchIndexClient } from "@azure/search-documents";
+import type { AzureBlobKnowledgeSource, SearchIndexKnowledgeSource } from "@azure/search-documents";
+import {
+  KnownKnowledgeSourceNetworkAccessMode,
+  SearchIndexClient,
+  SearchIndexerClient,
+} from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
+const blobConnectionString = process.env.AZURE_BLOB_CONNECTION_STRING || "";
+const blobContainerName = process.env.AZURE_BLOB_CONTAINER_NAME || "";
+const aiServicesEndpoint = process.env.AZURE_AI_SERVICES_ENDPOINT || "";
+const expectedAnalyzer = process.env.EXPECTED_LANGUAGE_ANALYZER || "";
+const expectedFallbackAnalyzer = process.env.EXPECTED_FALLBACK_ANALYZER || "";
 
 const TEST_KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-sample-1";
 const TEST_INDEX_NAME = "example-index-for-source-sample";
+const PRIVATE_BLOB_SOURCE_NAME = "example-private-blob-source-sample";
+
+function assertSample(condition: unknown, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(`Sample assertion failed: ${message}`);
+  }
+}
 
 async function setupPrerequisites(client: SearchIndexClient): Promise<void> {
   console.log(`Setting up prerequisites...`);
@@ -29,6 +45,8 @@ async function setupPrerequisites(client: SearchIndexClient): Promise<void> {
     fields: [
       { type: "Edm.String" as const, name: "id", key: true },
       { type: "Edm.String" as const, name: "content", searchable: true },
+      { type: "Edm.String" as const, name: "category", filterable: true },
+      { type: "Edm.String" as const, name: "priority", filterable: true },
     ],
   });
   console.log(`Created search index: ${TEST_INDEX_NAME}`);
@@ -40,10 +58,89 @@ async function createKnowledgeSource(sourceName: string, client: SearchIndexClie
     name: sourceName,
     kind: "searchIndex",
     description: "A sample search index knowledge source",
-    searchIndexParameters: { searchIndexName: TEST_INDEX_NAME },
+    searchIndexParameters: {
+      searchIndexName: TEST_INDEX_NAME,
+      queryHints: {
+        filters: [
+          {
+            field: "category",
+            fieldValues: ["manual"],
+            filterInstructions: "Prefer product manuals when the user asks how-to questions.",
+          },
+        ],
+        boosts: [{ kind: "fieldValue", field: "priority", fieldValues: ["high"], boost: 2 }],
+      },
+    },
   };
   const result = await client.createKnowledgeSource(knowledgeSource);
+  const createdSearchSource = result as SearchIndexKnowledgeSource;
+  assertSample(
+    createdSearchSource.searchIndexParameters.queryHints?.filters?.[0]?.field === "category",
+    "stored query hints should round-trip",
+  );
   console.log(`Created knowledge source: ${result.name} (kind=${result.kind})`);
+}
+
+async function createPrivateBlobSource(
+  indexClient: SearchIndexClient,
+  indexerClient: SearchIndexerClient,
+): Promise<void> {
+  if (!blobConnectionString || !blobContainerName || !aiServicesEndpoint) {
+    console.log(
+      "Skipping private Blob ingestion/analyzer inspection. Set AZURE_BLOB_CONNECTION_STRING, " +
+        "AZURE_BLOB_CONTAINER_NAME, and AZURE_AI_SERVICES_ENDPOINT after provisioning the " +
+        "required shared private links.",
+    );
+    return;
+  }
+
+  const source: AzureBlobKnowledgeSource = {
+    name: PRIVATE_BLOB_SOURCE_NAME,
+    kind: "azureBlob",
+    description: "Private Blob ingestion with service-selected language analyzers",
+    azureBlobParameters: {
+      connectionString: blobConnectionString,
+      containerName: blobContainerName,
+      ingestionParameters: {
+        networkAccessMode: KnownKnowledgeSourceNetworkAccessMode.Private,
+        contentExtractionMode: "minimal",
+        aiServices: { uri: aiServicesEndpoint },
+      },
+    },
+  };
+
+  const created = (await indexClient.createKnowledgeSource(source)) as AzureBlobKnowledgeSource;
+  assertSample(
+    created.azureBlobParameters.ingestionParameters?.networkAccessMode === "private",
+    "private networkAccessMode should round-trip",
+  );
+
+  const generatedResources = created.azureBlobParameters.createdResources ?? {};
+  console.log(`Generated resources: ${JSON.stringify(generatedResources)}`);
+  if (generatedResources.indexer) {
+    const status = await indexerClient.getIndexerStatus(generatedResources.indexer);
+    console.log(`Generated indexer status: ${status.status}`);
+  }
+  if (generatedResources.index) {
+    const generatedIndex = await indexClient.getIndex(generatedResources.index);
+    const selectedAnalyzers = generatedIndex.fields
+      .filter((field) => "analyzerName" in field && field.analyzerName)
+      .map((field) => ("analyzerName" in field ? field.analyzerName : undefined))
+      .filter((name): name is string => name !== undefined);
+    console.log(`Service-selected analyzers: ${selectedAnalyzers.join(", ") || "none yet"}`);
+    if (expectedAnalyzer) {
+      assertSample(
+        selectedAnalyzers.includes(expectedAnalyzer),
+        `expected analyzer ${expectedAnalyzer} was not selected`,
+      );
+    }
+    if (expectedFallbackAnalyzer) {
+      assertSample(
+        selectedAnalyzers.includes(expectedFallbackAnalyzer),
+        `unsupported-language content should fall back to ${expectedFallbackAnalyzer}`,
+      );
+    }
+  }
 }
 
 async function getAndUpdateKnowledgeSource(
@@ -95,13 +192,16 @@ async function main(): Promise<void> {
     return;
   }
   const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
+  const indexerClient = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
     await setupPrerequisites(client);
     await createKnowledgeSource(TEST_KNOWLEDGE_SOURCE_NAME, client);
     await getAndUpdateKnowledgeSource(TEST_KNOWLEDGE_SOURCE_NAME, client);
     await getKnowledgeSourceStatus(TEST_KNOWLEDGE_SOURCE_NAME, client);
     await listKnowledgeSources(client);
+    await createPrivateBlobSource(client, indexerClient);
   } finally {
+    await client.deleteKnowledgeSource(PRIVATE_BLOB_SOURCE_NAME).catch(() => {});
     await deleteKnowledgeSource(TEST_KNOWLEDGE_SOURCE_NAME, client).catch(() => {});
     await cleanupPrerequisites(client);
   }

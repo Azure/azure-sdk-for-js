@@ -1,0 +1,25 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "raiExternalSafetyProvider": {
+          "bicepIdentifier": "raiExternalSafetyProvider",
+          "type": "Microsoft.CognitiveServices/raiExternalSafetyProviders",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "safetyProvider"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

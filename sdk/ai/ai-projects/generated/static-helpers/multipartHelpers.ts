@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /**
  * Valid values for the contents of a binary file.

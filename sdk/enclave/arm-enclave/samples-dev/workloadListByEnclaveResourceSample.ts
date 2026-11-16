@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list WorkloadResource resources by EnclaveResource
  *
  * @summary list WorkloadResource resources by EnclaveResource
- * x-ms-original-file: 2026-03-01-preview/Workload_ListByEnclaveResource.json
+ * x-ms-original-file: 2026-04-01/Workload_ListByEnclaveResource.json
  */
 async function workloadListByEnclaveResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

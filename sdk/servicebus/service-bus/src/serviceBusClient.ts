@@ -39,12 +39,13 @@ import { ensureValidIdentifier } from "./util/utils.js";
  * (10000-01-01T00:00:00Z) due to double-to-long rounding in TotalMilliseconds,
  * and its decoder clamps values beyond DateTime.MaxValue.Ticks back to
  * DateTime.MaxValue. The service checks `lastUpdatedTime != DateTime.MaxValue`
- * (exact equality) to switch into "active messages" mode. This value matches
- * Track 1 Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
+ * to switch into updated-since mode; exact equality selects default listing,
+ * which returns sessions with active messages or stored session state. This
+ * value matches Track 1 Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
  *
  * @internal
  */
-export const ACTIVE_SESSIONS_SENTINEL_MS = 253402300800000;
+export const DEFAULT_LISTING_SENTINEL_MS = 253402300800000;
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -540,10 +541,11 @@ export class ServiceBusClient {
     const pageSize = 100;
 
     // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
-    // between "active messages" mode and "updated since" mode. On the AMQP wire, timestamps
-    // have millisecond precision, so DateTime.MaxValue becomes this value in ms from epoch.
+    // between default listing mode (active messages or stored session state) and updated-since
+    // mode. On the AMQP wire, timestamps have millisecond precision, so DateTime.MaxValue becomes
+    // this value in ms from epoch.
     const lastUpdatedTime =
-      options?.sessionStateUpdatedAfter ?? new Date(ACTIVE_SESSIONS_SENTINEL_MS);
+      options?.sessionStateUpdatedAfter ?? new Date(DEFAULT_LISTING_SENTINEL_MS);
 
     const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
       firstPageLink: 0,

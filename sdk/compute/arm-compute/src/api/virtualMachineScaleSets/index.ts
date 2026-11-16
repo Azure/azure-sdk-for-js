@@ -3,6 +3,7 @@
 
 export {
   listByLocation,
+  migrateVMAvailabilityZone,
   scaleOut,
   start,
   listSkus,
@@ -31,6 +32,7 @@ export {
 } from "./operations.js";
 export type {
   VirtualMachineScaleSetsListByLocationOptionalParams,
+  VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
   VirtualMachineScaleSetsListSkusOptionalParams,

@@ -22,12 +22,8 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 }
 
 /**
- * Cancels a Node.js stream by ending its socket or destroying it.
+ * Cancels a Node.js stream by destroying it.
  */
 export function cancelNodeStream(stream: IncomingMessage | NodeJSReadableStream): void {
-  if ("socket" in stream && stream.socket) {
-    stream.socket.end();
-  } else if ("destroy" in stream) {
-    stream.destroy();
-  }
+  stream.destroy();
 }

@@ -1,6 +1,24 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/trustedAccessRoles/index.ts",
+    "../src/api/resolvePrivateLinkServiceId/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/identityBindings/index.ts",
+    "../src/api/trustedAccessRoleBindings/index.ts",
+    "../src/api/snapshots/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/machines/index.ts",
+    "../src/api/managedNamespaces/index.ts",
+    "../src/api/maintenanceConfigurations/index.ts",
+    "../src/api/managedClusters/index.ts",
+    "../src/api/agentPools/index.ts",
+    "../src/models/index.ts"
   ]
 }

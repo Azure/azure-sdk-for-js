@@ -18,6 +18,7 @@ import type {
   _VirtualMachineScaleSetListSkusResult,
   VirtualMachineScaleSetSku,
   VMScaleSetScaleOutInput,
+  MigrateVMAvailabilityZoneInput,
 } from "../../models/compute/models.js";
 import {
   virtualMachineScaleSetSerializer,
@@ -35,6 +36,7 @@ import {
   orchestrationServiceStateInputSerializer,
   _virtualMachineScaleSetListSkusResultDeserializer,
   vmScaleSetScaleOutInputSerializer,
+  migrateVMAvailabilityZoneInputSerializer,
 } from "../../models/compute/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -42,6 +44,7 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   VirtualMachineScaleSetsListByLocationOptionalParams,
+  VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
   VirtualMachineScaleSetsListSkusOptionalParams,
@@ -82,7 +85,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +112,7 @@ export async function _listByLocationDeserialize(
 
   return _virtualMachineScaleSetListResultDeserializer(result.body);
 }
+
 /** Gets all the VM scale sets under the specified subscription for the specified location. */
 export function listByLocation(
   context: Client,
@@ -120,8 +124,73 @@ export function listByLocation(
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
+}
+
+export function _migrateVMAvailabilityZoneSend(
+  context: Client,
+  resourceGroupName: string,
+  vmScaleSetName: string,
+  body: MigrateVMAvailabilityZoneInput,
+  options: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/migrateVMAvailabilityZone{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      vmScaleSetName: vmScaleSetName,
+      "api%2Dversion": "2026-04-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: migrateVMAvailabilityZoneInputSerializer(body),
+  });
+}
+
+export async function _migrateVMAvailabilityZoneDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Migrates one or more virtual machines in a VM scale set to an availability zone. */
+export function migrateVMAvailabilityZone(
+  context: Client,
+  resourceGroupName: string,
+  vmScaleSetName: string,
+  body: MigrateVMAvailabilityZoneInput,
+  options: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _migrateVMAvailabilityZoneDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _migrateVMAvailabilityZoneSend(context, resourceGroupName, vmScaleSetName, body, options),
+      resourceLocationConfig: "location",
+      apiVersion: "2026-04-01",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _scaleOutSend(
@@ -137,7 +206,7 @@ export function _scaleOutSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,6 +232,7 @@ export async function _scaleOutDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Scales out one or more virtual machines in a VM scale set. */
 export function scaleOut(
   context: Client,
@@ -177,7 +247,7 @@ export function scaleOut(
     getInitialResponse: () =>
       _scaleOutSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -193,7 +263,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,6 +291,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Starts one or more virtual machines in a VM scale set. */
 export function start(
   context: Client,
@@ -233,7 +304,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -249,7 +320,7 @@ export function _listSkusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -276,6 +347,7 @@ export async function _listSkusDeserialize(
 
   return _virtualMachineScaleSetListSkusResultDeserializer(result.body);
 }
+
 /** Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU. */
 export function listSkus(
   context: Client,
@@ -288,7 +360,7 @@ export function listSkus(
     () => _listSkusSend(context, resourceGroupName, vmScaleSetName, options),
     _listSkusDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -307,7 +379,7 @@ export function _setOrchestrationServiceStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,6 +407,7 @@ export async function _setOrchestrationServiceStateDeserialize(
 
   return;
 }
+
 /** Changes ServiceState property for a given service */
 export function setOrchestrationServiceState(
   context: Client,
@@ -361,7 +434,7 @@ export function setOrchestrationServiceState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -378,7 +451,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -406,6 +479,7 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Restarts one or more virtual machines in a VM scale set. */
 export function restart(
   context: Client,
@@ -418,7 +492,7 @@ export function restart(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -434,7 +508,7 @@ export function _reimageAllSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -462,6 +536,7 @@ export async function _reimageAllDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
 export function reimageAll(
   context: Client,
@@ -474,7 +549,7 @@ export function reimageAll(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageAllSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -490,7 +565,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,6 +593,7 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
 export function reimage(
   context: Client,
@@ -530,7 +606,7 @@ export function reimage(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reimageSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -546,7 +622,7 @@ export function _redeploySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,6 +650,7 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
 export function redeploy(
   context: Client,
@@ -586,7 +663,7 @@ export function redeploy(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _redeploySend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -602,7 +679,7 @@ export function _reapplySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -624,6 +701,7 @@ export async function _reapplyDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances */
 export function reapply(
   context: Client,
@@ -636,7 +714,7 @@ export function reapply(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _reapplySend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -652,7 +730,7 @@ export function _powerOffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -681,6 +759,7 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export function powerOff(
   context: Client,
@@ -693,7 +772,7 @@ export function powerOff(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _powerOffSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -709,7 +788,7 @@ export function _performMaintenanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -737,6 +816,7 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
 
   return;
 }
+
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
 export function performMaintenance(
   context: Client,
@@ -750,7 +830,7 @@ export function performMaintenance(
     getInitialResponse: () =>
       _performMaintenanceSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -766,7 +846,7 @@ export function _listOSUpgradeHistorySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -793,6 +873,7 @@ export async function _listOSUpgradeHistoryDeserialize(
 
   return _virtualMachineScaleSetListOSUpgradeHistoryDeserializer(result.body);
 }
+
 /** Gets list of OS upgrades on a VM scale set instance. */
 export function listOSUpgradeHistory(
   context: Client,
@@ -805,7 +886,7 @@ export function listOSUpgradeHistory(
     () => _listOSUpgradeHistorySend(context, resourceGroupName, vmScaleSetName, options),
     _listOSUpgradeHistoryDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -822,7 +903,7 @@ export function _updateInstancesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -848,6 +929,7 @@ export async function _updateInstancesDeserialize(result: PathUncheckedResponse)
 
   return;
 }
+
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
 export function updateInstances(
   context: Client,
@@ -862,7 +944,7 @@ export function updateInstances(
     getInitialResponse: () =>
       _updateInstancesSend(context, resourceGroupName, vmScaleSetName, vmInstanceIDs, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -878,7 +960,7 @@ export function _getInstanceViewSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -905,6 +987,7 @@ export async function _getInstanceViewDeserialize(
 
   return virtualMachineScaleSetInstanceViewDeserializer(result.body);
 }
+
 /** Gets the status of a VM scale set instance. */
 export async function getInstanceView(
   context: Client,
@@ -931,7 +1014,7 @@ export function _forceRecoveryServiceFabricPlatformUpdateDomainWalkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       platformUpdateDomain: platformUpdateDomain,
       zone: options?.zone,
       placementGroupId: options?.placementGroupId,
@@ -961,6 +1044,7 @@ export async function _forceRecoveryServiceFabricPlatformUpdateDomainWalkDeseria
 
   return recoveryWalkResponseDeserializer(result.body);
 }
+
 /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
 export async function forceRecoveryServiceFabricPlatformUpdateDomainWalk(
   context: Client,
@@ -994,7 +1078,7 @@ export function _deleteInstancesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1021,6 +1105,7 @@ export async function _deleteInstancesDeserialize(result: PathUncheckedResponse)
 
   return;
 }
+
 /** Deletes virtual machines in a VM scale set. */
 export function deleteInstances(
   context: Client,
@@ -1035,7 +1120,7 @@ export function deleteInstances(
     getInitialResponse: () =>
       _deleteInstancesSend(context, resourceGroupName, vmScaleSetName, vmInstanceIDs, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1051,7 +1136,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       hibernate: options?.hibernate,
     },
     {
@@ -1080,6 +1165,7 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
 export function deallocate(
   context: Client,
@@ -1092,7 +1178,7 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1111,7 +1197,7 @@ export function _convertToSinglePlacementGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1139,6 +1225,7 @@ export async function _convertToSinglePlacementGroupDeserialize(
 
   return;
 }
+
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
 export async function convertToSinglePlacementGroup(
   context: Client,
@@ -1171,7 +1258,7 @@ export function _approveRollingUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1201,6 +1288,7 @@ export async function _approveRollingUpgradeDeserialize(
 
   return;
 }
+
 /** Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set. */
 export function approveRollingUpgrade(
   context: Client,
@@ -1214,7 +1302,7 @@ export function approveRollingUpgrade(
     getInitialResponse: () =>
       _approveRollingUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1226,7 +1314,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1253,6 +1341,7 @@ export async function _listAllDeserialize(
 
   return _virtualMachineScaleSetListWithLinkResultDeserializer(result.body);
 }
+
 /** Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets. */
 export function listAll(
   context: Client,
@@ -1263,7 +1352,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1277,7 +1366,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1304,6 +1393,7 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetListResultDeserializer(result.body);
 }
+
 /** Gets a list of all VM scale sets under a resource group. */
 export function list(
   context: Client,
@@ -1315,7 +1405,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -1331,7 +1421,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -1354,6 +1444,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a VM scale set. */
 export function $delete(
   context: Client,
@@ -1366,7 +1457,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1383,7 +1474,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1417,6 +1508,7 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Update a VM scale set. */
 export function update(
   context: Client,
@@ -1431,7 +1523,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
 }
 
@@ -1448,7 +1540,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1482,6 +1574,7 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Create or update a VM scale set. */
 export function createOrUpdate(
   context: Client,
@@ -1496,7 +1589,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, vmScaleSetName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSet>, VirtualMachineScaleSet>;
 }
 
@@ -1512,7 +1605,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -1540,6 +1633,7 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Display information about a virtual machine scale set. */
 export async function get(
   context: Client,

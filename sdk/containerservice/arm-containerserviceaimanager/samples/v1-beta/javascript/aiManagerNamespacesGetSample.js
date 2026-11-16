@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a AIManagerNamespace
  *
  * @summary get a AIManagerNamespace
- * x-ms-original-file: 2026-05-02-preview/AIManagerNamespaces_Get.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagerNamespaces_Get.json
  */
 async function getsAnAIManagerNamespaceResource() {
   const credential = new DefaultAzureCredential();

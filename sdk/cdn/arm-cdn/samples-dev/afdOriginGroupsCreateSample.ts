@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new origin group within the specified profile.
  *
  * @summary creates a new origin group within the specified profile.
- * x-ms-original-file: 2025-12-01/AFDOriginGroups_Create.json
+ * x-ms-original-file: 2026-10-01/AFDOriginGroups_Create.json
  */
 async function afdOriginGroupsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

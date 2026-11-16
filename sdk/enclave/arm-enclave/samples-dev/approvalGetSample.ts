@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ApprovalResource
  *
  * @summary get a ApprovalResource
- * x-ms-original-file: 2026-03-01-preview/Approvals_Get.json
+ * x-ms-original-file: 2026-04-01/Approvals_Get.json
  */
 async function approvalGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

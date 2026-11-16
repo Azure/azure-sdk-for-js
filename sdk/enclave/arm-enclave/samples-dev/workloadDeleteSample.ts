@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a WorkloadResource
  *
  * @summary delete a WorkloadResource
- * x-ms-original-file: 2026-03-01-preview/Workload_Delete.json
+ * x-ms-original-file: 2026-04-01/Workload_Delete.json
  */
 async function workloadDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

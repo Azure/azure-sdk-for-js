@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new ServerEndpoint.
  *
  * @summary create a new ServerEndpoint.
- * x-ms-original-file: 2022-09-01/ServerEndpoints_Create.json
+ * x-ms-original-file: 2025-12-01/ServerEndpoints_Create.json
  */
 async function serverEndpointsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,8 +4,9 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/spotPlacementScores": "./src/api/spotPlacementScores/index.ts"
   "./api/skuMixPlacementScores": "./src/api/skuMixPlacementScores/index.ts"
+  "./api/computePlacementScores": "./src/api/computePlacementScores/index.ts"
+  "./api/spotPlacementScores": "./src/api/spotPlacementScores/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 

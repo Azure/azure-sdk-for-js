@@ -5,6 +5,7 @@ import type { ChaosManagementContext as Client } from "../index.js";
 import type {
   ScenarioConfiguration,
   _ScenarioConfigurationListResult,
+  ScenarioRun,
   Validation,
   PermissionsFix,
 } from "../../models/models.js";
@@ -13,6 +14,7 @@ import {
   scenarioConfigurationSerializer,
   scenarioConfigurationDeserializer,
   _scenarioConfigurationListResultDeserializer,
+  scenarioRunDeserializer,
   validationDeserializer,
   fixResourcePermissionsRequestSerializer,
   permissionsFixDeserializer,
@@ -50,7 +52,7 @@ export function _fixResourcePermissionsSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,9 +61,7 @@ export function _fixResourcePermissionsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"]
-      ? options["body"]
-      : fixResourcePermissionsRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : fixResourcePermissionsRequestSerializer(options?.body),
   });
 }
 
@@ -71,7 +71,9 @@ export async function _fixResourcePermissionsDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -101,7 +103,7 @@ export function fixResourcePermissions(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<PermissionsFix>, PermissionsFix>;
 }
 
@@ -121,7 +123,7 @@ export function _validateSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +136,9 @@ export async function _validateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -164,7 +168,7 @@ export function validate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Validation>, Validation>;
 }
 
@@ -184,7 +188,7 @@ export function _executeSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,36 +197,44 @@ export function _executeSend(
   return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _executeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202"];
+export async function _executeDeserialize(result: PathUncheckedResponse): Promise<ScenarioRun> {
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return;
+  return scenarioRunDeserializer(result.body);
 }
 
 /** Execute the scenario execution with the given scenario configuration. */
-export async function execute(
+export function execute(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   scenarioName: string,
   scenarioConfigurationName: string,
   options: ScenarioConfigurationsExecuteOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _executeSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    scenarioName,
-    scenarioConfigurationName,
-    options,
-  );
-  return _executeDeserialize(result);
+): PollerLike<OperationState<ScenarioRun>, ScenarioRun> {
+  return getLongRunningPoller(context, _executeDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _executeSend(
+        context,
+        resourceGroupName,
+        workspaceName,
+        scenarioName,
+        scenarioConfigurationName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-11-01",
+  }) as PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
 }
 
 export function _listAllSend(
@@ -239,7 +251,7 @@ export function _listAllSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,7 +269,9 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -278,11 +292,7 @@ export function listAll(
     () => _listAllSend(context, resourceGroupName, workspaceName, scenarioName, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -302,7 +312,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,7 +325,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -345,7 +357,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -366,7 +378,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -375,7 +387,12 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: scenarioConfigurationSerializer(resource),
   });
 }
@@ -386,7 +403,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -418,7 +437,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ScenarioConfiguration>, ScenarioConfiguration>;
 }
 
@@ -438,7 +457,7 @@ export function _getSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,7 +475,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

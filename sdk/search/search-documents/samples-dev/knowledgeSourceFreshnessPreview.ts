@@ -24,8 +24,8 @@
  *     `AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME` must be set.
  */
 
+import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -44,9 +44,11 @@ const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
 const azureOpenAIEmbeddingDeployment =
   process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME ||
   KnownAzureOpenAIModelName.TextEmbeddingAda002;
+const azureOpenAIEmbeddingModelName =
+  process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || KnownAzureOpenAIModelName.TextEmbeddingAda002;
 
-const KNOWLEDGE_SOURCE_NAME = "example-knowledge-source-freshness-preview-sample";
-const KNOWLEDGE_BASE_NAME = "example-kb-for-freshness-preview-sample";
+const KNOWLEDGE_SOURCE_NAME = `example-knowledge-source-freshness-preview-${randomUUID()}`;
+const KNOWLEDGE_BASE_NAME = `example-kb-for-freshness-preview-${randomUUID()}`;
 
 async function main(): Promise<void> {
   console.log(`Running Knowledge Source Freshness Preview Sample....`);
@@ -76,7 +78,7 @@ async function main(): Promise<void> {
           azureOpenAIParameters: {
             deploymentId: azureOpenAIEmbeddingDeployment,
             resourceUrl: azureOpenAIEndpoint,
-            modelName: azureOpenAIEmbeddingDeployment,
+            modelName: azureOpenAIEmbeddingModelName,
           },
         },
         freshnessPolicy,
@@ -84,8 +86,11 @@ async function main(): Promise<void> {
     },
   };
 
+  let knowledgeSourceCreated = false;
+  let knowledgeBaseCreated = false;
   try {
     const created = await client.createKnowledgeSource(fileKnowledgeSource);
+    knowledgeSourceCreated = true;
     console.log(
       `Created ${created.kind} knowledge source ${created.name} ` +
         `with freshness window ${freshnessPolicy.boostingDuration}.`,
@@ -93,9 +98,7 @@ async function main(): Promise<void> {
 
     // Upload a small file so the KS has retrievable content.
     const fileName = "sample.txt";
-    const fileContents = readFileSync(
-      resolve(dirname(fileURLToPath(import.meta.url)), "fixtures", fileName),
-    );
+    const fileContents = readFileSync(resolve(dirname(process.argv[1]), "fixtures", fileName));
     await client.uploadKnowledgeSourceFile(
       KNOWLEDGE_SOURCE_NAME,
       fileContents,
@@ -109,6 +112,7 @@ async function main(): Promise<void> {
       knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME, enableFreshness: true }],
     };
     await client.createKnowledgeBase(knowledgeBase);
+    knowledgeBaseCreated = true;
     console.log(
       `Attached ${KNOWLEDGE_SOURCE_NAME} to ${KNOWLEDGE_BASE_NAME} with enableFreshness=true`,
     );
@@ -126,19 +130,23 @@ async function main(): Promise<void> {
         `references: ${response.references?.length ?? 0}`,
     );
   } finally {
-    await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
-    try {
-      for await (const file of client.listKnowledgeSourceFiles(KNOWLEDGE_SOURCE_NAME)) {
-        if (file.fileId) {
-          await client
-            .deleteKnowledgeSourceFile(KNOWLEDGE_SOURCE_NAME, file.fileId)
-            .catch(() => {});
-        }
-      }
-    } catch {
-      // knowledge source may not exist
+    if (knowledgeBaseCreated) {
+      await client.deleteKnowledgeBase(KNOWLEDGE_BASE_NAME).catch(() => {});
     }
-    await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    if (knowledgeSourceCreated) {
+      try {
+        for await (const file of client.listKnowledgeSourceFiles(KNOWLEDGE_SOURCE_NAME)) {
+          if (file.fileId) {
+            await client
+              .deleteKnowledgeSourceFile(KNOWLEDGE_SOURCE_NAME, file.fileId)
+              .catch(() => {});
+          }
+        }
+      } catch {
+        // knowledge source may not exist
+      }
+      await client.deleteKnowledgeSource(KNOWLEDGE_SOURCE_NAME).catch(() => {});
+    }
   }
 }
 

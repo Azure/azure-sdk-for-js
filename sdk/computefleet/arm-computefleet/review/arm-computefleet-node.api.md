@@ -241,7 +241,6 @@ export interface FleetProperties {
     vmAttributes?: VMAttributes;
     vmNamePrefix?: string;
     vmSizesProfile: VmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -596,11 +595,8 @@ export enum KnownStorageAccountTypes {
 
 // @public
 export enum KnownVersions {
-    V20231101Preview = "2023-11-01-preview",
-    V20240501Preview = "2024-05-01-preview",
     V20241101 = "2024-11-01",
-    V20260401Preview = "2026-04-01-preview",
-    V20260601Preview = "2026-06-01-preview"
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -648,12 +644,6 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
-}
-
-// @public
-export enum KnownZoneDistributionStrategy {
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized"
 }
 
 // @public
@@ -1276,21 +1266,6 @@ export interface WinRMConfiguration {
 export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
-}
-
-// @public
-export interface ZoneAllocationPolicy {
-    distributionStrategy: ZoneDistributionStrategy;
-    zonePreferences?: ZonePreference[];
-}
-
-// @public
-export type ZoneDistributionStrategy = string;
-
-// @public
-export interface ZonePreference {
-    rank?: number;
-    zone: string;
 }
 
 // (No @packageDocumentation comment for this package)

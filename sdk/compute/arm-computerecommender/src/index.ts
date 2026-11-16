@@ -18,12 +18,22 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  SkuMixPlacementBase,
-  SkuMixPlacementProperties,
+  SpotPlacementScoresBase,
+  PlacementScoresProperties,
   ProxyResource,
   Resource,
   SystemData,
   CreatedByType,
+  SpotPlacementScoresInput,
+  ResourceSize,
+  SpotPlacementScoresResponse,
+  PlacementScore,
+  PlacementScoreValue,
+  ComputePlacementScoresBase,
+  ComputePlacementScoresInput,
+  ComputePlacementScoresResponse,
+  SkuMixPlacementBase,
+  SkuMixPlacementProperties,
   SkuMixPlacementRequest,
   SkuMixPlacementCapacityProfile,
   SkuMixPlacementCapacityType,
@@ -40,26 +50,28 @@ export type {
   SkuMixPlacementDeploymentChoice,
   SkuMixPlacementItem,
   SkuMixPlacementPartialFulfillmentReason,
-  ComputeDiagnosticBase,
-  DiagnosticProperties,
-  SpotPlacementScoresInput,
-  ResourceSize,
-  SpotPlacementScoresResponse,
-  PlacementScore,
+  SkuMixPlacementCapacityLimit,
+  SkuMixPlacementCapacityLimitReason,
 } from "./models/index.js";
 export {
   KnownOrigin,
   KnownActionType,
   KnownCreatedByType,
+  KnownPlacementScoreValue,
   KnownSkuMixPlacementCapacityType,
   KnownSkuMixPlacementPriority,
   KnownSkuMixPlacementAllocationStrategy,
   KnownSkuMixPlacementOSType,
   KnownSkuMixPlacementZonalDistributionStrategy,
   KnownSkuMixPlacementPartialFulfillmentReason,
+  KnownSkuMixPlacementCapacityLimitReason,
   KnownVersions,
 } from "./models/index.js";
 export type { ComputeRecommenderManagementClientOptionalParams } from "./api/index.js";
+export type {
+  ComputePlacementScoresPostOptionalParams,
+  ComputePlacementScoresGetOptionalParams,
+} from "./api/computePlacementScores/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   SkuMixPlacementScoresPostOptionalParams,
@@ -70,6 +82,7 @@ export type {
   SpotPlacementScoresGetOptionalParams,
 } from "./api/spotPlacementScores/index.js";
 export type {
+  ComputePlacementScoresOperations,
   OperationsOperations,
   SkuMixPlacementScoresOperations,
   SpotPlacementScoresOperations,

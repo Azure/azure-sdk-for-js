@@ -39,7 +39,7 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 };
 
 export const assertTrace = (actual: Envelope[], expectation: Expectation): void => {
-  let envelope: any = null;
+  let envelope: any;
   if (expectation.data!.baseData!.name) {
     envelope = actual.filter((e) => {
       return (
@@ -57,7 +57,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
   for (const child of expectation.children) {
-    let childEnvelopes: any = null;
+    let childEnvelopes: any;
     const spanId = (envelope[0].data!.baseData as RequestData).id;
     if (child.data!.baseData!.name) {
       childEnvelopes = actual.filter((e) => {
@@ -96,7 +96,7 @@ export const assertCount = (actual: Envelope[], expectations: Expectation[]): vo
 
 export const assertTraceExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: any = null;
+    let envelope: any;
 
     if (expectation.data?.baseData?.name) {
       envelope = actual.filter((e) => {
@@ -148,7 +148,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
 
 export const assertMetricExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: any = null;
+    let envelope: any;
     if (expectation.data!.baseData!.metrics && expectation.data!.baseData!.metrics.length > 0) {
       envelope = actual.filter((e) => {
         return (
@@ -196,7 +196,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
 
 export const assertLogExpectation = (actual: Envelope[], expectations: Expectation[]): void => {
   for (const expectation of expectations) {
-    let envelope: any = null;
+    let envelope: any;
     if (expectation.data!.baseData!.name) {
       envelope = actual.filter((e) => {
         return (e.data!.baseData as any).name === (expectation.data!.baseData as any).name;

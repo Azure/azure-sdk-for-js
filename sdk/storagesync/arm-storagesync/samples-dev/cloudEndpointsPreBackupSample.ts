@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pre Backup a given CloudEndpoint.
  *
  * @summary pre Backup a given CloudEndpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_PreBackup.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_PreBackup.json
  */
 async function cloudEndpointsPreBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing origin group within an endpoint.
  *
  * @summary deletes an existing origin group within an endpoint.
- * x-ms-original-file: 2025-12-01/OriginGroups_Delete.json
+ * x-ms-original-file: 2026-10-01/OriginGroups_Delete.json
  */
 async function originGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

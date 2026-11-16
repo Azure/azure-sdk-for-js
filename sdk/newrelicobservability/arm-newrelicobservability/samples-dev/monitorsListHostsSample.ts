@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all VM resources currently being monitored by the New Relic monitor resource, helping you manage observability
  *
  * @summary lists all VM resources currently being monitored by the New Relic monitor resource, helping you manage observability
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListHosts_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListHosts_MaximumSet_Gen.json
  */
 async function monitorsListHostsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function monitorsListHostsMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists all VM resources currently being monitored by the New Relic monitor resource, helping you manage observability
  *
  * @summary lists all VM resources currently being monitored by the New Relic monitor resource, helping you manage observability
- * x-ms-original-file: 2025-05-01-preview/Monitors_ListHosts_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_ListHosts_MinimumSet_Gen.json
  */
 async function monitorsListHostsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

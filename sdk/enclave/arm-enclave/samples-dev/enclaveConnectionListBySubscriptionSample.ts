@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EnclaveConnectionResource resources by subscription ID
  *
  * @summary list EnclaveConnectionResource resources by subscription ID
- * x-ms-original-file: 2026-03-01-preview/EnclaveConnection_ListBySubscription.json
+ * x-ms-original-file: 2026-04-01/EnclaveConnection_ListBySubscription.json
  */
 async function enclaveConnectionListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

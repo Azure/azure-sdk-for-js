@@ -80,8 +80,10 @@ export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate
       if (tenantId) {
         parsed.tenantId = tenantId;
       }
-    } catch (_) {
-      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`);
+    } catch (error) {
+      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`, {
+        cause: error,
+      });
     }
   }
 

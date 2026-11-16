@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EnclaveResource resources by resource group
  *
  * @summary list EnclaveResource resources by resource group
- * x-ms-original-file: 2026-03-01-preview/VirtualEnclave_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01/VirtualEnclave_ListByResourceGroup.json
  */
 async function virtualEnclaveListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

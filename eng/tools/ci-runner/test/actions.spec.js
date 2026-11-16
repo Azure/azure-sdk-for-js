@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { afterEach, assert, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
 import { spawnPnpmRun, spawnPnpm } from "../src/spawn.js";
 import { verifyPackages } from "../src/verifyPackages.js";
@@ -26,8 +26,13 @@ vi.mock("../src/verifyPackages.js", async () => {
 });
 
 describe("executeActions", () => {
+  beforeEach(() => {
+    vi.stubEnv("TF_BUILD", "");
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("should pass global actions directly to", () => {
@@ -101,6 +106,30 @@ describe("executeActions", () => {
       "azure-app-configuration,azure-storage-blob,azure-keyvault-keys",
     );
     assert.strictEqual(resultCode, 1);
+  });
+
+  it("should report actionable remediation when formatting fails", () => {
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(1);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const resultCode = executeActions(
+      "check-format",
+      ["storage"],
+      [],
+      "azure-storage-file-datalake",
+    );
+
+    assert.strictEqual(resultCode, 1);
+    assert.ok(
+      errorSpy.mock.calls.some((call) =>
+        String(call[0])
+          .replaceAll("\\", "/")
+          .includes(
+            'Formatting check failed in sdk/storage/storage-file-datalake. Run "pnpm format"',
+          ),
+      ),
+    );
+    errorSpy.mockRestore();
   });
 
   it("should route check-package-version to verifyPackages function", () => {

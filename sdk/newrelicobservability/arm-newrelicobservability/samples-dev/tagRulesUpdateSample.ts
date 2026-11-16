@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored
  *
  * @summary updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored
- * x-ms-original-file: 2025-05-01-preview/TagRules_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Update_MaximumSet_Gen.json
  */
 async function tagRulesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function tagRulesUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored
  *
  * @summary updates the tag rules for a specific New Relic monitor resource, allowing you to modify the rules that control which Azure resources are monitored
- * x-ms-original-file: 2025-05-01-preview/TagRules_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/TagRules_Update_MinimumSet_Gen.json
  */
 async function tagRulesUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

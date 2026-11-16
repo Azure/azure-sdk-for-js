@@ -5,25 +5,46 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to detach resources from the scheduled action so they are excluded from future occurrences.
+ * This sample demonstrates how to removes resources from the specified recurring bulk action.
  *
- * @summary detach resources from the scheduled action so they are excluded from future occurrences.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_DetachResources_MaximumSet_Gen.json
+ * @summary removes resources from the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_DetachResources_BasicSuccess.json
  */
-async function scheduledActionsDetachResourcesMaximumSet(): Promise<void> {
+async function _01DetachResourcesFromARecurringBulkAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
-  const result = await client.scheduledActions.detachResources("rgcompute", "myScheduledAction", {
+  const result = await client.scheduledActions.detachResources("example-rg", "weekday-start", {
     resources: [
-      "/subscriptions/1d04e8f1-ee04-4056-b0b2-718f5bb45b04/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachines/myVm",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-01",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
+    ],
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to removes resources from the specified recurring bulk action.
+ *
+ * @summary removes resources from the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_DetachResources_PartialSuccess.json
+ */
+async function _02DetachResourcesFromARecurringBulkActionWithPartialSuccess(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.scheduledActions.detachResources("example-rg", "weekday-start", {
+    resources: [
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-01",
+      "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/example-rg/providers/Microsoft.Compute/virtualMachines/web-vm-02",
     ],
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsDetachResourcesMaximumSet();
+  await _01DetachResourcesFromARecurringBulkAction();
+  await _02DetachResourcesFromARecurringBulkActionWithPartialSuccess();
 }
 
 main().catch(console.error);

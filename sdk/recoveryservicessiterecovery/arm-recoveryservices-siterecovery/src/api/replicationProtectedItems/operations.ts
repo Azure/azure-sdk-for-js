@@ -1,53 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext as Client } from "../index.js";
-import {
+import type { SiteRecoveryManagementContext as Client } from "../index.js";
+import type {
   ReplicationProtectedItem,
-  replicationProtectedItemDeserializer,
   EnableProtectionInput,
-  enableProtectionInputSerializer,
   UpdateReplicationProtectedItemInput,
-  updateReplicationProtectedItemInputSerializer,
   _ReplicationProtectedItemCollection,
-  _replicationProtectedItemCollectionDeserializer,
   AddDisksInput,
-  addDisksInputSerializer,
   ApplyRecoveryPointInput,
-  applyRecoveryPointInputSerializer,
   PlannedFailoverInput,
-  plannedFailoverInputSerializer,
   DisableProtectionInput,
-  disableProtectionInputSerializer,
   RemoveDisksInput,
-  removeDisksInputSerializer,
   ReverseReplicationInput,
-  reverseReplicationInputSerializer,
   ResolveHealthInput,
-  resolveHealthInputSerializer,
   SwitchProviderInput,
-  switchProviderInputSerializer,
   TestFailoverInput,
-  testFailoverInputSerializer,
   TestFailoverCleanupInput,
-  testFailoverCleanupInputSerializer,
   UnplannedFailoverInput,
-  unplannedFailoverInputSerializer,
   UpdateApplianceForReplicationProtectedItemInput,
-  updateApplianceForReplicationProtectedItemInputSerializer,
   UpdateMobilityServiceRequest,
-  updateMobilityServiceRequestSerializer,
   ReinstallMobilityServiceRequest,
+} from "../../models/models.js";
+import {
+  replicationProtectedItemDeserializer,
+  enableProtectionInputSerializer,
+  updateReplicationProtectedItemInputSerializer,
+  _replicationProtectedItemCollectionDeserializer,
+  addDisksInputSerializer,
+  applyRecoveryPointInputSerializer,
+  plannedFailoverInputSerializer,
+  disableProtectionInputSerializer,
+  removeDisksInputSerializer,
+  reverseReplicationInputSerializer,
+  resolveHealthInputSerializer,
+  switchProviderInputSerializer,
+  testFailoverInputSerializer,
+  testFailoverCleanupInputSerializer,
+  unplannedFailoverInputSerializer,
+  updateApplianceForReplicationProtectedItemInputSerializer,
+  updateMobilityServiceRequestSerializer,
   reinstallMobilityServiceRequestSerializer,
   errorResponseDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ReplicationProtectedItemsListOptionalParams,
   ReplicationProtectedItemsReinstallMobilityServiceOptionalParams,
   ReplicationProtectedItemsUpdateMobilityServiceOptionalParams,
@@ -72,13 +72,9 @@ import {
   ReplicationProtectedItemsCreateOptionalParams,
   ReplicationProtectedItemsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -92,7 +88,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       skipToken: options?.skipToken,
       "%24filter": options?.filter,
     },
@@ -129,7 +125,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -152,7 +148,7 @@ export function _reinstallMobilityServiceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,10 +165,12 @@ export function _reinstallMobilityServiceSend(
 export async function _reinstallMobilityServiceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ReplicationProtectedItem> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -194,7 +192,7 @@ export function reinstallMobilityService(
   return getLongRunningPoller(
     context,
     _reinstallMobilityServiceDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -210,7 +208,7 @@ export function reinstallMobilityService(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   ) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
@@ -234,7 +232,7 @@ export function _updateMobilityServiceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +283,7 @@ export function updateMobilityService(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -308,7 +306,7 @@ export function _updateApplianceSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,7 +357,7 @@ export function updateAppliance(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -382,7 +380,7 @@ export function _unplannedFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +431,7 @@ export function unplannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -456,7 +454,7 @@ export function _testFailoverCleanupSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,7 +505,7 @@ export function testFailoverCleanup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -530,7 +528,7 @@ export function _testFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,7 +579,7 @@ export function testFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -604,7 +602,7 @@ export function _switchProviderSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -655,7 +653,7 @@ export function switchProvider(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -678,7 +676,7 @@ export function _resolveHealthErrorsSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -729,7 +727,7 @@ export function resolveHealthErrors(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -752,7 +750,7 @@ export function _reprotectSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,7 +801,7 @@ export function reprotect(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -825,7 +823,7 @@ export function _repairReplicationSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -872,7 +870,7 @@ export function repairReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -895,7 +893,7 @@ export function _removeDisksSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -946,7 +944,7 @@ export function removeDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -969,7 +967,7 @@ export function _$deleteSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1017,7 +1015,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1040,7 +1038,7 @@ export function _plannedFailoverSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1091,7 +1089,7 @@ export function plannedFailover(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1113,7 +1111,7 @@ export function _failoverCommitSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1160,7 +1158,7 @@ export function failoverCommit(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1182,7 +1180,7 @@ export function _failoverCancelSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1229,7 +1227,7 @@ export function failoverCancel(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1252,7 +1250,7 @@ export function _applyRecoveryPointSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1303,7 +1301,7 @@ export function applyRecoveryPoint(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1326,7 +1324,7 @@ export function _addDisksSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1377,7 +1375,7 @@ export function addDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1399,7 +1397,7 @@ export function _listByReplicationProtectionContainersSend(
       resourceName: resourceName,
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1446,7 +1444,7 @@ export function listByReplicationProtectionContainers(
       ),
     _listByReplicationProtectionContainersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -1468,7 +1466,7 @@ export function _purgeSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1510,7 +1508,7 @@ export function purge(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1533,7 +1531,7 @@ export function _updateSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1584,7 +1582,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1607,7 +1605,7 @@ export function _createSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1658,7 +1656,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
 }
 
@@ -1680,7 +1678,7 @@ export function _getSend(
       fabricName: fabricName,
       protectionContainerName: protectionContainerName,
       replicatedProtectedItemName: replicatedProtectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

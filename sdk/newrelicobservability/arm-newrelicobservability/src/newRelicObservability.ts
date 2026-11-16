@@ -41,14 +41,7 @@ export class NewRelicObservability {
     subscriptionId: string,
     options: NewRelicObservabilityOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createNewRelicObservability(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createNewRelicObservability(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.saaS = _getSaaSOperations(this._client);
     this.plans = _getPlansOperations(this._client);

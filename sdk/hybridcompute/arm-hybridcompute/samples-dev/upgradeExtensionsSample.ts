@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to Upgrade Machine Extensions.
  *
  * @summary the operation to Upgrade Machine Extensions.
- * x-ms-original-file: 2026-06-16-preview/extension/Extensions_Upgrade.json
+ * x-ms-original-file: 2026-09-01/extension/Extensions_Upgrade.json
  */
 async function upgradeMachineExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,105 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "queryPack": {
+          "bicepIdentifier": "queryPack",
+          "type": "Microsoft.OperationalInsights/queryPacks",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "my-querypack"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        },
+        "query": {
+          "bicepIdentifier": "query",
+          "type": "Microsoft.OperationalInsights/queryPacks/queries",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "a449f8af-8e64-4b3a-9b16-5a7165ff98c4"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "queryPack"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "body": {
+                    "kind": "string",
+                    "value": "let newExceptionsTimeRange = 1d;\nlet timeRangeToCheckBefore = 7d;\nexceptions\n| where timestamp < ago(timeRangeToCheckBefore)\n| summarize count() by problemId\n| join kind= rightanti (\nexceptions\n| where timestamp >= ago(newExceptionsTimeRange)\n| extend stack = tostring(details[0].rawStack)\n| summarize count(), dcount(user_AuthenticatedId), min(timestamp), max(timestamp), any(stack) by problemId  \n) on problemId \n| order by  count_ desc\n"
+                  },
+                  "description": {
+                    "kind": "string",
+                    "value": "my description"
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "value": "Exceptions - New in the last 24 hours"
+                  },
+                  "related": {
+                    "kind": "object",
+                    "value": {
+                      "categories": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "string",
+                            "value": "analytics"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "tags": {
+                    "kind": "object",
+                    "value": {
+                      "my-label": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "string",
+                            "value": "label1"
+                          }
+                        ]
+                      },
+                      "my-other-label": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "string",
+                            "value": "label2"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

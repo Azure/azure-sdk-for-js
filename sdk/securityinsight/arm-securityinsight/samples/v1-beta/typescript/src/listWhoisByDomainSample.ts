@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get whois information for a single domain name
  *
  * @summary get whois information for a single domain name
- * x-ms-original-file: 2025-07-01-preview/enrichment/GetWhoisWithWorkspaceByDomainName.json
+ * x-ms-original-file: 2025-10-01-preview/enrichment/GetWhoisWithWorkspaceByDomainName.json
  */
 async function getWhoisInformationForASingleDomainName(): Promise<void> {
   const credential = new DefaultAzureCredential();

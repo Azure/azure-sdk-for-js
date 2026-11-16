@@ -17,6 +17,7 @@ export interface AutoUpgradeProfileOperationsOperations {
     options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams,
   ) => PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }
+
 function _getAutoUpgradeProfileOperations(context: ContainerServiceFleetContext) {
   return {
     generateUpdateRun: (
@@ -27,6 +28,7 @@ function _getAutoUpgradeProfileOperations(context: ContainerServiceFleetContext)
     ) => generateUpdateRun(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
   };
 }
+
 export function _getAutoUpgradeProfileOperationsOperations(
   context: ContainerServiceFleetContext,
 ): AutoUpgradeProfileOperationsOperations {

@@ -1,100 +1,132 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ServiceNetworkingManagementClient } from "./serviceNetworkingManagementClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Association,
+  AssociationProperties,
+  AssociationType,
+  AssociationSubnet,
+  ProvisioningState,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  AssociationUpdate,
+  AssociationUpdateProperties,
+  AssociationSubnetUpdate,
+  Frontend,
+  FrontendProperties,
+  PublicNetworkAccess,
+  FrontendAssociation,
+  SecurityPolicyConfigurations,
+  WafSecurityPolicy,
+  IpAccessRulesSecurityPolicy,
+  FrontendUpdate,
+  FrontendUpdateProperties,
+  SecurityPolicy,
+  SecurityPolicyProperties,
+  PolicyType,
+  WafPolicy,
+  IpAccessRulesPolicy,
+  IpAccessRule,
+  IpAccessRuleAction,
+  SecurityPolicyUpdate,
+  SecurityPolicyUpdateProperties,
+  TrafficController,
+  TrafficControllerProperties,
+  ResourceId,
+  TrafficControllerUpdate,
+  TrafficControllerUpdateProperties,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
+  PrivateEndpointReference,
+  PrivateLinkServiceConnectionState,
+  PrivateLinkServiceConnectionStatus,
+  ProxyResource,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+} from "./models/index.js";
 export {
-  type Association,
-  type AssociationProperties,
   KnownAssociationType,
-  type AssociationType,
-  type AssociationSubnet,
   KnownProvisioningState,
-  type ProvisioningState,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
   KnownCreatedByType,
-  type CreatedByType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type AssociationUpdate,
-  type AssociationUpdateProperties,
-  type AssociationSubnetUpdate,
-  type Frontend,
-  type FrontendProperties,
-  type SecurityPolicyConfigurations,
-  type WafSecurityPolicy,
-  type IpAccessRulesSecurityPolicy,
-  type FrontendUpdate,
-  type FrontendUpdateProperties,
-  type SecurityPolicy,
-  type SecurityPolicyProperties,
+  KnownPublicNetworkAccess,
   KnownPolicyType,
-  type PolicyType,
-  type WafPolicy,
-  type IpAccessRulesPolicy,
-  type IpAccessRule,
   KnownIpAccessRuleAction,
-  type IpAccessRuleAction,
-  type SecurityPolicyUpdate,
-  type SecurityPolicyUpdateProperties,
-  type TrafficController,
-  type TrafficControllerProperties,
-  type ResourceId,
-  type TrafficControllerUpdate,
-  type TrafficControllerUpdateProperties,
-  type Operation,
-  type OperationDisplay,
+  KnownPrivateLinkServiceConnectionStatus,
   KnownOrigin,
-  type Origin,
   KnownActionType,
-  type ActionType,
   KnownVersions,
 } from "./models/index.js";
-export { type ServiceNetworkingManagementClientOptionalParams } from "./api/index.js";
-export {
-  type AssociationsInterfaceListByTrafficControllerOptionalParams,
-  type AssociationsInterfaceDeleteOptionalParams,
-  type AssociationsInterfaceUpdateOptionalParams,
-  type AssociationsInterfaceCreateOrUpdateOptionalParams,
-  type AssociationsInterfaceGetOptionalParams,
+export type { ServiceNetworkingManagementClientOptionalParams } from "./api/index.js";
+export type {
+  AssociationsInterfaceListByTrafficControllerOptionalParams,
+  AssociationsInterfaceDeleteOptionalParams,
+  AssociationsInterfaceUpdateOptionalParams,
+  AssociationsInterfaceCreateOrUpdateOptionalParams,
+  AssociationsInterfaceGetOptionalParams,
 } from "./api/associationsInterface/index.js";
-export {
-  type FrontendsInterfaceListByTrafficControllerOptionalParams,
-  type FrontendsInterfaceDeleteOptionalParams,
-  type FrontendsInterfaceUpdateOptionalParams,
-  type FrontendsInterfaceCreateOrUpdateOptionalParams,
-  type FrontendsInterfaceGetOptionalParams,
+export type {
+  FrontendsInterfaceListByTrafficControllerOptionalParams,
+  FrontendsInterfaceDeleteOptionalParams,
+  FrontendsInterfaceUpdateOptionalParams,
+  FrontendsInterfaceCreateOrUpdateOptionalParams,
+  FrontendsInterfaceGetOptionalParams,
 } from "./api/frontendsInterface/index.js";
-export { type OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  type SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-  type SecurityPoliciesInterfaceDeleteOptionalParams,
-  type SecurityPoliciesInterfaceUpdateOptionalParams,
-  type SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
-  type SecurityPoliciesInterfaceGetOptionalParams,
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  PrivateEndpointConnectionsInterfaceListByTrafficControllerOptionalParams,
+  PrivateEndpointConnectionsInterfaceDeleteOptionalParams,
+  PrivateEndpointConnectionsInterfaceUpdateOptionalParams,
+  PrivateEndpointConnectionsInterfaceGetOptionalParams,
+} from "./api/privateEndpointConnectionsInterface/index.js";
+export type {
+  PrivateLinkResourcesInterfaceListByTrafficControllerOptionalParams,
+  PrivateLinkResourcesInterfaceGetOptionalParams,
+} from "./api/privateLinkResourcesInterface/index.js";
+export type {
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceGetOptionalParams,
 } from "./api/securityPoliciesInterface/index.js";
-export {
-  type TrafficControllerInterfaceListBySubscriptionOptionalParams,
-  type TrafficControllerInterfaceListByResourceGroupOptionalParams,
-  type TrafficControllerInterfaceDeleteOptionalParams,
-  type TrafficControllerInterfaceUpdateOptionalParams,
-  type TrafficControllerInterfaceCreateOrUpdateOptionalParams,
-  type TrafficControllerInterfaceGetOptionalParams,
+export type {
+  TrafficControllerInterfaceListBySubscriptionOptionalParams,
+  TrafficControllerInterfaceListByResourceGroupOptionalParams,
+  TrafficControllerInterfaceDeleteOptionalParams,
+  TrafficControllerInterfaceUpdateOptionalParams,
+  TrafficControllerInterfaceCreateOrUpdateOptionalParams,
+  TrafficControllerInterfaceGetOptionalParams,
 } from "./api/trafficControllerInterface/index.js";
-export {
-  type AssociationsInterfaceOperations,
-  type FrontendsInterfaceOperations,
-  type OperationsOperations,
-  type SecurityPoliciesInterfaceOperations,
-  type TrafficControllerInterfaceOperations,
+export type {
+  AssociationsInterfaceOperations,
+  FrontendsInterfaceOperations,
+  OperationsOperations,
+  PrivateEndpointConnectionsInterfaceOperations,
+  PrivateLinkResourcesInterfaceOperations,
+  SecurityPoliciesInterfaceOperations,
+  TrafficControllerInterfaceOperations,
 } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

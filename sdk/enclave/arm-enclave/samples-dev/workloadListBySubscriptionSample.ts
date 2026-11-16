@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list WorkloadResource resources by subscription ID
  *
  * @summary list WorkloadResource resources by subscription ID
- * x-ms-original-file: 2026-03-01-preview/Workload_ListBySubscription.json
+ * x-ms-original-file: 2026-04-01/Workload_ListBySubscription.json
  */
 async function workloadListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

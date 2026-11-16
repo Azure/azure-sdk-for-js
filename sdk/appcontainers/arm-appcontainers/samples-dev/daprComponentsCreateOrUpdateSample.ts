@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
  */
 async function createOrUpdateDaprComponentWithSecretStoreComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,14 +30,6 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent(): Promise<vo
       ],
       scopes: ["container-app-1", "container-app-2"],
       secretStoreComponent: "my-secret-store",
-      serviceComponentBind: [
-        {
-          name: "statestore",
-          metadata: { name: "daprcomponentBind", value: "redis-bind" },
-          serviceId:
-            "/subscriptions/9f7371f1-b593-4c3c-84e2-9167806ad358/resourceGroups/ca-syn2-group/providers/Microsoft.App/containerapps/cappredis",
-        },
-      ],
       version: "v1",
     },
   );
@@ -48,7 +40,7 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent(): Promise<vo
  * This sample demonstrates how to creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_CreateOrUpdate_Secrets.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_CreateOrUpdate_Secrets.json
  */
 async function createOrUpdateDaprComponentWithSecrets(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,14 +62,6 @@ async function createOrUpdateDaprComponentWithSecrets(): Promise<void> {
       ],
       scopes: ["container-app-1", "container-app-2"],
       secrets: [{ name: "masterkey", value: "keyvalue" }],
-      serviceComponentBind: [
-        {
-          name: "statestore",
-          metadata: { name: "daprcomponentBind", value: "redis-bind" },
-          serviceId:
-            "/subscriptions/9f7371f1-b593-4c3c-84e2-9167806ad358/resourceGroups/ca-syn2-group/providers/Microsoft.App/containerapps/cappredis",
-        },
-      ],
       version: "v1",
     },
   );

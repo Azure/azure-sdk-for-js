@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a hunt
  *
  * @summary create or update a hunt
- * x-ms-original-file: 2025-07-01-preview/hunts/CreateHunt.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/CreateHunt.json
  */
 async function createsOrUpdatesAHunt(): Promise<void> {
   const credential = new DefaultAzureCredential();

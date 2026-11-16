@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface _OperationListResult {
   /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
@@ -403,22 +404,14 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
-  /** The device streams properties of iothub. */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
-  /** The encryption properties for the IoT hub. */
-  encryption?: EncryptionPropertiesDescription;
   /** Primary and secondary location for iot hub */
   readonly locations?: IotHubLocationDescription[];
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
   enableDataResidency?: boolean;
-  /** This property store root certificate related information */
-  rootCertificate?: RootCertificateProperties;
-  /** This property specifies the IP Version the hub is currently utilizing. */
-  ipVersion?: IpVersion;
   /** Represents properties related to the Azure Device Registry (ADR). */
-  deviceRegistry?: DeviceRegistry;
+  readonly deviceRegistry?: DeviceRegistry;
   /** Set of additional read-only properties for the IoT hub. */
   readonly iotHubDetails?: IotHubDetails;
 }
@@ -463,21 +456,8 @@ export function iotHubPropertiesSerializer(item: IotHubProperties): any {
       ? item["cloudToDevice"]
       : cloudToDevicePropertiesSerializer(item["cloudToDevice"]),
     comments: item["comments"],
-    deviceStreams: !item["deviceStreams"]
-      ? item["deviceStreams"]
-      : iotHubPropertiesDeviceStreamsSerializer(item["deviceStreams"]),
     features: item["features"],
-    encryption: !item["encryption"]
-      ? item["encryption"]
-      : encryptionPropertiesDescriptionSerializer(item["encryption"]),
     enableDataResidency: item["enableDataResidency"],
-    rootCertificate: !item["rootCertificate"]
-      ? item["rootCertificate"]
-      : rootCertificatePropertiesSerializer(item["rootCertificate"]),
-    ipVersion: item["ipVersion"],
-    deviceRegistry: !item["deviceRegistry"]
-      ? item["deviceRegistry"]
-      : deviceRegistrySerializer(item["deviceRegistry"]),
   };
 }
 
@@ -526,21 +506,11 @@ export function iotHubPropertiesDeserializer(item: any): IotHubProperties {
       ? item["cloudToDevice"]
       : cloudToDevicePropertiesDeserializer(item["cloudToDevice"]),
     comments: item["comments"],
-    deviceStreams: !item["deviceStreams"]
-      ? item["deviceStreams"]
-      : iotHubPropertiesDeviceStreamsDeserializer(item["deviceStreams"]),
     features: item["features"],
-    encryption: !item["encryption"]
-      ? item["encryption"]
-      : encryptionPropertiesDescriptionDeserializer(item["encryption"]),
     locations: !item["locations"]
       ? item["locations"]
       : iotHubLocationDescriptionArrayDeserializer(item["locations"]),
     enableDataResidency: item["enableDataResidency"],
-    rootCertificate: !item["rootCertificate"]
-      ? item["rootCertificate"]
-      : rootCertificatePropertiesDeserializer(item["rootCertificate"]),
-    ipVersion: item["ipVersion"],
     deviceRegistry: !item["deviceRegistry"]
       ? item["deviceRegistry"]
       : deviceRegistryDeserializer(item["deviceRegistry"]),
@@ -1515,12 +1485,8 @@ export enum KnownRoutingSource {
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-  /** DigitalTwinChangeEvents */
-  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
   /** DeviceConnectionStateEvents */
   DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-  /** MqttBrokerMessages */
-  MqttBrokerMessages = "MqttBrokerMessages",
 }
 
 /**
@@ -1533,9 +1499,7 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents**: TwinChangeEvents \
  * **DeviceLifecycleEvents**: DeviceLifecycleEvents \
  * **DeviceJobLifecycleEvents**: DeviceJobLifecycleEvents \
- * **DigitalTwinChangeEvents**: DigitalTwinChangeEvents \
- * **DeviceConnectionStateEvents**: DeviceConnectionStateEvents \
- * **MqttBrokerMessages**: MqttBrokerMessages
+ * **DeviceConnectionStateEvents**: DeviceConnectionStateEvents
  */
 export type RoutingSource = string;
 
@@ -1544,7 +1508,7 @@ export interface FallbackRouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
   name?: string;
   /** The source to which the routing rule is to be applied to. For example, DeviceMessages */
-  source: RoutingSource;
+  source: FallbackRouteSource;
   /** The condition which is evaluated in order to apply the fallback route. If the condition is not provided it will evaluate to true by default. For grammar, See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
   condition?: string;
   /** The list of endpoints to which the messages that satisfy the condition are routed to. Currently only 1 endpoint is allowed. */
@@ -1576,6 +1540,21 @@ export function fallbackRoutePropertiesDeserializer(item: any): FallbackRoutePro
     isEnabled: item["isEnabled"],
   };
 }
+
+/** The source to which the fallback route is applied. */
+export enum KnownFallbackRouteSource {
+  /** Device-to-cloud messages sent by devices. */
+  DeviceMessages = "DeviceMessages",
+}
+
+/**
+ * The source to which the fallback route is applied. \
+ * {@link KnownFallbackRouteSource} can be used interchangeably with FallbackRouteSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DeviceMessages**: Device-to-cloud messages sent by devices.
+ */
+export type FallbackRouteSource = string;
 
 export function enrichmentPropertiesArraySerializer(result: Array<EnrichmentProperties>): any[] {
   return result.map((item) => {
@@ -1773,34 +1752,6 @@ export function feedbackPropertiesDeserializer(item: any): FeedbackProperties {
   };
 }
 
-/** The device streams properties of iothub. */
-export interface IotHubPropertiesDeviceStreams {
-  /** List of Device Streams Endpoints. */
-  streamingEndpoints?: string[];
-}
-
-export function iotHubPropertiesDeviceStreamsSerializer(item: IotHubPropertiesDeviceStreams): any {
-  return {
-    streamingEndpoints: !item["streamingEndpoints"]
-      ? item["streamingEndpoints"]
-      : item["streamingEndpoints"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function iotHubPropertiesDeviceStreamsDeserializer(
-  item: any,
-): IotHubPropertiesDeviceStreams {
-  return {
-    streamingEndpoints: !item["streamingEndpoints"]
-      ? item["streamingEndpoints"]
-      : item["streamingEndpoints"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** The capabilities and features enabled for the IoT hub. */
 export enum KnownCapabilities {
   /** None */
@@ -1818,72 +1769,6 @@ export enum KnownCapabilities {
  * **DeviceManagement**: DeviceManagement
  */
 export type Capabilities = string;
-
-/** The encryption properties for the IoT hub. */
-export interface EncryptionPropertiesDescription {
-  /** The source of the key. */
-  keySource?: string;
-  /** The properties of the KeyVault key. */
-  keyVaultProperties?: KeyVaultKeyProperties[];
-}
-
-export function encryptionPropertiesDescriptionSerializer(
-  item: EncryptionPropertiesDescription,
-): any {
-  return {
-    keySource: item["keySource"],
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : keyVaultKeyPropertiesArraySerializer(item["keyVaultProperties"]),
-  };
-}
-
-export function encryptionPropertiesDescriptionDeserializer(
-  item: any,
-): EncryptionPropertiesDescription {
-  return {
-    keySource: item["keySource"],
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : keyVaultKeyPropertiesArrayDeserializer(item["keyVaultProperties"]),
-  };
-}
-
-export function keyVaultKeyPropertiesArraySerializer(result: Array<KeyVaultKeyProperties>): any[] {
-  return result.map((item) => {
-    return keyVaultKeyPropertiesSerializer(item);
-  });
-}
-
-export function keyVaultKeyPropertiesArrayDeserializer(
-  result: Array<KeyVaultKeyProperties>,
-): any[] {
-  return result.map((item) => {
-    return keyVaultKeyPropertiesDeserializer(item);
-  });
-}
-
-/** The properties of the KeyVault key. */
-export interface KeyVaultKeyProperties {
-  /** The identifier of the key. */
-  keyIdentifier?: string;
-  /** Managed identity properties of KeyVault Key. */
-  identity?: ManagedIdentity;
-}
-
-export function keyVaultKeyPropertiesSerializer(item: KeyVaultKeyProperties): any {
-  return {
-    keyIdentifier: item["keyIdentifier"],
-    identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
-  };
-}
-
-export function keyVaultKeyPropertiesDeserializer(item: any): KeyVaultKeyProperties {
-  return {
-    keyIdentifier: item["keyIdentifier"],
-    identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
-  };
-}
 
 export function iotHubLocationDescriptionArrayDeserializer(
   result: Array<IotHubLocationDescription>,
@@ -1926,69 +1811,107 @@ export enum KnownIotHubReplicaRoleType {
  */
 export type IotHubReplicaRoleType = string;
 
-/** This property store root certificate related information */
-export interface RootCertificateProperties {
-  /** This property when set to true, hub will use G2 cert; while it's set to false, hub uses Baltimore Cert. */
-  enableRootCertificateV2?: boolean;
-  /** the last update time to root certificate flag. */
-  readonly lastUpdatedTimeUtc?: Date;
-}
-
-export function rootCertificatePropertiesSerializer(item: RootCertificateProperties): any {
-  return { enableRootCertificateV2: item["enableRootCertificateV2"] };
-}
-
-export function rootCertificatePropertiesDeserializer(item: any): RootCertificateProperties {
-  return {
-    enableRootCertificateV2: item["enableRootCertificateV2"],
-    lastUpdatedTimeUtc: !item["lastUpdatedTimeUtc"]
-      ? item["lastUpdatedTimeUtc"]
-      : new Date(item["lastUpdatedTimeUtc"]),
-  };
-}
-
-/** This property specifies the IP Version the hub is currently utilizing. */
-export enum KnownIpVersion {
-  /** ipv4 */
-  Ipv4 = "ipv4",
-  /** ipv6 */
-  Ipv6 = "ipv6",
-  /** ipv4ipv6 */
-  Ipv4Ipv6 = "ipv4ipv6",
-}
-
-/**
- * This property specifies the IP Version the hub is currently utilizing. \
- * {@link KnownIpVersion} can be used interchangeably with IpVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ipv4**: ipv4 \
- * **ipv6**: ipv6 \
- * **ipv4ipv6**: ipv4ipv6
- */
-export type IpVersion = string;
-
 /** Represents properties related to the Azure Device Registry (ADR). */
 export interface DeviceRegistry {
   /** The identifier of the Azure Device Registry namespace */
   namespaceResourceId?: string;
+  /** The UUID of the associated Azure Device Registry namespace. */
+  namespaceUuid?: string;
+  /** The host name for the data plane endpoint of the associated Azure Device Registry. */
+  dataPlaneHostName?: string;
   /** The identity used to manage the ADR namespace from the data plane. */
-  identityResourceId?: string;
-}
-
-export function deviceRegistrySerializer(item: DeviceRegistry): any {
-  return {
-    namespaceResourceId: item["namespaceResourceId"],
-    identityResourceId: item["identityResourceId"],
-  };
+  identity?: DeviceRegistryIdentity;
+  /** The properties related to linking the IoT Hub with the Azure Device Registry. */
+  readonly linkingProperties?: DeviceRegistryLinkingProperties;
 }
 
 export function deviceRegistryDeserializer(item: any): DeviceRegistry {
   return {
     namespaceResourceId: item["namespaceResourceId"],
-    identityResourceId: item["identityResourceId"],
+    namespaceUuid: item["namespaceUuid"],
+    dataPlaneHostName: item["dataPlaneHostName"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : deviceRegistryIdentityDeserializer(item["identity"]),
+    linkingProperties: !item["linkingProperties"]
+      ? item["linkingProperties"]
+      : deviceRegistryLinkingPropertiesDeserializer(item["linkingProperties"]),
   };
 }
+
+/** The identity used to manage the ADR namespace from the data plane. */
+export interface DeviceRegistryIdentity {
+  /** The type of the identity. */
+  type?: DeviceRegistryIdentityType;
+  /** The user assigned identity if the identity type is 'UserAssigned'. */
+  userAssignedIdentity?: string;
+}
+
+export function deviceRegistryIdentityDeserializer(item: any): DeviceRegistryIdentity {
+  return {
+    type: item["type"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+/** The type of the identity. */
+export enum KnownDeviceRegistryIdentityType {
+  /** Use a system-assigned managed identity to manage the ADR namespace. */
+  SystemAssigned = "SystemAssigned",
+  /** Use a user-assigned managed identity to manage the ADR namespace. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * The type of the identity. \
+ * {@link KnownDeviceRegistryIdentityType} can be used interchangeably with DeviceRegistryIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: Use a system-assigned managed identity to manage the ADR namespace. \
+ * **UserAssigned**: Use a user-assigned managed identity to manage the ADR namespace.
+ */
+export type DeviceRegistryIdentityType = string;
+
+/** The properties related to linking the IoT Hub with the Azure Device Registry. */
+export interface DeviceRegistryLinkingProperties {
+  /** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+  readonly state?: DeviceRegistryLinkingState;
+  /** The last error encountered when linking the IoT Hub with an Azure Device Registry. */
+  readonly error?: ErrorDetails;
+}
+
+export function deviceRegistryLinkingPropertiesDeserializer(
+  item: any,
+): DeviceRegistryLinkingProperties {
+  return {
+    state: item["state"],
+    error: !item["error"] ? item["error"] : errorDetailsDeserializer(item["error"]),
+  };
+}
+
+/** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+export enum KnownDeviceRegistryLinkingState {
+  /** The IoT Hub linking with an Azure Device Registry is in progress. */
+  InProgress = "InProgress",
+  /** The IoT Hub is successfully linked with an Azure Device Registry. */
+  Success = "Success",
+  /** The linked Azure Device Registry is no longer associated with the IoT Hub. */
+  Orphaned = "Orphaned",
+  /** The IoT Hub failed to link with an Azure Device Registry. */
+  Failed = "Failed",
+}
+
+/**
+ * Indicates whether the IoT Hub is linked with an Azure Device Registry. \
+ * {@link KnownDeviceRegistryLinkingState} can be used interchangeably with DeviceRegistryLinkingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: The IoT Hub linking with an Azure Device Registry is in progress. \
+ * **Success**: The IoT Hub is successfully linked with an Azure Device Registry. \
+ * **Orphaned**: The linked Azure Device Registry is no longer associated with the IoT Hub. \
+ * **Failed**: The IoT Hub failed to link with an Azure Device Registry.
+ */
+export type DeviceRegistryLinkingState = string;
 
 /** Set of additional read-only properties for the IoT hub. */
 export interface IotHubDetails {
@@ -2074,6 +1997,7 @@ export enum KnownIotHubSku {
  * **B3**: B3
  */
 export type IotHubSku = string;
+
 /** The billing tier for the IoT hub. */
 export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
@@ -2374,6 +2298,7 @@ export enum KnownJobType {
  * **firmwareUpdate**: firmwareUpdate
  */
 export type JobType = string;
+
 /** The status of the job. */
 export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "failed" | "cancelled";
 
@@ -3001,15 +2926,15 @@ export interface CertificateProperties {
   readonly updated?: Date;
   /** The certificate content */
   certificate?: string;
-  /** The reference to policy stored in Azure Device Registry (ADR). */
-  policyResourceId?: string;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string;
 }
 
 export function certificatePropertiesSerializer(item: CertificateProperties): any {
   return {
     isVerified: item["isVerified"],
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3022,7 +2947,7 @@ export function certificatePropertiesDeserializer(item: any): CertificatePropert
     created: !item["created"] ? item["created"] : new Date(item["created"]),
     updated: !item["updated"] ? item["updated"] : new Date(item["updated"]),
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3100,8 +3025,8 @@ export interface CertificatePropertiesWithNonce {
   readonly verificationCode?: string;
   /** The certificate content */
   readonly certificate?: string;
-  /** The reference to policy stored in Azure Device Registry (ADR). */
-  policyResourceId?: string;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string;
 }
 
 export function certificatePropertiesWithNonceDeserializer(
@@ -3116,7 +3041,7 @@ export function certificatePropertiesWithNonceDeserializer(
     updated: !item["updated"] ? item["updated"] : new Date(item["updated"]),
     verificationCode: item["verificationCode"],
     certificate: item["certificate"],
-    policyResourceId: item["policyResourceId"],
+    certificateAuthorityResourceId: item["certificateAuthorityResourceId"],
   };
 }
 
@@ -3266,8 +3191,6 @@ export function nameDeserializer(item: any): Name {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2026-03-01-preview API version. */
-  V20260301Preview = "2026-03-01-preview",
-  /** The 2026-05-01-preview API version. */
-  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }

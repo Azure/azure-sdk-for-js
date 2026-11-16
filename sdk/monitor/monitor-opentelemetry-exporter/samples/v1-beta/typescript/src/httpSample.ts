@@ -18,11 +18,16 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-import { trace, context, SpanKind } from "@opentelemetry/api";
+import { trace, context, propagation, SpanKind } from "@opentelemetry/api";
 import type { Tracer } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
+import {
+  CompositePropagator,
+  W3CBaggagePropagator,
+  W3CTraceContextPropagator,
+} from "@opentelemetry/core";
+import { TracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { resourceFromAttributes } from "@opentelemetry/resources";
@@ -117,18 +122,21 @@ function setupOpenTelemetry(): void {
       "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
 
-  const provider = new NodeTracerProvider({
+  const provider = new TracerProvider({
     resource: resourceFromAttributes({
       [SemanticResourceAttributes.SERVICE_NAME]: "http-server",
     }),
-    spanProcessors: [new SimpleSpanProcessor(exporter)],
+    spanProcessors: [new SimpleSpanProcessor({ exporter })],
   });
 
-  // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings.
-  // register() installs the provider globally along with the AsyncLocalStorage
-  // context manager and default W3C propagators, which are required for
-  // context.with() to keep the client span active and propagate it to the server.
-  provider.register();
+  // SDK 3.x requires explicit context management and propagation registration.
+  trace.setGlobalTracerProvider(provider);
+  context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+  propagation.setGlobalPropagator(
+    new CompositePropagator({
+      propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+    }),
+  );
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],

@@ -4,17 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Alias {
@@ -143,7 +143,6 @@ export interface DeploymentExtended extends ExtensionResource {
 // @public
 export interface DeploymentExtensionConfigItem {
     keyVaultReference?: KeyVaultParameterReference;
-    readonly type?: ExtensionConfigPropertyType;
     value?: any;
 }
 
@@ -151,6 +150,7 @@ export interface DeploymentExtensionConfigItem {
 export interface DeploymentExtensionDefinition {
     readonly alias?: string;
     readonly config?: Record<string, DeploymentExtensionConfigItem>;
+    readonly configHash?: string;
     readonly configId?: string;
     readonly name?: string;
     readonly version?: string;
@@ -304,6 +304,16 @@ export interface DeploymentPropertiesExtended {
     readonly timestamp?: Date;
     readonly validatedResources?: ResourceReference[];
     validationLevel?: ValidationLevel;
+}
+
+// @public
+export interface DeploymentResourceWhatIfPrediction {
+    apiVersion?: string;
+    extension?: DeploymentExtensionDefinition;
+    identifiers?: any;
+    resourceId?: string;
+    resourceType?: string;
+    symbolicNamePath: string[];
 }
 
 // @public
@@ -697,6 +707,7 @@ export interface DeploymentWhatIf {
 
 // @public
 export interface DeploymentWhatIfProperties extends DeploymentProperties {
+    resourcePredictions?: DeploymentResourceWhatIfPrediction[];
     whatIfSettings?: DeploymentWhatIfSettings;
 }
 
@@ -727,9 +738,6 @@ export interface ExpressionEvaluationOptions {
 
 // @public
 export type ExpressionEvaluationOptionsScopeType = string;
-
-// @public
-export type ExtensionConfigPropertyType = string;
 
 // @public
 export interface ExtensionResource extends Resource {
@@ -794,17 +802,6 @@ export enum KnownExpressionEvaluationOptionsScopeType {
 }
 
 // @public
-export enum KnownExtensionConfigPropertyType {
-    Array = "Array",
-    Bool = "Bool",
-    Int = "Int",
-    Object = "Object",
-    SecureObject = "SecureObject",
-    SecureString = "SecureString",
-    String = "String"
-}
-
-// @public
 export enum KnownLevel {
     Error = "Error",
     Info = "Info",
@@ -844,7 +841,8 @@ export enum KnownValidationLevel {
 
 // @public
 export enum KnownVersions {
-    V20250401 = "2025-04-01"
+    V20250401 = "2025-04-01",
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -943,6 +941,7 @@ export interface ResourceReference {
     readonly id?: string;
     readonly identifiers?: any;
     readonly resourceType?: string;
+    symbolicNamePath?: string[];
 }
 
 export { RestError }
@@ -1017,6 +1016,7 @@ export interface TargetResource {
     resourceName?: string;
     resourceType?: string;
     symbolicName?: string;
+    symbolicNamePath?: string[];
 }
 
 // @public
@@ -1053,6 +1053,7 @@ export interface WhatIfChange {
     extension?: DeploymentExtensionDefinition;
     identifiers?: any;
     resourceId?: string;
+    resourceType?: string;
     symbolicName?: string;
     unsupportedReason?: string;
 }

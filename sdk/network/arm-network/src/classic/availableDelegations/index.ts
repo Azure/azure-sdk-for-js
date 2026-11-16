@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/availableDelegations/operations.js";
 import type { AvailableDelegationsListOptionalParams } from "../../api/availableDelegations/options.js";
-import type { AvailableDelegation } from "../../models/microsoft/network/models.js";
+import type { AvailableDelegation } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AvailableDelegations operations. */

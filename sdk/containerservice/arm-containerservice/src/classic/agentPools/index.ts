@@ -5,10 +5,8 @@ import type { ContainerServiceContext } from "../../api/containerServiceContext.
 import {
   getUpgradeProfile,
   getAvailableAgentPoolVersions,
-  listBootstrapData,
   upgradeNodeImageVersion,
   deleteMachines,
-  completeUpgrade,
   abortLatestOperation,
   list,
   $delete,
@@ -18,10 +16,8 @@ import {
 import type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
-  AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
-  AgentPoolsCompleteUpgradeOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsDeleteOptionalParams,
@@ -31,8 +27,6 @@ import type {
 import type {
   AgentPool,
   AgentPoolDeleteMachinesParameter,
-  ListBootstrapDataRequest,
-  PoolBootstrapData,
   AgentPoolAvailableVersions,
   AgentPoolUpgradeProfile,
 } from "../../models/models.js";
@@ -56,14 +50,6 @@ export interface AgentPoolsOperations {
     resourceName: string,
     options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   ) => Promise<AgentPoolAvailableVersions>;
-  /** Returns pool-level bootstrap configuration for FlexNode machines. */
-  listBootstrapData: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    body: ListBootstrapDataRequest,
-    options?: AgentPoolsListBootstrapDataOptionalParams,
-  ) => Promise<PoolBootstrapData>;
   /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
   upgradeNodeImageVersion: (
     resourceGroupName: string,
@@ -108,27 +94,6 @@ export interface AgentPoolsOperations {
     agentPoolName: string,
     machines: AgentPoolDeleteMachinesParameter,
     options?: AgentPoolsDeleteMachinesOptionalParams,
-  ) => Promise<void>;
-  /** Completes the upgrade operation for the specified agent pool. */
-  completeUpgrade: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use completeUpgrade instead */
-  beginCompleteUpgrade: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use completeUpgrade instead */
-  beginCompleteUpgradeAndWait: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
   ) => Promise<void>;
   /** Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned. */
   abortLatestOperation: (
@@ -210,6 +175,7 @@ export interface AgentPoolsOperations {
     options?: AgentPoolsGetOptionalParams,
   ) => Promise<AgentPool>;
 }
+
 function _getAgentPools(context: ContainerServiceContext) {
   return {
     getUpgradeProfile: (
@@ -223,13 +189,6 @@ function _getAgentPools(context: ContainerServiceContext) {
       resourceName: string,
       options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
     ) => getAvailableAgentPoolVersions(context, resourceGroupName, resourceName, options),
-    listBootstrapData: (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      body: ListBootstrapDataRequest,
-      options?: AgentPoolsListBootstrapDataOptionalParams,
-    ) => listBootstrapData(context, resourceGroupName, resourceName, agentPoolName, body, options),
     upgradeNodeImageVersion: (
       resourceGroupName: string,
       resourceName: string,
@@ -304,42 +263,6 @@ function _getAgentPools(context: ContainerServiceContext) {
         resourceName,
         agentPoolName,
         machines,
-        options,
-      );
-    },
-    completeUpgrade: (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => completeUpgrade(context, resourceGroupName, resourceName, agentPoolName, options),
-    beginCompleteUpgrade: async (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => {
-      const poller = completeUpgrade(
-        context,
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginCompleteUpgradeAndWait: async (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => {
-      return await completeUpgrade(
-        context,
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
         options,
       );
     },
@@ -458,6 +381,7 @@ function _getAgentPools(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, agentPoolName, options),
   };
 }
+
 export function _getAgentPoolsOperations(context: ContainerServiceContext): AgentPoolsOperations {
   return {
     ..._getAgentPools(context),

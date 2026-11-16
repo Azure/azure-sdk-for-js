@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** Check SKU availability parameter. */
 export interface CheckSkuAvailabilityParameter {
   /** The SKU of the resource. */
@@ -583,6 +583,8 @@ export interface AccountProperties {
   dynamicThrottlingEnabled?: boolean;
   /** The flag to disable stored completions. */
   storedCompletionsDisabled?: boolean;
+  /** Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out. */
+  a365LoggingEnabled?: boolean;
   readonly quotaLimit?: QuotaLimit;
   restrictOutboundNetworkAccess?: boolean;
   allowedFqdnList?: string[];
@@ -603,14 +605,14 @@ export interface AccountProperties {
   /** Cognitive Services Rai Monitor Config. */
   raiMonitorConfig?: RaiMonitorConfig;
   networkInjections?: NetworkInjection[];
-  /** Represents the foundry auto-upgrade configuration for a Cognitive Services account. */
-  foundryAutoUpgrade?: FoundryAutoUpgrade;
   /** Specifies whether this resource support project management as child resources, used as containers for access management, data isolation and cost in AI Foundry. */
   allowProjectManagement?: boolean;
   /** Specifies the project, by project name, that is targeted when data plane endpoints are called without a project parameter. */
   defaultProject?: string;
   /** Specifies the projects, by project name, that are associated with this resource. */
   associatedProjects?: string[];
+  /** Private CA trust sources for supported features in an AIServices account with allowProjectManagement enabled. Supports one Azure Key Vault source containing version-pinned references to secrets with PEM-encoded CA certificates or certificate bundles. On PUT or PATCH, a non-null array replaces the complete configuration, so include all references to retain. Omit this property or send null to preserve the existing configuration; send an empty array to clear it. */
+  trustedCertificateSources?: TrustedCertificateSource[];
 }
 
 export function accountPropertiesSerializer(item: AccountProperties): any {
@@ -633,6 +635,7 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : apiPropertiesSerializer(item["apiProperties"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     restrictOutboundNetworkAccess: item["restrictOutboundNetworkAccess"],
     allowedFqdnList: !item["allowedFqdnList"]
       ? item["allowedFqdnList"]
@@ -650,9 +653,6 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
     networkInjections: !item["networkInjections"]
       ? item["networkInjections"]
       : networkInjectionArraySerializer(item["networkInjections"]),
-    foundryAutoUpgrade: !item["foundryAutoUpgrade"]
-      ? item["foundryAutoUpgrade"]
-      : foundryAutoUpgradeSerializer(item["foundryAutoUpgrade"]),
     allowProjectManagement: item["allowProjectManagement"],
     defaultProject: item["defaultProject"],
     associatedProjects: !item["associatedProjects"]
@@ -660,6 +660,9 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    trustedCertificateSources: !item["trustedCertificateSources"]
+      ? item["trustedCertificateSources"]
+      : trustedCertificateSourceArraySerializer(item["trustedCertificateSources"]),
   };
 }
 
@@ -702,6 +705,7 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : callRateLimitDeserializer(item["callRateLimit"]),
     dynamicThrottlingEnabled: item["dynamicThrottlingEnabled"],
     storedCompletionsDisabled: item["storedCompletionsDisabled"],
+    a365LoggingEnabled: item["a365LoggingEnabled"],
     quotaLimit: !item["quotaLimit"]
       ? item["quotaLimit"]
       : quotaLimitDeserializer(item["quotaLimit"]),
@@ -735,9 +739,6 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
     networkInjections: !item["networkInjections"]
       ? item["networkInjections"]
       : networkInjectionArrayDeserializer(item["networkInjections"]),
-    foundryAutoUpgrade: !item["foundryAutoUpgrade"]
-      ? item["foundryAutoUpgrade"]
-      : foundryAutoUpgradeDeserializer(item["foundryAutoUpgrade"]),
     allowProjectManagement: item["allowProjectManagement"],
     defaultProject: item["defaultProject"],
     associatedProjects: !item["associatedProjects"]
@@ -745,6 +746,9 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
       : item["associatedProjects"].map((p: any) => {
           return p;
         }),
+    trustedCertificateSources: !item["trustedCertificateSources"]
+      ? item["trustedCertificateSources"]
+      : trustedCertificateSourceArrayDeserializer(item["trustedCertificateSources"]),
   };
 }
 
@@ -1587,56 +1591,101 @@ export enum KnownScenarioType {
  */
 export type ScenarioType = string;
 
-/**
- * Represents the foundry auto-upgrade configuration for a Cognitive Services account.
- * Customers can opt out of auto-upgrade by setting mode to Disabled.
- */
-export interface FoundryAutoUpgrade {
-  /** Gets or sets the auto-upgrade mode. */
-  mode?: FoundryAutoUpgradeMode;
-  /** Gets or sets a value indicating whether the auto-upgrade is planned by Microsoft. */
-  plannedByMicrosoft?: boolean;
-  /** Gets or sets the status reason for the auto-upgrade configuration. */
-  statusReason?: string;
-  /** Gets or sets the scheduled time for the auto-upgrade. */
-  scheduledAt?: Date;
+export function trustedCertificateSourceArraySerializer(
+  result: Array<TrustedCertificateSource>,
+): any[] {
+  return result.map((item) => {
+    return trustedCertificateSourceSerializer(item);
+  });
 }
 
-export function foundryAutoUpgradeSerializer(item: FoundryAutoUpgrade): any {
+export function trustedCertificateSourceArrayDeserializer(
+  result: Array<TrustedCertificateSource>,
+): any[] {
+  return result.map((item) => {
+    return trustedCertificateSourceDeserializer(item);
+  });
+}
+
+/** An Azure resource containing the CA certificate bundles trusted by supported features in the account. */
+export interface TrustedCertificateSource {
+  /** Type of resource containing the certificate bundles. Currently only AzureKeyVault is supported. */
+  type: TrustedCertificateSourceType;
+  /** Azure resource ID of the Key Vault containing the referenced secrets. The account identity must have permission to read these secrets. */
+  resourceId: string;
+  /** References to secrets containing one or more PEM-encoded CA certificates. Each secret name and version pair must be unique within the source, using case-insensitive comparison. The same secret name can be referenced with different versions. */
+  certificateBundleReferences: CertificateBundleReference[];
+}
+
+export function trustedCertificateSourceSerializer(item: TrustedCertificateSource): any {
   return {
-    mode: item["mode"],
-    plannedByMicrosoft: item["plannedByMicrosoft"],
-    statusReason: item["statusReason"],
-    scheduledAt: !item["scheduledAt"] ? item["scheduledAt"] : item["scheduledAt"].toISOString(),
+    type: item["type"],
+    resourceId: item["resourceId"],
+    certificateBundleReferences: certificateBundleReferenceArraySerializer(
+      item["certificateBundleReferences"],
+    ),
   };
 }
 
-export function foundryAutoUpgradeDeserializer(item: any): FoundryAutoUpgrade {
+export function trustedCertificateSourceDeserializer(item: any): TrustedCertificateSource {
   return {
-    mode: item["mode"],
-    plannedByMicrosoft: item["plannedByMicrosoft"],
-    statusReason: item["statusReason"],
-    scheduledAt: !item["scheduledAt"] ? item["scheduledAt"] : new Date(item["scheduledAt"]),
+    type: item["type"],
+    resourceId: item["resourceId"],
+    certificateBundleReferences: certificateBundleReferenceArrayDeserializer(
+      item["certificateBundleReferences"],
+    ),
   };
 }
 
-/** Represents the mode for foundry auto-upgrade configuration. */
-export enum KnownFoundryAutoUpgradeMode {
-  /** Auto-upgrade is enabled. */
-  Enabled = "Enabled",
-  /** Auto-upgrade is disabled (opted out). */
-  Disabled = "Disabled",
+/** Type of Azure resource containing trusted CA certificate bundles. */
+export enum KnownTrustedCertificateSourceType {
+  /** Azure Key Vault secrets containing CA certificates or certificate bundles. */
+  AzureKeyVault = "AzureKeyVault",
 }
 
 /**
- * Represents the mode for foundry auto-upgrade configuration. \
- * {@link KnownFoundryAutoUpgradeMode} can be used interchangeably with FoundryAutoUpgradeMode,
+ * Type of Azure resource containing trusted CA certificate bundles. \
+ * {@link KnownTrustedCertificateSourceType} can be used interchangeably with TrustedCertificateSourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: Auto-upgrade is enabled. \
- * **Disabled**: Auto-upgrade is disabled (opted out).
+ * **AzureKeyVault**: Azure Key Vault secrets containing CA certificates or certificate bundles.
  */
-export type FoundryAutoUpgradeMode = string;
+export type TrustedCertificateSourceType = string;
+
+export function certificateBundleReferenceArraySerializer(
+  result: Array<CertificateBundleReference>,
+): any[] {
+  return result.map((item) => {
+    return certificateBundleReferenceSerializer(item);
+  });
+}
+
+export function certificateBundleReferenceArrayDeserializer(
+  result: Array<CertificateBundleReference>,
+): any[] {
+  return result.map((item) => {
+    return certificateBundleReferenceDeserializer(item);
+  });
+}
+
+/** A reference to a specific version of a Key Vault secret containing a PEM-encoded CA certificate or certificate bundle. */
+export interface CertificateBundleReference {
+  /** Name of the Key Vault secret containing the CA certificate or certificate bundle. */
+  secretName: string;
+  /** Required, pinned version of the Key Vault secret. Newer secret versions are not followed automatically. To rotate a bundle, update this value and resubmit the complete account trust configuration. */
+  secretVersion: string;
+}
+
+export function certificateBundleReferenceSerializer(item: CertificateBundleReference): any {
+  return { secretName: item["secretName"], secretVersion: item["secretVersion"] };
+}
+
+export function certificateBundleReferenceDeserializer(item: any): CertificateBundleReference {
+  return {
+    secretName: item["secretName"],
+    secretVersion: item["secretVersion"],
+  };
+}
 
 /** The resource model definition representing SKU */
 export interface Sku {
@@ -1983,6 +2032,10 @@ export function usageArrayDeserializer(result: Array<Usage>): any[] {
 
 /** The usage data for a usage request. */
 export interface Usage {
+  /** Fully qualified resource ID for the usage. Ex - /subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/usages/{usageName} */
+  readonly id?: string;
+  /** The type of the usage resource. E.g. "Microsoft.CognitiveServices/locations/usages" */
+  readonly type?: string;
   /** The unit of the metric. */
   unit?: UnitType;
   /** The name information for the metric. */
@@ -2005,6 +2058,8 @@ export interface Usage {
 
 export function usageDeserializer(item: any): Usage {
   return {
+    id: item["id"],
+    type: item["type"],
     unit: item["unit"],
     name: !item["name"] ? item["name"] : metricNameDeserializer(item["name"]),
     quotaPeriod: item["quotaPeriod"],
@@ -2382,205 +2437,6 @@ export enum KnownModelLifecycleStatus {
  */
 export type ModelLifecycleStatus = string;
 
-/** Request body for the evaluateDeploymentPolicies action. */
-export interface EvaluateDeploymentPoliciesRequest {
-  /** The list of hypothetical deployments to evaluate against Azure Policy. */
-  deployments: EvaluateDeploymentPoliciesDeployment[];
-}
-
-export function evaluateDeploymentPoliciesRequestSerializer(
-  item: EvaluateDeploymentPoliciesRequest,
-): any {
-  return { deployments: evaluateDeploymentPoliciesDeploymentArraySerializer(item["deployments"]) };
-}
-
-export function evaluateDeploymentPoliciesDeploymentArraySerializer(
-  result: Array<EvaluateDeploymentPoliciesDeployment>,
-): any[] {
-  return result.map((item) => {
-    return evaluateDeploymentPoliciesDeploymentSerializer(item);
-  });
-}
-
-/** A hypothetical deployment definition used for policy dry-run evaluation. */
-export interface EvaluateDeploymentPoliciesDeployment {
-  /** The name of the hypothetical deployment. */
-  name: string;
-  /** Properties of the hypothetical deployment. */
-  properties: EvaluateDeploymentPoliciesDeploymentProperties;
-}
-
-export function evaluateDeploymentPoliciesDeploymentSerializer(
-  item: EvaluateDeploymentPoliciesDeployment,
-): any {
-  return {
-    name: item["name"],
-    properties: evaluateDeploymentPoliciesDeploymentPropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Properties of a hypothetical deployment for policy evaluation. */
-export interface EvaluateDeploymentPoliciesDeploymentProperties {
-  /** The model to evaluate. */
-  model: DeploymentModel;
-  /** The name of the RAI policy to evaluate. */
-  raiPolicyName?: string;
-}
-
-export function evaluateDeploymentPoliciesDeploymentPropertiesSerializer(
-  item: EvaluateDeploymentPoliciesDeploymentProperties,
-): any {
-  return { model: deploymentModelSerializer(item["model"]), raiPolicyName: item["raiPolicyName"] };
-}
-
-/** Response body for the evaluateDeploymentPolicies action. */
-export interface EvaluateDeploymentPoliciesResponse {
-  /** Per-deployment policy evaluation results, keyed by deployment name. */
-  results?: Record<string, DeploymentPolicyEvaluationResult>;
-}
-
-export function evaluateDeploymentPoliciesResponseDeserializer(
-  item: any,
-): EvaluateDeploymentPoliciesResponse {
-  return {
-    results: !item["results"]
-      ? item["results"]
-      : deploymentPolicyEvaluationResultRecordDeserializer(item["results"]),
-  };
-}
-
-export function deploymentPolicyEvaluationResultRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, DeploymentPolicyEvaluationResult> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : deploymentPolicyEvaluationResultDeserializer(item[key]);
-  });
-  return result;
-}
-
-/** Policy evaluation result for a single deployment. */
-export interface DeploymentPolicyEvaluationResult {
-  /** The evaluation outcome. */
-  evaluationOutcome?: PolicyEvaluationOutcome;
-  /** Error message if the evaluation outcome is Error. */
-  errorMessage?: string;
-  /** Details of non-compliant policy assignments. */
-  nonCompliantAssignments?: PolicyAssignmentEvaluationDetails[];
-}
-
-export function deploymentPolicyEvaluationResultDeserializer(
-  item: any,
-): DeploymentPolicyEvaluationResult {
-  return {
-    evaluationOutcome: item["evaluationOutcome"],
-    errorMessage: item["errorMessage"],
-    nonCompliantAssignments: !item["nonCompliantAssignments"]
-      ? item["nonCompliantAssignments"]
-      : policyAssignmentEvaluationDetailsArrayDeserializer(item["nonCompliantAssignments"]),
-  };
-}
-
-/** The outcome of a policy evaluation. */
-export enum KnownPolicyEvaluationOutcome {
-  /** The deployment is compliant with all policies. */
-  Compliant = "Compliant",
-  /** The deployment violates one or more policies. */
-  NonCompliant = "NonCompliant",
-  /** An error occurred during evaluation. */
-  Error = "Error",
-}
-
-/**
- * The outcome of a policy evaluation. \
- * {@link KnownPolicyEvaluationOutcome} can be used interchangeably with PolicyEvaluationOutcome,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Compliant**: The deployment is compliant with all policies. \
- * **NonCompliant**: The deployment violates one or more policies. \
- * **Error**: An error occurred during evaluation.
- */
-export type PolicyEvaluationOutcome = string;
-
-export function policyAssignmentEvaluationDetailsArrayDeserializer(
-  result: Array<PolicyAssignmentEvaluationDetails>,
-): any[] {
-  return result.map((item) => {
-    return policyAssignmentEvaluationDetailsDeserializer(item);
-  });
-}
-
-/** Details of a non-compliant policy assignment. */
-export interface PolicyAssignmentEvaluationDetails {
-  /** The policy assignment ID. */
-  assignmentId?: string;
-  /** The policy definition ID. */
-  policyDefinitionId?: string;
-  /** The policy set definition ID. */
-  policySetDefinitionId?: string;
-  /** The evaluation outcome for this assignment. */
-  evaluationOutcome?: PolicyEvaluationOutcome;
-  /** The reason for non-compliance. */
-  nonComplianceReason?: string;
-  /** The policy effect (e.g., Deny, Audit). */
-  effect?: string;
-  /** Expression-level evaluation details. */
-  expressionEvaluations?: PolicyExpressionEvaluationDetails[];
-}
-
-export function policyAssignmentEvaluationDetailsDeserializer(
-  item: any,
-): PolicyAssignmentEvaluationDetails {
-  return {
-    assignmentId: item["assignmentId"],
-    policyDefinitionId: item["policyDefinitionId"],
-    policySetDefinitionId: item["policySetDefinitionId"],
-    evaluationOutcome: item["evaluationOutcome"],
-    nonComplianceReason: item["nonComplianceReason"],
-    effect: item["effect"],
-    expressionEvaluations: !item["expressionEvaluations"]
-      ? item["expressionEvaluations"]
-      : policyExpressionEvaluationDetailsArrayDeserializer(item["expressionEvaluations"]),
-  };
-}
-
-export function policyExpressionEvaluationDetailsArrayDeserializer(
-  result: Array<PolicyExpressionEvaluationDetails>,
-): any[] {
-  return result.map((item) => {
-    return policyExpressionEvaluationDetailsDeserializer(item);
-  });
-}
-
-/** Details of a policy expression evaluation. */
-export interface PolicyExpressionEvaluationDetails {
-  /** The policy expression. */
-  expression?: string;
-  /** The kind of expression. */
-  expressionKind?: string;
-  /** The operator used in evaluation. */
-  operator?: string;
-  /** The evaluation result. */
-  result?: string;
-  /** The target value of the expression. */
-  targetValue?: string;
-  /** The actual value of the expression. */
-  expressionValue?: string;
-}
-
-export function policyExpressionEvaluationDetailsDeserializer(
-  item: any,
-): PolicyExpressionEvaluationDetails {
-  return {
-    expression: item["expression"],
-    expressionKind: item["expressionKind"],
-    operator: item["operator"],
-    result: item["result"],
-    targetValue: item["targetValue"],
-    expressionValue: item["expressionValue"],
-  };
-}
-
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -2644,8 +2500,8 @@ export interface DeploymentProperties {
   readonly provisioningState?: DeploymentProvisioningState;
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
-  /** Speculative decoding settings for the deployment. This configuration applies to Fireworks model formats. */
-  speculativeDecoding?: DeploymentSpeculativeDecoding;
+  /** The resource ID of the context cache container associated with this deployment. */
+  contextCacheContainerId?: string;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
   scaleSettings?: DeploymentScaleSettings;
   /** The capabilities. */
@@ -2678,9 +2534,7 @@ export interface DeploymentProperties {
 export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
   return {
     model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
-    speculativeDecoding: !item["speculativeDecoding"]
-      ? item["speculativeDecoding"]
-      : deploymentSpeculativeDecodingSerializer(item["speculativeDecoding"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsSerializer(item["scaleSettings"]),
@@ -2702,9 +2556,7 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
   return {
     provisioningState: item["provisioningState"],
     model: !item["model"] ? item["model"] : deploymentModelDeserializer(item["model"]),
-    speculativeDecoding: !item["speculativeDecoding"]
-      ? item["speculativeDecoding"]
-      : deploymentSpeculativeDecodingDeserializer(item["speculativeDecoding"]),
+    contextCacheContainerId: item["contextCacheContainerId"],
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsDeserializer(item["scaleSettings"]),
@@ -2769,30 +2621,6 @@ export enum KnownDeploymentProvisioningState {
  * **Canceled**
  */
 export type DeploymentProvisioningState = string;
-
-/** Speculative decoding settings for a deployment. */
-export interface DeploymentSpeculativeDecoding {
-  /** Draft model used to generate speculative decoding tokens. */
-  draftModel: DeploymentModel;
-  /** The number of draft tokens attempted per speculation step. */
-  draftTokenCount?: number;
-}
-
-export function deploymentSpeculativeDecodingSerializer(item: DeploymentSpeculativeDecoding): any {
-  return {
-    draftModel: deploymentModelSerializer(item["draftModel"]),
-    draftTokenCount: item["draftTokenCount"],
-  };
-}
-
-export function deploymentSpeculativeDecodingDeserializer(
-  item: any,
-): DeploymentSpeculativeDecoding {
-  return {
-    draftModel: deploymentModelDeserializer(item["draftModel"]),
-    draftTokenCount: item["draftTokenCount"],
-  };
-}
 
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettings {
@@ -4021,18 +3849,20 @@ export type RaiEgressRuleType = string;
 /**
  * The match criteria for an egress rule.
  * If both host and path are omitted, the rule matches all traffic.
- * Host uses DNS wildcard syntax (e.g., "*.openai.com" matches "api.openai.com").
- * Path uses URI prefix matching with '*' as a single-segment wildcard (e.g., "/v1/*" matches "/v1/chat").
+ * Host uses DNS wildcard syntax (e.g., "\*.openai.com" matches "api.openai.com").
+ * Path uses URI prefix matching with an asterisk as a single-segment wildcard.
+ * For example, "/v1/\*" matches "/v1/chat".
  */
 export interface RaiEgressRuleMatch {
   /**
-   * Host pattern to match using DNS wildcard syntax (e.g., "*.openai.com").
-   * A leading "*." matches any subdomain. Omit to match all hosts.
+   * Host pattern to match using DNS wildcard syntax (e.g., "\*.openai.com").
+   * A leading "\*." matches any subdomain. Omit to match all hosts.
    */
   host?: string;
   /**
-   * Path pattern to match using URI prefix with '*' wildcard (e.g., "/v1/*").
-   * Omit to match all paths.
+   * Path pattern to match using URI prefix matching.
+   * An asterisk serves as a single-segment wildcard.
+   * For example, "/v1/\*" matches "/v1/chat". Omit to match all paths.
    */
   path?: string;
 }
@@ -8062,863 +7892,6 @@ export function agentReferenceDeserializer(item: any): AgentReference {
   };
 }
 
-/** Cognitive Services account managed compute deployment, backed by managed compute (GPU) resources. */
-export interface ManagedComputeDeployment extends ProxyResource {
-  /** Properties of the Cognitive Services managed compute deployment. */
-  properties?: ManagedComputeDeploymentProperties;
-  /** The resource model definition representing SKU */
-  sku?: Sku;
-  /** Resource Etag. */
-  readonly etag?: string;
-}
-
-export function managedComputeDeploymentSerializer(item: ManagedComputeDeployment): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedComputeDeploymentPropertiesSerializer(item["properties"]),
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-  };
-}
-
-export function managedComputeDeploymentDeserializer(item: any): ManagedComputeDeployment {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : managedComputeDeploymentPropertiesDeserializer(item["properties"]),
-    sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
-    etag: item["etag"],
-  };
-}
-
-/** Properties of a Cognitive Services managed compute deployment. */
-export interface ManagedComputeDeploymentProperties {
-  /**
-   * AzureML Registry model asset URI. Required on creation; immutable after creation.
-   * Example: azureml://registries/{registry}/models/{model}/versions/{version}
-   */
-  model: string;
-  /**
-   * Deployment template identifier. Optional on creation.
-   * Accepts an AzureML Registry deployment template URI or a project-scoped deployment template path for VmManagedCompute.
-   * Examples: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}, projects/{project}/deploymentTemplates/{template}/versions/{version}
-   */
-  deploymentTemplate?: string;
-  /** Accelerator type (e.g., H100_80GB). Optional on creation; immutable after creation. */
-  acceleratorType?: string;
-  /** Template auto-upgrade policy. Defaults to OnceNewDefaultVersionAvailable. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
-  /**
-   * Deployment capabilities represented as key-value pairs.
-   * Example: { assetsV2: "true" }.
-   */
-  readonly capabilities?: Record<string, string>;
-  /** Foundry compute ARM resource ID for VM-backed managed compute deployments. Required when sku.name is VmManagedCompute; immutable after creation. */
-  computeId?: string;
-  /** Scheduling priority for VM-backed managed compute deployments. Immutable after creation. */
-  priority?: string;
-  /** Read-only. Number of accelerators (GPUs) consumed by each model instance, sourced from the deployment template. */
-  readonly acceleratorsPerInstance?: number;
-  /** Read-only. Total accelerators allocated: sku.capacity (instances) x acceleratorsPerInstance. */
-  readonly totalAccelerators?: number;
-  /** Read-only. Current provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-  /** Read-only. Status message and timestamp from the last provisioning operation. */
-  readonly provisioningDetails?: ManagedComputeDeploymentProvisioningDetails;
-  /** Read-only. Inference route paths relative to the account endpoint. Populated when provisioningState is Succeeded. */
-  readonly routes?: ManagedComputeDeploymentRoutes;
-}
-
-export function managedComputeDeploymentPropertiesSerializer(
-  item: ManagedComputeDeploymentProperties,
-): any {
-  return {
-    model: item["model"],
-    deploymentTemplate: item["deploymentTemplate"],
-    acceleratorType: item["acceleratorType"],
-    versionUpgradeOption: item["versionUpgradeOption"],
-    computeId: item["computeId"],
-    priority: item["priority"],
-  };
-}
-
-export function managedComputeDeploymentPropertiesDeserializer(
-  item: any,
-): ManagedComputeDeploymentProperties {
-  return {
-    model: item["model"],
-    deploymentTemplate: item["deploymentTemplate"],
-    acceleratorType: item["acceleratorType"],
-    versionUpgradeOption: item["versionUpgradeOption"],
-    capabilities: !item["capabilities"]
-      ? item["capabilities"]
-      : Object.fromEntries(
-          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    computeId: item["computeId"],
-    priority: item["priority"],
-    acceleratorsPerInstance: item["acceleratorsPerInstance"],
-    totalAccelerators: item["totalAccelerators"],
-    provisioningState: item["provisioningState"],
-    provisioningDetails: !item["provisioningDetails"]
-      ? item["provisioningDetails"]
-      : managedComputeDeploymentProvisioningDetailsDeserializer(item["provisioningDetails"]),
-    routes: !item["routes"]
-      ? item["routes"]
-      : managedComputeDeploymentRoutesDeserializer(item["routes"]),
-  };
-}
-
-/** Provisioning status details for a managed compute deployment. */
-export interface ManagedComputeDeploymentProvisioningDetails {
-  /** A human-readable status message from the last provisioning operation. */
-  message?: string;
-  /** Timestamp of the last provisioning operation. */
-  lastOperationTimestamp?: Date;
-}
-
-export function managedComputeDeploymentProvisioningDetailsDeserializer(
-  item: any,
-): ManagedComputeDeploymentProvisioningDetails {
-  return {
-    message: item["message"],
-    lastOperationTimestamp: !item["lastOperationTimestamp"]
-      ? item["lastOperationTimestamp"]
-      : new Date(item["lastOperationTimestamp"]),
-  };
-}
-
-/**
- * Inference route paths for a managed compute deployment, relative to the account endpoint.
- * Populated when provisioningState is Succeeded.
- */
-export interface ManagedComputeDeploymentRoutes {
-  /** Relative path to the chat completions scoring endpoint. */
-  chatCompletionsScoringPath?: string;
-  /** Relative path to the Swagger/OpenAPI endpoint. */
-  swagger?: string;
-  /** Relative path to the messages API scoring endpoint. */
-  messagesApiScoringPath?: string;
-}
-
-export function managedComputeDeploymentRoutesDeserializer(
-  item: any,
-): ManagedComputeDeploymentRoutes {
-  return {
-    chatCompletionsScoringPath: item["chatCompletionsScoringPath"],
-    swagger: item["swagger"],
-    messagesApiScoringPath: item["messagesApiScoringPath"],
-  };
-}
-
-/** The object being used to update sku of a resource, in general used for PATCH operations. */
-export interface PatchResourceSku {
-  /** The resource model definition representing SKU */
-  sku?: Sku;
-}
-
-export function patchResourceSkuSerializer(item: PatchResourceSku): any {
-  return { sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]) };
-}
-
-/** The list of managed compute deployments. */
-export interface _ManagedComputeDeploymentListResult {
-  /** The link used to get the next page of managed compute deployments. */
-  nextLink?: string;
-  /** Gets the list of managed compute deployments and their properties. */
-  readonly value?: ManagedComputeDeployment[];
-}
-
-export function _managedComputeDeploymentListResultDeserializer(
-  item: any,
-): _ManagedComputeDeploymentListResult {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"]
-      ? item["value"]
-      : managedComputeDeploymentArrayDeserializer(item["value"]),
-  };
-}
-
-export function managedComputeDeploymentArraySerializer(
-  result: Array<ManagedComputeDeployment>,
-): any[] {
-  return result.map((item) => {
-    return managedComputeDeploymentSerializer(item);
-  });
-}
-
-export function managedComputeDeploymentArrayDeserializer(
-  result: Array<ManagedComputeDeployment>,
-): any[] {
-  return result.map((item) => {
-    return managedComputeDeploymentDeserializer(item);
-  });
-}
-
-/** The status of an async compute operation. */
-export interface ComputeOperationStatus extends ProxyResource {
-  /** The properties of the compute operation status. */
-  properties?: ComputeOperationStatusProperties;
-}
-
-export function computeOperationStatusDeserializer(item: any): ComputeOperationStatus {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : computeOperationStatusPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of a compute operation status. */
-export interface ComputeOperationStatusProperties {
-  /** The start time of the operation. */
-  readonly startTime?: Date;
-  /** The end time of the operation. */
-  readonly endTime?: Date;
-  /** The status of the operation. */
-  status?: ComputeOperationStatusType;
-  /** Error details if the operation failed. */
-  error?: ErrorDetail;
-}
-
-export function computeOperationStatusPropertiesDeserializer(
-  item: any,
-): ComputeOperationStatusProperties {
-  return {
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The status type of a compute operation. */
-export enum KnownComputeOperationStatusType {
-  /** The operation is in progress. */
-  InProgress = "InProgress",
-  /** The operation has succeeded. */
-  Succeeded = "Succeeded",
-  /** The operation has failed. */
-  Failed = "Failed",
-  /** The operation has been canceled. */
-  Canceled = "Canceled",
-}
-
-/**
- * The status type of a compute operation. \
- * {@link KnownComputeOperationStatusType} can be used interchangeably with ComputeOperationStatusType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress**: The operation is in progress. \
- * **Succeeded**: The operation has succeeded. \
- * **Failed**: The operation has failed. \
- * **Canceled**: The operation has been canceled.
- */
-export type ComputeOperationStatusType = string;
-
-/** List of managed compute quota entries. */
-export interface _ManagedComputeUsageListResult {
-  /** The link used to get the next page of managed compute usages. */
-  nextLink?: string;
-  /** Per-SKU managed compute quota usage entries. */
-  value?: ManagedComputeUsage[];
-}
-
-export function _managedComputeUsageListResultDeserializer(
-  item: any,
-): _ManagedComputeUsageListResult {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"] ? item["value"] : managedComputeUsageArrayDeserializer(item["value"]),
-  };
-}
-
-export function managedComputeUsageArrayDeserializer(result: Array<ManagedComputeUsage>): any[] {
-  return result.map((item) => {
-    return managedComputeUsageDeserializer(item);
-  });
-}
-
-/** Managed compute quota usage for a specific SKU. */
-export interface ManagedComputeUsage {
-  /** Fully qualified resource ID for the managed compute usage. */
-  readonly id?: string;
-  /** The name information for the metric. */
-  readonly name?: MetricName;
-  /** The resource type. */
-  readonly type?: string;
-  /** The unit of the metric. */
-  unit?: UnitType;
-  /** Maximum value for this metric. */
-  limit?: number;
-  /** Current value for this metric. */
-  currentValue?: number;
-  /** Offer scope (e.g., 'Global', 'Datazone-US'). */
-  offerScope?: string;
-  /** Deployments consuming this managed compute quota. */
-  deployments?: ManagedComputeDeploymentInfo[];
-}
-
-export function managedComputeUsageDeserializer(item: any): ManagedComputeUsage {
-  return {
-    id: item["id"],
-    name: !item["name"] ? item["name"] : metricNameDeserializer(item["name"]),
-    type: item["type"],
-    unit: item["unit"],
-    limit: item["limit"],
-    currentValue: item["currentValue"],
-    offerScope: item["offerScope"],
-    deployments: !item["deployments"]
-      ? item["deployments"]
-      : managedComputeDeploymentInfoArrayDeserializer(item["deployments"]),
-  };
-}
-
-export function managedComputeDeploymentInfoArrayDeserializer(
-  result: Array<ManagedComputeDeploymentInfo>,
-): any[] {
-  return result.map((item) => {
-    return managedComputeDeploymentInfoDeserializer(item);
-  });
-}
-
-/** Deployment detail within a managed compute usage entry. */
-export interface ManagedComputeDeploymentInfo {
-  /** Full ARM resource ID of the deployment. */
-  deploymentId?: string;
-  /** Full ARM resource ID of the account/project. */
-  projectId?: string;
-  /** Model name (e.g., 'azureml://registries//models//versions/gpt-4o'). */
-  modelId?: string;
-  /** Number of GPUs consumed by this deployment. */
-  acceleratorCount?: number;
-  /** Number of instances for this deployment. */
-  instanceCount?: number;
-}
-
-export function managedComputeDeploymentInfoDeserializer(item: any): ManagedComputeDeploymentInfo {
-  return {
-    deploymentId: item["deploymentId"],
-    projectId: item["projectId"],
-    modelId: item["modelId"],
-    acceleratorCount: item["acceleratorCount"],
-    instanceCount: item["instanceCount"],
-  };
-}
-
-/**
- * Cognitive Services compute resource. Supports polymorphic compute types
- * (Cluster, ContainerInstance) via the computeType discriminator in properties.
- */
-export interface Compute extends ProxyResource {
-  /** Polymorphic properties of the compute resource. Use computeType to select Cluster or ContainerInstance. */
-  properties: ComputePropertiesUnion;
-  /** Resource Etag. */
-  readonly etag?: string;
-  /** The location of the compute resource. */
-  location?: string;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The kind (type) of compute resource. */
-  kind?: string;
-  /** Identity for the resource. */
-  identity?: Identity;
-}
-
-export function computeSerializer(item: Compute): any {
-  return {
-    properties: computePropertiesUnionSerializer(item["properties"]),
-    location: item["location"],
-    tags: item["tags"],
-    kind: item["kind"],
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
-  };
-}
-
-export function computeDeserializer(item: any): Compute {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: computePropertiesUnionDeserializer(item["properties"]),
-    etag: item["etag"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    kind: item["kind"],
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
-  };
-}
-
-/**
- * Base properties for all compute resource types.
- * The computeType discriminator determines the concrete property shape.
- */
-export interface ComputeProperties {
-  /** The type of compute resource. */
-  /** The discriminator possible values: Cluster, ContainerInstance */
-  computeType: ComputeType;
-  /** Provisioning state of the compute resource. */
-  readonly provisioningState?: ComputeProvisioningState;
-  /** Error details for the compute resource. */
-  readonly errors?: ErrorDetail[];
-  /** Creation time of the compute resource. */
-  readonly creationTime?: Date;
-}
-
-export function computePropertiesSerializer(item: ComputeProperties): any {
-  return { computeType: item["computeType"] };
-}
-
-export function computePropertiesDeserializer(item: any): ComputeProperties {
-  return {
-    computeType: item["computeType"],
-    provisioningState: item["provisioningState"],
-    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-  };
-}
-
-/** Alias for ComputePropertiesUnion */
-export type ComputePropertiesUnion =
-  ClusterComputeProperties | ContainerInstanceComputeProperties | ComputeProperties;
-
-export function computePropertiesUnionSerializer(item: ComputePropertiesUnion): any {
-  switch (item.computeType) {
-    case "Cluster":
-      return clusterComputePropertiesSerializer(item as ClusterComputeProperties);
-
-    case "ContainerInstance":
-      return containerInstanceComputePropertiesSerializer(
-        item as ContainerInstanceComputeProperties,
-      );
-
-    default:
-      return computePropertiesSerializer(item);
-  }
-}
-
-export function computePropertiesUnionDeserializer(item: any): ComputePropertiesUnion {
-  switch (item["computeType"]) {
-    case "Cluster":
-      return clusterComputePropertiesDeserializer(item as ClusterComputeProperties);
-
-    case "ContainerInstance":
-      return containerInstanceComputePropertiesDeserializer(
-        item as ContainerInstanceComputeProperties,
-      );
-
-    default:
-      return computePropertiesDeserializer(item);
-  }
-}
-
-/** The type of compute resource. */
-export enum KnownComputeType {
-  /** Cluster (AKS-backed) compute type. */
-  Cluster = "Cluster",
-  /** Container Instance compute type. */
-  ContainerInstance = "ContainerInstance",
-}
-
-/**
- * The type of compute resource. \
- * {@link KnownComputeType} can be used interchangeably with ComputeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Cluster**: Cluster (AKS-backed) compute type. \
- * **ContainerInstance**: Container Instance compute type.
- */
-export type ComputeType = string;
-
-/** The provisioning state of a compute resource. */
-export enum KnownComputeProvisioningState {
-  /** The resource provisioning request has been accepted. */
-  Accepted = "Accepted",
-  /** The resource has been fully provisioned. */
-  Succeeded = "Succeeded",
-  /** The resource provisioning has failed. */
-  Failed = "Failed",
-  /** The resource provisioning was canceled. */
-  Canceled = "Canceled",
-  /** The resource is being deleted. */
-  Deleting = "Deleting",
-  /** The resource is scaling. */
-  Scaling = "Scaling",
-  /** The resource is disabled. */
-  Disabled = "Disabled",
-  /** The compute resource is starting. */
-  Starting = "Starting",
-  /** The compute resource is stopping. */
-  Stopping = "Stopping",
-  /** The compute resource is restarting. */
-  Restarting = "Restarting",
-  /** The compute resource is stopped. */
-  Stopped = "Stopped",
-}
-
-/**
- * The provisioning state of a compute resource. \
- * {@link KnownComputeProvisioningState} can be used interchangeably with ComputeProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted**: The resource provisioning request has been accepted. \
- * **Succeeded**: The resource has been fully provisioned. \
- * **Failed**: The resource provisioning has failed. \
- * **Canceled**: The resource provisioning was canceled. \
- * **Deleting**: The resource is being deleted. \
- * **Scaling**: The resource is scaling. \
- * **Disabled**: The resource is disabled. \
- * **Starting**: The compute resource is starting. \
- * **Stopping**: The compute resource is stopping. \
- * **Restarting**: The compute resource is restarting. \
- * **Stopped**: The compute resource is stopped.
- */
-export type ComputeProvisioningState = string;
-
-/** Properties for a Cluster (AKS-backed) compute resource. */
-export interface ClusterComputeProperties extends ComputeProperties {
-  /** The type of compute resource. */
-  computeType: "Cluster";
-  /** Pools attached to this compute cluster. */
-  pools: Pool[];
-  /** ARM ID of the subnet used for compute. */
-  subnetArmId?: string;
-}
-
-export function clusterComputePropertiesSerializer(item: ClusterComputeProperties): any {
-  return {
-    computeType: item["computeType"],
-    pools: poolArraySerializer(item["pools"]),
-    subnetArmId: item["subnetArmId"],
-  };
-}
-
-export function clusterComputePropertiesDeserializer(item: any): ClusterComputeProperties {
-  return {
-    computeType: item["computeType"],
-    provisioningState: item["provisioningState"],
-    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    pools: poolArrayDeserializer(item["pools"]),
-    subnetArmId: item["subnetArmId"],
-  };
-}
-
-export function poolArraySerializer(result: Array<Pool>): any[] {
-  return result.map((item) => {
-    return poolSerializer(item);
-  });
-}
-
-export function poolArrayDeserializer(result: Array<Pool>): any[] {
-  return result.map((item) => {
-    return poolDeserializer(item);
-  });
-}
-
-/** A compute pool configuration. */
-export interface Pool {
-  /** The name of the pool. */
-  name: string;
-  /** The VM priority of the pool. */
-  vmPriority: VmPriority;
-  /** The instance type (VM SKU) used in the pool. */
-  instanceType: string;
-  /** The number of nodes in the pool. */
-  nodeCount: number;
-}
-
-export function poolSerializer(item: Pool): any {
-  return {
-    name: item["name"],
-    vmPriority: item["vmPriority"],
-    instanceType: item["instanceType"],
-    nodeCount: item["nodeCount"],
-  };
-}
-
-export function poolDeserializer(item: any): Pool {
-  return {
-    name: item["name"],
-    vmPriority: item["vmPriority"],
-    instanceType: item["instanceType"],
-    nodeCount: item["nodeCount"],
-  };
-}
-
-/** VM priority for a compute pool. */
-export enum KnownVmPriority {
-  /** Regular VM priority. */
-  Regular = "Regular",
-  /** Low-priority VM. */
-  LowPriority = "LowPriority",
-}
-
-/**
- * VM priority for a compute pool. \
- * {@link KnownVmPriority} can be used interchangeably with VmPriority,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Regular**: Regular VM priority. \
- * **LowPriority**: Low-priority VM.
- */
-export type VmPriority = string;
-
-/** Properties for a Container Instance compute resource. */
-export interface ContainerInstanceComputeProperties extends ComputeProperties {
-  /** The type of compute resource. */
-  computeType: "ContainerInstance";
-  /** ARM resource ID of the parent cluster that hosts this container instance. */
-  targetClusterId: string;
-  /** Container image URI (e.g., MCR or ACR image path) for the container instance. */
-  imageLink: string;
-  /** ISO 8601 duration before the idle instance is automatically shut down (e.g., 'PT30M'). */
-  idleTimeBeforeShutdown?: string;
-  /** SSH configuration for remote access to the container instance. */
-  sshSettings?: SshSettings;
-  /** Network connectivity endpoints assigned to the container instance. */
-  readonly connectivityEndpoints?: ConnectivityEndpoints;
-}
-
-export function containerInstanceComputePropertiesSerializer(
-  item: ContainerInstanceComputeProperties,
-): any {
-  return {
-    computeType: item["computeType"],
-    targetClusterId: item["targetClusterId"],
-    imageLink: item["imageLink"],
-    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
-    sshSettings: !item["sshSettings"]
-      ? item["sshSettings"]
-      : sshSettingsSerializer(item["sshSettings"]),
-  };
-}
-
-export function containerInstanceComputePropertiesDeserializer(
-  item: any,
-): ContainerInstanceComputeProperties {
-  return {
-    computeType: item["computeType"],
-    provisioningState: item["provisioningState"],
-    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    targetClusterId: item["targetClusterId"],
-    imageLink: item["imageLink"],
-    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
-    sshSettings: !item["sshSettings"]
-      ? item["sshSettings"]
-      : sshSettingsDeserializer(item["sshSettings"]),
-    connectivityEndpoints: !item["connectivityEndpoints"]
-      ? item["connectivityEndpoints"]
-      : connectivityEndpointsDeserializer(item["connectivityEndpoints"]),
-  };
-}
-
-/** SSH configuration for a Container Instance compute. */
-export interface SshSettings {
-  /** The SSH public key for authenticating to the compute instance. */
-  sshPublicKey?: string;
-  /** Whether SSH admin access is enabled. */
-  adminEnabled?: boolean;
-}
-
-export function sshSettingsSerializer(item: SshSettings): any {
-  return { sshPublicKey: item["sshPublicKey"], adminEnabled: item["adminEnabled"] };
-}
-
-export function sshSettingsDeserializer(item: any): SshSettings {
-  return {
-    sshPublicKey: item["sshPublicKey"],
-    adminEnabled: item["adminEnabled"],
-  };
-}
-
-/** Network connectivity endpoints for a Container Instance compute. */
-export interface ConnectivityEndpoints {
-  /** The public IP address of the compute instance. */
-  readonly publicIpAddress?: string;
-  /** The SSH port for the compute instance. */
-  readonly sshPort?: number;
-}
-
-export function connectivityEndpointsDeserializer(item: any): ConnectivityEndpoints {
-  return {
-    publicIpAddress: item["publicIpAddress"],
-    sshPort: item["sshPort"],
-  };
-}
-
-/** The list of cognitive services computes operation response. */
-export interface _ComputeListResult {
-  /** The link used to get the next page of compute list. */
-  nextLink?: string;
-  /** Gets the list of computes. */
-  value?: Compute[];
-}
-
-export function _computeListResultDeserializer(item: any): _ComputeListResult {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"] ? item["value"] : computeArrayDeserializer(item["value"]),
-  };
-}
-
-export function computeArraySerializer(result: Array<Compute>): any[] {
-  return result.map((item) => {
-    return computeSerializer(item);
-  });
-}
-
-export function computeArrayDeserializer(result: Array<Compute>): any[] {
-  return result.map((item) => {
-    return computeDeserializer(item);
-  });
-}
-
-/**
- * Workbench resource under a Cognitive Services project.
- * Provides interactive compute with data access for AI development.
- */
-export interface Workbench extends ProxyResource {
-  /** Properties of the workbench resource. */
-  properties: WorkbenchProperties;
-  /** Resource Etag. */
-  readonly etag?: string;
-  /** The location of the workbench resource. */
-  location?: string;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** Identity for the resource. */
-  identity?: Identity;
-}
-
-export function workbenchSerializer(item: Workbench): any {
-  return {
-    properties: workbenchPropertiesSerializer(item["properties"]),
-    location: item["location"],
-    tags: item["tags"],
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
-  };
-}
-
-export function workbenchDeserializer(item: any): Workbench {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: workbenchPropertiesDeserializer(item["properties"]),
-    etag: item["etag"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
-  };
-}
-
-/** Properties for a Workbench resource. */
-export interface WorkbenchProperties {
-  /** ARM resource ID of the parent cluster that hosts this workbench. */
-  targetClusterId: string;
-  /** Container image URI (e.g., MCR or ACR image path) for the workbench. */
-  imageLink: string;
-  /** ISO 8601 duration before the idle workbench is automatically shut down (e.g., 'PT30M'). */
-  idleTimeBeforeShutdown?: string;
-  /** The dataset ID to mount for the workbench. */
-  datasetId?: string;
-  /** SSH configuration for remote access to the workbench. */
-  sshSettings?: SshSettings;
-  /** Network connectivity endpoints assigned to the workbench. */
-  readonly connectivityEndpoints?: ConnectivityEndpoints;
-  /** The web endpoint URL for accessing the workbench. */
-  readonly webEndpoint?: string;
-  /** Provisioning state of the workbench resource. */
-  readonly provisioningState?: ComputeProvisioningState;
-  /** Error details for the workbench resource. */
-  readonly errors?: ErrorDetail[];
-  /** Creation time of the workbench resource. */
-  readonly creationTime?: Date;
-}
-
-export function workbenchPropertiesSerializer(item: WorkbenchProperties): any {
-  return {
-    targetClusterId: item["targetClusterId"],
-    imageLink: item["imageLink"],
-    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
-    datasetId: item["datasetId"],
-    sshSettings: !item["sshSettings"]
-      ? item["sshSettings"]
-      : sshSettingsSerializer(item["sshSettings"]),
-  };
-}
-
-export function workbenchPropertiesDeserializer(item: any): WorkbenchProperties {
-  return {
-    targetClusterId: item["targetClusterId"],
-    imageLink: item["imageLink"],
-    idleTimeBeforeShutdown: item["idleTimeBeforeShutdown"],
-    datasetId: item["datasetId"],
-    sshSettings: !item["sshSettings"]
-      ? item["sshSettings"]
-      : sshSettingsDeserializer(item["sshSettings"]),
-    connectivityEndpoints: !item["connectivityEndpoints"]
-      ? item["connectivityEndpoints"]
-      : connectivityEndpointsDeserializer(item["connectivityEndpoints"]),
-    webEndpoint: item["webEndpoint"],
-    provisioningState: item["provisioningState"],
-    errors: !item["errors"] ? item["errors"] : errorDetailArrayDeserializer(item["errors"]),
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-  };
-}
-
-/** The list of workbenches operation response. */
-export interface _WorkbenchListResult {
-  /** The link used to get the next page of workbench list. */
-  nextLink?: string;
-  /** Gets the list of workbenches. */
-  value?: Workbench[];
-}
-
-export function _workbenchListResultDeserializer(item: any): _WorkbenchListResult {
-  return {
-    nextLink: item["nextLink"],
-    value: !item["value"] ? item["value"] : workbenchArrayDeserializer(item["value"]),
-  };
-}
-
-export function workbenchArraySerializer(result: Array<Workbench>): any[] {
-  return result.map((item) => {
-    return workbenchSerializer(item);
-  });
-}
-
-export function workbenchArrayDeserializer(result: Array<Workbench>): any[] {
-  return result.map((item) => {
-    return workbenchDeserializer(item);
-  });
-}
-
 /** The list of managed compute capacities response. */
 export interface _ManagedComputeCapacityListResult {
   /** The link used to get the next page of managed compute capacities. */
@@ -8971,8 +7944,20 @@ export function managedComputeCapacityDeserializer(item: any): ManagedComputeCap
 export interface ManagedComputeCapacityProperties {
   /** The type of accelerator (e.g., Azure.A100, Azure.H100). */
   readonly acceleratorType?: string;
+  /** The capacity offer scope: Global or DataZone. Omitted for deployment-scoped results. */
+  readonly offerScope?: string;
+  /**
+   * The identifier within the offer scope: an empty string for Global, or US or EU
+   * for DataZone. Omitted for deployment-scoped results.
+   */
+  readonly scopeId?: string;
   /** The number of available accelerators in the region. */
   readonly availableAccelerators?: number;
+  /**
+   * The total number of available accelerators summed across regions within the scope.
+   * Omitted for deployment-scoped results.
+   */
+  readonly totalAvailableAccelerators?: number;
   /** Capacity information broken down by deployment size. */
   readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
 }
@@ -8982,7 +7967,10 @@ export function managedComputeCapacityPropertiesDeserializer(
 ): ManagedComputeCapacityProperties {
   return {
     acceleratorType: item["acceleratorType"],
+    offerScope: item["offerScope"],
+    scopeId: item["scopeId"],
     availableAccelerators: item["availableAccelerators"],
+    totalAvailableAccelerators: item["totalAvailableAccelerators"],
     deploymentSizeCapacities: !item["deploymentSizeCapacities"]
       ? item["deploymentSizeCapacities"]
       : deploymentSizeCapacityArrayDeserializer(item["deploymentSizeCapacities"]),
@@ -10834,20 +9822,18 @@ export function modelSkuCapacityPropertiesDeserializer(item: any): ModelSkuCapac
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-10-01-preview API version. */
-  V20251001Preview = "2025-10-01-preview",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
-  /** The 2026-01-15-preview API version. */
-  V20260115Preview = "2026-01-15-preview",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
-  /** The 2026-03-15-preview API version. */
-  V20260315Preview = "2026-03-15-preview",
   /** The 2026-05-01 API version. */
   V20260501 = "2026-05-01",
-  /** The 2026-05-15-preview API version. */
-  V20260515Preview = "2026-05-15-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

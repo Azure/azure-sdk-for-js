@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listByKubernetesCluster,
   $delete,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/kubernetesClusterFeatures/operations.js";
-import {
+import type {
   KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
   KubernetesClusterFeaturesDeleteOptionalParams,
   KubernetesClusterFeaturesUpdateOptionalParams,
   KubernetesClusterFeaturesCreateOrUpdateOptionalParams,
   KubernetesClusterFeaturesGetOptionalParams,
 } from "../../api/kubernetesClusterFeatures/options.js";
-import { OperationStatusResult, KubernetesClusterFeature } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, KubernetesClusterFeature } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a KubernetesClusterFeatures operations. */
 export interface KubernetesClusterFeaturesOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a WorkloadResource
  *
  * @summary update a WorkloadResource
- * x-ms-original-file: 2026-03-01-preview/Workload_Update.json
+ * x-ms-original-file: 2026-04-01/Workload_Update.json
  */
 async function workloadUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

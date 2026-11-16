@@ -16,11 +16,16 @@ const missingConfigPath = path.join(__dirname, "..", "fixture", "does-not-exist.
 
 const sdkPackage = "sdk/test-package/package.json";
 
-function pkg(name: string, dependencies: Record<string, string>, extra = ""): string {
+function pkg(
+  name: string,
+  dependencies: Record<string, string>,
+  extra = "",
+  sdkType = "client",
+): string {
   return `{
   "name": "${name}",
   "version": "1.0.0",
-  "sdk-type": "client",
+  "sdk-type": "${sdkType}",
   "dependencies": ${JSON.stringify(dependencies)}${extra}
 }`;
 }
@@ -137,6 +142,13 @@ ruleTester.run("ts-package-json-approved-dependencies", rule, {
       filename: sdkPackage,
       options: [{ configPath }],
       errors: [{ messageId: "unapproved" }, { messageId: "unapproved" }],
+    },
+    {
+      // provisioning packages are shipped and require approved runtime dependencies
+      code: pkg("@azure/test-package", { lodash: "^4.0.0" }, "", "provisioning"),
+      filename: sdkPackage,
+      options: [{ configPath }],
+      errors: [{ messageId: "unapproved" }],
     },
     {
       // exception dependency used by a package not on the allow-list

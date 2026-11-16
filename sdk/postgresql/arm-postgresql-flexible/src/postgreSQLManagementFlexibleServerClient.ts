@@ -90,14 +90,11 @@ export class PostgreSQLManagementFlexibleServerClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPostgreSQLManagementFlexibleServer(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPostgreSQLManagementFlexibleServer(
+      credential,
+      subscriptionId ?? "",
+      options,
+    );
     this.pipeline = this._client.pipeline;
     this.virtualNetworkSubnetUsage = _getVirtualNetworkSubnetUsageOperations(this._client);
     this.quotaUsages = _getQuotaUsagesOperations(this._client);

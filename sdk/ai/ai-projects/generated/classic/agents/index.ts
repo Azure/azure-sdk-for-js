@@ -7,6 +7,19 @@ import {
   listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getMicrosoft365PublishDefaults,
+  getMicrosoft365Package,
+  publishToMicrosoft365,
+  promoteOptimizationCandidate,
+  getOptimizationCandidate,
+  listOptimizationCandidates,
+  deleteOptimizationJob,
+  cancelOptimizationJob,
+  listOptimizationJobs,
+  downloadOptimizationJobFile,
+  getOptimizationJob,
+  estimateOptimizationJob,
+  createOptimizationJob,
   getSessionLogStream,
   listSessions,
   stopSession,
@@ -28,6 +41,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   updateAgent,
+  createFromPrompt,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
@@ -36,6 +50,19 @@ import {
   AgentsListSessionFilesOptionalParams,
   AgentsDownloadSessionFileOptionalParams,
   AgentsUploadSessionFileOptionalParams,
+  GetMicrosoft365PublishDefaultsOptionalParams,
+  GetMicrosoft365PackageOptionalParams,
+  PublishToMicrosoft365OptionalParams,
+  AgentsPromoteOptimizationCandidateOptionalParams,
+  AgentsGetOptimizationCandidateOptionalParams,
+  AgentsListOptimizationCandidatesOptionalParams,
+  AgentsDeleteOptimizationJobOptionalParams,
+  AgentsCancelOptimizationJobOptionalParams,
+  AgentsListOptimizationJobsOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
+  AgentsGetOptimizationJobOptionalParams,
+  AgentsEstimateOptimizationJobOptionalParams,
+  AgentsCreateOptimizationJobOptionalParams,
   AgentsGetSessionLogStreamOptionalParams,
   AgentsListSessionsOptionalParams,
   AgentsStopSessionOptionalParams,
@@ -57,6 +84,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -70,12 +98,24 @@ import {
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionLogEvent,
+  AgentOptimizationJob,
+  AgentOptimizationJobResult,
+  AgentOptimizationEstimateInputs,
+  AgentOptimizationEstimateResult,
+  AgentOptimizationCandidate,
+  Microsoft365PublishScope,
+  Microsoft365PublishResponse,
+  Microsoft365PublishDefaults,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
+  GetMicrosoft365PackageResponse,
+  AgentsDownloadOptimizationJobFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
@@ -119,6 +159,84 @@ export interface AgentsOperations {
     content: Uint8Array,
     options?: AgentsUploadSessionFileOptionalParams,
   ) => Promise<SessionFileWriteResponse>;
+  /**
+   * Returns default and previously-published values used to pre-populate a Microsoft 365 publish
+   * request for a Foundry agent.
+   */
+  getMicrosoft365PublishDefaults: (
+    agentName: string,
+    options?: GetMicrosoft365PublishDefaultsOptionalParams,
+  ) => Promise<Microsoft365PublishDefaults>;
+  /**
+   * Generates the Microsoft Teams app package (zip) for a Foundry agent from the supplied publish
+   * request, without publishing it. Returns the app package as `application/zip`.
+   */
+  getMicrosoft365Package: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: GetMicrosoft365PackageOptionalParams,
+  ) => Promise<GetMicrosoft365PackageResponse>;
+  /**
+   * Publishes a Foundry agent to Microsoft 365 / Microsoft Teams and returns the published title and
+   * Teams app ids.
+   */
+  publishToMicrosoft365: (
+    agentName: string,
+    publishScope: Microsoft365PublishScope,
+    options?: PublishToMicrosoft365OptionalParams,
+  ) => Promise<Microsoft365PublishResponse>;
+  /** Promotes a supported completed candidate to the Foundry agent stored in the parent job's target configuration. A skill-optimization candidate must be the evaluated learned candidate for a supported Prompt or Managed target; baseline, unevaluated, agentless, and unsupported-runtime skill candidates cannot be promoted. Skill promotion releases the exact evaluated candidate configuration without regenerating skills. Prompt-agent promotion creates a new agent version. Hosted-agent promotion currently records promotion metadata without deploying a new hosted-agent version. */
+  promoteOptimizationCandidate: (
+    jobId: string,
+    candidateId: string,
+    options?: AgentsPromoteOptimizationCandidateOptionalParams,
+  ) => Promise<AgentOptimizationCandidate>;
+  /** Retrieves a single candidate. Mutation values are always included. Skill optimization detail includes independent skill results, resolved context, and the persisted execution snapshot when available; these detail fields are omitted from candidate lists. */
+  getOptimizationCandidate: (
+    jobId: string,
+    candidateId: string,
+    options?: AgentsGetOptimizationCandidateOptionalParams,
+  ) => Promise<AgentOptimizationCandidate>;
+  /** Lists candidates for the given optimization job with cursor pagination. Agent optimization can include the original baseline and multiple generated candidates; prompt and skill optimization generate a single candidate. Evaluated skill jobs also expose the original baseline for reporting through the existing evaluation field; the baseline is not a generated alternative. A generated skill candidate contains zero or more skill outcomes, not one candidate per skill. Each `output.mutations` item identifies a changed attribute by `type`; mutation `value` fields are omitted unless the client passes `expand=mutations`. */
+  listOptimizationCandidates: (
+    jobId: string,
+    options?: AgentsListOptimizationCandidatesOptionalParams,
+  ) => PagedAsyncIterableIterator<AgentOptimizationCandidate>;
+  /** Cancels active work, then deletes the job and its candidate artifacts. */
+  deleteOptimizationJob: (
+    jobId: string,
+    options?: AgentsDeleteOptimizationJobOptionalParams,
+  ) => Promise<void>;
+  /** Requests cancellation of a running or queued job. Returns 409 Conflict if the job is already in a terminal state. */
+  cancelOptimizationJob: (
+    jobId: string,
+    options?: AgentsCancelOptimizationJobOptionalParams,
+  ) => Promise<AgentOptimizationJob>;
+  /** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
+  listOptimizationJobs: (
+    options?: AgentsListOptimizationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<AgentOptimizationJob>;
+  /** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+  downloadOptimizationJobFile: (
+    jobId: string,
+    path: string,
+    options?: AgentsDownloadOptimizationJobFileOptionalParams,
+  ) => Promise<AgentsDownloadOptimizationJobFileResponse>;
+  /** Retrieves an optimization job by its identifier. */
+  getOptimizationJob: (
+    jobId: string,
+    options?: AgentsGetOptimizationJobOptionalParams,
+  ) => Promise<AgentOptimizationJob>;
+  /** Estimates validation-set rows, per-stage model call volumes, and cost bands without submitting the job. */
+  estimateOptimizationJob: (
+    inputs: AgentOptimizationEstimateInputs,
+    options?: AgentsEstimateOptimizationJobOptionalParams,
+  ) => Promise<AgentOptimizationEstimateResult>;
+  /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. Clients poll the URL in `Operation-Location` by using the get operation. */
+  createOptimizationJob: (
+    job: AgentOptimizationJob,
+    options?: AgentsCreateOptimizationJobOptionalParams,
+  ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
   /**
    * Streams console logs (stdout / stderr) for a specific hosted agent session
    * as a Server-Sent Events (SSE) stream.
@@ -273,11 +391,6 @@ export interface AgentsOperations {
    * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
    * associated sessions are cascade-deleted along with the agent and its versions.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
   /**
    * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
@@ -304,6 +417,14 @@ export interface AgentsOperations {
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    body: GenerateAgentRequest,
+    options?: AgentsCreateFromPromptOptionalParams,
   ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
@@ -341,6 +462,55 @@ function _getAgents(context: AIProjectContext) {
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
     ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    getMicrosoft365PublishDefaults: (
+      agentName: string,
+      options?: GetMicrosoft365PublishDefaultsOptionalParams,
+    ) => getMicrosoft365PublishDefaults(context, agentName, options),
+    getMicrosoft365Package: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: GetMicrosoft365PackageOptionalParams,
+    ) => getMicrosoft365Package(context, agentName, publishScope, options),
+    publishToMicrosoft365: (
+      agentName: string,
+      publishScope: Microsoft365PublishScope,
+      options?: PublishToMicrosoft365OptionalParams,
+    ) => publishToMicrosoft365(context, agentName, publishScope, options),
+    promoteOptimizationCandidate: (
+      jobId: string,
+      candidateId: string,
+      options?: AgentsPromoteOptimizationCandidateOptionalParams,
+    ) => promoteOptimizationCandidate(context, jobId, candidateId, options),
+    getOptimizationCandidate: (
+      jobId: string,
+      candidateId: string,
+      options?: AgentsGetOptimizationCandidateOptionalParams,
+    ) => getOptimizationCandidate(context, jobId, candidateId, options),
+    listOptimizationCandidates: (
+      jobId: string,
+      options?: AgentsListOptimizationCandidatesOptionalParams,
+    ) => listOptimizationCandidates(context, jobId, options),
+    deleteOptimizationJob: (jobId: string, options?: AgentsDeleteOptimizationJobOptionalParams) =>
+      deleteOptimizationJob(context, jobId, options),
+    cancelOptimizationJob: (jobId: string, options?: AgentsCancelOptimizationJobOptionalParams) =>
+      cancelOptimizationJob(context, jobId, options),
+    listOptimizationJobs: (options?: AgentsListOptimizationJobsOptionalParams) =>
+      listOptimizationJobs(context, options),
+    downloadOptimizationJobFile: (
+      jobId: string,
+      path: string,
+      options?: AgentsDownloadOptimizationJobFileOptionalParams,
+    ) => downloadOptimizationJobFile(context, jobId, path, options),
+    getOptimizationJob: (jobId: string, options?: AgentsGetOptimizationJobOptionalParams) =>
+      getOptimizationJob(context, jobId, options),
+    estimateOptimizationJob: (
+      inputs: AgentOptimizationEstimateInputs,
+      options?: AgentsEstimateOptimizationJobOptionalParams,
+    ) => estimateOptimizationJob(context, inputs, options),
+    createOptimizationJob: (
+      job: AgentOptimizationJob,
+      options?: AgentsCreateOptimizationJobOptionalParams,
+    ) => createOptimizationJob(context, job, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,
@@ -423,6 +593,10 @@ function _getAgents(context: AIProjectContext) {
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
+    createFromPrompt: (
+      body: GenerateAgentRequest,
+      options?: AgentsCreateFromPromptOptionalParams,
+    ) => createFromPrompt(context, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,

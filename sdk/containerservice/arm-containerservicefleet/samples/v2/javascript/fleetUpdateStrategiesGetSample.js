@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2026-06-01/UpdateStrategies_Get.json
+ * x-ms-original-file: 2026-11-01/UpdateStrategies_Get.json
  */
 async function getAFleetUpdateStrategyResource() {
   const credential = new DefaultAzureCredential();

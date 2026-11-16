@@ -84,7 +84,7 @@ export interface ExperimentsOperations {
     experimentName: string,
     options?: ExperimentsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** The operation to update an experiment. */
+  /** Update an experiment. */
   update: (
     resourceGroupName: string,
     experimentName: string,

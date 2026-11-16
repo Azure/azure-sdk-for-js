@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is down or unhealthy, the actual removal of the Storage Target may be delayed until the cache is healthy again. Note that if the cache has data to flush to the Storage Target, the data will be flushed before the Storage Target will be deleted.
  *
  * @summary removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is down or unhealthy, the actual removal of the Storage Target may be delayed until the cache is healthy again. Note that if the cache has data to flush to the Storage Target, the data will be flushed before the Storage Target will be deleted.
- * x-ms-original-file: 2026-01-01/StorageTargets_Delete.json
+ * x-ms-original-file: 2026-08-01/StorageTargets_Delete.json
  */
 async function storageTargetsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

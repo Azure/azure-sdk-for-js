@@ -35,7 +35,9 @@ export async function main(): Promise<void> {
     `Agent created (id: ${created.id}, name: ${created.name}, version: ${created.version})`,
   );
 
-  const openAIClient = project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient({
+    azureConfig: { allowPreview: true, agentName },
+  });
 
   try {
     // Retrieve the agent.
@@ -57,14 +59,9 @@ export async function main(): Promise<void> {
       });
       console.log("Added a user message to the conversation");
 
-      const response = await openAIClient.responses.create(
-        {
-          conversation: conversation.id,
-        },
-        {
-          body: { agent_reference: { name: created.name, type: "agent_reference" } },
-        },
-      );
+      const response = await openAIClient.responses.create({
+        conversation: conversation.id,
+      });
       console.log(`Response output: ${response.output_text}`);
     } finally {
       // Clean up conversation.

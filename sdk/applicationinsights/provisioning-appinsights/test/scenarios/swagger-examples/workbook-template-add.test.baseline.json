@@ -1,0 +1,115 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workbooktemplate": {
+          "bicepIdentifier": "workbooktemplate",
+          "type": "Microsoft.Insights/workbooktemplates",
+          "apiVersion": "2020-11-20",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "testtemplate2"
+              },
+              "location": {
+                "kind": "string",
+                "value": "west us"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "author": {
+                    "kind": "string",
+                    "value": "Contoso"
+                  },
+                  "galleries": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "Simple Template"
+                          },
+                          "type": {
+                            "kind": "string",
+                            "value": "tsg"
+                          },
+                          "category": {
+                            "kind": "string",
+                            "value": "Failures"
+                          },
+                          "order": {
+                            "kind": "integer",
+                            "value": "100"
+                          },
+                          "resourceType": {
+                            "kind": "string",
+                            "value": "microsoft.insights/components"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "priority": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "templateData": {
+                    "kind": "object",
+                    "value": {
+                      "$schema": {
+                        "kind": "string",
+                        "value": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+                      },
+                      "items": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "name": {
+                                "kind": "string",
+                                "value": "text - 2"
+                              },
+                              "type": {
+                                "kind": "integer",
+                                "value": "1"
+                              },
+                              "content": {
+                                "kind": "object",
+                                "value": {
+                                  "json": {
+                                    "kind": "string",
+                                    "value": "## New workbook. Welcome to your new workbook."
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "styleSettings": {
+                        "kind": "object",
+                        "value": {}
+                      },
+                      "version": {
+                        "kind": "string",
+                        "value": "Notebook/1.0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

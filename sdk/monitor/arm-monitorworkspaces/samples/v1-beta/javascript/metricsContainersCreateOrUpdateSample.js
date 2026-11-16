@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates metrics container settings for a monitoring account.
  *
  * @summary creates or updates metrics container settings for a monitoring account.
- * x-ms-original-file: 2025-10-03/MetricsContainers_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-03-preview/MetricsContainers_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function metricsContainersCreateOrUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,12 @@ async function metricsContainersCreateOrUpdateMaximumSetGeneratedByMaximumSetRul
     "rgazuremonitorworkspace",
     "myAzureMonitorWorkspace",
     "default",
-    { properties: { version: "1.0" } },
+    {
+      properties: {
+        limits: { maxActiveTimeSeries: 100000, maxEventsPerMinute: 100000, enableAutoScale: true },
+        version: "2.0",
+      },
+    },
   );
   console.log(result);
 }

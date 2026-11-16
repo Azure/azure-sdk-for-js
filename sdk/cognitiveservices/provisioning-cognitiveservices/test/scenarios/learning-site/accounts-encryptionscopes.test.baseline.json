@@ -1,0 +1,56 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "encryptionScope": {
+          "bicepIdentifier": "encryptionScope",
+          "type": "Microsoft.CognitiveServices/accounts/encryptionScopes",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-encryptionscopes"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "state": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "keySource": {
+                    "kind": "string",
+                    "value": "Microsoft.CognitiveServices"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

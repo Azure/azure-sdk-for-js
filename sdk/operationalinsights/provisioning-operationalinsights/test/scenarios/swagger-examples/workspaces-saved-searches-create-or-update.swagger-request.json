@@ -1,0 +1,16 @@
+{
+  "properties": {
+    "category": "Saved Search Test Category",
+    "displayName": "Create or Update Saved Search Test",
+    "functionAlias": "heartbeat_func",
+    "functionParameters": "a:int=1",
+    "query": "Heartbeat | summarize Count() by Computer | take a",
+    "tags": [
+      {
+        "name": "Group",
+        "value": "Computer"
+      }
+    ],
+    "version": 2
+  }
+}

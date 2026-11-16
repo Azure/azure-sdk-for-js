@@ -40,6 +40,7 @@ export type { SoftDeletedResourceOperations } from "./softDeletedResource/index.
 export type { SshPublicKeysOperations } from "./sshPublicKeys/index.js";
 export type { TenantLevelSharedGalleryInvitesOperations } from "./tenantLevelSharedGalleryInvites/index.js";
 export type { UsageOperations } from "./usage/index.js";
+export type { VirtualMachineDiagnosticRunCommandsOperations } from "./virtualMachineDiagnosticRunCommands/index.js";
 export type { VirtualMachineExtensionImagesOperations } from "./virtualMachineExtensionImages/index.js";
 export type { VirtualMachineExtensionsOperations } from "./virtualMachineExtensions/index.js";
 export type { VirtualMachineImagesOperations } from "./virtualMachineImages/index.js";
@@ -50,6 +51,7 @@ export type { VirtualMachineScaleSetExtensionsOperations } from "./virtualMachin
 export type { VirtualMachineScaleSetLifeCycleHookEventsOperations } from "./virtualMachineScaleSetLifeCycleHookEvents/index.js";
 export type { VirtualMachineScaleSetRollingUpgradesOperations } from "./virtualMachineScaleSetRollingUpgrades/index.js";
 export type { VirtualMachineScaleSetsOperations } from "./virtualMachineScaleSets/index.js";
+export type { VirtualMachineScaleSetVMDiagnosticRunCommandsOperations } from "./virtualMachineScaleSetVMDiagnosticRunCommands/index.js";
 export type { VirtualMachineScaleSetVMExtensionsOperations } from "./virtualMachineScaleSetVMExtensions/index.js";
 export type { VirtualMachineScaleSetVMRunCommandsOperations } from "./virtualMachineScaleSetVMRunCommands/index.js";
 export type { VirtualMachineScaleSetVMsOperations } from "./virtualMachineScaleSetVMs/index.js";

@@ -8,7 +8,14 @@ import {
   getFilteredPackages,
   reducedDependencyTestMatrix,
   restrictedToPackages,
+  validSdkTypes,
 } from "../src/helpers.js";
+
+describe("validSdkTypes", () => {
+  it("includes provisioning packages", () => {
+    assert.ok(validSdkTypes.includes("provisioning"));
+  });
+});
 
 describe("getDirectionMappedPackages", () => {
   describe("build", () => {

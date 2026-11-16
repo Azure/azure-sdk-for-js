@@ -4,6 +4,33 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersQueryOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersListOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersGetOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface NetworkWatchersConnectionAnalyzersCreateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

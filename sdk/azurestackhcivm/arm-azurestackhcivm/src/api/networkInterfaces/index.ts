@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type NetworkInterfacesListAllOptionalParams,
-  type NetworkInterfacesListByResourceGroupOptionalParams,
-  type NetworkInterfacesDeleteOptionalParams,
-  type NetworkInterfacesUpdateOptionalParams,
-  type NetworkInterfacesCreateOrUpdateOptionalParams,
-  type NetworkInterfacesGetOptionalParams,
+export type {
+  NetworkInterfacesListAllOptionalParams,
+  NetworkInterfacesListByResourceGroupOptionalParams,
+  NetworkInterfacesDeleteOptionalParams,
+  NetworkInterfacesUpdateOptionalParams,
+  NetworkInterfacesCreateOrUpdateOptionalParams,
+  NetworkInterfacesGetOptionalParams,
 } from "./options.js";

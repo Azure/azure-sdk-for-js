@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusAdministrationClient, ServiceBusClient } from "../src/index.js";
+import {
+  ServiceBusAdministrationClient,
+  ServiceBusClient,
+  type ServiceBusMessage,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -63,6 +67,37 @@ describe("snippets", () => {
     await sender.sendMessages(batch);
   });
 
+  it("ReadmeSampleAmqpApplicationPropertyTypes", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    // @ts-preserve-whitespace
+    const inputSender = serviceBusClient.createSender("input-queue");
+    const outputSender = serviceBusClient.createSender("output-queue");
+    const receiver = serviceBusClient.createReceiver("input-queue");
+    // @ts-preserve-whitespace
+    const message: ServiceBusMessage = {
+      body: "Order received",
+      applicationProperties: {
+        priority: { type: "ubyte", value: 1 },
+        category: { type: "symbol", value: "orders" },
+      },
+    };
+    await inputSender.sendMessages(message);
+    // @ts-preserve-whitespace
+    const [receivedMessage] = await receiver.receiveMessages(1);
+    if (receivedMessage) {
+      // Inspect the AMQP types without changing the outgoing property set.
+      console.log(receivedMessage.applicationPropertiesWithAmqpTypes);
+      // @ts-preserve-whitespace
+      // Add, edit, or remove outgoing properties through applicationProperties.
+      receivedMessage.applicationProperties!.priority = 2;
+      // @ts-preserve-whitespace
+      // Unchanged properties retain their AMQP types when forwarding the received message.
+      await outputSender.sendMessages(receivedMessage);
+    }
+  });
+
   it("ReadmeSampleReceiveMessage", async () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();
@@ -116,6 +151,25 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleDeleteAndPurgeMessages", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    const receiver = serviceBusClient.createReceiver("my-queue");
+    // @ts-preserve-whitespace
+    try {
+      const beforeEnqueueTime = new Date();
+      const deleted = await receiver.deleteMessages(100, { beforeEnqueueTime });
+      console.log(`Deleted ${deleted.deletedCount} messages in one batch.`);
+      // @ts-preserve-whitespace
+      const purged = await receiver.purgeMessages({ beforeEnqueueTime });
+      console.log(`Purged ${purged.deletedCount} remaining eligible messages.`);
+    } finally {
+      await receiver.close();
+      await serviceBusClient.close();
+    }
+  });
+
   it("ReadmeSampleDeadLetterQueue", async () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();
@@ -160,6 +214,14 @@ describe("snippets", () => {
       "my-subscription",
     )) {
       console.log("Session ID:", sessionId);
+    }
+    // @ts-preserve-whitespace
+    // List only sessions whose stored session state was set or updated in the last seven days
+    const sessionStateUpdatedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue", {
+      sessionStateUpdatedAfter,
+    })) {
+      console.log("Recently updated session ID:", sessionId);
     }
   });
 

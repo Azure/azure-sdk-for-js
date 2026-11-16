@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 export type { AdvancedPlatformMetricsOperations } from "./advancedPlatformMetrics/index.js";
+export type { BlobAccessPointConfigurationsOperations } from "./blobAccessPointConfigurations/index.js";
+export type { BlobAccessPointConnectionTestsOperations } from "./blobAccessPointConnectionTests/index.js";
 export type { BlobContainersOperations } from "./blobContainers/index.js";
 export type { BlobInventoryPoliciesOperations } from "./blobInventoryPolicies/index.js";
 export type { BlobServicesOperations } from "./blobServices/index.js";
 export type { ConnectorsOperations } from "./connectors/index.js";
+export type { ContextCacheContainersOperations } from "./contextCacheContainers/index.js";
+export type { ContextCachesOperations } from "./contextCaches/index.js";
 export type { DataSharesOperations } from "./dataShares/index.js";
 export type { DeletedAccountsOperations } from "./deletedAccounts/index.js";
 export type { EncryptionScopesOperations } from "./encryptionScopes/index.js";

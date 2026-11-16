@@ -19,10 +19,6 @@ import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vites
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
-function toObject<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj)) as T;
-}
-
 class TestTokenCredential implements TokenCredential {
   private expiresOn: Date;
   private numberOfRefreshs = 0;
@@ -41,7 +37,14 @@ class TestTokenCredential implements TokenCredential {
 }
 
 describe("HttpSender", () => {
-  const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
+  // `scope` is recreated fresh for every test (see `beforeEach` below) rather than being a
+  // single shared, `.persist()`-ed interceptor reused across the whole file. nock v14 reconfigures
+  // a persisted interceptor's response in place on every `scope.reply()`/`scope.replyWithError()`
+  // call and never fully resets its prior state (e.g. `replyWithError` leaves `errorMessage` set
+  // even after a later `reply()` call), so a long-lived shared interceptor can leak a previous
+  // test's mocked response -- or error -- into a later, unrelated test. Starting from a clean
+  // interceptor each test avoids that entire class of cross-test state leakage.
+  let scope: nock.Interceptor;
   nock.disableNetConnect();
 
   // These senders all share an on-disk persister (same instrumentation key). The
@@ -49,6 +52,8 @@ describe("HttpSender", () => {
   // shared persister, stealing envelopes these tests assert on. Startup replay is
   // covered explicitly in baseSender.spec.ts, so disable it here for determinism.
   beforeEach(() => {
+    nock.cleanAll();
+    scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
     vi.spyOn(BaseSender.prototype as any, "scheduleStartupReplay").mockImplementation(() => {});
   });
 
@@ -149,13 +154,11 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-      setTimeout(async () => {
-        const { result, statusCode } = await sender.send([envelope]);
-        assert.strictEqual(statusCode, 200);
-        assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
-      }, 1500);
 
-      await delay(2000); // wait enough time for timeout callback
+      const { result, statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
     });
 
     it("should send an invalid non-retriable envelope", async () => {
@@ -183,13 +186,11 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
-      setTimeout(async () => {
-        const { result, statusCode } = await sender.send([envelope, envelope]);
-        assert.strictEqual(statusCode, 206);
-        assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
-      }, 1500);
 
-      await delay(2000); // wait enough time for timeout callback
+      const { result, statusCode } = await sender.send([envelope, envelope]);
+
+      assert.strictEqual(statusCode, 206);
+      assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
     });
 
     it.each([
@@ -250,7 +251,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -273,7 +274,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -296,7 +297,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -319,7 +320,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -342,7 +343,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.deepStrictEqual(persistedEnvelopes[0], envelope);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -476,19 +477,16 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      scope.reply(1, ""); // httpSender will throw
+      // A plain network error with no `.code` is classified by the transport as a retriable
+      // `REQUEST_SEND_ERROR` (and gets persisted for replay), so use a non-retriable error code
+      // here to exercise the "fail without persisting" path this test is meant to cover.
+      scope.replyWithError(Object.assign(new Error("network down"), { code: "EACCES" })); // httpSender will throw
 
       const result = await sender.exportEnvelopes([envelope]);
-      setTimeout(() => {
-        assert.strictEqual(result.code, ExportResultCode.FAILED);
-      }, 1500);
+      assert.strictEqual(result.code, ExportResultCode.FAILED);
 
       const persistedEnvelopes = await sender["persister"].shift();
-      setTimeout(() => {
-        assert.strictEqual(persistedEnvelopes, null);
-      }, 1500);
-
-      await delay(4000); // wait enough time for timeout callbacks
+      assert.strictEqual(persistedEnvelopes, null);
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {
@@ -674,6 +672,18 @@ describe("HttpSender", () => {
       // continue talking to the attacker (no persistent host poisoning).
       const client = (sender as any)["appInsightsClient"] as any;
       assert.strictEqual(client["host"], DEFAULT_BREEZE_ENDPOINT);
+    });
+
+    it("should reject a malformed redirect location without changing the host", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+
+      assert.isFalse(sender.handlePermanentRedirect("not a URL"));
+      assert.strictEqual(sender.appInsightsClientOptions.host, DEFAULT_BREEZE_ENDPOINT);
 
       nock.cleanAll();
     });

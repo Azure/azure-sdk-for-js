@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/trunkedNetworks/operations.js";
-import {
+import type {
   TrunkedNetworksListBySubscriptionOptionalParams,
   TrunkedNetworksListByResourceGroupOptionalParams,
   TrunkedNetworksDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   TrunkedNetworksCreateOrUpdateOptionalParams,
   TrunkedNetworksGetOptionalParams,
 } from "../../api/trunkedNetworks/options.js";
-import { OperationStatusResult, TrunkedNetwork } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, TrunkedNetwork } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TrunkedNetworks operations. */
 export interface TrunkedNetworksOperations {

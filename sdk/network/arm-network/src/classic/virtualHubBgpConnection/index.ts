@@ -8,7 +8,7 @@ import type {
   VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   VirtualHubBgpConnectionGetOptionalParams,
 } from "../../api/virtualHubBgpConnection/options.js";
-import type { BgpConnection } from "../../models/microsoft/network/models.js";
+import type { BgpConnection } from "../../models/network/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

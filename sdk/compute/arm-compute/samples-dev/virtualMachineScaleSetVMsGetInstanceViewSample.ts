@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of a virtual machine from a VM scale set.
  *
  * @summary gets the status of a virtual machine from a VM scale set.
- * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
 async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,8 +22,27 @@ async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicated
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to gets the status of a virtual machine from a VM scale set.
+ *
+ * @summary gets the status of a virtual machine from a VM scale set.
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewWithCapacityReservationType.json
+ */
+async function getInstanceViewOfAVirtualMachineFromAVMScaleSetThatIsEligibleForAndConsumingAnOpenCapacityReservation(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSetVMs.getInstanceView(
+    "myResourceGroup",
+    "myVirtualMachineScaleSet",
+    "0",
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement();
+  await getInstanceViewOfAVirtualMachineFromAVMScaleSetThatIsEligibleForAndConsumingAnOpenCapacityReservation();
 }
 
 main().catch(console.error);

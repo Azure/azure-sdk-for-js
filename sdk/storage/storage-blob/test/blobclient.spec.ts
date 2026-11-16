@@ -14,6 +14,7 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -54,6 +55,10 @@ describe("BlobClient", () => {
       },
       ["record", "playback"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -701,7 +706,8 @@ describe("BlobClient", () => {
     assert.isDefined(result.segment, "Expect valid segment response");
 
     assert.isNotEmpty(result.segment.blobItems, "Expect non empty result from list blobs().");
-    assert.isUndefined(
+    // XML listings leave `deleted` unset for a live blob; Apache Arrow listings report `false`.
+    assert.isNotOk(
       result.segment.blobItems![0].deleted,
       "Expect that the blob is NOT marked for deletion",
     );
@@ -1717,8 +1723,7 @@ describe("BlobClient - Object Replication", { skip: true }, () => {
   ];
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     srcBlobServiceClient = getGenericBSU(recorder, "");
     destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
     srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
@@ -1825,14 +1830,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   beforeEach(async (ctx) => {
     try {
       containerName = getImmutableContainerName();
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-        },
-        ["record", "playback"],
-      );
+      recorder = await createAndStartRecorder(ctx);
       blobServiceClient = getBSU(recorder);
 
       containerClient = blobServiceClient.getContainerClient(containerName);

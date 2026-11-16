@@ -1,0 +1,310 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              },
+              "identity": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "SystemAssigned,UserAssigned"
+                  },
+                  "userAssignedIdentities": {
+                    "kind": "object",
+                    "value": {
+                      "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+                        "kind": "object",
+                        "value": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "kind": {
+                "kind": "string",
+                "value": "MongoDB"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "ipRules": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "ipAddressOrRange": {
+                            "kind": "string",
+                            "value": "23.43.230.120"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "object",
+                        "value": {
+                          "ipAddressOrRange": {
+                            "kind": "string",
+                            "value": "110.12.240.0/12"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "isVirtualNetworkFilterEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "virtualNetworkRules": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "id": {
+                            "kind": "string",
+                            "value": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+                          },
+                          "ignoreMissingVNetServiceEndpoint": {
+                            "kind": "boolean",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "failoverPriority": {
+                            "kind": "integer",
+                            "value": "0"
+                          },
+                          "locationName": {
+                            "kind": "string",
+                            "value": "southcentralus"
+                          },
+                          "isZoneRedundant": {
+                            "kind": "boolean",
+                            "value": false
+                          }
+                        }
+                      },
+                      {
+                        "kind": "object",
+                        "value": {
+                          "failoverPriority": {
+                            "kind": "integer",
+                            "value": "1"
+                          },
+                          "locationName": {
+                            "kind": "string",
+                            "value": "eastus"
+                          },
+                          "isZoneRedundant": {
+                            "kind": "boolean",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "consistencyPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "defaultConsistencyLevel": {
+                        "kind": "string",
+                        "value": "BoundedStaleness"
+                      },
+                      "maxIntervalInSeconds": {
+                        "kind": "integer",
+                        "value": "10"
+                      },
+                      "maxStalenessPrefix": {
+                        "kind": "integer",
+                        "value": "200"
+                      }
+                    }
+                  },
+                  "keyVaultKeyUri": {
+                    "kind": "string",
+                    "value": "https://myKeyVault.vault.azure.net"
+                  },
+                  "defaultIdentity": {
+                    "kind": "string",
+                    "value": "FirstPartyIdentity"
+                  },
+                  "enableFreeTier": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "apiProperties": {
+                    "kind": "object",
+                    "value": {
+                      "serverVersion": {
+                        "kind": "string",
+                        "value": "3.2"
+                      }
+                    }
+                  },
+                  "enableAnalyticalStorage": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enableBurstCapacity": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enablePriorityBasedExecution": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "defaultPriorityLevel": {
+                    "kind": "string",
+                    "value": "Low"
+                  },
+                  "enablePerRegionPerPartitionAutoscale": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "analyticalStorageConfiguration": {
+                    "kind": "object",
+                    "value": {
+                      "schemaType": {
+                        "kind": "string",
+                        "value": "WellDefined"
+                      }
+                    }
+                  },
+                  "createMode": {
+                    "kind": "string",
+                    "value": "Default"
+                  },
+                  "backupPolicy": {
+                    "kind": "object",
+                    "value": {
+                      "type": {
+                        "kind": "string",
+                        "value": "Periodic"
+                      },
+                      "periodicModeProperties": {
+                        "kind": "object",
+                        "value": {
+                          "backupIntervalInMinutes": {
+                            "kind": "integer",
+                            "value": "240"
+                          },
+                          "backupRetentionIntervalInHours": {
+                            "kind": "integer",
+                            "value": "8"
+                          },
+                          "backupStorageRedundancy": {
+                            "kind": "string",
+                            "value": "Geo"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "cors": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "allowedOrigins": {
+                            "kind": "string",
+                            "value": "https://test"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "networkAclBypass": {
+                    "kind": "string",
+                    "value": "AzureServices"
+                  },
+                  "networkAclBypassResourceIds": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.Synapse/workspaces/workspaceName"
+                      }
+                    ]
+                  },
+                  "capacity": {
+                    "kind": "object",
+                    "value": {
+                      "totalThroughputLimit": {
+                        "kind": "integer",
+                        "value": "2000"
+                      }
+                    }
+                  },
+                  "enforceHierarchicalPartitionKeyIdLastLevel": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "minimalTlsVersion": {
+                    "kind": "string",
+                    "value": "Tls12"
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch properties of the provided cluster manager, or update the tags assigned to the cluster manager. Properties and tag updates can be done independently.
  *
  * @summary patch properties of the provided cluster manager, or update the tags assigned to the cluster manager. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-05-01-preview/ClusterManagers_Patch.json
+ * x-ms-original-file: 2026-07-01/ClusterManagers_Patch.json
  */
 async function patchClusterManager(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext } from "../../api/monitorContext.js";
+import type { MonitorContext } from "../../api/monitorContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/azureMonitorWorkspaces/operations.js";
-import {
+import type {
   AzureMonitorWorkspacesListBySubscriptionOptionalParams,
   AzureMonitorWorkspacesListByResourceGroupOptionalParams,
   AzureMonitorWorkspacesDeleteOptionalParams,
@@ -18,12 +18,12 @@ import {
   AzureMonitorWorkspacesCreateOrUpdateOptionalParams,
   AzureMonitorWorkspacesGetOptionalParams,
 } from "../../api/azureMonitorWorkspaces/options.js";
-import {
+import type {
   AzureMonitorWorkspaceResource,
   AzureMonitorWorkspaceResourceUpdate,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AzureMonitorWorkspaces operations. */
 export interface AzureMonitorWorkspacesOperations {

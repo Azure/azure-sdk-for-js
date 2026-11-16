@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Insights and Activities for an entity.
  *
  * @summary get Insights and Activities for an entity.
- * x-ms-original-file: 2025-07-01-preview/entities/GetQueries.json
+ * x-ms-original-file: 2025-10-01-preview/entities/GetQueries.json
  */
 async function getEntityQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();

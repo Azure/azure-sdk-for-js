@@ -1,0 +1,203 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "webPubSub": {
+          "bicepIdentifier": "webPubSub",
+          "type": "Microsoft.SignalRService/webPubSub",
+          "apiVersion": "2025-12-01-preview",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "myWebPubSubService"
+              }
+            }
+          }
+        },
+        "hub": {
+          "bicepIdentifier": "hub",
+          "type": "Microsoft.SignalRService/webPubSub/hubs",
+          "apiVersion": "2025-12-01-preview",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "exampleHub"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "webPubSub"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "eventHandlers": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "urlTemplate": {
+                            "kind": "string",
+                            "value": "http://host.com"
+                          },
+                          "userEventPattern": {
+                            "kind": "string",
+                            "value": "*"
+                          },
+                          "systemEvents": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "string",
+                                "value": "connect"
+                              },
+                              {
+                                "kind": "string",
+                                "value": "connected"
+                              }
+                            ]
+                          },
+                          "auth": {
+                            "kind": "object",
+                            "value": {
+                              "type": {
+                                "kind": "string",
+                                "value": "ManagedIdentity"
+                              },
+                              "managedIdentity": {
+                                "kind": "object",
+                                "value": {
+                                  "resource": {
+                                    "kind": "string",
+                                    "value": "abc"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "groupPresenceEvents": {
+                            "kind": "object",
+                            "value": {
+                              "eventNames": {
+                                "kind": "array",
+                                "items": [
+                                  {
+                                    "kind": "string",
+                                    "value": "joined"
+                                  },
+                                  {
+                                    "kind": "string",
+                                    "value": "left"
+                                  }
+                                ]
+                              },
+                              "groupFilters": {
+                                "kind": "array",
+                                "items": [
+                                  {
+                                    "kind": "string",
+                                    "value": "chat*"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "eventListeners": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "filter": {
+                            "kind": "object",
+                            "value": {
+                              "type": {
+                                "kind": "string",
+                                "value": "EventName"
+                              },
+                              "systemEvents": {
+                                "kind": "array",
+                                "items": [
+                                  {
+                                    "kind": "string",
+                                    "value": "connected"
+                                  },
+                                  {
+                                    "kind": "string",
+                                    "value": "disconnected"
+                                  }
+                                ]
+                              },
+                              "userEventPattern": {
+                                "kind": "string",
+                                "value": "*"
+                              }
+                            }
+                          },
+                          "endpoint": {
+                            "kind": "object",
+                            "value": {
+                              "type": {
+                                "kind": "string",
+                                "value": "EventHub"
+                              },
+                              "fullyQualifiedNamespace": {
+                                "kind": "string",
+                                "value": "example.servicebus.windows.net"
+                              },
+                              "eventHubName": {
+                                "kind": "string",
+                                "value": "eventHubName1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "anonymousConnectPolicy": {
+                    "kind": "string",
+                    "value": "allow"
+                  },
+                  "webSocketKeepAliveIntervalInSeconds": {
+                    "kind": "integer",
+                    "value": "50"
+                  },
+                  "chat": {
+                    "kind": "object",
+                    "value": {
+                      "mode": {
+                        "kind": "string",
+                        "value": "Enabled"
+                      },
+                      "persistentStorage": {
+                        "kind": "object",
+                        "value": {
+                          "id": {
+                            "kind": "string",
+                            "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/persistentStorages/myStor"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

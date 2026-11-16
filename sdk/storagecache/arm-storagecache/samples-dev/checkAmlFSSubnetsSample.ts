@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check that subnets will be valid for AML file system create calls.
  *
  * @summary check that subnets will be valid for AML file system create calls.
- * x-ms-original-file: 2026-01-01/checkAmlFSSubnets.json
+ * x-ms-original-file: 2026-08-01/checkAmlFSSubnets.json
  */
 async function checkAmlFSSubnets(): Promise<void> {
   const credential = new DefaultAzureCredential();
