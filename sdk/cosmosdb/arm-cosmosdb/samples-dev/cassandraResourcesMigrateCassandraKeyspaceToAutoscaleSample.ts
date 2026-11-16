@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
  *
  * @summary migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraKeyspaceMigrateToAutoscale.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraKeyspaceMigrateToAutoscale.json
  */
 async function cosmosDBCassandraKeyspaceMigrateToAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1381,6 +1381,10 @@ describe("BearerTokenAuthenticationPolicy", function () {
       }),
     };
     const request = defaultRequest();
+    const cancel = vi.fn();
+    const browserStreamBody = {
+      cancel,
+    } as unknown as NonNullable<PipelineResponse["browserStreamBody"]>;
 
     // CAE challenge with valid claims
     const caeResponse: PipelineResponse = {
@@ -1389,6 +1393,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       }),
       request,
       status: 401,
+      browserStreamBody,
     };
 
     const successResponse: PipelineResponse = {
@@ -1408,6 +1413,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const response = await policy.sendRequest(request, next);
     assert.equal(response.status, 200);
     expect(next).toHaveBeenCalledTimes(2);
+    expect(cancel).toHaveBeenCalledOnce();
   });
 
   it("handles custom challenge then CAE challenge when scopes is a string", async function () {

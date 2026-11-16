@@ -1,0 +1,64 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "createdatabasesecond"
+              },
+              "location": {
+                "kind": "string",
+                "value": "southeastasia"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/managedInstances/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "testdb"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              },
+              "location": {
+                "kind": "string",
+                "value": "southeastasia"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "createMode": {
+                    "kind": "string",
+                    "value": "Secondary"
+                  },
+                  "sourceDatabaseId": {
+                    "kind": "string",
+                    "value": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-NorthEurope/providers/Microsoft.Sql/servers/testsvr1/databases/testdb"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

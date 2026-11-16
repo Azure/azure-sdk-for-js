@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the subscription.
  *
  * @summary returns changes that will be made by the deployment if executed at the scope of the subscription.
- * x-ms-original-file: 2025-04-01/PostDeploymentWhatIfOnSubscription.json
+ * x-ms-original-file: 2026-06-01/PostDeploymentWhatIfOnSubscription.json
  */
 async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

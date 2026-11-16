@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { getRoot } from "../../api/managedEnvironmentsDiagnostics/operations.js";
-import { ManagedEnvironmentsDiagnosticsGetRootOptionalParams } from "../../api/managedEnvironmentsDiagnostics/options.js";
-import { ManagedEnvironment } from "../../models/models.js";
+import type { ManagedEnvironmentsDiagnosticsGetRootOptionalParams } from "../../api/managedEnvironmentsDiagnostics/options.js";
+import type { ManagedEnvironment } from "../../models/models.js";
 
 /** Interface representing a ManagedEnvironmentsDiagnostics operations. */
 export interface ManagedEnvironmentsDiagnosticsOperations {

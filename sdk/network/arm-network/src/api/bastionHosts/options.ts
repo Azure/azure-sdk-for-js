@@ -16,7 +16,7 @@ export interface BastionHostsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BastionHostsUpdateTagsOptionalParams extends OperationOptions {
+export interface BastionHostsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

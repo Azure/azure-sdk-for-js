@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FabricCapacity resources by resource group
  *
  * @summary list FabricCapacity resources by resource group
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListByResourceGroup.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_ListByResourceGroup.json
  */
 async function listCapacitiesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

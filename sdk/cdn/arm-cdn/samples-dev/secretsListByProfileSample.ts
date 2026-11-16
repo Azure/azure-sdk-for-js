@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists existing AzureFrontDoor secrets.
  *
  * @summary lists existing AzureFrontDoor secrets.
- * x-ms-original-file: 2025-12-01/Secrets_ListByProfile.json
+ * x-ms-original-file: 2026-10-01/Secrets_ListByProfile.json
  */
 async function secretsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

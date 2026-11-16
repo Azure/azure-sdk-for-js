@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { download } from "../../api/vpnSitesConfiguration/operations.js";
 import type { VpnSitesConfigurationDownloadOptionalParams } from "../../api/vpnSitesConfiguration/options.js";
-import type { GetVpnSitesConfigurationRequest } from "../../models/microsoft/network/models.js";
+import type { GetVpnSitesConfigurationRequest } from "../../models/network/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

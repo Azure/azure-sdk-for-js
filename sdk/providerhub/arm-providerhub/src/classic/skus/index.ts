@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   listByResourceTypeRegistrationsNestedResourceTypeThird,
   deleteNestedResourceTypeThird,
@@ -20,7 +20,7 @@ import {
   createOrUpdateNestedResourceTypeFirst,
   getNestedResourceTypeFirst,
 } from "../../api/skus/operations.js";
-import {
+import type {
   SkusListByResourceTypeRegistrationsNestedResourceTypeThirdOptionalParams,
   SkusDeleteNestedResourceTypeThirdOptionalParams,
   SkusCreateOrUpdateNestedResourceTypeThirdOptionalParams,
@@ -38,8 +38,8 @@ import {
   SkusCreateOrUpdateNestedResourceTypeFirstOptionalParams,
   SkusGetNestedResourceTypeFirstOptionalParams,
 } from "../../api/skus/options.js";
-import { SkuResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SkuResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Skus operations. */
 export interface SkusOperations {

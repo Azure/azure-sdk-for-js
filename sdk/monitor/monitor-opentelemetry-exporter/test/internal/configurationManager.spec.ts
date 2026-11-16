@@ -7,6 +7,8 @@ import { ConfigurationProfile } from "../../src/_configuration/configurationProf
 import type { OneSettingsResponse } from "../../src/_configuration/utils.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import {
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
+  ENV_MICROSOFT_OPENTELEMETRY_VERSION,
   ONE_SETTINGS_CHANGE_URL,
   ONE_SETTINGS_CONFIG_URL,
   ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
@@ -36,11 +38,14 @@ describe("ConfigurationManager", () => {
     manager.reset();
     ConfigurationProfile.getInstance().reset();
     request.mockReset();
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "");
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "");
   });
 
   afterEach(() => {
     manager.reset();
     ConfigurationProfile.getInstance().reset();
+    vi.unstubAllEnvs();
   });
 
   it("fills the write-once evaluation profile across repeated initialization", () => {
@@ -55,6 +60,65 @@ describe("ConfigurationManager", () => {
       component: "ext",
       region: "westus",
       ikey: "test-ikey",
+    });
+  });
+
+  it("detects the Azure Monitor distro from its version environment variable", () => {
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "1.20.0");
+
+    manager.initialize({
+      component: "ext",
+      version: "1.0.0-beta.45",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "1.20.0",
+      component: "dst",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("detects the Microsoft OpenTelemetry distro from its version environment variable", () => {
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "2.0.0");
+
+    manager.initialize({
+      component: "ext",
+      version: "1.0.0-beta.46",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "2.0.0",
+      component: "mot",
+      region: "westus",
+      ikey: "test-ikey",
+    });
+  });
+
+  it("prefers the Microsoft distro when both distro version variables are present", () => {
+    vi.stubEnv(ENV_AZURE_MONITOR_DISTRO_VERSION, "1.20.0");
+    vi.stubEnv(ENV_MICROSOFT_OPENTELEMETRY_VERSION, "2.0.0");
+
+    manager.initialize({ component: "ext", version: "1.0.0-beta.46" });
+
+    assert.deepStrictEqual(ConfigurationProfile.getInstance().snapshot(), {
+      os: "",
+      rp: "",
+      attach: "",
+      version: "2.0.0",
+      component: "mot",
+      region: "",
+      ikey: "",
     });
   });
 
@@ -90,6 +154,60 @@ describe("ConfigurationManager", () => {
       [ONE_SETTINGS_CONFIG_URL, ONE_SETTINGS_NODEJS_TARGETING, {}, undefined],
     ]);
     assert.deepStrictEqual(callback.mock.calls, [[{ FEATURE_SDK_STATS: '{"default":"enabled"}' }]]);
+  });
+
+  it("unregisters a callback without removing other subscriptions", async () => {
+    const removed = vi.fn();
+    const retained = vi.fn();
+    const unregister = manager.registerCallback(removed);
+    manager.registerCallback(retained);
+    unregister();
+    unregister();
+    request
+      .mockResolvedValueOnce(response({ etag: '"storage"' }))
+      .mockResolvedValueOnce(
+        response({ settings: { FEATURE_LOCAL_STORAGE: '{"default":"disabled"}' } }),
+      );
+
+    await manager.getConfigurationAndRefreshInterval();
+
+    assert.strictEqual(removed.mock.calls.length, 0);
+    assert.strictEqual(retained.mock.calls.length, 1);
+  });
+
+  it("disposes only its own registration when a callback is registered twice", async () => {
+    const callback = vi.fn();
+    const unregisterFirst = manager.registerCallback(callback);
+    const unregisterSecond = manager.registerCallback(callback);
+    unregisterFirst();
+    unregisterFirst();
+    request
+      .mockResolvedValueOnce(response({ etag: '"first"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "first" } }))
+      .mockResolvedValueOnce(response({ etag: '"second"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "second" } }));
+
+    await manager.getConfigurationAndRefreshInterval();
+    assert.deepStrictEqual(callback.mock.calls, [[{ setting: "first" }]]);
+
+    unregisterSecond();
+    await manager.getConfigurationAndRefreshInterval();
+    assert.strictEqual(callback.mock.calls.length, 1);
+  });
+
+  it("does not let a stale disposer remove a registration created after reset", async () => {
+    const callback = vi.fn();
+    const unregisterOld = manager.registerCallback(callback);
+    manager.reset();
+    manager.registerCallback(callback);
+    unregisterOld();
+    request
+      .mockResolvedValueOnce(response({ etag: '"new"' }))
+      .mockResolvedValueOnce(response({ settings: { setting: "new" } }));
+
+    await manager.getConfigurationAndRefreshInterval();
+
+    assert.deepStrictEqual(callback.mock.calls, [[{ setting: "new" }]]);
   });
 
   it("keeps cached settings and skips the config endpoint on 304", async () => {

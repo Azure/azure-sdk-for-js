@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check for updates
  *
  * @summary check for updates
- * x-ms-original-file: 2026-04-30/UpdateSummaries_CheckUpdates.json
+ * x-ms-original-file: 2026-10-01/UpdateSummaries_CheckUpdates.json
  */
 async function checkForUpdates() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function checkForUpdates() {
  * This sample demonstrates how to check for updates
  *
  * @summary check for updates
- * x-ms-original-file: 2026-04-30/UpdateSummaries_CheckUpdates_MaximumSet.json
+ * x-ms-original-file: 2026-10-01/UpdateSummaries_CheckUpdates_MaximumSet.json
  */
 async function checkForSpecificUpdateByName() {
   const credential = new DefaultAzureCredential();

@@ -82,6 +82,7 @@ export interface VirtualMachineScaleSetRollingUpgradesOperations {
     options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   ) => Promise<void>;
 }
+
 function _getVirtualMachineScaleSetRollingUpgrades(context: ComputeManagementContext) {
   return {
     getLatest: (
@@ -154,6 +155,7 @@ function _getVirtualMachineScaleSetRollingUpgrades(context: ComputeManagementCon
     },
   };
 }
+
 export function _getVirtualMachineScaleSetRollingUpgradesOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetRollingUpgradesOperations {

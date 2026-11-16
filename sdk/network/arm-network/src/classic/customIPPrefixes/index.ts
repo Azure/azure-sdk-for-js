@@ -18,7 +18,7 @@ import type {
   CustomIPPrefixesCreateOrUpdateOptionalParams,
   CustomIPPrefixesGetOptionalParams,
 } from "../../api/customIPPrefixes/options.js";
-import type { TagsObject, CustomIpPrefix } from "../../models/microsoft/network/models.js";
+import type { TagsObject, CustomIpPrefix } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

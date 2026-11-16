@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all watchlist Items.
  *
  * @summary get all watchlist Items.
- * x-ms-original-file: 2025-07-01-preview/watchlists/GetWatchlistItems.json
+ * x-ms-original-file: 2025-10-01-preview/watchlists/GetWatchlistItems.json
  */
 async function getAllWatchlistItems() {
   const credential = new DefaultAzureCredential();

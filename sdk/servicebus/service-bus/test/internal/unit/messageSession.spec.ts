@@ -14,7 +14,7 @@ import type {
   Message as RheaMessage,
   Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
-import { ReceiverEvents, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, SessionEvents, message as rheaMessageUtil } from "rhea-promise";
 import type { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
 import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
 import type { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
@@ -403,6 +403,88 @@ describe("Message session unit tests - errors", () => {
       messageSession as any as { processCreditError: (err: any) => void },
       "processCreditError",
     );
+  });
+
+  it("enriches the session-lock-lost error message in the receiver error handler", () => {
+    // A session-lock-lost receiver error is translated to a ServiceBusError whose
+    // code normalizes to "SessionLockLost"; the handler must enrich the message.
+    // Built through the real AMQP condition so this fails if the guard compares
+    // against the un-normalized "SessionLockLostError".
+    messageSession["_onAmqpError"]({
+      receiver: {
+        error: {
+          condition: "com.microsoft:session-lock-lost",
+          description: "The lock has expired.",
+        },
+      },
+    } as any);
+    const stored = messageSession["_lastSBError"] as any;
+    assert.equal(stored.code, "SessionLockLost");
+    assert.include(
+      stored.message,
+      "The session lock has expired on the session with id session id",
+    );
+  });
+
+  it("continues a subscription after timestamp-valued application-property keys", async () => {
+    const messages: ServiceBusMessageImpl[] = [];
+    const errors: ProcessErrorArgs[] = [];
+    const addCreditSpy = vi.spyOn(messageSession["_receiverHelper"], "addCredit");
+    messageSession.subscribe(
+      async (message) => {
+        messages.push(message);
+      },
+      async (error) => {
+        errors.push(error);
+      },
+      { maxConcurrentCalls: 1 },
+    );
+    addCreditSpy.mockClear();
+
+    const link = messageSession["_link"];
+    assert.exists(link);
+    const listeners = link!.listeners(ReceiverEvents.message);
+    assert.lengthOf(listeners, 1);
+    const onMessage = listeners[0] as OnAmqpEventAsPromise;
+    const timestamp = new Date(0);
+
+    await onMessage({
+      ...eventContextWithMessage,
+      message: rheaMessageUtil.decode(
+        rheaMessageUtil.encode({
+          body: "timestamp properties",
+          application_properties: {
+            ["__proto__"]: timestamp,
+          },
+        }),
+      ) as unknown as RheaMessage,
+    });
+    assert.lengthOf(messages, 1);
+    assert.strictEqual(Object.getPrototypeOf(messages[0].applicationProperties), Object.prototype);
+    assert.strictEqual(
+      Object.getOwnPropertyDescriptor(messages[0].applicationProperties, "__proto__")?.value,
+      timestamp.getTime(),
+    );
+    expect(addCreditSpy).toHaveBeenCalledExactlyOnceWith(1);
+
+    await onMessage({
+      ...eventContextWithMessage,
+      message: rheaMessageUtil.decode(
+        rheaMessageUtil.encode({
+          body: "following message",
+          application_properties: { category: "orders" },
+        }),
+      ) as unknown as RheaMessage,
+    });
+    assert.deepEqual(
+      messages.map((message) => message.body),
+      ["timestamp properties", "following message"],
+    );
+    assert.strictEqual(messages[1].applicationProperties?.category, "orders");
+    assert.deepEqual(Object.keys(messages[1].applicationProperties!), ["category"]);
+    expect(addCreditSpy).toHaveBeenCalledTimes(2);
+    assert.isEmpty(errors);
+    expect(processCreditErrorSpy).not.toHaveBeenCalled();
   });
 
   it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {

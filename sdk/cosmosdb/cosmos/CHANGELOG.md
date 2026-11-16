@@ -1,12 +1,28 @@
 # Release History
 
-## 4.10.1 (Unreleased)
+## 4.10.3 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed hybrid search reciprocal rank fusion (RRF) results being ranked incorrectly when component scores are tied. Each result now receives a unique ordinal rank, with deterministic tie-breaking based on the decoded document ID portion of `_rid`. [#40450](https://github.com/Azure/azure-sdk-for-js/pull/40450)
+
+### Other Changes
+
+## 4.10.2 (2026-11-05)
+
+### Bugs Fixed
+
+- [#40431](https://github.com/Azure/azure-sdk-for-js/pull/40431) Fixed cross-partition queries repeatedly targeting retired parent ranges after `410/1002 PartitionKeyRangeGone` responses. Default and query-control queries now refresh routing, retire the parent range, and continue on intersecting replacement ranges while preserving resumable continuation state. Invalid tokens and ranges that cannot be mapped to the current topology still fail explicitly.
+
+## 4.10.1 (2026-09-14)
+
+### Bugs Fixed
+
+- [#39626](https://github.com/Azure/azure-sdk-for-js/issues/39626) Fixed non-streaming `ORDER BY` queries that could hang indefinitely for zero results or stop early when an empty page still had a continuation token.
 
 ### Other Changes
 
@@ -1539,7 +1555,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.2 (2015-05-23)
 
-- Issue [#45](https://github.com/Azure/azure-documentdb-node/issues/45) - Promises wrapper does not include header with error.
+- Issue [#45](https://github.com/Azure/azure-cosmosdb-node/issues/45) - Promises wrapper does not include headers with error.
 
 ## 1.0.1 (2015-05-15)
 

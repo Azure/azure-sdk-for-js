@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a notification registration.
  *
  * @summary creates or updates a notification registration.
- * x-ms-original-file: 2024-09-01/NotificationRegistrations_CreateOrUpdate.json
+ * x-ms-original-file: 2025-10-01/NotificationRegistrations_CreateOrUpdate.json
  */
 async function notificationRegistrationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,8 +19,9 @@ async function notificationRegistrationsCreateOrUpdate(): Promise<void> {
     "fooNotificationRegistration",
     {
       properties: {
-        includedEvents: ["*/write", "Microsoft.Contoso/employees/delete"],
+        notificationMode: "EventHub",
         messageScope: "RegisteredSubscriptions",
+        includedEvents: ["*/write", "Microsoft.Contoso/employees/delete"],
         notificationEndpoints: [
           {
             locations: ["", "East US"],
@@ -33,7 +34,6 @@ async function notificationRegistrationsCreateOrUpdate(): Promise<void> {
               "/subscriptions/ac6bcfb5-3dc1-491f-95a6-646b89bf3e88/resourceGroups/mgmtexp-northeurope/providers/Microsoft.EventHub/namespaces/europe-mgmtexpint/eventhubs/armlinkednotifications",
           },
         ],
-        notificationMode: "EventHub",
       },
     },
   );

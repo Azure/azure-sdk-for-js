@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "13.1.0-beta.3",
+  "version": "13.2.0-beta.1",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run customize",
+    "generate:client": "tsp-client update -d --emitter-options=\"api-version=2026-11-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -22,8 +22,7 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "update-snippets": "dev-tool run update-snippets",
-    "customize": "npm run format && npx dev-tool customization apply --skip index.ts"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -71,6 +70,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/README.md",
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-lro": "^3.4.1",
     "@azure/core-util": "^1.12.0",
     "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
@@ -87,7 +88,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "openai": "^6.16.0",
+    "openai": "^7.28.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -98,7 +99,7 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "type-plus": "^7.6.2",
+    "type-plus": "^8.0.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -356,6 +357,46 @@
         "types": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts",
         "default": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.js"
       }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "search": [
+        "dist/commonjs/search/index.d.ts"
+      ],
+      "search/api": [
+        "dist/commonjs/search/api/index.d.ts"
+      ],
+      "searchIndex": [
+        "dist/commonjs/searchIndex/index.d.ts"
+      ],
+      "searchIndex/api": [
+        "dist/commonjs/searchIndex/api/index.d.ts"
+      ],
+      "searchIndexer": [
+        "dist/commonjs/searchIndexer/index.d.ts"
+      ],
+      "searchIndexer/api": [
+        "dist/commonjs/searchIndexer/api/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval": [
+        "dist/commonjs/knowledgeBaseRetrieval/index.d.ts"
+      ],
+      "knowledgeBaseRetrieval/api": [
+        "dist/commonjs/knowledgeBaseRetrieval/api/index.d.ts"
+      ],
+      "models": [
+        "dist/commonjs/models/index.d.ts"
+      ],
+      "models/azure/search/documents": [
+        "dist/commonjs/models/azure/search/documents/index.d.ts"
+      ],
+      "models/azure/search/documents/indexes": [
+        "dist/commonjs/models/azure/search/documents/indexes/index.d.ts"
+      ],
+      "models/azure/search/documents/knowledgeBases": [
+        "dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts"
+      ]
     }
   },
   "imports": {

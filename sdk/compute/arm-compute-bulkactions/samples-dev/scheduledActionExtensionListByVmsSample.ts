@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists scheduled actions associated with the specified VM.
+ * This sample demonstrates how to lists recurring bulk actions associated with the specified VM.
  *
- * @summary lists scheduled actions associated with the specified VM.
- * x-ms-original-file: 2026-08-06-preview/ScheduledActionExtension_ListByVms_MaximumSet_Gen.json
+ * @summary lists recurring bulk actions associated with the specified VM.
+ * x-ms-original-file: 2026-10-06-preview/ScheduledActionExtension_ListByVms_MaximumSet_Gen.json
  */
-async function listScheduledActionsForAComputeResource(): Promise<void> {
+async function listRecurringBulkActionsForAVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeClient(credential);
   const resArray = new Array();
@@ -24,7 +24,7 @@ async function listScheduledActionsForAComputeResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listScheduledActionsForAComputeResource();
+  await listRecurringBulkActionsForAVM();
 }
 
 main().catch(console.error);

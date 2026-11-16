@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1367,12 +1367,13 @@
- export interface NewRegionFrontloadReleaseStopOptionalParams extends OperationOptions {
- }
+@@ -1375,12 +1375,13 @@
+ // @public
+ export type MessageScope = string;
  
  // @public
 -export interface Notification {
@@ -22,7 +22,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationEndpoint {
      locations?: string[];
-@@ -1385,9 +1386,10 @@
+@@ -1393,9 +1394,10 @@
  // @public
  export type NotificationMode = string;
  
@@ -34,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationRegistration extends ProxyResource {
      // (undocumented)
-@@ -1889,9 +1891,9 @@
+@@ -1914,9 +1916,9 @@
      linkedNotificationRules?: FanoutLinkedNotificationRule[];
      management?: ResourceProviderManifestManagement;
      metadata?: any;
@@ -45,7 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      providerAuthorizations?: ResourceProviderAuthorization[];
      providerType?: ResourceProviderType;
      providerVersion?: string;
-@@ -1927,10 +1929,10 @@
+@@ -1952,10 +1954,10 @@
      management?: ResourceProviderManifestPropertiesManagement;
      managementGroupGlobalNotificationEndpoints?: ResourceProviderEndpoint[];
      metadata?: any;
@@ -58,7 +58,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      optionalFeatures?: string[];
      providerAuthentication?: ResourceProviderManifestPropertiesProviderAuthentication;
      providerAuthorizations?: ResourceProviderAuthorization[];
-@@ -2031,9 +2033,9 @@
+@@ -2052,9 +2054,9 @@
      loggingRules?: LoggingRule[];
      marketplaceType?: MarketplaceType;
      metadata?: any;
@@ -68,7 +68,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      quotaRule?: QuotaRule;
      requestHeaderOptions?: ResourceTypeRequestHeaderOptions;
      requiredFeatures?: string[];
-     resourceDeletionPolicy?: ManifestResourceDeletionPolicy;
+     resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
 @@ -2192,9 +2194,9 @@
      manifestLink?: string;
      marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
@@ -79,6 +79,6 @@ For the complete API surface, see the corresponding -node.api.md file.
      onBehalfOfTokens?: ResourceTypeOnBehalfOfToken;
      openApiConfiguration?: OpenApiConfiguration;
      policyExecutionType?: PolicyExecutionType;
-     readonly provisioningState?: ProvisioningState;
+     privateEndpointConfiguration?: PrivateEndpointConfiguration;
 
 ```

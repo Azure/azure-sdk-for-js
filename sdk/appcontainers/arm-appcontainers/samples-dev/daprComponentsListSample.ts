@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Dapr Components for a managed environment.
  *
  * @summary get the Dapr Components for a managed environment.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_List.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_List.json
  */
 async function listDaprComponents(): Promise<void> {
   const credential = new DefaultAzureCredential();

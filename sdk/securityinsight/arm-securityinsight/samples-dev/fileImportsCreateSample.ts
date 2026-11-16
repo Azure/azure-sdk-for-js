@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates the file import.
  *
  * @summary creates the file import.
- * x-ms-original-file: 2025-07-01-preview/fileImports/CreateFileImport.json
+ * x-ms-original-file: 2025-10-01-preview/fileImports/CreateFileImport.json
  */
 async function createAFileImport(): Promise<void> {
   const credential = new DefaultAzureCredential();

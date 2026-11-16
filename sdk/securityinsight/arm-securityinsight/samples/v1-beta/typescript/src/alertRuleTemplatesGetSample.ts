@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the alert rule template.
  *
  * @summary gets the alert rule template.
- * x-ms-original-file: 2025-07-01-preview/alertRuleTemplates/GetAlertRuleTemplateById.json
+ * x-ms-original-file: 2025-10-01-preview/alertRuleTemplates/GetAlertRuleTemplateById.json
  */
 async function getAlertRuleTemplateById(): Promise<void> {
   const credential = new DefaultAzureCredential();

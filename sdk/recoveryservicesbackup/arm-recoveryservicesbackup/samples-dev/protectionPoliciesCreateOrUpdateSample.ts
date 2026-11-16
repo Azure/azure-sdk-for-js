@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureVmProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function createOrUpdateFullAzureVmProtectionPolicy(): Promise<void> {
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
 async function createOrUpdateSimpleAzureVmProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -107,7 +107,7 @@ async function createOrUpdateSimpleAzureVmProtectionPolicy(): Promise<void> {
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/V2Policy/IaaS_v2_daily.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
 async function createOrUpdateEnhancedAzureVmProtectionPolicyWithDailyBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -121,6 +121,8 @@ async function createOrUpdateEnhancedAzureVmProtectionPolicyWithDailyBackup(): P
       properties: {
         backupManagementType: "AzureIaasVM",
         instantRpRetentionRangeInDays: 30,
+        instantAccessSnapshotEnabled: true,
+        instantAccessDurationMinutes: 120,
         policyType: "V2",
         retentionPolicy: {
           dailySchedule: {
@@ -166,7 +168,7 @@ async function createOrUpdateEnhancedAzureVmProtectionPolicyWithDailyBackup(): P
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
 async function createOrUpdateEnhancedAzureVmProtectionPolicyWithHourlyBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -229,7 +231,7 @@ async function createOrUpdateEnhancedAzureVmProtectionPolicyWithHourlyBackup(): 
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
 async function createOrUpdateDailyAzureStorageProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -286,7 +288,7 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy(): Promise<void> 
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
  */
 async function createOrUpdateAzureStorageVaultStandardProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -346,7 +348,7 @@ async function createOrUpdateAzureStorageVaultStandardProtectionPolicy(): Promis
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
+ * x-ms-original-file: 2026-10-01/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
 async function createOrUpdateHourlyAzureStorageProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -401,7 +403,7 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy(): Promise<void>
  *
  * @summary creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
  * using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-07-01/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2026-10-01/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureWorkloadProtectionPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

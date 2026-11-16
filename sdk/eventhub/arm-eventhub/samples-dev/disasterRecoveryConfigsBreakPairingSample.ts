@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
  *
  * @summary this operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasBreakPairing.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasBreakPairing.json
  */
 async function ehAliasBreakPairing(): Promise<void> {
   const credential = new DefaultAzureCredential();

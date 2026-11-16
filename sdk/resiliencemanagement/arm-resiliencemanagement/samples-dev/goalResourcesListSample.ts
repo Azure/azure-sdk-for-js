@@ -5,16 +5,16 @@ import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list GoalResource resources by GoalAssignment
+ * This sample demonstrates how to lists goal resources under a goal assignment.
  *
- * @summary list GoalResource resources by GoalAssignment
- * x-ms-original-file: 2026-04-01-preview/GoalResources_List_MaximumSet_Gen.json
+ * @summary lists goal resources under a goal assignment.
+ * x-ms-original-file: 2026-10-01/GoalResources_List_MaximumSet_Gen.json
  */
 async function goalResourcesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.goalResources.list("sg1", "ga1", {
+  for await (const item of client.goalResources.list("production-sg", "zonal-resiliency-goal", {
     skipToken: "xntbyoswztnmvitj",
     top: 69,
   })) {

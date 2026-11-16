@@ -51,7 +51,7 @@ export interface OccurrencesOperations {
     occurrenceId: string,
     options?: OccurrencesListResourcesOptionalParams,
   ) => PagedAsyncIterableIterator<OccurrenceResource>;
-  /** Lists occurrences for the specified scheduled action. */
+  /** Lists occurrences for the specified recurring bulk action. */
   listByScheduledAction: (
     resourceGroupName: string,
     scheduledActionName: string,

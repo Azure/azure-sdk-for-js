@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "resource": {
+      "id": "userDefinedFunctionName",
+      "body": "body"
+    },
+    "options": {}
+  }
+}

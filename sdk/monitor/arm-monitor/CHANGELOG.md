@@ -1,5 +1,12 @@
 # Release History
 
+## 8.1.0-beta.1 (2026-10-28)
+Compared with version 8.0.0
+
+### Features Added
+  - Interface AutoscaleSettingResource has a new optional parameter identity
+  - Interface AutoscaleSettingResourcePatch has a new optional parameter identity
+
 ## 8.0.0 (2026-08-18)
 
 ### Features Added

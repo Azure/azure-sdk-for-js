@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.test.node.json",
+  "include": ["../test/snippets.spec.ts"],
+  "exclude": []
+}

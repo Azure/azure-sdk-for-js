@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventMessage } from "../../src/index.js";
+import type { EventMessageStream, SseStreamOptions } from "../../src/index.js";
 import {
   assertAsyncIterable,
   genChunks,
@@ -18,14 +18,91 @@ import {
   genStrs,
   createRetry,
 } from "./util.js";
-import { describe, it, assert, type SuiteCollector } from "vitest";
+import { describe, it, assert, expect, type SuiteCollector } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(
   rtName: string,
-  createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => AsyncIterable<EventMessage>,
+  createStream: (
+    cb: (write: (chunk: Uint8Array) => void) => void,
+    options?: SseStreamOptions,
+  ) => EventMessageStream,
 ): SuiteCollector {
   return describe(`[${rtName}] Server-sent Events`, () => {
+    it("yields a terminal event and ignores later events when configured", async () => {
+      const stream = createStream(
+        (write) => {
+          write(encoder.encode("data: first\n\ndata: [DONE]\n\ndata: ignored\n\n"));
+        },
+        { isTerminalEvent: (event) => event.data === "[DONE]" },
+      );
+      const events = [];
+      for await (const event of stream) {
+        events.push(event.data);
+      }
+      assert.deepEqual(events, ["first", "[DONE]"]);
+    });
+
+    it("does not treat terminal markers specially without an option", async () => {
+      const stream = createStream((write) => {
+        write(encoder.encode("data: [DONE]\n\ndata: next\n\n"));
+      });
+      const events = [];
+      for await (const event of stream) {
+        events.push(event.data);
+      }
+      assert.deepEqual(events, ["[DONE]", "next"]);
+    });
+
+    it.each([
+      {
+        terminalEvent: "response.completed",
+        terminalData: { statusCode: 200, response: { response: [] } },
+      },
+      {
+        terminalEvent: "error",
+        terminalData: { error: { code: "Failed", message: "Retrieval failed" } },
+      },
+    ])(
+      "handles Azure Search $terminalEvent as a terminal event",
+      async ({ terminalEvent, terminalData }) => {
+        const startedData = {
+          requestId: "request-1",
+          knowledgeBaseName: "base",
+          outputMode: "extractiveData",
+          reasoningEffort: { kind: "auto" },
+        };
+        const bytes = encoder.encode(
+          [
+            ": keep-alive\r\n",
+            `event: retrieval.started\r\ndata: ${JSON.stringify(startedData)}\r\n\r\n`,
+            `event: ${terminalEvent}\r\ndata: ${JSON.stringify(terminalData)}\r\n\r\n`,
+            'event: retrieval.started\r\ndata: {"requestId":"ignored"}\r\n\r\n',
+          ].join(""),
+        );
+        const stream = createStream(
+          (write) => {
+            for (let index = 0; index < bytes.length; index += 2) {
+              write(bytes.subarray(index, index + 2));
+            }
+          },
+          {
+            isTerminalEvent: (event) =>
+              event.event === "response.completed" || event.event === "error",
+          },
+        );
+
+        const events = [];
+        for await (const event of stream) {
+          events.push({ event: event.event, data: JSON.parse(event.data) });
+        }
+        assert.deepEqual(events, [
+          { event: "retrieval.started", data: startedData },
+          { event: terminalEvent, data: terminalData },
+        ]);
+      },
+    );
+
     matrix([[0, 1, 2, 10000]], async function (count: number) {
       matrix([[1, 3, 10]], async function (chunkLen: number) {
         it(`handles ${count} events chunked into chunks of length ${chunkLen}`, async () => {
@@ -93,13 +170,27 @@ export function buildSseTests(
         write(createDataLine(encoder.encode("foo")));
         write(createId(encoder.encode("1")));
         write(encoder.encode("\n"));
-        write(createDataEvent(encoder.encode("bar")));
+        write(createDataEvent(encoder.encode("retains the preceding ID")));
+        write(createDataLine(encoder.encode("bar")));
         write(createId(Uint8Array.from([])));
         write(encoder.encode("\n"));
       });
-      const ids = ["1", ""];
-      await assertAsyncIterable(stream, 2, (event, i) => {
+      const ids = ["1", "1", ""];
+      await assertAsyncIterable(stream, 3, (event, i) => {
         assert.equal(event.id, ids[i]);
+      });
+    });
+
+    it("treats colonless fields as having empty values", async function () {
+      const stream = createStream((write) => {
+        write(encoder.encode("id: previous\ndata: first\n\n"));
+        write(encoder.encode(": ignored\nevent: named\nevent\nid\ndata\n\n"));
+        write(encoder.encode("data\ndata: next\n\n"));
+      });
+      await assertAsyncIterable(stream, 3, (event, index) => {
+        assert.equal(event.id, index === 0 ? "previous" : "");
+        assert.equal(event.data, ["first", "", "\nnext"][index]);
+        assert.equal(event.event, "");
       });
     });
 
@@ -123,6 +214,22 @@ export function buildSseTests(
       await assertAsyncIterable(stream, 1, (event) => {
         assert.equal(event.retry, 1);
       });
+    });
+
+    it("accepts the largest safe retry value and rejects larger values", async function () {
+      const safeStream = createStream((write) => {
+        write(encoder.encode(`retry: ${Number.MAX_SAFE_INTEGER}\ndata: valid\n\n`));
+      });
+      await assertAsyncIterable(safeStream, 1, (event) => {
+        assert.equal(event.retry, Number.MAX_SAFE_INTEGER);
+      });
+
+      for (const retry of ["9007199254740992", "999999999999999999999999999999999"]) {
+        const stream = createStream((write) => {
+          write(encoder.encode(`retry: ${retry}\n\n`));
+        });
+        await expect(stream.getReader().read()).rejects.toThrow(RangeError);
+      }
     });
 
     it("handles multiple colons", async function () {
@@ -153,15 +260,41 @@ export function buildSseTests(
       });
     });
 
-    it("ignores non-integer retry", async function () {
+    it("only handles retry values made entirely of ASCII digits", async function () {
+      const values = ["0", "42", "", "bar", "1.5", "1ms", "+1", "-1", " 1", "1 "];
+      for (const value of values) {
+        const stream = createStream((write) => {
+          write(createDataLine(encoder.encode("foo")));
+          write(createRetry(encoder.encode(value)));
+          write(encoder.encode("\n\n"));
+        });
+        await assertAsyncIterable(stream, 1, (event) => {
+          if (/^[0-9]+$/.test(value)) {
+            assert.equal(event.retry, Number(value));
+          } else {
+            assert.isUndefined(event.retry);
+          }
+        });
+      }
+    });
+
+    it("ignores IDs containing U+0000", async function () {
       const stream = createStream((write) => {
         write(createDataLine(encoder.encode("foo")));
-        write(createRetry(encoder.encode("bar")));
-        write(encoder.encode("\n\n"));
+        write(createId(encoder.encode("before\0after")));
+        write(encoder.encode("\n"));
       });
       await assertAsyncIterable(stream, 1, (event) => {
-        assert.isUndefined(event.retry);
+        assert.equal(event.id, "");
       });
+    });
+
+    it("can be disposed after being consumed", async function () {
+      const stream = createStream((write) => {
+        write(createDataEvent(encoder.encode("foo")));
+      });
+      await assertAsyncIterable(stream, 1, () => {});
+      await stream[Symbol.asyncDispose]();
     });
   });
 }

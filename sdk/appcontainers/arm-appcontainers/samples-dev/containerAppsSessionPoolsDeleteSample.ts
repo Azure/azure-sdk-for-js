@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the session pool with the given name.
  *
  * @summary delete the session pool with the given name.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_Delete.json
+ * x-ms-original-file: 2026-07-01/SessionPools_Delete.json
  */
 async function deleteSessionPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a workspace manager member
  *
  * @summary gets a workspace manager member
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerMembers/GetWorkspaceManagerMember.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerMembers/GetWorkspaceManagerMember.json
  */
 async function getAWorkspaceManagerMember() {
   const credential = new DefaultAzureCredential();

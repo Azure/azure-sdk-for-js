@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all office365 consents.
  *
  * @summary gets all office365 consents.
- * x-ms-original-file: 2025-07-01-preview/officeConsents/GetOfficeConsents.json
+ * x-ms-original-file: 2025-10-01-preview/officeConsents/GetOfficeConsents.json
  */
 async function getAllOfficeConsents(): Promise<void> {
   const credential = new DefaultAzureCredential();

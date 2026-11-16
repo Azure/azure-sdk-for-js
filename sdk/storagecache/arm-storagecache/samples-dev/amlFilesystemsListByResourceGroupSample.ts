@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all AML file systems the user has access to under a resource group.
  *
  * @summary returns all AML file systems the user has access to under a resource group.
- * x-ms-original-file: 2026-01-01/amlFilesystems_ListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_ListByResourceGroup.json
  */
 async function amlFilesystemsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

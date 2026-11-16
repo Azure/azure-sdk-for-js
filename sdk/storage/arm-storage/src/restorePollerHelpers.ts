@@ -2,13 +2,30 @@
 // Licensed under the MIT License.
 
 import type { StorageManagementClient } from "./storageManagementClient.js";
+import { _testProposedConnectionDeserialize } from "./api/blobAccessPointConnectionTests/operations.js";
 import {
+  _testExistingConnectionDeserialize,
   _$deleteDeserialize,
   _updateDeserialize,
   _createDeserialize,
+} from "./api/blobAccessPointConfigurations/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeContextCacheContainers,
+  _updateDeserialize as _updateDeserializeContextCacheContainers,
+  _createOrUpdateDeserialize,
+} from "./api/contextCacheContainers/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeContextCaches,
+  _updateDeserialize as _updateDeserializeContextCaches,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeContextCaches,
+} from "./api/contextCaches/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeDataShares,
+  _updateDeserialize as _updateDeserializeDataShares,
+  _createDeserialize as _createDeserializeDataShares,
 } from "./api/dataShares/operations.js";
 import {
-  _testExistingConnectionDeserialize,
+  _testExistingConnectionDeserialize as _testExistingConnectionDeserializeConnectors,
   _$deleteDeserialize as _$deleteDeserializeConnectors,
   _updateDeserialize as _updateDeserializeConnectors,
   _createDeserialize as _createDeserializeConnectors,
@@ -99,14 +116,48 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}/testExistingConnection":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/testBlobAccessPointConfigurationProposedConnection":
+    { deserializer: _testProposedConnectionDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}/testExistingConnection":
     { deserializer: _testExistingConnectionDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}":
+    {
+      deserializer: _$deleteDeserializeContextCacheContainers,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}":
+    {
+      deserializer: _updateDeserializeContextCacheContainers,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}":
+    { deserializer: _$deleteDeserializeContextCaches, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}":
+    { deserializer: _updateDeserializeContextCaches, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}":
+    {
+      deserializer: _createOrUpdateDeserializeContextCaches,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
+    { deserializer: _$deleteDeserializeDataShares, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
+    { deserializer: _updateDeserializeDataShares, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}":
+    { deserializer: _createDeserializeDataShares, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}/testExistingConnection":
+    {
+      deserializer: _testExistingConnectionDeserializeConnectors,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}":
     { deserializer: _$deleteDeserializeConnectors, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}":

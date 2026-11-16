@@ -75,6 +75,17 @@ import type {
   VirtualNetworkGatewaysGetOptionalParams,
 } from "../../api/virtualNetworkGateways/options.js";
 import type {
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse,
+  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse,
+  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse,
+  VirtualNetworkGatewaysStopPacketCaptureResponse,
+  VirtualNetworkGatewaysStartPacketCaptureResponse,
+  VirtualNetworkGatewaysSupportedVpnDevicesResponse,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse,
+  VirtualNetworkGatewaysGenerateVpnProfileResponse,
+  VirtualNetworkGatewaysGeneratevpnclientpackageResponse,
+} from "../../models/models.js";
+import type {
   TagsObject,
   VirtualNetworkGateway,
   VirtualNetworkGatewayConnectionListEntity,
@@ -94,18 +105,7 @@ import type {
   P2SVpnConnectionRequest,
   VirtualNetworkGatewayMigrationParameters,
   VpnDeviceScriptParameters,
-} from "../../models/microsoft/network/models.js";
-import type {
-  VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse,
-  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse,
-  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse,
-  VirtualNetworkGatewaysStopPacketCaptureResponse,
-  VirtualNetworkGatewaysStartPacketCaptureResponse,
-  VirtualNetworkGatewaysSupportedVpnDevicesResponse,
-  VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse,
-  VirtualNetworkGatewaysGenerateVpnProfileResponse,
-  VirtualNetworkGatewaysGeneratevpnclientpackageResponse,
-} from "../../models/models.js";
+} from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

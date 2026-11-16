@@ -150,6 +150,7 @@ export interface Backup {
     backupRetentionDays?: number;
     readonly earliestRestoreDate?: Date;
     geoRedundantBackup?: GeographicallyRedundantBackup;
+    immutableBackup?: ImmutableBackup;
 }
 
 // @public
@@ -171,6 +172,7 @@ export interface BackupForPatch {
     backupRetentionDays?: number;
     readonly earliestRestoreDate?: Date;
     readonly geoRedundantBackup?: GeographicallyRedundantBackup;
+    immutableBackup?: ImmutableBackup;
 }
 
 // @public
@@ -632,6 +634,9 @@ export type FastProvisioningSupport = string;
 export type FeatureStatus = string;
 
 // @public
+export type FipsMode = string;
+
+// @public
 export interface FirewallRule extends ProxyResource {
     endIpAddress: string;
     startIpAddress: string;
@@ -705,6 +710,9 @@ export type HighAvailabilityState = string;
 
 // @public
 export type IdentityType = string;
+
+// @public
+export type ImmutableBackup = string;
 
 // @public
 export interface ImpactRecord {
@@ -828,6 +836,12 @@ export enum KnownFeatureStatus {
 }
 
 // @public
+export enum KnownFipsMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownGeographicallyRedundantBackup {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -863,6 +877,12 @@ export enum KnownIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownImmutableBackup {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1012,18 +1032,6 @@ export enum KnownOverwriteDatabasesOnTargetServer {
 export enum KnownPasswordBasedAuth {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownPostgresMajorVersion {
-    Eighteen = "18",
-    Eleven = "11",
-    Fifteen = "15",
-    Fourteen = "14",
-    Seventeen = "17",
-    Sixteen = "16",
-    Thirteen = "13",
-    Twelve = "12"
 }
 
 // @public
@@ -1219,8 +1227,7 @@ export enum KnownValidationState {
 // @public
 export enum KnownVersions {
     V20250801 = "2025-08-01",
-    V20260101 = "2026-01-01-preview",
-    V20260401 = "2026-04-01-preview"
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1398,7 +1405,7 @@ export interface MajorVersionUpgradePrecheckResourceProperties {
     policyDetails?: PolicyDetail[];
     precheckResult?: PrecheckResult;
     status?: MajorVersionUpgradePrecheckStatus;
-    targetVersion?: PostgresMajorVersion;
+    targetVersion?: string;
 }
 
 // @public
@@ -1588,7 +1595,7 @@ export interface MigrationsListByTargetServerOptionalParams extends OperationOpt
 
 // @public
 export interface MigrationsOperations {
-    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration | undefined>;
+    cancel: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsCancelOptionalParams) => Promise<Migration | void>;
     checkNameAvailability: (resourceGroupName: string, serverName: string, parameters: MigrationNameAvailability, options?: MigrationsCheckNameAvailabilityOptionalParams) => Promise<MigrationNameAvailability>;
     create: (resourceGroupName: string, serverName: string, migrationName: string, parameters: Migration, options?: MigrationsCreateOptionalParams) => Promise<Migration>;
     get: (resourceGroupName: string, serverName: string, migrationName: string, options?: MigrationsGetOptionalParams) => Promise<Migration>;
@@ -1776,9 +1783,6 @@ export interface PolicyDetail {
     policyDescription?: string;
     policyName?: string;
 }
-
-// @public
-export type PostgresMajorVersion = string;
 
 // @public
 export type PostgreSqlFlexibleServerHighAvailabilityMode = string;
@@ -2041,6 +2045,7 @@ export interface Server extends TrackedResource {
     cluster?: Cluster;
     createMode?: CreateMode;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
     identity?: UserAssignedIdentity;
@@ -2056,7 +2061,7 @@ export interface Server extends TrackedResource {
     sourceServerResourceId?: string;
     readonly state?: ServerState;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2077,6 +2082,7 @@ export interface ServerForPatch {
     cluster?: Cluster;
     createMode?: CreateModeForPatch;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     highAvailability?: HighAvailabilityForPatch;
     identity?: UserAssignedIdentity;
     maintenanceWindow?: MaintenanceWindowForPatch;
@@ -2084,9 +2090,10 @@ export interface ServerForPatch {
     replica?: Replica;
     replicationRole?: ReplicationRole;
     sku?: SkuForPatch;
+    sourceServerResourceId?: string;
     storage?: Storage_2;
     tags?: Record<string, string>;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2099,6 +2106,7 @@ export interface ServerProperties {
     cluster?: Cluster;
     createMode?: CreateMode;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
     maintenanceWindow?: MaintenanceWindow;
@@ -2112,7 +2120,7 @@ export interface ServerProperties {
     sourceServerResourceId?: string;
     readonly state?: ServerState;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2125,13 +2133,15 @@ export interface ServerPropertiesForPatch {
     cluster?: Cluster;
     createMode?: CreateModeForPatch;
     dataEncryption?: DataEncryption;
+    fipsMode?: FipsMode;
     highAvailability?: HighAvailabilityForPatch;
     maintenanceWindow?: MaintenanceWindowForPatch;
     network?: Network;
     replica?: Replica;
     replicationRole?: ReplicationRole;
+    sourceServerResourceId?: string;
     storage?: Storage_2;
-    version?: PostgresMajorVersion;
+    version?: string;
 }
 
 // @public
@@ -2333,7 +2343,7 @@ export type StartDataMigration = string;
 
 // @public
 export interface StartMajorVersionUpgradePrecheckRequest {
-    targetVersion: PostgresMajorVersion;
+    targetVersion: string;
 }
 
 // @public
@@ -2346,6 +2356,8 @@ export interface StartMajorVersionUpgradePrecheckResponse {
 // @public
 interface Storage_2 {
     autoGrow?: StorageAutoGrow;
+    autoGrowIncrementPercent?: number;
+    autoGrowMaxThresholdMb?: number;
     iops?: number;
     storageSizeGB?: number;
     throughput?: number;
@@ -2454,8 +2466,8 @@ export interface TuningOptionsProperties {
 
 // @public
 export interface UpgradeSequence {
-    sourceVersion?: PostgresMajorVersion;
-    targetVersion?: PostgresMajorVersion;
+    sourceVersion?: string;
+    targetVersion?: string;
 }
 
 // @public

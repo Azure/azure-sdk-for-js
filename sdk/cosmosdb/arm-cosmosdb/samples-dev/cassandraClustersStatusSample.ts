@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
  *
  * @summary gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
- * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraStatus.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraStatus.json
  */
 async function cosmosDBManagedCassandraStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.cassandraClusters.status("cassandra-prod-rg", "cassandra-prod");
   console.log(result);

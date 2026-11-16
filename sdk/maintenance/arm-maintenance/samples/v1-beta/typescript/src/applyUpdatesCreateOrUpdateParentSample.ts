@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to apply maintenance updates to resource with parent
  *
  * @summary apply maintenance updates to resource with parent
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_CreateOrUpdateParent.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdates_CreateOrUpdateParent.json
  */
 async function applyUpdatesCreateOrUpdateParent(): Promise<void> {
   const credential = new DefaultAzureCredential();

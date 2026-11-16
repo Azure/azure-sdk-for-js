@@ -51,14 +51,7 @@ export class ContentStoreClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContentStore(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContentStore(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.roleMappings = _getRoleMappingsOperations(this._client);
     this.protectedItemsOperationGroup = _getProtectedItemsOperationGroupOperations(this._client);

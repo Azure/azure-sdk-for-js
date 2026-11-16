@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-07-15-preview/PutRaiPolicy.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicy.json
  */
 async function putRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,49 @@ async function putRaiPolicy(): Promise<void> {
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-07-15-preview/PutRaiPolicyWithEgress.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyAcs.json
+ */
+async function createAnACSPolicyWithOptionalPolicyDependencies(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.raiPolicies.createOrUpdate(
+    "resource-group",
+    "safety-account",
+    "agent-guard",
+    {
+      properties: {
+        customBlocklists: [{ blocklistName: "blocked-terms", source: "Prompt", blocking: true }],
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
+ *
+ * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyAcsWithoutTools.json
+ */
+async function createAnACSPolicyWithoutAToolCatalog(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.raiPolicies.createOrUpdate(
+    "resource-group",
+    "safety-account",
+    "input-guard",
+    { properties: {} },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
+ *
+ * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyWithEgress.json
  */
 async function putRaiPolicyWithEgress(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -162,9 +204,31 @@ async function putRaiPolicyWithEgress(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
+ *
+ * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
+ * x-ms-original-file: 2026-11-01/UpdateRaiPolicyAcs.json
+ */
+async function replaceAnACSPolicyConditionally(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.raiPolicies.createOrUpdate(
+    "resource-group",
+    "safety-account",
+    "agent-guard",
+    { properties: { customBlocklists: [] } },
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await putRaiPolicy();
+  await createAnACSPolicyWithOptionalPolicyDependencies();
+  await createAnACSPolicyWithoutAToolCatalog();
   await putRaiPolicyWithEgress();
+  await replaceAnACSPolicyConditionally();
 }
 
 main().catch(console.error);

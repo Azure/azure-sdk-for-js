@@ -16,7 +16,7 @@ import type {
   VirtualRoutersCreateOrUpdateOptionalParams,
   VirtualRoutersGetOptionalParams,
 } from "../../api/virtualRouters/options.js";
-import type { VirtualRouter } from "../../models/microsoft/network/models.js";
+import type { VirtualRouter } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

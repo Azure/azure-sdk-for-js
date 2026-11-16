@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVault.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVault.json
  */
 async function getBackupVault() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getBackupVault() {
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVaultWithCMK.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVaultWithCMK.json
  */
 async function getBackupVaultWithCMK() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,21 @@ async function getBackupVaultWithCMK() {
  * This sample demonstrates how to returns a resource belonging to a resource group.
  *
  * @summary returns a resource belonging to a resource group.
- * x-ms-original-file: 2026-03-01/VaultCRUD/GetBackupVaultWithMSI.json
+ * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVaultWithCostManagementSettings.json
+ */
+async function getBackupVaultWithCostManagementSettings() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupVaults.get("SampleResourceGroup", "swaggerExample");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to returns a resource belonging to a resource group.
+ *
+ * @summary returns a resource belonging to a resource group.
+ * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVaultWithMSI.json
  */
 async function getBackupVaultWithMSI() {
   const credential = new DefaultAzureCredential();
@@ -49,6 +63,7 @@ async function getBackupVaultWithMSI() {
 async function main() {
   await getBackupVault();
   await getBackupVaultWithCMK();
+  await getBackupVaultWithCostManagementSettings();
   await getBackupVaultWithMSI();
 }
 

@@ -3,6 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import type { KnowledgeSourceInput, SearchIndexInput } from "./inputModels.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
@@ -14,12 +15,14 @@ import type {
   AnalyzeResult,
   IndexStatisticsSummary,
   KnowledgeSourceFile,
+  KnowledgeSourceFileIngestionOperation,
   UpdateKnowledgeSourceFileRequest,
   UploadKnowledgeSourceFileMultipartRequest,
 } from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
-import type { KnowledgeBase } from "./knowledgeBaseModels.js";
+import { restorePoller } from "./searchIndex/restorePollerHelpers.js";
+import type { KnowledgeBase, KnowledgeBaseInput } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
 import { logger } from "./logger.js";
@@ -29,6 +32,11 @@ import { KnownSearchAudience } from "./searchAudience.js";
 import type { SearchClientOptions as GetSearchClientOptions } from "./searchClient.js";
 import { SearchClient } from "./searchClient.js";
 import type {
+  BeginIngestKnowledgeSourceFileOptions,
+  BeginReplaceKnowledgeSourceFileOptions,
+  KnowledgeSourceFileIngestionPoller,
+  ListKnowledgeSourceFileIngestionOperationsOptions,
+  GetKnowledgeSourceFileIngestionOperationOptions,
   AliasIterator,
   AnalyzeTextOptions,
   CreateAliasOptions,
@@ -111,6 +119,83 @@ export interface SearchIndexClientOptions extends ClientOptions {
  * indexes, & synonymmaps.
  */
 export class SearchIndexClient {
+  /**
+   * Begins asynchronous ingestion of a new file and returns its polling operation.
+   * @param name - The File knowledge source name.
+   * @param body - The file contents and metadata.
+   * @param options - Polling and request options.
+   */
+  public beginIngestKnowledgeSourceFile(
+    name: string,
+    body: UploadKnowledgeSourceFileMultipartRequest,
+    options: BeginIngestKnowledgeSourceFileOptions = {},
+  ): KnowledgeSourceFileIngestionPoller {
+    // PollerLike is thenable; an async wrapper would await the entire operation.
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.ingestKnowledgeSourceFileMultipart,
+        options,
+      );
+    }
+    return this.client.ingestKnowledgeSourceFileMultipart(name, body, options);
+  }
+
+  /**
+   * Begins asynchronous replacement of a file and returns its polling operation.
+   * @param name - The File knowledge source name.
+   * @param fileId - The file to replace.
+   * @param body - The replacement file contents and metadata.
+   * @param options - Polling and request options.
+   */
+  public beginReplaceKnowledgeSourceFile(
+    name: string,
+    fileId: string,
+    body: UpdateKnowledgeSourceFileRequest,
+    options: BeginReplaceKnowledgeSourceFileOptions = {},
+  ): KnowledgeSourceFileIngestionPoller {
+    if (options.resumeFrom) {
+      return restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.ingestKnowledgeSourceFileReplacement,
+        options,
+      );
+    }
+    return this.client.ingestKnowledgeSourceFileReplacement(name, fileId, body, options);
+  }
+
+  /**
+   * Lists retained ingestion operations for a File knowledge source.
+   * @param name - The File knowledge source name.
+   * @param options - Request options.
+   */
+  public listKnowledgeSourceFileIngestionOperations(
+    name: string,
+    options: ListKnowledgeSourceFileIngestionOperationsOptions = {},
+  ): PagedAsyncIterableIterator<KnowledgeSourceFileIngestionOperation> {
+    return this.client.listKnowledgeSourceFileIngestionOperations(name, options);
+  }
+
+  /**
+   * Retrieves the status and result of a file ingestion operation.
+   * @param name - The File knowledge source name.
+   * @param operationId - The operation identifier.
+   * @param options - Request options.
+   */
+  public async getKnowledgeSourceFileIngestionOperation(
+    name: string,
+    operationId: string,
+    options: GetKnowledgeSourceFileIngestionOperationOptions = {},
+  ): Promise<KnowledgeSourceFileIngestionOperation> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-getKnowledgeSourceFileIngestionOperation",
+      options,
+      async (updatedOptions) =>
+        this.client.getKnowledgeSourceFileIngestionOperation(name, operationId, updatedOptions),
+    );
+  }
   /**
    * The API version to use when communicating with the service.
    */
@@ -265,7 +350,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps(updatedOptions),
+            this.client.listSynonymMaps(updatedOptions),
             utils.generatedSynonymMapToPublicSynonymMap,
           ),
         );
@@ -285,7 +370,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSynonymMaps({
+            this.client.listSynonymMaps({
               ...updatedOptions,
               select: "name",
             }),
@@ -334,7 +419,7 @@ export class SearchIndexClient {
    * @param options - Additional optional arguments.
    */
   public async createIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options: CreateIndexOptions = {},
   ): Promise<SearchIndex> {
     return tracingClient.withSpan(
@@ -379,7 +464,7 @@ export class SearchIndexClient {
    * @param options - Additional optional arguments.
    */
   public async createOrUpdateIndex(
-    index: SearchIndex,
+    index: SearchIndex | SearchIndexInput,
     options: CreateOrUpdateIndexOptions = {},
   ): Promise<SearchIndex> {
     return tracingClient.withSpan(
@@ -388,8 +473,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? index.etag : undefined;
         const result = await this.client.createOrUpdateIndex(
-          utils.publicIndexToGeneratedIndex(index),
           index.name,
+          utils.publicIndexToGeneratedIndex(index),
           { ...updatedOptions, ifMatch: etag },
         );
         return utils.generatedIndexToPublicIndex(result);
@@ -413,8 +498,8 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
 
         const result = await this.client.createOrUpdateSynonymMap(
-          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
           synonymMap.name,
+          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -502,7 +587,7 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-        return this.client.createOrUpdateAlias(alias, alias.name, {
+        return this.client.createOrUpdateAlias(alias.name, alias, {
           ...updatedOptions,
           ifMatch: etag,
         });
@@ -615,7 +700,7 @@ export class SearchIndexClient {
       "SearchIndexClient-analyzeText",
       operationOptions,
       async (updatedOptions) => {
-        return this.client.analyzeText({ ...restOptions }, indexName, updatedOptions);
+        return this.client.analyzeText(indexName, { ...restOptions }, updatedOptions);
       },
     );
   }
@@ -642,7 +727,7 @@ export class SearchIndexClient {
    * @param options - options parameters.
    */
   public async createKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options: CreateKnowledgeBaseOptions = {},
   ): Promise<KnowledgeBase> {
     return tracingClient.withSpan(
@@ -665,7 +750,7 @@ export class SearchIndexClient {
    * @returns The created or updated knowledge base.
    */
   public createOrUpdateKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options?: CreateOrUpdateKnowledgeBaseOptions,
   ): Promise<KnowledgeBase>;
   /**
@@ -674,17 +759,18 @@ export class SearchIndexClient {
    */
   public createOrUpdateKnowledgeBase(
     knowledgeBaseName: string,
-    knowledgeBase: KnowledgeBase,
+    knowledgeBase: KnowledgeBase | KnowledgeBaseInput,
     options?: CreateOrUpdateKnowledgeBaseOptions,
   ): Promise<KnowledgeBase>;
   public async createOrUpdateKnowledgeBase(
-    knowledgeBaseOrName: KnowledgeBase | string,
-    knowledgeBaseOrOptions: KnowledgeBase | CreateOrUpdateKnowledgeBaseOptions = {},
+    knowledgeBaseOrName: KnowledgeBase | KnowledgeBaseInput | string,
+    knowledgeBaseOrOptions:
+      KnowledgeBase | KnowledgeBaseInput | CreateOrUpdateKnowledgeBaseOptions = {},
     legacyOptions: CreateOrUpdateKnowledgeBaseOptions = {},
   ): Promise<KnowledgeBase> {
     const knowledgeBase =
       typeof knowledgeBaseOrName === "string"
-        ? (knowledgeBaseOrOptions as KnowledgeBase)
+        ? (knowledgeBaseOrOptions as KnowledgeBase | KnowledgeBaseInput)
         : knowledgeBaseOrName;
     const knowledgeBaseName =
       typeof knowledgeBaseOrName === "string" ? knowledgeBaseOrName : knowledgeBase.name;
@@ -698,8 +784,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           knowledgeBaseName,
+          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -783,7 +869,7 @@ export class SearchIndexClient {
   }
 
   public async createOrUpdateKnowledgeSource(
-    knowledgeSource: KnowledgeSource,
+    knowledgeSource: KnowledgeSource | KnowledgeSourceInput,
     options: CreateOrUpdateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
     return tracingClient.withSpan(
@@ -792,8 +878,8 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
           knowledgeSource.name,
+          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -873,7 +959,7 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createKnowledgeSource(
-    knowledgeSource: KnowledgeSource,
+    knowledgeSource: KnowledgeSource | KnowledgeSourceInput,
     options: CreateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
     return tracingClient.withSpan(
@@ -926,9 +1012,9 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         return this.client.uploadKnowledgeSourceFile(
+          name,
           contentDisposition,
           file,
-          name,
           updatedOptions,
         );
       },
@@ -948,15 +1034,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async uploadKnowledgeSourceFileMultipart(
@@ -968,7 +1067,7 @@ export class SearchIndexClient {
       "SearchIndexClient-uploadKnowledgeSourceFileMultipart",
       options,
       async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFileMultipart(body, name, updatedOptions);
+        return this.client.uploadKnowledgeSourceFileMultipart(name, body, updatedOptions);
       },
     );
   }
@@ -987,15 +1086,28 @@ export class SearchIndexClient {
    * const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * const body = {
    *   metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
-   *   content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+   *   content: {
+   *     contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+   *     contentType: "text/plain",
+   *     filename: "example.txt",
+   *   },
    * };
    *
    * const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+   * if (!uploaded.fileId) {
+   *   throw new Error("The service did not return an uploaded file ID.");
+   * }
    *
-   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+   * await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
    *   ...body,
    *   metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
    * });
+   * for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+   *   prefix: "manuals/",
+   *   pageSize: 10,
+   * })) {
+   *   console.log(file.fileName, file.parsingMode, file.extractionMode);
+   * }
    * ```
    */
   public async updateKnowledgeSourceFile(
@@ -1008,7 +1120,7 @@ export class SearchIndexClient {
       "SearchIndexClient-updateKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.updateKnowledgeSourceFile(fileId, body, name, updatedOptions);
+        return this.client.updateKnowledgeSourceFile(name, fileId, body, updatedOptions);
       },
     );
   }
@@ -1040,7 +1152,7 @@ export class SearchIndexClient {
       "SearchIndexClient-deleteKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.deleteKnowledgeSourceFile(fileId, name, updatedOptions);
+        return this.client.deleteKnowledgeSourceFile(name, fileId, updatedOptions);
       },
     );
   }

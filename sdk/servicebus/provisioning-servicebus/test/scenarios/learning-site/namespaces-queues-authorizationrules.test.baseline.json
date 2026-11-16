@@ -1,0 +1,155 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westeurope"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "queue": {
+          "bicepIdentifier": "queue",
+          "type": "Microsoft.ServiceBus/namespaces/queues",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "deadLetteringOnMessageExpiration": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableBatchedOperations": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "enableExpress": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enablePartitioning": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "maxDeliveryCount": {
+                    "kind": "integer",
+                    "value": "10"
+                  },
+                  "maxSizeInMegabytes": {
+                    "kind": "integer",
+                    "value": "81920"
+                  },
+                  "requiresDuplicateDetection": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "requiresSession": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "Active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "authorizationRule": {
+          "bicepIdentifier": "authorizationRule",
+          "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "queue"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "rights": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Send"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

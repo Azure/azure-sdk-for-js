@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to the operation to delete a replication policy.
+ *
+ * @summary the operation to delete a replication policy.
+ * x-ms-original-file: 2026-11-01/ReplicationPolicies_Delete.json
+ */
+async function deleteThePolicy(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const client = new SiteRecoveryManagementClient(credential, subscriptionId);
+  await client.replicationPolicies.delete("resourceGroupPS1", "vault1", "protectionprofile1");
+}
+
+async function main(): Promise<void> {
+  await deleteThePolicy();
+}
+
+main().catch(console.error);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the workflows for a logic app.
  *
  * @summary list the workflows for a logic app.
- * x-ms-original-file: 2025-10-02-preview/LogicApps_ListWorkflows.json
+ * x-ms-original-file: 2026-07-01/LogicApps_ListWorkflows.json
  */
 async function listTheWorkflows(): Promise<void> {
   const credential = new DefaultAzureCredential();

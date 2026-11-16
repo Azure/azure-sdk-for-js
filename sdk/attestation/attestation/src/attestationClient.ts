@@ -30,7 +30,7 @@ import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8.js";
 import { _attestationResultFromGenerated } from "./models/attestationResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
-import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { AttestationTokenImpl, _combineValidationOptions } from "./models/attestationToken.js";
 import { Uint8ArrayFromInput } from "./utils/buffer.js";
 import { tracingClient } from "./generated/tracing.js";
 
@@ -51,7 +51,8 @@ export interface AttestationClientOptions extends CommonClientOptions {
 export interface AttestationClientOperationOptions extends OperationOptions {
   /**
    * Validation options to be used to validate attestation tokens received
-   * from the attestation service for the individual operation.
+   * from the attestation service for the individual operation. Options set here
+   * override the same options set on the client; other client options still apply.
    */
   validationOptions?: AttestationTokenValidationOptions;
 }
@@ -276,9 +277,10 @@ export class AttestationClient {
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          Boolean(options.draftPolicyForAttestation),
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -356,9 +358,10 @@ export class AttestationClient {
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
-        const problems = token.getTokenProblems(
+        const problems = token._getServiceTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions,
+          _combineValidationOptions(this._validationOptions, options.validationOptions),
+          Boolean(options.draftPolicyForAttestation),
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
