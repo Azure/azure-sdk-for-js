@@ -519,7 +519,9 @@ export function getScope(appConfigEndpoint: string, appConfigAudience?: string):
 
   const hostname = new URL(appConfigEndpoint).hostname;
   const stagingDomain = "appconfig-staging.azure.com";
-  if (hostname.endsWith(`.${stagingDomain}`)) {
+  // Regional staging endpoints use "appconfig-stage" but share the staging audience.
+  const regionalStagingDomain = "appconfig-stage.azure.com";
+  if (hostname.endsWith(`.${stagingDomain}`) || hostname.endsWith(`.${regionalStagingDomain}`)) {
     return `https://${stagingDomain}/.default`;
   }
 
