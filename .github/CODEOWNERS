@@ -350,6 +350,9 @@
 # PRLabel: %WebPubSub
 /sdk/web-pubsub/    @chenkennt @vicancy @zackliu
 
+# PRLabel: %WebPubSub
+/sdk/web-pubsub/web-pubsub-chat/    @chenkennt @JialinXin @vicancy @Y-Sindo
+
 ####################
 # Management Libraries
 ####################
