@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operation status for the given operation id.
  *
  * @summary gets the operation status for the given operation id.
- * x-ms-original-file: 2026-01-01/NspOperationStatusGet.json
+ * x-ms-original-file: 2026-03-01/NspOperationStatusGet.json
  */
 async function nspOperationStatusGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,6 +4,13 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
+import {
+  isUpstreamDataGenerationType,
+  matchesUpstreamDataGenerationType,
+} from "./data-generation-policy.mjs";
+import { parse } from "./modules.mjs";
+import { verifiedEmittedRenames } from "./models.mjs";
+import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
   "aiProjectClient.ts",
@@ -435,6 +442,7 @@ function requireDelta(previous, incoming, output, entry, kind, report) {
         entry.name,
         `Missing newly emitted ${kind}; incorporate the generated addition without replacing maintained customizations.`,
         typeof value === "string" ? value : member,
+        kind,
       );
     } else if (
       !previous.has(member) &&
@@ -521,7 +529,17 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     alternatives(output, indexes.output, renames, report),
   ];
   requireDelta(unions[0], unions[2], unions[3], target, "union alternative", report);
-  preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  if (
+    target.name === "DataGenerationJobType" &&
+    isUpstreamDataGenerationType(base?.node) &&
+    isUpstreamDataGenerationType(custom?.node, true) &&
+    isUpstreamDataGenerationType(incoming?.node)
+  ) {
+    if (!matchesUpstreamDataGenerationType(output?.node, incoming?.node))
+      report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
+  } else {
+    preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
+  }
   if (/Serializer$|Deserializer$/.test(incoming?.name ?? custom.name)) {
     const resolved = [
       resolveAlias(base, indexes.base, renames, report),
@@ -552,6 +570,42 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
       renames,
     );
   }
+}
+
+function retiredTaskGeneration(name, base, custom, incoming) {
+  if (
+    ![
+      "TaskGenerationDataGenerationJobOptions",
+      "taskGenerationDataGenerationJobOptionsSerializer",
+      "taskGenerationDataGenerationJobOptionsDeserializer",
+    ].includes(name)
+  )
+    return false;
+  const single = (index, key) =>
+    index.get(key)?.length === 1 ? index.get(key)[0].node : undefined;
+  const legacy = single(custom, "TaskGenerationDataGenerationJobOptions");
+  return Boolean(
+    !incoming.has(name) &&
+    base.has("DataGenerationJobOptions") &&
+    !incoming.has("DataGenerationJobOptions") &&
+    incoming.has("DataGenerationJobConfiguration") &&
+    isUpstreamDataGenerationType(single(base, "DataGenerationJobType")) &&
+    isUpstreamDataGenerationType(single(custom, "DataGenerationJobType"), true) &&
+    isUpstreamDataGenerationType(single(incoming, "DataGenerationJobType")) &&
+    legacy &&
+    ts.isInterfaceDeclaration(legacy) &&
+    legacy.heritageClauses?.some((clause) =>
+      clause.types.some((type) => nameOf(type.expression) === "DataGenerationJobOptions"),
+    ) &&
+    legacy.members.some(
+      (member) =>
+        nameOf(member.name) === "type" &&
+        member.type &&
+        ts.isLiteralTypeNode(member.type) &&
+        ts.isStringLiteral(member.type.literal) &&
+        member.type.literal.text === "task_generation",
+    ),
+  );
 }
 
 function checkModels(trees, renames, report) {
@@ -586,6 +640,8 @@ function checkModels(trees, renames, report) {
       const output = find(indexes.output, custom.name, custom.file, renames, report);
       if (base && !incoming) continue;
       if (!output) {
+        if (retiredTaskGeneration(custom.name, indexes.base, indexes.custom, indexes.incoming))
+          continue;
         const alias = aliasTarget(custom.node);
         if (
           alias &&
@@ -599,6 +655,19 @@ function checkModels(trees, renames, report) {
           "Lost maintained model declaration; no generated-backed removal was established across the model inventory.",
         );
       } else if (!incoming) {
+        const alias = aliasTarget(custom.node);
+        if (alias && candidates(indexes.incoming, alias, renames).length) {
+          // A custom-only alias of an emitted declaration takes that
+          // declaration's validated shape; it must keep the same target.
+          const target = aliasTarget(output.node);
+          if (!target || mapped(target, renames) !== mapped(alias, renames))
+            report(
+              output.file,
+              output.name,
+              "Changed the target of a maintained custom-only alias.",
+            );
+          continue;
+        }
         checkDeclaration(base, custom, undefined, output, indexes, renames, report);
       }
     }
@@ -715,8 +784,9 @@ function exportsOf(modules, file, report, seen = new Set()) {
   return result;
 }
 
-function checkExports(trees, renames, report) {
+function checkExports(trees, renames, report, verifiedEmittedRename = () => undefined) {
   const baseInventory = inventory(trees.base);
+  const customInventory = inventory(trees.custom);
   const incomingInventory = inventory(trees.incoming);
   for (const file of ["index.ts", "models/index.ts", "classic/index.ts"]) {
     const previous = exportsOf(trees.custom, file, report);
@@ -745,10 +815,19 @@ function checkExports(trees, renames, report) {
         }
         continue;
       }
+      // An approved emitted model rename carries the maintained export to the new name.
+      const renamedDeclaration = verifiedEmittedRename(entry.imported);
+      if (
+        renamedDeclaration !== undefined &&
+        output.get(mapped(name, renames))?.imported === renamedDeclaration
+      )
+        continue;
       const counterpart =
         emittedBase.get(name) ??
         [...emittedBase.values()].find((item) => mapped(item.name, renames) === name);
       const generatedName = counterpart?.imported ?? entry.imported;
+      if (retiredTaskGeneration(generatedName, baseInventory, customInventory, incomingInventory))
+        continue;
       if (
         candidates(baseInventory, generatedName, renames).length &&
         !candidates(incomingInventory, generatedName, renames).length
@@ -803,7 +882,7 @@ function checkExports(trees, renames, report) {
   }
 }
 
-function containsObject(expected, actual, renames) {
+function containsObject(expected, actual, renames, ignored) {
   expected = unwrap(expected);
   actual = unwrap(actual);
   if (!expected || !actual) return false;
@@ -817,15 +896,25 @@ function containsObject(expected, actual, renames) {
           ts.isSpreadAssignment(candidate) &&
           nodeKey(property, renames) === nodeKey(candidate, renames),
       );
+    if (ignored !== undefined && nameOf(property.name) === ignored) return true;
     const candidates = actual.properties.filter(
       (candidate) => nameOf(candidate.name) === nameOf(property.name),
     );
     return candidates.some((candidate) =>
       ts.isPropertyAssignment(property) && ts.isPropertyAssignment(candidate)
-        ? containsObject(property.initializer, candidate.initializer, renames)
+        ? containsObject(property.initializer, candidate.initializer, renames, ignored)
         : nodeKey(property, renames) === nodeKey(candidate, renames),
     );
   });
+}
+
+function sendsPreviewHeader(node) {
+  let found = false;
+  if (node)
+    walk(node, (child) => {
+      if (ts.isPropertyAssignment(child) && nameOf(child.name) === previewHeader) found = true;
+    });
+  return found;
 }
 
 function propertiesNamed(node, names) {
@@ -866,6 +955,14 @@ function checkOperations(trees, matches, renames, report) {
       continue;
     }
     const module = trees.output.get(incoming.file);
+    // The emitter retired this operation's preview opt-in, so the maintained
+    // constant header may leave its follow-up requests as well. A header the
+    // emitter never sent is a customization and cannot be retired this way.
+    const retiredPreview =
+      sendsPreviewHeader(base?.send) &&
+      sendsPreviewHeader(customized?.send) &&
+      !sendsPreviewHeader(incoming.send) &&
+      !sendsPreviewHeader(module?.byName.get(names.send)?.node);
     for (const role of ["publicNode", "send", "deserialize"]) {
       const expectedName = names[role];
       const output = module?.byName.get(expectedName);
@@ -905,7 +1002,20 @@ function checkOperations(trees, matches, renames, report) {
       for (const [property, values] of propertiesNamed(oldNode, behaviorProperties)) {
         const actual = propertiesNamed(output.node, behaviorProperties).get(property) ?? [];
         for (const value of values) {
-          if (!actual.some((candidate) => containsObject(value, candidate, renames))) {
+          // Poll headers that only carried the retired opt-in beside the
+          // forwarded request headers may return to the emitted poller shape.
+          const forwardsOnly =
+            ts.isObjectLiteralExpression(unwrap(value)) &&
+            unwrap(value).properties.every(
+              (item) => forwardsRequestHeaders(item) || nameOf(item.name) === previewHeader,
+            );
+          if (retiredPreview && property === "pollHeaders" && forwardsOnly && !actual.length)
+            continue;
+          if (
+            !actual.some((candidate) =>
+              containsObject(value, candidate, renames, retiredPreview ? previewHeader : undefined),
+            )
+          ) {
             report(
               output.file,
               output.name,
@@ -1075,7 +1185,11 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
               )
                 generatedAddition = true;
             });
-          if (!generatedAddition) return false;
+          if (
+            !generatedAddition &&
+            !preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames)
+          )
+            return false;
         }
       }
       if (index !== oldStatements.length) return false;
@@ -1103,10 +1217,163 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
+// Evaluators, Agent Insight Monitors, Skills, and voice agents were promoted from beta. The
+// customized client has two auth contexts, unlike the emitted single _client.
+// Admit only the promoted factory, using the same context as beta before
+// promotion; never substitute or rewrite the maintained constructor.
+function preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames) {
+  const member =
+    ts.isExpressionStatement(statement) &&
+    ts.isBinaryExpression(statement.expression) &&
+    ts.isPropertyAccessExpression(statement.expression.left)
+      ? statement.expression.left.name.text
+      : undefined;
+  const factory = {
+    evaluators: "_getEvaluatorsOperations",
+    agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+    skills: "_getSkillsOperations",
+    voiceAgents: "_getVoiceAgentsOperations",
+  }[member];
+  if (
+    !factory ||
+    !ts.isClassDeclaration(before) ||
+    before.name?.text !== "AIProjectClient" ||
+    !baseGenerated ||
+    !generated ||
+    !ts.isClassDeclaration(generated) ||
+    baseGenerated?.members?.some((item) => nameOf(item.name) === member)
+  )
+    return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  const initializers = (node) => classInitializers({ node });
+  const previousBeta = unwrap(initializers(before).get("beta"));
+  const emitted = unwrap(initializers(generated).get(member));
+  if (
+    !previousBeta ||
+    !ts.isCallExpression(previousBeta) ||
+    previousBeta.expression.getText() !== "_getBetaOperations" ||
+    !previousBeta.arguments.length ||
+    !emitted ||
+    !ts.isCallExpression(emitted) ||
+    emitted.expression.getText() !== factory ||
+    emitted.arguments.length !== 1
+  )
+    return false;
+  if (member === "voiceAgents" && previousBeta.arguments[4]?.getText() !== "this._tracingConfig")
+    return false;
+  const tracing = member === "voiceAgents" ? `, ${previousBeta.arguments[4].getText()}` : "";
+  const expected = parse(
+    `this.${member} = ${factory}(${previousBeta.arguments[0].getText()}${tracing});`,
+  ).statements[0];
+  return key(statement) === key(expected);
+}
+
 function isProtectedFile(file) {
   return (
     protectedFiles.has(file) || file.startsWith("static-helpers/") || file.startsWith("tracing/")
   );
+}
+
+function classicModuleOf(apiFile) {
+  return apiFile.replace(/^api\//, "classic/").replace(/operations\.ts$/, "index.ts");
+}
+
+// Operations the planner relocated into a module from another operation group.
+// checkOperations validates them exactly as it does relocations into
+// unprotected modules, so a protected destination admits only these additions.
+function relocationsInto(matches) {
+  const result = new Map();
+  const target = (file) => {
+    if (!result.has(file))
+      result.set(file, { declarations: new Set(), members: new Map(), sources: new Set() });
+    return result.get(file);
+  };
+  for (const { base, customized, incoming, names } of matches) {
+    if (!base || !customized || !incoming?.file || base.file === incoming.file) continue;
+    const api = target(incoming.file);
+    for (const name of [names.publicNode, names.send, names.deserialize])
+      api.declarations.add(name);
+    api.sources.add(customized.file);
+    const classic = target(classicModuleOf(incoming.file));
+    classic.members.set(names.publicNode.replace(/^\$/, ""), names.publicNode);
+    classic.sources.add(classicModuleOf(customized.file));
+  }
+  return result;
+}
+
+function returnedObject(node) {
+  const statement = node.body?.statements.at(-1);
+  if (!statement || !ts.isReturnStatement(statement) || !statement.expression) return undefined;
+  const value = unwrap(statement.expression);
+  return ts.isObjectLiteralExpression(value) ? value : undefined;
+}
+
+// A protected classic group interface or factory may gain only the members of
+// operations relocated into its API module; every maintained member and all
+// surrounding factory behavior must be unchanged.
+function relocatedAdditive(before, after, relocation, renames) {
+  const relocated = relocation?.members;
+  if (!relocated?.size || before.kind !== after.kind) return false;
+  const key = (node) => (node ? nodeKey(node, renames) : "");
+  let oldMembers;
+  let newMembers;
+  if (ts.isInterfaceDeclaration(before)) {
+    if (
+      before.heritageClauses?.map((clause) => clause.getText()).join() !==
+      after.heritageClauses?.map((clause) => clause.getText()).join()
+    )
+      return false;
+    oldMembers = before.members;
+    newMembers = after.members;
+  } else if (ts.isFunctionDeclaration(before)) {
+    const oldObject = returnedObject(before);
+    const newObject = returnedObject(after);
+    const oldStatements = before.body.statements;
+    const newStatements = after.body?.statements ?? [];
+    if (
+      !oldObject ||
+      !newObject ||
+      nameOf(before.name) !== nameOf(after.name) ||
+      key(before.type) !== key(after.type) ||
+      before.parameters.map(key).join() !== after.parameters.map(key).join() ||
+      oldStatements.length !== newStatements.length ||
+      oldStatements
+        .slice(0, -1)
+        .some((statement, index) => key(statement) !== key(newStatements[index]))
+    )
+      return false;
+    oldMembers = oldObject.properties;
+    newMembers = newObject.properties;
+  } else return false;
+  const next = new Map(newMembers.map((member) => [nameOf(member.name), member]));
+  for (const member of oldMembers) {
+    if (key(member) !== key(next.get(nameOf(member.name)))) return false;
+  }
+  const previous = new Set(oldMembers.map((member) => nameOf(member.name)));
+  for (const member of newMembers) {
+    const name = nameOf(member.name);
+    if (previous.has(name)) continue;
+    if (!relocated.has(name)) return false;
+    if (ts.isFunctionDeclaration(before) && !containsIdentifier(member, relocated.get(name), true))
+      return false;
+  }
+  return true;
+}
+
+function relocatedImport(file, binding, relocation, trees) {
+  const target = (owner, specifier) => moduleFile(owner, specifier) ?? specifier;
+  for (const sourceFile of relocation?.sources ?? []) {
+    if (
+      imports(trees.custom.get(sourceFile)).some(
+        (candidate) =>
+          candidate.local === binding.local &&
+          candidate.imported === binding.imported &&
+          target(sourceFile, candidate.module) === target(file, binding.module),
+      )
+    )
+      return true;
+  }
+  return false;
 }
 
 function classInitializers(entry) {
@@ -1201,8 +1468,143 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report) {
+function synchronizedPackageVersion(file, previous, next, packageVersion) {
+  if (
+    file !== "constants.ts" ||
+    previous.name !== "SDK_VERSION" ||
+    !packageVersion ||
+    !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageVersion) ||
+    !ts.isVariableDeclaration(previous.node) ||
+    !ts.isVariableDeclaration(next?.node) ||
+    !previous.node.initializer ||
+    !next.node.initializer ||
+    !ts.isStringLiteralLike(previous.node.initializer) ||
+    !ts.isStringLiteralLike(next.node.initializer) ||
+    next.node.initializer.text !== packageVersion
+  ) {
+    return false;
+  }
+  // Only the literal may change. Types, names, and all other protected
+  // declarations still have to pass their existing checks.
+  const withoutVersion = (node) => {
+    const text = node.getText();
+    const start = node.initializer.getStart() - node.getStart();
+    const end = node.initializer.end - node.getStart();
+    return canonicalize(text.slice(0, start) + '"<package-version>"' + text.slice(end));
+  };
+  return withoutVersion(previous.node) === withoutVersion(next.node);
+}
+
+// Campaign create/cancel declare a guarded final operation, which core-lro cannot
+// infer from the HTTP verb/headers. Permit only forwarding its existing optional
+// skipFinalGet switch; every other token of this protected helper stays unchanged.
+function forwardsCoreLroSkipFinalGet(file, previous, next) {
+  if (file !== "static-helpers/pollingHelpers.ts") return false;
+  const before = previous.node;
+  const after = next.node;
+  let addition;
+  if (
+    previous.name === "GetLongRunningPollerOptions" &&
+    ts.isInterfaceDeclaration(before) &&
+    ts.isInterfaceDeclaration(after)
+  ) {
+    addition = after.members.find((member) => nameOf(member.name) === "skipFinalGet");
+    const expected = parse("interface Options { skipFinalGet?: boolean; }").statements[0]
+      .members[0];
+    if (!addition || nodeKey(addition) !== nodeKey(expected)) return false;
+  } else if (
+    previous.name === "getLongRunningPoller" &&
+    ts.isFunctionDeclaration(before) &&
+    ts.isFunctionDeclaration(after)
+  ) {
+    const candidates = [];
+    walk(after, (node) => {
+      if (
+        ts.isCallExpression(node) &&
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === "createHttpPoller" &&
+        node.arguments.length === 2 &&
+        ts.isObjectLiteralExpression(node.arguments[1])
+      ) {
+        candidates.push(
+          ...node.arguments[1].properties.filter(
+            (property) => nameOf(property.name) === "skipFinalGet",
+          ),
+        );
+      }
+    });
+    const expected = parse("const options = { skipFinalGet: options?.skipFinalGet };").statements[0]
+      .declarationList.declarations[0].initializer.properties[0];
+    if (candidates.length !== 1 || nodeKey(candidates[0]) !== nodeKey(expected)) return false;
+    addition = candidates[0];
+  } else {
+    return false;
+  }
+  const text = after.getText();
+  const start = addition.getStart() - after.getStart();
+  const end = addition.end - after.getStart();
+  const remainder = text.slice(end);
+  const withoutAddition =
+    text.slice(0, start) +
+    (ts.isPropertyAssignment(addition) ? remainder.replace(/^\s*,/, "") : remainder);
+  return canonicalize(before.getText()) === canonicalize(withoutAddition);
+}
+
+// azure-rest-api-specs#48068 fully reverts Skills to beta. Permit only removal
+// of the root member, its exact initialization, and its two dedicated imports.
+// Comparing the entire remaining module keeps auth, tracing and all other
+// maintained constructor behavior protected.
+function skillsPreviewClientReversion(file, previous, output, trees) {
+  if (
+    file !== "aiProjectClient.ts" ||
+    !trees.base.has("classic/skills/index.ts") ||
+    trees.incoming.has("classic/skills/index.ts") ||
+    !trees.incoming.has("classic/beta/skills/index.ts") ||
+    !trees.output.has("classic/beta/skills/index.ts")
+  )
+    return false;
+  for (const tree of [trees.incoming, trees.output]) {
+    const beta = tree.get("classic/beta/index.ts")?.byName.get("BetaOperations");
+    const skills = beta?.node.members?.find((member) => nameOf(member.name) === "skills");
+    if (!skills || skills.type?.getText() !== "BetaSkillsOperations") return false;
+  }
+  const client = previous.byName.get("AIProjectClient")?.node;
+  if (!client || !ts.isClassDeclaration(client)) return false;
+  const removals = [];
+  const member = client.members.find((item) => nameOf(item.name) === "skills");
+  if (!member || !ts.isPropertyDeclaration(member) || member.type?.getText() !== "SkillsOperations")
+    return false;
+  removals.push(member);
+  const constructor = client.members.find(ts.isConstructorDeclaration);
+  const expected = canonicalize("this.skills = _getSkillsOperations(this._cognitiveScopeClient);");
+  const initializer = constructor?.body?.statements.filter(
+    (item) => canonicalize(item.getText()) === expected,
+  );
+  if (initializer?.length !== 1) return false;
+  removals.push(initializer[0]);
+  const dedicatedImports = previous.source.statements.filter(
+    (item) =>
+      ts.isImportDeclaration(item) && item.moduleSpecifier.text === "./classic/skills/index.js",
+  );
+  const bindings = imports(previous).filter((item) => item.module === "./classic/skills/index.js");
+  if (
+    bindings.length !== 2 ||
+    !["_getSkillsOperations", "SkillsOperations"].every((name) =>
+      bindings.some((item) => item.local === name && item.imported === name),
+    )
+  )
+    return false;
+  removals.push(...dedicatedImports);
+  let retained = previous.source.text;
+  for (const node of removals.sort((a, b) => b.getStart() - a.getStart())) {
+    retained = retained.slice(0, node.getFullStart()) + retained.slice(node.end);
+  }
+  return canonicalize(retained) === canonicalize(output.source.text);
+}
+
+function checkProtected(trees, renames, report, matches = [], packageVersion) {
   checkProtectedAdditions(trees, renames, report);
+  const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
     if (!isProtectedFile(file)) continue;
     const output = trees.output.get(file);
@@ -1211,11 +1613,21 @@ function checkProtected(trees, renames, report) {
       continue;
     }
     if (canonicalize(previous.source.text) === canonicalize(output.source.text)) continue;
+    if (skillsPreviewClientReversion(file, previous, output, trees)) continue;
+    const relocation = relocations.get(file);
     for (const entry of previous.entries) {
       const next = output.byName.get(entry.name);
       const base = trees.base.get(file)?.byName.get(entry.name);
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
-      if (!next || !additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames)) {
+      if (
+        !next ||
+        !(
+          additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
+          relocatedAdditive(entry.node, next.node, relocation, renames) ||
+          synchronizedPackageVersion(file, entry, next, packageVersion) ||
+          forwardsCoreLroSkipFinalGet(file, entry, next)
+        )
+      ) {
         report(
           file,
           entry.name,
@@ -1225,6 +1637,8 @@ function checkProtected(trees, renames, report) {
     }
     for (const entry of output.entries) {
       if (previous.byName.has(entry.name)) continue;
+      if (relocation?.declarations.has(entry.name) && !trees.base.get(file)?.byName.has(entry.name))
+        continue;
       const incoming = trees.incoming.get(file)?.byName.get(entry.name);
       if (
         !incoming ||
@@ -1258,7 +1672,11 @@ function checkProtected(trees, renames, report) {
         candidate.local === binding.local &&
         candidate.imported === binding.imported &&
         candidate.module === binding.module;
-      if (!oldImports.some(same) && !imports(trees.incoming.get(file)).some(same)) {
+      if (
+        !oldImports.some(same) &&
+        !imports(trees.incoming.get(file)).some(same) &&
+        !relocatedImport(file, binding, relocation, trees)
+      ) {
         report(
           file,
           binding.local,
@@ -1365,6 +1783,28 @@ function checkVoicePaging(entry, report) {
 }
 
 function checkKnownPolicies(trees, modelIndexes, renames, report) {
+  const hasList = (tree, file, declaration) =>
+    tree
+      .get(file)
+      ?.byName.get(declaration)
+      ?.node.members?.some((member) => nameOf(member.name) === "list");
+  const betaFile = "classic/beta/evaluators/index.ts";
+  const rootFile = "classic/evaluators/index.ts";
+  const remainingBetaMembers = trees.incoming.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  const outputBetaMembers = trees.output.get(betaFile)?.byName.get("BetaEvaluatorsOperations")
+    ?.node.members;
+  // A missing beta list is valid only when generated evidence places it at
+  // root (including later no-op regenerations after the promotion).
+  const evaluatorListPromoted =
+    Boolean(hasList(trees.base, betaFile, "BetaEvaluatorsOperations")) !==
+      Boolean(hasList(trees.base, rootFile, "EvaluatorsOperations")) &&
+    !hasList(trees.incoming, betaFile, "BetaEvaluatorsOperations") &&
+    hasList(trees.incoming, rootFile, "EvaluatorsOperations") &&
+    hasList(trees.output, rootFile, "EvaluatorsOperations") &&
+    remainingBetaMembers?.every((member) =>
+      outputBetaMembers?.some((output) => nameOf(output.name) === nameOf(member.name)),
+    );
   for (const [file, module] of trees.output) {
     if (file === "restorePollerHelpers.ts")
       report(file, "<file>", "Generated-only restorePollerHelpers.ts must not exist in src.");
@@ -1392,14 +1832,16 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
       }
       if (
         ts.isInterfaceDeclaration(node) &&
-        node.name.text === "BetaEvaluatorsOperations" &&
-        (!node.members.some((member) => nameOf(member.name) === "list") ||
+        (node.name.text === "BetaEvaluatorsOperations" ||
+          (file === rootFile && node.name.text === "EvaluatorsOperations")) &&
+        ((!node.members.some((member) => nameOf(member.name) === "list") &&
+          !(file === betaFile && evaluatorListPromoted)) ||
           node.members.some((member) => nameOf(member.name) === "listLatestVersions"))
       ) {
         report(
           file,
           node.name.text,
-          "Preserve BetaEvaluatorsOperations.list; listLatestVersions is not the maintained API.",
+          "Preserve evaluators.list in its generated-backed group; listLatestVersions is not the maintained API.",
           "list",
         );
       }
@@ -1522,6 +1964,17 @@ function checkKnownPolicies(trees, modelIndexes, renames, report) {
   }
 }
 
+/**
+ * Check that the resolved source incorporates every emitted change and preserves
+ * every customization. Returns the diagnostics for anything that does not.
+ *
+ * A recovery run keeps the customized form of a declaration whose merge was
+ * rejected, so an addition the emitter made to it is knowingly not applied.
+ * When `retained` (the `file::declaration` keys of those declarations) and
+ * `unapplied` (an array) are both passed, such a missing addition is recorded
+ * in `unapplied` instead of being returned as a diagnostic. Every other check,
+ * and every missing addition in a declaration that was not kept, is unchanged.
+ */
 export function validateCustomization({
   baseGenerated,
   baseSource,
@@ -1529,15 +1982,20 @@ export function validateCustomization({
   source,
   matches = [],
   modelRenames = new Map(),
+  retained,
+  unapplied,
+  packageVersion,
 }) {
   const diagnostics = [];
   const reported = new Set();
-  const report = (file, declaration, message, member) => {
+  const report = (file, declaration, message, member, unappliedKind) => {
     const diagnostic = { file, declaration, ...(member === undefined ? {} : { member }), message };
     const key = JSON.stringify(diagnostic);
     if (!reported.has(key)) {
       reported.add(key);
-      diagnostics.push(diagnostic);
+      if (unappliedKind !== undefined && unapplied && retained?.has(`${file}::${declaration}`))
+        unapplied.push({ file, declaration, member, kind: unappliedKind });
+      else diagnostics.push(diagnostic);
     }
   };
   for (const [name, value] of Object.entries({
@@ -1572,7 +2030,17 @@ export function validateCustomization({
       }
     }
   if (diagnostics.length) return diagnostics;
-  const renames = new Map([...packageRenames, ...modelRenames]);
+  const trees = {
+    base: parseTree(baseGenerated, "baseGenerated", report),
+    custom: parseTree(baseSource, "baseSource", report),
+    incoming: parseTree(generated, "generated", report),
+    output: parseTree(source, "source", report),
+  };
+  const baselineModels = inventory(trees.custom, modelFile);
+  const renames = new Map([
+    ...[...packageRenames].filter(([original]) => !baselineModels.has(original)),
+    ...modelRenames,
+  ]);
   for (const name of renames.keys()) {
     try {
       mapped(name, renames);
@@ -1581,20 +2049,21 @@ export function validateCustomization({
     }
   }
   if (diagnostics.length) return diagnostics;
-  const trees = {
-    base: parseTree(baseGenerated, "baseGenerated", report),
-    custom: parseTree(baseSource, "baseSource", report),
-    incoming: parseTree(generated, "generated", report),
-    output: parseTree(source, "source", report),
-  };
-  const baselineModels = inventory(trees.custom, modelFile);
   const previousDiagnosticCount = diagnostics.length;
+  let emittedRenames;
+  const verifiedEmittedRename = (original) => {
+    if (!modelRenames.has(original)) return undefined;
+    emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
+    const replacement = emittedRenames.get(original);
+    return replacement === modelRenames.get(original) ? replacement : undefined;
+  };
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;
     const existing = baselineModels
       .get(original)
       ?.find((entry) => ts.isFunctionDeclaration(entry.node));
     if (existing) {
+      if (verifiedEmittedRename(original) === replacement) continue;
       report(
         existing.file,
         original,
@@ -1611,9 +2080,9 @@ export function validateCustomization({
     if (match.base?.options && match.customized?.options)
       exportRenames.set(match.base.options, match.customized.options);
   }
-  checkExports(trees, exportRenames, report);
+  checkExports(trees, exportRenames, report, verifiedEmittedRename);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report);
+  checkProtected(trees, renames, report, matches, packageVersion);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }

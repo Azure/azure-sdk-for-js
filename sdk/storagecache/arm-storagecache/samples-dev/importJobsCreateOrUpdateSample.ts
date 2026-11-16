@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an import job.
  *
  * @summary create or update an import job.
- * x-ms-original-file: 2026-01-01/importJobs_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01/importJobs_CreateOrUpdate.json
  */
 async function importJobsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

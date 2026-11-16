@@ -5,5 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface InstancePoolOperationsListByInstancePoolOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface InstancePoolOperationsGetOptionalParams extends OperationOptions {}

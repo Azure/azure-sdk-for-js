@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all route tables applied to a network interface.
  *
  * @summary gets all route tables applied to a network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceEffectiveRouteTableList.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceEffectiveRouteTableList.json
  */
 async function showNetworkInterfaceEffectiveRouteTables() {
   const credential = new DefaultAzureCredential();

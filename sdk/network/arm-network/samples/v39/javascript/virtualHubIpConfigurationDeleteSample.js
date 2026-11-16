@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a VirtualHubIpConfiguration.
  *
  * @summary deletes a VirtualHubIpConfiguration.
- * x-ms-original-file: 2026-01-01/VirtualHubIpConfigurationDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualHubIpConfigurationDelete.json
  */
 async function virtualHubIpConfigurationDelete() {
   const credential = new DefaultAzureCredential();

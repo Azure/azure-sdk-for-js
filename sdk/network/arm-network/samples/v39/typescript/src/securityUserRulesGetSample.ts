@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a security user rule.
  *
  * @summary gets a security user rule.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleGet.json
  */
 async function getsASecurityUserRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

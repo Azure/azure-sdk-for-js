@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to acquires server DNS alias from another server.
  *
  * @summary acquires server DNS alias from another server.
- * x-ms-original-file: 2025-08-01-preview/ServerDnsAliasAcquire.json
+ * x-ms-original-file: 2026-08-01-preview/ServerDnsAliasAcquire.json
  */
 async function acquireServerDNSAlias(): Promise<void> {
   const credential = new DefaultAzureCredential();

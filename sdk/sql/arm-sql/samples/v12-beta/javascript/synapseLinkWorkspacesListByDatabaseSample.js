@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all synapselink workspaces for a database.
  *
  * @summary gets all synapselink workspaces for a database.
- * x-ms-original-file: 2025-08-01-preview/SynapseLinkWorkspaceListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/SynapseLinkWorkspaceListByDatabase.json
  */
 async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
   const credential = new DefaultAzureCredential();

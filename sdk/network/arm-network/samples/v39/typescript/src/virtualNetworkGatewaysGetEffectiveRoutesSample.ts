@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves a list of effective routes for the virtual network gateway.
  *
  * @summary this operation retrieves a list of effective routes for the virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGetEffectiveRoutes.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGetEffectiveRoutes.json
  */
 async function getVirtualNetworkGatewayEffectiveRoutes(): Promise<void> {
   const credential = new DefaultAzureCredential();

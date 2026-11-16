@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post to List of Network Manager Deployment Status.
  *
  * @summary post to List of Network Manager Deployment Status.
- * x-ms-original-file: 2026-01-01/NetworkManagerDeploymentStatusList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerDeploymentStatusList.json
  */
 async function networkManagerDeploymentStatusList() {
   const credential = new DefaultAzureCredential();

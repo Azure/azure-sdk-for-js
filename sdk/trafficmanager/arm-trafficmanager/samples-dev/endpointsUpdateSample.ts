@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Traffic Manager endpoint.
  *
  * @summary update a Traffic Manager endpoint.
- * x-ms-original-file: 2024-04-01-preview/Endpoint-PATCH-External-Target.json
+ * x-ms-original-file: 2026-09-01/Endpoint-PATCH-External-Target.json
  */
 async function endpointPatchExternalTarget(): Promise<void> {
   const credential = new DefaultAzureCredential();

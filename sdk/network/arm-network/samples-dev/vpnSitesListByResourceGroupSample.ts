@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the vpnSites in a resource group.
  *
  * @summary lists all the vpnSites in a resource group.
- * x-ms-original-file: 2026-01-01/VpnSiteListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/VpnSiteListByResourceGroup.json
  */
 async function vpnSiteListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

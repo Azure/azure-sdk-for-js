@@ -18,6 +18,8 @@ import type { MhsmPrivateLinkResourcesOperations } from "./classic/mhsmPrivateLi
 import { _getMhsmPrivateLinkResourcesOperations } from "./classic/mhsmPrivateLinkResources/index.js";
 import type { MhsmRegionsOperations } from "./classic/mhsmRegions/index.js";
 import { _getMhsmRegionsOperations } from "./classic/mhsmRegions/index.js";
+import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
@@ -59,14 +61,7 @@ export class KeyVaultManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKeyVaultManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKeyVaultManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.mhsmPrivateEndpointConnections = _getMhsmPrivateEndpointConnectionsOperations(
       this._client,
@@ -78,6 +73,8 @@ export class KeyVaultManagementClient {
     this.keys = _getKeysOperations(this._client);
     this.secrets = _getSecretsOperations(this._client);
     this.managedHsms = _getManagedHsmsOperations(this._client);
+    this.networkSecurityPerimeterConfigurations =
+      _getNetworkSecurityPerimeterConfigurationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.vaults = _getVaultsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -99,6 +96,8 @@ export class KeyVaultManagementClient {
   public readonly secrets: SecretsOperations;
   /** The operation groups for managedHsms */
   public readonly managedHsms: ManagedHsmsOperations;
+  /** The operation groups for networkSecurityPerimeterConfigurations */
+  public readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for vaults */

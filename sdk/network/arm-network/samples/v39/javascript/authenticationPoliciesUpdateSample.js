@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the tags and identity of an authentication policy.
  *
  * @summary updates the tags and identity of an authentication policy.
- * x-ms-original-file: 2026-01-01/AuthenticationPolicyUpdate.json
+ * x-ms-original-file: 2026-03-01/AuthenticationPolicyUpdate.json
  */
 async function updatesAuthenticationPolicyTagsAndIdentity() {
   const credential = new DefaultAzureCredential();

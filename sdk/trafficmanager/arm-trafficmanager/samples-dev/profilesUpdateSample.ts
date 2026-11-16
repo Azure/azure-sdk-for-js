@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Traffic Manager profile.
  *
  * @summary update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PATCH-MonitorConfig.json
+ * x-ms-original-file: 2026-09-01/Profile-PATCH-MonitorConfig.json
  */
 async function profilePatchMonitorConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function profilePatchMonitorConfig(): Promise<void> {
  * This sample demonstrates how to update a Traffic Manager profile.
  *
  * @summary update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PATCH-RecordType.json
+ * x-ms-original-file: 2026-09-01/Profile-PATCH-RecordType.json
  */
 async function profilePatchRecordType(): Promise<void> {
   const credential = new DefaultAzureCredential();

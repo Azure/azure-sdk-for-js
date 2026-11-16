@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Configuration records within a subscription and resource group
  *
  * @summary get Configuration records within a subscription and resource group
- * x-ms-original-file: 2023-10-01-preview/ApplyUpdatesResourceGroup_List.json
+ * x-ms-original-file: 2025-10-01-preview/ApplyUpdatesResourceGroup_List.json
  */
 async function applyUpdatesResourceGroupList() {
   const credential = new DefaultAzureCredential();

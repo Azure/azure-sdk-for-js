@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a HubVirtualNetworkConnection.
  *
  * @summary deletes a HubVirtualNetworkConnection.
- * x-ms-original-file: 2026-01-01/HubVirtualNetworkConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/HubVirtualNetworkConnectionDelete.json
  */
 async function hubVirtualNetworkConnectionDelete() {
   const credential = new DefaultAzureCredential();

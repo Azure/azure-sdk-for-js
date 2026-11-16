@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the ExpressRouteLag resources in the specified resource group.
  *
  * @summary list all the ExpressRouteLag resources in the specified resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagListByResourceGroup.json
  */
 async function listExpressRouteLagsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

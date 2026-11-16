@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation will stop protection of a backup instance and data will be held forever
  *
  * @summary this operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/StopProtection.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/StopProtection.json
  */
 async function stopProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function stopProtection(): Promise<void> {
  * This sample demonstrates how to this operation will stop protection of a backup instance and data will be held forever
  *
  * @summary this operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
  */
 async function stopProtectionWithMUA(): Promise<void> {
   const credential = new DefaultAzureCredential();

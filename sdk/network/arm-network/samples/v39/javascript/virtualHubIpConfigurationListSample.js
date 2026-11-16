@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of all VirtualHubIpConfigurations.
  *
  * @summary retrieves the details of all VirtualHubIpConfigurations.
- * x-ms-original-file: 2026-01-01/VirtualHubIpConfigurationList.json
+ * x-ms-original-file: 2026-03-01/VirtualHubIpConfigurationList.json
  */
 async function virtualHubRouteTableV2List() {
   const credential = new DefaultAzureCredential();

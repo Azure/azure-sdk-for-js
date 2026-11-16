@@ -38,36 +38,18 @@ export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
   /**
-   * Compares document producers based on their partition key range minInclusive values.
-   * Uses minEPK as a tie-breaker when minInclusive values are equal.
+   * Compares document producers based on their effective logical range starts.
    */
   private targetPartitionKeyRangeDocProdComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): 0 | 1 | -1 {
-    const a = docProd1.getTargetPartitionKeyRange().minInclusive;
-    const b = docProd2.getTargetPartitionKeyRange().minInclusive;
-
-    // Primary comparison using minInclusive (ascending lexicographic order)
-    if (a !== b) {
-      return a < b ? -1 : 1;
-    }
-
-    // Tie-breaker: use minEPK when minInclusive values are equal
-    const epkA = docProd1.startEpk;
-    const epkB = docProd2.startEpk;
-    return epkA !== undefined && epkB !== undefined ? (epkA < epkB ? -1 : epkA > epkB ? 1 : 0) : 0;
+    const a = docProd1.startEpk ?? docProd1.getTargetPartitionKeyRange().minInclusive;
+    const b = docProd2.startEpk ?? docProd2.getTargetPartitionKeyRange().minInclusive;
+    return a < b ? -1 : a > b ? 1 : 0;
   }
 
   public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
-    // Need to check for split, since we don't want to dereference "item" of undefined / exception
-    if (docProd1.gotSplit()) {
-      return -1;
-    }
-    if (docProd2.gotSplit()) {
-      return 1;
-    }
-
     const orderByItemsRes1 = this.getOrderByItems(docProd1.peekBufferedItems()[0]);
     const orderByItemsRes2 = this.getOrderByItems(docProd2.peekBufferedItems()[0]);
 

@@ -103,6 +103,7 @@ export interface SyncAgentsOperations {
     options?: SyncAgentsGetOptionalParams,
   ) => Promise<SyncAgent>;
 }
+
 function _getSyncAgents(context: SqlManagementContext) {
   return {
     listLinkedDatabases: (
@@ -195,6 +196,7 @@ function _getSyncAgents(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, syncAgentName, options),
   };
 }
+
 export function _getSyncAgentsOperations(context: SqlManagementContext): SyncAgentsOperations {
   return {
     ..._getSyncAgents(context),

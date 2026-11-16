@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets maintenance windows settings for a database.
  *
  * @summary gets maintenance windows settings for a database.
- * x-ms-original-file: 2025-08-01-preview/GetMaintenanceWindows.json
+ * x-ms-original-file: 2026-08-01-preview/GetMaintenanceWindows.json
  */
 async function getsMaintenanceWindowSettingsForASelectedDatabase() {
   const credential = new DefaultAzureCredential();

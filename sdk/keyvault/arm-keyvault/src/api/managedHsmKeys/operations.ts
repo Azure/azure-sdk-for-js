@@ -40,7 +40,7 @@ export function _listVersionsSend(
       resourceGroupName: resourceGroupName,
       name: name,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -79,7 +81,11 @@ export function listVersions(
     () => _listVersionsSend(context, resourceGroupName, name, keyName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -99,7 +105,7 @@ export function _getVersionSend(
       name: name,
       keyName: keyName,
       keyVersion: keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +123,9 @@ export async function _getVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -157,7 +165,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +183,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -195,7 +205,11 @@ export function list(
     () => _listSend(context, resourceGroupName, name, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -214,7 +228,7 @@ export function _createIfNotExistSend(
       resourceGroupName: resourceGroupName,
       name: name,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +248,9 @@ export async function _createIfNotExistDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -276,7 +292,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       name: name,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,7 +308,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

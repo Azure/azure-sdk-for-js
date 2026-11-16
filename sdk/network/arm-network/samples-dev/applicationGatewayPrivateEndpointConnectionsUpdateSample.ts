@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the specified private endpoint connection on application gateway.
  *
  * @summary updates the specified private endpoint connection on application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayPrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayPrivateEndpointConnectionUpdate.json
  */
 async function updateApplicationGatewayPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

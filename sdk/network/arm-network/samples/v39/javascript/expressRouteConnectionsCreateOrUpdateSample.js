@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
  *
  * @summary creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteConnectionCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteConnectionCreate.json
  */
 async function expressRouteConnectionCreate() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all route filters in a resource group.
  *
  * @summary gets all route filters in a resource group.
- * x-ms-original-file: 2026-01-01/RouteFilterListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/RouteFilterListByResourceGroup.json
  */
 async function routeFilterListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

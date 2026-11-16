@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates/Updates the Pool resource.
  *
  * @summary creates/Updates the Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_Create.json
+ * x-ms-original-file: 2026-03-01/IpamPools_Create.json
  */
 async function ipamPoolsCreate() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function ipamPoolsCreate() {
  * This sample demonstrates how to creates/Updates the Pool resource.
  *
  * @summary creates/Updates the Pool resource.
- * x-ms-original-file: 2026-01-01/IpamPools_CreateWithAllocationBounds.json
+ * x-ms-original-file: 2026-03-01/IpamPools_CreateWithAllocationBounds.json
  */
 async function createOrUpdateThePoolResourceWithAllocationSizeBounds() {
   const credential = new DefaultAzureCredential();

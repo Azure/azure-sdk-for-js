@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the rule collections in a routing configuration, in a paginated format.
  *
  * @summary lists all the rule collections in a routing configuration, in a paginated format.
- * x-ms-original-file: 2026-01-01/NetworkManagerRoutingRuleCollectionList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerRoutingRuleCollectionList.json
  */
 async function listRoutingRuleCollections() {
   const credential = new DefaultAzureCredential();

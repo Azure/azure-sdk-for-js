@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels a managed database move operation.
  *
  * @summary cancels a managed database move operation.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseCancelMove.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseCancelMove.json
  */
 async function cancelsAManagedDatabaseMove(): Promise<void> {
   const credential = new DefaultAzureCredential();

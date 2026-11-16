@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Fleet
  *
  * @summary create a Fleet
- * x-ms-original-file: 2026-06-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-01/Fleets_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fleetsCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -321,13 +321,6 @@ async function fleetsCreateOrUpdateMaximumSetGen(): Promise<void> {
       },
       mode: "Launch",
       capacityType: "VM",
-      zoneAllocationPolicy: {
-        distributionStrategy: "Prioritized",
-        zonePreferences: [
-          { zone: "1", rank: 0 },
-          { zone: "2", rank: 1 },
-        ],
-      },
       vmAttributes: {
         vCpuCount: { min: 2, max: 4 },
         memoryInGiB: { min: 2, max: 4 },

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the tags of the specified connection analyzer.
  *
  * @summary updates the tags of the specified connection analyzer.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionAnalyzerUpdateTags.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionAnalyzerUpdateTags.json
  */
 async function updateConnectionAnalyzerTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the details of a ExpressRoute gateway in a resource group.
  *
  * @summary fetches the details of a ExpressRoute gateway in a resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayGet.json
  */
 async function expressRouteGatewayGet() {
   const credential = new DefaultAzureCredential();

@@ -652,7 +652,7 @@ export function backupDatasourceParametersUnionArrayDeserializer(
 /** Parameters for Backup Datasource */
 export interface BackupDatasourceParameters {
   /** Type of the specific object - used for deserializing */
-  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection, GenericBackupDatasourceParameters */
+  /** The discriminator possible values: KubernetesClusterBackupDatasourceParameters, BlobBackupDatasourceParameters, BlobBackupDatasourceParametersForAutoProtection, AdlsBlobBackupDatasourceParameters, AdlsBlobBackupDatasourceParametersForAutoProtection, PostgreSqlFlexibleServerBackupDatasourceParameters, GenericBackupDatasourceParameters */
   objectType: string;
 }
 
@@ -672,6 +672,7 @@ export type BackupDatasourceParametersUnion =
   | BlobBackupDatasourceParametersUnion
   | BlobBackupDatasourceParametersForAutoProtection
   | AdlsBlobBackupDatasourceParametersForAutoProtection
+  | PostgreSqlFlexibleServerBackupDatasourceParameters
   | GenericBackupDatasourceParameters
   | BackupDatasourceParameters;
 
@@ -698,6 +699,11 @@ export function backupDatasourceParametersUnionSerializer(
     case "AdlsBlobBackupDatasourceParametersForAutoProtection":
       return adlsBlobBackupDatasourceParametersForAutoProtectionSerializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
+      );
+
+    case "PostgreSqlFlexibleServerBackupDatasourceParameters":
+      return postgreSqlFlexibleServerBackupDatasourceParametersSerializer(
+        item as PostgreSqlFlexibleServerBackupDatasourceParameters,
       );
 
     case "GenericBackupDatasourceParameters":
@@ -731,6 +737,11 @@ export function backupDatasourceParametersUnionDeserializer(
     case "AdlsBlobBackupDatasourceParametersForAutoProtection":
       return adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
         item as AdlsBlobBackupDatasourceParametersForAutoProtection,
+      );
+
+    case "PostgreSqlFlexibleServerBackupDatasourceParameters":
+      return postgreSqlFlexibleServerBackupDatasourceParametersDeserializer(
+        item as PostgreSqlFlexibleServerBackupDatasourceParameters,
       );
 
     case "GenericBackupDatasourceParameters":
@@ -1159,6 +1170,46 @@ export function adlsBlobBackupDatasourceParametersForAutoProtectionDeserializer(
     ),
   };
 }
+
+/** Parameters to be used during configuration of backup of PostgreSQL Flexible Servers */
+export interface PostgreSqlFlexibleServerBackupDatasourceParameters extends BackupDatasourceParameters {
+  /** Type of backup taken, Logical/Physical */
+  backupSolutionType?: BackupSolutionType;
+  objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters";
+}
+
+export function postgreSqlFlexibleServerBackupDatasourceParametersSerializer(
+  item: PostgreSqlFlexibleServerBackupDatasourceParameters,
+): any {
+  return { objectType: item["objectType"], backupSolutionType: item["backupSolutionType"] };
+}
+
+export function postgreSqlFlexibleServerBackupDatasourceParametersDeserializer(
+  item: any,
+): PostgreSqlFlexibleServerBackupDatasourceParameters {
+  return {
+    objectType: item["objectType"],
+    backupSolutionType: item["backupSolutionType"],
+  };
+}
+
+/** Backup solution types for PostgreSQL Flexible Server. */
+export enum KnownBackupSolutionType {
+  /** Logical backup type */
+  LogicalBackup = "LogicalBackup",
+  /** Physical backup type */
+  PhysicalBackup = "PhysicalBackup",
+}
+
+/**
+ * Backup solution types for PostgreSQL Flexible Server. \
+ * {@link KnownBackupSolutionType} can be used interchangeably with BackupSolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogicalBackup**: Logical backup type \
+ * **PhysicalBackup**: Physical backup type
+ */
+export type BackupSolutionType = string;
 
 /** Generic parameters to be used during configuration of backup */
 export interface GenericBackupDatasourceParameters extends BackupDatasourceParameters {
@@ -3140,15 +3191,25 @@ export type SoftDeleteState = string;
 export interface ImmutabilitySettings {
   /** Immutability state */
   state?: ImmutabilityState;
+  /** Immutability configuration containing type and duration. */
+  configuration?: ImmutabilityConfiguration;
 }
 
 export function immutabilitySettingsSerializer(item: ImmutabilitySettings): any {
-  return { state: item["state"] };
+  return {
+    state: item["state"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : immutabilityConfigurationSerializer(item["configuration"]),
+  };
 }
 
 export function immutabilitySettingsDeserializer(item: any): ImmutabilitySettings {
   return {
     state: item["state"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : immutabilityConfigurationDeserializer(item["configuration"]),
   };
 }
 
@@ -3172,6 +3233,46 @@ export enum KnownImmutabilityState {
  * **Locked**
  */
 export type ImmutabilityState = string;
+
+/** Immutability configuration containing type and duration. */
+export interface ImmutabilityConfiguration {
+  /** Type of immutability. Supported values: AsPerPolicy or TimeBased. */
+  type?: ImmutabilityType;
+  /**
+   * Duration in days for time-based immutability.
+   * Required when type is TimeBased. Must be null when type is AsPerPolicy.
+   */
+  durationInDays?: number;
+}
+
+export function immutabilityConfigurationSerializer(item: ImmutabilityConfiguration): any {
+  return { type: item["type"], durationInDays: item["durationInDays"] };
+}
+
+export function immutabilityConfigurationDeserializer(item: any): ImmutabilityConfiguration {
+  return {
+    type: item["type"],
+    durationInDays: item["durationInDays"],
+  };
+}
+
+/** Type of immutability configuration. */
+export enum KnownImmutabilityType {
+  /** Immutability is enforced as per the backup policy retention. */
+  AsPerPolicy = "AsPerPolicy",
+  /** Time-based immutability with a configurable duration window. */
+  TimeBased = "TimeBased",
+}
+
+/**
+ * Type of immutability configuration. \
+ * {@link KnownImmutabilityType} can be used interchangeably with ImmutabilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AsPerPolicy**: Immutability is enforced as per the backup policy retention. \
+ * **TimeBased**: Time-based immutability with a configurable duration window.
+ */
+export type ImmutabilityType = string;
 
 /** Customer Managed Key details of the resource. */
 export interface EncryptionSettings {
@@ -4079,12 +4180,12 @@ export interface OperationResource {
   endTime?: Date;
   /**
    * Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines.
-   * The full set of optional properties (e.g. inner errors / details) can be found in the "Error Response" section.
+   * The full set of optional properties (e.g. inner errors / details) can be found in the `Error Response` section.
    */
   error?: ErrorModel;
   /** It should match what is used to GET the operation result */
   id?: string;
-  /** It must match the last segment of the "id" field, and will typically be a GUID / system generated value */
+  /** It must match the last segment of the `id` field, and will typically be a GUID / system generated value. */
   name?: string;
   /** End time of the operation */
   properties?: OperationExtendedInfoUnion;
@@ -4695,8 +4796,8 @@ export function backupCriteriaUnionDeserializer(item: any): BackupCriteriaUnion 
 /** Schedule based backup criteria */
 export interface ScheduleBasedBackupCriteria extends BackupCriteria {
   /**
-   * it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
-   * and should be part of AbsoluteMarker enum
+   * It contains absolute marker values such as `AllBackup`, `FirstOfDay`, `FirstOfWeek`, and `FirstOfMonth`.
+   * These values should be part of the `AbsoluteMarker` enum.
    */
   absoluteCriteria?: AbsoluteMarker[];
   /** This is day of the month from 1 to 28 other wise last of month */
@@ -5385,6 +5486,8 @@ export interface AzureBackupDiscreteRecoveryPoint extends AzureBackupRecoveryPoi
   readonly expiryTime?: Date;
   /** Specifies recovery point completeness. Partial (i.e., only some of the intended items were backed up), or Completed (i.e., ALL intended items were backed up). */
   recoveryPointState?: RecoveryPointCompletionState;
+  /** Immutability properties of the recovery point. */
+  readonly immutabilityProperties?: RecoveryPointImmutabilityProperties;
   objectType: "AzureBackupDiscreteRecoveryPoint";
 }
 
@@ -5406,6 +5509,9 @@ export function azureBackupDiscreteRecoveryPointDeserializer(
     retentionTagVersion: item["retentionTagVersion"],
     expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
     recoveryPointState: item["recoveryPointState"],
+    immutabilityProperties: !item["immutabilityProperties"]
+      ? item["immutabilityProperties"]
+      : recoveryPointImmutabilityPropertiesDeserializer(item["immutabilityProperties"]),
   };
 }
 
@@ -5482,6 +5588,26 @@ export enum KnownRecoveryPointCompletionState {
  * **Partial**
  */
 export type RecoveryPointCompletionState = string;
+
+/** Immutability properties of a recovery point. */
+export interface RecoveryPointImmutabilityProperties {
+  /** Whether the recovery point is currently within its immutability window. */
+  isImmutable: boolean;
+  /**
+   * UTC time when the recovery point's immutability window expires.
+   * Null for AsPerPolicy vaults.
+   */
+  expiryTime?: Date;
+}
+
+export function recoveryPointImmutabilityPropertiesDeserializer(
+  item: any,
+): RecoveryPointImmutabilityProperties {
+  return {
+    isImmutable: item["isImmutable"],
+    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
+  };
+}
 
 /** Azure backup recoveryPoint resource list */
 export interface _AzureBackupRecoveryPointResourceList extends DppResourceList {
@@ -6269,4 +6395,6 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }

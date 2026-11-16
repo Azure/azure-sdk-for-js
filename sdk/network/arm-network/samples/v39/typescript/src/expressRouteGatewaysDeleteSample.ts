@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
  *
  * @summary deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
- * x-ms-original-file: 2026-01-01/ExpressRouteGatewayDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteGatewayDelete.json
  */
 async function expressRouteGatewayDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

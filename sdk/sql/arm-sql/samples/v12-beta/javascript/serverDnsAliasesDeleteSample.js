@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the server DNS alias with the given name.
  *
  * @summary deletes the server DNS alias with the given name.
- * x-ms-original-file: 2025-08-01-preview/ServerDnsAliasDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ServerDnsAliasDelete.json
  */
 async function deleteServerDNSAlias() {
   const credential = new DefaultAzureCredential();

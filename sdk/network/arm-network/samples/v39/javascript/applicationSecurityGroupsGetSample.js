@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about the specified application security group.
  *
  * @summary gets information about the specified application security group.
- * x-ms-original-file: 2026-01-01/ApplicationSecurityGroupGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationSecurityGroupGet.json
  */
 async function getApplicationSecurityGroup() {
   const credential = new DefaultAzureCredential();

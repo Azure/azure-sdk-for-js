@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to forces the network security perimeter configuration to refresh for a private link scope.
  *
  * @summary forces the network security perimeter configuration to refresh for a private link scope.
- * x-ms-original-file: 2026-07-15/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: 2026-09-01/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

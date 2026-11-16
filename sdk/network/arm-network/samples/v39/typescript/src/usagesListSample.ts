@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list network usages for a subscription.
  *
  * @summary list network usages for a subscription.
- * x-ms-original-file: 2026-01-01/UsageList.json
+ * x-ms-original-file: 2026-03-01/UsageList.json
  */
 async function listUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listUsages(): Promise<void> {
  * This sample demonstrates how to list network usages for a subscription.
  *
  * @summary list network usages for a subscription.
- * x-ms-original-file: 2026-01-01/UsageListSpacedLocation.json
+ * x-ms-original-file: 2026-03-01/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();

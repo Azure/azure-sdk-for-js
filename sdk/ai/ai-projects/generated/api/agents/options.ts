@@ -9,9 +9,11 @@ import {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
+  AgentOptimizationCandidateExpand,
 } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
@@ -198,6 +200,85 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsPromoteOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationCandidatesOptionalParams extends OperationOptions {
+  /** Comma-separated list of expand keys. Pass `mutations` to populate mutation `value` fields; omit to receive mutation items containing only `type`. Additional expand keys may be added in future previews. */
+  expand?: AgentOptimizationCandidateExpand[];
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /** Sort order by the candidate `started_at` timestamp. */
+  order?: PageOrder;
+  /** Candidate-ID cursor identifying the last item from the previous page. */
+  after?: string;
+  /** Candidate-ID cursor identifying the first item from the following page. */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDeleteOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCancelOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationJobsOptionalParams extends OperationOptions {
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+  /** Filter to jobs in this lifecycle state. */
+  status?: JobStatus;
+  /** Filter to jobs targeting this agent name. */
+  agentName?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadOptimizationJobFileOptionalParams extends OperationOptions {
+  /** The candidate that owns the file. Omit to request a job-level file. */
+  candidateId?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsEstimateOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCreateOptimizationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  operationId?: string;
+}
+
+/** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -257,10 +338,15 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
 
 /** Optional parameters. */
 export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /** The endpoint configuration for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
@@ -308,6 +394,8 @@ export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -380,6 +468,8 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -395,6 +485,8 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -426,6 +518,9 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
 }
+
+/** Optional parameters. */
+export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {

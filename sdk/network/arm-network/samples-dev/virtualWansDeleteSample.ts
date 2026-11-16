@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a VirtualWAN.
  *
  * @summary deletes a VirtualWAN.
- * x-ms-original-file: 2026-01-01/VirtualWANDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualWANDelete.json
  */
 async function virtualWANDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

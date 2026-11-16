@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary creates a subvolume in the path or clones the subvolume mentioned in the parentPath
  * Deprecated. This operation will be removed in a future API version.
- * x-ms-original-file: 2026-06-15-preview/Subvolumes_Create.json
+ * x-ms-original-file: 2026-08-15-preview/Subvolumes_Create.json
  */
 async function subvolumesCreate() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of database advisors.
  *
  * @summary gets a list of database advisors.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAdvisorList.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAdvisorList.json
  */
 async function listOfDatabaseAdvisors(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listOfDatabaseAdvisors(): Promise<void> {
  * This sample demonstrates how to gets a list of database advisors.
  *
  * @summary gets a list of database advisors.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRecommendedActionListExpand.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRecommendedActionListExpand.json
  */
 async function listOfDatabaseRecommendedActionsForAllAdvisors(): Promise<void> {
   const credential = new DefaultAzureCredential();

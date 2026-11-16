@@ -1,0 +1,29 @@
+{
+  "location": "West US",
+  "tags": {},
+  "properties": {
+    "resource": {
+      "id": "collectionName",
+      "indexes": [
+        {
+          "key": {
+            "keys": ["_ts"]
+          },
+          "options": {
+            "expireAfterSeconds": 100,
+            "unique": true
+          }
+        },
+        {
+          "key": {
+            "keys": ["_id"]
+          }
+        }
+      ],
+      "shardKey": {
+        "testKey": "Hash"
+      }
+    },
+    "options": {}
+  }
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of authorization rules for a Namespace.
  *
  * @summary gets a list of authorization rules for a Namespace.
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
  */
 async function listAuthorizationRules(): Promise<void> {
   const credential = new DefaultAzureCredential();

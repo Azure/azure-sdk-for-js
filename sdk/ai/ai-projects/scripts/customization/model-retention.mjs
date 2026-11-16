@@ -42,7 +42,13 @@ function terminal(clause) {
  * the normal three-way merger treats their customized versions as additions.
  * No committed or emitted input files are changed.
  */
-export function retainedModelBases(before, custom, incoming, diagnostics) {
+export function retainedModelBases(
+  before,
+  custom,
+  incoming,
+  diagnostics,
+  upstreamDiscriminators = new Set(),
+) {
   const retained = new Map();
   for (const [name, entry] of custom) {
     if (!before.has(name) || incoming.has(name) || !ts.isInterfaceDeclaration(entry.node)) continue;
@@ -117,6 +123,7 @@ export function retainedModelBases(before, custom, incoming, diagnostics) {
   }
   const overrides = new Map();
   for (const name of new Set([...typeMembers.keys(), ...literalMembers.keys()])) {
+    if (upstreamDiscriminators.has(name)) continue;
     const entry = before.get(name);
     if (!entry || !incoming.has(name)) continue;
     const source = parse(entry.text);
@@ -134,6 +141,42 @@ export function retainedModelBases(before, custom, incoming, diagnostics) {
     });
     if (kept.length === types.length) continue;
     if (!kept.length) {
+      // #46465 replaces telephony resource models, not these discriminator
+      // contracts. No virtual ancestor rewrite is needed when all three
+      // inputs retain exactly the approved literals. Changed values still
+      // require an explicit policy rather than silently retaining old values.
+      const telephonyValues = new Map([
+        ["TelephonyProvider", ["teams_phone_extensibility", "twilio", "sip"]],
+        ["TelephonyOutboundRetryPolicyType", ["fixed_interval"]],
+      ]);
+      const expected = telephonyValues.get(name);
+      if (
+        expected &&
+        !typeMembers.has(name) &&
+        [before, custom, incoming].every((declarations) => {
+          const declaration = declarations.get(name)?.node;
+          if (!declaration || !ts.isTypeAliasDeclaration(declaration)) return false;
+          const values = alternatives(declaration.type);
+          return (
+            values.length === expected.length &&
+            expected.every((value) =>
+              values.some(
+                (type) =>
+                  ts.isLiteralTypeNode(type) &&
+                  ts.isStringLiteral(type.literal) &&
+                  type.literal.text === value,
+              ),
+            ) &&
+            values.every(
+              (type) =>
+                ts.isLiteralTypeNode(type) &&
+                ts.isStringLiteral(type.literal) &&
+                expected.includes(type.literal.text),
+            )
+          );
+        })
+      )
+        continue;
       diagnostics.push({
         file: "models/models.ts",
         declaration: name,

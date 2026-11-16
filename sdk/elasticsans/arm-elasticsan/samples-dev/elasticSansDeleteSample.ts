@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Elastic San.
  *
  * @summary delete a Elastic San.
- * x-ms-original-file: 2025-09-01/ElasticSans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_Delete_MaximumSet_Gen.json
  */
 async function elasticSansDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function elasticSansDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete a Elastic San.
  *
  * @summary delete a Elastic San.
- * x-ms-original-file: 2025-09-01/ElasticSans_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

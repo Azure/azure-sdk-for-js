@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Bastion Host.
  *
  * @summary gets the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostDeveloperGet.json
+ * x-ms-original-file: 2026-03-01/BastionHostDeveloperGet.json
  */
 async function getDeveloperBastionHost() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getDeveloperBastionHost() {
  * This sample demonstrates how to gets the specified Bastion Host.
  *
  * @summary gets the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostGet.json
+ * x-ms-original-file: 2026-03-01/BastionHostGet.json
  */
 async function getBastionHost() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getBastionHost() {
  * This sample demonstrates how to gets the specified Bastion Host.
  *
  * @summary gets the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostGetWithPrivateOnly.json
+ * x-ms-original-file: 2026-03-01/BastionHostGetWithPrivateOnly.json
  */
 async function getBastionHostWithPrivateOnly() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getBastionHostWithPrivateOnly() {
  * This sample demonstrates how to gets the specified Bastion Host.
  *
  * @summary gets the specified Bastion Host.
- * x-ms-original-file: 2026-01-01/BastionHostGetWithZones.json
+ * x-ms-original-file: 2026-03-01/BastionHostGetWithZones.json
  */
 async function getBastionHostWithZones() {
   const credential = new DefaultAzureCredential();

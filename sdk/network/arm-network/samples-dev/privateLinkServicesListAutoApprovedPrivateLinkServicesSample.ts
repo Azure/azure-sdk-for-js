@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
  *
  * @summary returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
- * x-ms-original-file: 2026-01-01/AutoApprovedPrivateLinkServicesGet.json
+ * x-ms-original-file: 2026-03-01/AutoApprovedPrivateLinkServicesGet.json
  */
 async function getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWithAutoApproved(): Promise<void> {
   const credential = new DefaultAzureCredential();

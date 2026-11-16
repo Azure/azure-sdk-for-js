@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a ConnectionPolicy.
  *
  * @summary retrieves the details of a ConnectionPolicy.
- * x-ms-original-file: 2026-01-01/ConnectionPolicyGet.json
+ * x-ms-original-file: 2026-03-01/ConnectionPolicyGet.json
  */
 async function connectionPolicyGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

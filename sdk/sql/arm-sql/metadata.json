@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Sql": "2025-08-01-preview"
+    "Microsoft.Sql": "2026-08-01-preview"
   },
-  "emitterVersion": "0.55.2",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Sql",
     "CrossLanguageDefinitionId": {
@@ -563,6 +563,7 @@
       "@azure/arm-sql!KnownOperationOrigin:enum": "Microsoft.Sql.OperationOrigin",
       "@azure/arm-sql!KnownShortTermRetentionPolicyName:enum": "Microsoft.Sql.ShortTermRetentionPolicyName",
       "@azure/arm-sql!KnownDiffBackupIntervalInHours:enum": "Microsoft.Sql.DiffBackupIntervalInHours",
+      "@azure/arm-sql!KnownImmutabilityStatus:enum": "Microsoft.Sql.ImmutabilityStatus",
       "@azure/arm-sql!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-sql!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-sql!KnownColumnDataType:enum": "Microsoft.Sql.ColumnDataType",

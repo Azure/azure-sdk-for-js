@@ -101,11 +101,6 @@ export interface VaultsOperations {
     options?: VaultsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Vault>;
   /** Deletes the specified Azure key vault. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,

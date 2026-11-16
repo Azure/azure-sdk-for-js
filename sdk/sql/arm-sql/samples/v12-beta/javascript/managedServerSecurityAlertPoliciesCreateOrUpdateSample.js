@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a threat detection policy.
  *
  * @summary creates or updates a threat detection policy.
- * x-ms-original-file: 2025-08-01-preview/ManagedServerSecurityAlertCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedServerSecurityAlertCreateMax.json
  */
 async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
  * This sample demonstrates how to creates or updates a threat detection policy.
  *
  * @summary creates or updates a threat detection policy.
- * x-ms-original-file: 2025-08-01-preview/ManagedServerSecurityAlertCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedServerSecurityAlertCreateMin.json
  */
 async function updateAManagedServerThreatDetectionPolicyWithMinimalParameters() {
   const credential = new DefaultAzureCredential();

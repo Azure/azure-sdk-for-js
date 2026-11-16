@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+import type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+import { _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+import type { VoiceAgentsOperations } from "./classic/voiceAgents/index.js";
+import { _getVoiceAgentsOperations } from "./classic/voiceAgents/index.js";
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
@@ -20,6 +24,8 @@ import type { DeploymentsOperations } from "./classic/deployments/index.js";
 import { _getDeploymentsOperations } from "./classic/deployments/index.js";
 import type { EvaluationRulesOperations } from "./classic/evaluationRules/index.js";
 import { _getEvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import type { EvaluatorsOperations } from "./classic/evaluators/index.js";
+import { _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
@@ -34,6 +40,7 @@ import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 import type { VoiceAgentRealtimeClientOptions } from "./realtime/voiceAgentRealtimeClient.js";
+import { withWholeSecondCallJobSchedules } from "./telephony/callJobSchedule.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -69,7 +76,10 @@ function resolveRealtimeOptions(
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {AgentInsightMonitorsOperations} agentInsightMonitors - The operation groups for Agent Insight monitors
+ * @property {VoiceAgentsOperations} voiceAgents - Realtime voice connections, telephony, and stored Realtime conversations
  * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
+ * @property {EvaluatorsOperations} evaluators - The operation groups for evaluators
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
  * - Memory Stores
  * - Evaluators
@@ -77,7 +87,7 @@ function resolveRealtimeOptions(
  * - Insights
  * - Schedules
  * - Red Teams
- * - agents
+ * - Voice Agents preview features
  * - skills
  * - routines
  * - models
@@ -86,6 +96,12 @@ function resolveRealtimeOptions(
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
+  /** The operation groups for agentInsightMonitors */
+  public readonly agentInsightMonitors: AgentInsightMonitorsOperations;
+
+  /** Realtime voice connections, telephony, and stored Realtime conversations. */
+  public readonly voiceAgents: VoiceAgentsOperations;
+
   private _cognitiveScopeClient: AIProjectContext;
   private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
@@ -120,23 +136,45 @@ export class AIProjectClient {
     });
 
     this.toolboxes = _getToolboxesOperations(this._cognitiveScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
-    this.beta = _getBetaOperations(
+    const voiceAgents = _getVoiceAgentsOperations(
       this._cognitiveScopeClient,
       credential,
       options.endpoint ?? endpoint,
       resolveRealtimeOptions(options, prefixFromOptions),
+      this._tracingConfig,
+    );
+    this.voiceAgents = {
+      ...voiceAgents,
+      telephony: withWholeSecondCallJobSchedules(voiceAgents.telephony),
+    };
+    this.beta = _getBetaOperations(
+      this._cognitiveScopeClient,
+      credential,
+      options.endpoint ?? endpoint,
+      () => this.voiceAgents.realtime,
+      this._tracingConfig,
+      {
+        ...options.liveOptions,
+        apiVersion: options.liveOptions?.apiVersion ?? options.apiVersion,
+        credentialScopes: options.liveOptions?.credentialScopes ?? options.credentials?.scopes,
+        userAgentPrefix: options.liveOptions?.userAgentPrefix ?? prefixFromOptions,
+      },
     );
     this.telemetry = _getTelemetryOperations(this.connections);
+    this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._cognitiveScopeClient);
   }
 
   /** The operation groups for toolboxes */
   public readonly toolboxes: ToolboxesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */
@@ -161,6 +199,7 @@ export class AIProjectClient {
    * - routines
    * - models
    * - realtime (voice-agent WebSocket connections)
+   * - live (native GPT Live voice-agent WebSocket connections)
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */

@@ -1,19 +1,46 @@
 # Release History
 
-## 1.0.0-beta.46 (Unreleased)
+## 1.0.0-beta.48 (Unreleased)
+
+### Breaking Changes
+
+- Updated to OpenTelemetry SDK 3.x and the matching 0.300.x instrumentation packages. Tracing now uses `@opentelemetry/sdk-trace`, and the logs API comes from `@opentelemetry/api` 1.10.0 instead of `@opentelemetry/api-logs`. See the [OpenTelemetry migration guide](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/3.x/migration-guide.md). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+- Raised the minimum supported Node.js version to 22.15.0 to match [OpenTelemetry SDK 3.x requirements](https://github.com/open-telemetry/opentelemetry-js/issues/6420). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+### Bugs Fixed
+
+- Preserved compatible sampler attribute value types for OpenTelemetry 2.x consumers while including the numeric sample-rate attribute in the return type. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+## 1.0.0-beta.47 (2026-11-05)
 
 ### Features Added
 
-- Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. [#40053](https://github.com/Azure/azure-sdk-for-js/pull/40053).
+- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
+- Added an opt-in 4 MiB limit for `gen_ai.input.messages` and `gen_ai.output.messages` through `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=gen_ai_input_output_limit_increase`. Default GenAI limits remain at 256 KiB, and all other custom dimensions remain limited to 8 KiB. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
 
-### Breaking Changes
+### Bugs Fixed
+
+- Fixed custom dimension truncation splitting UTF-8 characters and potentially exceeding the configured byte limit. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
+
+### Other Changes
+
+- Added an internal `_configuration` subscription entry point so the Azure Monitor distro can reuse the existing OneSettings polling worker and boolean feature evaluation. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
+## 1.0.0-beta.46 (2026-10-05)
+
+### Features Added
+
+- Added OneSettings `FEATURE_LOCAL_STORAGE` control of offline telemetry storage and replay, preserving local opt-outs and queued files. [#40086](https://github.com/Azure/azure-sdk-for-js/pull/40086).
+
+- Added independent OneSettings control of customer-facing SDK Stats through `FEATURE_CUSTOMER_SDK_STATS`, preserving local opt-outs and the current state when the setting is missing or invalid. [#40053](https://github.com/Azure/azure-sdk-for-js/pull/40053).
+- Added support for mapping the `session.id` attribute on spans, span events, and logs to the Azure Monitor session context. [#40101](https://github.com/Azure/azure-sdk-for-js/pull/40101)
 
 ### Bugs Fixed
 
 - Fixed database dependency mapping for the stable OpenTelemetry attributes `db.system.name`, `db.namespace`, `db.query.text`, and `db.operation.name` without duplicating mapped attributes in custom properties, while retaining legacy attribute support, existing database type classification, and database server address and port properties. [microsoft/ApplicationInsights-node.js#1533](https://github.com/microsoft/ApplicationInsights-node.js/pull/1533)
 - Fixed OneSettings configuration profiles incorrectly identifying Azure Monitor and Microsoft OpenTelemetry distro processes as standalone exporters. [#39923](https://github.com/Azure/azure-sdk-for-js/pull/39923)
-
-### Other Changes
+- Fixed persisted telemetry replay failing when stored envelope timestamps were deserialized as strings instead of `Date` objects. [#40103](https://github.com/Azure/azure-sdk-for-js/pull/40103)
+- Modified logic for message body on Microsoft.ApplicationInsights.MessageData to include default message for messages with empty body. [#40162](https://github.com/Azure/azure-sdk-for-js/pull/40162)
 
 ## 1.0.0-beta.45 (2026-09-04)
 

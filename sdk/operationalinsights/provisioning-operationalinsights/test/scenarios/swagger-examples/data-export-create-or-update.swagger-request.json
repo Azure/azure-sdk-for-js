@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "destination": {
+      "resourceId": "/subscriptions/192b9f85-a39a-4276-b96d-d5cd351703f9/resourceGroups/OIAutoRest1234/providers/Microsoft.EventHub/namespaces/test"
+    },
+    "tableNames": ["Heartbeat"]
+  }
+}

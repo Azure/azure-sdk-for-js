@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a virtual wan p2s vpn gateway.
  *
  * @summary deletes a virtual wan p2s vpn gateway.
- * x-ms-original-file: 2026-01-01/P2SVpnGatewayDelete.json
+ * x-ms-original-file: 2026-03-01/P2SVpnGatewayDelete.json
  */
 async function p2SVpnGatewayDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

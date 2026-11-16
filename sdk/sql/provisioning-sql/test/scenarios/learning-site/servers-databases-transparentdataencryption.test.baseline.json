@@ -1,0 +1,70 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversdatabasestran"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/servers/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversdatabasestran"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "transparentDataEncryption": {
+          "bicepIdentifier": "transparentDataEncryption",
+          "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

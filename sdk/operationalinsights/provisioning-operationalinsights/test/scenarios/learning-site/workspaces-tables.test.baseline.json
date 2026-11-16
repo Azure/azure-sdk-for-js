@@ -1,0 +1,83 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-tables-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.OperationalInsights/workspaces/tables",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "LearnTable_CL"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "schema": {
+                    "kind": "object",
+                    "value": {
+                      "columns": {
+                        "kind": "array",
+                        "items": [
+                          {
+                            "kind": "object",
+                            "value": {
+                              "name": {
+                                "kind": "string",
+                                "value": "Message"
+                              },
+                              "type": {
+                                "kind": "string",
+                                "value": "string"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "name": {
+                        "kind": "string",
+                        "value": "LearnTable_CL"
+                      }
+                    }
+                  },
+                  "plan": {
+                    "kind": "string",
+                    "value": "Analytics"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

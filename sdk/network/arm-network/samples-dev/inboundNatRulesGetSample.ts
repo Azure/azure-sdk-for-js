@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified load balancer inbound NAT rule.
  *
  * @summary gets the specified load balancer inbound NAT rule.
- * x-ms-original-file: 2026-01-01/InboundNatRuleGet.json
+ * x-ms-original-file: 2026-03-01/InboundNatRuleGet.json
  */
 async function inboundNatRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

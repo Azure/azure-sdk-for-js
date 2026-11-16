@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to swaps VIPs between two load balancers.
  *
  * @summary swaps VIPs between two load balancers.
- * x-ms-original-file: 2026-01-01/LoadBalancersSwapPublicIpAddresses.json
+ * x-ms-original-file: 2026-03-01/LoadBalancersSwapPublicIpAddresses.json
  */
 async function swapVIPsBetweenTwoLoadBalancers() {
   const credential = new DefaultAzureCredential();

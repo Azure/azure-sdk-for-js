@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to queries the specified connection analyzer for diagnostic results.
  *
  * @summary queries the specified connection analyzer for diagnostic results.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionAnalyzerQuery.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionAnalyzerQuery.json
  */
 async function queryConnectionAnalyzer() {
   const credential = new DefaultAzureCredential();

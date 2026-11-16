@@ -72,6 +72,7 @@ export async function _listAssociatedResourcesDeserialize(
 
   return _resourceUriListDeserializer(result.body);
 }
+
 /** Lists all resources that are encrypted with this disk encryption set. */
 export function listAssociatedResources(
   context: Client,
@@ -123,6 +124,7 @@ export async function _listDeserialize(
 
   return _diskEncryptionSetListDeserializer(result.body);
 }
+
 /** Lists all the disk encryption sets under a subscription. */
 export function list(
   context: Client,
@@ -174,6 +176,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _diskEncryptionSetListDeserializer(result.body);
 }
+
 /** Lists all the disk encryption sets under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -223,6 +226,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a disk encryption set. */
 export function $delete(
   context: Client,
@@ -282,6 +286,7 @@ export async function _updateDeserialize(
 
   return diskEncryptionSetDeserializer(result.body);
 }
+
 /** Updates (patches) a disk encryption set. */
 export function update(
   context: Client,
@@ -342,6 +347,7 @@ export async function _createOrUpdateDeserialize(
 
   return diskEncryptionSetDeserializer(result.body);
 }
+
 /** Creates or updates a disk encryption set */
 export function createOrUpdate(
   context: Client,
@@ -403,6 +409,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskEncryptionSetDeserializer(result.body);
 }
+
 /** Gets information about a disk encryption set. */
 export async function get(
   context: Client,

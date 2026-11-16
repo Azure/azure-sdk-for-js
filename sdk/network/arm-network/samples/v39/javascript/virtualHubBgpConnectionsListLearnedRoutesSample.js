@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves a list of routes the virtual hub bgp connection has learned.
  *
  * @summary retrieves a list of routes the virtual hub bgp connection has learned.
- * x-ms-original-file: 2026-01-01/VirtualRouterPeerListLearnedRoute.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterPeerListLearnedRoute.json
  */
 async function virtualRouterPeerListLearnedRoutes() {
   const credential = new DefaultAzureCredential();

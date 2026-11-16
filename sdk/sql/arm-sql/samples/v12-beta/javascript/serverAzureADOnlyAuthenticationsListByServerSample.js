@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of server Azure Active Directory only authentications.
  *
  * @summary gets a list of server Azure Active Directory only authentications.
- * x-ms-original-file: 2025-08-01-preview/AzureADOnlyAuthList.json
+ * x-ms-original-file: 2026-08-01-preview/AzureADOnlyAuthList.json
  */
 async function getsAListOfAzureActiveDirectoryOnlyAuthenticationObject() {
   const credential = new DefaultAzureCredential();

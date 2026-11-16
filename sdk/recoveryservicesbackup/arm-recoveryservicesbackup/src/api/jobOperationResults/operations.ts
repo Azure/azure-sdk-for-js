@@ -24,7 +24,7 @@ export function _getSend(
       vaultName: vaultName,
       jobName: jobName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

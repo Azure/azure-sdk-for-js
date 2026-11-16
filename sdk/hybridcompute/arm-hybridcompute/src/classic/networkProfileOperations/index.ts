@@ -15,6 +15,7 @@ export interface NetworkProfileOperationsOperations {
     options?: NetworkProfileOperationsGetOptionalParams,
   ) => Promise<NetworkProfile>;
 }
+
 function _getNetworkProfileOperations(context: HybridComputeManagementContext) {
   return {
     get: (
@@ -24,6 +25,7 @@ function _getNetworkProfileOperations(context: HybridComputeManagementContext) {
     ) => get(context, resourceGroupName, machineName, options),
   };
 }
+
 export function _getNetworkProfileOperationsOperations(
   context: HybridComputeManagementContext,
 ): NetworkProfileOperationsOperations {

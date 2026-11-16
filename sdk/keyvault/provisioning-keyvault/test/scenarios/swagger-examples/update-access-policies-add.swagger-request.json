@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "accessPolicies": [
+      {
+        "objectId": "00000000-0000-0000-0000-000000000000",
+        "permissions": {
+          "certificates": ["get"],
+          "keys": ["encrypt"],
+          "secrets": ["get"]
+        },
+        "tenantId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  }
+}

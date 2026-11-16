@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

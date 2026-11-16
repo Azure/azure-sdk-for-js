@@ -11,6 +11,11 @@ export type {
   DirectoryItem,
   FileProperty,
   FileItem,
+  SymLinkItem,
+  BlockDeviceItem,
+  CharDeviceItem,
+  FifoItem,
+  SocketItem,
   ListHandlesResponse,
   HandleItem,
   AccessRight,
@@ -18,6 +23,8 @@ export type {
   FileRange,
   ClearRange,
   ShareFileRangeListSegment,
+  HardLinkList,
+  HardLink,
   FileServiceProperties,
   Metrics,
   RetentionPolicy,
@@ -80,6 +87,7 @@ export type {
   DirectoryCreateOptionalParams,
 } from "./api/directory/index.js";
 export type {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,

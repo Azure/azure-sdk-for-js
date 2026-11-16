@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a FleetUpdateStrategy
  *
  * @summary create a FleetUpdateStrategy
- * x-ms-original-file: 2026-06-02-preview/UpdateStrategies_CreateOrUpdate.json
+ * x-ms-original-file: 2026-11-01/UpdateStrategies_CreateOrUpdate.json
  */
 async function createAFleetUpdateStrategy(): Promise<void> {
   const credential = new DefaultAzureCredential();

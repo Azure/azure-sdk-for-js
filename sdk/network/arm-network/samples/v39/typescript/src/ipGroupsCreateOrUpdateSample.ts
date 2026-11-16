@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an ipGroups in a specified resource group.
  *
  * @summary creates or updates an ipGroups in a specified resource group.
- * x-ms-original-file: 2026-01-01/IpGroupsCreate.json
+ * x-ms-original-file: 2026-03-01/IpGroupsCreate.json
  */
 async function createOrUpdateIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the specified static member.
  *
  * @summary lists the specified static member.
- * x-ms-original-file: 2026-01-01/NetworkManagerStaticMemberList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerStaticMemberList.json
  */
 async function staticMembersList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicegroups/arm-servicegroups)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicegroups)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicegroups?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicegroups)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicegroups/arm-servicegroups/samples)
 
 ## Getting started

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to puts new sql agent configuration to instance.
  *
  * @summary puts new sql agent configuration to instance.
- * x-ms-original-file: 2025-08-01-preview/SqlAgentConfigurationPut.json
+ * x-ms-original-file: 2026-08-01-preview/SqlAgentConfigurationPut.json
  */
 async function putsNewSqlAgentConfigurationToInstance() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to verify IP flow from the specified VM to a location given the currently configured NSG rules.
  *
  * @summary verify IP flow from the specified VM to a location given the currently configured NSG rules.
- * x-ms-original-file: 2026-01-01/NetworkWatcherIpFlowVerify.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherIpFlowVerify.json
  */
 async function ipFlowVerify() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,56 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "raiPolicy": {
+          "bicepIdentifier": "raiPolicy",
+          "type": "Microsoft.CognitiveServices/accounts/raiPolicies",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-raipolicies"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "basePolicyName": {
+                    "kind": "string",
+                    "value": "Microsoft.Default"
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "Blocking"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

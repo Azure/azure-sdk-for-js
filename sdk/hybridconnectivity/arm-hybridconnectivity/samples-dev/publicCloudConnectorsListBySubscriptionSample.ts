@@ -1,17 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list PublicCloudConnector resources by subscription ID
  *
  * @summary list PublicCloudConnector resources by subscription ID
- * x-ms-original-file: 2024-12-01/PublicCloudConnectors_ListBySubscription.json
+ * x-ms-original-file: 2027-01-01/PublicCloudConnectors_ListBySubscription_MaximumSet_Gen.json
  */
+async function publicCloudConnectorsListBySubscriptionGeneratedByMaximumSetRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.publicCloudConnectors.listBySubscription()) {
+    resArray.push(item);
+  }
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
+  console.log(resArray);
+}
 
-async function publicCloudConnectorsListBySubscription(): Promise<void> {
+/**
+ * This sample demonstrates how to list PublicCloudConnector resources by subscription ID
+ *
+ * @summary list PublicCloudConnector resources by subscription ID
+ * x-ms-original-file: 2027-01-01/PublicCloudConnectors_ListBySubscription_MinimumSet_Gen.json
+ */
+async function publicCloudConnectorsListBySubscriptionGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
@@ -24,7 +41,8 @@ async function publicCloudConnectorsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await publicCloudConnectorsListBySubscription();
+  await publicCloudConnectorsListBySubscriptionGeneratedByMaximumSetRule();
+  await publicCloudConnectorsListBySubscriptionGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

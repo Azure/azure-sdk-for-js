@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
  *
  * @summary verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectivityCheck.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectivityCheck.json
  */
 async function checkConnectivity() {
   const credential = new DefaultAzureCredential();
