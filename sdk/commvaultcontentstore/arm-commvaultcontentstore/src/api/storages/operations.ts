@@ -40,7 +40,7 @@ export function _refreshSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +98,7 @@ export function _disableComplianceLockSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +158,7 @@ export function _enableComplianceLockSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +216,7 @@ export function _listByCloudAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +256,7 @@ export function listByCloudAccount(
     () => _listByCloudAccountSend(context, resourceGroupName, cloudAccountName, options),
     _listByCloudAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-03" },
   );
 }
 
@@ -274,7 +274,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +311,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudAccountName, storageName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-30",
+    apiVersion: context.apiVersion ?? "2026-11-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -330,7 +330,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -380,7 +380,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-30",
+    apiVersion: context.apiVersion ?? "2026-11-03",
   }) as PollerLike<OperationState<Storage>, Storage>;
 }
 
@@ -398,7 +398,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       storageName: storageName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

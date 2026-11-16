@@ -15,7 +15,6 @@ export interface NetworkSecurityPerimeterConfigurationOperationsOperations {
     options?: NetworkSecurityPerimeterConfigurationOperationsListOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfigurationList>;
 }
-
 function _getNetworkSecurityPerimeterConfigurationOperations(context: EventHubManagementContext) {
   return {
     list: (
@@ -25,7 +24,6 @@ function _getNetworkSecurityPerimeterConfigurationOperations(context: EventHubMa
     ) => list(context, resourceGroupName, namespaceName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationOperationsOperations(
   context: EventHubManagementContext,
 ): NetworkSecurityPerimeterConfigurationOperationsOperations {

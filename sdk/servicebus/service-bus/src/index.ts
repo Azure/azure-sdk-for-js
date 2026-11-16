@@ -10,6 +10,7 @@ export {
   type RetryOptions,
   RetryMode,
   TokenType,
+  type AmqpApplicationProperty,
   type WebSocketOptions,
 } from "@azure/core-amqp";
 export type { TokenCredential } from "@azure/core-auth";

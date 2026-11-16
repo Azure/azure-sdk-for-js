@@ -85,6 +85,29 @@ export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdat
 }
 
 // @public
+export interface CloudAccountIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, CloudAccountUserAssignedIdentity>;
+}
+
+// @public
+export interface CloudAccountMarketplaceUpdate {
+    offerDetails?: CloudAccountOfferDetailsUpdate;
+    saasResourceId?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface CloudAccountOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
 export interface CloudAccountProperties {
     company?: CompanyProfile;
     marketplace: MarketplaceDetails;
@@ -98,13 +121,6 @@ export interface CloudAccountPropertiesCreateOrUpdate {
     company?: CompanyProfile;
     marketplace: MarketplaceDetailsCreateOrUpdate;
     roleAssignmentsOnCcaCreate?: RoleAssignment[];
-    user: UserDetails;
-}
-
-// @public
-export interface CloudAccountPropertiesUpdate {
-    company?: CompanyProfile;
-    marketplace: MarketplaceDetailsUpdate;
     user: UserDetails;
 }
 
@@ -157,9 +173,30 @@ export interface CloudAccountsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudAccountUpdate extends TrackedResourceUpdate {
-    identity?: ManagedServiceIdentityUpdate;
-    properties?: CloudAccountPropertiesUpdate;
+export interface CloudAccountUpdate {
+    identity?: CloudAccountIdentityUpdate;
+    properties?: CloudAccountUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudAccountUpdateProperties {
+    company?: CompanyProfile;
+    marketplace?: CloudAccountMarketplaceUpdate;
+    user?: CloudAccountUserUpdate;
+}
+
+// @public
+export interface CloudAccountUserAssignedIdentity {
+}
+
+// @public
+export interface CloudAccountUserUpdate {
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    upn?: string;
 }
 
 // @public
@@ -455,7 +492,8 @@ export enum KnownRuleProperty {
 
 // @public
 export enum KnownStorageClassType {
-    Cool = "COLD",
+    Cold = "COLD",
+    Cool = "COOL",
     Hot = "HOT"
 }
 
@@ -471,7 +509,8 @@ export enum KnownVendor {
 
 // @public
 export enum KnownVersions {
-    V20260930 = "2026-09-30"
+    V20260930 = "2026-09-30",
+    V20261103 = "2026-11-03"
 }
 
 // @public
@@ -518,12 +557,6 @@ export interface ManagedServiceIdentityCreateOrUpdate {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface ManagedServiceIdentityUpdate {
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentityUpdate>;
-}
-
-// @public
 export interface MarketplaceDetails {
     offerDetails: OfferDetails;
     saasResourceId?: string;
@@ -533,13 +566,6 @@ export interface MarketplaceDetails {
 
 // @public
 export interface MarketplaceDetailsCreateOrUpdate {
-    offerDetails: OfferDetails;
-    saasResourceId?: string;
-    subscriptionId?: string;
-}
-
-// @public
-export interface MarketplaceDetailsUpdate {
     offerDetails: OfferDetails;
     saasResourceId?: string;
     subscriptionId?: string;
@@ -809,10 +835,6 @@ export interface ResourceCreateOrUpdate {
 // @public
 export type ResourceProvisioningState = string;
 
-// @public
-export interface ResourceUpdate {
-}
-
 export { RestError }
 
 // @public
@@ -1070,11 +1092,6 @@ export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
 }
 
 // @public
-export interface TrackedResourceUpdate extends ResourceUpdate {
-    tags?: Record<string, string>;
-}
-
-// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1082,10 +1099,6 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface UserAssignedIdentityCreateOrUpdate {
-}
-
-// @public
-export interface UserAssignedIdentityUpdate {
 }
 
 // @public
