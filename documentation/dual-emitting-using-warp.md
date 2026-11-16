@@ -28,4 +28,6 @@ Note that the file naming convention is important! The CommonJS polyfill _must_:
 2. Add the `-cjs` postfix to the file name
 3. Use `.cts` extension
 
+The CommonJS target must also opt in with `polyfillSuffix: "-cjs"` in its `warp.config.yml` target entry.
+
 For more details on polyfill substitution and the full configuration options, see the [warp README](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/warp/README.md).

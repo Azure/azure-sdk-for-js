@@ -208,10 +208,10 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
       "AssetsRepo": "Azure/azure-sdk-assets",
       "AssetsRepoPrefixPath": "js",
       "TagPrefix": "js/keyvault/keyvault-certificates",
-      "Tag": "js/keyvault/keyvault-certificates_43821e21b3"
+      "Tag": "js/keyvault/keyvault-certificates_291e248575"
     }
     ```
-    And the recordings are located at [here](https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3).
+    And the recordings are located at [here](https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_291e248575).
 
 
 # How to write samples
@@ -272,7 +272,7 @@ pnpm pack
 ```
 You may send this artifact to your customer if your services are still in private preview and some customers want to try it out.
 
-# Create/Update the ci.yaml
+# Create/Update the ci.yml
 
 Now, if everything looks good to you, you can submit a PR in `azure-sdk-for-js` repo with all the changes you made above. Before you do that, you need to add/update the `ci.yml` file. Depends on whether there's already one in your package folder.
 

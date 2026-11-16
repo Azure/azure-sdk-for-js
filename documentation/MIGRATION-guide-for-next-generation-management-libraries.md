@@ -184,7 +184,7 @@ Many operations may take a long time to finish before receiving the desired resp
     cloudServiceName: string,
     options?: CloudServicesCreateOrUpdateOptionalParams
   ): Promise&lt;PollerLike<
-        PollOperationState&lt;CloudServicesCreateOrUpdateResponse>,
+        OperationState&lt;CloudServicesCreateOrUpdateResponse>,
         CloudServicesCreateOrUpdateResponse
       >
     >
@@ -283,7 +283,7 @@ const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
   parameter
 );
 poller.onProgress((state) => {
-  console.log(`Are we done yet? ${Boolean(state.isCompleted)}`);
+  console.log(`Current status: ${state.status}`);
 })
 const result = await poller.pollUntilDone().then((response) => {
   console.log(response);

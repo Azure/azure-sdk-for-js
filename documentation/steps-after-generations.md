@@ -85,13 +85,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
 
     ```shell
       pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
-    export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    export TEST_MODE=playback && pnpm test # this will run the test in playback mode using the previously recorded test data.
     ```
     On Windows, you can use:
 
     ```shell
     pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
-    SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    SET TEST_MODE=playback&& pnpm test # this will run the test in playback mode using the previously recorded test data.
     ```
 
 # How to write samples
@@ -159,8 +159,8 @@ cd ${PROJECT_ROOT} && pnpm lint:fix
 
 # Adding a new third-party runtime dependency
 
-Shipped client and management libraries (those with `"sdk-type": "client"` or
-`"sdk-type": "mgmt"` in `package.json`) may not take a new third-party runtime
+Shipped client, management, and provisioning libraries (those with `"sdk-type": "client"`,
+`"sdk-type": "mgmt"`, or `"sdk-type": "provisioning"` in `package.json`) may not take a new third-party runtime
 dependency without approval. This is enforced in CI by the
 `@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule (part of
 `pnpm lint`), which validates the `dependencies` field of every in-scope

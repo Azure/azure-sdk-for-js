@@ -41,7 +41,7 @@ Use the structural type guard from the package that defines the class:
 - Use `isKeyCredential` for `AzureKeyCredential`.
 - Use `isNamedKeyCredential` for `AzureNamedKeyCredential`.
 - Use `isSASCredential` for `AzureSASCredential`.
-- Use `isPipelineLike` for `Pipeline`.
+- Use `isPipelineLike` for `Pipeline` only in storage packages that define it locally (e.g. `sdk/storage/storage-blob/src/Pipeline.ts`); elsewhere, do not use `instanceof` against `Pipeline`.
 
 If the current package defines the class, keep the `instanceof` check inside its type guard.
 Disable `no-restricted-syntax` only on that line. Add a comment that explains why the check is safe.
