@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an entity query.
  *
  * @summary gets an entity query.
- * x-ms-original-file: 2025-07-01-preview/entityQueries/GetActivityEntityQueryById.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueries/GetActivityEntityQueryById.json
  */
 async function getAnActivityEntityQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAnActivityEntityQuery(): Promise<void> {
  * This sample demonstrates how to gets an entity query.
  *
  * @summary gets an entity query.
- * x-ms-original-file: 2025-07-01-preview/entityQueries/GetExpansionEntityQueryById.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueries/GetExpansionEntityQueryById.json
  */
 async function getAnExpansionEntityQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();

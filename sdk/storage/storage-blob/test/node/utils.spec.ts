@@ -18,6 +18,7 @@ import {
 } from "../../src/utils/utils.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
+import { Mutex } from "../../src/utils/Mutex.js";
 import { describe, it, assert, afterEach, expect } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
@@ -582,5 +583,28 @@ describe("readResponseBodyToBytes", () => {
 
   it("throws a RangeError when the response body is empty or unavailable", async () => {
     await expect(readResponseBodyToBytes({})).rejects.toThrow(RangeError);
+  });
+});
+
+// `BlobBatch` relies on this to keep validate/assemble/commit atomic across sub requests.
+describe("Mutex", () => {
+  it("does not hand the same key to a queued waiter and a later caller", async () => {
+    const key = "mutex-handoff";
+    const entered: string[] = [];
+
+    await Mutex.lock(key);
+    const queued = Mutex.lock(key).then(() => entered.push("queued"));
+
+    await Mutex.unlock(key);
+    // Arrives after the unlock but before the queued waiter resumes.
+    const later = Mutex.lock(key).then(() => entered.push("later"));
+
+    await queued;
+    assert.deepEqual(entered, ["queued"], "later caller must not hold the key at the same time");
+
+    await Mutex.unlock(key);
+    await later;
+    assert.deepEqual(entered, ["queued", "later"]);
+    await Mutex.unlock(key);
   });
 });

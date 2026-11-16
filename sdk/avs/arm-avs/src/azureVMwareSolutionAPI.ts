@@ -55,7 +55,7 @@ import { _getWorkloadNetworksOperations } from "./classic/workloadNetworks/index
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
+export type { AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
 
 export class AzureVMwareSolutionAPI {
   private _client: AzureVMwareSolutionAPIContext;
@@ -68,14 +68,7 @@ export class AzureVMwareSolutionAPI {
     subscriptionId: string,
     options: AzureVMwareSolutionAPIOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureVMwareSolutionAPI(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureVMwareSolutionAPI(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.workloadNetworks = _getWorkloadNetworksOperations(this._client);
     this.virtualMachines = _getVirtualMachinesOperations(this._client);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/TriggerRestore.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerRestore.json
  */
 async function triggerRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function triggerRestore(): Promise<void> {
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/TriggerRestoreAsFiles.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerRestoreAsFiles.json
  */
 async function triggerRestoreAsFiles(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -105,7 +105,7 @@ async function triggerRestoreAsFiles(): Promise<void> {
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/TriggerRestoreWithGenericParameters.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerRestoreWithGenericParameters.json
  */
 async function triggerRestoreWithGenericRestoreDatasourceCriteria(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +161,7 @@ async function triggerRestoreWithGenericRestoreDatasourceCriteria(): Promise<voi
  * This sample demonstrates how to triggers restore for a BackupInstance
  *
  * @summary triggers restore for a BackupInstance
- * x-ms-original-file: 2026-06-01/BackupInstanceOperations/TriggerRestoreWithRehydration.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/TriggerRestoreWithRehydration.json
  */
 async function triggerRestoreWithRehydration(): Promise<void> {
   const credential = new DefaultAzureCredential();

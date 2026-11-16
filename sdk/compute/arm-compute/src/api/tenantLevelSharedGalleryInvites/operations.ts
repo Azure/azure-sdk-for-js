@@ -28,7 +28,7 @@ export function _tenantLevelGallerySharingRejectSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,6 +52,7 @@ export async function _tenantLevelGallerySharingRejectDeserialize(
 
   return;
 }
+
 /** Reject sharing of a tenant-level shared gallery. */
 export function tenantLevelGallerySharingReject(
   context: Client,
@@ -78,7 +79,7 @@ export function tenantLevelGallerySharingReject(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -98,7 +99,7 @@ export function _tenantLevelGallerySharingAcceptSend(
       location: location,
       sharedGallerySubscriptionId: sharedGallerySubscriptionId,
       sharedGalleryName: sharedGalleryName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _tenantLevelGallerySharingAcceptDeserialize(
 
   return;
 }
+
 /** Accept sharing of a tenant-level shared gallery. */
 export function tenantLevelGallerySharingAccept(
   context: Client,
@@ -148,7 +150,7 @@ export function tenantLevelGallerySharingAccept(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-12-03",
+      apiVersion: "2026-03-03",
     },
   ) as PollerLike<OperationState<void>, void>;
 }

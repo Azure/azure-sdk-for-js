@@ -1,6 +1,42 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/replicationVaultHealth/index.ts",
+    "../src/api/supportedOperatingSystems/index.ts",
+    "../src/api/replicationAppliances/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/replicationVaultSetting/index.ts",
+    "../src/api/replicationRecoveryPlans/index.ts",
+    "../src/api/replicationPolicies/index.ts",
+    "../src/api/replicationJobs/index.ts",
+    "../src/api/replicationvCenters/index.ts",
+    "../src/api/replicationStorageClassificationMappings/index.ts",
+    "../src/api/replicationStorageClassifications/index.ts",
+    "../src/api/replicationRecoveryServicesProviders/index.ts",
+    "../src/api/replicationProtectionContainerMappings/index.ts",
+    "../src/api/clusterRecoveryPoint/index.ts",
+    "../src/api/replicationProtectableItems/index.ts",
+    "../src/api/replicationMigrationItems/index.ts",
+    "../src/api/replicationProtectionContainers/index.ts",
+    "../src/api/replicationNetworkMappings/index.ts",
+    "../src/api/replicationNetworks/index.ts",
+    "../src/api/replicationLogicalNetworks/index.ts",
+    "../src/api/replicationFabrics/index.ts",
+    "../src/api/replicationEvents/index.ts",
+    "../src/api/replicationEligibilityResults/index.ts",
+    "../src/api/replicationAlertSettings/index.ts",
+    "../src/api/replicationProtectionIntents/index.ts",
+    "../src/api/clusterRecoveryPoints/index.ts",
+    "../src/api/replicationProtectionClusters/index.ts",
+    "../src/api/recoveryPoints/index.ts",
+    "../src/api/targetComputeSizes/index.ts",
+    "../src/api/replicationProtectedItems/index.ts",
+    "../src/api/migrationRecoveryPoints/index.ts",
+    "../src/models/index.ts"
   ]
 }

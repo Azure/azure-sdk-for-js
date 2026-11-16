@@ -1,0 +1,70 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-export-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "dataExport": {
+          "bicepIdentifier": "dataExport",
+          "type": "Microsoft.OperationalInsights/workspaces/dataExports",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-export"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "destination": {
+                    "kind": "object",
+                    "value": {
+                      "resourceId": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.EventHub/namespaces/learn-eventhub"
+                      }
+                    }
+                  },
+                  "tableNames": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "Heartbeat"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -121,6 +121,7 @@ export interface AvailabilitySetsOperations {
     options?: AvailabilitySetsGetOptionalParams,
   ) => Promise<AvailabilitySet>;
 }
+
 function _getAvailabilitySets(context: ComputeManagementContext) {
   return {
     convertToVirtualMachineScaleSet: (
@@ -224,6 +225,7 @@ function _getAvailabilitySets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, availabilitySetName, options),
   };
 }
+
 export function _getAvailabilitySetsOperations(
   context: ComputeManagementContext,
 ): AvailabilitySetsOperations {

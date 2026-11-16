@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -262,8 +263,6 @@ export interface FleetProperties {
    * Specifying different capacity type for Fleet Regular and Spot priority profiles is not allowed.
    */
   capacityType?: CapacityType;
-  /** Zone Allocation Policy for Fleet. */
-  zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 export function fleetPropertiesSerializer(item: FleetProperties): any {
@@ -285,9 +284,6 @@ export function fleetPropertiesSerializer(item: FleetProperties): any {
     mode: item["mode"],
     vmNamePrefix: item["vmNamePrefix"],
     capacityType: item["capacityType"],
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : zoneAllocationPolicySerializer(item["zoneAllocationPolicy"]),
   };
 }
 
@@ -313,9 +309,6 @@ export function fleetPropertiesDeserializer(item: any): FleetProperties {
     mode: item["mode"],
     vmNamePrefix: item["vmNamePrefix"],
     capacityType: item["capacityType"],
-    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
-      ? item["zoneAllocationPolicy"]
-      : zoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
   };
 }
 
@@ -4528,9 +4521,9 @@ export function additionalCapabilitiesDeserializer(item: any): AdditionalCapabil
 
 /** Modes for Compute Fleet. */
 export enum KnownFleetMode {
-  /** Default. Managed is the default mode for Compute Fleet where VMs are provisioned via virtual machine scale sets. */
+  /** Default. Managed mode where Compute Fleet provisions the VMs, manages them and their lifecycle. */
   Managed = "Managed",
-  /** Launch mode for Compute Fleet will directly launch VM instances to be managed by the customer. */
+  /** Launch mode where Compute Fleet launches the VMs and the customer manages them and their lifecycle. */
   Launch = "Launch",
 }
 
@@ -4539,8 +4532,8 @@ export enum KnownFleetMode {
  * {@link KnownFleetMode} can be used interchangeably with FleetMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Managed**: Default. Managed is the default mode for Compute Fleet where VMs are provisioned via virtual machine scale sets. \
- * **Launch**: Launch mode for Compute Fleet will directly launch VM instances to be managed by the customer.
+ * **Managed**: Default. Managed mode where Compute Fleet provisions the VMs, manages them and their lifecycle. \
+ * **Launch**: Launch mode where Compute Fleet launches the VMs and the customer manages them and their lifecycle.
  */
 export type FleetMode = string;
 
@@ -4565,93 +4558,6 @@ export enum KnownCapacityType {
  * If VCpu capacity is not exactly divisible by VCpu count in VMSizes, Fleet capacity in VCpus will be overprovisioned by default.
  */
 export type CapacityType = string;
-
-/** ZoneAllocationPolicy for Compute Fleet. */
-export interface ZoneAllocationPolicy {
-  /** Distribution strategy used for zone allocation policy. */
-  distributionStrategy: ZoneDistributionStrategy;
-  /** Zone preferences, required when zone distribution strategy is Prioritized. */
-  zonePreferences?: ZonePreference[];
-}
-
-export function zoneAllocationPolicySerializer(item: ZoneAllocationPolicy): any {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArraySerializer(item["zonePreferences"]),
-  };
-}
-
-export function zoneAllocationPolicyDeserializer(item: any): ZoneAllocationPolicy {
-  return {
-    distributionStrategy: item["distributionStrategy"],
-    zonePreferences: !item["zonePreferences"]
-      ? item["zonePreferences"]
-      : zonePreferenceArrayDeserializer(item["zonePreferences"]),
-  };
-}
-
-/** Distribution strategies for Compute Fleet zone allocation policy. */
-export enum KnownZoneDistributionStrategy {
-  /**
-   * Default. Compute Fleet allocates all Fleet capacity within a single zone based on best effort.
-   * If capacity is not available, Compute Fleet can allocate capacity in different zones.
-   */
-  BestEffortSingleZone = "BestEffortSingleZone",
-  /**
-   * Compute Fleet allocates capacity based on zone preferences.
-   * Higher priority zones are filled first before allocating to lower priority zones.
-   */
-  Prioritized = "Prioritized",
-}
-
-/**
- * Distribution strategies for Compute Fleet zone allocation policy. \
- * {@link KnownZoneDistributionStrategy} can be used interchangeably with ZoneDistributionStrategy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BestEffortSingleZone**: Default. Compute Fleet allocates all Fleet capacity within a single zone based on best effort.
- * If capacity is not available, Compute Fleet can allocate capacity in different zones. \
- * **Prioritized**: Compute Fleet allocates capacity based on zone preferences.
- * Higher priority zones are filled first before allocating to lower priority zones.
- */
-export type ZoneDistributionStrategy = string;
-
-export function zonePreferenceArraySerializer(result: Array<ZonePreference>): any[] {
-  return result.map((item) => {
-    return zonePreferenceSerializer(item);
-  });
-}
-
-export function zonePreferenceArrayDeserializer(result: Array<ZonePreference>): any[] {
-  return result.map((item) => {
-    return zonePreferenceDeserializer(item);
-  });
-}
-
-/** Zone preferences for Compute Fleet zone allocation policy. */
-export interface ZonePreference {
-  /** Name of the zone. */
-  zone: string;
-  /**
-   * The rank of the zone. This is used with 'Prioritized' ZoneDistributionStrategy.
-   * The lower the number, the higher the priority, starting with 0.
-   * 0 is the highest rank. If not specified, defaults to lowest rank.
-   */
-  rank?: number;
-}
-
-export function zonePreferenceSerializer(item: ZonePreference): any {
-  return { zone: item["zone"], rank: item["rank"] };
-}
-
-export function zonePreferenceDeserializer(item: any): ZonePreference {
-  return {
-    zone: item["zone"],
-    rank: item["rank"],
-  };
-}
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -5154,14 +5060,8 @@ export type VMOperationStatus = string;
 
 /** Api versions */
 export enum KnownVersions {
-  /** Private Preview Api version */
-  V20231101Preview = "2023-11-01-preview",
-  /** Public Preview Api version */
-  V20240501Preview = "2024-05-01-preview",
   /** Public Api version */
   V20241101 = "2024-11-01",
-  /** Launch mode preview Api version. */
-  V20260401Preview = "2026-04-01-preview",
-  /** Fleet Managed mode preview Api Version */
-  V20260601Preview = "2026-06-01-preview",
+  /** Fleet stable Api version with mode, vmNamePrefix, capacityType properties */
+  V20260801 = "2026-08-01",
 }

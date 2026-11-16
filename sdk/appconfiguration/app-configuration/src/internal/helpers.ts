@@ -39,7 +39,7 @@ import type { SnapshotReferenceValue } from "../snapshotReference.js";
 import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapshotReference.js";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -519,7 +519,9 @@ export function getScope(appConfigEndpoint: string, appConfigAudience?: string):
 
   const hostname = new URL(appConfigEndpoint).hostname;
   const stagingDomain = "appconfig-staging.azure.com";
-  if (hostname.endsWith(`.${stagingDomain}`)) {
+  // Regional staging endpoints use "appconfig-stage" but share the staging audience.
+  const regionalStagingDomain = "appconfig-stage.azure.com";
+  if (hostname.endsWith(`.${stagingDomain}`) || hostname.endsWith(`.${regionalStagingDomain}`)) {
     return `https://${stagingDomain}/.default`;
   }
 

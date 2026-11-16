@@ -69,22 +69,6 @@ export async function sendRequest(
 }
 
 /**
- * Function to determine the request content type
- * @param options - request options InternalRequestParameters
- * @returns returns the content-type
- */
-function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
-  if (options.contentType) {
-    return options.contentType;
-  }
-  const headerContentType = options.headers?.["content-type"];
-  if (typeof headerContentType === "string") {
-    return headerContentType;
-  }
-  return getContentType(options.body);
-}
-
-/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
@@ -95,7 +79,7 @@ function getContentType(body: any): string | undefined {
     return undefined;
   }
 
-  if (ArrayBuffer.isView(body)) {
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
@@ -130,21 +114,29 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const requestContentType = getRequestContentType(options);
+  const headers = createHttpHeaders(options.headers);
+
+  let requestContentType = options.contentType;
+  if (!requestContentType) {
+    requestContentType = headers.get("content-type");
+  }
+  if (requestContentType === undefined) {
+    requestContentType = getContentType(options.body);
+  }
+
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
 
   const accept =
     options.accept ??
-    options.headers?.accept ??
+    headers.get("accept") ??
     (options.noDefaultAcceptHeader ? undefined : "application/json");
 
-  const headers = createHttpHeaders({
-    ...(options.headers ? options.headers : {}),
-    ...(accept !== undefined && { accept }),
-    ...(requestContentType && {
-      "content-type": requestContentType,
-    }),
-  });
+  if (accept !== undefined) {
+    headers.set("accept", accept);
+  }
+  if (requestContentType) {
+    headers.set("content-type", requestContentType);
+  }
 
   const {
     allowInsecureConnection,
@@ -214,10 +206,8 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
     return { body: body as RequestBodyType };
   }
 
-  if (ArrayBuffer.isView(body)) {
-    return {
-      body: body instanceof Uint8Array ? body : JSON.stringify(body),
-    };
+  if (body instanceof ArrayBuffer || ArrayBuffer.isView(body)) {
+    return { body };
   }
 
   const firstType = contentType.split(";")[0];

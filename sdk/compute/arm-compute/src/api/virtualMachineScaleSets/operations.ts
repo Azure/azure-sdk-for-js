@@ -112,6 +112,7 @@ export async function _listByLocationDeserialize(
 
   return _virtualMachineScaleSetListResultDeserializer(result.body);
 }
+
 /** Gets all the VM scale sets under the specified subscription for the specified location. */
 export function listByLocation(
   context: Client,
@@ -168,6 +169,7 @@ export async function _migrateVMAvailabilityZoneDeserialize(
 
   return;
 }
+
 /** Migrates one or more virtual machines in a VM scale set to an availability zone. */
 export function migrateVMAvailabilityZone(
   context: Client,
@@ -230,6 +232,7 @@ export async function _scaleOutDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Scales out one or more virtual machines in a VM scale set. */
 export function scaleOut(
   context: Client,
@@ -288,6 +291,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Starts one or more virtual machines in a VM scale set. */
 export function start(
   context: Client,
@@ -343,6 +347,7 @@ export async function _listSkusDeserialize(
 
   return _virtualMachineScaleSetListSkusResultDeserializer(result.body);
 }
+
 /** Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU. */
 export function listSkus(
   context: Client,
@@ -402,6 +407,7 @@ export async function _setOrchestrationServiceStateDeserialize(
 
   return;
 }
+
 /** Changes ServiceState property for a given service */
 export function setOrchestrationServiceState(
   context: Client,
@@ -473,6 +479,7 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Restarts one or more virtual machines in a VM scale set. */
 export function restart(
   context: Client,
@@ -529,6 +536,7 @@ export async function _reimageAllDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
 export function reimageAll(
   context: Client,
@@ -585,6 +593,7 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
 export function reimage(
   context: Client,
@@ -641,6 +650,7 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
 export function redeploy(
   context: Client,
@@ -691,6 +701,7 @@ export async function _reapplyDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances */
 export function reapply(
   context: Client,
@@ -748,6 +759,7 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
+
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export function powerOff(
   context: Client,
@@ -804,6 +816,7 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
 
   return;
 }
+
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
 export function performMaintenance(
   context: Client,
@@ -860,6 +873,7 @@ export async function _listOSUpgradeHistoryDeserialize(
 
   return _virtualMachineScaleSetListOSUpgradeHistoryDeserializer(result.body);
 }
+
 /** Gets list of OS upgrades on a VM scale set instance. */
 export function listOSUpgradeHistory(
   context: Client,
@@ -915,6 +929,7 @@ export async function _updateInstancesDeserialize(result: PathUncheckedResponse)
 
   return;
 }
+
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
 export function updateInstances(
   context: Client,
@@ -972,6 +987,7 @@ export async function _getInstanceViewDeserialize(
 
   return virtualMachineScaleSetInstanceViewDeserializer(result.body);
 }
+
 /** Gets the status of a VM scale set instance. */
 export async function getInstanceView(
   context: Client,
@@ -1028,6 +1044,7 @@ export async function _forceRecoveryServiceFabricPlatformUpdateDomainWalkDeseria
 
   return recoveryWalkResponseDeserializer(result.body);
 }
+
 /** Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set. */
 export async function forceRecoveryServiceFabricPlatformUpdateDomainWalk(
   context: Client,
@@ -1088,6 +1105,7 @@ export async function _deleteInstancesDeserialize(result: PathUncheckedResponse)
 
   return;
 }
+
 /** Deletes virtual machines in a VM scale set. */
 export function deleteInstances(
   context: Client,
@@ -1147,6 +1165,7 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
+
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
 export function deallocate(
   context: Client,
@@ -1206,6 +1225,7 @@ export async function _convertToSinglePlacementGroupDeserialize(
 
   return;
 }
+
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
 export async function convertToSinglePlacementGroup(
   context: Client,
@@ -1268,6 +1288,7 @@ export async function _approveRollingUpgradeDeserialize(
 
   return;
 }
+
 /** Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set. */
 export function approveRollingUpgrade(
   context: Client,
@@ -1320,6 +1341,7 @@ export async function _listAllDeserialize(
 
   return _virtualMachineScaleSetListWithLinkResultDeserializer(result.body);
 }
+
 /** Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets. */
 export function listAll(
   context: Client,
@@ -1371,6 +1393,7 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetListResultDeserializer(result.body);
 }
+
 /** Gets a list of all VM scale sets under a resource group. */
 export function list(
   context: Client,
@@ -1421,6 +1444,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a VM scale set. */
 export function $delete(
   context: Client,
@@ -1484,6 +1508,7 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Update a VM scale set. */
 export function update(
   context: Client,
@@ -1549,6 +1574,7 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Create or update a VM scale set. */
 export function createOrUpdate(
   context: Client,
@@ -1607,6 +1633,7 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetDeserializer(result.body);
 }
+
 /** Display information about a virtual machine scale set. */
 export async function get(
   context: Client,

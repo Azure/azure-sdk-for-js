@@ -65,6 +65,7 @@ export function resourceMetricsToEnvelope(
   metrics: ResourceMetrics,
   ikey: string,
   isStatsbeat?: boolean,
+  increaseGenAiMessageLimit = false,
 ): Envelope[] {
   const envelopes: Envelope[] = [];
   const time = new Date();
@@ -141,7 +142,10 @@ export function resourceMetricsToEnvelope(
             baseType: "MetricData",
             baseData: {
               ...baseData,
-              properties: truncateCustomDimensions(baseData.properties || {}),
+              properties: truncateCustomDimensions(
+                baseData.properties || {},
+                increaseGenAiMessageLimit,
+              ),
             },
           },
         };

@@ -7,7 +7,7 @@ import type {
   WebCategoriesListBySubscriptionOptionalParams,
   WebCategoriesGetOptionalParams,
 } from "../../api/webCategories/options.js";
-import type { AzureWebCategory } from "../../models/microsoft/network/models.js";
+import type { AzureWebCategory } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WebCategories operations. */

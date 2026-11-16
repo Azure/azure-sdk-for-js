@@ -1,10 +1,16 @@
 # Release History
 
-## 12.32.0-beta.1 (Unreleased)
+## 12.32.0-beta.1 (2026-11-11)
 
 ### Features Added
 
+- Added `sessionOptions`, forwarding the session token authentication added in `@azure/storage-blob`. Disabled by default, Node.js only, and limited to blob-endpoint requests, so in Data Lake only file reads are affected.
+- Added opt-in data locality support to `readToBuffer`, using the routing added in `@azure/storage-blob`. Set `layoutAwareRouting` on `FileReadToBufferOptions` to `"enabled"` to read chunks from the endpoints that hold them; disabled by default and Node.js only.
+- As in `@azure/storage-blob`, Node.js clients that don't set `httpClient` now send the `Expect: 100-continue` header on requests with a body, such as appends, for one minute after the service responds with status 429, 500 or 503. Set the environment variable `AZURE_STORAGE_DISABLE_EXPECT_CONTINUE_HEADER` to `true` or `1` to turn it off.
+
 ### Breaking Changes
+
+- `DataLakeFileClient.upload` and `uploadFile` now default `singleUploadThreshold` to 8MB instead of 100MB; set it to `100 * 1024 * 1024` to restore the previous behavior. Data between 8MB and 100MB is now appended in parallel chunks of `chunkSize` (8MB by default) instead of a single append, so more requests are sent and `onProgress` is called once per chunk. [#40286](https://github.com/Azure/azure-sdk-for-js/pull/40286)
 
 ### Bugs Fixed
 
@@ -13,6 +19,8 @@
 ### Other Changes
 
 - Migrated to TypeSpec-based code generation [PR #38232](https://github.com/Azure/azure-sdk-for-js/pull/38232)
+- Added a note to the create and delete methods of `DataLakeFileSystemClient` about what happens after a file system is deleted: a file system with the same name can't be created for at least 30 seconds. [PR #40118](https://github.com/Azure/azure-sdk-for-js/pull/40118)
+- Updated minimum version of `@azure/core-rest-pipeline` to `^1.25.1`, whose default HTTP client for Node.js waits for the service to accept a request with the `Expect: 100-continue` header before it sends the body. [PR #40289](https://github.com/Azure/azure-sdk-for-js/pull/40289)
 
 ## 12.31.0 (2026-06-24)
 

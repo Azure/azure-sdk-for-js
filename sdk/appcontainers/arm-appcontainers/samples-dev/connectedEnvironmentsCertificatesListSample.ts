@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Certificates in a given connected environment.
  *
  * @summary get the Certificates in a given connected environment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsCertificates_ListByConnectedEnvironment.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsCertificates_ListByConnectedEnvironment.json
  */
 async function listCertificatesByConnectedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();

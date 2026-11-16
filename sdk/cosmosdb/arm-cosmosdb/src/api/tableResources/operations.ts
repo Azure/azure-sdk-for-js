@@ -17,9 +17,9 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  cloudErrorDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
-  cloudErrorDeserializer,
   continuousBackupRestoreLocationSerializer,
   backupInformationDeserializer,
   tableGetResultsDeserializer,
@@ -71,7 +71,7 @@ export function _listTableRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +111,11 @@ export function listTableRoleAssignments(
     () => _listTableRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listTableRoleAssignmentsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -129,7 +133,7 @@ export function _deleteTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +182,7 @@ export function deleteTableRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -198,7 +202,7 @@ export function _createUpdateTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,7 +258,7 @@ export function createUpdateTableRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<TableRoleAssignmentResource>, TableRoleAssignmentResource>;
 }
@@ -273,7 +277,7 @@ export function _getTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +335,7 @@ export function _listTableRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +375,11 @@ export function listTableRoleDefinitions(
     () => _listTableRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listTableRoleDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -389,7 +397,7 @@ export function _deleteTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,7 +446,7 @@ export function deleteTableRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -458,7 +466,7 @@ export function _createUpdateTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -514,7 +522,7 @@ export function createUpdateTableRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<TableRoleDefinitionResource>, TableRoleDefinitionResource>;
 }
@@ -533,7 +541,7 @@ export function _getTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -594,7 +602,7 @@ export function _retrieveContinuousBackupInformationSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -650,7 +658,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -667,7 +675,7 @@ export function _listTablesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -707,7 +715,11 @@ export function listTables(
     () => _listTablesSend(context, resourceGroupName, accountName, options),
     _listTablesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -725,7 +737,7 @@ export function _deleteTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -762,7 +774,7 @@ export function deleteTable(
     getInitialResponse: () =>
       _deleteTableSend(context, resourceGroupName, accountName, tableName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -781,7 +793,7 @@ export function _createUpdateTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -833,7 +845,7 @@ export function createUpdateTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<TableGetResults>, TableGetResults>;
 }
 
@@ -851,7 +863,7 @@ export function _getTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -905,7 +917,7 @@ export function _migrateTableToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -957,7 +969,7 @@ export function migrateTableToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -976,7 +988,7 @@ export function _migrateTableToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1018,7 +1030,7 @@ export function migrateTableToAutoscale(
     getInitialResponse: () =>
       _migrateTableToAutoscaleSend(context, resourceGroupName, accountName, tableName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
 
@@ -1037,7 +1049,7 @@ export function _updateTableThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1089,7 +1101,7 @@ export function updateTableThroughput(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
 
@@ -1107,7 +1119,7 @@ export function _getTableThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
-  type NetworkAnchorsListByResourceGroupOptionalParams,
-  type NetworkAnchorsDeleteOptionalParams,
-  type NetworkAnchorsUpdateOptionalParams,
-  type NetworkAnchorsGetOptionalParams,
-  type NetworkAnchorsCreateOrUpdateOptionalParams,
-  type NetworkAnchorsListBySubscriptionOptionalParams,
+export type {
+  NetworkAnchorsListByResourceGroupOptionalParams,
+  NetworkAnchorsDeleteOptionalParams,
+  NetworkAnchorsUpdateOptionalParams,
+  NetworkAnchorsGetOptionalParams,
+  NetworkAnchorsCreateOrUpdateOptionalParams,
+  NetworkAnchorsListBySubscriptionOptionalParams,
 } from "./options.js";

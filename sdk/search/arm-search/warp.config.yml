@@ -13,8 +13,8 @@ exports:
   "./api/sharedPrivateLinkResources": "./src/api/sharedPrivateLinkResources/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
-  "./api/offerings": "./src/api/offerings/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/customizations": "./src/models/customizations/index.ts"
 
 targets:
   - name: browser

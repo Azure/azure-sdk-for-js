@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a watchlist, without its watchlist items.
  *
  * @summary get a watchlist, without its watchlist items.
- * x-ms-original-file: 2025-07-01-preview/watchlists/GetWatchlistByAlias.json
+ * x-ms-original-file: 2025-10-01-preview/watchlists/GetWatchlistByAlias.json
  */
 async function getAWatchlist(): Promise<void> {
   const credential = new DefaultAzureCredential();

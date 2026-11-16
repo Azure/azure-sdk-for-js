@@ -114,6 +114,7 @@ export interface wCFRelaysOperations {
     options?: wCFRelaysGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
+
 function _getwCFRelays(context: RelayAPIContext) {
   return {
     listByNamespace: (
@@ -227,6 +228,7 @@ function _getwCFRelays(context: RelayAPIContext) {
       ),
   };
 }
+
 export function _getwCFRelaysOperations(context: RelayAPIContext): wCFRelaysOperations {
   return {
     ..._getwCFRelays(context),

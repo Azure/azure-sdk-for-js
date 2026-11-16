@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the private link resources for a container registry.
  *
  * @summary lists the private link resources for a container registry.
- * x-ms-original-file: 2026-07-01-preview/PrivateEndpointConnections/PrivateLinkResourcesList.json
+ * x-ms-original-file: 2026-01-01/PrivateEndpointConnections/PrivateLinkResourcesList.json
  */
 async function nameSpacePrivateLinkResourcesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

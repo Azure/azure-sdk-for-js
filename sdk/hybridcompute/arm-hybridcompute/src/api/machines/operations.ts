@@ -51,7 +51,7 @@ export function _installPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +80,7 @@ export async function _installPatchesDeserialize(
 
   return machineInstallPatchesResultDeserializer(result.body);
 }
+
 /** The operation to install patches on a hybrid machine identity in Azure. */
 export function installPatches(
   context: Client,
@@ -94,7 +95,7 @@ export function installPatches(
     getInitialResponse: () =>
       _installPatchesSend(context, resourceGroupName, name, installPatchesInput, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<MachineInstallPatchesResult>, MachineInstallPatchesResult>;
 }
 
@@ -110,7 +111,7 @@ export function _assessPatchesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,6 +138,7 @@ export async function _assessPatchesDeserialize(
 
   return machineAssessPatchesResultDeserializer(result.body);
 }
+
 /** The operation to assess patches on a hybrid machine identity in Azure. */
 export function assessPatches(
   context: Client,
@@ -149,7 +151,7 @@ export function assessPatches(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _assessPatchesSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<MachineAssessPatchesResult>, MachineAssessPatchesResult>;
 }
 
@@ -161,7 +163,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,6 +190,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _machineListResultDeserializer(result.body);
 }
+
 /** Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines. */
 export function listBySubscription(
   context: Client,
@@ -198,7 +201,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -212,7 +215,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -240,6 +243,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _machineListResultDeserializer(result.body);
 }
+
 /** Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines. */
 export function listByResourceGroup(
   context: Client,
@@ -251,7 +255,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -267,7 +271,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,6 +293,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete a hybrid machine. */
 export function $delete(
   context: Client,
@@ -301,7 +306,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, machineName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -318,7 +323,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -345,6 +350,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return machineDeserializer(result.body);
 }
+
 /** The operation to update a hybrid machine. */
 export async function update(
   context: Client,
@@ -370,7 +376,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -398,6 +404,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return machineDeserializer(result.body);
 }
+
 /** The operation to create or update a hybrid machine. Please note some properties can be set only during machine creation. */
 export async function createOrUpdate(
   context: Client,
@@ -428,7 +435,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -454,6 +461,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return machineDeserializer(result.body);
 }
+
 /** Retrieves information about the model view or the instance view of a hybrid machine. */
 export async function get(
   context: Client,

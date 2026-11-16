@@ -1,6 +1,6 @@
 import path from "path";
 import { SDKType, RunMode, ModularSDKType } from "../common/types.js";
-import { loadTspConfig } from "../common/utils.js";
+import { loadTspConfig, provisioningEmitterName } from "../common/utils.js";
 import { RunningEnvironment } from "./runningEnvironment.js";
 import fsExtra from "fs-extra";
 
@@ -55,6 +55,7 @@ export async function parseInputJson(inputJson: any) {
     : inputJson["relatedReadmeMdFile"];
   const typespecProjectFolder: string[] | string | undefined =
     inputJson["relatedTypeSpecProjectFolder"];
+  const selectedTypespecEmitter = inputJson["typespecEmitter"];
   const gitCommitId: string = inputJson["headSha"];
   const repoHttpsUrl: string = inputJson["repoHttpsUrl"];
   const runMode: string = inputJson["runMode"];
@@ -101,7 +102,13 @@ export async function parseInputJson(inputJson: any) {
 
   const isMgmtWithHLC = isTypeSpecProject ? false : readmeMd!.includes("resource-manager");
   const isModular = await isModularClient(specFolder, typespecProjectFolder);
-  const sdkType = getSDKType(isMgmtWithHLC, isModular);
+  if (selectedTypespecEmitter === provisioningEmitterName && !isTypeSpecProject) {
+    throw new Error("Provisioning generation requires a TypeSpec project.");
+  }
+  const sdkType =
+    selectedTypespecEmitter === provisioningEmitterName
+      ? SDKType.Provisioning
+      : getSDKType(isMgmtWithHLC, isModular);
 
   if (runMode === RunMode.Release || runMode === RunMode.Local) {
     apiVersion = inputJson["apiVersion"];
@@ -135,7 +142,7 @@ export async function parseInputJson(inputJson: any) {
 }
 
 export function getModularSDKType(packageDirectory: string) {
-  if (packageDirectory.includes("arm-")) {
+  if (packageDirectory.includes("arm-") || packageDirectory.includes("provisioning-")) {
     return ModularSDKType.ManagementPlane;
   }
   return ModularSDKType.DataPlane;

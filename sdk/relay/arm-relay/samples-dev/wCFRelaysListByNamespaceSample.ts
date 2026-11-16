@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the WCF relays within the namespace.
  *
  * @summary lists the WCF relays within the namespace.
- * x-ms-original-file: 2026-07-01-preview/Relay/RelayListAll.json
+ * x-ms-original-file: 2026-01-01/Relay/RelayListAll.json
  */
 async function relayListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

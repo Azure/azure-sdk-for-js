@@ -1,0 +1,83 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "webtest": {
+          "bicepIdentifier": "webtest",
+          "type": "Microsoft.Insights/webtests",
+          "apiVersion": "2022-06-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "my-webtest-my-component"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "ping"
+              },
+              "location": {
+                "kind": "string",
+                "value": "South Central US"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "Description": {
+                    "kind": "string",
+                    "value": "Ping web test alert for mytestwebapp"
+                  },
+                  "Enabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "Frequency": {
+                    "kind": "integer",
+                    "value": "900"
+                  },
+                  "Kind": {
+                    "kind": "string",
+                    "value": "ping"
+                  },
+                  "Locations": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "Id": {
+                            "kind": "string",
+                            "value": "us-fl-mia-edge"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "Name": {
+                    "kind": "string",
+                    "value": "my-webtest-my-component"
+                  },
+                  "RetryEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "SyntheticMonitorId": {
+                    "kind": "string",
+                    "value": "my-webtest-my-component"
+                  },
+                  "Timeout": {
+                    "kind": "integer",
+                    "value": "120"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

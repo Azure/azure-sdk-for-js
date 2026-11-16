@@ -71,6 +71,20 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export type DeviceRegistryNamespaceAuthenticationType = string;
+
+// @public
+export interface DeviceRegistryNamespaceDescription {
+    authenticationType: DeviceRegistryNamespaceAuthenticationType;
+    dataAddress?: string;
+    linkingState?: LinkingState;
+    location?: string;
+    namespaceUuid?: string;
+    resourceId: string;
+    selectedUserAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface DpsCertificateCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
@@ -198,6 +212,7 @@ export interface IotDpsPropertiesDescription {
     allocationPolicy?: AllocationPolicy;
     authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
     readonly deviceProvisioningHostName?: string;
+    readonly deviceRegistryNamespaces?: DeviceRegistryNamespaceDescription[];
     disableLocalAuth?: boolean;
     enableDataResidency?: boolean;
     readonly idScope?: string;
@@ -383,6 +398,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDeviceRegistryNamespaceAuthenticationType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownIotDpsSku {
     S1 = "S1"
 }
@@ -392,6 +413,14 @@ export enum KnownIotHubAuthenticationType {
     KeyBased = "KeyBased",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownLinkingState {
+    InProgress = "InProgress",
+    NotLinked = "NotLinked",
+    Orphaned = "Orphaned",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -440,8 +469,12 @@ export enum KnownState {
 
 // @public
 export enum KnownVersions {
-    V20260831 = "2026-08-31"
+    V20260831 = "2026-08-31",
+    V20261101 = "2026-11-01"
 }
+
+// @public
+export type LinkingState = string;
 
 // @public
 export interface ManagedServiceIdentity {

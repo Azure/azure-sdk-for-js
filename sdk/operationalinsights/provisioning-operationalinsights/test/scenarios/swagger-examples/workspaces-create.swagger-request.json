@@ -1,0 +1,12 @@
+{
+  "location": "australiasoutheast",
+  "properties": {
+    "retentionInDays": 30,
+    "sku": {
+      "name": "PerGB2018"
+    }
+  },
+  "tags": {
+    "tag1": "val1"
+  }
+}

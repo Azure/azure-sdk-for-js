@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { WorkbookSharedTypeKind } from "../applicationInsightsCommonTypes/models.js";
-import {
-  ManagedServiceIdentity,
-  userAssignedIdentityRecordSerializer,
-  userAssignedIdentityRecordDeserializer,
-  TrackedResource,
-  systemDataDeserializer,
-} from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { WorkbookSharedTypeKind } from "../applicationInsightsCommonTypes/models.js";
+import type { ManagedServiceIdentity, TrackedResource } from "../models.js";
+import { userAssignedIdentityDeserializer, systemDataDeserializer } from "../models.js";
+
 /** A workbook definition. */
 export interface Workbook extends TrackedResource {
   /** Identity used for BYOS */
@@ -163,12 +158,7 @@ export function workbookPropertiesDeserializer(item: any): WorkbookProperties {
 export interface WorkbookResourceIdentity extends ManagedServiceIdentity {}
 
 export function workbookResourceIdentitySerializer(item: WorkbookResourceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function workbookResourceIdentityDeserializer(item: any): WorkbookResourceIdentity {
@@ -178,7 +168,12 @@ export function workbookResourceIdentityDeserializer(item: any): WorkbookResourc
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 

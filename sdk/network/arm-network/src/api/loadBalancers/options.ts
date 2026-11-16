@@ -4,7 +4,7 @@
 import type {
   MigrateLoadBalancerToIpBasedRequest,
   LoadBalancerDetailLevel,
-} from "../../models/microsoft/network/models.js";
+} from "../../models/network/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

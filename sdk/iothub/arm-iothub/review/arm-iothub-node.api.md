@@ -65,10 +65,10 @@ export interface CertificateListDescription {
 // @public
 export interface CertificateProperties {
     certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -77,10 +77,10 @@ export interface CertificateProperties {
 // @public
 export interface CertificatePropertiesWithNonce {
     readonly certificate?: string;
+    certificateAuthorityResourceId?: string;
     readonly created?: Date;
     readonly expiry?: Date;
     readonly isVerified?: boolean;
-    policyResourceId?: string;
     readonly subject?: string;
     readonly thumbprint?: string;
     readonly updated?: Date;
@@ -156,15 +156,30 @@ export type DefaultAction = string;
 
 // @public
 export interface DeviceRegistry {
-    identityResourceId?: string;
+    dataPlaneHostName?: string;
+    identity?: DeviceRegistryIdentity;
+    readonly linkingProperties?: DeviceRegistryLinkingProperties;
     namespaceResourceId?: string;
+    namespaceUuid?: string;
 }
 
 // @public
-export interface EncryptionPropertiesDescription {
-    keySource?: string;
-    keyVaultProperties?: KeyVaultKeyProperties[];
+export interface DeviceRegistryIdentity {
+    type?: DeviceRegistryIdentityType;
+    userAssignedIdentity?: string;
 }
+
+// @public
+export type DeviceRegistryIdentityType = string;
+
+// @public
+export interface DeviceRegistryLinkingProperties {
+    readonly error?: ErrorDetails;
+    readonly state?: DeviceRegistryLinkingState;
+}
+
+// @public
+export type DeviceRegistryLinkingState = string;
 
 // @public
 export interface EndpointHealthData {
@@ -244,8 +259,11 @@ export interface FallbackRouteProperties {
     endpointNames: string[];
     isEnabled: boolean;
     name?: string;
-    source: RoutingSource;
+    source: FallbackRouteSource;
 }
+
+// @public
+export type FallbackRouteSource = string;
 
 // @public
 export interface FeedbackProperties {
@@ -362,20 +380,17 @@ export interface IotHubProperties {
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
     readonly deviceHostName?: string;
-    deviceRegistry?: DeviceRegistry;
-    deviceStreams?: IotHubPropertiesDeviceStreams;
+    readonly deviceRegistry?: DeviceRegistry;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
-    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: Record<string, EventHubProperties>;
     features?: Capabilities;
     readonly hostName?: string;
     readonly iotHubDetails?: IotHubDetails;
     ipFilterRules?: IpFilterRule[];
-    ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: Record<string, MessagingEndpointProperties>;
     minTlsVersion?: string;
@@ -384,16 +399,10 @@ export interface IotHubProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
-    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly serviceHostName?: string;
     readonly state?: string;
     storageEndpoints?: Record<string, StorageEndpointProperties>;
-}
-
-// @public
-export interface IotHubPropertiesDeviceStreams {
-    streamingEndpoints?: string[];
 }
 
 // @public
@@ -574,9 +583,6 @@ export interface IpFilterRule {
     ipMask: string;
 }
 
-// @public
-export type IpVersion = string;
-
 export { isRestError }
 
 // @public
@@ -596,12 +602,6 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 
 // @public
 export type JobType = string;
-
-// @public
-export interface KeyVaultKeyProperties {
-    identity?: ManagedIdentity;
-    keyIdentifier?: string;
-}
 
 // @public
 export enum KnownAuthenticationType {
@@ -630,6 +630,20 @@ export enum KnownDefaultAction {
 }
 
 // @public
+export enum KnownDeviceRegistryIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownDeviceRegistryLinkingState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Orphaned = "Orphaned",
+    Success = "Success"
+}
+
+// @public
 export enum KnownEndpointHealthStatus {
     Dead = "dead",
     Degraded = "degraded",
@@ -641,6 +655,11 @@ export enum KnownEndpointHealthStatus {
 // @public
 export enum KnownEventStreamAuthenticationType {
     IdentityBased = "identityBased"
+}
+
+// @public
+export enum KnownFallbackRouteSource {
+    DeviceMessages = "DeviceMessages"
 }
 
 // @public
@@ -664,13 +683,6 @@ export enum KnownIotHubSku {
     S1 = "S1",
     S2 = "S2",
     S3 = "S3"
-}
-
-// @public
-export enum KnownIpVersion {
-    Ipv4 = "ipv4",
-    Ipv4Ipv6 = "ipv4ipv6",
-    Ipv6 = "ipv6"
 }
 
 // @public
@@ -718,9 +730,7 @@ export enum KnownRoutingSource {
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
     DeviceMessages = "DeviceMessages",
-    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
-    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
@@ -740,8 +750,7 @@ export enum KnownTestResultStatus {
 
 // @public
 export enum KnownVersions {
-    V20260301Preview = "2026-03-01-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -947,12 +956,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface RootCertificateProperties {
-    enableRootCertificateV2?: boolean;
-    readonly lastUpdatedTimeUtc?: Date;
 }
 
 // @public

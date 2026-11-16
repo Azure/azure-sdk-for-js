@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new security policy within the specified profile.
  *
  * @summary creates a new security policy within the specified profile.
- * x-ms-original-file: 2025-12-01/SecurityPolicies_Create.json
+ * x-ms-original-file: 2026-10-01/SecurityPolicies_Create.json
  */
 async function securityPoliciesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

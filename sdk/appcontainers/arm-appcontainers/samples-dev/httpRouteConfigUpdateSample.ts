@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches an http route config resource. Only patching of tags is supported
  *
  * @summary patches an http route config resource. Only patching of tags is supported
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_Patch.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_Patch.json
  */
 async function patchManagedHttpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function patchManagedHttpRoute(): Promise<void> {
             routes: [
               { action: { prefixRewrite: "/v1/api" }, match: { path: "/v1", caseSensitive: true } },
             ],
-            targets: [{ containerApp: "capp-1", revision: "rev-1", weight: 100 }],
+            targets: [{ containerApp: "capp-1", revision: "rev-1" }],
           },
         ],
       },

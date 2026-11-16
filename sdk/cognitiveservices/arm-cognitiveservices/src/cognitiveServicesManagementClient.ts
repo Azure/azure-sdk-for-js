@@ -26,16 +26,10 @@ import type { AgentApplicationsOperations } from "./classic/agentApplications/in
 import { _getAgentApplicationsOperations } from "./classic/agentApplications/index.js";
 import type { AgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
 import { _getAgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
-import type { ArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
-import { _getArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
 import type { CommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import { _getCommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import type { CommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
 import { _getCommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
-import type { ComputeOperationsOperations } from "./classic/computeOperations/index.js";
-import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
-import type { ComputesOperations } from "./classic/computes/index.js";
-import { _getComputesOperations } from "./classic/computes/index.js";
 import type { DefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import { _getDefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
@@ -48,10 +42,6 @@ import type { LocationBasedModelCapacitiesOperations } from "./classic/locationB
 import { _getLocationBasedModelCapacitiesOperations } from "./classic/locationBasedModelCapacities/index.js";
 import type { ManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
 import { _getManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
-import type { ManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
-import { _getManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
-import type { ManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
-import { _getManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
 import type { ManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
 import { _getManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
 import type { ManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
@@ -104,8 +94,6 @@ import type { TestRaiExternalSafetyProviderOperations } from "./classic/testRaiE
 import { _getTestRaiExternalSafetyProviderOperations } from "./classic/testRaiExternalSafetyProvider/index.js";
 import type { UsagesOperations } from "./classic/usages/index.js";
 import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { WorkbenchesOperations } from "./classic/workbenches/index.js";
-import { _getWorkbenchesOperations } from "./classic/workbenches/index.js";
 import type {
   SkuAvailabilityListResult,
   DomainAvailability,
@@ -147,15 +135,7 @@ export class CognitiveServicesManagementClient {
     this.testRaiExternalSafetyProvider = _getTestRaiExternalSafetyProviderOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.managedComputeCapacities = _getManagedComputeCapacitiesOperations(this._client);
-    this.workbenches = _getWorkbenchesOperations(this._client);
-    this.computes = _getComputesOperations(this._client);
-    this.managedComputeUsagesOperationGroup = _getManagedComputeUsagesOperationGroupOperations(
-      this._client,
-    );
-    this.computeOperations = _getComputeOperationsOperations(this._client);
-    this.managedComputeDeployments = _getManagedComputeDeploymentsOperations(this._client);
     this.agentApplications = _getAgentApplicationsOperations(this._client);
-    this.arcDeployments = _getArcDeploymentsOperations(this._client);
     this.quotaTiers = _getQuotaTiersOperations(this._client);
     this.projectCapabilityHosts = _getProjectCapabilityHostsOperations(this._client);
     this.projectConnections = _getProjectConnectionsOperations(this._client);
@@ -242,20 +222,8 @@ export class CognitiveServicesManagementClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for managedComputeCapacities */
   public readonly managedComputeCapacities: ManagedComputeCapacitiesOperations;
-  /** The operation groups for workbenches */
-  public readonly workbenches: WorkbenchesOperations;
-  /** The operation groups for computes */
-  public readonly computes: ComputesOperations;
-  /** The operation groups for managedComputeUsagesOperationGroup */
-  public readonly managedComputeUsagesOperationGroup: ManagedComputeUsagesOperationGroupOperations;
-  /** The operation groups for computeOperations */
-  public readonly computeOperations: ComputeOperationsOperations;
-  /** The operation groups for managedComputeDeployments */
-  public readonly managedComputeDeployments: ManagedComputeDeploymentsOperations;
   /** The operation groups for agentApplications */
   public readonly agentApplications: AgentApplicationsOperations;
-  /** The operation groups for arcDeployments */
-  public readonly arcDeployments: ArcDeploymentsOperations;
   /** The operation groups for quotaTiers */
   public readonly quotaTiers: QuotaTiersOperations;
   /** The operation groups for projectCapabilityHosts */

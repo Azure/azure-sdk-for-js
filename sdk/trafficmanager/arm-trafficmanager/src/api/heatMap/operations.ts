@@ -22,7 +22,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       profileName: profileName,
       heatMapType: "default",
-      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
       topLeft: !options?.topLeft
         ? options?.topLeft
         : options?.topLeft.map((p: any) => {
@@ -48,7 +48,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<He
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

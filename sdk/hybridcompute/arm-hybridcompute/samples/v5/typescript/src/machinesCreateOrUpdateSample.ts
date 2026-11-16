@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a hybrid machine. Please note some properties can be set only during machine creation.
  *
  * @summary the operation to create or update a hybrid machine. Please note some properties can be set only during machine creation.
- * x-ms-original-file: 2026-07-15/machine/Machines_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/machine/Machines_CreateOrUpdate.json
  */
 async function createOrUpdateAMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

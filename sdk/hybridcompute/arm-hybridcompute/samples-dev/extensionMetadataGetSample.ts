@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an Extension Metadata based on location, publisher, extensionType and version
  *
  * @summary gets an Extension Metadata based on location, publisher, extensionType and version
- * x-ms-original-file: 2026-07-15/extension/ExtensionMetadata_Get.json
+ * x-ms-original-file: 2026-09-01/extension/ExtensionMetadata_Get.json
  */
 async function getAnExtensionsMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();

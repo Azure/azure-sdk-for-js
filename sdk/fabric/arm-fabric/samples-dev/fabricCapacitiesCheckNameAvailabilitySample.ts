@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements local CheckNameAvailability operations
  *
  * @summary implements local CheckNameAvailability operations
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_CheckNameAvailability.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_CheckNameAvailability.json
  */
 async function checkNameAvailabilityOfACapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();

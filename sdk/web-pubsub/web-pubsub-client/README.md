@@ -212,6 +212,37 @@ client.on("stopped", () => {
 
 ---
 
+### Observe reliable recovery
+
+With a reliable subprotocol, `recovering` is emitted once when the SDK enters recovery for an interrupted logical connection, before its first attempt. `recovered` is emitted when the active recovery socket opens for that same connection ID. Neither event is emitted for initial startup or a fresh reconnect, and retries within one recovery episode do not emit additional `recovering` events.
+
+```ts snippet:ReadmeSampleRecoveryEvents
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+// Disabling fresh reconnect does not disable reliable recovery.
+const client = new WebPubSubClient("<client-access-url>", { autoReconnect: false });
+
+// Register listeners before starting the client.
+client.on("recovering", (e) => {
+  console.log(`Recovering connection ${e.connectionId}.`);
+});
+client.on("recovered", (e) => {
+  console.log(`Connection ${e.connectionId} recovered; message replay may still be in progress.`);
+});
+
+await client.start();
+```
+
+A successful recovery has the sequence `connected(A) → recovering(A) → recovered(A)`, without another `connected` event. If recovery fails, the existing `disconnected` event and reconnect/stopped behavior still apply. When recovery is unavailable, neither recovery event is emitted. Setting `autoReconnect: false` disables fresh reconnection, not reliable recovery.
+
+Both events provide only `connectionId`, through the exported `OnRecoveringArgs` and `OnRecoveredArgs` types. Use `client.off("recovering", listener)` or `client.off("recovered", listener)` with the registered listener to unsubscribe.
+
+`recovered` describes socket recovery, not completed retained-message replay or application synchronization. Continue handling errors from normal client operations. Calling `stop()` during an episode suppresses its later `recovered` notification; these events do not change existing shutdown or recovery behavior.
+
+Synchronous exceptions from these two event notifications are logged without interrupting recovery. A throwing listener can prevent later listeners for that notification from running; rejected promises from async listeners are not handled by this mechanism.
+
+---
+
 ### Use a negotiation server to generate Client Access URL programatically
 
 In production, clients usually fetch the Client Access URL from an application server. The server holds the connection string to your Web PubSub resource and generates the Client Access URL with the help from the server library `@azure/web-pubsub`.
@@ -377,6 +408,8 @@ A connection, also known as a client or a client connection, represents an indiv
 ### Recovery
 
 If a client using reliable protocols disconnects, a new WebSocket tries to establish using the connection ID of the lost connection. If the new WebSocket connection is successfully connected, the connection is recovered. Throughout the time a client is disconnected, the service retains the client's context as well as all messages that the client was subscribed to, and when the client recovers, the service will send these messages to the client. If the service returns WebSocket error code `1008` or the recovery attempt lasts more than 30 seconds, the recovery fails.
+
+The `recovering` and `recovered` events let applications observe this same-connection recovery without treating it as a new connection. See [Observe reliable recovery](#observe-reliable-recovery) for their timing and limitations.
 
 ### Reconnect
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all storages for a managedEnvironment.
  *
  * @summary get all storages for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_List.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_List.json
  */
 async function listEnvironmentsStoragesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -46,6 +46,12 @@ export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalPara
 }
 
 /** Optional parameters. */
+export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface MongoDBResourcesListMongoDBCollectionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -62,6 +68,12 @@ export interface MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams ext
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBCollectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBDatabasesOptionalParams extends OperationOptions {}
@@ -94,6 +106,18 @@ export interface MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalPara
 }
 
 /** Optional parameters. */
+export interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -101,6 +125,18 @@ export interface MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams extends OperationOptions {

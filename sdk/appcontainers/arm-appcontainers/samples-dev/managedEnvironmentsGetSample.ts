@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of a Managed Environment used to host container apps.
  *
  * @summary get the properties of a Managed Environment used to host container apps.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_Get.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_Get.json
  */
 async function getEnvironmentsByName(): Promise<void> {
   const credential = new DefaultAzureCredential();

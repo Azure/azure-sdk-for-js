@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
       "%24filter": options?.filter,
       "%24orderby": options?.orderby,
       "%24top": options?.top,
@@ -80,7 +80,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -99,7 +99,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       metadataName: metadataName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       metadataName: metadataName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +218,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       metadataName: metadataName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -280,7 +280,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       metadataName: metadataName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

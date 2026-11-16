@@ -15,6 +15,26 @@ import * as Mappers from "../generated/models/mappers.js";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";
 import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
 
+// Asymmetric JWS algorithms only: excludes "none" and the HMAC (HS*) family.
+const ASYMMETRIC_SIGNATURE_ALGORITHMS = [
+  "RS256",
+  "RS384",
+  "RS512",
+  "PS256",
+  "PS384",
+  "PS512",
+  "ES256",
+  "ES384",
+  "ES512",
+];
+
+// Used when no validation options are provided, as in earlier versions.
+const DEFAULT_VALIDATION_OPTIONS: AttestationTokenValidationOptions = {
+  validateExpirationTime: true,
+  validateToken: true,
+  validateNotBeforeTime: true,
+};
+
 /**
  * Options used to validate attestation tokens.
  *
@@ -26,13 +46,16 @@ import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
  *
  * @remarks
  *
- *  If validateToken, validateNotBeforeTime, or validateExpirationTime are not
- *  provided, they are all assumed to be 'true'.
+ *  If no validation options are provided, validateToken, validateExpirationTime, and
+ *  validateNotBeforeTime are all true. If validation options are provided (for the clients,
+ *  on the client or on the operation), an omitted validateToken is still true, but an omitted
+ *  validateExpirationTime or validateNotBeforeTime is false, so that time is not checked.
  *
  */
 export interface AttestationTokenValidationOptions {
   /**
-   * If true, validate the attestation token, if false, skip validation.
+   * If true, validate the attestation token, if false, skip validation,
+   * including `validateAttestationToken`. Defaults to true.
    */
   validateToken?: boolean;
   /**
@@ -110,6 +133,14 @@ export interface AttestationToken {
    *
    * @param possibleSigners - the set of possible signers for this attestation token.
    * @param options - validation options
+   *
+   * @remarks
+   *
+   * Unlike the clients' validation of tokens returned by the service, which accepts an unsigned
+   * token only in response to a draft policy request, this method accepts any unsigned token,
+   * and it can verify the signature with the certificate embedded in the token itself, so an
+   * empty result does not show that the attestation service issued the token. A token returned
+   * by a client operation with `validateToken: false` was not validated by the client.
    */
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
@@ -292,31 +323,60 @@ export class AttestationTokenImpl implements AttestationToken {
    */
   public getTokenProblems(
     possibleSigners?: AttestationSigner[],
-    options: AttestationTokenValidationOptions = {
-      validateExpirationTime: true,
-      validateToken: true,
-      validateNotBeforeTime: true,
+    options: AttestationTokenValidationOptions = DEFAULT_VALIDATION_OPTIONS,
+  ): string[] {
+    return this.getProblems(possibleSigners, options, {
+      allowUnsigned: true,
+      trustEmbeddedCertificate: true,
+      rethrowVerificationErrors: true,
+    });
+  }
+
+  /**
+   * @internal
+   *
+   * Validates a token returned by the attestation service. Only the trusted signers retrieved
+   * from the service can verify its signature; the certificate embedded in the token is never
+   * trusted. The service returns unsigned tokens only for requests with a non-empty draft
+   * policy, so unsigned tokens are accepted only when `allowUnsigned` is true.
+   */
+  public _getServiceTokenProblems(
+    trustedSigners: AttestationSigner[],
+    options: AttestationTokenValidationOptions | undefined,
+    allowUnsigned: boolean,
+  ): string[] {
+    return this.getProblems(trustedSigners, options ?? DEFAULT_VALIDATION_OPTIONS, {
+      allowUnsigned,
+      trustEmbeddedCertificate: false,
+      rethrowVerificationErrors: false,
+    });
+  }
+
+  private getProblems(
+    possibleSigners: AttestationSigner[] | undefined,
+    options: AttestationTokenValidationOptions,
+    policy: {
+      allowUnsigned: boolean;
+      trustEmbeddedCertificate: boolean;
+      rethrowVerificationErrors: boolean;
     },
   ): string[] {
     let problems = new Array<string>();
-    if (!options.validateToken) {
+    if (!(options.validateToken ?? true)) {
       return problems;
     }
 
     let foundSigner: AttestationSigner | undefined = undefined;
-    if (this.algorithm !== "none") {
-      const signers = this.getCandidateSigners(possibleSigners);
-
-      signers.some((signer) => {
-        const cert = this.certFromSigner(signer);
-        //          const pubKeyObj = cert.getPublicKey();
-
-        const isValid = jsrsasign.KJUR.jws.JWS.verify(this._token, cert);
-
-        if (isValid) {
-          foundSigner = signer;
-        }
-      });
+    if (this.algorithm === "none") {
+      if (!policy.allowUnsigned) {
+        problems.push("Attestation Token is not signed.");
+      }
+    } else if (!ASYMMETRIC_SIGNATURE_ALGORITHMS.includes(this.algorithm)) {
+      problems.push(`Unsupported attestation token algorithm: ${this.algorithm}`);
+    } else {
+      foundSigner = this.getCandidateSigners(possibleSigners, policy.trustEmbeddedCertificate).find(
+        (signer) => this.verifySignature(signer, policy.rethrowVerificationErrors),
+      );
 
       if (foundSigner === undefined) {
         problems.push("Attestation Token is not properly signed.");
@@ -391,32 +451,62 @@ export class AttestationTokenImpl implements AttestationToken {
     return signer.certificates[0];
   }
 
+  private verifySignature(signer: AttestationSigner, rethrowErrors: boolean): boolean {
+    try {
+      return jsrsasign.KJUR.jws.JWS.verify(
+        this._token,
+        this.certFromSigner(signer),
+        ASYMMETRIC_SIGNATURE_ALGORITHMS,
+      );
+    } catch (e: unknown) {
+      // Direct getTokenProblems calls keep throwing, as in earlier versions.
+      if (rethrowErrors) {
+        throw e;
+      }
+      return false;
+    }
+  }
+
+  /**
+   * Returns the signers which may have signed this token: the supplied signers matching the
+   * token's key id, or all of them if the token has no key id.
+   *
+   * When `trustEmbeddedCertificate` is true (direct calls to getTokenProblems), the certificate
+   * chain embedded in the token is also a candidate, as in earlier versions, so a successful
+   * check does not show that the token was issued by the attestation service.
+   */
   private getCandidateSigners(
-    possibleSigningCertificates?: AttestationSigner[],
+    possibleSigners: AttestationSigner[] | undefined,
+    trustEmbeddedCertificate: boolean,
   ): AttestationSigner[] {
-    const candidateSigners = new Array<AttestationSigner>();
-
     const desiredKeyId = this.keyId;
+    if (!trustEmbeddedCertificate) {
+      if (!possibleSigners) {
+        return [];
+      }
+      return desiredKeyId !== undefined
+        ? possibleSigners.filter((signer) => signer.keyId === desiredKeyId)
+        : possibleSigners;
+    }
 
-    if (desiredKeyId !== undefined && possibleSigningCertificates !== undefined) {
-      possibleSigningCertificates.forEach((possibleSigner) => {
+    const candidateSigners = new Array<AttestationSigner>();
+    if (desiredKeyId !== undefined && possibleSigners !== undefined) {
+      possibleSigners.forEach((possibleSigner) => {
         if (possibleSigner.keyId === desiredKeyId) {
           candidateSigners.push(possibleSigner);
         }
       });
-
-      // If we didn't find any candidate signers looking through the provided
-      // signing certificates, then maybe there's a certificate chain in the
-      // token itself that might be used to sign the token.
       if (candidateSigners.length === 0) {
-        if (this.certificateChain !== undefined && this.certificateChain !== null) {
-          candidateSigners.push(this.certificateChain);
+        const embeddedSigner = this.certificateChain;
+        if (embeddedSigner) {
+          candidateSigners.push(embeddedSigner);
         }
       }
     } else {
-      possibleSigningCertificates?.map((value) => candidateSigners.push(value));
-      if (this.certificateChain !== undefined) {
-        candidateSigners.push(this.certificateChain);
+      possibleSigners?.forEach((value) => candidateSigners.push(value));
+      const embeddedSigner = this.certificateChain;
+      if (embeddedSigner) {
+        candidateSigners.push(embeddedSigner);
       }
     }
     return candidateSigners;
@@ -621,6 +711,43 @@ export class AttestationTokenImpl implements AttestationToken {
     );
     return new AttestationTokenImpl(encodedToken);
   }
+}
+
+/**
+ * @internal
+ *
+ * Combines the client's validation options with the options of an individual operation. Options
+ * set on the operation take precedence; options it leaves undefined keep the client's values.
+ * If only one of them is provided, it is returned unchanged; if neither is, returns undefined so
+ * the default validation options apply. Options are read by property access, so inherited
+ * properties (for example a class method) are kept, and the callback is called on its own object.
+ */
+export function _combineValidationOptions(
+  clientOptions?: AttestationTokenValidationOptions,
+  operationOptions?: AttestationTokenValidationOptions,
+): AttestationTokenValidationOptions | undefined {
+  if (operationOptions === undefined) {
+    return clientOptions;
+  }
+  if (clientOptions === undefined) {
+    return operationOptions;
+  }
+  const callbackOwner =
+    operationOptions.validateAttestationToken !== undefined ? operationOptions : clientOptions;
+  return {
+    validateToken: operationOptions.validateToken ?? clientOptions.validateToken,
+    validateExpirationTime:
+      operationOptions.validateExpirationTime ?? clientOptions.validateExpirationTime,
+    validateNotBeforeTime:
+      operationOptions.validateNotBeforeTime ?? clientOptions.validateNotBeforeTime,
+    validateIssuer: operationOptions.validateIssuer ?? clientOptions.validateIssuer,
+    expectedIssuer: operationOptions.expectedIssuer ?? clientOptions.expectedIssuer,
+    timeValidationSlack: operationOptions.timeValidationSlack ?? clientOptions.timeValidationSlack,
+    validateAttestationToken:
+      callbackOwner.validateAttestationToken === undefined
+        ? undefined
+        : (token, signer) => callbackOwner.validateAttestationToken?.(token, signer),
+  };
 }
 
 function isObject(thing: any): boolean {

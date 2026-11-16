@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Dapr Component in a connected environment.
  *
  * @summary creates or updates a Dapr Component in a connected environment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
  */
 async function createOrUpdateDaprComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,14 +30,6 @@ async function createOrUpdateDaprComponent(): Promise<void> {
       ],
       scopes: ["container-app-1", "container-app-2"],
       secrets: [{ name: "masterkey", value: "keyvalue" }],
-      serviceComponentBind: [
-        {
-          name: "statestore",
-          metadata: { name: "daprcomponentBind", value: "redis-bind" },
-          serviceId:
-            "/subscriptions/9f7371f1-b593-4c3c-84e2-9167806ad358/resourceGroups/ca-syn2-group/providers/Microsoft.App/containerapps/cappredis",
-        },
-      ],
       version: "v1",
     },
   );

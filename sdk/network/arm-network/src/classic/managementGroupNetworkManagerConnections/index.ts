@@ -14,7 +14,7 @@ import type {
   ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams,
   ManagementGroupNetworkManagerConnectionsGetOptionalParams,
 } from "../../api/managementGroupNetworkManagerConnections/options.js";
-import type { NetworkManagerConnection } from "../../models/microsoft/network/models.js";
+import type { NetworkManagerConnection } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagementGroupNetworkManagerConnections operations. */

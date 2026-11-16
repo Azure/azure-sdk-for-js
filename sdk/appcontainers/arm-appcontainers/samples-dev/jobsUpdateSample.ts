@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patches a Container Apps Job using JSON Merge Patch
  *
  * @summary patches a Container Apps Job using JSON Merge Patch
- * x-ms-original-file: 2025-10-02-preview/Job_Patch.json
+ * x-ms-original-file: 2026-07-01/Job_Patch.json
  */
 async function patchContainerAppsJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

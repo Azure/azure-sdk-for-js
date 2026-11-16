@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AIManagerNamespace resources by AIManager
  *
  * @summary list AIManagerNamespace resources by AIManager
- * x-ms-original-file: 2026-05-02-preview/AIManagerNamespaces_ListByAIManager.json
+ * x-ms-original-file: 2026-09-02-preview/AIManagerNamespaces_ListByAIManager.json
  */
 async function listsAIManagerNamespaceResourcesByAIManager(): Promise<void> {
   const credential = new DefaultAzureCredential();

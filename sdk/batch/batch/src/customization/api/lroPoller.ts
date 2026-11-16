@@ -44,7 +44,7 @@ import {
   getJobSchedule,
   _terminateJobSchedule,
 } from "../../api/operations.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createBatchPoller } from "../static-helpers/batchPoller.js";
 
 // ==================== Pool Pollers ====================
@@ -64,7 +64,7 @@ export function createDeletePoolPoller(
       const pool = await getPool(context, poolId, options);
       return { status: pool.state === "deleting" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -90,7 +90,7 @@ export function createResizePoolPoller(
       const pool = await getPool(context, poolId, options);
       return { status: pool.allocationState === "steady" ? "succeeded" : "running" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -115,7 +115,7 @@ export function createStopPoolResizePoller(
       const pool = await getPool(context, poolId, options);
       return { status: pool.allocationState === "steady" ? "succeeded" : "running" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -145,7 +145,7 @@ export function createRemoveNodesPoller(
       // This means the pool is no longer resizing/removing nodes
       return { status: pool.allocationState === "steady" ? "succeeded" : "running" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -171,7 +171,7 @@ export function createDeallocateNodePoller(
       const node = await getNode(context, poolId, nodeId, options);
       return { status: node.state === "deallocating" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -197,7 +197,7 @@ export function createRebootNodePoller(
       const node = await getNode(context, poolId, nodeId, options);
       return { status: node.state === "rebooting" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -223,7 +223,7 @@ export function createReimageNodePoller(
       const node = await getNode(context, poolId, nodeId, options);
       return { status: node.state === "reimaging" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -249,7 +249,7 @@ export function createStartNodePoller(
       const node = await getNode(context, poolId, nodeId, options);
       return { status: node.state === "starting" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -276,7 +276,7 @@ export function createDeleteJobPoller(
       const job = await getJob(context, jobId, options);
       return { status: job.state === "deleting" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -302,7 +302,7 @@ export function createDisableJobPoller(
       const job = await getJob(context, jobId, options);
       return { status: job.state === "disabling" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         // If job doesn't exist it could've been deleted while disabling
         return { status: "succeeded" };
       }
@@ -328,7 +328,7 @@ export function createEnableJobPoller(
       const job = await getJob(context, jobId, options);
       return { status: job.state === "enabling" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -353,7 +353,7 @@ export function createTerminateJobPoller(
       const job = await getJob(context, jobId, options);
       return { status: job.state === "terminating" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -380,7 +380,7 @@ export function createDeleteJobSchedulePoller(
       const jobSchedule = await getJobSchedule(context, jobScheduleId, options);
       return { status: jobSchedule.state === "deleting" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;
@@ -405,7 +405,7 @@ export function createTerminateJobSchedulePoller(
       const jobSchedule = await getJobSchedule(context, jobScheduleId, options);
       return { status: jobSchedule.state === "terminating" ? "running" : "succeeded" };
     } catch (error: unknown) {
-      if (error instanceof RestError && error.statusCode === 404) {
+      if (isRestError(error) && error.statusCode === 404) {
         return { status: "succeeded" };
       }
       throw error;

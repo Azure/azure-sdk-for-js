@@ -2,17 +2,11 @@
 // Licensed under the MIT License.
 
 import type { ContainerServiceContext as Client } from "../index.js";
-import type {
-  AIModel,
-  _AIModelListResult,
-  CalculateCostRequest,
-  CalculateCostResponse,
-} from "../../models/models.js";
+import type { AIModel, _AIModelListResult, CalculateCostResponse } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   aiModelDeserializer,
   _aiModelListResultDeserializer,
-  calculateCostRequestSerializer,
   calculateCostResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -30,7 +24,6 @@ export function _calculateCostSend(
   context: Client,
   location: string,
   aiModelName: string,
-  body: CalculateCostRequest,
   options: AIModelsCalculateCostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -39,7 +32,7 @@ export function _calculateCostSend(
       subscriptionId: context.subscriptionId,
       location: location,
       aiModelName: aiModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,9 +40,7 @@ export function _calculateCostSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: calculateCostRequestSerializer(body),
   });
 }
 
@@ -68,15 +59,15 @@ export async function _calculateCostDeserialize(
 
   return calculateCostResponseDeserializer(result.body);
 }
+
 /** Returns a ranked list of GPU SKU pricing plans for deploying this model in the target region, each annotated with feasibility, per-replica hourly cost, and estimated relative performance. No Azure or Kubernetes resources are provisioned. */
 export async function calculateCost(
   context: Client,
   location: string,
   aiModelName: string,
-  body: CalculateCostRequest,
   options: AIModelsCalculateCostOptionalParams = { requestOptions: {} },
 ): Promise<CalculateCostResponse> {
-  const result = await _calculateCostSend(context, location, aiModelName, body, options);
+  const result = await _calculateCostSend(context, location, aiModelName, options);
   return _calculateCostDeserialize(result);
 }
 
@@ -90,7 +81,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,6 +106,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _aiModelListResultDeserializer(result.body);
 }
+
 /** List AIModel resources by SubscriptionLocationResource */
 export function list(
   context: Client,
@@ -129,7 +121,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -146,7 +138,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       aiModelName: aiModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -171,6 +163,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<AI
 
   return aiModelDeserializer(result.body);
 }
+
 /** Get a AIModel */
 export async function get(
   context: Client,
