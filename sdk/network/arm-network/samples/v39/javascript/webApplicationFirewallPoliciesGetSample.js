@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
  *
  * @summary retrieve protection policy with specified name within a resource group.
- * x-ms-original-file: 2026-01-01/WafPolicyGet.json
+ * x-ms-original-file: 2026-03-01/WafPolicyGet.json
  */
 async function getsAWAFPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAWAFPolicyWithinAResourceGroup() {
  * This sample demonstrates how to retrieve protection policy with specified name within a resource group.
  *
  * @summary retrieve protection policy with specified name within a resource group.
- * x-ms-original-file: 2026-01-01/WafPolicyGetBasic.json
+ * x-ms-original-file: 2026-03-01/WafPolicyGetBasic.json
  */
 async function getsABasicTierWAFPolicyWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();

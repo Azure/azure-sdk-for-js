@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -47,6 +49,16 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DeleteRetentionPolicy {
+    // (undocumented)
+    policyState?: PolicyState;
+    retentionPeriodDays?: number;
+}
+
+// @public
+export type DeleteType = string;
+
+// @public
 export interface DiskSnapshotList {
     diskSnapshotIds: string[];
 }
@@ -59,11 +71,16 @@ export interface ElasticSan extends TrackedResource {
 // @public (undocumented)
 export class ElasticSanManagement {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
+    // @deprecated (undocumented)
+    beginRestoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+    // @deprecated (undocumented)
+    beginRestoreVolumeAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<Volume>;
     readonly elasticSans: ElasticSansOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
+    restoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): PollerLike<OperationState<Volume>, Volume>;
     readonly skus: SkusOperations;
     readonly volumeGroups: VolumeGroupsOperations;
     readonly volumes: VolumesOperations;
@@ -80,16 +97,20 @@ export interface ElasticSanManagementOptionalParams extends ClientOptions {
 export interface ElasticSanProperties {
     autoScaleProperties?: AutoScaleProperties;
     availabilityZones?: string[];
-    baseSizeTiB: number;
-    extendedCapacitySizeTiB: number;
+    baseSizeTiB?: number;
+    extendedCapacitySizeTiB?: number;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningStates;
     publicNetworkAccess?: PublicNetworkAccess;
     sku: Sku;
-    readonly totalIops?: number;
-    readonly totalMBps?: number;
-    readonly totalSizeTiB?: number;
+    totalIops?: number;
+    totalMBps?: number;
+    readonly totalReservedIops?: number;
+    readonly totalReservedMBps?: number;
+    totalSizeTiB?: number;
     readonly totalVolumeSizeGiB?: number;
+    readonly usedCapacityGiB?: number;
+    version?: ElasticSanVersion;
     readonly volumeGroupCount?: number;
 }
 
@@ -154,7 +175,13 @@ export interface ElasticSanUpdateProperties {
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
     publicNetworkAccess?: PublicNetworkAccess;
+    totalIops?: number;
+    totalMBps?: number;
+    totalSizeTiB?: number;
 }
+
+// @public
+export type ElasticSanVersion = string;
 
 // @public
 export interface EncryptionIdentity {
@@ -210,6 +237,8 @@ export interface IscsiTargetInfo {
     readonly targetPortalPort?: number;
 }
 
+export { isRestError }
+
 // @public
 export interface KeyVaultProperties {
     readonly currentVersionedKeyExpirationTimestamp?: Date;
@@ -246,6 +275,17 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDeleteType {
+    Permanent = "permanent"
+}
+
+// @public
+export enum KnownElasticSanVersion {
+    V1 = "V1",
+    V2 = "V2"
+}
+
+// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
     EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
@@ -278,6 +318,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPolicyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Failed = "Failed",
@@ -295,6 +341,7 @@ export enum KnownProvisioningStates {
     Invalid = "Invalid",
     Pending = "Pending",
     Restoring = "Restoring",
+    SoftDeleting = "SoftDeleting",
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
@@ -306,7 +353,14 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownQualityOfService {
+    GeneralPurpose = "GeneralPurpose",
+    PerformanceCritical = "PerformanceCritical"
+}
+
+// @public
 export enum KnownSkuName {
+    ElasticSANLRS = "ElasticSAN_LRS",
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS"
 }
@@ -317,14 +371,25 @@ export enum KnownSkuTier {
 }
 
 // @public
+export enum KnownSnapshotAccessState {
+    Available = "Available",
+    AvailableWithInstantAccess = "AvailableWithInstantAccess",
+    InstantAccess = "InstantAccess",
+    Pending = "Pending",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownStorageTargetType {
+    DirectAttach = "DirectAttach",
     Iscsi = "Iscsi",
     None = "None"
 }
 
 // @public
 export enum KnownVersions {
-    V20250901 = "2025-09-01"
+    V20250901 = "2025-09-01",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -334,6 +399,12 @@ export enum KnownVolumeCreateOption {
     DiskSnapshot = "DiskSnapshot",
     None = "None",
     VolumeSnapshot = "VolumeSnapshot"
+}
+
+// @public
+export enum KnownXMsAccessSoftDeletedResources {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -349,8 +420,10 @@ export enum KnownXMsForceDelete {
 }
 
 // @public
-export interface ManagedByInfo {
-    resourceId?: string;
+export interface ManagedByResources {
+    clientId?: string;
+    resourceIds?: string[];
+    version?: number;
 }
 
 // @public
@@ -401,6 +474,9 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type PolicyState = string;
 
 // @public
 export interface PreValidationResponse {
@@ -507,12 +583,17 @@ export interface ProxyResource extends Resource {
 export type PublicNetworkAccess = string;
 
 // @public
+export type QualityOfService = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ElasticSanManagement, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -521,6 +602,11 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RestoreVolumeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -579,6 +665,7 @@ export interface SkuInformation {
 // @public
 export interface SkuLocationInfo {
     readonly location?: string;
+    readonly zoneDetails?: SkuZoneDetails[];
     readonly zones?: string[];
 }
 
@@ -599,9 +686,18 @@ export interface SkusOperations {
 export type SkuTier = string;
 
 // @public
+export interface SkuZoneDetails {
+    readonly capabilities?: SKUCapability[];
+    readonly name?: string[];
+}
+
+// @public
 export interface Snapshot extends ProxyResource {
     properties: SnapshotProperties;
 }
+
+// @public
+export type SnapshotAccessState = string;
 
 // @public
 export interface SnapshotCreationData {
@@ -610,8 +706,10 @@ export interface SnapshotCreationData {
 
 // @public
 export interface SnapshotProperties {
+    readonly completionPercent?: number;
     creationData: SnapshotCreationData;
     readonly provisioningState?: ProvisioningStates;
+    readonly snapshotAccessState?: SnapshotAccessState;
     readonly sourceVolumeSizeGiB?: number;
     readonly volumeName?: string;
 }
@@ -669,13 +767,18 @@ export interface VolumeGroup extends ProxyResource {
 
 // @public
 export interface VolumeGroupProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
+    encryptionInTransit?: boolean;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
     readonly provisioningState?: ProvisioningStates;
+    qualityOfService?: QualityOfService;
+    reservedIops?: number;
+    reservedMBps?: number;
 }
 
 // @public
@@ -694,6 +797,7 @@ export interface VolumeGroupsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumeGroupsListByElasticSanOptionalParams extends OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -730,11 +834,14 @@ export interface VolumeGroupUpdate {
 
 // @public
 export interface VolumeGroupUpdateProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
+    reservedIops?: number;
+    reservedMBps?: number;
 }
 
 // @public
@@ -745,7 +852,7 @@ export interface VolumeNameList {
 // @public
 export interface VolumeProperties {
     creationData?: SourceCreationData;
-    managedBy?: ManagedByInfo;
+    managedBy?: ManagedByResources[];
     readonly provisioningState?: ProvisioningStates;
     sizeGiB: number;
     readonly storageTarget?: IscsiTargetInfo;
@@ -759,6 +866,7 @@ export interface VolumesCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesDeleteOptionalParams extends OperationOptions {
+    deleteType?: DeleteType;
     updateIntervalInMs?: number;
     xMsDeleteSnapshots?: XMsDeleteSnapshots;
     xMsForceDelete?: XMsForceDelete;
@@ -770,6 +878,7 @@ export interface VolumesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListByVolumeGroupOptionalParams extends OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -860,9 +969,12 @@ export interface VolumeUpdate {
 
 // @public
 export interface VolumeUpdateProperties {
-    managedBy?: ManagedByInfo;
+    managedBy?: ManagedByResources[];
     sizeGiB?: number;
 }
+
+// @public
+export type XMsAccessSoftDeletedResources = string;
 
 // @public
 export type XMsDeleteSnapshots = string;

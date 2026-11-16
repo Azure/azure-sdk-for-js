@@ -384,6 +384,7 @@ export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends O
 
 // @public
 export interface CapacityReservationGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -404,8 +405,12 @@ export interface CapacityReservationGroupsListBySubscriptionOptionalParams exten
 
 // @public
 export interface CapacityReservationGroupsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams) => Promise<CapacityReservationGroup>;
-    delete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams) => Promise<CapacityReservationGroup>;
     listByResourceGroup: (resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
     listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CapacityReservationGroup>;
@@ -1820,6 +1825,11 @@ export interface ExternalHealthPolicy {
 
 // @public
 export type FileFormat = string;
+
+// @public
+export interface FlexProfile {
+    preferredVMSize: string;
+}
 
 // @public
 export interface GalleriesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -6428,6 +6438,7 @@ export interface VirtualMachine extends TrackedResource {
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extendedLocation?: ExtendedLocation;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;
@@ -6986,6 +6997,7 @@ export interface VirtualMachineNetworkInterfaceIPConfiguration {
     loadBalancerBackendAddressPools?: SubResource[];
     name: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersions;
     publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
     subnet?: SubResource;
@@ -6997,6 +7009,7 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
     applicationSecurityGroups?: SubResource[];
     loadBalancerBackendAddressPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersions;
     publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
     subnet?: SubResource;
@@ -7022,6 +7035,7 @@ export interface VirtualMachineProperties {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;
@@ -7415,6 +7429,7 @@ export interface VirtualMachineScaleSetIPConfiguration {
     loadBalancerInboundNatPools?: SubResource[];
     name: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7427,6 +7442,7 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
     loadBalancerBackendAddressPools?: SubResource[];
     loadBalancerInboundNatPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7960,6 +7976,7 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
     loadBalancerInboundNatPools?: SubResource[];
     name?: string;
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -7972,6 +7989,7 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
     loadBalancerBackendAddressPools?: SubResource[];
     loadBalancerInboundNatPools?: SubResource[];
     primary?: boolean;
+    privateIPAddressPrefixLength?: number;
     privateIPAddressVersion?: IPVersion;
     publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
     subnet?: ApiEntityReference;
@@ -8874,6 +8892,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionsTimeBudget?: string;
+    flexProfile?: FlexProfile;
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;

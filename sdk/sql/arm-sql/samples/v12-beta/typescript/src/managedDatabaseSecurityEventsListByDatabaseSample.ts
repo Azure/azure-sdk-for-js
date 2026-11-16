@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of security events.
  *
  * @summary gets a list of security events.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSecurityEventsGetMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSecurityEventsGetMax.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promi
  * This sample demonstrates how to gets a list of security events.
  *
  * @summary gets a list of security events.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSecurityEventsGetMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSecurityEventsGetMin.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

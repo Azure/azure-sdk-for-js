@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a route in the specified route filter.
  *
  * @summary creates or updates a route in the specified route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterRuleCreate.json
+ * x-ms-original-file: 2026-03-01/RouteFilterRuleCreate.json
  */
 async function routeFilterRuleCreate() {
   const credential = new DefaultAzureCredential();

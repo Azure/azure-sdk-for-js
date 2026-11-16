@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
  *
  * @summary gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
- * x-ms-original-file: 2026-01-01/NetworkManagerConnectivityConfigurationGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerConnectivityConfigurationGet.json
  */
 async function connectivityConfigurationsGet() {
   const credential = new DefaultAzureCredential();

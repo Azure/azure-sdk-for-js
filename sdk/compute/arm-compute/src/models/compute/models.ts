@@ -2488,6 +2488,8 @@ export interface VirtualMachineScaleSetIPConfiguration {
   publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
   applicationGatewayBackendAddressPools?: SubResource[];
   /** Specifies an array of references to application security group. */
@@ -2508,6 +2510,7 @@ export function virtualMachineScaleSetIPConfigurationSerializer(
       "primary",
       "publicIPAddressConfiguration",
       "privateIPAddressVersion",
+      "privateIPAddressPrefixLength",
       "applicationGatewayBackendAddressPools",
       "applicationSecurityGroups",
       "loadBalancerBackendAddressPools",
@@ -2539,6 +2542,8 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachineScaleSetPublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway. */
   applicationGatewayBackendAddressPools?: SubResource[];
   /** Specifies an array of references to application security group. */
@@ -2561,6 +2566,7 @@ export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
@@ -2588,6 +2594,7 @@ export function virtualMachineScaleSetIPConfigurationPropertiesDeserializer(
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArrayDeserializer(item["applicationGatewayBackendAddressPools"]),
@@ -5098,6 +5105,8 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
   publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** The application gateway backend address pools. */
   applicationGatewayBackendAddressPools?: SubResource[];
   /** Specifies an array of references to application security group. */
@@ -5118,6 +5127,7 @@ export function virtualMachineScaleSetUpdateIPConfigurationSerializer(
       "primary",
       "publicIPAddressConfiguration",
       "privateIPAddressVersion",
+      "privateIPAddressPrefixLength",
       "applicationGatewayBackendAddressPools",
       "applicationSecurityGroups",
       "loadBalancerBackendAddressPools",
@@ -5138,6 +5148,8 @@ export interface VirtualMachineScaleSetUpdateIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersion;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** The application gateway backend address pools. */
   applicationGatewayBackendAddressPools?: SubResource[];
   /** Specifies an array of references to application security group. */
@@ -5160,6 +5172,7 @@ export function virtualMachineScaleSetUpdateIPConfigurationPropertiesSerializer(
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
@@ -6672,6 +6685,8 @@ export interface VirtualMachine extends TrackedResource {
   placement?: Placement;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -6736,6 +6751,7 @@ export function virtualMachineSerializer(item: VirtualMachine): any {
     location: item["location"],
     properties: areAllPropsUndefined(item, [
       "hardwareProfile",
+      "flexProfile",
       "scheduledEventsPolicy",
       "storageProfile",
       "additionalCapabilities",
@@ -6819,6 +6835,8 @@ export function virtualMachineDeserializer(item: any): VirtualMachine {
 export interface VirtualMachineProperties {
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -6882,6 +6900,9 @@ export function virtualMachinePropertiesSerializer(item: VirtualMachinePropertie
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileSerializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileSerializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicySerializer(item["scheduledEventsPolicy"]),
@@ -6944,6 +6965,9 @@ export function virtualMachinePropertiesDeserializer(item: any): VirtualMachineP
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileDeserializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileDeserializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicyDeserializer(item["scheduledEventsPolicy"]),
@@ -7546,6 +7570,22 @@ export enum KnownVirtualMachineSizeTypes {
  * **Standard_NV24**
  */
 export type VirtualMachineSizeTypes = string;
+
+/** Specifies the FlexProfile for a virtual machine. When set, Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and the deployed size is returned in hardwareProfile.vmSize. See the properties.flexProfile description for the full usage rules, including how it interacts with hardwareProfile.vmSize. */
+export interface FlexProfile {
+  /** Specifies the preferred VM size, for example Standard_D4s_v5. Azure may deploy a compatible alternative size based on capacity and placement considerations. Supported VM families for FlexProfile may vary by region. The recommended way to get the list of available sizes is using these APIs: [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/resourceskus/list), [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). */
+  preferredVMSize: string;
+}
+
+export function flexProfileSerializer(item: FlexProfile): any {
+  return { preferredVMSize: item["preferredVMSize"] };
+}
+
+export function flexProfileDeserializer(item: any): FlexProfile {
+  return {
+    preferredVMSize: item["preferredVMSize"],
+  };
+}
 
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfile {
@@ -8275,6 +8315,8 @@ export interface VirtualMachineNetworkInterfaceIPConfiguration {
   publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersions;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to application security group. */
   applicationSecurityGroups?: SubResource[];
   /** Specifies an array of references to backend address pools of application gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual machines cannot use the same application gateway. */
@@ -8293,6 +8335,7 @@ export function virtualMachineNetworkInterfaceIPConfigurationSerializer(
       "primary",
       "publicIPAddressConfiguration",
       "privateIPAddressVersion",
+      "privateIPAddressPrefixLength",
       "applicationSecurityGroups",
       "applicationGatewayBackendAddressPools",
       "loadBalancerBackendAddressPools",
@@ -8323,6 +8366,8 @@ export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
   publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
   /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. */
   privateIPAddressVersion?: IPVersions;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** Specifies an array of references to application security group. */
   applicationSecurityGroups?: SubResource[];
   /** Specifies an array of references to backend address pools of application gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual machines cannot use the same application gateway. */
@@ -8341,6 +8386,7 @@ export function virtualMachineNetworkInterfaceIPConfigurationPropertiesSerialize
       ? item["publicIPAddressConfiguration"]
       : virtualMachinePublicIPAddressConfigurationSerializer(item["publicIPAddressConfiguration"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArraySerializer(item["applicationSecurityGroups"]),
@@ -8365,6 +8411,7 @@ export function virtualMachineNetworkInterfaceIPConfigurationPropertiesDeseriali
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArrayDeserializer(item["applicationSecurityGroups"]),
@@ -9232,6 +9279,8 @@ export interface VirtualMachineUpdate extends UpdateResource {
   zones?: string[];
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** [Preview Feature] Specifies a FlexProfile for VM size. Azure may deploy a compatible alternative VM size based on capacity and placement considerations, and returns the deployed size in hardwareProfile.vmSize. A request that adds flexProfile must omit hardwareProfile.vmSize. For a virtual machine that uses FlexProfile, a hardwareProfile.vmSize equal to the deployed size is ignored, so a GET response can be sent back unchanged. A PATCH request that omits flexProfile keeps it. A PUT request that omits flexProfile and sets hardwareProfile.vmSize clears it. This property cannot exist along with a non-null properties.availabilitySet, properties.capacityReservation, properties.host, properties.hostGroup, properties.proximityPlacementGroup or properties.virtualMachineScaleSet. */
+  flexProfile?: FlexProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -9296,6 +9345,7 @@ export function virtualMachineUpdateSerializer(item: VirtualMachineUpdate): any 
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
     properties: areAllPropsUndefined(item, [
       "hardwareProfile",
+      "flexProfile",
       "scheduledEventsPolicy",
       "storageProfile",
       "additionalCapabilities",
@@ -12186,7 +12236,7 @@ export type ConsistencyModeTypes = string;
 export interface RestorePointInstanceView {
   /** The disk restore points information. */
   diskRestorePoints?: DiskRestorePointInstanceView[];
-  /** The resource status information. */
+  /** The aggregate status information for the restore point. The list may include separate aggregate entries for replication and, in supported API versions, Instant Access, as applicable. For more information about Instant Access, see [Use virtual machine restore points](https://learn.microsoft.com/azure/virtual-machines/virtual-machines-create-restore-points#instant-access). */
   statuses?: InstanceViewStatus[];
 }
 
@@ -14993,6 +15043,7 @@ export function _virtualMachineScaleSetIPConfigurationPropertiesSerializer(
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
@@ -15018,6 +15069,7 @@ export function _virtualMachineScaleSetIPConfigurationPropertiesDeserializer(ite
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArrayDeserializer(item["applicationGatewayBackendAddressPools"]),
@@ -15264,6 +15316,7 @@ export function _virtualMachineScaleSetUpdateIPConfigurationPropertiesSerializer
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
       : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
@@ -15553,6 +15606,7 @@ export function _virtualMachineNetworkInterfaceIPConfigurationPropertiesSerializ
       ? item["publicIPAddressConfiguration"]
       : virtualMachinePublicIPAddressConfigurationSerializer(item["publicIPAddressConfiguration"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArraySerializer(item["applicationSecurityGroups"]),
@@ -15575,6 +15629,7 @@ export function _virtualMachineNetworkInterfaceIPConfigurationPropertiesDeserial
           item["publicIPAddressConfiguration"],
         ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
+    privateIPAddressPrefixLength: item["privateIPAddressPrefixLength"],
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArrayDeserializer(item["applicationSecurityGroups"]),
@@ -15644,6 +15699,9 @@ export function _virtualMachinePropertiesSerializer(item: VirtualMachine): any {
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileSerializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileSerializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicySerializer(item["scheduledEventsPolicy"]),
@@ -15706,6 +15764,9 @@ export function _virtualMachinePropertiesDeserializer(item: any) {
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileDeserializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileDeserializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicyDeserializer(item["scheduledEventsPolicy"]),
@@ -15825,6 +15886,9 @@ export function _virtualMachineUpdatePropertiesSerializer(item: VirtualMachineUp
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileSerializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileSerializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicySerializer(item["scheduledEventsPolicy"]),
@@ -15887,6 +15951,9 @@ export function _virtualMachineUpdatePropertiesDeserializer(item: any) {
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
       : hardwareProfileDeserializer(item["hardwareProfile"]),
+    flexProfile: !item["flexProfile"]
+      ? item["flexProfile"]
+      : flexProfileDeserializer(item["flexProfile"]),
     scheduledEventsPolicy: !item["scheduledEventsPolicy"]
       ? item["scheduledEventsPolicy"]
       : scheduledEventsPolicyDeserializer(item["scheduledEventsPolicy"]),

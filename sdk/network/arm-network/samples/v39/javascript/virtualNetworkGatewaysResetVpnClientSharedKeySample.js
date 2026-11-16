@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to resets the VPN client shared key of the virtual network gateway in the specified resource group.
  *
  * @summary resets the VPN client shared key of the virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayResetVpnClientSharedKey.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayResetVpnClientSharedKey.json
  */
 async function resetVpnClientSharedKey() {
   const credential = new DefaultAzureCredential();

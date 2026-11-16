@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a VirtualHub.
  *
  * @summary retrieves the details of a VirtualHub.
- * x-ms-original-file: 2026-01-01/VirtualHubGet.json
+ * x-ms-original-file: 2026-03-01/VirtualHubGet.json
  */
 async function virtualHubGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified peering from the ExpressRouteCrossConnection.
  *
  * @summary deletes the specified peering from the ExpressRouteCrossConnection.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionBgpPeeringDelete.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionBgpPeeringDelete.json
  */
 async function deleteExpressRouteCrossConnectionBgpPeering() {
   const credential = new DefaultAzureCredential();

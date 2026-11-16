@@ -42,12 +42,12 @@ import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.
 import { KnownContextTagKeys } from "../generated/index.js";
 import { type Resource } from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
-import type { Attributes, HrTime } from "@opentelemetry/api";
+import type { AnyValue, Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
-import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
   CUSTOM_DIMENSIONS_GENAI_KEYS,
+  CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
@@ -232,6 +232,7 @@ export function createResourceMetricEnvelope(
   resource: Resource,
   instrumentationKey: string,
   applicationId?: string,
+  increaseGenAiMessageLimit = false,
 ): Envelope | undefined {
   const attributes = resource.attributes;
   if (attributes) {
@@ -259,7 +260,7 @@ export function createResourceMetricEnvelope(
         kind: "MetricsData",
         version: DEFAULT_BREEZE_DATA_VERSION,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
-        properties: truncateCustomDimensions(resourceAttributes),
+        properties: truncateCustomDimensions(resourceAttributes, increaseGenAiMessageLimit),
       };
       const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
@@ -359,11 +360,14 @@ export function createCustomMeasurements(
 
 /**
  * Truncates each custom dimension value individually.
- * Gen AI properties in {@link CUSTOM_DIMENSIONS_GENAI_KEYS} are truncated to 256KB;
- * all other properties are truncated to 8KB.
+ * Gen AI properties use a 256 KiB UTF-8 limit, with an opt-in 4 MiB limit for
+ * input/output messages. All other properties use an 8 KiB limit.
  * @internal
  */
-export function truncateCustomDimensions(properties: Record<string, unknown>): {
+export function truncateCustomDimensions(
+  properties: Record<string, unknown>,
+  increaseGenAiMessageLimit = false,
+): {
   [propertyName: string]: string;
 } {
   const defaultMaxSize = MaxPropertyLengths.THIRTEEN_BIT;
@@ -377,10 +381,20 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         ? (properties[key] as string)
         : serializeAttribute(properties[key] as AnyValue);
 
-    const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
+    const maxSize =
+      increaseGenAiMessageLimit && CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS.has(key)
+        ? MaxPropertyLengths.TWENTY_TWO_BIT
+        : CUSTOM_DIMENSIONS_GENAI_KEYS.has(key)
+          ? genaiMaxSize
+          : defaultMaxSize;
     const valueBytes = stringToUint8Array(value, "utf-8");
     if (valueBytes.byteLength > maxSize) {
-      value = uint8ArrayToString(valueBytes.subarray(0, maxSize), "utf-8");
+      let end = maxSize;
+      // Exclude a partial UTF-8 character rather than decoding it as a replacement character.
+      while ((valueBytes[end] & 0xc0) === 0x80) {
+        end--;
+      }
+      value = uint8ArrayToString(valueBytes.subarray(0, end), "utf-8");
       truncated = true;
     }
 

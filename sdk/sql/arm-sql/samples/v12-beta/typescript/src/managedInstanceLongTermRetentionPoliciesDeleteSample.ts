@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a managed database's long term retention policy.
  *
  * @summary deletes a managed database's long term retention policy.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceLongTermRetentionPolicyDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceLongTermRetentionPolicyDelete.json
  */
 async function deletesTheLTRPolicyForTheManagedDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

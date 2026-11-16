@@ -5,6 +5,24 @@
 ```ts
 
 // @public
+export interface AgentRuntimeGraphHydrateDocumentsParams {
+    select?: string;
+    top?: number;
+}
+
+// @public
+export interface AgentRuntimeGraphParams {
+    includeQuery?: boolean;
+    provenance?: AgentRuntimeGraphProvenanceParams;
+}
+
+// @public
+export interface AgentRuntimeGraphProvenanceParams {
+    hydrateDocuments?: AgentRuntimeGraphHydrateDocumentsParams;
+    kind?: KnowledgeSourceGraphProvenanceKind;
+}
+
+// @public
 export interface AIServices {
     apiKey?: string;
     uri: string;
@@ -18,13 +36,16 @@ export interface AssetStore {
 
 // @public
 export interface AzureBlobKnowledgeSourceParams extends KnowledgeSourceParams {
+    graphParameters?: AgentRuntimeGraphParams;
     kind: "azureBlob";
     queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
+    topicGraph?: VectorQueryTopicGraphUnion;
 }
 
 // @public
 export interface CompletedSynchronizationState {
     endTime: Date;
+    readonly graphStatistics?: KnowledgeSourceGraphStatistics;
     itemsSkipped: number;
     itemsUpdatesFailed: number;
     itemsUpdatesProcessed: number;
@@ -80,9 +101,15 @@ export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
 }
 
 // @public
+export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityRecordUnion;
+}
+
+// @public
 export interface KnowledgeBaseActivityRecord {
     completedAt?: Date;
     elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     startedAt?: Date;
@@ -93,6 +120,7 @@ export interface KnowledgeBaseActivityRecord {
 // @public
 export interface KnowledgeBaseActivityRecordModel {
     deploymentId?: string;
+    elapsedInMs?: number;
     modelName: string;
 }
 
@@ -100,7 +128,7 @@ export interface KnowledgeBaseActivityRecordModel {
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseGraphSearchActivityRecord | KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
 export interface KnowledgeBaseActivityStartedEvent {
@@ -108,6 +136,11 @@ export interface KnowledgeBaseActivityStartedEvent {
     knowledgeSourceName?: string;
     startedAt: Date;
     type: KnowledgeBaseActivityRecordType;
+}
+
+// @public
+export interface KnowledgeBaseActivityStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseActivityStartedEvent;
 }
 
 // @public
@@ -122,6 +155,11 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBa
 export interface KnowledgeBaseAnswerCompletedEvent {
     message: KnowledgeBaseMessage;
     messageIndex: number;
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseAnswerCompletedEvent;
 }
 
 // @public
@@ -161,6 +199,11 @@ export interface KnowledgeBaseErrorDetail {
     readonly details?: KnowledgeBaseErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface KnowledgeBaseErrorStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseStreamErrorEvent;
 }
 
 // @public
@@ -228,6 +271,35 @@ export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
     citationUrl?: string;
     docName?: string;
     type: "file";
+}
+
+// @public
+export interface KnowledgeBaseGraphSearchActivityArguments {
+    attempts?: number;
+    gql?: string;
+    graphIndexName?: string;
+    inputTokens?: number;
+    modelElapsedMs?: number;
+    modelName?: string;
+    naturalLanguageQuery?: string;
+    outcome?: string;
+    outputTokens?: number;
+}
+
+// @public
+export interface KnowledgeBaseGraphSearchActivityRecord extends KnowledgeBaseActivityRecord {
+    count?: number;
+    graphSearchArguments?: KnowledgeBaseGraphSearchActivityArguments;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "graphSearch";
+}
+
+// @public
+export interface KnowledgeBaseGraphSearchReference extends KnowledgeBaseReference {
+    graphIndexName?: string;
+    type: "graphSearch";
 }
 
 // @public
@@ -398,10 +470,15 @@ export interface KnowledgeBaseReference {
 }
 
 // @public
+export interface KnowledgeBaseReferencesCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseReferenceUnion[];
+}
+
+// @public
 export type KnowledgeBaseReferenceType = string;
 
 // @public
-export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | KnowledgeBaseReference;
+export type KnowledgeBaseReferenceUnion = KnowledgeBaseGraphSearchReference | KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | KnowledgeBaseReference;
 
 // @public
 export interface KnowledgeBaseRemoteSharePointActivityArguments {
@@ -433,6 +510,11 @@ export interface KnowledgeBaseResponseCompletedEvent {
 }
 
 // @public
+export interface KnowledgeBaseResponseCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseResponseCompletedEvent;
+}
+
+// @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: KnowledgeRetrievalIntentUnion[];
@@ -444,6 +526,7 @@ export interface KnowledgeBaseRetrievalRequest {
     messages?: KnowledgeBaseMessage[];
     outputMode?: KnowledgeRetrievalOutputMode;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+    toolName?: string;
 }
 
 // @public
@@ -463,7 +546,16 @@ export interface KnowledgeBaseRetrievalStartedEvent {
 }
 
 // @public
+export interface KnowledgeBaseRetrievalStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+    value: KnowledgeBaseRetrievalStartedEvent;
+}
+
+// @public
 export type KnowledgeBaseRetrievalStatusCode = number;
+
+// @public
+export interface KnowledgeBaseRetrievalStreamEvent {
+}
 
 // @public
 export interface KnowledgeBaseSearchIndexActivityArguments {
@@ -605,9 +697,26 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVec
 }
 
 // @public
+export interface KnowledgeSourceCache {
+    enableReprocessing?: boolean;
+    identity?: SearchIndexerDataIdentityUnion;
+    storageConnectionString: string;
+}
+
+// @public
+export type KnowledgeSourceGraphProvenanceKind = string;
+
+// @public
+export interface KnowledgeSourceGraphStatistics {
+    readonly ontologyName?: string;
+    readonly triplesWritten: number;
+}
+
+// @public
 export interface KnowledgeSourceIngestionParameters {
     aiServices?: AIServices;
     assetStore?: AssetStore;
+    cache?: KnowledgeSourceCache;
     chatCompletionModel?: KnowledgeBaseModelUnion;
     contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
@@ -621,6 +730,12 @@ export interface KnowledgeSourceIngestionParameters {
 
 // @public
 export type KnowledgeSourceNetworkAccessMode = string;
+
+// @public
+export interface KnowledgeSourceOpenAICompatibleVectorizer extends KnowledgeSourceVectorizer {
+    kind: "openAICompatible";
+    openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
+}
 
 // @public
 export interface KnowledgeSourceParams {
@@ -650,6 +765,7 @@ export interface KnowledgeSourceStatistics {
 // @public
 export interface KnowledgeSourceStatus {
     currentSynchronizationState?: SynchronizationState;
+    readonly fileCapacity?: KnowledgeSourceFileCapacity;
     kind?: KnowledgeSourceKind;
     lastSynchronizationState?: CompletedSynchronizationState;
     statistics?: KnowledgeSourceStatistics;
@@ -673,7 +789,7 @@ export interface KnowledgeSourceVectorizer {
 }
 
 // @public
-export type KnowledgeSourceVectorizerUnion = KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceVectorizer;
+export type KnowledgeSourceVectorizerUnion = KnowledgeSourceOpenAICompatibleVectorizer | KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceVectorizer;
 
 // @public
 export enum KnownKnowledgeBaseActivityRecordType {
@@ -682,6 +798,7 @@ export enum KnownKnowledgeBaseActivityRecordType {
     FabricDataAgent = "fabricDataAgent",
     FabricOntology = "fabricOntology",
     File = "file",
+    GraphSearch = "graphSearch",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
     IndexedSql = "indexedSql",
@@ -707,6 +824,7 @@ export enum KnownKnowledgeBaseReferenceType {
     FabricDataAgent = "fabricDataAgent",
     FabricOntology = "fabricOntology",
     File = "file",
+    GraphSearch = "graphSearch",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
     IndexedSql = "indexedSql",
@@ -743,6 +861,12 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
 }
 
 // @public
+export enum KnownKnowledgeSourceGraphProvenanceKind {
+    Hydrate = "hydrate",
+    None = "none"
+}
+
+// @public
 export enum KnownKnowledgeSourceNetworkAccessMode {
     Private = "private",
     Public = "public"
@@ -774,6 +898,7 @@ export interface SearchIndexKnowledgeSourceParams extends KnowledgeSourceParams 
     filterAddOn?: string;
     kind: "searchIndex";
     queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
+    topicGraph?: VectorQueryTopicGraphUnion;
 }
 
 // @public
@@ -786,6 +911,7 @@ export interface ServedImage {
 // @public
 export interface SynchronizationState {
     errors?: KnowledgeSourceSynchronizationError[];
+    readonly graphStatistics?: KnowledgeSourceGraphStatistics;
     itemsSkipped: number;
     itemsUpdatesFailed: number;
     itemsUpdatesProcessed: number;

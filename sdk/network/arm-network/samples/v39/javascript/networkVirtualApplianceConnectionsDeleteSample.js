@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a NVA connection.
  *
  * @summary deletes a NVA connection.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceConnectionDelete.json
  */
 async function networkVirtualApplianceConnectionDelete() {
   const credential = new DefaultAzureCredential();

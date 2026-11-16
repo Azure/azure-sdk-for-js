@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a management operation on a managed instance.
  *
  * @summary gets a management operation on a managed instance.
- * x-ms-original-file: 2025-08-01-preview/GetManagedInstanceOperation.json
+ * x-ms-original-file: 2026-08-01-preview/GetManagedInstanceOperation.json
  */
 async function getsTheManagedInstanceManagementOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

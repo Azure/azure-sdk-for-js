@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves all the ExpressRouteProviderPorts in a subscription.
  *
  * @summary retrieves all the ExpressRouteProviderPorts in a subscription.
- * x-ms-original-file: 2026-01-01/expressRouteProviderPortList.json
+ * x-ms-original-file: 2026-03-01/expressRouteProviderPortList.json
  */
 async function expressRouteProviderPortList(): Promise<void> {
   const credential = new DefaultAzureCredential();

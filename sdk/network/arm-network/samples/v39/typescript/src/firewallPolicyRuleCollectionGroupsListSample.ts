@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupList.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
  * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsWithIpGroupsForAGivenFirewallPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIpGroupsForAGivenFir
  * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();

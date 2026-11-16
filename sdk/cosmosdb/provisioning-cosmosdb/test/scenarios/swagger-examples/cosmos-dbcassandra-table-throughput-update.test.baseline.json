@@ -1,0 +1,121 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "cassandraKeyspace": {
+          "bicepIdentifier": "cassandraKeyspace",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandrakeyspace-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cassandrakeyspacetab-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "cassandraKeyspace"
+              }
+            }
+          }
+        },
+        "throughputSetting": {
+          "bicepIdentifier": "throughputSetting",
+          "type": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table"
+              },
+              "location": {
+                "kind": "string",
+                "value": "West US"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "throughput": {
+                        "kind": "integer",
+                        "value": "400"
+                      }
+                    }
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource3Id": {
+          "bicepIdentifier": "resource3Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

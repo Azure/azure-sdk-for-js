@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of all RoutingIntent child resources of the VirtualHub.
  *
  * @summary retrieves the details of all RoutingIntent child resources of the VirtualHub.
- * x-ms-original-file: 2026-01-01/RoutingIntentList.json
+ * x-ms-original-file: 2026-03-01/RoutingIntentList.json
  */
 async function routingIntentList(): Promise<void> {
   const credential = new DefaultAzureCredential();

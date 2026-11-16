@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified ExpressRoutePort resource.
  *
  * @summary creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortCreate.json
  */
 async function expressRoutePortCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function expressRoutePortCreate(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified ExpressRoutePort resource.
  *
  * @summary creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: 2026-01-01/ExpressRoutePortUpdateLink.json
+ * x-ms-original-file: 2026-03-01/ExpressRoutePortUpdateLink.json
  */
 async function expressRoutePortUpdateLink(): Promise<void> {
   const credential = new DefaultAzureCredential();

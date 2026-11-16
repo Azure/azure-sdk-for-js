@@ -16,6 +16,9 @@
     "../src/api/fleets/index.ts",
     "../src/api/clusterMeshProfiles/index.ts",
     "../src/api/operations/index.ts",
-    "../src/models/index.ts"
+    "../src/models/index.ts",
+    "../src/models/core/v1/index.ts",
+    "../src/models/meta/v1/index.ts",
+    "../src/models/placement/v1/index.ts"
   ]
 }

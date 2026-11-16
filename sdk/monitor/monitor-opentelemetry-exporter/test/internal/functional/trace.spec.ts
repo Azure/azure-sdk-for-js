@@ -10,8 +10,7 @@ import {
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
-import { describe, it, beforeAll, afterAll } from "vitest";
-import { delay } from "@azure/core-util";
+import { describe, it, beforeAll, afterAll, vi } from "vitest";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {
@@ -20,10 +19,8 @@ describe("Trace Exporter Scenarios", () => {
 
     beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
           ingest.push(...body);
           return true;
         })
@@ -41,12 +38,13 @@ describe("Trace Exporter Scenarios", () => {
     it("should work", async () => {
       await scenario.run();
       await scenario.flush();
-      setTimeout(() => {
-        assertTraceExpectation(ingest, scenario.expectation);
-        assertCount(ingest, scenario.expectation);
-      }, 100);
-
-      await delay(200); // wait enough time for timeout callback
+      await vi.waitFor(
+        () => {
+          assertTraceExpectation(ingest, scenario.expectation);
+          assertCount(ingest, scenario.expectation);
+        },
+        { timeout: 5000 },
+      );
     });
   });
 
@@ -57,10 +55,8 @@ describe("Trace Exporter Scenarios", () => {
     beforeAll(() => {
       process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED] = "true";
       nock(DEFAULT_BREEZE_ENDPOINT)
+        .matchHeader("Content-Encoding", "gzip")
         .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
           ingest.push(...body);
           return true;
         })
@@ -78,12 +74,13 @@ describe("Trace Exporter Scenarios", () => {
     it("should work with OTel resource metric disabled", async () => {
       await scenario.run();
       await scenario.flush();
-      setTimeout(() => {
-        assertTraceExpectation(ingest, scenario.disabledExpectation);
-        assertCount(ingest, scenario.disabledExpectation);
-      }, 100);
-
-      await delay(200); // wait enough time for timeout callback
+      await vi.waitFor(
+        () => {
+          assertTraceExpectation(ingest, scenario.disabledExpectation);
+          assertCount(ingest, scenario.disabledExpectation);
+        },
+        { timeout: 5000 },
+      );
     });
   });
 });

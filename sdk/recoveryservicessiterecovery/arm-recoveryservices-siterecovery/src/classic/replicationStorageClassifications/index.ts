@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import {
   list,
   listByReplicationFabrics,
   get,
 } from "../../api/replicationStorageClassifications/operations.js";
-import {
+import type {
   ReplicationStorageClassificationsListOptionalParams,
   ReplicationStorageClassificationsListByReplicationFabricsOptionalParams,
   ReplicationStorageClassificationsGetOptionalParams,
 } from "../../api/replicationStorageClassifications/options.js";
-import { StorageClassification } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { StorageClassification } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationStorageClassifications operations. */
 export interface ReplicationStorageClassificationsOperations {

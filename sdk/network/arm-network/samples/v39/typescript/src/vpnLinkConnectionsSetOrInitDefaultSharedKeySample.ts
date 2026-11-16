@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
  *
  * @summary sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionDefaultSharedKeyPut.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionDefaultSharedKeyPut.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

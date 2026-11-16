@@ -40,7 +40,7 @@ export function _createSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return jobExecutionDeserializer(result.body);
 }
+
 /** Starts an elastic job execution. */
 export function create(
   context: Client,
@@ -80,7 +81,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, serverName, jobAgentName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<JobExecution>, JobExecution>;
 }
 
@@ -98,7 +99,7 @@ export function _listByAgentSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       jobAgentName: jobAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -136,6 +137,7 @@ export async function _listByAgentDeserialize(
 
   return _jobExecutionListResultDeserializer(result.body);
 }
+
 /** Lists all executions in a job agent. */
 export function listByAgent(
   context: Client,
@@ -152,7 +154,7 @@ export function listByAgent(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -173,7 +175,7 @@ export function _listByJobSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -211,6 +213,7 @@ export async function _listByJobDeserialize(
 
   return _jobExecutionListResultDeserializer(result.body);
 }
+
 /** Lists a job's executions. */
 export function listByJob(
   context: Client,
@@ -228,7 +231,7 @@ export function listByJob(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -251,7 +254,7 @@ export function _cancelSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,6 +276,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Requests cancellation of a job execution. */
 export async function cancel(
   context: Client,
@@ -313,7 +317,7 @@ export function _createOrUpdateSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -340,6 +344,7 @@ export async function _createOrUpdateDeserialize(
 
   return jobExecutionDeserializer(result.body);
 }
+
 /** Creates or updates a job execution. */
 export function createOrUpdate(
   context: Client,
@@ -364,7 +369,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<JobExecution>, JobExecution>;
 }
 
@@ -386,7 +391,7 @@ export function _getSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,6 +416,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobExecutionDeserializer(result.body);
 }
+
 /** Gets a job execution. */
 export async function get(
   context: Client,

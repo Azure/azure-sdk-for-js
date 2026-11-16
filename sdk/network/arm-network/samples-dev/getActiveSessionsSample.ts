@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the list of currently active sessions on the Bastion.
  *
  * @summary returns the list of currently active sessions on the Bastion.
- * x-ms-original-file: 2026-01-01/BastionSessionsList.json
+ * x-ms-original-file: 2026-03-01/BastionSessionsList.json
  */
 async function returnsAListOfCurrentlyActiveSessionsOnTheBastion(): Promise<void> {
   const credential = new DefaultAzureCredential();

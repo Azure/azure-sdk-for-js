@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreate.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreate.json
  */
 async function createLoadBalancer() {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function createLoadBalancer() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateGatewayLoadBalancerConsumer.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
   const credential = new DefaultAzureCredential();
@@ -148,7 +148,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
   const credential = new DefaultAzureCredential();
@@ -213,7 +213,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
   const credential = new DefaultAzureCredential();
@@ -275,7 +275,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateGlobalTier.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateGlobalTier.json
  */
 async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
   const credential = new DefaultAzureCredential();
@@ -340,7 +340,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateStandardSku.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateStandardSku.json
  */
 async function createLoadBalancerWithStandardSKU() {
   const credential = new DefaultAzureCredential();
@@ -408,7 +408,7 @@ async function createLoadBalancerWithStandardSKU() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateWithAdvancedMode.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateWithAdvancedMode.json
  */
 async function createLoadBalancerWithAdvancedMode() {
   const credential = new DefaultAzureCredential();
@@ -464,7 +464,7 @@ async function createLoadBalancerWithAdvancedMode() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateWithInboundNatPool.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateWithInboundNatPool.json
  */
 async function createLoadBalancerWithInboundNatPool() {
   const credential = new DefaultAzureCredential();
@@ -512,7 +512,7 @@ async function createLoadBalancerWithInboundNatPool() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateWithOutboundRules.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateWithOutboundRules.json
  */
 async function createLoadBalancerWithOutboundRules() {
   const credential = new DefaultAzureCredential();
@@ -593,7 +593,7 @@ async function createLoadBalancerWithOutboundRules() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateWithSyncModePropertyOnPool.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateWithSyncModePropertyOnPool.json
  */
 async function createLoadBalancerWithSyncModePropertyOnPool() {
   const credential = new DefaultAzureCredential();
@@ -668,7 +668,7 @@ async function createLoadBalancerWithSyncModePropertyOnPool() {
  * This sample demonstrates how to creates or updates a load balancer.
  *
  * @summary creates or updates a load balancer.
- * x-ms-original-file: 2026-01-01/LoadBalancerCreateWithZones.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerCreateWithZones.json
  */
 async function createLoadBalancerWithFrontendIPInZone1() {
   const credential = new DefaultAzureCredential();

@@ -122,3 +122,6 @@ exceptions:
       - "@azure/ai-projects"
       - "@azure/ai-voicelive"
       - "@azure/web-pubsub-client"
+  - dependency: "@eslint-community/regexpp"
+    packages:
+      - "@azure/provisioning-core"

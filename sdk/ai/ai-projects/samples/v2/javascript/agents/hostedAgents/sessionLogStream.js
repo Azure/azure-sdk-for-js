@@ -3,13 +3,13 @@
 
 /**
  * This sample demonstrates how to stream hosted agent session logs
- * using `project.beta.agents.getSessionLogStream` with the
+ * using `project.agents.getSessionLogStream` with the
  * AIProjectClient.
  *
  * Sessions only work with Hosted Agents.
  *
- * Session and log stream operations are currently preview features.
- * In the JS SDK, you access these operations via `project.beta.agents`.
+ * Requires a hosted deployment that supports sessions and log streaming.
+ * In the JS SDK, access these operations through `project.agents`.
  *
  * @summary Demonstrates streaming session logs from a hosted agent.
  */

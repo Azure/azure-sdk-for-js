@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the NSP profiles in the specified network security perimeter.
  *
  * @summary lists the NSP profiles in the specified network security perimeter.
- * x-ms-original-file: 2026-01-01/NspProfileList.json
+ * x-ms-original-file: 2026-03-01/NspProfileList.json
  */
 async function nspProfilesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

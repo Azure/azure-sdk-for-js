@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the express route circuits in a subscription.
  *
  * @summary gets all the express route circuits in a subscription.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitListBySubscription.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitListBySubscription.json
  */
 async function listExpressRouteCircuitsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

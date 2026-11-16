@@ -7,7 +7,7 @@ import {
   AlwaysOnSampler,
   ParentBasedSampler,
   TraceIdRatioBasedSampler,
-} from "@opentelemetry/sdk-trace-base";
+} from "@opentelemetry/sdk-trace";
 import { Logger } from "../../../../src/shared/logging/index.js";
 import { afterAll, afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 

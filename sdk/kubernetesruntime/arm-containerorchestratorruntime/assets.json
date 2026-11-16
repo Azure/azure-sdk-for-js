@@ -1,6 +1,0 @@
-{
-  "AssetsRepo": "Azure/azure-sdk-assets",
-  "AssetsRepoPrefixPath": "js",
-  "TagPrefix": "js/kubernetesruntime/arm-containerorchestratorruntime",
-  "Tag": "js/kubernetesruntime/arm-containerorchestratorruntime_cbac0b84dd"
-}

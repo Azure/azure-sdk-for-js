@@ -26,7 +26,7 @@ export function _listSupportedSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _listSupportedDeserialize(
 
   return _privateLinkResourcesResultDeserializer(result.body);
 }
+
 /** Gets a list of all supported private link resource types for the given service. */
 export function listSupported(
   context: Client,
@@ -71,10 +72,6 @@ export function listSupported(
     () => _listSupportedSend(context, resourceGroupName, searchServiceName, options),
     _listSupportedDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks whether the subscription is visible to private link service in the specified resource group.
  *
  * @summary checks whether the subscription is visible to private link service in the specified resource group.
- * x-ms-original-file: 2026-01-01/CheckPrivateLinkServiceVisibilityByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/CheckPrivateLinkServiceVisibilityByResourceGroup.json
  */
 async function checkPrivateLinkServiceVisibility(): Promise<void> {
   const credential = new DefaultAzureCredential();

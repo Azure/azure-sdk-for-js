@@ -43,23 +43,178 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("Skills preview reversion removes only root client wiring and dedicated imports", () => {
+  const imports = `
+import type { SkillsOperations } from "./classic/skills/index.js";
+import { _getSkillsOperations } from "./classic/skills/index.js";
+`;
+  const retained = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._cognitiveScopeClient); }
+  }`;
+  const previous =
+    imports +
+    retained
+      .replace("constructor()", "public readonly skills: SkillsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        "this.skills = _getSkillsOperations(this._cognitiveScopeClient); this.beta =",
+      );
+  const beta = {
+    "classic/beta/skills/index.ts": "export interface BetaSkillsOperations {}",
+    "classic/beta/index.ts": "export interface BetaOperations { skills: BetaSkillsOperations; }",
+  };
+  const files = {
+    baseGenerated: tree({
+      "aiProjectClient.ts": previous,
+      "classic/skills/index.ts": "export interface SkillsOperations {}",
+    }),
+    baseSource: tree({ "aiProjectClient.ts": previous }),
+    generated: tree({ ...beta, "aiProjectClient.ts": retained }),
+    source: tree({ ...beta, "aiProjectClient.ts": retained }),
+  };
+  assert.deepEqual(validate(files), []);
+  for (const unsafe of [
+    retained.replace("_cognitiveScopeClient", "_azureScopeClient"),
+    retained.replace("this.beta = _getBetaOperations(this._cognitiveScopeClient);", ""),
+    retained.replace("constructor()", "constructor(options: unknown)"),
+  ]) {
+    has(
+      validate({ ...files, source: tree({ ...beta, "aiProjectClient.ts": unsafe }) }),
+      "AIProjectClient",
+      undefined,
+      "Protected",
+    );
+  }
+  for (const missing of ["classic/beta/skills/index.ts", "classic/beta/index.ts"]) {
+    const source = new Map(files.source);
+    source.delete(missing);
+    has(validate({ ...files, source }), "AIProjectClient", undefined, "Protected");
+  }
+});
+
+test("historical filter aliases do not override released names retained in source", () => {
+  const customized = `
+export type _FileSearchToolFiltersValue = string | number;
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+export interface ComparisonFilter { value: string; }
+export interface CompoundFilter { filters: ComparisonFilter[]; }
+`;
+  const files = modelFixture(customized, customized, customized, customized);
+  files.generated = tree({ "models/javaScriptToolCompatibility/models.ts": customized });
+  assert.deepEqual(
+    validate({
+      ...files,
+      modelRenames: new Map([
+        ["_ToolFileSearchToolFiltersValue1", "_FileSearchToolFiltersValue"],
+        ["_ToolFileSearchToolFiltersFilter", "_FileSearchToolFiltersFilter"],
+      ]),
+    }),
+    [],
+  );
+});
+
+test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
+  const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
+  const files = {
+    baseSource: tree({ "constants.ts": baseline }),
+    packageVersion: "2.11.0",
+  };
+  const synchronized = baseline.replace("2.10.0", "2.11.0");
+  assert.deepEqual(validate({ ...files, source: tree({ "constants.ts": synchronized }) }), []);
+  for (const [source, packageVersion] of [
+    [synchronized, undefined],
+    [synchronized, "2.12.0"],
+    [synchronized, "not-a-version"],
+    [synchronized.replace('= "2.11.0"', "= process.env.VERSION"), "2.11.0"],
+    [synchronized.replace("SDK_VERSION =", "SDK_VERSION: string ="), "2.11.0"],
+    [synchronized.replace('"example"', '"different-package"'), "2.11.0"],
+  ]) {
+    const diagnostics = validate({
+      ...files,
+      packageVersion,
+      source: tree({ "constants.ts": source }),
+    });
+    assert.ok(
+      diagnostics.some((diagnostic) => diagnostic.message.includes("Protected customization")),
+      JSON.stringify(diagnostics),
+    );
+  }
+});
+
+test("protected polling helper admits only the optional core-lro skipFinalGet forwarding", () => {
+  const file = "static-helpers/pollingHelpers.ts";
+  const emitted = `
+export interface GetLongRunningPollerOptions<T> { getInitialResponse?: () => PromiseLike<T>; }
+export function getLongRunningPoller(client, processResult, expectedStatuses, options) {
+  return createHttpPoller(client, { processResult });
+}`;
+  const customized = emitted.replace(
+    "{ processResult }",
+    "{ processResult, intervalInMs: options?.updateIntervalInMs }",
+  );
+  const resolved = customized
+    .replace("getInitialResponse?:", "skipFinalGet?: boolean; getInitialResponse?:")
+    .replace("{ processResult,", "{ skipFinalGet: options?.skipFinalGet, processResult,");
+  const fixture = {
+    baseGenerated: tree({ [file]: emitted }),
+    baseSource: tree({ [file]: customized }),
+    generated: tree({ [file]: emitted }),
+  };
+  assert.deepEqual(validate({ ...fixture, source: tree({ [file]: resolved }) }), []);
+  for (const unsafe of [
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet: boolean"),
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet?: string"),
+    resolved.replace("skipFinalGet: options?.skipFinalGet", "skipFinalGet: true"),
+    resolved.replace("options?.updateIntervalInMs", "0"),
+    resolved.replace("createHttpPoller(client,", "differentPoller(client,"),
+    resolved.replace("getInitialResponse?:", "pollHeaders?: string; getInitialResponse?:"),
+  ]) {
+    assert.ok(
+      validate({ ...fixture, source: tree({ [file]: unsafe }) }).some((diagnostic) =>
+        diagnostic.message.includes("Protected customization"),
+      ),
+      unsafe,
+    );
+  }
+  const otherFile = "static-helpers/other.ts";
+  assert.ok(
+    validate({
+      baseSource: tree({ [otherFile]: customized }),
+      source: tree({ [otherFile]: resolved }),
+    }).some((diagnostic) => diagnostic.message.includes("Protected customization")),
+  );
+});
+
 test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
   const upstream =
     'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
   const legacy = upstream.replace(";", ' | "task_generation";');
+  const conversations = upstream.replace(";", ' | "conversations";');
   assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  assert.deepEqual(validate(modelFixture(upstream, legacy, conversations, conversations)), []);
+  assert.deepEqual(validate(modelFixture(conversations, conversations, upstream, upstream)), []);
   for (const output of [
-    legacy,
-    upstream.replace('"traces" | ', ""),
-    upstream.replace(";", ' | "unexpected";'),
+    upstream,
+    conversations.replace(";", ' | "task_generation";'),
+    conversations.replace('"traces" | ', ""),
+    conversations.replace(";", ' | "unexpected";'),
+    conversations.replace(";", ' | "conversations";'),
   ]) {
     has(
-      validate(modelFixture(upstream, legacy, upstream, output)),
+      validate(modelFixture(upstream, legacy, conversations, output)),
       "DataGenerationJobType",
       undefined,
       "must adopt upstream values",
     );
   }
+  has(
+    validate(modelFixture(conversations, conversations, upstream, conversations)),
+    "DataGenerationJobType",
+    undefined,
+    "must adopt upstream values",
+  );
   const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
   has(
     validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),
@@ -198,6 +353,48 @@ test("still rejects missing evaluator initialization and unrelated constructor r
   ]) {
     const files = promotedClientFixture();
     files.source.set("aiProjectClient.ts", edit(files.source.get("aiProjectClient.ts")));
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
+test("voice GA wiring retains the cognitive context and the exact beta tracing configuration", () => {
+  const fixture = () => {
+    const files = promotedClientFixture();
+    for (const tree of [files.baseGenerated, files.baseSource, files.generated, files.source]) {
+      tree.set(
+        "aiProjectClient.ts",
+        tree
+          .get("aiProjectClient.ts")
+          .replaceAll("evaluators", "voiceAgents")
+          .replaceAll("Evaluators", "VoiceAgents")
+          .replaceAll(
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint)",
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint, realtimeOptions, this._tracingConfig)",
+          )
+          .replaceAll(
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          ),
+      );
+    }
+    return files;
+  };
+  assert.deepEqual(validate(fixture()), []);
+  for (const replacement of [
+    "_getVoiceAgentsOperations(this._azureScopeClient, this._tracingConfig)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient, otherTracingConfig)",
+  ]) {
+    const files = fixture();
+    files.source.set(
+      "aiProjectClient.ts",
+      files.source
+        .get("aiProjectClient.ts")
+        .replace(
+          "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          replacement,
+        ),
+    );
     assert.notDeepEqual(validate(files), []);
   }
 });
@@ -1119,4 +1316,61 @@ test("custom-only aliases of emitted models follow the emitted shape but keep th
     undefined,
     "target of a maintained custom-only alias",
   );
+});
+
+test("recovery routes a kept declaration's missing emitted additions to the unapplied list", () => {
+  const base = "export interface Tool { name: string; }";
+  const customized = "export interface Tool { name: string; custom?: string; }";
+  const incoming = "export interface Tool { name: string; added?: string; }";
+  const kept = modelFixture(base, customized, incoming, customized);
+  has(validate(kept), "Tool", "added", "Missing newly emitted model or options member");
+
+  const unapplied = [];
+  const retained = new Set(["models/models.ts::Tool"]);
+  assert.deepEqual(validate({ ...kept, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "models/models.ts",
+      declaration: "Tool",
+      member: "added",
+      kind: "model or options member",
+    },
+  ]);
+
+  // Only a declaration the recovery run kept is excused, and only when the caller
+  // collects the additions: nothing is dropped silently.
+  const elsewhere = new Set(["models/models.ts::Other"]);
+  has(validate({ ...kept, retained: elsewhere, unapplied: [] }), "Tool", "added");
+  has(validate({ ...kept, retained }), "Tool", "added");
+
+  // Every other finding about a kept declaration stays an error.
+  const lost = modelFixture(base, customized, incoming, base);
+  has(validate({ ...lost, retained, unapplied: [] }), "Tool", "custom", "Lost custom-only member");
+});
+
+test("recovery routes a kept Send function's missing request-body mapping", () => {
+  const send = (
+    body,
+  ) => `export function _createSend(context: Client, name: string, options: CreateOptionalParams = { requestOptions: {} }): StreamableMethod {
+  return context.path("/items").post({ body: { ${body} } });
+}`;
+  const files = (text) => tree({ "api/items/operations.ts": text });
+  const fixture = {
+    baseGenerated: files(send("name: name")),
+    baseSource: files(send("name: name")),
+    generated: files(send("name: name, extra: options?.extra")),
+    source: files(send("name: name")),
+  };
+  has(validate(fixture), "_createSend", "extra", "Missing newly emitted Send request-body mapping");
+  const unapplied = [];
+  const retained = new Set(["api/items/operations.ts::_createSend"]);
+  assert.deepEqual(validate({ ...fixture, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "api/items/operations.ts",
+      declaration: "_createSend",
+      member: "extra",
+      kind: "Send request-body mapping",
+    },
+  ]);
 });

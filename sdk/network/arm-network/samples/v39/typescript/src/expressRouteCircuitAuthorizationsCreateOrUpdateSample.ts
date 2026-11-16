@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an authorization in the specified express route circuit.
  *
  * @summary creates or updates an authorization in the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitAuthorizationCreate.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitAuthorizationCreate.json
  */
 async function createExpressRouteCircuitAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();

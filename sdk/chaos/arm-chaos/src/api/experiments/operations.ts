@@ -55,7 +55,7 @@ export function _executionDetailsSend(
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
       executionId: executionId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,6 +82,7 @@ export async function _executionDetailsDeserialize(
 
   return experimentExecutionDetailsDeserializer(result.body);
 }
+
 /** Execution details of an experiment resource. */
 export async function executionDetails(
   context: Client,
@@ -112,7 +113,7 @@ export function _listAllExecutionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,6 +140,7 @@ export async function _listAllExecutionsDeserialize(
 
   return _experimentExecutionListResultDeserializer(result.body);
 }
+
 /** Get a list of executions of an Experiment resource. */
 export function listAllExecutions(
   context: Client,
@@ -151,11 +153,7 @@ export function listAllExecutions(
     () => _listAllExecutionsSend(context, resourceGroupName, experimentName, options),
     _listAllExecutionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -173,7 +171,7 @@ export function _getExecutionSend(
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
       executionId: executionId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,6 +198,7 @@ export async function _getExecutionDeserialize(
 
   return experimentExecutionDeserializer(result.body);
 }
+
 /** Get an execution of an Experiment resource. */
 export async function getExecution(
   context: Client,
@@ -230,7 +229,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,6 +251,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** Start a Experiment resource. */
 export function start(
   context: Client,
@@ -264,7 +264,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, experimentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -280,7 +280,7 @@ export function _cancelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,6 +302,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Cancel a running Experiment resource. */
 export function cancel(
   context: Client,
@@ -314,7 +315,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, experimentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -326,7 +327,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/experiments{?api%2Dversion,running,continuationToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       running: options?.running,
       continuationToken: options?.continuationToken,
     },
@@ -355,6 +356,7 @@ export async function _listAllDeserialize(
 
   return _experimentListResultDeserializer(result.body);
 }
+
 /** Get a list of Experiment resources in a subscription. */
 export function listAll(
   context: Client,
@@ -365,11 +367,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -383,7 +381,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       running: options?.running,
       continuationToken: options?.continuationToken,
     },
@@ -412,6 +410,7 @@ export async function _listDeserialize(
 
   return _experimentListResultDeserializer(result.body);
 }
+
 /** Get a list of Experiment resources in a resource group. */
 export function list(
   context: Client,
@@ -423,11 +422,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -443,7 +438,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -465,6 +460,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a Experiment resource. */
 export function $delete(
   context: Client,
@@ -477,7 +473,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, experimentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -494,7 +490,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -521,6 +517,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return experimentDeserializer(result.body);
 }
+
 /** Update an experiment. */
 export function update(
   context: Client,
@@ -535,7 +532,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, experimentName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Experiment>, Experiment>;
 }
 
@@ -552,7 +549,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,6 +578,7 @@ export async function _createOrUpdateDeserialize(
 
   return experimentDeserializer(result.body);
 }
+
 /** Create or update a Experiment resource. */
 export function createOrUpdate(
   context: Client,
@@ -595,7 +593,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, experimentName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Experiment>, Experiment>;
 }
 
@@ -611,7 +609,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       experimentName: experimentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -636,6 +634,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
 
   return experimentDeserializer(result.body);
 }
+
 /** Get a Experiment resource. */
 export async function get(
   context: Client,

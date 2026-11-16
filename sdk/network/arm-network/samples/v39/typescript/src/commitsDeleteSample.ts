@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a commit.
  *
  * @summary deletes a commit.
- * x-ms-original-file: 2026-01-01/NetworkManagerCommitDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerCommitDelete.json
  */
 async function deleteNetworkManagerCommit(): Promise<void> {
   const credential = new DefaultAzureCredential();

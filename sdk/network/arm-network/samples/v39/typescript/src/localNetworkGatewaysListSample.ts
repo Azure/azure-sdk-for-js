@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the local network gateways in a resource group.
  *
  * @summary gets all the local network gateways in a resource group.
- * x-ms-original-file: 2026-01-01/LocalNetworkGatewayList.json
+ * x-ms-original-file: 2026-03-01/LocalNetworkGatewayList.json
  */
 async function listLocalNetworkGateways(): Promise<void> {
   const credential = new DefaultAzureCredential();

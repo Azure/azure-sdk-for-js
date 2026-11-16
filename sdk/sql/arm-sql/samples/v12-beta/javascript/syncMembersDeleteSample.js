@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a sync member.
  *
  * @summary deletes a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberDelete.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberDelete.json
  */
 async function deleteASyncMember() {
   const credential = new DefaultAzureCredential();

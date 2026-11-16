@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a gateway.
  *
  * @summary the operation to create or update a gateway.
- * x-ms-original-file: 2026-07-15/gateway/Gateway_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/gateway/Gateway_CreateOrUpdate.json
  */
 async function createOrUpdateAGateway() {
   const credential = new DefaultAzureCredential();

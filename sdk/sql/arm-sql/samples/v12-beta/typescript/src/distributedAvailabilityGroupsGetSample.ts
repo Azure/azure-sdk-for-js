@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a distributed availability group info.
  *
  * @summary gets a distributed availability group info.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsGet.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsGet.json
  */
 async function getsTheDistributedAvailabilityGroupInfo(): Promise<void> {
   const credential = new DefaultAzureCredential();

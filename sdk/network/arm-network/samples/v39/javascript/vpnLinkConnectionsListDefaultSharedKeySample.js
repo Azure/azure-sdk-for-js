@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the value of the shared key of VpnLink connection specified.
  *
  * @summary gets the value of the shared key of VpnLink connection specified.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionDefaultSharedKeyList.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionDefaultSharedKeyList.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyList() {
   const credential = new DefaultAzureCredential();

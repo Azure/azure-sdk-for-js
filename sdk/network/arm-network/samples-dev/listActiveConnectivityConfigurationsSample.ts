@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists active connectivity configurations in a network manager.
  *
  * @summary lists active connectivity configurations in a network manager.
- * x-ms-original-file: 2026-01-01/NetworkManagerActiveConnectivityConfigurationsList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerActiveConnectivityConfigurationsList.json
  */
 async function listActiveConnectivityConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

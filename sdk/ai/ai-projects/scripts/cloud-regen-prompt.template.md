@@ -63,6 +63,11 @@ registry, which the cloud agent firewall allows. The third call must run whether
 generation succeeded or failed — wrap in `try/finally` if executing
 programmatically.
 
+If strict customization rejects the emitted changes (`Customization rejected N
+unresolved or unsafe change(s)`), the script continues in recovery mode on its
+own, prints `RECOVERY MODE`, and writes `temp/customization-worklist.md`. That
+is the expected path, not a failure: do not stop. Step 2 handles the worklist.
+
 ### 2. apply-post-emitter-edits
 
 Read: `sdk/ai/ai-projects/.github/skills/apply-post-emitter-edits/SKILL.md`
@@ -72,6 +77,12 @@ Walk every step in order. Pay particular attention to:
 - Step 0 (resolve diff3 conflict markers) — use the custom side as the
   structural starting point, then restore new generated additions in Step 2
   and Step 2a.
+- Step 0a (recovery worklist) — if `temp/customization-worklist.md` exists,
+  give every entry a disposition using your best judgement and the rubric in
+  the skill, fix the compiler errors those kept changes cause, and verify with
+  `node scripts/customize.mjs --recover --check` (never rerun customize over
+  your `src/` edits). Keep a table of your calls for the PR description. Never
+  edit `generated/`.
 - Step 1 (protected files) — revert any emitter edits to the listed paths.
 - Step 2 (propagate new public surface from `generated/` to `src/`) — this
   is the most error-prone step; classify each missing export as either a
@@ -88,24 +99,37 @@ Walk every step in order. Pay particular attention to:
   targets, then `npx dev-tool run extract-api`, then
   `npm run check-format`.
 
-If you cannot resolve a build error after one focused attempt, **STOP**
-and surface the failing diff plus the error message — do not loop.
+A build error that traces to a worklist entry, or to an upstream change you can
+identify, is part of the work: fix it under the skill's rubric. If you cannot
+trace an error, or it survives one focused fix, **STOP** and surface the failing
+diff plus the error message — do not loop.
 
 ### 3. author-samples
 
 Read: `sdk/ai/ai-projects/.github/skills/author-samples/SKILL.md`
 
-Author samples for any non-trivial new public surface that landed in
-Step 2 of the previous skill. Validate with `npm run build:samples`.
+First reconcile existing samples with verified API-shape changes, including
+existing beta consumers, even if no new sample is needed. Then author samples
+for qualifying new public surface. Validate with `npm run build:samples`.
+Do not mark this step as a no-op if an existing sample changed.
 
 ### 4. author-tests
 
 Read: `sdk/ai/ai-projects/.github/skills/author-tests/SKILL.md`
 
-Generate `.skip`-ped Vitest specs for new GA (non-beta) features only.
-Do not attempt to record cassettes or run live tests. Validate with
-`npx tsc -p tsconfig.test.node.json --noEmit` and run ESLint on each new
-or edited spec as documented by the skill.
+First execute the skill's Step 0 to reconcile existing tests with verified
+API-shape changes, including existing beta tests. Follow its SDK `Metadata`
+recipe for TS2353 on direct metadata keys; preserve flat wire payloads and
+assertions. Then generate `.skip`-ped Vitest specs for new GA (non-beta) features
+only. Do not attempt to record cassettes or run live tests. Validate with
+`npx tsc -p tsconfig.test.node.json --noEmit` and run ESLint on each new or edited
+spec. These checks are required even when no new GA coverage is needed
+(targeted ESLint may be skipped when no files changed).
+
+For a verified consumer mismatch, make one focused correction using the
+finalized SDK types and rerun validation before stopping. Never suppress type
+errors, skip existing tests, weaken assertions, or revert an intentional SDK
+shape change. Do not mark this step as a no-op if an existing test changed.
 
 ### 5. update-changelog
 
@@ -130,6 +154,11 @@ Append `-SamplesNoOp` only if `author-samples` explicitly completed as a
 documented no-op, and append `-TestsNoOp` only if `author-tests` explicitly
 completed as a documented no-op.
 
+When recovery mode ran, put the judgement-call table from
+`apply-post-emitter-edits` Step 0a in the PR description: one row per worklist
+entry with its disposition and reason, with **needs review** flagged where you
+were unsure.
+
 This stages three to five non-empty logical commits, pushes to `origin`
 (no force), and opens a DRAFT PR via `gh pr create`. Sample and test
 commits are omitted when those skills are documented no-ops.
@@ -144,6 +173,10 @@ commits are omitted when those skills are documented no-ops.
 - `npx dev-tool run build-package` is green for all four targets on the
   final commit.
 - `review/ai-projects-node.api.md` reflects every newly added public type.
+- Existing samples and tests compile against the final SDK, including maintained
+  beta consumers; documented no-ops have no consumer changes.
+- When `temp/customization-worklist.md` exists, the PR description records a
+  disposition for every entry.
 - Print the PR URL as the final line of your output.
 
 ## When to STOP and surface to a human
@@ -154,9 +187,20 @@ commits are omitted when those skills are documented no-ops.
 - `apply-post-emitter-edits` Step 2 classification is genuinely ambiguous
   (i.e. you cannot tell if a missing export is a rename or a new type).
 - The `foundryFeatures` rule is violated in a shape not covered by Step 4.
-- The test TypeScript or targeted ESLint validation fails.
+- Sample or test validation remains unsuccessful after one focused
+  consumer-reconciliation attempt, or the mismatch is unexplained.
 - Any step's documented success criteria are not met after one focused
   remediation attempt.
 
-In every "STOP" case, leave the working tree as-is, do **not** push or
-open a PR, and report the failing command + error in your final message.
+These are **not** STOP conditions: `Customization rejected N unresolved or
+unsafe change(s)`, `missing resolved operation ...`, the `RECOVERY MODE`
+banner, and compiler errors that trace to worklist entries. Resolve them with
+your best judgement (step 2) and record each call in the PR description.
+
+In every "STOP" case, do **not** push or open a PR yourself, and report the
+failing command + error in your final message and in the PR description. The
+session runtime commits whatever is left in the working tree when it ends, so
+first restore `src/` if it holds unresolved merge output (conflict markers,
+duplicated declarations) with `git restore -- src; git clean -fd -- src`, delete
+a stray `metadata.json`, and state in the PR description exactly what the
+branch contains.

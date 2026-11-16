@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to recovers a deleted server.
  *
  * @summary recovers a deleted server.
- * x-ms-original-file: 2025-08-01-preview/DeletedServerRecover.json
+ * x-ms-original-file: 2026-08-01-preview/DeletedServerRecover.json
  */
 async function recoverDeletedServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

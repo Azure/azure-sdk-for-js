@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all route filters in a subscription.
  *
  * @summary gets all route filters in a subscription.
- * x-ms-original-file: 2026-01-01/RouteFilterList.json
+ * x-ms-original-file: 2026-03-01/RouteFilterList.json
  */
 async function routeFilterList(): Promise<void> {
   const credential = new DefaultAzureCredential();

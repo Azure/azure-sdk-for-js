@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import type { ServiceBusMessage } from "../../../src/serviceBusMessage.js";
-import { ServiceBusMessageImpl, toRheaMessage } from "../../../src/serviceBusMessage.js";
+import {
+  fromRheaMessage,
+  ServiceBusMessageImpl,
+  toRheaMessage,
+} from "../../../src/serviceBusMessage.js";
 import type {
   Delivery,
   MessageAnnotations,
@@ -230,6 +234,93 @@ describe("ServiceBusMessageImpl unit tests", () => {
         },
       });
     });
+  });
+
+  describe("Date conversion", () => {
+    it("preserves ordinary objects that inherit Date methods", () => {
+      const applicationProperties = Object.setPrototypeOf(
+        { createdAt: new Date(0), category: "orders" },
+        new Date(0),
+      );
+      const received = fromRheaMessage(
+        { body: "message", application_properties: applicationProperties },
+        { skipParsingBodyAsJson: false, skipConvertingDate: false },
+      );
+
+      assert.strictEqual(Object.getPrototypeOf(received.applicationProperties), Object.prototype);
+      assert.deepEqual(received.applicationProperties, { createdAt: 0, category: "orders" });
+      assert.deepEqual(
+        received._rawAmqpMessage.applicationProperties,
+        received.applicationProperties,
+      );
+      assert.instanceOf(applicationProperties.createdAt, Date);
+    });
+
+    it("does not call Date-like methods on ordinary objects", () => {
+      const dateLike = {
+        getTime: () => {
+          throw new Error("An ordinary object's method must not be called");
+        },
+        createdAt: new Date(0),
+      };
+      const received = fromRheaMessage(
+        {
+          body: "message",
+          application_properties: {
+            dateLike,
+            tagged: { ...dateLike, [Symbol.toStringTag]: "Date" },
+            values: [dateLike],
+          },
+        },
+        { skipParsingBodyAsJson: false, skipConvertingDate: false },
+      );
+      const converted = { ...dateLike, createdAt: 0 };
+      const properties: Record<string, unknown> | undefined = received.applicationProperties;
+
+      assert.deepEqual(properties?.dateLike, converted);
+      assert.deepEqual(properties?.values, [converted]);
+      const tagged = properties?.tagged;
+      assert.strictEqual(Object.getPrototypeOf(tagged), Object.prototype);
+      assert.deepEqual(Object.getOwnPropertyNames(tagged), ["getTime", "createdAt"]);
+      assert.strictEqual(
+        Object.getOwnPropertyDescriptor(tagged, "getTime")?.value,
+        dateLike.getTime,
+      );
+      assert.strictEqual(Object.getOwnPropertyDescriptor(tagged, "createdAt")?.value, 0);
+      assert.strictEqual(
+        Object.getOwnPropertyDescriptor(tagged, Symbol.toStringTag)?.value,
+        "Date",
+      );
+    });
+
+    for (const skipConvertingDate of [false, true]) {
+      it(`handles genuine Dates with overridden methods with skipConvertingDate=${skipConvertingDate}`, () => {
+        const timestamp = Object.assign(new Date(0), {
+          getTime: () => {
+            throw new Error("Use the native Date method");
+          },
+        });
+        const applicationProperties = {
+          timestamp,
+          invalid: new Date(NaN),
+          nested: [timestamp],
+          bytes: new Uint8Array([0, 1]),
+        };
+        const received = fromRheaMessage(
+          { body: "message", application_properties: applicationProperties },
+          { skipParsingBodyAsJson: false, skipConvertingDate },
+        );
+        const properties: Record<string, unknown> | undefined = received.applicationProperties;
+
+        assert.deepEqual(
+          properties,
+          skipConvertingDate
+            ? applicationProperties
+            : { timestamp: 0, invalid: NaN, nested: [0], bytes: applicationProperties.bytes },
+        );
+        assert.strictEqual(properties?.bytes, applicationProperties.bytes);
+      });
+    }
   });
 
   describe("ServiceBusMessage validations", function (): void {

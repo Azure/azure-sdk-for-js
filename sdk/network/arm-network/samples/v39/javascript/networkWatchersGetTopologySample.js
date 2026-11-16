@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the current network topology by resource group.
  *
  * @summary gets the current network topology by resource group.
- * x-ms-original-file: 2026-01-01/NetworkWatcherTopologyGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherTopologyGet.json
  */
 async function getTopology() {
   const credential = new DefaultAzureCredential();

@@ -956,21 +956,11 @@ export enum KnownUpgradeChannel {
 
 // @public
 export enum KnownVersions {
-    V20220902Preview = "2022-09-02-preview",
-    V20230315Preview = "2023-03-15-preview",
-    V20230615Preview = "2023-06-15-preview",
-    V20230815Preview = "2023-08-15-preview",
     V20231015 = "2023-10-15",
-    V20240202Preview = "2024-02-02-preview",
     V20240401 = "2024-04-01",
-    V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
-    V20250401Preview = "2025-04-01-preview",
-    V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview",
-    V20260302Preview = "2026-03-02-preview",
     V20260601 = "2026-06-01",
-    V20260602Preview = "2026-06-02-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -1315,7 +1305,6 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
-    maxAllowedFailures?: string;
     maxConcurrency?: string;
     memberSelector?: MemberSelector;
     name: string;
@@ -1325,8 +1314,6 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
-    readonly failureCount?: number;
-    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
@@ -1421,7 +1408,6 @@ export interface UpdateRunsStopOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateRunStatus {
-    readonly failureCount?: number;
     readonly nodeImageSelection?: NodeImageSelectionStatus;
     readonly stages?: UpdateStageStatus[];
     readonly status?: UpdateStatus;
@@ -1438,7 +1424,6 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
-    maxAllowedFailures?: string;
     maxConcurrency?: string;
     memberSelector?: MemberSelector;
     name: string;
@@ -1449,9 +1434,7 @@ export interface UpdateStageStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
-    readonly failureCount?: number;
     readonly groups?: UpdateGroupStatus[];
-    readonly maxAllowedFailures?: number;
     readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;

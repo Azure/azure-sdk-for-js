@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts link failover simulation on the express route circuit for the specified link type and test category.
  *
  * @summary starts link failover simulation on the express route circuit for the specified link type and test category.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitStartCircuitLinkFailoverTest.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitStartCircuitLinkFailoverTest.json
  */
 async function expressRouteCircuitStartCircuitLinkFailoverTest(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all flow log resources for the specified Network Watcher.
  *
  * @summary lists all flow log resources for the specified Network Watcher.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogList.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogList.json
  */
 async function listConnectionMonitors(): Promise<void> {
   const credential = new DefaultAzureCredential();

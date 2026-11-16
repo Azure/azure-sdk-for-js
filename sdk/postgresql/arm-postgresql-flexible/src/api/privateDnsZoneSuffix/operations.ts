@@ -16,7 +16,7 @@ export function _getSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.DBforPostgreSQL/getPrivateDnsZoneSuffix{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

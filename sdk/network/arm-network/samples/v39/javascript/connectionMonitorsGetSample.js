@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a connection monitor by name.
  *
  * @summary gets a connection monitor by name.
- * x-ms-original-file: 2026-01-01/NetworkWatcherConnectionMonitorGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherConnectionMonitorGet.json
  */
 async function getConnectionMonitor() {
   const credential = new DefaultAzureCredential();

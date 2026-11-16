@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified commit.
  *
  * @summary gets the specified commit.
- * x-ms-original-file: 2026-01-01/NetworkManagerCommitGet.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerCommitGet.json
  */
 async function getNetworkManagerCommit(): Promise<void> {
   const credential = new DefaultAzureCredential();

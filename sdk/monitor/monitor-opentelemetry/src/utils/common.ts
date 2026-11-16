@@ -34,6 +34,19 @@ const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
 const AKS_MANAGED_CLUSTER_RESOURCE_ID_REGEX =
   /^\/subscriptions\/[^/\s]+\/resourceGroups\/[^/\s]+\/providers\/Microsoft\.ContainerService\/managedClusters\/[^/\s]+\/?$/i;
 
+/** Read scalar semantic-convention attributes from the SDK's general-purpose attribute values. */
+export function getStringAttribute(attributes: Attributes, name: string): string | undefined {
+  const value = attributes[name];
+  if (value === undefined) {
+    return undefined;
+  }
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  diag.warn(`Ignoring non-scalar semantic-convention attribute: ${name}`);
+  return undefined;
+}
+
 /**
  * Tests a flag without 32-bit coercion.
  * @internal

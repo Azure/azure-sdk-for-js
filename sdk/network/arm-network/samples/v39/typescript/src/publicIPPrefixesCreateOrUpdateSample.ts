@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a static or dynamic public IP prefix.
  *
  * @summary creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixCreateCustomizedValues.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixCreateCustomizedValues.json
  */
 async function createPublicIPPrefixAllocationMethod(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createPublicIPPrefixAllocationMethod(): Promise<void> {
  * This sample demonstrates how to creates or updates a static or dynamic public IP prefix.
  *
  * @summary creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixCreateDefaults.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixCreateDefaults.json
  */
 async function createPublicIPPrefixDefaults(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function createPublicIPPrefixDefaults(): Promise<void> {
  * This sample demonstrates how to creates or updates a static or dynamic public IP prefix.
  *
  * @summary creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixCreateDefaultsStandardV2Sku.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixCreateDefaultsStandardV2Sku.json
  */
 async function createPublicIPPrefixDefaultsWithStandardV2Sku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function createPublicIPPrefixDefaultsWithStandardV2Sku(): Promise<void> {
  * This sample demonstrates how to creates or updates a static or dynamic public IP prefix.
  *
  * @summary creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: 2026-01-01/PublicIpPrefixCreateWithFirstPartyServiceTag.json
+ * x-ms-original-file: 2026-03-01/PublicIpPrefixCreateWithFirstPartyServiceTag.json
  */
 async function createPublicIPPrefixWithFirstPartyServiceTag(): Promise<void> {
   const credential = new DefaultAzureCredential();

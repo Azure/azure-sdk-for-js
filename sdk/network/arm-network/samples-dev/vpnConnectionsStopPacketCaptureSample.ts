@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops packet capture on Vpn connection in the specified resource group.
  *
  * @summary stops packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: 2026-01-01/VpnConnectionStopPacketCapture.json
+ * x-ms-original-file: 2026-03-01/VpnConnectionStopPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetAppManagementClient } = require("@azure/arm-netapp");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to list all External Clusters in the subscription
+ *
+ * @summary list all External Clusters in the subscription
+ * x-ms-original-file: 2026-08-15-preview/ExternalClusters_ListBySubscription.json
+ */
+async function externalClustersListBySubscription() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetAppManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.externalClusters.listBySubscription()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await externalClustersListBySubscription();
+}
+
+main().catch(console.error);

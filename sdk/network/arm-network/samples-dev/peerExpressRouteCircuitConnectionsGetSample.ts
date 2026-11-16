@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
  *
  * @summary gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
- * x-ms-original-file: 2026-01-01/PeerExpressRouteCircuitConnectionGet.json
+ * x-ms-original-file: 2026-03-01/PeerExpressRouteCircuitConnectionGet.json
  */
 async function peerExpressRouteCircuitConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

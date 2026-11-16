@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list managed database schemas
  *
  * @summary list managed database schemas
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseSchemaListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseSchemaListByDatabase.json
  */
 async function listManagedDatabaseSchemas(): Promise<void> {
   const credential = new DefaultAzureCredential();

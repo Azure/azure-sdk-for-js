@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Security User Rules in a rule collection.
  *
  * @summary lists all Security User Rules in a rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleList.json
  */
 async function listSecurityUserRules() {
   const credential = new DefaultAzureCredential();
