@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KnowledgeBaseRetrievalContext as Client } from "./index.js";
-import {
+import type { KnowledgeBaseRetrievalContext as Client } from "./index.js";
+import type {
   KnowledgeBaseRetrievalRequest,
-  knowledgeBaseRetrievalRequestSerializer,
   KnowledgeBaseRetrievalResponse,
-  knowledgeBaseRetrievalResponseDeserializer,
-  knowledgeBaseActivityRecordUnionDeserializer,
-  KnowledgeBaseActivityRecordUnion,
-  knowledgeBaseReferenceUnionArrayDeserializer,
-  KnowledgeBaseReferenceUnion,
   KnowledgeBaseRetrievalStartedEvent,
-  knowledgeBaseRetrievalStartedEventDeserializer,
   KnowledgeBaseActivityStartedEvent,
-  knowledgeBaseActivityStartedEventDeserializer,
+  KnowledgeBaseActivityRecordUnion,
   KnowledgeBaseAnswerCompletedEvent,
-  knowledgeBaseAnswerCompletedEventDeserializer,
+  KnowledgeBaseReferenceUnion,
   KnowledgeBaseStreamErrorEvent,
-  knowledgeBaseStreamErrorEventDeserializer,
   KnowledgeBaseResponseCompletedEvent,
+} from "../../models/azure/search/documents/knowledgeBases/models.js";
+import {
+  knowledgeBaseRetrievalRequestSerializer,
+  knowledgeBaseRetrievalResponseDeserializer,
+  knowledgeBaseRetrievalStartedEventDeserializer,
+  knowledgeBaseActivityStartedEventDeserializer,
+  knowledgeBaseActivityRecordUnionDeserializer,
+  knowledgeBaseAnswerCompletedEventDeserializer,
+  knowledgeBaseReferenceUnionArrayDeserializer,
+  knowledgeBaseStreamErrorEventDeserializer,
   knowledgeBaseResponseCompletedEventDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
@@ -28,16 +30,15 @@ import {
   parseSseErrorResponse,
   cancelSseResponse,
 } from "#platform/static-helpers/getSseResponse";
-import { SseEventDescriptor, readSseStream } from "#platform/static-helpers/sseStreamingHelpers";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { createSseStream, EventMessage } from "@azure/core-sse";
+  readSseStream,
+  type SseEventDescriptor,
+} from "#platform/static-helpers/sseStreamingHelpers";
+import { createSseStream, type EventMessage } from "@azure/core-sse";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _retrieveStreamSend(
   context: Client,
@@ -48,7 +49,7 @@ export function _retrieveStreamSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,6 +62,9 @@ export function _retrieveStreamSend(
       accept: "text/event-stream",
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+        : {}),
+      ...(options?.queryWorkIQSourceAuthorization !== undefined
+        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -100,11 +104,13 @@ export async function _retrieveStreamDeserialize(
  * Retrieves relevant data from backing stores and streams progress and results as server-sent
  * events.
  *
- * Process the response incrementally using server-sent event framing. Each event contains an
- * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
- * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
- * clients may expose the raw response without typed event parsing. Do not deserialize the
- * complete response body as a single JSON document.
+ * Narrow on the `event` property to access each typed payload. The stream closes at either
+ * `response.completed` or `error`, or when iteration ends early.
+ *
+ * @param context - The retrieval client context.
+ * @param retrievalRequest - The retrieval request to process.
+ * @param options - Options for the streaming retrieval operation.
+ * @returns An async iterable of typed server-sent events.
  */
 export async function retrieveStream(
   context: Client,
@@ -122,14 +128,12 @@ export async function retrieveStream(
   >
 > {
   const response = await getSseResponse(_retrieveStreamSend(context, retrievalRequest, options));
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(response.status)) {
+  if (response.status !== "200") {
     const result = await parseSseErrorResponse(response);
     const error = createRestError(result);
     if (result.body) {
       error.details = errorResponseDeserializer(result.body);
     }
-
     throw error;
   }
 
@@ -162,69 +166,68 @@ export async function retrieveStream(
     {
       eventName: "retrieval.started",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "retrieval.started",
         data: knowledgeBaseRetrievalStartedEventDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "activity.started",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "activity.started",
         data: knowledgeBaseActivityStartedEventDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "activity.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "activity.completed",
         data: knowledgeBaseActivityRecordUnionDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "answer.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "answer.completed",
         data: knowledgeBaseAnswerCompletedEventDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "references.completed",
       isTerminal: false,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "references.completed",
         data: knowledgeBaseReferenceUnionArrayDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "error",
       isTerminal: true,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "error",
         data: knowledgeBaseStreamErrorEventDeserializer(data),
       }),
-      contentType: "application/json",
     },
     {
       eventName: "response.completed",
       isTerminal: true,
+      contentType: "application/json",
       deserialize: (data) => ({
         event: "response.completed",
         data: knowledgeBaseResponseCompletedEventDeserializer(data),
       }),
-      contentType: "application/json",
     },
   ];
-  const eventStream = createSseStream(response.body);
-  return _retrieveStreamDeserialize(eventStream, descriptors);
+  return _retrieveStreamDeserialize(createSseStream(response.body), descriptors);
 }
 
 export function _retrieveSend(
@@ -236,7 +239,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,6 +256,9 @@ export function _retrieveSend(
         : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+        : {}),
+      ...(options?.queryWorkIQSourceAuthorization !== undefined
+        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }

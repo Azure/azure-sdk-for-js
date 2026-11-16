@@ -25,6 +25,7 @@ import type {
   VectorSearchVectorizer,
   SearchOptions,
   SimpleField,
+  BaseVectorQuery,
 } from "../../../src/index.js";
 
 describe("GA root exports", () => {
@@ -45,24 +46,21 @@ describe("GA root exports", () => {
     assert.equal(KnownIndexedSharePointContainerName.AllSiteContent, "allSiteContent");
   });
 
-  it("limits vector APIs to the GA specification", () => {
-    assert.sameMembers(Object.values(KnownVectorQueryKind), ["vector", "text"]);
-    assert.sameMembers(Object.values(KnownVectorFilterMode), ["postFilter", "preFilter"]);
+  it("preserves GA vector unions alongside preview known values", () => {
+    assert.includeMembers(Object.values(KnownVectorQueryKind), ["vector", "text"]);
+    assert.includeMembers(Object.values(KnownVectorFilterMode), ["postFilter", "preFilter"]);
     expectTypeOf<VectorQueryKind>().toEqualTypeOf<"vector" | "text">();
     expectTypeOf<VectorFilterMode>().toEqualTypeOf<"postFilter" | "preFilter">();
+    expectTypeOf<BaseVectorQuery<object>["kind"]>().toEqualTypeOf<"vector" | "text">();
     expectTypeOf<VectorSearchVectorizer["kind"]>().toEqualTypeOf<"azureOpenAI" | "customWebApi">();
   });
 
-  it("exposes only supported GA reasoning modes and model properties", () => {
-    assert.sameMembers(Object.values(KnownKnowledgeRetrievalReasoningEffortKind), [
+  it("retains GA reasoning modes alongside preview additions", () => {
+    assert.includeMembers(Object.values(KnownKnowledgeRetrievalReasoningEffortKind), [
       "minimal",
       "low",
       "medium",
     ]);
-    expectTypeOf<keyof KnowledgeBase>().extract<"tags">().toEqualTypeOf<never>();
-    expectTypeOf<keyof SimpleField>()
-      .extract<"sensitivityLabelName" | "sourceDocumentId">()
-      .toEqualTypeOf<never>();
   });
 
   it("keeps GA knowledge models nameable from the root", () => {

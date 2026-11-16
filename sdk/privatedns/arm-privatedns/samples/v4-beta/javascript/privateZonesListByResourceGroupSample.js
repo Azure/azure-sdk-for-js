@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the Private DNS zones within a resource group.
  *
  * @summary lists the Private DNS zones within a resource group.
- * x-ms-original-file: 2024-06-01/PrivateZoneListInResourceGroup.json
+ * x-ms-original-file: 2026-06-01-preview/PrivateZoneListInResourceGroup.json
  */
 async function getPrivateDNSZoneByResourceGroup() {
   const credential = new DefaultAzureCredential();

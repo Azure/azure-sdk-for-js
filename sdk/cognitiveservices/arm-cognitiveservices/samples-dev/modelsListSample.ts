@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Models.
  *
  * @summary list Models.
- * x-ms-original-file: 2026-09-15-preview/ListLocationModels.json
+ * x-ms-original-file: 2026-11-01/ListLocationModels.json
  */
 async function listLocationModels(): Promise<void> {
   const credential = new DefaultAzureCredential();

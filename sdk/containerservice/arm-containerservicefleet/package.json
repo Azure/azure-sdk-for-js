@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.2.0-beta.1",
+  "version": "2.2.0",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -88,7 +88,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-containerservicefleet",
@@ -96,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -280,6 +281,48 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/core/v1": {
+      "browser": {
+        "types": "./dist/browser/models/core/v1/index.d.ts",
+        "default": "./dist/browser/models/core/v1/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/core/v1/index.d.ts",
+        "default": "./dist/esm/models/core/v1/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/core/v1/index.d.ts",
+        "default": "./dist/commonjs/models/core/v1/index.js"
+      }
+    },
+    "./models/meta/v1": {
+      "browser": {
+        "types": "./dist/browser/models/meta/v1/index.d.ts",
+        "default": "./dist/browser/models/meta/v1/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/meta/v1/index.d.ts",
+        "default": "./dist/esm/models/meta/v1/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/meta/v1/index.d.ts",
+        "default": "./dist/commonjs/models/meta/v1/index.js"
+      }
+    },
+    "./models/placement/v1": {
+      "browser": {
+        "types": "./dist/browser/models/placement/v1/index.d.ts",
+        "default": "./dist/browser/models/placement/v1/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/placement/v1/index.d.ts",
+        "default": "./dist/esm/models/placement/v1/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/placement/v1/index.d.ts",
+        "default": "./dist/commonjs/models/placement/v1/index.js"
       }
     }
   },

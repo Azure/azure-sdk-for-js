@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and settings imposed on the cluster.
  *
  * @summary get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and settings imposed on the cluster.
- * x-ms-original-file: 2026-01-01/Clusters/ClusterQuotaConfigurationGet.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClusterQuotaConfigurationGet.json
  */
 async function clustersQuotasConfigurationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

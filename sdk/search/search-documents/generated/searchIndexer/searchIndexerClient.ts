@@ -8,19 +8,15 @@ import {
 } from "./api/index.js";
 import {
   SearchIndexerDataSourceConnection,
-  ListDataSourcesResult,
   IndexerResyncBody,
   SearchIndexer,
-  ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
-  ListSkillsetsResult,
+  SkillNames,
 } from "../models/azure/search/documents/indexes/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
-  getDataSourceConnections,
-  getSkillsets,
-  getIndexers,
+  resetSkills,
   createSkillset,
   listSkillsets,
   getSkillset,
@@ -33,6 +29,7 @@ import {
   deleteIndexer,
   createOrUpdateIndexer,
   runIndexer,
+  resetDocuments,
   resync,
   resetIndexer,
   createDataSourceConnection,
@@ -42,9 +39,7 @@ import {
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import {
-  GetDataSourceConnectionsOptionalParams,
-  GetSkillsetsOptionalParams,
-  GetIndexersOptionalParams,
+  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   ListSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -57,6 +52,7 @@ import {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
+  ResetDocumentsOptionalParams,
   ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
@@ -84,25 +80,13 @@ export class SearchIndexerClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /** Lists all datasources available for a search service. */
-  getDataSourceConnections(
-    options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
-  ): Promise<ListDataSourcesResult> {
-    return getDataSourceConnections(this._client, options);
-  }
-
-  /** List all skillsets in a search service. */
-  getSkillsets(
-    options: GetSkillsetsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSkillsetsResult> {
-    return getSkillsets(this._client, options);
-  }
-
-  /** Lists all indexers available for a search service. */
-  getIndexers(
-    options: GetIndexersOptionalParams = { requestOptions: {} },
-  ): Promise<ListIndexersResult> {
-    return getIndexers(this._client, options);
+  /** Reset an existing skillset in a search service. */
+  resetSkills(
+    name: string,
+    skillNames: SkillNames,
+    options: ResetSkillsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return resetSkills(this._client, name, skillNames, options);
   }
 
   /** Creates a new skillset in a search service. */
@@ -138,11 +122,11 @@ export class SearchIndexerClient {
 
   /** Creates a new skillset in a search service or updates the skillset if it already exists. */
   createOrUpdateSkillset(
-    skillset: SearchIndexerSkillset,
     name: string,
+    skillset: SearchIndexerSkillset,
     options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerSkillset> {
-    return createOrUpdateSkillset(this._client, skillset, name, options);
+    return createOrUpdateSkillset(this._client, name, skillset, options);
   }
 
   /** Returns the current status and execution history of an indexer. */
@@ -186,11 +170,11 @@ export class SearchIndexerClient {
 
   /** Creates a new indexer or updates an indexer if it already exists. */
   createOrUpdateIndexer(
-    indexer: SearchIndexer,
     name: string,
+    indexer: SearchIndexer,
     options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexer> {
-    return createOrUpdateIndexer(this._client, indexer, name, options);
+    return createOrUpdateIndexer(this._client, name, indexer, options);
   }
 
   /** Runs an indexer on-demand. */
@@ -199,6 +183,14 @@ export class SearchIndexerClient {
     options: RunIndexerOptionalParams = { requestOptions: {} },
   ): Promise<void> {
     return runIndexer(this._client, name, options);
+  }
+
+  /** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
+  resetDocuments(
+    name: string,
+    options: ResetDocumentsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return resetDocuments(this._client, name, options);
   }
 
   /** Resync selective options from the datasource to be re-ingested by the indexer." */
@@ -251,10 +243,10 @@ export class SearchIndexerClient {
 
   /** Creates a new datasource or updates a datasource if it already exists. */
   createOrUpdateDataSourceConnection(
-    dataSource: SearchIndexerDataSourceConnection,
     name: string,
+    dataSource: SearchIndexerDataSourceConnection,
     options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
   ): Promise<SearchIndexerDataSourceConnection> {
-    return createOrUpdateDataSourceConnection(this._client, dataSource, name, options);
+    return createOrUpdateDataSourceConnection(this._client, name, dataSource, options);
   }
 }

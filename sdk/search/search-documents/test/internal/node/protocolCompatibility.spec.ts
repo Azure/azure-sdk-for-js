@@ -5,20 +5,25 @@ import { assert, describe, expect, it } from "vitest";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { OperationOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  KnowledgeRetrievalClient,
-  SearchClient as ConvenienceSearchClient,
-} from "../../../src/index.js";
-import type { BaseKnowledgeBaseActivityRecord } from "../../../src/index.js";
-import { KnowledgeBaseRetrievalClient } from "../../../src/knowledgeBaseRetrieval/index.js";
+import { AzureKeyCredential, SearchClient as ConvenienceSearchClient } from "../../../src/index.js";
 import { SearchIndexClient } from "../../../src/searchIndex/index.js";
+import type { GetSynonymMapsOptionalParams } from "../../../src/searchIndex/index.js";
 import { SearchIndexerClient } from "../../../src/searchIndexer/index.js";
+import type {
+  GetDataSourceConnectionsOptionalParams,
+  GetIndexersOptionalParams,
+  GetSkillsetsOptionalParams,
+} from "../../../src/searchIndexer/index.js";
+import type {
+  ListDataSourcesResult,
+  ListIndexersResult,
+  ListSkillsetsResult,
+  ListSynonymMapsResult,
+} from "../../../src/models/azure/search/documents/indexes/index.js";
 import { SearchClient } from "../../../src/search/index.js";
 import * as indexApi from "../../../src/searchIndex/api/index.js";
 import * as indexerApi from "../../../src/searchIndexer/api/index.js";
 import * as searchApi from "../../../src/search/api/index.js";
-import * as retrievalApi from "../../../src/knowledgeBaseRetrieval/api/index.js";
 
 const endpoint = "https://example.search.windows.net";
 const credential = new AzureKeyCredential("key");
@@ -66,86 +71,91 @@ const dataSource = {
 };
 
 describe("released protocol contracts", () => {
-  it.each(["class", "function", "convenience"] as const)(
-    "preserves elapsedInMs on retrieval activity records through the %s",
-    async (entryPoint) => {
-      const t = transport([
-        {
-          activity: [
-            { id: 1, type: "searchIndex", elapsedMs: 0 },
-            { id: 2, type: "file", elapsedMs: 17 },
-            { id: 3, type: "agenticReasoning" },
-          ],
-        },
-      ]);
-      const request = { intents: [{ type: "semantic" as const, search: "status" }] };
-      const result =
-        entryPoint === "class"
-          ? await new KnowledgeBaseRetrievalClient(endpoint, credential, "base", t).retrieve(
-              request,
-            )
-          : entryPoint === "function"
-            ? await retrievalApi.retrieve(
-                retrievalApi.createKnowledgeBaseRetrieval(endpoint, credential, "base", t),
-                request,
-              )
-            : await new KnowledgeRetrievalClient(endpoint, "base", credential, t).retrieve(request);
-      const activity: BaseKnowledgeBaseActivityRecord[] = result.activity ?? [];
-      assert.deepEqual(
-        activity.map((record) => record.elapsedInMs),
-        [0, 17, undefined],
-      );
-      for (const record of activity) {
-        assert.notProperty(record, "elapsedMs");
-      }
-    },
-  );
-
   const indexCases = [
     {
       name: "createOrUpdateIndex",
       path: "/indexes('url-name')",
       model: index,
-      classCall: (client: SearchIndexClient, options?: UpdateOptions) =>
-        client.createOrUpdateIndex(index, "url-name", options),
-      functionCall: (context: indexApi.SearchIndexContext, options?: UpdateOptions) =>
-        indexApi.createOrUpdateIndex(context, index, "url-name", options),
+      classCall: (client: SearchIndexClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateIndex("url-name", index, options)
+          : client.createOrUpdateIndex(index, "url-name", options),
+      functionCall: (
+        context: indexApi.SearchIndexContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexApi.createOrUpdateIndex(context, "url-name", index, options)
+          : indexApi.createOrUpdateIndex(context, index, "url-name", options),
     },
     {
       name: "createOrUpdateSynonymMap",
       path: "/synonymmaps('url-name')",
       model: synonymMap,
-      classCall: (client: SearchIndexClient, options?: UpdateOptions) =>
-        client.createOrUpdateSynonymMap(synonymMap, "url-name", options),
-      functionCall: (context: indexApi.SearchIndexContext, options?: UpdateOptions) =>
-        indexApi.createOrUpdateSynonymMap(context, synonymMap, "url-name", options),
+      classCall: (client: SearchIndexClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateSynonymMap("url-name", synonymMap, options)
+          : client.createOrUpdateSynonymMap(synonymMap, "url-name", options),
+      functionCall: (
+        context: indexApi.SearchIndexContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexApi.createOrUpdateSynonymMap(context, "url-name", synonymMap, options)
+          : indexApi.createOrUpdateSynonymMap(context, synonymMap, "url-name", options),
     },
     {
       name: "createOrUpdateAlias",
       path: "/aliases('url-name')",
       model: alias,
-      classCall: (client: SearchIndexClient, options?: UpdateOptions) =>
-        client.createOrUpdateAlias(alias, "url-name", options),
-      functionCall: (context: indexApi.SearchIndexContext, options?: UpdateOptions) =>
-        indexApi.createOrUpdateAlias(context, alias, "url-name", options),
+      classCall: (client: SearchIndexClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateAlias("url-name", alias, options)
+          : client.createOrUpdateAlias(alias, "url-name", options),
+      functionCall: (
+        context: indexApi.SearchIndexContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexApi.createOrUpdateAlias(context, "url-name", alias, options)
+          : indexApi.createOrUpdateAlias(context, alias, "url-name", options),
     },
     {
       name: "createOrUpdateKnowledgeBase",
       path: "/knowledgebases('url-name')",
       model: knowledgeBase,
-      classCall: (client: SearchIndexClient, options?: UpdateOptions) =>
-        client.createOrUpdateKnowledgeBase(knowledgeBase, "url-name", options),
-      functionCall: (context: indexApi.SearchIndexContext, options?: UpdateOptions) =>
-        indexApi.createOrUpdateKnowledgeBase(context, knowledgeBase, "url-name", options),
+      classCall: (client: SearchIndexClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateKnowledgeBase("url-name", knowledgeBase, options)
+          : client.createOrUpdateKnowledgeBase(knowledgeBase, "url-name", options),
+      functionCall: (
+        context: indexApi.SearchIndexContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexApi.createOrUpdateKnowledgeBase(context, "url-name", knowledgeBase, options)
+          : indexApi.createOrUpdateKnowledgeBase(context, knowledgeBase, "url-name", options),
     },
     {
       name: "createOrUpdateKnowledgeSource",
       path: "/knowledgesources('url-name')",
       model: knowledgeSource,
-      classCall: (client: SearchIndexClient, options?: UpdateOptions) =>
-        client.createOrUpdateKnowledgeSource(knowledgeSource, "url-name", options),
-      functionCall: (context: indexApi.SearchIndexContext, options?: UpdateOptions) =>
-        indexApi.createOrUpdateKnowledgeSource(context, knowledgeSource, "url-name", options),
+      classCall: (client: SearchIndexClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateKnowledgeSource("url-name", knowledgeSource, options)
+          : client.createOrUpdateKnowledgeSource(knowledgeSource, "url-name", options),
+      functionCall: (
+        context: indexApi.SearchIndexContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexApi.createOrUpdateKnowledgeSource(context, "url-name", knowledgeSource, options)
+          : indexApi.createOrUpdateKnowledgeSource(context, knowledgeSource, "url-name", options),
     },
   ];
   const indexerCases = [
@@ -153,89 +163,120 @@ describe("released protocol contracts", () => {
       name: "createOrUpdateIndexer",
       path: "/indexers('url-name')",
       model: indexer,
-      classCall: (client: SearchIndexerClient, options?: UpdateOptions) =>
-        client.createOrUpdateIndexer(indexer, "url-name", options),
-      functionCall: (context: indexerApi.SearchIndexerContext, options?: UpdateOptions) =>
-        indexerApi.createOrUpdateIndexer(context, indexer, "url-name", options),
+      classCall: (client: SearchIndexerClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateIndexer("url-name", indexer, options)
+          : client.createOrUpdateIndexer(indexer, "url-name", options),
+      functionCall: (
+        context: indexerApi.SearchIndexerContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexerApi.createOrUpdateIndexer(context, "url-name", indexer, options)
+          : indexerApi.createOrUpdateIndexer(context, indexer, "url-name", options),
     },
     {
       name: "createOrUpdateSkillset",
       path: "/skillsets('url-name')",
       model: skillset,
-      classCall: (client: SearchIndexerClient, options?: UpdateOptions) =>
-        client.createOrUpdateSkillset(skillset, "url-name", options),
-      functionCall: (context: indexerApi.SearchIndexerContext, options?: UpdateOptions) =>
-        indexerApi.createOrUpdateSkillset(context, skillset, "url-name", options),
+      classCall: (client: SearchIndexerClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateSkillset("url-name", skillset, options)
+          : client.createOrUpdateSkillset(skillset, "url-name", options),
+      functionCall: (
+        context: indexerApi.SearchIndexerContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexerApi.createOrUpdateSkillset(context, "url-name", skillset, options)
+          : indexerApi.createOrUpdateSkillset(context, skillset, "url-name", options),
     },
     {
       name: "createOrUpdateDataSourceConnection",
       path: "/datasources('url-name')",
       model: dataSource,
-      classCall: (client: SearchIndexerClient, options?: UpdateOptions) =>
-        client.createOrUpdateDataSourceConnection(dataSource, "url-name", options),
-      functionCall: (context: indexerApi.SearchIndexerContext, options?: UpdateOptions) =>
-        indexerApi.createOrUpdateDataSourceConnection(context, dataSource, "url-name", options),
+      classCall: (client: SearchIndexerClient, options?: UpdateOptions, nameFirst = false) =>
+        nameFirst
+          ? client.createOrUpdateDataSourceConnection("url-name", dataSource, options)
+          : client.createOrUpdateDataSourceConnection(dataSource, "url-name", options),
+      functionCall: (
+        context: indexerApi.SearchIndexerContext,
+        options?: UpdateOptions,
+        nameFirst = false,
+      ) =>
+        nameFirst
+          ? indexerApi.createOrUpdateDataSourceConnection(context, "url-name", dataSource, options)
+          : indexerApi.createOrUpdateDataSourceConnection(context, dataSource, "url-name", options),
     },
   ];
 
   for (const entryPoint of ["class", "function"] as const) {
     for (const testCase of [...indexCases, ...indexerCases]) {
-      it(`preserves body-first ${testCase.name} on the ${entryPoint}`, async () => {
-        const response =
-          testCase.name === "createOrUpdateSynonymMap"
-            ? { ...synonymMap, synonyms: "a,b" }
-            : testCase.model;
-        const t = transport([response]);
-        const controller = new AbortController();
-        const options = {
-          ifMatch: '"etag"',
-          allowIndexDowntime: true,
-          abortSignal: controller.signal,
-          requestOptions: { headers: { "x-test": "present" } },
-        };
-        for (const requestOptions of [undefined, options]) {
-          if (indexCases.includes(testCase as (typeof indexCases)[number])) {
-            const operation = testCase as (typeof indexCases)[number];
-            if (entryPoint === "class") {
-              await operation.classCall(
-                new SearchIndexClient(endpoint, credential, t),
-                requestOptions,
-              );
+      it.each([false, true])(
+        `preserves ${testCase.name} on the ${entryPoint} (name first: %s)`,
+        async (nameFirst) => {
+          const response =
+            testCase.name === "createOrUpdateSynonymMap"
+              ? { ...synonymMap, synonyms: "a,b" }
+              : testCase.model;
+          const t = transport([response]);
+          const controller = new AbortController();
+          const options = {
+            ifMatch: '"etag"',
+            allowIndexDowntime: true,
+            abortSignal: controller.signal,
+            requestOptions: { headers: { "x-test": "present" } },
+          };
+          for (const requestOptions of [undefined, options]) {
+            if (indexCases.includes(testCase as (typeof indexCases)[number])) {
+              const operation = testCase as (typeof indexCases)[number];
+              if (entryPoint === "class") {
+                await operation.classCall(
+                  new SearchIndexClient(endpoint, credential, t),
+                  requestOptions,
+                  nameFirst,
+                );
+              } else {
+                await operation.functionCall(
+                  indexApi.createSearchIndex(endpoint, credential, t),
+                  requestOptions,
+                  nameFirst,
+                );
+              }
             } else {
-              await operation.functionCall(
-                indexApi.createSearchIndex(endpoint, credential, t),
-                requestOptions,
-              );
+              const operation = testCase as (typeof indexerCases)[number];
+              if (entryPoint === "class") {
+                await operation.classCall(
+                  new SearchIndexerClient(endpoint, credential, t),
+                  requestOptions,
+                  nameFirst,
+                );
+              } else {
+                await operation.functionCall(
+                  indexerApi.createSearchIndexer(endpoint, credential, t),
+                  requestOptions,
+                  nameFirst,
+                );
+              }
             }
-          } else {
-            const operation = testCase as (typeof indexerCases)[number];
-            if (entryPoint === "class") {
-              await operation.classCall(
-                new SearchIndexerClient(endpoint, credential, t),
-                requestOptions,
-              );
-            } else {
-              await operation.functionCall(
-                indexerApi.createSearchIndexer(endpoint, credential, t),
-                requestOptions,
+            const request = t.requests[t.requests.length - 1];
+            assert.equal(new URL(request.url).pathname, testCase.path);
+            assert.equal(request.method, "PUT");
+            assert.equal(JSON.parse(String(request.body)).name, "body-name");
+            assert.equal(request.headers.get("if-match"), requestOptions?.ifMatch);
+            assert.equal(request.headers.get("x-test"), requestOptions ? "present" : undefined);
+            if (requestOptions) assert.equal(request.abortSignal, controller.signal);
+            if (testCase.name === "createOrUpdateIndex") {
+              assert.equal(
+                new URL(request.url).searchParams.get("allowIndexDowntime"),
+                requestOptions ? "true" : null,
               );
             }
           }
-          const request = t.requests[t.requests.length - 1];
-          assert.equal(new URL(request.url).pathname, testCase.path);
-          assert.equal(request.method, "PUT");
-          assert.equal(JSON.parse(String(request.body)).name, "body-name");
-          assert.equal(request.headers.get("if-match"), requestOptions?.ifMatch);
-          assert.equal(request.headers.get("x-test"), requestOptions ? "present" : undefined);
-          if (requestOptions) assert.equal(request.abortSignal, controller.signal);
-          if (testCase.name === "createOrUpdateIndex") {
-            assert.equal(
-              new URL(request.url).searchParams.get("allowIndexDowntime"),
-              requestOptions ? "true" : null,
-            );
-          }
-        }
-      });
+        },
+      );
     }
 
     it(`preserves body-first analyzeText on the ${entryPoint}`, async () => {
@@ -271,7 +312,10 @@ describe("released protocol contracts", () => {
         name: "getIndexers",
         resource: "indexers",
         model: indexer,
-        classCall: (t: { httpClient: HttpClient }, options: indexerApi.GetIndexersOptionalParams) =>
+        classCall: (
+          t: { httpClient: HttpClient },
+          options: GetIndexersOptionalParams,
+        ): Promise<ListIndexersResult> =>
           new SearchIndexerClient(endpoint, credential, t).getIndexers(options),
         functionCall: (
           t: { httpClient: HttpClient },
@@ -285,8 +329,9 @@ describe("released protocol contracts", () => {
         model: skillset,
         classCall: (
           t: { httpClient: HttpClient },
-          options: indexerApi.GetSkillsetsOptionalParams,
-        ) => new SearchIndexerClient(endpoint, credential, t).getSkillsets(options),
+          options: GetSkillsetsOptionalParams,
+        ): Promise<ListSkillsetsResult> =>
+          new SearchIndexerClient(endpoint, credential, t).getSkillsets(options),
         functionCall: (
           t: { httpClient: HttpClient },
           options: indexerApi.GetSkillsetsOptionalParams,
@@ -299,8 +344,9 @@ describe("released protocol contracts", () => {
         model: dataSource,
         classCall: (
           t: { httpClient: HttpClient },
-          options: indexerApi.GetDataSourceConnectionsOptionalParams,
-        ) => new SearchIndexerClient(endpoint, credential, t).getDataSourceConnections(options),
+          options: GetDataSourceConnectionsOptionalParams,
+        ): Promise<ListDataSourcesResult> =>
+          new SearchIndexerClient(endpoint, credential, t).getDataSourceConnections(options),
         functionCall: (
           t: { httpClient: HttpClient },
           options: indexerApi.GetDataSourceConnectionsOptionalParams,
@@ -316,8 +362,9 @@ describe("released protocol contracts", () => {
         model: { ...synonymMap, synonyms: "a,b" },
         classCall: (
           t: { httpClient: HttpClient },
-          options: indexApi.GetSynonymMapsOptionalParams,
-        ) => new SearchIndexClient(endpoint, credential, t).getSynonymMaps(options),
+          options: GetSynonymMapsOptionalParams,
+        ): Promise<ListSynonymMapsResult> =>
+          new SearchIndexClient(endpoint, credential, t).getSynonymMaps(options),
         functionCall: (
           t: { httpClient: HttpClient },
           options: indexApi.GetSynonymMapsOptionalParams,
@@ -387,12 +434,7 @@ describe("released protocol contracts", () => {
         entryPoint === "class"
           ? new SearchClient(endpoint, credential, "idx", t).getDocumentCount()
           : searchApi.getDocumentCount(searchApi.createSearch(endpoint, credential, "idx", t));
-      try {
-        await result;
-        assert.fail("Expected a RestError");
-      } catch (error) {
-        assert.include(error, { name: "RestError", statusCode: 404 });
-      }
+      await expect(result).rejects.toMatchObject({ name: "RestError", statusCode: 404 });
     });
   }
 });

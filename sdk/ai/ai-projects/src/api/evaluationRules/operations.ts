@@ -25,7 +25,7 @@ export function _listSend(
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationrules{?api-version,actionType,agentName,enabled}",
+    "/evaluationrules{?actionType,agentName,api-version,enabled}",
     {
       "api-version": context.apiVersion,
       actionType: options?.actionType,
