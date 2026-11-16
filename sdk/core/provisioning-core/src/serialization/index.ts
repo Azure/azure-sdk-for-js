@@ -3,4 +3,4 @@
 
 export { deserialize, type DeserializeOptions } from "./json/deserialize.js";
 export { serialize } from "./json/serialize.js";
-export type { SerializationDocument } from "./contract/index.js";
+export type { SerializationDocument } from "./ast/index.js";

@@ -132,6 +132,7 @@ export interface VirtualClustersOperations {
     options?: VirtualClustersGetOptionalParams,
   ) => Promise<VirtualCluster>;
 }
+
 function _getVirtualClusters(context: SqlManagementContext) {
   return {
     updateDnsServers: (
@@ -248,6 +249,7 @@ function _getVirtualClusters(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, virtualClusterName, options),
   };
 }
+
 export function _getVirtualClustersOperations(
   context: SqlManagementContext,
 ): VirtualClustersOperations {

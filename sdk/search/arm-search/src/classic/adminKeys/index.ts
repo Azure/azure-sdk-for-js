@@ -25,6 +25,7 @@ export interface AdminKeysOperations {
     options?: AdminKeysGetOptionalParams,
   ) => Promise<AdminKeyResult>;
 }
+
 function _getAdminKeys(context: SearchManagementContext) {
   return {
     regenerate: (
@@ -40,6 +41,7 @@ function _getAdminKeys(context: SearchManagementContext) {
     ) => get(context, resourceGroupName, searchServiceName, options),
   };
 }
+
 export function _getAdminKeysOperations(context: SearchManagementContext): AdminKeysOperations {
   return {
     ..._getAdminKeys(context),

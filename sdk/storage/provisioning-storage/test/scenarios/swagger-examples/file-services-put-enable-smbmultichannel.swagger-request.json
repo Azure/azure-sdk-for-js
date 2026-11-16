@@ -1,0 +1,12 @@
+{
+  "name": "default",
+  "properties": {
+    "protocolSettings": {
+      "smb": {
+        "multichannel": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}

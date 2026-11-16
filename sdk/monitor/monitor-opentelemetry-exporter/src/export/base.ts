@@ -7,6 +7,7 @@ import type { AzureMonitorExporterOptions } from "../config.js";
 import {
   ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS,
   DEFAULT_BREEZE_ENDPOINT,
+  ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_CONNECTION_STRING,
   isEnvVarTrue,
@@ -38,6 +39,12 @@ export abstract class AzureMonitorBaseExporter {
   protected aadAudience: string | undefined;
 
   /**
+   * GenAI message limit opt-in captured when this exporter is constructed.
+   * @internal
+   */
+  protected readonly _increaseGenAiMessageLimit: boolean;
+
+  /**
    * Flag to determine if the Exporter is a Statsbeat Exporter
    */
   private isStatsbeatExporter: boolean;
@@ -53,6 +60,10 @@ export abstract class AzureMonitorBaseExporter {
    */
   constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
     this.options = options;
+    this._increaseGenAiMessageLimit =
+      process.env[ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES]?.split(",").some(
+        (feature) => feature.trim().toLowerCase() === "gen_ai_input_output_limit_increase",
+      ) ?? false;
     this.instrumentationKey = "";
     this.endpointUrl = DEFAULT_BREEZE_ENDPOINT;
     const connectionString = this.options.connectionString || process.env[ENV_CONNECTION_STRING];

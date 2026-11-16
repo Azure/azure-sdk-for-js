@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts a managed database move operation.
  *
  * @summary starts a managed database move operation.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseStartMoveMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseStartMoveMax.json
  */
 async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified(): P
  * This sample demonstrates how to starts a managed database move operation.
  *
  * @summary starts a managed database move operation.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseStartMoveMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseStartMoveMin.json
  */
 async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();

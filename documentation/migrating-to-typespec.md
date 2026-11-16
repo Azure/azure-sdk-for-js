@@ -329,6 +329,5 @@ For complete examples of migrated packages, see:
 
 - `sdk/keyvault/keyvault-admin/`
 - `sdk/keyvault/keyvault-keys/`
-- `sdk/keyvault/keyvault-certificates/`
 
 These packages demonstrate the full migration including the customization workflow, helper functions, and updated configurations.

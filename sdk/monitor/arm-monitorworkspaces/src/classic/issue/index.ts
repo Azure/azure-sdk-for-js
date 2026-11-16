@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext } from "../../api/monitorContext.js";
+import type { MonitorContext } from "../../api/monitorContext.js";
 import {
   setBackgroundVisualization,
   fetchBackgroundVisualization,
@@ -17,7 +17,7 @@ import {
   update,
   create,
 } from "../../api/issue/operations.js";
-import {
+import type {
   IssueSetBackgroundVisualizationOptionalParams,
   IssueFetchBackgroundVisualizationOptionalParams,
   IssueAddOrUpdateResourcesOptionalParams,
@@ -32,7 +32,7 @@ import {
   IssueUpdateOptionalParams,
   IssueCreateOptionalParams,
 } from "../../api/issue/options.js";
-import {
+import type {
   IssueResourceCreate,
   IssueResource,
   IssueResourceUpdate,
@@ -48,7 +48,7 @@ import {
   BackgroundVisualization,
   BackgroundVisualizationCreate,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Issue operations. */
 export interface IssueOperations {

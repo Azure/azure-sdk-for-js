@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-compute",
-  "version": "25.2.0",
+  "version": "25.3.0",
   "description": "A generated SDK for ComputeManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -40,6 +40,776 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/gallerySharingProfile": {
+      "browser": {
+        "types": "./dist/browser/api/gallerySharingProfile/index.d.ts",
+        "default": "./dist/browser/api/gallerySharingProfile/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gallerySharingProfile/index.d.ts",
+        "default": "./dist/esm/api/gallerySharingProfile/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gallerySharingProfile/index.d.ts",
+        "default": "./dist/commonjs/api/gallerySharingProfile/index.js"
+      }
+    },
+    "./api/softDeletedResource": {
+      "browser": {
+        "types": "./dist/browser/api/softDeletedResource/index.d.ts",
+        "default": "./dist/browser/api/softDeletedResource/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/softDeletedResource/index.d.ts",
+        "default": "./dist/esm/api/softDeletedResource/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/softDeletedResource/index.d.ts",
+        "default": "./dist/commonjs/api/softDeletedResource/index.js"
+      }
+    },
+    "./api/diskRestorePoint": {
+      "browser": {
+        "types": "./dist/browser/api/diskRestorePoint/index.d.ts",
+        "default": "./dist/browser/api/diskRestorePoint/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/diskRestorePoint/index.d.ts",
+        "default": "./dist/esm/api/diskRestorePoint/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/diskRestorePoint/index.d.ts",
+        "default": "./dist/commonjs/api/diskRestorePoint/index.js"
+      }
+    },
+    "./api/logAnalytics": {
+      "browser": {
+        "types": "./dist/browser/api/logAnalytics/index.d.ts",
+        "default": "./dist/browser/api/logAnalytics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/logAnalytics/index.d.ts",
+        "default": "./dist/esm/api/logAnalytics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/logAnalytics/index.d.ts",
+        "default": "./dist/commonjs/api/logAnalytics/index.js"
+      }
+    },
+    "./api/virtualMachineImages": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineImages/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineImages/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineImages/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineImages/index.js"
+      }
+    },
+    "./api/virtualMachineImagesEdgeZone": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineImagesEdgeZone/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineImagesEdgeZone/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineImagesEdgeZone/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineImagesEdgeZone/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineImagesEdgeZone/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineImagesEdgeZone/index.js"
+      }
+    },
+    "./api/virtualMachineSizes": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineSizes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineSizes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineSizes/index.js"
+      }
+    },
+    "./api/usage": {
+      "browser": {
+        "types": "./dist/browser/api/usage/index.d.ts",
+        "default": "./dist/browser/api/usage/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usage/index.d.ts",
+        "default": "./dist/esm/api/usage/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usage/index.d.ts",
+        "default": "./dist/commonjs/api/usage/index.js"
+      }
+    },
+    "./api/sshPublicKeys": {
+      "browser": {
+        "types": "./dist/browser/api/sshPublicKeys/index.d.ts",
+        "default": "./dist/browser/api/sshPublicKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sshPublicKeys/index.d.ts",
+        "default": "./dist/esm/api/sshPublicKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sshPublicKeys/index.d.ts",
+        "default": "./dist/commonjs/api/sshPublicKeys/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetVMs": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetVMs/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetVMs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetVMs/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetVMs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetVMs/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetVMs/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetRollingUpgrades": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetRollingUpgrades/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetRollingUpgrades/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetRollingUpgrades/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetRollingUpgrades/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetRollingUpgrades/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetRollingUpgrades/index.js"
+      }
+    },
+    "./api/resourceSkus": {
+      "browser": {
+        "types": "./dist/browser/api/resourceSkus/index.d.ts",
+        "default": "./dist/browser/api/resourceSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/resourceSkus/index.d.ts",
+        "default": "./dist/esm/api/resourceSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/resourceSkus/index.d.ts",
+        "default": "./dist/commonjs/api/resourceSkus/index.js"
+      }
+    },
+    "./api/tenantLevelSharedGalleryInvites": {
+      "browser": {
+        "types": "./dist/browser/api/tenantLevelSharedGalleryInvites/index.d.ts",
+        "default": "./dist/browser/api/tenantLevelSharedGalleryInvites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tenantLevelSharedGalleryInvites/index.d.ts",
+        "default": "./dist/esm/api/tenantLevelSharedGalleryInvites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tenantLevelSharedGalleryInvites/index.d.ts",
+        "default": "./dist/commonjs/api/tenantLevelSharedGalleryInvites/index.js"
+      }
+    },
+    "./api/sharedGalleryInvites": {
+      "browser": {
+        "types": "./dist/browser/api/sharedGalleryInvites/index.d.ts",
+        "default": "./dist/browser/api/sharedGalleryInvites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedGalleryInvites/index.d.ts",
+        "default": "./dist/esm/api/sharedGalleryInvites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedGalleryInvites/index.d.ts",
+        "default": "./dist/commonjs/api/sharedGalleryInvites/index.js"
+      }
+    },
+    "./api/communityGalleryImageVersions": {
+      "browser": {
+        "types": "./dist/browser/api/communityGalleryImageVersions/index.d.ts",
+        "default": "./dist/browser/api/communityGalleryImageVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/communityGalleryImageVersions/index.d.ts",
+        "default": "./dist/esm/api/communityGalleryImageVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/communityGalleryImageVersions/index.d.ts",
+        "default": "./dist/commonjs/api/communityGalleryImageVersions/index.js"
+      }
+    },
+    "./api/communityGalleryImages": {
+      "browser": {
+        "types": "./dist/browser/api/communityGalleryImages/index.d.ts",
+        "default": "./dist/browser/api/communityGalleryImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/communityGalleryImages/index.d.ts",
+        "default": "./dist/esm/api/communityGalleryImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/communityGalleryImages/index.d.ts",
+        "default": "./dist/commonjs/api/communityGalleryImages/index.js"
+      }
+    },
+    "./api/communityGalleries": {
+      "browser": {
+        "types": "./dist/browser/api/communityGalleries/index.d.ts",
+        "default": "./dist/browser/api/communityGalleries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/communityGalleries/index.d.ts",
+        "default": "./dist/esm/api/communityGalleries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/communityGalleries/index.d.ts",
+        "default": "./dist/commonjs/api/communityGalleries/index.js"
+      }
+    },
+    "./api/sharedGalleryImageVersions": {
+      "browser": {
+        "types": "./dist/browser/api/sharedGalleryImageVersions/index.d.ts",
+        "default": "./dist/browser/api/sharedGalleryImageVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedGalleryImageVersions/index.d.ts",
+        "default": "./dist/esm/api/sharedGalleryImageVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedGalleryImageVersions/index.d.ts",
+        "default": "./dist/commonjs/api/sharedGalleryImageVersions/index.js"
+      }
+    },
+    "./api/sharedGalleryImages": {
+      "browser": {
+        "types": "./dist/browser/api/sharedGalleryImages/index.d.ts",
+        "default": "./dist/browser/api/sharedGalleryImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedGalleryImages/index.d.ts",
+        "default": "./dist/esm/api/sharedGalleryImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedGalleryImages/index.d.ts",
+        "default": "./dist/commonjs/api/sharedGalleryImages/index.js"
+      }
+    },
+    "./api/sharedGalleries": {
+      "browser": {
+        "types": "./dist/browser/api/sharedGalleries/index.d.ts",
+        "default": "./dist/browser/api/sharedGalleries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedGalleries/index.d.ts",
+        "default": "./dist/esm/api/sharedGalleries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedGalleries/index.d.ts",
+        "default": "./dist/commonjs/api/sharedGalleries/index.js"
+      }
+    },
+    "./api/galleryInVMAccessControlProfileVersions": {
+      "browser": {
+        "types": "./dist/browser/api/galleryInVMAccessControlProfileVersions/index.d.ts",
+        "default": "./dist/browser/api/galleryInVMAccessControlProfileVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryInVMAccessControlProfileVersions/index.d.ts",
+        "default": "./dist/esm/api/galleryInVMAccessControlProfileVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryInVMAccessControlProfileVersions/index.d.ts",
+        "default": "./dist/commonjs/api/galleryInVMAccessControlProfileVersions/index.js"
+      }
+    },
+    "./api/galleryInVMAccessControlProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/galleryInVMAccessControlProfiles/index.d.ts",
+        "default": "./dist/browser/api/galleryInVMAccessControlProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryInVMAccessControlProfiles/index.d.ts",
+        "default": "./dist/esm/api/galleryInVMAccessControlProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryInVMAccessControlProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/galleryInVMAccessControlProfiles/index.js"
+      }
+    },
+    "./api/galleryScriptVersions": {
+      "browser": {
+        "types": "./dist/browser/api/galleryScriptVersions/index.d.ts",
+        "default": "./dist/browser/api/galleryScriptVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryScriptVersions/index.d.ts",
+        "default": "./dist/esm/api/galleryScriptVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryScriptVersions/index.d.ts",
+        "default": "./dist/commonjs/api/galleryScriptVersions/index.js"
+      }
+    },
+    "./api/galleryScripts": {
+      "browser": {
+        "types": "./dist/browser/api/galleryScripts/index.d.ts",
+        "default": "./dist/browser/api/galleryScripts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryScripts/index.d.ts",
+        "default": "./dist/esm/api/galleryScripts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryScripts/index.d.ts",
+        "default": "./dist/commonjs/api/galleryScripts/index.js"
+      }
+    },
+    "./api/galleryApplicationVersions": {
+      "browser": {
+        "types": "./dist/browser/api/galleryApplicationVersions/index.d.ts",
+        "default": "./dist/browser/api/galleryApplicationVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryApplicationVersions/index.d.ts",
+        "default": "./dist/esm/api/galleryApplicationVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryApplicationVersions/index.d.ts",
+        "default": "./dist/commonjs/api/galleryApplicationVersions/index.js"
+      }
+    },
+    "./api/galleryApplications": {
+      "browser": {
+        "types": "./dist/browser/api/galleryApplications/index.d.ts",
+        "default": "./dist/browser/api/galleryApplications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryApplications/index.d.ts",
+        "default": "./dist/esm/api/galleryApplications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryApplications/index.d.ts",
+        "default": "./dist/commonjs/api/galleryApplications/index.js"
+      }
+    },
+    "./api/galleryImageVersions": {
+      "browser": {
+        "types": "./dist/browser/api/galleryImageVersions/index.d.ts",
+        "default": "./dist/browser/api/galleryImageVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryImageVersions/index.d.ts",
+        "default": "./dist/esm/api/galleryImageVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryImageVersions/index.d.ts",
+        "default": "./dist/commonjs/api/galleryImageVersions/index.js"
+      }
+    },
+    "./api/galleryImages": {
+      "browser": {
+        "types": "./dist/browser/api/galleryImages/index.d.ts",
+        "default": "./dist/browser/api/galleryImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleryImages/index.d.ts",
+        "default": "./dist/esm/api/galleryImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleryImages/index.d.ts",
+        "default": "./dist/commonjs/api/galleryImages/index.js"
+      }
+    },
+    "./api/galleries": {
+      "browser": {
+        "types": "./dist/browser/api/galleries/index.d.ts",
+        "default": "./dist/browser/api/galleries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/galleries/index.d.ts",
+        "default": "./dist/esm/api/galleries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/galleries/index.d.ts",
+        "default": "./dist/commonjs/api/galleries/index.js"
+      }
+    },
+    "./api/snapshots": {
+      "browser": {
+        "types": "./dist/browser/api/snapshots/index.d.ts",
+        "default": "./dist/browser/api/snapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/snapshots/index.d.ts",
+        "default": "./dist/esm/api/snapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/snapshots/index.d.ts",
+        "default": "./dist/commonjs/api/snapshots/index.js"
+      }
+    },
+    "./api/diskEncryptionSets": {
+      "browser": {
+        "types": "./dist/browser/api/diskEncryptionSets/index.d.ts",
+        "default": "./dist/browser/api/diskEncryptionSets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/diskEncryptionSets/index.d.ts",
+        "default": "./dist/esm/api/diskEncryptionSets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/diskEncryptionSets/index.d.ts",
+        "default": "./dist/commonjs/api/diskEncryptionSets/index.js"
+      }
+    },
+    "./api/diskAccesses": {
+      "browser": {
+        "types": "./dist/browser/api/diskAccesses/index.d.ts",
+        "default": "./dist/browser/api/diskAccesses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/diskAccesses/index.d.ts",
+        "default": "./dist/esm/api/diskAccesses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/diskAccesses/index.d.ts",
+        "default": "./dist/commonjs/api/diskAccesses/index.js"
+      }
+    },
+    "./api/disks": {
+      "browser": {
+        "types": "./dist/browser/api/disks/index.d.ts",
+        "default": "./dist/browser/api/disks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/disks/index.d.ts",
+        "default": "./dist/esm/api/disks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/disks/index.d.ts",
+        "default": "./dist/commonjs/api/disks/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetVMDiagnosticRunCommands": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetVMDiagnosticRunCommands/index.js"
+      }
+    },
+    "./api/virtualMachineDiagnosticRunCommands": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineDiagnosticRunCommands/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineDiagnosticRunCommands/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineDiagnosticRunCommands/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineDiagnosticRunCommands/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetVMRunCommands": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetVMRunCommands/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetVMRunCommands/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetVMRunCommands/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetVMRunCommands/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetVMRunCommands/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetVMRunCommands/index.js"
+      }
+    },
+    "./api/virtualMachineRunCommands": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineRunCommands/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineRunCommands/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineRunCommands/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineRunCommands/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineRunCommands/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineRunCommands/index.js"
+      }
+    },
+    "./api/interconnectBlocks": {
+      "browser": {
+        "types": "./dist/browser/api/interconnectBlocks/index.d.ts",
+        "default": "./dist/browser/api/interconnectBlocks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/interconnectBlocks/index.d.ts",
+        "default": "./dist/esm/api/interconnectBlocks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/interconnectBlocks/index.d.ts",
+        "default": "./dist/commonjs/api/interconnectBlocks/index.js"
+      }
+    },
+    "./api/capacityReservations": {
+      "browser": {
+        "types": "./dist/browser/api/capacityReservations/index.d.ts",
+        "default": "./dist/browser/api/capacityReservations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capacityReservations/index.d.ts",
+        "default": "./dist/esm/api/capacityReservations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capacityReservations/index.d.ts",
+        "default": "./dist/commonjs/api/capacityReservations/index.js"
+      }
+    },
+    "./api/capacityReservationGroups": {
+      "browser": {
+        "types": "./dist/browser/api/capacityReservationGroups/index.d.ts",
+        "default": "./dist/browser/api/capacityReservationGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capacityReservationGroups/index.d.ts",
+        "default": "./dist/esm/api/capacityReservationGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capacityReservationGroups/index.d.ts",
+        "default": "./dist/commonjs/api/capacityReservationGroups/index.js"
+      }
+    },
+    "./api/restorePoints": {
+      "browser": {
+        "types": "./dist/browser/api/restorePoints/index.d.ts",
+        "default": "./dist/browser/api/restorePoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorePoints/index.d.ts",
+        "default": "./dist/esm/api/restorePoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorePoints/index.d.ts",
+        "default": "./dist/commonjs/api/restorePoints/index.js"
+      }
+    },
+    "./api/restorePointCollections": {
+      "browser": {
+        "types": "./dist/browser/api/restorePointCollections/index.d.ts",
+        "default": "./dist/browser/api/restorePointCollections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorePointCollections/index.d.ts",
+        "default": "./dist/esm/api/restorePointCollections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorePointCollections/index.d.ts",
+        "default": "./dist/commonjs/api/restorePointCollections/index.js"
+      }
+    },
+    "./api/images": {
+      "browser": {
+        "types": "./dist/browser/api/images/index.d.ts",
+        "default": "./dist/browser/api/images/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/images/index.d.ts",
+        "default": "./dist/esm/api/images/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/images/index.d.ts",
+        "default": "./dist/commonjs/api/images/index.js"
+      }
+    },
+    "./api/dedicatedHosts": {
+      "browser": {
+        "types": "./dist/browser/api/dedicatedHosts/index.d.ts",
+        "default": "./dist/browser/api/dedicatedHosts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dedicatedHosts/index.d.ts",
+        "default": "./dist/esm/api/dedicatedHosts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dedicatedHosts/index.d.ts",
+        "default": "./dist/commonjs/api/dedicatedHosts/index.js"
+      }
+    },
+    "./api/dedicatedHostGroups": {
+      "browser": {
+        "types": "./dist/browser/api/dedicatedHostGroups/index.d.ts",
+        "default": "./dist/browser/api/dedicatedHostGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dedicatedHostGroups/index.d.ts",
+        "default": "./dist/esm/api/dedicatedHostGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dedicatedHostGroups/index.d.ts",
+        "default": "./dist/commonjs/api/dedicatedHostGroups/index.js"
+      }
+    },
+    "./api/proximityPlacementGroups": {
+      "browser": {
+        "types": "./dist/browser/api/proximityPlacementGroups/index.d.ts",
+        "default": "./dist/browser/api/proximityPlacementGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/proximityPlacementGroups/index.d.ts",
+        "default": "./dist/esm/api/proximityPlacementGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/proximityPlacementGroups/index.d.ts",
+        "default": "./dist/commonjs/api/proximityPlacementGroups/index.js"
+      }
+    },
+    "./api/availabilitySets": {
+      "browser": {
+        "types": "./dist/browser/api/availabilitySets/index.d.ts",
+        "default": "./dist/browser/api/availabilitySets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availabilitySets/index.d.ts",
+        "default": "./dist/esm/api/availabilitySets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availabilitySets/index.d.ts",
+        "default": "./dist/commonjs/api/availabilitySets/index.js"
+      }
+    },
+    "./api/virtualMachineExtensionImages": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineExtensionImages/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineExtensionImages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineExtensionImages/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineExtensionImages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineExtensionImages/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineExtensionImages/index.js"
+      }
+    },
+    "./api/virtualMachineExtensions": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineExtensions/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineExtensions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineExtensions/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineExtensions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineExtensions/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineExtensions/index.js"
+      }
+    },
+    "./api/virtualMachines": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachines/index.d.ts",
+        "default": "./dist/browser/api/virtualMachines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachines/index.d.ts",
+        "default": "./dist/esm/api/virtualMachines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachines/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachines/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetVMExtensions": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetVMExtensions/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetVMExtensions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetVMExtensions/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetVMExtensions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetVMExtensions/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetVMExtensions/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetLifeCycleHookEvents": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetLifeCycleHookEvents/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetLifeCycleHookEvents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetLifeCycleHookEvents/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetLifeCycleHookEvents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetLifeCycleHookEvents/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetLifeCycleHookEvents/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSetExtensions": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSetExtensions/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSetExtensions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSetExtensions/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSetExtensions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSetExtensions/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSetExtensions/index.js"
+      }
+    },
+    "./api/virtualMachineScaleSets": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineScaleSets/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineScaleSets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineScaleSets/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineScaleSets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineScaleSets/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineScaleSets/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a workload group.
  *
  * @summary deletes a workload group.
- * x-ms-original-file: 2025-08-01-preview/DeleteWorkloadGroup.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteWorkloadGroup.json
  */
 async function deleteAWorkloadGroup() {
   const credential = new DefaultAzureCredential();

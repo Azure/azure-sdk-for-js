@@ -28,12 +28,14 @@ export function _listByServerSend(
   options: RestorableDroppedDatabasesListByServerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/restorableDroppedDatabases{?api%2Dversion,%24skiptoken,%24top}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "%24skiptoken": options?.skiptoken,
+      "%24top": options?.top,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +62,7 @@ export async function _listByServerDeserialize(
 
   return _restorableDroppedDatabaseListResultDeserializer(result.body);
 }
+
 /** Gets a list of restorable dropped databases. */
 export function listByServer(
   context: Client,
@@ -75,7 +78,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -94,7 +97,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
       "%24filter": options?.filter,
     },
@@ -123,6 +126,7 @@ export async function _getDeserialize(
 
   return restorableDroppedDatabaseDeserializer(result.body);
 }
+
 /** Gets a restorable dropped database. */
 export async function get(
   context: Client,

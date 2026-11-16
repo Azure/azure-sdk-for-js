@@ -38,7 +38,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _listDeserialize(
 
   return _geoBackupPolicyListResultDeserializer(result.body);
 }
+
 /** Gets a list of Geo backup policies for the given database resource. */
 export function list(
   context: Client,
@@ -81,7 +82,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -103,7 +104,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       geoBackupPolicyName: geoBackupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,6 +133,7 @@ export async function _createOrUpdateDeserialize(
 
   return geoBackupPolicyDeserializer(result.body);
 }
+
 /** Create or update a database default Geo backup policy. */
 export async function createOrUpdate(
   context: Client,
@@ -170,7 +172,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       geoBackupPolicyName: geoBackupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,6 +197,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ge
 
   return geoBackupPolicyDeserializer(result.body);
 }
+
 /** Gets a Geo backup policy for the given database resource. */
 export async function get(
   context: Client,

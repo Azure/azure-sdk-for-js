@@ -11,8 +11,8 @@ import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
-import { SeverityNumber, logs } from "@opentelemetry/api-logs";
-import type { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { SeverityNumber, logs } from "@opentelemetry/api";
+import type { TracerProvider } from "@opentelemetry/sdk-trace";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { LoggerProvider } from "@opentelemetry/sdk-logs";
 
@@ -31,7 +31,7 @@ const COMMON_ENVELOPE_PARAMS: any = {
 };
 
 export class TraceBasicScenario implements Scenario {
-  private _tracerProvider: NodeTracerProvider | undefined;
+  private _tracerProvider: TracerProvider | undefined;
 
   prepare(httpClient?: HttpClient): void {
     const resource = resourceFromAttributes({
@@ -51,7 +51,7 @@ export class TraceBasicScenario implements Scenario {
     });
     this._tracerProvider = (
       opentelemetry.trace.getTracerProvider() as opentelemetry.ProxyTracerProvider
-    ).getDelegate() as NodeTracerProvider;
+    ).getDelegate() as TracerProvider;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises

@@ -1,69 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationInsightsManagementContext,
   ApplicationInsightsManagementClientOptionalParams,
-  createApplicationInsightsManagement,
 } from "./api/index.js";
-import {
-  AnalyticsItemsOperations,
-  _getAnalyticsItemsOperations,
-} from "./classic/analyticsItems/index.js";
-import { AnnotationsOperations, _getAnnotationsOperations } from "./classic/annotations/index.js";
-import { APIKeysOperations, _getAPIKeysOperations } from "./classic/apiKeys/index.js";
-import {
-  ComponentAvailableFeaturesOperations,
-  _getComponentAvailableFeaturesOperations,
-} from "./classic/componentAvailableFeatures/index.js";
-import {
-  ComponentCurrentBillingFeaturesOperations,
-  _getComponentCurrentBillingFeaturesOperations,
-} from "./classic/componentCurrentBillingFeatures/index.js";
-import {
-  ComponentFeatureCapabilitiesOperations,
-  _getComponentFeatureCapabilitiesOperations,
-} from "./classic/componentFeatureCapabilities/index.js";
-import {
-  ComponentLinkedStorageAccountsOperations,
-  _getComponentLinkedStorageAccountsOperations,
-} from "./classic/componentLinkedStorageAccounts/index.js";
-import {
-  ComponentQuotaStatusOperations,
-  _getComponentQuotaStatusOperations,
-} from "./classic/componentQuotaStatus/index.js";
-import { ComponentsOperations, _getComponentsOperations } from "./classic/components/index.js";
-import {
-  DeletedWorkbooksOperations,
-  _getDeletedWorkbooksOperations,
-} from "./classic/deletedWorkbooks/index.js";
-import {
-  ExportConfigurationsOperations,
-  _getExportConfigurationsOperations,
-} from "./classic/exportConfigurations/index.js";
-import { FavoritesOperations, _getFavoritesOperations } from "./classic/favorites/index.js";
-import { LiveTokenOperations, _getLiveTokenOperations } from "./classic/liveToken/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  ProactiveDetectionConfigurationsOperations,
-  _getProactiveDetectionConfigurationsOperations,
-} from "./classic/proactiveDetectionConfigurations/index.js";
-import {
-  WebTestLocationsOperations,
-  _getWebTestLocationsOperations,
-} from "./classic/webTestLocations/index.js";
-import { WebTestsOperations, _getWebTestsOperations } from "./classic/webTests/index.js";
-import {
-  WorkItemConfigurationsOperations,
-  _getWorkItemConfigurationsOperations,
-} from "./classic/workItemConfigurations/index.js";
-import {
-  WorkbookTemplatesOperations,
-  _getWorkbookTemplatesOperations,
-} from "./classic/workbookTemplates/index.js";
-import { WorkbooksOperations, _getWorkbooksOperations } from "./classic/workbooks/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createApplicationInsightsManagement } from "./api/index.js";
+import type { AnalyticsItemsOperations } from "./classic/analyticsItems/index.js";
+import { _getAnalyticsItemsOperations } from "./classic/analyticsItems/index.js";
+import type { AnnotationsOperations } from "./classic/annotations/index.js";
+import { _getAnnotationsOperations } from "./classic/annotations/index.js";
+import type { APIKeysOperations } from "./classic/apiKeys/index.js";
+import { _getAPIKeysOperations } from "./classic/apiKeys/index.js";
+import type { ComponentAvailableFeaturesOperations } from "./classic/componentAvailableFeatures/index.js";
+import { _getComponentAvailableFeaturesOperations } from "./classic/componentAvailableFeatures/index.js";
+import type { ComponentCurrentBillingFeaturesOperations } from "./classic/componentCurrentBillingFeatures/index.js";
+import { _getComponentCurrentBillingFeaturesOperations } from "./classic/componentCurrentBillingFeatures/index.js";
+import type { ComponentFeatureCapabilitiesOperations } from "./classic/componentFeatureCapabilities/index.js";
+import { _getComponentFeatureCapabilitiesOperations } from "./classic/componentFeatureCapabilities/index.js";
+import type { ComponentLinkedStorageAccountsOperations } from "./classic/componentLinkedStorageAccounts/index.js";
+import { _getComponentLinkedStorageAccountsOperations } from "./classic/componentLinkedStorageAccounts/index.js";
+import type { ComponentQuotaStatusOperations } from "./classic/componentQuotaStatus/index.js";
+import { _getComponentQuotaStatusOperations } from "./classic/componentQuotaStatus/index.js";
+import type { ComponentsOperations } from "./classic/components/index.js";
+import { _getComponentsOperations } from "./classic/components/index.js";
+import type { DeletedWorkbooksOperations } from "./classic/deletedWorkbooks/index.js";
+import { _getDeletedWorkbooksOperations } from "./classic/deletedWorkbooks/index.js";
+import type { ExportConfigurationsOperations } from "./classic/exportConfigurations/index.js";
+import { _getExportConfigurationsOperations } from "./classic/exportConfigurations/index.js";
+import type { FavoritesOperations } from "./classic/favorites/index.js";
+import { _getFavoritesOperations } from "./classic/favorites/index.js";
+import type { LiveTokenOperations } from "./classic/liveToken/index.js";
+import { _getLiveTokenOperations } from "./classic/liveToken/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ProactiveDetectionConfigurationsOperations } from "./classic/proactiveDetectionConfigurations/index.js";
+import { _getProactiveDetectionConfigurationsOperations } from "./classic/proactiveDetectionConfigurations/index.js";
+import type { WebTestLocationsOperations } from "./classic/webTestLocations/index.js";
+import { _getWebTestLocationsOperations } from "./classic/webTestLocations/index.js";
+import type { WebTestsOperations } from "./classic/webTests/index.js";
+import { _getWebTestsOperations } from "./classic/webTests/index.js";
+import type { WorkItemConfigurationsOperations } from "./classic/workItemConfigurations/index.js";
+import { _getWorkItemConfigurationsOperations } from "./classic/workItemConfigurations/index.js";
+import type { WorkbookTemplatesOperations } from "./classic/workbookTemplates/index.js";
+import { _getWorkbookTemplatesOperations } from "./classic/workbookTemplates/index.js";
+import type { WorkbooksOperations } from "./classic/workbooks/index.js";
+import { _getWorkbooksOperations } from "./classic/workbooks/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ApplicationInsightsManagementClientOptionalParams } from "./api/applicationInsightsManagementContext.js";
 
@@ -95,14 +79,7 @@ export class ApplicationInsightsManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createApplicationInsightsManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createApplicationInsightsManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.webTestLocations = _getWebTestLocationsOperations(this._client);
     this.liveToken = _getLiveTokenOperations(this._client);

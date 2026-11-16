@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-keyvault",
-  "version": "5.0.1",
+  "version": "6.1.0-beta.1",
   "description": "A generated SDK for KeyVaultManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -154,6 +154,20 @@
         "default": "./dist/commonjs/api/managedHsms/index.js"
       }
     },
+    "./api/networkSecurityPerimeterConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.js"
+      }
+    },
     "./api/privateEndpointConnections": {
       "browser": {
         "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
@@ -248,11 +262,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -290,7 +304,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-keyvault",

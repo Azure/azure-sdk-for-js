@@ -7,6 +7,10 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
+import {
+  getLogicalPartitionRange,
+  getUncoveredPartitionKeyRanges,
+} from "../logicalPartitionRange.js";
 
 /**
  * Strategy for filtering partition ranges in ORDER BY query execution context
@@ -51,57 +55,67 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     if (continuationRanges && continuationRanges.length > 0) {
       resumeRangeFound = true;
-      // Find the range to resume from based on the composite token
-      const targetRangeMapping = continuationRanges[continuationRanges.length - 1].range;
-      // It is assumed that range mapping array is going to contain only range
-      const targetRange: PartitionKeyRange = targetRangeMapping;
-
-      const targetContinuationToken =
-        continuationRanges[continuationRanges.length - 1].continuationToken;
-
-      const leftRanges = targetRanges.filter((mapping) =>
-        this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
+      const sortedContinuationRanges = [...continuationRanges].sort((left, right) =>
+        this.getLogicalMin(left).localeCompare(this.getLogicalMin(right)),
       );
-
+      const sortedTargetRanges = [...targetRanges].sort((left, right) =>
+        left.minInclusive.localeCompare(right.minInclusive),
+      );
+      const queryMin = sortedTargetRanges[0].minInclusive;
+      const queryMax = sortedTargetRanges[sortedTargetRanges.length - 1].maxExclusive;
       const orderByItems = queryInfo.orderByItems;
-
-      // Create filtering condition for left ranges based on ORDER BY items and sort orders
       const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
-
-      const rightRanges = targetRanges.filter((mapping) =>
-        this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
+      const rightFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "right");
+      const hasCheckpointMetadata = sortedContinuationRanges.some(
+        (range) => range.isOrderByCheckpoint !== undefined,
+      );
+      const checkpointRanges = sortedContinuationRanges.filter(
+        (range) => range.isOrderByCheckpoint,
+      );
+      if (checkpointRanges.length === 0 && !hasCheckpointMetadata) {
+        checkpointRanges.push(sortedContinuationRanges[0]);
+      }
+      const checkpointMin =
+        checkpointRanges.length > 0 ? this.getLogicalMin(checkpointRanges[0]) : queryMin;
+      const coveredRanges = sortedContinuationRanges.map((range) =>
+        getLogicalPartitionRange(range.range, range.epkMin, range.epkMax),
+      );
+      const uncoveredRanges = getUncoveredPartitionKeyRanges(
+        sortedTargetRanges,
+        coveredRanges,
+        queryMin,
+        queryMax,
       );
 
-      // Create filtering condition for right ranges based on ORDER BY items and sort orders
-      const rightFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "right");
-
-      // Apply filtering logic for left ranges
-      if (leftRanges.length > 0) {
-        leftRanges.forEach((range) => {
+      sortedContinuationRanges.forEach((range) => {
+        if (range.isActive !== false) {
+          const logicalMax = this.getLogicalMax(range);
           result.rangeTokenPairs.push({
-            range: range,
-            continuationToken: undefined,
-            filteringCondition: leftFilter,
+            range: range.range,
+            continuationToken: range.continuationToken,
+            filteringCondition: logicalMax <= checkpointMin ? leftFilter : rightFilter,
+            epkMin: range.epkMin,
+            epkMax: range.epkMax,
+            isActive: range.isActive,
+            isOrderByCheckpoint: range.isOrderByCheckpoint,
+            orderByFilter: range.orderByFilter,
           });
-        });
-      }
-
-      result.rangeTokenPairs.push({
-        range: targetRange,
-        continuationToken: targetContinuationToken,
-        filteringCondition: rightFilter,
+        }
       });
 
-      // Apply filtering logic for right ranges
-      if (rightRanges.length > 0) {
-        rightRanges.forEach((range) => {
-          result.rangeTokenPairs.push({
-            range: range,
-            continuationToken: undefined,
-            filteringCondition: rightFilter,
-          });
+      uncoveredRanges.forEach((range) => {
+        result.rangeTokenPairs.push({
+          range: range.partitionKeyRange,
+          continuationToken: undefined,
+          filteringCondition: range.maxExclusive <= checkpointMin ? leftFilter : rightFilter,
+          epkMin: range.minInclusive,
+          epkMax: range.maxExclusive,
         });
-      }
+      });
+
+      result.rangeTokenPairs.sort((left, right) =>
+        this.getLogicalMin(left).localeCompare(this.getLogicalMin(right)),
+      );
     }
 
     // If we couldn't find a specific resume point, include all ranges
@@ -117,6 +131,14 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       });
     }
     return result;
+  }
+
+  private getLogicalMin(range: PartitionRangeWithContinuationToken): string {
+    return range.epkMin ?? range.range.minInclusive;
+  }
+
+  private getLogicalMax(range: PartitionRangeWithContinuationToken): string {
+    return range.epkMax ?? range.range.maxExclusive;
   }
 
   /**
@@ -381,33 +403,5 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         }
         return `'${value.toString().replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
     }
-  }
-
-  /**
-   * Compares partition key range boundaries with proper handling for inclusive/exclusive semantics
-   * @param boundary1 - First boundary to compare
-   * @param boundary2 - Second boundary to compare
-   * @returns negative if boundary1 is less than boundary2, positive if boundary1 is greater than boundary2, 0 if equal
-   */
-  private comparePartitionKeyBoundaries(boundary1: string, boundary2: string): number {
-    // Handle empty string cases (empty string represents the minimum boundary)
-    if (boundary1 === "" && boundary2 === "") return 0;
-    if (boundary1 === "") return -1; // "" < "AA"
-    if (boundary2 === "") return 1; // "AA" > ""
-
-    // Use standard lexicographic comparison for non-empty boundaries
-    return boundary1.localeCompare(boundary2);
-  }
-
-  private isRangeBeforeAnother(range1MaxExclusive: string, range2MinInclusive: string): boolean {
-    // Since range1.maxExclusive is NOT part of range1, and range2.minInclusive IS part of range2,
-    // range1 comes before range2 if range1.maxExclusive <= range2.minInclusive
-    return this.comparePartitionKeyBoundaries(range1MaxExclusive, range2MinInclusive) <= 0;
-  }
-
-  private isRangeAfterAnother(range1MinInclusive: string, range2MaxExclusive: string): boolean {
-    // Since range2.maxExclusive is NOT part of range2, and range1.minInclusive IS part of range1,
-    // range1 comes after range2 if range1.minInclusive >= range2.maxExclusive
-    return this.comparePartitionKeyBoundaries(range1MinInclusive, range2MaxExclusive) >= 0;
   }
 }

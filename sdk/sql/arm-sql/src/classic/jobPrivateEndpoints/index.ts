@@ -89,6 +89,7 @@ export interface JobPrivateEndpointsOperations {
     options?: JobPrivateEndpointsGetOptionalParams,
   ) => Promise<JobPrivateEndpoint>;
 }
+
 function _getJobPrivateEndpoints(context: SqlManagementContext) {
   return {
     listByAgent: (
@@ -203,6 +204,7 @@ function _getJobPrivateEndpoints(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, privateEndpointName, options),
   };
 }
+
 export function _getJobPrivateEndpointsOperations(
   context: SqlManagementContext,
 ): JobPrivateEndpointsOperations {

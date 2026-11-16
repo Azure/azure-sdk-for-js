@@ -1,0 +1,731 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "distributedAvailabilityGroup": {
+          "bicepIdentifier": "distributedAvailabilityGroup",
+          "type": "Microsoft.Sql/managedInstances/distributedAvailabilityGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "dtc": {
+          "bicepIdentifier": "dtc",
+          "type": "Microsoft.Sql/managedInstances/dtc",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "endpointCertificate": {
+          "bicepIdentifier": "endpointCertificate",
+          "type": "Microsoft.Sql/managedInstances/endpointCertificates",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/managedInstances/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "advancedThreatProtectionSetting": {
+          "bicepIdentifier": "advancedThreatProtectionSetting",
+          "type": "Microsoft.Sql/managedInstances/databases/advancedThreatProtectionSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "backupShortTermRetentionPolicy": {
+          "bicepIdentifier": "backupShortTermRetentionPolicy",
+          "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "ledgerDigestUpload": {
+          "bicepIdentifier": "ledgerDigestUpload",
+          "type": "Microsoft.Sql/managedInstances/databases/ledgerDigestUploads",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "schema": {
+          "bicepIdentifier": "schema",
+          "type": "Microsoft.Sql/managedInstances/databases/schemas",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.Sql/managedInstances/databases/schemas/tables",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "schema"
+              }
+            }
+          }
+        },
+        "column": {
+          "bicepIdentifier": "column",
+          "type": "Microsoft.Sql/managedInstances/databases/schemas/tables/columns",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table"
+              }
+            }
+          }
+        },
+        "sensitivityLabel": {
+          "bicepIdentifier": "sensitivityLabel",
+          "type": "Microsoft.Sql/managedInstances/databases/schemas/tables/columns/sensitivityLabels",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "column"
+              }
+            }
+          }
+        },
+        "securityAlertPolicy": {
+          "bicepIdentifier": "securityAlertPolicy",
+          "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "transparentDataEncryption": {
+          "bicepIdentifier": "transparentDataEncryption",
+          "type": "Microsoft.Sql/managedInstances/databases/transparentDataEncryption",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "vulnerabilityAssessment": {
+          "bicepIdentifier": "vulnerabilityAssessment",
+          "type": "Microsoft.Sql/managedInstances/databases/vulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "scan": {
+          "bicepIdentifier": "scan",
+          "type": "Microsoft.Sql/managedInstances/databases/vulnerabilityAssessments/scans",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "vulnerabilityAssessment"
+              }
+            }
+          }
+        },
+        "backupLongTermRetentionPolicy": {
+          "bicepIdentifier": "backupLongTermRetentionPolicy",
+          "type": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "query": {
+          "bicepIdentifier": "query",
+          "type": "Microsoft.Sql/managedInstances/databases/queries",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "restoreDetail": {
+          "bicepIdentifier": "restoreDetail",
+          "type": "Microsoft.Sql/managedInstances/databases/restoreDetails",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              }
+            }
+          }
+        },
+        "administrator": {
+          "bicepIdentifier": "administrator",
+          "type": "Microsoft.Sql/managedInstances/administrators",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "ActiveDirectory"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "advancedThreatProtectionSetting2": {
+          "bicepIdentifier": "advancedThreatProtectionSetting2",
+          "type": "Microsoft.Sql/managedInstances/advancedThreatProtectionSettings",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "azureADOnlyAuthentication": {
+          "bicepIdentifier": "azureADOnlyAuthentication",
+          "type": "Microsoft.Sql/managedInstances/azureADOnlyAuthentications",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "dnsAlias": {
+          "bicepIdentifier": "dnsAlias",
+          "type": "Microsoft.Sql/managedInstances/dnsAliases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "encryptionProtector": {
+          "bicepIdentifier": "encryptionProtector",
+          "type": "Microsoft.Sql/managedInstances/encryptionProtector",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "key": {
+          "bicepIdentifier": "key",
+          "type": "Microsoft.Sql/managedInstances/keys",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "operation": {
+          "bicepIdentifier": "operation",
+          "type": "Microsoft.Sql/managedInstances/operations",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.Sql/managedInstances/privateEndpointConnections",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "privateLinkResource": {
+          "bicepIdentifier": "privateLinkResource",
+          "type": "Microsoft.Sql/managedInstances/privateLinkResources",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "securityAlertPolicy2": {
+          "bicepIdentifier": "securityAlertPolicy2",
+          "type": "Microsoft.Sql/managedInstances/securityAlertPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "vulnerabilityAssessment2": {
+          "bicepIdentifier": "vulnerabilityAssessment2",
+          "type": "Microsoft.Sql/managedInstances/vulnerabilityAssessments",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "recoverableDatabase": {
+          "bicepIdentifier": "recoverableDatabase",
+          "type": "Microsoft.Sql/managedInstances/recoverableDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "restorableDroppedDatabase": {
+          "bicepIdentifier": "restorableDroppedDatabase",
+          "type": "Microsoft.Sql/managedInstances/restorableDroppedDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "backupShortTermRetentionPolicy2": {
+          "bicepIdentifier": "backupShortTermRetentionPolicy2",
+          "type": "Microsoft.Sql/managedInstances/restorableDroppedDatabases/backupShortTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "restorableDroppedDatabase"
+              }
+            }
+          }
+        },
+        "serverConfigurationOption": {
+          "bicepIdentifier": "serverConfigurationOption",
+          "type": "Microsoft.Sql/managedInstances/serverConfigurationOptions",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "allowPolybaseExport"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "serverTrustCertificate": {
+          "bicepIdentifier": "serverTrustCertificate",
+          "type": "Microsoft.Sql/managedInstances/serverTrustCertificates",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsman"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "sqlAgent": {
+          "bicepIdentifier": "sqlAgent",
+          "type": "Microsoft.Sql/managedInstances/sqlAgent",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "current"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "startStopSchedule": {
+          "bicepIdentifier": "startStopSchedule",
+          "type": "Microsoft.Sql/managedInstances/startStopSchedules",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "baseline": {
+          "bicepIdentifier": "baseline",
+          "type": "Microsoft.Sql/managedInstances/databases/vulnerabilityAssessments/rules/baselines",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstance/database/default/rule/default"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

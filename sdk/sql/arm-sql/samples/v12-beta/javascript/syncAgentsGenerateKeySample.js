@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates a sync agent key.
  *
  * @summary generates a sync agent key.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentGenerateKey.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentGenerateKey.json
  */
 async function generateASyncAgentKey() {
   const credential = new DefaultAzureCredential();

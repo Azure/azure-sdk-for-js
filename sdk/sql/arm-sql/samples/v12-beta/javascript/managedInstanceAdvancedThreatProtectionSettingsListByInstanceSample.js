@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the managed instance's Advanced Threat Protection settings.
  *
  * @summary get the managed instance's Advanced Threat Protection settings.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAdvancedThreatProtectionSettingsListByInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAdvancedThreatProtectionSettingsListByInstance.json
  */
 async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reevaluates the inaccessibility state of all managed databases.
  *
  * @summary reevaluates the inaccessibility state of all managed databases.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceReevaluateInaccessibleDatabaseState.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceReevaluateInaccessibleDatabaseState.json
  */
 async function reevaluateInaccessibilityStatesOfAllManagedDatabases(): Promise<void> {
   const credential = new DefaultAzureCredential();

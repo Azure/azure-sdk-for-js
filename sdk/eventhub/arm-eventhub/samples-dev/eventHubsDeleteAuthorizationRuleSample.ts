@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an Event Hub AuthorizationRule.
  *
  * @summary deletes an Event Hub AuthorizationRule.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubAuthorizationRuleDelete.json
  */
 async function eventHubAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
