@@ -3,7 +3,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServiceGetUserDelegationKeyHeaders,
@@ -27,7 +27,7 @@ import type {
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels.js";
-import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { ServiceOperations } from "./generated/index.js";
 import type { PipelineLike } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
@@ -36,6 +36,7 @@ import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
+  adjustResponse,
   extractConnectionStringParts,
   toTags,
 } from "./utils/utils.common.js";
@@ -65,7 +66,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src/index.js";
+} from "./generated-classic-models.js";
 import type { BlobClientConfig, BlobServiceClientOptions } from "./models.js";
 
 /**
@@ -334,7 +335,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    */
-  private serviceContext: Service;
+  private serviceContext: ServiceOperations;
 
   private blobClientConfig?: BlobClientConfig;
 
@@ -504,7 +505,19 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Create a Blob container. @see https://learn.microsoft.com/rest/api/storageservices/create-container
+   * Create a Blob container.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.
@@ -533,6 +546,16 @@ export class BlobServiceClient extends StorageClient {
 
   /**
    * Deletes a Blob container.
+   *
+   * When a container is deleted, a container with the same name can't be created
+   * for at least 30 seconds. The container might not be available for more than
+   * 30 seconds if the service is still processing the request. While the container
+   * is being deleted, attempts to create a container of the same name fail with
+   * status code 409 (Conflict). The service indicates that the container is being
+   * deleted. Operations on blobs within the container, including reads and writes,
+   * may continue to succeed for up to 30 seconds after the delete request is
+   * accepted. After this period, all operations on the container and its blobs
+   * fail with status code 404 (Not Found).
    *
    * @param containerName - Name of the container to delete.
    * @param options - Options to configure Container Delete operation.
@@ -582,11 +605,14 @@ export class BlobServiceClient extends StorageClient {
           ContainerRestoreHeaders,
           ContainerRestoreHeaders
         >(
-          await containerContext.restore({
-            deletedContainerName,
-            deletedContainerVersion,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await containerContext.restore({
+              deletedContainerName,
+              deletedContainerVersion,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
         return { containerClient, containerUndeleteResponse };
       },
@@ -608,11 +634,18 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
-          await this.serviceContext.getProperties({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+        return assertResponse<
+          ServiceGetPropertiesResponseInternal,
+          ServiceGetPropertiesHeaders,
+          BlobServiceProperties
+        >(
+          adjustResponse(
+            await this.serviceContext.getProperties({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -636,10 +669,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.serviceContext.setProperties(properties, {
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -662,10 +698,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceGetStatisticsResponseInternal, ServiceGetStatisticsHeaders>(
-          await this.serviceContext.getStatistics({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.serviceContext.getStatistics({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -689,10 +728,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
-          await this.serviceContext.getAccountInfo({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.serviceContext.getAccountInfo({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -724,13 +766,15 @@ export class BlobServiceClient extends StorageClient {
           ServiceListContainersSegmentResponseInternal,
           ServiceListContainersSegmentHeaders
         >(
-          await this.serviceContext.listContainersSegment({
-            abortSignal: options.abortSignal,
-            marker,
-            ...options,
-            include: typeof options.include === "string" ? [options.include] : options.include,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.serviceContext.listContainers({
+              abortSignal: options.abortSignal,
+              marker,
+              ...updatedOptions,
+              include: typeof options.include === "string" ? [options.include] : options.include,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -768,13 +812,14 @@ export class BlobServiceClient extends StorageClient {
           ServiceFilterBlobsHeaders,
           FilterBlobSegmentModel
         >(
-          await this.serviceContext.filterBlobs({
-            abortSignal: options.abortSignal,
-            where: tagFilterSqlExpression,
-            marker,
-            maxPageSize: options.maxPageSize,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
+              abortSignal: options.abortSignal,
+              marker,
+              ...updatedOptions,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
 
         const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
@@ -838,10 +883,9 @@ export class BlobServiceClient extends StorageClient {
     tagFilterSqlExpression: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
-    let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
-      marker,
+      undefined,
       options,
     )) {
       yield* segment.blobs;
@@ -994,8 +1038,7 @@ export class BlobServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListContainersSegmentOptions = {},
   ): AsyncIterableIterator<ContainerItem> {
-    let marker: string | undefined;
-    for await (const segment of this.listSegments(marker, options)) {
+    for await (const segment of this.listSegments(undefined, options)) {
       yield* segment.containerItems;
     }
   }
@@ -1173,11 +1216,7 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getUserDelegationKey",
       getUserDelegationKeyOptions,
       async (updatedOptions) => {
-        const response = assertResponse<
-          ServiceGetUserDelegationKeyResponseModel,
-          ServiceGetUserDelegationKeyHeaders,
-          UserDelegationKeyModel
-        >(
+        const original = adjustResponse(
           await this.serviceContext.getUserDelegationKey(
             {
               startsOn: truncatedISO8061Date(startsOn, false),
@@ -1190,6 +1229,18 @@ export class BlobServiceClient extends StorageClient {
             },
           ),
         );
+        const newValue = uint8ArrayToString(original.value, "base64");
+        const transformed = {
+          ...original,
+          _response: original._response,
+          value: newValue,
+        };
+        const response = assertResponse<
+          ServiceGetUserDelegationKeyResponseModel,
+          ServiceGetUserDelegationKeyHeaders,
+          UserDelegationKeyModel
+        >(transformed);
+        response._response.parsedBody.value = newValue;
 
         const userDelegationKey = {
           signedObjectId: response.signedObjectId,
@@ -1254,15 +1305,10 @@ export class BlobServiceClient extends StorageClient {
       );
     }
 
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
     const sas = generateAccountSASQueryParameters(
       {
         permissions,
-        expiresOn,
+        expiresOn: expiresOn ?? new Date(Date.now() + 3600 * 1000),
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
         ...options,
@@ -1299,15 +1345,10 @@ export class BlobServiceClient extends StorageClient {
       );
     }
 
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
     return generateAccountSASQueryParametersInternal(
       {
         permissions,
-        expiresOn,
+        expiresOn: expiresOn ?? new Date(Date.now() + 3600 * 1000),
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
         ...options,

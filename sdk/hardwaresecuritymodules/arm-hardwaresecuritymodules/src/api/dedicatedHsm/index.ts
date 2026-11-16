@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-  type DedicatedHsmListBySubscriptionOptionalParams,
-  type DedicatedHsmListByResourceGroupOptionalParams,
-  type DedicatedHsmDeleteOptionalParams,
-  type DedicatedHsmUpdateOptionalParams,
-  type DedicatedHsmCreateOrUpdateOptionalParams,
-  type DedicatedHsmGetOptionalParams,
+export type {
+  DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
+  DedicatedHsmListBySubscriptionOptionalParams,
+  DedicatedHsmListByResourceGroupOptionalParams,
+  DedicatedHsmDeleteOptionalParams,
+  DedicatedHsmUpdateOptionalParams,
+  DedicatedHsmCreateOrUpdateOptionalParams,
+  DedicatedHsmGetOptionalParams,
 } from "./options.js";

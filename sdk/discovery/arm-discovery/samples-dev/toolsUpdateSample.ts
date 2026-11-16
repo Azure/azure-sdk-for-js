@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Tool
  *
  * @summary update a Tool
- * x-ms-original-file: 2026-02-01-preview/Tools_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Tools_Update_MaximumSet_Gen.json
  */
 async function toolsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
-  const result = await client.tools.update("rgdiscovery", "f1972d0fc9531d424c", {
+  const result = await client.tools.update("rgdiscovery", "f1f7503773093a8c1e", {
     properties: {
-      version: "jittnzvso",
-      environmentVariables: { key3840: "snaxrtkryhwqw" },
+      version: "jtpp",
+      environmentVariables: { key8857: "egddkscfebieioknriklhsrl" },
       definitionContent: {
         tool_id: "discovery-m1",
         name: "discovery",
@@ -60,7 +60,7 @@ async function toolsUpdateMaximumSet(): Promise<void> {
         ],
       },
     },
-    tags: { key4187: "vbirsnehukndlpioqtsmqyoqhklg" },
+    tags: { key1372: "ihmhpkujjlitavkabscrrpjwsaks" },
   });
   console.log(result);
 }

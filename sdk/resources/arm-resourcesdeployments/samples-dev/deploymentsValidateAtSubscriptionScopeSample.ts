@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
  * @summary validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- * x-ms-original-file: 2025-04-01/PostDeploymentValidateOnSubscription.json
+ * x-ms-original-file: 2026-06-01/PostDeploymentValidateOnSubscription.json
  */
 async function validatesATemplateAtSubscriptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

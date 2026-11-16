@@ -2,40 +2,43 @@
 // Licensed under the MIT License.
 
 import { existsSync } from "node:fs";
-import type { PackageManager } from "./types.js";
+import type { PackageManager, ProcessCommand } from "./types.js";
 import { cwd } from "node:process";
 import { resolve } from "node:path";
 
 export class NPM implements PackageManager {
-  installDevDependencyCommand = (packageName: string): string => {
-    return `npm install --save-dev ${packageName}`;
+  installDevDependencyCommand = (packageNames: string[]): ProcessCommand => {
+    return { command: "npm", args: ["install", "--save-dev", ...packageNames] };
   };
-  runCommand = (command: string, args: string): string => {
-    return `npx ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "npx", args: [command, ...args] };
   };
 }
 
 export class PNPM implements PackageManager {
-  private useWorkspace: boolean = false;
+  private useWorkspace: boolean;
 
-  constructor() {
-    this.useWorkspace = existsSync(resolve(cwd(), "pnpm-workspace.yaml"));
+  constructor(useWorkspace = existsSync(resolve(cwd(), "pnpm-workspace.yaml"))) {
+    this.useWorkspace = useWorkspace;
   }
 
-  installDevDependencyCommand = (packageName: string): string => {
-    return `pnpm add --save-dev ${this.useWorkspace ? "-w " : ""}${packageName}`;
+  installDevDependencyCommand = (packageNames: string[]): ProcessCommand => {
+    return {
+      command: "pnpm",
+      args: ["add", "--save-dev", ...(this.useWorkspace ? ["-w"] : []), ...packageNames],
+    };
   };
-  runCommand = (command: string, args: string): string => {
-    return `pnpm ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "pnpm", args: [command, ...args] };
   };
 }
 
 export class Yarn implements PackageManager {
-  installDevDependencyCommand = (packageName: string): string => {
-    return `yarn add --dev ${packageName}`;
+  installDevDependencyCommand = (packageNames: string[]): ProcessCommand => {
+    return { command: "yarn", args: ["add", "--dev", ...packageNames] };
   };
-  runCommand = (command: string, args: string): string => {
-    return `yarn ${command} ${args}`;
+  runCommand = (command: string, args: string[]): ProcessCommand => {
+    return { command: "yarn", args: [command, ...args] };
   };
 }
 

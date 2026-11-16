@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to abort the given workflow.
  *
  * @summary abort the given workflow.
- * x-ms-original-file: 2022-09-01/Workflows_Abort.json
+ * x-ms-original-file: 2025-12-01/Workflows_Abort.json
  */
 async function workflowsAbort(): Promise<void> {
   const credential = new DefaultAzureCredential();

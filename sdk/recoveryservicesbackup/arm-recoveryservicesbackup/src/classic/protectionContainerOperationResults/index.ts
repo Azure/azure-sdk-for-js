@@ -16,7 +16,7 @@ export interface ProtectionContainerOperationResultsOperations {
     containerName: string,
     operationId: string,
     options?: ProtectionContainerOperationResultsGetOptionalParams,
-  ) => Promise<ProtectionContainerResource>;
+  ) => Promise<ProtectionContainerResource | void>;
 }
 
 function _getProtectionContainerOperationResults(context: RecoveryServicesBackupContext) {

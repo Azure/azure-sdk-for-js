@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Prepare DataMove Request */
 export interface PrepareDataMoveRequest {
   /** ARM Id of target vault */
@@ -478,7 +479,31 @@ export function moveRPAcrossTiersRequestSerializer(item: MoveRPAcrossTiersReques
 }
 
 /** Recovery point tier type. */
-export type RecoveryPointTierType = "Invalid" | "InstantRP" | "HardenedRP" | "ArchivedRP";
+export enum KnownRecoveryPointTierType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** InstantRP */
+  InstantRP = "InstantRP",
+  /** HardenedRP */
+  HardenedRP = "HardenedRP",
+  /** ArchivedRP */
+  ArchivedRP = "ArchivedRP",
+  /** Instant Access snapshot tier, retained for the policy's instantAccessDurationMinutes. */
+  IASnapshotRP = "IASnapshotRP",
+}
+
+/**
+ * Recovery point tier type. \
+ * {@link KnownRecoveryPointTierType} can be used interchangeably with RecoveryPointTierType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **InstantRP** \
+ * **HardenedRP** \
+ * **ArchivedRP** \
+ * **IASnapshotRP**: Instant Access snapshot tier, retained for the policy's instantAccessDurationMinutes.
+ */
+export type RecoveryPointTierType = string;
 
 /** Operations List response which contains list of available APIs. */
 export interface _ClientDiscoveryResponse {
@@ -879,59 +904,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Operation result response for Vault Storage Config */
-export interface VaultStorageConfigOperationResultResponse {
-  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  /** The discriminator possible values: PrepareDataMoveResponse */
-  objectType: string;
-}
-
-export function vaultStorageConfigOperationResultResponseDeserializer(
-  item: any,
-): VaultStorageConfigOperationResultResponse {
-  return {
-    objectType: item["objectType"],
-  };
-}
-
-/** Alias for VaultStorageConfigOperationResultResponseUnion */
-export type VaultStorageConfigOperationResultResponseUnion =
-  PrepareDataMoveResponse | VaultStorageConfigOperationResultResponse;
-
-export function vaultStorageConfigOperationResultResponseUnionDeserializer(
-  item: any,
-): VaultStorageConfigOperationResultResponseUnion {
-  switch (item["objectType"]) {
-    case "PrepareDataMoveResponse":
-      return prepareDataMoveResponseDeserializer(item as PrepareDataMoveResponse);
-
-    default:
-      return vaultStorageConfigOperationResultResponseDeserializer(item);
-  }
-}
-
-/** Prepare DataMove Response */
-export interface PrepareDataMoveResponse extends VaultStorageConfigOperationResultResponse {
-  /** Co-relationId for move operation */
-  correlationId?: string;
-  /** Source Vault Properties */
-  sourceVaultProperties?: Record<string, string>;
-  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  objectType: "PrepareDataMoveResponse";
-}
-
-export function prepareDataMoveResponseDeserializer(item: any): PrepareDataMoveResponse {
-  return {
-    objectType: item["objectType"],
-    correlationId: item["correlationId"],
-    sourceVaultProperties: !item["sourceVaultProperties"]
-      ? item["sourceVaultProperties"]
-      : Object.fromEntries(
-          Object.entries(item["sourceVaultProperties"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-  };
-}
-
 /** Backup resource vault config details. */
 export interface BackupResourceVaultConfigResource extends ProxyResource {
   /** BackupResourceVaultConfigResource properties */
@@ -1331,6 +1303,8 @@ export interface ProtectedItem {
   policyName?: string;
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
+  /** Source location of the protected item datasource. */
+  readonly sourceLocation?: string;
   /** ID of the vault which protects this item */
   readonly vaultId?: string;
   /** Source side threat information */
@@ -1397,6 +1371,7 @@ export function protectedItemDeserializer(item: any): ProtectedItem {
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -1560,6 +1535,8 @@ export enum KnownDataSourceType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -1582,7 +1559,8 @@ export enum KnownDataSourceType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type DataSourceType = string;
 
@@ -1637,6 +1615,8 @@ export enum KnownSourceSideScanStatus {
   NotConfigured = "NotConfigured",
   /** Source side scan is not applicable */
   NotApplicable = "NotApplicable",
+  /** Source side scan configuration failed */
+  ConfigurationFailed = "ConfigurationFailed",
 }
 
 /**
@@ -1646,7 +1626,8 @@ export enum KnownSourceSideScanStatus {
  * ### Known values supported by the service
  * **Configured**: Source side scan is configured \
  * **NotConfigured**: Source side scan is not configured \
- * **NotApplicable**: Source side scan is not applicable
+ * **NotApplicable**: Source side scan is not applicable \
+ * **ConfigurationFailed**: Source side scan configuration failed
  */
 export type SourceSideScanStatus = string;
 
@@ -1660,6 +1641,8 @@ export enum KnownSourceSideScanSummary {
   Suspicious = "Suspicious",
   /** Scan summary indicates healthy state */
   Healthy = "Healthy",
+  /** No threats reported */
+  NoThreatsReported = "NoThreatsReported",
 }
 
 /**
@@ -1670,7 +1653,8 @@ export enum KnownSourceSideScanSummary {
  * **Unknown**: Scan summary is unknown \
  * **NotApplicable**: Scan summary is not applicable \
  * **Suspicious**: Scan summary is suspicious \
- * **Healthy**: Scan summary indicates healthy state
+ * **Healthy**: Scan summary indicates healthy state \
+ * **NoThreatsReported**: No threats reported
  */
 export type SourceSideScanSummary = string;
 
@@ -1767,6 +1751,7 @@ export function azureFileshareProtectedItemDeserializer(item: any): AzureFilesha
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -2007,6 +1992,7 @@ export function azureIaaSClassicComputeVMProtectedItemSerializer(
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesSerializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
     containerName: item["containerName"],
     sourceResourceId: item["sourceResourceId"],
     policyId: item["policyId"],
@@ -2063,6 +2049,7 @@ export function azureIaaSClassicComputeVMProtectedItemDeserializer(
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesDeserializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
     policyType: item["policyType"],
     backupManagementType: item["backupManagementType"],
     workloadType: item["workloadType"],
@@ -2089,6 +2076,7 @@ export function azureIaaSClassicComputeVMProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -2128,6 +2116,8 @@ export interface AzureIaaSVMProtectedItem extends ProtectedItem {
   extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
   /** Extended Properties for Azure IaasVM Backup. */
   extendedProperties?: ExtendedProperties;
+  /** Specifies how existing Basic VM protection is handled when configuring protection. */
+  existingBasicVMProtection?: ExistingBasicVMProtection;
   /** Type of the policy used for protection */
   readonly policyType?: string;
 }
@@ -2176,6 +2166,7 @@ export function azureIaaSVMProtectedItemSerializer(item: AzureIaaSVMProtectedIte
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesSerializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
   };
 }
 
@@ -2207,6 +2198,7 @@ export function azureIaaSVMProtectedItemDeserializer(item: any): AzureIaaSVMProt
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -2233,6 +2225,7 @@ export function azureIaaSVMProtectedItemDeserializer(item: any): AzureIaaSVMProt
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesDeserializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
     policyType: item["policyType"],
   };
 }
@@ -2449,6 +2442,21 @@ export function diskExclusionPropertiesDeserializer(item: any): DiskExclusionPro
   };
 }
 
+/** Specifies how existing Basic VM protection is handled when configuring protection. */
+export enum KnownExistingBasicVMProtection {
+  /** Disables existing Basic VM protection and immediately deletes its recovery points. */
+  DisableWithDeleteRPsNow = "DisableWithDeleteRPsNow",
+}
+
+/**
+ * Specifies how existing Basic VM protection is handled when configuring protection. \
+ * {@link KnownExistingBasicVMProtection} can be used interchangeably with ExistingBasicVMProtection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DisableWithDeleteRPsNow**: Disables existing Basic VM protection and immediately deletes its recovery points.
+ */
+export type ExistingBasicVMProtection = string;
+
 /** IaaS VM workload-specific backup item representing the Azure Resource Manager VM. */
 export interface AzureIaaSComputeVMProtectedItem extends AzureIaaSVMProtectedItem {
   /** backup item type. */
@@ -2475,6 +2483,7 @@ export function azureIaaSComputeVMProtectedItemSerializer(
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesSerializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
     containerName: item["containerName"],
     sourceResourceId: item["sourceResourceId"],
     policyId: item["policyId"],
@@ -2531,6 +2540,7 @@ export function azureIaaSComputeVMProtectedItemDeserializer(
     extendedProperties: !item["extendedProperties"]
       ? item["extendedProperties"]
       : extendedPropertiesDeserializer(item["extendedProperties"]),
+    existingBasicVMProtection: item["existingBasicVMProtection"],
     policyType: item["policyType"],
     backupManagementType: item["backupManagementType"],
     workloadType: item["workloadType"],
@@ -2557,6 +2567,7 @@ export function azureIaaSComputeVMProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -2641,6 +2652,7 @@ export function azureSqlProtectedItemDeserializer(item: any): AzureSqlProtectedI
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -2843,6 +2855,7 @@ export function azureVmWorkloadProtectedItemDeserializer(item: any): AzureVmWork
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -3229,6 +3242,7 @@ export function azureVmWorkloadSAPAseDatabaseProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -3352,6 +3366,7 @@ export function azureVmWorkloadSAPHanaDatabaseProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -3475,6 +3490,7 @@ export function azureVmWorkloadSAPHanaDBInstanceProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -3604,6 +3620,7 @@ export function azureVmWorkloadSQLDatabaseProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -3636,7 +3653,7 @@ export interface AzureVmWorkloadSQLInstanceProtectedItem extends AzureVmWorkload
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   protectedItemType: "AzureVmWorkloadSQLInstance";
   /** Name of Child Dbs protected under this parent. */
-  childDBNames?: string[];
+  childDatabaseNameList?: string[];
   /** The state of instance protection. */
   instanceProtectionReadiness?: InstanceProtectionReadiness;
 }
@@ -3694,9 +3711,9 @@ export function azureVmWorkloadSQLInstanceProtectedItemSerializer(
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
       : sourceSideScanInfoSerializer(item["sourceSideScanInfo"]),
-    childDBNames: !item["childDBNames"]
-      ? item["childDBNames"]
-      : item["childDBNames"].map((p: any) => {
+    childDatabaseNameList: !item["childDatabaseNameList"]
+      ? item["childDatabaseNameList"]
+      : item["childDatabaseNameList"].map((p: any) => {
           return p;
         }),
     instanceProtectionReadiness: item["instanceProtectionReadiness"],
@@ -3757,13 +3774,14 @@ export function azureVmWorkloadSQLInstanceProtectedItemDeserializer(
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
       : sourceSideScanInfoDeserializer(item["sourceSideScanInfo"]),
-    childDBNames: !item["childDBNames"]
-      ? item["childDBNames"]
-      : item["childDBNames"].map((p: any) => {
+    childDatabaseNameList: !item["childDatabaseNameList"]
+      ? item["childDatabaseNameList"]
+      : item["childDatabaseNameList"].map((p: any) => {
           return p;
         }),
     instanceProtectionReadiness: item["instanceProtectionReadiness"],
@@ -3877,6 +3895,7 @@ export function dpmProtectedItemDeserializer(item: any): DPMProtectedItem {
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -4064,6 +4083,7 @@ export function genericProtectedItemDeserializer(item: any): GenericProtectedIte
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -4172,6 +4192,7 @@ export function mabFileFolderProtectedItemDeserializer(item: any): MabFileFolder
     isArchiveEnabled: item["isArchiveEnabled"],
     policyName: item["policyName"],
     softDeleteRetentionPeriodInDays: item["softDeleteRetentionPeriodInDays"],
+    sourceLocation: item["sourceLocation"],
     vaultId: item["vaultId"],
     sourceSideScanInfo: !item["sourceSideScanInfo"]
       ? item["sourceSideScanInfo"]
@@ -4374,6 +4395,36 @@ export function iaasVMBackupRequestSerializer(item: IaasVMBackupRequest): any {
       : item["recoveryPointExpiryTimeInUTC"].toISOString(),
   };
 }
+
+/** Request to configure source scan for a protected item */
+export interface ProtectedItemConfigureSourceScanRequest {
+  /** Source scan action to perform */
+  sourceScanAction?: SourceScanAction;
+}
+
+export function protectedItemConfigureSourceScanRequestSerializer(
+  item: ProtectedItemConfigureSourceScanRequest,
+): any {
+  return { sourceScanAction: item["sourceScanAction"] };
+}
+
+/** Source scan configuration status for enabling or disabling source scan */
+export enum KnownSourceScanAction {
+  /** Enable source scan */
+  Enable = "Enable",
+  /** Disable source scan */
+  Disable = "Disable",
+}
+
+/**
+ * Source scan configuration status for enabling or disabling source scan \
+ * {@link KnownSourceScanAction} can be used interchangeably with SourceScanAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable**: Enable source scan \
+ * **Disable**: Disable source scan
+ */
+export type SourceScanAction = string;
 
 /** ListRecoveryPointsRecommendedForMoveRequest Request */
 export interface ListRecoveryPointsRecommendedForMoveRequest {
@@ -4669,6 +4720,8 @@ export interface RecoveryPointProperties {
   ruleName?: string;
   /** Bool to indicate whether RP is in soft delete state or not */
   isSoftDeleted?: boolean;
+  /** Immutability properties of the recovery point. */
+  immutabilityProperties?: RecoveryPointImmutabilityProperties;
 }
 
 export function recoveryPointPropertiesDeserializer(item: any): RecoveryPointProperties {
@@ -4676,6 +4729,26 @@ export function recoveryPointPropertiesDeserializer(item: any): RecoveryPointPro
     expiryTime: item["expiryTime"],
     ruleName: item["ruleName"],
     isSoftDeleted: item["isSoftDeleted"],
+    immutabilityProperties: !item["immutabilityProperties"]
+      ? item["immutabilityProperties"]
+      : recoveryPointImmutabilityPropertiesDeserializer(item["immutabilityProperties"]),
+  };
+}
+
+/** Immutability properties of a recovery point. */
+export interface RecoveryPointImmutabilityProperties {
+  /** Whether the recovery point is immutable. */
+  isImmutable: boolean;
+  /** Expiry time of immutability in UTC. Omitted when immutability is as per policy. */
+  expiryTime?: Date;
+}
+
+export function recoveryPointImmutabilityPropertiesDeserializer(
+  item: any,
+): RecoveryPointImmutabilityProperties {
+  return {
+    isImmutable: item["isImmutable"],
+    expiryTime: !item["expiryTime"] ? item["expiryTime"] : new Date(item["expiryTime"]),
   };
 }
 
@@ -5232,6 +5305,8 @@ export interface AzureWorkloadSQLRecoveryPointExtendedInfo {
   dataDirectoryPaths?: SQLDataDirectory[];
   /** List of databases included in recovery point. */
   includedDatabases?: DatabaseInRP[];
+  /** Detailed info of snapshot restore point. */
+  snapshotRecoveryPointInfo?: SnapshotRecoveryPointInfo;
 }
 
 export function azureWorkloadSQLRecoveryPointExtendedInfoDeserializer(
@@ -5247,6 +5322,9 @@ export function azureWorkloadSQLRecoveryPointExtendedInfoDeserializer(
     includedDatabases: !item["includedDatabases"]
       ? item["includedDatabases"]
       : databaseInRPArrayDeserializer(item["includedDatabases"]),
+    snapshotRecoveryPointInfo: !item["snapshotRecoveryPointInfo"]
+      ? item["snapshotRecoveryPointInfo"]
+      : snapshotRecoveryPointInfoDeserializer(item["snapshotRecoveryPointInfo"]),
   };
 }
 
@@ -5313,6 +5391,130 @@ export function databaseInRPDeserializer(item: any): DatabaseInRP {
   return {
     datasourceId: item["datasourceId"],
     datasourceName: item["datasourceName"],
+  };
+}
+
+/** Extended info class details for workload snapshot. */
+export interface SnapshotRecoveryPointInfo {
+  /** Resource Group of snapshot restore point. */
+  snapshotResourceGroup?: string;
+  /** Per volume filesystem metadata captured on the VM. */
+  sourceFilesystemInfo?: FilesystemInfo[];
+}
+
+export function snapshotRecoveryPointInfoDeserializer(item: any): SnapshotRecoveryPointInfo {
+  return {
+    snapshotResourceGroup: item["snapshotResourceGroup"],
+    sourceFilesystemInfo: !item["sourceFilesystemInfo"]
+      ? item["sourceFilesystemInfo"]
+      : filesystemInfoArrayDeserializer(item["sourceFilesystemInfo"]),
+  };
+}
+
+export function filesystemInfoArrayDeserializer(result: Array<FilesystemInfo>): any[] {
+  return result.map((item) => {
+    return filesystemInfoDeserializer(item);
+  });
+}
+
+/** Per volume filesystem metadata captured on the VM. */
+export interface FilesystemInfo {
+  /** Volume GUID path. */
+  volumeGuid?: string;
+  /** Filesystem type (NTFS / ReFS / etc.). */
+  fileSystemType?: string;
+  /** Volume label. */
+  label?: string;
+  /** Drive letters / mount points pointing at this volume. */
+  accessPaths?: string[];
+  /** True when this volume sits on a Windows Storage Spaces virtual disk. */
+  isOnStorageSpace?: boolean;
+  /** Storage Spaces pool / virtual-disk identifiers. */
+  storageSpaceInfo?: StorageSpaceInfo;
+  /** Physical disks that back this volume (or the storage pool). */
+  diskInfoList?: DiskInfo[];
+}
+
+export function filesystemInfoDeserializer(item: any): FilesystemInfo {
+  return {
+    volumeGuid: item["volumeGuid"],
+    fileSystemType: item["fileSystemType"],
+    label: item["label"],
+    accessPaths: !item["accessPaths"]
+      ? item["accessPaths"]
+      : item["accessPaths"].map((p: any) => {
+          return p;
+        }),
+    isOnStorageSpace: item["isOnStorageSpace"],
+    storageSpaceInfo: !item["storageSpaceInfo"]
+      ? item["storageSpaceInfo"]
+      : storageSpaceInfoDeserializer(item["storageSpaceInfo"]),
+    diskInfoList: !item["diskInfoList"]
+      ? item["diskInfoList"]
+      : diskInfoArrayDeserializer(item["diskInfoList"]),
+  };
+}
+
+/** Identifiers for a Windows Storage Spaces pool and its virtual disk. */
+export interface StorageSpaceInfo {
+  /** Unique ID of the storage pool. */
+  storagePoolUniqueId?: string;
+  /** Friendly name of the storage pool. */
+  storagePoolFriendlyName?: string;
+  /** Unique ID of the virtual disk. */
+  virtualDiskUniqueId?: string;
+  /** Friendly name of the virtual disk. */
+  virtualDiskFriendlyName?: string;
+}
+
+export function storageSpaceInfoDeserializer(item: any): StorageSpaceInfo {
+  return {
+    storagePoolUniqueId: item["storagePoolUniqueId"],
+    storagePoolFriendlyName: item["storagePoolFriendlyName"],
+    virtualDiskUniqueId: item["virtualDiskUniqueId"],
+    virtualDiskFriendlyName: item["virtualDiskFriendlyName"],
+  };
+}
+
+export function diskInfoArrayDeserializer(result: Array<DiskInfo>): any[] {
+  return result.map((item) => {
+    return diskInfoDeserializer(item);
+  });
+}
+
+/**
+ * Metadata for a physical disk that backs a filesystem volume or Storage Spaces pool.
+ * Unlike DiskInformation, this model describes storage topology; DiskInformation only identifies disks included in or excluded from a virtual machine recovery point.
+ */
+export interface DiskInfo {
+  /** Disk number. */
+  diskNumber?: number;
+  /** Unique ID of the disk. */
+  diskUniqueId?: string;
+  /** GUID of the disk. */
+  diskGuid?: string;
+  /** Location of the disk. */
+  diskLocation?: string;
+  /** Size of the disk in bytes. */
+  sizeInBytes?: number;
+  /** Friendly name of the disk. */
+  friendlyName?: string;
+  /** LUN of the disk. */
+  lun?: number;
+  /** ARM ID of the managed disk. */
+  managedDiskId?: string;
+}
+
+export function diskInfoDeserializer(item: any): DiskInfo {
+  return {
+    diskNumber: item["diskNumber"],
+    diskUniqueId: item["diskUniqueId"],
+    diskGuid: item["diskGuid"],
+    diskLocation: item["diskLocation"],
+    sizeInBytes: item["sizeInBytes"],
+    friendlyName: item["friendlyName"],
+    lun: item["lun"],
+    managedDiskId: item["managedDiskId"],
   };
 }
 
@@ -5396,6 +5598,8 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   extendedLocation?: ExtendedLocation;
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: "IaasVMRecoveryPoint";
+  /** Data disk metadata for the VM recovery point */
+  dataDiskMetadata?: DataDiskDetails;
 }
 
 export function iaasVMRecoveryPointDeserializer(item: any): IaasVMRecoveryPoint {
@@ -5442,6 +5646,9 @@ export function iaasVMRecoveryPointDeserializer(item: any): IaasVMRecoveryPoint 
     extendedLocation: !item["extendedLocation"]
       ? item["extendedLocation"]
       : extendedLocationDeserializer(item["extendedLocation"]),
+    dataDiskMetadata: !item["dataDiskMetadata"]
+      ? item["dataDiskMetadata"]
+      : dataDiskDetailsDeserializer(item["dataDiskMetadata"]),
   };
 }
 
@@ -5548,12 +5755,18 @@ export function diskInformationArrayDeserializer(result: Array<DiskInformation>)
 export interface DiskInformation {
   lun?: number;
   name?: string;
+  /** Size of the disk in GB. */
+  diskSizeInGb?: number;
+  /** Storage type of the disk. */
+  storageType?: string;
 }
 
 export function diskInformationDeserializer(item: any): DiskInformation {
   return {
     lun: item["lun"],
     name: item["name"],
+    diskSizeInGb: item["diskSizeInGb"],
+    storageType: item["storageType"],
   };
 }
 
@@ -5573,6 +5786,41 @@ export function extendedLocationDeserializer(item: any): ExtendedLocation {
   return {
     name: item["name"],
     type: item["type"],
+  };
+}
+
+/** Data disk details */
+export interface DataDiskDetails {
+  /** List of data disks in the VM which are encrypted at the time of backup. This will be used to provide Disk Encryption Set Id for each data disk. */
+  encryptedDataDisks?: DiskDetails[];
+}
+
+export function dataDiskDetailsDeserializer(item: any): DataDiskDetails {
+  return {
+    encryptedDataDisks: !item["encryptedDataDisks"]
+      ? item["encryptedDataDisks"]
+      : diskDetailsArrayDeserializer(item["encryptedDataDisks"]),
+  };
+}
+
+export function diskDetailsArrayDeserializer(result: Array<DiskDetails>): any[] {
+  return result.map((item) => {
+    return diskDetailsDeserializer(item);
+  });
+}
+
+/** Disk details */
+export interface DiskDetails {
+  /** LUN of the disk */
+  lun?: number;
+  /** Disk name of the disk */
+  diskName?: string;
+}
+
+export function diskDetailsDeserializer(item: any): DiskDetails {
+  return {
+    lun: item["lun"],
+    diskName: item["diskName"],
   };
 }
 
@@ -5650,6 +5898,8 @@ export interface ProtectionContainer {
   containerType: ProtectableContainerType;
   /** Type of the protectable object associated with this container */
   protectableObjectType?: string;
+  /** Source location of the container */
+  readonly sourceLocation?: string;
 }
 
 export function protectionContainerSerializer(item: ProtectionContainer): any {
@@ -5671,6 +5921,7 @@ export function protectionContainerDeserializer(item: any): ProtectionContainer 
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -5834,6 +6085,7 @@ export function azureBackupServerContainerDeserializer(item: any): AzureBackupSe
     registrationStatus: item["registrationStatus"],
     healthStatus: item["healthStatus"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -5898,6 +6150,7 @@ export function dpmContainerDeserializer(item: any): DpmContainer {
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     canReRegister: item["canReRegister"],
     containerId: item["containerId"],
     protectedItemCount: item["protectedItemCount"],
@@ -6000,6 +6253,7 @@ export function azureIaaSClassicComputeVMContainerDeserializer(
     registrationStatus: item["registrationStatus"],
     healthStatus: item["healthStatus"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -6046,6 +6300,7 @@ export function iaaSVMContainerDeserializer(item: any): IaaSVMContainer {
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     virtualMachineId: item["virtualMachineId"],
     virtualMachineVersion: item["virtualMachineVersion"],
     resourceGroup: item["resourceGroup"],
@@ -6122,6 +6377,7 @@ export function azureIaaSComputeVMContainerDeserializer(item: any): AzureIaaSCom
     registrationStatus: item["registrationStatus"],
     healthStatus: item["healthStatus"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -6177,6 +6433,7 @@ export function azureSqlagWorkloadContainerProtectionContainerDeserializer(
     registrationStatus: item["registrationStatus"],
     healthStatus: item["healthStatus"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -6230,6 +6487,7 @@ export function azureWorkloadContainerDeserializer(item: any): AzureWorkloadCont
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     sourceResourceId: item["sourceResourceId"],
     lastUpdatedTime: !item["lastUpdatedTime"]
       ? item["lastUpdatedTime"]
@@ -6472,6 +6730,8 @@ export enum KnownWorkloadType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -6494,7 +6754,8 @@ export enum KnownWorkloadType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type WorkloadType = string;
 
@@ -6574,6 +6835,7 @@ export function azureVMAppContainerProtectionContainerDeserializer(
     registrationStatus: item["registrationStatus"],
     healthStatus: item["healthStatus"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -6607,6 +6869,7 @@ export function azureSqlContainerDeserializer(item: any): AzureSqlContainer {
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
   };
 }
 
@@ -6624,6 +6887,14 @@ export interface AzureStorageContainer extends ProtectionContainer {
   acquireStorageAccountLock?: AcquireStorageAccountLock;
   /** Re-Do Operation */
   operationType?: OperationType;
+  /**
+   * Whether access to the storage account is key-based or identity-based.
+   * When `IdentityBased`, `identityInfo` must be provided to identify the
+   * managed identity used to access the storage account.
+   */
+  accessType?: AccessType;
+  /** Managed identity information required to access the storage account. */
+  identityInfo?: IdentityInfo;
   /**
    * Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2.
    * Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is
@@ -6647,6 +6918,10 @@ export function azureStorageContainerSerializer(item: AzureStorageContainer): an
     protectedItemCount: item["protectedItemCount"],
     acquireStorageAccountLock: item["acquireStorageAccountLock"],
     operationType: item["operationType"],
+    accessType: item["accessType"],
+    identityInfo: !item["identityInfo"]
+      ? item["identityInfo"]
+      : identityInfoSerializer(item["identityInfo"]),
   };
 }
 
@@ -6658,12 +6933,17 @@ export function azureStorageContainerDeserializer(item: any): AzureStorageContai
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     sourceResourceId: item["sourceResourceId"],
     storageAccountVersion: item["storageAccountVersion"],
     resourceGroup: item["resourceGroup"],
     protectedItemCount: item["protectedItemCount"],
     acquireStorageAccountLock: item["acquireStorageAccountLock"],
     operationType: item["operationType"],
+    accessType: item["accessType"],
+    identityInfo: !item["identityInfo"]
+      ? item["identityInfo"]
+      : identityInfoDeserializer(item["identityInfo"]),
   };
 }
 
@@ -6684,6 +6964,49 @@ export enum KnownAcquireStorageAccountLock {
  * **NotAcquire**
  */
 export type AcquireStorageAccountLock = string;
+
+/** Whether access to the storage account is key-based or identity-based. */
+export enum KnownAccessType {
+  /** Access using storage account keys. */
+  KeyBased = "KeyBased",
+  /** Access using managed identity. */
+  IdentityBased = "IdentityBased",
+}
+
+/**
+ * Whether access to the storage account is key-based or identity-based. \
+ * {@link KnownAccessType} can be used interchangeably with AccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KeyBased**: Access using storage account keys. \
+ * **IdentityBased**: Access using managed identity.
+ */
+export type AccessType = string;
+
+/** Encapsulates Managed Identity related information */
+export interface IdentityInfo {
+  /** To differentiate if the managed identity is system assigned or user assigned */
+  isSystemAssignedIdentity?: boolean;
+  /**
+   * Managed Identity Resource Id
+   * Optional: Might not be required in the case of system assigned managed identity
+   */
+  managedIdentityResourceId?: string;
+}
+
+export function identityInfoSerializer(item: IdentityInfo): any {
+  return {
+    isSystemAssignedIdentity: item["isSystemAssignedIdentity"],
+    managedIdentityResourceId: item["managedIdentityResourceId"],
+  };
+}
+
+export function identityInfoDeserializer(item: any): IdentityInfo {
+  return {
+    isSystemAssignedIdentity: item["isSystemAssignedIdentity"],
+    managedIdentityResourceId: item["managedIdentityResourceId"],
+  };
+}
 
 /** Base class for generic container of backup items */
 export interface GenericContainer extends ProtectionContainer {
@@ -6723,6 +7046,7 @@ export function genericContainerDeserializer(item: any): GenericContainer {
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     fabricName: item["fabricName"],
     extendedInformation: !item["extendedInformation"]
       ? item["extendedInformation"]
@@ -6849,6 +7173,7 @@ export function mabContainerDeserializer(item: any): MabContainer {
     healthStatus: item["healthStatus"],
     containerType: item["containerType"],
     protectableObjectType: item["protectableObjectType"],
+    sourceLocation: item["sourceLocation"],
     canReRegister: item["canReRegister"],
     containerId: item["containerId"],
     protectedItemCount: item["protectedItemCount"],
@@ -6943,6 +7268,8 @@ export enum KnownBackupItemType {
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
   SAPHanaDBInstance = "SAPHanaDBInstance",
+  /** A SQL Server instance. */
+  SQLInstance = "SQLInstance",
 }
 
 /**
@@ -6965,7 +7292,8 @@ export enum KnownBackupItemType {
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
  * **SAPAseDatabase** \
- * **SAPHanaDBInstance**
+ * **SAPHanaDBInstance** \
+ * **SQLInstance**: A SQL Server instance.
  */
 export type BackupItemType = string;
 
@@ -7373,45 +7701,146 @@ export function azureVmWorkloadSQLInstanceWorkloadItemDeserializer(
   };
 }
 
-/** Patch Request content to update recovery point for given RecoveryPointId */
-export interface UpdateRecoveryPointRequest {
-  /** Resource properties. */
-  properties?: PatchRecoveryPointInput;
+/** Request for fetching the additional details of a recovery point, wrapped in a resource envelope. */
+export interface GetRPExtendedInfoRequestResource extends Resource {
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Optional ETag. */
+  eTag?: string;
+  /** GetRPExtendedInfoRequestResource properties */
+  properties: GetRPExtendedInfoRequest;
 }
 
-export function updateRecoveryPointRequestSerializer(item: UpdateRecoveryPointRequest): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : patchRecoveryPointInputSerializer(item["properties"]),
-  };
-}
-
-/** Recovery Point Contract for Update Recovery Point API. */
-export interface PatchRecoveryPointInput {
-  /** Properties of Recovery Point */
-  recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
-}
-
-export function patchRecoveryPointInputSerializer(item: PatchRecoveryPointInput): any {
-  return {
-    recoveryPointProperties: !item["recoveryPointProperties"]
-      ? item["recoveryPointProperties"]
-      : patchRecoveryPointPropertiesInputSerializer(item["recoveryPointProperties"]),
-  };
-}
-
-/** Recovery Point Properties Contract for Update Recovery Point API. */
-export interface PatchRecoveryPointPropertiesInput {
-  /** Expiry time of Recovery Point in UTC. */
-  expiryTime?: Date;
-}
-
-export function patchRecoveryPointPropertiesInputSerializer(
-  item: PatchRecoveryPointPropertiesInput,
+export function getRPExtendedInfoRequestResourceSerializer(
+  item: GetRPExtendedInfoRequestResource,
 ): any {
   return {
-    expiryTime: !item["expiryTime"] ? item["expiryTime"] : item["expiryTime"].toISOString(),
+    location: item["location"],
+    tags: item["tags"],
+    eTag: item["eTag"],
+    properties: getRPExtendedInfoRequestSerializer(item["properties"]),
+  };
+}
+
+/** Request for fetching the additional details of a recovery point. */
+export interface GetRPExtendedInfoRequest {
+  /**
+   * ARM id of the recovery point whose additional details are to be fetched. Exactly one recovery point id can be
+   * specified.
+   */
+  recoveryPointIds: string[];
+}
+
+export function getRPExtendedInfoRequestSerializer(item: GetRPExtendedInfoRequest): any {
+  return {
+    recoveryPointIds: item["recoveryPointIds"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** List of the additional details of recovery points. */
+export interface RPExtendedInfoResourceList extends ResourceList {
+  /** List of resources. */
+  value?: RPExtendedInfoResource[];
+}
+
+export function rpExtendedInfoResourceListDeserializer(item: any): RPExtendedInfoResourceList {
+  return {
+    nextLink: item["nextLink"],
+    value: !item["value"] ? item["value"] : rpExtendedInfoResourceArrayDeserializer(item["value"]),
+  };
+}
+
+export function rpExtendedInfoResourceArrayDeserializer(
+  result: Array<RPExtendedInfoResource>,
+): any[] {
+  return result.map((item) => {
+    return rpExtendedInfoResourceDeserializer(item);
+  });
+}
+
+/** Additional details of a recovery point, wrapped in a resource envelope. */
+export interface RPExtendedInfoResource extends Resource {
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Optional ETag. */
+  eTag?: string;
+  /** RPExtendedInfoResource properties */
+  properties?: RPExtendedInfoUnion;
+}
+
+export function rpExtendedInfoResourceDeserializer(item: any): RPExtendedInfoResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    eTag: item["eTag"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : rpExtendedInfoUnionDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Base class for additional details of a recovery point. Workload-specific additional details are derived from
+ * this class.
+ */
+export interface RPExtendedInfo {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  /** The discriminator possible values: IaasVMRPExtendedInfo */
+  objectType: string;
+}
+
+export function rpExtendedInfoDeserializer(item: any): RPExtendedInfo {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for RPExtendedInfoUnion */
+export type RPExtendedInfoUnion = IaasVmrpExtendedInfo | RPExtendedInfo;
+
+export function rpExtendedInfoUnionDeserializer(item: any): RPExtendedInfoUnion {
+  switch (item["objectType"]) {
+    case "IaasVMRPExtendedInfo":
+      return iaasVmrpExtendedInfoDeserializer(item as IaasVmrpExtendedInfo);
+
+    default:
+      return rpExtendedInfoDeserializer(item);
+  }
+}
+
+/** Additional details of an IaaS VM recovery point. */
+export interface IaasVmrpExtendedInfo extends RPExtendedInfo {
+  /**
+   * OS disk of the backed up virtual machine. The lun of the OS disk is always -1, since a logical unit number is
+   * only assigned to data disks.
+   */
+  osDisk?: DiskInformation;
+  /** Data disks of the backed up virtual machine. */
+  dataDisks?: DiskInformation[];
+  objectType: "IaasVMRPExtendedInfo";
+}
+
+export function iaasVmrpExtendedInfoDeserializer(item: any): IaasVmrpExtendedInfo {
+  return {
+    objectType: item["objectType"],
+    osDisk: !item["osDisk"] ? item["osDisk"] : diskInformationDeserializer(item["osDisk"]),
+    dataDisks: !item["dataDisks"]
+      ? item["dataDisks"]
+      : diskInformationArrayDeserializer(item["dataDisks"]),
   };
 }
 
@@ -7507,6 +7936,8 @@ export interface AzureFileShareRestoreRequest extends RestoreRequest {
   restoreFileSpecs?: RestoreFileSpecs[];
   /** Target File Share Details */
   targetDetails?: TargetAFSRestoreInfo;
+  /** Managed identity information required to access the storage account. */
+  identityInfo?: IdentityInfo;
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: "AzureFileShareRestoreRequest";
 }
@@ -7529,6 +7960,9 @@ export function azureFileShareRestoreRequestSerializer(item: AzureFileShareResto
     targetDetails: !item["targetDetails"]
       ? item["targetDetails"]
       : targetAFSRestoreInfoSerializer(item["targetDetails"]),
+    identityInfo: !item["identityInfo"]
+      ? item["identityInfo"]
+      : identityInfoSerializer(item["identityInfo"]),
   };
 }
 
@@ -7929,12 +8363,19 @@ export function userAssignedIdentityPropertiesDeserializer(
 export interface SnapshotRestoreParameters {
   skipAttachAndMount?: boolean;
   logPointInTimeForDBRecovery?: string;
+  /** List of disk ARM IDs the customer should detach in case of filesystem clash. */
+  disksToDetachOnClash?: string[];
 }
 
 export function snapshotRestoreParametersSerializer(item: SnapshotRestoreParameters): any {
   return {
     skipAttachAndMount: item["skipAttachAndMount"],
     logPointInTimeForDBRecovery: item["logPointInTimeForDBRecovery"],
+    disksToDetachOnClash: !item["disksToDetachOnClash"]
+      ? item["disksToDetachOnClash"]
+      : item["disksToDetachOnClash"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -8693,24 +9134,6 @@ export function encryptionDetailsSerializer(item: EncryptionDetails): any {
   };
 }
 
-/** Encapsulates Managed Identity related information */
-export interface IdentityInfo {
-  /** To differentiate if the managed identity is system assigned or user assigned */
-  isSystemAssignedIdentity?: boolean;
-  /**
-   * Managed Identity Resource Id
-   * Optional: Might not be required in the case of system assigned managed identity
-   */
-  managedIdentityResourceId?: string;
-}
-
-export function identityInfoSerializer(item: IdentityInfo): any {
-  return {
-    isSystemAssignedIdentity: item["isSystemAssignedIdentity"],
-    managedIdentityResourceId: item["managedIdentityResourceId"],
-  };
-}
-
 /** IaaS VM workload specific restore details for restores using managed identity */
 export interface IdentityBasedRestoreDetails {
   /** Gets the class type. */
@@ -8727,10 +9150,57 @@ export function identityBasedRestoreDetailsSerializer(item: IdentityBasedRestore
 export interface SecuredVMDetails {
   /** Gets or Sets Disk Encryption Set Id for Secured VM OS Disk */
   securedVMOsDiskEncryptionSetId?: string;
+  /** Data disk encryption settings for Secured VM. This will be used to provide Disk Encryption Set Id for each data disk. */
+  dataDiskEncryptionSettings?: DataDiskEncryptionSettings;
 }
 
 export function securedVMDetailsSerializer(item: SecuredVMDetails): any {
-  return { securedVMOsDiskEncryptionSetId: item["securedVMOsDiskEncryptionSetId"] };
+  return {
+    securedVMOsDiskEncryptionSetId: item["securedVMOsDiskEncryptionSetId"],
+    dataDiskEncryptionSettings: !item["dataDiskEncryptionSettings"]
+      ? item["dataDiskEncryptionSettings"]
+      : dataDiskEncryptionSettingsSerializer(item["dataDiskEncryptionSettings"]),
+  };
+}
+
+/** Data disk encryption settings for Secured VM. This will be used to provide Disk Encryption Set Id for each data disk. */
+export interface DataDiskEncryptionSettings {
+  /** Per Disk Encryption Set Ids for Secured VM Data Disks. This will be used to provide Disk Encryption Set Id for each data disk. */
+  perDiskEncryptionSetIds?: PerDiskEncryptionSetId[];
+  /** Disk Encryption Set Id for Secured VM Data Disk. This will be used for all data disks if perDiskEncryptionSetIds is not provided. If perDiskEncryptionSetIds is provided, this will be ignored. */
+  dataDiskEncryptionSetId?: string;
+  /** Managed Identity resource Id used to encrypt the data disk during restore. */
+  dataDiskEncryptionIdentity?: string;
+}
+
+export function dataDiskEncryptionSettingsSerializer(item: DataDiskEncryptionSettings): any {
+  return {
+    perDiskEncryptionSetIds: !item["perDiskEncryptionSetIds"]
+      ? item["perDiskEncryptionSetIds"]
+      : perDiskEncryptionSetIdArraySerializer(item["perDiskEncryptionSetIds"]),
+    dataDiskEncryptionSetId: item["dataDiskEncryptionSetId"],
+    dataDiskEncryptionIdentity: item["dataDiskEncryptionIdentity"],
+  };
+}
+
+export function perDiskEncryptionSetIdArraySerializer(
+  result: Array<PerDiskEncryptionSetId>,
+): any[] {
+  return result.map((item) => {
+    return perDiskEncryptionSetIdSerializer(item);
+  });
+}
+
+/** Per Disk Encryption Set Ids for Secured VM Data Disks. This will be used to provide Disk Encryption Set Id for each data disk. */
+export interface PerDiskEncryptionSetId {
+  /** LUN for Secured VM Data Disk */
+  lun?: number;
+  /** Disk Encryption Set Id for Secured VM Data Disk */
+  diskEncryptionSetId?: string;
+}
+
+export function perDiskEncryptionSetIdSerializer(item: PerDiskEncryptionSetId): any {
+  return { lun: item["lun"], diskEncryptionSetId: item["diskEncryptionSetId"] };
 }
 
 /** Specifies target network access settings for disks of VM to be restored. */
@@ -8913,6 +9383,20 @@ export function iaasVmilrRegistrationRequestSerializer(item: IaasVmilrRegistrati
     virtualMachineId: item["virtualMachineId"],
     initiatorName: item["initiatorName"],
     renewExistingRegistration: item["renewExistingRegistration"],
+  };
+}
+
+/** Parameters for the listInstantItemRecoveryOperationResult action. */
+export interface InstantItemRecoveryOperationResultRequest {
+  /** Operation ID returned by the prior provisionInstantItemRecovery action whose iSCSI mount scripts are to be retrieved. */
+  provisionInstantItemRecoveryOperationId: string;
+}
+
+export function instantItemRecoveryOperationResultRequestSerializer(
+  item: InstantItemRecoveryOperationResultRequest,
+): any {
+  return {
+    provisionInstantItemRecoveryOperationId: item["provisionInstantItemRecoveryOperationId"],
   };
 }
 
@@ -9448,6 +9932,7 @@ export enum KnownScheduleRunType {
  * **Hourly**
  */
 export type ScheduleRunType = string;
+
 /** Type of DayOfWeek */
 export type DayOfWeek =
   "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -10323,6 +10808,16 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
   tieringPolicy?: Record<string, TieringPolicy>;
   /** Instant RP retention policy range in days */
   instantRpRetentionRangeInDays?: number;
+  /**
+   * Specifies whether Instant Access snapshot is enabled for the policy. If false or omitted,
+   * instantAccessDurationMinutes is ignored and no Instant Access snapshot is retained.
+   */
+  instantAccessSnapshotEnabled?: boolean;
+  /**
+   * Duration in minutes for which the Instant Access snapshot is retained, when instantAccessSnapshotEnabled
+   * is true. Must be between 60 and 300 minutes; defaults to 300 minutes if not specified.
+   */
+  instantAccessDurationMinutes?: number;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
   policyType?: IaasvmPolicyType;
@@ -10353,6 +10848,8 @@ export function azureIaaSVMProtectionPolicySerializer(item: AzureIaaSVMProtectio
       ? item["tieringPolicy"]
       : tieringPolicyRecordSerializer(item["tieringPolicy"]),
     instantRpRetentionRangeInDays: item["instantRpRetentionRangeInDays"],
+    instantAccessSnapshotEnabled: item["instantAccessSnapshotEnabled"],
+    instantAccessDurationMinutes: item["instantAccessDurationMinutes"],
     timeZone: item["timeZone"],
     policyType: item["policyType"],
     snapshotConsistencyType: item["snapshotConsistencyType"],
@@ -10381,6 +10878,8 @@ export function azureIaaSVMProtectionPolicyDeserializer(item: any): AzureIaaSVMP
       ? item["tieringPolicy"]
       : tieringPolicyRecordDeserializer(item["tieringPolicy"]),
     instantRpRetentionRangeInDays: item["instantRpRetentionRangeInDays"],
+    instantAccessSnapshotEnabled: item["instantAccessSnapshotEnabled"],
+    instantAccessDurationMinutes: item["instantAccessDurationMinutes"],
     timeZone: item["timeZone"],
     policyType: item["policyType"],
     snapshotConsistencyType: item["snapshotConsistencyType"],
@@ -12937,7 +13436,7 @@ export function validateOperationRequestResourceSerializer(
 /** Base class for validate operation request. */
 export interface ValidateOperationRequest {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  /** The discriminator possible values: ValidateIaasVMRestoreOperationRequest, ValidateRestoreOperationRequest */
+  /** The discriminator possible values: ValidateIaasVMRestoreOperationRequest, ValidateRestoreOperationRequest, ValidateAzureWorkloadRestoreOperationRequest */
   objectType: string;
 }
 
@@ -12947,7 +13446,9 @@ export function validateOperationRequestSerializer(item: ValidateOperationReques
 
 /** Alias for ValidateOperationRequestUnion */
 export type ValidateOperationRequestUnion =
-  ValidateRestoreOperationRequestUnion | ValidateOperationRequest;
+  | ValidateRestoreOperationRequestUnion
+  | ValidateAzureWorkloadRestoreOperationRequest
+  | ValidateOperationRequest;
 
 export function validateOperationRequestUnionSerializer(item: ValidateOperationRequestUnion): any {
   switch (item.objectType) {
@@ -12955,6 +13456,11 @@ export function validateOperationRequestUnionSerializer(item: ValidateOperationR
     case "ValidateIaasVMRestoreOperationRequest":
       return validateRestoreOperationRequestUnionSerializer(
         item as ValidateRestoreOperationRequestUnion,
+      );
+
+    case "ValidateAzureWorkloadRestoreOperationRequest":
+      return validateAzureWorkloadRestoreOperationRequestSerializer(
+        item as ValidateAzureWorkloadRestoreOperationRequest,
       );
 
     default:
@@ -13015,6 +13521,28 @@ export function validateRestoreOperationRequestUnionSerializer(
     default:
       return validateRestoreOperationRequestSerializer(item);
   }
+}
+
+/**
+ * Restore validation request for Azure Workload backups.
+ * This subtype provides the distinct objectType discriminator used for Azure Workload (SQL/HANA/SAP ASE/AnyDatabase) restore validation.
+ */
+export interface ValidateAzureWorkloadRestoreOperationRequest extends ValidateOperationRequest {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  objectType: "ValidateAzureWorkloadRestoreOperationRequest";
+  /** Sets restore request to be validated */
+  restoreRequest?: RestoreRequestUnion;
+}
+
+export function validateAzureWorkloadRestoreOperationRequestSerializer(
+  item: ValidateAzureWorkloadRestoreOperationRequest,
+): any {
+  return {
+    objectType: item["objectType"],
+    restoreRequest: !item["restoreRequest"]
+      ? item["restoreRequest"]
+      : restoreRequestUnionSerializer(item["restoreRequest"]),
+  };
 }
 
 /** model interface ValidateOperationsResponse */
@@ -13244,7 +13772,7 @@ export interface WorkloadProtectableItem {
   /** Type of workload for the backup management */
   workloadType?: string;
   /** Type of the backup item. */
-  /** The discriminator possible values: AzureFileShare, Microsoft.ClassicCompute/virtualMachines, IaaSVMProtectableItem, Microsoft.Compute/virtualMachines, AzureVmWorkloadProtectableItem, SAPAseDatabase, SAPAseSystem, SAPHanaDatabase, SAPHanaSystem, SAPHanaDBInstance, HanaHSRContainer, HanaScaleoutContainer, SQLAvailabilityGroupContainer, SQLDataBase, SQLInstance */
+  /** The discriminator possible values: AzureFileShare, Microsoft.ClassicCompute/virtualMachines, IaaSVMProtectableItem, Microsoft.Compute/virtualMachines, AzureVmWorkloadProtectableItem, SAPAseDatabase, SAPAseSystem, SAPHanaDatabase, SAPHanaSystem, SAPHanaDBInstance, HanaHSRContainer, SQLAvailabilityGroupContainer, SQLDataBase, SQLInstance */
   protectableItemType: string;
   /** Friendly name of the backup item. */
   friendlyName?: string;
@@ -13286,7 +13814,6 @@ export function workloadProtectableItemUnionDeserializer(item: any): WorkloadPro
     case "SAPHanaSystem":
     case "SAPHanaDBInstance":
     case "HanaHSRContainer":
-    case "HanaScaleoutContainer":
     case "SQLAvailabilityGroupContainer":
     case "SQLDataBase":
     case "SQLInstance":
@@ -13444,7 +13971,7 @@ export function azureIaaSComputeVMProtectableItemDeserializer(
 /** Azure VM workload-specific protectable item. */
 export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem {
   /** Type of the backup item. */
-  /** The discriminator possible values: SAPAseDatabase, SAPAseSystem, SAPHanaDatabase, SAPHanaSystem, SAPHanaDBInstance, HanaHSRContainer, HanaScaleoutContainer, SQLAvailabilityGroupContainer, SQLDataBase, SQLInstance */
+  /** The discriminator possible values: SAPAseDatabase, SAPAseSystem, SAPHanaDatabase, SAPHanaSystem, SAPHanaDBInstance, HanaHSRContainer, SQLAvailabilityGroupContainer, SQLDataBase, SQLInstance */
   protectableItemType:
     | "AzureVmWorkloadProtectableItem"
     | "SAPAseDatabase"
@@ -13453,7 +13980,6 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
     | "HanaHSRContainer"
-    | "HanaScaleoutContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -13511,7 +14037,6 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPHanaSystemProtectableItem
   | AzureVmWorkloadSAPHanaDBInstance
   | AzureVmWorkloadSAPHanaHSRProtectableItem
-  | AzureVmWorkloadSAPHanaScaleoutProtectableItem
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem
@@ -13547,11 +14072,6 @@ export function azureVmWorkloadProtectableItemUnionDeserializer(
     case "HanaHSRContainer":
       return azureVmWorkloadSAPHanaHSRProtectableItemDeserializer(
         item as AzureVmWorkloadSAPHanaHSRProtectableItem,
-      );
-
-    case "HanaScaleoutContainer":
-      return azureVmWorkloadSAPHanaScaleoutProtectableItemDeserializer(
-        item as AzureVmWorkloadSAPHanaScaleoutProtectableItem,
       );
 
     case "SQLAvailabilityGroupContainer":
@@ -13767,35 +14287,6 @@ export interface AzureVmWorkloadSAPHanaHSRProtectableItem extends AzureVmWorkloa
 export function azureVmWorkloadSAPHanaHSRProtectableItemDeserializer(
   item: any,
 ): AzureVmWorkloadSAPHanaHSRProtectableItem {
-  return {
-    protectableItemType: item["protectableItemType"],
-    parentName: item["parentName"],
-    parentUniqueName: item["parentUniqueName"],
-    serverName: item["serverName"],
-    isAutoProtectable: item["isAutoProtectable"],
-    isAutoProtected: item["isAutoProtected"],
-    subinquireditemcount: item["subinquireditemcount"],
-    subprotectableitemcount: item["subprotectableitemcount"],
-    prebackupvalidation: !item["prebackupvalidation"]
-      ? item["prebackupvalidation"]
-      : preBackupValidationDeserializer(item["prebackupvalidation"]),
-    isProtectable: item["isProtectable"],
-    backupManagementType: item["backupManagementType"],
-    workloadType: item["workloadType"],
-    friendlyName: item["friendlyName"],
-    protectionState: item["protectionState"],
-  };
-}
-
-/** Azure VM workload-specific protectable item representing HANA scale out. */
-export interface AzureVmWorkloadSAPHanaScaleoutProtectableItem extends AzureVmWorkloadProtectableItem {
-  /** Type of the backup item. */
-  protectableItemType: "HanaScaleoutContainer";
-}
-
-export function azureVmWorkloadSAPHanaScaleoutProtectableItemDeserializer(
-  item: any,
-): AzureVmWorkloadSAPHanaScaleoutProtectableItem {
   return {
     protectableItemType: item["protectableItemType"],
     parentName: item["parentName"],
@@ -14191,6 +14682,59 @@ export function tieringCostSavingInfoDeserializer(item: any): TieringCostSavingI
   };
 }
 
+/** Operation result response for Vault Storage Config */
+export interface VaultStorageConfigOperationResultResponse {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  /** The discriminator possible values: PrepareDataMoveResponse */
+  objectType: string;
+}
+
+export function vaultStorageConfigOperationResultResponseDeserializer(
+  item: any,
+): VaultStorageConfigOperationResultResponse {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for VaultStorageConfigOperationResultResponseUnion */
+export type VaultStorageConfigOperationResultResponseUnion =
+  PrepareDataMoveResponse | VaultStorageConfigOperationResultResponse;
+
+export function vaultStorageConfigOperationResultResponseUnionDeserializer(
+  item: any,
+): VaultStorageConfigOperationResultResponseUnion {
+  switch (item["objectType"]) {
+    case "PrepareDataMoveResponse":
+      return prepareDataMoveResponseDeserializer(item as PrepareDataMoveResponse);
+
+    default:
+      return vaultStorageConfigOperationResultResponseDeserializer(item);
+  }
+}
+
+/** Prepare DataMove Response */
+export interface PrepareDataMoveResponse extends VaultStorageConfigOperationResultResponse {
+  /** Co-relationId for move operation */
+  correlationId?: string;
+  /** Source Vault Properties */
+  sourceVaultProperties?: Record<string, string>;
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  objectType: "PrepareDataMoveResponse";
+}
+
+export function prepareDataMoveResponseDeserializer(item: any): PrepareDataMoveResponse {
+  return {
+    objectType: item["objectType"],
+    correlationId: item["correlationId"],
+    sourceVaultProperties: !item["sourceVaultProperties"]
+      ? item["sourceVaultProperties"]
+      : Object.fromEntries(
+          Object.entries(item["sourceVaultProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
 /**
  * Contract to validate if backup can be enabled on the given resource in a given vault and given configuration.
  * It will validate followings
@@ -14488,6 +15032,14 @@ export enum KnownVersions {
   V20250801 = "2025-08-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
-  /** The 2026-01-31-preview API version. */
-  V20260131Preview = "2026-01-31-preview",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }

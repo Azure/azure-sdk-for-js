@@ -78,6 +78,7 @@ export type {
   LicenseProfileSubscriptionStatus,
   LicenseProfileProductType,
   ProductFeature,
+  MachineStatusReason,
   StatusTypes,
   IdentityKeyStore,
   NetworkProfile,
@@ -85,8 +86,9 @@ export type {
   IpAddress,
   Subnet,
   MachineExtension,
-  Identity,
-  ResourceIdentityType,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
   ArcKindEnum,
   LicenseProfileArmEsuPropertiesWithoutAssignedLicense,
   EsuServerType,
@@ -132,6 +134,12 @@ export type {
   ExecutionState,
   ExtensionsResourceStatus,
   ExtensionsStatusLevelTypes,
+  VmApplication,
+  VmApplicationProperties,
+  VmApplicationInstanceView,
+  VmApplicationInstanceViewAction,
+  VmApplicationUpdate,
+  VmApplicationUpdateProperties,
   Gateway,
   GatewayProperties,
   GatewayType,
@@ -198,8 +206,10 @@ export {
   KnownLicenseAssignmentState,
   KnownLicenseProfileSubscriptionStatus,
   KnownLicenseProfileProductType,
+  KnownMachineStatusReason,
   KnownStatusTypes,
   KnownIdentityKeyStore,
+  KnownManagedServiceIdentityType,
   KnownArcKindEnum,
   KnownEsuServerType,
   KnownEsuEligibility,
@@ -319,6 +329,14 @@ export type {
   SettingsGetOptionalParams,
 } from "./api/settings/index.js";
 export type {
+  VmApplicationsListOptionalParams,
+  VmApplicationsDeleteOptionalParams,
+  VmApplicationsUpdateOptionalParams,
+  VmApplicationsCreateOrUpdateOptionalParams,
+  VmApplicationsGetInstanceViewOptionalParams,
+  VmApplicationsGetOptionalParams,
+} from "./api/vmApplications/index.js";
+export type {
   ExtensionMetadataOperations,
   ExtensionMetadataV2Operations,
   ExtensionPublisherOperations,
@@ -336,6 +354,7 @@ export type {
   PrivateLinkResourcesOperations,
   PrivateLinkScopesOperations,
   SettingsOperations,
+  VmApplicationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

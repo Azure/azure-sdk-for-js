@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "include": [
+    "../src/index.ts",
+    "../src/documentTranslation/index.ts",
+    "../src/documentTranslation/api/index.ts",
+    "../src/singleDocumentTranslation/index.ts",
+    "../src/singleDocumentTranslation/api/index.ts",
+    "../src/models/index.ts"
+  ]
+}

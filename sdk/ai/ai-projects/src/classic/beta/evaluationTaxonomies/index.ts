@@ -21,7 +21,7 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {
-  /** Update an evaluation taxonomy. */
+  /** Modifies the specified evaluation taxonomy with the provided changes. */
   update: (
     name: string,
     taxonomy: EvaluationTaxonomy,

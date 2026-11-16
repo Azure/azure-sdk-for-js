@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a new threat intelligence indicator.
  *
  * @summary create a new threat intelligence indicator.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/CreateThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/CreateThreatIntelligence.json
  */
 async function createANewThreatIntelligence() {
   const credential = new DefaultAzureCredential();

@@ -3,29 +3,29 @@
 import { AzureCliCredential } from "@azure/identity";
 import { azureCliPublicErrorMessages } from "$internal/credentials/azureCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import child_process from "node:child_process";
+import { processUtils } from "$internal/util/processUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { ProcessError } from "@azure/core-process";
 
 describe("AzureCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azCommands: string[] = [];
-  let azOptions: { cwd: string; timeout?: number }[] = [];
+  let azArgumentLists: string[][] = [];
+  let azOptions: { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number }[] = [];
 
   beforeEach(async function () {
     azCommands = [];
+    azArgumentLists = [];
     azOptions = [];
-    vi.spyOn(child_process, "exec").mockImplementation(
-      (command, options, callback): child_process.ChildProcess => {
-        azCommands.push(command as string);
-        azOptions.push(options as { cwd: string; timeout?: number });
-        if (callback) {
-          callback(null, stdout, stderr);
-        }
-        // Bypassing the type check. We don't use this return value in our code.
-        return {} as child_process.ChildProcess;
-      },
-    );
+    vi.spyOn(processUtils, "execFileWithResult").mockImplementation(async (file, args, options) => {
+      azCommands.push([file, ...args].join(" "));
+      azArgumentLists.push(args);
+      azOptions.push(
+        options as { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number },
+      );
+      return { stdout, stderr, error: null };
+    });
   });
 
   afterEach(async function () {
@@ -41,6 +41,15 @@ describe("AzureCliCredential (internal)", function () {
     assert.deepEqual(azCommands, [
       "az account get-access-token --output json --resource https://service",
     ]);
+    assert.deepEqual(azArgumentLists[0], [
+      "account",
+      "get-access-token",
+      "--output",
+      "json",
+      "--resource",
+      "https://service",
+    ]);
+    assert.isTrue(azOptions[0].allowWindowsBatchFiles);
     // Used a working directory
     assert.deepEqual(
       {
@@ -99,7 +108,7 @@ describe("AzureCliCredential (internal)", function () {
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azCommands, [
-      'az account get-access-token --output json --resource https://service --subscription "12345678-1234-1234-1234-123456789012"',
+      "az account get-access-token --output json --resource https://service --subscription 12345678-1234-1234-1234-123456789012",
     ]);
     // Used a working directory
     assert.deepEqual(
@@ -119,7 +128,11 @@ describe("AzureCliCredential (internal)", function () {
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azCommands, [
-      'az account get-access-token --output json --resource https://service --subscription "Example of a subscription_string"',
+      "az account get-access-token --output json --resource https://service --subscription Example of a subscription_string",
+    ]);
+    assert.deepEqual(azArgumentLists[0].slice(-2), [
+      "--subscription",
+      "Example of a subscription_string",
     ]);
     // Used a working directory
     assert.deepEqual(
@@ -152,6 +165,19 @@ describe("AzureCliCredential (internal)", function () {
         assert.equal(error.message, azureCliPublicErrorMessages.notInstalled);
       }
     }
+  });
+
+  it("returns a meaningful error when spawning Azure CLI fails with ENOENT", async () => {
+    vi.mocked(processUtils.execFileWithResult).mockResolvedValueOnce({
+      stdout: "",
+      stderr: "",
+      error: new ProcessError("The executable could not be found.", { code: "ENOENT" }),
+    });
+
+    const credential = new AzureCliCredential();
+    await expect(credential.getToken("https://service/.default")).rejects.toMatchObject({
+      message: azureCliPublicErrorMessages.notInstalled,
+    });
   });
 
   it("get access token when azure cli not login in", async () => {

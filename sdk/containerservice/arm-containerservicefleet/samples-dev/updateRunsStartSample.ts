@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to starts an UpdateRun.
  *
  * @summary starts an UpdateRun.
- * x-ms-original-file: 2026-03-02-preview/UpdateRuns_Start.json
+ * x-ms-original-file: 2026-11-01/UpdateRuns_Start.json
  */
 async function startsAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();

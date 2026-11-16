@@ -29,11 +29,6 @@ export interface ChatModelDeploymentsOperations {
     options?: ChatModelDeploymentsListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<ChatModelDeployment>;
   /** Delete a ChatModelDeployment */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -64,7 +59,6 @@ export interface ChatModelDeploymentsOperations {
     options?: ChatModelDeploymentsGetOptionalParams,
   ) => Promise<ChatModelDeployment>;
 }
-
 function _getChatModelDeployments(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -116,7 +110,6 @@ function _getChatModelDeployments(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, chatModelDeploymentName, options),
   };
 }
-
 export function _getChatModelDeploymentsOperations(
   context: DiscoveryContext,
 ): ChatModelDeploymentsOperations {

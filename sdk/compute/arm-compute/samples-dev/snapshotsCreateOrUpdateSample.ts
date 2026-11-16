@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_EnhancedProvisionedBandwidthCopySpeed.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_EnhancedProvisionedBandwidthCopySpeed.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
  */
 async function createASnapshotFromAnElasticSanVolumeSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -93,7 +93,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot(): Promise<void> {
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -114,7 +114,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -135,7 +135,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Create_InstantAccessSnapshot.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Create_InstantAccessSnapshot.json
  */
 async function createASnapshotWhichCanBeInstantlyAccessable(): Promise<void> {
   const credential = new DefaultAzureCredential();

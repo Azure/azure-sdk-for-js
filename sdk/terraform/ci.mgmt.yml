@@ -6,6 +6,8 @@ trigger:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/terraform/ci.mgmt.yml

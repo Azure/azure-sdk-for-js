@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
-import pako from "pako";
+import { gzip } from "pako";
 /**
  * Name of the {@link gZippingPolicy}
  */
@@ -12,7 +12,7 @@ export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
     if (req.body) {
-      const buffer = pako.gzip(String(req.body));
+      const buffer = gzip(String(req.body));
       req.body = buffer;
     }
     return next(req);

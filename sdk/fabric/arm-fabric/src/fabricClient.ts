@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getFabricCapacitiesOperations,
-  FabricCapacitiesOperations,
-} from "./classic/fabricCapacities/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { FabricContext, FabricClientOptionalParams } from "./api/index.js";
+import { createFabric } from "./api/index.js";
+import type { FabricCapacitiesOperations } from "./classic/fabricCapacities/index.js";
+import { _getFabricCapacitiesOperations } from "./classic/fabricCapacities/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type FabricClientOptionalParams } from "./api/fabricContext.js";
+export type { FabricClientOptionalParams } from "./api/fabricContext.js";
 
 export class FabricClient {
   private _client: FabricContext;
@@ -22,21 +22,14 @@ export class FabricClient {
     subscriptionId: string,
     options: FabricClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
-    this._client = createFabric(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createFabric(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
-    this.fabricCapacities = getFabricCapacitiesOperations(this._client, subscriptionId);
-    this.operations = getOperationsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
+    this.fabricCapacities = _getFabricCapacitiesOperations(this._client);
   }
 
-  /** The operation groups for FabricCapacities */
-  public readonly fabricCapacities: FabricCapacitiesOperations;
-  /** The operation groups for Operations */
+  /** The operation groups for operations */
   public readonly operations: OperationsOperations;
+  /** The operation groups for fabricCapacities */
+  public readonly fabricCapacities: FabricCapacitiesOperations;
 }

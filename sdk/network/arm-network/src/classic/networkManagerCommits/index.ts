@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { post } from "../../api/networkManagerCommits/operations.js";
 import type { NetworkManagerCommitsPostOptionalParams } from "../../api/networkManagerCommits/options.js";
-import type { NetworkManagerCommit } from "../../models/microsoft/network/models.js";
+import type { NetworkManagerCommit } from "../../models/network/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

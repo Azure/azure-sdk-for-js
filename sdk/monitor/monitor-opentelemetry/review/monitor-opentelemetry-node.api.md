@@ -10,7 +10,8 @@ import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
-import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
+import type { SeverityNumber } from '@opentelemetry/api';
+import type { SpanProcessor } from '@opentelemetry/sdk-trace';
 import type { ViewOptions } from '@opentelemetry/sdk-metrics';
 
 // @public
@@ -37,6 +38,11 @@ export interface BrowserSdkLoaderOptions {
     enabled?: boolean;
 }
 
+// @public
+export interface ConsoleInstrumentationOptions extends InstrumentationConfig {
+    logSeverity?: SeverityNumber;
+}
+
 // @internal
 export function _getSdkInstance(): NodeSDK | undefined;
 
@@ -44,6 +50,7 @@ export function _getSdkInstance(): NodeSDK | undefined;
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
+    console?: ConsoleInstrumentationOptions;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;

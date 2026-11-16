@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the SourceControl for a Container App.
  *
  * @summary create or update the SourceControl for a Container App.
- * x-ms-original-file: 2025-10-02-preview/SourceControls_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/SourceControls_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppSourceControl(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,12 +27,7 @@ async function createOrUpdateContainerAppSourceControl(): Promise<void> {
           kind: "feaderated",
           tenantId: "<tenantid>",
         },
-        buildEnvironmentVariables: [
-          { name: "foo1", value: "bar1" },
-          { name: "foo2", value: "bar2" },
-        ],
         contextPath: "./",
-        dockerfilePath: "./Dockerfile",
         githubPersonalAccessToken: "test",
         image: "image/tag",
         registryInfo: {
@@ -43,7 +38,6 @@ async function createOrUpdateContainerAppSourceControl(): Promise<void> {
       },
       repoUrl: "https://github.com/xwang971/ghatest",
     },
-    { xMsGithubAuxiliary: "githubaccesstoken" },
   );
   console.log(result);
 }

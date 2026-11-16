@@ -56,7 +56,7 @@ export interface ProfilesOperations {
     resourceGroupName: string,
     profileName: string,
     options?: ProfilesDeleteOptionalParams,
-  ) => Promise<DeleteOperationResult>;
+  ) => Promise<DeleteOperationResult | void>;
   /** Update a Traffic Manager profile. */
   update: (
     resourceGroupName: string,

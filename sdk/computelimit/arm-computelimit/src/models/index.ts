@@ -16,6 +16,7 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  TrustedHostSubscription,
   SharedLimit,
   SharedLimitProperties,
   LimitName,

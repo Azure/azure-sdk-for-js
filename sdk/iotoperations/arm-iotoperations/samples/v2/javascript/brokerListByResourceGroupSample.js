@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list BrokerResource resources by InstanceResource
  *
  * @summary list BrokerResource resources by InstanceResource
- * x-ms-original-file: 2026-03-01/Broker_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Broker_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function brokerListByResourceGroup() {
   const credential = new DefaultAzureCredential();

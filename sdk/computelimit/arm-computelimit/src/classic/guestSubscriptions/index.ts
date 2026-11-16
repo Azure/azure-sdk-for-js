@@ -44,7 +44,6 @@ export interface GuestSubscriptionsOperations {
     options?: GuestSubscriptionsGetOptionalParams,
   ) => Promise<GuestSubscription>;
 }
-
 function _getGuestSubscriptions(context: ComputeLimitContext) {
   return {
     listBySubscriptionLocationResource: (
@@ -69,7 +68,6 @@ function _getGuestSubscriptions(context: ComputeLimitContext) {
     ) => get(context, location, guestSubscriptionId, options),
   };
 }
-
 export function _getGuestSubscriptionsOperations(
   context: ComputeLimitContext,
 ): GuestSubscriptionsOperations {

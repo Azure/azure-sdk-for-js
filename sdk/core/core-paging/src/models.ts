@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * An interface that tracks the settings for paged iteration
+ * An interface that tracks the settings for paged iteration.
+ *
+ * See the {@link https://azure.github.io/azure-sdk/typescript_design.html#ts-pagination | pagination best practices}
+ * for guidance on page size and related options.
  */
 export interface PageSettings {
   /**

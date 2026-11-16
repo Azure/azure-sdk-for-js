@@ -60,7 +60,10 @@ export interface SubvolumesOperations {
     body: SubvolumePatchRequest,
     options?: SubvolumesUpdateOptionalParams,
   ) => PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
-  /** Creates a subvolume in the path or clones the subvolume mentioned in the parentPath */
+  /**
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
+   * Deprecated. This operation will be removed in a future API version.
+   */
   create: (
     resourceGroupName: string,
     accountName: string,

@@ -273,6 +273,7 @@ export interface DirectoryGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileName?: string;
     fileParentId?: string;
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
@@ -708,6 +709,20 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 // @public
+export type FileGetFileLinksHeaders = FileGetPropertiesHeaders;
+
+// @public
+export interface FileGetFileLinksOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export type FileGetFileLinksResponse = WithResponse<FileGetFileLinksHeaders & {
+    links: FileLink[];
+}, FileGetFileLinksHeaders, FileLink[]>;
+
+// @public
 export interface FileGetPropertiesHeaders {
     cacheControl?: string;
     contentDisposition?: string;
@@ -730,6 +745,7 @@ export interface FileGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileName?: string;
     fileParentId?: string;
     filePermissionKey?: string;
     fileType?: string;
@@ -828,6 +844,12 @@ export interface FileItem {
 export type FileLastWrittenMode = "Now" | "Preserve";
 
 // @public
+export interface FileLink {
+    name: string;
+    parentId: string;
+}
+
+// @public
 export interface FileListHandlesHeaders {
     contentType?: string;
     date?: Date;
@@ -849,6 +871,33 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     maxPageSize?: number;
 }
+
+// @public
+export interface FileListRangesDiffOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    includeRenames?: boolean;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export interface FileListRangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export interface FileListRangesSegment {
+    clearRanges?: RangeModel[];
+    nextMarker?: string;
+    ranges?: RangeModel[];
+}
+
+// @public
+export type FileListRangesSegmentResponse = WithResponse<FileGetRangeListHeaders & FileListRangesSegment & {
+    continuationToken?: string;
+}, FileGetRangeListHeaders, FileListRangesSegment>;
 
 // @public
 export interface FileParallelUploadOptions extends CommonOptions {
@@ -1594,6 +1643,8 @@ export class ShareClient extends StorageClient {
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
+    getShareDirectoryClient(fileId: string): ShareDirectoryClient;
+    getShareFileClient(fileId: string): ShareFileClient;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
     get name(): string;
@@ -1642,6 +1693,8 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    changeFeedRetentionInDays?: number;
+    enableChangeFeed?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     metadata?: {
         [propertyName: string]: string;
@@ -1742,6 +1795,7 @@ export class ShareDirectoryClient extends StorageClient {
     deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteIfExistsResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     exists(options?: DirectoryExistsOptions): Promise<boolean>;
+    get fileId(): string | undefined;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
@@ -1786,18 +1840,24 @@ export class ShareFileClient extends StorageClient {
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     exists(options?: FileExistsOptions): Promise<boolean>;
+    get fileId(): string | undefined;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     generateSasStringToSign(options: FileGenerateSasUrlOptions): string;
     generateSasUrl(options: FileGenerateSasUrlOptions): string;
     generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    getFileLinks(options?: FileGetFileLinksOptions): Promise<FileGetFileLinksResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
+    // @deprecated
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    // @deprecated
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getSymbolicLink(options?: FileGetSymbolicLinkOptions): Promise<FileGetSymbolicLinkResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    listRanges(options?: FileListRangesOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
+    listRangesDiff(prevShareSnapshot: string, options?: FileListRangesDiffOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
     get name(): string;
     get path(): string;
     rename(destinationPath: string, options?: FileRenameOptions): Promise<{
@@ -1822,6 +1882,13 @@ export class ShareFileClient extends StorageClient {
 
 // @public
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
+// @public
+export interface ShareFileRange {
+    end: number;
+    isClear: boolean;
+    start: number;
+}
 
 // @public
 export interface ShareFileRangeList {
@@ -1879,7 +1946,11 @@ export interface ShareGetPropertiesHeaders {
     accessTier?: string;
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
+    changeFeedBlobContainerName?: string;
+    changeFeedRetentionInDays?: number;
+    creationTime?: Date;
     date?: Date;
+    enableChangeFeed?: boolean;
     enabledProtocols?: string;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
@@ -2030,6 +2101,7 @@ export interface SharePropertiesInternal {
     accessTierChangeTime?: Date;
     // (undocumented)
     accessTierTransitionState?: string;
+    creationTime?: Date;
     // (undocumented)
     deletedTime?: Date;
     // (undocumented)
@@ -2182,6 +2254,8 @@ export interface ShareSetPropertiesHeaders {
 export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    changeFeedRetentionInDays?: number;
+    enableChangeFeed?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     paidBurstingEnabled?: boolean;

@@ -2,17 +2,62 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Configure and retrieve default model deployment settings.
+ * @summary Configure model deployment defaults.
  *
  * This sample demonstrates how to configure and retrieve default model deployment settings
- * for your Microsoft Foundry resource. This is a required one-time setup per Microsoft Foundry
- * resource before using prebuilt or custom analyzers.
+ * for your Microsoft Foundry resource. This is a **required one-time setup per Microsoft
+ * Foundry resource** before using prebuilt or custom analyzers.
  *
- * Content Understanding prebuilt analyzers and custom analyzers require specific large language
- * model deployments to function. Currently, Content Understanding uses OpenAI GPT models:
- * - gpt-4.1: Used by most prebuilt analyzers (e.g., prebuilt-invoice, prebuilt-receipt)
- * - gpt-4.1-mini: Used by RAG analyzers (e.g., prebuilt-documentSearch, prebuilt-audioSearch)
- * - text-embedding-3-large: Used for semantic search and embeddings
+ * ## About model deployment configuration
+ *
+ * Content Understanding prebuilt analyzers and custom analyzers require generative model
+ * deployments to function. The recommended models are:
+ *
+ * - A completion model (e.g. `gpt-5.2`) used by most prebuilt analyzers.
+ * - A "mini" completion model (e.g. `gpt-5.2-mini`) used by RAG-style analyzers
+ *   (`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`,
+ *   `prebuilt-videoSearch`). May be the same as the primary completion model.
+ * - An embedding model (e.g. `text-embedding-3-large`) used for semantic search and
+ *   analyzers with embeddings.
+ *
+ * Prebuilt analyzers also reference aliases. Configure these even when they map to the
+ * same deployments as the concrete model names:
+ *
+ * - `prebuilt-analyzer-completion` (most prebuilt analyzers)
+ * - `prebuilt-analyzer-completion-mini` (`prebuilt-*Search` analyzers)
+ * - `prebuilt-analyzer-embedding` (analyzers that require embeddings)
+ *
+ * This configuration is **per Microsoft Foundry resource** and persists across sessions. You
+ * only need to configure it once per Microsoft Foundry resource (or when you change deployment
+ * names).
+ *
+ * The service periodically adds support for more models, including the latest gpt-5.x models
+ * such as gpt-5.2, gpt-5.4-mini, gpt-5.5, and others. See the Content Understanding
+ * supported generative models documentation
+ * (https://learn.microsoft.com/azure/ai-services/content-understanding/service-limits#supported-generative-models)
+ * and the Foundry model retirement schedule
+ * (https://learn.microsoft.com/azure/foundry/openai/concepts/model-retirement-schedule)
+ * for current support and retirement details.
+ *
+ * Mirrors the Python `sample_update_defaults.py` in `azure-sdk-for-python` (main), so
+ * the same env-var names and model dictionary shape work across languages.
+ *
+ * ## Environment variables
+ *
+ * - `CONTENTUNDERSTANDING_ENDPOINT` (required) — Content Understanding endpoint.
+ * - `CONTENTUNDERSTANDING_KEY` (optional) — API key. When unset, `DefaultAzureCredential`
+ *   is used.
+ * - `CU_COMPLETION_MODEL` (optional) — completion model name. Defaults to `gpt-5.2`.
+ * - `CU_COMPLETION_MODEL_MINI` (optional) — mini completion model name. Defaults to
+ *   `CU_COMPLETION_MODEL`.
+ * - `CU_COMPLETION_MODEL_DEPLOYMENT` (required) — deployment name for the completion
+ *   model in Microsoft Foundry.
+ * - `CU_COMPLETION_MINI_DEPLOYMENT` (optional) — deployment name for the mini completion
+ *   model. Defaults to `CU_COMPLETION_MODEL_DEPLOYMENT`.
+ * - `CU_EMBEDDING_MODEL` (optional) — embedding model name. Defaults to
+ *   `text-embedding-3-large`.
+ * - `CU_EMBEDDING_DEPLOYMENT` (required) — deployment name for the embedding model
+ *   in Microsoft Foundry.
  */
 
 require("dotenv/config");
@@ -38,21 +83,27 @@ async function main() {
 
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
-  // Get deployment names from environment variables
-  const gpt41Deployment = process.env["GPT_4_1_DEPLOYMENT"];
-  const gpt41MiniDeployment = process.env["GPT_4_1_MINI_DEPLOYMENT"];
-  const textEmbedding3LargeDeployment = process.env["TEXT_EMBEDDING_3_LARGE_DEPLOYMENT"];
+  // Get the model name and deployment names from environment variables.
+  // The model NAMES have sensible defaults (gpt-5.2, text-embedding-3-large) so a
+  // caller only needs to set the DEPLOYMENT names in the common case. The mini
+  // completion falls back to the primary completion model / deployment when unset,
+  // which lets a caller who deploys only one chat model still run every prebuilt
+  // analyzer including the *Search family.
+  const completionModel = process.env["CU_COMPLETION_MODEL"] || "gpt-5.2";
+  const miniCompletionModel = process.env["CU_COMPLETION_MODEL_MINI"] || completionModel;
+  const embeddingModel = process.env["CU_EMBEDDING_MODEL"] || "text-embedding-3-large";
+  const completionDeployment = process.env["CU_COMPLETION_MODEL_DEPLOYMENT"];
+  const miniCompletionDeployment =
+    process.env["CU_COMPLETION_MINI_DEPLOYMENT"] || completionDeployment;
+  const embeddingDeployment = process.env["CU_EMBEDDING_DEPLOYMENT"];
 
   // Check if required deployments are configured
   const missingDeployments = [];
-  if (!gpt41Deployment) {
-    missingDeployments.push("GPT_4_1_DEPLOYMENT");
+  if (!completionDeployment) {
+    missingDeployments.push("CU_COMPLETION_MODEL_DEPLOYMENT");
   }
-  if (!gpt41MiniDeployment) {
-    missingDeployments.push("GPT_4_1_MINI_DEPLOYMENT");
-  }
-  if (!textEmbedding3LargeDeployment) {
-    missingDeployments.push("TEXT_EMBEDDING_3_LARGE_DEPLOYMENT");
+  if (!embeddingDeployment) {
+    missingDeployments.push("CU_EMBEDDING_DEPLOYMENT");
   }
 
   if (missingDeployments.length > 0) {
@@ -64,12 +115,25 @@ async function main() {
     return;
   }
 
-  // Map your deployed models to the models required by prebuilt analyzers
+  // Map your deployed models to the models required by prebuilt analyzers.
+  // - `completionModel` / `embeddingModel` are the concrete model names the caller
+  //   deployed in Foundry (defaulting to gpt-5.2 / text-embedding-3-large).
+  // - The three `prebuilt-analyzer-*` aliases are additional keys the service uses
+  //   internally when a prebuilt analyzer requests a completion / mini-completion /
+  //   embedding model without naming a specific one. Set all three so every
+  //   prebuilt analyzer resolves without needing per-resource overrides.
+  // - If the user configured a different mini completion model
+  //   (`CU_COMPLETION_MODEL_MINI`), add its concrete name too.
   const modelDeployments = {
-    "gpt-4.1": gpt41Deployment,
-    "gpt-4.1-mini": gpt41MiniDeployment,
-    "text-embedding-3-large": textEmbedding3LargeDeployment,
+    [completionModel]: completionDeployment,
+    [embeddingModel]: embeddingDeployment,
+    "prebuilt-analyzer-completion": completionDeployment,
+    "prebuilt-analyzer-completion-mini": miniCompletionDeployment,
+    "prebuilt-analyzer-embedding": embeddingDeployment,
   };
+  if (miniCompletionModel !== completionModel) {
+    modelDeployments[miniCompletionModel] = miniCompletionDeployment;
+  }
 
   console.log("Configuring model deployments...");
   const updatedDefaults = await client.updateDefaults({

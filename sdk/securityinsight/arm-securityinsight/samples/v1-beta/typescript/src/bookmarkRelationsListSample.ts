@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all bookmark relations.
  *
  * @summary gets all bookmark relations.
- * x-ms-original-file: 2025-07-01-preview/bookmarks/relations/GetAllBookmarkRelations.json
+ * x-ms-original-file: 2025-10-01-preview/bookmarks/relations/GetAllBookmarkRelations.json
  */
 async function getAllBookmarkRelations(): Promise<void> {
   const credential = new DefaultAzureCredential();

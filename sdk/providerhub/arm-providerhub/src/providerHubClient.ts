@@ -1,58 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ProviderHubContext,
-  ProviderHubClientOptionalParams,
-  createProviderHub,
-} from "./api/index.js";
+import type { ProviderHubContext, ProviderHubClientOptionalParams } from "./api/index.js";
+import { createProviderHub } from "./api/index.js";
 import { checkinManifest, generateManifest } from "./api/operations.js";
-import { CheckinManifestOptionalParams, GenerateManifestOptionalParams } from "./api/options.js";
-import {
-  AuthorizedApplicationsOperations,
-  _getAuthorizedApplicationsOperations,
-} from "./classic/authorizedApplications/index.js";
-import {
-  CustomRolloutsOperations,
-  _getCustomRolloutsOperations,
-} from "./classic/customRollouts/index.js";
-import {
-  DefaultRolloutsOperations,
-  _getDefaultRolloutsOperations,
-} from "./classic/defaultRollouts/index.js";
-import {
-  NewRegionFrontloadReleaseOperations,
-  _getNewRegionFrontloadReleaseOperations,
-} from "./classic/newRegionFrontloadRelease/index.js";
-import {
-  NotificationRegistrationsOperations,
-  _getNotificationRegistrationsOperations,
-} from "./classic/notificationRegistrations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  ProviderMonitorSettingsOperations,
-  _getProviderMonitorSettingsOperations,
-} from "./classic/providerMonitorSettings/index.js";
-import {
-  ProviderRegistrationsOperations,
-  _getProviderRegistrationsOperations,
-} from "./classic/providerRegistrations/index.js";
-import {
-  ResourceActionsOperations,
-  _getResourceActionsOperations,
-} from "./classic/resourceActions/index.js";
-import {
-  ResourceTypeRegistrationsOperations,
-  _getResourceTypeRegistrationsOperations,
-} from "./classic/resourceTypeRegistrations/index.js";
-import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
-import {
+import type {
+  CheckinManifestOptionalParams,
+  GenerateManifestOptionalParams,
+} from "./api/options.js";
+import type { AuthorizedApplicationsOperations } from "./classic/authorizedApplications/index.js";
+import { _getAuthorizedApplicationsOperations } from "./classic/authorizedApplications/index.js";
+import type { CustomRolloutsOperations } from "./classic/customRollouts/index.js";
+import { _getCustomRolloutsOperations } from "./classic/customRollouts/index.js";
+import type { DefaultRolloutsOperations } from "./classic/defaultRollouts/index.js";
+import { _getDefaultRolloutsOperations } from "./classic/defaultRollouts/index.js";
+import type { ManifestsOperations } from "./classic/manifests/index.js";
+import { _getManifestsOperations } from "./classic/manifests/index.js";
+import type { NotificationRegistrationsOperations } from "./classic/notificationRegistrations/index.js";
+import { _getNotificationRegistrationsOperations } from "./classic/notificationRegistrations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ProviderMonitorSettingsOperations } from "./classic/providerMonitorSettings/index.js";
+import { _getProviderMonitorSettingsOperations } from "./classic/providerMonitorSettings/index.js";
+import type { ProviderRegistrationsOperations } from "./classic/providerRegistrations/index.js";
+import { _getProviderRegistrationsOperations } from "./classic/providerRegistrations/index.js";
+import type { ResourceActionsOperations } from "./classic/resourceActions/index.js";
+import { _getResourceActionsOperations } from "./classic/resourceActions/index.js";
+import type { ResourceTypeRegistrationsOperations } from "./classic/resourceTypeRegistrations/index.js";
+import { _getResourceTypeRegistrationsOperations } from "./classic/resourceTypeRegistrations/index.js";
+import type { SkusOperations } from "./classic/skus/index.js";
+import { _getSkusOperations } from "./classic/skus/index.js";
+import type {
   ResourceProviderManifest,
   CheckinManifestParams,
   CheckinManifestInfo,
 } from "./models/models.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ProviderHubClientOptionalParams } from "./api/providerHubContext.js";
 
@@ -82,16 +66,10 @@ export class ProviderHubClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createProviderHub(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createProviderHub(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.resourceActions = _getResourceActionsOperations(this._client);
+    this.manifests = _getManifestsOperations(this._client);
     this.providerMonitorSettings = _getProviderMonitorSettingsOperations(this._client);
     this.authorizedApplications = _getAuthorizedApplicationsOperations(this._client);
     this.skus = _getSkusOperations(this._client);
@@ -99,7 +77,6 @@ export class ProviderHubClient {
     this.notificationRegistrations = _getNotificationRegistrationsOperations(this._client);
     this.defaultRollouts = _getDefaultRolloutsOperations(this._client);
     this.providerRegistrations = _getProviderRegistrationsOperations(this._client);
-    this.newRegionFrontloadRelease = _getNewRegionFrontloadReleaseOperations(this._client);
     this.customRollouts = _getCustomRolloutsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -123,6 +100,8 @@ export class ProviderHubClient {
 
   /** The operation groups for resourceActions */
   public readonly resourceActions: ResourceActionsOperations;
+  /** The operation groups for manifests */
+  public readonly manifests: ManifestsOperations;
   /** The operation groups for providerMonitorSettings */
   public readonly providerMonitorSettings: ProviderMonitorSettingsOperations;
   /** The operation groups for authorizedApplications */
@@ -137,8 +116,6 @@ export class ProviderHubClient {
   public readonly defaultRollouts: DefaultRolloutsOperations;
   /** The operation groups for providerRegistrations */
   public readonly providerRegistrations: ProviderRegistrationsOperations;
-  /** The operation groups for newRegionFrontloadRelease */
-  public readonly newRegionFrontloadRelease: NewRegionFrontloadReleaseOperations;
   /** The operation groups for customRollouts */
   public readonly customRollouts: CustomRolloutsOperations;
   /** The operation groups for operations */

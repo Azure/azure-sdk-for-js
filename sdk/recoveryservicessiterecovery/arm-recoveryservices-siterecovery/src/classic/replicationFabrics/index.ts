@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import {
   removeInfra,
   renewCertificate,
@@ -14,7 +14,7 @@ import {
   create,
   get,
 } from "../../api/replicationFabrics/operations.js";
-import {
+import type {
   ReplicationFabricsRemoveInfraOptionalParams,
   ReplicationFabricsRenewCertificateOptionalParams,
   ReplicationFabricsDeleteOptionalParams,
@@ -26,15 +26,16 @@ import {
   ReplicationFabricsCreateOptionalParams,
   ReplicationFabricsGetOptionalParams,
 } from "../../api/replicationFabrics/options.js";
-import {
+import type {
   Fabric,
   FabricCreationInput,
   FailoverProcessServerRequest,
   RenewCertificateInput,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationFabrics operations. */
 export interface ReplicationFabricsOperations {

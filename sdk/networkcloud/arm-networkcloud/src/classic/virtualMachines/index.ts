@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   start,
   restart,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachines/operations.js";
-import {
+import type {
   VirtualMachinesStartOptionalParams,
   VirtualMachinesRestartOptionalParams,
   VirtualMachinesReimageOptionalParams,
@@ -28,10 +28,11 @@ import {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesGetOptionalParams,
 } from "../../api/virtualMachines/options.js";
-import { OperationStatusResult, VirtualMachine } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, VirtualMachine } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachines operations. */
 export interface VirtualMachinesOperations {

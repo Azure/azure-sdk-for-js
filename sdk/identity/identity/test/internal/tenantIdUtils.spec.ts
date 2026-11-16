@@ -13,7 +13,7 @@ import { describe, it, assert } from "vitest";
 describe("tenantIdUtils", () => {
   describe("resolveAddionallyAllowedTenantIds", () => {
     it("should set to empty if resolveAddionallyAllowedTenantIds is passed null/undefined", () => {
-      let additionallyAllowedTenants: string[] | undefined;
+      const additionallyAllowedTenants: string[] | undefined = undefined;
 
       const result = resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants);
 
@@ -124,7 +124,7 @@ describe("tenantIdUtils", () => {
         info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
-      let tenantId: string | undefined;
+      const tenantId: string | undefined = undefined;
       const clientId = "def-456";
 
       const result = resolveTenantId(logger, tenantId, clientId);
@@ -138,7 +138,7 @@ describe("tenantIdUtils", () => {
         info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
-      let tenantId: string | undefined;
+      const tenantId: string | undefined = undefined;
       const clientId = DeveloperSignOnClientId;
 
       const result = resolveTenantId(logger, tenantId, clientId);

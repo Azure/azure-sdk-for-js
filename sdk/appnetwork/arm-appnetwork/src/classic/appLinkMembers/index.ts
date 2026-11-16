@@ -22,25 +22,20 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppLinkMembers operations. */
 export interface AppLinkMembersOperations {
-  /** List AppLinkMember resources by AppLink. */
+  /** List the members of an Azure Kubernetes Application Network resource. */
   listByAppLink: (
     resourceGroupName: string,
     appLinkName: string,
     options?: AppLinkMembersListByAppLinkOptionalParams,
   ) => PagedAsyncIterableIterator<AppLinkMember>;
-  /** Delete an AppLinkMember. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Remove a member from an Azure Kubernetes Application Network resource. */
   delete: (
     resourceGroupName: string,
     appLinkName: string,
     appLinkMemberName: string,
     options?: AppLinkMembersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update an AppLinkMember. */
+  /** Update a member of an Azure Kubernetes Application Network resource. */
   update: (
     resourceGroupName: string,
     appLinkName: string,
@@ -48,7 +43,7 @@ export interface AppLinkMembersOperations {
     properties: AppLinkMemberUpdate,
     options?: AppLinkMembersUpdateOptionalParams,
   ) => PollerLike<OperationState<AppLinkMember>, AppLinkMember>;
-  /** Create an AppLinkMember. */
+  /** Create a member of an Azure Kubernetes Application Network resource. */
   createOrUpdate: (
     resourceGroupName: string,
     appLinkName: string,
@@ -56,7 +51,7 @@ export interface AppLinkMembersOperations {
     resource: AppLinkMember,
     options?: AppLinkMembersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AppLinkMember>, AppLinkMember>;
-  /** Get an AppLinkMember. */
+  /** Get a member of an Azure Kubernetes Application Network resource. */
   get: (
     resourceGroupName: string,
     appLinkName: string,

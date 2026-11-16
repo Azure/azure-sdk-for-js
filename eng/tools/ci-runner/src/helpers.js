@@ -41,6 +41,7 @@ export const restrictedToPackages = [
   "@azure/core-http-compat",
   "@azure/core-lro",
   "@azure/core-paging",
+  "@azure/core-process",
   "@azure/core-rest-pipeline",
   "@azure/core-sse",
   "@azure/core-tracing",
@@ -57,6 +58,9 @@ export const restrictedToPackages = [
   "@azure-tools/test-utils",
   "@azure-tools/test-utils-vitest",
 ];
+
+/** SDK package categories eligible for CI runner actions. */
+export const validSdkTypes = ["client", "mgmt", "provisioning", "perf-test", "utility"];
 
 /**
  * Helper function that determines the filter to use based on each individual package name
@@ -170,7 +174,6 @@ export const getServicePackages = (serviceDirs, artifactNames) => {
   const packageNames = [];
   /** @type {string[]} */
   const packageDirs = [];
-  let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply ci-runner jobs on
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(getBaseDir(), "sdk", serviceDir));

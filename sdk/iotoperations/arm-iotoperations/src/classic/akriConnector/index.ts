@@ -28,11 +28,6 @@ export interface AkriConnectorOperations {
     options?: AkriConnectorListByTemplateOptionalParams,
   ) => PagedAsyncIterableIterator<AkriConnectorResource>;
   /** Delete a AkriConnectorResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -58,7 +53,6 @@ export interface AkriConnectorOperations {
     options?: AkriConnectorGetOptionalParams,
   ) => Promise<AkriConnectorResource>;
 }
-
 function _getAkriConnector(context: IoTOperationsContext) {
   return {
     listByTemplate: (
@@ -117,7 +111,6 @@ function _getAkriConnector(context: IoTOperationsContext) {
       ),
   };
 }
-
 export function _getAkriConnectorOperations(
   context: IoTOperationsContext,
 ): AkriConnectorOperations {

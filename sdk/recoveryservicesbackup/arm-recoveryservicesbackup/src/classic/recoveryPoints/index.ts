@@ -2,28 +2,71 @@
 // Licensed under the MIT License.
 
 import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
-import { update, list, get } from "../../api/recoveryPoints/operations.js";
+import {
+  getRPExtendedInfoOperationResult,
+  getRPExtendedInfo,
+  list,
+  get,
+} from "../../api/recoveryPoints/operations.js";
 import type {
-  RecoveryPointsUpdateOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
+  RecoveryPointsGetRPExtendedInfoOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "../../api/recoveryPoints/options.js";
-import type { RecoveryPointResource, UpdateRecoveryPointRequest } from "../../models/models.js";
+import type {
+  RecoveryPointResource,
+  GetRPExtendedInfoRequestResource,
+  RPExtendedInfoResourceList,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RecoveryPoints operations. */
 export interface RecoveryPointsOperations {
-  /** UpdateRecoveryPoint to update recovery point for given RecoveryPointID. */
-  update: (
+  /**
+   * Returns the additional details of the recovery points fetched by a prior getRPExtendedInfo operation. Returns
+   * 202 Accepted while the operation is still running.
+   */
+  getRPExtendedInfoOperationResult: (
     resourceGroupName: string,
     vaultName: string,
     fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    recoveryPointId: string,
-    parameters: UpdateRecoveryPointRequest,
-    options?: RecoveryPointsUpdateOptionalParams,
-  ) => Promise<RecoveryPointResource>;
+    operationId: string,
+    options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
+  ) => Promise<RPExtendedInfoResourceList | void>;
+  /**
+   * Triggers fetching the additional details of a recovery point, which are not returned by the recovery point GET
+   * API. This is an asynchronous operation. Returns tracking headers which can be tracked using the
+   * GetRPExtendedInfoOperationResult API.
+   */
+  getRPExtendedInfo: (
+    resourceGroupName: string,
+    vaultName: string,
+    fabricName: string,
+    parameters: GetRPExtendedInfoRequestResource,
+    options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+  ) => PollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>;
+  /** @deprecated use getRPExtendedInfo instead */
+  beginGetRPExtendedInfo: (
+    resourceGroupName: string,
+    vaultName: string,
+    fabricName: string,
+    parameters: GetRPExtendedInfoRequestResource,
+    options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<RPExtendedInfoResourceList>, RPExtendedInfoResourceList>
+  >;
+  /** @deprecated use getRPExtendedInfo instead */
+  beginGetRPExtendedInfoAndWait: (
+    resourceGroupName: string,
+    vaultName: string,
+    fabricName: string,
+    parameters: GetRPExtendedInfoRequestResource,
+    options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+  ) => Promise<RPExtendedInfoResourceList>;
   /** Lists the backup copies for the backed up item. */
   list: (
     vaultName: string,
@@ -50,27 +93,62 @@ export interface RecoveryPointsOperations {
 
 function _getRecoveryPoints(context: RecoveryServicesBackupContext) {
   return {
-    update: (
+    getRPExtendedInfoOperationResult: (
       resourceGroupName: string,
       vaultName: string,
       fabricName: string,
-      containerName: string,
-      protectedItemName: string,
-      recoveryPointId: string,
-      parameters: UpdateRecoveryPointRequest,
-      options?: RecoveryPointsUpdateOptionalParams,
+      operationId: string,
+      options?: RecoveryPointsGetRPExtendedInfoOperationResultOptionalParams,
     ) =>
-      update(
+      getRPExtendedInfoOperationResult(
         context,
         resourceGroupName,
         vaultName,
         fabricName,
-        containerName,
-        protectedItemName,
-        recoveryPointId,
-        parameters,
+        operationId,
         options,
       ),
+    getRPExtendedInfo: (
+      resourceGroupName: string,
+      vaultName: string,
+      fabricName: string,
+      parameters: GetRPExtendedInfoRequestResource,
+      options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+    ) => getRPExtendedInfo(context, resourceGroupName, vaultName, fabricName, parameters, options),
+    beginGetRPExtendedInfo: async (
+      resourceGroupName: string,
+      vaultName: string,
+      fabricName: string,
+      parameters: GetRPExtendedInfoRequestResource,
+      options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+    ) => {
+      const poller = getRPExtendedInfo(
+        context,
+        resourceGroupName,
+        vaultName,
+        fabricName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetRPExtendedInfoAndWait: async (
+      resourceGroupName: string,
+      vaultName: string,
+      fabricName: string,
+      parameters: GetRPExtendedInfoRequestResource,
+      options?: RecoveryPointsGetRPExtendedInfoOptionalParams,
+    ) => {
+      return await getRPExtendedInfo(
+        context,
+        resourceGroupName,
+        vaultName,
+        fabricName,
+        parameters,
+        options,
+      );
+    },
     list: (
       vaultName: string,
       resourceGroupName: string,

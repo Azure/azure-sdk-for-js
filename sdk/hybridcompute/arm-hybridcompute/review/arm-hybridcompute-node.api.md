@@ -289,6 +289,7 @@ export interface FirmwareProfile {
 // @public
 export interface Gateway extends TrackedResource {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
     readonly gatewayEndpoint?: string;
     readonly gatewayId?: string;
     gatewayType?: GatewayType;
@@ -298,6 +299,7 @@ export interface Gateway extends TrackedResource {
 // @public
 export interface GatewayProperties {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
     readonly gatewayEndpoint?: string;
     readonly gatewayId?: string;
     gatewayType?: GatewayType;
@@ -354,11 +356,13 @@ export type GatewayType = string;
 // @public
 export interface GatewayUpdate extends ResourceUpdate {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
 }
 
 // @public
 export interface GatewayUpdateProperties {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
 }
 
 // @public
@@ -403,6 +407,7 @@ export class HybridComputeManagementClient {
     readonly settings: SettingsOperations;
     setupExtensions(resourceGroupName: string, machineName: string, extensions: SetupExtensionRequest, options?: SetupExtensionsOptionalParams): PollerLike<OperationState<SetupExtensionRequest>, SetupExtensionRequest>;
     upgradeExtensions(resourceGroupName: string, machineName: string, extensionUpgradeParameters: MachineExtensionUpgrade, options?: UpgradeExtensionsOptionalParams): PollerLike<OperationState<void>, void>;
+    readonly vmApplications: VmApplicationsOperations;
 }
 
 // @public
@@ -423,13 +428,6 @@ export interface HybridComputePrivateLinkScopeProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccessType;
     serviceExtensions?: ServiceExtension[];
-}
-
-// @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: ResourceIdentityType;
 }
 
 // @public
@@ -538,7 +536,8 @@ export enum KnownHotpatchEnablementStatus {
 // @public
 export enum KnownIdentityKeyStore {
     Default = "Default",
-    TPM = "TPM"
+    TPM = "TPM",
+    TpmTransition = "TpmTransition"
 }
 
 // @public
@@ -612,12 +611,26 @@ export enum KnownLicenseStatus {
 // @public
 export enum KnownLicenseTarget {
     WindowsServer2012 = "Windows Server 2012",
-    WindowsServer2012R2 = "Windows Server 2012 R2"
+    WindowsServer2012R2 = "Windows Server 2012 R2",
+    WindowsServer2016 = "Windows Server 2016"
 }
 
 // @public
 export enum KnownLicenseType {
     ESU = "ESU"
+}
+
+// @public
+export enum KnownMachineStatusReason {
+    Cloned = "Cloned"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -722,7 +735,8 @@ export enum KnownStatusTypes {
 
 // @public
 export enum KnownVersions {
-    V20250916Preview = "2025-09-16-preview"
+    V20260715 = "2026-07-15",
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -1096,7 +1110,7 @@ export interface Machine extends TrackedResource {
     readonly firmwareProfile?: FirmwareProfile;
     readonly hardwareProfile?: HardwareProfile;
     hardwareResourceId?: string;
-    identity?: Identity;
+    identity?: ManagedServiceIdentity;
     identityKeyStore?: IdentityKeyStore;
     kind?: ArcKindEnum;
     readonly lastStatusChange?: Date;
@@ -1117,6 +1131,7 @@ export interface Machine extends TrackedResource {
     readonly resources?: MachineExtension[];
     serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
+    readonly statusReason?: MachineStatusReason;
     readonly storageProfile?: StorageProfile;
     tpmEkCertificate?: string;
     vmId?: string;
@@ -1309,6 +1324,7 @@ export interface MachineProperties {
     readonly provisioningState?: string;
     serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
+    readonly statusReason?: MachineStatusReason;
     readonly storageProfile?: StorageProfile;
     tpmEkCertificate?: string;
     vmId?: string;
@@ -1463,14 +1479,18 @@ export interface MachinesOperations {
 }
 
 // @public
+export type MachineStatusReason = string;
+
+// @public
 export interface MachinesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface MachineUpdate extends ResourceUpdate {
     agentUpgrade?: AgentUpgrade;
+    clientPublicKey?: string;
     cloudMetadata?: CloudMetadata;
-    identity?: Identity;
+    identity?: ManagedServiceIdentity;
     identityKeyStore?: string;
     kind?: ArcKindEnum;
     locationData?: LocationData;
@@ -1483,6 +1503,7 @@ export interface MachineUpdate extends ResourceUpdate {
 // @public
 export interface MachineUpdateProperties {
     agentUpgrade?: AgentUpgrade;
+    clientPublicKey?: string;
     cloudMetadata?: CloudMetadata;
     identityKeyStore?: string;
     locationData?: LocationData;
@@ -1491,6 +1512,17 @@ export interface MachineUpdateProperties {
     privateLinkScopeResourceId?: string;
     tpmEkCertificate?: string;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NetworkInterface {
@@ -1898,9 +1930,6 @@ export interface ResourceAssociation {
 }
 
 // @public
-export type ResourceIdentityType = "SystemAssigned";
-
-// @public
 export interface ResourceUpdate {
     tags?: Record<string, string>;
 }
@@ -2061,6 +2090,110 @@ export interface TrackedResource extends Resource {
 // @public
 export interface UpgradeExtensionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface VmApplication extends TrackedResource {
+    properties?: VmApplicationProperties;
+}
+
+// @public
+export interface VmApplicationInstanceView {
+    actionsPerformed?: VmApplicationInstanceViewAction[];
+    name?: string;
+    result?: string;
+    version?: string;
+}
+
+// @public
+export interface VmApplicationInstanceViewAction {
+    operation?: string;
+    result?: string;
+}
+
+// @public
+export interface VmApplicationProperties {
+    communityGalleryApplicationId?: string;
+    configurationReference?: string;
+    readonly instanceView?: VmApplicationInstanceView;
+    order?: number;
+    packageReferenceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    sharedGalleryApplicationId?: string;
+    treatFailureAsDeploymentFailure?: boolean;
+}
+
+// @public
+export interface VmApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VmApplicationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VmApplicationsGetInstanceViewOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VmApplicationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VmApplicationsListOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface VmApplicationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, machineName: string, applicationName: string, resource: VmApplication, options?: VmApplicationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VmApplication>, VmApplication>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, machineName: string, applicationName: string, resource: VmApplication, options?: VmApplicationsCreateOrUpdateOptionalParams) => Promise<VmApplication>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, machineName: string, applicationName: string, options?: VmApplicationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, machineName: string, applicationName: string, options?: VmApplicationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, machineName: string, applicationName: string, properties: VmApplicationUpdate, options?: VmApplicationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VmApplication>, VmApplication>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, machineName: string, applicationName: string, properties: VmApplicationUpdate, options?: VmApplicationsUpdateOptionalParams) => Promise<VmApplication>;
+    createOrUpdate: (resourceGroupName: string, machineName: string, applicationName: string, resource: VmApplication, options?: VmApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VmApplication>, VmApplication>;
+    delete: (resourceGroupName: string, machineName: string, applicationName: string, options?: VmApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, machineName: string, applicationName: string, options?: VmApplicationsGetOptionalParams) => Promise<VmApplication>;
+    getInstanceView: (resourceGroupName: string, machineName: string, applicationName: string, options?: VmApplicationsGetInstanceViewOptionalParams) => Promise<VmApplication>;
+    list: (resourceGroupName: string, machineName: string, options?: VmApplicationsListOptionalParams) => PagedAsyncIterableIterator<VmApplication>;
+    update: (resourceGroupName: string, machineName: string, applicationName: string, properties: VmApplicationUpdate, options?: VmApplicationsUpdateOptionalParams) => PollerLike<OperationState<VmApplication>, VmApplication>;
+}
+
+// @public
+export interface VmApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VmApplicationUpdate {
+    properties?: VmApplicationUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VmApplicationUpdateProperties {
+    communityGalleryApplicationId?: string;
+    configurationReference?: string;
+    order?: number;
+    packageReferenceId?: string;
+    sharedGalleryApplicationId?: string;
+    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public

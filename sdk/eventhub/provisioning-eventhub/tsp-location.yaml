@@ -1,0 +1,6 @@
+directory: specification/eventhub/resource-manager/Microsoft.EventHub/Eventhub
+commit: 0149d1c0ba8875e602471d3ad163df6f9a923f7b
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json

@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Workspace
  *
  * @summary create a Workspace
- * x-ms-original-file: 2026-02-01-preview/Workspaces_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Workspaces_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function workspacesCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
-  const result = await client.workspaces.createOrUpdate("rgdiscovery", "b8d58cd85996a6dea3", {
+  const result = await client.workspaces.createOrUpdate("rgdiscovery", "a55c900f32bf865be0", {
     properties: {
       supercomputerIds: [
         "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/resourceGroups/rgdiscovery/providers/Microsoft.Discovery/supercomputers/supercomputer12",
@@ -25,8 +25,8 @@ async function workspacesCreateOrUpdateMaximumSet(): Promise<void> {
       customerManagedKeys: "Enabled",
       keyVaultProperties: {
         keyVaultUri: "https://microsoft.com/a",
-        keyName: "yfplarzdfwsut",
-        keyVersion: "qlsjcf",
+        keyName: "cdrnokqonyvfzot",
+        keyVersion: "pxfpvedkfuagtnk",
       },
       logAnalyticsClusterId:
         "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.OperationalInsights/clusters/cluster1",
@@ -38,7 +38,7 @@ async function workspacesCreateOrUpdateMaximumSet(): Promise<void> {
       workspaceSubnetId:
         "/subscriptions/31735C59-6307-4464-8B80-3675223F23D2/providers/Microsoft.Network/virtualNetworks/virtualnetwork1/subnets/workspaceSubnet1",
     },
-    tags: { key5364: "xiwdefebkbfffgqlzmqaeqsqeq" },
+    tags: { key8931: "verirbmpdzupxkkeblzfq" },
     location: "uksouth",
   });
   console.log(result);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list InstanceResource resources by subscription ID
  *
  * @summary list InstanceResource resources by subscription ID
- * x-ms-original-file: 2026-03-01/Instance_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/Instance_ListBySubscription_MaximumSet_Gen.json
  */
 async function instanceListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

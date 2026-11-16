@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api";
+
+/**
+ * Checks whether the instrumentation logging level disables collection.
+ * @internal
+ */
+export function isLogCollectionDisabled(): boolean {
+  return process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL === "NONE";
+}
 
 /**
  * Convert log level to severity number.

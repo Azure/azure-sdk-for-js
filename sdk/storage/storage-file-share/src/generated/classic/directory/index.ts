@@ -9,7 +9,7 @@ import {
   listFilesAndDirectoriesSegment,
   setMetadata,
   setProperties,
-  $delete,
+  deleteDirectory,
   getProperties,
   create,
 } from "../../api/directory/operations.js";
@@ -214,12 +214,7 @@ export interface DirectoryOperations {
     >
   >;
   /** Removes the specified empty directory. Note that the directory must be empty before it can be deleted. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteDirectory: (
     options?: DirectoryDeleteOptionalParams,
   ) => Promise<
     {
@@ -246,6 +241,7 @@ export interface DirectoryOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
+      fileName?: string;
       serverEncrypted?: boolean;
       fileMode?: string;
       owner?: string;
@@ -267,6 +263,7 @@ export interface DirectoryOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
+        fileName?: string;
         serverEncrypted?: boolean;
         fileMode?: string;
         owner?: string;
@@ -341,7 +338,7 @@ function _getDirectory(context: FileContext) {
     setMetadata: (options?: DirectorySetMetadataOptionalParams) => setMetadata(context, options),
     setProperties: (options?: DirectorySetPropertiesOptionalParams) =>
       setProperties(context, options),
-    delete: (options?: DirectoryDeleteOptionalParams) => $delete(context, options),
+    deleteDirectory: (options?: DirectoryDeleteOptionalParams) => deleteDirectory(context, options),
     getProperties: (options?: DirectoryGetPropertiesOptionalParams) =>
       getProperties(context, options),
     create: (options?: DirectoryCreateOptionalParams) => create(context, options),

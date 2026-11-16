@@ -28,6 +28,8 @@ export {
   isPipelineLike,
   newPipeline,
   type StoragePipelineOptions,
+  type SessionMode,
+  type SessionOptions,
   type RequestPolicyFactory,
   type RequestPolicy,
   type RequestPolicyOptions,

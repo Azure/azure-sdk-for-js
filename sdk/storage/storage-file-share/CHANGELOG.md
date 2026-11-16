@@ -1,12 +1,38 @@
 # Release History
 
-## 12.33.0-beta.1 (Unreleased)
+## 12.34.0-beta.1 (2026-11-11)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2027-03-07.
+- Added `enableChangeFeed` and `changeFeedRetentionInDays` to `ShareCreateOptions` and `ShareSetPropertiesOptions`, and `enableChangeFeed`, `changeFeedRetentionInDays` and `changeFeedBlobContainerName` to the response of `ShareClient.getProperties()`, to configure and check change feed on a share.
+- Added `creationTime` to the response of `ShareClient.getProperties()` and to the share properties returned by `ShareServiceClient.listShares()`.
+- Added `ShareClient.getShareFileClient()` and `ShareClient.getShareDirectoryClient()`, which create clients that address a file or directory by its file ID (SMB file shares only). The `ShareFileClient` and `ShareDirectoryClient` constructors also accept a URL with a `fileid` query parameter. A client that addresses its resource by file ID supports only `getProperties()` and, for files, `getFileLinks()` and `withShareSnapshot()`; its other methods throw an error.
+- Added `fileId` to `ShareFileClient` and `ShareDirectoryClient`: the file ID the client addresses its resource by, or `undefined` when the client addresses it by path.
+- Added `ShareFileClient.getFileLinks()`, which returns the hard links of a file along with the file's properties. It's supported only on a client that addresses the file by its file ID.
+- Added `fileName` to the responses of `ShareFileClient.getProperties()` and `ShareDirectoryClient.getProperties()`. It is returned only when the client addresses the resource by file ID.
 
 ### Bugs Fixed
+
+- Restored the core v1 user agent string prefix, `azsdk-js-storagefile`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
+## 12.33.0 (2026-09-24)
+
+### Features Added
+
+- Includes all features released in 12.33.0-beta.1.
+
+## 12.33.0-beta.1 (2026-08-03)
+
+### Features Added
+
+- Added support for service version 2026-10-06.
+- Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support.
+- Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`.
+
+### Bugs Fixed
+
+- Stopped exporting the internal-only `FileDownloadOptionalParams` and `FileUploadRangeFromURLOptionalParams` types, which are not referenced by any public API.
 
 ### Other Changes
 
@@ -18,18 +44,18 @@
 
 - Includes all features released in 12.32.0-beta.1.
 
+## 12.31.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.31.0-beta.1.
+
 ## 12.32.0-beta.1 (2026-04-29)
 
 ### Features Added
 
 - Added support for service version 2026-06-06.
 - Added support for uploading up to 4 MiB of data with shareFileClient.create().
-
-## 12.31.0 (2026-05-22)
-
-### Features Added
-
-- Includes all features released in 12.31.0-beta.1.
 
 ## 12.31.0-beta.1 (2026-03-05)
 

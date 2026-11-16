@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProvider } from "./azureDedicatedHSMResourceProvider.js";
+import type { AzureDedicatedHSMResourceProvider } from "./azureDedicatedHSMResourceProvider.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/dedicatedHsm/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeCloudHsmClusterPrivateEndpointConnections } from "./api/cloudHsmClusterPrivateEndpointConnections/operations.js";
-import { _getDeserialize } from "./api/cloudHsmClusterRestoreStatus/operations.js";
-import { _getDeserialize as _getDeserializeCloudHsmClusterBackupStatus } from "./api/cloudHsmClusterBackupStatus/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializePaymentHsmClusterPrivateEndpointConnections } from "./api/paymentHsmClusterPrivateEndpointConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializePaymentHsmClusters,
+  _updateDeserialize as _updateDeserializePaymentHsmClusters,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializePaymentHsmClusters,
+} from "./api/paymentHsmClusters/operations.js";
 import {
   _restoreDeserialize,
   _validateRestorePropertiesDeserialize,
@@ -20,14 +24,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCloudHsmClusters,
 } from "./api/cloudHsmClusters/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -71,6 +71,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -81,68 +82,64 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}":
-    {
-      deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections/{peConnectionName}":
     {
       deserializer: _$deleteDeserializeCloudHsmClusterPrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
     },
-  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/restoreOperationStatus/{jobId}":
-    { deserializer: _getDeserialize, expectedStatuses: ["200", "202"] },
-  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/backupOperationStatus/{jobId}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/paymentHsmClusters/{paymentHsmClusterName}/privateEndpointConnections/{peConnectionName}":
     {
-      deserializer: _getDeserializeCloudHsmClusterBackupStatus,
-      expectedStatuses: ["200", "202"],
+      deserializer: _$deleteDeserializePaymentHsmClusterPrivateEndpointConnections,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/paymentHsmClusters/{paymentHsmClusterName}":
+    {
+      deserializer: _$deleteDeserializePaymentHsmClusters,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/paymentHsmClusters/{paymentHsmClusterName}":
+    { deserializer: _updateDeserializePaymentHsmClusters, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/paymentHsmClusters/{paymentHsmClusterName}":
+    {
+      deserializer: _createOrUpdateDeserializePaymentHsmClusters,
+      expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/restore":
-    { deserializer: _restoreDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _restoreDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/validateRestoreProperties":
     {
       deserializer: _validateRestorePropertiesDeserialize,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/backup":
-    { deserializer: _backupDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _backupDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/validateBackupProperties":
-    {
-      deserializer: _validateBackupPropertiesDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _validateBackupPropertiesDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}":
-    {
-      deserializer: _$deleteDeserializeCloudHsmClusters,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeCloudHsmClusters, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}":
-    {
-      deserializer: _updateDeserializeCloudHsmClusters,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeCloudHsmClusters, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}":
     {
       deserializer: _createOrUpdateDeserializeCloudHsmClusters,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 
@@ -214,4 +211,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

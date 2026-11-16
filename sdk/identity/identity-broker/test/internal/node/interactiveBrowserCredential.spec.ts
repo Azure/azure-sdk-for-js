@@ -5,12 +5,10 @@ import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type http from "node:http";
 import type { MockInstance } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("InteractiveBrowserCredential (internal)", () => {
-  let listen: http.Server | undefined;
   let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
@@ -20,10 +18,6 @@ describe("InteractiveBrowserCredential (internal)", () => {
   });
 
   afterEach(async () => {
-    if (listen) {
-      listen.close();
-    }
-
     vi.restoreAllMocks();
   });
 

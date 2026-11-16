@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
  * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: 2026-05-15-preview/CreateAccount.json
+ * x-ms-original-file: 2026-11-01/CreateAccount.json
  */
 async function createAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -43,7 +43,7 @@ async function createAccount(): Promise<void> {
  * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
  *
  * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
- * x-ms-original-file: 2026-05-15-preview/CreateAccountMin.json
+ * x-ms-original-file: 2026-11-01/CreateAccountMin.json
  */
 async function createAccountMin(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,9 +59,74 @@ async function createAccountMin(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ *
+ * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * x-ms-original-file: 2026-11-01/CreateAccountWithAgentHostingConfiguration.json
+ */
+async function createAFoundryAccountWithCustomerOwnedAKSHosting(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accounts.create("myResourceGroup", "foundryByocAccount", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/account-control-plane":
+          {},
+      },
+    },
+    kind: "AIServices",
+    location: "West US",
+    properties: {},
+    sku: { name: "S0" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ *
+ * @summary create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+ * x-ms-original-file: 2026-11-01/CreateAccountWithTrustedCertificateSources.json
+ */
+async function createAnAccountWithPrivateCATrust(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accounts.create("myResourceGroup", "myAccount", {
+    kind: "AIServices",
+    location: "eastus",
+    sku: { name: "S0" },
+    identity: { type: "SystemAssigned" },
+    properties: {
+      allowProjectManagement: true,
+      customSubDomainName: "myAccount",
+      trustedCertificateSources: [
+        {
+          type: "AzureKeyVault",
+          resourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myKeyVault",
+          certificateBundleReferences: [
+            {
+              secretName: "corporate-ca-bundle",
+              secretVersion: "11111111111111111111111111111111",
+            },
+            { secretName: "partner-ca-bundle", secretVersion: "22222222222222222222222222222222" },
+          ],
+        },
+      ],
+    },
+  });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await createAccount();
   await createAccountMin();
+  await createAFoundryAccountWithCustomerOwnedAKSHosting();
+  await createAnAccountWithPrivateCATrust();
 }
 
 main().catch(console.error);

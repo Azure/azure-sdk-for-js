@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -124,11 +124,9 @@
-     innererror?: InnerError;
- }
+@@ -128,11 +128,9 @@
+ 
+ export { InternalClientOptions }
  
  // @public
 -export interface NodeJSReadableStream extends NodeJS.ReadableStream {

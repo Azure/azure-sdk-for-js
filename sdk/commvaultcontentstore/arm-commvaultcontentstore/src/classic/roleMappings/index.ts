@@ -9,7 +9,7 @@ import type {
   RoleMappingsCreateOrUpdateOptionalParams,
   RoleMappingsGetOptionalParams,
 } from "../../api/roleMappings/options.js";
-import type { RoleMapping } from "../../models/models.js";
+import type { RoleMapping, RoleMappingCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RoleMappings operations. */
@@ -30,7 +30,7 @@ export interface RoleMappingsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     cloudAccountName: string,
-    resource: RoleMapping,
+    resource: RoleMappingCreateOrUpdate,
     options?: RoleMappingsCreateOrUpdateOptionalParams,
   ) => Promise<RoleMapping>;
   /** Get a RoleMapping */
@@ -56,7 +56,7 @@ function _getRoleMappings(context: ContentStoreContext) {
     createOrUpdate: (
       resourceGroupName: string,
       cloudAccountName: string,
-      resource: RoleMapping,
+      resource: RoleMappingCreateOrUpdate,
       options?: RoleMappingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, cloudAccountName, resource, options),
     get: (

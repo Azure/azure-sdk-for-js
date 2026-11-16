@@ -1,14 +1,174 @@
 # Release History
 
-## 24.1.1 (Unreleased)
+## 25.3.0 (2026-10-15)
 
 ### Features Added
+  - Added operation CapacityReservationGroupsOperations.beginDelete
+  - Added operation CapacityReservationGroupsOperations.beginDeleteAndWait
+  - Added Interface FlexProfile
+  - Interface CapacityReservationGroupsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface VirtualMachine has a new optional parameter flexProfile
+  - Interface VirtualMachineNetworkInterfaceIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineNetworkInterfaceIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineProperties has a new optional parameter flexProfile
+  - Interface VirtualMachineScaleSetIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetUpdateIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetUpdateIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineUpdate has a new optional parameter flexProfile
+
+## 25.2.0 (2026-09-16)
+
+### Features Added
+  - Added Interface DataDiskImageSecurityProfile
+  - Added Interface ImageMetadataProfile
+  - Added Interface MetadataKeyValue
+  - Added Interface SecretsProvisioningComponent
+  - Added Interface SecretsProvisioningSettings
+  - Interface CommunityGalleryImageVersion has a new optional parameter consumptionEndTime
+  - Interface CommunityGalleryImageVersion has a new optional parameter imageState
+  - Interface CommunityGalleryImageVersionProperties has a new optional parameter consumptionEndTime
+  - Interface CommunityGalleryImageVersionProperties has a new optional parameter imageState
+  - Interface DataDiskImageEncryption has a new optional parameter securityProfile
+  - Interface GalleryImageVersion has a new optional parameter imageMetadataProfiles
+  - Interface GalleryImageVersionProperties has a new optional parameter imageMetadataProfiles
+  - Interface GalleryImageVersionsDeleteOptionalParams has a new optional parameter bypassSoftDelete
+  - Interface GalleryImageVersionUpdate has a new optional parameter imageMetadataProfiles
+  - Interface GallerySoftDeletedResource has a new optional parameter consumptionEndTime
+  - Interface GallerySoftDeletedResource has a new optional parameter hardDeletionTargetTime
+  - Interface GallerySoftDeletedResourceProperties has a new optional parameter consumptionEndTime
+  - Interface GallerySoftDeletedResourceProperties has a new optional parameter hardDeletionTargetTime
+  - Interface ImageVersionSecurityProfile has a new optional parameter secretsProvisioningSettings
+  - Interface SharedGalleryImageVersion has a new optional parameter consumptionEndTime
+  - Interface SharedGalleryImageVersion has a new optional parameter imageState
+  - Interface SharedGalleryImageVersionProperties has a new optional parameter consumptionEndTime
+  - Interface SharedGalleryImageVersionProperties has a new optional parameter imageState
+  - Interface SoftDeletePolicy has a new optional parameter gracePeriodInDays
+  - Interface SoftDeletePolicy has a new optional parameter retentionPeriodInDays
+  - Added Type Alias GalleryImageVersionState
+  - Added Type Alias MetadataType
+  - Added Type Alias SecretsProvisioningComponentName
+  - Added Enum KnownGalleryImageVersionState
+  - Added Enum KnownMetadataType
+  - Added Enum KnownSecretsProvisioningComponentName
+  - Enum KnownConfidentialVMEncryptionType has a new value DataDiskEncryptedWithCmk
+
+## 25.1.1 (2026-08-21)
+
+### Features Added
+  - Added operation group VirtualMachineDiagnosticRunCommandsOperations
+  - Added operation group VirtualMachineScaleSetVMDiagnosticRunCommandsOperations
+  - Added operation VirtualMachineScaleSetsOperations.beginMigrateVMAvailabilityZone
+  - Added operation VirtualMachineScaleSetsOperations.beginMigrateVMAvailabilityZoneAndWait
+  - Added operation VirtualMachineScaleSetsOperations.migrateVMAvailabilityZone
+  - Added Interface AdditionalDiskProperties
+  - Added Interface CapacityReservationStateInfo
+  - Added Interface DiskAvailabilityPolicy
+  - Added Interface ExtensionFeatureMetadata
+  - Added Interface ExtensionFeatureTag
+  - Added Interface MigrateVMAvailabilityZoneInput
+  - Added Interface VirtualMachineDiagnosticRunCommand
+  - Added Interface VirtualMachineDiagnosticRunCommandsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineDiagnosticRunCommandsDeleteOptionalParams
+  - Added Interface VirtualMachineDiagnosticRunCommandsDiagnosticListByVirtualMachineOptionalParams
+  - Added Interface VirtualMachineDiagnosticRunCommandsGetByVirtualMachineOptionalParams
+  - Added Interface VirtualMachineDiagnosticRunCommandsUpdateOptionalParams
+  - Added Interface VirtualMachineDiskProperties
+  - Added Interface VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams
+  - Added Interface VirtualMachineScaleSetVMDiagnosticRunCommandsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMDiagnosticRunCommandsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetVMDiagnosticRunCommandsDiagnosticListOptionalParams
+  - Added Interface VirtualMachineScaleSetVMDiagnosticRunCommandsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetVMDiagnosticRunCommandsUpdateOptionalParams
+  - Interface CapacityReservationInstanceView has a new optional parameter reservationStateInfo
+  - Interface CapacityReservationInstanceViewWithName has a new optional parameter reservationStateInfo
+  - Interface CapacityReservationProfile has a new optional parameter disableCapacityReservationAssignment
+  - Interface CapacityReservationUtilization has a new optional parameter usedReservedCountBySubscription
+  - Interface HardwareProfile has a new optional parameter processorMode
+  - Interface HostEndpointSettings has a new optional parameter useLocalFileRules
+  - Interface ManagedDiskParameters has a new optional parameter additionalDiskProperties
+  - Interface ScheduleProfile has a new optional parameter minimumCommitmentDays
+  - Interface ScheduleProfile has a new optional parameter modifiableUntil
+  - Interface StorageProfile has a new optional parameter diskApiVersion
+  - Interface VirtualMachineExtensionImage has a new optional parameter extensionFeatureMetadata
+  - Interface VirtualMachineExtensionImage has a new optional parameter releaseCategory
+  - Interface VirtualMachineExtensionImage has a new optional parameter releaseNotes
+  - Interface VirtualMachineExtensionImage has a new optional parameter runProfile
+  - Interface VirtualMachineExtensionImage has a new optional parameter urgencyLevel
+  - Interface VirtualMachineExtensionImageProperties has a new optional parameter extensionFeatureMetadata
+  - Interface VirtualMachineExtensionImageProperties has a new optional parameter releaseCategory
+  - Interface VirtualMachineExtensionImageProperties has a new optional parameter releaseNotes
+  - Interface VirtualMachineExtensionImageProperties has a new optional parameter runProfile
+  - Interface VirtualMachineExtensionImageProperties has a new optional parameter urgencyLevel
+  - Interface VirtualMachineExtensionImagesListVersionsOptionalParams has a new optional parameter expand
+  - Interface VirtualMachineInstanceView has a new optional parameter capacityReservationType
+  - Interface VirtualMachineIpTag has a new optional parameter firstPartyServiceTagId
+  - Interface VirtualMachineScaleSetHardwareProfile has a new optional parameter processorMode
+  - Interface VirtualMachineScaleSetIpTag has a new optional parameter firstPartyServiceTagId
+  - Interface VirtualMachineScaleSetManagedDiskParameters has a new optional parameter additionalDiskProperties
+  - Interface VirtualMachineScaleSetStorageProfile has a new optional parameter diskApiVersion
+  - Interface VirtualMachineScaleSetUpdateStorageProfile has a new optional parameter diskApiVersion
+  - Interface VirtualMachineScaleSetVM has a new optional parameter capacityReservation
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter capacityReservationType
+  - Interface VirtualMachineScaleSetVMProperties has a new optional parameter capacityReservation
+  - Added Type Alias CapacityReservationType
+  - Added Type Alias DiskApiVersion
+  - Added Type Alias ListVersionsExpandOptions
+  - Added Type Alias ProcessorMode
+  - Added Type Alias ReleaseCategory
+  - Added Type Alias ReservationState
+  - Added Type Alias RunProfile
+  - Added Type Alias UrgencyLevel
+  - Added Type Alias VirtualMachineDiskDelayAction
+  - Added Type Alias VirtualMachineDiskNetworkAccessPolicy
+  - Added Enum KnownCapacityReservationType
+  - Added Enum KnownDiskApiVersion
+  - Added Enum KnownListVersionsExpandOptions
+  - Added Enum KnownProcessorMode
+  - Added Enum KnownReleaseCategory
+  - Added Enum KnownReservationState
+  - Added Enum KnownRunProfile
+  - Added Enum KnownUrgencyLevel
+  - Added Enum KnownVirtualMachineDiskDelayAction
+  - Added Enum KnownVirtualMachineDiskNetworkAccessPolicy
+  - Enum KnownReservationType has a new value Open
+  - Enum KnownVirtualMachinePriorityTypes has a new value SpotPlus
+
+## 25.0.0 (2026-07-22)
+
+### Features Added
+  - Added operation group SharedGalleryInvitesOperations
+  - Added operation group TenantLevelSharedGalleryInvitesOperations
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicy
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyAndWait
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLock
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLockAndWait
+  - Added operation SnapshotsOperations.updateImmutabilityPolicy
+  - Added operation SnapshotsOperations.updateImmutabilityPolicyLock
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ImmutabilityPolicyData
+  - Added Interface ImmutabilityPolicyLockData
+  - Added Interface SharedGalleryInvitesGallerySharingAcceptOptionalParams
+  - Added Interface SharedGalleryInvitesGallerySharingRejectOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyLockOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams
+  - Interface DiskRestorePoint has a new optional parameter snapshotAccessState
+  - Interface DiskRestorePointProperties has a new optional parameter snapshotAccessState
+  - Interface DiskSecurityProfile has a new optional parameter confidentialVMVersion
+  - Interface Snapshot has a new optional parameter immutabilityPolicy
+  - Interface SnapshotProperties has a new optional parameter immutabilityPolicy
+  - Added Type Alias ConfidentialVMVersion
+  - Added Type Alias ImmutabilityPolicyType
+  - Added Enum KnownConfidentialVMVersion
+  - Added Enum KnownImmutabilityPolicyType
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation VirtualMachineScaleSetRollingUpgradesOperations.getLatest has a new signature
+  - Operation VirtualMachineScaleSetsOperations.listOSUpgradeHistory has a new signature
+  - Type alias "RollingUpgradeStatusCode" has been changed
+  - Type alias "UpgradeState" has been changed
 
 ## 24.1.0 (2026-06-17)
 

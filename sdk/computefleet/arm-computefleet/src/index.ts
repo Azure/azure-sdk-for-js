@@ -129,9 +129,6 @@ export type {
   AdditionalCapabilities,
   FleetMode,
   CapacityType,
-  ZoneAllocationPolicy,
-  ZoneDistributionStrategy,
-  ZonePreference,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
@@ -193,7 +190,6 @@ export {
   KnownMode,
   KnownFleetMode,
   KnownCapacityType,
-  KnownZoneDistributionStrategy,
   KnownManagedServiceIdentityType,
   KnownCreatedByType,
   KnownVMOperationStatus,
@@ -215,3 +211,4 @@ export type { FleetsOperations, OperationsOperations } from "./classic/index.js"
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -8,8 +8,9 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { ContentUnderstandingClient } from "./contentUnderstandingClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
@@ -55,13 +56,16 @@ export {
   DocumentAnnotation,
   DocumentAnnotationKind,
   DocumentAnnotationComment,
+  DocumentSignature,
   DocumentHyperlink,
   DocumentContentSegment,
+  DocumentChunk,
   AudioVisualContent,
   TranscriptPhrase,
   TranscriptWord,
   AudioVisualContentSegment,
   UsageDetails,
+  ContentAnalyzerInlineResponse,
   ContentAnalyzer,
   ContentAnalyzerStatus,
   ContentAnalyzerConfig,
@@ -69,6 +73,11 @@ export {
   ChartFormat,
   AnnotationFormat,
   ContentCategoryDefinition,
+  ContentAnalyzerWorkflow,
+  ChunkingStrategy,
+  ChunkingStrategyUnion,
+  ChunkingStrategyKind,
+  SemanticChunkingStrategy,
   ContentFieldSchema,
   ContentFieldDefinition,
   GenerationMethod,
@@ -82,9 +91,9 @@ export {
   ContentUnderstandingDefaults,
   CopyAuthorization,
   RecordMergePatchUpdate,
-  KnownVersions,
 } from "./models/index.js";
-export {
+export { KnownVersions } from "./models/index.js";
+export type {
   ContentUnderstandingClientOptionalParams,
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
@@ -99,7 +108,10 @@ export {
   DeleteAnalyzerOptionalParams,
   CreateAnalyzerOptionalParams,
   CopyAnalyzerOptionalParams,
+  AnalyzeBinaryInlineOptionalParams,
+  AnalyzeInlineOptionalParams,
   AnalyzeBinaryOptionalParams,
   AnalyzeOptionalParams,
 } from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

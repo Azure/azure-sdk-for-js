@@ -45,7 +45,7 @@ export function _revokeAccessSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,7 +90,7 @@ export function revokeAccess(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -111,7 +111,7 @@ export function _grantAccessSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function grantAccess(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<AccessUri>, AccessUri>;
 }
 
@@ -181,7 +181,7 @@ export function _listByRestorePointSend(
       resourceGroupName: resourceGroupName,
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +229,7 @@ export function listByRestorePoint(
       ),
     _listByRestorePointDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -249,7 +249,7 @@ export function _getSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

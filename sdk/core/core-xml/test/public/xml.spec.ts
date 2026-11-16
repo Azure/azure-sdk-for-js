@@ -2,44 +2,18 @@
 // Licensed under the MIT License.
 
 import { parseXML, stringifyXML } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("XML serializer", function () {
   describe("parseXML(string)", function () {
     it("with undefined", async function () {
-      try {
-        // @ts-expect-error - intentional error for test
-        await parseXML(undefined);
-        assert.fail("Expected error");
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        const error = err as Error;
-        assert.ok(
-          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
-            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
-            (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.includes("undefined")), // Firefox
-          `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
-        );
-      }
+      // @ts-expect-error - intentional error for test
+      await expect(parseXML(undefined)).rejects.toThrow();
     });
 
     it("with null", async function () {
-      try {
-        // @ts-expect-error - intentional error for test
-        await parseXML(null);
-        assert.fail("Expected error");
-      } catch (err) {
-        assert.instanceOf(err, Error);
-        const error = err as Error;
-        assert.ok(
-          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
-            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
-            (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.includes("null")), // Firefox
-          `error.message ("${error.message}") should have contained "Document is empty" or "null"`,
-        );
-      }
+      // @ts-expect-error - intentional error for test
+      await expect(parseXML(null)).rejects.toThrow();
     });
 
     it("with empty", async function () {

@@ -3,7 +3,11 @@
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import {
+  delay,
+  extractConnectionStringParts,
+  readResponseBodyToBytes,
+} from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
 import {
@@ -14,7 +18,8 @@ import {
 } from "../../src/utils/utils.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
-import { describe, it, assert, afterEach } from "vitest";
+import { Mutex } from "../../src/utils/Mutex.js";
+import { describe, it, assert, afterEach, expect } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -558,5 +563,48 @@ describe("RetriableReadableStream", () => {
 
     const resBuf = await streamToBuffer3(retriable);
     assert.deepStrictEqual(resBuf.toString(), "0123456789");
+  });
+});
+
+describe("readResponseBodyToBytes", () => {
+  it("reads a Node.js readable stream into a single byte array", async () => {
+    const bytes = await readResponseBodyToBytes({
+      readableStreamBody: Readable.from([Buffer.from("hello "), Buffer.from("world")]),
+    });
+    assert.strictEqual(new TextDecoder().decode(bytes), "hello world");
+  });
+
+  it("reads a Blob into a single byte array", async () => {
+    const bytes = await readResponseBodyToBytes({
+      blobBody: Promise.resolve(new Blob(["hello world"])),
+    });
+    assert.strictEqual(new TextDecoder().decode(bytes), "hello world");
+  });
+
+  it("throws a RangeError when the response body is empty or unavailable", async () => {
+    await expect(readResponseBodyToBytes({})).rejects.toThrow(RangeError);
+  });
+});
+
+// `BlobBatch` relies on this to keep validate/assemble/commit atomic across sub requests.
+describe("Mutex", () => {
+  it("does not hand the same key to a queued waiter and a later caller", async () => {
+    const key = "mutex-handoff";
+    const entered: string[] = [];
+
+    await Mutex.lock(key);
+    const queued = Mutex.lock(key).then(() => entered.push("queued"));
+
+    await Mutex.unlock(key);
+    // Arrives after the unlock but before the queued waiter resumes.
+    const later = Mutex.lock(key).then(() => entered.push("later"));
+
+    await queued;
+    assert.deepEqual(entered, ["queued"], "later caller must not hold the key at the same time");
+
+    await Mutex.unlock(key);
+    await later;
+    assert.deepEqual(entered, ["queued", "later"]);
+    await Mutex.unlock(key);
   });
 });

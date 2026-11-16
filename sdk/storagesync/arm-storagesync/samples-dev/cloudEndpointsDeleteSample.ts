@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a given CloudEndpoint.
  *
  * @summary delete a given CloudEndpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_Delete.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_Delete.json
  */
 async function cloudEndpointsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

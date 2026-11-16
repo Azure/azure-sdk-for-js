@@ -1,0 +1,68 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/js-sdk-release-tools/
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/js-sdk-release-tools/
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
+    stages:
+      - stage: InstallAndBuild
+        displayName: "js-sdk-release-tools validation"
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
+          - template: /eng/pipelines/templates/variables/image.yml
+        jobs:
+          - job: Build
+            displayName: "Build and Test"
+            pool:
+              name: $(LINUXPOOL)
+              image: $(LINUXVMIMAGE)
+              os: linux
+            steps:
+              - template: /eng/pipelines/templates/steps/common.yml
+
+              - template: /eng/pipelines/templates/steps/install-pnpm.yml
+
+              - script: |
+                  pnpm install --frozen-lockfile
+                displayName: "Install repository dependencies"
+
+              - script: |
+                  pnpm --filter @azure-tools/js-sdk-release-tools check-format
+                displayName: "Prettier format check"
+
+              - script: |
+                  pnpm --filter @azure-tools/js-sdk-release-tools typecheck
+                displayName: "Type check"
+
+              - script: |
+                  pnpm turbo build --filter=@azure-tools/js-sdk-release-tools... --token 1
+                displayName: "Build"
+
+              - script: |
+                  pnpm --filter @azure-tools/js-sdk-release-tools test
+                displayName: "Test"

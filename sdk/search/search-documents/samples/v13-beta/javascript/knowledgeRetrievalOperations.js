@@ -15,7 +15,6 @@
  */
 
 const { readFileSync } = require("node:fs");
-const { fileURLToPath } = require("node:url");
 const { dirname, resolve } = require("node:path");
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -27,6 +26,8 @@ const endpoint = process.env.ENDPOINT || "";
 const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
 const azureOpenAIEmbeddingDeployment =
   process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME || "text-embedding-ada-002";
+const azureOpenAIEmbeddingModelName =
+  process.env.AZURE_OPENAI_EMBEDDING_MODEL_NAME || "text-embedding-ada-002";
 
 const PROVISIONED_KNOWLEDGE_BASE_NAME = process.env.KNOWLEDGE_BASE_NAME || "";
 
@@ -68,7 +69,7 @@ async function provisionKnowledgeBase(client) {
             azureOpenAIParameters: {
               deploymentId: azureOpenAIEmbeddingDeployment,
               resourceUrl: azureOpenAIEndpoint,
-              modelName: azureOpenAIEmbeddingDeployment,
+              modelName: azureOpenAIEmbeddingModelName,
             },
           },
         },
@@ -78,9 +79,7 @@ async function provisionKnowledgeBase(client) {
 
     // Upload a small file so the File knowledge source has content to retrieve.
     const fileName = "sample.txt";
-    const fileContents = readFileSync(
-      resolve(dirname(fileURLToPath(import.meta.url)), "fixtures", fileName),
-    );
+    const fileContents = readFileSync(resolve(dirname(process.argv[1]), "fixtures", fileName));
     await client.uploadKnowledgeSourceFile(
       SAMPLE_FILE_KS_NAME,
       fileContents,

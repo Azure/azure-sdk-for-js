@@ -42,7 +42,7 @@ export function _setMemberCapOverridesSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,6 @@ export async function _setMemberCapOverridesDeserialize(
 
   return setMemberCapOverridesResultDeserializer(result.body);
 }
-
 /**
  * Replaces the full set of per-member cap overrides for this shared limit
  * cap. The supplied array becomes the new complete set of overrides;
@@ -98,7 +97,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +124,6 @@ export async function _listBySubscriptionLocationResourceDeserialize(
 
   return _sharedLimitCapListResultDeserializer(result.body);
 }
-
 /** Lists all shared limit cap configurations visible to the caller's subscription. */
 export function listBySubscriptionLocationResource(
   context: Client,
@@ -137,7 +135,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -153,7 +151,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +173,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the shared limit cap configuration for a VM family. The caller's subscription is treated as the host subscription. */
 export async function $delete(
   context: Client,
@@ -200,7 +197,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +226,6 @@ export async function _createOrUpdateDeserialize(
 
   return sharedLimitCapDeserializer(result.body);
 }
-
 /** Creates or replaces the shared limit cap configuration for a VM family. */
 export async function createOrUpdate(
   context: Client,
@@ -254,7 +250,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmFamilyName: vmFamilyName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,7 +275,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sh
 
   return sharedLimitCapDeserializer(result.body);
 }
-
 /** Gets the shared limit cap configuration for a VM family, as visible to the caller's subscription. */
 export async function get(
   context: Client,

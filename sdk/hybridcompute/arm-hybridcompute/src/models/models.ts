@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Describes the Machine Extension Upgrade Properties. */
 export interface MachineExtensionUpgrade {
   /** Describes the Extension Target Properties. */
@@ -563,6 +563,8 @@ export enum KnownLicenseTarget {
   WindowsServer2012 = "Windows Server 2012",
   /** Windows Server 2012 R2 */
   WindowsServer2012R2 = "Windows Server 2012 R2",
+  /** Windows Server 2016 license target. */
+  WindowsServer2016 = "Windows Server 2016",
 }
 
 /**
@@ -571,7 +573,8 @@ export enum KnownLicenseTarget {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows Server 2012**: Windows Server 2012 \
- * **Windows Server 2012 R2**: Windows Server 2012 R2
+ * **Windows Server 2012 R2**: Windows Server 2012 R2 \
+ * **Windows Server 2016**: Windows Server 2016 license target.
  */
 export type LicenseTarget = string;
 
@@ -879,7 +882,7 @@ export interface Machine extends TrackedResource {
   /** The list of extensions affiliated to the machine */
   readonly resources?: MachineExtension[];
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: ManagedServiceIdentity;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
   kind?: ArcKindEnum;
   /** Metadata pertaining to the geographic location of the resource. */
@@ -902,6 +905,8 @@ export interface Machine extends TrackedResource {
   osProfile?: OSProfile;
   /** Specifies the License related properties for a machine. */
   licenseProfile?: LicenseProfileMachineInstanceView;
+  /** Indicates whether the service has detected that this Arc machine is a clone of another onboarded machine. Service-computed; not settable by the user. */
+  readonly statusReason?: MachineStatusReason;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?: string;
   /** The status of the hybrid machine agent. */
@@ -982,7 +987,9 @@ export function machineSerializer(item: Machine): any {
     ])
       ? undefined
       : _machinePropertiesSerializer(item),
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     kind: item["kind"],
   };
 }
@@ -1005,7 +1012,9 @@ export function machineDeserializer(item: any): Machine {
     resources: !item["resources"]
       ? item["resources"]
       : machineExtensionArrayDeserializer(item["resources"]),
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
     kind: item["kind"],
   };
 }
@@ -1032,6 +1041,8 @@ export interface MachineProperties {
   osProfile?: OSProfile;
   /** Specifies the License related properties for a machine. */
   licenseProfile?: LicenseProfileMachineInstanceView;
+  /** Indicates whether the service has detected that this Arc machine is a clone of another onboarded machine. Service-computed; not settable by the user. */
+  readonly statusReason?: MachineStatusReason;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?: string;
   /** The status of the hybrid machine agent. */
@@ -1151,6 +1162,7 @@ export function machinePropertiesDeserializer(item: any): MachineProperties {
     licenseProfile: !item["licenseProfile"]
       ? item["licenseProfile"]
       : licenseProfileMachineInstanceViewDeserializer(item["licenseProfile"]),
+    statusReason: item["statusReason"],
     provisioningState: item["provisioningState"],
     status: item["status"],
     lastStatusChange: !item["lastStatusChange"]
@@ -2055,6 +2067,21 @@ export function productFeatureDeserializer(item: any): ProductFeature {
   };
 }
 
+/** The reason describing why the service set the machine status to a particular value. */
+export enum KnownMachineStatusReason {
+  /** Indicates the service has detected that this Arc machine is a clone of another onboarded machine. */
+  Cloned = "Cloned",
+}
+
+/**
+ * The reason describing why the service set the machine status to a particular value. \
+ * {@link KnownMachineStatusReason} can be used interchangeably with MachineStatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cloned**: Indicates the service has detected that this Arc machine is a clone of another onboarded machine.
+ */
+export type MachineStatusReason = string;
+
 /** The status of the hybrid machine agent. */
 export enum KnownStatusTypes {
   /** Connected */
@@ -2085,6 +2112,8 @@ export enum KnownIdentityKeyStore {
   TPM = "TPM",
   /** Default */
   Default = "Default",
+  /** The machine is transitioning its identity key store to TPM. */
+  TpmTransition = "TpmTransition",
 }
 
 /**
@@ -2093,7 +2122,8 @@ export enum KnownIdentityKeyStore {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **TPM**: TPM \
- * **Default**: Default
+ * **Default**: Default \
+ * **TpmTransition**: The machine is transitioning its identity key store to TPM.
  */
 export type IdentityKeyStore = string;
 
@@ -2238,30 +2268,80 @@ export function machineExtensionDeserializer(item: any): MachineExtension {
   };
 }
 
-/** Identity for the resource. */
-export interface Identity {
-  /** The principal ID of resource identity. The value must be an UUID. */
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
-  /** The tenant ID of resource. The value must be an UUID. */
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function identitySerializer(item: Identity): any {
-  return { type: item["type"] };
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function identityDeserializer(item: any): Identity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
-/** Type of ResourceIdentityType */
-export type ResourceIdentityType = "SystemAssigned";
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
 
 /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
 export enum KnownArcKindEnum {
@@ -2428,7 +2508,7 @@ export function esuKeyDeserializer(item: any): EsuKey {
 /** Describes a hybrid machine Update. */
 export interface MachineUpdate extends ResourceUpdate {
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: ManagedServiceIdentity;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
   kind?: ArcKindEnum;
   /** Metadata pertaining to the geographic location of the resource. */
@@ -2447,12 +2527,16 @@ export interface MachineUpdate extends ResourceUpdate {
   identityKeyStore?: string;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
   tpmEkCertificate?: string;
+  /** Public Key that the client provides to be used during initial resource onboarding */
+  clientPublicKey?: string;
 }
 
 export function machineUpdateSerializer(item: MachineUpdate): any {
   return {
     tags: item["tags"],
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     kind: item["kind"],
     properties: areAllPropsUndefined(item, [
       "locationData",
@@ -2463,6 +2547,7 @@ export function machineUpdateSerializer(item: MachineUpdate): any {
       "privateLinkScopeResourceId",
       "identityKeyStore",
       "tpmEkCertificate",
+      "clientPublicKey",
     ])
       ? undefined
       : _machineUpdatePropertiesSerializer(item),
@@ -2487,6 +2572,8 @@ export interface MachineUpdateProperties {
   identityKeyStore?: string;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
   tpmEkCertificate?: string;
+  /** Public Key that the client provides to be used during initial resource onboarding */
+  clientPublicKey?: string;
 }
 
 export function machineUpdatePropertiesSerializer(item: MachineUpdateProperties): any {
@@ -2505,6 +2592,7 @@ export function machineUpdatePropertiesSerializer(item: MachineUpdateProperties)
     privateLinkScopeResourceId: item["privateLinkScopeResourceId"],
     identityKeyStore: item["identityKeyStore"],
     tpmEkCertificate: item["tpmEkCertificate"],
+    clientPublicKey: item["clientPublicKey"],
   };
 }
 
@@ -3747,6 +3835,205 @@ export function machineRunCommandArrayDeserializer(result: Array<MachineRunComma
   });
 }
 
+/** A VM application installed on a hybrid machine. */
+export interface VmApplication extends TrackedResource {
+  /** The VM application properties. */
+  properties?: VmApplicationProperties;
+}
+
+export function vmApplicationSerializer(item: VmApplication): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function vmApplicationDeserializer(item: any): VmApplication {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of a VM application. Exactly one gallery application reference must be specified when creating or replacing the resource. */
+export interface VmApplicationProperties {
+  /** The order in which the application is installed. */
+  order?: number;
+  /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
+  packageReferenceId?: string;
+  /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
+  sharedGalleryApplicationId?: string;
+  /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
+  communityGalleryApplicationId?: string;
+  /** The URI of configuration data that replaces the package's default configuration. */
+  configurationReference?: string;
+  /** Indicates whether an application operation failure causes the deployment to fail. */
+  treatFailureAsDeploymentFailure?: boolean;
+  /** The provisioning state of the VM application. */
+  readonly provisioningState?: ProvisioningState;
+  /** The instance view of the VM application. */
+  readonly instanceView?: VmApplicationInstanceView;
+}
+
+export function vmApplicationPropertiesSerializer(item: VmApplicationProperties): any {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+  };
+}
+
+export function vmApplicationPropertiesDeserializer(item: any): VmApplicationProperties {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+    provisioningState: item["provisioningState"],
+    instanceView: !item["instanceView"]
+      ? item["instanceView"]
+      : vmApplicationInstanceViewDeserializer(item["instanceView"]),
+  };
+}
+
+/** The instance view of a VM application. */
+export interface VmApplicationInstanceView {
+  /** The application name. */
+  name?: string;
+  /** The application version. */
+  version?: string;
+  /** The current installation result. */
+  result?: string;
+  /** The recent actions performed for the application. */
+  actionsPerformed?: VmApplicationInstanceViewAction[];
+}
+
+export function vmApplicationInstanceViewDeserializer(item: any): VmApplicationInstanceView {
+  return {
+    name: item["name"],
+    version: item["version"],
+    result: item["result"],
+    actionsPerformed: !item["actionsPerformed"]
+      ? item["actionsPerformed"]
+      : vmApplicationInstanceViewActionArrayDeserializer(item["actionsPerformed"]),
+  };
+}
+
+export function vmApplicationInstanceViewActionArrayDeserializer(
+  result: Array<VmApplicationInstanceViewAction>,
+): any[] {
+  return result.map((item) => {
+    return vmApplicationInstanceViewActionDeserializer(item);
+  });
+}
+
+/** An action recently performed for a VM application. */
+export interface VmApplicationInstanceViewAction {
+  /** The operation that was performed. */
+  operation?: string;
+  /** The result of the operation. */
+  result?: string;
+}
+
+export function vmApplicationInstanceViewActionDeserializer(
+  item: any,
+): VmApplicationInstanceViewAction {
+  return {
+    operation: item["operation"],
+    result: item["result"],
+  };
+}
+
+/** The update request for a VM application. */
+export interface VmApplicationUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: VmApplicationUpdateProperties;
+}
+
+export function vmApplicationUpdateSerializer(item: VmApplicationUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : vmApplicationUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the VmApplication. */
+export interface VmApplicationUpdateProperties {
+  /** The order in which the application is installed. */
+  order?: number;
+  /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
+  packageReferenceId?: string;
+  /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
+  sharedGalleryApplicationId?: string;
+  /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
+  communityGalleryApplicationId?: string;
+  /** The URI of configuration data that replaces the package's default configuration. */
+  configurationReference?: string;
+  /** Indicates whether an application operation failure causes the deployment to fail. */
+  treatFailureAsDeploymentFailure?: boolean;
+}
+
+export function vmApplicationUpdatePropertiesSerializer(item: VmApplicationUpdateProperties): any {
+  return {
+    order: item["order"],
+    packageReferenceId: item["packageReferenceId"],
+    sharedGalleryApplicationId: item["sharedGalleryApplicationId"],
+    communityGalleryApplicationId: item["communityGalleryApplicationId"],
+    configurationReference: item["configurationReference"],
+    treatFailureAsDeploymentFailure: item["treatFailureAsDeploymentFailure"],
+  };
+}
+
+/** A page of VM applications. */
+export interface _VmApplicationsListResult {
+  /** The VmApplication items on this page */
+  value: VmApplication[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _vmApplicationsListResultDeserializer(item: any): _VmApplicationsListResult {
+  return {
+    value: vmApplicationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function vmApplicationArraySerializer(result: Array<VmApplication>): any[] {
+  return result.map((item) => {
+    return vmApplicationSerializer(item);
+  });
+}
+
+export function vmApplicationArrayDeserializer(result: Array<VmApplication>): any[] {
+  return result.map((item) => {
+    return vmApplicationDeserializer(item);
+  });
+}
+
 /** Describes an Arc Gateway. */
 export interface Gateway extends TrackedResource {
   /** The provisioning state, which only appears in the response. */
@@ -3759,13 +4046,15 @@ export interface Gateway extends TrackedResource {
   readonly gatewayEndpoint?: string;
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewaySerializer(item: Gateway): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: areAllPropsUndefined(item, ["gatewayType", "allowedFeatures"])
+    properties: areAllPropsUndefined(item, ["gatewayType", "allowedFeatures", "gatewayBypass"])
       ? undefined
       : _gatewayPropertiesSerializer(item),
   };
@@ -3801,6 +4090,8 @@ export interface GatewayProperties {
   readonly gatewayEndpoint?: string;
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayPropertiesSerializer(item: GatewayProperties): any {
@@ -3809,6 +4100,11 @@ export function gatewayPropertiesSerializer(item: GatewayProperties): any {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -3823,6 +4119,11 @@ export function gatewayPropertiesDeserializer(item: any): GatewayProperties {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -3843,16 +4144,18 @@ export enum KnownGatewayType {
  */
 export type GatewayType = string;
 
-/** Describes a License Update. */
+/** Describes a Gateway Update. */
 export interface GatewayUpdate extends ResourceUpdate {
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayUpdateSerializer(item: GatewayUpdate): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["allowedFeatures"])
+    properties: areAllPropsUndefined(item, ["allowedFeatures", "gatewayBypass"])
       ? undefined
       : _gatewayUpdatePropertiesSerializer(item),
   };
@@ -3862,6 +4165,8 @@ export function gatewayUpdateSerializer(item: GatewayUpdate): any {
 export interface GatewayUpdateProperties {
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayUpdatePropertiesSerializer(item: GatewayUpdateProperties): any {
@@ -3869,6 +4174,11 @@ export function gatewayUpdatePropertiesSerializer(item: GatewayUpdateProperties)
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -5092,8 +5402,10 @@ export type InstanceViewTypes = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-09-16-preview API version. */
-  V20250916Preview = "2025-09-16-preview",
+  /** The 2026-07-15 API version. */
+  V20260715 = "2026-07-15",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }
 
 export function _licensePropertiesSerializer(item: License): any {
@@ -5280,6 +5592,7 @@ export function _machinePropertiesDeserializer(item: any) {
     licenseProfile: !item["licenseProfile"]
       ? item["licenseProfile"]
       : licenseProfileMachineInstanceViewDeserializer(item["licenseProfile"]),
+    statusReason: item["statusReason"],
     provisioningState: item["provisioningState"],
     status: item["status"],
     lastStatusChange: !item["lastStatusChange"]
@@ -5338,6 +5651,7 @@ export function _machineUpdatePropertiesSerializer(item: MachineUpdate): any {
     privateLinkScopeResourceId: item["privateLinkScopeResourceId"],
     identityKeyStore: item["identityKeyStore"],
     tpmEkCertificate: item["tpmEkCertificate"],
+    clientPublicKey: item["clientPublicKey"],
   };
 }
 
@@ -5547,6 +5861,11 @@ export function _gatewayPropertiesSerializer(item: Gateway): any {
       : item["allowedFeatures"].map((p: any) => {
           return p;
         }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5561,6 +5880,11 @@ export function _gatewayPropertiesDeserializer(item: any) {
       : item["allowedFeatures"].map((p: any) => {
           return p;
         }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5569,6 +5893,11 @@ export function _gatewayUpdatePropertiesSerializer(item: GatewayUpdate): any {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };

@@ -10,13 +10,26 @@
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule), version 22.15.0 or later
 
 - [OpenTelemetry supported runtimes](https://github.com/open-telemetry/opentelemetry-js#supported-runtimes)
 
 > _Warning:_ This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for web and browser scenarios.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### OpenTelemetry compatibility
+
+This package uses OpenTelemetry SDK 3.x, API 1.10.0, and instrumentation 0.300.x.
+Custom span processors, log record processors, metric readers, and resources must use
+compatible SDK versions. Import tracing SDK types and processors from
+`@opentelemetry/sdk-trace` instead of `@opentelemetry/sdk-trace-base` or
+`@opentelemetry/sdk-trace-node`. Import `logs`, `SeverityNumber`, and log API types
+from `@opentelemetry/api` instead of `@opentelemetry/api-logs`.
+
+Span processors now accept an options object, for example
+`new BatchSpanProcessor({ exporter })`. `useAzureMonitor()` continues to configure
+context management and propagation automatically.
 
 ### Prerequisites
 
@@ -40,6 +53,7 @@ useAzureMonitor(options);
 ```
 
 - Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Batch span processing can be configured with the standard OpenTelemetry environment variables `OTEL_BSP_MAX_QUEUE_SIZE`, `OTEL_BSP_MAX_EXPORT_BATCH_SIZE`, `OTEL_BSP_SCHEDULE_DELAY`, and `OTEL_BSP_EXPORT_TIMEOUT`.
 - Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
 - To use the **fixed percentage sampler** (instead of the default rate-limited sampler), you can either:
   - Set the environment variable `OTEL_TRACES_SAMPLER=microsoft.fixed_percentage` with an optional `OTEL_TRACES_SAMPLER_ARG` for the sampling probability (e.g., `0.5` for 50%).
@@ -47,7 +61,7 @@ useAzureMonitor(options);
 
 ### ESM Support
 
-> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+> _Note:_ This package requires Node.js 22.15.0 or later, including for ESM applications. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
 
 For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
 
@@ -86,6 +100,7 @@ For CommonJS applications, no additional flags are needed - the loader is automa
 ```ts snippet:ReadmeSampleConfiguration
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { SeverityNumber } from "@opentelemetry/api";
 
 const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
@@ -111,6 +126,10 @@ const options: AzureMonitorOpenTelemetryOptions = {
     // Instrumentations generating logs
     bunyan: { enabled: true },
     winston: { enabled: true },
+    // Console log collection is opt-in (disabled by default).
+    // `logSeverity` takes precedence over the
+    // APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL environment variable.
+    console: { enabled: false, logSeverity: SeverityNumber.WARN },
   },
   enableLiveMetrics: true,
   enableStandardMetrics: true,
@@ -161,7 +180,8 @@ useAzureMonitor(options);
   redis: { enabled: true },
   redis4: { enabled: true },
   bunyan: { enabled: false }, 
-  winston: { enabled: false } 
+  winston: { enabled: false }, 
+  console: { enabled: false } 
 }
       </code></pre>
     </td>
@@ -224,6 +244,13 @@ useAzureMonitor(options);
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances.
 
+Live Metrics also honors the Azure Monitor OneSettings `FEATURE_LIVE_METRICS` setting.
+Remote disablement stops QuickPulse polling, collection, and publishing without stopping
+ordinary traces, logs, or other metrics. Remote re-enablement resumes subscription polling.
+Setting `enableLiveMetrics` to `false` in the local configuration always disables Live Metrics,
+regardless of the remote setting. Missing or invalid remote settings preserve the last valid
+state; before the first valid setting, the local configuration applies.
+
 ```json
 {
     "samplingRatio": 0.8,
@@ -272,6 +299,10 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 - [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-bunyan)
 
 - [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-winston)
+
+- [Console](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-console) (disabled by default; enable with `instrumentationOptions: { console: { enabled: true } }`)
+
+  Once enabled, the set of `console` methods collected is filtered by the `logSeverity` value on the `console` instrumentation options, falling back to the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable (`NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE`, `ALL`; see [Self-diagnostics](#self-diagnostics)) when `logSeverity` is not set. For example, `WARN` collects only `console.warn` and `console.error`, while `NONE` disables collection of `console` (and all other) logs entirely.
 
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
@@ -350,7 +381,7 @@ Any [attributes](#add-span-attributes) you add to spans are exported as custom p
 Use a custom processor:
 
 ```ts snippet:ReadmeSampleAddCustomProperty
-import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
 import { Span } from "@opentelemetry/api";
 import { SEMATTRS_HTTP_CLIENT_IP } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
@@ -384,10 +415,10 @@ useAzureMonitor(options);
 Use a custom span processor and log record processor in order to attach and correlate operation name from requests to dependencies and logs.
 
 ```ts snippet:ReadmeSampleAddOperationName
-import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import { LogRecordProcessor, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
@@ -414,7 +445,7 @@ class LogRecordEnrichingProcessor implements LogRecordProcessor {
   async shutdown(): Promise<void> {
     // shutdown code here
   }
-  onEmit(_logRecord: SdkLogRecord, _context: Context): void {
+  onEmit(_logRecord: ReadWriteLogRecord, _context: Context): void {
     const parentSpan = trace.getSpan(_context);
     if (parentSpan && "name" in parentSpan) {
       // If the parent span has a name we can assume it is a ReadableSpan and cast it.
@@ -477,7 +508,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
       import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
       class SpanEnrichingProcessor implements SpanProcessor {

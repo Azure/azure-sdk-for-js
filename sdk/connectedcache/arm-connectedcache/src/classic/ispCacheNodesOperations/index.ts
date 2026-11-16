@@ -72,11 +72,6 @@ export interface IspCacheNodesOperationsOperations {
     options?: IspCacheNodesOperationsListByIspCustomerResourceOptionalParams,
   ) => PagedAsyncIterableIterator<IspCacheNodeResource>;
   /** This api deletes an existing ispCacheNode resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,
@@ -107,7 +102,6 @@ export interface IspCacheNodesOperationsOperations {
     options?: IspCacheNodesOperationsGetOptionalParams,
   ) => Promise<IspCacheNodeResource>;
 }
-
 function _getIspCacheNodesOperations(context: ConnectedCacheContext) {
   return {
     getCacheNodeMccIssueDetailsHistory: (
@@ -205,7 +199,6 @@ function _getIspCacheNodesOperations(context: ConnectedCacheContext) {
     ) => get(context, resourceGroupName, customerResourceName, cacheNodeResourceName, options),
   };
 }
-
 export function _getIspCacheNodesOperationsOperations(
   context: ConnectedCacheContext,
 ): IspCacheNodesOperationsOperations {

@@ -15,6 +15,8 @@ import type { SharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.
 import { _getSharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
 import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
+import type { TrustedHostSubscriptionsOperations } from "./classic/trustedHostSubscriptions/index.js";
+import { _getTrustedHostSubscriptionsOperations } from "./classic/trustedHostSubscriptions/index.js";
 import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
 import { _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -33,20 +35,14 @@ export class ComputeLimitClient {
     subscriptionId: string,
     options: ComputeLimitClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createComputeLimit(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createComputeLimit(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.memberCapOverrides = _getMemberCapOverridesOperations(this._client);
     this.sharedLimitCaps = _getSharedLimitCapsOperations(this._client);
     this.vmFamilies = _getVmFamiliesOperations(this._client);
     this.features = _getFeaturesOperations(this._client);
     this.sharedLimits = _getSharedLimitsOperations(this._client);
+    this.trustedHostSubscriptions = _getTrustedHostSubscriptionsOperations(this._client);
     this.guestSubscriptions = _getGuestSubscriptionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -61,6 +57,8 @@ export class ComputeLimitClient {
   public readonly features: FeaturesOperations;
   /** The operation groups for sharedLimits */
   public readonly sharedLimits: SharedLimitsOperations;
+  /** The operation groups for trustedHostSubscriptions */
+  public readonly trustedHostSubscriptions: TrustedHostSubscriptionsOperations;
   /** The operation groups for guestSubscriptions */
   public readonly guestSubscriptions: GuestSubscriptionsOperations;
   /** The operation groups for operations */

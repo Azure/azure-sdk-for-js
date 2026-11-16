@@ -16,11 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a Datastores operations. */
 export interface DatastoresOperations {
   /** Delete a Datastore */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

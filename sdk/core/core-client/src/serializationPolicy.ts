@@ -202,6 +202,7 @@ export function serializeRequestBody(
           undefined,
           "  ",
         )}.`,
+        { cause: error },
       );
     }
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {

@@ -1,14 +1,14 @@
 # Release History
 
-## 4.11.3 (Unreleased)
+## 4.12.0 (2026-10-27)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for service API version `2026-04-01`, which is now the default, and for explicitly selecting it via `serviceVersion`. [#40486](https://github.com/Azure/azure-sdk-for-js/pull/40486)
 
 ### Other Changes
+
+- Regenerated the internal client from the stable `2026-04-01` specification. [#40486](https://github.com/Azure/azure-sdk-for-js/pull/40486)
 
 ## 4.11.2 (2026-04-27)
 

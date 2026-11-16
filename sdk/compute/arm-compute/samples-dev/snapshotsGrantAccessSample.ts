@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to grants access to a snapshot.
  *
  * @summary grants access to a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_BeginGetAccess.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_BeginGetAccess.json
  */
 async function getASasOnASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -34,11 +34,6 @@ export interface ToolsOperations {
     options?: ToolsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Tool>;
   /** Delete a Tool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     toolName: string,
@@ -65,7 +60,6 @@ export interface ToolsOperations {
     options?: ToolsGetOptionalParams,
   ) => Promise<Tool>;
 }
-
 function _getTools(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: ToolsListBySubscriptionOptionalParams) =>
@@ -92,7 +86,6 @@ function _getTools(context: DiscoveryContext) {
       get(context, resourceGroupName, toolName, options),
   };
 }
-
 export function _getToolsOperations(context: DiscoveryContext): ToolsOperations {
   return {
     ..._getTools(context),

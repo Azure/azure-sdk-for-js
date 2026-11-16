@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete setting of the product.
  *
  * @summary delete setting of the product.
- * x-ms-original-file: 2025-07-01-preview/settings/DeleteEyesOnSetting.json
+ * x-ms-original-file: 2025-10-01-preview/settings/DeleteEyesOnSetting.json
  */
 async function deleteEyesOnSettings() {
   const credential = new DefaultAzureCredential();

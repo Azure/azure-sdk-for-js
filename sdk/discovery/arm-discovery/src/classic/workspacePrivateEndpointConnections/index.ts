@@ -27,11 +27,6 @@ export interface WorkspacePrivateEndpointConnectionsOperations {
     options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<WorkspacePrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -57,7 +52,6 @@ export interface WorkspacePrivateEndpointConnectionsOperations {
     options?: WorkspacePrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<WorkspacePrivateEndpointConnection>;
 }
-
 function _getWorkspacePrivateEndpointConnections(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -94,7 +88,6 @@ function _getWorkspacePrivateEndpointConnections(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getWorkspacePrivateEndpointConnectionsOperations(
   context: DiscoveryContext,
 ): WorkspacePrivateEndpointConnectionsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an AuthorizationRule for a Namespace.
  *
  * @summary deletes an AuthorizationRule for a Namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
  */
 async function nameSpaceAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

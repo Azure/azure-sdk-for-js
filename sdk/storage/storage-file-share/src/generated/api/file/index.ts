@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getHardLinks,
   createHardLink,
   getSymbolicLink,
   createSymbolicLink,
@@ -10,6 +11,7 @@ export {
   listHandles,
   abortCopy,
   startCopy,
+  listAllRanges,
   getRangeList,
   uploadRangeFromUrl,
   uploadRange,
@@ -19,12 +21,13 @@ export {
   acquireLease,
   setMetadata,
   setHttpHeaders,
-  $delete,
+  deleteFile,
   getProperties,
   download,
   create,
 } from "./operations.js";
 export type {
+  FileGetHardLinksOptionalParams,
   FileCreateHardLinkOptionalParams,
   FileGetSymbolicLinkOptionalParams,
   FileCreateSymbolicLinkOptionalParams,
@@ -33,6 +36,7 @@ export type {
   FileListHandlesOptionalParams,
   FileAbortCopyOptionalParams,
   FileStartCopyOptionalParams,
+  FileListAllRangesOptionalParams,
   FileGetRangeListOptionalParams,
   FileUploadRangeFromUrlOptionalParams,
   FileUploadRangeOptionalParams,

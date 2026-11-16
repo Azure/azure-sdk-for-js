@@ -10,6 +10,7 @@ import {
   ContainerSASPermissions,
   generateBlobSASQueryParameters,
   SASProtocol,
+  StorageResponseFormat,
   StorageSharedKeyCredential,
 } from "../src/index.js";
 import { buffer } from "node:stream/consumers";
@@ -152,6 +153,27 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     let i = 1;
     const blobs = containerClient.listBlobsFlat();
+    for await (const blob of blobs) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+  });
+
+  it("ReadmeSampleListBlobs_ApacheArrow", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    // @ts-preserve-whitespace
+    const containerName = "<container name>";
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    // @ts-preserve-whitespace
+    // Request the listing as Apache Arrow. The service falls back to XML for accounts
+    // that don't support Apache Arrow; the parsed blob items are identical either way.
+    let i = 1;
+    const blobs = containerClient.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Arrow,
+    });
     for await (const blob of blobs) {
       console.log(`Blob ${i++}: ${blob.name}`);
     }
@@ -382,6 +404,44 @@ describe("snippets", () => {
       const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
       console.log(`Downloaded blob content: ${downloaded.toString()}`);
     }
+  });
+
+  it("ReadmeSampleSessionAuthentication", async () => {
+    const account = "<account>";
+    // @ts-preserve-whitespace
+    // Session token authentication is only available in the Node.js runtime. In browsers and
+    // React Native these options are ignored and requests keep using a bearer token.
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+      { sessionOptions: { mode: "enabled" } },
+    );
+    // @ts-preserve-whitespace
+    // Only the download below is signed with a container-scoped session token. Container and
+    // service operations continue to use a bearer token.
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    const downloadBlockBlobResponse = await blobClient.download();
+    if (downloadBlockBlobResponse.readableStreamBody) {
+      const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+      console.log(`Downloaded blob content: ${downloaded.toString()}`);
+    }
+  });
+
+  it("ReadmeSampleLayoutAwareRouting", async () => {
+    const account = "<account>";
+    const blobServiceClient = new BlobServiceClient(
+      `https://${account}.blob.core.windows.net`,
+      new DefaultAzureCredential(),
+    );
+    const containerClient = blobServiceClient.getContainerClient("<container name>");
+    const blobClient = containerClient.getBlobClient("<blob name>");
+    // @ts-preserve-whitespace
+    // Routing is off by default. Opt in to read blocks from the endpoints that hold them.
+    const downloaded = await blobClient.downloadToBuffer(0, undefined, {
+      layoutAwareRouting: "enabled",
+    });
+    console.log(`Downloaded ${downloaded.length} bytes`);
   });
 
   it("ReadmeSampleDownloadBlob_Browser", async () => {

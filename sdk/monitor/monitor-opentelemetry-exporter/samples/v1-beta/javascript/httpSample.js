@@ -18,12 +18,19 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-const api = require("@opentelemetry/api").default;
+const { trace, context, propagation, SpanKind } = require("@opentelemetry/api");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
-const { SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { AsyncLocalStorageContextManager } = require("@opentelemetry/context-async-hooks");
+const {
+  CompositePropagator,
+  W3CBaggagePropagator,
+  W3CTraceContextPropagator,
+} = require("@opentelemetry/core");
+const { TracerProvider, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+const { resourceFromAttributes } = require("@opentelemetry/resources");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 // Load the .env file if it exists
 require("dotenv/config");
 
@@ -49,13 +56,13 @@ function startServer(port) {
 
 /** A function which handles requests and send response. */
 function handleRequest(request, response) {
-  const currentSpan = api.trace.getSpan(api.context.active());
+  const currentSpan = trace.getSpan(context.active());
   if (currentSpan) {
     // display traceId in the terminal
     console.log(`traceId: ${currentSpan.spanContext().traceId}`);
   }
   const span = serverTracer.startSpan("handleRequest", {
-    kind: 1, // server
+    kind: SpanKind.SERVER,
     attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
@@ -85,7 +92,7 @@ function makeRequest() {
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
   const span = clientTracer.startSpan("makeRequest");
-  api.context.with(api.trace.setSpan(api.context.active(), span), () => {
+  context.with(trace.setSpan(context.active(), span), () => {
     http.get(
       {
         host: "localhost",
@@ -112,12 +119,21 @@ function setupOpenTelemetry() {
       "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
 
-  const provider = new NodeTracerProvider({
-    spanProcessors: [new SimpleSpanProcessor(exporter)],
+  const provider = new TracerProvider({
+    resource: resourceFromAttributes({
+      [SemanticResourceAttributes.SERVICE_NAME]: "http-server",
+    }),
+    spanProcessors: [new SimpleSpanProcessor({ exporter })],
   });
 
-  // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
-  provider.register();
+  // SDK 3.x requires explicit context management and propagation registration.
+  trace.setGlobalTracerProvider(provider);
+  context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
+  propagation.setGlobalPropagator(
+    new CompositePropagator({
+      propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+    }),
+  );
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],

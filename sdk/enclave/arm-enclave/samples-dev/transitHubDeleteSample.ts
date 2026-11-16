@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a TransitHubResource
  *
  * @summary delete a TransitHubResource
- * x-ms-original-file: 2026-03-01-preview/TransitHub_Delete.json
+ * x-ms-original-file: 2026-04-01/TransitHub_Delete.json
  */
 async function transitHubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,6 +8,10 @@
 
 ### Bugs Fixed
 
+- Fixed `BlobChangeFeedClient` so that a `Pipeline` argument is recognized even when the consuming application
+  resolves more than one copy of `@azure/storage-blob`. The constructor now uses the `isPipelineLike` type guard
+  rather than an `instanceof` check, which compares constructor identity.
+
 ### Other Changes
 
 - Update dependency `@azure/core-http` version to `^3.0.0`.

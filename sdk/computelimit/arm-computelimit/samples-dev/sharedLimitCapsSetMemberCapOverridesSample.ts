@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary replaces the full set of per-member cap overrides for this shared limit
  * cap. The supplied array becomes the new complete set of overrides;
  * supplying an empty array clears all existing overrides.
- * x-ms-original-file: 2026-07-01/SharedLimitCaps_SetMemberCapOverrides.json
+ * x-ms-original-file: 2026-07-31/SharedLimitCaps_SetMemberCapOverrides.json
  */
 async function replaceTheFullSetOfMemberCapOverridesForASharedLimitCap(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function replaceTheFullSetOfMemberCapOverridesForASharedLimitCap(): Promis
  * @summary replaces the full set of per-member cap overrides for this shared limit
  * cap. The supplied array becomes the new complete set of overrides;
  * supplying an empty array clears all existing overrides.
- * x-ms-original-file: 2026-07-01/SharedLimitCaps_SetMemberCapOverrides_ClearAll.json
+ * x-ms-original-file: 2026-07-31/SharedLimitCaps_SetMemberCapOverrides_ClearAll.json
  */
 async function clearAllMemberCapOverridesSupplyAnEmptyArray(): Promise<void> {
   const credential = new DefaultAzureCredential();

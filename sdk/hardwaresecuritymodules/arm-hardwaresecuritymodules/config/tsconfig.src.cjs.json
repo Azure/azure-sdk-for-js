@@ -1,6 +1,19 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/paymentHsmClusterPrivateLinkResources/index.ts",
+    "../src/api/dedicatedHsm/index.ts",
+    "../src/api/cloudHsmClusterPrivateEndpointConnections/index.ts",
+    "../src/api/cloudHsmClusterRestoreStatus/index.ts",
+    "../src/api/cloudHsmClusterBackupStatus/index.ts",
+    "../src/api/cloudHsmClusterPrivateLinkResources/index.ts",
+    "../src/api/paymentHsmClusterPrivateEndpointConnections/index.ts",
+    "../src/api/paymentHsmClusters/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/cloudHsmClusters/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

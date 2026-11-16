@@ -19,7 +19,7 @@ import {
 describe("utils", () => {
   describe("isDefined", () => {
     it("should return false for an undefined value", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       const actual = isDefined(value);
       assert.isFalse(actual);
     });
@@ -59,7 +59,7 @@ describe("utils", () => {
     });
 
     it("should throw on an undefined value", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       assert.throws(() => {
         getString(value, "value");
       });
@@ -80,7 +80,7 @@ describe("utils", () => {
     });
 
     it("should return undefined with an undefined value", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       const actual = getStringOrUndefined(value);
       assert.isUndefined(actual);
     });
@@ -107,7 +107,7 @@ describe("utils", () => {
     });
 
     it("should throw with undefined input", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       assert.throws(() => {
         getInteger(value, "value");
       });
@@ -134,7 +134,7 @@ describe("utils", () => {
     });
 
     it("should return undefined with undefined input", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       const actual = getIntegerOrUndefined(value);
       assert.isUndefined(actual);
     });
@@ -161,7 +161,7 @@ describe("utils", () => {
     });
 
     it("should throw with undefined input", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       assert.throws(() => {
         getFloat(value, "value");
       });
@@ -188,7 +188,7 @@ describe("utils", () => {
     });
 
     it("should return undefined with undefined input", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       const actual = getFloatOrUndefined(value);
       assert.isUndefined(actual);
     });
@@ -237,7 +237,7 @@ describe("utils", () => {
     });
 
     it("should return undefined for no tags", () => {
-      let value: string | undefined;
+      const value: string | undefined = undefined;
       const actual = getTagsOrUndefined(value);
       assert.isUndefined(actual);
     });

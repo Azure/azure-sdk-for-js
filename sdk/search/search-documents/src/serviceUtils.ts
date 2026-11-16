@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { KnowledgeSourceInput, SearchIndexInput } from "./inputModels.js";
+import type { SearchIndexInput as GeneratedSearchIndexInput } from "./models/azure/search/documents/indexes/inputModels.js";
+import type { McpServerKnowledgeSource as GeneratedMcpServerKnowledgeSource } from "./models/azure/search/documents/indexes/index.js";
 
 import type {
   SearchResult as GeneratedSearchResult,
@@ -20,8 +23,7 @@ import type {
   DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
-  AzureMachineLearningParameters as GeneratedAMLParameters,
-  AzureMachineLearningVectorizer as GeneratedAMLVectorizer,
+  AzureMachineLearningVectorizer as GeneratedAzureMachineLearningVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters as GeneratedAzureBlobKnowledgeSourceParameters,
   AzureOpenAIVectorizerParameters as GeneratedAzureOpenAIParameters,
@@ -31,6 +33,9 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
+  IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
+  IndexedSqlKnowledgeSource as GeneratedIndexedSqlKnowledgeSource,
+  FileKnowledgeSource as GeneratedFileKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
@@ -63,6 +68,10 @@ import type {
   SqlIntegratedChangeTrackingPolicy,
   StopAnalyzer,
   TokenFilterUnion,
+  BlobIndexerParsingMode,
+  PIIDetectionSkill as GeneratedPIIDetectionSkill,
+  SplitSkill as GeneratedSplitSkill,
+  CustomAnalyzer as GeneratedCustomAnalyzer,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   SearchResult,
@@ -70,17 +79,14 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
-import type { KnowledgeBase } from "./knowledgeBaseModels.js";
+import type { KnowledgeBase, KnowledgeBaseInput } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
   AzureBlobKnowledgeSourceParameters,
-  AzureMachineLearningVectorizer,
-  AzureMachineLearningVectorizerParameters,
   AzureOpenAIParameters,
   AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
-  BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
   CharFilter,
   CognitiveServicesAccount,
@@ -91,14 +97,15 @@ import type {
   IndexerExecutionEnvironment,
   IndexingParameters,
   IndexingParametersConfiguration,
-  KeyAuthAzureMachineLearningVectorizerParameters,
   KnowledgeBaseModel,
   KnowledgeSource,
   KnowledgeSourceIngestionParameters,
+  IndexedSharePointKnowledgeSourceParameters,
+  IndexedSqlKnowledgeSource,
+  FileKnowledgeSourceParameters,
   KnowledgeSourceVectorizer,
   LexicalAnalyzer,
   LexicalTokenizer,
-  NoAuthAzureMachineLearningVectorizerParameters,
   PatternAnalyzer,
   QueryAnswerResult,
   QueryCaptionResult,
@@ -119,7 +126,6 @@ import type {
   SimilarityAlgorithm,
   SimpleField,
   SynonymMap,
-  TokenAuthAzureMachineLearningVectorizerParameters,
   TokenFilter,
   VectorSearch,
   VectorSearchAlgorithmConfiguration,
@@ -127,12 +133,18 @@ import type {
   VectorSearchVectorizer,
   WebApiParameters,
   WebApiVectorizer,
+  PIIDetectionSkill,
+  SplitSkill,
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
+import type {
+  KnowledgeSourceAzureOpenAIVectorizer as GeneratedKnowledgeSourceAzureOpenAIVectorizer,
+  KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
+  KnowledgeSourceVectorizerUnion as GeneratedKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-05-01-preview";
+export const defaultServiceVersion = "2026-11-01-preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -167,7 +179,39 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
   }
 
   // This validation has already GAed
-  return skills.filter((skill): skill is SearchIndexerSkill => knownSkills[skill.odatatype]);
+  return skills
+    .filter((skill) => knownSkills[skill.odatatype])
+    .map((skill): SearchIndexerSkill => {
+      switch (skill.odatatype) {
+        case "#Microsoft.Skills.Text.PIIDetectionSkill": {
+          const pii = skill as GeneratedPIIDetectionSkill;
+          return {
+            ...pii,
+            maskingCharacter: pii.mask,
+            categories: pii.piiCategories,
+          } as PIIDetectionSkill;
+        }
+        case "#Microsoft.Skills.Text.SplitSkill": {
+          const split = skill as GeneratedSplitSkill;
+          return { ...split, maxPageLength: split.maximumPageLength } as SplitSkill;
+        }
+        default:
+          return skill as SearchIndexerSkill;
+      }
+    });
+}
+
+function convertSkillsToGenerated(skills: SearchIndexerSkill[]): SearchIndexerSkillUnion[] {
+  return skills.map((skill) => {
+    switch (skill.odatatype) {
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        return { ...skill, mask: skill.maskingCharacter, piiCategories: skill.categories };
+      case "#Microsoft.Skills.Text.SplitSkill":
+        return { ...skill, maximumPageLength: skill.maxPageLength };
+      default:
+        return skill;
+    }
+  });
 }
 
 export function convertCognitiveServicesAccountToGenerated(
@@ -296,9 +340,11 @@ function convertAnalyzersToPublic(
           ...analyzer,
         } as PatternAnalyzer);
         break;
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
-        result.push(analyzer as LexicalAnalyzer);
+      case "#Microsoft.Azure.Search.CustomAnalyzer": {
+        const custom = analyzer as GeneratedCustomAnalyzer;
+        result.push({ ...custom, tokenizerName: custom.tokenizer });
         break;
+      }
     }
   }
   return result;
@@ -457,10 +503,12 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields,
     similarity,
     vectorSearch,
+    eTag,
     ...rest
   } = generatedIndex;
   return {
     ...rest,
+    etag: eTag,
     scoringProfiles: scoringProfiles as ScoringProfile[],
     tokenFilters: tokenFilters as TokenFilter[],
     charFilters: charFilters as CharFilter[],
@@ -507,22 +555,27 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       };
       return vectorizer;
     },
-
-    aml: () => {
-      const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
-
-      const vectorizer: AzureMachineLearningVectorizer = {
-        ...generatedAMLVectorizer,
-        amlParameters:
-          generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-            generatedAMLVectorizer.amlParameters,
-          ),
-      };
-
-      return vectorizer;
-    },
   };
   const defaultDeserializer = (): any => {
+    if (generatedVectorizer.kind === "aml") {
+      const { amlParameters } = generatedVectorizer as GeneratedAzureMachineLearningVectorizer;
+      const authKind =
+        amlParameters?.resourceId != null
+          ? "token"
+          : amlParameters?.authenticationKey != null
+            ? "key"
+            : amlParameters?.scoringUri != null
+              ? "none"
+              : undefined;
+      return {
+        ...generatedVectorizer,
+        amlParameters: amlParameters && {
+          ...amlParameters,
+          authKind,
+          apiKey: authKind === "key" ? amlParameters.authenticationKey : undefined,
+        },
+      };
+    }
     logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
     return generatedVectorizer as any;
   };
@@ -536,11 +589,10 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
 
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(): undefined;
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
-  generatedVectorizer: any,
+  generatedVectorizer: GeneratedKnowledgeSourceVectorizer,
 ): KnowledgeSourceVectorizer;
 export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  generatedVectorizer?: /* GeneratedKnowledgeSourceVectorizer */ any,
+  generatedVectorizer?: GeneratedKnowledgeSourceVectorizer,
 ): KnowledgeSourceVectorizer | undefined {
   if (!generatedVectorizer) {
     return generatedVectorizer;
@@ -551,11 +603,16 @@ export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
     () => KnowledgeSourceVectorizer
   > = {
     azureOpenAI: () => {
-      const { parameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
-      const authIdentity = convertSearchIndexerDataIdentityToPublic(parameters?.authIdentity);
-      const vectorizer: AzureOpenAIVectorizer = {
-        ...(generatedVectorizer as GeneratedAzureOpenAIVectorizer),
-        parameters: { ...parameters, authIdentity },
+      const { azureOpenAIParameters, ...vectorizerProperties } =
+        generatedVectorizer as GeneratedKnowledgeSourceAzureOpenAIVectorizer;
+      const vectorizer: KnowledgeSourceVectorizer = {
+        ...vectorizerProperties,
+        azureOpenAIParameters: azureOpenAIParameters && {
+          ...azureOpenAIParameters,
+          authIdentity: convertSearchIndexerDataIdentityToPublic(
+            azureOpenAIParameters.authIdentity,
+          ),
+        },
       };
       return vectorizer;
     },
@@ -570,40 +627,6 @@ export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
       generatedVectorizer.kind as keyof typeof knownVectorizerDeserializers
     ] ?? defaultDeserializer
   )();
-}
-
-function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-  aMLParameters?: GeneratedAMLParameters,
-): AzureMachineLearningVectorizerParameters | undefined {
-  if (!aMLParameters) {
-    return undefined;
-  }
-
-  const { resourceId, authenticationKey, scoringUri } = aMLParameters;
-  // Sensitive to case order
-  switch (true) {
-    case resourceId !== undefined && resourceId !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "token",
-      } as TokenAuthAzureMachineLearningVectorizerParameters;
-    }
-    case authenticationKey !== undefined && authenticationKey !== null: {
-      return {
-        ...aMLParameters,
-        apiKey: authenticationKey,
-        authKind: "key",
-      } as KeyAuthAzureMachineLearningVectorizerParameters;
-    }
-    case scoringUri !== undefined && scoringUri !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "none",
-      } as NoAuthAzureMachineLearningVectorizerParameters;
-    }
-  }
-  logger.warning("Unknown AML parameter kind");
-  return aMLParameters as any;
 }
 
 export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;
@@ -701,11 +724,36 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
   return result;
 }
 
-export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
+export function publicIndexToGeneratedIndex(
+  index: SearchIndex | SearchIndexInput,
+): GeneratedSearchIndexInput {
   const { encryptionKey, tokenFilters, analyzers, fields, similarity } = index;
 
   return {
     ...index,
+    eTag: index.etag,
+    vectorSearch: index.vectorSearch && {
+      ...index.vectorSearch,
+      vectorizers: index.vectorSearch.vectorizers?.map((vectorizer) => {
+        switch (vectorizer.kind) {
+          case "customWebApi":
+            return { ...vectorizer, webApiParameters: vectorizer.parameters };
+          case "aml": {
+            const parameters = vectorizer.amlParameters;
+            return {
+              ...vectorizer,
+              amlParameters: parameters && {
+                ...parameters,
+                scoringUri: parameters.authKind === "token" ? null : parameters.scoringUri,
+                authenticationKey: parameters.authKind === "key" ? parameters.apiKey : undefined,
+              },
+            };
+          }
+          default:
+            return vectorizer;
+        }
+      }),
+    },
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
     tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
     analyzers: convertAnalyzersToGenerated(analyzers),
@@ -723,10 +771,12 @@ export function generatedSkillsetToPublicSkillset(
     knowledgeStore,
     encryptionKey,
     indexProjection,
+    eTag,
     ...props
   } = generatedSkillset;
   return {
     ...props,
+    etag: eTag,
     skills: convertSkillsToPublic(skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(cognitiveServicesAccount),
     knowledgeStore: convertKnowledgeStoreToPublic(knowledgeStore),
@@ -738,12 +788,21 @@ export function generatedSkillsetToPublicSkillset(
 export function publicSkillsetToGeneratedSkillset(
   skillset: SearchIndexerSkillset,
 ): GeneratedSearchIndexerSkillset {
-  const { cognitiveServicesAccount, encryptionKey } = skillset;
+  const { cognitiveServicesAccount, encryptionKey, knowledgeStore } = skillset;
 
   return {
     ...skillset,
+    eTag: skillset.etag,
+    skills: convertSkillsToGenerated(skillset.skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(cognitiveServicesAccount),
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+    knowledgeStore: knowledgeStore && {
+      ...knowledgeStore,
+      parameters: knowledgeStore.parameters && {
+        ...knowledgeStore.parameters,
+        additionalProperties: knowledgeStore.parameters,
+      },
+    },
   };
 }
 
@@ -781,6 +840,14 @@ export function publicSearchIndexerToGeneratedSearchIndexer(
 ): GeneratedSearchIndexer {
   return {
     ...indexer,
+    eTag: indexer.etag,
+    parameters: indexer.parameters && {
+      ...indexer.parameters,
+      configuration: indexer.parameters.configuration && {
+        ...indexer.parameters.configuration,
+        additionalProperties: indexer.parameters.configuration,
+      },
+    },
     encryptionKey: convertEncryptionKeyToGenerated(indexer.encryptionKey),
   };
 }
@@ -794,11 +861,14 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     imageAction,
     pdfTextRotationAlgorithm,
     executionEnvironment,
+    additionalProperties,
+    ...configurationProperties
   } = indexer.parameters?.configuration ?? {};
 
   const configuration: IndexingParametersConfiguration | undefined = indexer.parameters
     ?.configuration && {
-    ...indexer.parameters?.configuration,
+    ...additionalProperties,
+    ...configurationProperties,
     parsingMode: parsingMode as BlobIndexerParsingMode | undefined,
     dataToExtract: dataToExtract as BlobIndexerDataToExtract | undefined,
     imageAction: imageAction as BlobIndexerImageAction | undefined,
@@ -818,6 +888,7 @@ export function generatedSearchIndexerToPublicSearchIndexer(
 
   return {
     ...indexer,
+    etag: indexer.eTag,
     parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
     schedule: indexer.schedule,
@@ -949,7 +1020,7 @@ export function convertKnowledgeBaseToPublic(
 }
 
 export function convertKnowledgeBaseToGenerated(
-  knowledgeBase: KnowledgeBase | undefined,
+  knowledgeBase: KnowledgeBase | KnowledgeBaseInput | undefined,
 ): GeneratedKnowledgeBase | undefined {
   if (!knowledgeBase) {
     return undefined;
@@ -974,6 +1045,7 @@ export function convertKnowledgeSourceToPublic(
       const { encryptionKey } = knowledgeSource as GeneratedSearchIndexKnowledgeSource;
       return {
         ...knowledgeSource,
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       } as KnowledgeSource;
     }
@@ -983,6 +1055,7 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "azureBlob",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         azureBlobParameters: convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters),
       };
@@ -993,6 +1066,7 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "indexedOneLake",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         indexedOneLakeParameters: {
           fabricWorkspaceId: indexedOneLakeParameters.fabricWorkspaceId,
@@ -1001,8 +1075,43 @@ export function convertKnowledgeSourceToPublic(
             indexedOneLakeParameters.ingestionParameters,
           ),
           targetPath: indexedOneLakeParameters.targetPath,
+          queryHints: indexedOneLakeParameters.queryHints,
           createdResources: indexedOneLakeParameters.createdResources?.additionalProperties,
         },
+      };
+    }
+    case "indexedSharePoint": {
+      const { encryptionKey, indexedSharePointParameters } =
+        knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "indexedSharePoint",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedSharePointParameters: convertIndexedSharePointParametersToPublic(
+          indexedSharePointParameters,
+        ),
+      };
+    }
+    case "indexedSql": {
+      const { encryptionKey, indexedSqlParameters } =
+        knowledgeSource as GeneratedIndexedSqlKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "indexedSql",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedSqlParameters: convertIndexedSqlParametersToPublic(indexedSqlParameters),
+      };
+    }
+    case "file": {
+      const { encryptionKey, fileParameters } = knowledgeSource as GeneratedFileKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "file",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        fileParameters: convertFileKnowledgeSourceParametersToPublic(fileParameters),
       };
     }
     case "web": {
@@ -1010,40 +1119,48 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "web",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
-    case "indexedSharePoint":
-    case "remoteSharePoint":
-    case "workIQ":
-    case "mcpServer":
-    case "indexedSql":
-    case "file":
-    case "fabricDataAgent":
-    case "fabricOntology": {
-      const { encryptionKey } = knowledgeSource;
-      return {
-        ...knowledgeSource,
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-      } as KnowledgeSource;
-    }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);
-      return undefined;
+      const mcpParameters =
+        knowledgeSource.kind === "mcpServer"
+          ? (knowledgeSource as GeneratedMcpServerKnowledgeSource).mcpServerParameters
+          : undefined;
+      return {
+        ...knowledgeSource,
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(knowledgeSource.encryptionKey),
+        ...(mcpParameters && {
+          mcpServerParameters: {
+            ...mcpParameters,
+            serverUrl: mcpParameters.serverURL,
+          },
+        }),
+      } as unknown as KnowledgeSource;
     }
   }
 }
 
 export function convertKnowledgeSourceToGenerated(
-  knowledgeSource: KnowledgeSource | undefined,
+  knowledgeSource: KnowledgeSource | KnowledgeSourceInput | undefined,
 ): GeneratedKnowledgeSource | undefined {
   if (!knowledgeSource) {
     return undefined;
   }
-  const { encryptionKey } = knowledgeSource;
+  const { encryptionKey, etag } = knowledgeSource;
   return {
     ...knowledgeSource,
+    eTag: etag,
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+    ...(knowledgeSource.kind === "mcpServer" && {
+      mcpServerParameters: {
+        ...knowledgeSource.mcpServerParameters,
+        serverURL: knowledgeSource.mcpServerParameters.serverUrl,
+      },
+    }),
   } as GeneratedKnowledgeSource;
 }
 
@@ -1073,20 +1190,53 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
   if (!params) {
     return undefined;
   }
-  const { embeddingModel, chatCompletionModel, identity, ...rest } =
-    params.ingestionParameters ?? {};
   return {
-    ...rest,
-    embeddingModel: !embeddingModel
-      ? embeddingModel
-      : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
-    identity: convertSearchIndexerDataIdentityToPublic(identity),
+    ...params,
     connectionString: params.connectionString,
     containerName: params.containerName,
-    chatCompletionModel: !chatCompletionModel
-      ? chatCompletionModel
-      : convertKnowledgeBaseModelToPublic(chatCompletionModel),
-  } as AzureBlobKnowledgeSourceParameters;
+    folderPath: params.folderPath,
+    isAdlsGen2: params.isAdlsGen2,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertIndexedSharePointParametersToPublic(
+  params: GeneratedIndexedSharePointKnowledgeSource["indexedSharePointParameters"],
+): IndexedSharePointKnowledgeSourceParameters {
+  return {
+    ...params,
+    connectionString: params.connectionString,
+    containerName: params.containerName,
+    query: params.query,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertIndexedSqlParametersToPublic(
+  params: GeneratedIndexedSqlKnowledgeSource["indexedSqlParameters"],
+): IndexedSqlKnowledgeSource["indexedSqlParameters"] {
+  return {
+    ...params,
+    connectionString: params.connectionString,
+    tableOrView: params.tableOrView,
+    highWaterMarkColumnName: params.highWaterMarkColumnName,
+    contentColumns: params.contentColumns,
+    embeddingColumns: params.embeddingColumns,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertFileKnowledgeSourceParametersToPublic(
+  params: GeneratedFileKnowledgeSource["fileParameters"],
+): FileKnowledgeSourceParameters {
+  return {
+    ...params,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    createdResources: params.createdResources?.additionalProperties,
+  };
 }
 
 function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): KnowledgeBaseModel {
@@ -1133,10 +1283,20 @@ export function mapPagedAsyncIterable<T, U>(
     async *byPage(settings) {
       const iteratorByPage = iter.byPage(settings);
       for await (const page of iteratorByPage) {
-        yield page.map(mapper);
+        yield Object.assign(page.map(mapper), { continuationToken: page.continuationToken });
       }
     },
   };
+}
+
+export async function collectPagedAsyncIterable<T>(
+  iter: PagedAsyncIterableIterator<T>,
+): Promise<T[]> {
+  const items: T[] = [];
+  for await (const item of iter) {
+    items.push(item);
+  }
+  return items;
 }
 
 /**

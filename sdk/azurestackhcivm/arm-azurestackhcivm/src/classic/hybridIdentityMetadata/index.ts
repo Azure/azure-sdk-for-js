@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import { listByVirtualMachineInstance, get } from "../../api/hybridIdentityMetadata/operations.js";
-import {
+import type {
   HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
 } from "../../api/hybridIdentityMetadata/options.js";
-import { HybridIdentityMetadata } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HybridIdentityMetadata } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HybridIdentityMetadata operations. */
 export interface HybridIdentityMetadataOperations {

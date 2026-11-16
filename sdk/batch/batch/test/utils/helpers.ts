@@ -19,7 +19,7 @@ export async function waitForNotNull<T>(
   fn: () => Promise<T>,
   pollingInterval: number = POLLING_INTERVAL,
 ): Promise<NonNullable<T>> {
-  let result: T | null = null;
+  let result: T | null;
   const startTime = Date.now();
   while ((result = await fn()) == null) {
     if (Date.now() - startTime > LONG_TEST_TIMEOUT) {

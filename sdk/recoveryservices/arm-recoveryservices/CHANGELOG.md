@@ -1,5 +1,17 @@
 # Release History
 
+## 7.3.0 (2026-10-30)
+
+### Features Added
+  - Enum KnownVersions has a new value V20261101
+
+## 7.2.0 (2026-08-14)
+
+### Features Added
+  - Added Interface RegionOfChoiceSettings
+  - Interface VaultProperties has a new optional parameter regionOfChoiceSettings
+  - Enum KnownVersions has a new value V20260701
+
 ## 7.1.0 (2026-07-07)
 
 ### Features Added

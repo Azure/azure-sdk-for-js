@@ -3,6 +3,11 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  createGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
   getCredentials,
   pendingUpload,
   createOrUpdate,
@@ -12,6 +17,11 @@ import {
   listVersions,
 } from "../../api/datasets/operations.js";
 import {
+  DatasetsDeleteGenerationJobOptionalParams,
+  DatasetsCancelGenerationJobOptionalParams,
+  DatasetsCreateGenerationJobOptionalParams,
+  DatasetsListGenerationJobsOptionalParams,
+  DatasetsGetGenerationJobOptionalParams,
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -25,12 +35,65 @@ import {
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
+  DataGenerationJobUnion,
+  DataGenerationJobResult,
+  DataGenerationJobInputsUnion,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
-  /** Gets the SAS credential to access the storage account associated with a Dataset version. */
+  /** Removes the specified data generation job and its associated output. */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: DatasetsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels the specified data generation job if it is still in progress. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: DatasetsCancelGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
+  /**
+   * Submits a new data generation job for asynchronous execution.
+   * Requests with `type` set to `conversations`, or `traces` with
+   * `generate_test_case_rubric` set to true, require
+   * `Foundry-Features: DataGenerationJobs=V1Preview`; the service rejects
+   * these requests without this opt-in. Ordinary turn-level trace requests
+   * without rubric generation do not require the header.
+   * Conversation samples require `scenario` to be `evaluation`.
+   * Jobs with `type: conversations` reconstruct existing traced conversations,
+   * use sources of type `traces`, and do not support `sample_level`.
+   * The `generate_test_case_rubric` flag is supported for both trace and
+   * conversation jobs and requires a nonempty `model_options.model` when true.
+   * The conversation-only `generate_test_case_description` flag also requires
+   * a nonempty `model_options.model` when true. For conversation jobs, model
+   * options must be omitted when neither flag is enabled.
+   * Create, get, and list responses preserve `type: conversations`.
+   * The response includes the effective generation settings.
+   */
+  createGenerationJob: (
+    job: DataGenerationJobInputsUnion,
+    options?: DatasetsCreateGenerationJobOptionalParams,
+  ) => PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
+  /**
+   * Returns a list of data generation jobs.
+   * Each trace job includes its effective settings. Conversation jobs preserve
+   * `type: conversations`. Listing existing jobs does not require preview opt-in.
+   */
+  listGenerationJobs: (
+    options?: DatasetsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<DataGenerationJobUnion>;
+  /**
+   * Retrieves the specified data generation job and its current status.
+   * Returns effective generation settings and preserves `type: conversations` for
+   * conversation jobs. Reading an existing job does not require preview opt-in.
+   */
+  getGenerationJob: (
+    jobId: string,
+    options?: DatasetsGetGenerationJobOptionalParams,
+  ) => Promise<DataGenerationJobUnion>;
+  /** Retrieves the SAS credential to access the storage account associated with a dataset version. */
   getCredentials: (
     name: string,
     version: string,
@@ -51,11 +114,6 @@ export interface DatasetsOperations {
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
   /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
   get: (
@@ -74,6 +132,18 @@ export interface DatasetsOperations {
 
 function _getDatasets(context: AIProjectContext) {
   return {
+    deleteGenerationJob: (jobId: string, options?: DatasetsDeleteGenerationJobOptionalParams) =>
+      deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (jobId: string, options?: DatasetsCancelGenerationJobOptionalParams) =>
+      cancelGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      job: DataGenerationJobInputsUnion,
+      options?: DatasetsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, job, options),
+    listGenerationJobs: (options?: DatasetsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: DatasetsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
     getCredentials: (
       name: string,
       version: string,

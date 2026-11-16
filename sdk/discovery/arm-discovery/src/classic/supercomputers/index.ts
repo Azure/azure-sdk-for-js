@@ -34,11 +34,6 @@ export interface SupercomputersOperations {
     options?: SupercomputersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Supercomputer>;
   /** Delete a Supercomputer */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     supercomputerName: string,
@@ -65,7 +60,6 @@ export interface SupercomputersOperations {
     options?: SupercomputersGetOptionalParams,
   ) => Promise<Supercomputer>;
 }
-
 function _getSupercomputers(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: SupercomputersListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getSupercomputers(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, supercomputerName, options),
   };
 }
-
 export function _getSupercomputersOperations(context: DiscoveryContext): SupercomputersOperations {
   return {
     ..._getSupercomputers(context),

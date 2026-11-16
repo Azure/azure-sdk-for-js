@@ -8,23 +8,13 @@ import { requireEnvVar } from "../authTestUtils.js";
 
 describe.skipIf(!isLiveMode())("Azure Kubernetes Integration test", function () {
   let podName: string;
+  let identityBindingPodName: string;
   const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
   beforeEach(async function () {
     podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
-    const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
-    assert.include(pods, podName);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Check server status
-    const statusResponse = runCommand(
-      "kubectl",
-      `exec ${podName} -- wget -qO- http://localhost:${port}/`,
-    );
-
-    const statusObj = JSON.parse(statusResponse);
-    assert.equal(statusObj.status, "OK");
+    identityBindingPodName = requireEnvVar("IDENTITY_AKS_IDENTITY_BINDING_POD_NAME");
+    await assertPodIsReady(podName, port);
   });
 
   afterEach(async function () {
@@ -43,6 +33,17 @@ describe.skipIf(!isLiveMode())("Azure Kubernetes Integration test", function () 
     assert.isTrue(responseObj.success);
   });
 
+  it.skipIf(!isLiveMode())("can authenticate using identity binding", async function () {
+    await assertPodIsReady(identityBindingPodName, port);
+    const response = runCommand(
+      "kubectl",
+      `exec ${identityBindingPodName} -- wget -qO- http://localhost:${port}/workload-identity/identity-binding`,
+    );
+
+    const responseObj = JSON.parse(response);
+    assert.isTrue(responseObj.success);
+  });
+
   it.skipIf(!isLiveMode())(
     "can authenticate using user-assigned managed identity",
     async function () {
@@ -55,7 +56,33 @@ describe.skipIf(!isLiveMode())("Azure Kubernetes Integration test", function () 
       assert.isTrue(responseObj.success);
     },
   );
+
+  it.skipIf(!isLiveMode())(
+    "can authenticate using user-assigned DefaultAzureCredential",
+    async function () {
+      const response = runCommand(
+        "kubectl",
+        `exec ${podName} -- wget -qO- http://localhost:${port}/default-azure-credential/user-assigned`,
+      );
+
+      const responseObj = JSON.parse(response);
+      assert.isTrue(responseObj.success);
+    },
+  );
 });
+
+async function assertPodIsReady(podName: string, port: string): Promise<void> {
+  runCommand("kubectl", `wait --for=condition=Ready pod/${podName} --timeout=5m`);
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const statusResponse = runCommand(
+    "kubectl",
+    `exec ${podName} -- wget -qO- http://localhost:${port}/`,
+  );
+
+  const statusObj = JSON.parse(statusResponse);
+  assert.equal(statusObj.status, "OK");
+}
 
 function runCommand(command: string, args: string = ""): any {
   try {
@@ -66,5 +93,6 @@ function runCommand(command: string, args: string = ""): any {
     console.error("Command failed:", error.message);
     console.error("Exit code:", error.status);
     console.error("stderr:", error.stderr.toString());
+    throw error;
   }
 }

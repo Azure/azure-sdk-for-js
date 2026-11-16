@@ -8,19 +8,25 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a ChatModelDeployment
  *
  * @summary create a ChatModelDeployment
- * x-ms-original-file: 2026-02-01-preview/ChatModelDeployments_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/ChatModelDeployments_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function chatModelDeploymentsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
   const result = await client.chatModelDeployments.createOrUpdate(
     "rgdiscovery",
-    "eb2204766409e111d9",
-    "d1844ae17cc93bd299",
+    "f3ed10c1c617387d5d",
+    "2143036f84d477b367",
     {
-      properties: { modelFormat: "tcttsgevrsuflt", modelName: "nvwdoluhukiachlyrdnpxusxsc" },
-      tags: { key4822: "fpesmhjievwzxmhxszcgpztivcgw" },
+      properties: {
+        modelFormat: "zo",
+        modelName: "ijzwlirrkr",
+        modelVersion: "seiduxog",
+        skuName: "dymgademiauwwacz",
+        capacity: 8,
+      },
+      tags: { key984: "sqzgsgykyhltqwmpgvhlyp" },
       location: "uksouth",
     },
   );

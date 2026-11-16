@@ -1,5 +1,16 @@
 # Release History
 
+## 1.3.0 (2026-07-17)
+
+### Features Added
+  - Added operation group TrustedHostSubscriptionsOperations
+  - Added Interface TrustedHostSubscription
+  - Added Interface TrustedHostSubscriptionsCreateOptionalParams
+  - Added Interface TrustedHostSubscriptionsDeleteOptionalParams
+  - Added Interface TrustedHostSubscriptionsGetOptionalParams
+  - Added Interface TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams
+  - Enum KnownVersions has a new value V20260731
+
 ## 1.2.1 (2026-07-07)
 
 ### Other Changes

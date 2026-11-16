@@ -3,9 +3,8 @@
 
 import type { TestProxy } from "./testProxyUtils.ts";
 import { isProxyToolActive, startTestProxy } from "./testProxyUtils.ts";
-import type { Command as ConcurrentlyCommand } from "concurrently";
-import concurrently from "concurrently";
 import { createPrinter } from "./printer.ts";
+import { run } from "./run.ts";
 
 const log = createPrinter("preparing-proxy-tool");
 
@@ -29,41 +28,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
   }
 }
 
-/**
- * `concurrently(...).result` rejects with an array of close-event objects
- * (not an `Error`) when a command exits non-zero. This turns that value into a
- * readable, actionable message describing which commands failed and their exit
- * codes.
- */
-export function summarizeCloseEvents(closeEvents: unknown): string {
-  const events = Array.isArray(closeEvents) ? closeEvents : [closeEvents];
-  const failed = events
-    .filter((e): e is { command?: { command?: string }; exitCode?: string | number } => Boolean(e))
-    .filter((e) => e.exitCode !== 0 && e.exitCode !== undefined)
-    .map((e) => {
-      const name = e.command?.command ?? "command";
-      return typeof e.exitCode === "string"
-        ? `${name} was killed by signal ${e.exitCode}`
-        : `${name} exited with code ${e.exitCode}`;
-    });
-
-  if (failed.length > 0) {
-    return failed.join("; ");
-  }
-  // Fallback: nothing matched the expected shape, surface the raw value.
-  if (closeEvents instanceof Error) {
-    return closeEvents.stack ?? closeEvents.message;
-  }
-  try {
-    return JSON.stringify(closeEvents);
-  } catch {
-    return String(closeEvents);
-  }
-}
-
-export async function runTestsWithProxyTool(
-  testCommandObj: Partial<ConcurrentlyCommand> & { command: string },
-): Promise<boolean> {
+export async function runTestsWithProxyTool(testCommand: readonly string[]): Promise<boolean> {
   let testProxy: TestProxy | undefined = undefined;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the testing command or the test-proxy too
@@ -73,15 +38,15 @@ export async function runTestsWithProxyTool(
 
   let success = true;
   try {
-    await concurrently([testCommandObj]).result;
-  } catch (closeEvents: unknown) {
-    log.error(`test command failed: ${summarizeCloseEvents(closeEvents)}`);
+    await run(testCommand, { stdio: "inherit" });
+  } catch (error: unknown) {
+    log.error(`test command failed: ${error instanceof Error ? error.message : String(error)}`);
     success = false;
-  }
-
-  if (testProxy) {
-    log("Stopping the test proxy");
-    await testProxy.stop();
+  } finally {
+    if (testProxy) {
+      log("Stopping the test proxy");
+      await testProxy.stop();
+    }
   }
 
   return success;

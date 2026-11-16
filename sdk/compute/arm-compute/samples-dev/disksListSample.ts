@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the disks under a subscription.
  *
  * @summary lists all the disks under a subscription.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_ListBySubscription.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_ListBySubscription.json
  */
 async function listAllManagedDisksInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

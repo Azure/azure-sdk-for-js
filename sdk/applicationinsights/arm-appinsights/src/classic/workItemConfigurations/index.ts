@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   updateItem,
   getItem,
@@ -10,7 +10,7 @@ import {
   create,
   list,
 } from "../../api/workItemConfigurations/operations.js";
-import {
+import type {
   WorkItemConfigurationsUpdateItemOptionalParams,
   WorkItemConfigurationsGetItemOptionalParams,
   WorkItemConfigurationsDeleteOptionalParams,
@@ -18,11 +18,11 @@ import {
   WorkItemConfigurationsCreateOptionalParams,
   WorkItemConfigurationsListOptionalParams,
 } from "../../api/workItemConfigurations/options.js";
-import {
+import type {
   WorkItemConfiguration,
   WorkItemCreateConfiguration,
 } from "../../models/componentAPIs/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkItemConfigurations operations. */
 export interface WorkItemConfigurationsOperations {

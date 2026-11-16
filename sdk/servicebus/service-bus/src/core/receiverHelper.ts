@@ -131,8 +131,18 @@ export class ReceiverHelper {
       const timer = setTimeout(async () => {
         logger.warning(`${logPrefix} Time out when draining credits in suspend().`);
         // Close the receiver link since we have not received the receiver_drained event
-        // to prevent out-of-sync link state between local and remote
-        await receiver?.close();
+        // to prevent out-of-sync link state between local and remote.
+        // This callback runs detached from any awaiter (it is a setTimeout callback), so a
+        // rejection from close() would surface as an unhandled promise rejection. Guard it and
+        // always resolve the drain promise so suspend()/drain() cannot hang. See #39348.
+        try {
+          await receiver?.close();
+        } catch (err: any) {
+          logger.logError(
+            err,
+            `${logPrefix} Error closing the receiver after a drain timeout in suspend().`,
+          );
+        }
         resolve();
       }, receiveDrainTimeoutInMs);
       receiver.once(ReceiverEvents.receiverDrained, () => {

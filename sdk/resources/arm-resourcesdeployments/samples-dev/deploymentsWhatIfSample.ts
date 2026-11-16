@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the resource group.
  *
  * @summary returns changes that will be made by the deployment if executed at the scope of the resource group.
- * x-ms-original-file: 2025-04-01/PostDeploymentWhatIfOnResourceGroup.json
+ * x-ms-original-file: 2026-06-01/PostDeploymentWhatIfOnResourceGroup.json
  */
 async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

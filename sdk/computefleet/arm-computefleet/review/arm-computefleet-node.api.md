@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -239,7 +241,6 @@ export interface FleetProperties {
     vmAttributes?: VMAttributes;
     vmNamePrefix?: string;
     vmSizesProfile: VmSizeProfile[];
-    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -319,6 +320,8 @@ export interface InnerError {
 
 // @public
 export type IPVersion = string;
+
+export { isRestError }
 
 // @public
 export interface KeyVaultSecretReference {
@@ -592,10 +595,8 @@ export enum KnownStorageAccountTypes {
 
 // @public
 export enum KnownVersions {
-    V20231101Preview = "2023-11-01-preview",
-    V20240501Preview = "2024-05-01-preview",
     V20241101 = "2024-11-01",
-    V20260401Preview = "2026-04-01-preview"
+    V20260801 = "2026-08-01"
 }
 
 // @public
@@ -643,12 +644,6 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
-}
-
-// @public
-export enum KnownZoneDistributionStrategy {
-    BestEffortSingleZone = "BestEffortSingleZone",
-    Prioritized = "Prioritized"
 }
 
 // @public
@@ -839,6 +834,8 @@ export interface ResourcePlanUpdate {
     version?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -974,7 +971,10 @@ export interface VirtualMachine {
     readonly id: string;
     readonly name: string;
     readonly operationStatus: VMOperationStatus;
+    readonly priority?: string;
     readonly type?: string;
+    readonly vmSize?: string;
+    readonly zone?: string;
 }
 
 // @public
@@ -1266,21 +1266,6 @@ export interface WinRMConfiguration {
 export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
-}
-
-// @public
-export interface ZoneAllocationPolicy {
-    distributionStrategy: ZoneDistributionStrategy;
-    zonePreferences?: ZonePreference[];
-}
-
-// @public
-export type ZoneDistributionStrategy = string;
-
-// @public
-export interface ZonePreference {
-    rank?: number;
-    zone: string;
 }
 
 // (No @packageDocumentation comment for this package)

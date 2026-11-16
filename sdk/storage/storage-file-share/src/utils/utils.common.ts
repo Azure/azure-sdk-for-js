@@ -16,6 +16,8 @@ import type {
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
+  RangeModel,
+  ShareFileRange,
 } from "../generatedModels.js";
 import {
   HttpAuthorization,
@@ -141,20 +143,18 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!fileEndpoint) {
       // FileEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -162,7 +162,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -296,6 +296,75 @@ export function setURLParameter(url: string, name: string, value?: string): stri
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = new URL(url);
   return urlParsed.searchParams.get(name) ?? undefined;
+}
+
+/**
+ * Get the file ID of a URL that addresses a file or directory by its file ID.
+ *
+ * @param url - Source URL string
+ * @returns The value of the `fileid` query parameter (name matched case-insensitively), or undefined when it's missing or empty.
+ */
+export function getFileIdFromURL(url: string): string | undefined {
+  for (const [name, value] of new URL(url).searchParams) {
+    if (value && name.toLowerCase() === URLConstants.Parameters.FILE_ID) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Whether a raw `name=value` piece of a query string is a `fileid` parameter, with its name matched the way
+ * {@link getFileIdFromURL} matches it.
+ *
+ * @param pair - A piece of a query string, between two `&`
+ */
+function isFileIdParameter(pair: string): boolean {
+  const names = Array.from(new URLSearchParams(pair).keys());
+  return names.length > 0 && names[0].toLowerCase() === URLConstants.Parameters.FILE_ID;
+}
+
+/**
+ * Build the URL that addresses a file or directory by its file ID from the URL of its share.
+ *
+ * @param shareUrl - URL of the share, which may carry a SAS or a share snapshot
+ * @param fileId - File ID of the file or directory
+ * @returns The share URL, without a trailing slash, with the `fileid` query parameter set to the file ID. Any
+ * `fileid` parameter the share URL already has, whatever the case of its name, is removed.
+ */
+export function setFileIdOnShareURL(shareUrl: string, fileId: string): string {
+  if (!fileId || !fileId.trim()) {
+    throw new RangeError("fileId must be a non-empty string.");
+  }
+  const urlParsed = new URL(shareUrl);
+  const path = urlParsed.pathname;
+  let end = path.length;
+  while (end > 0 && path[end - 1] === "/") {
+    end--;
+  }
+  urlParsed.pathname = path.slice(0, end);
+  // The other parameters are kept as they are: rebuilding them with URLSearchParams would change a SAS's encoding.
+  const searchPieces = urlParsed.search
+    .slice(1)
+    .split("&")
+    .filter((pair) => pair !== "" && !isFileIdParameter(pair));
+  searchPieces.push(`${URLConstants.Parameters.FILE_ID}=${encodeURIComponent(fileId)}`);
+  urlParsed.search = `?${searchPieces.join("&")}`;
+  return urlParsed.toString();
+}
+
+/**
+ * Throw when a client that addresses its resource by file ID is asked for a member that only works with paths.
+ *
+ * @param fileId - File ID of the client, undefined when the client addresses its resource by path
+ * @param memberName - Name of the member being called
+ */
+export function assertNotFileIdAddressed(fileId: string | undefined, memberName: string): void {
+  if (fileId) {
+    throw new Error(
+      `${memberName} is not supported when the client addresses the resource by file ID.`,
+    );
+  }
 }
 
 /**
@@ -496,7 +565,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -574,6 +643,7 @@ export function getShareNameAndPathFromUrl(url: string): {
   } catch (error: any) {
     throw new Error(
       "Unable to extract shareName and filePath/directoryPath with provided information.",
+      { cause: error },
     );
   }
 }
@@ -818,6 +888,51 @@ export function ConvertInternalResponseOfListHandles(
  */
 export function removeEmptyString(value: string | undefined): string | undefined {
   return value ? value : undefined;
+}
+
+/**
+ * Merges the valid ranges and cleared ranges returned by the service into a single
+ * ordered sequence of {@link ShareFileRange} items, sorted by start position.
+ *
+ * This uses a two-pointer merge and assumes each input array is already sorted ascending
+ * by `start`, which is guaranteed by the List Ranges service response. If that invariant
+ * ever changes, the inputs must be sorted before merging to preserve output ordering.
+ *
+ * On a tie (equal `start`), the valid data range is emitted before the cleared range.
+ * @internal
+ */
+export function* extractShareFileRangeItems(
+  ranges: RangeModel[] = [],
+  clearRanges: RangeModel[] = [],
+): IterableIterator<ShareFileRange> {
+  let rangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (rangeIndex < ranges.length && clearRangeIndex < clearRanges.length) {
+    if (ranges[rangeIndex].start <= clearRanges[clearRangeIndex].start) {
+      yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+      ++rangeIndex;
+    } else {
+      yield {
+        start: clearRanges[clearRangeIndex].start,
+        end: clearRanges[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; rangeIndex < ranges.length; ++rangeIndex) {
+    yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+  }
+
+  for (; clearRangeIndex < clearRanges.length; ++clearRangeIndex) {
+    yield {
+      start: clearRanges[clearRangeIndex].start,
+      end: clearRanges[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
 }
 
 export function asSharePermission(value: string | SharePermission): SharePermission {
@@ -1099,6 +1214,23 @@ interface UploadCheckSumBody {
   contentLength: number;
 }
 
+/**
+ * Returns an `ArrayBuffer`, or an `ArrayBufferView` other than a `Uint8Array`, as a `Uint8Array`
+ * over the same bytes. Some versions of the HTTP runtime send only `Uint8Array` bodies as raw bytes
+ * and serialize the other binary types as JSON.
+ *
+ * @param body - the upload body
+ */
+function toUint8ArrayIfBinary(body: HttpRequestBody): HttpRequestBody {
+  if (body instanceof ArrayBuffer) {
+    return new Uint8Array(body);
+  }
+  if (ArrayBuffer.isView(body) && !(body instanceof Uint8Array)) {
+    return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  }
+  return body;
+}
+
 export async function setUploadChecksumParameters(
   body: HttpRequestBody,
   contentLength: number,
@@ -1128,7 +1260,7 @@ export async function setUploadChecksumParameters(
   }
 
   return {
-    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : toUint8ArrayIfBinary(body),
     contentLength:
       contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
     contentChecksumAlgorithm: contentChecksumAlgorithm,

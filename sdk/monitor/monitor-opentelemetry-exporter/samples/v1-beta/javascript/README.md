@@ -20,7 +20,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+The sample programs require Node.js 22.15.0 or later and OpenTelemetry SDK 3.x.
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -48,10 +48,10 @@ npm install
 node basicTracerNode.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node basicTracerNode.js
+npx cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node basicTracerNode.js
 ```
 
 ## Next Steps

@@ -12,6 +12,7 @@ trigger:
     include:
       - sdk/operationalinsights/ci.mgmt.yml
       - sdk/operationalinsights/arm-operationalinsights
+      - sdk/operationalinsights/provisioning-operationalinsights
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
     include:
       - sdk/operationalinsights/ci.mgmt.yml
       - sdk/operationalinsights/arm-operationalinsights
+      - sdk/operationalinsights/provisioning-operationalinsights
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-arm-operationalinsights
         safeName: azurearmoperationalinsights
+      - name: azure-provisioning-operationalinsights
+        safeName: azureprovisioningoperationalinsights

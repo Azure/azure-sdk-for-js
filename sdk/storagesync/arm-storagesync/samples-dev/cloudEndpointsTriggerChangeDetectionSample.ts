@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers detection of changes performed on Azure File share connected to the specified Azure File Sync Cloud Endpoint.
  *
  * @summary triggers detection of changes performed on Azure File share connected to the specified Azure File Sync Cloud Endpoint.
- * x-ms-original-file: 2022-09-01/CloudEndpoints_TriggerChangeDetection.json
+ * x-ms-original-file: 2025-12-01/CloudEndpoints_TriggerChangeDetection.json
  */
 async function cloudEndpointsTriggerChangeDetection(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -28,11 +28,6 @@ export interface DataflowOperations {
     options?: DataflowListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DataflowResource>;
   /** Delete a DataflowResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -58,7 +53,6 @@ export interface DataflowOperations {
     options?: DataflowGetOptionalParams,
   ) => Promise<DataflowResource>;
 }
-
 function _getDataflow(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -102,7 +96,6 @@ function _getDataflow(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, dataflowProfileName, dataflowName, options),
   };
 }
-
 export function _getDataflowOperations(context: IoTOperationsContext): DataflowOperations {
   return {
     ..._getDataflow(context),

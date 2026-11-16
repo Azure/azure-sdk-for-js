@@ -17,7 +17,6 @@ export const baseCommands = {
   samples: () => import("./samples/index.ts"),
   "test-proxy": () => import("./test-proxy/index.ts"),
   run: () => import("./run/index.ts"),
-  migrate: () => import("./migrate.ts"),
   customization: () => import("./customization/index.ts"),
   check: () => import("./check.ts"),
   vscode: () => import("./vscode/index.ts"),

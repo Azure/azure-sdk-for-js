@@ -28,13 +28,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * For location-level partial updates, if no address is provided, the existing address will be deleted.
  *
  * For address-level partial updates, if no services are provided, the existing services will be considered for deletion.
- * x-ms-original-file: 2025-07-01/ServiceGatewayFullUpdateAddressLocationsRequest.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayFullUpdateAddressLocationsRequest.json
  */
 async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  await client.serviceGateways.updateAddressLocations("rg1", "sg", {
+  const result = await client.serviceGateways.updateAddressLocations("rg1", "sg", {
     action: "FullUpdate",
     addressLocations: [
       {
@@ -49,6 +49,7 @@ async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway
       },
     ],
   });
+  console.log(result);
 }
 
 /**
@@ -75,13 +76,13 @@ async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway
  * For location-level partial updates, if no address is provided, the existing address will be deleted.
  *
  * For address-level partial updates, if no services are provided, the existing services will be considered for deletion.
- * x-ms-original-file: 2025-07-01/ServiceGatewayPartialUpdateAddressLocationsRequest.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayPartialUpdateAddressLocationsRequest.json
  */
 async function partialUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  await client.serviceGateways.updateAddressLocations("rg1", "sg", {
+  const result = await client.serviceGateways.updateAddressLocations("rg1", "sg", {
     action: "PartialUpdate",
     addressLocations: [
       {
@@ -97,6 +98,7 @@ async function partialUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGate
       { addressLocation: "192.0.0.3" },
     ],
   });
+  console.log(result);
 }
 
 async function main(): Promise<void> {

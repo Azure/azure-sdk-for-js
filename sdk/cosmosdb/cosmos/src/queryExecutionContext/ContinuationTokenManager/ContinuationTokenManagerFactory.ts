@@ -4,6 +4,7 @@
 import type { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
 import { ParallelQueryContinuationTokenManager } from "./ParallelQueryContinuationTokenManager.js";
 import { OrderByQueryContinuationTokenManager } from "./OrderByQueryContinuationTokenManager.js";
+import type { BaseContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Factory for creating appropriate continuation token managers based on query type.
@@ -23,11 +24,19 @@ export const ContinuationTokenManagerFactory = {
     collectionLink: string,
     initialContinuationToken?: string,
     isOrderByQuery: boolean = false,
+    parsedContinuationToken?: BaseContinuationToken,
   ): BaseContinuationTokenManager {
     if (isOrderByQuery) {
-      return new OrderByQueryContinuationTokenManager(collectionLink, initialContinuationToken);
+      return new OrderByQueryContinuationTokenManager(
+        collectionLink,
+        initialContinuationToken,
+        parsedContinuationToken,
+      );
     } else {
-      return new ParallelQueryContinuationTokenManager(collectionLink, initialContinuationToken);
+      return new ParallelQueryContinuationTokenManager(
+        collectionLink,
+        parsedContinuationToken ?? initialContinuationToken,
+      );
     }
   },
 };

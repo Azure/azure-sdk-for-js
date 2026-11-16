@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list NodePool resources by Supercomputer
  *
  * @summary list NodePool resources by Supercomputer
- * x-ms-original-file: 2026-02-01-preview/NodePools_ListBySupercomputer_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/NodePools_ListBySupercomputer_MaximumSet_Gen.json
  */
 async function nodePoolsListBySupercomputerMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.nodePools.listBySupercomputer(
     "rgdiscovery",
-    "7cc28f3db7c8fa0087",
+    "a4d55e3b47501e6fe1",
   )) {
     resArray.push(item);
   }

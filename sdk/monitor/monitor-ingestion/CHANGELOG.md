@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Upgraded the `pako` dependency to version `3.0.1`. [#39414](https://github.com/Azure/azure-sdk-for-js/pull/39414)
+
 ## 1.2.0 (2025-07-16)
 
 ### Features Added

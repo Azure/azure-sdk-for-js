@@ -34,7 +34,7 @@ export function _exportThrottledRequestsSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export function exportThrottledRequests(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _exportThrottledRequestsSend(context, location, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
 }
 
@@ -91,7 +91,7 @@ export function _exportRequestRateByIntervalSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +138,7 @@ export function exportRequestRateByInterval(
       getInitialResponse: () =>
         _exportRequestRateByIntervalSend(context, location, parameters, options),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: "2026-03-01",
+      apiVersion: "2026-04-01",
     },
   ) as PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
 }

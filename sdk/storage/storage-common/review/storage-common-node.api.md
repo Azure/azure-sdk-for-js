@@ -9,6 +9,7 @@ import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
 import { Readable } from 'node:stream';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RequestPolicy } from '@azure/core-http-compat';
@@ -50,6 +51,9 @@ export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
+
+// @public
+export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
 
 // @public
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
@@ -132,6 +136,16 @@ export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+
+// @public
+export const StorageResponseFormat: {
+    readonly Auto: "Auto";
+    readonly Xml: "Xml";
+    readonly Arrow: "Arrow";
+};
+
+// @public
+export type StorageResponseFormat = (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];
 
 // @public
 export interface StorageRetryOptions {

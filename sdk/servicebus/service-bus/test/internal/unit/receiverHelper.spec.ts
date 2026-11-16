@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Receiver } from "rhea-promise";
-import { ReceiverEvents, delay } from "rhea-promise";
+import { OperationTimeoutError, ReceiverEvents, delay } from "rhea-promise";
 import { ReceiverHelper } from "../../../src/core/receiverHelper.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createRheaReceiverForTests } from "./unittestUtils.js";
@@ -152,5 +152,61 @@ describe("ReceiverHelper unit tests", () => {
     ]);
 
     assert.isFalse(drainWasCalled);
+  });
+
+  it("does not leak an unhandled rejection when close() rejects after a drain timeout (#39348)", async () => {
+    const receiver = createRheaReceiverForTests();
+    const helper = new ReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
+
+    // Force the drain-timeout path: draining never emits `receiverDrained`, so the
+    // timeout callback that closes the receiver runs.
+    (receiver as any)["_link"]["drain_credit"] = () => {
+      (receiver as any).credit = 0;
+      // not emitting the `receiverDrained` event
+    };
+
+    // Simulate a real AMQP session-close timeout.
+    const closeError = new OperationTimeoutError(
+      "Unable to close the amqp session local-1_remote-1_connection-2 due to operation timeout.",
+    );
+    let closeCalled = false;
+    receiver.close = async (): Promise<void> => {
+      closeCalled = true;
+      throw closeError;
+    };
+
+    const unhandled: unknown[] = [];
+    const onUnhandled = (reason: unknown): void => {
+      unhandled.push(reason);
+    };
+    process.on("unhandledRejection", onUnhandled);
+    try {
+      helper.resume();
+      helper.addCredit(101);
+
+      // drain() must still resolve (not hang) even though close() rejects inside the
+      // drain-timeout callback. Pre-fix, resolve() sat after the unguarded `await close()`,
+      // so a rejection left drainPromise unresolved and this raced to the delay() failure.
+      await Promise.race([
+        helper.drain(),
+        delay(2000).then(() => {
+          throw new Error(
+            "Test failed. helper.drain() should have resolved despite close() rejecting.",
+          );
+        }),
+      ]);
+
+      // Give any floating rejection a chance to surface before asserting.
+      await delay(50);
+    } finally {
+      process.removeListener("unhandledRejection", onUnhandled);
+    }
+
+    assert.isTrue(closeCalled, "close() should be attempted after the drain timeout");
+    assert.deepEqual(
+      unhandled,
+      [],
+      "close() rejection must be caught, not leaked as an unhandled rejection (#39348)",
+    );
   });
 });

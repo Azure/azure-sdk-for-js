@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -229,6 +231,11 @@ export interface AkriConnectorTemplateDiagnostics {
 }
 
 // @public
+export interface AkriConnectorTemplateExecAction {
+    command: string[];
+}
+
+// @public
 export interface AkriConnectorTemplateGetOptionalParams extends OperationOptions {
 }
 
@@ -286,6 +293,16 @@ export interface AkriConnectorTemplateProperties {
 }
 
 // @public
+export interface AkriConnectorTemplateReadinessProbe {
+    exec?: AkriConnectorTemplateExecAction;
+    failureThreshold?: number;
+    initialDelaySeconds?: number;
+    periodSeconds?: number;
+    successThreshold?: number;
+    timeoutSeconds?: number;
+}
+
+// @public
 export interface AkriConnectorTemplateResource extends ProxyResource {
     extendedLocation?: ExtendedLocation;
     properties?: AkriConnectorTemplateProperties;
@@ -312,6 +329,7 @@ export interface AkriConnectorTemplateRuntimeImageConfiguration extends AkriConn
 export interface AkriConnectorTemplateRuntimeImageConfigurationSettings {
     imageName: string;
     imagePullPolicy?: AkriConnectorsImagePullPolicy;
+    readinessProbe?: AkriConnectorTemplateReadinessProbe;
     registrySettings?: AkriConnectorsRegistrySettingsUnion;
     replicas?: number;
     tagDigestSettings?: AkriConnectorsTagDigestSettingsUnion;
@@ -639,6 +657,7 @@ export interface BrokerProperties {
     diskBackedMessageBuffer?: DiskBackedMessageBuffer;
     generateResourceLimits?: GenerateResourceLimits;
     readonly healthState?: ResourceHealthState;
+    highPriorityMessagesBackpressureHandling?: HighPriorityMessagesBackpressureHandling;
     memoryProfile?: BrokerMemoryProfile;
     persistence?: BrokerPersistence;
     readonly provisioningState?: ProvisioningState;
@@ -1484,6 +1503,9 @@ export interface GenerateResourceLimits {
 }
 
 // @public
+export type HighPriorityMessagesBackpressureHandling = string;
+
+// @public
 export interface InstanceCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1578,6 +1600,8 @@ export interface IoTOperationsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
+
+export { isRestError }
 
 // @public
 export type KafkaAuthMethod = string;
@@ -1832,6 +1856,12 @@ export enum KnownFilterType {
 }
 
 // @public
+export enum KnownHighPriorityMessagesBackpressureHandling {
+    Accept = "Accept",
+    Reject = "Reject"
+}
+
+// @public
 export enum KnownInstanceFeatureMode {
     Disabled = "Disabled",
     Preview = "Preview",
@@ -1998,7 +2028,8 @@ export enum KnownVersions {
     "V2024-11-01" = "2024-11-01",
     V20250401 = "2025-04-01",
     V20251001 = "2025-10-01",
-    V20260301 = "2026-03-01"
+    V20260301 = "2026-03-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -2263,6 +2294,8 @@ export interface ResourceHealthStatus {
     readonly reasonCode?: string;
     readonly status?: ResourceHealthState;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IoTOperationsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

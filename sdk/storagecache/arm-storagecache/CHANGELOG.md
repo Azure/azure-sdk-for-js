@@ -1,5 +1,30 @@
 # Release History
 
+## 9.1.0 (2026-09-02)
+
+### Features Added
+  - Added operation group RebalanceJobsOperations
+  - Added Interface RebalanceJob
+  - Added Interface RebalanceJobProperties
+  - Added Interface RebalanceJobPropertiesStatus
+  - Added Interface RebalanceJobsDeleteOptionalParams
+  - Added Interface RebalanceJobsGetOptionalParams
+  - Added Interface RebalanceJobsListByAmlFilesystemOptionalParams
+  - Added Interface RebalanceJobsUpdateOptionalParams
+  - Added Interface RebalanceJobUpdate
+  - Added Interface RebalanceJobUpdateProperties
+  - Interface ExpansionJob has a new optional parameter rebalanceJobId
+  - Interface ExpansionJob has a new optional parameter runRebalanceJob
+  - Interface ExpansionJobProperties has a new optional parameter rebalanceJobId
+  - Interface ExpansionJobProperties has a new optional parameter runRebalanceJob
+  - Added Type Alias RebalanceJobAdminStatus
+  - Added Type Alias RebalanceJobPropertiesProvisioningState
+  - Added Type Alias RebalanceJobStatusType
+  - Added Enum KnownRebalanceJobAdminStatus
+  - Added Enum KnownRebalanceJobPropertiesProvisioningState
+  - Added Enum KnownRebalanceJobStatusType
+  - Enum KnownVersions has a new value V20260801
+
 ## 9.0.0 (2026-07-16)
 
 ### Features Added

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list CommunityResource resources by resource group
  *
  * @summary list CommunityResource resources by resource group
- * x-ms-original-file: 2026-03-01-preview/Community_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01/Community_ListByResourceGroup.json
  */
 async function communityListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

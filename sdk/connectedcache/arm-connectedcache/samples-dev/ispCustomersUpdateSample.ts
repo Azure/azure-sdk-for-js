@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api updates an existing ispCustomer resource
  *
  * @summary this api updates an existing ispCustomer resource
- * x-ms-original-file: 2024-11-30-preview/IspCustomers_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCustomers_Update_MaximumSet_Gen.json
  */
 async function ispCustomerUpdateDetailsGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

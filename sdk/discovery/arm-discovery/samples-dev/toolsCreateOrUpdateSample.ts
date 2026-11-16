@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Tool
  *
  * @summary create a Tool
- * x-ms-original-file: 2026-02-01-preview/Tools_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Tools_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function toolsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "C058B75F-64D2-4E9D-8B66-65339DCB22C7";
+  const subscriptionId = "A54D43BD-2F5F-4BB1-95D4-9A8D23CC7DD4";
   const client = new DiscoveryClient(credential, subscriptionId);
-  const result = await client.tools.createOrUpdate("rgdiscovery", "b5d4239f788c20b58b", {
+  const result = await client.tools.createOrUpdate("rgdiscovery", "0ea6bfe1c2adfcec94", {
     properties: {
-      version: "sjepxewtq",
-      environmentVariables: { key5460: "xtjzjghbist" },
+      version: "qccygbwif",
+      environmentVariables: { key777: "iyamvfvbaxepw" },
       definitionContent: {
         tool_id: "discovery-m1",
         name: "discovery",
@@ -60,7 +60,7 @@ async function toolsCreateOrUpdateMaximumSet(): Promise<void> {
         ],
       },
     },
-    tags: { key2611: "cgsblxvyzevbd" },
+    tags: { key3848: "um" },
     location: "uksouth",
   });
   console.log(result);

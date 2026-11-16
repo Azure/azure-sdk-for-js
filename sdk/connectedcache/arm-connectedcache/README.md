@@ -7,7 +7,7 @@ Microsoft Connected Cache Rest Api version 2023-05-01-preview
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-connectedcache)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-connectedcache)
 
 ## Getting started
 

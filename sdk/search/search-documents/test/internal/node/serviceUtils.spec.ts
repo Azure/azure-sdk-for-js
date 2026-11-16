@@ -4,7 +4,11 @@ import { assert, describe, it } from "vitest";
 import type { SearchField as GeneratedSearchField } from "../../../src/models/azure/search/documents/indexes/index.js";
 import { KnownAnalyzerNames } from "../../../src/index.js";
 import type { ComplexField, SearchField } from "../../../src/serviceModels.js";
-import { convertFieldsToGenerated, convertFieldsToPublic } from "../../../src/serviceUtils.js";
+import {
+  convertFieldsToGenerated,
+  convertFieldsToPublic,
+  generatedKnowledgeSourceVectorizerToPublicVectorizer,
+} from "../../../src/serviceUtils.js";
 
 describe("serviceUtils", () => {
   it("convert generated fields to public fields", () => {
@@ -171,5 +175,34 @@ describe("serviceUtils", () => {
       searchAnalyzerName: KnownAnalyzerNames.CaLucene,
       synonymMapNames: undefined,
     });
+  });
+
+  it("converts a generated knowledge source vectorizer to the public shape", () => {
+    const vectorizer = generatedKnowledgeSourceVectorizerToPublicVectorizer({
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "https://example.openai.azure.com",
+        deploymentId: "embedding-deployment",
+        authIdentity: {
+          odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity",
+          resourceId:
+            "/subscriptions/0000/resourceGroups/example/providers/Microsoft.ManagedIdentity/userAssignedIdentities/search",
+        },
+      },
+    });
+
+    assert.deepEqual(vectorizer, {
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "https://example.openai.azure.com",
+        deploymentId: "embedding-deployment",
+        authIdentity: {
+          odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity",
+          resourceId:
+            "/subscriptions/0000/resourceGroups/example/providers/Microsoft.ManagedIdentity/userAssignedIdentities/search",
+        },
+      },
+    });
+    assert.notProperty(vectorizer, "parameters");
   });
 });

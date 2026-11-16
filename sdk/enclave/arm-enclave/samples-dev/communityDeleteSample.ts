@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a CommunityResource
  *
  * @summary delete a CommunityResource
- * x-ms-original-file: 2026-03-01-preview/Community_Delete.json
+ * x-ms-original-file: 2026-04-01/Community_Delete.json
  */
 async function communityDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

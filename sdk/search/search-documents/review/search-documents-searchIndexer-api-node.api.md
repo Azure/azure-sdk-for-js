@@ -32,6 +32,9 @@ export interface CreateIndexerOptionalParams extends OperationOptions {
 export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, dataSource: SearchIndexerDataSourceConnection, name: string, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
 
 // @public
+export function createOrUpdateDataSourceConnection(context: SearchIndexerContext, name: string, dataSource: SearchIndexerDataSourceConnection, options?: CreateOrUpdateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
+
+// @public
 export interface CreateOrUpdateDataSourceConnectionOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -42,6 +45,9 @@ export interface CreateOrUpdateDataSourceConnectionOptionalParams extends Operat
 
 // @public
 export function createOrUpdateIndexer(context: SearchIndexerContext, indexer: SearchIndexer, name: string, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
+
+// @public
+export function createOrUpdateIndexer(context: SearchIndexerContext, name: string, indexer: SearchIndexer, options?: CreateOrUpdateIndexerOptionalParams): Promise<SearchIndexer>;
 
 // @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
@@ -55,6 +61,9 @@ export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
 
 // @public
 export function createOrUpdateSkillset(context: SearchIndexerContext, skillset: SearchIndexerSkillset, name: string, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
+
+// @public
+export function createOrUpdateSkillset(context: SearchIndexerContext, name: string, skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
 
 // @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
@@ -127,6 +136,9 @@ export function getDataSourceConnections(context: SearchIndexerContext, options?
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -146,6 +158,9 @@ export function getIndexers(context: SearchIndexerContext, options?: GetIndexers
 export interface GetIndexersOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -174,6 +189,48 @@ export function getSkillsets(context: SearchIndexerContext, options?: GetSkillse
 export interface GetSkillsetsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function listDataSourceConnections(context: SearchIndexerContext, options?: ListDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
+
+// @public
+export interface ListDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function listIndexers(context: SearchIndexerContext, options?: ListIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
+
+// @public
+export interface ListIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+    select?: string;
+}
+
+// @public
+export function listSkillsets(context: SearchIndexerContext, options?: ListSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
+
+// @public
+export interface ListSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -198,7 +255,7 @@ export interface ResetIndexerOptionalParams extends OperationOptions {
 }
 
 // @public
-export function resetSkills(context: SearchIndexerContext, skillNames: SkillNames, name: string, options?: ResetSkillsOptionalParams): Promise<void>;
+export function resetSkills(context: SearchIndexerContext, name: string, skillNames: SkillNames, options?: ResetSkillsOptionalParams): Promise<void>;
 
 // @public
 export interface ResetSkillsOptionalParams extends OperationOptions {
@@ -207,7 +264,7 @@ export interface ResetSkillsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function resync(context: SearchIndexerContext, indexerResync: IndexerResyncBody, name: string, options?: ResyncOptionalParams): Promise<void>;
+export function resync(context: SearchIndexerContext, name: string, indexerResync: IndexerResyncBody, options?: ResyncOptionalParams): Promise<void>;
 
 // @public
 export interface ResyncOptionalParams extends OperationOptions {

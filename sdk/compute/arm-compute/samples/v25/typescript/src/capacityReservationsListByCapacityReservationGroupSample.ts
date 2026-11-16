@@ -1,0 +1,102 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ *
+ * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/BlockCapacityReservation_ListByReservationGroup.json
+ */
+async function listBlockCapacityReservationsInReservationGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.capacityReservations.listByCapacityReservationGroup(
+    "myResourceGroup",
+    "blockCapacityReservationGroup",
+    { expand: "virtualMachines/$ref" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ *
+ * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
+ */
+async function listCapacityReservationsInReservationGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.capacityReservations.listByCapacityReservationGroup(
+    "myResourceGroup",
+    "myCapacityReservationGroup",
+    { expand: "virtualMachines/$ref" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ *
+ * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/FutureCapacityReservation_ListByReservationGroup.json
+ */
+async function listFutureCapacityReservationsInReservationGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.capacityReservations.listByCapacityReservationGroup(
+    "myResourceGroup",
+    "futureCapacityReservationGroup",
+    { expand: "virtualMachines/$ref" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ *
+ * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/TargetedCapacityReservation_ListByReservationGroup.json
+ */
+async function listCapacityReservationsInTargetedReservationGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.capacityReservations.listByCapacityReservationGroup(
+    "myResourceGroup",
+    "targetedCapacityReservationGroup",
+    { expand: "virtualMachines/$ref" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listBlockCapacityReservationsInReservationGroup();
+  await listCapacityReservationsInReservationGroup();
+  await listFutureCapacityReservationsInReservationGroup();
+  await listCapacityReservationsInTargetedReservationGroup();
+}
+
+main().catch(console.error);

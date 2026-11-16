@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ApplicationInsightsComponent,
-  applicationInsightsComponentArrayDeserializer,
-} from "./components/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { ApplicationInsightsComponent } from "./components/models.js";
+import { applicationInsightsComponentArrayDeserializer } from "./components/models.js";
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -25,12 +23,7 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: !item["userAssignedIdentities"]
-      ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -40,7 +33,12 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -67,26 +65,6 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
-
-export function userAssignedIdentityRecordSerializer(
-  item: Record<string, UserAssignedIdentity>,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
-  });
-  return result;
-}
-
-export function userAssignedIdentityRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, UserAssignedIdentity> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
-  });
-  return result;
-}
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {

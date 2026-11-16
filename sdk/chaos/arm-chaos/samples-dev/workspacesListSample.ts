@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of Workspace resources in a resource group.
  *
  * @summary get a list of Workspace resources in a resource group.
- * x-ms-original-file: 2026-05-01-preview/Workspaces_List.json
+ * x-ms-original-file: 2026-11-01/Workspaces_List.json
  */
 async function listAllWorkspacesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,8 +22,27 @@ async function listAllWorkspacesInAResourceGroup(): Promise<void> {
   console.log(resArray);
 }
 
+/**
+ * This sample demonstrates how to get a list of Workspace resources in a resource group.
+ *
+ * @summary get a list of Workspace resources in a resource group.
+ * x-ms-original-file: 2026-11-01/Workspaces_List_EncryptionPending.json
+ */
+async function listCMKCreatedWorkspacesWithCustomerKeyReplacementPending(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const client = new ChaosManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.workspaces.list("exampleRG")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
 async function main(): Promise<void> {
   await listAllWorkspacesInAResourceGroup();
+  await listCMKCreatedWorkspacesWithCustomerKeyReplacementPending();
 }
 
 main().catch(console.error);

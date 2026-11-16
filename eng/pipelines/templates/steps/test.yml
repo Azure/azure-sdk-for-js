@@ -52,6 +52,12 @@ steps:
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
+  - pwsh: |
+      Write-Host "Filesystem usage after browser tests:"
+      df -h / /mnt
+    displayName: "Report disk usage after browser tests (Linux)"
+    condition: and(always(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
+
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
         copy $(Build.SourcesDirectory)/test-proxy.log $(Build.ArtifactStagingDirectory)

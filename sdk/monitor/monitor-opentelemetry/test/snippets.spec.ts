@@ -6,7 +6,7 @@ import type { AzureMonitorOpenTelemetryOptions } from "../src";
 import { useAzureMonitor } from "../src";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
-import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
+import { metrics, SeverityNumber, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
 // @ts-ignore
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
 import {
@@ -15,8 +15,8 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import type { SdkLogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace";
+import type { ReadWriteLogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
 import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
 import type { IncomingMessage, RequestOptions } from "node:http";
@@ -67,6 +67,10 @@ describe("snippets", () => {
         // Instrumentations generating logs
         bunyan: { enabled: true },
         winston: { enabled: true },
+        // Console log collection is opt-in (disabled by default).
+        // `logSeverity` takes precedence over the
+        // APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL environment variable.
+        console: { enabled: false, logSeverity: SeverityNumber.WARN },
       },
       enableLiveMetrics: true,
       enableStandardMetrics: true,
@@ -162,7 +166,7 @@ describe("snippets", () => {
       async shutdown(): Promise<void> {
         // shutdown code here
       }
-      onEmit(_logRecord: SdkLogRecord, _context: Context): void {
+      onEmit(_logRecord: ReadWriteLogRecord, _context: Context): void {
         const parentSpan = trace.getSpan(_context);
         if (parentSpan && "name" in parentSpan) {
           // If the parent span has a name we can assume it is a ReadableSpan and cast it.

@@ -6,7 +6,7 @@
  */
 
 import type { DynamicAlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
-import { AlphaIdsClient, RestError } from "@azure-tools/communication-alpha-ids";
+import { AlphaIdsClient, isRestError } from "@azure-tools/communication-alpha-ids";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
     usageIsEnabled = configuration.enabled;
   } catch (error) {
     // 403 errors also mean that the usage is disallowed
-    if (error instanceof RestError && error.statusCode === 403) {
+    if (isRestError(error) && error.statusCode === 403) {
       usageIsEnabled = false;
       return;
     }

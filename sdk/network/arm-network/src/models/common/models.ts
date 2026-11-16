@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+
 /** Common resource representation. */
 export interface Resource {
   /** Resource ID. */
@@ -750,6 +750,8 @@ export interface FrontendIPConfiguration extends SubResourceModel {
   readonly provisioningState?: CommonProvisioningState;
   /** The DDoS protection settings associated with the frontend IP configuration. */
   ddosSettings?: DdosFrontendIpConfigurationSettings;
+  /** Enables UDP flow tracking for traffic associated with the frontend IP configuration. When enabled, packets belonging to the same UDP flow are consistently directed to the same backend instance. This setting applies to all associated load balancing rules and takes precedence over rule-level enableConnectionTracking settings. */
+  enableConnectionTracking?: boolean;
 }
 
 export function frontendIPConfigurationSerializer(item: FrontendIPConfiguration): any {
@@ -765,6 +767,7 @@ export function frontendIPConfigurationSerializer(item: FrontendIPConfiguration)
       "publicIPPrefix",
       "gatewayLoadBalancer",
       "ddosSettings",
+      "enableConnectionTracking",
     ])
       ? undefined
       : _frontendIPConfigurationPropertiesSerializer(item),
@@ -821,6 +824,8 @@ export interface FrontendIPConfigurationPropertiesFormat {
   readonly provisioningState?: CommonProvisioningState;
   /** The DDoS protection settings associated with the frontend IP configuration. */
   ddosSettings?: DdosFrontendIpConfigurationSettings;
+  /** Enables UDP flow tracking for traffic associated with the frontend IP configuration. When enabled, packets belonging to the same UDP flow are consistently directed to the same backend instance. This setting applies to all associated load balancing rules and takes precedence over rule-level enableConnectionTracking settings. */
+  enableConnectionTracking?: boolean;
 }
 
 export function frontendIPConfigurationPropertiesFormatSerializer(
@@ -843,6 +848,7 @@ export function frontendIPConfigurationPropertiesFormatSerializer(
     ddosSettings: !item["ddosSettings"]
       ? item["ddosSettings"]
       : ddosFrontendIpConfigurationSettingsSerializer(item["ddosSettings"]),
+    enableConnectionTracking: item["enableConnectionTracking"],
   };
 }
 
@@ -879,6 +885,7 @@ export function frontendIPConfigurationPropertiesFormatDeserializer(
     ddosSettings: !item["ddosSettings"]
       ? item["ddosSettings"]
       : ddosFrontendIpConfigurationSettingsDeserializer(item["ddosSettings"]),
+    enableConnectionTracking: item["enableConnectionTracking"],
   };
 }
 
@@ -2055,6 +2062,8 @@ export interface PrivateLinkServiceConnection extends SubResource {
   requestMessage?: string;
   /** A collection of read-only information about the state of the connection to the remote resource. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** A reference to an existing approved private endpoint whose connection approval state should be inherited by this connection at creation time. */
+  approvalReference?: ApprovalReference;
 }
 
 export function privateLinkServiceConnectionSerializer(item: PrivateLinkServiceConnection): any {
@@ -2065,6 +2074,7 @@ export function privateLinkServiceConnectionSerializer(item: PrivateLinkServiceC
       "groupIds",
       "requestMessage",
       "privateLinkServiceConnectionState",
+      "approvalReference",
     ])
       ? undefined
       : _privateLinkServiceConnectionPropertiesSerializer(item),
@@ -2096,6 +2106,8 @@ export interface PrivateLinkServiceConnectionProperties {
   requestMessage?: string;
   /** A collection of read-only information about the state of the connection to the remote resource. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** A reference to an existing approved private endpoint whose connection approval state should be inherited by this connection at creation time. */
+  approvalReference?: ApprovalReference;
 }
 
 export function privateLinkServiceConnectionPropertiesSerializer(
@@ -2112,6 +2124,9 @@ export function privateLinkServiceConnectionPropertiesSerializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceSerializer(item["approvalReference"]),
   };
 }
 
@@ -2130,6 +2145,9 @@ export function privateLinkServiceConnectionPropertiesDeserializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceDeserializer(item["approvalReference"]),
   };
 }
 
@@ -2160,6 +2178,22 @@ export function privateLinkServiceConnectionStateDeserializer(
     status: item["status"],
     description: item["description"],
     actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** Reference to an existing approved private endpoint used to inherit its connection approval state. */
+export interface ApprovalReference {
+  /** The ARM resource id of an existing approved private endpoint whose approval state is inherited by this connection. */
+  privateEndpointId?: string;
+}
+
+export function approvalReferenceSerializer(item: ApprovalReference): any {
+  return { privateEndpointId: item["privateEndpointId"] };
+}
+
+export function approvalReferenceDeserializer(item: any): ApprovalReference {
+  return {
+    privateEndpointId: item["privateEndpointId"],
   };
 }
 
@@ -3953,6 +3987,8 @@ export interface PublicIPAddress extends Resource {
   linkedPublicIPAddress?: PublicIPAddress;
   /** Specify what happens to the public IP address when the VM using it is deleted */
   deleteOption?: DeleteOptions;
+  /** Whether the public IP address SKU has been upgraded from Standard to StandardV2. */
+  readonly upgradedToV2?: boolean;
 }
 
 export function publicIPAddressSerializer(item: PublicIPAddress): any {
@@ -4048,6 +4084,8 @@ export interface PublicIPAddressPropertiesFormat {
   linkedPublicIPAddress?: PublicIPAddress;
   /** Specify what happens to the public IP address when the VM using it is deleted */
   deleteOption?: DeleteOptions;
+  /** Whether the public IP address SKU has been upgraded from Standard to StandardV2. */
+  readonly upgradedToV2?: boolean;
 }
 
 export function publicIPAddressPropertiesFormatSerializer(
@@ -4114,6 +4152,7 @@ export function publicIPAddressPropertiesFormatDeserializer(
       ? item["linkedPublicIPAddress"]
       : publicIPAddressDeserializer(item["linkedPublicIPAddress"]),
     deleteOption: item["deleteOption"],
+    upgradedToV2: item["upgradedToV2"],
   };
 }
 
@@ -4224,16 +4263,23 @@ export interface IpTag {
   ipTagType?: string;
   /** The value of the IP tag associated with the public IP. Example: SQL. */
   tag?: string;
+  /** The resource ID of the first party service tag associated with the IP tag. */
+  firstPartyServiceTagId?: string;
 }
 
 export function ipTagSerializer(item: IpTag): any {
-  return { ipTagType: item["ipTagType"], tag: item["tag"] };
+  return {
+    ipTagType: item["ipTagType"],
+    tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
+  };
 }
 
 export function ipTagDeserializer(item: any): IpTag {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
+    firstPartyServiceTagId: item["firstPartyServiceTagId"],
   };
 }
 
@@ -5731,6 +5777,8 @@ export interface LoadBalancer extends Resource {
   readonly provisioningState?: CommonProvisioningState;
   /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
   scope?: LoadBalancerScope;
+  /** The load balancer mode. Set to `Advanced` to enable additional capabilities on a Standard SKU load balancer. Advanced mode must be specified at creation and cannot be changed afterward. */
+  mode?: LoadBalancerMode;
 }
 
 export function loadBalancerSerializer(item: LoadBalancer): any {
@@ -5747,6 +5795,7 @@ export function loadBalancerSerializer(item: LoadBalancer): any {
       "inboundNatPools",
       "outboundRules",
       "scope",
+      "mode",
     ])
       ? undefined
       : _loadBalancerPropertiesSerializer(item),
@@ -5799,6 +5848,8 @@ export interface LoadBalancerPropertiesFormat {
   readonly provisioningState?: CommonProvisioningState;
   /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
   scope?: LoadBalancerScope;
+  /** The load balancer mode. Set to `Advanced` to enable additional capabilities on a Standard SKU load balancer. Advanced mode must be specified at creation and cannot be changed afterward. */
+  mode?: LoadBalancerMode;
 }
 
 export function loadBalancerPropertiesFormatSerializer(item: LoadBalancerPropertiesFormat): any {
@@ -5823,6 +5874,7 @@ export function loadBalancerPropertiesFormatSerializer(item: LoadBalancerPropert
       ? item["outboundRules"]
       : outboundRuleArraySerializer(item["outboundRules"]),
     scope: item["scope"],
+    mode: item["mode"],
   };
 }
 
@@ -5850,6 +5902,7 @@ export function loadBalancerPropertiesFormatDeserializer(item: any): LoadBalance
     resourceGuid: item["resourceGuid"],
     provisioningState: item["provisioningState"],
     scope: item["scope"],
+    mode: item["mode"],
   };
 }
 
@@ -5893,7 +5946,7 @@ export interface LoadBalancingRule extends SubResourceModel {
   enableTcpReset?: boolean;
   /** Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule. */
   disableOutboundSnat?: boolean;
-  /** Defines whether connections between 2 communicating endpoints can be tracked and associated to the same backend VM over its lifetime when using UDP protocol. */
+  /** Enables UDP flow tracking for the load balancing rule. This property is retained for rule-level configuration compatibility. When enableConnectionTracking is specified on the associated frontend IP configuration, the frontend setting takes precedence. */
   enableConnectionTracking?: boolean;
   /** The provisioning state of the load balancing rule resource. */
   readonly provisioningState?: CommonProvisioningState;
@@ -5961,7 +6014,7 @@ export interface LoadBalancingRulePropertiesFormat {
   enableTcpReset?: boolean;
   /** Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule. */
   disableOutboundSnat?: boolean;
-  /** Defines whether connections between 2 communicating endpoints can be tracked and associated to the same backend VM over its lifetime when using UDP protocol. */
+  /** Enables UDP flow tracking for the load balancing rule. This property is retained for rule-level configuration compatibility. When enableConnectionTracking is specified on the associated frontend IP configuration, the frontend setting takes precedence. */
   enableConnectionTracking?: boolean;
   /** The provisioning state of the load balancing rule resource. */
   readonly provisioningState?: CommonProvisioningState;
@@ -6465,6 +6518,21 @@ export enum KnownLoadBalancerScope {
  */
 export type LoadBalancerScope = string;
 
+/** The load balancer mode. Set to `Advanced` to enable additional capabilities on a Standard SKU load balancer. Advanced mode must be specified at creation and cannot be changed afterward. */
+export enum KnownLoadBalancerMode {
+  /** Advanced mode, which enables additional capabilities on a Standard SKU load balancer. */
+  Advanced = "Advanced",
+}
+
+/**
+ * The load balancer mode. Set to `Advanced` to enable additional capabilities on a Standard SKU load balancer. Advanced mode must be specified at creation and cannot be changed afterward. \
+ * {@link KnownLoadBalancerMode} can be used interchangeably with LoadBalancerMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Advanced**: Advanced mode, which enables additional capabilities on a Standard SKU load balancer.
+ */
+export type LoadBalancerMode = string;
+
 /** SKU of a load balancer. */
 export interface LoadBalancerSku {
   /** Name of a load balancer SKU. */
@@ -6492,6 +6560,8 @@ export enum KnownLoadBalancerSkuName {
   Standard = "Standard",
   /** Gateway */
   Gateway = "Gateway",
+  /** Service load balancer SKU. */
+  Service = "Service",
 }
 
 /**
@@ -6501,7 +6571,8 @@ export enum KnownLoadBalancerSkuName {
  * ### Known values supported by the service
  * **Basic**: Basic \
  * **Standard**: Standard \
- * **Gateway**: Gateway
+ * **Gateway**: Gateway \
+ * **Service**: Service load balancer SKU.
  */
 export type LoadBalancerSkuName = string;
 
@@ -7423,6 +7494,9 @@ export function _privateLinkServiceConnectionPropertiesSerializer(
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceSerializer(item["approvalReference"]),
   };
 }
 
@@ -7439,6 +7513,9 @@ export function _privateLinkServiceConnectionPropertiesDeserializer(item: any) {
     privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+    approvalReference: !item["approvalReference"]
+      ? item["approvalReference"]
+      : approvalReferenceDeserializer(item["approvalReference"]),
   };
 }
 
@@ -7964,6 +8041,7 @@ export function _publicIPAddressPropertiesDeserializer(item: any) {
       ? item["linkedPublicIPAddress"]
       : publicIPAddressDeserializer(item["linkedPublicIPAddress"]),
     deleteOption: item["deleteOption"],
+    upgradedToV2: item["upgradedToV2"],
   };
 }
 
@@ -8165,6 +8243,7 @@ export function _frontendIPConfigurationPropertiesSerializer(item: FrontendIPCon
     ddosSettings: !item["ddosSettings"]
       ? item["ddosSettings"]
       : ddosFrontendIpConfigurationSettingsSerializer(item["ddosSettings"]),
+    enableConnectionTracking: item["enableConnectionTracking"],
   };
 }
 
@@ -8199,6 +8278,7 @@ export function _frontendIPConfigurationPropertiesDeserializer(item: any) {
     ddosSettings: !item["ddosSettings"]
       ? item["ddosSettings"]
       : ddosFrontendIpConfigurationSettingsDeserializer(item["ddosSettings"]),
+    enableConnectionTracking: item["enableConnectionTracking"],
   };
 }
 
@@ -8628,6 +8708,7 @@ export function _loadBalancerPropertiesSerializer(item: LoadBalancer): any {
       ? item["outboundRules"]
       : outboundRuleArraySerializer(item["outboundRules"]),
     scope: item["scope"],
+    mode: item["mode"],
   };
 }
 
@@ -8655,6 +8736,7 @@ export function _loadBalancerPropertiesDeserializer(item: any) {
     resourceGuid: item["resourceGuid"],
     provisioningState: item["provisioningState"],
     scope: item["scope"],
+    mode: item["mode"],
   };
 }
 

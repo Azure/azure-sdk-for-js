@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a RegistryEndpointResource
  *
  * @summary create a RegistryEndpointResource
- * x-ms-original-file: 2026-03-01/RegistryEndpoint_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/RegistryEndpoint_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function registryEndpointCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

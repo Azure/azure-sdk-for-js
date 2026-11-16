@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create or Update a dedicated HSM in the specified subscription.
  *
  * @summary create or Update a dedicated HSM in the specified subscription.
- * x-ms-original-file: 2025-03-31/DedicatedHsm_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/DedicatedHsm_CreateOrUpdate.json
  */
-
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function createANewOrUpdateAnExistingDedicatedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -37,7 +36,7 @@ async function createANewOrUpdateAnExistingDedicatedHSM(): Promise<void> {
  * This sample demonstrates how to create or Update a dedicated HSM in the specified subscription.
  *
  * @summary create or Update a dedicated HSM in the specified subscription.
- * x-ms-original-file: 2025-03-31/PaymentHsm_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01-preview/PaymentHsm_CreateOrUpdate.json
  */
 async function createANewOrUpdateAnExistingPaymentHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +64,7 @@ async function createANewOrUpdateAnExistingPaymentHSM(): Promise<void> {
  * This sample demonstrates how to create or Update a dedicated HSM in the specified subscription.
  *
  * @summary create or Update a dedicated HSM in the specified subscription.
- * x-ms-original-file: 2025-03-31/PaymentHsm_CreateOrUpdate_WithManagementProfile.json
+ * x-ms-original-file: 2025-12-01-preview/PaymentHsm_CreateOrUpdate_WithManagementProfile.json
  */
 async function createANewOrUpdateAnExistingPaymentHSMWithManagementProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

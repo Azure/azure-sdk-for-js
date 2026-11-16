@@ -69,6 +69,7 @@ export type {
   VolumeClaimSpecSelectorMatchExpressions,
   OperatorValues,
   GenerateResourceLimits,
+  HighPriorityMessagesBackpressureHandling,
   BrokerMemoryProfile,
   BrokerPersistence,
   BrokerRetainMessagesPolicy,
@@ -257,6 +258,8 @@ export type {
   AkriConnectorTemplateRuntimeImageConfiguration,
   AkriConnectorTemplateRuntimeImageConfigurationSettings,
   AkriConnectorsImagePullPolicy,
+  AkriConnectorTemplateReadinessProbe,
+  AkriConnectorTemplateExecAction,
   AkriConnectorsRegistrySettings,
   AkriConnectorsRegistrySettingsUnion,
   AkriConnectorsRegistrySettingsType,
@@ -302,6 +305,7 @@ export {
   KnownPrivateKeyAlgorithm,
   KnownPrivateKeyRotationPolicy,
   KnownOperatorValues,
+  KnownHighPriorityMessagesBackpressureHandling,
   KnownBrokerMemoryProfile,
   KnownBrokerPersistencePolicyMode,
   KnownBrokerStateStoreKeyType,
@@ -451,3 +455,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

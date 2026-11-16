@@ -1,6 +1,18 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/policyTokens/index.ts",
+    "../src/api/policySetDefinitionVersions/index.ts",
+    "../src/api/policySetDefinitions/index.ts",
+    "../src/api/policyDefinitionVersions/index.ts",
+    "../src/api/policyDefinitions/index.ts",
+    "../src/api/dataPolicyManifests/index.ts",
+    "../src/api/policyAssignments/index.ts",
+    "../src/models/index.ts"
   ]
 }

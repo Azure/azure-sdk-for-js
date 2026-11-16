@@ -1,0 +1,35 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/edgeworkloadsecurity/arm-secretsstoreextension
+      - sdk/edgeworkloadsecurity/ci.mgmt.yml
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/edgeworkloadsecurity/arm-secretsstoreextension
+      - sdk/edgeworkloadsecurity/ci.mgmt.yml
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: edgeworkloadsecurity
+    Artifacts:
+      - name: azure-arm-secretsstoreextension
+        safeName: azurearmsecretsstoreextension

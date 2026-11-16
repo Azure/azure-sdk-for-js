@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { logger } from "../logger.js";
+
 /**
  * Options for configuring GenAI tracing on a specific AIProjectClient instance.
  *
@@ -49,14 +51,12 @@ export interface ResolvedTracingConfig {
 }
 
 /**
- * Resolves tracing options into a frozen config object for the client instance.
+ * Resolves tracing options into a config object for the client instance.
  * For each setting not explicitly provided, the corresponding environment variable
  * is checked. If the env var is also not set, the default value is used.
  *
- * - `enabled`: defaults to `false`. Env var: `AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED`
- *   is not used for enabled — passing `tracingOptions` (even `{}`) enables tracing.
- *   Env var `AZURE_TRACING_GEN_AI_ENABLE` (accepts `"true"` or `"1"`) enables tracing
- *   when `tracingOptions` is not provided.
+ * - `enabled`: requires options and the experimental gate, resolved from
+ *   `experimental` or `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING`.
  * - `contentRecording`: defaults to `false`. Env var: `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT`
  * - `traceContextPropagation`: defaults to `true`. Env var: `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION`
  * @internal
@@ -70,7 +70,10 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
     try {
       const envVal = process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
       experimental = !!envVal && (envVal.toLowerCase() === "true" || envVal === "1");
-    } catch {
+    } catch (e) {
+      logger.verbose(
+        `Unable to read AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING env var, tracing disabled: ${e}`,
+      );
       experimental = false;
     }
   }
@@ -82,14 +85,17 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
   }
 
   // Resolve contentRecording
-  let contentRecording = false;
+  let contentRecording: boolean;
   if (options?.contentRecording !== undefined) {
     contentRecording = options.contentRecording;
   } else {
     try {
       const envVal = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
       contentRecording = !!envVal && (envVal.toLowerCase() === "true" || envVal === "1");
-    } catch {
+    } catch (e) {
+      logger.verbose(
+        `Unable to read OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT env var: ${e}`,
+      );
       contentRecording = false;
     }
   }
@@ -104,10 +110,16 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
       if (envVal && (envVal.toLowerCase() === "false" || envVal === "0")) {
         traceContextPropagation = false;
       }
-    } catch {
-      // process.env may not exist in browser environments
+    } catch (e) {
+      logger.verbose(
+        `Unable to read AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION env var: ${e}`,
+      );
     }
   }
 
-  return { enabled, contentRecording, traceContextPropagation };
+  return {
+    enabled,
+    contentRecording,
+    traceContextPropagation,
+  };
 }

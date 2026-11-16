@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChildProcess, SpawnOptions } from "node:child_process";
-import { exec, spawn } from "node:child_process";
+import type { ChildProcess } from "node:child_process";
+import { execFile, spawn, type SpawnOptions } from "@azure/core-process";
 import { checkWithTimeout } from "./checkWithTimeout.ts";
 import { createPrinter } from "./printer.ts";
 import type { ProjectInfo } from "./resolveProject.ts";
@@ -23,7 +23,6 @@ import { createWriteStream, existsSync } from "node:fs";
 import path from "node:path";
 import { extract } from "tar";
 import * as unzipper from "unzipper";
-import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { delay } from "./checkWithTimeout.ts";
@@ -236,16 +235,21 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   }
 }
 
-export function createAssetsJson(project: ProjectInfo): Promise<void> {
-  return runMigrationScript(project, false);
+export async function createAssetsJson(project: ProjectInfo): Promise<void> {
+  const scriptLocation = path.join(
+    await resolveRoot(),
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
+  );
+  const argv = [scriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
+
+  await runCommand("pwsh", argv, { stdio: "inherit", cwd: project.path }).result;
 }
 
-const execPromise = promisify(exec);
-
 async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
-  const { stdout } = await execPromise(
-    `${await getTestProxyExecutable()} config locate -a assets.json`,
-    { cwd: project.path },
+  const { stdout } = await execFile(
+    await getTestProxyExecutable(),
+    ["config", "locate", "-a", "assets.json"],
+    { cwd: project.path, encoding: "utf8" },
   );
   const lines = stdout.split("\n");
 
@@ -394,9 +398,10 @@ export async function printRecordingsDiff(
   );
 
   // Check for any changes (staged, unstaged, or untracked)
-  const { stdout: statusOutput } = await execPromise(
-    `git status --porcelain -- "${recordingsSubtree}"`,
-    { cwd: cloneDir },
+  const { stdout: statusOutput } = await execFile(
+    "git",
+    ["status", "--porcelain", "--", recordingsSubtree],
+    { cwd: cloneDir, encoding: "utf8" },
   );
 
   if (!statusOutput.trim()) {
@@ -432,13 +437,15 @@ export async function printRecordingsDiff(
 
     // Diff for tracked changes (both staged and unstaged)
     if (modified > 0 || deleted > 0) {
-      const { stdout: diffOutput } = await execPromise(
-        `git diff --no-color -- "${recordingsSubtree}"`,
-        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      const { stdout: diffOutput } = await execFile(
+        "git",
+        ["diff", "--no-color", "--", recordingsSubtree],
+        { cwd: cloneDir, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
       );
-      const { stdout: cachedDiffOutput } = await execPromise(
-        `git diff --cached --no-color -- "${recordingsSubtree}"`,
-        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      const { stdout: cachedDiffOutput } = await execFile(
+        "git",
+        ["diff", "--cached", "--no-color", "--", recordingsSubtree],
+        { cwd: cloneDir, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
       );
       if (diffOutput.trim()) {
         process.stdout.write(diffOutput);
@@ -464,23 +471,6 @@ export async function printRecordingsDiff(
       }
     }
   }
-}
-
-export async function runMigrationScript(
-  project: ProjectInfo,
-  initialPush: boolean,
-): Promise<void> {
-  const migrationScriptLocation = path.join(
-    await resolveRoot(),
-    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
-  );
-
-  const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
-  if (initialPush) {
-    argv.push("-InitialPush");
-  }
-
-  await runCommand("pwsh", argv, { stdio: "inherit", cwd: project.path }).result;
 }
 
 export interface TestProxy {

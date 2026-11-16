@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the Provisioning Service.
  *
  * @summary deletes the Provisioning Service.
- * x-ms-original-file: 2025-02-01-preview/DPSDelete.json
+ * x-ms-original-file: 2026-11-01/DPSDelete.json
  */
 async function dpsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

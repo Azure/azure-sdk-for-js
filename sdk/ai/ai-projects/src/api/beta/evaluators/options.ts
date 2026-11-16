@@ -1,35 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EvaluatorType, PageOrder, EvaluatorCategory } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { EvaluatorDiagnosticType, PageOrder } from "../../../models/models.js";
 
 /** Optional parameters. */
-export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
+export interface BetaEvaluatorsListDiagnosticsOptionalParams extends OperationOptions {
   /**
    * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
    * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
@@ -42,60 +24,18 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-  /** Filter evaluator generation jobs by category. */
-  category?: EvaluatorCategory;
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
-  operationId?: string;
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
-  /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
-  evaluatorType?: EvaluatorType | "all";
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  /** The maximum number of lineage entries to return, between 1 and 100. The default is 20. */
   limit?: number;
-}
-
-/** Optional parameters. */
-export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
-  /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
-  evaluatorType?: EvaluatorType | "all";
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
-  limit?: number;
+  /** Sort completed diagnostics by `occurred_at`, then diagnostic identifier. The default is `desc`. */
+  order?: PageOrder;
+  /** Inclusive lower bound for the diagnostic occurrence time, expressed as Unix seconds. */
+  startTime?: Date;
+  /** Inclusive upper bound for the diagnostic occurrence time, expressed as Unix seconds. Includes all entries occurring within that second. */
+  endTime?: Date;
+  /** Filter lineage diagnostics by the exact published evaluator version. */
+  evaluatorVersion?: string;
+  /** Filter completed diagnostics for one public rubric dimension identifier. */
+  dimensionId?: string;
+  /** Filter by one or more completed diagnostic types by repeating the query parameter. */
+  typeParam?: EvaluatorDiagnosticType[];
 }

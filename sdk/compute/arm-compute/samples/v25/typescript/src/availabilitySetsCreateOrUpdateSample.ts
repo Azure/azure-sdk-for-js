@@ -1,0 +1,48 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to create or update an availability set.
+ *
+ * @summary create or update an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Create.json
+ */
+async function createAnAvailabilitySet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.availabilitySets.createOrUpdate(
+    "myResourceGroup",
+    "myAvailabilitySet",
+    { location: "westus", platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update an availability set.
+ *
+ * @summary create or update an availability set.
+ * x-ms-original-file: 2026-04-01/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
+ */
+async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.availabilitySets.createOrUpdate(
+    "myResourceGroup",
+    "myAvailabilitySet",
+    { location: "westus", platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await createAnAvailabilitySet();
+  await createAnAvailabilitySetWithScheduledEventPolicy();
+}
+
+main().catch(console.error);

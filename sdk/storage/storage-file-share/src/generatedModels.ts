@@ -120,6 +120,11 @@ export interface DirectoryGetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
+  /**
+   * The name of the directory, percent-encoded as the service returns it (for example `my%20directory`;
+   * `decodeURIComponent` gives the name). Only returned when the client addresses the directory by its file ID.
+   */
+  fileName?: string;
   /** Properties of NFS files. */
   posixProperties?: FilePosixProperties;
   /** Error Code */
@@ -369,6 +374,11 @@ export interface FileGetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the file. */
   fileParentId?: string;
+  /**
+   * The name of the file, percent-encoded as the service returns it (for example `my%20file.txt`;
+   * `decodeURIComponent` gives the name). Only returned when the client addresses the file by its file ID.
+   */
+  fileName?: string;
   /** When a file is leased, specifies whether the lease is of infinite or fixed duration. */
   leaseDuration?: LeaseDurationType;
   /** Lease state of the file. */
@@ -717,6 +727,26 @@ export interface ListFilesAndDirectoriesSegmentResponse {
 
 /** Defines values for AccessRight. */
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
+/**
+ * A range of bytes within an Azure file, as returned by {@link ShareFileClient.listRanges}
+ * and {@link ShareFileClient.listRangesDiff}.
+ */
+export interface ShareFileRange {
+  /**
+   * Start byte position of the range.
+   */
+  start: number;
+  /**
+   * End byte position of the range, inclusive.
+   */
+  end: number;
+  /**
+   * Indicates whether this range is a cleared range (`true`) or a valid data range (`false`).
+   * When listing ranges via {@link ShareFileClient.listRanges}, this is always `false`.
+   */
+  isClear: boolean;
+}
 
 /** A listed Azure Storage handle item. */
 export interface HandleItem {

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
   ArmErrorDetail,
@@ -20,12 +26,6 @@ import {
   _privateEndpointConnectionPropertiesDeserializer,
 } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A private link resource */
 export interface PrivateLinkResource extends Resource {
   /** Resource properties. */
@@ -54,6 +54,8 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends Resource {
+  /** The group ids for the private endpoint resource. */
+  readonly groupIds?: string[];
   /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */

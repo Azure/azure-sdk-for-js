@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import {
-  CloudHsmCluster,
-  CloudHsmClusterPatchParameters,
-  BackupResult,
-  RestoreRequestProperties,
-  RestoreResult,
-} from "../../models/models.js";
-import {
-  CloudHsmClustersRestoreOptionalParams,
-  CloudHsmClustersValidateRestorePropertiesOptionalParams,
-  CloudHsmClustersBackupOptionalParams,
-  CloudHsmClustersValidateBackupPropertiesOptionalParams,
-  CloudHsmClustersListBySubscriptionOptionalParams,
-  CloudHsmClustersListByResourceGroupOptionalParams,
-  CloudHsmClustersDeleteOptionalParams,
-  CloudHsmClustersUpdateOptionalParams,
-  CloudHsmClustersCreateOrUpdateOptionalParams,
-  CloudHsmClustersGetOptionalParams,
-} from "../../api/cloudHsmClusters/options.js";
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
 import {
   restore,
   validateRestoreProperties,
@@ -33,8 +14,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/cloudHsmClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  CloudHsmClustersRestoreOptionalParams,
+  CloudHsmClustersValidateRestorePropertiesOptionalParams,
+  CloudHsmClustersBackupOptionalParams,
+  CloudHsmClustersValidateBackupPropertiesOptionalParams,
+  CloudHsmClustersListBySubscriptionOptionalParams,
+  CloudHsmClustersListByResourceGroupOptionalParams,
+  CloudHsmClustersDeleteOptionalParams,
+  CloudHsmClustersUpdateOptionalParams,
+  CloudHsmClustersCreateOrUpdateOptionalParams,
+  CloudHsmClustersGetOptionalParams,
+} from "../../api/cloudHsmClusters/options.js";
+import type {
+  CloudHsmCluster,
+  CloudHsmClusterPatchParameters,
+  BackupResult,
+  RestoreRequestProperties,
+  RestoreResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusters operations. */
 export interface CloudHsmClustersOperations {
@@ -73,11 +73,6 @@ export interface CloudHsmClustersOperations {
     options?: CloudHsmClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CloudHsmCluster>;
   /** Deletes the specified Cloud HSM Cluster */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     cloudHsmClusterName: string,
@@ -104,7 +99,6 @@ export interface CloudHsmClustersOperations {
     options?: CloudHsmClustersGetOptionalParams,
   ) => Promise<CloudHsmCluster>;
 }
-
 function _getCloudHsmClusters(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     restore: (
@@ -159,7 +153,6 @@ function _getCloudHsmClusters(context: AzureDedicatedHSMResourceProviderContext)
     ) => get(context, resourceGroupName, cloudHsmClusterName, options),
   };
 }
-
 export function _getCloudHsmClustersOperations(
   context: AzureDedicatedHSMResourceProviderContext,
 ): CloudHsmClustersOperations {

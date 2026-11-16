@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the disks under a resource group.
  *
  * @summary lists all the disks under a resource group.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_ListByResourceGroup.json
  */
 async function listAllManagedDisksInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

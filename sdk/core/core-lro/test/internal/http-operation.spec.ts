@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import {
   inferLroMode,
   parseRetryAfter,
@@ -17,14 +17,114 @@ import type { OperationResponse } from "../../src/index.js";
 import { makeRawResponse, makeState } from "../utils/utils.js";
 
 describe("http/operation.ts", () => {
-  describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {
-    it("returns undefined when retry-after date is in the past", () => {
+  describe("parseRetryAfter (numeric seconds)", () => {
+    it("converts seconds to milliseconds for a normal value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "5" } }),
+        flatResponse: {},
+      });
+      assert.equal(result, 5000);
+    });
+
+    it("returns undefined when the header is absent", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: {} }),
+        flatResponse: {},
+      });
+      assert.isUndefined(result);
+    });
+
+    it("returns the raw converted value, leaving timer bounding to the poller", () => {
+      // The parser is a pure protocol parser: it converts seconds to milliseconds
+      // without applying any timer bound. The poller is responsible for clamping
+      // an oversized interval before it is scheduled. See retryAfterBound.spec.ts.
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "999999999" } }),
+        flatResponse: {},
+      });
+      assert.equal(result, 999999999000);
+    });
+
+    it("returns NaN for a non-numeric, non-date value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "/bar" } }),
+        flatResponse: {},
+      });
+      assert.isNaN(result!);
+    });
+
+    it("returns NaN for a negative delay-seconds value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "-1" } }),
+        flatResponse: {},
+      });
+      assert.isNaN(result!);
+    });
+
+    it("returns NaN for a partially numeric delay-seconds value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "1junk" } }),
+        flatResponse: {},
+      });
+      assert.isNaN(result!);
+    });
+  });
+
+  describe("parseRetryAfter (dates)", () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      vi.setSystemTime(new Date("2026-10-07T12:00:00Z"));
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.useRealTimers();
+    });
+
+    it.each([
+      "Wed, 07 Oct 2026 13:00:00 GMT",
+      "Wednesday, 07-Oct-26 13:00:00 GMT",
+      "Wed Oct  7 13:00:00 2026",
+    ])("parses a future UTC HTTP date: %s", (retryAfter) => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": retryAfter } }),
+        flatResponse: {},
+      });
+      assert.equal(result, 3_600_000);
+    });
+
+    it("interprets asctime dates as GMT even on a non-UTC host", () => {
+      const retryAfter = "Wed Oct  7 13:00:00 2026";
+      const parseDate = Date.parse;
+      vi.spyOn(Date, "parse").mockImplementation((value) =>
+        // Simulate the local UTC-7 interpretation of a timezone-less date.
+        value === retryAfter ? Date.UTC(2026, 9, 7, 20) : parseDate(value),
+      );
+
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": retryAfter } }),
+        flatResponse: {},
+      });
+      assert.equal(result, 3_600_000);
+    });
+
+    it("preserves native parsing of other date formats", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({
+          headers: { "retry-after": "2026-10-07T13:00:00Z" },
+        }),
+        flatResponse: {},
+      });
+      assert.equal(result, 3_600_000);
+    });
+
+    it("returns NaN when retry-after date is in the past", () => {
       const pastDate = new Date(Date.now() - 100000).toUTCString();
       const result = parseRetryAfter({
         rawResponse: makeRawResponse({ headers: { "retry-after": pastDate } }),
         flatResponse: {},
       });
-      assert.isUndefined(result);
+      assert.isNaN(result!);
     });
 
     it("returns milliseconds when retry-after date is in the future", () => {

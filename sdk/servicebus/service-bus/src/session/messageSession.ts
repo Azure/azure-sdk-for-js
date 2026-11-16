@@ -348,14 +348,6 @@ export class MessageSession extends LinkEntity<Receiver> {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((errObj as MessagingError).code === "OperationTimeoutError") {
-        if (this._providedSessionId !== undefined) {
-          errObj.message = `Failed to create a receiver for the requested session '${this._providedSessionId}' within allocated time and retry attempts.`;
-        } else {
-          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
-        }
-      }
       if (this._intermediateLink) {
         logger.verbose("%s cleaning up resources held by intermediate link", this.logPrefix);
         await this._intermediateLink.close({ closeSession: true });
@@ -469,7 +461,11 @@ export class MessageSession extends LinkEntity<Receiver> {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translateServiceBusError(receiverError) as MessagingError;
-        if (sbError.code === "SessionLockLostError") {
+        // translateServiceBusError normalizes the code to "SessionLockLost" (the AMQP
+        // condition maps to "SessionLockLostError", which the ServiceBusError constructor
+        // then normalizes), so the check compares against the normalized value; comparing
+        // against "SessionLockLostError" never matched and left the message un-enriched.
+        if (sbError.code === "SessionLockLost") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         this._lastSBError = sbError;

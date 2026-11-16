@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByTrafficController, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-  type SecurityPoliciesInterfaceDeleteOptionalParams,
-  type SecurityPoliciesInterfaceUpdateOptionalParams,
-  type SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
-  type SecurityPoliciesInterfaceGetOptionalParams,
+export type {
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceGetOptionalParams,
 } from "./options.js";

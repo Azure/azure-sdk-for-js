@@ -4,16 +4,25 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { IncomingMessage } from 'node:http';
 
 // @public
-export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
+export function createReconnectingSseStream<TResponse extends SseHttpResponse>(connect: SseConnect<TResponse>, options?: Omit<ReconnectingSseStreamOptions<TResponse>, "validateResponse"> & {
+    validateResponse?: SseResponseValidator<TResponse>;
+}): Promise<EventMessageStream>;
 
 // @public
-export function createSseStream(chunkStream: NodeIncomingMessage): EventMessageStream;
+export function createReconnectingSseStream<TResponse extends SseConnectResponse>(connect: SseConnect<TResponse>, options: ReconnectingSseStreamOptions<TResponse>): Promise<EventMessageStream>;
 
 // @public
-export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: ReadableStream<Uint8Array>, options?: SseStreamOptions): EventMessageStream;
+
+// @public
+export function createSseStream(chunkStream: NodeIncomingMessage, options?: SseStreamOptions): EventMessageStream;
+
+// @public
+export function createSseStream(chunkStream: NodeJSReadableStream, options?: SseStreamOptions): EventMessageStream;
 
 // @public
 export interface EventMessage {
@@ -32,6 +41,58 @@ export type NodeIncomingMessage = IncomingMessage;
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
     destroy(error?: Error): void;
+}
+
+// @public
+export interface ReconnectingSseStreamOptions<TResponse extends SseConnectResponse> {
+    abortSignal?: AbortSignalLike;
+    isTerminalEvent?: (event: EventMessage) => boolean;
+    lastEventId?: string;
+    maxRetries?: number;
+    retryDelayInMs?: number;
+    validateResponse: SseResponseValidator<TResponse>;
+}
+
+// @public
+export type SseConnect<TResponse extends SseConnectResponse> = (options: SseConnectOptions) => Promise<TResponse>;
+
+// @public
+export interface SseConnectOptions {
+    abortSignal: AbortSignalLike;
+    lastEventId?: string;
+}
+
+// @public
+export interface SseConnectResponse {
+    body?: SseStream;
+}
+
+// @public
+export interface SseHttpResponse extends SseConnectResponse {
+    headers: Record<string, string | undefined> | {
+        get(name: string): string | null;
+    };
+    status: number | string;
+}
+
+// @public
+export type SseResponseValidationResult = "accept" | "stop";
+
+// @public
+export type SseResponseValidator<TResponse extends SseConnectResponse> = (response: TResponse) => Promise<SseResponseValidationResult>;
+
+// @public
+export class SseRetryError extends Error {
+    constructor(cause?: unknown);
+    readonly cause?: unknown;
+}
+
+// @public
+export type SseStream = ReadableStream<Uint8Array> | NodeJSReadableStream | NodeIncomingMessage;
+
+// @public
+export interface SseStreamOptions {
+    isTerminalEvent?: (event: EventMessage) => boolean;
 }
 
 // (No @packageDocumentation comment for this package)

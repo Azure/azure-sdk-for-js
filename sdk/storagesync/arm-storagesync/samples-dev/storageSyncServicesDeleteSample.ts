@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a given StorageSyncService.
  *
  * @summary delete a given StorageSyncService.
- * x-ms-original-file: 2022-09-01/StorageSyncServices_Delete.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_Delete.json
  */
 async function storageSyncServicesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

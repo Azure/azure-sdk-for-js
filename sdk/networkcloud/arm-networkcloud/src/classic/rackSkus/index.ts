@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import { listBySubscription, get } from "../../api/rackSkus/operations.js";
-import {
+import type {
   RackSkusListBySubscriptionOptionalParams,
   RackSkusGetOptionalParams,
 } from "../../api/rackSkus/options.js";
-import { RackSku } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RackSku } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RackSkus operations. */
 export interface RackSkusOperations {

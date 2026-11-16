@@ -1,6 +1,34 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/backupInstancesExtensionRouting/index.ts",
+    "../src/api/fetchCrossRegionRestoreJobs/index.ts",
+    "../src/api/fetchCrossRegionRestoreJob/index.ts",
+    "../src/api/fetchSecondaryRecoveryPoints/index.ts",
+    "../src/api/dataProtection/index.ts",
+    "../src/api/operationStatusResourceGroupContext/index.ts",
+    "../src/api/operationStatus/index.ts",
+    "../src/api/operationResult/index.ts",
+    "../src/api/dppResourceGuardProxy/index.ts",
+    "../src/api/deletedBackupInstances/index.ts",
+    "../src/api/jobs/index.ts",
+    "../src/api/recoveryPoints/index.ts",
+    "../src/api/restorableTimeRanges/index.ts",
+    "../src/api/backupPolicies/index.ts",
+    "../src/api/exportJobsOperationResult/index.ts",
+    "../src/api/exportJobs/index.ts",
+    "../src/api/operationStatusBackupVaultContext/index.ts",
+    "../src/api/backupVaults/index.ts",
+    "../src/api/resourceGuards/index.ts",
+    "../src/api/deletedBackupVaults/index.ts",
+    "../src/api/backupVaultOperationResults/index.ts",
+    "../src/api/backupInstances/index.ts",
+    "../src/api/dataProtectionOperations/index.ts",
+    "../src/models/index.ts"
   ]
 }

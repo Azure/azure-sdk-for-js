@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to proxies a Functions host call to the function app backed by the container app.
  *
  * @summary proxies a Functions host call to the function app backed by the container app.
- * x-ms-original-file: 2025-10-02-preview/FunctionsExtension_Post.json
+ * x-ms-original-file: 2026-07-01/FunctionsExtension_Post.json
  */
 async function invokeFunctionsHostUsingFunctionsExtensionAPI(): Promise<void> {
   const credential = new DefaultAzureCredential();

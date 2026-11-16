@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of the notification registrations for the given provider.
  *
  * @summary gets the list of the notification registrations for the given provider.
- * x-ms-original-file: 2024-09-01/NotificationRegistrations_ListByProviderRegistration.json
+ * x-ms-original-file: 2025-10-01/NotificationRegistrations_ListByProviderRegistration.json
  */
 async function notificationRegistrationsListByProviderRegistration(): Promise<void> {
   const credential = new DefaultAzureCredential();

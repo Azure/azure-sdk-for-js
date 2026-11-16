@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a AkriConnectorTemplateResource
  *
  * @summary get a AkriConnectorTemplateResource
- * x-ms-original-file: 2026-03-01/AkriConnectorTemplate_Get_Managed_Rest.json
+ * x-ms-original-file: 2026-07-01/AkriConnectorTemplate_Get_Managed_Rest.json
  */
 async function akriConnectorTemplateGetManagedRest(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function akriConnectorTemplateGetManagedRest(): Promise<void> {
  * This sample demonstrates how to get a AkriConnectorTemplateResource
  *
  * @summary get a AkriConnectorTemplateResource
- * x-ms-original-file: 2026-03-01/AkriConnectorTemplate_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/AkriConnectorTemplate_Get_MaximumSet_Gen.json
  */
 async function akriConnectorTemplateGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,6 +8,8 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "../constants.js";
 import type { GenAITracingOptions } from "../tracing/configuration.js";
+import type { VoiceAgentRealtimeClientOptions } from "../realtime/voiceAgentRealtimeClient.js";
+import type { VoiceAgentLiveClientOptions } from "../live/voiceAgentLiveClient.js";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -28,6 +30,10 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
    * When omitted, no GenAI spans or metrics are emitted.
    */
   tracingOptions?: GenAITracingOptions;
+  /** Options applied to realtime voice-agent connections. */
+  realtimeOptions?: VoiceAgentRealtimeClientOptions;
+  /** Options applied to GPT Live voice-agent connections. */
+  liveOptions?: VoiceAgentLiveClientOptions;
 }
 
 export function createAIProject(
