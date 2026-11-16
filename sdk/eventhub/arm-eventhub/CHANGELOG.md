@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-beta.1 (2026-07-29)
+## 7.0.0-beta.1 (2026-11-16)
 Compared with version 6.0.0
 
 ### Features Added
