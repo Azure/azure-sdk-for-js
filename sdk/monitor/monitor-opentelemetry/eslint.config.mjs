@@ -6,6 +6,16 @@ export default [
     ignores: ["test/esm-app/**"],
   },
   {
+    files: ["package.json"],
+    rules: {
+      // OpenTelemetry SDK 3.x requires Node.js 22.15.0 or later.
+      "@azure/azure-sdk/ts-package-json-engine-is-present": [
+        "error",
+        { nodeVersionOverride: ">=22.15.0" },
+      ],
+    },
+  },
+  {
     // Grandfathered (approved advanced case). monitor-opentelemetry legitimately uses
     // createRequire() to optionally load platform integrations (e.g. `@azure/functions-core`)
     // and to bridge ESM/CJS `require`. Scoped to these files so new dynamic loads elsewhere

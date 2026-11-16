@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-09-15-preview/PutRaiPolicy.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicy.json
  */
 async function putRaiPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,7 @@ async function putRaiPolicy(): Promise<void> {
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-09-15-preview/PutRaiPolicyAcs.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyAcs.json
  */
 async function createAnACSPolicyWithOptionalPolicyDependencies(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,73 +106,9 @@ async function createAnACSPolicyWithOptionalPolicyDependencies(): Promise<void> 
     "agent-guard",
     {
       properties: {
-        format: "ACS",
-        acs: {
-          agentControlSpecificationVersion: "0.4.0-alpha.1",
-          metadata: { name: "agent-guard" },
-          policies: {
-            "input-guard": { type: "rego", query: "data.input_guard.verdict" },
-            "tool-guard": { type: "rego", query: "data.tool_guard.verdict" },
-          },
-          interventionPoints: {
-            input: {
-              policyTarget: "$snap.input",
-              policyTargetKind: "user_input",
-              policy: {
-                id: "input-guard",
-                aacsModeration: {
-                  subjectFormat: "text",
-                  harmConfigs: [{ category: "PromptInjection" }],
-                },
-              },
-            },
-            preToolCall: {
-              policyTarget: "$snap.tool_call.args",
-              policyTargetKind: "tool_args",
-              toolNameFrom: "$snap.tool_call.name",
-              policy: { id: "tool-guard" },
-            },
-            postToolCall: {
-              policyTarget: "$snap.tool_result.value",
-              policyTargetKind: "tool_result",
-              toolNameFrom: "$snap.tool_call.name",
-              policy: { id: "tool-guard" },
-            },
-          },
-          tools: {
-            web_search: {
-              id: "web_search",
-              type: "retrieval",
-              description: "Search approved public documentation",
-              securityLabels: ["network_egress", "untrusted_content"],
-              clearance: "public",
-              additionalProperties: {
-                allowed_domains: ["learn.microsoft.com"],
-              },
-            },
-            wire_transfer: {
-              id: "wire_transfer",
-              type: "financial_action",
-              securityLabels: ["financial_write"],
-              clearance: "confidential",
-            },
-          },
-          annotators: {},
-        },
-        acsRegos: [{ regoName: "input-guard" }, { regoName: "tool-guard" }],
         customBlocklists: [{ blocklistName: "blocked-terms", source: "Prompt", blocking: true }],
-        customExternalSafetyProviders: [
-          {
-            externalSafetyProviderName: "contoso-safety-provider",
-            managedIdentityResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/safety-provider-identity",
-            source: "Prompt",
-            blocking: true,
-          },
-        ],
       },
     },
-    { ifNoneMatch: "*" },
   );
   console.log(result);
 }
@@ -181,7 +117,7 @@ async function createAnACSPolicyWithOptionalPolicyDependencies(): Promise<void> 
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-09-15-preview/PutRaiPolicyAcsWithoutTools.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyAcsWithoutTools.json
  */
 async function createAnACSPolicyWithoutAToolCatalog(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -191,24 +127,7 @@ async function createAnACSPolicyWithoutAToolCatalog(): Promise<void> {
     "resource-group",
     "safety-account",
     "input-guard",
-    {
-      properties: {
-        format: "ACS",
-        acs: {
-          agentControlSpecificationVersion: "0.4.0-alpha.1",
-          policies: { "input-guard": { type: "rego", query: "data.input_guard.verdict" } },
-          interventionPoints: {
-            input: {
-              policyTarget: "$snap.input",
-              policyTargetKind: "user_input",
-              policy: { id: "input-guard" },
-            },
-          },
-        },
-        acsRegos: [{ regoName: "input-guard" }],
-      },
-    },
-    { ifNoneMatch: "*" },
+    { properties: {} },
   );
   console.log(result);
 }
@@ -217,7 +136,7 @@ async function createAnACSPolicyWithoutAToolCatalog(): Promise<void> {
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-09-15-preview/PutRaiPolicyWithEgress.json
+ * x-ms-original-file: 2026-11-01/PutRaiPolicyWithEgress.json
  */
 async function putRaiPolicyWithEgress(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -289,7 +208,7 @@ async function putRaiPolicyWithEgress(): Promise<void> {
  * This sample demonstrates how to update the state of specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary update the state of specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-09-15-preview/UpdateRaiPolicyAcs.json
+ * x-ms-original-file: 2026-11-01/UpdateRaiPolicyAcs.json
  */
 async function replaceAnACSPolicyConditionally(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -299,68 +218,7 @@ async function replaceAnACSPolicyConditionally(): Promise<void> {
     "resource-group",
     "safety-account",
     "agent-guard",
-    {
-      properties: {
-        format: "ACS",
-        acs: {
-          agentControlSpecificationVersion: "0.4.0-alpha.1",
-          policies: {
-            "input-guard": { type: "rego", query: "data.input_guard.verdict" },
-            "tool-guard": { type: "rego", query: "data.tool_guard.verdict" },
-          },
-          interventionPoints: {
-            input: {
-              policyTarget: "$snap.input",
-              policyTargetKind: "user_input",
-              policy: {
-                id: "input-guard",
-                aacsModeration: {
-                  subjectFormat: "text",
-                  harmConfigs: [
-                    { category: "Hate", harmConfigId: "Hate_Text_MultiSev" },
-                    { category: "PromptInjection" },
-                  ],
-                },
-              },
-            },
-            preToolCall: {
-              policyTarget: "$snap.tool_call.args",
-              policyTargetKind: "tool_args",
-              toolNameFrom: "$snap.tool_call.name",
-              policy: { id: "tool-guard" },
-            },
-            postToolCall: {
-              policyTarget: "$snap.tool_result.value",
-              policyTargetKind: "tool_result",
-              toolNameFrom: "$snap.tool_call.name",
-              policy: { id: "tool-guard" },
-            },
-          },
-          tools: {
-            web_search: {
-              id: "web_search",
-              type: "retrieval",
-              description: "Search approved public documentation and approved partner sites",
-              securityLabels: ["network_egress", "untrusted_content"],
-              clearance: "public",
-              additionalProperties: {
-                allowed_domains: ["learn.microsoft.com", "support.microsoft.com"],
-              },
-            },
-            wire_transfer: {
-              id: "wire_transfer",
-              type: "financial_action",
-              securityLabels: ["financial_write"],
-              clearance: "confidential",
-            },
-          },
-        },
-        acsRegos: [{ regoName: "input-guard" }, { regoName: "tool-guard" }],
-        customBlocklists: [],
-        customExternalSafetyProviders: [],
-      },
-    },
-    { ifMatch: '"00000000-0000-0000-0000-000000000003"' },
+    { properties: { customBlocklists: [] } },
   );
   console.log(result);
 }

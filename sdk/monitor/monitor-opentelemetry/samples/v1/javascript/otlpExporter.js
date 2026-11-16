@@ -7,7 +7,7 @@
 
 const { useAzureMonitor, shutdownAzureMonitor } = require("@azure/monitor-opentelemetry");
 const { trace } = require("@opentelemetry/api");
-const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace");
 const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-http");
 require("dotenv/config");
 
@@ -21,7 +21,7 @@ async function main() {
       connectionString:
         process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>",
     },
-    spanProcessors: [new BatchSpanProcessor(otlpExporter)],
+    spanProcessors: [new BatchSpanProcessor({ exporter: otlpExporter })],
   };
 
   useAzureMonitor(options);

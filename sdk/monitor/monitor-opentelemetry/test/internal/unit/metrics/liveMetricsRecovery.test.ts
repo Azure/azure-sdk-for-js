@@ -5,10 +5,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MockInstance } from "vitest";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
-  BasicTracerProvider,
+  TracerProvider,
   InMemorySpanExporter,
   SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-base";
+} from "@opentelemetry/sdk-trace";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import type { FilterConjunctionGroupInfo } from "../../../../src/generated/index.js";
@@ -63,8 +63,8 @@ describe("Live Metrics recovery", () => {
     options: { kind?: SpanKind; durationMillis?: number; failed?: boolean } = {},
   ): Promise<void> {
     const exporter = new InMemorySpanExporter();
-    const provider = new BasicTracerProvider({
-      spanProcessors: [new SimpleSpanProcessor(exporter)],
+    const provider = new TracerProvider({
+      spanProcessors: [new SimpleSpanProcessor({ exporter })],
     });
     try {
       const endTime = Date.now();

@@ -14,6 +14,7 @@
     "../src/api/keys/index.ts",
     "../src/api/secrets/index.ts",
     "../src/api/managedHsms/index.ts",
+    "../src/api/networkSecurityPerimeterConfigurations/index.ts",
     "../src/api/privateEndpointConnections/index.ts",
     "../src/api/vaults/index.ts",
     "../src/api/operations/index.ts",

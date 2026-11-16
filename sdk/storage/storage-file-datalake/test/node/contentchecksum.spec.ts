@@ -148,6 +148,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -190,6 +191,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           aborter.abort();
         },
         chunkSize: 4 * MB,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
       assert.ok(
@@ -236,7 +238,9 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         MB,
       );
       const uploadedBuffer = fs.readFileSync(tempFile);
-      await fileClient.upload(uploadedBuffer);
+      await fileClient.upload(uploadedBuffer, {
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+      });
 
       const readResponse = await fileClient.read();
       const readFile = path.join(
@@ -388,6 +392,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
       assert.fail();
     } catch (err: any) {
@@ -426,6 +431,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           eventTriggered = true;
           aborter.abort();
         },
+        singleUploadThreshold: FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
       });
     } catch (err: any) {
       assert.ok(

@@ -8,7 +8,7 @@ export {
   listFilesAndDirectoriesSegment,
   setMetadata,
   setProperties,
-  $delete,
+  deleteDirectory,
   getProperties,
   create,
 } from "./operations.js";

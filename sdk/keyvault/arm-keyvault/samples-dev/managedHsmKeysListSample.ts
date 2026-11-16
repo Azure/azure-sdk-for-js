@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the keys in the specified managed HSM.
  *
  * @summary lists the keys in the specified managed HSM.
- * x-ms-original-file: 2026-05-15/managedHsmListKeys.json
+ * x-ms-original-file: 2026-10-01-preview/managedHsmListKeys.json
  */
 async function listKeysInTheManagedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();

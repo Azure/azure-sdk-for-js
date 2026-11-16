@@ -15,12 +15,14 @@ export interface OperationStatusesOperations {
     options?: OperationStatusesGetOptionalParams,
   ) => Promise<OperationStatusResult>;
 }
+
 function _getOperationStatuses(context: ChaosManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationStatusesGetOptionalParams) =>
       get(context, location, operationId, options),
   };
 }
+
 export function _getOperationStatusesOperations(
   context: ChaosManagementContext,
 ): OperationStatusesOperations {

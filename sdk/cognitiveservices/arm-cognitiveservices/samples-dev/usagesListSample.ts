@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-09-15-preview/ListUsages.json
+ * x-ms-original-file: 2026-11-01/ListUsages.json
  */
 async function getUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getUsages(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-09-15-preview/ListUsagesClassicScope.json
+ * x-ms-original-file: 2026-11-01/ListUsagesClassicScope.json
  */
 async function getUsagesClassicScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getUsagesClassicScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-09-15-preview/ListUsagesDataZoneScope.json
+ * x-ms-original-file: 2026-11-01/ListUsagesDataZoneScope.json
  */
 async function getUsagesDataZoneScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getUsagesDataZoneScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-09-15-preview/ListUsagesGlobalScope.json
+ * x-ms-original-file: 2026-11-01/ListUsagesGlobalScope.json
  */
 async function getUsagesGlobalScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getUsagesGlobalScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested subscription
  *
  * @summary get usages for the requested subscription
- * x-ms-original-file: 2026-09-15-preview/ListUsagesWithResourceMetadata.json
+ * x-ms-original-file: 2026-11-01/ListUsagesWithResourceMetadata.json
  */
 async function getUsagesWithResourceMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();

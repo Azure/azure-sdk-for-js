@@ -36,7 +36,7 @@ export function _postSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function post(
       getInitialResponse: () =>
         _postSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -94,10 +94,6 @@ export function post(
     async () => await initialPagingPoller,
     _postDeserialize,
     ["200", "202", "201"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }

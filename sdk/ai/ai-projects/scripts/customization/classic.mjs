@@ -621,6 +621,211 @@ export function relocatedMemberDiagnostics(oldFile, customText, baseText, matche
   return diagnostics;
 }
 
+// Reviewed GA promotions from azure-rest-api-specs#47930. Other wrappers and
+// destinations continue to require review, even when their routes match.
+const tracingPromotions = new Map([
+  ["classic/beta/agents/index.ts", ["classic/agents/index.ts", ["createFromPrompt"]]],
+  [
+    "classic/beta/voiceAgents/conversations/index.ts",
+    ["classic/voiceAgents/conversations/index.ts", ["delete"]],
+  ],
+  [
+    "classic/beta/voiceAgents/telephony/index.ts",
+    [
+      "classic/voiceAgents/telephony/index.ts",
+      [
+        "cancelCallJob",
+        "createCallJob",
+        "replaceTransferTargets",
+        "endCall",
+        "transferCall",
+        "deleteBinding",
+        "updateBinding",
+        "createBinding",
+      ],
+    ],
+  ],
+]);
+
+function replaceClassicSlots(text, file, members, properties) {
+  const shape = shapeOf(parse(text, file));
+  if (!shape) throw new Error(`${file}: unrecognized reviewed classic template`);
+  return edit(text, [
+    {
+      start: shape.interfaceNode.members.pos,
+      end: shape.interfaceNode.end - 1,
+      text: `\n${members.join("\n")}\n`,
+    },
+    {
+      start: shape.factory.object.properties.pos,
+      end: shape.factory.object.end - 1,
+      text: properties.length ? `\n${properties.join(",\n")},\n` : "\n",
+    },
+  ]);
+}
+
+/**
+ * Carry the reviewed tracing wrappers across GA promotion, retaining their
+ * factory parameters and local tracing helper. Route matching alone never
+ * authorizes moving a customized classic member.
+ */
+export function prepareTracingPromotions(baseGenerated, baseSource, matches) {
+  const sources = new Map(baseSource);
+  const destinations = new Map();
+  const removedModules = new Set();
+  for (const [oldFile, [file, names]] of tracingPromotions) {
+    const moved = matches.filter(
+      (match) =>
+        match.base &&
+        classicFile(match.base.file) === oldFile &&
+        classicFile(match.incoming.file) === file,
+    );
+    if (!moved.length || moved.some((match) => !match.customized) || !baseSource.has(oldFile))
+      continue;
+    const current = shapeOf(parse(baseSource.get(oldFile), oldFile));
+    const before = shapeOf(parse(baseGenerated.get(oldFile), oldFile));
+    if (!current || !before) continue;
+    const renames = new Map();
+    for (const match of moved) {
+      renames.set(match.customized.options, match.names.options);
+      renames.set(match.customized.name, match.names.publicNode);
+    }
+    const approved = new Set();
+    const destination = baseSource.has(file) && shapeOf(parse(baseSource.get(file), file));
+    for (const match of moved) {
+      const name = classicMemberName(match.base.name);
+      if (!names.includes(name)) continue;
+      if (destination && (group(destination.members, name) || group(destination.properties, name)))
+        continue;
+      const callee = match.customized.name;
+      const normalize = (nodes) =>
+        nodes?.map((node) => {
+          const text = renameSymbols(
+            wrap("property", textOf(node, node.getSourceFile())),
+            renames,
+            file,
+          );
+          return parse(text, file).statements[0].declarationList.declarations[0].initializer
+            .properties[0];
+        });
+      // The one baseline delegate call must survive unchanged inside the
+      // wrapper. Altered forwarding and duplicate calls are not approved.
+      const delegate = classicMember(
+        oldFile,
+        {
+          ...match,
+          incoming: { ...match.incoming, name: match.base.name },
+          names: { ...match.names, publicNode: callee },
+        },
+        parse(baseSource.get(classicApiFile(oldFile)), classicApiFile(oldFile)),
+        current.interfaceNode,
+        current.source,
+        contextParameter(current.factory),
+      );
+      const delegateProperty = parse(wrap("property", delegate.property), oldFile).statements[0]
+        .declarationList.declarations[0].initializer.properties[0];
+      if (
+        mergeWrappedProperty(
+          file,
+          normalize([delegateProperty]),
+          normalize(group(current.properties, name)),
+          normalize([delegateProperty]),
+          renames.get(callee) ?? callee,
+        )
+      )
+        approved.add(name);
+    }
+    if (!approved.size) continue;
+    const snippets = (slots) =>
+      slots.flatMap((slot) => slot.nodes.map((node) => textOf(node, current.source)));
+    sources.set(
+      oldFile,
+      replaceClassicSlots(
+        baseSource.get(oldFile),
+        oldFile,
+        snippets(current.members.filter((slot) => !approved.has(slot.name))),
+        snippets(current.properties.filter((slot) => !approved.has(slot.name))),
+      ),
+    );
+    const allMoved = new Set(moved.map((match) => classicMemberName(match.base.name)));
+    if (
+      current.members.every((slot) => allMoved.has(slot.name)) &&
+      current.properties.every((slot) => allMoved.has(slot.name)) &&
+      [...declarations(current.source).keys()].every((name) =>
+        declarations(before.source).has(name),
+      ) &&
+      relocatedMemberDiagnostics(
+        oldFile,
+        baseSource.get(oldFile),
+        baseGenerated.get(oldFile),
+        moved,
+        baseSource.get(classicApiFile(oldFile)),
+      ).every((item) => approved.has(item.declaration))
+    )
+      removedModules.add(oldFile);
+    destinations.set(file, { oldFile, current, approved, renames });
+  }
+  return {
+    sources,
+    removedModules,
+    apply(file, text) {
+      const policy = destinations.get(file);
+      if (!policy) return text;
+      const { oldFile, current, approved, renames } = policy;
+      const emitted = shapeOf(parse(text, file));
+      if (!emitted) throw new Error(`${file}: unrecognized promoted classic module`);
+      let template = text;
+      if (!baseSource.has(file)) {
+        renames.set(current.interfaceNode.name.text, emitted.interfaceNode.name.text);
+        const oldFunctions = current.source.statements.filter(ts.isFunctionDeclaration);
+        for (const node of oldFunctions)
+          renames.set(node.name.text, node.name.text.replace("_getBeta", "_get"));
+        template = renameSymbols(baseSource.get(oldFile), renames, file);
+      }
+      const normalizedCurrent = shapeOf(
+        parse(renameSymbols(current.source.text, renames, file), file),
+      );
+      const slots = (kind) =>
+        emitted[kind].map((slot) => {
+          const nodes = approved.has(slot.name)
+            ? group(normalizedCurrent[kind], slot.name)
+            : slot.nodes;
+          return nodes.map((node) => textOf(node, node.getSourceFile())).join("\n");
+        });
+      const body = replaceClassicSlots(template, file, slots("members"), slots("properties"));
+      const source = parse(body, file);
+      const withoutImports = edit(
+        body,
+        source.statements
+          .filter(ts.isImportDeclaration)
+          .map((node) => ({ start: node.getFullStart(), end: node.end, text: "" })),
+      ).replace(
+        /^\s*\/\/ Copyright \(c\) Microsoft Corporation\.\r?\n\/\/ Licensed under the MIT License\.\s*/,
+        "",
+      );
+      const candidates = [
+        ...importsOf(parse(text, file)),
+        ...importsOf(current.source).map((item) => {
+          let target = item.module.startsWith(".")
+            ? resolveImport(oldFile, item.module)
+            : item.module;
+          if (target === classicApiFile(oldFile).replace(/\.ts$/, ".js"))
+            target = classicApiFile(file).replace(/\.ts$/, ".js");
+          if (target === classicApiFile(oldFile).replace(/operations\.ts$/, "options.js"))
+            target = classicApiFile(file).replace(/operations\.ts$/, "options.js");
+          return {
+            ...item,
+            imported: renames.get(item.imported) ?? item.imported,
+            local: renames.get(item.local) ?? item.local,
+            module: item.module.startsWith(".") ? relativeImport(file, target) : target,
+          };
+        }),
+      ];
+      return `${header}${renderImports(file, withoutImports, candidates)}\n\n${withoutImports}\n`;
+    },
+  };
+}
+
 /**
  * Apply the emitter's classic delta to a customized classic module that is not
  * a plain delegating factory. Members the customization owns are retained;

@@ -296,9 +296,9 @@ export function recommendVmSkuWorkloadSerializer(item: RecommendVmSkuWorkload): 
 
 /** The per-request token budget used to size the inference key-value cache. */
 export interface RecommendVmSkuTokenBudget {
-  /** The number of prompt, or input, tokens per inference request. Must be supplied together with `maxOutputTokens`, and the two must total from 1 through 131072. */
+  /** The number of prompt, or input, tokens per inference request. Must be supplied together with `maxOutputTokens`, and the two must total from 1 through 2147483647 without exceeding the model's maximum context length. */
   promptTokens?: number;
-  /** The maximum number of generated output tokens per inference request. Must be supplied together with `promptTokens`, and the two must total from 1 through 131072. */
+  /** The maximum number of generated output tokens per inference request. Must be supplied together with `promptTokens`, and the two must total from 1 through 2147483647 without exceeding the model's maximum context length. */
   maxOutputTokens?: number;
 }
 
