@@ -195,7 +195,7 @@ describe("customizeCodes", () => {
       { shell: true, cwd: packageDirectory },
       true,
       600,
-      true
+      true,
     );
   });
 
