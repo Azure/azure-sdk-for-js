@@ -108,6 +108,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
     console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
+  const experimentalFeatures = new Set(
+    (process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES ?? "")
+      .split(",")
+      .map((feature) => feature.trim().toLowerCase()),
+  );
   // Only report this feature when the AKS resource detector itself was able to populate the AKS
   // cluster attributes, which requires the customer to have configured access to the
   // aks-cluster-metadata ConfigMap (RBAC + env var or mounted file).
@@ -117,6 +122,8 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
     customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
     aksResourceDetectorPopulation: config.aksResourceDetectorPopulated,
+    genAiInputOutputLimitIncrease: experimentalFeatures.has("gen_ai_input_output_limit_increase"),
+    multiEndpointRouting: experimentalFeatures.has("multi_endpoint_routing"),
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

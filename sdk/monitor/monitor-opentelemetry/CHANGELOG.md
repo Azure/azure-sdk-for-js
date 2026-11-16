@@ -2,6 +2,10 @@
 
 ## 2.0.0 (Unreleased)
 
+### Features Added
+
+- Track GenAI message-limit and multi-endpoint routing experimental opt-ins in SDKStats.
+
 ### Breaking Changes
 
 - Updated to OpenTelemetry SDK 3.x, API 1.10.0, and instrumentation 0.300.x. Custom processors, metric readers, and resources must use compatible SDK versions. Tracing SDK imports now use `@opentelemetry/sdk-trace`, and log API imports now use `@opentelemetry/api`. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
