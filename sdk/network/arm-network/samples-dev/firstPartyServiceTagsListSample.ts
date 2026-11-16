@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the first party service tags in a resource group.
  *
  * @summary gets all the first party service tags in a resource group.
- * x-ms-original-file: 2026-01-01/FirstPartyServiceTagList.json
+ * x-ms-original-file: 2026-03-01/FirstPartyServiceTagList.json
  */
 async function listFirstPartyServiceTagsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

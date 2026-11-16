@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the regional application gateway waf manifest.
  *
  * @summary gets the regional application gateway waf manifest.
- * x-ms-original-file: 2026-01-01/GetApplicationGatewayWafDynamicManifests.json
+ * x-ms-original-file: 2026-03-01/GetApplicationGatewayWafDynamicManifests.json
  */
 async function getsWAFManifests(): Promise<void> {
   const credential = new DefaultAzureCredential();

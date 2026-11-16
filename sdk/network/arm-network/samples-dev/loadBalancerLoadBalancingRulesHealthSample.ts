@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get health details of a load balancing rule.
  *
  * @summary get health details of a load balancing rule.
- * x-ms-original-file: 2026-01-01/LoadBalancerHealth.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerHealth.json
  */
 async function queryLoadBalancingRuleHealth(): Promise<void> {
   const credential = new DefaultAzureCredential();

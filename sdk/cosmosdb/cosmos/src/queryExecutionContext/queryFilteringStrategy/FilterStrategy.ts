@@ -1,22 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { OrderByContinuationFilter } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
  * Represents the context for filtering, including the values from the continuation token.
  */
-export interface FilterContext {
-  /**
-   * The _rid of the document from which the continuation token was created.
-   */
-  rid: string;
-  /**
-   * The number of documents with the same _rid to skip, used in JOIN queries.
-   */
-  skipCount: number;
-  /**
-   * The order by item values from the last document of the previous page.
-   */
-  orderByItems: any[];
+export interface FilterContext extends OrderByContinuationFilter {
   /**
    * The sort orders for the ORDER BY fields ("Ascending" or "Descending").
    */
@@ -40,4 +29,9 @@ export interface FilterStrategy {
    * @returns The filtered set of documents.
    */
   applyFilter(documents: any[]): any[];
+
+  /**
+   * Gets the current filter context so replacement producers can resume from the same state.
+   */
+  getFilterContext(): FilterContext;
 }

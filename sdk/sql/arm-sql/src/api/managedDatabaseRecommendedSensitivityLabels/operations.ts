@@ -27,7 +27,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,6 +53,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Update recommended sensitivity labels states of a given database using an operations batch. */
 export async function update(
   context: Client,

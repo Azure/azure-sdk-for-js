@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the configured and effective security group rules on the specified VM.
  *
  * @summary gets the configured and effective security group rules on the specified VM.
- * x-ms-original-file: 2026-01-01/NetworkWatcherSecurityGroupViewGet.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherSecurityGroupViewGet.json
  */
 async function getSecurityGroupView() {
   const credential = new DefaultAzureCredential();

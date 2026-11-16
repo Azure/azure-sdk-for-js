@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lock time based immutability of an existing long term retention backup.
  *
  * @summary lock time based immutability of an existing long term retention backup.
- * x-ms-original-file: 2025-08-01-preview/LockTimeBasedImmutabilityLongTermRetentionBackup.json
+ * x-ms-original-file: 2026-08-01-preview/LockTimeBasedImmutabilityLongTermRetentionBackup.json
  */
 async function lockTimeBasedImmutabilityOfTheLongTermRetentionBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

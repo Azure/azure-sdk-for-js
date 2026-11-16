@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a security user rule collection.
  *
  * @summary creates or updates a security user rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleCollectionPut.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleCollectionPut.json
  */
 async function createOrUpdateASecurityUserRuleCollection() {
   const credential = new DefaultAzureCredential();

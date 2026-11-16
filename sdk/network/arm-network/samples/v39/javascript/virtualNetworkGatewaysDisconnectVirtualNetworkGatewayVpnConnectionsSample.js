@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disconnect vpn connections of virtual network gateway in the specified resource group.
  *
  * @summary disconnect vpn connections of virtual network gateway in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
  */
 async function disconnectVpnConnectionsFromVirtualNetworkGateway() {
   const credential = new DefaultAzureCredential();

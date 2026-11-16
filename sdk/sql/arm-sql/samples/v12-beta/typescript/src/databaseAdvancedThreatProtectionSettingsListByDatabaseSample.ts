@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of database's Advanced Threat Protection states.
  *
  * @summary gets a list of database's Advanced Threat Protection states.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAdvancedThreatProtectionSettingsListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAdvancedThreatProtectionSettingsListByDatabase.json
  */
 async function listsTheDatabaseAdvancedThreatProtectionSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

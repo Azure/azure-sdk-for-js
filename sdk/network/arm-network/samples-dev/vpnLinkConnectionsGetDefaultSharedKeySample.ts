@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the shared key of VpnLink connection specified.
  *
  * @summary gets the shared key of VpnLink connection specified.
- * x-ms-original-file: 2026-01-01/VpnSiteLinkConnectionDefaultSharedKeyGet.json
+ * x-ms-original-file: 2026-03-01/VpnSiteLinkConnectionDefaultSharedKeyGet.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

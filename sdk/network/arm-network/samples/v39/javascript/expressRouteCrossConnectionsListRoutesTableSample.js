@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the currently advertised routes table associated with the express route cross connection in a resource group.
  *
  * @summary gets the currently advertised routes table associated with the express route cross connection in a resource group.
- * x-ms-original-file: 2026-01-01/ExpressRouteCrossConnectionsRouteTable.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCrossConnectionsRouteTable.json
  */
 async function getExpressRouteCrossConnectionsRouteTable() {
   const credential = new DefaultAzureCredential();

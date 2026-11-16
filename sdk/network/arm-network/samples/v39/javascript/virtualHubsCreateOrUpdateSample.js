@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
  *
  * @summary creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
- * x-ms-original-file: 2026-01-01/VirtualHubPut.json
+ * x-ms-original-file: 2026-03-01/VirtualHubPut.json
  */
 async function virtualHubPut() {
   const credential = new DefaultAzureCredential();

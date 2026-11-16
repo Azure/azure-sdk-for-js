@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified route filter.
  *
  * @summary deletes the specified route filter.
- * x-ms-original-file: 2026-01-01/RouteFilterDelete.json
+ * x-ms-original-file: 2026-03-01/RouteFilterDelete.json
  */
 async function routeFilterDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

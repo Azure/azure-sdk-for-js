@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets list of Pool resources at Network Manager level.
  *
  * @summary gets list of Pool resources at Network Manager level.
- * x-ms-original-file: 2026-01-01/IpamPools_List.json
+ * x-ms-original-file: 2026-03-01/IpamPools_List.json
  */
 async function ipamPoolsList() {
   const credential = new DefaultAzureCredential();

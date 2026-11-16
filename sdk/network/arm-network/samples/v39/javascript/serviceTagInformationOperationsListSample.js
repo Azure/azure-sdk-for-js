@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
  * @summary gets a list of service tag information resources with pagination.
- * x-ms-original-file: 2026-01-01/ServiceTagInformationListResult.json
+ * x-ms-original-file: 2026-03-01/ServiceTagInformationListResult.json
  */
 async function getListOfServiceTags() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getListOfServiceTags() {
  * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
  * @summary gets a list of service tag information resources with pagination.
- * x-ms-original-file: 2026-01-01/ServiceTagInformationListResultWithNoAddressPrefixes.json
+ * x-ms-original-file: 2026-03-01/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
 async function getListOfServiceTagsWithNoAddressPrefixes() {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
  * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
  * @summary gets a list of service tag information resources with pagination.
- * x-ms-original-file: 2026-01-01/ServiceTagInformationListResultWithTagname.json
+ * x-ms-original-file: 2026-03-01/ServiceTagInformationListResultWithTagname.json
  */
 async function getListOfServiceTagsWithTagName() {
   const credential = new DefaultAzureCredential();

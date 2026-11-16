@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
  *
  * @summary creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
- * x-ms-original-file: 2026-01-01/ConfigurationPolicyGroupPut.json
+ * x-ms-original-file: 2026-03-01/ConfigurationPolicyGroupPut.json
  */
 async function configurationPolicyGroupPut() {
   const credential = new DefaultAzureCredential();

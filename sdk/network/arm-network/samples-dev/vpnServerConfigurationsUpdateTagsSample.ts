@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates VpnServerConfiguration tags.
  *
  * @summary updates VpnServerConfiguration tags.
- * x-ms-original-file: 2026-01-01/VpnServerConfigurationUpdateTags.json
+ * x-ms-original-file: 2026-03-01/VpnServerConfigurationUpdateTags.json
  */
 async function vpnServerConfigurationUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

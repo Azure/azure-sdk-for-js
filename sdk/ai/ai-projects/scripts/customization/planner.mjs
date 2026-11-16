@@ -4,6 +4,15 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize, mergeDeclaration } from "./ast-merge.mjs";
+import {
+  ClassicRenderError,
+  classicApiFile,
+  classicFile,
+  mergeCustomizedClassic,
+  prepareTracingPromotions,
+  relocatedMemberDiagnostics,
+  simpleFactoryProblem,
+} from "./classic.mjs";
 import { reconcileModels } from "./models.mjs";
 import { classicFromOperations, planOperations } from "./operations.mjs";
 import {
@@ -12,6 +21,7 @@ import {
   exportEntries,
   header,
   importsOf,
+  nameOf,
   parse,
   relativeImport,
   renameSymbols,
@@ -131,66 +141,152 @@ function normalizeGroupOrder(text, customized, file) {
   return edit(text, changes);
 }
 
-function assertSimpleFactory(custom, base, file) {
-  const source = parse(custom, file);
-  const previous = parse(base, file);
-  const originalInterface = previous.statements.find(ts.isInterfaceDeclaration);
-  const customizedInterface = source.statements.find(ts.isInterfaceDeclaration);
-  if (!originalInterface || !customizedInterface)
-    throw new Error(`${file}: unrecognized operations interface`);
-  const originalNames = new Set(
-    originalInterface.members.map((member) => member.name?.getText(previous)),
+function knownImport(item) {
+  if (item.imported === "PagedAsyncIterableIterator" || item.imported === "PageSettings")
+    return { ...item, module: "@azure/core-paging" };
+  if (item.imported === "getBinaryStreamResponse")
+    return {
+      ...item,
+      module: "#platform/static-helpers/serialization/get-binary-stream-response",
+    };
+  return item;
+}
+
+function importedFiles(file, text) {
+  const targets = new Set();
+  const add = (specifier) => {
+    if (!specifier || !ts.isStringLiteralLike(specifier) || !specifier.text.startsWith(".")) return;
+    const target = resolveImport(file, specifier.text);
+    const script = /\.([mc]?)js$/.exec(target);
+    if (script) targets.add(`${target.slice(0, script.index)}.${script[1]}ts`);
+    else targets.add(`${target}.ts`).add(`${target}/index.ts`);
+  };
+  const visit = (node) => {
+    if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) add(node.moduleSpecifier);
+    else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument))
+      add(node.argument.literal);
+    else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword)
+      add(node.arguments[0]);
+    else if (ts.isExternalModuleReference(node)) add(node.expression);
+    ts.forEachChild(node, visit);
+  };
+  visit(ts.createSourceFile(file, text, ts.ScriptTarget.Latest));
+  return targets;
+}
+
+// Model declarations are flattened into models/models.ts and public models are
+// exported from models/index.ts, so emitted namespace modules such as models/openAI/
+// are not mirrored into src/. A re-export module is kept only while another source
+// file imports its path, which also removes previously mirrored modules nothing uses.
+function keepImportedModelModules(source, candidates) {
+  for (const file of candidates.keys()) source.delete(file);
+  let pending = [...source];
+  while (pending.length) {
+    const required = new Set();
+    for (const [file, text] of pending) {
+      for (const target of importedFiles(file, text)) required.add(target);
+    }
+    pending = [];
+    for (const file of required) {
+      if (candidates.has(file) && !source.has(file)) {
+        source.set(file, candidates.get(file));
+        pending.push([file, candidates.get(file)]);
+      }
+    }
+  }
+}
+
+function promoteBetaClientGroup(
+  baseText,
+  customText,
+  incomingText,
+  matches,
+  group = "agentInsightMonitors",
+) {
+  const file = "aiProjectClient.ts";
+  const voice = group === "voiceAgents";
+  const type = {
+    agentInsightMonitors: "AgentInsightMonitors",
+    skills: "Skills",
+    voiceAgents: "VoiceAgents",
+  }[group];
+  if (!type) return customText;
+  const target = `api/${group}/`;
+  const promoted = matches.filter((match) => match.incoming.file.startsWith(target));
+  if (
+    !baseText ||
+    !customText ||
+    !promoted.length ||
+    !promoted.every((match) => match.base?.file.startsWith(`api/beta/${group}/`))
+  )
+    return customText;
+  const [base, custom, incoming] = [baseText, customText, incomingText].map((text) =>
+    parse(text, file),
+  );
+  const client = (module) => declarations(module).get("AIProjectClient");
+  const [before, current, next] = [base, custom, incoming].map(client);
+  if (![before, current, next].every((node) => node && ts.isClassDeclaration(node)))
+    return customText;
+  const member = (node) => node.members.find((item) => nameOf(item.name) === group);
+  const field = member(next);
+  if (member(before) || member(current) || !field || !ts.isPropertyDeclaration(field))
+    return customText;
+  const constructor = current.members.find(ts.isConstructorDeclaration);
+  const assignment = (node, name) =>
+    node.members
+      .find(ts.isConstructorDeclaration)
+      ?.body?.statements.find(
+        (statement) =>
+          ts.isExpressionStatement(statement) &&
+          ts.isBinaryExpression(statement.expression) &&
+          statement.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+          ts.isPropertyAccessExpression(statement.expression.left) &&
+          statement.expression.left.expression.kind === ts.SyntaxKind.ThisKeyword &&
+          statement.expression.left.name.text === name,
+      )?.expression.right;
+  const beta = assignment(current, "beta");
+  const emitted = assignment(next, group);
+  if (
+    !constructor?.body ||
+    !beta ||
+    !ts.isCallExpression(beta) ||
+    beta.expression.getText() !== "_getBetaOperations" ||
+    !beta.arguments.length ||
+    !emitted ||
+    !ts.isCallExpression(emitted) ||
+    emitted.expression.getText() !== `_get${type}Operations` ||
+    emitted.arguments.length !== 1 ||
+    (voice && beta.arguments[4]?.getText() !== "this._tracingConfig")
+  )
+    return customText;
+  const bindings = importsOf(incoming).filter(
+    (item) =>
+      item.module === `./classic/${group}/index.js` &&
+      [`${type}Operations`, `_get${type}Operations`].includes(item.local) &&
+      item.local === item.imported,
   );
   if (
-    customizedInterface.members.some((member) => !originalNames.has(member.name?.getText(source)))
-  ) {
-    throw new Error(`${file}: custom-only operations require an explicit relocation policy`);
-  }
-  function simpleCall(node, parameters) {
-    return (
-      ts.isCallExpression(node) &&
-      ts.isIdentifier(node.expression) &&
-      node.arguments.every((argument) => ts.isIdentifier(argument) && parameters.has(argument.text))
-    );
-  }
-  for (const declaration of source.statements.filter(ts.isFunctionDeclaration)) {
-    if (
-      !/^_get/.test(declaration.name.text) ||
-      !declaration.body ||
-      declaration.body.statements.length !== 1
-    ) {
-      throw new Error(
-        `${file}::${declaration.name.text}: nontrivial customized factory cannot be regenerated`,
-      );
-    }
-    const statement = declaration.body.statements[0];
-    if (
-      !ts.isReturnStatement(statement) ||
-      !statement.expression ||
-      !ts.isObjectLiteralExpression(statement.expression)
-    ) {
-      throw new Error(
-        `${file}::${declaration.name.text}: customized factory does not return a plain operations object`,
-      );
-    }
-    const parameters = new Set(
-      declaration.parameters.map((parameter) => parameter.name.getText(source)),
-    );
-    for (const property of statement.expression.properties) {
-      if (ts.isSpreadAssignment(property) && simpleCall(property.expression, parameters)) continue;
-      if (ts.isPropertyAssignment(property) && ts.isArrowFunction(property.initializer)) {
-        const arrow = property.initializer;
-        const argumentsAllowed = new Set([
-          ...parameters,
-          ...arrow.parameters.map((parameter) => parameter.name.getText(source)),
-        ]);
-        if (simpleCall(arrow.body, argumentsAllowed)) continue;
-      }
-      throw new Error(
-        `${file}::${declaration.name.text}: customized factory behavior requires explicit preservation`,
-      );
-    }
-  }
+    bindings.length !== 2 ||
+    bindings.some((item) => importsOf(custom).some((old) => old.local === item.local))
+  )
+    return customText;
+  return edit(customText, [
+    {
+      start: current.members.pos,
+      end: current.members.pos,
+      text: `\n${textOf(field, incoming)}\n`,
+    },
+    {
+      start: constructor.body.statements.end,
+      end: constructor.body.statements.end,
+      text: `\nthis.${group} = _get${type}Operations(${beta.arguments[0].getText()}${voice ? `, ${beta.arguments[4].getText()}` : ""});\n`,
+    },
+    {
+      start: custom.statements[0].getStart(custom),
+      end: custom.statements[0].getStart(custom),
+      text: `import type { ${type}Operations } from "./classic/${group}/index.js";\nimport { _get${type}Operations } from "./classic/${group}/index.js";\n`,
+    },
+  ]);
 }
 
 export function planCustomization({ baseGenerated, baseSource, generated }) {
@@ -203,11 +299,19 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
   const operations = planOperations({ baseGenerated, baseSource, generated, modelRenames });
   diagnostics.push(...operations.diagnostics);
   for (const [file, text] of operations.files) source.set(file, text);
+  const tracingPromotions = prepareTracingPromotions(baseGenerated, baseSource, operations.matches);
 
   const generatedNameMappings = new Map(modelRenames);
   const removedFiles = new Set();
+  const unresolvedModules = new Set(operations.diagnostics.map((item) => item.file));
+  const optionsFile = (apiFile) => apiFile.replace(/operations\.ts$/, "options.ts");
   const moves = new Map(operations.moves);
   for (const match of operations.matches) {
+    for (const member of ["publicNode", "send", "deserialize"])
+      moves.set(`${match.incoming.file}::${match.incoming[member].name.text}`, {
+        file: match.incoming.file,
+        name: match.names[member],
+      });
     const currentOptions = match.incoming.file.replace(/operations\.ts$/, "options.ts");
     moves.set(`${currentOptions}::${match.incoming.options}`, {
       file: currentOptions,
@@ -217,17 +321,28 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
   }
   for (const [file, text] of generated) {
     if (!file.startsWith("classic/") || !file.endsWith("/index.ts")) continue;
-    const apiFile = file.replace(/^classic\//, "api/").replace(/index\.ts$/, "operations.ts");
+    const apiFile = classicApiFile(file);
     if (!operations.files.has(apiFile)) continue;
     if (baseGenerated.get(file) === text && baseSource.has(file)) continue;
-    const contributors = operations.matches
-      .filter((match) => match.incoming.file === apiFile && match.base)
-      .map((match) =>
-        match.base.file.replace(/^api\//, "classic/").replace(/operations\.ts$/, "index.ts"),
-      );
-    for (const oldFile of new Set(contributors)) {
-      if (baseSource.has(oldFile))
-        assertSimpleFactory(baseSource.get(oldFile), baseGenerated.get(oldFile), oldFile);
+    const relocated = operations.matches.filter(
+      (match) => match.incoming.file === apiFile && match.base,
+    );
+    for (const oldFile of new Set(relocated.map((match) => classicFile(match.base.file)))) {
+      if (
+        oldFile !== file &&
+        baseSource.has(oldFile) &&
+        !tracingPromotions.removedModules.has(oldFile)
+      ) {
+        diagnostics.push(
+          ...relocatedMemberDiagnostics(
+            oldFile,
+            tracingPromotions.sources.get(oldFile),
+            baseGenerated.get(oldFile),
+            relocated.filter((match) => classicFile(match.base.file) === oldFile),
+            baseSource.get(classicApiFile(oldFile)),
+          ),
+        );
+      }
       const oldInterface = parse(baseGenerated.get(oldFile), oldFile).statements.find(
         ts.isInterfaceDeclaration,
       );
@@ -236,10 +351,64 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
         moves.set(`${oldFile}::${oldInterface.name.text}`, { file, name: newInterface.name.text });
       }
     }
-    source.set(
-      file,
-      classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
-    );
+    const customText = tracingPromotions.sources.get(file);
+    const baseText = baseGenerated.get(file);
+    // A classic module is rendered from its resolved operations. A rejected
+    // operation merge leaves nothing to render from, and rendering would only
+    // replace the real diagnostic with a secondary one.
+    if (unresolvedModules.has(apiFile) || unresolvedModules.has(optionsFile(apiFile))) continue;
+    try {
+      if (
+        customText !== undefined &&
+        baseText !== undefined &&
+        simpleFactoryProblem(
+          customText,
+          baseText,
+          file,
+          baseSource.get(apiFile),
+          operations.matches,
+        )
+      ) {
+        const baseRenames = new Map(modelRenames);
+        const incomingRenames = new Map(modelRenames);
+        for (const match of operations.matches) {
+          if (match.base && classicFile(match.base.file) === file) {
+            baseRenames.set(match.base.options, match.names.options);
+            baseRenames.set(match.base.name, match.names.publicNode);
+          }
+          if (match.incoming.file === apiFile) {
+            incomingRenames.set(match.incoming.options, match.names.options);
+            incomingRenames.set(match.incoming.name, match.names.publicNode);
+          }
+        }
+        const merged = mergeCustomizedClassic({
+          file,
+          baseText,
+          customText,
+          incomingText: text,
+          matches: operations.matches,
+          resolvedText: operations.files.get(apiFile),
+          resolvedOptionsText: operations.files.get(optionsFile(apiFile)),
+          customApiText: baseSource.get(apiFile),
+          baseRenames,
+          incomingRenames,
+          mapImport: knownImport,
+        });
+        diagnostics.push(...merged.diagnostics);
+        if (merged.text) source.set(file, tracingPromotions.apply(file, merged.text));
+        continue;
+      }
+      source.set(
+        file,
+        tracingPromotions.apply(
+          file,
+          classicFromOperations(file, text, operations.matches, operations.files.get(apiFile)),
+        ),
+      );
+    } catch (error) {
+      if (!(error instanceof ClassicRenderError)) throw error;
+      diagnostics.push(error.diagnostic);
+    }
   }
 
   function mapEntry(file, entry, old = false) {
@@ -281,6 +450,21 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     for (const [name, entry] of custom) {
       const prior = base.get(name);
       const next = incoming.get(name);
+      // A compatibility alias that reuses a generated name the customization
+      // renamed away keeps its own export beside the renamed declaration. An
+      // unmodified generated export whose emitted group module was removed
+      // (its operations were merged into another group) follows the emitter.
+      const relocated = mapEntry(file, entry, true);
+      const removedGroup =
+        prior &&
+        !next &&
+        sameExport(prior, entry) &&
+        entry.module?.startsWith(".") &&
+        !generated.has(resolveImport(file, entry.module).replace(/\.js$/, ".ts"));
+      if (relocated.name !== name && custom.has(relocated.name) && !removedGroup) {
+        add({ ...entry });
+        continue;
+      }
       if (prior && !next && sameExport(prior, entry) && !exportedModels([entry]).length) continue;
       if (prior && next && sameExport(prior, entry)) {
         add({ ...mapEntry(file, next), isTypeOnly: entry.isTypeOnly || next.isTypeOnly });
@@ -310,6 +494,15 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
           message: "New protected file requires an explicit customization policy",
         });
       }
+      if (file === "aiProjectClient.ts" && customText)
+        source.set(
+          file,
+          ["agentInsightMonitors", "skills", "voiceAgents"].reduce(
+            (text, group) =>
+              promoteBetaClientGroup(baseText, text, incomingText, operations.matches, group),
+            customText,
+          ),
+        );
       continue;
     }
     if (incomingText === baseText && customText !== undefined) continue;
@@ -325,16 +518,29 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
       });
       continue;
     }
-    const normalize = (text) =>
+    const customNames = new Set();
+    if (customText !== undefined) {
+      const module = parse(customText, file);
+      for (const entry of exportEntries(module)) customNames.add(entry.name);
+      for (const name of declarations(module).keys()) customNames.add(name);
+    }
+    // Renaming a compatibility alias that reuses a generated name would
+    // collapse it into the customized declaration it aliases.
+    const customMappings = new Map(
+      [...generatedNameMappings].filter(
+        ([from, to]) => !(customNames.has(from) && customNames.has(to)),
+      ),
+    );
+    const normalize = (text, mappings = generatedNameMappings) =>
       renameSymbols(
         file.startsWith("classic/") && customText
           ? normalizeGroupOrder(text ?? "", customText, file)
           : (text ?? ""),
-        generatedNameMappings,
+        mappings,
         file,
       );
     const baseModule = parse(normalize(baseText), file);
-    const customModule = parse(normalize(customText), file);
+    const customModule = parse(normalize(customText, customMappings), file);
     const incomingModule = parse(normalize(incomingText), file);
     const baseNodes = declarations(baseModule);
     const customNodes = declarations(customModule);
@@ -413,8 +619,24 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     if (!baseSource.has(file)) continue;
     const customized = declarations(parse(baseSource.get(file), file));
     const previous = declarations(parse(baseText, file));
-    const sourceOnly = [...customized.keys()].filter((name) => !previous.has(name));
-    if (sourceOnly.length) {
+    const relocated = new Set(
+      operations.matches.flatMap((match) => {
+        if (match.customized?.file === file)
+          return ["send", "deserialize", "publicNode"].map(
+            (member) => match.customized[member].name.text,
+          );
+        if (match.customized?.file.replace(/operations\.ts$/, "options.ts") === file)
+          return [match.customized.options];
+        return [];
+      }),
+    );
+    const sourceOnly = [...customized.keys()].filter(
+      (name) =>
+        !previous.has(name) &&
+        !relocated.has(name) &&
+        !operations.relocatedHelpers.has(`${file}::${name}`),
+    );
+    if (sourceOnly.length && !tracingPromotions.removedModules.has(file)) {
       diagnostics.push({
         file,
         declaration: sourceOnly.join(", "),
@@ -427,5 +649,6 @@ export function planCustomization({ baseGenerated, baseSource, generated }) {
     source.delete(file);
   }
   source.delete("restorePollerHelpers.ts");
+  keepImportedModelModules(source, models.reexportModules);
   return { source, diagnostics, matches: operations.matches, modelRenames, removedFiles };
 }

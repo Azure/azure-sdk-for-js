@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to cancels the asynchronous operation on the managed instance.
  *
  * @summary cancels the asynchronous operation on the managed instance.
- * x-ms-original-file: 2025-08-01-preview/CancelManagedInstanceOperation.json
+ * x-ms-original-file: 2026-08-01-preview/CancelManagedInstanceOperation.json
  */
 async function cancelTheManagedInstanceManagementOperation() {
   const credential = new DefaultAzureCredential();

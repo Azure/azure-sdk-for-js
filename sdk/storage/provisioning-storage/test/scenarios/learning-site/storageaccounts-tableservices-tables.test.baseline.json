@@ -1,0 +1,79 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sttest01"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "StorageV2"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard_LRS"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tableService": {
+          "bicepIdentifier": "tableService",
+          "type": "Microsoft.Storage/storageAccounts/tableServices",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "table1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "tableService"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "server1"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "jobAgent": {
+          "bicepIdentifier": "jobAgent",
+          "type": "Microsoft.Sql/servers/jobAgents",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "agent1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "job": {
+          "bicepIdentifier": "job",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "agent1"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "jobAgent"
+              }
+            }
+          }
+        },
+        "execution": {
+          "bicepIdentifier": "execution",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "listjobexecutiontarg"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "job"
+              }
+            }
+          }
+        },
+        "step": {
+          "bicepIdentifier": "step",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions/steps",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "listjobexecutiontarg"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "execution"
+              }
+            }
+          }
+        },
+        "target": {
+          "bicepIdentifier": "target",
+          "type": "Microsoft.Sql/servers/jobAgents/jobs/executions/steps/targets",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "listjobexecutiontarg"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "step"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

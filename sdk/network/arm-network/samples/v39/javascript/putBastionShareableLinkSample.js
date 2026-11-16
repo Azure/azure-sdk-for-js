@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary creates a Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: 2026-01-01/BastionShareableLinkCreate.json
+ * x-ms-original-file: 2026-03-01/BastionShareableLinkCreate.json
  */
 async function createBastionShareableLinksForTheRequestVMs() {
   const credential = new DefaultAzureCredential();

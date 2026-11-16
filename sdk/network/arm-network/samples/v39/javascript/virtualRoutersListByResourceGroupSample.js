@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all Virtual Routers in a resource group.
  *
  * @summary lists all Virtual Routers in a resource group.
- * x-ms-original-file: 2026-01-01/VirtualRouterListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/VirtualRouterListByResourceGroup.json
  */
 async function listAllVirtualRouterForAGivenResourceGroup() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to uploads a server trust certificate from SQL Server to SQL Managed Instance.
  *
  * @summary uploads a server trust certificate from SQL Server to SQL Managed Instance.
- * x-ms-original-file: 2025-08-01-preview/ServerTrustCertificatesCreate.json
+ * x-ms-original-file: 2026-08-01-preview/ServerTrustCertificatesCreate.json
  */
 async function createServerTrustCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

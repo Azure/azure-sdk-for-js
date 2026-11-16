@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of service tag information resources.
  *
  * @summary gets a list of service tag information resources.
- * x-ms-original-file: 2026-01-01/ServiceTagsList.json
+ * x-ms-original-file: 2026-03-01/ServiceTagsList.json
  */
 async function getListOfServiceTags() {
   const credential = new DefaultAzureCredential();

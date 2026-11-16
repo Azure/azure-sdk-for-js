@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns all AML file systems the user has access to under a subscription.
  *
  * @summary returns all AML file systems the user has access to under a subscription.
- * x-ms-original-file: 2026-01-01/amlFilesystems_List.json
+ * x-ms-original-file: 2026-08-01/amlFilesystems_List.json
  */
 async function amlFilesystemsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

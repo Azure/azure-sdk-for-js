@@ -5,6 +5,7 @@ import { tmpdir, userInfo } from "node:os";
 import { basename, join, dirname } from "node:path";
 import { createHash } from "node:crypto";
 import { diag } from "@opentelemetry/api";
+import { isObjectWithProperties } from "@azure/core-util";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
@@ -35,7 +36,9 @@ export class FileSystemPersist implements PersistentStorage {
   constructor(
     instrumentationKey: string,
     private _options?: AzureMonitorExporterOptions,
-    private _customerSDKStatsMetricsProvider?: () => CustomerSDKStatsMetrics | undefined,
+    private _customerSDKStatsMetricsProvider?: () =>
+      Pick<CustomerSDKStatsMetrics, "countDroppedItems"> | undefined,
+    private _isStorageActive: () => boolean = () => true,
   ) {
     this._instrumentationKey = instrumentationKey;
     if (this._options?.disableOfflineStorage) {
@@ -75,6 +78,9 @@ export class FileSystemPersist implements PersistentStorage {
   }
 
   push(value: unknown[]): Promise<boolean> {
+    if (!this._isStorageActive() && !this._options?.disableOfflineStorage) {
+      return Promise.resolve(this.storagePaused(value as Envelope[]));
+    }
     if (this._enabled) {
       diag.debug("Pushing value to persistent storage", value.toString());
       return this._storeToDisk(JSON.stringify(value), value as Envelope[]);
@@ -90,13 +96,38 @@ export class FileSystemPersist implements PersistentStorage {
     });
   }
 
+  public restore(value: unknown[]): Promise<boolean> {
+    if (!this._enabled) {
+      return Promise.resolve(false);
+    }
+    // This batch was already removed from disk. Preserve it without enabling new writes.
+    return this._storeToDisk(JSON.stringify(value), value as Envelope[], true);
+  }
+
+  public shutdown(): void {
+    if (this._fileCleanupTimer) {
+      clearTimeout(this._fileCleanupTimer);
+      this._fileCleanupTimer = null;
+    }
+  }
+
   async shift(): Promise<unknown> {
-    if (this._enabled) {
+    if (this._enabled && this._isStorageActive()) {
       diag.debug("Searching for filesystem persisted files");
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
-          return JSON.parse(buffer.toString("utf8"));
+          const value: unknown = JSON.parse(buffer.toString("utf8"));
+          if (Array.isArray(value)) {
+            const envelopes: unknown[] = value;
+            for (const envelope of envelopes) {
+              // Custom properties named "time" must remain strings.
+              if (isObjectWithProperties(envelope, ["time"]) && typeof envelope.time === "string") {
+                envelope.time = new Date(envelope.time);
+              }
+            }
+          }
+          return value;
         }
       } catch (e: any) {
         diag.debug("Failed to read persisted file", e);
@@ -126,6 +157,9 @@ export class FileSystemPersist implements PersistentStorage {
           const firstFile = files[0];
           const filePath = join(this._tempDirectory, firstFile);
           const payload = await readFile(filePath);
+          if (!this._isStorageActive()) {
+            return null;
+          }
           // delete the file first to prevent double sending
           await unlink(filePath);
           return payload;
@@ -148,7 +182,11 @@ export class FileSystemPersist implements PersistentStorage {
    * @param envelopeLength -The length of the telemetry envelope.
    * @returns A promise that resolves to true if the data was stored successfully, false otherwise.
    */
-  private async _storeToDisk(payload: string, envelopes: Envelope[]): Promise<boolean> {
+  private async _storeToDisk(
+    payload: string,
+    envelopes: Envelope[],
+    restoring = false,
+  ): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
@@ -186,6 +224,9 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
 
+    if (!restoring && !this._isStorageActive()) {
+      return this.storagePaused(envelopes);
+    }
     const fileName = `${new Date().getTime()}-${process.hrtime.bigint()}${FileSystemPersist.FILENAME_SUFFIX}`;
     const fileFullPath = join(this._tempDirectory, fileName);
 
@@ -214,6 +255,14 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
     return true;
+  }
+
+  private storagePaused(envelopes: Envelope[]): false {
+    this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
+      envelopes,
+      DropCode.CLIENT_STORAGE_DISABLED,
+    );
+    return false;
   }
 
   async cleanExpiredFiles(): Promise<void> {

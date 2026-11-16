@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the network manager security admin configurations in a network manager, in a paginated format.
  *
  * @summary lists all the network manager security admin configurations in a network manager, in a paginated format.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityAdminConfigurationList.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityAdminConfigurationList.json
  */
 async function listSecurityAdminConfigurationsInANetworkManager() {
   const credential = new DefaultAzureCredential();

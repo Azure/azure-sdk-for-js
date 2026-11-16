@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a sync agent.
  *
  * @summary creates or updates a sync agent.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentCreate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentCreate.json
  */
 async function createANewSyncAgent() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function createANewSyncAgent() {
  * This sample demonstrates how to creates or updates a sync agent.
  *
  * @summary creates or updates a sync agent.
- * x-ms-original-file: 2025-08-01-preview/SyncAgentUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncAgentUpdate.json
  */
 async function updateASyncAgent() {
   const credential = new DefaultAzureCredential();

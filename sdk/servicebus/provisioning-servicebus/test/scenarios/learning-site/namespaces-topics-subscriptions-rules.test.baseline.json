@@ -1,0 +1,231 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "location": {
+                "kind": "string",
+                "value": "westeurope"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "capacity": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "tier": {
+                    "kind": "string",
+                    "value": "Standard"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "topic": {
+          "bicepIdentifier": "topic",
+          "type": "Microsoft.ServiceBus/namespaces/topics",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "enableBatchedOperations": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableExpress": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enablePartitioning": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "maxSizeInMegabytes": {
+                    "kind": "integer",
+                    "value": "5120"
+                  },
+                  "requiresDuplicateDetection": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "Active"
+                  },
+                  "supportOrdering": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "subscription": {
+          "bicepIdentifier": "subscription",
+          "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "topic"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "deadLetteringOnFilterEvaluationExceptions": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "deadLetteringOnMessageExpiration": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "enableBatchedOperations": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "isClientAffine": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "maxDeliveryCount": {
+                    "kind": "integer",
+                    "value": "10"
+                  },
+                  "requiresSession": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "Active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rule": {
+          "bicepIdentifier": "rule",
+          "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "acctest0001"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "subscription"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "correlationFilter": {
+                    "kind": "object",
+                    "value": {
+                      "contentType": {
+                        "kind": "string",
+                        "value": "test_content_type"
+                      },
+                      "correlationId": {
+                        "kind": "string",
+                        "value": "test_correlation_id"
+                      },
+                      "label": {
+                        "kind": "string",
+                        "value": "test_label"
+                      },
+                      "messageId": {
+                        "kind": "string",
+                        "value": "test_message_id"
+                      },
+                      "replyTo": {
+                        "kind": "string",
+                        "value": "test_reply_to"
+                      },
+                      "replyToSessionId": {
+                        "kind": "string",
+                        "value": "test_reply_to_session_id"
+                      },
+                      "sessionId": {
+                        "kind": "string",
+                        "value": "test_session_id"
+                      },
+                      "to": {
+                        "kind": "string",
+                        "value": "test_to"
+                      }
+                    }
+                  },
+                  "filterType": {
+                    "kind": "string",
+                    "value": "CorrelationFilter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

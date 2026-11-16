@@ -1,0 +1,72 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "computerVisionTest"
+              },
+              "identity": {
+                "kind": "object",
+                "value": {
+                  "type": {
+                    "kind": "string",
+                    "value": "SystemAssigned"
+                  }
+                }
+              },
+              "kind": {
+                "kind": "string",
+                "value": "ComputerVision"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Disabled"
+                  },
+                  "networkAcls": {
+                    "kind": "object",
+                    "value": {
+                      "defaultAction": {
+                        "kind": "string",
+                        "value": "Deny"
+                      }
+                    }
+                  },
+                  "disableLocalAuth": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "F0"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

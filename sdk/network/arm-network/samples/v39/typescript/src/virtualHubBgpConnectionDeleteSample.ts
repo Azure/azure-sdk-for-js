@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a VirtualHubBgpConnection.
  *
  * @summary deletes a VirtualHubBgpConnection.
- * x-ms-original-file: 2026-01-01/VirtualHubBgpConnectionDelete.json
+ * x-ms-original-file: 2026-03-01/VirtualHubBgpConnectionDelete.json
  */
 async function virtualHubRouteTableV2Delete(): Promise<void> {
   const credential = new DefaultAzureCredential();

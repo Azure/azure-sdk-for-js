@@ -76,7 +76,7 @@ export function _validateCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +124,7 @@ export function validateCrossRegionRestore(
       getInitialResponse: () =>
         _validateCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-06-01",
+      apiVersion: context.apiVersion ?? "2026-07-01",
     },
   ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
@@ -142,7 +142,7 @@ export function _triggerCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +190,7 @@ export function triggerCrossRegionRestore(
       getInitialResponse: () =>
         _triggerCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-06-01",
+      apiVersion: context.apiVersion ?? "2026-07-01",
     },
   ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
@@ -210,7 +210,7 @@ export function _validateForRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +262,7 @@ export function validateForRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -281,7 +281,7 @@ export function _syncBackupInstanceSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +333,7 @@ export function syncBackupInstance(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -351,7 +351,7 @@ export function _suspendBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +400,7 @@ export function suspendBackups(
     getInitialResponse: () =>
       _suspendBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -418,7 +418,7 @@ export function _stopProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -467,7 +467,7 @@ export function stopProtection(
     getInitialResponse: () =>
       _stopProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -485,7 +485,7 @@ export function _resumeProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -522,7 +522,7 @@ export function resumeProtection(
     getInitialResponse: () =>
       _resumeProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -540,7 +540,7 @@ export function _resumeBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -577,7 +577,7 @@ export function resumeBackups(
     getInitialResponse: () =>
       _resumeBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -596,7 +596,7 @@ export function _triggerRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -654,7 +654,7 @@ export function triggerRestore(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -673,7 +673,7 @@ export function _triggerRehydrateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -722,7 +722,7 @@ export function triggerRehydrate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -741,7 +741,7 @@ export function _validateForModifyBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -792,7 +792,7 @@ export function validateForModifyBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -811,7 +811,7 @@ export function _adhocBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -863,7 +863,7 @@ export function adhocBackup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -881,7 +881,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -926,7 +926,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -945,7 +945,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1003,7 +1003,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
 }
 
@@ -1021,7 +1021,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1074,7 +1074,7 @@ export function _validateForBackupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1118,7 +1118,7 @@ export function validateForBackup(
     getInitialResponse: () =>
       _validateForBackupSend(context, resourceGroupName, vaultName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -1134,7 +1134,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1174,7 +1174,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -1194,7 +1194,7 @@ export function _getBackupInstanceOperationResultSend(
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

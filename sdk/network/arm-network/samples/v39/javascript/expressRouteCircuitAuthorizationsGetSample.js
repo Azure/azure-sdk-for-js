@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified authorization from the specified express route circuit.
  *
  * @summary gets the specified authorization from the specified express route circuit.
- * x-ms-original-file: 2026-01-01/ExpressRouteCircuitAuthorizationGet.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteCircuitAuthorizationGet.json
  */
 async function getExpressRouteCircuitAuthorization() {
   const credential = new DefaultAzureCredential();

@@ -113,6 +113,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       if (!CustomerSDKStatsMetrics._instance) {
         const customerStatsExporterConfig = {
           connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
+          disableOfflineStorage: options.disableOfflineStorage,
         };
         const exporter = new AzureMonitorStatsbeatExporter(customerStatsExporterConfig);
         CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options, exporter);

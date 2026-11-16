@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Traffic Manager profile.
  *
  * @summary deletes a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-DELETE.json
+ * x-ms-original-file: 2026-09-01/Profile-DELETE.json
  */
 async function profileDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

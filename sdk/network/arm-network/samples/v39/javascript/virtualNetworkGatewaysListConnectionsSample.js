@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the connections in a virtual network gateway.
  *
  * @summary gets all the connections in a virtual network gateway.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewaysListConnections.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewaysListConnections.json
  */
 async function virtualNetworkGatewaysListConnections() {
   const credential = new DefaultAzureCredential();

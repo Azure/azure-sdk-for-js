@@ -150,6 +150,34 @@ describe("FetchHttpClient", function () {
     await expect(readAll()).rejects.toMatchObject({ name: "AbortError" });
   });
 
+  it("keeps a legacy abort signal connected until a browser response stream is canceled", async function () {
+    const removeEventListener = vi.fn();
+    const abortSignal: AbortSignalLike = {
+      aborted: false,
+      addEventListener: vi.fn(),
+      removeEventListener,
+    };
+    const responseBody = new ReadableStream({
+      pull(): void {
+        // Keep the response pending until the caller cancels it.
+      },
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(responseBody, { status: 200 }));
+    const request = createPipelineRequest({
+      url: "https://localhost/legacy-abort-stream",
+      abortSignal,
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([200]),
+    });
+
+    const response = await createDefaultHttpClient().sendRequest(request);
+
+    expect(removeEventListener).not.toHaveBeenCalled();
+    await response.browserStreamBody?.cancel();
+    await Promise.resolve();
+    expect(removeEventListener).toHaveBeenCalledOnce();
+  });
+
   it("shouldn't be affected by requests cancelled late", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });

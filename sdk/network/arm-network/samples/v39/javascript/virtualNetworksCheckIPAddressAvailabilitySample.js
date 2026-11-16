@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks whether a private IP address is available for use.
  *
  * @summary checks whether a private IP address is available for use.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCheckIPAddressAvailability.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCheckIPAddressAvailability.json
  */
 async function checkIPAddressAvailability() {
   const credential = new DefaultAzureCredential();

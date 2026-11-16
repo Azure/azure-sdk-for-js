@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the details of a HubVirtualNetworkConnection.
  *
  * @summary retrieves the details of a HubVirtualNetworkConnection.
- * x-ms-original-file: 2026-01-01/HubVirtualNetworkConnectionGet.json
+ * x-ms-original-file: 2026-03-01/HubVirtualNetworkConnectionGet.json
  */
 async function hubVirtualNetworkConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

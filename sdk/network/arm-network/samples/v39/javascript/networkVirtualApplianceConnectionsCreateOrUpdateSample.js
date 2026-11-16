@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
  *
  * @summary creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceConnectionPut.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceConnectionPut.json
  */
 async function networkVirtualApplianceConnectionPut() {
   const credential = new DefaultAzureCredential();

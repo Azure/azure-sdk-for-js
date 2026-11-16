@@ -43,6 +43,362 @@ function has(diagnostics, declaration, member, message) {
   );
 }
 
+test("Skills preview reversion removes only root client wiring and dedicated imports", () => {
+  const imports = `
+import type { SkillsOperations } from "./classic/skills/index.js";
+import { _getSkillsOperations } from "./classic/skills/index.js";
+`;
+  const retained = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._cognitiveScopeClient); }
+  }`;
+  const previous =
+    imports +
+    retained
+      .replace("constructor()", "public readonly skills: SkillsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        "this.skills = _getSkillsOperations(this._cognitiveScopeClient); this.beta =",
+      );
+  const beta = {
+    "classic/beta/skills/index.ts": "export interface BetaSkillsOperations {}",
+    "classic/beta/index.ts": "export interface BetaOperations { skills: BetaSkillsOperations; }",
+  };
+  const files = {
+    baseGenerated: tree({
+      "aiProjectClient.ts": previous,
+      "classic/skills/index.ts": "export interface SkillsOperations {}",
+    }),
+    baseSource: tree({ "aiProjectClient.ts": previous }),
+    generated: tree({ ...beta, "aiProjectClient.ts": retained }),
+    source: tree({ ...beta, "aiProjectClient.ts": retained }),
+  };
+  assert.deepEqual(validate(files), []);
+  for (const unsafe of [
+    retained.replace("_cognitiveScopeClient", "_azureScopeClient"),
+    retained.replace("this.beta = _getBetaOperations(this._cognitiveScopeClient);", ""),
+    retained.replace("constructor()", "constructor(options: unknown)"),
+  ]) {
+    has(
+      validate({ ...files, source: tree({ ...beta, "aiProjectClient.ts": unsafe }) }),
+      "AIProjectClient",
+      undefined,
+      "Protected",
+    );
+  }
+  for (const missing of ["classic/beta/skills/index.ts", "classic/beta/index.ts"]) {
+    const source = new Map(files.source);
+    source.delete(missing);
+    has(validate({ ...files, source }), "AIProjectClient", undefined, "Protected");
+  }
+});
+
+test("historical filter aliases do not override released names retained in source", () => {
+  const customized = `
+export type _FileSearchToolFiltersValue = string | number;
+export type _ToolFileSearchToolFiltersValue1 = _FileSearchToolFiltersValue;
+export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+export type _ToolFileSearchToolFiltersFilter = _FileSearchToolFiltersFilter;
+export interface ComparisonFilter { value: string; }
+export interface CompoundFilter { filters: ComparisonFilter[]; }
+`;
+  const files = modelFixture(customized, customized, customized, customized);
+  files.generated = tree({ "models/javaScriptToolCompatibility/models.ts": customized });
+  assert.deepEqual(
+    validate({
+      ...files,
+      modelRenames: new Map([
+        ["_ToolFileSearchToolFiltersValue1", "_FileSearchToolFiltersValue"],
+        ["_ToolFileSearchToolFiltersFilter", "_FileSearchToolFiltersFilter"],
+      ]),
+    }),
+    [],
+  );
+});
+
+test("protected SDK_VERSION may only synchronize its literal to the package version", () => {
+  const baseline = 'export const SDK_VERSION = "2.10.0"; export const PACKAGE_NAME = "example";';
+  const files = {
+    baseSource: tree({ "constants.ts": baseline }),
+    packageVersion: "2.11.0",
+  };
+  const synchronized = baseline.replace("2.10.0", "2.11.0");
+  assert.deepEqual(validate({ ...files, source: tree({ "constants.ts": synchronized }) }), []);
+  for (const [source, packageVersion] of [
+    [synchronized, undefined],
+    [synchronized, "2.12.0"],
+    [synchronized, "not-a-version"],
+    [synchronized.replace('= "2.11.0"', "= process.env.VERSION"), "2.11.0"],
+    [synchronized.replace("SDK_VERSION =", "SDK_VERSION: string ="), "2.11.0"],
+    [synchronized.replace('"example"', '"different-package"'), "2.11.0"],
+  ]) {
+    const diagnostics = validate({
+      ...files,
+      packageVersion,
+      source: tree({ "constants.ts": source }),
+    });
+    assert.ok(
+      diagnostics.some((diagnostic) => diagnostic.message.includes("Protected customization")),
+      JSON.stringify(diagnostics),
+    );
+  }
+});
+
+test("protected polling helper admits only the optional core-lro skipFinalGet forwarding", () => {
+  const file = "static-helpers/pollingHelpers.ts";
+  const emitted = `
+export interface GetLongRunningPollerOptions<T> { getInitialResponse?: () => PromiseLike<T>; }
+export function getLongRunningPoller(client, processResult, expectedStatuses, options) {
+  return createHttpPoller(client, { processResult });
+}`;
+  const customized = emitted.replace(
+    "{ processResult }",
+    "{ processResult, intervalInMs: options?.updateIntervalInMs }",
+  );
+  const resolved = customized
+    .replace("getInitialResponse?:", "skipFinalGet?: boolean; getInitialResponse?:")
+    .replace("{ processResult,", "{ skipFinalGet: options?.skipFinalGet, processResult,");
+  const fixture = {
+    baseGenerated: tree({ [file]: emitted }),
+    baseSource: tree({ [file]: customized }),
+    generated: tree({ [file]: emitted }),
+  };
+  assert.deepEqual(validate({ ...fixture, source: tree({ [file]: resolved }) }), []);
+  for (const unsafe of [
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet: boolean"),
+    resolved.replace("skipFinalGet?: boolean", "skipFinalGet?: string"),
+    resolved.replace("skipFinalGet: options?.skipFinalGet", "skipFinalGet: true"),
+    resolved.replace("options?.updateIntervalInMs", "0"),
+    resolved.replace("createHttpPoller(client,", "differentPoller(client,"),
+    resolved.replace("getInitialResponse?:", "pollHeaders?: string; getInitialResponse?:"),
+  ]) {
+    assert.ok(
+      validate({ ...fixture, source: tree({ [file]: unsafe }) }).some((diagnostic) =>
+        diagnostic.message.includes("Protected customization"),
+      ),
+      unsafe,
+    );
+  }
+  const otherFile = "static-helpers/other.ts";
+  assert.ok(
+    validate({
+      baseSource: tree({ [otherFile]: customized }),
+      source: tree({ [otherFile]: resolved }),
+    }).some((diagnostic) => diagnostic.message.includes("Protected customization")),
+  );
+});
+
+test("data generation discriminator guards enforce upstream values without relaxing other unions", () => {
+  const upstream =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const legacy = upstream.replace(";", ' | "task_generation";');
+  const conversations = upstream.replace(";", ' | "conversations";');
+  assert.deepEqual(validate(modelFixture(upstream, legacy, upstream, upstream)), []);
+  assert.deepEqual(validate(modelFixture(upstream, legacy, conversations, conversations)), []);
+  assert.deepEqual(validate(modelFixture(conversations, conversations, upstream, upstream)), []);
+  for (const output of [
+    upstream,
+    conversations.replace(";", ' | "task_generation";'),
+    conversations.replace('"traces" | ', ""),
+    conversations.replace(";", ' | "unexpected";'),
+    conversations.replace(";", ' | "conversations";'),
+  ]) {
+    has(
+      validate(modelFixture(upstream, legacy, conversations, output)),
+      "DataGenerationJobType",
+      undefined,
+      "must adopt upstream values",
+    );
+  }
+  has(
+    validate(modelFixture(conversations, conversations, upstream, conversations)),
+    "DataGenerationJobType",
+    undefined,
+    "must adopt upstream values",
+  );
+  const other = (text) => text.replace("DataGenerationJobType", "OtherKind");
+  has(
+    validate(modelFixture(other(upstream), other(legacy), other(upstream), other(upstream))),
+    "OtherKind",
+    undefined,
+    "Lost custom-only union",
+  );
+});
+
+test("only the legacy task model and converters may retire with the approved configuration migration", () => {
+  const discriminator =
+    'export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";';
+  const base = `${discriminator}
+export interface DataGenerationJobOptions { type: DataGenerationJobType; }`;
+  const customized = `${base}
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions { type: "task_generation"; }
+export function taskGenerationDataGenerationJobOptionsSerializer(item: TaskGenerationDataGenerationJobOptions): any { return item; }
+export function taskGenerationDataGenerationJobOptionsDeserializer(item: any): TaskGenerationDataGenerationJobOptions { return item; }
+`;
+  const incoming = `${discriminator}
+export interface DataGenerationJobConfiguration { type: DataGenerationJobType; }`;
+  const files = modelFixture(base, customized, incoming, incoming);
+  files.baseSource.set(
+    "index.ts",
+    `${scaffold}export type { TaskGenerationDataGenerationJobOptions } from "./models/models.js";`,
+  );
+  files.source.set("index.ts", scaffold);
+  assert.deepEqual(validate(files), []);
+  for (const generated of [base, discriminator]) {
+    const rejected = validate({ ...files, generated: tree({ "models/models.ts": generated }) });
+    has(rejected, "TaskGenerationDataGenerationJobOptions", undefined, "Lost maintained");
+  }
+  files.baseSource.set("models/models.ts", customized + "export interface Unrelated {}");
+  has(validate(files), "Unrelated", undefined, "Lost maintained");
+});
+
+function evaluatorPromotionFixture() {
+  const beta = "classic/beta/evaluators/index.ts";
+  const root = "classic/evaluators/index.ts";
+  const upload = "pendingUpload(): void; getCredentials(): void;";
+  const previous = `export interface BetaEvaluatorsOperations { list(): void; ${upload} }`;
+  const remaining = `export interface BetaEvaluatorsOperations { ${upload} }`;
+  const promoted = "export interface EvaluatorsOperations { list(): void; }";
+  return {
+    baseGenerated: tree({ [beta]: previous }),
+    baseSource: tree({ [beta]: previous }),
+    generated: tree({ [beta]: remaining, [root]: promoted }),
+    source: tree({ [beta]: remaining, [root]: promoted }),
+  };
+}
+
+test("allows verified evaluator list promotion while retaining beta upload operations", () => {
+  assert.deepEqual(validate(evaluatorPromotionFixture()), []);
+});
+
+test("accepts subsequent no-op regenerations after evaluator list promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.baseGenerated = new Map(files.generated);
+  files.baseSource = new Map(files.source);
+  assert.deepEqual(validate(files), []);
+});
+
+test("does not waive a missing beta list without generated promotion evidence", () => {
+  const files = evaluatorPromotionFixture();
+  files.generated.delete("classic/evaluators/index.ts");
+  has(validate(files), "BetaEvaluatorsOperations", "list");
+});
+
+for (const replacement of ["", "listLatestVersions(): void;"]) {
+  test(`rejects a promoted root list replaced with ${replacement || "nothing"}`, () => {
+    const files = evaluatorPromotionFixture();
+    files.source.set(
+      "classic/evaluators/index.ts",
+      `export interface EvaluatorsOperations { ${replacement} }`,
+    );
+    has(validate(files), "EvaluatorsOperations", "list");
+  });
+}
+
+test("preserves beta upload members during evaluator promotion", () => {
+  const files = evaluatorPromotionFixture();
+  files.source.set(
+    "classic/beta/evaluators/index.ts",
+    "export interface BetaEvaluatorsOperations { getCredentials(): void; }",
+  );
+  assert.notDeepEqual(validate(files), []);
+});
+
+function promotedClientFixture() {
+  const files = evaluatorPromotionFixture();
+  const base = `export class AIProjectClient {
+    constructor() { this.beta = _getBetaOperations(this._client); }
+  }`;
+  const customized = `export class AIProjectClient {
+    constructor() {
+      this._cognitiveScopeClient = createAIProject("endpoint", credential, { scopes: ["cognitive"] });
+      this._azureScopeClient = createAIProject("endpoint", credential, { scopes: ["azure"] });
+      this.beta = _getBetaOperations(this._cognitiveScopeClient, credential, endpoint);
+      this.telemetry = customTelemetry();
+    }
+  }`;
+  const add = (text, context) =>
+    text
+      .replace("constructor()", "public readonly evaluators: EvaluatorsOperations; constructor()")
+      .replace(
+        "this.beta =",
+        `this.evaluators = _getEvaluatorsOperations(${context}); this.beta =`,
+      );
+  files.baseGenerated.set("aiProjectClient.ts", base);
+  files.baseSource.set("aiProjectClient.ts", customized);
+  files.generated.set("aiProjectClient.ts", add(base, "this._client"));
+  files.source.set("aiProjectClient.ts", add(customized, "this._cognitiveScopeClient"));
+  return files;
+}
+
+test("allows only evaluator wiring that retains the former beta auth context", () => {
+  const files = promotedClientFixture();
+  assert.deepEqual(validate(files), []);
+  files.source.set(
+    "aiProjectClient.ts",
+    files.source
+      .get("aiProjectClient.ts")
+      .replace(
+        "_getEvaluatorsOperations(this._cognitiveScopeClient)",
+        "_getEvaluatorsOperations(this._azureScopeClient)",
+      ),
+  );
+  has(validate(files), "AIProjectClient", undefined, "Protected");
+});
+
+test("still rejects missing evaluator initialization and unrelated constructor rewrites", () => {
+  for (const edit of [
+    (text) =>
+      text.replace("this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);", ""),
+    (text) => text.replace("this.telemetry = customTelemetry();", ""),
+  ]) {
+    const files = promotedClientFixture();
+    files.source.set("aiProjectClient.ts", edit(files.source.get("aiProjectClient.ts")));
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
+test("voice GA wiring retains the cognitive context and the exact beta tracing configuration", () => {
+  const fixture = () => {
+    const files = promotedClientFixture();
+    for (const tree of [files.baseGenerated, files.baseSource, files.generated, files.source]) {
+      tree.set(
+        "aiProjectClient.ts",
+        tree
+          .get("aiProjectClient.ts")
+          .replaceAll("evaluators", "voiceAgents")
+          .replaceAll("Evaluators", "VoiceAgents")
+          .replaceAll(
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint)",
+            "_getBetaOperations(this._cognitiveScopeClient, credential, endpoint, realtimeOptions, this._tracingConfig)",
+          )
+          .replaceAll(
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+            "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          ),
+      );
+    }
+    return files;
+  };
+  assert.deepEqual(validate(fixture()), []);
+  for (const replacement of [
+    "_getVoiceAgentsOperations(this._azureScopeClient, this._tracingConfig)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient)",
+    "_getVoiceAgentsOperations(this._cognitiveScopeClient, otherTracingConfig)",
+  ]) {
+    const files = fixture();
+    files.source.set(
+      "aiProjectClient.ts",
+      files.source
+        .get("aiProjectClient.ts")
+        .replace(
+          "_getVoiceAgentsOperations(this._cognitiveScopeClient, this._tracingConfig)",
+          replacement,
+        ),
+    );
+    assert.notDeepEqual(validate(files), []);
+  }
+});
+
 test("reports unresolved markers, parse errors, duplicate declarations and members", () => {
   const diagnostics = validate({
     source: tree({
@@ -935,4 +1291,86 @@ test("follows a simple forwarding converter alias for wire-member parity", () =>
   const output = custom.replace("id: item.id", "id: item.id, preview: item.preview");
   assert.deepEqual(validate(modelFixture(base, custom, incoming, output)), []);
   has(validate(modelFixture(base, custom, incoming, custom)), "widgetSerializer", "preview");
+});
+
+test("custom-only aliases of emitted models follow the emitted shape but keep their target", () => {
+  const base = "export interface Widget { id: string; legacy?: string; }";
+  const customized = `${base}\nexport type OldWidget = Widget;`;
+  const incoming = "export interface Widget { id: string; current?: string; }";
+  assert.deepEqual(
+    validate(
+      modelFixture(base, customized, incoming, `${incoming}\nexport type OldWidget = Widget;`),
+    ),
+    [],
+  );
+  has(
+    validate(
+      modelFixture(
+        base,
+        customized,
+        incoming,
+        `${incoming}\nexport interface Gadget { id: string; }\nexport type OldWidget = Gadget;`,
+      ),
+    ),
+    "OldWidget",
+    undefined,
+    "target of a maintained custom-only alias",
+  );
+});
+
+test("recovery routes a kept declaration's missing emitted additions to the unapplied list", () => {
+  const base = "export interface Tool { name: string; }";
+  const customized = "export interface Tool { name: string; custom?: string; }";
+  const incoming = "export interface Tool { name: string; added?: string; }";
+  const kept = modelFixture(base, customized, incoming, customized);
+  has(validate(kept), "Tool", "added", "Missing newly emitted model or options member");
+
+  const unapplied = [];
+  const retained = new Set(["models/models.ts::Tool"]);
+  assert.deepEqual(validate({ ...kept, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "models/models.ts",
+      declaration: "Tool",
+      member: "added",
+      kind: "model or options member",
+    },
+  ]);
+
+  // Only a declaration the recovery run kept is excused, and only when the caller
+  // collects the additions: nothing is dropped silently.
+  const elsewhere = new Set(["models/models.ts::Other"]);
+  has(validate({ ...kept, retained: elsewhere, unapplied: [] }), "Tool", "added");
+  has(validate({ ...kept, retained }), "Tool", "added");
+
+  // Every other finding about a kept declaration stays an error.
+  const lost = modelFixture(base, customized, incoming, base);
+  has(validate({ ...lost, retained, unapplied: [] }), "Tool", "custom", "Lost custom-only member");
+});
+
+test("recovery routes a kept Send function's missing request-body mapping", () => {
+  const send = (
+    body,
+  ) => `export function _createSend(context: Client, name: string, options: CreateOptionalParams = { requestOptions: {} }): StreamableMethod {
+  return context.path("/items").post({ body: { ${body} } });
+}`;
+  const files = (text) => tree({ "api/items/operations.ts": text });
+  const fixture = {
+    baseGenerated: files(send("name: name")),
+    baseSource: files(send("name: name")),
+    generated: files(send("name: name, extra: options?.extra")),
+    source: files(send("name: name")),
+  };
+  has(validate(fixture), "_createSend", "extra", "Missing newly emitted Send request-body mapping");
+  const unapplied = [];
+  const retained = new Set(["api/items/operations.ts::_createSend"]);
+  assert.deepEqual(validate({ ...fixture, retained, unapplied }), []);
+  assert.deepEqual(unapplied, [
+    {
+      file: "api/items/operations.ts",
+      declaration: "_createSend",
+      member: "extra",
+      kind: "Send request-body mapping",
+    },
+  ]);
 });

@@ -103,7 +103,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
       else {
         $pkgProp.SdkType = "unknown"
       }
-      $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
+      $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt") -or ($pkgProp.SdkType -eq "provisioning")
       $pkgProp.ArtifactName = $jsStylePkgName
 
 
@@ -417,7 +417,7 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
     if ($toolsInitialized -ne $true) {
       Confirm-NodeInstallation
       $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
-      npm install -g $packageManager
+      npm install -g --allow-scripts=pnpm $packageManager
       if ($LASTEXITCODE -ne 0) {
         throw "Failed to install $packageManager"
       }

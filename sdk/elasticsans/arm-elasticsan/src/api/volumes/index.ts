@@ -10,12 +10,12 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type VolumesPreRestoreOptionalParams,
-  type VolumesPreBackupOptionalParams,
-  type VolumesListByVolumeGroupOptionalParams,
-  type VolumesDeleteOptionalParams,
-  type VolumesUpdateOptionalParams,
-  type VolumesCreateOptionalParams,
-  type VolumesGetOptionalParams,
+export type {
+  VolumesPreRestoreOptionalParams,
+  VolumesPreBackupOptionalParams,
+  VolumesListByVolumeGroupOptionalParams,
+  VolumesDeleteOptionalParams,
+  VolumesUpdateOptionalParams,
+  VolumesCreateOptionalParams,
+  VolumesGetOptionalParams,
 } from "./options.js";

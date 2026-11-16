@@ -7,14 +7,15 @@ import type {
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
   ActivityProtocolAccessBoundary,
+  DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
-  TelephonyProvider,
-  TelephonyBindingStatus,
-  TelephonyCallStatus,
   AgentDefinitionOptInKeys,
   PageOrder,
-  DigitalWorkerType,
+  AgentOptimizationCandidateExpand,
+  TelephonyProvider,
+  TelephonyCallStatus,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -57,102 +58,6 @@ export interface AgentsDownloadSessionFileOptionalParams extends OperationOption
 
 /** Optional parameters. */
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-  /** Filters calls by provider. */
-  provider?: TelephonyProvider;
-  /** Filters calls by lifecycle status. */
-  status?: TelephonyCallStatus;
-  /** Includes calls that started at or after this Unix timestamp in seconds. */
-  startedAfter?: Date;
-  /** Includes calls that started at or before this Unix timestamp in seconds. */
-  startedBefore?: Date;
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsListTelephonyBindingsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-  /** Filters bindings by provider. */
-  provider?: TelephonyProvider;
-  /** Filters bindings by lifecycle status. */
-  status?: TelephonyBindingStatus;
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "VoiceAgents=V1Preview";
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  repeatabilityRequestId?: string;
-  /** Specifies the date and time at which the request was first created. */
-  repeatabilityFirstSent?: Date;
-}
 
 /** Optional parameters. */
 export interface GetMicrosoft365PublishDefaultsOptionalParams extends OperationOptions {
@@ -297,6 +202,85 @@ export interface PublishToMicrosoft365OptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsPromoteOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationCandidateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationCandidatesOptionalParams extends OperationOptions {
+  /** Comma-separated list of expand keys. Pass `mutations` to populate mutation `value` fields; omit to receive mutation items containing only `type`. Additional expand keys may be added in future previews. */
+  expand?: AgentOptimizationCandidateExpand[];
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /** Sort order by the candidate `started_at` timestamp. */
+  order?: PageOrder;
+  /** Candidate-ID cursor identifying the last item from the previous page. */
+  after?: string;
+  /** Candidate-ID cursor identifying the first item from the following page. */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDeleteOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCancelOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListOptimizationJobsOptionalParams extends OperationOptions {
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+  /** Filter to jobs in this lifecycle state. */
+  status?: JobStatus;
+  /** Filter to jobs targeting this agent name. */
+  agentName?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDownloadOptimizationJobFileOptionalParams extends OperationOptions {
+  /** The candidate that owns the file. Omit to request a job-level file. */
+  candidateId?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsGetOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsEstimateOptimizationJobOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsCreateOptimizationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  operationId?: string;
+}
+
+/** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -356,18 +340,20 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /** The endpoint configuration for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
-
-/** Optional parameters. */
-export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
@@ -410,6 +396,8 @@ export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -425,7 +413,12 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 /** Optional parameters. */
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -482,6 +475,8 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -497,6 +492,8 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -512,7 +509,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -530,8 +532,16 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /** The initial operational state of the agent. Defaults to 'enabled' if not specified. */
   state?: AgentState;
@@ -560,3 +570,100 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsGetOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AgentsListTelephonyCallsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** Filters calls by provider. */
+  provider?: TelephonyProvider;
+  /** Filters calls by lifecycle status. */
+  status?: TelephonyCallStatus;
+  /** Includes calls that started at or after this Unix timestamp in seconds. */
+  startedAfter?: Date;
+  /** Includes calls that started at or before this Unix timestamp in seconds. */
+  startedBefore?: Date;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsDeleteTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsUpdateTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsGetTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface AgentsListTelephonyBindingsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** Filters bindings by provider. */
+  provider?: TelephonyProvider;
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
+   * default is 20.
+   */
+  limit?: number;
+  /**
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * for descending order.
+   */
+  order?: PageOrder;
+  /**
+   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
+   */
+  after?: string;
+  /**
+   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
+   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
+   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
+   */
+  before?: string;
+}
+
+/** Optional parameters. */
+export interface AgentsCreateTelephonyBindingOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "VoiceAgents=V1Preview";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  repeatabilityRequestId?: string;
+  /** Specifies the date and time at which the request was first created. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Optional parameters. */
+export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;

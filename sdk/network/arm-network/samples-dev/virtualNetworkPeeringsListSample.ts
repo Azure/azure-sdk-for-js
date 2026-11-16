@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all virtual network peerings in a virtual network.
  *
  * @summary gets all virtual network peerings in a virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringList.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringList.json
  */
 async function listPeerings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listPeerings(): Promise<void> {
  * This sample demonstrates how to gets all virtual network peerings in a virtual network.
  *
  * @summary gets all virtual network peerings in a virtual network.
- * x-ms-original-file: 2026-01-01/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
  */
 async function listPeeringsWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();

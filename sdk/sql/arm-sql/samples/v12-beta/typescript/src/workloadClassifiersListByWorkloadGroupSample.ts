@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of workload classifiers for a workload group
  *
  * @summary gets the list of workload classifiers for a workload group
- * x-ms-original-file: 2025-08-01-preview/GetWorkloadClassifierList.json
+ * x-ms-original-file: 2026-08-01-preview/GetWorkloadClassifierList.json
  */
 async function getTheListOfWorkloadClassifiersForAWorkloadGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

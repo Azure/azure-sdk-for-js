@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Attributes } from "@opentelemetry/api";
-import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
 import {
   SEMATTRS_HTTP_STATUS_CODE,
@@ -21,11 +21,15 @@ import {
   ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
-import { getDependencyTarget } from "../../../../src/metrics/utils.js";
+import {
+  getCloudRole,
+  getCloudRoleInstance,
+  getDependencyTarget,
+} from "../../../../src/metrics/utils.js";
 import type { MockInstance } from "vitest";
 import { expect, afterAll, afterEach, beforeAll, describe, it, vi, assert } from "vitest";
 
@@ -89,7 +93,7 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const traceLog: SdkLogRecord = {
+    const traceLog: ReadWriteLogRecord = {
       hrTime: [0, 123],
       hrTimeObserved: [0, 123],
       resource: resource,
@@ -316,7 +320,7 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const traceLog: SdkLogRecord = {
+    const traceLog: ReadWriteLogRecord = {
       hrTime: [0, 123],
       hrTimeObserved: [0, 123],
       resource: resource,
@@ -442,6 +446,32 @@ describe("#StandardMetricsHandler", () => {
 
     attributes = { "unknown.attribute": "value" };
     assert.strictEqual(getDependencyTarget(attributes), "");
+  });
+
+  it("ignores structured semantic attributes while preserving scalar fallback dimensions", () => {
+    const warn = vi.spyOn(diag, "warn").mockImplementation(() => {});
+    try {
+      expect(
+        getDependencyTarget({
+          [SEMATTRS_PEER_SERVICE]: { name: "invalid" },
+          [ATTR_CLIENT_ADDRESS]: "database",
+          [ATTR_SERVER_PORT]: 5432,
+        }),
+      ).toBe("database:5432");
+      const resource = resourceFromAttributes({
+        [SEMRESATTRS_SERVICE_NAME]: "unknown_service:test",
+        [SEMRESATTRS_K8S_DEPLOYMENT_NAME]: { name: "invalid" },
+        [SEMRESATTRS_K8S_POD_NAME]: ["invalid"],
+        [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance",
+      });
+      expect(getCloudRole(resource)).toBe("unknown_service:test");
+      expect(getCloudRoleInstance(resource)).toBe("instance");
+      expect(warn).toHaveBeenCalledWith(
+        `Ignoring non-scalar semantic-convention attribute: ${SEMATTRS_PEER_SERVICE}`,
+      );
+    } finally {
+      warn.mockRestore();
+    }
   });
 
   it("[new sem conv] should set dependency targets", () => {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of NSP configurations for a server.
  *
  * @summary gets a list of NSP configurations for a server.
- * x-ms-original-file: 2025-08-01-preview/NetworkSecurityPerimeterConfigurationsListByServer.json
+ * x-ms-original-file: 2026-08-01-preview/NetworkSecurityPerimeterConfigurationsListByServer.json
  */
 async function listNSPConfigsByServer() {
   const credential = new DefaultAzureCredential();

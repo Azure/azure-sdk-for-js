@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified custom IP prefix.
  *
  * @summary deletes the specified custom IP prefix.
- * x-ms-original-file: 2026-01-01/CustomIpPrefixDelete.json
+ * x-ms-original-file: 2026-03-01/CustomIpPrefixDelete.json
  */
 async function deleteCustomIPPrefix() {
   const credential = new DefaultAzureCredential();

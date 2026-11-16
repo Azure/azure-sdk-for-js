@@ -40,6 +40,7 @@ export interface ManagedDatabaseColumnsOperations {
     options?: ManagedDatabaseColumnsGetOptionalParams,
   ) => Promise<DatabaseColumn>;
 }
+
 function _getManagedDatabaseColumns(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -86,6 +87,7 @@ function _getManagedDatabaseColumns(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getManagedDatabaseColumnsOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseColumnsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreate.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayCreate.json
  */
 async function createApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -245,7 +245,7 @@ async function createApplicationGateway(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreateBasicV2.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayCreateBasicV2.json
  */
 async function createBasicV2ApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -412,7 +412,7 @@ async function createBasicV2ApplicationGateway(): Promise<void> {
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreateBasicWafV2.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayCreateBasicWafV2.json
  */
 async function createBasicWAFV2ApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -14,12 +14,17 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeGateways,
 } from "./api/gateways/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeVmApplications,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVmApplications,
+} from "./api/vmApplications/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeMachineRunCommands,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeMachineRunCommands,
 } from "./api/machineRunCommands/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeMachineExtensions,
-  _updateDeserialize,
+  _updateDeserialize as _updateDeserializeMachineExtensions,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeMachineExtensions,
 } from "./api/machineExtensions/operations.js";
 import {
@@ -130,6 +135,15 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeGateways, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways/{gatewayName}":
     { deserializer: _createOrUpdateDeserializeGateways, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/applications/{applicationName}":
+    { deserializer: _$deleteDeserializeVmApplications, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/applications/{applicationName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/applications/{applicationName}":
+    {
+      deserializer: _createOrUpdateDeserializeVmApplications,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}":
     {
       deserializer: _$deleteDeserializeMachineRunCommands,
@@ -143,7 +157,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}":
     { deserializer: _$deleteDeserializeMachineExtensions, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserializeMachineExtensions, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}":
     {
       deserializer: _createOrUpdateDeserializeMachineExtensions,

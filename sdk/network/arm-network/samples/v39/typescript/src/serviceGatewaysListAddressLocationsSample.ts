@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get address locations in service gateway.
  *
  * @summary get address locations in service gateway.
- * x-ms-original-file: 2026-01-01/ServiceGatewayGetAddressLocationsResponse.json
+ * x-ms-original-file: 2026-03-01/ServiceGatewayGetAddressLocationsResponse.json
  */
 async function getAddressLocationsInServiceGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

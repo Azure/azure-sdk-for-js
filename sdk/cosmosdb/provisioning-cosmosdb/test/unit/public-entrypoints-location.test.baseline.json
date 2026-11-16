@@ -1,0 +1,78 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "location": {
+          "bicepIdentifier": "location",
+          "type": "Microsoft.DocumentDB/locations",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "location-test"
+              }
+            }
+          }
+        },
+        "restorableDatabaseAccount": {
+          "bicepIdentifier": "restorableDatabaseAccount",
+          "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "restorabledatabaseac-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "location"
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "location"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "restorableDatabaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

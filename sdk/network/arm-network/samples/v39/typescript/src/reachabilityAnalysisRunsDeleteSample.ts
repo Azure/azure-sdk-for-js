@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Reachability Analysis Run.
  *
  * @summary deletes Reachability Analysis Run.
- * x-ms-original-file: 2026-01-01/ReachabilityAnalysisRunDelete.json
+ * x-ms-original-file: 2026-03-01/ReachabilityAnalysisRunDelete.json
  */
 async function reachabilityAnalysisRunDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

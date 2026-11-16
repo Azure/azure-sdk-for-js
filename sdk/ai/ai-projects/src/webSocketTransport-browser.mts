@@ -8,7 +8,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "./realtime/webSocketTransportLike.js";
+} from "./realtime/webSocketTransport.js";
 
 /** The `CloseEvent` fields this transport forwards; the DOM lib is not in scope here. */
 interface NativeCloseEvent {
@@ -18,11 +18,12 @@ interface NativeCloseEvent {
 }
 
 /**
- * Default browser transport for the Voice Agents realtime client.
+ * Default browser transport for the Voice Agents WebSocket clients.
  *
  * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. This transport sends
  * the Microsoft Entra bearer token as the `authorization.bearer.<token>` WebSocket subprotocol,
  * which the service converts back into an `Authorization` header before forwarding the request.
+ * Only preview features, client request IDs, and structured inputs are mapped to query parameters.
  */
 export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
@@ -212,29 +213,20 @@ async function waitForClose(
 /** @internal */
 export function addHeadersToUrl(url: string, headers: Record<string, string>): string {
   const target = new URL(url);
-  let foundryFeatures: string | undefined;
   for (const [name, value] of Object.entries(headers)) {
     switch (name.toLowerCase()) {
-      case "authorization":
-        break;
       case "foundry-features":
-        foundryFeatures = value;
+        target.searchParams.set("foundry_features", value);
         break;
       case "x-ms-client-request-id":
         target.searchParams.set("client-request-id", value);
         break;
-      default:
-        target.searchParams.set(`h-${name.toLowerCase()}`, value);
+      case "x-ms-voice-structured-inputs":
+        target.searchParams.set("structured_inputs", value);
         break;
     }
   }
-  const targetUrl = target.toString();
-  if (foundryFeatures === undefined) {
-    return targetUrl;
-  }
-  const separator = target.search ? "&" : "?";
-  const encodedFeatures = encodeURIComponent(foundryFeatures).replace(/%3D/gi, "=");
-  return `${targetUrl}${separator}foundry_features=${encodedFeatures}`;
+  return target.toString();
 }
 
 function addCredentialSubprotocol(protocols: string[], headers: Record<string, string>): string[] {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update ExpressRouteLag tags or identity.
  *
  * @summary update ExpressRouteLag tags or identity.
- * x-ms-original-file: 2026-01-01/ExpressRouteLagPatch.json
+ * x-ms-original-file: 2026-03-01/ExpressRouteLagPatch.json
  */
 async function updateExpressRouteLagTagsOrIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @file Rule to force package.json's sideEffects value to be set to false.
+ * @file Rule to validate package.json's sideEffects value.
  *
  */
 
+import { TSESTree } from "@typescript-eslint/utils";
 import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ export default createRule({
   meta: {
     type: "suggestion",
     docs: {
-      description: "force package.json's sideEffects value to be false",
+      description: "validate package.json's sideEffects value for its SDK type",
     },
     messages: {
       ...VerifierMessages,
@@ -27,20 +28,29 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const verifiers = getVerifiers(context, {
-      outer: "sideEffects",
-      expected: false,
-    });
     if (stripPath(context.filename) !== "package.json") {
       return {};
     }
     return {
-      // check to see if sideEffects exists at the outermost level
-      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
-
-      // check the node corresponding to sideEffects to see if its value is false
-      "ExpressionStatement > ObjectExpression > Property[key.value='sideEffects']":
-        verifiers.outerMatchesExpected,
+      "ExpressionStatement > ObjectExpression": (node: TSESTree.ObjectExpression): void => {
+        const findProperty = (name: string): TSESTree.Property | undefined =>
+          node.properties.find(
+            (property): property is TSESTree.Property =>
+              property.type === "Property" &&
+              property.key.type === "Literal" &&
+              property.key.value === name,
+          );
+        const sdkType = findProperty("sdk-type")?.value;
+        const verifiers = getVerifiers(context, {
+          outer: "sideEffects",
+          expected: sdkType?.type === "Literal" && sdkType.value === "provisioning",
+        });
+        verifiers.existsInFile(node);
+        const sideEffects = findProperty("sideEffects");
+        if (sideEffects) {
+          verifiers.outerMatchesExpected(sideEffects);
+        }
+      },
     };
   },
 });

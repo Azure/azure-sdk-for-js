@@ -30,9 +30,8 @@ import { KnownContextTagKeys } from "../../src/generated/index.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { logToEnvelope } from "../../src/utils/logUtils.js";
-import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { HrTime } from "@opentelemetry/api";
-import { TraceFlags } from "@opentelemetry/api";
+import { SeverityNumber, TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
@@ -177,6 +176,34 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it.each([undefined, null, ""])(
+      "should use the default message when the log body is empty (%s)",
+      (body) => {
+        testLogRecord.body = body;
+        testLogRecord.attributes = {};
+
+        const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+        const baseData = envelope?.data?.baseData as MessageData;
+
+        assert.strictEqual(baseData.message, "n/a");
+      },
+    );
+
+    it.each([
+      [0, "0"],
+      [false, "false"],
+      ["   ", "   "],
+      [" warning ", " warning "],
+    ])("should preserve non-empty log body %s", (body, expectedMessage) => {
+      testLogRecord.body = body;
+      testLogRecord.attributes = {};
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as MessageData;
+
+      assert.strictEqual(baseData.message, expectedMessage);
     });
 
     it("should route custom measurements on logs to measurements", () => {
@@ -1060,6 +1087,38 @@ describe("logUtils.ts", () => {
       expectedTime,
       expectedServiceTagsBase,
     );
+  });
+
+  it("should map session.id to ai.session.id in log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: "test-session-id",
+      "session.previous_id": "test-previous-session-id",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    assert.strictEqual(envelope?.tags?.[KnownContextTagKeys.AiSessionId], "test-session-id");
+    assert.deepStrictEqual((envelope?.data?.baseData as MessageData).properties, {
+      "session.previous_id": "test-previous-session-id",
+    });
+  });
+
+  it("should not map a non-string session.id to log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_SESSION_ID]: 42,
+      "extra.attribute": "foo",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    assert.isUndefined(envelope?.tags?.[KnownContextTagKeys.AiSessionId]);
+    assert.deepStrictEqual((envelope?.data?.baseData as MessageData).properties, {
+      "extra.attribute": "foo",
+    });
   });
 
   it("should map ATTR_ENDUSER_ID to ai.user.authUserId in log tags", () => {
