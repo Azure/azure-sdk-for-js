@@ -262,6 +262,12 @@ export enum KnownSkuTier {
 }
 
 // @public
+export enum KnownTlsVersion {
+    TlsVersion12 = "1.2",
+    TlsVersion13 = "1.3"
+}
+
+// @public
 export enum KnownUnavailableReason {
     InvalidName = "InvalidName",
     NameInLockdown = "NameInLockdown",
@@ -273,7 +279,8 @@ export enum KnownUnavailableReason {
 
 // @public
 export enum KnownVersions {
-    V20240101 = "2024-01-01"
+    V20240101 = "2024-01-01",
+    V20260101 = "2026-01-01"
 }
 
 // @public
@@ -552,6 +559,7 @@ export interface RelayAPIOptionalParams extends ClientOptions {
 export interface RelayNamespace extends TrackedResource {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -565,6 +573,7 @@ export interface RelayNamespace extends TrackedResource {
 export interface RelayNamespaceProperties {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -580,6 +589,7 @@ export type Relaytype = "NetTcp" | "Http";
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
     readonly createdAt?: Date;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -659,6 +669,9 @@ export interface SystemData {
 }
 
 // @public
+export type TlsVersion = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -734,7 +747,7 @@ export interface wCFRelaysOperations {
     createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
     delete: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysDeleteOptionalParams) => Promise<void>;
     deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysDeleteAuthorizationRuleOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysGetOptionalParams) => Promise<WcfRelay | undefined>;
+    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysGetOptionalParams) => Promise<WcfRelay | void>;
     getAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
     listAuthorizationRules: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
     listByNamespace: (resourceGroupName: string, namespaceName: string, options?: wCFRelaysListByNamespaceOptionalParams) => PagedAsyncIterableIterator<WcfRelay>;

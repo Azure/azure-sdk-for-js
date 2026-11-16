@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   getPurgeStatus,
   purge,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/components/operations.js";
-import {
+import type {
   ComponentsGetPurgeStatusOptionalParams,
   ComponentsPurgeOptionalParams,
   ComponentsListOptionalParams,
@@ -22,14 +22,14 @@ import {
   ComponentsCreateOrUpdateOptionalParams,
   ComponentsGetOptionalParams,
 } from "../../api/components/options.js";
-import { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
-import {
+import type { TagsResource } from "../../models/applicationInsightsCommonTypes/models.js";
+import type {
   ApplicationInsightsComponent,
   ComponentPurgeBody,
   ComponentPurgeResponse,
   ComponentPurgeStatusResponse,
 } from "../../models/components/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Components operations. */
 export interface ComponentsOperations {
@@ -44,7 +44,7 @@ export interface ComponentsOperations {
    * Purges data in an Application Insights component by a set of user-defined filters.
    *
    * In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
-   * Note: this operation is intended for Classic resources, for  workspace-based Application Insights resource please run purge operation (directly on the workspace)(https://docs.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge) , scoped to specific resource id.
+   * Note: this operation is intended for Classic resources, for  workspace-based Application Insights resource please run purge operation (directly on the workspace)(https://docs.microsoft.com/rest/api/loganalytics/workspace-purge/purge) , scoped to specific resource id.
    */
   purge: (
     resourceGroupName: string,

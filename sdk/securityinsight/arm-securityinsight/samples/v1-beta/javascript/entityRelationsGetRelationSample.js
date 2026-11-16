@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an entity relation.
  *
  * @summary gets an entity relation.
- * x-ms-original-file: 2025-07-01-preview/entities/relations/GetEntityRelationByName.json
+ * x-ms-original-file: 2025-10-01-preview/entities/relations/GetEntityRelationByName.json
  */
 async function getAnEntityRelation() {
   const credential = new DefaultAzureCredential();

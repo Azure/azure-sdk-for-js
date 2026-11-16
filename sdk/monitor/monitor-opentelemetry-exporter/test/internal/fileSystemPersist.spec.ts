@@ -200,6 +200,28 @@ describe("FileSystemPersist", () => {
   });
 
   describe("#shift()", () => {
+    it("rehydrates envelope timestamps without changing nested time properties", async () => {
+      const timestamp = "2026-09-25T12:34:56.789Z";
+      const persisted = [
+        {
+          name: "replay",
+          time: timestamp,
+          tags: { time: timestamp },
+          data: { baseData: { properties: { time: timestamp } } },
+        },
+        { name: "second", time: timestamp },
+      ];
+      const persister = new FileSystemPersist(instrumentationKey);
+      try {
+        expect(await persister.push(persisted)).toBe(true);
+        expect(await persister.shift()).toEqual(
+          persisted.map((envelope) => ({ ...envelope, time: new Date(timestamp) })),
+        );
+      } finally {
+        persister.shutdown();
+      }
+    });
+
     it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist(instrumentationKey);
       expect(() => persister.shift()).not.toThrow();
@@ -215,22 +237,26 @@ describe("FileSystemPersist", () => {
     });
 
     it("should get the first file on disk and return it", async () => {
-      const sleep = promisify(setTimeout);
       const persister = new FileSystemPersist(instrumentationKey);
 
       const firstBatch = [{ batch: "first" }];
       const secondBatch = [{ batch: "second" }];
-      const success1 = await persister.push(firstBatch);
-      assert.strictEqual(success1, true);
-      // wait 100 ms so that we don't overwrite previous file
-      await sleep(100);
+      vi.useFakeTimers();
+      try {
+        vi.setSystemTime(new Date(1700000000000));
+        const success1 = await persister.push(firstBatch);
+        assert.strictEqual(success1, true);
 
-      const success2 = await persister.push(secondBatch);
-      assert.strictEqual(success2, true);
-      const value1 = await persister.shift();
-      assert.deepStrictEqual(value1, firstBatch);
-      const value2 = await persister.shift();
-      assert.deepStrictEqual(value2, secondBatch);
+        vi.setSystemTime(new Date(1700000000100));
+        const success2 = await persister.push(secondBatch);
+        assert.strictEqual(success2, true);
+        const value1 = await persister.shift();
+        assert.deepStrictEqual(value1, firstBatch);
+        const value2 = await persister.shift();
+        assert.deepStrictEqual(value2, secondBatch);
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 
@@ -325,40 +351,39 @@ describe("FileSystemPersist", () => {
     });
 
     it("should shift files in FIFO order after cleanup removes expired ones", async () => {
-      const sleep = promisify(setTimeout);
+      vi.useFakeTimers({ toFake: ["Date"] });
+      const timestamp = 1700000000000;
+      vi.setSystemTime(timestamp);
       const persister = new FileSystemPersist(instrumentationKey);
 
       const oldBatch = [{ batch: "old" }];
       const newBatch1 = [{ batch: "new1" }];
       const newBatch2 = [{ batch: "new2" }];
 
-      // Push old batch (will become expired)
-      await persister.push(oldBatch);
-      await sleep(1000);
+      try {
+        assert.isTrue(await persister.push(oldBatch));
+        vi.setSystemTime(timestamp + 1000);
+        assert.isTrue(await persister.push(newBatch1));
+        vi.setSystemTime(timestamp + 1250);
+        assert.isTrue(await persister.push(newBatch2));
 
-      // Push new batches close together so they won't expire
-      const newBatch1PushedAt = Date.now();
-      await persister.push(newBatch1);
-      await sleep(250);
-      await persister.push(newBatch2);
+        // Freeze the expiration cutoff while real filesystem operations complete.
+        vi.setSystemTime(timestamp + 1500);
+        persister.fileRetemptionPeriod = 500;
+        await persister.cleanExpiredFiles();
 
-      // Set retention dynamically so the old file (1s+ old at push time) is expired
-      // while both new files survive regardless of cleanup overhead on slow CI hosts.
-      const now = Date.now();
-      persister.fileRetemptionPeriod = now - newBatch1PushedAt + 200;
+        const first = await persister.shift();
+        assert.deepStrictEqual(first, newBatch1);
 
-      // Clean expired files
-      await persister.cleanExpiredFiles();
+        const second = await persister.shift();
+        assert.deepStrictEqual(second, newBatch2);
 
-      // Should get new batches in FIFO order
-      const first = await persister.shift();
-      assert.deepStrictEqual(first, newBatch1);
-
-      const second = await persister.shift();
-      assert.deepStrictEqual(second, newBatch2);
-
-      const empty = await persister.shift();
-      assert.strictEqual(empty, null);
+        const empty = await persister.shift();
+        assert.strictEqual(empty, null);
+      } finally {
+        persister.shutdown();
+        vi.useRealTimers();
+      }
     });
 
     it("push then shift round-trip preserves data integrity", async () => {
@@ -372,11 +397,7 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(success, true);
 
       const result = await persister.shift();
-      assert.deepStrictEqual(
-        result,
-        JSON.parse(JSON.stringify(complexBatch)),
-        "Data should survive push/shift round-trip",
-      );
+      assert.deepStrictEqual(result, complexBatch, "Data should survive push/shift round-trip");
     });
 
     it("shift should handle empty directory gracefully", async () => {
@@ -481,7 +502,7 @@ describe("FileSystemPersist", () => {
     afterEach(() => {
       vi.restoreAllMocks();
       vi.resetModules();
-      vi.unmock("node:fs/promises");
+      vi.doUnmock("node:fs/promises");
       restoreGetuid();
     });
 

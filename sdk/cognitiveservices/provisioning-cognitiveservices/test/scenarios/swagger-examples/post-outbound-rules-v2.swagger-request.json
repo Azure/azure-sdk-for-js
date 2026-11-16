@@ -1,0 +1,8 @@
+{
+  "name": "rule_name_1",
+  "properties": {
+    "type": "FQDN",
+    "category": "UserDefined",
+    "destination": "destination_endpoint"
+  }
+}

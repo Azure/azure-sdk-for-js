@@ -25,6 +25,7 @@ export * from "#platform/policies/StorageCorrectContentLengthPolicy";
 export * from "./policies/StorageRetryPolicyV2.js";
 export * from "./policies/StorageSharedKeyCredentialPolicy.js";
 export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
+export { buildStorageSharedKeyStringToSign } from "./policies/SharedKeySigning.js";
 export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
 export * from "#platform/credentials/UserDelegationKeyCredential";

@@ -5,10 +5,10 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete a .NET Component.
+ * This sample demonstrates how to deletes a .NET component from a managed environment.
  *
- * @summary delete a .NET Component.
- * x-ms-original-file: 2025-10-02-preview/DotNetComponents_Delete.json
+ * @summary deletes a .NET component from a managed environment.
+ * x-ms-original-file: 2026-07-01/DotNetComponents_Delete.json
  */
 async function deleteNETComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();

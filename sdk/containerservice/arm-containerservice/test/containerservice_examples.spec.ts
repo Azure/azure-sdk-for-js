@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
@@ -46,6 +46,21 @@ describe("ContainerService test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers: [
+          {
+            target: "api-version=2026-01-01",
+            value: "api-version=2026-09-01",
+          },
+          {
+            target: "api-version=2026-07-01",
+            value: "api-version=2026-09-01",
+          },
+        ],
+      },
+      ["playback"],
+    );
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
     // This is an example of how the environment variables are used

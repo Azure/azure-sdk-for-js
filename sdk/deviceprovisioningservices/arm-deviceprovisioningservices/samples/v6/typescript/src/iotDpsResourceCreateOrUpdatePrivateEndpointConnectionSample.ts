@@ -1,0 +1,37 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to create or update the status of a private endpoint connection with the specified name
+ *
+ * @summary create or update the status of a private endpoint connection with the specified name
+ * x-ms-original-file: 2026-11-01/DPSCreateOrUpdatePrivateEndpointConnection.json
+ */
+async function privateEndpointConnectionCreateOrUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const client = new IotDpsClient(credential, subscriptionId);
+  const result = await client.iotDpsResource.createOrUpdatePrivateEndpointConnection(
+    "myResourceGroup",
+    "myFirstProvisioningService",
+    "myPrivateEndpointConnection",
+    {
+      properties: {
+        privateLinkServiceConnectionState: {
+          description: "Approved by johndoe@contoso.com",
+          status: "Approved",
+        },
+      },
+    },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await privateEndpointConnectionCreateOrUpdate();
+}
+
+main().catch(console.error);

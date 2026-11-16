@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DedicatedHubResource resources by CommunityResource
  *
  * @summary list DedicatedHubResource resources by CommunityResource
- * x-ms-original-file: 2026-03-01-preview/DedicatedHubs_ListByCommunityResource.json
+ * x-ms-original-file: 2026-04-01/DedicatedHubs_ListByCommunityResource.json
  */
 async function dedicatedHubListByCommunityResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

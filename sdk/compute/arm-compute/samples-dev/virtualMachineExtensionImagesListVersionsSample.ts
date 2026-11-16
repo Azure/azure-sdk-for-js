@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
  * @summary gets a list of virtual machine extension image versions.
- * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<
  * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
  * @summary gets a list of virtual machine extension image versions.
- * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,9 +41,29 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to gets a list of virtual machine extension image versions.
+ *
+ * @summary gets a list of virtual machine extension image versions.
+ * x-ms-original-file: 2026-04-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_WithExpandProperties_Gen.json
+ */
+async function virtualMachineExtensionImageListVersionsWithExpandPropertiesGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineExtensionImages.listVersions(
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaa",
+    { filter: "aaaaaaaaaaaaaaaaaaaaaaaaa", top: 22, orderby: "a", expand: "properties" },
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await virtualMachineExtensionImageListVersionsMaximumSetGen();
   await virtualMachineExtensionImageListVersionsMinimumSetGen();
+  await virtualMachineExtensionImageListVersionsWithExpandPropertiesGen();
 }
 
 main().catch(console.error);

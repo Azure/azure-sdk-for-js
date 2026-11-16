@@ -14,7 +14,7 @@ import type {
   NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateOptionalParams,
   NetworkSecurityPerimeterLoggingConfigurationsGetOptionalParams,
 } from "../../api/networkSecurityPerimeterLoggingConfigurations/options.js";
-import type { NspLoggingConfiguration } from "../../models/microsoft/network/models.js";
+import type { NspLoggingConfiguration } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterLoggingConfigurations operations. */

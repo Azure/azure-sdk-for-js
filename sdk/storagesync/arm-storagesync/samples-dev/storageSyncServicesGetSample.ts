@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a given StorageSyncService.
  *
  * @summary get a given StorageSyncService.
- * x-ms-original-file: 2022-09-01/StorageSyncServices_Get.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_Get.json
  */
 async function storageSyncServicesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

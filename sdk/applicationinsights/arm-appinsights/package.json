@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-appinsights",
-  "version": "5.0.0-beta.9",
+  "version": "5.0.0-beta.10",
   "description": "A generated SDK for ApplicationInsightsManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,6 +46,286 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/webTestLocations": {
+      "browser": {
+        "types": "./dist/browser/api/webTestLocations/index.d.ts",
+        "default": "./dist/browser/api/webTestLocations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/webTestLocations/index.d.ts",
+        "default": "./dist/esm/api/webTestLocations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/webTestLocations/index.d.ts",
+        "default": "./dist/commonjs/api/webTestLocations/index.js"
+      }
+    },
+    "./api/liveToken": {
+      "browser": {
+        "types": "./dist/browser/api/liveToken/index.d.ts",
+        "default": "./dist/browser/api/liveToken/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/liveToken/index.d.ts",
+        "default": "./dist/esm/api/liveToken/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/liveToken/index.d.ts",
+        "default": "./dist/commonjs/api/liveToken/index.js"
+      }
+    },
+    "./api/favorites": {
+      "browser": {
+        "types": "./dist/browser/api/favorites/index.d.ts",
+        "default": "./dist/browser/api/favorites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/favorites/index.d.ts",
+        "default": "./dist/esm/api/favorites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/favorites/index.d.ts",
+        "default": "./dist/commonjs/api/favorites/index.js"
+      }
+    },
+    "./api/deletedWorkbooks": {
+      "browser": {
+        "types": "./dist/browser/api/deletedWorkbooks/index.d.ts",
+        "default": "./dist/browser/api/deletedWorkbooks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deletedWorkbooks/index.d.ts",
+        "default": "./dist/esm/api/deletedWorkbooks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deletedWorkbooks/index.d.ts",
+        "default": "./dist/commonjs/api/deletedWorkbooks/index.js"
+      }
+    },
+    "./api/components": {
+      "browser": {
+        "types": "./dist/browser/api/components/index.d.ts",
+        "default": "./dist/browser/api/components/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/components/index.d.ts",
+        "default": "./dist/esm/api/components/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/components/index.d.ts",
+        "default": "./dist/commonjs/api/components/index.js"
+      }
+    },
+    "./api/componentLinkedStorageAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/componentLinkedStorageAccounts/index.d.ts",
+        "default": "./dist/browser/api/componentLinkedStorageAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentLinkedStorageAccounts/index.d.ts",
+        "default": "./dist/esm/api/componentLinkedStorageAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentLinkedStorageAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/componentLinkedStorageAccounts/index.js"
+      }
+    },
+    "./api/workItemConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/workItemConfigurations/index.d.ts",
+        "default": "./dist/browser/api/workItemConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workItemConfigurations/index.d.ts",
+        "default": "./dist/esm/api/workItemConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workItemConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/workItemConfigurations/index.js"
+      }
+    },
+    "./api/proactiveDetectionConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/proactiveDetectionConfigurations/index.d.ts",
+        "default": "./dist/browser/api/proactiveDetectionConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/proactiveDetectionConfigurations/index.d.ts",
+        "default": "./dist/esm/api/proactiveDetectionConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/proactiveDetectionConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/proactiveDetectionConfigurations/index.js"
+      }
+    },
+    "./api/componentAvailableFeatures": {
+      "browser": {
+        "types": "./dist/browser/api/componentAvailableFeatures/index.d.ts",
+        "default": "./dist/browser/api/componentAvailableFeatures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentAvailableFeatures/index.d.ts",
+        "default": "./dist/esm/api/componentAvailableFeatures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentAvailableFeatures/index.d.ts",
+        "default": "./dist/commonjs/api/componentAvailableFeatures/index.js"
+      }
+    },
+    "./api/componentFeatureCapabilities": {
+      "browser": {
+        "types": "./dist/browser/api/componentFeatureCapabilities/index.d.ts",
+        "default": "./dist/browser/api/componentFeatureCapabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentFeatureCapabilities/index.d.ts",
+        "default": "./dist/esm/api/componentFeatureCapabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentFeatureCapabilities/index.d.ts",
+        "default": "./dist/commonjs/api/componentFeatureCapabilities/index.js"
+      }
+    },
+    "./api/componentQuotaStatus": {
+      "browser": {
+        "types": "./dist/browser/api/componentQuotaStatus/index.d.ts",
+        "default": "./dist/browser/api/componentQuotaStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentQuotaStatus/index.d.ts",
+        "default": "./dist/esm/api/componentQuotaStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentQuotaStatus/index.d.ts",
+        "default": "./dist/commonjs/api/componentQuotaStatus/index.js"
+      }
+    },
+    "./api/componentCurrentBillingFeatures": {
+      "browser": {
+        "types": "./dist/browser/api/componentCurrentBillingFeatures/index.d.ts",
+        "default": "./dist/browser/api/componentCurrentBillingFeatures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentCurrentBillingFeatures/index.d.ts",
+        "default": "./dist/esm/api/componentCurrentBillingFeatures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentCurrentBillingFeatures/index.d.ts",
+        "default": "./dist/commonjs/api/componentCurrentBillingFeatures/index.js"
+      }
+    },
+    "./api/exportConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/exportConfigurations/index.d.ts",
+        "default": "./dist/browser/api/exportConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/exportConfigurations/index.d.ts",
+        "default": "./dist/esm/api/exportConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/exportConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/exportConfigurations/index.js"
+      }
+    },
+    "./api/apiKeys": {
+      "browser": {
+        "types": "./dist/browser/api/apiKeys/index.d.ts",
+        "default": "./dist/browser/api/apiKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/apiKeys/index.d.ts",
+        "default": "./dist/esm/api/apiKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/apiKeys/index.d.ts",
+        "default": "./dist/commonjs/api/apiKeys/index.js"
+      }
+    },
+    "./api/annotations": {
+      "browser": {
+        "types": "./dist/browser/api/annotations/index.d.ts",
+        "default": "./dist/browser/api/annotations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/annotations/index.d.ts",
+        "default": "./dist/esm/api/annotations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/annotations/index.d.ts",
+        "default": "./dist/commonjs/api/annotations/index.js"
+      }
+    },
+    "./api/analyticsItems": {
+      "browser": {
+        "types": "./dist/browser/api/analyticsItems/index.d.ts",
+        "default": "./dist/browser/api/analyticsItems/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/analyticsItems/index.d.ts",
+        "default": "./dist/esm/api/analyticsItems/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/analyticsItems/index.d.ts",
+        "default": "./dist/commonjs/api/analyticsItems/index.js"
+      }
+    },
+    "./api/workbookTemplates": {
+      "browser": {
+        "types": "./dist/browser/api/workbookTemplates/index.d.ts",
+        "default": "./dist/browser/api/workbookTemplates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workbookTemplates/index.d.ts",
+        "default": "./dist/esm/api/workbookTemplates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workbookTemplates/index.d.ts",
+        "default": "./dist/commonjs/api/workbookTemplates/index.js"
+      }
+    },
+    "./api/workbooks": {
+      "browser": {
+        "types": "./dist/browser/api/workbooks/index.d.ts",
+        "default": "./dist/browser/api/workbooks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workbooks/index.d.ts",
+        "default": "./dist/esm/api/workbooks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workbooks/index.d.ts",
+        "default": "./dist/commonjs/api/workbooks/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/webTests": {
+      "browser": {
+        "types": "./dist/browser/api/webTests/index.d.ts",
+        "default": "./dist/browser/api/webTests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/webTests/index.d.ts",
+        "default": "./dist/esm/api/webTests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/webTests/index.d.ts",
+        "default": "./dist/commonjs/api/webTests/index.js"
       }
     },
     "./models": {
@@ -282,9 +562,9 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -323,7 +603,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-appinsights",

@@ -71,6 +71,7 @@ export interface SshPublicKeysOperations {
     options?: SshPublicKeysGetOptionalParams,
   ) => Promise<SshPublicKeyResource>;
 }
+
 function _getSshPublicKeys(context: ComputeManagementContext) {
   return {
     generateKeyPair: (
@@ -108,6 +109,7 @@ function _getSshPublicKeys(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, sshPublicKeyName, options),
   };
 }
+
 export function _getSshPublicKeysOperations(
   context: ComputeManagementContext,
 ): SshPublicKeysOperations {

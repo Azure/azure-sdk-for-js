@@ -1,39 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type {
   SearchIndexerDataIdentityUnion,
   VectorSearchVectorizerKind,
   AzureOpenAIVectorizerParameters,
+  OpenAICompatibleVectorizerParameters,
   KnowledgeBaseModelUnion,
   KnowledgeSourceKind,
+  KnowledgeSourceResultsProcessing,
   SearchIndexFieldReference,
+  SearchIndexKnowledgeSourceQueryHints,
   IndexingSchedule,
+  KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
   KnowledgeSourceSynchronizationStatus,
-  KnowledgeSourceIngestionPermissionOption,
+  KnowledgeSourceFileCapacity,
 } from "../indexes/models.js";
 import {
   searchIndexerDataIdentityUnionSerializer,
   searchIndexerDataIdentityUnionDeserializer,
   azureOpenAIVectorizerParametersSerializer,
   azureOpenAIVectorizerParametersDeserializer,
+  openAICompatibleVectorizerParametersSerializer,
+  openAICompatibleVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
   knowledgeBaseModelUnionDeserializer,
   searchIndexFieldReferenceArrayDeserializer,
+  searchIndexKnowledgeSourceQueryHintsSerializer,
   indexingScheduleSerializer,
   indexingScheduleDeserializer,
+  knowledgeSourceFileCapacityDeserializer,
 } from "../indexes/models.js";
-
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
+import type { VectorQueryTopicGraphUnion, QueryType } from "../models.js";
+import { vectorQueryTopicGraphUnionSerializer } from "../models.js";
 
 /** Base type for reasoning effort. */
 export interface KnowledgeRetrievalReasoningEffort {
   /** The kind of reasoning effort. */
-  /** The discriminator possible values: minimal, low, medium */
+  /** The discriminator possible values: minimal, low, medium, auto */
   kind: KnowledgeRetrievalReasoningEffortKind;
 }
 
@@ -56,6 +67,7 @@ export type KnowledgeRetrievalReasoningEffortUnion =
   | KnowledgeRetrievalMinimalReasoningEffort
   | KnowledgeRetrievalLowReasoningEffort
   | KnowledgeRetrievalMediumReasoningEffort
+  | KnowledgeRetrievalAutoReasoningEffort
   | KnowledgeRetrievalReasoningEffort;
 
 export function knowledgeRetrievalReasoningEffortUnionSerializer(
@@ -75,6 +87,11 @@ export function knowledgeRetrievalReasoningEffortUnionSerializer(
     case "medium":
       return knowledgeRetrievalMediumReasoningEffortSerializer(
         item as KnowledgeRetrievalMediumReasoningEffort,
+      );
+
+    case "auto":
+      return knowledgeRetrievalAutoReasoningEffortSerializer(
+        item as KnowledgeRetrievalAutoReasoningEffort,
       );
 
     default:
@@ -101,6 +118,11 @@ export function knowledgeRetrievalReasoningEffortUnionDeserializer(
         item as KnowledgeRetrievalMediumReasoningEffort,
       );
 
+    case "auto":
+      return knowledgeRetrievalAutoReasoningEffortDeserializer(
+        item as KnowledgeRetrievalAutoReasoningEffort,
+      );
+
     default:
       return knowledgeRetrievalReasoningEffortDeserializer(item);
   }
@@ -114,6 +136,8 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
   Low = "low",
   /** Use a moderate amount of reasoning during retrieval. */
   Medium = "medium",
+  /** Automatically select the reasoning effort during retrieval, escalating from the cheapest tier only as far as needed. */
+  Auto = "auto",
 }
 
 /**
@@ -123,7 +147,8 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
  * ### Known values supported by the service
  * **minimal**: Does not perform any source selections, query planning, or iterative search. \
  * **low**: Use low reasoning during retrieval. \
- * **medium**: Use a moderate amount of reasoning during retrieval.
+ * **medium**: Use a moderate amount of reasoning during retrieval. \
+ * **auto**: Automatically select the reasoning effort during retrieval, escalating from the cheapest tier only as far as needed.
  */
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
@@ -187,6 +212,26 @@ export function knowledgeRetrievalMediumReasoningEffortDeserializer(
   };
 }
 
+/** Automatically select the reasoning effort during retrieval. The service seeds every request at the cheapest tier and escalates only as far as needed, up to the service's maximum available tier. */
+export interface KnowledgeRetrievalAutoReasoningEffort extends KnowledgeRetrievalReasoningEffort {
+  /** The discriminator value. */
+  kind: "auto";
+}
+
+export function knowledgeRetrievalAutoReasoningEffortSerializer(
+  item: KnowledgeRetrievalAutoReasoningEffort,
+): any {
+  return { kind: item["kind"] };
+}
+
+export function knowledgeRetrievalAutoReasoningEffortDeserializer(
+  item: any,
+): KnowledgeRetrievalAutoReasoningEffort {
+  return {
+    kind: item["kind"],
+  };
+}
+
 /** The output configuration for this retrieval. */
 export enum KnownKnowledgeRetrievalOutputMode {
   /** Return data from the knowledge sources directly without generative alteration. */
@@ -227,6 +272,10 @@ export interface KnowledgeSourceIngestionParameters {
   assetStore?: AssetStore;
   /** Optional freshness policy for biasing retrieval toward newer documents. */
   freshnessPolicy?: FreshnessPolicy;
+  /** Optional network access mode for ingestion. Set to 'private' to run ingestion in a private execution environment that can reach data sources and dependencies over a private network. Default is 'public'. This is a create-time setting and cannot be changed after the knowledge source is created. */
+  networkAccessMode?: KnowledgeSourceNetworkAccessMode;
+  /** Enrichment cache configuration for Azure Blob graph extraction. Requires a GPv2 storage account with Blob and Table endpoints and reprocessing enabled. Once configured, the cache cannot be removed or its storage binding or identity changed. */
+  cache?: KnowledgeSourceCache;
 }
 
 export function knowledgeSourceIngestionParametersSerializer(
@@ -257,6 +306,8 @@ export function knowledgeSourceIngestionParametersSerializer(
     freshnessPolicy: !item["freshnessPolicy"]
       ? item["freshnessPolicy"]
       : freshnessPolicySerializer(item["freshnessPolicy"]),
+    networkAccessMode: item["networkAccessMode"],
+    cache: !item["cache"] ? item["cache"] : knowledgeSourceCacheSerializer(item["cache"]),
   };
 }
 
@@ -292,13 +343,15 @@ export function knowledgeSourceIngestionParametersDeserializer(
     freshnessPolicy: !item["freshnessPolicy"]
       ? item["freshnessPolicy"]
       : freshnessPolicyDeserializer(item["freshnessPolicy"]),
+    networkAccessMode: item["networkAccessMode"],
+    cache: !item["cache"] ? item["cache"] : knowledgeSourceCacheDeserializer(item["cache"]),
   };
 }
 
 /** Specifies the vectorization method to be used for knowledge source embedding model. */
 export interface KnowledgeSourceVectorizer {
   /** The name of the kind of vectorization method being configured for use with vector search. */
-  /** The discriminator possible values: azureOpenAI */
+  /** The discriminator possible values: openAICompatible, azureOpenAI */
   kind: VectorSearchVectorizerKind;
 }
 
@@ -314,12 +367,19 @@ export function knowledgeSourceVectorizerDeserializer(item: any): KnowledgeSourc
 
 /** Alias for KnowledgeSourceVectorizerUnion */
 export type KnowledgeSourceVectorizerUnion =
-  KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceVectorizer;
+  | KnowledgeSourceOpenAICompatibleVectorizer
+  | KnowledgeSourceAzureOpenAIVectorizer
+  | KnowledgeSourceVectorizer;
 
 export function knowledgeSourceVectorizerUnionSerializer(
   item: KnowledgeSourceVectorizerUnion,
 ): any {
   switch (item.kind) {
+    case "openAICompatible":
+      return knowledgeSourceOpenAICompatibleVectorizerSerializer(
+        item as KnowledgeSourceOpenAICompatibleVectorizer,
+      );
+
     case "azureOpenAI":
       return knowledgeSourceAzureOpenAIVectorizerSerializer(
         item as KnowledgeSourceAzureOpenAIVectorizer,
@@ -334,6 +394,11 @@ export function knowledgeSourceVectorizerUnionDeserializer(
   item: any,
 ): KnowledgeSourceVectorizerUnion {
   switch (item["kind"]) {
+    case "openAICompatible":
+      return knowledgeSourceOpenAICompatibleVectorizerDeserializer(
+        item as KnowledgeSourceOpenAICompatibleVectorizer,
+      );
+
     case "azureOpenAI":
       return knowledgeSourceAzureOpenAIVectorizerDeserializer(
         item as KnowledgeSourceAzureOpenAIVectorizer,
@@ -342,6 +407,36 @@ export function knowledgeSourceVectorizerUnionDeserializer(
     default:
       return knowledgeSourceVectorizerDeserializer(item);
   }
+}
+
+/** An OpenAI-compatible embeddings endpoint used for managed knowledge source ingestion and generated query vectorization. Changing from a native embedding model requires recreating the knowledge source and indexing it again. The URI, modelName, and dimensions cannot be changed after creation. */
+export interface KnowledgeSourceOpenAICompatibleVectorizer extends KnowledgeSourceVectorizer {
+  /** The discriminator value for OpenAI-compatible embedding vectorization. */
+  kind: "openAICompatible";
+  /** Connection, authentication, and embedding profile parameters. */
+  openAICompatibleParameters: OpenAICompatibleVectorizerParameters;
+}
+
+export function knowledgeSourceOpenAICompatibleVectorizerSerializer(
+  item: KnowledgeSourceOpenAICompatibleVectorizer,
+): any {
+  return {
+    kind: item["kind"],
+    openAICompatibleParameters: openAICompatibleVectorizerParametersSerializer(
+      item["openAICompatibleParameters"],
+    ),
+  };
+}
+
+export function knowledgeSourceOpenAICompatibleVectorizerDeserializer(
+  item: any,
+): KnowledgeSourceOpenAICompatibleVectorizer {
+  return {
+    kind: item["kind"],
+    openAICompatibleParameters: openAICompatibleVectorizerParametersDeserializer(
+      item["openAICompatibleParameters"],
+    ),
+  };
 }
 
 /** Specifies the Azure OpenAI resource used to vectorize a query string. */
@@ -428,6 +523,54 @@ export function freshnessPolicyDeserializer(item: any): FreshnessPolicy {
   };
 }
 
+/** Specifies the network access mode for knowledge source ingestion. Default is 'public'. */
+export enum KnownKnowledgeSourceNetworkAccessMode {
+  /** Ingestion runs in the standard, publicly reachable execution environment. This is the default. */
+  Public = "public",
+  /** Ingestion runs in a private execution environment so it can reach data sources and dependencies over a private network (private endpoint / shared private link). */
+  Private = "private",
+}
+
+/**
+ * Specifies the network access mode for knowledge source ingestion. Default is 'public'. \
+ * {@link KnownKnowledgeSourceNetworkAccessMode} can be used interchangeably with KnowledgeSourceNetworkAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **public**: Ingestion runs in the standard, publicly reachable execution environment. This is the default. \
+ * **private**: Ingestion runs in a private execution environment so it can reach data sources and dependencies over a private network (private endpoint \/ shared private link).
+ */
+export type KnowledgeSourceNetworkAccessMode = string;
+
+/** Configures storage for cached knowledge source enrichment results. Requires a GPv2 storage account with Blob and Table endpoints. The cache storage binding and identity cannot be changed after creation, and the cache cannot be removed while using the graph extraction workflow. */
+export interface KnowledgeSourceCache {
+  /** The connection string to the storage account where cached enrichment results are persisted. */
+  storageConnectionString: string;
+  /** Whether cached enrichment results can be reprocessed when the enrichment configuration changes. Must be true for graph extraction cache replay. */
+  enableReprocessing?: boolean;
+  /** The managed identity used to connect to the enrichment cache. If omitted for a ResourceId connection string, the system-assigned managed identity is used. The identity cannot be changed after the cache is configured. */
+  identity?: SearchIndexerDataIdentityUnion;
+}
+
+export function knowledgeSourceCacheSerializer(item: KnowledgeSourceCache): any {
+  return {
+    storageConnectionString: item["storageConnectionString"],
+    enableReprocessing: item["enableReprocessing"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : searchIndexerDataIdentityUnionSerializer(item["identity"]),
+  };
+}
+
+export function knowledgeSourceCacheDeserializer(item: any): KnowledgeSourceCache {
+  return {
+    storageConnectionString: item["storageConnectionString"],
+    enableReprocessing: item["enableReprocessing"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
+  };
+}
+
 /** Represents the status and synchronization history of a knowledge source. */
 export interface KnowledgeSourceStatus {
   /** Identifies the Knowledge Source kind directly from the Status response. */
@@ -442,6 +585,8 @@ export interface KnowledgeSourceStatus {
   lastSynchronizationState?: CompletedSynchronizationState;
   /** Statistical information about the knowledge source synchronization history. Null on first sync. */
   statistics?: KnowledgeSourceStatistics;
+  /** File upload capacity for a File knowledge source. Omitted for other knowledge source kinds. */
+  readonly fileCapacity?: KnowledgeSourceFileCapacity;
 }
 
 export function knowledgeSourceStatusSerializer(item: KnowledgeSourceStatus): any {
@@ -475,11 +620,16 @@ export function knowledgeSourceStatusDeserializer(item: any): KnowledgeSourceSta
     statistics: !item["statistics"]
       ? item["statistics"]
       : knowledgeSourceStatisticsDeserializer(item["statistics"]),
+    fileCapacity: !item["fileCapacity"]
+      ? item["fileCapacity"]
+      : knowledgeSourceFileCapacityDeserializer(item["fileCapacity"]),
   };
 }
 
 /** Represents the current state of an ongoing synchronization that spans multiple indexer runs. */
 export interface SynchronizationState {
+  /** Graph extraction statistics for this synchronization. Omitted when no graph extraction took place. */
+  readonly graphStatistics?: KnowledgeSourceGraphStatistics;
   /** The start time of the current synchronization. */
   startTime: Date;
   /** The number of item updates successfully processed in the current synchronization. */
@@ -506,6 +656,9 @@ export function synchronizationStateSerializer(item: SynchronizationState): any 
 
 export function synchronizationStateDeserializer(item: any): SynchronizationState {
   return {
+    graphStatistics: !item["graphStatistics"]
+      ? item["graphStatistics"]
+      : knowledgeSourceGraphStatisticsDeserializer(item["graphStatistics"]),
     startTime: new Date(item["startTime"]),
     itemsUpdatesProcessed: item["itemsUpdatesProcessed"],
     itemsUpdatesFailed: item["itemsUpdatesFailed"],
@@ -513,6 +666,23 @@ export function synchronizationStateDeserializer(item: any): SynchronizationStat
     errors: !item["errors"]
       ? item["errors"]
       : knowledgeSourceSynchronizationErrorArrayDeserializer(item["errors"]),
+  };
+}
+
+/** Graph extraction statistics for a knowledge source synchronization. */
+export interface KnowledgeSourceGraphStatistics {
+  /** The ontology name, when applicable. */
+  readonly ontologyName?: string;
+  /** The number of graph records successfully written during this synchronization, excluding repeated delivery of the same logical output. This is not the total graph index size. */
+  readonly triplesWritten: number;
+}
+
+export function knowledgeSourceGraphStatisticsDeserializer(
+  item: any,
+): KnowledgeSourceGraphStatistics {
+  return {
+    ontologyName: item["ontologyName"],
+    triplesWritten: item["triplesWritten"],
   };
 }
 
@@ -576,6 +746,8 @@ export function knowledgeSourceSynchronizationErrorDeserializer(
 
 /** Represents the completed state of the last synchronization. */
 export interface CompletedSynchronizationState {
+  /** Graph extraction statistics for this synchronization. Omitted when no graph extraction took place. */
+  readonly graphStatistics?: KnowledgeSourceGraphStatistics;
   /** The start time of the last completed synchronization. */
   startTime: Date;
   /** The end time of the last completed synchronization. */
@@ -602,6 +774,9 @@ export function completedSynchronizationStateDeserializer(
   item: any,
 ): CompletedSynchronizationState {
   return {
+    graphStatistics: !item["graphStatistics"]
+      ? item["graphStatistics"]
+      : knowledgeSourceGraphStatisticsDeserializer(item["graphStatistics"]),
     startTime: new Date(item["startTime"]),
     endTime: new Date(item["endTime"]),
     itemsUpdatesProcessed: item["itemsUpdatesProcessed"],
@@ -613,7 +788,7 @@ export function completedSynchronizationStateDeserializer(
 /** Statistical information about knowledge source synchronization history. */
 export interface KnowledgeSourceStatistics {
   /** Total number of synchronizations. */
-  totalSynchronizations: number;
+  totalSynchronization: number;
   /** Average synchronization duration in HH:MM:SS format. */
   averageSynchronizationDuration: string;
   /** Average items processed per synchronization. */
@@ -622,7 +797,7 @@ export interface KnowledgeSourceStatistics {
 
 export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatistics): any {
   return {
-    totalSynchronization: item["totalSynchronizations"],
+    totalSynchronization: item["totalSynchronization"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -630,7 +805,7 @@ export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatist
 
 export function knowledgeSourceStatisticsDeserializer(item: any): KnowledgeSourceStatistics {
   return {
-    totalSynchronizations: item["totalSynchronization"],
+    totalSynchronization: item["totalSynchronization"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -658,6 +833,8 @@ export interface KnowledgeBaseRetrievalRequest {
   outputMode?: KnowledgeRetrievalOutputMode;
   /** A list of runtime parameters for the knowledge sources. */
   knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
+  /** The tool to select. Omit for KB-wide retrieval. */
+  toolName?: string;
 }
 
 export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetrievalRequest): any {
@@ -680,6 +857,7 @@ export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetri
     knowledgeSourceParams: !item["knowledgeSourceParams"]
       ? item["knowledgeSourceParams"]
       : knowledgeSourceParamsUnionArraySerializer(item["knowledgeSourceParams"]),
+    toolName: item["toolName"],
   };
 }
 
@@ -944,10 +1122,14 @@ export interface KnowledgeSourceParams {
   includeReferenceSourceData?: boolean;
   /** Indicates that this knowledge source should bypass source selection and always be queried at retrieval time. */
   alwaysQuerySource?: boolean;
+  /** Indicates that this knowledge source should be excluded from the request's candidate set and never queried at retrieval time. The exclusion is request-local and does not modify knowledge base membership. Cannot be combined with alwaysQuerySource on the same knowledge source. */
+  neverQuerySource?: boolean;
   /** Indicates that the entire retrieval request should fail if retrieval from this knowledge source encounters an error. Defaults to false. */
   failOnError?: boolean;
   /** The reranker threshold all retrieved documents must meet to be included in the response. */
   rerankerThreshold?: number;
+  /** Overrides the knowledge source's stored resultsProcessing for this retrieve call only. When omitted, the stored knowledge source value applies. */
+  resultsProcessing?: KnowledgeSourceResultsProcessing;
   /** Limits the maximum number of documents returned from this knowledge source. */
   maxOutputDocuments?: number;
   /** The type of the knowledge source. */
@@ -963,8 +1145,10 @@ export function knowledgeSourceParamsSerializer(item: KnowledgeSourceParams): an
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1046,6 +1230,10 @@ export interface SearchIndexKnowledgeSourceParams extends KnowledgeSourceParams 
   kind: "searchIndex";
   /** A filter condition applied to the index (e.g., 'State eq VA'). */
   filterAddOn?: string;
+  /** Hints that guide query planning toward useful filters and boosts. If specified, this object replaces the complete set of query hints configured on the knowledge source. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
+  /** Overrides the knowledge source's stored topicGraph for this retrieval. When omitted, the stored knowledge source value applies. */
+  topicGraph?: VectorQueryTopicGraphUnion;
 }
 
 export function searchIndexKnowledgeSourceParamsSerializer(
@@ -1056,39 +1244,134 @@ export function searchIndexKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
     filterAddOn: item["filterAddOn"],
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
+    topicGraph: !item["topicGraph"]
+      ? item["topicGraph"]
+      : vectorQueryTopicGraphUnionSerializer(item["topicGraph"]),
   };
 }
 
 /** Specifies runtime parameters for a azure blob knowledge source */
 export interface AzureBlobKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
   /** The discriminator value. */
   kind: "azureBlob";
+  /** Graph-query visibility and source-document hydration options for a graph-enabled source. */
+  graphParameters?: AgentRuntimeGraphParams;
+  /** Overrides the knowledge source's stored topicGraph for this retrieval. When omitted, the stored knowledge source value applies. */
+  topicGraph?: VectorQueryTopicGraphUnion;
 }
 
 export function azureBlobKnowledgeSourceParamsSerializer(
   item: AzureBlobKnowledgeSourceParams,
 ): any {
   return {
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
+    graphParameters: !item["graphParameters"]
+      ? item["graphParameters"]
+      : agentRuntimeGraphParamsSerializer(item["graphParameters"]),
+    topicGraph: !item["topicGraph"]
+      ? item["topicGraph"]
+      : vectorQueryTopicGraphUnionSerializer(item["topicGraph"]),
   };
+}
+
+/** Graph-specific overrides for a graph-enabled Azure Blob knowledge source during retrieval. */
+export interface AgentRuntimeGraphParams {
+  /** Controls whether source documents supporting graph results are also returned. */
+  provenance?: AgentRuntimeGraphProvenanceParams;
+  /** Include generated GQL in graphSearchArguments.gql. Omitted or false does not expose generated query text. */
+  includeQuery?: boolean;
+}
+
+export function agentRuntimeGraphParamsSerializer(item: AgentRuntimeGraphParams): any {
+  return {
+    provenance: !item["provenance"]
+      ? item["provenance"]
+      : agentRuntimeGraphProvenanceParamsSerializer(item["provenance"]),
+    includeQuery: item["includeQuery"],
+  };
+}
+
+/** Source-document hydration policy for knowledge retrieval graph results. */
+export interface AgentRuntimeGraphProvenanceParams {
+  /** Whether graph retrieval returns graph rows only or also hydrates source documents. */
+  kind?: KnowledgeSourceGraphProvenanceKind;
+  /** Source-document options; only valid when kind is hydrate. */
+  hydrateDocuments?: AgentRuntimeGraphHydrateDocumentsParams;
+}
+
+export function agentRuntimeGraphProvenanceParamsSerializer(
+  item: AgentRuntimeGraphProvenanceParams,
+): any {
+  return {
+    kind: item["kind"],
+    hydrateDocuments: !item["hydrateDocuments"]
+      ? item["hydrateDocuments"]
+      : agentRuntimeGraphHydrateDocumentsParamsSerializer(item["hydrateDocuments"]),
+  };
+}
+
+/** Source-document behavior for graph-based knowledge retrieval. */
+export enum KnownKnowledgeSourceGraphProvenanceKind {
+  /** Return graph results without hydrating their source documents. */
+  None = "none",
+  /** Also return selected source documents from the configured provenance index. */
+  Hydrate = "hydrate",
+}
+
+/**
+ * Source-document behavior for graph-based knowledge retrieval. \
+ * {@link KnownKnowledgeSourceGraphProvenanceKind} can be used interchangeably with KnowledgeSourceGraphProvenanceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Return graph results without hydrating their source documents. \
+ * **hydrate**: Also return selected source documents from the configured provenance index.
+ */
+export type KnowledgeSourceGraphProvenanceKind = string;
+
+/** Selection and count limits for hydrated source documents returned by knowledge retrieval. */
+export interface AgentRuntimeGraphHydrateDocumentsParams {
+  /** Comma-separated retrievable source fields to include. */
+  select?: string;
+  /** Maximum hydrated documents to return. Defaults to 50; this is independent of graph-row count. */
+  top?: number;
+}
+
+export function agentRuntimeGraphHydrateDocumentsParamsSerializer(
+  item: AgentRuntimeGraphHydrateDocumentsParams,
+): any {
+  return { select: item["select"], top: item["top"] };
 }
 
 /** Specifies runtime parameters for a indexed SharePoint knowledge source */
 export interface IndexedSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
   /** The discriminator value. */
   kind: "indexedSharePoint";
 }
@@ -1097,12 +1380,17 @@ export function indexedSharePointKnowledgeSourceParamsSerializer(
   item: IndexedSharePointKnowledgeSourceParams,
 ): any {
   return {
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1111,6 +1399,8 @@ export function indexedSharePointKnowledgeSourceParamsSerializer(
 
 /** Specifies runtime parameters for a indexed OneLake knowledge source */
 export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
   /** The discriminator value. */
   kind: "indexedOneLake";
 }
@@ -1119,12 +1409,17 @@ export function indexedOneLakeKnowledgeSourceParamsSerializer(
   item: IndexedOneLakeKnowledgeSourceParams,
 ): any {
   return {
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1151,8 +1446,10 @@ export function webKnowledgeSourceParamsSerializer(item: WebKnowledgeSourceParam
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1179,8 +1476,10 @@ export function remoteSharePointKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1200,8 +1499,10 @@ export function workIQKnowledgeSourceParamsSerializer(item: WorkIQKnowledgeSourc
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1222,8 +1523,10 @@ export function fabricDataAgentKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1244,8 +1547,10 @@ export function fabricOntologyKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1266,8 +1571,10 @@ export function mcpServerKnowledgeSourceParamsSerializer(
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1276,18 +1583,25 @@ export function mcpServerKnowledgeSourceParamsSerializer(
 
 /** Specifies runtime parameters for a File knowledge source */
 export interface FileKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
   /** The discriminator value. */
   kind: "file";
 }
 
 export function fileKnowledgeSourceParamsSerializer(item: FileKnowledgeSourceParams): any {
   return {
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1296,6 +1610,8 @@ export function fileKnowledgeSourceParamsSerializer(item: FileKnowledgeSourcePar
 
 /** Specifies runtime parameters for an indexed SQL knowledge source */
 export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
   /** The discriminator value. */
   kind: "indexedSql";
 }
@@ -1304,12 +1620,17 @@ export function indexedSqlKnowledgeSourceParamsSerializer(
   item: IndexedSqlKnowledgeSourceParams,
 ): any {
   return {
+    queryHintOverrides: !item["queryHintOverrides"]
+      ? item["queryHintOverrides"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHintOverrides"]),
     knowledgeSourceName: item["knowledgeSourceName"],
     includeReferences: item["includeReferences"],
     includeReferenceSourceData: item["includeReferenceSourceData"],
     alwaysQuerySource: item["alwaysQuerySource"],
+    neverQuerySource: item["neverQuerySource"],
     failOnError: item["failOnError"],
     rerankerThreshold: item["rerankerThreshold"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputDocuments: item["maxOutputDocuments"],
     kind: item["kind"],
     enableImageServing: item["enableImageServing"],
@@ -1357,13 +1678,19 @@ export function knowledgeBaseActivityRecordUnionArrayDeserializer(
 
 /** Base type for activity records. Tracks execution details, timing, and errors for knowledge base operations. */
 export interface KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  elapsedInMs?: number;
   /** The ID of the activity record. */
   id: number;
   /** The type of the activity record. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql, modelQueryPlanning, modelAnswerSynthesis, modelWebSummarization, agenticReasoning */
+  /** The discriminator possible values: graphSearch, searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql, modelQueryPlanning, modelAnswerSynthesis, modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
+  /** The time at which the activity started. */
+  startedAt?: Date;
+  /** The time at which the activity completed. */
+  completedAt?: Date;
   /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedInMs?: number;
+  elapsedMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
   error?: KnowledgeBaseErrorDetail;
   /** A warning message surfacing potential configuration issues observed during the activity, such as documents dropped due to score thresholding, token limit truncation, or timeout conditions. */
@@ -1372,9 +1699,12 @@ export interface KnowledgeBaseActivityRecord {
 
 export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBaseActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
   };
@@ -1382,6 +1712,7 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
 
 /** Alias for KnowledgeBaseActivityRecordUnion */
 export type KnowledgeBaseActivityRecordUnion =
+  | KnowledgeBaseGraphSearchActivityRecord
   | KnowledgeBaseSearchIndexActivityRecord
   | KnowledgeBaseAzureBlobActivityRecord
   | KnowledgeBaseIndexedSharePointActivityRecord
@@ -1404,6 +1735,11 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
   switch (item["type"]) {
+    case "graphSearch":
+      return knowledgeBaseGraphSearchActivityRecordDeserializer(
+        item as KnowledgeBaseGraphSearchActivityRecord,
+      );
+
     case "searchIndex":
       return knowledgeBaseSearchIndexActivityRecordDeserializer(
         item as KnowledgeBaseSearchIndexActivityRecord,
@@ -1487,6 +1823,8 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
 
 /** The type of activity record. */
 export enum KnownKnowledgeBaseActivityRecordType {
+  /** Graph retrieval over a graph-enabled knowledge source. */
+  GraphSearch = "graphSearch",
   /** Search index retrieval activity. */
   SearchIndex = "searchIndex",
   /** Azure Blob retrieval activity. */
@@ -1526,6 +1864,7 @@ export enum KnownKnowledgeBaseActivityRecordType {
  * {@link KnownKnowledgeBaseActivityRecordType} can be used interchangeably with KnowledgeBaseActivityRecordType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **graphSearch**: Graph retrieval over a graph-enabled knowledge source. \
  * **searchIndex**: Search index retrieval activity. \
  * **azureBlob**: Azure Blob retrieval activity. \
  * **indexedSharePoint**: Indexed SharePoint retrieval activity. \
@@ -1604,7 +1943,134 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** A graph retrieval activity over an existing graph-enabled knowledge source. */
+export interface KnowledgeBaseGraphSearchActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** Statistics about image serving for this retrieval activity */
+  imageServing?: ImageServingStatistics;
+  /** The discriminator value. */
+  type: "graphSearch";
+  /** Graph query generation and execution details for this activity. */
+  graphSearchArguments?: KnowledgeBaseGraphSearchActivityArguments;
+}
+
+export function knowledgeBaseGraphSearchActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseGraphSearchActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    warning: item["warning"],
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    imageServing: !item["imageServing"]
+      ? item["imageServing"]
+      : imageServingStatisticsDeserializer(item["imageServing"]),
+    graphSearchArguments: !item["graphSearchArguments"]
+      ? item["graphSearchArguments"]
+      : knowledgeBaseGraphSearchActivityArgumentsDeserializer(item["graphSearchArguments"]),
+  };
+}
+
+/** Statistics about image serving during a retrieval activity. */
+export interface ImageServingStatistics {
+  /** The number of images retrieved from the asset store. */
+  imagesRetrieved?: number;
+  /** The number of images sent to the downstream model. */
+  imagesSentToModel?: number;
+  /** The total size in bytes of images sent to the model. */
+  totalImageSizeBytes?: number;
+  /** Indicates whether image verbalization was used instead of direct image serving. */
+  verbalizationUsed?: boolean;
+  /** The set of images the model selected to be served to the downstream model for this retrieval activity. */
+  servedImages?: ServedImage[];
+}
+
+export function imageServingStatisticsDeserializer(item: any): ImageServingStatistics {
+  return {
+    imagesRetrieved: item["imagesRetrieved"],
+    imagesSentToModel: item["imagesSentToModel"],
+    totalImageSizeBytes: item["totalImageSizeBytes"],
+    verbalizationUsed: item["verbalizationUsed"],
+    servedImages: !item["servedImages"]
+      ? item["servedImages"]
+      : servedImageArrayDeserializer(item["servedImages"]),
+  };
+}
+
+export function servedImageArrayDeserializer(result: Array<ServedImage>): any[] {
+  return result.map((item) => {
+    return servedImageDeserializer(item);
+  });
+}
+
+/** Describes a single image that the model selected to be served during a retrieval activity. */
+export interface ServedImage {
+  /** The image label extracted from the source document by Content Understanding enrichment. Corresponds to the figure numbering in the original document. */
+  imageId?: string;
+  /** The relative path to the image within the asset store. */
+  imagePath: string;
+  /** The size in bytes of this image as sent to the model. */
+  sizeBytes: number;
+}
+
+export function servedImageDeserializer(item: any): ServedImage {
+  return {
+    imageId: item["imageId"],
+    imagePath: item["imagePath"],
+    sizeBytes: item["sizeBytes"],
+  };
+}
+
+/** Natural-language graph request, generated-query visibility, and model usage for an activity. */
+export interface KnowledgeBaseGraphSearchActivityArguments {
+  /** Natural-language query submitted to graph retrieval for this activity. */
+  naturalLanguageQuery?: string;
+  /** Graph index queried by this activity. */
+  graphIndexName?: string;
+  /** Generated GQL, returned only when graphParameters.includeQuery is true. */
+  gql?: string;
+  /** Reported outcome of the graph query loop, such as Success. */
+  outcome?: string;
+  /** Query generation/execution attempts made by the graph loop. */
+  attempts?: number;
+  /** Input tokens consumed by graph query generation. */
+  inputTokens?: number;
+  /** Output tokens consumed by graph query generation. */
+  outputTokens?: number;
+  /** Elapsed graph model-call time in milliseconds. */
+  modelElapsedMs?: number;
+  /** Model name reported for graph query generation. */
+  modelName?: string;
+}
+
+export function knowledgeBaseGraphSearchActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseGraphSearchActivityArguments {
+  return {
+    naturalLanguageQuery: item["naturalLanguageQuery"],
+    graphIndexName: item["graphIndexName"],
+    gql: item["gql"],
+    outcome: item["outcome"],
+    attempts: item["attempts"],
+    inputTokens: item["inputTokens"],
+    outputTokens: item["outputTokens"],
+    modelElapsedMs: item["modelElapsedMs"],
+    modelName: item["modelName"],
   };
 }
 
@@ -1622,15 +2088,20 @@ export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseAct
   type: "searchIndex";
   /** The search index arguments for the retrieval activity. */
   searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
+  /** Details about the expressions generated from query hints for this activity. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
 }
 
 export function knowledgeBaseSearchIndexActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseSearchIndexActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1642,27 +2113,9 @@ export function knowledgeBaseSearchIndexActivityRecordDeserializer(
     searchIndexArguments: !item["searchIndexArguments"]
       ? item["searchIndexArguments"]
       : knowledgeBaseSearchIndexActivityArgumentsDeserializer(item["searchIndexArguments"]),
-  };
-}
-
-/** Statistics about image serving during a retrieval activity. */
-export interface ImageServingStatistics {
-  /** The number of images retrieved from the asset store. */
-  imagesRetrieved?: number;
-  /** The number of images sent to the downstream model. */
-  imagesSentToModel?: number;
-  /** The total size in bytes of images sent to the model. */
-  totalImageSizeBytes?: number;
-  /** Indicates whether image verbalization was used instead of direct image serving. */
-  verbalizationUsed?: boolean;
-}
-
-export function imageServingStatisticsDeserializer(item: any): ImageServingStatistics {
-  return {
-    imagesRetrieved: item["imagesRetrieved"],
-    imagesSentToModel: item["imagesSentToModel"],
-    totalImageSizeBytes: item["totalImageSizeBytes"],
-    verbalizationUsed: item["verbalizationUsed"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
   };
 }
 
@@ -1678,6 +2131,8 @@ export interface KnowledgeBaseSearchIndexActivityArguments {
   searchFields?: SearchIndexFieldReference[];
   /** What semantic configuration was used from the search index. */
   semanticConfigurationName?: string;
+  /** The query syntax used to execute the search. Query hints can cause semantic queries to use full query syntax. */
+  queryType?: QueryType;
 }
 
 export function knowledgeBaseSearchIndexActivityArgumentsDeserializer(
@@ -1693,11 +2148,31 @@ export function knowledgeBaseSearchIndexActivityArgumentsDeserializer(
       ? item["searchFields"]
       : searchIndexFieldReferenceArrayDeserializer(item["searchFields"]),
     semanticConfigurationName: item["semanticConfigurationName"],
+    queryType: item["queryType"],
+  };
+}
+
+/** Details about the expressions generated from query hints for a retrieval activity. */
+export interface KnowledgeBaseQueryHintProcessing {
+  /** The search clause generated from boost hints for this activity. */
+  generatedBoost?: string;
+  /** The filter expression generated from filter hints for this activity. */
+  generatedFilter?: string;
+}
+
+export function knowledgeBaseQueryHintProcessingDeserializer(
+  item: any,
+): KnowledgeBaseQueryHintProcessing {
+  return {
+    generatedBoost: item["generatedBoost"],
+    generatedFilter: item["generatedFilter"],
   };
 }
 
 /** Represents a azure blob retrieval activity record. */
 export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -1716,9 +2191,15 @@ export function knowledgeBaseAzureBlobActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseAzureBlobActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1749,6 +2230,8 @@ export function knowledgeBaseAzureBlobActivityArgumentsDeserializer(
 
 /** Represents a indexed SharePoint retrieval activity record. */
 export interface KnowledgeBaseIndexedSharePointActivityRecord extends KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -1767,9 +2250,15 @@ export function knowledgeBaseIndexedSharePointActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseIndexedSharePointActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1802,6 +2291,8 @@ export function knowledgeBaseIndexedSharePointActivityArgumentsDeserializer(
 
 /** Represents a indexed OneLake retrieval activity record. */
 export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -1820,9 +2311,15 @@ export function knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseIndexedOneLakeActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1871,9 +2368,12 @@ export function knowledgeBaseWebActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseWebActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1934,9 +2434,12 @@ export function knowledgeBaseRemoteSharePointActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseRemoteSharePointActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -1990,9 +2493,12 @@ export function knowledgeBaseWorkIQActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseWorkIQActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2041,9 +2547,12 @@ export function knowledgeBaseFabricDataAgentActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseFabricDataAgentActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2092,9 +2601,12 @@ export function knowledgeBaseFabricOntologyActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseFabricOntologyActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2143,9 +2655,12 @@ export function knowledgeBaseMcpServerActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseMcpServerActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2183,6 +2698,8 @@ export function knowledgeBaseMcpServerActivityArgumentsDeserializer(
 
 /** Represents a File retrieval activity record. */
 export interface KnowledgeBaseFileActivityRecord extends KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -2201,9 +2718,15 @@ export function knowledgeBaseFileActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseFileActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2234,6 +2757,8 @@ export function knowledgeBaseFileActivityArgumentsDeserializer(
 
 /** Represents an indexed SQL retrieval activity record. */
 export interface KnowledgeBaseIndexedSqlActivityRecord extends KnowledgeBaseActivityRecord {
+  /** Retained for compatibility with earlier preview API versions. */
+  queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -2252,9 +2777,15 @@ export function knowledgeBaseIndexedSqlActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseIndexedSqlActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
+    queryHintProcessing: !item["queryHintProcessing"]
+      ? item["queryHintProcessing"]
+      : knowledgeBaseQueryHintProcessingDeserializer(item["queryHintProcessing"]),
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     knowledgeSourceName: item["knowledgeSourceName"],
@@ -2291,22 +2822,46 @@ export interface KnowledgeBaseModelQueryPlanningActivityRecord extends Knowledge
   inputTokens?: number;
   /** The number of output tokens for the LLM query planning activity. */
   outputTokens?: number;
-  /** The name of the model used for the LLM query planning activity. */
-  modelName?: string;
+  /** The model used for the LLM query planning activity. */
+  model?: KnowledgeBaseActivityRecordModel;
 }
 
 export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseModelQueryPlanningActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
+    model: !item["model"]
+      ? item["model"]
+      : knowledgeBaseActivityRecordModelDeserializer(item["model"]),
+  };
+}
+
+/** Represents the model used for a knowledge base LLM activity, including its model name and deployment identifier. */
+export interface KnowledgeBaseActivityRecordModel {
+  /** Retained for compatibility with earlier preview API versions. */
+  elapsedInMs?: number;
+  /** The name of the model used for the activity. */
+  modelName: string;
+  /** The deployment identifier of the model used for the activity. */
+  deploymentId?: string;
+}
+
+export function knowledgeBaseActivityRecordModelDeserializer(
+  item: any,
+): KnowledgeBaseActivityRecordModel {
+  return {
     modelName: item["modelName"],
+    deploymentId: item["deploymentId"],
   };
 }
 
@@ -2318,22 +2873,27 @@ export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends Knowled
   inputTokens?: number;
   /** The number of output tokens for the LLM answer synthesis activity. */
   outputTokens?: number;
-  /** The name of the model used for the LLM answer synthesis activity. */
-  modelName?: string;
+  /** The model used for the LLM answer synthesis activity. */
+  model?: KnowledgeBaseActivityRecordModel;
 }
 
 export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseModelAnswerSynthesisActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokens: item["inputTokens"],
     outputTokens: item["outputTokens"],
-    modelName: item["modelName"],
+    model: !item["model"]
+      ? item["model"]
+      : knowledgeBaseActivityRecordModelDeserializer(item["model"]),
   };
 }
 
@@ -2345,22 +2905,27 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends Knowle
   inputTokensCount?: number;
   /** The number of output tokens for the LLM web summarization activity. */
   outputTokensCount?: number;
-  /** The name of the model used for the LLM web summarization activity. */
-  modelName?: string;
+  /** The model used for the LLM web summarization activity. */
+  model?: KnowledgeBaseActivityRecordModel;
 }
 
 export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseModelWebSummarizationActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokensCount: item["inputTokens"],
     outputTokensCount: item["outputTokens"],
-    modelName: item["modelName"],
+    model: !item["model"]
+      ? item["model"]
+      : knowledgeBaseActivityRecordModelDeserializer(item["model"]),
   };
 }
 
@@ -2372,21 +2937,29 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBa
   reasoningTokens?: number;
   /** The retrieval reasoning effort configuration. */
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  /** The logical reasoning effort requested by the customer. This is distinct from `retrievalReasoningEffort`, which reports the reasoning effort used for billing. */
+  logicalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   item: any,
 ): KnowledgeBaseAgenticReasoningActivityRecord {
   return {
+    elapsedInMs: item["elapsedMs"],
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
+    logicalReasoningEffort: !item["logicalReasoningEffort"]
+      ? item["logicalReasoningEffort"]
+      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["logicalReasoningEffort"]),
   };
 }
 
@@ -2401,7 +2974,7 @@ export function knowledgeBaseReferenceUnionArrayDeserializer(
 /** Base type for references. */
 export interface KnowledgeBaseReference {
   /** The type of the reference. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
+  /** The discriminator possible values: graphSearch, searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
   type: KnowledgeBaseReferenceType;
   /** The ID of the reference. */
   id: string;
@@ -2421,7 +2994,7 @@ export function knowledgeBaseReferenceDeserializer(item: any): KnowledgeBaseRefe
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
   };
@@ -2429,6 +3002,7 @@ export function knowledgeBaseReferenceDeserializer(item: any): KnowledgeBaseRefe
 
 /** Alias for KnowledgeBaseReferenceUnion */
 export type KnowledgeBaseReferenceUnion =
+  | KnowledgeBaseGraphSearchReference
   | KnowledgeBaseSearchIndexReference
   | KnowledgeBaseAzureBlobReference
   | KnowledgeBaseIndexedSharePointReference
@@ -2445,6 +3019,11 @@ export type KnowledgeBaseReferenceUnion =
 
 export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
   switch (item["type"]) {
+    case "graphSearch":
+      return knowledgeBaseGraphSearchReferenceDeserializer(
+        item as KnowledgeBaseGraphSearchReference,
+      );
+
     case "searchIndex":
       return knowledgeBaseSearchIndexReferenceDeserializer(
         item as KnowledgeBaseSearchIndexReference,
@@ -2500,6 +3079,8 @@ export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBas
 
 /** The type of reference. */
 export enum KnownKnowledgeBaseReferenceType {
+  /** Graph result or hydrated graph-source document reference. */
+  GraphSearch = "graphSearch",
   /** Search index document reference. */
   SearchIndex = "searchIndex",
   /** Azure Blob document reference. */
@@ -2531,6 +3112,7 @@ export enum KnownKnowledgeBaseReferenceType {
  * {@link KnownKnowledgeBaseReferenceType} can be used interchangeably with KnowledgeBaseReferenceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **graphSearch**: Graph result or hydrated graph-source document reference. \
  * **searchIndex**: Search index document reference. \
  * **azureBlob**: Azure Blob document reference. \
  * **indexedSharePoint**: Indexed SharePoint document reference. \
@@ -2546,6 +3128,31 @@ export enum KnownKnowledgeBaseReferenceType {
  */
 export type KnowledgeBaseReferenceType = string;
 
+/** A graph result or a hydrated source document returned by graph-based knowledge retrieval. */
+export interface KnowledgeBaseGraphSearchReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "graphSearch";
+  /** Graph index that produced the result or source-document evidence. */
+  graphIndexName?: string;
+}
+
+export function knowledgeBaseGraphSearchReferenceDeserializer(
+  item: any,
+): KnowledgeBaseGraphSearchReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    graphIndexName: item["graphIndexName"],
+  };
+}
+
 /** Represents an Azure Search document reference. */
 export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReference {
   /** The discriminator value. */
@@ -2554,6 +3161,8 @@ export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReferenc
   docKey?: string;
   /** The sensitivity label information for the reference. */
   searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseSearchIndexReferenceDeserializer(
@@ -2566,13 +3175,14 @@ export function knowledgeBaseSearchIndexReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docKey: item["docKey"],
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
       : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+    citationUrl: item["citationUrl"],
   };
 }
 
@@ -2611,6 +3221,8 @@ export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference 
   blobUrl?: string;
   /** The sensitivity label information for the reference. */
   searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseAzureBlobReferenceDeserializer(
@@ -2623,13 +3235,14 @@ export function knowledgeBaseAzureBlobReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     blobUrl: item["blobUrl"],
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
       : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+    citationUrl: item["citationUrl"],
   };
 }
 
@@ -2641,6 +3254,8 @@ export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseRe
   docUrl?: string;
   /** The sensitivity label information for the reference. */
   searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseIndexedSharePointReferenceDeserializer(
@@ -2660,6 +3275,7 @@ export function knowledgeBaseIndexedSharePointReferenceDeserializer(
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
       : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+    citationUrl: item["citationUrl"],
   };
 }
 
@@ -2671,6 +3287,8 @@ export interface KnowledgeBaseIndexedOneLakeReference extends KnowledgeBaseRefer
   docUrl?: string;
   /** The sensitivity label information for the reference. */
   searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseIndexedOneLakeReferenceDeserializer(
@@ -2683,13 +3301,14 @@ export function knowledgeBaseIndexedOneLakeReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docUrl: item["docUrl"],
     searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
       ? item["searchSensitivityLabelInfo"]
       : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
+    citationUrl: item["citationUrl"],
   };
 }
 
@@ -2711,7 +3330,7 @@ export function knowledgeBaseWebReferenceDeserializer(item: any): KnowledgeBaseW
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     url: item["url"],
@@ -2753,8 +3372,8 @@ export function knowledgeBaseRemoteSharePointReferenceDeserializer(
 export interface KnowledgeBaseWorkIQReference extends KnowledgeBaseReference {
   /** The discriminator value. */
   type: "workIQ";
-  /** The attributions for the reference. */
-  attributions?: WorkIQAttribution[];
+  /** The sensitivity label information for the reference. */
+  searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
 
 export function knowledgeBaseWorkIQReferenceDeserializer(item: any): KnowledgeBaseWorkIQReference {
@@ -2768,27 +3387,9 @@ export function knowledgeBaseWorkIQReferenceDeserializer(item: any): KnowledgeBa
           Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
-    attributions: !item["attributions"]
-      ? item["attributions"]
-      : workIQAttributionArrayDeserializer(item["attributions"]),
-  };
-}
-
-export function workIQAttributionArrayDeserializer(result: Array<WorkIQAttribution>): any[] {
-  return result.map((item) => {
-    return workIQAttributionDeserializer(item);
-  });
-}
-
-/** Attribution information for a WorkIQ reference. */
-export interface WorkIQAttribution {
-  /** The URL for the attribution. */
-  seeMoreWebUrl?: string;
-}
-
-export function workIQAttributionDeserializer(item: any): WorkIQAttribution {
-  return {
-    seeMoreWebUrl: item["seeMoreWebUrl"],
+    searchSensitivityLabelInfo: !item["searchSensitivityLabelInfo"]
+      ? item["searchSensitivityLabelInfo"]
+      : purviewSensitivityLabelInfoDeserializer(item["searchSensitivityLabelInfo"]),
   };
 }
 
@@ -2868,7 +3469,7 @@ export function knowledgeBaseMcpServerReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     toolName: item["toolName"],
@@ -2882,6 +3483,8 @@ export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
   type: "file";
   /** The document name for the reference. */
   docName?: string;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseFileReferenceDeserializer(item: any): KnowledgeBaseFileReference {
@@ -2892,10 +3495,11 @@ export function knowledgeBaseFileReferenceDeserializer(item: any): KnowledgeBase
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docName: item["docName"],
+    citationUrl: item["citationUrl"],
   };
 }
 
@@ -2905,6 +3509,8 @@ export interface KnowledgeBaseIndexedSqlReference extends KnowledgeBaseReference
   type: "indexedSql";
   /** The document URL for the reference. */
   docUrl?: string;
+  /** A Search-owned URL that points at the backing document for this reference, usable as a citation target. */
+  citationUrl?: string;
 }
 
 export function knowledgeBaseIndexedSqlReferenceDeserializer(
@@ -2917,9 +3523,234 @@ export function knowledgeBaseIndexedSqlReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docUrl: item["docUrl"],
+    citationUrl: item["citationUrl"],
   };
 }
+
+/** Emitted after retrieval preflight validation completes. */
+export interface KnowledgeBaseRetrievalStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The retrieval-started payload. */
+  value: KnowledgeBaseRetrievalStartedEvent;
+}
+
+export function knowledgeBaseRetrievalStartedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStartedStreamEvent {
+  return {
+    value: knowledgeBaseRetrievalStartedEventDeserializer(item["value"]),
+  };
+}
+
+/** Emitted once retrieval preflight validation completes, before any activity begins. */
+export interface KnowledgeBaseRetrievalStartedEvent {
+  /** A service-generated identifier that correlates all events in this retrieval stream. */
+  requestId: string;
+  /** The name of the knowledge base being queried. */
+  knowledgeBaseName: string;
+  /** The effective output mode for this retrieval. */
+  outputMode: KnowledgeRetrievalOutputMode;
+  /** The effective reasoning effort for this retrieval. */
+  reasoningEffort: KnowledgeRetrievalReasoningEffortUnion;
+}
+
+export function knowledgeBaseRetrievalStartedEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStartedEvent {
+  return {
+    requestId: item["requestId"],
+    knowledgeBaseName: item["knowledgeBaseName"],
+    outputMode: item["outputMode"],
+    reasoningEffort: knowledgeRetrievalReasoningEffortUnionDeserializer(item["reasoningEffort"]),
+  };
+}
+
+/** Common base for events emitted by a streaming knowledge base retrieval. */
+export interface KnowledgeBaseRetrievalStreamEvent {}
+
+export function knowledgeBaseRetrievalStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStreamEvent {
+  return item;
+}
+
+/** Emitted when an individual retrieval activity starts. */
+export interface KnowledgeBaseActivityStartedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The activity-started payload. */
+  value: KnowledgeBaseActivityStartedEvent;
+}
+
+export function knowledgeBaseActivityStartedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityStartedStreamEvent {
+  return {
+    value: knowledgeBaseActivityStartedEventDeserializer(item["value"]),
+  };
+}
+
+/** Emitted immediately before an individual retrieval activity begins executing. */
+export interface KnowledgeBaseActivityStartedEvent {
+  /** The ID of the activity record, matching the `id` on the corresponding `activity.completed` event. */
+  id: number;
+  /** The type of the activity that has started. */
+  type: KnowledgeBaseActivityRecordType;
+  /** The time at which the activity started. */
+  startedAt: Date;
+  /** The knowledge source used by the activity, when the activity targets a knowledge source. */
+  knowledgeSourceName?: string;
+}
+
+export function knowledgeBaseActivityStartedEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityStartedEvent {
+  return {
+    id: item["id"],
+    type: item["type"],
+    startedAt: new Date(item["startedAt"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+  };
+}
+
+/** Emitted when an individual retrieval activity completes. */
+export interface KnowledgeBaseActivityCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The completed activity record. */
+  value: KnowledgeBaseActivityRecordUnion;
+}
+
+export function knowledgeBaseActivityCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityCompletedStreamEvent {
+  return {
+    value: knowledgeBaseActivityRecordUnionDeserializer(item["value"]),
+  };
+}
+
+/** Emitted when an answer message is complete. */
+export interface KnowledgeBaseAnswerCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The completed answer payload. */
+  value: KnowledgeBaseAnswerCompletedEvent;
+}
+
+export function knowledgeBaseAnswerCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseAnswerCompletedStreamEvent {
+  return {
+    value: knowledgeBaseAnswerCompletedEventDeserializer(item["value"]),
+  };
+}
+
+/** Emitted when a fully validated and post-processed synthesized answer is available. */
+export interface KnowledgeBaseAnswerCompletedEvent {
+  /** The zero-based index of the completed message in the final response array. */
+  messageIndex: number;
+  /** The completed answer message. */
+  message: KnowledgeBaseMessage;
+}
+
+export function knowledgeBaseAnswerCompletedEventDeserializer(
+  item: any,
+): KnowledgeBaseAnswerCompletedEvent {
+  return {
+    messageIndex: item["messageIndex"],
+    message: knowledgeBaseMessageDeserializer(item["message"]),
+  };
+}
+
+/** Emitted when the references used by the response are available. */
+export interface KnowledgeBaseReferencesCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The references used to produce the response. */
+  value: KnowledgeBaseReferenceUnion[];
+}
+
+export function knowledgeBaseReferencesCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseReferencesCompletedStreamEvent {
+  return {
+    value: knowledgeBaseReferenceUnionArrayDeserializer(item["value"]),
+  };
+}
+
+/** Emitted when retrieval fails after the stream starts. */
+export interface KnowledgeBaseErrorStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The retrieval error payload. */
+  value: KnowledgeBaseStreamErrorEvent;
+}
+
+export function knowledgeBaseErrorStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseErrorStreamEvent {
+  return {
+    value: knowledgeBaseStreamErrorEventDeserializer(item["value"]),
+  };
+}
+
+/** Emitted in place of `response.completed` if retrieval fails after the stream starts. */
+export interface KnowledgeBaseStreamErrorEvent {
+  /** The error detail explaining why the retrieval stream failed. */
+  error: KnowledgeBaseErrorDetail;
+  /** Activity records that completed before the retrieval failed. */
+  activity?: KnowledgeBaseActivityRecordUnion[];
+}
+
+export function knowledgeBaseStreamErrorEventDeserializer(
+  item: any,
+): KnowledgeBaseStreamErrorEvent {
+  return {
+    error: knowledgeBaseErrorDetailDeserializer(item["error"]),
+    activity: !item["activity"]
+      ? item["activity"]
+      : knowledgeBaseActivityRecordUnionArrayDeserializer(item["activity"]),
+  };
+}
+
+/** Emitted when retrieval completes successfully or with partial results. */
+export interface KnowledgeBaseResponseCompletedStreamEvent extends KnowledgeBaseRetrievalStreamEvent {
+  /** The authoritative completed retrieval payload. */
+  value: KnowledgeBaseResponseCompletedEvent;
+}
+
+export function knowledgeBaseResponseCompletedStreamEventDeserializer(
+  item: any,
+): KnowledgeBaseResponseCompletedStreamEvent {
+  return {
+    value: knowledgeBaseResponseCompletedEventDeserializer(item["value"]),
+  };
+}
+
+/** Emitted after retrieval completes successfully. */
+export interface KnowledgeBaseResponseCompletedEvent {
+  /** The semantic HTTP status of the completed retrieval. */
+  statusCode: KnowledgeBaseRetrievalStatusCode;
+  /** The authoritative completed retrieval response. */
+  response: KnowledgeBaseRetrievalResponse;
+}
+
+export function knowledgeBaseResponseCompletedEventDeserializer(
+  item: any,
+): KnowledgeBaseResponseCompletedEvent {
+  return {
+    statusCode: item["statusCode"],
+    response: knowledgeBaseRetrievalResponseDeserializer(item["response"]),
+  };
+}
+
+/** The semantic HTTP status of a completed streaming retrieval. */
+export enum KnownKnowledgeBaseRetrievalStatusCode {
+  /** The retrieval completed successfully. */
+  OK = 200,
+  /** The retrieval completed with partial results. */
+  PartialContent = 206,
+}
+
+/**
+ * The semantic HTTP status of a completed streaming retrieval. \
+ * {@link KnownKnowledgeBaseRetrievalStatusCode} can be used interchangeably with KnowledgeBaseRetrievalStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **200**: The retrieval completed successfully. \
+ * **206**: The retrieval completed with partial results.
+ */
+export type KnowledgeBaseRetrievalStatusCode = number;

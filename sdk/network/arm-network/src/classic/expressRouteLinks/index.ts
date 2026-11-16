@@ -7,7 +7,7 @@ import type {
   ExpressRouteLinksListOptionalParams,
   ExpressRouteLinksGetOptionalParams,
 } from "../../api/expressRouteLinks/options.js";
-import type { ExpressRouteLink } from "../../models/microsoft/network/models.js";
+import type { ExpressRouteLink } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExpressRouteLinks operations. */

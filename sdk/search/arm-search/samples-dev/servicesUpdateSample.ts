@@ -8,15 +8,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateService.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateService.json
  */
 async function searchUpdateService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
     replicaCount: 2,
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -25,16 +25,16 @@ async function searchUpdateService(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceAuthOptions.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceAuthOptions.json
  */
 async function searchUpdateServiceAuthOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
-    replicaCount: 2,
     authOptions: { aadOrApiKey: { aadAuthFailureMode: "http401WithBearerChallenge" } },
+    replicaCount: 2,
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -43,16 +43,16 @@ async function searchUpdateServiceAuthOptions(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceDisableLocalAuth.json
  */
 async function searchUpdateServiceDisableLocalAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
-    replicaCount: 2,
     disableLocalAuth: true,
+    replicaCount: 2,
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -61,16 +61,16 @@ async function searchUpdateServiceDisableLocalAuth(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    replicaCount: 1,
     partitionCount: 1,
     publicNetworkAccess: "Disabled",
+    replicaCount: 1,
   });
   console.log(result);
 }
@@ -79,20 +79,17 @@ async function searchUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<v
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    replicaCount: 3,
+    networkRuleSet: { ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }] },
     partitionCount: 1,
     publicNetworkAccess: "Enabled",
-    networkRuleSet: {
-      ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
-      bypass: "None",
-    },
+    replicaCount: 3,
   });
   console.log(result);
 }
@@ -101,20 +98,20 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<vo
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    replicaCount: 3,
+    networkRuleSet: {
+      bypass: "AzureServices",
+      ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
+    },
     partitionCount: 1,
     publicNetworkAccess: "Enabled",
-    networkRuleSet: {
-      ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
-      bypass: "AzurePortal",
-    },
+    replicaCount: 3,
   });
   console.log(result);
 }
@@ -123,15 +120,15 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): P
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceToRemoveIdentity.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceToRemoveIdentity.json
  */
 async function searchUpdateServiceToRemoveIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    sku: { name: "standard" },
     identity: { type: "None" },
+    sku: { name: "standard" },
   });
   console.log(result);
 }
@@ -140,16 +137,16 @@ async function searchUpdateServiceToRemoveIdentity(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceWithCmkEnforcement.json
  */
 async function searchUpdateServiceWithCmkEnforcement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
-    replicaCount: 2,
     encryptionWithCmk: { enforcement: "Enabled" },
+    replicaCount: 2,
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -158,16 +155,16 @@ async function searchUpdateServiceWithCmkEnforcement(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithDataExfiltration.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceWithDataExfiltration.json
  */
 async function searchUpdateServiceWithDataExfiltration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
-    replicaCount: 2,
     dataExfiltrationProtections: ["BlockAll"],
+    replicaCount: 2,
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -176,7 +173,7 @@ async function searchUpdateServiceWithDataExfiltration(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithKnowledgeRetrieval.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceWithKnowledgeRetrieval.json
  */
 async function searchUpdateServiceWithKnowledgeRetrieval(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -194,16 +191,16 @@ async function searchUpdateServiceWithKnowledgeRetrieval(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithSemanticSearch.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceWithSemanticSearch.json
  */
 async function searchUpdateServiceWithSemanticSearch(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
     replicaCount: 2,
     semanticSearch: "standard",
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }
@@ -212,15 +209,15 @@ async function searchUpdateServiceWithSemanticSearch(): Promise<void> {
  * This sample demonstrates how to updates an existing search service in the given resource group.
  *
  * @summary updates an existing search service in the given resource group.
- * x-ms-original-file: 2026-03-01-preview/SearchUpdateServiceWithSku.json
+ * x-ms-original-file: 2026-11-01/SearchUpdateServiceWithSku.json
  */
 async function searchUpdateServiceWithSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.update("rg1", "mysearchservice", {
-    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
     sku: { name: "standard2" },
+    tags: { "app-name": "My e-commerce app", "new-tag": "Adding a new tag" },
   });
   console.log(result);
 }

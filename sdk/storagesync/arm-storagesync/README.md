@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagesync/arm-storagesync)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storagesync)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storagesync?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storagesync)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagesync/arm-storagesync/samples)
 
 ## Getting started

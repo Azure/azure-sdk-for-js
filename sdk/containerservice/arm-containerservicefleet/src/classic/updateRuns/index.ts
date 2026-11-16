@@ -77,6 +77,7 @@ export interface UpdateRunsOperations {
     options?: UpdateRunsGetOptionalParams,
   ) => Promise<UpdateRun>;
 }
+
 function _getUpdateRuns(context: ContainerServiceFleetContext) {
   return {
     skip: (
@@ -124,6 +125,7 @@ function _getUpdateRuns(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, updateRunName, options),
   };
 }
+
 export function _getUpdateRunsOperations(
   context: ContainerServiceFleetContext,
 ): UpdateRunsOperations {

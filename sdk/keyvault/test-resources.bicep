@@ -1,4 +1,4 @@
-param hsmLocation string = 'australiaeast'
+param hsmLocation string = resourceGroup().location
 
 param baseName string = resourceGroup().name
 param tenantId string = '72f988bf-86f1-41af-91ab-2d7cd011db47'
@@ -35,9 +35,12 @@ var networkAcls = {
 var managedIdentityName = '${baseName}-managedIdentity'
 var managedIdentityId = managedIdentity.id
 
-resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = if (enableHsm) {
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = if (enableHsm) {
   name: managedIdentityName
   location: location
+  properties: {
+    isolationScope: 'Regional'
+  }
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {

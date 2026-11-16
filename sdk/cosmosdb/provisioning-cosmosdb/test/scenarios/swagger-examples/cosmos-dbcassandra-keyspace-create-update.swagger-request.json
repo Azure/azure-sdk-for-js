@@ -1,0 +1,10 @@
+{
+  "location": "West US",
+  "tags": {},
+  "properties": {
+    "resource": {
+      "id": "keyspaceName"
+    },
+    "options": {}
+  }
+}

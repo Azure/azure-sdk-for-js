@@ -59,6 +59,7 @@ export interface ElasticBackupVaultsOperations {
     options?: ElasticBackupVaultsGetOptionalParams,
   ) => Promise<ElasticBackupVault>;
 }
+
 function _getElasticBackupVaults(context: NetAppManagementContext) {
   return {
     listByElasticAccount: (
@@ -94,6 +95,7 @@ function _getElasticBackupVaults(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, backupVaultName, options),
   };
 }
+
 export function _getElasticBackupVaultsOperations(
   context: NetAppManagementContext,
 ): ElasticBackupVaultsOperations {

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
 import type {
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
@@ -27,8 +28,13 @@ import {
   _analyzeDeserialize,
   _analyzeBinarySend,
   _analyzeBinaryDeserialize,
+  _analyzeInlineSend,
+  _analyzeInlineDeserialize,
+  _analyzeBinaryInlineSend,
+  _analyzeBinaryInlineDeserialize,
 } from "./api/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
+import { RestError } from "@azure/core-rest-pipeline";
 import type {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
@@ -67,6 +73,7 @@ import { logger } from "./logger.js";
 export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 import type { ProcessingLocation } from "./models/models.js";
+import { KnownVersions } from "./models/index.js";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `stringEncoding` from the public API.
 // `stringEncoding` is always 'utf16' internally to ensure span offsets align with JavaScript's UTF-16 string operations.
@@ -81,16 +88,56 @@ export interface AnalyzeOptionalParams extends OperationOptions {
   modelDeployments?: Record<string, string>;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. */
+  allowInputTruncation?: boolean;
 }
 
 /** Optional parameters for the analyzeBinary operation. */
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /**
+   * MIME type of the binary input (for example `application/pdf`, `image/jpeg`, `audio/mpeg`).
+   * Defaults to `application/octet-stream` when omitted; the service infers the payload
+   * format when the default is used.
+   */
+  contentType?: string;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
   contentRange?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. */
+  allowInputTruncation?: boolean;
+}
+
+// CUSTOMIZATION: SDK-IMPROVEMENT: Public option types for the inline analyze operations.
+// Same shape as the LRO variants above, minus `updateIntervalInMs` (inline is synchronous — no polling).
+// `stringEncoding` is intentionally omitted from the public API; the client always injects "utf16".
+
+/** Optional parameters for the analyzeInline operation. */
+export interface AnalyzeInlineOptionalParams extends OperationOptions {
+  /** Override default mapping of model names to deployments. */
+  modelDeployments?: Record<string, string>;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this request. */
+  allowInputTruncation?: boolean;
+}
+
+/** Optional parameters for the analyzeBinaryInline operation. */
+export interface AnalyzeBinaryInlineOptionalParams extends OperationOptions {
+  /**
+   * MIME type of the binary input (for example `application/pdf`, `image/jpeg`, `audio/mpeg`).
+   * Defaults to `application/octet-stream` when omitted; the service infers the payload
+   * format when the default is used.
+   */
+  contentType?: string;
+  /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
+  contentRange?: string;
+  /** The location where the data may be processed. Defaults to global. */
+  processingLocation?: ProcessingLocation;
+  /** Overrides the analyzer's allowInputTruncation setting for this input. */
+  allowInputTruncation?: boolean;
 }
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom operation state and poller types.
@@ -125,20 +172,22 @@ export class ContentUnderstandingClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  // CUSTOMIZATION: EMITTER-FIX: Renamed 'endpointParam' to 'endpoint' for clarity and consistency.
-  // The emitter generates 'endpointParam' but 'endpoint' is the standard name.
+  // CUSTOMIZATION: EMITTER-FIX: Renamed 'endpointParam' to 'endpoint' for clarity and consistency
+  // with the rest of the SDK. The emitter generates 'endpointParam' but 'endpoint' is the
+  // standard name across other Azure SDK client constructors.
+  // CUSTOMIZATION: DEFAULT-API-VERSION: Default the client context's `apiVersion` to the
+  // preview version. The generated `operations.ts` also falls back to the same value on the
+  // wire, but explicitly setting it on the context means `client._client.apiVersion` reflects
+  // the actual version in effect at construction time — useful for tests, logging, and
+  // per-request version routing.
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
     options: ContentUnderstandingClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
     this._client = createContentUnderstanding(endpoint, credential, {
       ...options,
-      userAgentOptions: { userAgentPrefix },
+      apiVersion: options?.apiVersion ?? KnownVersions.V20260601Preview,
     });
     this.pipeline = this._client.pipeline;
   }
@@ -256,18 +305,96 @@ export class ContentUnderstandingClient {
     return copyAnalyzer(this._client, analyzerId, sourceAnalyzerId, options);
   }
 
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeBinary` method with:
-  // 1. `contentType` has default "application/octet-stream" (EMITTER-FIX: TypeSpec defines this default but emitter doesn't generate it)
-  // 2. Uses custom option type that hides `stringEncoding`
-  // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
-  // 4. Exposes `operationId` on the returned poller for result retrieval
-  /** Extract content and fields from input. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Redesigned `analyzeBinary` public shape.
+  // Prior stable design was `(analyzerId, binaryInput, contentType?, options?)`, which
+  // forced callers to pass `undefined` positionally just to reach the options bag and was
+  // inconsistent with `analyze` / `analyzeInline` / `analyzeBinaryInline`. The preferred
+  // shape is now `(analyzerId, binaryInput, options?)` with `contentType?` inside
+  // `AnalyzeBinaryOptionalParams`, matching the other three convenience methods.
+  //
+  // Because `analyzeBinary` was released in the stable GA surface, the prior positional
+  // form is preserved as a `@deprecated` public overload for backward compatibility. The
+  // single runtime implementation contains an adapter branch that recognizes the deprecated
+  // call shape, validates it (throws `TypeError` on conflicting `contentType` values), and
+  // normalizes it into the preferred shape by recursing.
+  //
+  // Additional customizations preserved from the previous design:
+  //   1. `contentType` has default "application/octet-stream" (EMITTER-FIX: TypeSpec defines
+  //      this default but the emitter does not generate it).
+  //   2. Uses public option types that hide `stringEncoding`.
+  //   3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility.
+  //   4. Exposes `operationId` on the returned poller for result retrieval.
+
+  /**
+   * Extract content and fields from binary input.
+   *
+   * @param analyzerId - The analyzer to use (e.g. `"prebuilt-documentSearch"`).
+   * @param binaryInput - The raw bytes to analyze.
+   * @param options - Optional operation parameters, including `contentType` (MIME type),
+   *                  `contentRange`, `allowInputTruncation`, `updateIntervalInMs`, etc.
+   */
   analyzeBinary(
     analyzerId: string,
     binaryInput: Uint8Array,
-    contentType: string = "application/octet-stream",
-    options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
+    options?: AnalyzeBinaryOptionalParams,
+  ): AnalysisResultPoller;
+  /**
+   * Extract content and fields from binary input (deprecated positional shape).
+   *
+   * @deprecated Prefer the options-bag overload
+   *   `analyzeBinary(analyzerId, binaryInput, { contentType, ... })`. When both this
+   *   positional argument and `options.contentType` are provided with different values,
+   *   a `TypeError` is thrown before any request is sent.
+   */
+  analyzeBinary(
+    analyzerId: string,
+    binaryInput: Uint8Array,
+    contentType: string | undefined,
+    options?: AnalyzeBinaryOptionalParams,
+  ): AnalysisResultPoller;
+  analyzeBinary(
+    analyzerId: string,
+    binaryInput: Uint8Array,
+    optionsOrContentType?: AnalyzeBinaryOptionalParams | string,
+    legacyOptions?: AnalyzeBinaryOptionalParams,
   ): AnalysisResultPoller {
+    // Adapter branch: detect the deprecated positional call shape, validate it, and
+    // normalize to the preferred options-bag shape by recursing. The recursion terminates
+    // because the recursive call passes an object as argument three and no argument four,
+    // so it re-enters the canonical path below.
+    const usesDeprecatedOverload =
+      typeof optionsOrContentType === "string" || legacyOptions !== undefined;
+
+    if (usesDeprecatedOverload) {
+      const positionalContentType =
+        typeof optionsOrContentType === "string" ? optionsOrContentType : undefined;
+
+      if (
+        positionalContentType !== undefined &&
+        legacyOptions?.contentType !== undefined &&
+        positionalContentType !== legacyOptions.contentType
+      ) {
+        throw new TypeError(
+          `analyzeBinary received conflicting \`contentType\` values: positional ` +
+            `${JSON.stringify(positionalContentType)} vs. options.contentType ` +
+            `${JSON.stringify(legacyOptions.contentType)}. Pass \`contentType\` in the ` +
+            `options bag only.`,
+        );
+      }
+
+      return this.analyzeBinary(analyzerId, binaryInput, {
+        ...legacyOptions,
+        contentType: legacyOptions?.contentType ?? positionalContentType,
+      });
+    }
+
+    // Canonical path: only the preferred options-bag design below.
+    const options: AnalyzeBinaryOptionalParams = (optionsOrContentType as
+      AnalyzeBinaryOptionalParams | undefined) ?? {
+      requestOptions: {},
+    };
+    const contentType = options.contentType ?? "application/octet-stream";
+
     let operationId: string | undefined;
     let usage: UsageDetails | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
@@ -294,7 +421,15 @@ export class ContentUnderstandingClient {
           logger.warning("Failed to deserialize usage details from analyze response", e);
         }
       }
-      return _analyzeBinaryDeserialize(result);
+      const analysisResult = await _analyzeBinaryDeserialize(result);
+      // CUSTOMIZATION: SDK-IMPROVEMENT: Also attach usage on the AnalysisResult so
+      // callers get uniform access via `result.usage`
+      // AnalyzeOperationExtensions.GetUsageDetails()). Kept in addition to the
+      // AnalysisOperationState.usage getter for backward compatibility.
+      if (usage) {
+        analysisResult.usage = usage;
+      }
+      return analysisResult;
     };
 
     const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
@@ -370,7 +505,15 @@ export class ContentUnderstandingClient {
           logger.warning("Failed to deserialize usage details from analyze response", e);
         }
       }
-      return _analyzeDeserialize(result);
+      const analysisResult = await _analyzeDeserialize(result);
+      // CUSTOMIZATION: SDK-IMPROVEMENT: Also attach usage on the AnalysisResult so
+      // callers get uniform access via `result.usage`
+      // AnalyzeOperationExtensions.GetUsageDetails()). Kept in addition to the
+      // AnalysisOperationState.usage getter for backward compatibility.
+      if (usage) {
+        analysisResult.usage = usage;
+      }
+      return analysisResult;
     };
 
     const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
@@ -407,5 +550,144 @@ export class ContentUnderstandingClient {
     });
 
     return poller;
+  }
+
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeInline` method.
+  // Mirrors `analyze`, but the service returns the AnalysisResult inline in the response body
+  // (HTTP 200) instead of starting a long-running operation. No poller is returned.
+  // As with `analyze`, `stringEncoding: "utf16"` is always injected internally to ensure
+  // span offsets align with JavaScript's UTF-16 string operations.
+  // Envelope unwrap: the envelope is unwrapped so callers receive `AnalysisResult` directly —
+  // matching the LRO pattern (poller.pollUntilDone() also returns AnalysisResult). The full
+  // ContentAnalyzerInlineResponse envelope is still available via the api-layer
+  // `analyzeInline` helper for advanced use.
+  //
+  // Fail-fast: the service returns HTTP 200 even when the inline operation ends in
+  // Failed/Canceled state, so we check `envelope.status` here and throw a `RestError`
+  // rather than silently returning a partial `AnalysisResult`.
+  /**
+   * Extract content and fields from input inline (synchronous, no polling).
+   *
+   * @param analyzerId - The analyzer to use (e.g. `"prebuilt-layout"`).
+   * @param inputs - The URL-based inputs to analyze.
+   * @param options - Optional operation parameters.
+   * @returns The analysis result returned directly by the service.
+   *
+   * @remarks Available only when the client is configured for service API version `2026-06-01-preview`.
+   */
+  async analyzeInline(
+    analyzerId: string,
+    inputs: AnalysisInput[],
+    options: AnalyzeInlineOptionalParams = { requestOptions: {} },
+  ): Promise<AnalysisResult> {
+    const response = await _analyzeInlineSend(this._client, analyzerId, inputs, {
+      ...options,
+      stringEncoding: "utf16",
+    });
+    // Deserializer guard: The generated `contentAnalyzerInlineResponseDeserializer` eagerly
+    // deserializes `body.result` even when it is missing (which is the case on a
+    // Failed/Canceled inline operation). Check the raw envelope's status FIRST so we
+    // can throw a well-formed `RestError` before the deserializer crashes on a null
+    // `result`. Only when the operation truly succeeded do we run the deserializer.
+    //
+    // HTTP-status check: Before checking the envelope-level `body.status`, check the HTTP status
+    // code. A 4xx/5xx response body is a service error envelope (`{ error: {...} }`),
+    // not the inline analyze envelope, so `body.status` would be `undefined` and we
+    // would mislabel the failure as "InlineAnalyzeOperationFailed" while dropping the
+    // real HTTP status and service error code. `createRestError` produces a `RestError`
+    // that carries `statusCode`, the service `code`, and the parsed error body —
+    // matching what customers get from the LRO analyze convenience method.
+    if (response.status !== "200") {
+      throw createRestError(response);
+    }
+    const bodyStatus = (response.body as { status?: string } | undefined)?.status;
+    if (bodyStatus !== "Succeeded") {
+      throw new RestError(
+        `Inline analyze operation did not succeed. Operation state: ${bodyStatus}.`,
+        { code: "InlineAnalyzeOperationFailed" },
+      );
+    }
+    const envelope = await _analyzeInlineDeserialize(response);
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Attach envelope-level `usage` onto the result so
+    // callers get uniform access via `result.usage`
+    // AnalyzeOperationExtensions.GetUsageDetails() on Response<AnalysisResult>).
+    if (envelope.usage) {
+      envelope.result.usage = envelope.usage;
+    }
+    return envelope.result;
+  }
+
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeBinaryInline`
+  // method. Mirrors `analyzeBinary`, but the service returns the AnalysisResult inline in
+  // the response body (HTTP 200) instead of starting a long-running operation. No poller
+  // is returned.
+  //
+  // Options-bag-only shape: `analyzeBinaryInline` is new in the `2026-06-01-preview` surface and has no
+  // stable-compatibility constraint, so it exposes only the preferred options-bag shape
+  // `(analyzerId, binaryInput, options?)`. There is no deprecated positional overload:
+  // `contentType?` lives inside `AnalyzeBinaryInlineOptionalParams` from day one, matching
+  // `analyze` / `analyzeInline` and the preferred overload of `analyzeBinary`.
+  //
+  // As with `analyzeBinary`, `stringEncoding: "utf16"` is always injected internally, and
+  // `contentType` has a default of "application/octet-stream" (EMITTER-FIX parity).
+  // Envelope unwrap: envelope is unwrapped — see analyzeInline above for rationale.
+  //
+  // Fail-fast: same reasoning as `analyzeInline` — throw a `RestError` when the inline
+  // operation state is not Succeeded rather than returning a partial `AnalysisResult`.
+  /**
+   * Extract content and fields from binary input inline (synchronous, no polling).
+   *
+   * @param analyzerId - The analyzer to use (e.g. `"prebuilt-layout"`).
+   * @param binaryInput - The raw bytes to analyze.
+   * @param options - Optional operation parameters, including `contentType` (MIME type),
+   *                  `contentRange`, `allowInputTruncation`, etc.
+   * @returns The analysis result returned directly by the service.
+   *
+   * @remarks Available only when the client is configured for service API version `2026-06-01-preview`.
+   */
+  async analyzeBinaryInline(
+    analyzerId: string,
+    binaryInput: Uint8Array,
+    options: AnalyzeBinaryInlineOptionalParams = { requestOptions: {} },
+  ): Promise<AnalysisResult> {
+    const contentType = options.contentType ?? "application/octet-stream";
+    const response = await _analyzeBinaryInlineSend(
+      this._client,
+      analyzerId,
+      binaryInput,
+      contentType,
+      {
+        ...options,
+        stringEncoding: "utf16",
+      },
+    );
+    // Deserializer guard: See analyzeInline above — status check must happen against the
+    // raw envelope BEFORE deserialization to avoid TypeError on a missing `result`
+    // field when the operation ends in Failed/Canceled.
+    //
+    // HTTP-status check: Also see analyzeInline. If the service returns 4xx/5xx (for example a
+    // 400 InvalidRequest with `innererror.code = "InputPageCountExceeded"` when the
+    // inline 5-page limit is exceeded), the response body is an error envelope, not
+    // the inline analyze envelope. Delegate to `createRestError` so the caller
+    // receives a `RestError` with the real HTTP status code and service error code
+    // instead of a generic "InlineAnalyzeOperationFailed" wrapper.
+    if (response.status !== "200") {
+      throw createRestError(response);
+    }
+    const bodyStatus = (response.body as { status?: string } | undefined)?.status;
+    if (bodyStatus !== "Succeeded") {
+      throw new RestError(
+        `Inline analyze operation did not succeed. Operation state: ${bodyStatus}.`,
+        { code: "InlineAnalyzeOperationFailed" },
+      );
+    }
+    const envelope = await _analyzeBinaryInlineDeserialize(response);
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Attach envelope-level `usage` onto the result so
+    // callers get uniform access via `result.usage`
+    // AnalyzeOperationExtensions.GetUsageDetails() on Response<AnalysisResult>).
+    if (envelope.usage) {
+      envelope.result.usage = envelope.usage;
+    }
+    return envelope.result;
   }
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Fleet.
  *
  * @summary gets a Fleet.
- * x-ms-original-file: 2026-06-01/Fleets_Get.json
+ * x-ms-original-file: 2026-11-01/Fleets_Get.json
  */
 async function getsAFleetResource() {
   const credential = new DefaultAzureCredential();

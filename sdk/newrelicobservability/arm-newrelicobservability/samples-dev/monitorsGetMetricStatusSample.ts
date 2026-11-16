@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the metric status that are configured in the New Relic monitor resource
  *
  * @summary retrieves the metric status that are configured in the New Relic monitor resource
- * x-ms-original-file: 2025-05-01-preview/Monitors_GetMetricStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_GetMetricStatus_MaximumSet_Gen.json
  */
 async function monitorsGetMetricStatusMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function monitorsGetMetricStatusMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to retrieves the metric status that are configured in the New Relic monitor resource
  *
  * @summary retrieves the metric status that are configured in the New Relic monitor resource
- * x-ms-original-file: 2025-05-01-preview/Monitors_GetMetricStatus_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_GetMetricStatus_MinimumSet_Gen.json
  */
 async function monitorsGetMetricStatusMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

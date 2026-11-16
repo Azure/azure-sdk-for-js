@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the ingestion key for all monitors linked to the same account associated to the underlying monitor.
  *
  * @summary refreshes the ingestion key for all monitors linked to the same account associated to the underlying monitor.
- * x-ms-original-file: 2025-05-01-preview/Monitors_RefreshIngestionKey.json
+ * x-ms-original-file: 2026-06-01/Monitors_RefreshIngestionKey.json
  */
 async function monitorsRefreshIngestionKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

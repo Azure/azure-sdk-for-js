@@ -31,47 +31,51 @@ export type AccessKeyType = "Primary" | "Secondary";
 // @public
 export interface AccessPolicyAssignment extends ProxyResource {
     accessPolicyName?: string;
+    accessString?: string;
+    readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
     readonly provisioningState?: ProvisioningState;
     user?: AccessPolicyAssignmentPropertiesUser;
 }
 
 // @public
-export interface AccessPolicyAssignmentCreateUpdateOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsCreateUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AccessPolicyAssignmentDeleteOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AccessPolicyAssignmentGetOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessPolicyAssignmentListOptionalParams extends OperationOptions {
+export interface AccessPolicyAssignmentOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccessPolicyAssignmentOperations {
+export interface AccessPolicyAssignmentOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
+    beginCreateUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
     // @deprecated (undocumented)
-    beginCreateUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<AccessPolicyAssignment>;
+    beginCreateUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => Promise<AccessPolicyAssignment>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<void>;
-    createUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
-    delete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentGetOptionalParams) => Promise<AccessPolicyAssignment>;
-    list: (resourceGroupName: string, clusterName: string, databaseName: string, options?: AccessPolicyAssignmentListOptionalParams) => PagedAsyncIterableIterator<AccessPolicyAssignment>;
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => Promise<void>;
+    createUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentOperationsCreateUpdateOptionalParams) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
+    delete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentOperationsGetOptionalParams) => Promise<AccessPolicyAssignment>;
+    list: (resourceGroupName: string, clusterName: string, databaseName: string, options?: AccessPolicyAssignmentOperationsListOptionalParams) => PagedAsyncIterableIterator<AccessPolicyAssignment>;
 }
 
 // @public
 export interface AccessPolicyAssignmentProperties {
-    accessPolicyName: string;
+    accessPolicyName?: string;
+    accessString?: string;
+    readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
     readonly provisioningState?: ProvisioningState;
     user: AccessPolicyAssignmentPropertiesUser;
 }
@@ -79,6 +83,13 @@ export interface AccessPolicyAssignmentProperties {
 // @public
 export interface AccessPolicyAssignmentPropertiesUser {
     objectId?: string;
+}
+
+// @public
+export interface AccessPolicyAssignmentProvisioningError {
+    code: string;
+    message: string;
+    target?: string;
 }
 
 // @public
@@ -109,6 +120,7 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 // @public
 export interface Cluster extends TrackedResource {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -129,6 +141,7 @@ export interface Cluster extends TrackedResource {
 // @public
 export interface ClusterCommonProperties {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     maintenanceConfiguration?: MaintenanceConfiguration;
@@ -167,8 +180,23 @@ export interface ClusterCreateProperties extends ClusterCommonProperties {
 export type ClusteringPolicy = string;
 
 // @public
+export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginUnlinkMigratedEndpoint: (resourceGroupName: string, clusterName: string, options?: ClustersUnlinkMigratedEndpointOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUnlinkMigratedEndpointAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersUnlinkMigratedEndpointOptionalParams) => Promise<void>;
+    unlinkMigratedEndpoint: (resourceGroupName: string, clusterName: string, options?: ClustersUnlinkMigratedEndpointOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface ClustersUnlinkMigratedEndpointOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ClusterUpdate {
     encryption?: ClusterCommonPropertiesEncryption;
+    firewallRules?: FirewallRule[];
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -420,6 +448,12 @@ export interface ExportClusterParameters {
 }
 
 // @public
+export interface FirewallRule {
+    name: string;
+    sourceAddressPrefix: string;
+}
+
+// @public
 export interface FlushParameters {
     ids?: string[];
 }
@@ -563,7 +597,10 @@ export enum KnownMigrationProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     ReadyForDnsSwitch = "ReadyForDnsSwitch",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Unlinked = "Unlinked",
+    UnlinkFailed = "UnlinkFailed",
+    Unlinking = "Unlinking"
 }
 
 // @public
@@ -717,7 +754,11 @@ export enum KnownTlsVersion {
 // @public
 export enum KnownVersions {
     V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview"
+    V20260201Preview = "2026-02-01-preview",
+    V20260501Preview = "2026-05-01-preview",
+    V20260601Preview = "2026-06-01-preview",
+    V20260901 = "2026-09-01",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
@@ -770,39 +811,11 @@ export interface Migration extends ProxyResource {
 }
 
 // @public
-export interface MigrationCancelOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MigrationGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MigrationListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MigrationOperations {
-    // @deprecated (undocumented)
-    beginCancel: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginCancelAndWait: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginStart: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationStartOptionalParams) => Promise<SimplePollerLike<OperationState<Migration>, Migration>>;
-    // @deprecated (undocumented)
-    beginStartAndWait: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationStartOptionalParams) => Promise<Migration>;
-    cancel: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, options?: MigrationGetOptionalParams) => Promise<Migration>;
-    list: (resourceGroupName: string, clusterName: string, options?: MigrationListOptionalParams) => PagedAsyncIterableIterator<Migration>;
-    start: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationStartOptionalParams) => PollerLike<OperationState<Migration>, Migration>;
-}
-
-// @public
 export interface MigrationProperties {
     readonly creationTime?: Date;
     readonly lastModifiedTime?: Date;
     readonly provisioningState?: MigrationProvisioningState;
+    readonly rollbackEligibleUntil?: Date;
     sourceType: SourceType;
     readonly statusDetails?: string;
     readonly targetResourceId?: string;
@@ -815,17 +828,61 @@ export type MigrationPropertiesUnion = AzureCacheForRedisMigrationProperties | M
 export type MigrationProvisioningState = string;
 
 // @public
+export type MigrationRollbackReason = "performance" | "compatibility" | "clientConnection" | "cost" | "testing" | "stability" | "dataLoss" | "other";
+
+// @public
+export interface MigrationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MigrationsListOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface MigrationsOperations {
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationsStartOptionalParams) => Promise<SimplePollerLike<OperationState<Migration>, Migration>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationsStartOptionalParams) => Promise<Migration>;
+    // @deprecated (undocumented)
+    beginUndo: (resourceGroupName: string, clusterName: string, options?: MigrationsUndoOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUndoAndWait: (resourceGroupName: string, clusterName: string, options?: MigrationsUndoOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUnlinkMigratedEndpoint: (resourceGroupName: string, clusterName: string, options?: MigrationsUnlinkMigratedEndpointOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUnlinkMigratedEndpointAndWait: (resourceGroupName: string, clusterName: string, options?: MigrationsUnlinkMigratedEndpointOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, clusterName: string, options?: MigrationsGetOptionalParams) => Promise<Migration>;
+    list: (resourceGroupName: string, clusterName: string, options?: MigrationsListOptionalParams) => PagedAsyncIterableIterator<Migration>;
+    start: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationsStartOptionalParams) => PollerLike<OperationState<Migration>, Migration>;
+    undo: (resourceGroupName: string, clusterName: string, options?: MigrationsUndoOptionalParams) => PollerLike<OperationState<void>, void>;
+    unlinkMigratedEndpoint: (resourceGroupName: string, clusterName: string, options?: MigrationsUnlinkMigratedEndpointOptionalParams) => PollerLike<OperationState<void>, void>;
     validate: (resourceGroupName: string, clusterName: string, body: MigrationValidationRequest, options?: MigrationsValidateOptionalParams) => Promise<MigrationValidationResponse>;
 }
 
 // @public
-export interface MigrationStartOptionalParams extends OperationOptions {
+export interface MigrationsStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MigrationsUndoOptionalParams extends OperationOptions {
+    body?: MigrationUndoRequest;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MigrationsUnlinkMigratedEndpointOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface MigrationsValidateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MigrationUndoRequest {
+    rollbackReason?: MigrationRollbackReason;
 }
 
 // @public
@@ -841,7 +898,6 @@ export interface MigrationValidationError {
 
 // @public
 export interface MigrationValidationRequest {
-    forceMigrate?: boolean;
     skipDataMigration?: boolean;
     sourceResourceId: string;
 }
@@ -1069,9 +1125,9 @@ export interface RedisEnterpriseListSkusForScalingOptionalParams extends Operati
 // @public (undocumented)
 export class RedisEnterpriseManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: RedisEnterpriseManagementClientOptionalParams);
-    readonly accessPolicyAssignment: AccessPolicyAssignmentOperations;
+    readonly accessPolicyAssignmentOperations: AccessPolicyAssignmentOperationsOperations;
+    readonly clusters: ClustersOperations;
     readonly databases: DatabasesOperations;
-    readonly migration: MigrationOperations;
     readonly migrations: MigrationsOperations;
     readonly operations: OperationsOperations;
     readonly operationsStatus: OperationsStatusOperations;

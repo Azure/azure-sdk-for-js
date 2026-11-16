@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listByVirtualMachineInstance,
   $delete,
   create,
   get,
 } from "../../api/guestAgents/operations.js";
-import {
+import type {
   GuestAgentsListByVirtualMachineInstanceOptionalParams,
   GuestAgentsDeleteOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsGetOptionalParams,
 } from "../../api/guestAgents/options.js";
-import { GuestAgent } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GuestAgent } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GuestAgents operations. */
 export interface GuestAgentsOperations {
@@ -26,11 +26,6 @@ export interface GuestAgentsOperations {
     options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
   ) => PagedAsyncIterableIterator<GuestAgent>;
   /** Implements GuestAgent DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     options?: GuestAgentsDeleteOptionalParams,

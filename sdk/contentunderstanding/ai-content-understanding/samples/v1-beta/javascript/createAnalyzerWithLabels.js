@@ -106,7 +106,6 @@ async function main() {
   // Step 2: Resolve training data SAS URL
   // You can either provide a pre-generated SAS URL (Option A) or let the sample
   // upload local label files and generate one automatically (Option B).
-  // See Sample16_CreateAnalyzerWithLabels.md for manual upload instructions.
   // Option A: use a pre-generated SAS URL with Read + List permissions
   let trainingDataSasUrl = process.env["CONTENTUNDERSTANDING_TRAINING_DATA_SAS_URL"];
 
@@ -185,7 +184,7 @@ async function main() {
     config,
     fieldSchema,
     models: {
-      completion: "gpt-4.1",
+      completion: "gpt-5.2",
       embedding: "text-embedding-3-large",
     },
     knowledgeSources,
@@ -208,7 +207,7 @@ async function main() {
     // Assets folder is at ../assets relative to samples/v1/javascript or samples/v1/typescript
     const sampleInvoicePath = path.join("..", "..", "assets", "sample_invoice.pdf");
     const sampleInvoiceBytes = fs.readFileSync(sampleInvoicePath);
-    const analyzePoller = client.analyzeBinary(analyzerId, sampleInvoiceBytes, "application/pdf");
+    const analyzePoller = client.analyzeBinary(analyzerId, sampleInvoiceBytes);
     const analyzeResult = await analyzePoller.pollUntilDone();
     console.log("Analysis completed!");
 

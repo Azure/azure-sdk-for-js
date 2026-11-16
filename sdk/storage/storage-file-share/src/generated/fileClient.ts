@@ -22,14 +22,7 @@ export class FileClient {
     credential: TokenCredential,
     options: FileClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createFile(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createFile(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.share = _getShareOperations(this._client);
     this.service = _getServiceOperations(this._client);

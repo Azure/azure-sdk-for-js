@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Java Component in a Managed Environment.
  *
  * @summary creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_CreateOrUpdate.json
  */
 async function createOrUpdateJavaComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createOrUpdateJavaComponent(): Promise<void> {
  * This sample demonstrates how to creates or updates a Java Component in a Managed Environment.
  *
  * @summary creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/JavaComponents_CreateOrUpdate_ServiceBind.json
+ * x-ms-original-file: 2026-07-01/JavaComponents_CreateOrUpdate_ServiceBind.json
  */
 async function createOrUpdateJavaComponentWithServiceBinds(): Promise<void> {
   const credential = new DefaultAzureCredential();

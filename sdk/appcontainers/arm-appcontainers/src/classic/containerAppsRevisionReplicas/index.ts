@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import { listReplicas, getReplica } from "../../api/containerAppsRevisionReplicas/operations.js";
-import {
+import type {
   ContainerAppsRevisionReplicasListReplicasOptionalParams,
   ContainerAppsRevisionReplicasGetReplicaOptionalParams,
 } from "../../api/containerAppsRevisionReplicas/options.js";
-import { Replica, ReplicaCollection } from "../../models/models.js";
+import type { Replica, ReplicaCollection } from "../../models/models.js";
 
 /** Interface representing a ContainerAppsRevisionReplicas operations. */
 export interface ContainerAppsRevisionReplicasOperations {

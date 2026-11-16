@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,7 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetExtensionListResultDeserializer(result.body);
 }
+
 /** Gets a list of all extensions in a VM scale set. */
 export function list(
   context: Client,
@@ -80,7 +81,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vmScaleSetName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -98,7 +99,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       vmssExtensionName: vmssExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,6 +121,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete the extension. */
 export function $delete(
   context: Client,
@@ -134,7 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmScaleSetName, vmssExtensionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +155,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       vmssExtensionName: vmssExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,6 +184,7 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
+
 /** The operation to update an extension. */
 export function update(
   context: Client,
@@ -204,7 +207,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetExtension>,
     VirtualMachineScaleSetExtension
@@ -226,7 +229,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       vmssExtensionName: vmssExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +258,7 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
+
 /** The operation to create or update an extension. */
 export function createOrUpdate(
   context: Client,
@@ -277,7 +281,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<
     OperationState<VirtualMachineScaleSetExtension>,
     VirtualMachineScaleSetExtension
@@ -298,7 +302,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       vmssExtensionName: vmssExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -326,6 +330,7 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
+
 /** The operation to get the extension. */
 export async function get(
   context: Client,

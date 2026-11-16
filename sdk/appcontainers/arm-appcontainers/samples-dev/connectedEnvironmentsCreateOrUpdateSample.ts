@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an connectedEnvironment.
  *
  * @summary creates or updates an connectedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironments_CreateOrUpdate.json
  */
 async function createKubeEnvironments(): Promise<void> {
   const credential = new DefaultAzureCredential();

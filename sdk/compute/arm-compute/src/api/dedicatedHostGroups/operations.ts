@@ -36,7 +36,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/hostGroups{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,6 +63,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _dedicatedHostGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups. */
 export function listBySubscription(
   context: Client,
@@ -73,7 +74,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -87,7 +88,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,6 +115,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _dedicatedHostGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups. */
 export function listByResourceGroup(
   context: Client,
@@ -125,7 +127,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -141,7 +143,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,6 +165,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a dedicated host group. */
 export async function $delete(
   context: Client,
@@ -187,7 +190,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,6 +219,7 @@ export async function _updateDeserialize(
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Update an dedicated host group. */
 export async function update(
   context: Client,
@@ -241,7 +245,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,6 +274,7 @@ export async function _createOrUpdateDeserialize(
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596) */
 export async function createOrUpdate(
   context: Client,
@@ -300,7 +305,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -326,6 +331,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return dedicatedHostGroupDeserializer(result.body);
 }
+
 /** Retrieves information about a dedicated host group. */
 export async function get(
   context: Client,

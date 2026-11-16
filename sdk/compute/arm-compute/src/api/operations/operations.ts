@@ -19,7 +19,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Compute/operations{?api%2Dversion}",
     {
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,6 +46,7 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
+
 /** List the operations for the provider */
 export function list(
   context: Client,
@@ -56,6 +57,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }

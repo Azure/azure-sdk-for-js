@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list TransitHubResource resources by subscription ID
  *
  * @summary list TransitHubResource resources by subscription ID
- * x-ms-original-file: 2026-03-01-preview/TransitHub_ListBySubscription.json
+ * x-ms-original-file: 2026-04-01/TransitHub_ListBySubscription.json
  */
 async function transitHubListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

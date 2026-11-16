@@ -4,7 +4,10 @@
 import { afterEach, assert, describe, it } from "vitest";
 import nock from "nock";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
-import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../../src/Declarations/Constants.js";
+import {
+  ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
+  ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS,
+} from "../../src/Declarations/Constants.js";
 
 describe("OneSettings utils", () => {
   const host = "https://settings.example.test";
@@ -87,6 +90,16 @@ describe("OneSettings utils", () => {
         assert.strictEqual(response.refreshIntervalMs, ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS);
       },
     );
+
+    it("caps the refresh interval at the maximum supported value", async () => {
+      nock(host)
+        .get(path)
+        .reply(200, JSON.stringify({ settings: {} }), { "x-ms-onesetinterval": "1000000" });
+
+      const response = await makeOneSettingsRequest(url);
+
+      assert.strictEqual(response.refreshIntervalMs, ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS);
+    });
 
     it("sends provided query parameters and headers", async () => {
       const scope = nock(host, { reqheaders: { "if-none-match": '"etag-1"' } })

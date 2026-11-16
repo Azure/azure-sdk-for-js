@@ -1,0 +1,34 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "quotaTier": {
+          "bicepIdentifier": "quotaTier",
+          "type": "Microsoft.CognitiveServices/quotaTiers",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "tierUpgradePolicy": {
+                    "kind": "string",
+                    "value": "OnceUpgradeIsAvailable"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

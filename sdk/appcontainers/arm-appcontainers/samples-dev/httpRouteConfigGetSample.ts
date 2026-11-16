@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified Managed Http Route Config.
  *
  * @summary get the specified Managed Http Route Config.
- * x-ms-original-file: 2025-10-02-preview/HttpRouteConfig_Get.json
+ * x-ms-original-file: 2026-07-01/HttpRouteConfig_Get.json
  */
 async function getHttpRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();

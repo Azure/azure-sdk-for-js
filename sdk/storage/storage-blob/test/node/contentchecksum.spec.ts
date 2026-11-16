@@ -22,11 +22,14 @@ import type {
   BlobServiceClient,
 } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
+import {
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+} from "../../src/utils/constants.js";
 import { streamToBuffer, streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
   let containerName: string;
@@ -55,6 +58,10 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
         enable: true,
@@ -127,7 +134,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       }
     });
 
-    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
     try {
       // Try to get current response body to the buffer
@@ -228,6 +235,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20,
+      maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -289,6 +297,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
+        maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
       });
       assert.fail();
     } catch (err: any) {
@@ -330,6 +339,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
+        maxSingleShotSize: BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
         onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;

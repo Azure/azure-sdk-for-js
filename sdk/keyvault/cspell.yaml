@@ -3,12 +3,23 @@
 import:
   - ../../.vscode/cspell.json
 words:
+  - BYOK
+  - deletesas
   - Dversion
   - ECHSM
   - ekus
+  - getsas
+  - kvpublictest
+  - listsas
+  - mhsm
+  - mhsmip
   - OKPHSM
   - RSAHSM
   - RSNULL
   - SECG
   - SECP
+  - setsas
+  - subid
   - upns
+  - vitestconfigs
+  - Vnet

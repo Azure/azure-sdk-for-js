@@ -26,6 +26,7 @@ export interface NetAppResourceQuotaLimitsAccountOperations {
     options?: NetAppResourceQuotaLimitsAccountGetOptionalParams,
   ) => Promise<QuotaItem>;
 }
+
 function _getNetAppResourceQuotaLimitsAccount(context: NetAppManagementContext) {
   return {
     list: (
@@ -41,6 +42,7 @@ function _getNetAppResourceQuotaLimitsAccount(context: NetAppManagementContext) 
     ) => get(context, resourceGroupName, accountName, quotaLimitName, options),
   };
 }
+
 export function _getNetAppResourceQuotaLimitsAccountOperations(
   context: NetAppManagementContext,
 ): NetAppResourceQuotaLimitsAccountOperations {

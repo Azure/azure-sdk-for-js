@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the payload that needs to be passed in the request body for installing the New Relic agent on a VM, providing the necessary configuration details
  *
  * @summary returns the payload that needs to be passed in the request body for installing the New Relic agent on a VM, providing the necessary configuration details
- * x-ms-original-file: 2025-05-01-preview/Monitors_VmHostPayload_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_VmHostPayload_MaximumSet_Gen.json
  */
 async function monitorsVmHostPayloadMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function monitorsVmHostPayloadMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to returns the payload that needs to be passed in the request body for installing the New Relic agent on a VM, providing the necessary configuration details
  *
  * @summary returns the payload that needs to be passed in the request body for installing the New Relic agent on a VM, providing the necessary configuration details
- * x-ms-original-file: 2025-05-01-preview/Monitors_VmHostPayload_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_VmHostPayload_MinimumSet_Gen.json
  */
 async function monitorsVmHostPayloadMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

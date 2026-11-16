@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateFusionAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateFusionAlertRule.json
  */
 async function createsOrUpdatesAFusionAlertRule() {
   const credential = new DefaultAzureCredential();
@@ -156,7 +156,7 @@ async function createsOrUpdatesAFusionAlertRule() {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
  */
 async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
   const credential = new DefaultAzureCredential();
@@ -304,7 +304,7 @@ async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
   const credential = new DefaultAzureCredential();
@@ -329,7 +329,7 @@ async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateNrtAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateNrtAlertRule.json
  */
 async function createsOrUpdatesANrtAlertRule() {
   const credential = new DefaultAzureCredential();
@@ -372,7 +372,7 @@ async function createsOrUpdatesANrtAlertRule() {
  * This sample demonstrates how to creates or updates the alert rule.
  *
  * @summary creates or updates the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/CreateScheduledAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/CreateScheduledAlertRule.json
  */
 async function createsOrUpdatesAScheduledAlertRule() {
   const credential = new DefaultAzureCredential();

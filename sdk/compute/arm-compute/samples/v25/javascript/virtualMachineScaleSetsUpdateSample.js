@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a VM scale set.
  *
  * @summary update a VM scale set.
- * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -157,6 +157,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
                   deleteOption: "Delete",
                 },
                 privateIPAddressVersion: "IPv4",
+                privateIPAddressPrefixLength: 28,
                 applicationGatewayBackendAddressPools: [
                   {
                     id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
@@ -240,7 +241,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
  * This sample demonstrates how to update a VM scale set.
  *
  * @summary update a VM scale set.
- * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();

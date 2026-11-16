@@ -4,15 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AadConfiguration {
@@ -166,6 +168,12 @@ export interface AdministrativeCredentials {
 }
 
 // @public
+export interface AdministrativeCredentialsPatch {
+    password?: string;
+    username?: string;
+}
+
+// @public
 export interface AdministratorConfiguration {
     adminUsername?: string;
     sshPublicKeys?: SshPublicKey[];
@@ -195,7 +203,6 @@ export interface AgentPool extends TrackedResource {
     readonly detailedStatus?: AgentPoolDetailedStatus;
     readonly detailedStatusMessage?: string;
     readonly etag?: string;
-    // (undocumented)
     extendedLocation?: ExtendedLocation;
     readonly kubernetesVersion?: string;
     labels?: KubernetesLabel[];
@@ -402,6 +409,18 @@ export interface BareMetalMachineConfigurationData {
 }
 
 // @public
+export interface BareMetalMachineConfigurationDataPatch {
+    readonly bmcConnectionString?: string;
+    bmcCredentials?: AdministrativeCredentialsPatch;
+    bmcMacAddress?: string;
+    bootMacAddress?: string;
+    machineDetails?: string;
+    machineName?: string;
+    rackSlot?: number;
+    serialNumber?: string;
+}
+
+// @public
 export interface BareMetalMachineCordonParameters {
     evacuate?: BareMetalMachineEvacuate;
 }
@@ -533,16 +552,16 @@ export interface BareMetalMachineKeySetsUpdateOptionalParams extends OperationOp
 export type BareMetalMachineKeySetUserSetupStatus = string;
 
 // @public
-export type BareMetalMachineMetricsConfigurationStatusLogLevel = string;
-
-// @public
-export type BareMetalMachineMetricsConfigurationStatusMetricsLevel = string;
-
-// @public
 export interface BareMetalMachineMonitoringConfigurationStatus {
-    logLevel?: BareMetalMachineMetricsConfigurationStatusLogLevel;
-    metricsLevel?: BareMetalMachineMetricsConfigurationStatusMetricsLevel;
+    logLevel?: BareMetalMachineMonitoringConfigurationStatusLogLevel;
+    metricsLevel?: BareMetalMachineMonitoringConfigurationStatusMetricsLevel;
 }
+
+// @public
+export type BareMetalMachineMonitoringConfigurationStatusLogLevel = string;
+
+// @public
+export type BareMetalMachineMonitoringConfigurationStatusMetricsLevel = string;
 
 // @public
 export interface BareMetalMachinePatchParameters {
@@ -1384,35 +1403,35 @@ export type ClusterMetricsConfigurationProvisioningState = string;
 
 // @public
 export interface ClusterPatchParameters {
-    aggregatorOrSingleRackDefinition?: RackDefinition;
+    aggregatorOrSingleRackDefinition?: RackDefinitionPatch;
     analyticsOutputSettings?: AnalyticsOutputSettings;
     clusterLocation?: string;
-    clusterServicePrincipal?: ServicePrincipalInformation;
+    clusterServicePrincipal?: ServicePrincipalInformationPatch;
     commandOutputSettings?: CommandOutputSettings;
-    computeDeploymentThreshold?: ValidationThreshold;
-    computeRackDefinitions?: RackDefinition[];
+    computeDeploymentThreshold?: ValidationThresholdPatch;
+    computeRackDefinitions?: RackDefinitionPatch[];
     identity?: ManagedServiceIdentity;
-    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
-    secretArchive?: ClusterSecretArchive;
+    runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch;
+    secretArchive?: ClusterSecretArchivePatch;
     secretArchiveSettings?: SecretArchiveSettings;
     tags?: Record<string, string>;
-    updateStrategy?: ClusterUpdateStrategy;
+    updateStrategy?: ClusterUpdateStrategyPatch;
     vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
 
 // @public
 export interface ClusterPatchProperties {
-    aggregatorOrSingleRackDefinition?: RackDefinition;
+    aggregatorOrSingleRackDefinition?: RackDefinitionPatch;
     analyticsOutputSettings?: AnalyticsOutputSettings;
     clusterLocation?: string;
-    clusterServicePrincipal?: ServicePrincipalInformation;
+    clusterServicePrincipal?: ServicePrincipalInformationPatch;
     commandOutputSettings?: CommandOutputSettings;
-    computeDeploymentThreshold?: ValidationThreshold;
-    computeRackDefinitions?: RackDefinition[];
-    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
-    secretArchive?: ClusterSecretArchive;
+    computeDeploymentThreshold?: ValidationThresholdPatch;
+    computeRackDefinitions?: RackDefinitionPatch[];
+    runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch;
+    secretArchive?: ClusterSecretArchivePatch;
     secretArchiveSettings?: SecretArchiveSettings;
-    updateStrategy?: ClusterUpdateStrategy;
+    updateStrategy?: ClusterUpdateStrategyPatch;
     vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
 
@@ -1502,6 +1521,12 @@ export interface ClusterSecretArchive {
 
 // @public
 export type ClusterSecretArchiveEnabled = string;
+
+// @public
+export interface ClusterSecretArchivePatch {
+    keyVaultId?: string;
+    useKeyVault?: ClusterSecretArchiveEnabled;
+}
 
 // @public
 export interface ClustersGetOptionalParams extends OperationOptions {
@@ -1614,6 +1639,15 @@ export interface ClusterUpdateStrategy {
 }
 
 // @public
+export interface ClusterUpdateStrategyPatch {
+    maxUnavailable?: number;
+    strategyType?: ClusterUpdateStrategyType;
+    thresholdType?: ValidationThresholdType;
+    thresholdValue?: number;
+    waitTimeMinutes?: number;
+}
+
+// @public
 export type ClusterUpdateStrategyType = string;
 
 // @public
@@ -1667,7 +1701,7 @@ export type ConsoleEnabled = string;
 export interface ConsolePatchParameters {
     enabled?: ConsoleEnabled;
     expiration?: Date;
-    sshPublicKey?: SshPublicKey;
+    sshPublicKey?: SshPublicKeyPatch;
     tags?: Record<string, string>;
 }
 
@@ -1675,7 +1709,7 @@ export interface ConsolePatchParameters {
 export interface ConsolePatchProperties {
     enabled?: ConsoleEnabled;
     expiration?: Date;
-    sshPublicKey?: SshPublicKey;
+    sshPublicKey?: SshPublicKeyPatch;
 }
 
 // @public
@@ -1888,6 +1922,13 @@ export interface ImageRepositoryCredentials {
 }
 
 // @public
+export interface ImageRepositoryCredentialsPatch {
+    password?: string;
+    registryUrl?: string;
+    username?: string;
+}
+
+// @public
 export interface InitialAgentPoolConfiguration {
     administratorConfiguration?: AdministratorConfiguration;
     agentOptions?: AgentOptions;
@@ -1912,6 +1953,8 @@ export interface IpAddressPool {
 
 // @public
 export type IpAllocationType = string;
+
+export { isRestError }
 
 // @public
 export interface KeySetUser {
@@ -2059,13 +2102,13 @@ export enum KnownBareMetalMachineKeySetUserSetupStatus {
 }
 
 // @public
-export enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel {
+export enum KnownBareMetalMachineMonitoringConfigurationStatusLogLevel {
     Default = "Default",
     Nexus = "Nexus"
 }
 
 // @public
-export enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel {
+export enum KnownBareMetalMachineMonitoringConfigurationStatusMetricsLevel {
     Default = "Default",
     Nexus = "Nexus"
 }
@@ -2704,13 +2747,13 @@ export enum KnownStorageApplianceDetailedStatus {
 }
 
 // @public
-export enum KnownStorageApplianceMetricsConfigurationStatusLogLevel {
+export enum KnownStorageApplianceMonitoringConfigurationStatusLogLevel {
     Default = "Default",
     Nexus = "Nexus"
 }
 
 // @public
-export enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel {
+export enum KnownStorageApplianceMonitoringConfigurationStatusMetricsLevel {
     Default = "Default",
     Nexus = "Nexus"
 }
@@ -2761,8 +2804,7 @@ export enum KnownValidationThresholdType {
 // @public
 export enum KnownVersions {
     V20250901 = "2025-09-01",
-    V20260101Preview = "2026-01-01-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -3772,6 +3814,17 @@ export interface RackDefinition {
 }
 
 // @public
+export interface RackDefinitionPatch {
+    availabilityZone?: string;
+    bareMetalMachineConfigurationData?: BareMetalMachineConfigurationDataPatch[];
+    networkRackId?: string;
+    rackLocation?: string;
+    rackSerialNumber?: string;
+    rackSkuId?: string;
+    storageApplianceConfigurationData?: StorageApplianceConfigurationDataPatch[];
+}
+
+// @public
 export type RackDetailedStatus = string;
 
 // @public
@@ -3928,6 +3981,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetworkCloud, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -3946,6 +4001,12 @@ export type RuntimeProtectionAgentLicenseStatus = string;
 
 // @public
 export interface RuntimeProtectionConfiguration {
+    definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
+    enforcementLevel?: RuntimeProtectionEnforcementLevel;
+}
+
+// @public
+export interface RuntimeProtectionConfigurationPatch {
     definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
     enforcementLevel?: RuntimeProtectionEnforcementLevel;
 }
@@ -4019,6 +4080,14 @@ export interface ServicePrincipalInformation {
 }
 
 // @public
+export interface ServicePrincipalInformationPatch {
+    applicationId?: string;
+    password?: string;
+    principalId?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
     getOperationState(): TState;
     getResult(): TResult | undefined;
@@ -4046,6 +4115,11 @@ export type SkipShutdown = string;
 // @public
 export interface SshPublicKey {
     keyData: string;
+}
+
+// @public
+export interface SshPublicKeyPatch {
+    keyData?: string;
 }
 
 // @public
@@ -4102,6 +4176,14 @@ export interface StorageApplianceConfigurationData {
 }
 
 // @public
+export interface StorageApplianceConfigurationDataPatch {
+    adminCredentials?: AdministrativeCredentialsPatch;
+    rackSlot?: number;
+    serialNumber?: string;
+    storageApplianceName?: string;
+}
+
+// @public
 export type StorageApplianceDetailedStatus = string;
 
 // @public
@@ -4116,16 +4198,16 @@ export interface StorageApplianceExpansionShelf {
 }
 
 // @public
-export type StorageApplianceMetricsConfigurationStatusLogLevel = string;
-
-// @public
-export type StorageApplianceMetricsConfigurationStatusMetricsLevel = string;
-
-// @public
 export interface StorageApplianceMonitoringConfigurationStatus {
-    logLevel?: StorageApplianceMetricsConfigurationStatusLogLevel;
-    metricsLevel?: StorageApplianceMetricsConfigurationStatusMetricsLevel;
+    logLevel?: StorageApplianceMonitoringConfigurationStatusLogLevel;
+    metricsLevel?: StorageApplianceMonitoringConfigurationStatusMetricsLevel;
 }
+
+// @public
+export type StorageApplianceMonitoringConfigurationStatusLogLevel = string;
+
+// @public
+export type StorageApplianceMonitoringConfigurationStatusMetricsLevel = string;
 
 // @public
 export interface StorageAppliancePatchParameters {
@@ -4428,6 +4510,13 @@ export interface ValidationThreshold {
 export type ValidationThresholdGrouping = string;
 
 // @public
+export interface ValidationThresholdPatch {
+    grouping?: ValidationThresholdGrouping;
+    type?: ValidationThresholdType;
+    value?: number;
+}
+
+// @public
 export type ValidationThresholdType = string;
 
 // @public
@@ -4489,12 +4578,12 @@ export type VirtualMachineIsolateEmulatorThread = string;
 export interface VirtualMachinePatchParameters {
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
-    vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+    vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch;
 }
 
 // @public
 export interface VirtualMachinePatchProperties {
-    vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+    vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch;
 }
 
 // @public

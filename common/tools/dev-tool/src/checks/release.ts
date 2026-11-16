@@ -3,28 +3,8 @@ import os from "node:os";
 import type { Check } from "../framework/check.ts";
 import { assert, scriptCheck } from "../framework/check.ts";
 import { run } from "../util/run.ts";
+import { parsePnpmPackResult } from "../util/pnpmPack.ts";
 import fs from "fs/promises";
-
-interface PackResult {
-  filename: string;
-}
-
-function isPackResult(value: unknown): value is PackResult {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "filename" in value &&
-    typeof value.filename === "string" &&
-    value.filename.length > 0
-  );
-}
-
-export function parsePnpmPackResult(packOutput: string): PackResult {
-  const parsed: unknown = JSON.parse(packOutput);
-  const result = Array.isArray(parsed) ? parsed[0] : parsed;
-  assert(isPackResult(result), "pnpm pack did not return a package filename.", packOutput);
-  return result;
-}
 
 export const installable: Check = {
   hasFix: false,

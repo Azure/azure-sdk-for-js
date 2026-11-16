@@ -5,10 +5,10 @@ import { AppLinkClient } from "@azure/arm-appnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete an AppLink.
+ * This sample demonstrates how to delete an Azure Kubernetes Application Network resource.
  *
- * @summary delete an AppLink.
- * x-ms-original-file: 2025-08-01-preview/AppLinks_Delete.json
+ * @summary delete an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinks_Delete.json
  */
 async function appLinksDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

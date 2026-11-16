@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a resource type details in the given subscription and provider.
  *
  * @summary gets a resource type details in the given subscription and provider.
- * x-ms-original-file: 2024-09-01/ResourceTypeRegistrations_Get.json
+ * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_Get.json
  */
 async function resourceTypeRegistrationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation will resume protection for a stopped backup instance
  *
  * @summary this operation will resume protection for a stopped backup instance
- * x-ms-original-file: 2026-03-01/BackupInstanceOperations/ResumeProtection.json
+ * x-ms-original-file: 2026-07-01/BackupInstanceOperations/ResumeProtection.json
  */
 async function resumeProtection() {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,15 @@
 # Release History
 
+## 4.7.3-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.7.3-beta.1 (2026-07-07)
 
 ### Features Added

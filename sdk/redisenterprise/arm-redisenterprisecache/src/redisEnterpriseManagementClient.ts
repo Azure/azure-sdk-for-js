@@ -6,12 +6,12 @@ import type {
   RedisEnterpriseManagementClientOptionalParams,
 } from "./api/index.js";
 import { createRedisEnterpriseManagement } from "./api/index.js";
-import type { AccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
-import { _getAccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
+import type { AccessPolicyAssignmentOperationsOperations } from "./classic/accessPolicyAssignmentOperations/index.js";
+import { _getAccessPolicyAssignmentOperationsOperations } from "./classic/accessPolicyAssignmentOperations/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
-import type { MigrationOperations } from "./classic/migration/index.js";
-import { _getMigrationOperations } from "./classic/migration/index.js";
 import type { MigrationsOperations } from "./classic/migrations/index.js";
 import { _getMigrationsOperations } from "./classic/migrations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -40,32 +40,25 @@ export class RedisEnterpriseManagementClient {
     subscriptionId: string,
     options: RedisEnterpriseManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRedisEnterpriseManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRedisEnterpriseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operationsStatus = _getOperationsStatusOperations(this._client);
-    this.migration = _getMigrationOperations(this._client);
-    this.accessPolicyAssignment = _getAccessPolicyAssignmentOperations(this._client);
+    this.accessPolicyAssignmentOperations = _getAccessPolicyAssignmentOperationsOperations(
+      this._client,
+    );
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.redisEnterprise = _getRedisEnterpriseOperations(this._client);
     this.migrations = _getMigrationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.databases = _getDatabasesOperations(this._client);
+    this.clusters = _getClustersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
   /** The operation groups for operationsStatus */
   public readonly operationsStatus: OperationsStatusOperations;
-  /** The operation groups for migration */
-  public readonly migration: MigrationOperations;
-  /** The operation groups for accessPolicyAssignment */
-  public readonly accessPolicyAssignment: AccessPolicyAssignmentOperations;
+  /** The operation groups for accessPolicyAssignmentOperations */
+  public readonly accessPolicyAssignmentOperations: AccessPolicyAssignmentOperationsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for redisEnterprise */
@@ -76,6 +69,8 @@ export class RedisEnterpriseManagementClient {
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for databases */
   public readonly databases: DatabasesOperations;
+  /** The operation groups for clusters */
+  public readonly clusters: ClustersOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

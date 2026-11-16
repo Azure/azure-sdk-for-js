@@ -1,8 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkVirtualApplianceInstanceIds } from "../../models/microsoft/network/models.js";
+import type { NetworkVirtualApplianceInstanceIds } from "../../models/network/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesAbortMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesCommitMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesExecuteMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesPrepareMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams extends OperationOptions {

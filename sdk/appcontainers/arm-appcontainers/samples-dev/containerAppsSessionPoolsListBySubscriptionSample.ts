@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the session pools in a given subscription.
  *
  * @summary get the session pools in a given subscription.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01/SessionPools_ListBySubscription.json
  */
 async function listSessionPoolsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

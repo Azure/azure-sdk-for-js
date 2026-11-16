@@ -8,7 +8,7 @@ import type {
   SpotPlacementScoresGetOptionalParams,
 } from "../../api/spotPlacementScores/options.js";
 import type {
-  ComputeDiagnosticBase,
+  SpotPlacementScoresBase,
   SpotPlacementScoresInput,
   SpotPlacementScoresResponse,
 } from "../../models/models.js";
@@ -25,8 +25,9 @@ export interface SpotPlacementScoresOperations {
   get: (
     location: string,
     options?: SpotPlacementScoresGetOptionalParams,
-  ) => Promise<ComputeDiagnosticBase>;
+  ) => Promise<SpotPlacementScoresBase>;
 }
+
 function _getSpotPlacementScores(context: ComputeRecommenderManagementContext) {
   return {
     post: (
@@ -38,6 +39,7 @@ function _getSpotPlacementScores(context: ComputeRecommenderManagementContext) {
       get(context, location, options),
   };
 }
+
 export function _getSpotPlacementScoresOperations(
   context: ComputeRecommenderManagementContext,
 ): SpotPlacementScoresOperations {

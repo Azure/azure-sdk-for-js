@@ -8,17 +8,20 @@
  * using a custom pipeline policy. This is useful for scenarios where you need to inspect
  * the full response structure exactly as returned by the service.
  *
- * About returning raw JSON:
- * The Content Understanding SDK provides a convenient object model approach that returns strongly-typed objects
- * with deeper navigation through the object model. However, sometimes you may need access to the raw JSON response for:
+ * ## About returning raw JSON
  *
- * - Easy inspection: View the complete response structure in the exact format returned by the service,
- *   making it easier to understand the full data model and discover available fields
- * - Debugging: Inspect the raw response to troubleshoot issues, verify service behavior, or understand unexpected results
- * - Advanced scenarios: Work with response structures that may change or include additional metadata not captured in the typed model
+ * The Content Understanding SDK provides a convenient object model approach (shown in
+ * [analyzeInvoice.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/src/analyzeInvoice.ts))
+ * that returns `AnalysisResult` objects with deeper navigation through the object model.
+ * However, sometimes you may need access to the raw JSON response for:
  *
- * Note: For most production scenarios, the object model approach is recommended as it provides type safety,
- * IntelliSense support, and easier navigation. Use raw JSON access when you specifically need the benefits listed above.
+ * - **Easy inspection**: View the complete response structure in the exact format returned by the service, making it easier to understand the full data model and discover available fields
+ * - **Debugging**: Inspect the raw response to troubleshoot issues, verify service behavior, or understand unexpected results
+ * - **Advanced scenarios**: Work with response structures that may change or include additional metadata not captured in the typed model
+ *
+ * **Note**: For most production scenarios, the object model approach is recommended as
+ * it provides type safety, IntelliSense support, and easier navigation. Use raw JSON
+ * access when you specifically need the benefits listed above.
  */
 
 require("dotenv/config");

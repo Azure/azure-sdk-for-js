@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Container Apps Jobs in a given subscription.
  *
  * @summary get the Container Apps Jobs in a given subscription.
- * x-ms-original-file: 2025-10-02-preview/Jobs_ListBySubscription.json
+ * x-ms-original-file: 2026-07-01/Jobs_ListBySubscription.json
  */
 async function listContainerAppsJobsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

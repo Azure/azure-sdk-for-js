@@ -34,7 +34,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/images{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _imageListResultDeserializer(result.body);
 }
+
 /** Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
 export function list(
   context: Client,
@@ -69,7 +70,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -83,7 +84,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _imageListResultDeserializer(result.body);
 }
+
 /** Gets the list of images under a resource group. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
 export function listByResourceGroup(
   context: Client,
@@ -121,7 +123,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-04-01" },
   );
 }
 
@@ -137,7 +139,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       imageName: imageName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,6 +161,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an Image. */
 export function $delete(
   context: Client,
@@ -171,7 +174,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, imageName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -188,7 +191,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       imageName: imageName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,6 +218,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return imageDeserializer(result.body);
 }
+
 /** Update an image. */
 export function update(
   context: Client,
@@ -229,7 +233,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, imageName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<Image>, Image>;
 }
 
@@ -246,7 +250,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       imageName: imageName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,6 +277,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return imageDeserializer(result.body);
 }
+
 /** Create or update an image. */
 export function createOrUpdate(
   context: Client,
@@ -287,7 +292,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, imageName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<Image>, Image>;
 }
 
@@ -303,7 +308,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       imageName: imageName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -329,6 +334,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Im
 
   return imageDeserializer(result.body);
 }
+
 /** Gets an image. */
 export async function get(
   context: Client,

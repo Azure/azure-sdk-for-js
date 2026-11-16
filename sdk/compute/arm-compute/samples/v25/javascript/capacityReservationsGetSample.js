@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservation_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/BlockCapacityReservation_Get.json
  */
 async function getABlockCapacityReservation() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getABlockCapacityReservation() {
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservation_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/CapacityReservation_Get.json
  */
 async function getACapacityReservation() {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,45 @@ async function getACapacityReservation() {
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservation_Get.json
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/FutureCapacityReservation_Get.json
+ */
+async function getAFutureCapacityReservation() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.capacityReservations.get(
+    "myResourceGroup",
+    "futureCapacityReservationGroup",
+    "futureCapacityReservation",
+    { expand: "instanceView" },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
+ *
+ * @summary the operation that retrieves information about the capacity reservation.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/OpenCapacityReservation_Get.json
+ */
+async function getAnOpenCapacityReservationWithInstanceView() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.capacityReservations.get(
+    "myResourceGroup",
+    "openCapacityReservationGroup",
+    "openCapacityReservation",
+    { expand: "instanceView" },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
+ *
+ * @summary the operation that retrieves information about the capacity reservation.
+ * x-ms-original-file: 2026-04-01/capacityReservationExamples/TargetedCapacityReservation_Get.json
  */
 async function getATargetedCapacityReservation() {
   const credential = new DefaultAzureCredential();
@@ -64,6 +102,8 @@ async function getATargetedCapacityReservation() {
 async function main() {
   await getABlockCapacityReservation();
   await getACapacityReservation();
+  await getAFutureCapacityReservation();
+  await getAnOpenCapacityReservationWithInstanceView();
   await getATargetedCapacityReservation();
 }
 

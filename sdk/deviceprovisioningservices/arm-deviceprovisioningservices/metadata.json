@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-02-01-preview",
-  "emitterVersion": "0.45.1",
+  "apiVersions": {
+    "Microsoft.Devices": "2026-11-01"
+  },
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {
@@ -54,7 +56,9 @@
       "@azure/arm-deviceprovisioningservices!KnownIpFilterActionType:enum": "Microsoft.Devices.IpFilterActionType",
       "@azure/arm-deviceprovisioningservices!KnownIpFilterTargetType:enum": "Microsoft.Devices.IpFilterTargetType",
       "@azure/arm-deviceprovisioningservices!KnownPrivateLinkServiceConnectionStatus:enum": "Microsoft.Devices.PrivateLinkServiceConnectionStatus",
+      "@azure/arm-deviceprovisioningservices!KnownIotHubAuthenticationType:enum": "Microsoft.Devices.IotHubAuthenticationType",
       "@azure/arm-deviceprovisioningservices!KnownDeviceRegistryNamespaceAuthenticationType:enum": "Microsoft.Devices.DeviceRegistryNamespaceAuthenticationType",
+      "@azure/arm-deviceprovisioningservices!KnownLinkingState:enum": "Microsoft.Devices.LinkingState",
       "@azure/arm-deviceprovisioningservices!KnownAllocationPolicy:enum": "Microsoft.Devices.AllocationPolicy",
       "@azure/arm-deviceprovisioningservices!KnownAccessRightsDescription:enum": "Microsoft.Devices.AccessRightsDescription",
       "@azure/arm-deviceprovisioningservices!KnownIotDpsSku:enum": "Microsoft.Devices.IotDpsSku",

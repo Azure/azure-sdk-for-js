@@ -33,7 +33,7 @@ export function _cancelSend(
       serverName: serverName,
       elasticPoolName: elasticPoolName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,7 +90,7 @@ export function _listByElasticPoolSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,6 +131,10 @@ export function listByElasticPool(
     () => _listByElasticPoolSend(context, resourceGroupName, serverName, elasticPoolName, options),
     _listByElasticPoolDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }

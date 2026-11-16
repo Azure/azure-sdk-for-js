@@ -7,6 +7,10 @@ import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import { StorageResponseFormat } from "@azure/storage-common";
+import type {
+  ListBlobsResponse,
+  ListBlobsHierarchicalResponse,
+} from "../generated/models/index.js";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -18,11 +22,9 @@ import type {
   QuerySerialization,
   BlobTags,
   BlobName,
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
@@ -36,6 +38,7 @@ import {
   type ObjectReplicationStatus,
   type HttpAuthorization,
   StorageChecksumAlgorithm,
+  fromTspImmutabilityPolicyMode,
 } from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -46,6 +49,8 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
@@ -192,20 +197,18 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   ) {
     // Account connection string
 
-    let defaultEndpointsProtocol = "";
-    let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
-    let endpointSuffix = "";
-
     // Get account name and key
-    accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountName = getValueInConnString(connectionString, "AccountName");
+    const accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const defaultEndpointsProtocol = getValueInConnString(
+        connectionString,
+        "DefaultEndpointsProtocol",
+      );
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -213,7 +216,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      const endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -610,6 +613,22 @@ export function iEqual(str1: string, str2: string): boolean {
 }
 
 /**
+ * Reads the total resource size from a Content-Range header, e.g. `bytes 0-1023/4096` or the
+ * `bytes * /0` form a 416 carries. Returns undefined when the header is absent or the size is
+ * unknown (`*`).
+ *
+ * @param contentRange - the raw Content-Range header value
+ */
+export function totalSizeFromContentRange(contentRange?: string): number | undefined {
+  const total = contentRange?.split("/")[1]?.trim();
+  if (!total || total === "*") {
+    return undefined;
+  }
+  const size = Number(total);
+  return Number.isInteger(size) && size >= 0 ? size : undefined;
+}
+
+/**
  * Extracts account name from the url
  * @param url - url to extract the account name from
  * @returns with the account name
@@ -640,7 +659,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -775,6 +794,9 @@ export function toQuerySerialization(
       return {
         format: {
           type: "parquet",
+          parquetTextConfiguration: {
+            additionalProperties: (textConfiguration as any).additionalProperties,
+          },
         },
       };
 
@@ -822,7 +844,7 @@ export function parseObjectReplicationRecord(
 
 /**
  * Resolves a {@link StorageResponseFormat} to the concrete format the client should use.
- * `Auto` currently resolves to `Xml`; this mapping may change in a future service version.
+ * `Auto` currently resolves to `Arrow`; this mapping may change in a future service version.
  *
  * @param responseFormat - The requested response format, or undefined to use the default.
  */
@@ -830,7 +852,7 @@ export function resolveResponseFormat(
   responseFormat?: StorageResponseFormat,
 ): StorageResponseFormat {
   if (responseFormat === undefined || responseFormat === StorageResponseFormat.Auto) {
-    return StorageResponseFormat.Xml;
+    return StorageResponseFormat.Arrow;
   }
   return responseFormat;
 }
@@ -861,15 +883,23 @@ export function BlobNameToString(name: BlobName): string {
 }
 
 export function ConvertInternalResponseOfListBlobFlat(
-  internalResponse: ListBlobsFlatSegmentResponse,
+  internalResponse: ListBlobsResponse,
 ): ListBlobsFlatSegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -878,22 +908,30 @@ export function ConvertInternalResponseOfListBlobFlat(
 }
 
 export function ConvertInternalResponseOfListBlobHierarchy(
-  internalResponse: ListBlobsHierarchySegmentResponse,
+  internalResponse: ListBlobsHierarchicalResponse,
 ): ListBlobsHierarchySegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
-      blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
+      blobPrefixes: internalResponse.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
           ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
       }),
-      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+      blobItems: internalResponse.hierarchicalList.blobItems.map((blobItemTsp) => {
         const blobItem: BlobItemInternalModel = {
-          ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name),
+          ...blobItemTsp,
+          properties: {
+            ...blobItemTsp.properties,
+            immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
+              blobItemTsp.properties.immutabilityPolicyMode,
+            ),
+          },
+          metadata: blobItemTsp.metadata?.additionalProperties,
+          objectReplicationMetadata: blobItemTsp.objectReplicationMetadata?.additionalProperties,
+          name: BlobNameToString(blobItemTsp.name),
         };
         return blobItem;
       }),
@@ -1099,6 +1137,37 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
+}
+
 interface UploadChecksumParametersLike {
   transactionalContentMD5?: Uint8Array;
   transactionalContentCrc64?: Uint8Array;
@@ -1111,6 +1180,23 @@ interface UploadCheckSumBody {
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   body: HttpRequestBody;
   contentLength: number;
+}
+
+/**
+ * Returns an `ArrayBuffer`, or an `ArrayBufferView` other than a `Uint8Array`, as a `Uint8Array`
+ * over the same bytes. Some versions of the HTTP runtime send only `Uint8Array` bodies as raw bytes
+ * and serialize the other binary types as JSON.
+ *
+ * @param body - the upload body
+ */
+function toUint8ArrayIfBinary(body: HttpRequestBody): HttpRequestBody {
+  if (body instanceof ArrayBuffer) {
+    return new Uint8Array(body);
+  }
+  if (ArrayBuffer.isView(body) && !(body instanceof Uint8Array)) {
+    return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  }
+  return body;
 }
 
 export async function setUploadChecksumParameters(
@@ -1142,7 +1228,7 @@ export async function setUploadChecksumParameters(
   }
 
   return {
-    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : toUint8ArrayIfBinary(body),
     contentLength:
       contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
     contentChecksumAlgorithm: contentChecksumAlgorithm,

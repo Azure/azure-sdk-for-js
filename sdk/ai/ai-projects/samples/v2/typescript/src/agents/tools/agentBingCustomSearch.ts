@@ -27,8 +27,6 @@ const bingCustomSearchInstanceName =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
-
   console.log("Creating agent with Bing Custom Search tool...");
 
   const agent = await project.agents.createVersion("MyAgent", {
@@ -52,6 +50,8 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
+  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
+
   // Prompt user for input
   const rl = readline.createInterface({
     input: process.stdin,
@@ -74,11 +74,6 @@ export async function main(): Promise<void> {
     {
       input: userInput || "Tell me more about foundry agent service",
       stream: true,
-    },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-      },
     },
   );
 

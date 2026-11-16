@@ -12,8 +12,12 @@ exports:
   "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts"
   "./api/fleetMembers": "./src/api/fleetMembers/index.ts"
   "./api/fleets": "./src/api/fleets/index.ts"
+  "./api/clusterMeshProfiles": "./src/api/clusterMeshProfiles/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/core/v1": "./src/models/core/v1/index.ts"
+  "./models/meta/v1": "./src/models/meta/v1/index.ts"
+  "./models/placement/v1": "./src/models/placement/v1/index.ts"
 
 targets:
   - name: browser

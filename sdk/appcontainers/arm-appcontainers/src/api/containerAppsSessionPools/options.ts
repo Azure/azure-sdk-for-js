@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface ContainerAppsSessionPoolsRotateMcpServerCredentialsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsSessionPoolsFetchMcpServerCredentialsOptionalParams extends OperationOptions {}
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams extends OperationOptions {}

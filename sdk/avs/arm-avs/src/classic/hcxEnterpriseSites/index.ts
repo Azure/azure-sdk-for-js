@@ -15,11 +15,6 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 /** Interface representing a HcxEnterpriseSites operations. */
 export interface HcxEnterpriseSitesOperations {
   /** Delete a HcxEnterpriseSite */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

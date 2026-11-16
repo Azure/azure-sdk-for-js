@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
  * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ProtectionPolicies_Get.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ProtectionPolicies_Get.json
  */
 async function getAzureIaasVmProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getAzureIaasVmProtectionPolicyDetails(): Promise<void> {
  *
  * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
  * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/V2Policy/v2-Get-Policy.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
 async function getAzureIaasVmEnhancedProtectionPolicyDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,30 +44,9 @@ async function getAzureIaasVmEnhancedProtectionPolicyDetails(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
- * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- *
- * @summary provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
- * operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: 2026-01-31-preview/AzureWorkload/ProtectionPolicies_Get_SapHanaDBInstance.json
- */
-async function getSapHanaDBInstanceWorkloadProtectionPolicyDetails(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
-  const result = await client.protectionPolicies.get(
-    "HanaTestRsVault",
-    "SwaggerTestRg",
-    "testHanaSnapshotV2Policy1",
-  );
-  console.log(result);
-}
-
 async function main(): Promise<void> {
   await getAzureIaasVmProtectionPolicyDetails();
   await getAzureIaasVmEnhancedProtectionPolicyDetails();
-  await getSapHanaDBInstanceWorkloadProtectionPolicyDetails();
 }
 
 main().catch(console.error);

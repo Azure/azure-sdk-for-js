@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Logic App extension resource
  *
  * @summary deletes a Logic App extension resource
- * x-ms-original-file: 2025-10-02-preview/LogicApps_Delete.json
+ * x-ms-original-file: 2026-07-01/LogicApps_Delete.json
  */
 async function createLogicAppExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -174,13 +175,13 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Contains metadata of the SkuMixPlacement scoring resource */
-export interface SkuMixPlacementBase extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: SkuMixPlacementProperties;
+/** Contains metadata of the Spot Placement Scores resource. */
+export interface SpotPlacementScoresBase extends ProxyResource {
+  /** Contains additional properties of a placement scores resource. */
+  properties?: PlacementScoresProperties;
 }
 
-export function skuMixPlacementBaseDeserializer(item: any): SkuMixPlacementBase {
+export function spotPlacementScoresBaseDeserializer(item: any): SpotPlacementScoresBase {
   return {
     id: item["id"],
     name: item["name"],
@@ -190,17 +191,17 @@ export function skuMixPlacementBaseDeserializer(item: any): SkuMixPlacementBase 
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : skuMixPlacementPropertiesDeserializer(item["properties"]),
+      : placementScoresPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** Contains properties of the SkuMixPlacement resource. */
-export interface SkuMixPlacementProperties {
-  /** Describes what resource types are supported by the mix placement scoring service. */
+/** Contains additional properties of a placement scores resource. */
+export interface PlacementScoresProperties {
+  /** Describes the supported resource types for placement scoring. */
   supportedResourceTypes?: string[];
 }
 
-export function skuMixPlacementPropertiesDeserializer(item: any): SkuMixPlacementProperties {
+export function placementScoresPropertiesDeserializer(item: any): PlacementScoresProperties {
   return {
     supportedResourceTypes: !item["supportedResourceTypes"]
       ? item["supportedResourceTypes"]
@@ -300,6 +301,266 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** SpotPlacementScores API Input. */
+export interface SpotPlacementScoresInput {
+  /** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
+  desiredLocations?: string[];
+  /** The desired virtual machine SKU sizes. */
+  desiredSizes: ResourceSize[];
+  /** Desired instance count per region/zone based on the scope. If not set, defaults to 1. */
+  desiredCount?: number;
+  /** Defines if the scope is zonal or regional. */
+  availabilityZones?: boolean;
+}
+
+export function spotPlacementScoresInputSerializer(item: SpotPlacementScoresInput): any {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: resourceSizeArraySerializer(item["desiredSizes"]),
+    desiredCount: item["desiredCount"],
+    availabilityZones: item["availabilityZones"],
+  };
+}
+
+export function resourceSizeArraySerializer(result: Array<ResourceSize>): any[] {
+  return result.map((item) => {
+    return resourceSizeSerializer(item);
+  });
+}
+
+export function resourceSizeArrayDeserializer(result: Array<ResourceSize>): any[] {
+  return result.map((item) => {
+    return resourceSizeDeserializer(item);
+  });
+}
+
+/** SpotPlacementRecommender API response. */
+export interface ResourceSize {
+  /** The resource's CRP virtual machine SKU size. */
+  sku?: string;
+}
+
+export function resourceSizeSerializer(item: ResourceSize): any {
+  return { sku: item["sku"] };
+}
+
+export function resourceSizeDeserializer(item: any): ResourceSize {
+  return {
+    sku: item["sku"],
+  };
+}
+
+/** SpotPlacementScores API response. */
+export interface SpotPlacementScoresResponse {
+  /** The desired regions */
+  desiredLocations?: string[];
+  /** The desired virtual machine SKU sizes. */
+  desiredSizes?: ResourceSize[];
+  /** Desired instance count per region/zone based on the scope. */
+  desiredCount?: number;
+  /** Defines if the scope is zonal or regional. */
+  availabilityZones?: boolean;
+  /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
+  placementScores?: PlacementScore[];
+}
+
+export function spotPlacementScoresResponseDeserializer(item: any): SpotPlacementScoresResponse {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: !item["desiredSizes"]
+      ? item["desiredSizes"]
+      : resourceSizeArrayDeserializer(item["desiredSizes"]),
+    desiredCount: item["desiredCount"],
+    availabilityZones: item["availabilityZones"],
+    placementScores: !item["placementScores"]
+      ? item["placementScores"]
+      : placementScoreArrayDeserializer(item["placementScores"]),
+  };
+}
+
+export function placementScoreArrayDeserializer(result: Array<PlacementScore>): any[] {
+  return result.map((item) => {
+    return placementScoreDeserializer(item);
+  });
+}
+
+/** The placement score for a virtual machine SKU, region, and availability zone combination. */
+export interface PlacementScore {
+  /** The resource's CRP virtual machine SKU size. */
+  sku?: string;
+  /** The region. */
+  region?: string;
+  /** The availability zone. */
+  availabilityZone?: string;
+  /** A placement score indicating the likelihood of successfully allocating the specified virtual machines. */
+  score?: PlacementScoreValue;
+  /** Placement preference from 0 to 10 (inclusive). Higher is better. */
+  placementPreference?: number;
+}
+
+export function placementScoreDeserializer(item: any): PlacementScore {
+  return {
+    sku: item["sku"],
+    region: item["region"],
+    availabilityZone: item["availabilityZone"],
+    score: item["score"],
+    placementPreference: item["placementPreference"],
+  };
+}
+
+/** Placement score value indicating the likelihood of successfully allocating the requested VM(s). */
+export enum KnownPlacementScoreValue {
+  /** High likelihood of successful allocation. */
+  High = "High",
+  /** Medium likelihood of successful allocation. */
+  Medium = "Medium",
+  /** Low likelihood of successful allocation. */
+  Low = "Low",
+  /** The requested SKU is restricted and not available. */
+  RestrictedSkuNotAvailable = "RestrictedSkuNotAvailable",
+  /** Insufficient quota is available to fulfill the request. */
+  InsufficientQuota = "InsufficientQuota",
+  /** Data was not found or is stale. */
+  DataNotFoundOrStale = "DataNotFoundOrStale",
+}
+
+/**
+ * Placement score value indicating the likelihood of successfully allocating the requested VM(s). \
+ * {@link KnownPlacementScoreValue} can be used interchangeably with PlacementScoreValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: High likelihood of successful allocation. \
+ * **Medium**: Medium likelihood of successful allocation. \
+ * **Low**: Low likelihood of successful allocation. \
+ * **RestrictedSkuNotAvailable**: The requested SKU is restricted and not available. \
+ * **InsufficientQuota**: Insufficient quota is available to fulfill the request. \
+ * **DataNotFoundOrStale**: Data was not found or is stale.
+ */
+export type PlacementScoreValue = string;
+
+/** Contains metadata of the compute placement scoring resource. */
+export interface ComputePlacementScoresBase extends ProxyResource {
+  /** Contains additional properties of a placement scores resource. */
+  properties?: PlacementScoresProperties;
+}
+
+export function computePlacementScoresBaseDeserializer(item: any): ComputePlacementScoresBase {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : placementScoresPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** ComputePlacementScores API Input. */
+export interface ComputePlacementScoresInput {
+  /** The desired regions. If not set, the location from the request URI is used as the desired location. Each location in this list must be a valid Azure region. */
+  desiredLocations?: string[];
+  /** The desired virtual machine SKU sizes. */
+  desiredSizes: ResourceSize[];
+  /** Desired instance count per region/zone based on the scope. If not set, defaults to 1. */
+  desiredCount?: number;
+  /** Defines if the scope is zonal or regional. */
+  availabilityZones?: boolean;
+}
+
+export function computePlacementScoresInputSerializer(item: ComputePlacementScoresInput): any {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: resourceSizeArraySerializer(item["desiredSizes"]),
+    desiredCount: item["desiredCount"],
+    availabilityZones: item["availabilityZones"],
+  };
+}
+
+/** The results of scoring placement for regular virtual machines. */
+export interface ComputePlacementScoresResponse {
+  /** The desired regions */
+  desiredLocations?: string[];
+  /** The desired virtual machine SKU sizes. */
+  desiredSizes?: ResourceSize[];
+  /** Desired instance count per region/zone based on the scope. */
+  desiredCount?: number;
+  /** Defines if the scope is zonal or regional. */
+  availabilityZones?: boolean;
+  /** Placement scores indicating the likelihood of successfully allocating the specified regular virtual machines. */
+  placementScores?: PlacementScore[];
+}
+
+export function computePlacementScoresResponseDeserializer(
+  item: any,
+): ComputePlacementScoresResponse {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: !item["desiredSizes"]
+      ? item["desiredSizes"]
+      : resourceSizeArrayDeserializer(item["desiredSizes"]),
+    desiredCount: item["desiredCount"],
+    availabilityZones: item["availabilityZones"],
+    placementScores: !item["placementScores"]
+      ? item["placementScores"]
+      : placementScoreArrayDeserializer(item["placementScores"]),
+  };
+}
+
+/** Contains metadata of the SkuMixPlacement scoring resource */
+export interface SkuMixPlacementBase extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SkuMixPlacementProperties;
+}
+
+export function skuMixPlacementBaseDeserializer(item: any): SkuMixPlacementBase {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : skuMixPlacementPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Contains properties of the SkuMixPlacement resource. */
+export interface SkuMixPlacementProperties {
+  /** Describes what resource types are supported by the mix placement scoring service. */
+  supportedResourceTypes?: string[];
+}
+
+export function skuMixPlacementPropertiesDeserializer(item: any): SkuMixPlacementProperties {
+  return {
+    supportedResourceTypes: !item["supportedResourceTypes"]
+      ? item["supportedResourceTypes"]
+      : item["supportedResourceTypes"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Sku Mix Placement API request. */
 export interface SkuMixPlacementRequest {
   /** Optional logical zones to consider (e.g. ["1","2","3"]). Omitted or empty implies regional deployment. */
@@ -330,7 +591,7 @@ export interface SkuMixPlacementCapacityProfile {
   capacityType: SkuMixPlacementCapacityType;
   /** The priority of the VMs to allocate. */
   priority: SkuMixPlacementPriority;
-  /** Required when priority is Spot. Contains spot-specific configuration. */
+  /** Contains spot-specific configuration. */
   spotPriorityProfile?: SkuMixPlacementSpotPriorityProfile;
   /** The allocation strategy for determining the optimal SKU split. */
   allocationStrategy?: SkuMixPlacementAllocationStrategy;
@@ -394,7 +655,7 @@ export enum KnownSkuMixPlacementPriority {
  */
 export type SkuMixPlacementPriority = string;
 
-/** Spot priority configuration. Required when priority is Spot. */
+/** Spot priority configuration. */
 export interface SkuMixPlacementSpotPriorityProfile {
   /** Maximum price per VM the customer is willing to pay. Default: -1 (no price restriction). */
   maxPricePerVm?: number;
@@ -539,19 +800,34 @@ export function skuMixPlacementVMSizeSerializer(item: SkuMixPlacementVMSize): an
 
 /** Sku Mix Placement API response. */
 export interface SkuMixPlacementResponse {
+  /**
+   * Unique identifier for this placement response, including responses that contain no placement choices.
+   * Replaces the per-choice id that was present on placementChoices in earlier API versions.
+   */
+  id: string;
   /** List of placement choice recommendations. */
   placementChoices: SkuMixPlacementDeploymentChoice[];
   /** Date/time until which the recommendations are valid. Callers should request fresh recommendations after this time. */
   validUntil?: Date;
   /** Indicates whether the response is a complete or partial fulfillment. */
   partialFulfillmentReason: SkuMixPlacementPartialFulfillmentReason;
+  /**
+   * Capacity availability for each requested (VM size, zone) combination, independent of the recommended
+   * placement. An entry is present for every requested combination, including those excluded by capacity
+   * or quota. Only returned for requests that describe instances by VM sizes.
+   */
+  capacityLimits?: SkuMixPlacementCapacityLimit[];
 }
 
 export function skuMixPlacementResponseDeserializer(item: any): SkuMixPlacementResponse {
   return {
+    id: item["id"],
     placementChoices: skuMixPlacementDeploymentChoiceArrayDeserializer(item["placementChoices"]),
     validUntil: !item["validUntil"] ? item["validUntil"] : new Date(item["validUntil"]),
     partialFulfillmentReason: item["partialFulfillmentReason"],
+    capacityLimits: !item["capacityLimits"]
+      ? item["capacityLimits"]
+      : skuMixPlacementCapacityLimitArrayDeserializer(item["capacityLimits"]),
   };
 }
 
@@ -565,8 +841,6 @@ export function skuMixPlacementDeploymentChoiceArrayDeserializer(
 
 /** A single deployment choice recommendation. */
 export interface SkuMixPlacementDeploymentChoice {
-  /** Unique identifier for this deployment choice. */
-  id: string;
   /** Placement score from 0 to 9 (inclusive). Higher is better. */
   score: number;
   /** The list of VM size / zone allocations that make up this deployment choice. */
@@ -577,7 +851,6 @@ export function skuMixPlacementDeploymentChoiceDeserializer(
   item: any,
 ): SkuMixPlacementDeploymentChoice {
   return {
-    id: item["id"],
     score: item["score"],
     skuSplit: skuMixPlacementItemArrayDeserializer(item["skuSplit"]),
   };
@@ -597,8 +870,6 @@ export interface SkuMixPlacementItem {
   priority: SkuMixPlacementPriority;
   /** Lower range of recommended allocation capacity. */
   capacity: number;
-  /** Upper range of recommended allocation capacity. */
-  capacityMax?: number;
   /** Logical zone (e.g. "1", "2", "3"). Omitted or empty for regional deployments. */
   zone?: string;
 }
@@ -608,7 +879,6 @@ export function skuMixPlacementItemDeserializer(item: any): SkuMixPlacementItem 
     name: item["name"],
     priority: item["priority"],
     capacity: item["capacity"],
-    capacityMax: item["capacityMax"],
     zone: item["zone"],
   };
 }
@@ -634,158 +904,68 @@ export enum KnownSkuMixPlacementPartialFulfillmentReason {
  */
 export type SkuMixPlacementPartialFulfillmentReason = string;
 
-/** Contains metadata of a diagnostic type */
-export interface ComputeDiagnosticBase extends ProxyResource {
-  /** Contains additional properties of a diagnostic */
-  properties?: DiagnosticProperties;
+export function skuMixPlacementCapacityLimitArrayDeserializer(
+  result: Array<SkuMixPlacementCapacityLimit>,
+): any[] {
+  return result.map((item) => {
+    return skuMixPlacementCapacityLimitDeserializer(item);
+  });
 }
 
-export function computeDiagnosticBaseDeserializer(item: any): ComputeDiagnosticBase {
+/**
+ * Capacity availability for a single requested (VM size, zone) combination, independent of the
+ * recommended placement.
+ */
+export interface SkuMixPlacementCapacityLimit {
+  /** VM size name (e.g. Standard_D2s_v3). */
+  name: string;
+  /** Priority of this entry (Regular or Spot). */
+  priority: SkuMixPlacementPriority;
+  /** Logical zone (e.g. "1", "2", "3"). Omitted or empty for regional requests. */
+  zone?: string;
+  /**
+   * Upper bound, in VMs, on how much capacity can be allocated for this (VM size, zone): the smallest of
+   * the requested capacity, the available capacity, and the available quota, but never below the capacity
+   * already recommended for the slot. 0 when nothing is available.
+   */
+  limit: number;
+  /** Why the limit is below the requested capacity, or None when the request is fully available. */
+  reason: SkuMixPlacementCapacityLimitReason;
+}
+
+export function skuMixPlacementCapacityLimitDeserializer(item: any): SkuMixPlacementCapacityLimit {
   return {
-    id: item["id"],
     name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : diagnosticPropertiesDeserializer(item["properties"]),
+    priority: item["priority"],
+    zone: item["zone"],
+    limit: item["limit"],
+    reason: item["reason"],
   };
 }
 
-/** Contains additional properties of a diagnostic */
-export interface DiagnosticProperties {
-  /** Describes what are the supported resource types for a diagnostic. */
-  supportedResourceTypes?: string[];
+/** Reason the capacity limit for a (VM size, zone) is below the requested capacity. */
+export enum KnownSkuMixPlacementCapacityLimitReason {
+  /** The full requested capacity is available for this (VM size, zone). */
+  None = "None",
+  /** Allocable capacity bounded the limit below the requested capacity. */
+  InsufficientCapacity = "InsufficientCapacity",
+  /** Quota bounded the limit below the requested capacity. Takes precedence when both capacity and quota are insufficient. */
+  InsufficientQuota = "InsufficientQuota",
+  /** This VM size is not available in this zone for the subscription. */
+  SkuNotAvailable = "SkuNotAvailable",
 }
 
-export function diagnosticPropertiesDeserializer(item: any): DiagnosticProperties {
-  return {
-    supportedResourceTypes: !item["supportedResourceTypes"]
-      ? item["supportedResourceTypes"]
-      : item["supportedResourceTypes"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** SpotPlacementScores API Input. */
-export interface SpotPlacementScoresInput {
-  /** The desired regions */
-  desiredLocations?: string[];
-  /** The desired virtual machine SKU sizes. */
-  desiredSizes?: ResourceSize[];
-  /** Desired instance count per region/zone based on the scope. */
-  desiredCount?: number;
-  /** Defines if the scope is zonal or regional. */
-  availabilityZones?: boolean;
-}
-
-export function spotPlacementScoresInputSerializer(item: SpotPlacementScoresInput): any {
-  return {
-    desiredLocations: !item["desiredLocations"]
-      ? item["desiredLocations"]
-      : item["desiredLocations"].map((p: any) => {
-          return p;
-        }),
-    desiredSizes: !item["desiredSizes"]
-      ? item["desiredSizes"]
-      : resourceSizeArraySerializer(item["desiredSizes"]),
-    desiredCount: item["desiredCount"],
-    availabilityZones: item["availabilityZones"],
-  };
-}
-
-export function resourceSizeArraySerializer(result: Array<ResourceSize>): any[] {
-  return result.map((item) => {
-    return resourceSizeSerializer(item);
-  });
-}
-
-export function resourceSizeArrayDeserializer(result: Array<ResourceSize>): any[] {
-  return result.map((item) => {
-    return resourceSizeDeserializer(item);
-  });
-}
-
-/** SpotPlacementRecommender API response. */
-export interface ResourceSize {
-  /** The resource's CRP virtual machine SKU size. */
-  sku?: string;
-}
-
-export function resourceSizeSerializer(item: ResourceSize): any {
-  return { sku: item["sku"] };
-}
-
-export function resourceSizeDeserializer(item: any): ResourceSize {
-  return {
-    sku: item["sku"],
-  };
-}
-
-/** SpotPlacementScores API response. */
-export interface SpotPlacementScoresResponse {
-  /** The desired regions */
-  desiredLocations?: string[];
-  /** The desired virtual machine SKU sizes. */
-  desiredSizes?: ResourceSize[];
-  /** Desired instance count per region/zone based on the scope. */
-  desiredCount?: number;
-  /** Defines if the scope is zonal or regional. */
-  availabilityZones?: boolean;
-  /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
-  placementScores?: PlacementScore[];
-}
-
-export function spotPlacementScoresResponseDeserializer(item: any): SpotPlacementScoresResponse {
-  return {
-    desiredLocations: !item["desiredLocations"]
-      ? item["desiredLocations"]
-      : item["desiredLocations"].map((p: any) => {
-          return p;
-        }),
-    desiredSizes: !item["desiredSizes"]
-      ? item["desiredSizes"]
-      : resourceSizeArrayDeserializer(item["desiredSizes"]),
-    desiredCount: item["desiredCount"],
-    availabilityZones: item["availabilityZones"],
-    placementScores: !item["placementScores"]
-      ? item["placementScores"]
-      : placementScoreArrayDeserializer(item["placementScores"]),
-  };
-}
-
-export function placementScoreArrayDeserializer(result: Array<PlacementScore>): any[] {
-  return result.map((item) => {
-    return placementScoreDeserializer(item);
-  });
-}
-
-/** The spot placement score for sku/region/zone combination. */
-export interface PlacementScore {
-  /** The resource's CRP virtual machine SKU size. */
-  sku?: string;
-  /** The region. */
-  region?: string;
-  /** The availability zone. */
-  availabilityZone?: string;
-  /** A placement score indicating the likelihood of successfully allocating the specified Spot VM(s), as well as the expected lifetimes of the Spot VM(s) after allocation. */
-  score?: string;
-  /** Whether the desired quota is available. */
-  isQuotaAvailable?: boolean;
-}
-
-export function placementScoreDeserializer(item: any): PlacementScore {
-  return {
-    sku: item["sku"],
-    region: item["region"],
-    availabilityZone: item["availabilityZone"],
-    score: item["score"],
-    isQuotaAvailable: item["isQuotaAvailable"],
-  };
-}
+/**
+ * Reason the capacity limit for a (VM size, zone) is below the requested capacity. \
+ * {@link KnownSkuMixPlacementCapacityLimitReason} can be used interchangeably with SkuMixPlacementCapacityLimitReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The full requested capacity is available for this (VM size, zone). \
+ * **InsufficientCapacity**: Allocable capacity bounded the limit below the requested capacity. \
+ * **InsufficientQuota**: Quota bounded the limit below the requested capacity. Takes precedence when both capacity and quota are insufficient. \
+ * **SkuNotAvailable**: This VM size is not available in this zone for the subscription.
+ */
+export type SkuMixPlacementCapacityLimitReason = string;
 
 /** The available API versions. */
 export enum KnownVersions {
@@ -793,4 +973,8 @@ export enum KnownVersions {
   V20250605 = "2025-06-05",
   /** The 2026-05-05-preview API version. */
   V20260505Preview = "2026-05-05-preview",
+  /** The 2026-09-05-preview API version. */
+  V20260905Preview = "2026-09-05-preview",
+  /** The 2026-10-05-preview API version. */
+  V20261005Preview = "2026-10-05-preview",
 }

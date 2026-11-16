@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/chaos/arm-chaos)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-chaos)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-chaos)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/chaos/arm-chaos/samples)
 
 ## Getting started

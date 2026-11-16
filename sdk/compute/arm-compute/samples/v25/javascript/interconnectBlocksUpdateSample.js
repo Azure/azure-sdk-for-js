@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
  *
  * @summary updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_Update.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_Update.json
  */
 async function updateAnInterconnectBlock() {
   const credential = new DefaultAzureCredential();

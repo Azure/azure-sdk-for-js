@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/vpnServerConfigurationsAssociatedWithVirtualWan/operations.js";
 import type { VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams } from "../../api/vpnServerConfigurationsAssociatedWithVirtualWan/options.js";
-import type { VpnServerConfigurationsResponse } from "../../models/microsoft/network/models.js";
+import type { VpnServerConfigurationsResponse } from "../../models/network/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "agentGuidance": false,
   "ui": "stream",
   "remoteCache": {
     "teamSlug": "azsdkjs",
@@ -22,6 +23,7 @@
         "$TURBO_ROOT$/eng/tsconfigs/**",
         "$TURBO_ROOT$/warp.base.config.yml",
         "!review/*.api.md",
+        "!review/*.api.diff.md",
         "!CHANGELOG.md",
         "!LICENSE",
         "!README.md"
@@ -55,7 +57,12 @@
     },
     "test:browser": {
       "dependsOn": ["build"],
-      "passThroughEnv": ["PUBLISHCODECOVERAGE", "PublishCodeCoverage"]
+      "passThroughEnv": [
+        "PUBLISHCODECOVERAGE",
+        "PublishCodeCoverage",
+        "PLAYWRIGHT_BROWSERS_PATH",
+        "TMPDIR"
+      ]
     },
     "test:node": {
       "dependsOn": ["build"],

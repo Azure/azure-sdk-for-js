@@ -1,0 +1,75 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "raiBlocklist": {
+          "bicepIdentifier": "raiBlocklist",
+          "type": "Microsoft.CognitiveServices/accounts/raiBlocklists",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "myblocklist"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              }
+            }
+          }
+        },
+        "raiBlocklistItem": {
+          "bicepIdentifier": "raiBlocklistItem",
+          "type": "Microsoft.CognitiveServices/accounts/raiBlocklists/raiBlocklistItems",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-raiblocklists-raiblocklistitems"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "raiBlocklist"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "isRegex": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "pattern": {
+                    "kind": "string",
+                    "value": "^[a-z0-9_-]{2,16}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StorageSyncService list by Resource group name.
  *
  * @summary get a StorageSyncService list by Resource group name.
- * x-ms-original-file: 2022-09-01/StorageSyncServices_ListByResourceGroup.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_ListByResourceGroup.json
  */
 async function storageSyncServicesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

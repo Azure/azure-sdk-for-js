@@ -29,7 +29,7 @@ export function _getLatestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,6 +56,7 @@ export async function _getLatestDeserialize(
 
   return rollingUpgradeStatusInfoDeserializer(result.body);
 }
+
 /** Gets the status of the latest virtual machine scale set rolling upgrade. */
 export async function getLatest(
   context: Client,
@@ -79,7 +80,7 @@ export function _cancelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,6 +102,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Cancels the current virtual machine scale set rolling upgrade. */
 export function cancel(
   context: Client,
@@ -113,7 +115,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -131,7 +133,7 @@ export function _startOSUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,6 +155,7 @@ export async function _startOSUpgradeDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
 export function startOSUpgrade(
   context: Client,
@@ -168,7 +171,7 @@ export function startOSUpgrade(
     getInitialResponse: () =>
       _startOSUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -186,7 +189,7 @@ export function _startExtensionUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,6 +213,7 @@ export async function _startExtensionUpgradeDeserialize(
 
   return;
 }
+
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
 export function startExtensionUpgrade(
   context: Client,
@@ -225,6 +229,6 @@ export function startExtensionUpgrade(
     getInitialResponse: () =>
       _startExtensionUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }

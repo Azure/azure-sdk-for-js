@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Fleet
  *
  * @summary delete a Fleet
- * x-ms-original-file: 2026-06-01/Fleets_Delete.json
+ * x-ms-original-file: 2026-11-01/Fleets_Delete.json
  */
 async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation() {
   const credential = new DefaultAzureCredential();

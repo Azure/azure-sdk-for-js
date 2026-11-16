@@ -173,7 +173,7 @@ matrix([[false, true]], async function (useAad: boolean) {
         });
       });
 
-      describe("Opt Outs Client", { sequential: true }, async () => {
+      describe("Opt Outs Client", async () => {
         it(
           "OptOut Check must return as many results as there were recipients",
           { timeout: 4000 },

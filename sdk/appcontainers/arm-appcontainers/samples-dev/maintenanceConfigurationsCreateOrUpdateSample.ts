@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the maintenance configuration for Managed Environment.
  *
  * @summary create or update the maintenance configuration for Managed Environment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironment_MaintenanceConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironment_MaintenanceConfigurations_CreateOrUpdate.json
  */
 async function managedEnvironmentMaintenanceConfigurationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

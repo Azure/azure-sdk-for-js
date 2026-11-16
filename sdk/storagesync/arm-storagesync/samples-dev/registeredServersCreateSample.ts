@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to add a new registered server.
  *
  * @summary add a new registered server.
- * x-ms-original-file: 2022-09-01/RegisteredServers_Create.json
+ * x-ms-original-file: 2025-12-01/RegisteredServers_Create.json
  */
 async function registeredServersCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

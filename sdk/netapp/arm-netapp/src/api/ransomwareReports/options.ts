@@ -8,7 +8,9 @@ export interface RansomwareReportsClearSuspectsOptionalParams extends OperationO
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface RansomwareReportsListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface RansomwareReportsGetOptionalParams extends OperationOptions {}

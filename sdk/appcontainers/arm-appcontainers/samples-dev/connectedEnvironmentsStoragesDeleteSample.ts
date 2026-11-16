@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete storage for a connectedEnvironment.
  *
  * @summary delete storage for a connectedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironmentsStorages_Delete.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironmentsStorages_Delete.json
  */
 async function listEnvironmentsStoragesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

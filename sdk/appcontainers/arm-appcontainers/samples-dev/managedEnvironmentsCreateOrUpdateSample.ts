@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Managed Environment used to host container apps.
  *
  * @summary creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_CreateOrUpdate.json
  */
 async function createEnvironments(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,18 +23,29 @@ async function createEnvironments(): Promise<void> {
       },
     },
     location: "East US",
+    appLogsConfiguration: {
+      logAnalyticsConfiguration: { customerId: "string", sharedKey: "string" },
+    },
     appInsightsConfiguration: {
       connectionString:
         "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/",
     },
-    appLogsConfiguration: {
-      logAnalyticsConfiguration: {
-        customerId: "string",
-        dynamicJsonColumns: true,
-        sharedKey: "string",
+    openTelemetryConfiguration: {
+      destinationsConfiguration: {
+        dataDogConfiguration: { site: "string", key: "000000000000000000000000" },
+        otlpConfigurations: [
+          {
+            name: "dashboard",
+            endpoint: "dashboard.k8s.region.azurecontainerapps.io:80",
+            insecure: true,
+            headers: [{ key: "api-key", value: "xxxxxxxxxxx" }],
+          },
+        ],
       },
+      tracesConfiguration: { includeDapr: true, destinations: ["appInsights"] },
+      logsConfiguration: { destinations: ["appInsights"] },
+      metricsConfiguration: { includeKeda: true, destinations: ["dataDog"] },
     },
-    availabilityZones: ["1", "2", "3"],
     customDomainConfiguration: {
       certificatePassword: "1234",
       certificateValue: Buffer.from("Y2VydA==", "base64"),
@@ -42,36 +53,11 @@ async function createEnvironments(): Promise<void> {
     },
     daprAIConnectionString:
       "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
-    diskEncryptionConfiguration: {
-      keyVaultConfiguration: {
-        auth: {
-          identity:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resources/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity",
-        },
-        keyUrl: "https://contoso.vault.azure.net/mykey/19ff8313ca394b89b9e824bbbdc8c521",
-      },
-    },
     ingressConfiguration: {
       headerCountLimit: 30,
       requestIdleTimeout: 5,
       terminationGracePeriodSeconds: 3600,
       workloadProfileName: "My-CO-01",
-    },
-    openTelemetryConfiguration: {
-      destinationsConfiguration: {
-        dataDogConfiguration: { key: "000000000000000000000000", site: "string" },
-        otlpConfigurations: [
-          {
-            name: "dashboard",
-            endpoint: "dashboard.k8s.region.azurecontainerapps.io:80",
-            headers: [{ key: "api-key", value: "xxxxxxxxxxx" }],
-            insecure: true,
-          },
-        ],
-      },
-      logsConfiguration: { destinations: ["appInsights"] },
-      metricsConfiguration: { destinations: ["dataDog"], includeKeda: true },
-      tracesConfiguration: { destinations: ["appInsights"], includeDapr: true },
     },
     peerAuthentication: { mtls: { enabled: true } },
     peerTrafficConfiguration: { encryption: { enabled: true } },
@@ -82,7 +68,6 @@ async function createEnvironments(): Promise<void> {
     workloadProfiles: [
       {
         name: "My-GP-01",
-        enableFips: true,
         maximumCount: 12,
         minimumCount: 3,
         workloadProfileType: "GeneralPurpose",
@@ -110,7 +95,7 @@ async function createEnvironments(): Promise<void> {
  * This sample demonstrates how to creates or updates a Managed Environment used to host container apps.
  *
  * @summary creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
  */
 async function createEnvironmentWithCustomInfrastructureResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -121,7 +106,6 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup(): Promise
     appLogsConfiguration: {
       logAnalyticsConfiguration: { customerId: "string", sharedKey: "string" },
     },
-    availabilityZones: ["1", "2", "3"],
     customDomainConfiguration: {
       certificatePassword: "1234",
       certificateValue: Buffer.from("Y2VydA==", "base64"),
@@ -137,7 +121,6 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup(): Promise
     workloadProfiles: [
       {
         name: "My-GP-01",
-        enableFips: true,
         maximumCount: 12,
         minimumCount: 3,
         workloadProfileType: "GeneralPurpose",

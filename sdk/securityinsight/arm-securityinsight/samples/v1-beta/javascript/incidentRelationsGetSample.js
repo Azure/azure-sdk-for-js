@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a relation for a given incident.
  *
  * @summary gets a relation for a given incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/relations/GetIncidentRelationByName.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/relations/GetIncidentRelationByName.json
  */
 async function getAnIncidentRelation() {
   const credential = new DefaultAzureCredential();

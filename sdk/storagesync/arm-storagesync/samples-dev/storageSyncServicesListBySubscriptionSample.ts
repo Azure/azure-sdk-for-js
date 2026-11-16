@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StorageSyncService list by subscription.
  *
  * @summary get a StorageSyncService list by subscription.
- * x-ms-original-file: 2022-09-01/StorageSyncServices_ListBySubscription.json
+ * x-ms-original-file: 2025-12-01/StorageSyncServices_ListBySubscription.json
  */
 async function storageSyncServicesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

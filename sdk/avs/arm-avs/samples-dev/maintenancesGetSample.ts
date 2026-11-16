@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Maintenance
  *
  * @summary get a Maintenance
- * x-ms-original-file: 2025-09-01/Maintenances_Get.json
+ * x-ms-original-file: 2026-03-01/Maintenances_Get.json
  */
 async function maintenancesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

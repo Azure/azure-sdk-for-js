@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a FleetMember
  *
  * @summary update a FleetMember
- * x-ms-original-file: 2026-06-01/FleetMembers_Update.json
+ * x-ms-original-file: 2026-11-01/FleetMembers_Update.json
  */
 async function updatesAFleetMemberResourceSynchronously() {
   const credential = new DefaultAzureCredential();

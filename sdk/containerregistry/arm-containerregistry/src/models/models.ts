@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** The result of a request to list container registry operations. */
 export interface _OperationListResult {
   /** The list of container registry operations. Since this list may be incomplete, the nextLink field should be used to request the next list of operations. */
@@ -2864,6 +2864,8 @@ export function credentialSetArrayDeserializer(result: Array<CredentialSet>): an
 
 /** An object that represents a connected registry for a container registry. */
 export interface ConnectedRegistry extends ProxyResource {
+  /** The user-assigned managed identity used by the on-prem connected registry to authenticate with the cloud registry for sync operations. Requires authType to be ManagedIdentity. */
+  identity?: ManagedServiceIdentity;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
   /** The mode of the connected registry resource that indicates the permissions of the registry. */
@@ -2908,6 +2910,9 @@ export function connectedRegistrySerializer(item: ConnectedRegistry): any {
     ])
       ? undefined
       : _connectedRegistryPropertiesSerializer(item),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -2922,6 +2927,9 @@ export function connectedRegistryDeserializer(item: any): ConnectedRegistry {
     ...(!item["properties"]
       ? item["properties"]
       : _connectedRegistryPropertiesDeserializer(item["properties"])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -3123,7 +3131,7 @@ export function parentPropertiesDeserializer(item: any): ParentProperties {
 /** The sync properties of the connected registry with its parent. */
 export interface SyncProperties {
   /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
-  tokenId: string;
+  tokenId?: string;
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
   schedule?: string;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
@@ -3134,6 +3142,8 @@ export interface SyncProperties {
   readonly lastSyncTime?: Date;
   /** The gateway endpoint used by the connected registry to communicate with its parent. */
   readonly gatewayEndpoint?: string;
+  /** The authentication type used for the connected registry to sync with its parent. */
+  authType?: AuthType;
 }
 
 export function syncPropertiesSerializer(item: SyncProperties): any {
@@ -3142,6 +3152,7 @@ export function syncPropertiesSerializer(item: SyncProperties): any {
     schedule: item["schedule"],
     syncWindow: item["syncWindow"],
     messageTtl: item["messageTtl"],
+    authType: item["authType"],
   };
 }
 
@@ -3153,8 +3164,27 @@ export function syncPropertiesDeserializer(item: any): SyncProperties {
     messageTtl: item["messageTtl"],
     lastSyncTime: !item["lastSyncTime"] ? item["lastSyncTime"] : new Date(item["lastSyncTime"]),
     gatewayEndpoint: item["gatewayEndpoint"],
+    authType: item["authType"],
   };
 }
+
+/** The authentication type used for the connected registry to sync with its parent. */
+export enum KnownAuthType {
+  /** Sync authentication is done using ACR tokens */
+  SyncToken = "SyncToken",
+  /** Sync authentication is done using managed identity */
+  ManagedIdentity = "ManagedIdentity",
+}
+
+/**
+ * The authentication type used for the connected registry to sync with its parent. \
+ * {@link KnownAuthType} can be used interchangeably with AuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SyncToken**: Sync authentication is done using ACR tokens \
+ * **ManagedIdentity**: Sync authentication is done using managed identity
+ */
+export type AuthType = string;
 
 /** The login server properties of the connected registry. */
 export interface LoginServerProperties {
@@ -3324,6 +3354,10 @@ export interface StatusDetailProperties {
   readonly timestamp?: Date;
   /** The correlation ID of the status. */
   readonly correlationId?: string;
+  /** The total disk space in gibibytes (Gib, base-2). */
+  readonly totalGib?: number;
+  /** The available disk space in gibibytes (Gib, base-2). */
+  readonly availableGib?: number;
 }
 
 export function statusDetailPropertiesDeserializer(item: any): StatusDetailProperties {
@@ -3333,6 +3367,8 @@ export function statusDetailPropertiesDeserializer(item: any): StatusDetailPrope
     description: item["description"],
     timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
     correlationId: item["correlationId"],
+    totalGib: item["totalGib"],
+    availableGib: item["availableGib"],
   };
 }
 
@@ -3453,8 +3489,85 @@ export enum KnownSyncState {
  */
 export type SyncState = string;
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** The parameters for updating a connected registry. */
 export interface ConnectedRegistryUpdateParameters {
+  /** The user-assigned managed identity used to authenticate the connected registry with its parent during synchronization. Requires authType to be ManagedIdentity. */
+  identity?: ManagedServiceIdentity;
   /** The sync properties of the connected registry with its parent. */
   syncProperties?: SyncUpdateProperties;
   /** The logging properties of the connected registry. */
@@ -3480,6 +3593,9 @@ export function connectedRegistryUpdateParametersSerializer(
     ])
       ? undefined
       : _connectedRegistryUpdateParametersPropertiesSerializer(item),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -3529,6 +3645,8 @@ export interface SyncUpdateProperties {
   syncWindow?: string;
   /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
   messageTtl?: string;
+  /** The authentication type used for the connected registry to sync with its parent. */
+  authType?: AuthType;
 }
 
 export function syncUpdatePropertiesSerializer(item: SyncUpdateProperties): any {
@@ -3536,6 +3654,7 @@ export function syncUpdatePropertiesSerializer(item: SyncUpdateProperties): any 
     schedule: item["schedule"],
     syncWindow: item["syncWindow"],
     messageTtl: item["messageTtl"],
+    authType: item["authType"],
   };
 }
 
@@ -5276,7 +5395,7 @@ export enum KnownVersions {
   /** The 2025-11-01 API version. */
   V20251101 = "2025-11-01",
   /** The latest preview API version. */
-  VLatestPreview = "2026-03-01-preview",
+  VLatestPreview = "2026-09-01-preview",
 }
 
 export function _operationDefinitionPropertiesDeserializer(item: any) {

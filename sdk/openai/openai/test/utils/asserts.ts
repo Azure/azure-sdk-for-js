@@ -312,6 +312,7 @@ async function assertAsyncIterable<T>(
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
+        { cause: e },
       );
     }
     items.push(item);
@@ -571,7 +572,9 @@ function assertParsedMessage<ParsedT>(
     assert.deepEqual(message.content, JSON.stringify(message.parsed));
   }
   for (const item of message.tool_calls || []) {
-    assertParsedFunctionToolCall(item);
+    if (item.type === "function") {
+      assertParsedFunctionToolCall(item);
+    }
   }
 }
 

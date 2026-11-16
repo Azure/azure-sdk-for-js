@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list CommunityResource resources by subscription ID
  *
  * @summary list CommunityResource resources by subscription ID
- * x-ms-original-file: 2026-03-01-preview/Community_ListBySubscription.json
+ * x-ms-original-file: 2026-04-01/Community_ListBySubscription.json
  */
 async function communityListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

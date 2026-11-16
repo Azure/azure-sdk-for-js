@@ -1,0 +1,37 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to the operation to update the diagnostic run command.
+ *
+ * @summary the operation to update the diagnostic run command.
+ * x-ms-original-file: 2026-04-01/diagnosticRunCommandExamples/VirtualMachineDiagnosticRunCommand_Update.json
+ */
+async function updateADiagnosticRunCommand() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  await client.virtualMachineDiagnosticRunCommands.update(
+    "myResourceGroup",
+    "myVM",
+    "myRunCommand",
+    {
+      source: { commandId: "FleetDiagnosticsWindows" },
+      parameters: [
+        { name: "param1", value: "value1" },
+        { name: "param2", value: "value2" },
+      ],
+      asyncExecution: false,
+      timeoutInSeconds: 3600,
+    },
+  );
+}
+
+async function main() {
+  await updateADiagnosticRunCommand();
+}
+
+main().catch(console.error);

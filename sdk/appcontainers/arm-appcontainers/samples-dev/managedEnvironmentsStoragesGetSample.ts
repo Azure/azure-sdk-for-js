@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get storage for a managedEnvironment.
  *
  * @summary get storage for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_Get.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_Get.json
  */
 async function getAEnvironmentsStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAEnvironmentsStorage(): Promise<void> {
  * This sample demonstrates how to get storage for a managedEnvironment.
  *
  * @summary get storage for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
  */
 async function getAEnvironmentsStorageForNFSAzureFile(): Promise<void> {
   const credential = new DefaultAzureCredential();

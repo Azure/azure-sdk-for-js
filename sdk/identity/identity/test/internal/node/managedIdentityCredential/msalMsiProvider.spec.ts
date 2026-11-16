@@ -139,6 +139,18 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       });
     });
 
+    describe("when using Azure Arc Managed Identity", function () {
+      it("accepts user-assigned IDs", function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "AzureArc",
+        );
+
+        expect(() => new ManagedIdentityCredential({ clientId: "id" })).not.toThrow();
+        expect(() => new ManagedIdentityCredential({ resourceId: "id" })).not.toThrow();
+        expect(() => new ManagedIdentityCredential({ objectId: "id" })).not.toThrow();
+      });
+    });
+
     describe("log user-assigned managed Identity", function () {
       const testCases = [
         { idType: "clientId", idValue: "fakeClientID", source: "DefaultToImds" },
@@ -326,7 +338,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       });
 
       it("handles an unreachable network error", async function () {
-        acquireTokenStub.mockRejectedValue(new AuthError("network_error"));
+        acquireTokenStub.mockRejectedValue(new AuthError("network_error", "testID"));
         const credential = new ManagedIdentityCredential();
         await expect(credential.getToken("scope")).rejects.toThrow(CredentialUnavailableError);
       });
