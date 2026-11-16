@@ -36,8 +36,8 @@ jobs:
 
         # Generation jobs run this copy of dev-tool for both the base and target refs, so both
         # bundles come from the same generator regardless of the dev-tool at each ref.
-        # Pipeline artifacts don't preserve symlinks, so deploy a hoisted node_modules made of
-        # real directories instead of pnpm's default symlinked layout.
+        # Pipeline artifacts don't preserve symlinks, hence node-linker=hoisted:
+        # https://pnpm.io/settings/node-modules#nodelinker
         - bash: |
             set -Eeuo pipefail
 
