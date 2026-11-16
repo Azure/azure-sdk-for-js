@@ -489,18 +489,6 @@ describe("2026-08-01-preview operations", () => {
         .next();
       assert.lengthOf(second.value, 1);
       assert.notEqual(second.value[0].id, first.value[0].id);
-      const continuationToken = new URL(first.value.continuationToken!).searchParams.get(
-        "continuationToken",
-      );
-      assert.isString(continuationToken);
-      const resumed = await client
-        .listRoomsForUser(userId, {
-          maxPageSize: 1,
-          continuationToken: continuationToken!,
-        })
-        .byPage()
-        .next();
-      assert.equal(resumed.value[0].id, second.value[0].id);
     } finally {
       for (const roomId of roomIds) {
         await client.deleteRoom(roomId);

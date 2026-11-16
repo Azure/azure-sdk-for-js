@@ -293,37 +293,31 @@ export interface ListMessagesOptionalParams extends OperationOptions {
 
 // @public
 export interface ListRolesOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 
 // @public
 export interface ListRoomMembersOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 
 // @public
 export interface ListRoomsForUserOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 
 // @public
 export interface ListRoomsOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 
 // @public
 export interface ListTopicsOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 
 // @public
 export interface ListUsersOptionalParams extends OperationOptions {
-    continuationToken?: string;
     maxPageSize?: number;
 }
 

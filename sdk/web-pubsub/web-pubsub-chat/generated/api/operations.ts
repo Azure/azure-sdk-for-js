@@ -152,7 +152,6 @@ export function _listRoomsForUserSend(
       userId: userId,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +349,6 @@ export function _listUsersSend(
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -512,7 +510,6 @@ export function _listRoomMembersSend(
       roomId: roomId,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -776,7 +773,6 @@ export function _listTopicsSend(
       roomId: roomId,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -974,7 +970,6 @@ export function _listRoomsSend(
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1171,7 +1166,6 @@ export function _listRolesSend(
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       maxpagesize: options?.maxPageSize,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1360,7 +1354,6 @@ export async function _listMessagesDeserialize(
 }
 
 /**
- * Query messages in a conversation from latest to earliest.
  * Message IDs are used as pagination cursors. Follow the response nextLink,
  * which contains the message ID cursor, to retrieve the next page.
  */

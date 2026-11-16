@@ -8,6 +8,7 @@
 
 ### Breaking Changes
 
+- Removed `continuationToken` from list operation options. Resume pagination with `byPage({ continuationToken })` using the token returned on a page. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Renamed `ChatConversation.parentRoom` to `roomId` in the SDK; the service JSON property remains `parentRoom`. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Renamed PUT request models from `ChatRoleInput`, `ChatRoomInput`, `ChatRoomMemberInput`, `ChatTopicInput`, and `HumanChatUserInput` to their corresponding `CreateOrReplace` names. Renamed `ChatMessageInput` to `ChatMessageUpdate` to match `ChatTopicUpdate` and Python lifecycle naming. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)
 - Changed `createOrReplaceUser` to accept `HumanChatUserCreateOrReplace`, requiring `kind: "Human"`, `nickname`, and `roleName`. Removed the generic `ChatUserInput` and `ChatUserInputUnion` request types; response models continue to support unknown user kinds. [#40348](https://github.com/Azure/azure-sdk-for-js/pull/40348)

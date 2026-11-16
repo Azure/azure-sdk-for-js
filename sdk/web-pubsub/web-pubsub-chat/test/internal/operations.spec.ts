@@ -16,6 +16,12 @@ import {
   type ChatTopicState,
   type ChatTopicUpdate,
   type MessageContent,
+  type ListRolesOptionalParams,
+  type ListRoomMembersOptionalParams,
+  type ListRoomsOptionalParams,
+  type ListRoomsForUserOptionalParams,
+  type ListTopicsOptionalParams,
+  type ListUsersOptionalParams,
 } from "@azure/web-pubsub-chat";
 import {
   createHttpHeaders,
@@ -58,6 +64,15 @@ function createClient(
 }
 
 describe("operation requests", () => {
+  it("accepts continuation tokens only through page settings, not list options", () => {
+    expectTypeOf<ListRolesOptionalParams>().not.toHaveProperty("continuationToken");
+    expectTypeOf<ListRoomMembersOptionalParams>().not.toHaveProperty("continuationToken");
+    expectTypeOf<ListRoomsOptionalParams>().not.toHaveProperty("continuationToken");
+    expectTypeOf<ListRoomsForUserOptionalParams>().not.toHaveProperty("continuationToken");
+    expectTypeOf<ListTopicsOptionalParams>().not.toHaveProperty("continuationToken");
+    expectTypeOf<ListUsersOptionalParams>().not.toHaveProperty("continuationToken");
+  });
+
   it("maps the conversation parentRoom wire property to roomId", async () => {
     expectTypeOf<keyof ChatConversation>().toEqualTypeOf<"id" | "roomId" | "etag">();
     const client = createClient(() => ({
@@ -430,22 +445,34 @@ describe("operation requests", () => {
     assert.equal(requests[2].headers.get("if-match"), created.etag);
   });
 
-  it("paginates room, user, user room, and topic lists and preserves the API version on continuation links", async () => {
+  it("resumes all token-paged lists through page settings and preserves the API version", async () => {
     const paths = [
       "/api/hubs/hub/chat/rooms",
       "/api/hubs/hub/chat/users",
       "/api/hubs/hub/chat/users/user/rooms",
       "/api/hubs/hub/chat/rooms/room/topics",
+      "/api/hubs/hub/chat/roles",
+      "/api/hubs/hub/chat/rooms/room/members",
     ];
     const requests: PipelineRequest[] = [];
     const client = createClient((request) => {
       requests.push(request);
       const url = new URL(request.url);
-      const value = url.pathname.endsWith("topics")
-        ? topic
-        : url.pathname.endsWith("users")
-          ? { id: "user", kind: "Human", nickname: "User", roleName: "user.normal", etag: '"one"' }
-          : { id: "room", title: "Room", defaultConversation: "c.room.default", etag: '"one"' };
+      const value = url.pathname.endsWith("roles")
+        ? { name: "role", permissions: [], etag: '"one"' }
+        : url.pathname.endsWith("members")
+          ? { userId: "user", roleName: "room.member", etag: '"one"' }
+          : url.pathname.endsWith("topics")
+            ? topic
+            : url.pathname.endsWith("users")
+              ? {
+                  id: "user",
+                  kind: "Human",
+                  nickname: "User",
+                  roleName: "user.normal",
+                  etag: '"one"',
+                }
+              : { id: "room", title: "Room", defaultConversation: "c.room.default", etag: '"one"' };
       return {
         body: {
           value: [value],
@@ -460,6 +487,8 @@ describe("operation requests", () => {
       client.listUsers({ maxPageSize: 1 }),
       client.listRoomsForUser("user", { maxPageSize: 1 }),
       client.listTopics("room", { maxPageSize: 1 }),
+      client.listRoles({ maxPageSize: 1 }),
+      client.listRoomMembers("room", { maxPageSize: 1 }),
     ];
     for (const [index, iterator] of iterators.entries()) {
       const first = await iterator.byPage().next();
@@ -470,6 +499,11 @@ describe("operation requests", () => {
         .next();
       assert.lengthOf(next.value, 1);
       assert.equal(new URL(requests[index * 2].url).pathname, paths[index]);
+      assert.isFalse(new URL(requests[index * 2].url).searchParams.has("continuationToken"));
+      assert.equal(
+        new URL(requests[index * 2 + 1].url).searchParams.get("continuationToken"),
+        "next",
+      );
     }
     for (const request of requests) {
       const url = new URL(request.url);
@@ -501,12 +535,11 @@ describe("operation requests", () => {
     await client
       .listRoomsForUser("user with spaces", {
         maxPageSize: 2,
-        continuationToken: "token+/=",
       })
       .next();
     assert.equal(requestUrl?.pathname, "/api/hubs/hub/chat/users/user%20with%20spaces/rooms");
     assert.equal(requestUrl?.searchParams.get("maxpagesize"), "2");
-    assert.equal(requestUrl?.searchParams.get("continuationToken"), "token+/=");
+    assert.isFalse(requestUrl?.searchParams.has("continuationToken"));
     assert.equal(requestUrl?.searchParams.get("api-version"), "2026-08-01-preview");
   });
 

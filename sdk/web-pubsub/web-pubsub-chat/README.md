@@ -436,6 +436,9 @@ for await (const topic of client.listTopics("general", { maxPageSize: 20 })) {
 
 ### Resume topic pagination
 
+List operations accept continuation tokens through `byPage({ continuationToken })`,
+not through the list method's options. Pass the token returned on a page unchanged.
+
 ```ts snippet:ReadmeSampleTopicPages
 import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";

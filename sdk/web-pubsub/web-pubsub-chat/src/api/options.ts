@@ -17,8 +17,6 @@ export interface GenerateClientTokenOptionalParams extends OperationOptions {
 export interface ListRoomsForUserOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
@@ -44,8 +42,6 @@ export interface GetUserOptionalParams extends OperationOptions {}
 export interface ListUsersOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
@@ -68,8 +64,6 @@ export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOption
 export interface ListRoomMembersOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
@@ -103,8 +97,6 @@ export interface CreateOrReplaceTopicOptionalParams extends OperationOptions {
 export interface ListTopicsOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
@@ -130,8 +122,6 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
 export interface ListRoomsOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
@@ -157,8 +147,6 @@ export interface GetRoleOptionalParams extends OperationOptions {}
 export interface ListRolesOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */
