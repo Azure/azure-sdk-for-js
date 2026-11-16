@@ -1,0 +1,49 @@
+parameters:
+  - name: languageRepoResource
+    type: string
+  - name: toolsRef
+    type: string
+  - name: languageToolsRef
+    type: string
+  - name: poolName
+    type: string
+    default: 'azsdk-pool'
+  - name: imageOverride
+    type: string
+    default: 'ubuntu-24.04'
+
+jobs:
+  - template: /eng/common/pipelines/templates/jobs/apireview-hub-build-tools-base.yml
+    parameters:
+      languageRepoResource: ${{ parameters.languageRepoResource }}
+      toolsRef: ${{ parameters.toolsRef }}
+      languageToolsRef: ${{ parameters.languageToolsRef }}
+      poolName: ${{ parameters.poolName }}
+      imageOverride: ${{ parameters.imageOverride }}
+      stepList:
+        # The base template checks out only eng/, but dev-tool's workspace dependencies live
+        # across the repository.
+        - bash: git -C "$LANGUAGE_TOOLS_SOURCE_DIRECTORY" sparse-checkout disable
+          displayName: Check out the full JavaScript repository
+          env:
+            LANGUAGE_TOOLS_SOURCE_DIRECTORY: $(LanguageToolsSourceDirectory)
+
+        - template: /eng/pipelines/templates/steps/use-node-version.yml
+
+        - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+
+        - template: /eng/pipelines/templates/steps/install-pnpm.yml
+
+        # Generation jobs run this copy of dev-tool for both the base and target refs, so both
+        # bundles come from the same generator regardless of the dev-tool at each ref.
+        - bash: |
+            set -Eeuo pipefail
+
+            pnpm install --frozen-lockfile --filter "@azure/dev-tool..."
+            pnpm turbo build --filter="@azure/dev-tool..." --token 1
+            pnpm --filter @azure/dev-tool deploy --legacy --prod "$BIN_OUTPUT_DIRECTORY/dev-tool"
+            node "$BIN_OUTPUT_DIRECTORY/dev-tool/launch.ts" run generate-api-review --help
+          displayName: Stage dev-tool for API review generation
+          workingDirectory: $(LanguageToolsSourceDirectory)
+          env:
+            BIN_OUTPUT_DIRECTORY: $(BinOutputDirectory)
