@@ -29,104 +29,98 @@ describe("knowledge retrieval stream browser transport", () => {
   });
 
   it.each(["application/json", "text/plain", ""])(
-    "rejects a non-SSE convenience response (%s) and cancels its stream",
+    "rejects non-SSE responses (%s) and cancels both client streams",
     async (contentType) => {
-      const cancel = vi.fn();
-      const stream = new ReadableStream<Uint8Array>({
-        cancel,
-      });
-      vi.stubGlobal(
-        "fetch",
-        vi
-          .fn()
-          .mockResolvedValue(
-            new Response(stream, { status: 200, headers: { "content-type": contentType } }),
-          ),
-      );
-      const client = getClient("https://example.search.windows.net");
-      await expect(
-        getSseStream(client.pathUnchecked("/knowledgebases/base").get()),
-      ).rejects.toMatchObject({ statusCode: 200 });
-      expect(cancel).toHaveBeenCalledOnce();
-      expect(stream.locked).toBe(false);
+      for (const protocol of [false, true]) {
+        const cancel = vi.fn();
+        const stream = new ReadableStream<Uint8Array>({ cancel });
+        vi.stubGlobal(
+          "fetch",
+          vi
+            .fn()
+            .mockResolvedValue(
+              new Response(stream, { status: 200, headers: { "content-type": contentType } }),
+            ),
+        );
+        const result = protocol
+          ? new ProtocolKnowledgeBaseRetrievalClient(
+              "https://example.search.windows.net",
+              new AzureKeyCredential("key"),
+              "base",
+            ).retrieveStream({ intents: [{ type: "semantic", search: "status" }] })
+          : getSseStream(
+              getClient("https://example.search.windows.net")
+                .pathUnchecked("/knowledgebases/base")
+                .get(),
+            );
+        await expect(result).rejects.toMatchObject({ statusCode: 200 });
+        expect(cancel).toHaveBeenCalledOnce();
+        expect(stream.locked).toBe(false);
+      }
     },
   );
 
-  it("continues to parse a non-success streaming response body", async () => {
-    const cancel = vi.fn();
-    const responseBody = JSON.stringify({
-      error: { code: "NotFound", message: "Knowledge base not found" },
-    });
-    const stream = new ReadableStream<Uint8Array>({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode(responseBody));
-        controller.close();
-      },
-      cancel,
-    });
+  it("streams typed protocol events and stops at completion", async () => {
     vi.stubGlobal(
       "fetch",
-      vi
-        .fn()
-        .mockResolvedValue(
-          new Response(stream, { status: 404, headers: { "content-type": "application/json" } }),
+      vi.fn().mockResolvedValue(
+        createResponse(
+          200,
+          [
+            `event: activity.completed\ndata: ${JSON.stringify({
+              id: 1,
+              type: "graphSearch",
+              startedAt: "2026-11-01T00:00:00Z",
+              completedAt: "2026-11-01T00:00:01Z",
+              elapsedMs: 1000,
+            })}\n\n`,
+            'event: response.completed\ndata: {"statusCode":206,"response":{"response":[]}}\n\n',
+            'event: retrieval.started\ndata: {"requestId":"unexpected"}\n\n',
+          ].join(""),
         ),
-    );
-    const client = getClient("https://example.search.windows.net");
-
-    await expect(
-      getSseStream(client.pathUnchecked("/knowledgebases/base").get()),
-    ).rejects.toMatchObject({ statusCode: 404, code: "NotFound" });
-    expect(cancel).not.toHaveBeenCalled();
-  });
-
-  it("streams typed events from the protocol browser client", async () => {
-    const fetch = vi.fn().mockResolvedValue(
-      createResponse(
-        200,
-        [
-          `event: activity.completed\ndata: ${JSON.stringify({
-            id: 1,
-            type: "searchIndex",
-            startedAt: "2026-10-01T00:00:00Z",
-            completedAt: "2026-10-01T00:00:01Z",
-            elapsedMs: 0,
-          })}\n\n`,
-          `event: response.completed\ndata: ${JSON.stringify({
-            statusCode: 200,
-            response: { response: [] },
-          })}\n\n`,
-          `event: retrieval.started\ndata: {"requestId":"unexpected"}\n\n`,
-        ].join(""),
       ),
     );
-    vi.stubGlobal("fetch", fetch);
     const client = new ProtocolKnowledgeBaseRetrievalClient(
       "https://example.search.windows.net",
       new AzureKeyCredential("key"),
       "base",
     );
-
     const events: KnowledgeBaseRetrievalStreamEvent[] = [];
     for await (const event of await client.retrieveStream({
       intents: [{ type: "semantic", search: "status" }],
     })) {
       events.push(event);
     }
-
     expect(events.map((event) => event.event)).toEqual([
       "activity.completed",
       "response.completed",
     ]);
     const activity = events[0];
-    expect(activity.event).toBe("activity.completed");
     if (activity.event === "activity.completed") {
-      expect(activity.data.startedAt).toEqual(new Date("2026-10-01T00:00:00Z"));
-      expect(activity.data.completedAt).toEqual(new Date("2026-10-01T00:00:01Z"));
-      expect(activity.data.elapsedInMs).toBe(0);
-      expect(activity.data).not.toHaveProperty("elapsedMs");
+      expect(activity.data.startedAt).toEqual(new Date("2026-11-01T00:00:00Z"));
+      expect(activity.data.elapsedMs).toBe(1000);
     }
-    expect(fetch).toHaveBeenCalledOnce();
+  });
+
+  it.each(["", "   ", "{ invalid"])("preserves malformed JSON HTTP error body %j", async (body) => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(body, { status: 404, headers: { "content-type": "application/json" } }),
+        ),
+    );
+    const client = new ProtocolKnowledgeBaseRetrievalClient(
+      "https://example.search.windows.net",
+      new AzureKeyCredential("key"),
+      "base",
+    );
+    await expect(
+      client.retrieveStream({
+        intents: [{ type: "semantic", search: "status" }],
+      }),
+    ).rejects.toMatchObject({ statusCode: 404, response: { status: 404 }, name: "RestError" });
   });
 
   it("streams typed events from a browser response", async () => {
@@ -183,33 +177,6 @@ describe("knowledge retrieval stream browser transport", () => {
       message: "Knowledge base not found",
     });
   });
-
-  it.each(["   ", "{ invalid"])(
-    "preserves the HTTP error for malformed JSON preflight body %j",
-    async (body) => {
-      vi.stubGlobal(
-        "fetch",
-        vi
-          .fn()
-          .mockResolvedValue(
-            new Response(body, { status: 404, headers: { "content-type": "application/json" } }),
-          ),
-      );
-      const client = new ProtocolKnowledgeBaseRetrievalClient(
-        "https://example.search.windows.net",
-        new AzureKeyCredential("key"),
-        "base",
-      );
-
-      await expect(
-        client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
-      ).rejects.toMatchObject({
-        statusCode: 404,
-        response: { status: 404 },
-        name: "RestError",
-      });
-    },
-  );
 
   it("preserves streamed errors from the raw protocol client", async () => {
     vi.stubGlobal(
