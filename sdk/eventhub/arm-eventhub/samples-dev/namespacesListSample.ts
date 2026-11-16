@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the available Namespaces within a subscription, irrespective of the resource groups.
  *
  * @summary lists all the available Namespaces within a subscription, irrespective of the resource groups.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceList.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceList.json
  */
 async function namespacesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

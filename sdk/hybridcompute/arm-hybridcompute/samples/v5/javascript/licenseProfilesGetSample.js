@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about the view of a license profile.
  *
  * @summary retrieves information about the view of a license profile.
- * x-ms-original-file: 2026-07-15/licenseProfile/LicenseProfile_Get.json
+ * x-ms-original-file: 2026-09-01/licenseProfile/LicenseProfile_Get.json
  */
 async function getLicenseProfile() {
   const credential = new DefaultAzureCredential();

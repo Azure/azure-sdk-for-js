@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all servers in the subscription.
  *
  * @summary gets a list of all servers in the subscription.
- * x-ms-original-file: 2025-08-01-preview/ServerList.json
+ * x-ms-original-file: 2026-08-01-preview/ServerList.json
  */
 async function listServers() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listServers() {
  * This sample demonstrates how to gets a list of all servers in the subscription.
  *
  * @summary gets a list of all servers in the subscription.
- * x-ms-original-file: 2025-08-01-preview/ServerListWithExpandEqualsAdministrators.json
+ * x-ms-original-file: 2026-08-01-preview/ServerListWithExpandEqualsAdministrators.json
  */
 async function listServersWithExpandAdministratorsOrActivedirectory() {
   const credential = new DefaultAzureCredential();

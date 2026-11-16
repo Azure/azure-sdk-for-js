@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
@@ -65,8 +65,13 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
+    let synonymMapNames: string[];
+    let createdSynonymMapNames: string[];
+    let indexCreated: boolean;
 
     beforeEach(async (ctx) => {
+      indexCreated = false;
+      createdSynonymMapNames = [];
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
@@ -75,16 +80,18 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         TEST_INDEX_NAME,
       ));
 
-      await createSynonymMaps(indexClient);
+      synonymMapNames = [1, 2].map((i) => `${TEST_INDEX_NAME}-synonymmap-${i}`);
+      createdSynonymMapNames = await createSynonymMaps(indexClient, synonymMapNames);
       await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      indexCreated = true;
       await delay(WAIT_TIME);
     });
 
     afterEach(async () => {
       try {
-        await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+        if (indexCreated) await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
         await delay(WAIT_TIME);
-        await deleteSynonymMaps(indexClient).catch(() => {});
+        await deleteSynonymMaps(indexClient, createdSynonymMapNames).catch(() => {});
       } finally {
         await recorder?.stop();
       }
@@ -94,19 +101,21 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("gets the list of synonymmaps", async () => {
         const synonymMaps = await indexClient.listSynonymMaps();
         assert.isAtLeast(synonymMaps.length, 2);
+        assert.includeMembers(
+          synonymMaps.map((synonymMap) => synonymMap.name),
+          synonymMapNames,
+        );
       });
 
       it("gets the list of synonymmaps names", async () => {
-        const synonymMapNames = await indexClient.listSynonymMapsNames();
-        assert.isAtLeast(synonymMapNames.length, 2);
-        for (let i = 1; i <= 2; i++) {
-          assert.include(synonymMapNames, `my-azure-synonymmap-${i}`);
-        }
+        const listedNames = await indexClient.listSynonymMapsNames();
+        assert.isAtLeast(listedNames.length, 2);
+        assert.includeMembers(listedNames, synonymMapNames);
       });
 
       it("gets the correct synonymmap object", async () => {
-        const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
-        assert.equal(synonymMap.name, "my-azure-synonymmap-1");
+        const synonymMap = await indexClient.getSynonymMap(synonymMapNames[0]);
+        assert.equal(synonymMap.name, synonymMapNames[0]);
         assert.equal(synonymMap.synonyms.length, 2);
         const synonyms = [
           "United States, United States of America => USA",
@@ -127,31 +136,31 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
 
       it("creates the synonymmap object using createOrUpdateSynonymMap", async () => {
+        const name = `${TEST_INDEX_NAME}-synonymmap-3`;
         let synonymMap: SynonymMap = {
-          name: `my-azure-synonymmap-3`,
+          name,
           synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
         };
-        await indexClient.createOrUpdateSynonymMap(synonymMap);
-        try {
-          synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-3");
-          assert.equal(synonymMap.name, "my-azure-synonymmap-3");
-          assert.equal(synonymMap.synonyms.length, 2);
-          const synonyms = [
-            "United States, United States of America => USA",
-            "Washington, Wash. => WA",
-          ];
-          assert.include(synonyms, synonymMap.synonyms[0]);
-          assert.include(synonyms, synonymMap.synonyms[1]);
-        } finally {
-          await indexClient.deleteSynonymMap(synonymMap);
-        }
+        await indexClient.createOrUpdateSynonymMap(synonymMap, {
+          requestOptions: { headers: { "If-None-Match": "*" } },
+        });
+        createdSynonymMapNames.push(name);
+        synonymMap = await indexClient.getSynonymMap(name);
+        assert.equal(synonymMap.name, name);
+        assert.equal(synonymMap.synonyms.length, 2);
+        const synonyms = [
+          "United States, United States of America => USA",
+          "Washington, Wash. => WA",
+        ];
+        assert.include(synonyms, synonymMap.synonyms[0]);
+        assert.include(synonyms, synonymMap.synonyms[1]);
       });
 
       it("modify and updates the synonymmap object", async () => {
-        let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
+        let synonymMap = await indexClient.getSynonymMap(synonymMapNames[0]);
         synonymMap.synonyms.push("California, Clif. => CA");
         await indexClient.createOrUpdateSynonymMap(synonymMap);
-        synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
+        synonymMap = await indexClient.getSynonymMap(synonymMapNames[0]);
         assert.equal(synonymMap.synonyms.length, 3);
         const synonyms = [
           "United States, United States of America => USA",
@@ -204,7 +213,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
 
       it("creates the index object using createOrUpdateIndex", async () => {
-        const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
+        const indexName = `${TEST_INDEX_NAME}-secondary`;
         let index: SearchIndex = {
           name: indexName,
           fields: [
@@ -243,7 +252,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
             },
           ],
         };
-        await indexClient.createOrUpdateIndex(index);
+        await indexClient.createOrUpdateIndex(index, {
+          requestOptions: { headers: { "If-None-Match": "*" } },
+        });
         try {
           index = await indexClient.getIndex(indexName);
           assert.equal(index.name, indexName);
@@ -267,7 +278,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
 
     it("creates the index object vector fields", async () => {
-      const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
+      const indexName = `${TEST_INDEX_NAME}-secondary`;
+      let secondaryIndexCreated = false;
 
       const algorithm: VectorSearchAlgorithmConfiguration = {
         name: "algorithm-configuration",
@@ -301,12 +313,15 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         },
       };
       try {
-        await indexClient.createOrUpdateIndex(index);
+        await indexClient.createOrUpdateIndex(index, {
+          requestOptions: { headers: { "If-None-Match": "*" } },
+        });
+        secondaryIndexCreated = true;
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
-        await indexClient.deleteIndex(index);
+        if (secondaryIndexCreated) await indexClient.deleteIndex(indexName);
       }
     });
   });

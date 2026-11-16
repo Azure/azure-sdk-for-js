@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { context, trace } from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
+import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace";
 import { assert, beforeEach, describe, it } from "vitest";
 
 import type { MetricHandler } from "../../../../src/metrics/index.js";
@@ -24,11 +24,11 @@ function createStubMetricHandler(): MetricHandler {
 }
 
 describe("Library/AzureMonitorSpanProcessor", () => {
-  let tracerProvider: BasicTracerProvider;
+  let tracerProvider: TracerProvider;
   let processor: AzureMonitorSpanProcessor;
 
   beforeEach(() => {
-    tracerProvider = new BasicTracerProvider();
+    tracerProvider = new TracerProvider();
     processor = new AzureMonitorSpanProcessor(createStubMetricHandler());
   });
 
@@ -36,7 +36,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
     const tracer = tracerProvider.getTracer("test");
     const parent = tracer.startSpan("parent") as Span;
     for (const [k, v] of Object.entries(parentAttrs)) {
-      parent.setAttribute(k, v as never);
+      parent.setAttribute(k, v);
     }
     return parent;
   }

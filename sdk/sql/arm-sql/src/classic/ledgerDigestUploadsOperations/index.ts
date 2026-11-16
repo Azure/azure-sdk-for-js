@@ -89,6 +89,7 @@ export interface LedgerDigestUploadsOperationsOperations {
     options?: LedgerDigestUploadsOperationsGetOptionalParams,
   ) => Promise<LedgerDigestUploads>;
 }
+
 function _getLedgerDigestUploadsOperations(context: SqlManagementContext) {
   return {
     disable: (
@@ -203,6 +204,7 @@ function _getLedgerDigestUploadsOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, ledgerDigestUploads, options),
   };
 }
+
 export function _getLedgerDigestUploadsOperationsOperations(
   context: SqlManagementContext,
 ): LedgerDigestUploadsOperationsOperations {

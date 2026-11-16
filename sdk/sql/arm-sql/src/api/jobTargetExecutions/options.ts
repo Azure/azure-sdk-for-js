@@ -20,6 +20,7 @@ export interface JobTargetExecutionsListByJobExecutionOptionalParams extends Ope
   /** The number of elements to return from the collection. */
   top?: number;
 }
+
 /** Optional parameters. */
 export interface JobTargetExecutionsListByStepOptionalParams extends OperationOptions {
   /** If specified, only job executions created at or after the specified time are included. */
@@ -37,5 +38,6 @@ export interface JobTargetExecutionsListByStepOptionalParams extends OperationOp
   /** The number of elements to return from the collection. */
   top?: number;
 }
+
 /** Optional parameters. */
 export interface JobTargetExecutionsGetOptionalParams extends OperationOptions {}

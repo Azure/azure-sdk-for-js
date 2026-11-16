@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches the mount scripts (iSCSI connection details) for an active Instant Item Recovery (ILR) session on the recovery point. Required from API version 2026-08-01 onwards; replaces the scripts previously returned inline in the operationsStatus (ILR provision) response.
  *
  * @summary fetches the mount scripts (iSCSI connection details) for an active Instant Item Recovery (ILR) session on the recovery point. Required from API version 2026-08-01 onwards; replaces the scripts previously returned inline in the operationsStatus (ILR provision) response.
- * x-ms-original-file: 2026-08-01/AzureIaasVm/ListInstantItemRecoveryOperationResult.json
+ * x-ms-original-file: 2026-10-01/AzureIaasVm/ListInstantItemRecoveryOperationResult.json
  */
 async function listTheInstantItemRecoveryOperationResultMountScriptsForAnActiveILRSession(): Promise<void> {
   const credential = new DefaultAzureCredential();

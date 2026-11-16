@@ -1,4 +1,29 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/extensionPublisher/index.ts",
+    "../src/api/extensionType/index.ts",
+    "../src/api/settings/index.ts",
+    "../src/api/extensionMetadataV2/index.ts",
+    "../src/api/extensionMetadata/index.ts",
+    "../src/api/privateLinkScopes/index.ts",
+    "../src/api/networkProfileOperations/index.ts",
+    "../src/api/networkSecurityPerimeterConfigurations/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/gateways/index.ts",
+    "../src/api/vmApplications/index.ts",
+    "../src/api/machineRunCommands/index.ts",
+    "../src/api/machineExtensions/index.ts",
+    "../src/api/licenseProfiles/index.ts",
+    "../src/api/machines/index.ts",
+    "../src/api/licenses/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

@@ -37,7 +37,7 @@ export function _listByJobExecutionSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -75,6 +75,7 @@ export async function _listByJobExecutionDeserialize(
 
   return _jobExecutionListResultDeserializer(result.body);
 }
+
 /** Lists target executions for all steps of a job execution. */
 export function listByJobExecution(
   context: Client,
@@ -102,7 +103,7 @@ export function listByJobExecution(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -127,7 +128,7 @@ export function _listByStepSend(
       jobName: jobName,
       jobExecutionId: jobExecutionId,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -165,6 +166,7 @@ export async function _listByStepDeserialize(
 
   return _jobExecutionListResultDeserializer(result.body);
 }
+
 /** Lists the target executions of a job step execution. */
 export function listByStep(
   context: Client,
@@ -194,7 +196,7 @@ export function listByStep(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -221,7 +223,7 @@ export function _getSend(
       jobExecutionId: jobExecutionId,
       stepName: stepName,
       targetId: targetId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,6 +248,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
 
   return jobExecutionDeserializer(result.body);
 }
+
 /** Gets a target execution. */
 export async function get(
   context: Client,

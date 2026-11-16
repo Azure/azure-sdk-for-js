@@ -37,7 +37,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,6 +64,7 @@ export async function _listByDatabaseDeserialize(
 
   return _databaseBlobAuditingPolicyListResultDeserializer(result.body);
 }
+
 /** Lists auditing settings of a database. */
 export function listByDatabase(
   context: Client,
@@ -80,7 +81,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -101,7 +102,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,6 +131,7 @@ export async function _createOrUpdateDeserialize(
 
   return databaseBlobAuditingPolicyDeserializer(result.body);
 }
+
 /** Creates or updates a database's blob auditing policy. */
 export async function createOrUpdate(
   context: Client,
@@ -165,7 +167,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       blobAuditingPolicyName: "default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,6 +194,7 @@ export async function _getDeserialize(
 
   return databaseBlobAuditingPolicyDeserializer(result.body);
 }
+
 /** Gets a database's blob auditing policy. */
 export async function get(
   context: Client,

@@ -32,11 +32,7 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              pnpm build --filter @azure/eslint-plugin-azure-sdk...
-            displayName: "Build ESLint Plugin"
-
-          - script: |
-              pnpm build --filter @azure/monitor-opentelemetry-exporter... --filter @azure/opentelemetry-instrumentation-azure-sdk...
+              pnpm build --filter @azure/monitor-opentelemetry...
             displayName: "Build packages to enable typed linting"
 
           - script: |

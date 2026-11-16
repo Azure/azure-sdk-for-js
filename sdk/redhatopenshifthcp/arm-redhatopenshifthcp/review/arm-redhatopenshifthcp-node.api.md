@@ -42,6 +42,11 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface ClusterActiveVersion {
+    readonly version: string;
+}
+
+// @public
 export interface ClusterAutoscalingProfile {
     maxNodeProvisionTimeSeconds?: number;
     maxNodesTotal?: number;
@@ -58,6 +63,12 @@ export interface ClusterImageRegistryProfile {
 export type ClusterImageRegistryState = string;
 
 // @public
+export interface ClusterResourceStatus {
+    readonly activeVersions?: ClusterActiveVersion[];
+    readonly conditions?: Condition[];
+}
+
+// @public
 export interface Condition {
     readonly lastTransitionTime: Date;
     readonly message: string;
@@ -72,6 +83,11 @@ export type ConditionType = string;
 // @public
 export interface ConsoleProfile {
     readonly url: string;
+}
+
+// @public
+export interface ContainerRegistryProfile {
+    managedIdentity?: string;
 }
 
 // @public
@@ -174,11 +190,16 @@ export interface ExternalAuthProperties {
     clients?: ExternalAuthClientProfile[];
     issuer: TokenIssuerProfile;
     readonly provisioningState?: ExternalAuthProvisioningState;
-    readonly status?: ResourceStatus;
+    readonly status?: ExternalAuthResourceStatus;
 }
 
 // @public
 export type ExternalAuthProvisioningState = string;
+
+// @public
+export interface ExternalAuthResourceStatus {
+    readonly conditions?: Condition[];
+}
 
 // @public
 export interface ExternalAuthsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -250,7 +271,7 @@ export interface HcpOpenShiftClusterProperties {
     nodeDrainTimeoutMinutes?: number;
     platform: PlatformProfile;
     readonly provisioningState?: ProvisioningState;
-    readonly status?: ResourceStatus;
+    readonly status?: ClusterResourceStatus;
     version: VersionProfile;
 }
 
@@ -405,6 +426,7 @@ export type KeyVaultVisibility = string;
 // @public
 export interface KmsEncryptionProfile {
     activeKey: KmsKey;
+    keyVaultType?: KmsKeyVaultType;
     vaultName: string;
     visibility: KeyVaultVisibility;
 }
@@ -414,6 +436,9 @@ export interface KmsKey {
     name: string;
     version: string;
 }
+
+// @public
+export type KmsKeyVaultType = string;
 
 // @public
 export enum KnownActionType {
@@ -503,6 +528,12 @@ export enum KnownKeyVaultVisibility {
 }
 
 // @public
+export enum KnownKmsKeyVaultType {
+    KeyVault = "KeyVault",
+    ManagedHSM = "ManagedHSM"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
@@ -572,10 +603,7 @@ export enum KnownUsernameClaimPrefixPolicy {
 
 // @public
 export enum KnownVersions {
-    V20240610Preview = "2024-06-10-preview",
-    V20251223Preview = "2025-12-23-preview",
-    V20260630Preview = "2026-06-30-preview",
-    V20260901Preview = "2026-09-01-preview"
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -620,6 +648,11 @@ export interface NodePool extends TrackedResource {
 }
 
 // @public
+export interface NodePoolActiveVersion {
+    readonly version: string;
+}
+
+// @public
 export interface NodePoolAutoScaling {
     max?: number;
     min?: number;
@@ -643,9 +676,15 @@ export interface NodePoolProperties {
     platform: NodePoolPlatformProfile;
     readonly provisioningState?: ProvisioningState;
     replicas?: number;
-    readonly status?: ResourceStatus;
+    readonly status?: NodePoolResourceStatus;
     taints?: Taint[];
     version?: NodePoolVersionProfile;
+}
+
+// @public
+export interface NodePoolResourceStatus {
+    readonly activeVersions?: NodePoolActiveVersion[];
+    readonly conditions?: Condition[];
 }
 
 // @public
@@ -758,6 +797,7 @@ export interface PageSettings {
 
 // @public
 export interface PlatformProfile {
+    containerRegistry?: ContainerRegistryProfile;
     readonly issuerUrl: string;
     managedResourceGroup?: string;
     networkSecurityGroupId: string;
@@ -769,6 +809,7 @@ export interface PlatformProfile {
 
 // @public
 export interface PlatformProfileCreate {
+    containerRegistry?: ContainerRegistryProfile;
     managedResourceGroup?: string;
     networkSecurityGroupId: string;
     operatorsAuthentication: OperatorsAuthenticationProfile;
@@ -808,11 +849,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface ResourceStatus {
-    readonly conditions?: Condition[];
 }
 
 export { RestError }

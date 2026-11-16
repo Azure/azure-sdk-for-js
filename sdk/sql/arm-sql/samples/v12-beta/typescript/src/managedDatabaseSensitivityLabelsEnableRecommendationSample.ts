@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
  *
  * @summary enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseRecommendedColumnSensitivityLabelEnable.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseRecommendedColumnSensitivityLabelEnable.json
  */
 async function enablesTheSensitivityRecommendationsOnAGivenColumn(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -25,13 +25,45 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface ComputeDiagnosticBase extends ProxyResource {
-    properties?: DiagnosticProperties;
+export interface ComputePlacementScoresBase extends ProxyResource {
+    properties?: PlacementScoresProperties;
+}
+
+// @public
+export interface ComputePlacementScoresGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputePlacementScoresInput {
+    availabilityZones?: boolean;
+    desiredCount?: number;
+    desiredLocations?: string[];
+    desiredSizes: ResourceSize[];
+}
+
+// @public
+export interface ComputePlacementScoresOperations {
+    get: (location: string, options?: ComputePlacementScoresGetOptionalParams) => Promise<ComputePlacementScoresBase>;
+    post: (location: string, computePlacementScoresInput: ComputePlacementScoresInput, options?: ComputePlacementScoresPostOptionalParams) => Promise<ComputePlacementScoresResponse>;
+}
+
+// @public
+export interface ComputePlacementScoresPostOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputePlacementScoresResponse {
+    availabilityZones?: boolean;
+    desiredCount?: number;
+    desiredLocations?: string[];
+    desiredSizes?: ResourceSize[];
+    placementScores?: PlacementScore[];
 }
 
 // @public (undocumented)
 export class ComputeRecommenderManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeRecommenderManagementClientOptionalParams);
+    readonly computePlacementScores: ComputePlacementScoresOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly skuMixPlacementScores: SkuMixPlacementScoresOperations;
@@ -51,11 +83,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface DiagnosticProperties {
-    supportedResourceTypes?: string[];
-}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -97,6 +124,16 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPlacementScoreValue {
+    DataNotFoundOrStale = "DataNotFoundOrStale",
+    High = "High",
+    InsufficientQuota = "InsufficientQuota",
+    Low = "Low",
+    Medium = "Medium",
+    RestrictedSkuNotAvailable = "RestrictedSkuNotAvailable"
 }
 
 // @public
@@ -150,7 +187,8 @@ export enum KnownSkuMixPlacementZonalDistributionStrategy {
 export enum KnownVersions {
     V20250605 = "2025-06-05",
     V20260505Preview = "2026-05-05-preview",
-    V20260905Preview = "2026-09-05-preview"
+    V20260905Preview = "2026-09-05-preview",
+    V20261005Preview = "2026-10-05-preview"
 }
 
 // @public
@@ -197,11 +235,19 @@ export interface PageSettings {
 // @public
 export interface PlacementScore {
     availabilityZone?: string;
-    isQuotaAvailable?: boolean;
+    placementPreference?: number;
     region?: string;
-    score?: string;
+    score?: PlacementScoreValue;
     sku?: string;
 }
+
+// @public
+export interface PlacementScoresProperties {
+    supportedResourceTypes?: string[];
+}
+
+// @public
+export type PlacementScoreValue = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -347,6 +393,11 @@ export interface SkuMixPlacementZonePreference {
 }
 
 // @public
+export interface SpotPlacementScoresBase extends ProxyResource {
+    properties?: PlacementScoresProperties;
+}
+
+// @public
 export interface SpotPlacementScoresGetOptionalParams extends OperationOptions {
 }
 
@@ -355,12 +406,12 @@ export interface SpotPlacementScoresInput {
     availabilityZones?: boolean;
     desiredCount?: number;
     desiredLocations?: string[];
-    desiredSizes?: ResourceSize[];
+    desiredSizes: ResourceSize[];
 }
 
 // @public
 export interface SpotPlacementScoresOperations {
-    get: (location: string, options?: SpotPlacementScoresGetOptionalParams) => Promise<ComputeDiagnosticBase>;
+    get: (location: string, options?: SpotPlacementScoresGetOptionalParams) => Promise<SpotPlacementScoresBase>;
     post: (location: string, spotPlacementScoresInput: SpotPlacementScoresInput, options?: SpotPlacementScoresPostOptionalParams) => Promise<SpotPlacementScoresResponse>;
 }
 

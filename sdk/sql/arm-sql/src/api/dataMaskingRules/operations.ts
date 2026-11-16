@@ -37,7 +37,7 @@ export function _createOrUpdateSend(
       databaseName: databaseName,
       dataMaskingPolicyName: "Default",
       dataMaskingRuleName: dataMaskingRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +66,7 @@ export async function _createOrUpdateDeserialize(
 
   return dataMaskingRuleDeserializer(result.body);
 }
+
 /** Creates or updates a database data masking rule. */
 export async function createOrUpdate(
   context: Client,
@@ -103,7 +104,7 @@ export function _listByDatabaseSend(
       serverName: serverName,
       databaseName: databaseName,
       dataMaskingPolicyName: "Default",
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24skip": options?.skip,
     },
     {
@@ -131,6 +132,7 @@ export async function _listByDatabaseDeserialize(
 
   return _dataMaskingRuleListResultDeserializer(result.body);
 }
+
 /** Gets a list of database data masking rules. */
 export function listByDatabase(
   context: Client,
@@ -147,7 +149,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

@@ -7,6 +7,5 @@ export type {
   OfferDetails,
   UserDetails,
   MarketplaceDetailsCreateOrUpdate,
-  MarketplaceDetailsUpdate,
 } from "./models.js";
 export { KnownMarketplaceSubscriptionStatus } from "./models.js";

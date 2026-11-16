@@ -1,0 +1,24 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "instanceFailoverGroup": {
+          "bicepIdentifier": "instanceFailoverGroup",
+          "type": "Microsoft.Sql/locations/instanceFailoverGroups",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/locationsinstancefai"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

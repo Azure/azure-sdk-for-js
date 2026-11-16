@@ -2511,6 +2511,46 @@ describe("serializer", () => {
   });
 
   describe("serializeDictionaryType", () => {
+    it("should preserve dictionary entries as own data properties", () => {
+      const mapper: DictionaryMapper = {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      };
+      for (const input of [
+        JSON.parse('{"__proto__":{"value":1},"ordinary":2,"constructor":3,"toString":4}'),
+        JSON.parse('{"__proto__":5}'),
+        {},
+      ]) {
+        const output = serializer.serialize(mapper, input, "testObj");
+        assert.strictEqual(Object.getPrototypeOf(output), Object.prototype);
+        assert.deepEqual(Object.keys(output), Object.keys(input));
+        for (const key of Object.keys(input)) {
+          assert.deepEqual(Object.getOwnPropertyDescriptor(output, key), {
+            value: input[key],
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
+        }
+      }
+    });
+
+    it("should convert dictionary values including special keys", () => {
+      const mapper: DictionaryMapper = {
+        type: { name: "Dictionary", value: { type: { name: "DateTime" } } },
+      };
+      const date = new Date("2026-01-01T00:00:00.000Z");
+      const input = { ["__proto__"]: date, ordinary: date };
+      const output = serializer.serialize(mapper, input, "testObj");
+      for (const key of Object.keys(input)) {
+        assert.deepEqual(Object.getOwnPropertyDescriptor(output, key), {
+          value: date.toISOString(),
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
+      }
+    });
+
     it("should throw for non-object input", () => {
       assert.throws(
         () =>
@@ -2546,6 +2586,71 @@ describe("serializer", () => {
   });
 
   describe("deserializeDictionaryType", () => {
+    it("should preserve header collection entries as own data properties", () => {
+      const mapper: CompositeMapper = {
+        type: {
+          name: "Composite",
+          className: "Headers",
+          modelProperties: {
+            metadata: {
+              serializedName: "x-ms-meta",
+              headerCollectionPrefix: "x-ms-meta-",
+              type: { name: "Dictionary", value: { type: { name: "String" } } },
+            },
+          },
+        },
+      };
+      const output = serializer.deserialize(
+        mapper,
+        { "x-ms-meta-__proto__": "a", "x-ms-meta-ordinary": "b" },
+        "headers",
+      );
+      assert.strictEqual(Object.getPrototypeOf(output.metadata), Object.prototype);
+      assert.deepEqual(Object.keys(output.metadata), ["__proto__", "ordinary"]);
+      assert.strictEqual(Object.getOwnPropertyDescriptor(output.metadata, "__proto__")?.value, "a");
+      assert.strictEqual(output.metadata.ordinary, "b");
+    });
+
+    it("should preserve dictionary entries as own data properties", () => {
+      const mapper: DictionaryMapper = {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      };
+      for (const input of [
+        JSON.parse('{"__proto__":{"value":1},"ordinary":2,"constructor":3,"toString":4}'),
+        JSON.parse('{"__proto__":5}'),
+        {},
+      ]) {
+        const output = serializer.deserialize(mapper, input, "testObj");
+        assert.strictEqual(Object.getPrototypeOf(output), Object.prototype);
+        assert.deepEqual(Object.keys(output), Object.keys(input));
+        for (const key of Object.keys(input)) {
+          assert.deepEqual(Object.getOwnPropertyDescriptor(output, key), {
+            value: input[key],
+            enumerable: true,
+            configurable: true,
+            writable: true,
+          });
+        }
+      }
+    });
+
+    it("should convert dictionary values including special keys", () => {
+      const mapper: DictionaryMapper = {
+        type: { name: "Dictionary", value: { type: { name: "DateTime" } } },
+      };
+      const date = new Date("2026-01-01T00:00:00.000Z");
+      const input = { ["__proto__"]: date.toISOString(), ordinary: date.toISOString() };
+      const output = serializer.deserialize(mapper, input, "testObj");
+      for (const key of Object.keys(input)) {
+        assert.deepEqual(Object.getOwnPropertyDescriptor(output, key), {
+          value: date,
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
+      }
+    });
+
     it("should throw for missing value metadata", () => {
       assert.throws(
         () =>

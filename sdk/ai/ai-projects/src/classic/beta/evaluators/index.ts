@@ -7,12 +7,19 @@ import type {
   PendingUploadResponse,
   DatasetCredential,
   EvaluatorCredentialRequest,
+  EvaluatorDiagnosticUnion,
 } from "../../../models/models.js";
 import type {
   BetaEvaluatorsGetCredentialsOptionalParams,
   BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsListDiagnosticsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import { getCredentials, pendingUpload } from "../../../api/beta/evaluators/operations.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
+  getCredentials,
+  pendingUpload,
+  listDiagnostics,
+} from "../../../api/beta/evaluators/operations.js";
 
 /** Operations for BetaEvaluatorsOperations. */
 export interface BetaEvaluatorsOperations {
@@ -30,6 +37,17 @@ export interface BetaEvaluatorsOperations {
     pendingUploadRequest: PendingUploadRequest,
     options?: BetaEvaluatorsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
+  /**
+   * Returns immutable publication lineage for the specified evaluator.
+   *
+   * Time, evaluator-version, dimension, and type filters are intersected.
+   * Returns recorded changes from completed evaluator version writes.
+   * Historical backfill and diagnostic calculation jobs are not included.
+   */
+  listDiagnostics: (
+    name: string,
+    options?: BetaEvaluatorsListDiagnosticsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorDiagnosticUnion>;
 }
 
 export function _getBetaEvaluatorsOperations(context: AIProjectContext): BetaEvaluatorsOperations {
@@ -46,5 +64,7 @@ export function _getBetaEvaluatorsOperations(context: AIProjectContext): BetaEva
       pendingUploadRequest: PendingUploadRequest,
       options?: BetaEvaluatorsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
+    listDiagnostics: (name: string, options?: BetaEvaluatorsListDiagnosticsOptionalParams) =>
+      listDiagnostics(context, name, options),
   };
 }

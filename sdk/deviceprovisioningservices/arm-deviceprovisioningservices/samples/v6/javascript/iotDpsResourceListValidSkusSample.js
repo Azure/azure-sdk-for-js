@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of valid SKUs and tiers for a provisioning service.
  *
  * @summary gets the list of valid SKUs and tiers for a provisioning service.
- * x-ms-original-file: 2026-08-31/DPSGetValidSku.json
+ * x-ms-original-file: 2026-11-01/DPSGetValidSku.json
  */
 async function dpsGetValidSku() {
   const credential = new DefaultAzureCredential();

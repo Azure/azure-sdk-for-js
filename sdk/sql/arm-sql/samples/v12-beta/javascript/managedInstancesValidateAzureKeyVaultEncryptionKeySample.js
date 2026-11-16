@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validates customer managed key.
  *
  * @summary validates customer managed key.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstancValidateAzureKeyVaultEncryptionKey.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstancValidateAzureKeyVaultEncryptionKey.json
  */
 async function validateTheCustomerManagedKey() {
   const credential = new DefaultAzureCredential();

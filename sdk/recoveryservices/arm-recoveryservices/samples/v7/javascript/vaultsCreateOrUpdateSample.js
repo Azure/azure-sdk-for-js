@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault.json
+ * x-ms-original-file: 2026-11-01/PUTVault.json
  */
 async function createOrUpdateRecoveryServicesVault() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createOrUpdateRecoveryServicesVault() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-11-01/PUTVault_ResourceGuardEnabled.json
  */
 async function createOrUpdateVaultPerformingCriticalOperationWithMUA() {
   const credential = new DefaultAzureCredential();
@@ -75,7 +75,7 @@ async function createOrUpdateVaultPerformingCriticalOperationWithMUA() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithCMK.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithCMK.json
  */
 async function createOrUpdateVaultWithCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function createOrUpdateVaultWithCustomerManagedKeys() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithCostManagementSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithCostManagementSettings.json
  */
 async function createOrUpdateVaultWithCostManagementSettings() {
   const credential = new DefaultAzureCredential();
@@ -142,7 +142,7 @@ async function createOrUpdateVaultWithCostManagementSettings() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithImmutabilityConfig.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithImmutabilityConfig.json
  */
 async function createOrUpdateVaultWithImmutabilityConfig() {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function createOrUpdateVaultWithImmutabilityConfig() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithMonitoringSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithMonitoringSettings.json
  */
 async function createOrUpdateVaultWithMonitoringSetting() {
   const credential = new DefaultAzureCredential();
@@ -209,7 +209,7 @@ async function createOrUpdateVaultWithMonitoringSetting() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithRedundancySettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithRedundancySettings.json
  */
 async function createOrUpdateVaultWithRedundancySetting() {
   const credential = new DefaultAzureCredential();
@@ -238,7 +238,7 @@ async function createOrUpdateVaultWithRedundancySetting() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithRegionOfChoiceSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithRegionOfChoiceSettings.json
  */
 async function createOrUpdateVaultWithRegionOfChoiceSettings() {
   const credential = new DefaultAzureCredential();
@@ -261,7 +261,7 @@ async function createOrUpdateVaultWithRegionOfChoiceSettings() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithSourceScanConfiguration.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithSourceScanConfiguration.json
  */
 async function createOrUpdateVaultWithSourceScanConfiguration() {
   const credential = new DefaultAzureCredential();
@@ -292,7 +292,7 @@ async function createOrUpdateVaultWithSourceScanConfiguration() {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithUserAssignedIdentity.json
  */
 async function createOrUpdateVaultWithUserAssignedIdentity() {
   const credential = new DefaultAzureCredential();

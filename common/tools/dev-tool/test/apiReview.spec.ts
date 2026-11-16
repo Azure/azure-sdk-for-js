@@ -24,8 +24,10 @@ function fixture(
   files: Record<string, string>,
   packageJsonOverrides: Record<string, unknown> = {},
 ): string {
-  const root = mkdtempSync(path.join(tmpdir(), "api-review-"));
-  roots.push(root);
+  const workspace = mkdtempSync(path.join(tmpdir(), "api-review-"));
+  roots.push(workspace);
+  writeFileSync(path.join(workspace, "pnpm-workspace.yaml"), "");
+  const root = path.join(workspace, "sdk", "example", "review");
   const packageJson = {
     name: "@example/review",
     type: "module",
@@ -428,7 +430,7 @@ export interface Pipeline {
     it("hashes api.md with SHA-256 when there are no dependencies", async () => {
       const { apiMd, metadata } = await generateApiReview(singleExportRoot);
 
-      expect(metadata.apiMdSha256).toBe(createHash("sha256").update(apiMd).digest("hex"));
+      expect(metadata.apiHash).toBe(createHash("sha256").update(apiMd).digest("hex"));
     });
 
     it("ignores minor and patch dependency bumps in the hash", async () => {
@@ -436,14 +438,14 @@ export interface Pipeline {
       const after = await generateApiReview(fixture(index, { dependencies: { tslib: "^1.10.2" } }));
 
       expect(after.apiMd).not.toBe(before.apiMd);
-      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).toBe(before.metadata.apiHash);
     });
 
     it("changes the hash on a major dependency bump", async () => {
       const before = await generateApiReview(fixture(index, { dependencies: { tslib: "^1.9.0" } }));
       const after = await generateApiReview(fixture(index, { dependencies: { tslib: "^2.0.0" } }));
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("changes the hash on a 0.x minor bump", async () => {
@@ -455,7 +457,7 @@ export interface Pipeline {
         fixture(index, { dependencies: { [runtime]: "^0.4.0" } }),
       );
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("ignores 0.x patch bumps in the hash", async () => {
@@ -467,7 +469,7 @@ export interface Pipeline {
         fixture(index, { dependencies: { [runtime]: "^0.3.8" } }),
       );
 
-      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).toBe(before.metadata.apiHash);
     });
 
     it("keeps exact prerelease specifiers in the hash", async () => {
@@ -479,25 +481,32 @@ export interface Pipeline {
         fixture(index, { dependencies: { [common]: "1.0.0-beta.3" } }),
       );
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("records the package, parser and TypeScript versions in the metadata", async () => {
       const { metadata } = await generateApiReview(fixture(index, { version: "1.2.3" }));
 
       expect(metadata).toEqual({
-        apiMdSha256: expect.stringMatching(/^[0-9a-f]{64}$/),
+        apiHash: expect.stringMatching(/^[0-9a-f]{64}$/),
         packageVersion: "1.2.3",
+        packageRelativePath: expect.any(String),
         parserVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
         typescriptVersion: ts.version,
       });
+    });
+
+    it("records the package path relative to the workspace root", async () => {
+      const { metadata } = await generateApiReview(fixture(index));
+
+      expect(metadata.packageRelativePath).toBe("sdk/example/review");
     });
 
     it("keeps version fields out of the hash", async () => {
       const before = await generateApiReview(fixture(index, { version: "1.2.3" }));
       const after = await generateApiReview(fixture(index, { version: "1.2.4" }));
 
-      expect(after.metadata.apiMdSha256).toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).toBe(before.metadata.apiHash);
     });
 
     it("omits the Dependencies section when there are none", async () => {
@@ -894,7 +903,7 @@ export interface Pipeline {
         const unsorted = await generateApiReview(fixture(files, { exports: unsortedExports }));
         const sorted = await generateApiReview(fixture(files, { exports: sortedExports }));
 
-        expect(unsorted.metadata.apiMdSha256).toBe(sorted.metadata.apiMdSha256);
+        expect(unsorted.metadata.apiHash).toBe(sorted.metadata.apiHash);
       });
     });
 
@@ -961,7 +970,7 @@ export interface AgentOptions extends ${swapped ? "AzureOptions" : "OpenAIOption
       const before = await generateApiReview(clientOptionsFixture());
       const after = await generateApiReview(clientOptionsFixture(true));
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("records a default-imported class used in a public signature", async () => {
@@ -1333,7 +1342,7 @@ export declare class AIProjectClient {
       const before = await generateApiReview(referenceFixture("@example/node"));
       const after = await generateApiReview(referenceFixture("@example/browser"));
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     function reExportFixture(browserName: string): string {
@@ -1379,7 +1388,7 @@ export declare function isRestError(error: unknown): error is RestError;`,
       const before = await generateApiReview(reExportFixture("RestError"));
       const after = await generateApiReview(reExportFixture("isRestError"));
 
-      expect(after.metadata.apiMdSha256).not.toBe(before.metadata.apiMdSha256);
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("lists conditions whose declarations match the ESM view as identical", async () => {

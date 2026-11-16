@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of inaccessible databases in a logical server
  *
  * @summary gets a list of inaccessible databases in a logical server
- * x-ms-original-file: 2025-08-01-preview/ListVCoreInaccessibleDatabasesByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListVCoreInaccessibleDatabasesByServer.json
  */
 async function getsAListOfInaccessibleDatabasesInALogicalServer() {
   const credential = new DefaultAzureCredential();

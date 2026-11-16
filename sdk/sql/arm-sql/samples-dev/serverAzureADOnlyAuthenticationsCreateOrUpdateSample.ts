@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  *
  * @summary sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
- * x-ms-original-file: 2025-08-01-preview/AzureADOnlyAuthCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/AzureADOnlyAuthCreateOrUpdate.json
  */
 async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): Promise<void> {
   const credential = new DefaultAzureCredential();

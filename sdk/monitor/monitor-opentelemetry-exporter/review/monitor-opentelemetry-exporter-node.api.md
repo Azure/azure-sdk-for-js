@@ -5,7 +5,6 @@
 ```ts
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
-import type { Attributes } from '@opentelemetry/api';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { Context } from '@opentelemetry/api';
 import type { ExportResult } from '@opentelemetry/core';
@@ -14,12 +13,12 @@ import type { Link } from '@opentelemetry/api';
 import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
 import type { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
-import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import type { ReadableSpan } from '@opentelemetry/sdk-trace';
 import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
-import type { Sampler } from '@opentelemetry/sdk-trace-base';
-import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
+import type { Sampler } from '@opentelemetry/sdk-trace';
+import type { SamplingResult } from '@opentelemetry/sdk-trace';
 import type { ServiceClientOptions } from '@azure/core-client';
-import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import type { SpanExporter } from '@opentelemetry/sdk-trace';
 import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -35,7 +34,9 @@ export interface ApplicationInsightsClientOptionalParams extends ServiceClientOp
 // @public
 export class ApplicationInsightsSampler implements Sampler {
     constructor(samplingRatio?: number);
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Record<string, T>, links: Link[]): SamplingResult & {
+        attributes: Record<string, T | number>;
+    };
     toString(): string;
 }
 
@@ -44,6 +45,8 @@ export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
     protected aadAudience: string | undefined;
     protected endpointUrl: string;
+    // @internal
+    protected readonly _increaseGenAiMessageLimit: boolean;
     protected instrumentationKey: string;
     protected trackStatsbeat: boolean;
 }
@@ -85,7 +88,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 export class RateLimitedSampler implements Sampler {
     constructor(tracesPerSecond: number);
     getSampleRate(): number;
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    shouldSample<T>(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Record<string, T>, links: Link[]): SamplingResult & {
+        attributes: Record<string, T | number>;
+    };
     toString(): string;
 }
 

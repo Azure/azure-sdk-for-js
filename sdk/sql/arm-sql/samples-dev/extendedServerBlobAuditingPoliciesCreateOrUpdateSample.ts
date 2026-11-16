@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an extended server's blob auditing policy.
  *
  * @summary creates or updates an extended server's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/ExtendedServerBlobAuditingCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ExtendedServerBlobAuditingCreateMax.json
  */
 async function updateAServerExtendedBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function updateAServerExtendedBlobAuditingPolicyWithAllParameters(): Promi
  * This sample demonstrates how to creates or updates an extended server's blob auditing policy.
  *
  * @summary creates or updates an extended server's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/ExtendedServerBlobAuditingCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ExtendedServerBlobAuditingCreateMin.json
  */
 async function updateAServerExtendedBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

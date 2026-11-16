@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storage",
-  "version": "20.2.0",
+  "version": "21.0.0",
   "description": "A generated SDK for StorageManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -186,6 +186,34 @@
       "require": {
         "types": "./dist/commonjs/api/advancedPlatformMetrics/index.d.ts",
         "default": "./dist/commonjs/api/advancedPlatformMetrics/index.js"
+      }
+    },
+    "./api/blobAccessPointConnectionTests": {
+      "browser": {
+        "types": "./dist/browser/api/blobAccessPointConnectionTests/index.d.ts",
+        "default": "./dist/browser/api/blobAccessPointConnectionTests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/blobAccessPointConnectionTests/index.d.ts",
+        "default": "./dist/esm/api/blobAccessPointConnectionTests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/blobAccessPointConnectionTests/index.d.ts",
+        "default": "./dist/commonjs/api/blobAccessPointConnectionTests/index.js"
+      }
+    },
+    "./api/blobAccessPointConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/blobAccessPointConfigurations/index.d.ts",
+        "default": "./dist/browser/api/blobAccessPointConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/blobAccessPointConfigurations/index.d.ts",
+        "default": "./dist/esm/api/blobAccessPointConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/blobAccessPointConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/blobAccessPointConfigurations/index.js"
       }
     },
     "./api/contextCacheContainers": {
@@ -548,7 +576,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-storage",

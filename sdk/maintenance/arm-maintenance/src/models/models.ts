@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Result of the List Operations operation */
 export interface _OperationsListResult {
   /** The link used to get the next page of operations. */
@@ -973,17 +973,97 @@ export function configurationAssignmentArrayDeserializer(
   });
 }
 
-/** Response of scheduled event acknowledge */
-export interface ScheduledEventApproveResponse {
+/** Response of ScheduledEvents acknowledge */
+export interface ScheduledEventsApproveResponse {
   /** Successfully Approved */
   value?: string;
 }
 
-export function scheduledEventApproveResponseDeserializer(
+export function scheduledEventsApproveResponseDeserializer(
   item: any,
-): ScheduledEventApproveResponse {
+): ScheduledEventsApproveResponse {
   return {
     value: item["value"],
+  };
+}
+
+/** ScheduledEvents Id List */
+export interface ScheduledEventsIdList {
+  /** The list of ScheduledEvents Id. */
+  value: string[];
+}
+
+export function scheduledEventsIdListSerializer(item: ScheduledEventsIdList): any {
+  return {
+    value: item["value"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** An error response received from the Azure Maintenance service. */
+export interface ScheduledEventsListAcknowledgeError {
+  /** Error response */
+  error?: ScheduledEventsListAcknowledgeErrorDetails;
+}
+
+export function scheduledEventsListAcknowledgeErrorDeserializer(
+  item: any,
+): ScheduledEventsListAcknowledgeError {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : scheduledEventsListAcknowledgeErrorDetailsDeserializer(item["error"]),
+  };
+}
+
+/** An error response details received from the Azure Maintenance service. */
+export interface ScheduledEventsListAcknowledgeErrorDetails {
+  /** Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response. */
+  code?: string;
+  /** Human-readable representation of the error. */
+  message?: string;
+  /** Error details for each ScheduledEvents. */
+  details?: ScheduledEventsAcknowledgeErrorDetails[];
+}
+
+export function scheduledEventsListAcknowledgeErrorDetailsDeserializer(
+  item: any,
+): ScheduledEventsListAcknowledgeErrorDetails {
+  return {
+    code: item["code"],
+    message: item["message"],
+    details: !item["details"]
+      ? item["details"]
+      : scheduledEventsAcknowledgeErrorDetailsArrayDeserializer(item["details"]),
+  };
+}
+
+export function scheduledEventsAcknowledgeErrorDetailsArrayDeserializer(
+  result: Array<ScheduledEventsAcknowledgeErrorDetails>,
+): any[] {
+  return result.map((item) => {
+    return scheduledEventsAcknowledgeErrorDetailsDeserializer(item);
+  });
+}
+
+/** An error response details received from the Azure Maintenance service for each ScheduledEvents. */
+export interface ScheduledEventsAcknowledgeErrorDetails {
+  /** ScheduledEvents Id. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000) */
+  target?: string;
+  /** Status code for the ScheduledEvents acknowledge operation on the target ScheduledEvents Id. */
+  code?: string;
+  /** Human-readable representation of the error. */
+  message?: string;
+}
+
+export function scheduledEventsAcknowledgeErrorDetailsDeserializer(
+  item: any,
+): ScheduledEventsAcknowledgeErrorDetails {
+  return {
+    target: item["target"],
+    code: item["code"],
+    message: item["message"],
   };
 }
 
@@ -1075,8 +1155,16 @@ export function updatePropertiesDeserializer(item: any): UpdateProperties {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2023-10-01-preview API version. */
+  /**
+   * The 2023-10-01-preview API version.
+   * This API version includes new API to acknowledge ScheduledEvents
+   */
   V20231001Preview = "2023-10-01-preview",
+  /**
+   * The 2025-10-01-preview API version.
+   * This API version includes new API to acknowledge list of ScheduledEvents
+   */
+  V20251001Preview = "2025-10-01-preview",
 }
 
 export function _maintenanceConfigurationPropertiesMaintenanceWindowSerializer(

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a CloudAccount
  *
  * @summary create a CloudAccount
- * x-ms-original-file: 2026-09-30/CloudAccounts_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/CloudAccounts_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function cloudAccountsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGen
  * This sample demonstrates how to create a CloudAccount
  *
  * @summary create a CloudAccount
- * x-ms-original-file: 2026-09-30/CloudAccounts_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/CloudAccounts_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function cloudAccountsCreateOrUpdateMinimumSetCCACreateWithRoleAssignments(): Promise<void> {
   const credential = new DefaultAzureCredential();

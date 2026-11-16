@@ -11,5 +11,5 @@ export type { MaintenanceConfigurationsOperations } from "./maintenanceConfigura
 export type { MaintenanceConfigurationsForResourceGroupOperations } from "./maintenanceConfigurationsForResourceGroup/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { PublicMaintenanceConfigurationsOperations } from "./publicMaintenanceConfigurations/index.js";
-export type { ScheduledEventOperations } from "./scheduledEvent/index.js";
+export type { ScheduledEventsOperations } from "./scheduledEvents/index.js";
 export type { UpdatesOperations } from "./updates/index.js";

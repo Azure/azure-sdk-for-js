@@ -157,6 +157,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen(): Promise<void> {
                   deleteOption: "Delete",
                 },
                 privateIPAddressVersion: "IPv4",
+                privateIPAddressPrefixLength: 28,
                 applicationGatewayBackendAddressPools: [
                   {
                     id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",

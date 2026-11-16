@@ -1,0 +1,123 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "sqlDatabase": {
+          "bicepIdentifier": "sqlDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqldatabase-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "clientEncryptionKey": {
+          "bicepIdentifier": "clientEncryptionKey",
+          "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/clientEncryptionKeys",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "clientencryptionkey-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "sqlDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "cekName"
+                      },
+                      "encryptionAlgorithm": {
+                        "kind": "string",
+                        "value": "AEAD_AES_256_CBC_HMAC_SHA256"
+                      },
+                      "wrappedDataEncryptionKey": {
+                        "kind": "string",
+                        "value": "U3dhZ2dlciByb2Nrcw=="
+                      },
+                      "keyWrapMetadata": {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "customerManagedKey"
+                          },
+                          "type": {
+                            "kind": "string",
+                            "value": "AzureKeyVault"
+                          },
+                          "value": {
+                            "kind": "string",
+                            "value": "AzureKeyVault Key URL"
+                          },
+                          "algorithm": {
+                            "kind": "string",
+                            "value": "RSA-OAEP"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "clientEncryptionKey"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -16,6 +16,7 @@ export interface UsagesOperations {
     options?: UsagesListByInstancePoolOptionalParams,
   ) => PagedAsyncIterableIterator<Usage>;
 }
+
 function _getUsages(context: SqlManagementContext) {
   return {
     listByInstancePool: (
@@ -25,6 +26,7 @@ function _getUsages(context: SqlManagementContext) {
     ) => listByInstancePool(context, resourceGroupName, instancePoolName, options),
   };
 }
+
 export function _getUsagesOperations(context: SqlManagementContext): UsagesOperations {
   return {
     ..._getUsages(context),

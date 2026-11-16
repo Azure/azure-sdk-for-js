@@ -2,18 +2,15 @@
 // Licensed under the MIT License.
 
 import type { RedHatOpenShiftContext as Client } from "../index.js";
-import type {
-  NodePool,
-  UpdateablePropertiesNodePoolProperties,
-  _NodePoolListResult,
-} from "../../models/models.js";
+import type { NodePool, _NodePoolListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   nodePoolSerializer,
   nodePoolDeserializer,
-  updateablePropertiesNodePoolPropertiesSerializer,
   _nodePoolListResultDeserializer,
 } from "../../models/models.js";
+import type { UpdateablePropertiesNodePoolProperties } from "../../models/typeSpec/models.js";
+import { updateablePropertiesNodePoolPropertiesSerializer } from "../../models/typeSpec/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -41,7 +38,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,11 +78,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, hcpOpenShiftClusterName, options),
     _listByParentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -103,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hcpOpenShiftClusterName, nodePoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -159,7 +152,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +202,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<NodePool>, NodePool>;
 }
 
@@ -228,7 +221,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,7 +271,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<NodePool>, NodePool>;
 }
 
@@ -296,7 +289,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
