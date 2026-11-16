@@ -179,6 +179,76 @@ describe("TestProxyClient functions", () => {
         }
       });
     });
+
+    describe("matcher handling", () => {
+      let matcherRequests: { matcher: string | undefined; body: Record<string, unknown> }[];
+
+      function mockProxy(): void {
+        matcherRequests = [];
+        clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
+          if (req.url.endsWith(paths.setMatcher)) {
+            matcherRequests.push({
+              matcher: req.headers.get("x-abstraction-identifier"),
+              body: req.body ? JSON.parse(req.body as string) : {},
+            });
+          }
+          return Promise.resolve({
+            status: 200,
+            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" }),
+            request: initialRequest,
+          });
+        };
+      }
+
+      it("playback mode: sets a default matcher that ignores api-version", async function () {
+        env.TEST_MODE = "playback";
+        mockProxy();
+
+        await client.start({ envSetupForPlayback: {} });
+
+        expect(matcherRequests).toHaveLength(1);
+        expect(matcherRequests[0].matcher).to.equal("CustomDefaultMatcher");
+        expect(matcherRequests[0].body.ignoredQueryParameters).to.equal("api-version");
+      });
+
+      it("playback mode: preserves a BodilessMatcher selected before start()", async function () {
+        env.TEST_MODE = "playback";
+        mockProxy();
+
+        await client.setMatcher("BodilessMatcher");
+        await client.start({ envSetupForPlayback: {} });
+
+        // start() must not send another matcher that overrides the user's choice
+        expect(matcherRequests).toHaveLength(1);
+        expect(matcherRequests[0].matcher).to.equal("CustomDefaultMatcher");
+        expect(matcherRequests[0].body.compareBodies).to.equal(false);
+        expect(matcherRequests[0].body.ignoredQueryParameters).to.equal("api-version");
+      });
+
+      it("playback mode: preserves custom CustomDefaultMatcher options selected before start()", async function () {
+        env.TEST_MODE = "playback";
+        mockProxy();
+
+        await client.setMatcher("CustomDefaultMatcher", {
+          ignoreQueryOrdering: true,
+          ignoredQueryParameters: ["foo"],
+        });
+        await client.start({ envSetupForPlayback: {} });
+
+        expect(matcherRequests).toHaveLength(1);
+        expect(matcherRequests[0].body.ignoreQueryOrdering).to.equal(true);
+        expect(matcherRequests[0].body.ignoredQueryParameters).to.equal("foo,api-version");
+      });
+
+      it("record mode: does not set any matcher", async function () {
+        env.TEST_MODE = "record";
+        mockProxy();
+
+        await client.start({ envSetupForPlayback: {} });
+
+        expect(matcherRequests).toHaveLength(0);
+      });
+    });
   });
 
   describe("stop method", () => {
