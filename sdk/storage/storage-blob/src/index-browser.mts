@@ -25,6 +25,11 @@ export {
   PremiumPageBlobTier,
   type Tags,
   type TagConditions,
+  type AppendBlobRequestConditions,
+  type BlobRequestConditions,
+  type Metadata,
+  type PageBlobRequestConditions,
+  type ModifiedAccessConditions,
   type ContainerRequestConditions,
   type HttpAuthorization,
   type ModificationConditions,
@@ -60,6 +65,7 @@ export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };
+export type { NodeJSReadableStream } from "@azure/storage-common";
 export type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
