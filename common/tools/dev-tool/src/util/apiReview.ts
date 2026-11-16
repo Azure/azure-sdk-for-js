@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
+import path from "node:path";
 import ts from "typescript";
 import { buildReview } from "./apiReview/buildReview.ts";
 import { layoutReview } from "./apiReview/layoutReview.ts";
 import type { Review } from "./apiReview/model.ts";
 import { renderMarkdown } from "./apiReview/renderMarkdown.ts";
+import { resolveRoot } from "./resolveProject.ts";
 
 // generateApiReview runs in three steps, one file each under ./apiReview/:
 // 1. buildReview reads the package's built declaration files into a Review (the API surface).
@@ -18,11 +20,13 @@ import { renderMarkdown } from "./apiReview/renderMarkdown.ts";
 const parserVersion = "1.0.0";
 
 /**
- * The contents of api.metadata.yml. Only `apiMdSha256` identifies the reviewed API surface.
+ * The contents of api.metadata.yml. Only `apiHash` identifies the reviewed API surface.
  */
 export interface ApiReviewMetadata {
-  apiMdSha256: string;
+  apiHash: string;
   packageVersion: string;
+  /** The package directory relative to the workspace root, with `/` separators. */
+  packageRelativePath: string;
   parserVersion: string;
   typescriptVersion: string;
 }
@@ -35,8 +39,12 @@ export async function generateApiReview(packageRoot: string): Promise<{
   return {
     apiMd: renderMarkdown(layoutReview(review)),
     metadata: {
-      apiMdSha256: hashApiMd(review),
+      apiHash: hashApiMd(review),
       packageVersion: review.version,
+      packageRelativePath: path
+        .relative(await resolveRoot(packageRoot), packageRoot)
+        .split(path.sep)
+        .join("/"),
       parserVersion,
       typescriptVersion: ts.version,
     },
