@@ -34,7 +34,7 @@ jobs:
         jobName: GenerateTarget
       kind: ${{ parameters.kind }}
       requestMode: ${{ parameters.requestMode }}
-      language: javascript
+      language: js
       repositoryFullName: ${{ format('{0}/{1}', parameters.repositoryOwner, 'azure-sdk-for-js') }}
       ref: ${{ parameters.ref }}
       packageName: ${{ parameters.packageName }}
