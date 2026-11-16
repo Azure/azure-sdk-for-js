@@ -1,5 +1,35 @@
 # Release History
 
+## 26.0.0 (2026-11-16)
+
+### Features Added
+  - Interface SmbSettings has a new optional parameter smbOplocks
+  - Interface VolumePatchProperties has a new optional parameter smbOplocks
+  - Interface VolumeProperties has a new optional parameter ldapServerType
+  - Interface VolumeProperties has a new optional parameter smbOplocks
+  - Added Type Alias SmbOplocks
+  - Added Enum KnownSmbOplocks
+  - Enum KnownVersions has a new value V20260901
+
+### Breaking Changes
+  - Removed operation group SubvolumesOperations
+  - Class NetAppManagementClient no longer has parameter subvolumes
+  - Removed Interface SubvolumeInfo
+  - Removed Interface SubvolumeModel
+  - Removed Interface SubvolumeModelProperties
+  - Removed Interface SubvolumePatchParams
+  - Removed Interface SubvolumePatchRequest
+  - Removed Interface SubvolumeProperties
+  - Removed Interface SubvolumesCreateOptionalParams
+  - Removed Interface SubvolumesDeleteOptionalParams
+  - Removed Interface SubvolumesGetMetadataOptionalParams
+  - Removed Interface SubvolumesGetOptionalParams
+  - Removed Interface SubvolumesListByVolumeOptionalParams
+  - Removed Interface SubvolumesUpdateOptionalParams
+  - Interface VolumeProperties no longer has parameter enableSubvolumes
+  - Removed Type Alias EnableSubvolumes
+  - Removed Enum KnownEnableSubvolumes
+
 ## 25.1.0-beta.1 (2026-10-28)
 Compared with version 25.0.0
 
